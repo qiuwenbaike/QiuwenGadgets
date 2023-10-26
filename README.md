@@ -1,8 +1,16 @@
-### 简介
+# _Qiuwen_ Gadgets
+
+## 简介
+
+本代码库为[求闻百科][qiuwenbaike]的[界面样式][styles]、[界面脚本][scripts]和[小工具代码库][gadgets]。相关样式表及 JavaScript 优化了求闻百科访客及编者的用户体验，并且为求闻百科用户提供了大量执行常见维护任务的方法。
+
+## 致谢
+
+求闻百科小工具库是基于 [Awesome Gadgets][awesome] 打造的。
 
 Awesome Gadgets 是面向 MediaWiki 网站，用以统一存储、管理并编译全站小工具（Gadget）的工具。小工具开发者只需关心小工具本身的代码实现，无需关心其他方面（如：语法兼容性）。
 
-### 用法
+## 用法
 
 **对于小工具开发者：**
 
@@ -77,3 +85,9 @@ Awesome Gadgets 是面向 MediaWiki 网站，用以统一存储、管理并编�
     ```
 
 5. 运行`pnpm run deploy`以检查语法、格式化代码、编译源码、并向网站部署
+
+[qiuwenbaike]: https://www.qiuwenbaike.cn/
+[styles]: https://www.qiuwenbaike.cn/wiki/Help:%E7%95%8C%E9%9D%A2%E6%A0%B7%E5%BC%8F%E4%B8%8E%E8%84%9A%E6%9C%AC#%E7%95%8C%E9%9D%A2%E6%A0%B7%E5%BC%8F
+[scripts]: https://www.qiuwenbaike.cn/wiki/Help:%E7%95%8C%E9%9D%A2%E6%A0%B7%E5%BC%8F%E4%B8%8E%E8%84%9A%E6%9C%AC#%E7%95%8C%E9%9D%A2%E8%84%9A%E6%9C%AC
+[gadgets]: https://www.qiuwenbaike.cn/wiki/Special:%E5%B0%8F%E5%B7%A5%E5%85%B7
+[awesome]: https://github.com/AnYiEE/AwesomeGadgets
