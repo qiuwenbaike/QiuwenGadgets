@@ -1,6 +1,4 @@
-import {generateSvgDataUrl} from '../util';
 import {getMessage} from './i18n';
-import scrollButtonIcon from './scrollButtonIcon.svg';
 
 export const scrollUpButton = (): void => {
 	const $window: JQuery<Window> = $(window);
@@ -21,10 +19,9 @@ export const scrollUpButton = (): void => {
 	 * @base <https://www.qiuwenbaike.cn/wiki/File:Up_Arrow_(Blue,_White_BG).svg>
 	 * @license CC-BY-SA-4.0
 	 */
-	const scrollButtonIconEncoded = generateSvgDataUrl(scrollButtonIcon);
 	const $scrollButton: JQuery = $('<img>').addClass('noprint').attr({
 		draggable: false,
-		src: scrollButtonIconEncoded,
+		src: 'https://tu.zhongwen.wiki/images/qiuwen/thumb/8/8e/Up_Arrow_%28Blue%29.svg/50px-Up_Arrow_%28Blue%29.svg.png',
 	});
 	const $scrollDownButton: JQuery = $scrollButton
 		.clone()
