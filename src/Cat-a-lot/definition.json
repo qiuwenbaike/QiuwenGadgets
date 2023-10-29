@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"category": "edit",
+	"actions": ["view"],
+	"description": "<span id=\"Gadget-Cat-a-lot\"></span> [[Help:Cat-a-lot|Cat-a-lot]] <small>在[[Help:分类|分类页面]]中，批量修改页面或文件分类</small>",
+	"dependencies": ["jquery.spinner", "jquery.ui", "mediawiki.api", "mediawiki.jqueryMsg", "mediawiki.util", "user"],
+	"rights": ["skipcaptcha"]
+}

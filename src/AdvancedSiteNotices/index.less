@@ -1,0 +1,64 @@
+.asn {
+	&__area {
+		display: flex;
+		height: 4em;
+		align-items: center;
+		padding: 0 0.5em;
+		border: 1px solid #ccc;
+		background: #fafbfc;
+		line-height: 1;
+		overflow-y: hidden;
+		text-align: center;
+	}
+
+	&__dismiss {
+		min-width: 2em;
+		order: 3;
+		font-size: 150%;
+
+		a {
+			display: block;
+			width: 0;
+			height: 16px;
+			padding-left: 16px;
+
+			/**
+			 * @description close Icon from OOjs UI
+			 * @base <https://www.qiuwenbaike.cn/wiki/File:OOjs_UI_icon_close.svg>
+			 * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+			 */
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='m4.3 2.9 12.8 12.8-1.4 1.4L2.9 4.3z'/%3E%3Cpath d='M17.1 4.3 4.3 17.1l-1.4-1.4L15.7 2.9z'/%3E%3C/svg%3E");
+			background-position: left center;
+			background-size: 16px;
+			font-size: 0;
+
+			&:hover {
+				/**
+			 * @description close Icon from OOjs UI (blue color)
+			 * @base <https://www.qiuwenbaike.cn/wiki/File:OOjs_UI_icon_close.svg>
+			 * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+			 */
+				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%2336c'%3E%3Cpath d='m4.3 2.9 12.8 12.8-1.4 1.4L2.9 4.3z'/%3E%3Cpath d='M17.1 4.3 4.3 17.1l-1.4-1.4L15.7 2.9z'/%3E%3C/svg%3E");
+			}
+		}
+	}
+
+	&__notice {
+		word-break: break-word;
+
+		&__area {
+			width: 100%;
+			order: 2;
+			margin: 1em 0.5em;
+		}
+	}
+
+	&__title {
+		order: 1;
+		padding: 0.25em 0.5em;
+		border-radius: 0.25em;
+		background: #36c;
+		color: #fff;
+		white-space: nowrap;
+	}
+}

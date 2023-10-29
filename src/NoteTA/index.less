@@ -1,0 +1,22 @@
+#noteTA-dialog a {
+	color: #36c;
+}
+
+.noteTA {
+	/* HACK to workaround VE and badly written CGroups */
+	display: none;
+
+	&-dialog {
+		&-message {
+			height: 320px;
+		}
+
+		&-actualTitle {
+			float: right;
+		}
+	}
+}
+
+.mw-indicator[id^='mw-indicator-noteTA-'] {
+	cursor: pointer;
+}

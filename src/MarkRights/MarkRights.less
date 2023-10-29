@@ -1,0 +1,150 @@
+/* 在最近修改、监视列表、条目历史记录等位置以特殊格式显示有特殊权限的用户 */
+
+.markrights {
+	/* 裁决委员会：紫黑 */
+	&-qiuwen::after,
+	&-steward::after {
+		color: #800080;
+	}
+
+	&-qiuwen::after {
+		content: '站';
+	}
+
+	&-steward::after {
+		content: '裁';
+	}
+
+	/* 高级管理人员（管、界、监、查）：紫红 */
+	&-sysop::after,
+	&-interface-admin::after,
+	&-suppress::after,
+	&-checkuser::after {
+		color: #c71590;
+	}
+
+	&-sysop::after {
+		content: '管';
+	}
+
+	&-interface-admin::after {
+		content: '界';
+
+		&:lang(zh-hant) {
+			content: '介';
+		}
+	}
+
+	&-checkuser::after {
+		content: '查';
+	}
+
+	&-suppress::after {
+		content: '监';
+
+		&:lang(zh-hant) {
+			content: '監';
+		}
+	}
+
+	/* 一般管理人员（巡、活）：棕 */
+	&-patroller::after,
+	&-eventsponsor::after {
+		color: #a0522d;
+	}
+
+	&-patroller::after {
+		content: '巡';
+	}
+
+	&-eventsponsor::after {
+		content: '活';
+	}
+
+	/* 编辑权限（模、资、导/汇、发、机器人）：蓝 */
+	&-templateeditor::after,
+	&-senioreditor::after,
+	&-transwiki::after,
+	&-massmessage-sender::after,
+	&-bot::after {
+		color: #36c;
+	}
+
+	&-templateeditor::after {
+		content: '模';
+	}
+
+	&-senioreditor::after {
+		content: '资';
+
+		&:lang(zh-hant) {
+			content: '資';
+		}
+	}
+
+	&-transwiki::after {
+		content: '导';
+
+		&:lang(zh-hant) {
+			content: '匯';
+		}
+	}
+
+	&-massmessage-sender::after {
+		content: '发';
+
+		&:lang(zh-hant) {
+			content: '發';
+		}
+	}
+
+	&-bot::after {
+		content: '机';
+
+		&:lang(zh-hant) {
+			content: '機';
+		}
+	}
+
+	/* 特殊权限（确、自、免、代、机器用户）：绿色 */
+	&-confirmed::after,
+	&-autoconfirmed::after,
+	&-autoreviewer::after,
+	&-ipblock-exempt::after,
+	&-rnrsverify-exempt::after,
+	&-flood::after {
+		color: #0acc90;
+	}
+
+	&-confirmed::after {
+		content: '确';
+
+		&:lang(zh-hant) {
+			content: '確';
+		}
+	}
+
+	&-autoreviewer::after {
+		content: '免';
+	}
+
+	&-ipblock-exempt::after {
+		content: '代';
+	}
+
+	&-rnrsverify-exempt::after {
+		content: '认';
+
+		&:lang(zh-hant) {
+			content: '認';
+		}
+	}
+
+	&-flood::after {
+		content: '机';
+
+		&:lang(zh-hant) {
+			content: '機';
+		}
+	}
+}

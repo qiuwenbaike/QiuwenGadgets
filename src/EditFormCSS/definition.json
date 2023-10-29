@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"actions": ["edit", "submit"],
+	"category": "edit",
+	"description": "<span id=\"Gadget-EditFormCSS\"></span> 编辑界面样式表",
+	"hidden": true,
+	"rights": ["edit"]
+}

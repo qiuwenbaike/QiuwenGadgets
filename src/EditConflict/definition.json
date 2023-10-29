@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"actions": ["edit", "submit"],
+	"category": "edit",
+	"description": "<span id=\"Gadget-EditConflict\"></span> [[Help:编辑冲突|编辑冲突]]提示",
+	"dependencies": ["ext.gadget.Ding", "ext.gadget.i18n"],
+	"rights": ["skipcaptcha"]
+}

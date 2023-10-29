@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"default": true,
+	"hidden": true,
+	"category": "skin",
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-SkinCitizenCSS\"></span> 为Citizen皮肤提供补充样式",
+	"skins": ["citizen"]
+}

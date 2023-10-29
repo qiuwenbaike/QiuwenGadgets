@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"actions": ["view"],
+	"category": "edit",
+	"description": "<span id=\"Gadget-ToolsRedirect\"></span> ToolsRedirect <small>可视化的重定向修复和创建工具</small>",
+	"dependencies": ["mediawiki.jqueryMsg", "user.options", "jquery.ui"],
+	"rights": ["edit"]
+}

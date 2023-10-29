@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"category": "compatibility",
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-AccessKeyCheatsheet\"></span> 键盘快捷键提示（{{keypress|Alt}} + {{keypress|Shift}} + {{keypress|?}}）",
+	"default": true,
+	"dependencies": ["ext.gadget.i18n", "oojs-ui-windows"],
+	"hidden": true
+}

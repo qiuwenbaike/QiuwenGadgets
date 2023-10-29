@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"default": true,
+	"category": "browser",
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-ShortURL\"></span> 提供当前界面的短链接，便于聊天群共享（站外共享，建议使用完整地址）",
+	"rights": ["edit"],
+	"dependencies": ["ext.gadget.i18n", "mediawiki.api", "mediawiki.util", "mediawiki.widgets", "oojs-ui-windows"]
+}

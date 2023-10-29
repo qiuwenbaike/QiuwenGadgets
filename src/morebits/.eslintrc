@@ -1,0 +1,30 @@
+{
+	"rules": {
+		"@typescript-eslint/no-this-alias": [
+			"error",
+			{
+				"allowDestructuring": true,
+				"allowedNames": ["self", "udate", "thisCb", "thisProxy"]
+			}
+		],
+		"jsdoc/require-returns": "off",
+		"jsdoc/valid-types": "off",
+		"jsdoc/require-param-type": "off",
+		"mediawiki/class-doc": "off",
+		"no-jquery/no-map-util": "off",
+		"new-cap": "off",
+		"no-new": "off",
+		"no-shadow": "off",
+		"no-script-url": "off",
+		"no-useless-concat": "off",
+		"unicorn/prefer-string-slice": "off",
+		"unicorn/prefer-dom-node-append": "off",
+		"unicorn/prefer-dom-node-dataset": "off",
+		"unicorn/prefer-dom-node-remove": "off"
+	},
+	"globals": {
+		"Morebits": "readonly",
+		"Twinkle": "writable",
+		"wgULS": "readonly"
+	}
+}

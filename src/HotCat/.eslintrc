@@ -1,0 +1,17 @@
+{
+	"rules": {
+		"@typescript-eslint/no-this-alias": [
+			"error",
+			{
+				"allowDestructuring": true,
+				"allowedNames": ["self"]
+			}
+		],
+		"prefer-destructuring": "off",
+		"no-new": "off"
+	},
+	"globals": {
+		"HotCat": "readonly",
+		"UploadForm": "readonly"
+	}
+}

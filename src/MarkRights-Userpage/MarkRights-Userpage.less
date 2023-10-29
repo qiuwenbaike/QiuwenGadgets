@@ -1,0 +1,196 @@
+.mw-markrights {
+	display: inline-block;
+	margin-bottom: 0.25em !important;
+	padding: 0 0.5em !important;
+	border: 1px solid #ddd;
+	white-space: nowrap;
+	-webkit-border-radius: 0.5em;
+	-moz-border-radius: 0.5em;
+	-ms-border-radius: 0.5em;
+	-o-border-radius: 0.5em;
+	border-radius: 0.5em;
+	font-size: 0.8125em;
+
+	.mw-footer & {
+		margin-bottom: 0.25em !important;
+
+		& + .mw-markrights {
+			margin-left: 0.25em !important;
+		}
+
+		.ve-activated & {
+			display: none;
+		}
+	}
+
+	&-icon {
+		margin: 0;
+
+		&::before {
+			display: inline-block;
+			font-size: 1em;
+			vertical-align: middle;
+		}
+
+		&-qiuwen::before {
+			content: '[站]';
+		}
+
+		&-steward::before {
+			content: '[裁]';
+		}
+
+		&-sysop::before {
+			content: '[管]';
+		}
+
+		&-interface-admin::before {
+			content: '[界]';
+
+			&:lang(zh-hant) {
+				content: '[介]';
+			}
+		}
+
+		&-checkuser::before {
+			content: '[查]';
+		}
+
+		&-suppress::before {
+			content: '[监]';
+
+			&:lang(zh-hant) {
+				content: '[監]';
+			}
+		}
+
+		&-patroller::before {
+			content: '[巡]';
+		}
+
+		&-eventsponsor::before {
+			content: '[活]';
+		}
+
+		&-templateeditor::before {
+			content: '[模]';
+		}
+
+		&-senioreditor::before {
+			content: '[资]';
+
+			&:lang(zh-hant) {
+				content: '[資]';
+			}
+		}
+
+		&-transwiki::before {
+			content: '[导]';
+
+			&:lang(zh-hant) {
+				content: '[匯]';
+			}
+		}
+
+		&-massmessage-sender::before {
+			content: '[发]';
+
+			&:lang(zh-hant) {
+				content: '[發]';
+			}
+		}
+
+		&-bot::before {
+			content: '[机]';
+
+			&:lang(zh-hant) {
+				content: '[機]';
+			}
+		}
+
+		/* 特殊权限（确、自、免、代、机器用户）：绿色 */
+		&-confirmed,
+		&-autoconfirmed,
+		&-autoreviewer,
+		&-ipblock-exempt,
+		&-rnrsverify-exempt,
+		&-flood {
+			border-color: #00af89;
+			color: #00af89;
+		}
+
+		&-confirmed::before {
+			content: '[确]';
+
+			&:lang(zh-hant) {
+				content: '[確]';
+			}
+		}
+
+		&-autoreviewer::before {
+			content: '[免]';
+		}
+
+		&-ipblock-exempt::before {
+			content: '[代]';
+		}
+
+		&-rnrsverify-exempt::before {
+			content: '[认]';
+
+			&:lang(zh-hant) {
+				content: '[認]';
+			}
+		}
+
+		&-flood::before {
+			content: '[机]';
+
+			&:lang(zh-hant) {
+				content: '[機]';
+			}
+		}
+	}
+
+	/* 裁决委员会：紫黑 */
+	&-qiuwen,
+	&-steward {
+		border-color: #800080;
+		color: #800080;
+	}
+
+	/* 高级管理人员（管、界、监、查）：紫红 */
+	&-sysop,
+	&-interface-admin,
+	&-suppress,
+	&-checkuser {
+		border-color: #c71590;
+		color: #c71590;
+	}
+
+	/* 一般管理人员（巡、活）：棕 */
+	&-patroller,
+	&-eventsponsor {
+		border-color: #a0522d;
+		color: #a0522d;
+	}
+
+	/* 编辑权限（模、资、导/汇、发、机器人）：蓝 */
+	&-templateeditor,
+	&-senioreditor,
+	&-transwiki,
+	&-massmessage-sender,
+	&-bot {
+		border-color: #36c;
+		color: #36c;
+	}
+
+	&-text {
+		margin-left: 5px;
+		vertical-align: middle;
+
+		.skin-citizen & {
+			font-size: 1.125em;
+		}
+	}
+}

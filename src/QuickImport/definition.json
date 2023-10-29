@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"category": "edit",
+	"description": "<span id=\"Gadget-QuickImport\"></span> 快速导入页面",
+	"dependencies": ["ext.gadget.Ding", "mediawiki.api", "mediawiki.util"],
+	"rights": ["import"]
+}

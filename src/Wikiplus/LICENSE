@@ -1,0 +1,17 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|title=Wikiplus|license=CC-BY-SA-4.0}}'
+ *
+ * @title Wikiplus
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/Wikiplus-core.js>
+ * @author Eridanus Sora (妹空酱)
+ */
+/**
+ * SPDX-License-Identifier: GPL-3.0
+ * _addText: '{{Gadget Header|title=Wikiplus-highlight|license=GPL-3.0}}'
+ *
+ * @title Wikiplus-highlight
+ * @base <https://github.com/bhsd-harry/Wikiplus-highlight/blob/main/main.js>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/Wikiplus-highlight.js>
+ * @author Bhsd <https://github.com/bhsd-harry>, 机智的小鱼君 <https://github.com/Dragon-Fish>
+ */

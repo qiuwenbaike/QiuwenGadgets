@@ -1,0 +1,109 @@
+#cat_a_lot {
+	position: fixed;
+	z-index: 100;
+	right: 0;
+	bottom: 0;
+	display: block;
+	padding: 0.5em;
+	background-color: #fef6e7;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+	a {
+		cursor: pointer;
+	}
+
+	&_data,
+	&_mark_counter {
+		display: none;
+	}
+
+	&_data ul {
+		margin: 0 0 0 0.5em;
+		list-style-image: none;
+		list-style-type: none;
+	}
+
+	&_selections,
+	&_mark_counter,
+	&_settings {
+		padding: 0.5em;
+	}
+
+	&_remove {
+		display: block;
+		font-weight: bold;
+	}
+
+	&_searchcatname {
+		width: 100%;
+		margin: -0.5em 0 0.5em -0.5em;
+		font-size: 112%;
+	}
+
+	&_no_found,
+	&_last_selected,
+	&_settings {
+		font-weight: bold;
+	}
+
+	&_last_selected {
+		outline: 1px dotted #999;
+	}
+
+	&_category_list {
+		overflow: auto;
+
+		table {
+			border-collapse: collapse;
+		}
+
+		tr:hover {
+			background-color: #fc3;
+		}
+	}
+
+	.skin-vector & {
+		font-size: 0.75em;
+	}
+}
+
+.cat_a_lot {
+	&_move,
+	&_action {
+		font-weight: bold;
+	}
+
+	&_feedback {
+		min-height: 8em !important;
+		padding-top: 10px !important;
+		padding-left: 2.85em !important;
+		border: 1px #a9de16 solid !important;
+		background: #eaf2cb no-repeat 8px 14px !important;
+		font-size: 1.1em !important;
+
+		.ui-dialog-content {
+			min-height: 8em !important;
+		}
+	}
+
+	&_done {
+		padding-top: 0 !important;
+
+		/**
+		 * @description check Icon from OOjs UI (constructive; green color)
+		 * @base <https://www.qiuwenbaike.cn/wiki/File:OOjs_UI_icon_check-constructive.svg>
+		 * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+		 */
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cpath d='M7 14.17L2.83 10l-1.41 1.41L7 17 19 5l-1.41-1.42L7 14.17z' fill='%2300af89'/%3E%3C/svg%3E") !important;
+		background-position: 8px 50% !important;
+		background-size: 40px;
+	}
+
+	&_markAsDone {
+		background-color: #bbb !important;
+	}
+
+	&_selected {
+		background-color: #df6 !important;
+	}
+}

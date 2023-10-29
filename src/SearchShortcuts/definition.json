@@ -1,0 +1,5 @@
+{
+	"enable": true,
+	"category": "browser",
+	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-SearchShortcuts\"></span> 输入搜索关键词时，自动替换部分源代码语法"
+}

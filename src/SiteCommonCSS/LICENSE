@@ -1,0 +1,13 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|url=https://git.qiuwen.net.cn/InterfaceAdmin/Gadgets/src/branch/master/src/SiteCommonCSS|license=CC-BY-SA-4.0}}'
+ *
+ * @base <https://zh.wikipedia.org/wiki/MediaWiki:Common.css>
+ * @base <https://zh.wikipedia.org/wiki/MediaWiki:Filepage.css>
+ * @base <https://zh.wikipedia.org/wiki/MediaWiki:Print.css>
+ * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-fontsize.css>
+ * @base <https://en.wikipedia.org/wiki/MediaWiki:Common.css>
+ * @base <https://en.wikipedia.org/wiki/MediaWiki:Gadget-responsiveContentBase.css>
+ * @base <https://www.mediawiki.org/wiki/Snippets/Horizontal_lists>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/Gadgets/src/branch/master/src/SiteCommonCSS>
+ */

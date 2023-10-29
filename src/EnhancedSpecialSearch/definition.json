@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"default": true,
+	"category": "browser",
+	"description": "<span id=\"Gadget-EnhancedSpecialSearch\"></span> 在[[Special:Search|搜索]]页面加入一个下拉菜单，以调用外部搜索引擎搜索",
+	"dependencies": ["ext.gadget.i18n"]
+}

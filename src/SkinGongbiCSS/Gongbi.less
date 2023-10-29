@@ -1,0 +1,40 @@
+/* @description 此处的CSS只会影响使用Gongbi皮肤的用户 */
+
+/* 字体 */
+#mw-related-navigation h2,
+#mw-site-navigation h2,
+#mw-site-navigation .sidebar-chunk h3,
+#p-logo-text a,
+#personal h2,
+.mw-logo-wordmark {
+	font-family: 'Source Serif', 'Source Han Serif SC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
+		'STSong SC', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+	&:lang(zh-hant) {
+		font-family: 'Source Serif', 'Source Han Serif TC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
+			'MingLiU', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	}
+}
+
+/* 隐藏Logo */
+.mw-wiki-logo.fallback {
+	height: 0 !important;
+}
+
+#p-logo {
+	display: none !important;
+}
+
+/* 标题指示符号 */
+.mw-indicators {
+	display: flex;
+	padding: 0.5rem 0 0;
+	gap: 0.5rem;
+}
+
+/* 正文表格 */
+@media (min-width: 1440px) {
+	.ns-0 .mw-body-content .mw-parser-output > .content-table-wrapper {
+		margin-right: 0 !important;
+	}
+}

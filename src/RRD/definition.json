@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"category": "sysop",
+	"description": "<span id=\"Gadget-RRD\"></span> [[Qiuwen:版本删除提报|版本删除提报]]工具 <small>“页面历史”界面使用</small>",
+	"dependencies": ["ext.gadget.i18n", "jquery.ui", "mediawiki.api"],
+	"rights": ["skipcaptcha"]
+}

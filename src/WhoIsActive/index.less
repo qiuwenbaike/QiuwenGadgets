@@ -1,0 +1,109 @@
+.mw-whoisactive {
+	&-span {
+		display: inline-block;
+		padding: 0 0.5em !important;
+		border: 1px solid #ddd;
+		margin: 0 0.25em;
+		white-space: nowrap;
+		-webkit-border-radius: 0.5em;
+		-moz-border-radius: 0.5em;
+		-ms-border-radius: 0.5em;
+		-o-border-radius: 0.5em;
+		border-radius: 0.5em;
+		font-size: 0.8125em;
+
+		.mw-footer & {
+			margin-bottom: 0.25em !important;
+
+			.ve-activated & {
+				display: none;
+			}
+		}
+	}
+
+	&-ThisWeek {
+		border-color: #00af89;
+		color: #00af89 !important;
+	}
+
+	&-ThisMonth {
+		border-color: #36c;
+		color: #36c !important;
+	}
+
+	&-ThisYear {
+		border-color: #a60;
+		color: #a60 !important;
+	}
+
+	&-OverAYear {
+		border-color: #b32424;
+		color: #b32424 !important;
+	}
+
+	&-icon {
+		margin: 0;
+
+		&::before {
+			display: inline-block;
+			width: 15px;
+			height: 15px;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: 15px;
+			content: '';
+			vertical-align: middle;
+		}
+
+		&-ThisWeek::before {
+			/**
+			 * @description userContributions Icon (ltr) from OOjs UI
+			 * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/userContributions-ltr.svg>
+			 * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+			 */
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%2300af89'%3E%3Ccircle cx='15.5' cy='10.5' r='2.5'/%3E%3Cpath d='M1 15h8v2H1Zm0-6h10v2H1Zm0-6h16v2H1Zm14.5 10.6c-3.3 0-4.5 1.6-4.5 2.7V18h9v-1.7c0-1-1.2-2.7-4.5-2.7z'/%3E%3C/svg%3E");
+		}
+
+		&-ThisMonth::before {
+			/**
+			 * @description userContributions Icon (ltr) from OOjs UI
+			 * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/userContributions-ltr.svg>
+			 * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+			 */
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%2336c'%3E%3Ccircle cx='15.5' cy='10.5' r='2.5'/%3E%3Cpath d='M1 15h8v2H1Zm0-6h10v2H1Zm0-6h16v2H1Zm14.5 10.6c-3.3 0-4.5 1.6-4.5 2.7V18h9v-1.7c0-1-1.2-2.7-4.5-2.7z'/%3E%3C/svg%3E");
+		}
+
+		&-ThisYear::before {
+			/**
+			 * @description userContributions Icon (ltr) from OOjs UI
+			 * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/userContributions-ltr.svg>
+			 * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+			 */
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23a60'%3E%3Ccircle cx='15.5' cy='10.5' r='2.5'/%3E%3Cpath d='M1 15h8v2H1Zm0-6h10v2H1Zm0-6h16v2H1Zm14.5 10.6c-3.3 0-4.5 1.6-4.5 2.7V18h9v-1.7c0-1-1.2-2.7-4.5-2.7z'/%3E%3C/svg%3E");
+		}
+
+		&-OverAYear::before {
+			/**
+			 * @description userContributions Icon (ltr) from OOjs UI
+			 * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/userContributions-ltr.svg>
+			 * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+			 */
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23b32424'%3E%3Ccircle cx='15.5' cy='10.5' r='2.5'/%3E%3Cpath d='M1 15h8v2H1Zm0-6h10v2H1Zm0-6h16v2H1Zm14.5 10.6c-3.3 0-4.5 1.6-4.5 2.7V18h9v-1.7c0-1-1.2-2.7-4.5-2.7z'/%3E%3C/svg%3E");
+		}
+	}
+
+	&-text {
+		margin-left: 5px;
+		vertical-align: middle;
+
+		.skin-citizen & {
+			font-size: 1.125em;
+		}
+	}
+
+	&-notext {
+		font-size: 0 !important;
+		margin-left: 0;
+		clip-path: inset(50%);
+	}
+}

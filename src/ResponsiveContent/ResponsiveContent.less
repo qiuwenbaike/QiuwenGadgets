@@ -1,0 +1,88 @@
+@media (min-width: 1440px) {
+	.ns-0 {
+		.mw-body-content {
+			.mw-parser-output {
+				& > * {
+					margin-right: 350px !important;
+				}
+
+				& > .mw-parser-output {
+					margin-right: 0 !important;
+					margin-left: 0 !important;
+				}
+
+				& > .infobox,
+				& > .sidebar,
+				& > .vertical-navbox,
+				& > .stack-clear-right,
+				& > .floatright,
+				& > .sistersitebox,
+				& > .mbox-small,
+				& > .tright,
+				& > .navbox {
+					margin-right: 0 !important;
+					margin-left: 2em !important;
+				}
+
+				& > .infobox,
+				& > .sidebar,
+				& > .vertical-navbox,
+				& > .floatright,
+				& > .tright {
+					min-width: 320px !important;
+				}
+
+				& > .infobox,
+				& > .sidebar,
+				& > .vertical-navbox,
+				& > .tright > .thumbinner {
+					width: 320px !important;
+					box-sizing: border-box;
+				}
+
+				& > .tright .thumbimage {
+					width: 100%;
+					height: auto;
+				}
+
+				& > #toc,
+				& > .floatleft,
+				& > .tleft {
+					margin-right: 1.4em !important;
+				}
+
+				& > table,
+				& > .center {
+					max-width: calc(100% - 350px);
+				}
+			}
+
+			.ext-WikiEditor-realtimepreview-preview .mw-parser-output {
+				& > ul,
+				& > ol,
+				& > li {
+					margin-right: 0 !important;
+				}
+
+				& > *:not(ul, ol, li) {
+					max-width: 100%;
+					margin-right: 0 !important;
+					margin-left: 0 !important;
+				}
+			}
+		}
+
+		.ve-init-mw-desktopArticleTarget .mw-body-content .mw-parser-output {
+			& > ul,
+			& > ol,
+			& > li {
+				margin-right: 0 !important;
+			}
+
+			& > *:not(ul, ol, li) {
+				margin-right: 0 !important;
+				margin-left: 0 !important;
+			}
+		}
+	}
+}

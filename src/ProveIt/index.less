@@ -1,0 +1,230 @@
+#proveit {
+	position: fixed;
+	z-index: 9;
+	right: 0;
+	bottom: 0;
+	max-width: 100%;
+	background: #fff;
+	font-size: 0.8em;
+
+	&-header {
+		overflow: hidden;
+		background: #eee;
+	}
+
+	&-logo {
+		height: 43px;
+		background: #000;
+		color: #fff;
+		cursor: pointer;
+		float: right;
+		font-family: monospace;
+		font-size: 1.4em;
+		line-height: 2.6875rem;
+	}
+
+	&-body {
+		display: none;
+		max-height: 300px;
+		background: #f4f4f4;
+		overflow-y: scroll;
+	}
+
+	&-list {
+		width: 700px;
+		padding: 0;
+		margin: 0;
+
+		.proveit-item {
+			overflow: hidden;
+			padding: 0.5em 0.8em;
+			margin: 0;
+
+			&:nth-child(odd) {
+				background: #fff;
+			}
+
+			&:hover {
+				background: #ccc;
+				cursor: pointer;
+			}
+
+			.proveit-number,
+			.proveit-arrow {
+				margin-right: 0.4em;
+			}
+
+			.proveit-letter {
+				position: relative;
+				top: -0.5em;
+				margin-right: 0.5em;
+				font-size: 0.9em;
+			}
+
+			.proveit-template {
+				margin-right: 10px;
+				font-weight: bold;
+				white-space: nowrap;
+			}
+		}
+	}
+
+	&-no-references-message,
+	&-no-template-data-message {
+		padding: 10px;
+		text-align: center;
+	}
+
+	&-form {
+		width: 700px;
+		box-sizing: border-box;
+		padding: 1px;
+
+		div {
+			position: relative;
+		}
+
+		label {
+			display: inline-block;
+			width: 30%;
+			box-sizing: border-box;
+			padding: 0.4em;
+			vertical-align: top;
+		}
+
+		.proveit-required label {
+			font-weight: bold;
+		}
+
+		.proveit-deprecated label {
+			text-decoration: line-through;
+		}
+
+		input,
+		select,
+		textarea {
+			display: inline-block;
+			width: 70%;
+			box-sizing: border-box;
+			padding: 0.4em;
+			border: 0;
+			border-radius: 0;
+			margin: 1px 0;
+			-moz-appearance: none;
+			-webkit-appearance: none;
+			appearance: none;
+			background: #fff;
+			font: inherit;
+			vertical-align: middle;
+		}
+
+		select {
+			padding: 0.4em 0.1em;
+			-moz-appearance: menulist;
+			-webkit-appearance: menulist;
+			appearance: menulist;
+		}
+
+		textarea {
+			height: 60px;
+		}
+
+		button {
+			position: absolute;
+			top: 3px;
+			right: 3px;
+			cursor: pointer;
+		}
+	}
+
+	&-reference-content {
+		font-family: monospace !important;
+	}
+
+	&-footer {
+		display: none;
+		overflow: hidden;
+		background: #eee;
+		border-spacing: 0;
+		text-align: right;
+
+		input {
+			width: 150px;
+			box-sizing: border-box;
+			padding: 10px;
+			border: 0;
+			margin: 0.3em;
+			float: left;
+			font: inherit;
+		}
+	}
+
+	&-footer,
+	&-header {
+		button {
+			padding: 10px;
+			border: 0;
+			margin: 0.3em;
+			background: #ddd;
+			cursor: pointer;
+			font: inherit;
+
+			&:hover {
+				filter: brightness(1.2);
+			}
+		}
+
+		.progressive {
+			background: #36c;
+			color: #fff;
+		}
+	}
+
+	/**
+	 * Simple CSS tooltip by Keenan Payne
+	 * http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-tooltip/
+	 */
+	label[data-tooltip] {
+		position: relative;
+
+		&:hover {
+			&::after {
+				position: absolute;
+				z-index: 99;
+				bottom: 26px;
+				left: 20%;
+				width: 300px;
+				box-sizing: border-box;
+				padding: 1em;
+				-webkit-border-radius: 0.5em;
+				-moz-border-radius: 0.5em;
+				-ms-border-radius: 0.5em;
+				-o-border-radius: 0.5em;
+				border-radius: 0.5em;
+				background: #333;
+				background: rgba(0, 0, 0, 0.8);
+				color: #fff;
+				content: attr(data-tooltip);
+				font-weight: normal;
+			}
+
+			&::before {
+				z-index: 100;
+				bottom: 20px;
+				left: 50%;
+				border: solid;
+				border-width: 6px 6px 0;
+				border-color: #333 transparent;
+				content: '';
+			}
+		}
+	}
+}
+
+.proveit-logo-bracket {
+	position: relative;
+	color: #ff0;
+	font-size: 2.3em;
+	font-weight: bold;
+	vertical-align: bottom;
+}

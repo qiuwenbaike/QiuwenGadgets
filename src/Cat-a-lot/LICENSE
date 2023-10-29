@@ -1,0 +1,39 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|title1=Cat-a-lot.js|url1=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/core.ts>|license=CC-BY-SA-4.0}}'
+ *
+ * @title Cat-a-lot
+ * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js>
+ * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/core.ts>
+ * @author Magnus Manske, Ilmari Karonen, DieBuche, 安忆 <i@anyi.in>
+ */
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|title2=Cat-a-lot.css|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/index.less|license=CC-BY-SA-4.0}}'
+ *
+ * @title Cat-a-lot.css
+ * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.css>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/index.less>
+ * @author Magnus Manske, Ilmari Karonen, DieBuche, 安忆 <i@anyi.in>
+ */
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|title3=Cat-a-lot Messages|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/messages.ts|license=CC-BY-SA-4.0}}'
+ *
+ * @title Cat-a-lot messages
+ * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js/zh-hans>
+ * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js/zh-hant>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/messages.ts>
+ */
+/**
+ * SPDX-License-Identifier: GPLv2
+ * _addText: '{{Gadget Header|title4=jQuery checkboxShiftClick|url4=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/checkbox.ts|license=GPLv2}}'
+ *
+ * This will enable checkboxes to be checked or unchecked in a row by clicking one, holding shift and clicking another one
+ *
+ * @title jQuery checkboxShiftClick
+ * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/checkbox.ts>
+ * @author Krinkle <krinklemail@gmail.com>
+ */

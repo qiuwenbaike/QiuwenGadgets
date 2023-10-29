@@ -1,0 +1,9 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base <https://meta.wikimedia.org/wiki/User:Xiplus/js/list-user-last-active.js>
+ * @base <https://zh.wikipedia.org/w/index.php?title=MediaWiki:Gadget-CommentsinLocalTime.js&oldid=48314651>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ListUsersLastActive>
+ * @dependency ext.gadget.i18n, mediawiki.api
+ */

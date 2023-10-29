@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"hidden": true,
+	"category": "compatibility",
+	"description": "<span id=\"Gadget-GeoLocationName\"></span> 提供[[ISO 3166-1二位字母代码]]至实际地名中文译名的单向转换",
+	"dependencies": ["ext.gadget.i18n"]
+}

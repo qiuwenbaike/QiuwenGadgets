@@ -1,0 +1,11 @@
+{
+	"rules": {
+		"mediawiki/msg-doc": "off",
+		"no-new": "off",
+		"no-jquery/no-animate": "off",
+		"jsdoc/no-multi-asterisks": "off",
+		"jsdoc/require-returns-check": "off",
+		"jsdoc/require-returns-type": "off",
+		"unicorn/no-array-for-each": "off"
+	}
+}

@@ -1,0 +1,6 @@
+{
+	"enable": true,
+	"category": "sysop",
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Report\"></span> 报告不良信息",
+	"dependencies": ["ext.gadget.i18n", "mediawiki.util"]
+}

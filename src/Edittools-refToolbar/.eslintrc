@@ -1,0 +1,12 @@
+{
+	"rules": {
+		"mediawiki/class-doc": "off",
+		"no-new": "off"
+	},
+	"globals": {
+		"CiteTB": "writable",
+		"CiteTemplate": "writable",
+		"CiteErrorCheck": "writable",
+		"EditTools": "writable"
+	}
+}

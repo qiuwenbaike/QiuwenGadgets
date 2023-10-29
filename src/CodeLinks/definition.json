@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"category": "compatibility",
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-CodeLinks\"></span> CodeLinks <small>将JavaScript、Lua和CSS代码中的[[Help:内部链接|内部链接]]代码、URL以及模板、模块名称转化为可以点击的链接</small>",
+	"default": true,
+	"dependencies": ["mediawiki.util"]
+}

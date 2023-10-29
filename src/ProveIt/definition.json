@@ -1,0 +1,9 @@
+{
+	"enable": true,
+	"hidden": true,
+	"category": "edit",
+	"actions": "edit",
+	"description": "<span id=\"Gadget-ProveIt\"></span> ProveIt <small>一个强力的查看、添加、编辑和插入参考文献的GUI工具。</small>",
+	"dependencies": ["jquery.textSelection", "jquery.ui", "mediawiki.api", "mediawiki.storage", "mediawiki.util"],
+	"rights": ["edit"]
+}

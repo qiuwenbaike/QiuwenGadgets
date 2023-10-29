@@ -1,0 +1,6 @@
+{
+	"enable": true,
+	"category": "sysop",
+	"description": "<span id=\"Gadget-WhoIsActive\"></span> 根据用户贡献记录，查询其是否近期活跃",
+	"dependencies": ["ext.gadget.i18n", "mediawiki.Title", "mediawiki.api", "mediawiki.util"]
+}

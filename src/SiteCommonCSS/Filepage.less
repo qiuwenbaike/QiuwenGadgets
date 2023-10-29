@@ -1,0 +1,185 @@
+/* @description 此处的CSS只会包含在文件名字空间的页面中 */
+.ns-6 {
+	/* Lots of crappy tables on Commons without classes etc */
+	table {
+		box-sizing: border-box !important;
+
+		/* 文件历史 */
+		&.filehistory {
+			display: block;
+			overflow: auto;
+		}
+	}
+
+	#mw-imagepage-section-duplicates {
+		display: none;
+	}
+
+	/* Hide unsupported variants */
+	#mw-imglangselector-line option[value^='zh-'] {
+		display: none;
+	}
+
+	.exif-gps {
+		&latitude,
+		&longitude,
+		&altitude {
+			display: none;
+		}
+	}
+}
+
+/* 仅当文件页图像具有透明背景时，在图像描述页上显示棋盘格背景；<gallery>情况类似 */
+#file,
+body:not(.ns-0, .ns-2) .gallerybox .thumb {
+	img {
+		/**
+		* @description Simple gray background on transparent background.
+		* @author Qiuwen Baike Contributors
+		* @license Public Domain
+		*/
+		background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"%3E%3Cpath fill="%23f9fafb" d="M0 0h16v16H0z" paint-order="markers stroke fill"/%3E%3C/svg%3E')
+			repeat;
+		background-color: #f8f9fa;
+	}
+}
+
+/* 许可证模板 */
+.licensetpl {
+	&_wrapper,
+	&_metadata {
+		display: none;
+	}
+}
+
+/* 文件信息模板 */
+.fileinfotpl {
+	width: 95%;
+	padding: 0.5em;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #999;
+	-webkit-border-radius: 0.5em;
+	-moz-border-radius: 0.5em;
+	-ms-border-radius: 0.5em;
+	-o-border-radius: 0.5em;
+	border-radius: 0.5em;
+	margin: 1em auto;
+	background-color: #f9f9f9;
+	border-collapse: inherit;
+
+	td {
+		padding: 0.5em;
+		background-color: #f7f8ff;
+		vertical-align: top;
+
+		&.fileinfo-paramfield {
+			width: 5em;
+			background-color: #def;
+			font-weight: bold;
+			text-align: right;
+		}
+	}
+
+	tbody {
+		> tr {
+			&:first-child > td:first-child {
+				-webkit-border-radius: 0.5em 0 0;
+				-moz-border-radius: 0.5em 0 0;
+				-ms-border-radius: 0.5em 0 0;
+				-o-border-radius: 0.5em 0 0;
+				border-radius: 0.5em 0 0;
+			}
+
+			&:first-child > td:last-child {
+				-webkit-border-radius: 0 0.5em 0 0;
+				-moz-border-radius: 0 0.5em 0 0;
+				-ms-border-radius: 0 0.5em 0 0;
+				-o-border-radius: 0 0.5em 0 0;
+				border-radius: 0 0.5em 0 0;
+			}
+
+			&:last-child > td:first-child {
+				-webkit-border-radius: 0 0 0 0.5em;
+				-moz-border-radius: 0 0 0 0.5em;
+				-ms-border-radius: 0 0 0 0.5em;
+				-o-border-radius: 0 0 0 0.5em;
+				border-radius: 0 0 0 0.5em;
+			}
+
+			&:last-child > td:last-child {
+				-webkit-border-radius: 0 0 0.5em;
+				-moz-border-radius: 0 0 0.5em;
+				-ms-border-radius: 0 0 0.5em;
+				-o-border-radius: 0 0 0.5em;
+				border-radius: 0 0 0.5em;
+			}
+		}
+	}
+
+	.fn {
+		display: none;
+	}
+}
+
+@media (max-width: 768px) {
+	.fileinfotpl {
+		width: 100%;
+		max-width: 100%;
+
+		tbody {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+
+			> tr {
+				&:first-child > td:first-child {
+					-webkit-border-radius: 0.5em 0.5em 0 0;
+					-moz-border-radius: 0.5em 0.5em 0 0;
+					-ms-border-radius: 0.5em 0.5em 0 0;
+					-o-border-radius: 0.5em 0.5em 0 0;
+					border-radius: 0.5em 0.5em 0 0;
+				}
+
+				&:first-child > td:last-child {
+					-webkit-border-radius: 0;
+					-moz-border-radius: 0;
+					-ms-border-radius: 0;
+					-o-border-radius: 0;
+					border-radius: 0;
+				}
+
+				&:last-child > td:first-child {
+					-webkit-border-radius: 0;
+					-moz-border-radius: 0;
+					-ms-border-radius: 0;
+					-o-border-radius: 0;
+					border-radius: 0;
+				}
+
+				&:last-child > td:last-child {
+					-webkit-border-radius: 0 0 0.5em;
+					-moz-border-radius: 0 0 0.5em;
+					-ms-border-radius: 0 0 0.5em;
+					-o-border-radius: 0 0 0.5em;
+					border-radius: 0 0 0.5em;
+				}
+			}
+		}
+
+		tr {
+			display: flex;
+			flex: 1 1 100%;
+			flex-wrap: wrap;
+		}
+
+		td {
+			flex: 1 1 100%;
+
+			&.fileinfo-paramfield {
+				text-align: center;
+			}
+		}
+	}
+}

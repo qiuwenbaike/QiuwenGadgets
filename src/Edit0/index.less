@@ -1,0 +1,53 @@
+body {
+	&.ltr h1.firstHeading .mw-editsection-bracket:first-of-type,
+	&.rtl h1.firstHeading .mw-editsection-bracket:not(:first-of-type) {
+		margin-right: 0.25em;
+		color: #555;
+	}
+
+	.page-heading .mw-editsection a {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	&:not(.skin-citizen) {
+		.page-heading .mw-editsection a {
+			display: inline-block;
+			font-size: 1em;
+			vertical-align: middle;
+		}
+	}
+
+	&.skin-citizen {
+		.page-heading .mw-editsection a {
+			font-size: 1rem;
+		}
+
+		.mw-indicators .mw-editsection {
+			margin-right: 10px;
+			margin-left: 0;
+
+			&::before {
+				content: '首段：';
+				font-family: 'Source Serif', 'Source Han Serif SC', 'Linux Libertine', 'Georgia', 'Times New Roman',
+					'Times', 'STSong SC', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+				font-size: 0.75rem;
+
+				&:lang(zh-hant) {
+					font-family: 'Source Serif', 'Source Han Serif TC', 'Linux Libertine', 'Georgia', 'Times New Roman',
+						'T/imes', 'MingLiU', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+				}
+			}
+		}
+	}
+
+	#firstHeading span.mw-editsection a::after {
+		content: ' (首段)';
+
+		&:lang(en) {
+			content: ' (lead section)';
+		}
+	}
+}

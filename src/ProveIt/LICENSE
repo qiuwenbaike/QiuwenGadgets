@@ -1,0 +1,25 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0 + GPL-2.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|license2=GPL-2.0}}'
+ *
+ * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ProveIt.js>
+ * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-ProveIt.js>
+ * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-ProveIt.css>
+ * @copyright 2008-2011 Georgia Tech Research Corporation, Atlanta, GA 30332-0415, ALL RIGHTS RESERVED
+ * @copyright 2011- Matthew Flaschen
+ * @copyright Rewritten, internationalized, improved and maintained by Sophivorus since 2014
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ProveIt>
+ */
+
+/**
+ * ProveIt is a smart and simple reference manager for Wikipedia (and any other MediaWiki wiki)
+ * Documentation at <commons.wikimedia.org/wiki/Help:Gadget-ProveIt>
+ *
+ * Copyright 2008-2011 Georgia Tech Research Corporation, Atlanta, GA 30332-0415, ALL RIGHTS RESERVED
+ * Copyright 2011- Matthew Flaschen
+ * Rewritten, internationalized, improved and maintained by Sophivorus since 2014
+ *
+ * ProveIt is available under the GNU Free Documentation License (http://www.gnu.org/copyleft/fdl.html),
+ * the Creative Commons Attribution/Share-Alike License 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)
+ * and the GNU General Public License 2 (http://www.gnu.org/licenses/gpl-2.0.html)
+ */

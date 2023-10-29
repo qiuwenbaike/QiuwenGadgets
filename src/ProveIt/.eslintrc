@@ -1,0 +1,10 @@
+{
+	"rules": {
+		"mediawiki/msg-doc": "off",
+		"unicorn/prefer-string-slice": "off"
+	},
+	"globals": {
+		"ProveIt": "writable",
+		"ve": "readonly"
+	}
+}

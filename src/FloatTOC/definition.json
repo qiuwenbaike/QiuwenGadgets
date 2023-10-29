@@ -1,0 +1,15 @@
+{
+	"enable": true,
+	"category": "appear",
+	"description": "<span id=\"Gadget-FloatTOC\"></span> 浮动目录",
+	"dependencies": [
+		"ext.gadget.i18n",
+		"mediawiki.notification",
+		"mediawiki.storage",
+		"mediawiki.util",
+		"oojs-ui.styles.icons-editing-citation",
+		"oojs-ui.styles.icons-interactions",
+		"oojs-ui.styles.icons-movement"
+	],
+	"skins": ["citizen", "vector"]
+}

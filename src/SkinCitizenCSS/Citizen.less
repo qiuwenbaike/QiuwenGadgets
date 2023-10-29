@@ -1,0 +1,105 @@
+/* @description 此处的CSS只会影响使用Citizen皮肤的用户 */
+
+/* 变量 */
+:root {
+	--fonts-sans: -apple-system, 'BlinkMacSystemFont', 'MiSans', '小米兰亭 Pro VF', 'OPPO Sans', 'HarmonyOS Sans',
+		'HONOR Sans', 'Source Sans 3', 'Source Sans Pro', 'Source Han Sans SC', 'Helvetica', 'Roboto',
+		'SFProDisplay-Regular', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	--fonts-serif: 'Source Serif', 'Source Han Serif SC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
+		'STSong SC', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	--fonts-monospace: 'Consolas', 'JetBrains Mono', 'Source Code Pro', 'Menlo', 'SFMono-Regular', 'Roboto Mono',
+		'Monaco', 'Liberation Mono', 'Courier New', 'Courier', monospace, 'Apple Color Emoji', 'Segoe UI Emoji',
+		'Segoe UI Symbol';
+
+	&:lang(zh-hant) {
+		--fonts-sans: -apple-system, 'BlinkMacSystemFont', 'MiSans', '小米兰亭 Pro VF', 'OPPO Sans', 'HarmonyOS Sans',
+			'HONOR Sans', 'Source Sans 3', 'Source Sans Pro', 'Source Han Sans TC', 'Helvetica', 'Roboto',
+			'SFProDisplay-Regular', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+		--fonts-serif: 'Source Serif', 'Source Han Serif TC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
+			'MingLiU', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	}
+}
+
+/* 页面内容宽度 */
+@media (min-width: 1440px) {
+	.ns-0 .mw-body-content .mw-parser-output {
+		& > * {
+			margin-right: 0;
+		}
+
+		& > div.tleft,
+		& > div.floatleft,
+		& > table.floatleft {
+			margin-right: 1.25rem !important;
+		}
+
+		& > table:not(.metadata, .infobox, .vertical-navbox) {
+			margin: 0 auto !important;
+		}
+	}
+}
+
+/* 子标题 */
+#siteSub {
+	display: none;
+}
+
+/* 求闻百科首页 */
+.page-Qiuwen_首页.action-view {
+	/* 隐藏页边 */
+	.citizen-body {
+		grid-area: unset;
+	}
+
+	/* 隐藏页头 */
+	.mw-body-header {
+		display: none;
+	}
+}
+
+/* [[Special:小工具]]标题 */
+.mw-special-Gadgets {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		display: block !important;
+	}
+}
+
+/* [[Special:最近更改]]标题 */
+.mw-changeslist h4 {
+	display: block !important;
+}
+
+/* 可视化编辑器界面，隐藏标题 */
+.ve-activated {
+	h1#firstHeading {
+		display: none;
+	}
+
+	.citizen-body-header--sticky .mw-body-header::before {
+		display: none;
+	}
+}
+
+.ve-init-mw-desktopArticleTarget #bodyContent {
+	margin-top: calc(2 * var(--space-md));
+}
+
+/* 目录 (TOC) */
+@media screen and (max-width: 720px) {
+	.toc,
+	#toc {
+		clear: both;
+	}
+}
+
+/* 变体菜单 */
+@media screen and (max-width: 720px) {
+	#citizen-languages__card {
+		right: calc(var(--space-xxl) * 2);
+	}
+}
