@@ -5,7 +5,7 @@
 		"type": "git",
 		"url": "https://github.com/AnYiEE/AwesomeGadgets"
 	},
-	"version": "1.2.1",
+	"version": "1.3.0",
 	"description": "Storage, compile, and auto deploy gadgets.",
 	"type": "module",
 	"scripts": {
@@ -29,7 +29,9 @@
 	"license": "GPL-3.0-or-later",
 	"devDependencies": {
 		"@babel/core": "^7.23.2",
+		"@babel/plugin-transform-member-expression-literals": "^7.22.5",
 		"@babel/plugin-transform-property-literals": "^7.22.5",
+		"@babel/plugin-transform-reserved-words": "^7.22.5",
 		"@babel/preset-env": "^7.23.2",
 		"@commitlint/cli": "^18.2.0",
 		"@commitlint/config-conventional": "^18.1.0",
