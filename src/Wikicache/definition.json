@@ -1,7 +1,7 @@
 {
 	"enable": true,
 	"actions": ["edit", "submit"],
-	"category": "edit",
+	"section": "edit",
 	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-Wikicache\"></span> 源代码编辑器中，保留上次未保存的编辑结果",
 	"dependencies": ["ext.gadget.i18n", "jquery.ui", "mediawiki.storage", "mediawiki.util"],
 	"rights": ["edit"]

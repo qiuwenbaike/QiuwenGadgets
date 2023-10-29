@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "sysop",
+	"section": "sysop",
 	"description": "<span id=\"Gadget-OnlineAdmins\"></span> 查看站务人员在线情况",
 	"dependencies": ["ext.gadget.i18n", "mediawiki.api", "mediawiki.util"]
 }

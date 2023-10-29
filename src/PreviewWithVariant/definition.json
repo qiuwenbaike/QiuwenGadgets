@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "edit",
+	"section": "edit",
 	"description": "<span id=\"Gadget-PreviewWithVariant\"></span> 预览字词转换 <small>在源代码编辑器下，以用户指定的语言变体显示预览</small>",
 	"rights": ["edit"],
 	"dependencies": ["ext.gadget.i18n", "mediawiki.Uri", "user.options", "oojs-ui", "oojs-ui-core"]

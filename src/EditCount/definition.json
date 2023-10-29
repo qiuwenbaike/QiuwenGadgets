@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "edit",
+	"section": "edit",
 	"description": "<span id=\"Gadget-EditCount\"></span> 编辑次数计数 <small>在“{{int:mycontris}}”链接旁边显示贡献数量</small>",
 	"dependencies": ["mediawiki.util"],
 	"skins": ["gongbi", "vector", "vector-2022", "write"]

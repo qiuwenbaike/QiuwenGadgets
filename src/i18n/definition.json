@@ -2,6 +2,6 @@
 	"enable": true,
 	"default": true,
 	"hidden": true,
-	"category": "compatibility",
+	"section": "compatibility",
 	"description": "<span id=\"Gadget-i18n\"></span> 为其他小工具提供多语言消息支持"
 }

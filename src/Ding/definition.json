@@ -1,6 +1,6 @@
 {
 	"enable": true,
 	"hidden": true,
-	"category": "compatibility",
+	"section": "compatibility",
 	"description": "<span id=\"Gadget-Ding\"></span> 页脚提示库"
 }

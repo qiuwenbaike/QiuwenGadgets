@@ -2,7 +2,7 @@
 	"enable": true,
 	"default": true,
 	"actions": ["edit", "submit"],
-	"category": "edit",
+	"section": "edit",
 	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-Edittools-refToolbar\"></span> 编辑工具栏扩展：参考文献引用",
 	"dependencies": ["mediawiki.util", "user.options"],
 	"rights": ["edit"]
