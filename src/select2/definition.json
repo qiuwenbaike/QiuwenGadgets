@@ -2,5 +2,5 @@
 	"enable": true,
 	"hidden": true,
 	"section": "compatibility",
-	"description": "<span id=\"Gadget-select2\"></span> Select2.js"
+	"description": "<span id=\"Gadget-select2\"></span> [https://github.com/select2/select2/ Select2.js]"
 }
