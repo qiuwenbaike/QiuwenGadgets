@@ -13,6 +13,7 @@ export const isSpecialPage: boolean = [
 export const autoLink = (): void => {
 	/* Variables */
 	let isActivateHTML = false;
+	// eslint-disable-next-line camelcase
 	const wgAction: MediaWikiConfigMap_WgAction = mw.config.get('wgAction');
 	const isDiffAction: boolean = location.href.includes('diff=');
 	// It says if I'm in a diff page

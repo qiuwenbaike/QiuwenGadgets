@@ -11,7 +11,7 @@
 	Twinkle.config.watchlistEnums = {
 		yes: wgULS('永久加入到监视列表', '永久加入到監視清單'),
 		no: wgULS('不加入到监视列表', '不加入到監視清單'),
-		'default': wgULS('遵守站点设置', '遵守站點設定'),
+		default: wgULS('遵守站点设置', '遵守站點設定'),
 		'1 week': wgULS('加入到监视列表1周', '加入到監視清單1週'),
 		'1 month': wgULS('加入到监视列表1个月', '加入到監視清單1個月'),
 		'3 months': wgULS('加入到监视列表3个月', '加入到監視清單3個月'),
@@ -169,7 +169,7 @@
 			'r2',
 		],
 		xfdCriteria: {
-			'delete': wgULS('删除', '刪除'),
+			delete: wgULS('删除', '刪除'),
 			merge: wgULS('合并', '合併'),
 			fwdcsd: wgULS('转交自快速删除候选', '轉交自快速刪除候選'),
 			fame: wgULS('批量关注度提删', '批次關注度提刪'),
@@ -989,7 +989,7 @@
 					),
 					type: 'enum',
 					enumValues: {
-						'delete': wgULS('删除', '刪除'),
+						delete: wgULS('删除', '刪除'),
 						same: wgULS('相同于上次选择', '相同於上次選擇'),
 					},
 				},

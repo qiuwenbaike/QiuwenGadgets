@@ -850,7 +850,7 @@ export const catALot = (): void => {
 			const defaults = [
 				{
 					name: 'watchlist',
-					'default': 'preferences',
+					default: 'preferences',
 					label_i18n: 'watchlistpref',
 					select_i18n: {
 						watch_pref: 'preferences',
@@ -861,23 +861,23 @@ export const catALot = (): void => {
 				},
 				{
 					name: 'minor',
-					'default': false,
+					default: false,
 					label_i18n: 'minorpref',
 				},
 				{
 					name: 'editpages',
-					'default': true,
+					default: true,
 					label_i18n: 'editpagespref',
 					forcerestart: true,
 				},
 				{
 					name: 'docleanup',
-					'default': false,
+					default: false,
 					label_i18n: 'docleanuppref',
 				},
 				{
 					name: 'subcatcount',
-					'default': 50,
+					default: 50,
 					min: 5,
 					max: 500,
 					label_i18n: 'subcatcountpref',

@@ -61,7 +61,7 @@ const banPageMain = (): void => {
 			api.create(pageName, {summary}, text)
 				.then(refreshPage)
 				.catch((error: never): void => {
-					console.error(`[BanPage] Ajax error:`, error);
+					console.error('[BanPage] Ajax error:', error);
 					ding(getMessage('Network error'), false, 'warning');
 				});
 		});

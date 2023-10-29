@@ -1451,7 +1451,7 @@
 									);
 									let notifytext;
 									notifytext = `\n{{subst:db-notice|target=${Morebits.pageNameNorm}`;
-									notifytext += `|nowelcome=yes'}}--~~~~`;
+									notifytext += "|nowelcome=yes'}}--~~~~";
 									let editsummary = '通知：';
 									if (params.normalizeds.includes('g3')) {
 										editsummary += '一攻击性页面';

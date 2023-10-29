@@ -1,4 +1,4 @@
-import {AI_assisted} from './ai-assisted';
+import {AiAssisted} from './ai-assisted';
 import {antiConv} from './anti-conv';
 import {cancelAutoSummary} from './cancel-auto-summary';
 import {disableTitle} from './disable-title';
@@ -35,5 +35,5 @@ import {forcePreview} from './force-preview';
 	// 检测客户端繁简转换
 	$(antiConv);
 	// AI辅助编辑特殊声明
-	$(AI_assisted);
+	$(AiAssisted);
 })();

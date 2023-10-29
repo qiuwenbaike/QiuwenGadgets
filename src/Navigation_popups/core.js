@@ -787,12 +787,12 @@ export const popups = () => {
 			str +=
 				`<br>if(talk){${editOldidStr}|<<new|shortcut=+>>` +
 				`*${historystr}*${watchstr}*` +
-				`<b><<article|shortcut=a>></b>|<<editArticle|edit>>` +
+				'<b><<article|shortcut=a>></b>|<<editArticle|edit>>' +
 				`}else{${
 					// not a talk page
 					editOldidStr
 				}*${historystr}*${watchstr}*` +
-				`<b><<talk|shortcut=t>></b>|<<editTalk|edit>>|<<newTalk|shortcut=+|new>>}`;
+				'<b><<talk|shortcut=t>></b>|<<editTalk|edit>>|<<newTalk|shortcut=+|new>>}';
 			// misc links
 			str += '<br><<whatLinksHere|shortcut=l>>*<<relatedChanges|shortcut=r>>';
 			str += 'if(admin){<br>}else{*}<<move|shortcut=m>>';
@@ -813,9 +813,9 @@ export const popups = () => {
 			const watch = '<<unwatch|unwatchShort>>|<<watch|shortcut=w|watchThingy>>';
 			const move = '<<move|shortcut=m|move>>';
 			return navlinkStringToHTML(
-				`if(talk){` +
+				'if(talk){' +
 					`<<edit|shortcut=e>>|<<new|shortcut=+|+>>*${hist}*` +
-					`<<article|shortcut=a>>|<<editArticle|edit>>` +
+					'<<article|shortcut=a>>|<<editArticle|edit>>' +
 					`*${watch}*${move}}else{<<edit|shortcut=e>>*${hist}*<<talk|shortcut=t|>>|<<editTalk|edit>>|<<newTalk|shortcut=+|new>>` +
 					`*${watch}*${move}}<br>`,
 				x.article,
@@ -940,9 +940,9 @@ export const popups = () => {
 			}
 			s.push(
 				`<hr>${watch}${protectDelete}`,
-				`<hr>` +
-					`if(talk){<<article|shortcut=a|view article>><<editArticle|edit article>>}` +
-					`else{<<talk|shortcut=t|talk page>><<editTalk|edit talk>>` +
+				'<hr>' +
+					'if(talk){<<article|shortcut=a|view article>><<editArticle|edit article>>}' +
+					'else{<<talk|shortcut=t|talk page>><<editTalk|edit talk>>' +
 					`<<newTalk|shortcut=+|new topic>>}</menu>${enddiv}`
 			);
 			// user menu starts here
@@ -4273,7 +4273,7 @@ export const popups = () => {
 				html.push(
 					`<tr class="popup_history_row_${i % 2 ? 'odd' : 'even'}">`,
 					`<td>${makeFirstColumnLinks(element)}</td>`,
-					`<td>` +
+					'<td>' +
 						`<a href="${pg.wiki.titlebase}${new Title(curart).urlString()}&oldid=${
 							element.revid
 						}">${thisTime}</a></td>`
@@ -4504,7 +4504,7 @@ export const popups = () => {
 					const encart = encodeURIComponent(`File:${art.stripNamespace()}`);
 					const shared_url =
 						`${pg.wiki.apicommonsbase}?format=json&formatversion=2` +
-						`&callback=pg.fn.APIsharedImagePagePreviewHTML` +
+						'&callback=pg.fn.APIsharedImagePagePreviewHTML' +
 						`&requestid=${navpop.idNumber}&action=query&prop=revisions&rvprop=content&titles=${encart}`;
 					ret = `${ret}<hr>${popupString('Image from Commons')}: <a href="${
 						pg.wiki.commonsbase
@@ -6030,10 +6030,10 @@ export const popups = () => {
 			//														$4 = 120 as in 120px
 			pg.re.image = new RegExp(
 				`(^|\\[\\[)${im}: *([^|\\]]*[^|\\] ])` +
-					`([^0-9\\]]*([0-9]+) *px)?|(?:\\n *[|]?|[|]) *` +
+					'([^0-9\\]]*([0-9]+) *px)?|(?:\\n *[|]?|[|]) *' +
 					`(${getValueOf('popupImageVarsRegexp')})` +
 					` *= *(?:\\[\\[ *)?(?:${im}:)?` +
-					`([^|]*?)(?:\\]\\])? *[|]? *\\n`,
+					'([^|]*?)(?:\\]\\])? *[|]? *\\n',
 				'img'
 			);
 			pg.re.imageBracketCount = 6;
@@ -6147,12 +6147,12 @@ export const popups = () => {
 			str +=
 				`<br>if(talk){${editOldidStr}|<<new|shortcut=+>>` +
 				`*${historystr}*${watchstr}*` +
-				`<b><<article|shortcut=a>></b>|<<editArticle|edit>>` +
+				'<b><<article|shortcut=a>></b>|<<editArticle|edit>>' +
 				`}else{${
 					// not a talk page
 					editOldidStr
 				}*${historystr}*${watchstr}*` +
-				`<b><<talk|shortcut=t>></b>|<<editTalk|edit>>|<<newTalk|shortcut=+|new>>}`;
+				'<b><<talk|shortcut=t>></b>|<<editTalk|edit>>|<<newTalk|shortcut=+|new>>}';
 			// misc links
 			str += '<br><<whatLinksHere|shortcut=l>>*<<relatedChanges|shortcut=r>>*<<move|shortcut=m>>';
 			// admin links
@@ -7965,7 +7965,7 @@ export const popups = () => {
 			'the revision prior to revision %s of %s': 'the revision prior to revision %s of %s',
 			'Toggle image size': 'Click to toggle image size',
 			del: 'del',
-			'delete': 'delete',
+			delete: 'delete',
 			deleteHint: 'Delete %s',
 			undeleteShort: 'un',
 			UndeleteHint: 'Show the deletion history for %s',
@@ -7982,7 +7982,7 @@ export const popups = () => {
 			'edit article': 'edit article',
 			editHint: 'Change the content of %s',
 			'edit talk': 'edit talk',
-			'new': 'new',
+			new: 'new',
 			'new topic': 'new topic',
 			newSectionHint: 'Start a new section on %s',
 			'null edit': 'null edit',
