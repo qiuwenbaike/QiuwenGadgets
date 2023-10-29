@@ -2,7 +2,7 @@
 	"enable": true,
 	"actions": ["view"],
 	"section": "edit",
-	"description": "<span id=\"Gadget-ToolsRedirect-courtesy-and-art-names\"></span> ToolsRedirect选项：自动为中国人物字号补全姓氏并作为重定向候选 <small>必须启用[[#Gadget-ToolsRedirect|ToolsRedirect]]</small>",
+	"description": "<span id=\"Gadget-ToolsRedirect-courtesy-and-art-names\"></span> ToolsRedirect选项：自动为中国人物字号补全姓氏并作为重定向候选 <small>必须启用ToolsRedirect</small>",
 	"rights": ["edit"],
 	"dependencies": ["user.options"]
 }
