@@ -63,7 +63,7 @@ export const popupStrings = (() => {
 		'Toggle image size': window.wgULS('点击切换图片大小', '點擊切換圖片大小'),
 		del: window.wgULS('删除', '删除'),
 		// /// delete, protect, move
-		'delete': window.wgULS('删除', '删除'),
+		delete: window.wgULS('删除', '删除'),
 		deleteHint: window.wgULS('删除 %s', '删除 %s'),
 		undeleteShort: window.wgULS('恢复', '恢復'),
 		UndeleteHint: window.wgULS('恢复 %s', '恢復 %s'),
@@ -79,7 +79,7 @@ export const popupStrings = (() => {
 		'edit article': window.wgULS('编辑条目', '編輯條目'),
 		editHint: window.wgULS('修改 %s 的内容', '修改 %s 的內容'),
 		'edit talk': window.wgULS('编辑讨论页', '編輯對話頁'),
-		'new': window.wgULS('新', '新'),
+		new: window.wgULS('新', '新'),
 		'new topic': window.wgULS('新话题', '新話題'),
 		newSectionHint: window.wgULS('在 %s 增加新的讨论话题', '在 %s 增加新的討論話題'),
 		'null edit': window.wgULS('空编辑', '空編輯'),
@@ -316,6 +316,7 @@ export const popupStrings = (() => {
 		'Invalid user': window.wgULS('非法用户名', '非法使用者名稱'),
 		diff: window.wgULS('差异', '差異'),
 		' to ': '至',
+
 		autoedit_version: 'np20140416',
 		PrefixIndexHint: window.wgULS('显示用户%s的子页面', '顯示使用者%s的子頁面'),
 		nullEditSummary: window.wgULS('进行一次零编辑', '進行一次零編輯'),

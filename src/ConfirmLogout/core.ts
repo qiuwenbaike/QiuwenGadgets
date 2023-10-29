@@ -43,7 +43,7 @@ export const confirmLogout = (): void => {
 						location.reload();
 					})
 					.catch((error: never): void => {
-						console.error(`[ConfirmLogout] Ajax error:`, error);
+						console.error('[ConfirmLogout] Ajax error:', error);
 						ding(getMessage('Network error'), false, 'warning');
 					});
 			});

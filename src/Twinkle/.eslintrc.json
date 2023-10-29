@@ -1,5 +1,6 @@
 {
 	"rules": {
+		"camelcase": "off",
 		"@typescript-eslint/no-this-alias": [
 			"error",
 			{

@@ -25,7 +25,7 @@ export const purgePageCache = (): void => {
 				location.reload();
 			})
 			.catch((error: never): void => {
-				console.error(`[PurgePageCache] Ajax error:`, error);
+				console.error('[PurgePageCache] Ajax error:', error);
 				ding(getMessage('Failed'), false, 'warning');
 			});
 	};

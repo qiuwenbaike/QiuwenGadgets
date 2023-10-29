@@ -169,7 +169,7 @@ export const siteCommonJS = (): void => {
 				return;
 			}
 			const popup = new OO.ui.PopupWidget({
-				$content: $(`<p>`).text(elementTitle),
+				$content: $('<p>').text(elementTitle),
 				padded: true,
 				anchor: true,
 				head: true,

@@ -1,6 +1,6 @@
 import {getMessage} from './i18n';
 
-export const AI_assisted = (): void => {
+export const AiAssisted = (): void => {
 	let isInit = false;
 	const statement = (tagName: string, labelName: string) => {
 		if (isInit) {

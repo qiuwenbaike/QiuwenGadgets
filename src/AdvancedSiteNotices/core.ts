@@ -196,6 +196,6 @@ export const advancedSiteNotices = (): void => {
 			});
 		})
 		.catch((error: never): void => {
-			console.error(`[AdvancedSiteNotices] Ajax error:`, error);
+			console.error('[AdvancedSiteNotices] Ajax error:', error);
 		});
 };

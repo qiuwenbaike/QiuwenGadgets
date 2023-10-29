@@ -2,7 +2,7 @@ import {getMessage} from './i18n';
 
 export const QuickPatrol = () => {
 	$('.not-patrolled').each((index, element): void => {
-		const $patrolBtn = $(`<a>`)
+		const $patrolBtn = $('<a>')
 			.addClass('patrolbtn')
 			.text(getMessage('Patrol'))
 			.attr({

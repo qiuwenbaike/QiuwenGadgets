@@ -64,12 +64,12 @@ const quickImport = async (): Promise<void> => {
 		for (const [_pageid, pageinfo] of Object.entries(data['query'].pages)) {
 			if ((pageinfo as Record<string, never>)['missing'] === '') {
 				await importPage(pageName);
-				const params_2: ApiQueryParams = {
+				const params2: ApiQueryParams = {
 					action: 'query',
 					prop: 'info',
 					titles: pageName,
 				};
-				const result = await api.get(params_2);
+				const result = await api.get(params2);
 				for (const pageItem of Object.entries(result['query'].pages)) {
 					const [_id, info] = pageItem;
 					if ((info as Record<string, never>)['redirect'] === '') {
@@ -78,12 +78,12 @@ const quickImport = async (): Promise<void> => {
 					uploadFile();
 				}
 			} else {
-				const params_3: ApiQueryParams = {
+				const params3: ApiQueryParams = {
 					action: 'query',
 					prop: 'info',
 					titles: pageName,
 				};
-				const result = await api.get(params_3);
+				const result = await api.get(params3);
 				for (const pageItem of Object.entries(result['query'].pages)) {
 					const [_id, info] = pageItem;
 					if ((info as Record<string, never>)['redirect'] === '') {

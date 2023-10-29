@@ -842,7 +842,7 @@
 				reason = Twinkle.arv.callback.getReportWikitext(form);
 				Morebits.simpleWindow.setButtonsEnabled(false);
 				Morebits.status.init(form);
-				const reportpage = `Qiuwen_talk:管理员告示板`;
+				const reportpage = 'Qiuwen_talk:管理员告示板';
 				Morebits.wiki.actionCompleted.redirect = reportpage;
 				Morebits.wiki.actionCompleted.notice = wgULS('报告完成', '報告完成');
 				const spiPage = new Morebits.wiki.page(reportpage, wgULS('抓取讨论页面', '抓取討論頁面'));

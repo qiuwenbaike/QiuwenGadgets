@@ -1,5 +1,6 @@
 {
 	"rules": {
+		"camelcase": "off",
 		"mediawiki/msg-doc": "off",
 		"no-new": "off",
 		"no-jquery/no-animate": "off",

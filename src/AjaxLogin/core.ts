@@ -198,7 +198,7 @@ const ajaxLogin = (): void => {
 				}
 			}
 		} catch (error: unknown) {
-			console.error(`[AjaxLogin] Ajax error:`, error);
+			console.error('[AjaxLogin] Ajax error:', error);
 			ding(getMessage('Network error'), false, 'warning');
 		}
 	};
