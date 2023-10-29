@@ -1,3 +1,3 @@
-import {accessKeyCheatsheet} from './core';
+import {accessKeyCheatsheet} from './modules/core';
 
 $(accessKeyCheatsheet);
