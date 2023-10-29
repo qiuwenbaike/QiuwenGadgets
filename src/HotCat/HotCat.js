@@ -3076,8 +3076,8 @@ import {hotCatMessages} from './HotCat-messages';
 					let do_submit = true;
 					if (oldSubmit) {
 						if (typeof oldSubmit === 'string') {
-							// eslint-disable-next-line security/detect-eval-with-expression, no-eval
-							do_submit = eval(oldSubmit);
+							// eslint-disable-next-line no-eval
+							do_submit = window.eval(oldSubmit);
 						} else if (oldSubmit instanceof Function) {
 							do_submit = oldSubmit.apply(form, [oldSubmit, ...args]);
 						}
