@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "appear",
+	"section": "appear",
 	"description": "<span id=\"Gadget-FoldRef\"></span> 当参考来源列表的高度大于0.9倍屏幕高度时，将列表折叠",
 	"dependencies": ["ext.gadget.i18n"]
 }

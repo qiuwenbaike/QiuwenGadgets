@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "usergroup",
+	"section": "usergroup",
 	"description": "<span id=\"Gadget-GroupPatrollerCSS\"></span> 巡查员样式表",
 	"default": true,
 	"rights": ["patrol"],

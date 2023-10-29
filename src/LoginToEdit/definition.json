@@ -3,6 +3,6 @@
 	"default": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-LoginToEdit\"></span> 提示“登录以贡献”",
 	"hidden": true,
-	"category": "appear",
+	"section": "appear",
 	"dependencies": ["ext.gadget.i18n", "mediawiki.util", "oojs-ui-windows"]
 }

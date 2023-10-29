@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "appear",
+	"section": "appear",
 	"description": "<span id=\"Gadget-FloatTOC\"></span> 浮动目录",
 	"dependencies": [
 		"ext.gadget.i18n",

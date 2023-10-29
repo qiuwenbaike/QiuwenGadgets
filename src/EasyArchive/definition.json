@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "edit",
+	"section": "edit",
 	"description": "<span id=\"Gadget-EasyArchive\"></span> [[Help:Easy Archive|快速存档]] <small>一键存档讨论页</small>",
 	"dependencies": ["ext.gadget.Ding", "ext.gadget.i18n"],
 	"rights": ["skipcaptcha"]

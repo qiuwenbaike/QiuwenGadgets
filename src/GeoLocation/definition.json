@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "compatibility",
+	"section": "compatibility",
 	"description": "<span id=\"Gadget-GeoLocation\"></span> 自动更新自己的IP地理位置信息",
 	"dependencies": ["ext.gadget.Geo", "ext.gadget.GeoLocationName", "ext.gadget.i18n", "mediawiki.api"]
 }

@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "edit",
+	"section": "edit",
 	"description": "<span id=\"Gadget-Wikiplus\"></span> [[Help:Wikiplus|Wikiplus]] <small>面向熟练用户的Wikitext快速编辑工具</small>",
 	"dependencies": ["mediawiki.storage", "mediawiki.Title", "mediawiki.util", "user.options"],
 	"rights": ["autoconfirmed"]

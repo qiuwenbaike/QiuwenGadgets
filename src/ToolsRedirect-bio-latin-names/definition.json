@@ -1,7 +1,7 @@
 {
 	"enable": true,
 	"actions": ["view"],
-	"category": "edit",
+	"section": "edit",
 	"description": "<span id=\"Gadget-ToolsRedirect-bio-latin-names\"></span> ToolsRedirect选项：获取生物学学名为重定向候选 <small>必须启用[[#Gadget-ToolsRedirect|ToolsRedirect]]</small>",
 	"rights": ["edit"],
 	"dependencies": ["user.options"]

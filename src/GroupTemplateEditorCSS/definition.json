@@ -2,7 +2,7 @@
 	"enable": true,
 	"default": true,
 	"hidden": true,
-	"category": "usergroup",
+	"section": "usergroup",
 	"description": "<span id=\"Gadget-GroupTemplateEditorCSS\"></span> 模板编辑者样式表",
 	"rights": ["templateeditor"]
 }

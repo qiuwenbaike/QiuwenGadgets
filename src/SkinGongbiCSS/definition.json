@@ -2,7 +2,7 @@
 	"enable": true,
 	"default": true,
 	"hidden": true,
-	"category": "skin",
+	"section": "skin",
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-SkinGongbiCSS\"></span> 为Gongbi皮肤提供补充样式",
 	"skins": ["gongbi"]
 }

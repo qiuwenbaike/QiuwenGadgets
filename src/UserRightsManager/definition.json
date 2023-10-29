@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "sysop",
+	"section": "sysop",
 	"description": "<span id=\"Gadget-UserRightsManager\"></span> 用户权限管理器 <small>用于[[Qiuwen:权限申请|权限申请]]页面</small>",
 	"dependencies": [
 		"ext.gadget.i18n",

@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"category": "browser",
+	"section": "browser",
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-AjaxLogin\"></span> AjaxLogin <small>通过Ajax技术，直接在首页弹出登录界面，不再跳转至登录页</small>",
 	"default": true,
 	"dependencies": [

@@ -1,5 +1,5 @@
 {
 	"enable": true,
-	"category": "edit",
+	"section": "edit",
 	"description": "<span id=\"Gadget-WordCount\"></span> 字数统计功能，方便计算CJK字数"
 }

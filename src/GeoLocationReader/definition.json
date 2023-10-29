@@ -2,7 +2,7 @@
 	"enable": true,
 	"default": true,
 	"hidden": true,
-	"category": "compatibility",
+	"section": "compatibility",
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-GeoLocationReader\"></span> 自动读取用户的IP地理位置信息",
 	"dependencies": [
 		"ext.gadget.Geo",

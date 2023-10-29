@@ -2,7 +2,7 @@
 	"enable": true,
 	"default": true,
 	"hidden": true,
-	"category": "usergroup",
+	"section": "usergroup",
 	"description": "<span id=\"Gadget-GroupInterfaceAdminCSS\"></span> 界面管理员样式表",
 	"rights": ["editsitecss"]
 }

@@ -2,7 +2,7 @@
 	"enable": true,
 	"default": true,
 	"hidden": true,
-	"category": "usergroup",
+	"section": "usergroup",
 	"description": "<span id=\"Gadget-GroupSysopCSS\"></span> 管理员样式表",
 	"rights": ["editprotected"]
 }

@@ -2,7 +2,7 @@
 	"enable": true,
 	"default": true,
 	"hidden": true,
-	"category": "usergroup",
+	"section": "usergroup",
 	"description": "<span id=\"Gadget-GroupConfirmedCSS\"></span> 确认用户样式表",
 	"rights": ["autoconfirmed"]
 }

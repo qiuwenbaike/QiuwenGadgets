@@ -1,5 +1,5 @@
 {
 	"enable": true,
-	"category": "appear",
+	"section": "appear",
 	"description": "<span id=\"Gadget-TextSpacing\"></span> 中西文混排时，自动调整字间距"
 }
