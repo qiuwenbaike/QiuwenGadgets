@@ -456,9 +456,9 @@ import {hotCatMessages} from './HotCat-messages';
 		if (once) {
 			return cat_regex.exec(wikitext);
 		}
-		const copiedtext = wikitext
-			.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks)
-			.replace(/<nowiki>(\s|\S)*?<\/nowiki>/g, replaceByBlanks);
+		// eslint-disable-next-line no-useless-concat
+		const nowikiRegex = new RegExp('<no' + 'wiki>(\\s|\\S)*?</no' + 'wiki>', 'g');
+		const copiedtext = wikitext.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks).replace(nowikiRegex, replaceByBlanks);
 		const result = [];
 		let curr_match = null;
 		while ((curr_match = cat_regex.exec(copiedtext)) !== null) {
@@ -472,9 +472,11 @@ import {hotCatMessages} from './HotCat-messages';
 	let interlanguageRE = null;
 	const change_category = (wikitext, toRemove, toAdd, key, is_hidden) => {
 		const find_insertionpoint = (_wikitext) => {
+			// eslint-disable-next-line no-useless-concat
+			const nowikiRegex = new RegExp('<no' + 'wiki>(\\s|\\S)*?<\\/no' + 'wiki>', 'g');
 			const copiedtext = _wikitext
 				.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks)
-				.replace(/<nowiki>(\s|\S)*?<\/nowiki>/g, replaceByBlanks);
+				.replace(nowikiRegex, replaceByBlanks);
 			// Search in copiedtext to avoid that we insert inside an HTML comment or a nowiki "element".
 			let index = -1;
 			findCatsRE.lastIndex = 0;
@@ -3097,9 +3099,9 @@ import {hotCatMessages} from './HotCat-messages';
 						const key = editor.currentKey;
 						const new_cat = `[[${HC.category_canonical}:${t}${key ? `|${key}` : ''}]]`;
 						// Only add if not already present
-						const _cleanedText = eb.value
-							.replace(/<!--(\s|\S)*?-->/g, '')
-							.replace(/<nowiki>(\s|\S)*?<\/nowiki>/g, '');
+						// eslint-disable-next-line no-useless-concat
+						const nowikiRegex = new RegExp('<no' + 'wiki>(\\s|\\S)*?<\\/no' + 'wiki>', 'g');
+						const _cleanedText = eb.value.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex);
 						if (!find_category(_cleanedText, t, true)) {
 							eb.value += `\n${new_cat}`;
 							addedOne = true;
@@ -3135,7 +3137,9 @@ import {hotCatMessages} from './HotCat-messages';
 			return result;
 		}
 		if (cleanedText === null) {
-			cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, '').replace(/<nowiki>(\s|\S)*?<\/nowiki>/g, '');
+			// eslint-disable-next-line no-useless-concat
+			const nowikiRegex = new RegExp('<no' + 'wiki>(\\s|\\S)*?<\\/no' + 'wiki>', 'g');
+			cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
 		}
 		result.match = find_category(cleanedText, catTitle, true);
 		return result;

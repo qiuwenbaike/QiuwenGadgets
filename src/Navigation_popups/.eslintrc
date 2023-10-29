@@ -21,6 +21,7 @@
 		"no-shadow": "off",
 		"no-unused-vars": "off",
 		"no-use-before-define": "off",
+		"no-useless-concat": "off",
 		"unicorn/prefer-string-slice": "off"
 	},
 	"globals": {

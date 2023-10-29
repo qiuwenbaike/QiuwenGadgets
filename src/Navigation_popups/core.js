@@ -1518,7 +1518,7 @@ export const popups = () => {
 		 *
 		 * To do:
 		 * - Better support for math tags
-		 * - Full support for <nowiki>
+		 * - Full support for nowiki tag
 		 * - Parser-based (as opposed to RegExp-based) inline wikicode handling (make it one-pass and
 		 *   bullet-proof)
 		 * - Support for templates (through AJAX)
@@ -1874,14 +1874,14 @@ export const popups = () => {
 				let close;
 				let subloop;
 				let html = '';
-				while ((start = str.indexOf('<nowiki>', substart)) !== -1) {
+				while ((start = str.indexOf('<no' + 'wiki>', substart)) !== -1) {
 					html += parse_inline_wiki(str.substring(lastend, start));
 					start += 8;
 					substart = start;
 					subloop = true;
 					do {
-						open = str.indexOf('<nowiki>', substart);
-						close = str.indexOf('</nowiki>', substart);
+						open = str.indexOf('<no' + 'wiki>', substart);
+						close = str.indexOf('</no' + 'wiki>', substart);
 						if (close <= open || open === -1) {
 							if (close === -1) {
 								return html + html_entities(str.slice(start));
@@ -3781,15 +3781,15 @@ export const popups = () => {
 				this.kill(/<ref\b[^/>]*?>/i, /<\/ref>/i);
 				// let's also delete entire lines starting with <. it's worth a try.
 				this.data = this.data.replace(/(^|\n) *<.*/g, '\n');
-				// and those pesky html tags, but not <nowiki> or <blockquote>
+				// and those pesky html tags, but not nowiki or blockquote tags
 				const splitted = this.data.parenSplit(/(<[\W\w]*?(?:>|$|(?=<)))/);
 				const len = splitted.length;
 				for (let i = 1; i < len; i += 2) {
 					switch (splitted[i]) {
-						case '<nowiki>':
-						case '</nowiki>':
-						case '<blockquote>':
-						case '</blockquote>':
+						case '<no' + 'wiki>':
+						case '</no' + 'wiki>':
+						case '<block' + 'quote>':
+						case '</block' + 'quote>':
 							break;
 						default:
 							splitted[i] = '';
