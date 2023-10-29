@@ -1855,14 +1855,12 @@
 				}
 			});
 		});
-		let text = '//<no';
-		text += `wiki>\n${wgULS(
+		let text = `// <nowiki>\n${wgULS(
 			`// twinkleoptions.js：用户Twinkle参数设置文件\n//\n// 注：修改您的参数设置最简单的办法是使用\n// Twinkle参数设置面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 这个文件是自动生成的，您所做的任何修改（除了\n// 以一种合法的JavaScript的方式来修改这些属性值）会\n// 在下一次您点击“保存”时被覆盖。\n// 修改此文件时，请记得使用合法的JavaScript。\n\nwindow.Twinkle.prefs = `,
 			`// twinkleoptions.js：使用者Twinkle參數設定檔案\n//\n// 註：修改您的參數設定最簡單的辦法是使用\n// Twinkle參數設定面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 這個檔案是自動產生的，您所做的任何修改（除了\n// 以一種合法的JavaScript的方式來修改這些屬性值）會\n// 在下一次您點擊「儲存」時被覆蓋。\n// 修改此檔案時，請記得使用合法的JavaScript。\n\nwindow.Twinkle.prefs = `
 		)}`;
 		text += JSON.stringify(newConfig, null, 2);
-		text += `;\n\n${wgULS('// twinkleoptions.js到此为止\n', '// twinkleoptions.js到此為止\n')}// </no`;
-		text += 'wiki>';
+		text += `;\n\n${wgULS('// twinkleoptions.js到此为止\n', '// twinkleoptions.js到此為止\n')}// </nowiki>`;
 		pageobj.setPageText(text);
 		pageobj.setEditSummary(
 			wgULS('保存Twinkle参数设置：来自[[', '儲存Twinkle偏好設定：來自[[') +
