@@ -1,4 +1,4 @@
-$(function switcherJS() {
+const switcherJS = () => {
 	$.each(document.querySelectorAll('.switcher-container'), (index, container) => {
 		let selected: unknown[] | Element;
 		let $radio: JQuery<Element> | undefined;
@@ -52,4 +52,6 @@ $(function switcherJS() {
 			$radio.remove();
 		}
 	});
-});
+};
+
+$(switcherJS);
