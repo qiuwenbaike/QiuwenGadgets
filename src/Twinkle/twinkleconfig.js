@@ -1855,10 +1855,11 @@
 				}
 			});
 		});
+		const wiki = 'wiki>';
 		let text =
 			'// ' +
 			'<no' +
-			'wiki>' +
+			wiki +
 			'\n\n' +
 			'// ' +
 			wgULS('twinkleoptions.js：用户Twinkle参数设置文件', 'twinkleoptions.js：使用者Twinkle參數設定檔案') +
@@ -1898,7 +1899,7 @@
 			'\n\n' +
 			'// ' +
 			'</no' +
-			'wiki>';
+			wiki;
 		pageobj.setPageText(text);
 		pageobj.setEditSummary(
 			wgULS('保存Twinkle参数设置：来自[[', '儲存Twinkle偏好設定：來自[[') +
