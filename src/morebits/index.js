@@ -1419,7 +1419,8 @@
 			unbinder.content = unbinder.content.replace(/\|/g, '{{subst:!}}');
 			reason = unbinder.rebind();
 			if (addSig) {
-				const sig = '~~' + '~~';
+				let sig = '~~';
+				sig += '~~';
 				const sigIndex = reason.lastIndexOf(sig);
 				if (sigIndex === -1 || sigIndex !== reason.length - sig.length) {
 					reason += ` ${sig}`;
