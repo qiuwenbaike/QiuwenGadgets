@@ -1,5 +1,5 @@
-import {IGNORE_LIST, WEBMASTER_LIST} from './constant';
-import {getMessage} from './i18n';
+import {IGNORE_LIST, WEBMASTER_LIST} from './module/constant';
+import {getMessage} from './module/i18n';
 
 (async function geoLocation(): Promise<void> {
 	const api: mw.Api = new mw.Api({

@@ -1,4 +1,4 @@
-import {ding} from '../util';
+import {ding} from '../../util';
 import {getMessage} from './i18n';
 
 export const editConflict = (): void => {
