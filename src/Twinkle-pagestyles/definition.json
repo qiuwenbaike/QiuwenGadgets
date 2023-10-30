@@ -1,7 +1,7 @@
 {
 	"enable": true,
-	"hidden": true,
-	"section": "sysop",
 	"description": "<span id=\"Gadget-Twinkle-pagestyles\"></span> Twinkle页面样式",
+	"section": "sysop",
+	"hidden": true,
 	"skins": ["vector", "vector-2022"]
 }

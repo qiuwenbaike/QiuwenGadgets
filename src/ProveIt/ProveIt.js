@@ -5,8 +5,8 @@
  * This script sets the configuration options specific to this wiki
  * and loads the gadget code from Wikimedia Commons
  */
-import {ProveIt} from './module/core';
-import {messages} from './module/messages';
+import {ProveIt} from './modules/core';
+import {messages} from './modules/messages';
 
 const loadProveIt = () => {
 	messages();

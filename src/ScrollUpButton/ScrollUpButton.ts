@@ -1,3 +1,3 @@
-import {scrollUpButton} from './module/core';
+import {scrollUpButton} from './modules/core';
 
 $(scrollUpButton);

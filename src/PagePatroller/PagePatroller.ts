@@ -1,4 +1,4 @@
-import {pagePatroller} from './module/core';
+import {pagePatroller} from './modules/core';
 
 (() => {
 	if (

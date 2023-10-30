@@ -1,3 +1,3 @@
-import {rollbackSummary} from './module/core';
+import {rollbackSummary} from './modules/core';
 
 $(rollbackSummary);

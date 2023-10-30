@@ -1,4 +1,4 @@
-import {shortURL} from './module/core';
+import {shortURL} from './modules/core';
 
 (() => {
 	if (

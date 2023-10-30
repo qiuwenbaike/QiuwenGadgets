@@ -1,8 +1,8 @@
 {
 	"enable": true,
-	"actions": ["view"],
-	"section": "edit",
 	"description": "<sup><abbr title=\"包含外部资源\">E</abbr></sup><span id=\"Gadget-Wikiplus-highlight\"></span> Wikiplus代码高亮 <small>必须启用Wikiplus</small>",
-	"rights": ["edit"],
-	"dependencies": ["user.options"]
+	"section": "edit",
+	"actions": ["view"],
+	"dependencies": ["user.options"],
+	"rights": ["edit"]
 }

@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"section": "edit",
 	"description": "<sup><abbr title=\"包含外部资源\">E</abbr></sup><span id=\"Gadget-InPageEdit\"></span> [[Help:InPageEdit|InPageEdit]]",
+	"section": "edit",
 	"rights": ["skipcaptcha"]
 }

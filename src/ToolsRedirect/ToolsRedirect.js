@@ -1,9 +1,9 @@
-import {ToolsRedirect} from './module/core';
-import {toolsRedirectMessages} from './module/messages';
+import {ToolsRedirect} from './modules/core';
+import {toolsRedirectMessages} from './modules/messages';
 
-import {toolsRedirect_bio_latin_names} from './module/bio-latin-names';
-import {toolsRedirect_courtesy_and_art_names} from './module/courtesy-and-art-names';
-import {toolsRedirect_opt_bolds} from './module/opt-bolds';
+import {toolsRedirect_bio_latin_names} from './modules/bio-latin-names';
+import {toolsRedirect_courtesy_and_art_names} from './modules/courtesy-and-art-names';
+import {toolsRedirect_opt_bolds} from './modules/opt-bolds';
 
 toolsRedirectMessages();
 ToolsRedirect.init();

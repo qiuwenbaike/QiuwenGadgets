@@ -1,4 +1,4 @@
-import {purgePageCache} from './module/core';
+import {purgePageCache} from './modules/core';
 
 (() => {
 	if (

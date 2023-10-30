@@ -1,7 +1,7 @@
 {
 	"enable": true,
-	"section": "browser",
 	"description": "<span id=\"Gadget-PurgePageCache\"></span> 一键清除页面缓存",
+	"section": "browser",
 	"dependencies": ["ext.gadget.Ding", "ext.gadget.i18n", "mediawiki.api", "mediawiki.util"],
-	"rights": ["purge"]
+	"rights": ["edit"]
 }

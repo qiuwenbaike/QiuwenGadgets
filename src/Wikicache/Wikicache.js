@@ -1,4 +1,4 @@
-import {init} from './module/core';
+import {init} from './modules/core';
 
 if (window.localStorage) {
 	$(init);
