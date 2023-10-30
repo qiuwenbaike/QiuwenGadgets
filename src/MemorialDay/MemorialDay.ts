@@ -1,3 +1,3 @@
-import {memorialDay} from './core';
+import {memorialDay} from './modules/core';
 
 memorialDay();

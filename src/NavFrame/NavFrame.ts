@@ -1,3 +1,3 @@
-import {navFrameLoad} from './core';
+import {navFrameLoad} from './modules/core';
 
 $(navFrameLoad);

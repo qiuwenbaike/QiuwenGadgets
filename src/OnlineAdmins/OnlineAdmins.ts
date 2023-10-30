@@ -1,3 +1,3 @@
-import {onlineAdmins} from './core';
+import {onlineAdmins} from './modules/core';
 
 $(onlineAdmins);

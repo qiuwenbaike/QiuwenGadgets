@@ -1,4 +1,4 @@
-import {loginToEdit} from './core';
+import {loginToEdit} from './modules/core';
 
 (() => {
 	if (mw.config.get('wgUserName')) {

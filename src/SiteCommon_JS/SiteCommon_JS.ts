@@ -1,5 +1,5 @@
-import {core} from './script/core';
-import {deprecatedFunctions} from './script/DeprecatedFunctions';
+import {core} from './modules/core';
+import {deprecatedFunctions} from './modules/DeprecatedFunctions';
 
 (function siteCommon(): void {
 	if (window.SiteCommonInstalled) {

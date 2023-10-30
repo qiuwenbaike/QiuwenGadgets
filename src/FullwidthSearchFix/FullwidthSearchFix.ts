@@ -1,3 +1,3 @@
-import {fullWidthSearchFix} from './core';
+import {fullWidthSearchFix} from './modules/core';
 
 $(fullWidthSearchFix);
