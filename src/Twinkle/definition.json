@@ -9,5 +9,6 @@
 		"ext.gadget.select2",
 		"mediawiki.api",
 		"mediawiki.language"
-	]
+	],
+	"peers": ["Twinkle-pagestyles"]
 }
