@@ -1,5 +1,5 @@
 import {addSubpageAndLog} from './modules/AddSubpageAndLog';
-import {editIntro} from './modules/EditIntro';
+import {editIntro} from './modules/SmartEditIntro';
 import {fixSummary} from './modules/FixSummary';
 import {linkSearchEditButton} from './modules/LinksearchEditButton';
 import {loadEditFormJS} from './modules/LoadEditFormJs';
@@ -12,7 +12,7 @@ import {smartNewSection} from './modules/SmartNewSection';
 	window.UserJSInstalled = true;
 	/* 加载编辑界面脚本 */
 	$(loadEditFormJS);
-	/* 编辑提示（editintro） */
+	/* 编辑提示（EditIntro） */
 	$(editIntro);
 	/* 修改编辑摘要 */
 	$(fixSummary);
