@@ -1,4 +1,4 @@
-export const edittoolsVector = () => {
+const edittoolsVector = () => {
 	window.customizeToolbar(function () {
 		this.wikiEditor('addToToolbar', {
 			section: 'main',
@@ -190,3 +190,5 @@ export const edittoolsVector = () => {
 		});
 	});
 };
+
+$(edittoolsVector);
