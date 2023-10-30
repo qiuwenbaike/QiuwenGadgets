@@ -1,8 +1,9 @@
+import {SKIN} from './constant';
 import {getMessage} from './i18n';
 
-const processElement = (skin: string, $element: JQuery): void => {
+const processElement = ($element: JQuery): void => {
 	const title = getMessage('Title');
-	switch (skin) {
+	switch (SKIN) {
 		case 'citizen':
 			$element.attr('style', 'font-size:0;gap:0');
 			break;
