@@ -1,8 +1,8 @@
 {
 	"enable": true,
-	"default": true,
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-SkinWriteCSS\"></span> 为Write皮肤提供补充样式和脚本",
 	"section": "skin",
-	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-SkinWriteCSS\"></span> 为Write皮肤提供补充样式",
-	"skins": ["write"],
-	"hidden": true
+	"default": true,
+	"hidden": true,
+	"skins": ["write"]
 }

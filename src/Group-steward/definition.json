@@ -1,8 +1,8 @@
 {
 	"enable": true,
+	"description": "<span id=\"Gadget-Group-steward\"></span> 裁决委员样式表和脚本",
+	"section": "usergroup",
 	"default": true,
 	"hidden": true,
-	"section": "usergroup",
-	"description": "<span id=\"Gadget-Group-steward\"></span> 裁决委员样式表",
 	"rights": ["officialprotected"]
 }
