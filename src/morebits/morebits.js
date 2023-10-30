@@ -1725,7 +1725,6 @@ const morebits = () => {
 		 */
 		rebind() {
 			let content = this.content;
-			content.self = this;
 			for (const current in this.history) {
 				if (Object.hasOwn(this.history, current)) {
 					content = content.replace(current, this.history[current]);
