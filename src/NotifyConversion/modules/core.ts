@@ -1,5 +1,5 @@
 import {GADGET_NAME} from './constant';
-import {ding} from '../util';
+import {ding} from '../../util';
 
 export const notifyConversion = (): void => {
 	const messageHans =

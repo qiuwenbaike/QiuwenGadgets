@@ -1,5 +1,5 @@
-import {GADGET_NAME} from './constant';
-import {notifyConversion} from './core';
+import {GADGET_NAME} from './modules/constant';
+import {notifyConversion} from './modules/core';
 
 if (
 	mw.config.get('wgAction') === 'view' && // 只在浏览页面时显示

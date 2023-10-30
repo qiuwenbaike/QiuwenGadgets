@@ -1,5 +1,5 @@
-import {initDialog} from './core';
-import {pagePermissions} from './constant';
+import {initDialog} from './modules/core';
+import {pagePermissions} from './modules/constant';
 
 (() => {
 	const pageName = mw.config.get('wgPageName');

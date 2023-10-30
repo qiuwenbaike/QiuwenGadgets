@@ -1,4 +1,4 @@
-import {gadgetsDefinition} from './core';
+import {gadgetsDefinition} from './modules/core';
 
 (() => {
 	// Only operate on [[MediaWiki:Gadgets-definition]] when the text is visible.

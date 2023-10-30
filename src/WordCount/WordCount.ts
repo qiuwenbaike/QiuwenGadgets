@@ -1,3 +1,3 @@
-import {wordCountLoad} from './core';
+import {wordCountLoad} from './modules/core';
 
 $(wordCountLoad);

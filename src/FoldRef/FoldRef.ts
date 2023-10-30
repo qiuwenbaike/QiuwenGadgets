@@ -1,4 +1,4 @@
-import {foldRef} from './core';
+import {foldRef} from './modules/core';
 
 (() => {
 	// for article space only
