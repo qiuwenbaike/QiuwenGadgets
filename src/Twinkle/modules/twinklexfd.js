@@ -1,5 +1,5 @@
 /* Twinkle.js - twinkleblock.js */
-(($) => {
+const twinkleblock = () => {
 	/**
 	 * twinklexfd.js: XFD module
 	 * Mode of invocation: Tab ("XFD")
@@ -763,4 +763,5 @@
 		}
 	};
 	Twinkle.addInitCallback(Twinkle.xfd, 'xfd');
-})($);
+};
+export default twinkleblock;

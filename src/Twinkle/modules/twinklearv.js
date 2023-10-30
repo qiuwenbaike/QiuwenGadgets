@@ -1,5 +1,5 @@
 /* Twinkle.js - twinklearv.js */
-(($) => {
+const twinklearv = () => {
 	/**
 	 * twinklearv.js: ARV module
 	 * Mode of invocation: Tab ("ARV")
@@ -909,4 +909,5 @@
 		}
 	};
 	Twinkle.addInitCallback(Twinkle.arv, 'arv');
-})($);
+};
+export default twinklearv;

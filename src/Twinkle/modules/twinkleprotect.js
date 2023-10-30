@@ -1,5 +1,5 @@
 /* Twinkle.js - twinkleprotect.js */
-(($) => {
+const twinkleprotect = () => {
 	/**
 	 * twinkleprotect.js: Protect/RPP module
 	 * Mode of invocation: Tab ("PP"/"RPP")
@@ -1691,4 +1691,5 @@
 		return protectionNode;
 	};
 	Twinkle.addInitCallback(Twinkle.protect, 'protect');
-})($);
+};
+export default twinkleprotect;

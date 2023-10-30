@@ -1,5 +1,5 @@
 /* Twinkle.js - friendlytag.js */
-(($) => {
+const friendlytag = () => {
 	/**
 	 * friendlytag.js: Tag module
 	 * Mode of invocation: Tab ("Tag")
@@ -2228,4 +2228,5 @@
 		qiuwen_page.load(Twinkle.tag.callbacks[Twinkle.tag.modeEn]);
 	};
 	Twinkle.addInitCallback(Twinkle.tag, 'tag');
-})($);
+};
+export default friendlytag;

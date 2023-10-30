@@ -1,5 +1,5 @@
 /* Twinkle.js - twinkleclose.js */
-(($) => {
+const twinkleclose = () => {
 	/**
 	 * twinkleclose.js: XFD closing module
 	 * Mode of invocation: Links after section heading
@@ -648,4 +648,5 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.close, 'close');
-})($);
+};
+export default twinkleclose;

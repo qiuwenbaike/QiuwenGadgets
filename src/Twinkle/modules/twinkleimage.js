@@ -1,5 +1,5 @@
 /* Twinkle.js - twinkleimage.js */
-(() => {
+const twinkleimage = () => {
 	/**
 	 * twinkleimage.js: Image CSD module
 	 * Mode of invocation: Tab ("DI")
@@ -363,4 +363,5 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.image, 'image');
-})();
+};
+export default twinkleimage;

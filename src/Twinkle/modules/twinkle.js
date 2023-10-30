@@ -1,5 +1,5 @@
 /* Twinkle.js - twinkle.js */
-((window, document, $) => {
+const twinkle = () => {
 	// Wrap with anonymous function
 	// Check if account is experienced enough to use Twinkle
 	if (!Morebits.userIsInGroup('autoconfirmed') && !Morebits.userIsInGroup('confirmed')) {
@@ -564,4 +564,5 @@
 		link.setAttribute('target', '_blank');
 		$checkbox.next().prepend([link, ' ']);
 	};
-})(window, document, $);
+};
+export default twinkle;

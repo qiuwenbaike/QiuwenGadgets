@@ -1,5 +1,5 @@
 /* Twinkle.js - friendlytalkback.js */
-(($) => {
+const friendlytalkback = () => {
 	/**
 	 * friendlytalkback.js: Talkback module
 	 * Mode of invocation: Tab ("TB")
@@ -438,4 +438,5 @@
 		return [text, title, content];
 	};
 	Twinkle.addInitCallback(Twinkle.talkback, 'talkback');
-})($);
+};
+export default friendlytalkback;
