@@ -1,4 +1,4 @@
-import {processElement} from './modules/core';
+import {processElement} from './modules/processElement';
 
 $(function addSectionPlus(): void {
 	const $wrapper: JQuery = $('#ca-addsection');
