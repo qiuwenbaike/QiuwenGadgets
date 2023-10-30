@@ -1,9 +1,9 @@
-import {addSubpageAndLog} from './modules/AddSubpageAndLog';
-import {editIntro} from './modules/SmartEditIntro';
-import {fixSummary} from './modules/FixSummary';
-import {linkSearchEditButton} from './modules/LinksearchEditButton';
-import {loadEditFormJS} from './modules/LoadEditFormJs';
-import {smartNewSection} from './modules/SmartNewSection';
+import {addSubpageAndLog} from './modules/addSubpageAndLog';
+import {editIntro} from './modules/smartEditIntro';
+import {fixSummary} from './modules/fixSummary';
+import {linkSearchEditButton} from './modules/linkSearchEditButton';
+import {loadEditFormJS} from './modules/loadEditFormJs';
+import {smartNewSection} from './modules/smartNewSection';
 
 (function userJS(): void {
 	if (window.UserJSInstalled) {
