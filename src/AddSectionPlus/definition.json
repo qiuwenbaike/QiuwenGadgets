@@ -1,7 +1,7 @@
 {
 	"enable": true,
-	"section": "edit",
 	"description": "<span id=\"Gadget-AddSectionPlus\"></span> 将“{{int:skin-action-addsection}}”链接文本替换为加号（“+”）",
+	"section": "edit",
 	"dependencies": ["ext.gadget.i18n"],
 	"rights": ["edit"]
 }
