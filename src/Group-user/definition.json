@@ -4,5 +4,6 @@
 	"hidden": true,
 	"section": "usergroup",
 	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-GroupUserCSS\"></span> 注册用户样式表及脚本",
-	"rights": ["edit"]
+	"rights": ["edit"],
+	"dependencies": ["ext.gadget.i18n"]
 }
