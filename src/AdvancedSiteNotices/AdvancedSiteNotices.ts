@@ -1,10 +1,11 @@
 import type {RemoteNotices} from './modules/util/queryApi';
+import {WG_ACTION} from './modules/constant';
 import {loadRemoteNotices} from './modules/loadRemoteNotices';
 import {showNotices} from './modules/showNotice';
 
 $(async function advancedSiteNotices() {
 	const $siteNotice: JQuery = $('#siteNotice');
-	if (['edit', 'submit'].includes(mw.config.get('wgAction')) || !$siteNotice.length) {
+	if (['edit', 'submit'].includes(WG_ACTION) || !$siteNotice.length) {
 		return;
 	}
 

@@ -1,13 +1,15 @@
 /* eslint-disable camelcase, no-eval, @typescript-eslint/ban-ts-comment, @typescript-eslint/no-unused-vars */
+import {WG_USER_GROUPS, WG_USER_LANGUAGE} from '../constant';
+
 const testCriteria = (criteria: string): boolean => {
 	// @ts-ignore
 	const in_group = (group: string): boolean => {
-		const wgUserGroups: string[] | null = mw.config.get('wgUserGroups');
+		const wgUserGroups: string[] | null = WG_USER_GROUPS;
 		return wgUserGroups?.includes(group) ?? false;
 	};
 	// @ts-ignore
 	const only_for = (userLanguage: string): boolean => {
-		return userLanguage === mw.config.get('wgUserLanguage');
+		return userLanguage === WG_USER_LANGUAGE;
 	};
 
 	// FIXME: This shouldn't be using eval on data entered in wikitext.
