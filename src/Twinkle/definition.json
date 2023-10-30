@@ -9,5 +9,6 @@
 		"mediawiki.api",
 		"mediawiki.language"
 	],
-	"rights": ["autoconfirmed"]
+	"rights": ["autoconfirmed"],
+	"peers": ["ext.gadget.Twinkle-pagestyles"]
 }
