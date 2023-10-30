@@ -142,7 +142,7 @@
 		if (pageName === '') {
 			return '';
 		}
-		const [firstChar] = pageName;
+		const firstChar = pageName[0];
 		const remainder = Morebits.string.escapeRegExp(pageName.slice(1));
 		if (mw.Title.phpCharToUpper(firstChar) !== firstChar.toLowerCase()) {
 			return `[${mw.Title.phpCharToUpper(firstChar)}${firstChar.toLowerCase()}]${remainder}`;
@@ -166,13 +166,13 @@
 		if (!Array.isArray(input)) {
 			input = [input];
 		}
-		for (const element of input) {
-			if (element instanceof Node) {
-				fragment.appendChild(element);
+		for (let i = 0; i < input.length; ++i) {
+			if (input[i] instanceof Node) {
+				fragment.appendChild(input[i]);
 			} else {
-				for (const node of $.parseHTML(Morebits.createHtml.renderWikilinks(element))) {
+				$.parseHTML(Morebits.createHtml.renderWikilinks(input[i])).forEach((node) => {
 					fragment.appendChild(node);
-				}
+				});
 			}
 		}
 		return fragment;
@@ -238,7 +238,7 @@
 				regex = '';
 				break;
 			case 1:
-				[regex] = aliases;
+				regex = aliases[0];
 				break;
 			default:
 				regex = `(?:${aliases.join('|')})`;
@@ -566,7 +566,7 @@
 								if (e.target.checked) {
 									e.target.parentNode.appendChild(e.target.subgroup);
 									if (e.target.type === 'radio') {
-										const {name} = e.target;
+										const name = e.target.name;
 										if (e.target.form.names[name] !== undefined) {
 											e.target.form.names[name].parentNode.removeChild(
 												e.target.form.names[name].subgroup
@@ -585,7 +585,7 @@
 						} else if (data.type === 'radio') {
 							event = (e) => {
 								if (e.target.checked) {
-									const {name} = e.target;
+									const name = e.target.name;
 									if (e.target.form.names[name] !== undefined) {
 										e.target.form.names[name].parentNode.removeChild(
 											e.target.form.names[name].subgroup
@@ -679,7 +679,7 @@
 					},
 				});
 				node.appendChild(more[0]);
-				const [, moreButton] = more;
+				const moreButton = more[1];
 				const sublist = {
 					type: '_dyninput_element',
 					label: data.sublabel || data.label,
@@ -743,7 +743,7 @@
 						},
 					});
 					node.appendChild(remove[0]);
-					const [, removeButton] = remove;
+					const removeButton = remove[1];
 					removeButton.inputnode = node;
 					removeButton.listnode = data.listnode;
 					removeButton.morebutton = data.morebutton;
@@ -1124,7 +1124,7 @@
 		const return_array = [];
 		let i;
 		if (elements instanceof HTMLSelectElement) {
-			const {options} = elements;
+			const options = elements.options;
 			for (i = 0; i < options.length; ++i) {
 				if (options[i].selected) {
 					if (options[i].values) {
@@ -1176,7 +1176,7 @@
 		const return_array = [];
 		let i;
 		if (elements instanceof HTMLSelectElement) {
-			const {options} = elements;
+			const options = elements.options;
 			for (i = 0; i < options.length; ++i) {
 				if (!options[i].selected) {
 					if (options[i].values) {
@@ -1379,9 +1379,9 @@
 				}
 			}
 			for (let i = 0; i < str.length; ++i) {
-				for (const element of skiplist) {
-					if (str.substr(i, element.length) === element) {
-						i += element.length - 1;
+				for (let j = 0; j < skiplist.length; ++j) {
+					if (str.substr(i, skiplist[j].length) === skiplist[j]) {
+						i += skiplist[j].length - 1;
 						continue;
 					}
 				}
@@ -1711,7 +1711,7 @@
 		 * @param {string} postfix
 		 * @throws If either `prefix` or `postfix` is missing.
 		 */
-		unbind: function unbind(prefix, postfix) {
+		unbind(prefix, postfix) {
 			if (!prefix || !postfix) {
 				throw new Error('Both prefix and postfix must be provided');
 			}
@@ -1723,8 +1723,8 @@
 		 *
 		 * @returns {string} The processed output.
 		 */
-		rebind: function rebind() {
-			let {content} = this;
+		rebind() {
+			let content = this.content;
 			content.self = this;
 			for (const current in this.history) {
 				if (Object.hasOwn(this.history, current)) {
@@ -1767,7 +1767,7 @@
 		// format, sans timezone (See also: #921, #936, #1174, #1187), and the
 		// 14-digit string will be interpreted differently.
 		if (args.length === 1) {
-			const [param] = args;
+			const param = args[0];
 			if (/^\d{14}$/.test(param)) {
 				// YYYYMMDDHHmmss
 				const digitMatch = /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/.exec(param);
@@ -1919,7 +1919,7 @@
 				throw new TypeError(`Invalid number "${number}" provided.`);
 			}
 			unit = unit.toLowerCase(); // normalize
-			const {unitMap} = Morebits.date;
+			const unitMap = Morebits.date.unitMap;
 			let unitNorm = unitMap[unit] || unitMap[`${unit}s`]; // so that both singular and  plural forms work
 			if (unitNorm) {
 				// No built-in week functions, so rather than build out ISO's getWeek/setWeek, just multiply
@@ -2109,14 +2109,14 @@
 		},
 	};
 	// Allow native Date.prototype methods to be used on Morebits.date objects
-	for (const func of Object.getOwnPropertyNames(Date.prototype)) {
+	Object.getOwnPropertyNames(Date.prototype).forEach((func) => {
 		// Exclude methods that collide with PageTriage's Date.js external, which clobbers native Date
 		if (!['add', 'getDayName', 'getMonthName'].includes(func)) {
 			Morebits.date.prototype[func] = function (...args) {
 				return this._d[func](...Array.prototype.slice.call(args));
 			};
 		}
-	}
+	});
 	/* **************** Morebits.wiki **************** */
 	/**
 	 * Various objects for wiki editing and API access, including
@@ -3636,11 +3636,11 @@
 				return; // abort
 			}
 
-			const [page] = response.pages;
+			const page = response.pages[0];
 			let rev;
 			ctx.pageExists = !page.missing;
 			if (ctx.pageExists) {
-				[rev] = page.revisions;
+				rev = page.revisions[0];
 				ctx.lastEditTime = rev.timestamp;
 				ctx.pageText = rev.content;
 				ctx.pageID = page.pageid;
@@ -3680,11 +3680,11 @@
 			ctx.revertCurID = page.lastrevid;
 			const testactions = page.actions;
 			ctx.testActions = []; // was null
-			for (const action of Object.keys(testactions)) {
+			Object.keys(testactions).forEach((action) => {
 				if (testactions[action]) {
 					ctx.testActions.push(action);
 				}
-			}
+			});
 			if (ctx.editMode === 'revert') {
 				ctx.revertCurID = rev && rev.revid;
 				if (!ctx.revertCurID) {
@@ -3901,7 +3901,7 @@
 						break;
 					case 'spamblacklist': {
 						// If multiple items are blacklisted, we only return the first
-						const [spam] = errorData.spamblacklist.matches;
+						const spam = errorData.spamblacklist.matches[0];
 						ctx.statusElement.error(
 							wgULS('不能保存页面，因URL ', '不能儲存頁面，因URL ') +
 								spam +
@@ -3974,10 +3974,10 @@
 		const fnLookupNonRedirectCreator = function () {
 			const response = ctx.lookupCreationApi.getResponse().query;
 			const revs = response.pages[0].revisions;
-			for (const rev of revs) {
-				if (!isTextRedirect(rev.content)) {
-					ctx.creator = rev.user;
-					ctx.timestamp = rev.timestamp;
+			for (let i = 0; i < revs.length; i++) {
+				if (!isTextRedirect(revs[i].content)) {
+					ctx.creator = revs[i].user;
+					ctx.timestamp = revs[i].timestamp;
 					break;
 				}
 			}
@@ -4035,7 +4035,7 @@
 		 * @returns {boolean}
 		 */
 		const fnProcessChecks = function (action, onFailure, response) {
-			const [{missing}] = response.pages;
+			const missing = response.pages[0].missing;
 			// No undelete as an existing page could have deleted revisions
 			const actionMissing = missing && ['delete', 'move'].includes(action);
 			const protectMissing = action === 'protect' && missing && (ctx.protectEdit || ctx.protectMove);
@@ -4114,7 +4114,7 @@
 				}
 
 				token = response.tokens.csrftoken;
-				const [page] = response.pages;
+				const page = response.pages[0];
 				pageTitle = page.title;
 				ctx.watched = page.watchlistexpiry || page.watched;
 			}
@@ -4167,7 +4167,7 @@
 				if (!response.recentchanges[0].unpatrolled) {
 					return;
 				}
-				const [{lastrevid}] = response.pages;
+				const lastrevid = response.pages[0].lastrevid;
 				if (!lastrevid) {
 					return;
 				}
@@ -4199,7 +4199,7 @@
 				}
 
 				token = response.tokens.csrftoken;
-				const [page] = response.pages;
+				const page = response.pages[0];
 				pageTitle = page.title;
 				ctx.watched = page.watchlistexpiry || page.watched;
 			}
@@ -4264,7 +4264,7 @@
 				}
 
 				token = response.tokens.csrftoken;
-				const [page] = response.pages;
+				const page = response.pages[0];
 				pageTitle = page.title;
 				ctx.watched = page.watchlistexpiry || page.watched;
 			}
@@ -4337,7 +4337,7 @@
 			}
 
 			const token = response.tokens.csrftoken;
-			const [page] = response.pages;
+			const page = response.pages[0];
 			const pageTitle = page.title;
 			ctx.watched = page.watchlistexpiry || page.watched;
 			// Fetch existing protection levels
@@ -4707,10 +4707,10 @@
 				`\\[\\[${Morebits.namespaceRegex(6)}:\\s*${image_re_string}\\s*[\\|(?:\\]\\])]`
 			);
 			const allLinks = Morebits.string.splitWeightedByKeys(unbinder.content, '[[', ']]');
-			for (const allLink of allLinks) {
-				if (links_re.test(allLink)) {
-					const replacement = `<!-- ${reason}${allLink} -->`;
-					unbinder.content = unbinder.content.replace(allLink, replacement);
+			for (let i = 0; i < allLinks.length; ++i) {
+				if (links_re.test(allLinks[i])) {
+					const replacement = `<!-- ${reason}${allLinks[i]} -->`;
+					unbinder.content = unbinder.content.replace(allLinks[i], replacement);
 					// unbind the newly created comments
 					unbinder.unbind('<!--', '-->');
 				}
@@ -4749,11 +4749,12 @@
 				`\\[\\[${Morebits.namespaceRegex(6)}:\\s*${image_re_string}\\s*[\\|(?:\\]\\])]`
 			);
 			const allLinks = Morebits.string.splitWeightedByKeys(this.text, '[[', ']]');
-			for (let replacement of allLinks) {
-				if (links_re.test(replacement)) {
+			for (let i = 0; i < allLinks.length; ++i) {
+				if (links_re.test(allLinks[i])) {
+					let replacement = allLinks[i];
 					// just put it at the end?
 					replacement = replacement.replace(/\]\]$/, `|${data}]]`);
-					this.text = this.text.replace(replacement, replacement);
+					this.text = this.text.replace(allLinks[i], replacement);
 				}
 			}
 			const gallery_re = new RegExp(`^(\\s*${image_re_string}.*?)\\|?(.*?)$`, 'mg');
@@ -4774,9 +4775,9 @@
 				`\\{\\{(?:${Morebits.namespaceRegex(10)}:)?\\s*${template_re_string}\\s*[\\|(?:\\}\\})]`
 			);
 			const allTemplates = Morebits.string.splitWeightedByKeys(this.text, '{{', '}}', ['{{{', '}}}']);
-			for (const allTemplate of allTemplates) {
-				if (links_re.test(allTemplate)) {
-					this.text = this.text.replace(allTemplate, '');
+			for (let i = 0; i < allTemplates.length; ++i) {
+				if (links_re.test(allTemplates[i])) {
+					this.text = this.text.replace(allTemplates[i], '');
 				}
 			}
 			return this;
@@ -5351,9 +5352,9 @@
 			}
 			// start workers for the current chunk
 			ctx.countStarted += chunk.length;
-			for (const page of chunk) {
+			chunk.forEach((page) => {
 				ctx.worker(page, thisProxy);
-			}
+			});
 		};
 		const fnDoneOne = () => {
 			ctx.countFinished++;
@@ -5435,7 +5436,7 @@
 		 */
 		this.execute = function () {
 			const self = this; // proxy for `this` for use inside functions where `this` is something else
-			for (const [task, deps] of this.taskDependencyMap.entries()) {
+			this.taskDependencyMap.forEach((deps, task) => {
 				const dependencyPromisesArray = deps.map((dep) => {
 					return self.deferreds.get(dep);
 				});
@@ -5464,7 +5465,7 @@
 						self.failureCallbackMap.get(task).apply(self.context, args);
 					}
 				);
-			}
+			});
 			return $.when(...this.allDeferreds); // resolved when everything is done!
 		};
 	};
@@ -5500,7 +5501,7 @@
 				$(event.target).dialog('destroy').remove();
 			},
 			resizeStart() {
-				[this.scrollbox] = $(this).find('.morebits-scrollbox');
+				this.scrollbox = $(this).find('.morebits-scrollbox')[0];
 				if (this.scrollbox) {
 					this.scrollbox.style.maxHeight = 'none';
 				}
