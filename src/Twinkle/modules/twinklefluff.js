@@ -1,5 +1,5 @@
 /* Twinkle.js - twinklefluff.js */
-(($) => {
+const twinklefluff = () => {
 	/**
 	 * twinklefluff.js: Revert/rollback module
 	 * Mode of invocation: Links on contributions,
@@ -898,4 +898,5 @@
 		return result;
 	};
 	Twinkle.addInitCallback(Twinkle.fluff, 'fluff');
-})($);
+};
+export default twinklefluff;

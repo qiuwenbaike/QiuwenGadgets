@@ -1,5 +1,5 @@
 /* Twinkle.js - twinklebatchundelete.js */
-(($) => {
+const twinklebatchundelete = () => {
 	/**
 	 * twinklebatchundelete.js: Batch undelete module
 	 * Mode of invocation: Tab ("Und-batch")
@@ -234,4 +234,5 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchundelete, 'batchundelete');
-})($);
+};
+export default twinklebatchundelete;

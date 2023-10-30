@@ -1,5 +1,5 @@
 /* Twinkle.js - twinklespeedy.js */
-(($) => {
+const twinklespeedy = () => {
 	/**
 	 * twinklespeedy.js: CSD module
 	 * Mode of invocation: Tab ("CSD")
@@ -1758,4 +1758,5 @@
 		qiuwen_page.load(Twinkle.speedy.callbacks.user.main);
 	};
 	Twinkle.addInitCallback(Twinkle.speedy, 'speedy');
-})($);
+};
+export default twinklespeedy;

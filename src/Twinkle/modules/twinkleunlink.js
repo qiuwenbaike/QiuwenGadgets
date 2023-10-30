@@ -1,5 +1,5 @@
 /* Twinkle.js - twinkleunlink.js */
-(($) => {
+const twinkleunlink = () => {
 	/**
 	 * twinkleunlink.js: Unlink module
 	 * Mode of invocation: Tab ("Unlink")
@@ -378,4 +378,5 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.unlink, 'unlink');
-})($);
+};
+export default twinkleunlink;

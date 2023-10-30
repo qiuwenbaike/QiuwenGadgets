@@ -1,5 +1,5 @@
 /* Twinkle.js - twinklebatchprotect.js */
-(($) => {
+const twinklebatchprotect = () => {
 	/**
 	 * twinklebatchprotect.js: Batch protect module (sysops only)
 	 * Mode of invocation: Tab ("P-batch")
@@ -350,4 +350,5 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchprotect, 'batchprotect');
-})($);
+};
+export default twinklebatchprotect;

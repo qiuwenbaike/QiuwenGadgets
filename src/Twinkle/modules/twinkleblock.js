@@ -1,5 +1,5 @@
 /* Twinkle.js - twinkleblock.js */
-(($) => {
+const twinkleblock = () => {
 	const api = new mw.Api({
 		ajax: {
 			headers: {
@@ -2504,4 +2504,5 @@
 		pageobj.save();
 	};
 	Twinkle.addInitCallback(Twinkle.block, 'block');
-})($);
+};
+export default twinkleblock;

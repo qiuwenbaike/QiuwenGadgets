@@ -1,5 +1,5 @@
 /* Twinkle.js - twinklestub.js */
-(($) => {
+const twinklestub = () => {
 	/**
 	 * twinklestub.js: Tag module
 	 * Mode of invocation: Tab ("Stub")
@@ -407,4 +407,5 @@
 		}
 	};
 	Twinkle.addInitCallback(Twinkle.stub, 'stub');
-})($);
+};
+export default twinklestub;

@@ -1,5 +1,5 @@
 /* Twinkle.js - twinklediff.js */
-(($) => {
+const twinklediff = () => {
 	/**
 	 * twinklediff.js: Diff module
 	 * Mode of invocation: Tab on non-diff pages ("Last");
@@ -99,4 +99,5 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.diff, 'diff');
-})($);
+};
+export default twinklediff;
