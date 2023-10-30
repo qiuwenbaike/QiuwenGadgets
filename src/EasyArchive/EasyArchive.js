@@ -1,5 +1,5 @@
 import {ding} from '../util';
-import {easy_archive_lang} from './module/i18n';
+import {easy_archive_lang} from './modules/i18n';
 
 (function easyArchive() {
 	if (mw.config.get('wgNamespaceNumber') < 0 || mw.config.get('wgPageName') === 'Qiuwen:首页') {

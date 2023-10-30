@@ -1,4 +1,4 @@
-import {autoLink, isSpecialPage} from './module/core';
+import {autoLink, isSpecialPage} from './modules/core';
 
 (() => {
 	// Special crono pages where this script is enabled

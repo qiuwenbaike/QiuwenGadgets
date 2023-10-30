@@ -1,4 +1,4 @@
-import {confirmLogout} from './module/core';
+import {confirmLogout} from './modules/core';
 
 (() => {
 	if (

@@ -1,3 +1,3 @@
-import {dingCore} from './module/core';
+import {dingCore} from './modules/core';
 
 window.DingExposedInterface = dingCore;

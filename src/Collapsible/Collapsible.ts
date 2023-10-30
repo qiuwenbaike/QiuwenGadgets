@@ -1,3 +1,3 @@
-import {collapsibleLoad} from './module/core';
+import {collapsibleLoad} from './modules/core';
 
 $(collapsibleLoad);

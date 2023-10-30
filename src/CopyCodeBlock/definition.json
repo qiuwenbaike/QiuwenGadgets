@@ -1,8 +1,8 @@
 {
 	"enable": true,
-	"actions": ["view"],
-	"section": "browser",
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-CopyCodeBlock\"></span> 提供便于复制代码块内容的按钮",
+	"section": "browser",
+	"actions": ["view"],
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "oojs-ui-core", "oojs-ui.styles.icons-editing-advanced", "mediawiki.util"]
 }

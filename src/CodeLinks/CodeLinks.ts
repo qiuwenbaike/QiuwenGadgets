@@ -1,3 +1,3 @@
-import {codeLinks} from './module/core';
+import {codeLinks} from './modules/core';
 
 $(codeLinks);

@@ -1,7 +1,7 @@
 {
 	"enable": true,
-	"section": "sysop",
 	"description": "<span id=\"Gadget-BanPage\"></span> 一键禁用页面和文件",
+	"section": "sysop",
 	"default": true,
 	"dependencies": ["mediawiki.util", "ext.gadget.Ding", "ext.gadget.i18n", "mediawiki.api"],
 	"rights": ["skipcaptcha"]
