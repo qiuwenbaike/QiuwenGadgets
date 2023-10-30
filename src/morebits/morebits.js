@@ -32,7 +32,7 @@
  *
  * @namespace Morebits
  */
-((window, document, $) => {
+const morebits = () => {
 	// Wrap entire file with anonymous function
 	/** @lends Morebits */
 	const Morebits = {};
@@ -5784,4 +5784,8 @@
 	Morebits.simpleWindow.setButtonsEnabled = (enabled) => {
 		$('.morebits-dialog-buttons button').prop('disabled', !enabled);
 	};
-})(window, document, $);
+};
+
+$(() => {
+	morebits();
+});
