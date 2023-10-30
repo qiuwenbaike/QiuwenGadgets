@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const getI18nMessages: GetI18nMessages = () => {
 	const {localize} = i18n;
 	return {
