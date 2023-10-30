@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* Twinkle.js - twinkleblock.js */
 const twinkleblock = () => {
 	const api = new mw.Api({
@@ -231,13 +232,13 @@ const twinkleblock = () => {
 	// Processes the data from a a query response, separated from
 	// Twinkle.block.fetchUserInfo to allow reprocessing of already-fetched data
 	Twinkle.block.processUserInfo = (data, fn) => {
-		let [blockinfo] = data.query.blocks;
-		const [userinfo] = data.query.users;
+		let blockinfo = data.query.blocks[0];
+		const userinfo = data.query.users[0];
 		// If an IP is blocked *and* rangeblocked, the above finds
 		// whichever block is more recent, not necessarily correct.
 		// Three seems... unlikely
 		if (data.query.blocks.length > 1 && blockinfo.user !== relevantUserName) {
-			[, blockinfo] = data.query.blocks;
+			blockinfo = data.query.blocks[1];
 		}
 		// Cache response, used when toggling /64 blocks
 		Twinkle.block.fetchedData[userinfo.name] = data;
@@ -307,11 +308,13 @@ const twinkleblock = () => {
 	};
 	Twinkle.block.callback.saveFieldset = (fieldset) => {
 		Twinkle.block[$(fieldset).prop('name')] = {};
-		for (const el of $(fieldset).serializeArray()) {
-			// namespaces and pages for partial blocks are overwritten
-			// here, but we're handling them elsewhere so that's fine
-			Twinkle.block[$(fieldset).prop('name')][el.name] = el.value;
-		}
+		$(fieldset)
+			.serializeArray()
+			.forEach((el) => {
+				// namespaces and pages for partial blocks are overwritten
+				// here, but we're handling them elsewhere so that's fine
+				Twinkle.block[$(fieldset).prop('name')][el.name] = el.value;
+			});
 	};
 	Twinkle.block.callback.change_block64 = (e) => {
 		const $form = $(e.target.form);
@@ -941,13 +944,13 @@ const twinkleblock = () => {
 		}
 		let oldfield;
 		if (field_preset) {
-			[oldfield] = $form.find('fieldset[name="field_preset"]');
+			oldfield = $form.find('fieldset[name="field_preset"]')[0];
 			oldfield.parentNode.replaceChild(field_preset.render(), oldfield);
 		} else {
 			$form.find('fieldset[name="field_preset"]').hide();
 		}
 		if (field_block_options) {
-			[oldfield] = $form.find('fieldset[name="field_block_options"]');
+			oldfield = $form.find('fieldset[name="field_block_options"]')[0];
 			oldfield.parentNode.replaceChild(field_block_options.render(), oldfield);
 			$form.find('fieldset[name="field_64"]').show();
 			$form.find('[name=pagerestrictions]').select2({
@@ -1024,7 +1027,7 @@ const twinkleblock = () => {
 			$form.find('[name=namespacerestrictions]').val(null).trigger('change');
 		}
 		if (field_template_options) {
-			[oldfield] = $form.find('fieldset[name="field_template_options"]');
+			oldfield = $form.find('fieldset[name="field_template_options"]')[0];
 			oldfield.parentNode.replaceChild(field_template_options.render(), oldfield);
 			e.target.form.root.previewer = new Morebits.wiki.preview(
 				$(e.target.form.root).find('#twinkleblock-previewbox').last()[0]
@@ -1033,13 +1036,13 @@ const twinkleblock = () => {
 			$form.find('fieldset[name="field_template_options"]').hide();
 		}
 		if (field_tag_options) {
-			[oldfield] = $form.find('fieldset[name="field_tag_options"]');
+			oldfield = $form.find('fieldset[name="field_tag_options"]')[0];
 			oldfield.parentNode.replaceChild(field_tag_options.render(), oldfield);
 		} else {
 			$form.find('fieldset[name="field_tag_options"]').hide();
 		}
 		if (field_unblock_options) {
-			[oldfield] = $form.find('fieldset[name="field_unblock_options"]');
+			oldfield = $form.find('fieldset[name="field_unblock_options"]')[0];
 			oldfield.parentNode.replaceChild(field_unblock_options.render(), oldfield);
 		} else {
 			$form.find('fieldset[name="field_unblock_options"]').hide();
@@ -1119,7 +1122,7 @@ const twinkleblock = () => {
 			if (Twinkle.block.currentBlockInfo) {
 				blockloginfo.push(wgULS('封禁详情', '封鎖詳情'));
 			} else {
-				const [lastBlockAction] = Twinkle.block.blockLog;
+				const lastBlockAction = Twinkle.block.blockLog[0];
 				const blockAction = lastBlockAction.action === 'unblock' ? Twinkle.block.blockLog[1] : lastBlockAction;
 				blockloginfo.push(
 					`此${
@@ -1777,12 +1780,12 @@ const twinkleblock = () => {
 					});
 					// since page restrictions use an ajax source, we
 					// short-circuit that and just add a new option
-					for (const page of pages) {
+					pages.forEach((page) => {
 						if (!$pageSelect.find(`option[value='${$.escapeSelector(page)}']`).length) {
 							const newOption = new Option(page, page, true, true);
 							$pageSelect.append(newOption);
 						}
-					}
+					});
 					$pageSelect
 						.val([...$pageSelect.val(), ...(Array.isArray(pages) ? pages : [pages])])
 						.trigger('change');
@@ -2088,7 +2091,7 @@ const twinkleblock = () => {
 				query.type = 'userrights';
 			}
 			api.get(query).then((data) => {
-				let [block] = data.query.blocks;
+				let block = data.query.blocks[0];
 				// As with the initial data fetch, if an IP is blocked
 				// *and* rangeblocked, this would only grab whichever
 				// block is more recent, which would likely mean a
@@ -2096,9 +2099,9 @@ const twinkleblock = () => {
 				// while filling out the form, this won't detect that,
 				// but that's probably fine.
 				if (data.query.blocks.length > 1 && block.user !== relevantUserName) {
-					[, block] = data.query.blocks;
+					block = data.query.blocks[1];
 				}
-				const [logevents] = data.query.logevents;
+				const logevents = data.query.logevents[0];
 				const user = data.query.users ? data.query.users[0] : null;
 				const logid = data.query.logevents.length ? logevents.logid : false;
 				if (logid !== Twinkle.block.blockLogId || !!block !== !!Twinkle.block.currentBlockInfo) {
@@ -2237,7 +2240,7 @@ const twinkleblock = () => {
 		const statelem = pageobj.getStatusElement();
 		if (params.actiontype.includes('tag')) {
 			const tags = [];
-			for (const tag of params.tag) {
+			params.tag.forEach((tag) => {
 				let tagtext = `{{${tag}`;
 				switch (tag) {
 					case 'Blocked user':
@@ -2265,11 +2268,11 @@ const twinkleblock = () => {
 							type: 'warn',
 							tag: 'twinkleblock',
 						});
-						continue;
+						return;
 				}
 				tagtext += '}}';
 				tags.push(tagtext);
-			}
+			});
 			const text = tags.join('\n');
 			pageobj.setPageText(text);
 			pageobj.setEditSummary(wgULS('标记被永久封禁的用户页', '標記被永久封鎖的使用者頁面'));

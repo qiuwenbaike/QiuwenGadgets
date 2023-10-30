@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* Twinkle.js - friendlytag.js */
 const friendlytag = () => {
 	/**
@@ -82,13 +83,13 @@ const friendlytag = () => {
 						const searchHit = searchRegex.exec(label_text);
 						if (searchHit) {
 							const range = document.createRange();
-							const [textnode] = element.childNodes;
+							const textnode = element.childNodes[0];
 							range.selectNodeContents(textnode);
 							range.setStart(textnode, searchHit.index);
 							range.setEnd(textnode, searchHit.index + searchString.length);
-							const [underline_span] = $('<span>')
+							const underline_span = $('<span>')
 								.addClass('search-hit')
-								.css('text-decoration', 'underline');
+								.css('text-decoration', 'underline')[0];
 							range.surroundContents(underline_span);
 							element.parentElement.style.display = 'block'; // show
 						}
@@ -106,23 +107,23 @@ const friendlytag = () => {
 				// needed but also used to generate the alphabetical list
 				// Would be infinitely better with Object.values
 				Twinkle.tag.article.flatObject = {};
-				for (const group of Twinkle.tag.article.tagList) {
-					for (const subgroup of group.value) {
+				Twinkle.tag.article.tagList.forEach((group) => {
+					group.value.forEach((subgroup) => {
 						if (subgroup.value) {
-							for (const item of subgroup.value) {
+							subgroup.value.forEach((item) => {
 								Twinkle.tag.article.flatObject[item.tag] = {
 									description: item.description,
 									excludeMI: !!item.excludeMI,
 								};
-							}
+							});
 						} else {
 							Twinkle.tag.article.flatObject[subgroup.tag] = {
 								description: subgroup.description,
 								excludeMI: !!subgroup.excludeMI,
 							};
 						}
-					}
-				}
+					});
+				});
 				form.append({
 					type: 'select',
 					name: 'sortorder',
@@ -193,16 +194,16 @@ const friendlytag = () => {
 				break;
 			case 'file':
 				Window.setTitle(wgULS('文件维护标记', '檔案維護標記'));
-				for (const group of Twinkle.tag.fileList) {
+				Twinkle.tag.fileList.forEach((group) => {
 					if (group.buildFilename) {
-						for (const el of group.value) {
+						group.value.forEach((el) => {
 							el.subgroup = {
 								type: 'input',
 								label: wgULS('替换的文件：', '替換的檔案：'),
 								tooltip: wgULS('输入替换此文件的文件名称（必填）', '輸入替換此檔案的檔案名稱（必填）'),
 								name: `${el.value.replace(/ /g, '_')}File`,
 							};
-						}
+						});
 					}
 					form.append({
 						type: 'header',
@@ -213,7 +214,7 @@ const friendlytag = () => {
 						name: 'tags',
 						list: group.value,
 					});
-				}
+				});
 				if (Twinkle.getPref('customFileTagList').length) {
 					form.append({
 						type: 'header',
@@ -229,7 +230,7 @@ const friendlytag = () => {
 			case 'redirect': {
 				Window.setTitle(wgULS('重定向标记', '重新導向標記'));
 				const i = 1;
-				for (const group of Twinkle.tag.redirectList) {
+				Twinkle.tag.redirectList.forEach((group) => {
 					form.append({
 						type: 'header',
 						id: `tagHeader${i}`,
@@ -246,7 +247,7 @@ const friendlytag = () => {
 							};
 						}),
 					});
-				}
+				});
 				if (Twinkle.getPref('customRedirectTagList').length) {
 					form.append({
 						type: 'header',
@@ -532,7 +533,7 @@ const friendlytag = () => {
 								value: 'Property',
 							},
 							{
-								label: '{{Notability|Traffic}}：交通',
+								label: '{{Notability|Traffic}}：' + '交通',
 								value: 'Traffic',
 							},
 							{
@@ -609,7 +610,7 @@ const friendlytag = () => {
 			});
 			const checkboxes = [];
 			const unCheckedTags = e.target.form.getUnchecked('existingTags');
-			for (const tag of Twinkle.tag.alreadyPresentTags) {
+			Twinkle.tag.alreadyPresentTags.forEach((tag) => {
 				const checkbox = {
 					value: tag,
 					label: `{{${tag}}}${
@@ -620,7 +621,7 @@ const friendlytag = () => {
 					checked: !unCheckedTags.includes(tag),
 				};
 				checkboxes.push(checkbox);
-			}
+			});
 			subdiv.append({
 				type: 'checkbox',
 				name: 'existingTags',
@@ -648,7 +649,7 @@ const friendlytag = () => {
 			}
 			let i = 1;
 			// go through each category and sub-category and append lists of checkboxes
-			for (const group of Twinkle.tag.article.tagList) {
+			Twinkle.tag.article.tagList.forEach((group) => {
 				container.append({
 					type: 'header',
 					id: `tagHeader${i}`,
@@ -661,15 +662,15 @@ const friendlytag = () => {
 				if (group.value[0].tag) {
 					doCategoryCheckboxes(subdiv, group.value);
 				} else {
-					for (const subgroup of group.value) {
+					group.value.forEach((subgroup) => {
 						subdiv.append({
 							type: 'div',
 							label: [Morebits.htmlNode('b', subgroup.key)],
 						});
 						doCategoryCheckboxes(subdiv, subgroup.value);
-					}
+					});
 				}
-			}
+			});
 		} else {
 			// alphabetical sort order
 			if (Twinkle.tag.alreadyPresentTags.length > 0) {
@@ -683,11 +684,11 @@ const friendlytag = () => {
 			// Avoid repeatedly resorting
 			Twinkle.tag.article.alphabeticalList ||= Object.keys(Twinkle.tag.article.flatObject).sort();
 			const checkboxes = [];
-			for (const tag of Twinkle.tag.article.alphabeticalList) {
+			Twinkle.tag.article.alphabeticalList.forEach((tag) => {
 				if (!Twinkle.tag.alreadyPresentTags.includes(tag)) {
 					checkboxes.push(makeCheckbox(tag, Twinkle.tag.article.flatObject[tag].description));
 				}
-			}
+			});
 			container.append({
 				type: 'checkbox',
 				name: 'tags',
@@ -1576,14 +1577,14 @@ const friendlytag = () => {
 				// Remove the tags from the page text, if found in its proper name,
 				// otherwise moves it to `getRedirectsFor` array earmarking it for
 				// later removal
-				for (const tag of params.tagsToRemove) {
+				params.tagsToRemove.forEach((tag) => {
 					const tag_re = new RegExp(`\\{\\{${Morebits.pageNameRegex(tag)}\\s*(\\|[^}]+)?\\}\\}\\n?`);
 					if (tag_re.test(pageText)) {
 						pageText = pageText.replace(tag_re, '');
 					} else {
 						getRedirectsFor.push(`Template:${tag}`);
 					}
-				}
+				});
 				if (!getRedirectsFor.length) {
 					postRemoval();
 					return;
@@ -1758,7 +1759,7 @@ const friendlytag = () => {
 				removeTags();
 			};
 			// Separate tags into groupable ones (`groupableTags`) and non-groupable ones (`tags`)
-			for (const tag of params.tags) {
+			params.tags.forEach((tag) => {
 				tagRe = new RegExp(`\\{\\{${tag}(\\||\\}\\})`, 'im');
 				// regex check for preexistence of tag can be skipped if in canRemove mode
 				if (Twinkle.tag.canRemove || !tagRe.exec(pageText)) {
@@ -1801,14 +1802,14 @@ const friendlytag = () => {
 						params.mergeTagOther = null;
 					}
 				}
-			}
+			});
 			// To-be-retained existing tags that are groupable
-			for (const tag of params.tagsToRemain) {
+			params.tagsToRemain.forEach((tag) => {
 				// If the tag is unknown to us, we consider it non-groupable
 				if (Twinkle.tag.article.flatObject[tag] && !Twinkle.tag.article.flatObject[tag].excludeMI) {
 					groupableExistingTags.push(tag);
 				}
-			}
+			});
 			const miTest =
 				/\{\{(multiple ?issues|article ?issues|mi|ai|issues|多個問題|多个问题|問題條目|问题条目|數個問題|数个问题)\s*\|[^}]+\{/im.exec(
 					pageText
@@ -1844,7 +1845,7 @@ const friendlytag = () => {
 				const getRedirectsFor = [];
 				// Reposition the tags on the page into {{multiple issues}}, if found with its
 				// proper name, else moves it to `getRedirectsFor` array to be handled later
-				for (const tag of groupableExistingTags) {
+				groupableExistingTags.forEach((tag) => {
 					const tag_re = new RegExp(`(\\{\\{${Morebits.pageNameRegex(tag)}\\s*(\\|[^}]+)?\\}\\}\\n?)`);
 					if (tag_re.test(pageText)) {
 						tagText += tag_re.exec(pageText)[1];
@@ -1852,7 +1853,7 @@ const friendlytag = () => {
 					} else {
 						getRedirectsFor.push(`Template:${tag}`);
 					}
-				}
+				});
 				if (!getRedirectsFor.length) {
 					addNewTagsToMI();
 					return;
@@ -1973,12 +1974,12 @@ const friendlytag = () => {
 				const pageTags = pageText.match(/\s*{{.+?重定向.*?}}/gim);
 				let oldPageTags = '';
 				if (pageTags) {
-					for (let pageTag of pageTags) {
+					pageTags.forEach((pageTag) => {
 						const pageRe = new RegExp(Morebits.string.escapeRegExp(pageTag), 'img');
 						pageText = pageText.replace(pageRe, '');
 						pageTag = pageTag.trim();
 						oldPageTags += `\n${pageTag}`;
-					}
+					});
 				}
 				pageText += `\n{{Redirect category shell|${tagText}${oldPageTags}\n}}`;
 			}

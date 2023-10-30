@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* Twinkle.js - twinkleprotect.js */
 const twinkleprotect = () => {
 	/**
@@ -127,7 +128,7 @@ const twinkleprotect = () => {
 		};
 		const protectDeferred = api.get(params);
 		$.when(protectDeferred).done((protectData) => {
-			const [pageid] = protectData.query.pageids;
+			const pageid = protectData.query.pageids[0];
 			const page = protectData.query.pages[pageid];
 			const current = {};
 			const previous = {};
@@ -144,9 +145,9 @@ const twinkleprotect = () => {
 			});
 			// Only use the log except unprotect
 			if (protectData.query.logevents.length >= 1 && protectData.query.logevents[0].action !== 'unprotect') {
-				[Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
+				Twinkle.protect.previousProtectionLog = protectData.query.logevents[0];
 			} else if (protectData.query.logevents.length >= 2) {
-				[, Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
+				Twinkle.protect.previousProtectionLog = protectData.query.logevents[1];
 			}
 			if (Twinkle.protect.previousProtectionLog) {
 				$.each(Twinkle.protect.previousProtectionLog.params.details, (index, protection) => {
@@ -493,19 +494,19 @@ const twinkleprotect = () => {
 		}
 		let oldfield;
 		if (field_preset) {
-			[oldfield] = $(e.target.form).find('fieldset[name="field_preset"]');
+			oldfield = $(e.target.form).find('fieldset[name="field_preset"]')[0];
 			oldfield.parentNode.replaceChild(field_preset.render(), oldfield);
 		} else {
 			$(e.target.form).find('fieldset[name="field_preset"]').css('display', 'none');
 		}
 		if (field1) {
-			[oldfield] = $(e.target.form).find('fieldset[name="field1"]');
+			oldfield = $(e.target.form).find('fieldset[name="field1"]')[0];
 			oldfield.parentNode.replaceChild(field1.render(), oldfield);
 		} else {
 			$(e.target.form).find('fieldset[name="field1"]').css('display', 'none');
 		}
 		if (field2) {
-			[oldfield] = $(e.target.form).find('fieldset[name="field2"]');
+			oldfield = $(e.target.form).find('fieldset[name="field2"]')[0];
 			oldfield.parentNode.replaceChild(field2.render(), oldfield);
 		} else {
 			$(e.target.form).find('fieldset[name="field2"]').css('display', 'none');
@@ -893,7 +894,7 @@ const twinkleprotect = () => {
 					selected: true,
 				},
 				{
-					label: '{{pp-sock}}: 傀儡',
+					label: '{{pp-sock}}: ' + '傀儡',
 					value: 'pp-sock',
 				},
 				{
@@ -949,11 +950,12 @@ const twinkleprotect = () => {
 		const {form} = e.target;
 		const actiontypes = form.actiontype;
 		let actiontype;
-		for (const actiontype_ of actiontypes) {
-			if (!actiontype_.checked) {
+		// eslint-disable-next-line unicorn/no-for-loop
+		for (let i = 0; i < actiontypes.length; i++) {
+			if (!actiontypes[i].checked) {
 				continue;
 			}
-			actiontype = actiontype_.values;
+			actiontype = actiontypes[i].values;
 			break;
 		}
 		if (actiontype === 'protect') {
@@ -1201,7 +1203,6 @@ const twinkleprotect = () => {
 				Morebits.wiki.actionCompleted.notice = wgULS('标记完成', '標記完成');
 				Twinkle.protect.callbacks.taggingPageInitial(tagparams);
 				break;
-
 			case 'request': {
 				// file request at RFPP
 				let typename;
@@ -1358,7 +1359,7 @@ const twinkleprotect = () => {
 			if (params.tag === 'none') {
 				summary = wgULS('移除保护模板', '移除保護模板');
 			} else {
-				({tag} = params);
+				tag = params.tag;
 				if (params.reason) {
 					tag += `|reason=${params.reason}`;
 				}
@@ -1547,9 +1548,9 @@ const twinkleprotect = () => {
 			let sectionText;
 			let expiryText = '';
 			if (params.type === 'unprotect') {
-				[, sectionText] = sections;
+				sectionText = sections[1];
 			} else {
-				[sectionText] = sections;
+				sectionText = sections[0];
 				expiryText = Morebits.string.formatTime(params.expiry);
 			}
 			const requestList = sectionText.split(/(?=\n===.+===\s*\n)/);
@@ -1577,15 +1578,15 @@ const twinkleprotect = () => {
 				return;
 			}
 			if (params.type === 'unprotect') {
-				[text] = sections + requestList.join('');
+				text = sections[0] + requestList.join('');
 			} else {
-				[, text] = requestList.join('') + sections;
+				text = requestList.join('') + sections[1];
 			}
 			let summary = '';
 			if (params.type === 'unprotect') {
-				[, sectionText] = sections;
+				sectionText = sections[1];
 			} else {
-				[sectionText] = sections;
+				sectionText = sections[0];
 			}
 			switch (params.type) {
 				case 'semi':
@@ -1672,7 +1673,7 @@ const twinkleprotect = () => {
 						level = wgULS('仅管理员', '僅管理員');
 						break;
 					default:
-						({level} = settings);
+						level = settings.level;
 						break;
 				}
 				protectionNode.push($(`<b>${label}：${level}</b>`)[0]);

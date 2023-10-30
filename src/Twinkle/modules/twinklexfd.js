@@ -1,5 +1,6 @@
-/* Twinkle.js - twinkleblock.js */
-const twinkleblock = () => {
+/* eslint-disable prefer-destructuring */
+/* Twinkle.js - twinklexfd.js */
+const twinklexfd = () => {
 	/**
 	 * twinklexfd.js: XFD module
 	 * Mode of invocation: Tab ("XFD")
@@ -100,9 +101,9 @@ const twinkleblock = () => {
 	Twinkle.xfd.callback.change_category = (e) => {
 		const {value} = e.target;
 		const {form} = e.target;
-		const [old_area] = Morebits.quickForm.getElements(e.target.form, 'work_area');
+		const old_area = Morebits.quickForm.getElements(e.target.form, 'work_area')[0];
 		let work_area = null;
-		const [oldreasontextbox] = form.getElementsByTagName('textarea');
+		const oldreasontextbox = form.getElementsByTagName('textarea')[0];
 		let oldreason = oldreasontextbox ? oldreasontextbox.value : '';
 		const appendReasonBox = (xfd_cat) => {
 			switch (xfd_cat) {
@@ -764,4 +765,4 @@ const twinkleblock = () => {
 	};
 	Twinkle.addInitCallback(Twinkle.xfd, 'xfd');
 };
-export default twinkleblock;
+export default twinklexfd;

@@ -171,9 +171,10 @@ const twinkleimage = () => {
 		let type;
 		let notify = event.target.notify.checked;
 		const types = event.target.type;
-		for (const type_ of types) {
-			if (type_.checked) {
-				type = type_.values;
+		// eslint-disable-next-line unicorn/no-for-loop
+		for (let i = 0; i < types.length; ++i) {
+			if (types[i].checked) {
+				type = types[i].values;
 				break;
 			}
 		}

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* Twinkle.js - friendlytalkback.js */
 const friendlytalkback = () => {
 	/**
@@ -124,7 +125,7 @@ const friendlytalkback = () => {
 	Twinkle.talkback.changeTarget = (e) => {
 		const value = e.target.values;
 		const root = e.target.form;
-		const [old_area] = Morebits.quickForm.getElements(root, 'work_area');
+		const old_area = Morebits.quickForm.getElements(root, 'work_area')[0];
 		if (root.section) {
 			prev_section = root.section.value;
 		}
@@ -330,14 +331,14 @@ const friendlytalkback = () => {
 	};
 	Twinkle.talkback.evaluate = (e) => {
 		const form = e.target;
-		const [tbtarget] = form.getChecked('tbtarget');
+		const tbtarget = form.getChecked('tbtarget')[0];
 		let page;
 		let message;
 		const section = form.section.value;
 		let editSummary;
 		if (tbtarget === 'notice') {
 			page = form.noticeboard.value;
-			({editSummary} = Twinkle.talkback.noticeboards[page]);
+			editSummary = Twinkle.talkback.noticeboards[page].editSummary;
 		} else {
 			// usertalk, other, see
 			page = form.page ? form.page.value : mw.config.get('wgUserName');
@@ -381,7 +382,7 @@ const friendlytalkback = () => {
 		talkpage.append();
 	};
 	Twinkle.talkback.preview = (form) => {
-		const [tbtarget] = form.getChecked('tbtarget');
+		const tbtarget = form.getChecked('tbtarget')[0];
 		const section = form.section.value;
 		let page;
 		let message;
@@ -394,7 +395,7 @@ const friendlytalkback = () => {
 				message = form.message.value.trim();
 			}
 		}
-		const [noticetext] = Twinkle.talkback.getNoticeWikitext(tbtarget, page, section, message);
+		const noticetext = Twinkle.talkback.getNoticeWikitext(tbtarget, page, section, message)[0];
 		form.previewer.beginRender(noticetext, `User_talk:${mw.config.get('wgRelevantUserName')}`); // Force wikitext/correct username
 	};
 
@@ -403,7 +404,7 @@ const friendlytalkback = () => {
 		let title;
 		let content;
 		if (tbtarget === 'notice') {
-			({title} = Twinkle.talkback.noticeboards[page]);
+			title = Twinkle.talkback.noticeboards[page].title;
 			content = Morebits.string.safeReplace(Twinkle.talkback.noticeboards[page].content, '$SECTION', section);
 			text = `== ${title} ==\n${content}`;
 		} else if (tbtarget === 'see') {

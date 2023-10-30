@@ -281,8 +281,9 @@ const twinklebatchdelete = () => {
 		const elements = form.elements.pages;
 		if (elements instanceof NodeList) {
 			// if there are multiple pages
-			for (const element of elements) {
-				Twinkle.batchdelete.pages[element.value].checked = element.checked;
+			// eslint-disable-next-line unicorn/no-for-loop
+			for (let i = 0; i < elements.length; ++i) {
+				Twinkle.batchdelete.pages[elements[i].value].checked = elements[i].checked;
 			}
 		} else if (elements instanceof HTMLInputElement) {
 			// if there is just one page
