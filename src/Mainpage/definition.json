@@ -1,8 +1,8 @@
 {
 	"enable": true,
-	"default": true,
-	"section": "compatibility",
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage\"></span> 首页样式",
+	"section": "compatibility",
+	"default": true,
 	"hidden": true,
 	"namespaces": [4, 10]
 }

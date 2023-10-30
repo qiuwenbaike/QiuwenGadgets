@@ -1,8 +1,8 @@
 {
 	"enable": true,
-	"default": true,
-	"section": "sysop",
 	"description": "<span id=\"Gadget-PagePatroller\"></span> 查看页面的[[Qiuwen:巡查员|巡查者]]",
-	"rights": ["patrol", "autopatrol"],
-	"dependencies": ["ext.gadget.i18n", "mediawiki.util"]
+	"section": "sysop",
+	"default": true,
+	"dependencies": ["ext.gadget.i18n", "mediawiki.util"],
+	"rights": ["patrol", "autopatrol"]
 }

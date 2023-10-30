@@ -1,5 +1,5 @@
-import {Wikiplus} from './module/core';
-import {WikiplusHighlight} from './module/highlight';
+import {Wikiplus} from './modules/core';
+import {WikiplusHighlight} from './modules/highlight';
 
 (() => {
 	if (!(mw.config.get('wgAction') === 'view' && mw.config.get('wgIsArticle'))) {

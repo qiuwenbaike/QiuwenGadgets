@@ -1,7 +1,6 @@
 {
 	"enable": true,
-	"default": true,
-	"section": "appear",
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-ScrollUpButton\"></span> 在页面右下角添加页顶、页底跳转按钮",
+	"default": true,
 	"dependencies": ["ext.gadget.i18n"]
 }

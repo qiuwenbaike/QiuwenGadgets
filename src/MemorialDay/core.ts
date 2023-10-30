@@ -1,4 +1,4 @@
-import {pageList} from './page-list';
+import {pageList} from './pageList';
 
 const dateNow: Date = new Date();
 const month: number = dateNow.getMonth() + 1;

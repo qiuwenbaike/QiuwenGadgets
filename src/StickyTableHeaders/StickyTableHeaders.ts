@@ -1,3 +1,3 @@
-import {stickyTableHeaders} from './module/core';
+import {stickyTableHeaders} from './modules/core';
 
 $(stickyTableHeaders);

@@ -1,8 +1,8 @@
 {
 	"enable": true,
-	"hidden": true,
-	"actions": ["edit", "submit"],
-	"section": "edit",
 	"description": "<span id=\"Gadget-Edittools-customizeToolbar\"></span> 编辑工具栏扩展依赖：增加菜单",
-	"dependencies": ["ext.wikiEditor"]
+	"section": "edit",
+	"actions": ["edit", "submit"],
+	"dependencies": ["ext.wikiEditor"],
+	"hidden": true
 }

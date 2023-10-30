@@ -1,7 +1,7 @@
 {
 	"enable": true,
-	"default": true,
-	"hidden": true,
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-HistoryDisclaimer\"></span> 历史版本免责声明",
 	"section": "compatibility",
-	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-HistoryDisclaimer\"></span> 历史版本免责声明"
+	"default": true,
+	"hidden": true
 }
