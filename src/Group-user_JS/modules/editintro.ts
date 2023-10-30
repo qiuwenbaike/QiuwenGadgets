@@ -54,6 +54,5 @@ export const editIntro = (): void => {
 				$('.mw-editintro').appendTo($('#editpage-copywarn'));
 			}
 			break;
-		default:
 	}
 };
