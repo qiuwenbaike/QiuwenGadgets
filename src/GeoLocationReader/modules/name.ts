@@ -1080,10 +1080,12 @@ const getRegionName = (): Record<string, string> => {
 	};
 };
 
-window.geoCountryName = (): Record<string, string> => {
+const geoCountryName = (): Record<string, string> => {
 	return getCountryName();
 };
 
-window.geoRegionName = (): Record<string, string> => {
+const geoRegionName = (): Record<string, string> => {
 	return getRegionName();
 };
+
+export {geoCountryName, geoRegionName};
