@@ -1,9 +1,8 @@
 {
 	"enable": true,
-	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-GroupUserCSS\"></span> 注册用户样式表及脚本",
+	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-GroupUserCSS\"></span> 注册用户样式表",
 	"section": "usergroup",
 	"default": true,
-	"dependencies": ["ext.gadget.i18n"],
 	"hidden": true,
 	"rights": ["edit"]
 }
