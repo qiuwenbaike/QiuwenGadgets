@@ -4,5 +4,5 @@
 	"section": "sysop",
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "mediawiki.util"],
-	"rights": ["patrol", "autopatrol"]
+	"rights": ["autopatrol", "patrol"]
 }
