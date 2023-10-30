@@ -1,5 +1,5 @@
-import {SELECTOR} from './module/constant';
-import {getMessage} from './module/i18n';
+import {SELECTOR} from './modules/constant';
+import {getMessage} from './modules/i18n';
 
 $((): void => {
 	if (!$(SELECTOR).length) {

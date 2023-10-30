@@ -1,9 +1,9 @@
-import {AiAssisted} from './module/ai-assisted';
-import {antiConv} from './module/anti-conv';
-import {cancelAutoSummary} from './module/cancel-auto-summary';
-import {disableTitle} from './module/disable-title';
-import {editToolbar} from './module/edit-toolbar';
-import {forcePreview} from './module/force-preview';
+import {AiAssisted} from './modules/ai-assisted';
+import {antiConv} from './modules/anti-conv';
+import {cancelAutoSummary} from './modules/cancel-auto-summary';
+import {disableTitle} from './modules/disable-title';
+import {editToolbar} from './modules/edit-toolbar';
+import {forcePreview} from './modules/force-preview';
 
 /**
  * 管理员注意：

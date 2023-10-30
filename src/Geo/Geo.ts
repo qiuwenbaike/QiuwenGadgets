@@ -1,4 +1,4 @@
-import {STORAGE_ITEM_NAME} from './module/constant';
+import {STORAGE_ITEM_NAME} from './modules/constant';
 
 const defaultGeoInfo: {
 	country: string;

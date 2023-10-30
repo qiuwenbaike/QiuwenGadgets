@@ -1,3 +1,3 @@
-import {diffLinkLoad} from './module/core';
+import {diffLinkLoad} from './modules/core';
 
 $(diffLinkLoad);

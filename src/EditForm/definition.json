@@ -1,8 +1,8 @@
 {
 	"enable": true,
-	"actions": ["edit", "submit"],
-	"section": "edit",
 	"description": "<span id=\"Gadget-EditForm\"></span> 编辑界面脚本及样式表",
+	"section": "edit",
+	"actions": ["edit", "submit"],
 	"dependencies": ["ext.gadget.i18n", "mediawiki.util", "oojs-ui-core", "oojs-ui-windows"],
 	"hidden": true,
 	"rights": ["edit"]

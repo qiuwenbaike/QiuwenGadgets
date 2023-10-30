@@ -1,3 +1,3 @@
-import {defaultSummariesLoad} from './module/core';
+import {defaultSummariesLoad} from './modules/core';
 
 $(defaultSummariesLoad);
