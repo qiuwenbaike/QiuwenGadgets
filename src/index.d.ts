@@ -117,7 +117,7 @@ declare global {
 		): string;
 		LogFilterInstalled: boolean; // LogFilter
 		RefToolbarInstalled: boolean; // RefToolbar
-		SiteCommonJSInstalled: boolean; // SiteCommonJS
+		SiteCommonInstalled: boolean; // SiteCommon
 		UserJSInstalled: boolean; // UserJS
 	}
 }

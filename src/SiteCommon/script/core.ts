@@ -1,8 +1,4 @@
-export const siteCommonJS = (): void => {
-	if (window.SiteCommonJSInstalled) {
-		return;
-	}
-	window.SiteCommonJSInstalled = true;
+export const core = (): void => {
 	/**
 	 * &withCSS= and &withJS= URL parameters
 	 * Allow to try custom scripts from MediaWiki space

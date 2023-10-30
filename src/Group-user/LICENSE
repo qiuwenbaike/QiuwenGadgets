@@ -4,13 +4,7 @@
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Common.css>
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Group-user.css>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/Gadgets/src/branch/master/src/Group-user>
- */
-/**
- * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Group-user/Group-user.js|license2=CC-BY-SA-4.0}}'
- *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Common.js>
  * @base <https://meta.wikimedia.org/wiki/MediaWiki:Gadget-SousPages.js>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Group-user>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/Gadgets/src/branch/master/src/Group-user>
  */

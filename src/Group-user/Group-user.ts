@@ -4,6 +4,7 @@ import {fixSummary} from './modules/fix-summary';
 import {linkSearchEditButton} from './modules/linksearch-edit-button';
 import {loadEditFormJS} from './modules/load-edit-form-js';
 import {smartNewSection} from './modules/smart-new-section';
+
 (function userJS(): void {
 	if (window.UserJSInstalled) {
 		return;
