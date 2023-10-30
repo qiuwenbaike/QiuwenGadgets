@@ -10,5 +10,5 @@
 	"globals": {
 		"CodeMirror": "readonly"
 	},
-	"ignorePatterns": ["core.js", "highlight.js"]
+	"ignorePatterns": ["module/*.js"]
 }
