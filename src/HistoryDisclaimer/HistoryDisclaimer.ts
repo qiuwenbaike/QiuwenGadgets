@@ -1,4 +1,4 @@
-export const historyDisclaimer = (): void => {
+const historyDisclaimer = (): void => {
 	if (
 		(mw.config.get('wgCurRevisionId') || -1) > 0 &&
 		(mw.config.get('wgRevisionId') || -1) > 0 &&
@@ -7,3 +7,5 @@ export const historyDisclaimer = (): void => {
 		$('<div>').attr('id', 'historyDisclaimer').appendTo($('body'));
 	}
 };
+
+$(historyDisclaimer);
