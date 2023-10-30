@@ -3,6 +3,6 @@
 	"description": "<span id=\"Gadget-ToolsRedirect\"></span> ToolsRedirect <small>可视化的重定向修复和创建工具</small>",
 	"section": "edit",
 	"actions": ["view"],
-	"dependencies": ["mediawiki.jqueryMsg", "user.options", "jquery.ui"],
+	"dependencies": ["jquery.ui", "mediawiki.jqueryMsg", "user.options"],
 	"rights": ["edit"]
 }

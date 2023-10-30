@@ -1,6 +1,5 @@
 {
 	"enable": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-NospzGothic\"></span> NospzGothic <small>为显示特殊汉字添加额外字体</small>",
-	"section": "appear",
 	"default": true
 }

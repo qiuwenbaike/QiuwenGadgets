@@ -1,7 +1,7 @@
 {
 	"enable": true,
 	"description": "<span id=\"Gadget-Navigation_popups\"></span> 导航Popup <small>光标悬停于链接时可弹出标签，有预览条目及多种维护功能</small>",
-	"section": "browser",
+	"section": "edit",
 	"dependencies": [
 		"ext.gadget.i18n",
 		"mediawiki.api",

@@ -4,5 +4,5 @@
 	"section": "edit",
 	"actions": ["view"],
 	"dependencies": ["user.options"],
-	"rights": ["edit"]
+	"rights": ["skipcaptcha"]
 }

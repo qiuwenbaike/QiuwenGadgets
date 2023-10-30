@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-SkinWriteCSS\"></span> 为Write皮肤补充样式",
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-SkinWrite\"></span> 为Write皮肤补充样式",
 	"section": "skin",
 	"default": true,
 	"hidden": true,
