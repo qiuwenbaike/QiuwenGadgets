@@ -1,8 +1,0 @@
-{
-	"enable": true,
-	"default": true,
-	"hidden": true,
-	"section": "usergroup",
-	"description": "<span id=\"Gadget-GroupTranswikiCSS\"></span> 导入者样式表",
-	"rights": ["import"]
-}

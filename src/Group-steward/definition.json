@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"default": true,
+	"hidden": true,
+	"section": "usergroup",
+	"description": "<span id=\"Gadget-Group-steward\"></span> 裁决委员样式表",
+	"rights": ["officialprotected"]
+}

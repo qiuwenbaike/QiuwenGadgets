@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"section": "usergroup",
+	"description": "<span id=\"Gadget-Group-patroller\"></span> 巡查员样式表",
+	"default": true,
+	"rights": ["patrol"],
+	"hidden": true
+}

@@ -1,8 +1,0 @@
-{
-	"enable": true,
-	"default": true,
-	"hidden": true,
-	"section": "usergroup",
-	"description": "<span id=\"Gadget-GroupSeniorEditorCSS\"></span> 资深编者样式表",
-	"rights": ["revisionprotected"]
-}
