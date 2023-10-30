@@ -69,7 +69,7 @@ const DEPLOY_USER_AGENT = 'AnYiEE/AwesomeGadgets (https://github.com/AnYiEE/Awes
  *
  * @type {boolean}
  */
-const IS_CONVERT_VARIANT = false;
+const IS_CONVERT_VARIANT = true;
 
 export {
 	HEADER,
