@@ -21,7 +21,7 @@ export const scrollUpButton = (): void => {
 	 */
 	const $scrollButton: JQuery = $('<img>').addClass('noprint').attr({
 		draggable: false,
-		src: 'https://tu.zhongwen.wiki/images/qiuwen/thumb/8/8e/Up_Arrow_%28Blue%29.svg/50px-Up_Arrow_%28Blue%29.svg.png',
+		src: 'https://tu.zhongwen.wiki/images/qiuwen/9/94/Up_Arrow_%28Blue%2C_White_BG%29.svg',
 	});
 	const $scrollDownButton: JQuery = $scrollButton
 		.clone()
