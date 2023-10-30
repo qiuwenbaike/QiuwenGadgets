@@ -1,5 +1,5 @@
 import './modules/check';
-import {hotCatLocalDefaults} from './modules/local-defaults';
+import {hotCatLocalDefaults} from './modules/localDefaults';
 import {hotCatMessages} from './modules/messages';
 
 /**
