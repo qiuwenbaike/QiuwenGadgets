@@ -1,4 +1,4 @@
-import {getLocation, wgRelevantUserName} from './core';
+import {getLocation, wgRelevantUserName} from './module/core';
 
 const readerLoad = (): void => {
 	if (wgRelevantUserName && mw.config.get('wgNamespaceNumber') === 2 && mw.config.get('wgAction') === 'view') {

@@ -1,4 +1,4 @@
-import {enhancedSpecialSearch} from './core';
+import {enhancedSpecialSearch} from './module/core';
 
 (() => {
 	if (mw.config.get('wgCanonicalSpecialPageName') !== 'Search') {
