@@ -1,8 +1,9 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
+import {geoCountryName, geoRegionName} from './name';
 import {getMessage} from './i18n';
 
-const countryList = window.geoCountryName;
-const regionList = window.geoRegionName;
+const countryList = geoCountryName;
+const regionList = geoRegionName;
 const _countryList: Record<string, string> = countryList();
 const _regionList: Record<string, string> = regionList();
 const getCountryName = (key: string) => {
