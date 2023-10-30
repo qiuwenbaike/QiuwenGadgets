@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Group-confirmed\"></span> 确认用户样式表和脚本",
+	"description": "<span id=\"Gadget-Group-confirmed\"></span> 确认用户样式表",
 	"section": "usergroup",
 	"default": true,
 	"hidden": true,

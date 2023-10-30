@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Group-interface-admin\"></span> 界面管理员样式表和脚本",
+	"description": "<span id=\"Gadget-Group-interface-admin\"></span> 界面管理员样式表",
 	"section": "usergroup",
 	"default": true,
 	"hidden": true,

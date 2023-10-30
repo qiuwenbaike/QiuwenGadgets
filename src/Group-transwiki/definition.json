@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Group-transwiki\"></span> 导入者样式表和脚本",
+	"description": "<span id=\"Gadget-Group-transwiki\"></span> 导入者样式表",
 	"section": "usergroup",
 	"default": true,
 	"hidden": true,

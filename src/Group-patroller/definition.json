@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Group-patroller\"></span> 巡查员样式表和脚本",
+	"description": "<span id=\"Gadget-Group-patroller\"></span> 巡查员样式表",
 	"section": "usergroup",
 	"default": true,
 	"hidden": true,
