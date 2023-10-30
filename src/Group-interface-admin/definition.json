@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"default": true,
+	"hidden": true,
+	"section": "usergroup",
+	"description": "<span id=\"Gadget-Group-interface-admin\"></span> 界面管理员样式表",
+	"rights": ["editsitecss"]
+}

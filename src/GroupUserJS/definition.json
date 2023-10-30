@@ -1,8 +1,0 @@
-{
-	"enable": true,
-	"default": true,
-	"hidden": true,
-	"section": "usergroup",
-	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-GroupUserJS\"></span> 注册用户脚本",
-	"rights": ["edit"]
-}

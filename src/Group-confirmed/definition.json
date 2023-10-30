@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"default": true,
+	"hidden": true,
+	"section": "usergroup",
+	"description": "<span id=\"Gadget-Group-confirmed\"></span> 确认用户样式表",
+	"rights": ["autoconfirmed"]
+}

@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"default": true,
+	"hidden": true,
+	"section": "usergroup",
+	"description": "<span id=\"Gadget-Group-eventsponsor\"></span> 活动组织者样式表",
+	"rights": ["override-antispoof"]
+}
