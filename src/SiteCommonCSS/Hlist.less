@@ -2,6 +2,7 @@
  * @description Style for horizontal lists (separator following item)
  * @author SolidBlock
  */
+/* Style for horizontal lists (separator following item) */
 
 /* Variables */
 :root {
@@ -21,13 +22,6 @@
 	ol&,
 	ul& {
 		padding-left: 0;
-		margin: 0 !important;
-	}
-
-	dd,
-	dt,
-	li {
-		display: inline;
 		margin: 0 !important;
 
 		&::after {
@@ -54,6 +48,7 @@
 		& & {
 			display: inline;
 
+			/* Add parens around nested lists */
 			&::before {
 				content: '（';
 				content: var(--hlist-par-left, '（');
@@ -67,6 +62,7 @@
 	}
 
 	&.inline {
+		&,
 		dl,
 		ol,
 		ul {
@@ -81,16 +77,35 @@
 	}
 
 	/* Generate interpuncts */
-	dt::after {
-		content: '：';
-		content: var(--hlist-colon, '：');
+	dd,
+	dt,
+	li {
+		display: inline;
+		margin: 0 !important;
 	}
 
-	dd::after,
-	li::after {
-		content: ' · ';
-		content: var(--hlist-separator, ' · ');
-		font-weight: bold;
+	dd,
+	li {
+		&::after {
+			content: ' · ';
+			content: var(--hlist-separator, ' · ');
+			font-weight: bold;
+		}
+
+		&:last-child::after {
+			content: none;
+		}
+	}
+
+	dt {
+		&::after {
+			content: '：';
+			content: var(--hlist-colon, '：');
+		}
+
+		&:last-child::after {
+			content: none;
+		}
 	}
 
 	&-pipe {
@@ -100,6 +115,7 @@
 			font-weight: normal;
 		}
 	}
+
 	&-hyphen {
 		dd::after,
 		li::after {
@@ -115,6 +131,7 @@
 			font-weight: normal;
 		}
 	}
+
 	/* Put numbers in ordered lists */
 	&.hnum {
 		ol {
