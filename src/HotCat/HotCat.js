@@ -1,6 +1,6 @@
-import './modules/HotCat-check';
-import {hotCatLocalDefaults} from './modules/HotCat-local-defaults';
-import {hotCatMessages} from './modules/HotCat-messages';
+import './modules/check';
+import {hotCatLocalDefaults} from './modules/local-defaults';
+import {hotCatMessages} from './modules/messages';
 
 /**
  * @description Ajax-based simple Category manager. Allows adding/removing/changing categories on a page view.
