@@ -213,8 +213,9 @@ const twinklefluff = () => {
 					// Check for first username different than the top user,
 					// only apply rollback links if/when found
 					// for faster than every
-					for (const element of histList) {
-						if ($(element).find('.mw-userlink').text() !== vandal) {
+					// eslint-disable-next-line unicorn/no-for-loop
+					for (let i = 0; i < histList.length; i++) {
+						if ($(histList[i]).find('.mw-userlink').text() !== vandal) {
 							first.appendChild(Twinkle.fluff.linkBuilder.rollbackLinks(vandal, true));
 							break;
 						}
@@ -496,7 +497,8 @@ const twinklefluff = () => {
 				statelem.error(wgULS('没有其它修订版本，无法回退', '沒有其它修訂版本，無法回退'));
 				return;
 			}
-			const [top] = revs;
+			// eslint-disable-next-line prefer-destructuring
+			const top = revs[0];
 			const lastuser = top.getAttribute('user');
 			if (lastrevid < params.revid) {
 				Morebits.status.error(

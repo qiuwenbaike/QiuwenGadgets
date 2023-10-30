@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* Twinkle.js - twinklewarn.js */
 const twinklewarn = () => {
 	/**
@@ -779,9 +780,11 @@ const twinklewarn = () => {
 					Twinkle.warn.messages.singlewarn
 				);
 				const sortedSingletMessages = {};
-				for (const key of Object.keys(unSortedSinglets).sort()) {
-					sortedSingletMessages[key] = unSortedSinglets[key];
-				}
+				Object.keys(unSortedSinglets)
+					.sort()
+					.forEach((key) => {
+						sortedSingletMessages[key] = unSortedSinglets[key];
+					});
 				createEntries(sortedSingletMessages, sub_group, true);
 				break;
 			}
@@ -789,11 +792,11 @@ const twinklewarn = () => {
 				createEntries(Twinkle.getPref('customWarningList'), sub_group, true);
 				break;
 			case 'kitchensink':
-				for (const lvl of ['level1', 'level2']) {
+				['level1', 'level2'].forEach((lvl) => {
 					$.each(Twinkle.warn.messages.levels, (_, levelGroup) => {
 						createEntries(levelGroup.list, sub_group, true, lvl);
 					});
-				}
+				});
 				createEntries(Twinkle.warn.messages.singlenotice, sub_group, true);
 				createEntries(Twinkle.warn.messages.singlewarn, sub_group, true);
 				createEntries(Twinkle.getPref('customWarningList'), sub_group, true);
@@ -818,7 +821,7 @@ const twinklewarn = () => {
 				const autolevelProc = () => {
 					const wikitext = Twinkle.warn.talkpageObj.getPageText();
 					// history not needed for autolevel
-					const [latest] = Twinkle.warn.callbacks.dateProcessing(wikitext);
+					const latest = Twinkle.warn.callbacks.dateProcessing(wikitext)[0];
 					// Pseudo-params with only what's needed to parse the level i.e. no messageData
 					const params = {
 						sub_group: old_subvalue,
@@ -996,7 +999,7 @@ const twinklewarn = () => {
 					Twinkle.warn.talkpageObj = pageobj; // Update talkpageObj
 					const wikitext = pageobj.getPageText();
 					// history not needed for autolevel
-					const [latest] = Twinkle.warn.callbacks.dateProcessing(wikitext);
+					const latest = Twinkle.warn.callbacks.dateProcessing(wikitext)[0];
 					const params = {
 						sub_group: form.sub_group.value,
 						article: form.article.value,
@@ -1004,7 +1007,7 @@ const twinklewarn = () => {
 							.find(`option[value="${$(form.sub_group).val()}"]`)
 							.data('messageData'),
 					};
-					const [template] = Twinkle.warn.callbacks.autolevelParseWikitext(wikitext, params, latest);
+					const template = Twinkle.warn.callbacks.autolevelParseWikitext(wikitext, params, latest)[0];
 					Twinkle.warn.callbacks.showPreview(form, template);
 					// If the templates have diverged, fake a change event
 					// to reload the menu with the updated pageobj
@@ -1036,7 +1039,7 @@ const twinklewarn = () => {
 			};
 			let current;
 			while ((current = history_re.exec(wikitext)) !== null) {
-				const [, template] = current;
+				const template = current[1];
 				const current_date = new Morebits.date(
 					`${current[2]}-${current[3]}-${current[4]} ${current[5]}:${current[6]} (CST)`
 				);
@@ -1170,8 +1173,8 @@ const twinklewarn = () => {
 			let {messageData} = params;
 			// JS somehow didn't get destructured assignment until ES6 so of course IE doesn't support it
 			const warningHistory = Twinkle.warn.callbacks.dateProcessing(text);
-			const [latest] = warningHistory;
-			const [, history] = warningHistory;
+			const latest = warningHistory[0];
+			const history = warningHistory[1];
 			const now = new Morebits.date(pageobj.getLoadTime());
 			Twinkle.warn.talkpageObj = pageobj; // Update talkpageObj, just in case
 			if (params.main_group === 'autolevel') {
@@ -1196,7 +1199,7 @@ const twinklewarn = () => {
 					return;
 				}
 				// Update params now that we've selected a warning
-				[params.sub_group] = templateAndLevel;
+				params.sub_group = templateAndLevel[0];
 				messageData = params.messageData[`level${templateAndLevel[1]}`];
 			} else if (
 				params.sub_group in history &&
@@ -1225,7 +1228,7 @@ const twinklewarn = () => {
 			// build the edit summary
 			// Function to handle generation of summary prefix for custom templates
 			const customProcess = (template) => {
-				[template] = template.split('|');
+				template = template.split('|')[0];
 				let prefix;
 				switch (template.slice(-1)) {
 					case '1':

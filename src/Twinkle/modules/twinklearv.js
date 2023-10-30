@@ -1,3 +1,5 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable unicorn/no-useless-switch-case */
 /* Twinkle.js - twinklearv.js */
 const twinklearv = () => {
 	/**
@@ -103,7 +105,7 @@ const twinklearv = () => {
 		new Morebits.wiki.api(wgULS('检查用户的封禁状态', '檢查使用者的封鎖狀態'), query, (apiobj) => {
 			const blocklist = apiobj.getResponse().query.blocks;
 			if (blocklist.length) {
-				const [block] = blocklist;
+				const block = blocklist[0];
 				let message =
 					(isIP ? wgULS('此IP地址', '此IP位址') : wgULS('此账户', '此帳號')) +
 					wgULS('已经被', '已經被') +
@@ -138,7 +140,7 @@ const twinklearv = () => {
 	Twinkle.arv.callback.changeCategory = (e) => {
 		const {value} = e.target;
 		const root = e.target.form;
-		const [old_area] = Morebits.quickForm.getElements(root, 'work_area');
+		const old_area = Morebits.quickForm.getElements(root, 'work_area')[0];
 		let work_area = null;
 		const previewlink = document.createElement('a');
 		previewlink.style.cursor = 'pointer';
@@ -354,7 +356,8 @@ const twinklearv = () => {
 				);
 				Twinkle.arv.callback.set_sockmaster(root.uid.value);
 				break;
-			/* case 'aiv': */
+
+			case 'aiv':
 			/* falls through */
 			default:
 				work_area = new Morebits.quickForm.element({
@@ -677,7 +680,7 @@ const twinklearv = () => {
 			}
 
 			// Report user for vandalism
-			/* case 'aiv': */
+			case 'aiv':
 			/* falls through */
 			default: {
 				if (!input.arvtype.length && input.reason === '') {
@@ -854,8 +857,9 @@ const twinklearv = () => {
 				spiPage.append();
 				break;
 			}
+
 			// Report user for vandalism
-			/* case 'aiv': */
+			case 'aiv':
 			/* falls through */
 			default: {
 				reason = Twinkle.arv.callback.getReportWikitext(form);

@@ -313,7 +313,7 @@ const twinklestub = () => {
 						wgULS(`在页面上找到{{${params.tags[i]}}}……跳过`, `在頁面上找到{{${params.tags[i]}}}……跳過`)
 					);
 				} else {
-					tags = [...tags, ...params.tags[i]];
+					tags = [...tags, ...(Array.isArray(params.tags[i]) ? params.tags[i] : [params.tags[i]])];
 				}
 			}
 			tags = [...tags, ...groupableTags];
