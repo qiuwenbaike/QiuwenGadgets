@@ -4,9 +4,8 @@ const WG_CANONICAL_NAMESPACE: string = mw.config.get('wgCanonicalNamespace');
 const WG_CANONICAL_SPECIAL_PAGE_NAME: string = mw.config.get('wgCanonicalSpecialPageName').toString();
 
 const IS_DIFF_ACTION: boolean = location.href.includes('diff=');
-const IS_WG_EDIT_OR_SUBMIT_ACTION: boolean = ['edit', 'submit'].includes(WG_ACTION);
-const IS_WG_HISTORY_ACTION: boolean = WG_ACTION === 'history';
-const IS_WG_SPECIAL_PAGE: boolean = [
+// Special crono pages where this script is enabled
+const IS_TARGET_SPECIAL_PAGE: boolean = [
 	'Contributions',
 	'Log',
 	'Newpages',
@@ -14,6 +13,9 @@ const IS_WG_SPECIAL_PAGE: boolean = [
 	'Recentchangeslinked',
 	'Watchlist',
 ].includes(WG_CANONICAL_SPECIAL_PAGE_NAME);
+const IS_IN_TARGET_SPECIAL_PAGE = WG_CANONICAL_NAMESPACE === 'Special' && IS_TARGET_SPECIAL_PAGE;
+const IS_WG_EDIT_OR_SUBMIT_ACTION: boolean = ['edit', 'submit'].includes(WG_ACTION);
+const IS_WG_HISTORY_ACTION: boolean = WG_ACTION === 'history';
 
 const REGEX_INTERNAL_URL = /([^=])([\s"'])((?:\/?w\/index\.php\?|\/?wiki\/)[\w!#%&()+./:=?@\\~-]+)\2/g;
 // External links (no wikicode)
@@ -26,14 +28,14 @@ const REGEX_URL =
 	/((?:[^"[]|[^=]")(?:<span class="diffchange">)?)((?:https?|ftps?):\/\/[\w!#%&()+./:=?@\\~-]+?)(?=(?:<\/span>)?[\s"')\]|}])/g;
 
 export {
-	WG_ACTION,
-	WG_CANONICAL_NAMESPACE,
 	IS_DIFF_ACTION,
+	IS_IN_TARGET_SPECIAL_PAGE,
+	IS_TARGET_SPECIAL_PAGE,
 	IS_WG_EDIT_OR_SUBMIT_ACTION,
 	IS_WG_HISTORY_ACTION,
-	IS_WG_SPECIAL_PAGE,
 	REGEX_INTERNAL_URL,
 	REGEX_IMPORT_SCRIPT,
 	REGEX_TL,
 	REGEX_URL,
+	WG_ACTION,
 };

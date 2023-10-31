@@ -1,8 +1,8 @@
 import {
 	IS_DIFF_ACTION,
+	IS_TARGET_SPECIAL_PAGE,
 	IS_WG_EDIT_OR_SUBMIT_ACTION,
 	IS_WG_HISTORY_ACTION,
-	IS_WG_SPECIAL_PAGE,
 	REGEX_IMPORT_SCRIPT,
 	REGEX_INTERNAL_URL,
 	REGEX_TL,
@@ -111,7 +111,7 @@ const processElement = ({color, $targetElementArray}: TargetElements): void => {
 			);
 			html = html.replace(/([^']|^)'{3}(.+?)'{3}([^']|$)/gm, '$1<b>$2</b>$3');
 			html = html.replace(/([^']|^)'{2}(.+?)'{2}([^']|$)/gm, '$1<i>$2</i>$3');
-			if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_WG_SPECIAL_PAGE) {
+			if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_TARGET_SPECIAL_PAGE) {
 				html = html.replace(
 					/<i>(.*?)<\/i>/g,
 					'<span title="italic" style="border:1px solid #c0c0c0;padding:2px">$1</span>'
