@@ -1,3 +1,3 @@
-const SKIN: string = mw.config.get('skin');
+const WG_SKIN: string = mw.config.get('skin');
 
-export {SKIN};
+export {WG_SKIN};
