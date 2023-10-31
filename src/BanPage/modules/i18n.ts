@@ -7,12 +7,6 @@ const getI18nMessages: GetI18nMessages = () => {
 			'zh-hans': '禁用此页面',
 			'zh-hant': '禁用此頁',
 		}),
-		'Ban the $1': localize({
-			en: 'Ban the $1',
-			ja: '現在の$1を無効に',
-			'zh-hans': '禁用此$1',
-			'zh-hant': '禁用此$1',
-		}),
 		Confirm: localize({
 			en: 'Confirm to enforce ban on this page?',
 			'zh-hans': '您确定要禁用此页面吗？',
@@ -23,6 +17,18 @@ const getI18nMessages: GetI18nMessages = () => {
 			ja: 'ネットワークエラー',
 			'zh-hans': '网络异常',
 			'zh-hant': '網路異常',
+		}),
+		Refreshing: localize({
+			en: 'Page banned successfully, refreshing...',
+			ja: '現在のページを無効になりました。再読み込みします...',
+			'zh-hans': '禁用成功，即将刷新当前页面……',
+			'zh-hant': '禁用成功，即將重新載入當前頁……',
+		}),
+		'Ban the $1': localize({
+			en: 'Ban the $1',
+			ja: '現在の$1を無効に',
+			'zh-hans': '禁用此$1',
+			'zh-hant': '禁用此$1',
 		}),
 		Image: localize({
 			en: 'image',
@@ -35,12 +41,6 @@ const getI18nMessages: GetI18nMessages = () => {
 			ja: 'ページ',
 			'zh-hans': '页面',
 			'zh-hant': '頁',
-		}),
-		Refreshing: localize({
-			en: 'Page banned successfully, refreshing...',
-			ja: '現在のページを無効になりました。再読み込みします...',
-			'zh-hans': '禁用成功，即将刷新当前页面……',
-			'zh-hant': '禁用成功，即將重新載入當前頁……',
 		}),
 		Template: localize({
 			en: 'template',

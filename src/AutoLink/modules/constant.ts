@@ -13,7 +13,7 @@ const IS_TARGET_SPECIAL_PAGE: boolean = [
 	'Recentchangeslinked',
 	'Watchlist',
 ].includes(WG_CANONICAL_SPECIAL_PAGE_NAME);
-const IS_IN_TARGET_SPECIAL_PAGE = WG_CANONICAL_NAMESPACE === 'Special' && IS_TARGET_SPECIAL_PAGE;
+const IS_IN_TARGET_SPECIAL_PAGE: boolean = WG_CANONICAL_NAMESPACE === 'Special' && IS_TARGET_SPECIAL_PAGE;
 const IS_WG_EDIT_OR_SUBMIT_ACTION: boolean = ['edit', 'submit'].includes(WG_ACTION);
 const IS_WG_HISTORY_ACTION: boolean = WG_ACTION === 'history';
 
