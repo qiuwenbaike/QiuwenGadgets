@@ -119,11 +119,7 @@ const ajaxLogin = (): void => {
 		}
 	};
 
-	const needCheckElements: [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget] = [
-		agreeTosCheckbox,
-		nameInput,
-		pwdInput,
-	];
+	const needCheckElements: Parameters<typeof checkValid> = [agreeTosCheckbox, nameInput, pwdInput];
 
 	pwdInput.on('enter', (): void => {
 		if (checkValid(...needCheckElements)) {
