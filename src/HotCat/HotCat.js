@@ -3440,7 +3440,5 @@ import {hotCatMessages} from './modules/messages';
 	}
 	// We can safely trigger just after user configuration is loaded.
 	// Use always() instead of then() to also start HotCat if the user module has problems.
-	$(() => {
-		run();
-	});
+	$(run);
 })();
