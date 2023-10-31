@@ -1,4 +1,4 @@
-import {WG_NAMESPACE_NUMBER} from './modules/constant';
+import {WG_NAMESPACE_NUMBER} from '../constant';
 import {addPortletLink} from './modules/addPortletLink';
 
 $(function banPage(): void {

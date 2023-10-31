@@ -1,4 +1,4 @@
-import {WG_SKIN} from './constant';
+import {WG_SKIN} from '../../constant';
 import {getMessage} from './i18n';
 
 const processElement = ($element: JQuery): void => {

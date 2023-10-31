@@ -1,4 +1,5 @@
-import {LOGIN_ELEMENT_SELECTOR, WG_USER_NAME} from './modules/constant';
+import {LOGIN_ELEMENT_SELECTOR} from './modules/constant';
+import {WG_USER_NAME} from '../constant';
 import {ajaxLogin} from './modules/core';
 import {checkA11yConfirmKey} from '../util';
 

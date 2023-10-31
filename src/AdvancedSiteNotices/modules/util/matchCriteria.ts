@@ -1,5 +1,5 @@
 /* eslint-disable camelcase, no-eval, @typescript-eslint/ban-ts-comment, @typescript-eslint/no-unused-vars */
-import {WG_USER_GROUPS, WG_USER_LANGUAGE} from '../constant';
+import {WG_USER_GROUPS, WG_USER_LANGUAGE} from '../../../constant';
 
 const testCriteria = (criteria: string): boolean => {
 	// @ts-ignore

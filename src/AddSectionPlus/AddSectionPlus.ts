@@ -1,4 +1,4 @@
-import {WG_SKIN} from './modules/constant';
+import {WG_SKIN} from '../constant';
 import {processElement} from './modules/processElement';
 
 $(function addSectionPlus(): void {

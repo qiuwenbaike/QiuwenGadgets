@@ -1,4 +1,5 @@
-import {AJAX_PAGE_TITLE, WG_USER_LANGUAGE} from '../constant';
+import {AJAX_PAGE_TITLE} from '../constant';
+import {WG_USER_LANGUAGE} from '../../../constant';
 import {api} from '../api';
 
 interface RemoteNotices {

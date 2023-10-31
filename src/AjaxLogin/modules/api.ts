@@ -1,4 +1,4 @@
-import {WG_WIKI_ID} from './constant';
+import {WG_WIKI_ID} from '../../constant';
 import {initMwApi} from '../../util';
 
 type ClientLoginParams = ApiClientLoginParams & {
