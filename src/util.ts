@@ -1,15 +1,9 @@
-const checkA11yConfirmKey = (
-	event: JQuery.ClickEvent | JQuery.KeyDownEvent,
-	{preventDefault = false, stopPropagation = false}: {preventDefault?: boolean; stopPropagation?: boolean} = {}
-): boolean => {
-	if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
+const checkA11yConfirmKey = (event: KeyboardEvent | MouseEvent | JQuery.ClickEvent | JQuery.KeyDownEvent): boolean => {
+	if (['click', 'keydown'].includes(event.type)) {
+		if (event.type === 'keydown') {
+			return ['Enter', ' '].includes((event as KeyboardEvent).key);
+		}
 		return true;
-	}
-	if (preventDefault) {
-		event.preventDefault();
-	}
-	if (stopPropagation) {
-		event.stopPropagation();
 	}
 	return false;
 };

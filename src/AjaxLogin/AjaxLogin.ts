@@ -9,13 +9,10 @@ $(function initAutoLogin() {
 	}
 
 	const eventListener = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
-		if (
-			checkA11yConfirmKey(event, {
-				preventDefault: true,
-			})
-		) {
+		if (!checkA11yConfirmKey(event)) {
 			return;
 		}
+		event.preventDefault();
 		ajaxLogin();
 	};
 	$element.on('click', eventListener);
