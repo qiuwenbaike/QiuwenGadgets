@@ -1,7 +1,4 @@
-// eslint-disable-next-line camelcase
-const WG_ACTION: MediaWikiConfigMap_WgAction = mw.config.get('wgAction');
-const WG_CANONICAL_NAMESPACE: string = mw.config.get('wgCanonicalNamespace');
-const WG_CANONICAL_SPECIAL_PAGE_NAME: string = mw.config.get('wgCanonicalSpecialPageName').toString();
+import {WG_ACTION, WG_CANONICAL_NAMESPACE, WG_CANONICAL_SPECIAL_PAGE_NAME} from '../../constant';
 
 const IS_DIFF_ACTION: boolean = location.href.includes('diff=');
 // Special crono pages where this script is enabled
@@ -37,5 +34,4 @@ export {
 	REGEX_IMPORT_SCRIPT,
 	REGEX_TL,
 	REGEX_URL,
-	WG_ACTION,
 };

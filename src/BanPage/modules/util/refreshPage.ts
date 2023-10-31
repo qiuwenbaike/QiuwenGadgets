@@ -1,4 +1,4 @@
-import {WG_SCRIPT} from '../constant';
+import {WG_SCRIPT} from '../../../constant';
 import {ding} from '../../../util';
 import {getMessage} from '../i18n';
 
