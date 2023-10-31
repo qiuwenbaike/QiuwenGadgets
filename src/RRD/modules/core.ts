@@ -1,6 +1,6 @@
-import {msg} from './messages';
+import {RRD_PAGE} from './constant';
+import {message} from './messages';
 
-const RRD_PAGE = 'Qiuwen_talk:版本删除提报';
 export const isLog = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
 const config = {checkboxes: {}, others: {}};
 let ids: string[] = [];
@@ -63,7 +63,7 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 				formatversion: '2',
 				title: RRD_PAGE,
 				text: `${content}\n\n${rrdArr.join('\n')}`,
-				summary: msg.edit_summary,
+				summary: message.edit_summary,
 			};
 			api.postWithEditToken(_params)
 				.done((result): void => {
@@ -126,25 +126,25 @@ const loadConfig = (): void => {
 const showDialog = (): void => {
 	loadIDs();
 	if (!ids.length) {
-		mw.notify(msg.err_no_revision_provided, {tag: 'RRD', type: 'error'});
+		mw.notify(message.err_no_revision_provided, {tag: 'RRD', type: 'error'});
 		return;
 	}
-	const html = `${`<div id="rrdConfig">${msg.hide_items}<br>`}<div style="float: left; padding: 0 5px;"><input name="content" id="rrdHideContent" type="checkbox" value="content" checked>${`<label for="rrdHideContent" id="rrd-content">${
-		isLog ? msg.hide_log : msg.hide_content
-	}</label>`}</div><div style="float: left; padding: 0 5px;"><input name="username" id="rrdHideUsername" type="checkbox" value="username">${`<label for="rrdHideUsername" id="rrd-username">${msg.hide_username}</label>`}</div><div style="float: left; padding: 0 5px;"><input name="summary" id="rrdHideSummary" type="checkbox" value="summary">${`<label for="rrdHideSummary" id="rrd-summary">${msg.hide_summary}</label>`}${`</div><br><br>${msg.hide_reason}<br>`}<select name="rrdReason" id="rrdReason">${`<option value="${msg.hide_reason_rd1}">`}${`RD1：${msg.hide_reason_rd1}</option>`}${`<option value="${msg.hide_reason_rd2}">`}${`RD2：${msg.hide_reason_rd2}</option>`}${`<option value="${msg.hide_reason_rd3}">`}${`RD3：${msg.hide_reason_rd3}</option>`}${`<option value="${msg.hide_reason_rd4}">`}${`RD4：${msg.hide_reason_rd4}</option>`}${`<option value="${msg.hide_reason_rd5}">`}${`RD5：${msg.hide_reason_rd5}</option>`}${`<option value="">${msg.hide_reason_other}</option>`}</select>${`<br><br>${msg.other_reasons}<br>`}<textarea name="otherReasons" id="rrdOtherReasons" rows="4"></textarea></div>`;
+	const html = `${`<div id="rrdConfig">${message.hide_items}<br>`}<div style="float: left; padding: 0 5px;"><input name="content" id="rrdHideContent" type="checkbox" value="content" checked>${`<label for="rrdHideContent" id="rrd-content">${
+		isLog ? message.hide_log : message.hide_content
+	}</label>`}</div><div style="float: left; padding: 0 5px;"><input name="username" id="rrdHideUsername" type="checkbox" value="username">${`<label for="rrdHideUsername" id="rrd-username">${message.hide_username}</label>`}</div><div style="float: left; padding: 0 5px;"><input name="summary" id="rrdHideSummary" type="checkbox" value="summary">${`<label for="rrdHideSummary" id="rrd-summary">${message.hide_summary}</label>`}${`</div><br><br>${message.hide_reason}<br>`}<select name="rrdReason" id="rrdReason">${`<option value="${message.hide_reason_rd1}">`}${`RD1：${message.hide_reason_rd1}</option>`}${`<option value="${message.hide_reason_rd2}">`}${`RD2：${message.hide_reason_rd2}</option>`}${`<option value="${message.hide_reason_rd3}">`}${`RD3：${message.hide_reason_rd3}</option>`}${`<option value="${message.hide_reason_rd4}">`}${`RD4：${message.hide_reason_rd4}</option>`}${`<option value="${message.hide_reason_rd5}">`}${`RD5：${message.hide_reason_rd5}</option>`}${`<option value="">${message.hide_reason_other}</option>`}</select>${`<br><br>${message.other_reasons}<br>`}<textarea name="otherReasons" id="rrdOtherReasons" rows="4"></textarea></div>`;
 	if ($dialog) {
 		$dialog.html(html).dialog('open');
 		loadConfig();
 		return;
 	}
 	$dialog = $(html).dialog({
-		title: msg.dialog_title,
+		title: message.dialog_title,
 		minWidth: 515,
 		minHeight: 150,
 		close: updateConfig,
 		buttons: [
 			{
-				text: msg.dialog_button_submit,
+				text: message.dialog_button_submit,
 				click(): void {
 					$(this).dialog('close');
 					const reason: string = Object.getOwnPropertyDescriptor(config.others, 'rrdReason')?.value ?? '';
@@ -155,21 +155,21 @@ const showDialog = (): void => {
 					}
 					const toHide: string[] = [];
 					if (Object.hasOwn(config.checkboxes, 'rrdHideContent')) {
-						toHide.push(isLog ? msg.hide_log : msg.hide_content);
+						toHide.push(isLog ? message.hide_log : message.hide_content);
 					}
 					if (Object.hasOwn(config.checkboxes, 'rrdHideUsername')) {
-						toHide.push(msg.hide_username);
+						toHide.push(message.hide_username);
 					}
 					if (Object.hasOwn(config.checkboxes, 'rrdHideSummary')) {
-						toHide.push(msg.hide_summary);
+						toHide.push(message.hide_summary);
 					}
 					let cont = true;
 					if (!toHide.length) {
-						mw.notify(msg.err_no_item_provided, {tag: 'RRD', type: 'error'});
+						mw.notify(message.err_no_item_provided, {tag: 'RRD', type: 'error'});
 						return;
 					}
 					if (!reason && !otherReasons) {
-						cont = confirm(msg.warn_no_reason_provided);
+						cont = confirm(message.warn_no_reason_provided);
 					}
 					if (cont) {
 						submit(toHide.join('、'), reason, otherReasons);
@@ -177,7 +177,7 @@ const showDialog = (): void => {
 				},
 			},
 			{
-				text: msg.dialog_button_cancel,
+				text: message.dialog_button_cancel,
 				click(): void {
 					$(this).dialog('close');
 				},
@@ -192,9 +192,9 @@ export const main = (): void => {
 		.attr({
 			name: 'reportRRD',
 			type: 'button',
-			title: msg.report_button_title + RRD_PAGE,
+			title: message.report_button_title + RRD_PAGE,
 		})
-		.text(isLog ? msg.report_button_log_text : msg.report_button_text);
+		.text(isLog ? message.report_button_log_text : message.report_button_text);
 	$report.on('click', showDialog);
 	// For action=history
 	$('.historysubmit.mw-history-compareselectedversions-button').after($report);

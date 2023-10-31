@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-export const msg = {
+export const message = {
 	edit_summary: window.wgULS(
 		'[[MediaWiki:Gadget-RRD.js|半自动提报]]修订版本删除',
 		'[[MediaWiki:Gadget-RRD.js|半自動提報]]修訂版本刪除'
