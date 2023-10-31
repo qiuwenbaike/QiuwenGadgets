@@ -1,4 +1,4 @@
-import {IS_DIFF_ACTION, IS_WG_EDIT_OR_SUBMIT_ACTION, IS_WG_HISTORY_ACTION, IS_WG_SPECIAL_PAGE} from '../constant';
+import {IS_DIFF_ACTION, IS_TARGET_SPECIAL_PAGE, IS_WG_EDIT_OR_SUBMIT_ACTION, IS_WG_HISTORY_ACTION} from '../constant';
 
 interface TargetElements {
 	color: string;
@@ -13,7 +13,7 @@ const getTargetElements = (): TargetElements => {
 		// in diff pages
 		color = 'inherit'; // not coloured links
 		$targetElementArray.push($('.diff'), $('.firstrevisionheader'));
-	} else if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_WG_SPECIAL_PAGE) {
+	} else if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_TARGET_SPECIAL_PAGE) {
 		// in comments
 		$targetElementArray.push($('.comment'));
 	} else {
