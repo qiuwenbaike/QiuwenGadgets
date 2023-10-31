@@ -1,6 +1,5 @@
-/* eslint-disable prefer-destructuring */
-/* Twinkle.js - twinkleclose.js */
-const twinkleclose = () => {
+/*! Twinkle.js - twinkleclose.js */
+(function twinkleclose($) {
 	/**
 	 * twinkleclose.js: XFD closing module
 	 * Mode of invocation: Links after section heading
@@ -52,7 +51,7 @@ const twinkleclose = () => {
 			} else {
 				const m = headlinehref.match(/\/wiki\/([^?]+)/, '$1');
 				if (m !== null) {
-					title = m[1];
+					[, title] = m;
 				}
 			}
 			if (title === null) {
@@ -62,7 +61,7 @@ const twinkleclose = () => {
 			title = title.replace(/_/g, ' '); // Normalize for using in interface and summary
 			const pagenotexist = $(current).find('.mw-headline a').hasClass('new');
 			const {section} = current.dataset;
-			const node = current.querySelectorAll('.mw-headline')[0];
+			const [node] = current.querySelectorAll('.mw-headline');
 			node.appendChild(document.createTextNode(' '));
 			const tmpNode = delNode.cloneNode(true);
 			tmpNode.firstChild.href = `#${section}`;
@@ -279,7 +278,7 @@ const twinkleclose = () => {
 		const result = form.render();
 		Window.setContent(result);
 		Window.display();
-		const sub_group = result.querySelectorAll('select')[0]; // hack
+		const [sub_group] = result.querySelectorAll('select'); // hack
 		const resultData = {
 			title,
 			section: Number.parseInt(section, 10),
@@ -649,5 +648,4 @@ const twinkleclose = () => {
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.close, 'close');
-};
-export default twinkleclose;
+})(jQuery);

@@ -1,5 +1,5 @@
-/* Twinkle.js - twinkle.js */
-const twinkle = () => {
+/*! Twinkle.js - twinkle.js */
+(function twinkle($) {
 	// Wrap with anonymous function
 	// Check if account is experienced enough to use Twinkle
 	if (!Morebits.userIsInGroup('autoconfirmed') && !Morebits.userIsInGroup('confirmed')) {
@@ -564,5 +564,4 @@ const twinkle = () => {
 		link.setAttribute('target', '_blank');
 		$checkbox.next().prepend([link, ' ']);
 	};
-};
-export default twinkle;
+})(jQuery);

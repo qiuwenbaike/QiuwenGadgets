@@ -1,5 +1,5 @@
-/* Twinkle.js - twinkleconfig.js */
-const twinkleconfig = () => {
+/*! Twinkle.js - twinkleconfig.js */
+(function twinkleconfig($) {
 	/**
 	 * twinkleconfig.js: Preferences module
 	 * Mode of invocation: Adds configuration form to Help:Twinkle/参数设置,
@@ -1890,5 +1890,4 @@ const twinkleconfig = () => {
 		Morebits.status.root.appendChild(noticeclear);
 	};
 	Twinkle.addInitCallback(Twinkle.config.init);
-};
-export default twinkleconfig;
+})(jQuery);

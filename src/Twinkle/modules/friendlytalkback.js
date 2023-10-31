@@ -1,6 +1,5 @@
-/* eslint-disable prefer-destructuring */
-/* Twinkle.js - friendlytalkback.js */
-const friendlytalkback = () => {
+/*! Twinkle.js - friendlytalkback.js */
+(function friendlytalkback($) {
 	/**
 	 * friendlytalkback.js: Talkback module
 	 * Mode of invocation: Tab ("TB")
@@ -125,7 +124,7 @@ const friendlytalkback = () => {
 	Twinkle.talkback.changeTarget = (e) => {
 		const value = e.target.values;
 		const root = e.target.form;
-		const old_area = Morebits.quickForm.getElements(root, 'work_area')[0];
+		const [old_area] = Morebits.quickForm.getElements(root, 'work_area');
 		if (root.section) {
 			prev_section = root.section.value;
 		}
@@ -331,14 +330,14 @@ const friendlytalkback = () => {
 	};
 	Twinkle.talkback.evaluate = (e) => {
 		const form = e.target;
-		const tbtarget = form.getChecked('tbtarget')[0];
+		const [tbtarget] = form.getChecked('tbtarget');
 		let page;
 		let message;
 		const section = form.section.value;
 		let editSummary;
 		if (tbtarget === 'notice') {
 			page = form.noticeboard.value;
-			editSummary = Twinkle.talkback.noticeboards[page].editSummary;
+			({editSummary} = Twinkle.talkback.noticeboards[page]);
 		} else {
 			// usertalk, other, see
 			page = form.page ? form.page.value : mw.config.get('wgUserName');
@@ -382,7 +381,7 @@ const friendlytalkback = () => {
 		talkpage.append();
 	};
 	Twinkle.talkback.preview = (form) => {
-		const tbtarget = form.getChecked('tbtarget')[0];
+		const [tbtarget] = form.getChecked('tbtarget');
 		const section = form.section.value;
 		let page;
 		let message;
@@ -395,7 +394,7 @@ const friendlytalkback = () => {
 				message = form.message.value.trim();
 			}
 		}
-		const noticetext = Twinkle.talkback.getNoticeWikitext(tbtarget, page, section, message)[0];
+		const [noticetext] = Twinkle.talkback.getNoticeWikitext(tbtarget, page, section, message);
 		form.previewer.beginRender(noticetext, `User_talk:${mw.config.get('wgRelevantUserName')}`); // Force wikitext/correct username
 	};
 
@@ -404,7 +403,7 @@ const friendlytalkback = () => {
 		let title;
 		let content;
 		if (tbtarget === 'notice') {
-			title = Twinkle.talkback.noticeboards[page].title;
+			({title} = Twinkle.talkback.noticeboards[page]);
 			content = Morebits.string.safeReplace(Twinkle.talkback.noticeboards[page].content, '$SECTION', section);
 			text = `== ${title} ==\n${content}`;
 		} else if (tbtarget === 'see') {
@@ -439,5 +438,4 @@ const friendlytalkback = () => {
 		return [text, title, content];
 	};
 	Twinkle.addInitCallback(Twinkle.talkback, 'talkback');
-};
-export default friendlytalkback;
+})(jQuery);

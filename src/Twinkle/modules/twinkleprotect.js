@@ -1,6 +1,5 @@
-/* eslint-disable prefer-destructuring */
-/* Twinkle.js - twinkleprotect.js */
-const twinkleprotect = () => {
+/*! Twinkle.js - twinkleprotect.js */
+(function twinkleprotect($) {
 	/**
 	 * twinkleprotect.js: Protect/RPP module
 	 * Mode of invocation: Tab ("PP"/"RPP")
@@ -128,7 +127,7 @@ const twinkleprotect = () => {
 		};
 		const protectDeferred = api.get(params);
 		$.when(protectDeferred).done((protectData) => {
-			const pageid = protectData.query.pageids[0];
+			const [pageid] = protectData.query.pageids;
 			const page = protectData.query.pages[pageid];
 			const current = {};
 			const previous = {};
@@ -145,9 +144,9 @@ const twinkleprotect = () => {
 			});
 			// Only use the log except unprotect
 			if (protectData.query.logevents.length >= 1 && protectData.query.logevents[0].action !== 'unprotect') {
-				Twinkle.protect.previousProtectionLog = protectData.query.logevents[0];
+				[Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
 			} else if (protectData.query.logevents.length >= 2) {
-				Twinkle.protect.previousProtectionLog = protectData.query.logevents[1];
+				[, Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
 			}
 			if (Twinkle.protect.previousProtectionLog) {
 				$.each(Twinkle.protect.previousProtectionLog.params.details, (index, protection) => {
@@ -264,9 +263,8 @@ const twinkleprotect = () => {
 						label: wgULS('编辑权限：', '編輯權限：'),
 						event: Twinkle.protect.formevents.editlevel,
 						list: Twinkle.protect.protectionLevels.filter(
-							(
-								level // Filter TE outside of templates and modules
-							) => {
+							// Filter TE outside of templates and modules
+							(level) => {
 								return isTemplate || level.value !== 'templateeditor';
 							}
 						),
@@ -307,9 +305,8 @@ const twinkleprotect = () => {
 						label: wgULS('移动权限：', '移動權限：'),
 						event: Twinkle.protect.formevents.movelevel,
 						list: Twinkle.protect.protectionLevels.filter(
-							(
-								level // Autoconfirmed is required for a move, redundant
-							) => {
+							// Autoconfirmed is required for a move, redundant
+							(level) => {
 								return (
 									level.value !== 'autoconfirmed' && (isTemplate || level.value !== 'templateeditor')
 								);
@@ -336,9 +333,8 @@ const twinkleprotect = () => {
 						label: wgULS('创建权限：', '建立權限：'),
 						event: Twinkle.protect.formevents.createlevel,
 						list: Twinkle.protect.protectionLevels.filter(
-							(
-								level // Filter TE always, and autoconfirmed in mainspace
-							) => {
+							// Filter TE always, and autoconfirmed in mainspace
+							(level) => {
 								return level.value !== 'templateeditor';
 							}
 						),
@@ -494,19 +490,19 @@ const twinkleprotect = () => {
 		}
 		let oldfield;
 		if (field_preset) {
-			oldfield = $(e.target.form).find('fieldset[name="field_preset"]')[0];
+			[oldfield] = $(e.target.form).find('fieldset[name="field_preset"]');
 			oldfield.parentNode.replaceChild(field_preset.render(), oldfield);
 		} else {
 			$(e.target.form).find('fieldset[name="field_preset"]').css('display', 'none');
 		}
 		if (field1) {
-			oldfield = $(e.target.form).find('fieldset[name="field1"]')[0];
+			[oldfield] = $(e.target.form).find('fieldset[name="field1"]');
 			oldfield.parentNode.replaceChild(field1.render(), oldfield);
 		} else {
 			$(e.target.form).find('fieldset[name="field1"]').css('display', 'none');
 		}
 		if (field2) {
-			oldfield = $(e.target.form).find('fieldset[name="field2"]')[0];
+			[oldfield] = $(e.target.form).find('fieldset[name="field2"]');
 			oldfield.parentNode.replaceChild(field2.render(), oldfield);
 		} else {
 			$(e.target.form).find('fieldset[name="field2"]').css('display', 'none');
@@ -731,7 +727,8 @@ const twinkleprotect = () => {
 		},
 	].filter(
 		(
-			{label} // Filter for templates
+			// Filter for templates
+			{label}
 		) => {
 			return isTemplate || (label !== '模板保护' && label !== '模板保護');
 		}
@@ -1359,7 +1356,7 @@ const twinkleprotect = () => {
 			if (params.tag === 'none') {
 				summary = wgULS('移除保护模板', '移除保護模板');
 			} else {
-				tag = params.tag;
+				({tag} = params);
 				if (params.reason) {
 					tag += `|reason=${params.reason}`;
 				}
@@ -1548,9 +1545,9 @@ const twinkleprotect = () => {
 			let sectionText;
 			let expiryText = '';
 			if (params.type === 'unprotect') {
-				sectionText = sections[1];
+				[, sectionText] = sections;
 			} else {
-				sectionText = sections[0];
+				[sectionText] = sections;
 				expiryText = Morebits.string.formatTime(params.expiry);
 			}
 			const requestList = sectionText.split(/(?=\n===.+===\s*\n)/);
@@ -1584,9 +1581,9 @@ const twinkleprotect = () => {
 			}
 			let summary = '';
 			if (params.type === 'unprotect') {
-				sectionText = sections[1];
+				[, sectionText] = sections;
 			} else {
-				sectionText = sections[0];
+				[sectionText] = sections;
 			}
 			switch (params.type) {
 				case 'semi':
@@ -1673,7 +1670,7 @@ const twinkleprotect = () => {
 						level = wgULS('仅管理员', '僅管理員');
 						break;
 					default:
-						level = settings.level;
+						({level} = settings);
 						break;
 				}
 				protectionNode.push($(`<b>${label}：${level}</b>`)[0]);
@@ -1692,5 +1689,4 @@ const twinkleprotect = () => {
 		return protectionNode;
 	};
 	Twinkle.addInitCallback(Twinkle.protect, 'protect');
-};
-export default twinkleprotect;
+})(jQuery);
