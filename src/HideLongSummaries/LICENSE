@@ -1,8 +1,7 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HideLongSummaries|license=CC-BY-SA-4.0}}'
  *
  * @base <https://zh.wikipedia.org/wiki/User:Xiplus/js/hide-long-summary.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HideLongSummaries>
- * @dependency ext.gadget.i18n
  */
