@@ -12,19 +12,44 @@
 		cursor: pointer;
 	}
 
-	&_data,
+	&_category_list {
+		overflow: auto;
+
+		table {
+			border-collapse: collapse;
+		}
+
+		tr:hover {
+			background-color: #fc3;
+		}
+	}
+
+	&_data {
+		display: none;
+
+		ul {
+			margin: 0 0 0 0.5em;
+			list-style-image: none;
+			list-style-type: none;
+		}
+	}
+
+	&_last_selected {
+		outline: 1px dotted #999;
+	}
+
+	&_last_selected,
+	&_no_found,
+	&_settings {
+		font-weight: bold;
+	}
+
 	&_mark_counter {
 		display: none;
 	}
 
-	&_data ul {
-		margin: 0 0 0 0.5em;
-		list-style-image: none;
-		list-style-type: none;
-	}
-
-	&_selections,
 	&_mark_counter,
+	&_selections,
 	&_settings {
 		padding: 0.5em;
 	}
@@ -40,50 +65,15 @@
 		font-size: 112%;
 	}
 
-	&_no_found,
-	&_last_selected,
-	&_settings {
-		font-weight: bold;
-	}
-
-	&_last_selected {
-		outline: 1px dotted #999;
-	}
-
-	&_category_list {
-		overflow: auto;
-
-		table {
-			border-collapse: collapse;
-		}
-
-		tr:hover {
-			background-color: #fc3;
-		}
-	}
-
 	.skin-vector & {
 		font-size: 0.75em;
 	}
 }
 
 .cat_a_lot {
-	&_move,
-	&_action {
+	&_action,
+	&_move {
 		font-weight: bold;
-	}
-
-	&_feedback {
-		min-height: 8em !important;
-		padding-top: 10px !important;
-		padding-left: 2.85em !important;
-		border: 1px #a9de16 solid !important;
-		background: #eaf2cb no-repeat 8px 14px !important;
-		font-size: 1.1em !important;
-
-		.ui-dialog-content {
-			min-height: 8em !important;
-		}
 	}
 
 	&_done {
@@ -97,6 +87,19 @@
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cpath d='M7 14.17L2.83 10l-1.41 1.41L7 17 19 5l-1.41-1.42L7 14.17z' fill='%2300af89'/%3E%3C/svg%3E") !important;
 		background-position: 8px 50% !important;
 		background-size: 40px;
+	}
+
+	&_feedback {
+		min-height: 8em !important;
+		padding-top: 10px !important;
+		padding-left: 2.85em !important;
+		border: 1px #a9de16 solid !important;
+		background: #eaf2cb no-repeat 8px 14px !important;
+		font-size: 1.1em !important;
+
+		.ui-dialog-content {
+			min-height: 8em !important;
+		}
 	}
 
 	&_markAsDone {

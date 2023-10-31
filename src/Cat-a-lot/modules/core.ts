@@ -1,119 +1,42 @@
-import {catALotMessages} from './messages';
-type CAL_message_key =
-	// Preferences
-	// new: added 2012-09-19. Please translate.
-	// Use user language for i18n
-	| 'cat-a-lot-watchlistpref'
-	| 'cat-a-lot-watch_pref'
-	| 'cat-a-lot-watch_nochange'
-	| 'cat-a-lot-watch_watch'
-	| 'cat-a-lot-watch_unwatch'
-	| 'cat-a-lot-minorpref'
-	| 'cat-a-lot-editpagespref'
-	| 'cat-a-lot-docleanuppref'
-	| 'cat-a-lot-subcatcountpref'
-	// Progress
-	| 'cat-a-lot-loading'
-	| 'cat-a-lot-editing'
-	| 'cat-a-lot-of'
-	| 'cat-a-lot-skipped-already'
-	| 'cat-a-lot-skipped-not-found'
-	| 'cat-a-lot-skipped-server'
-	| 'cat-a-lot-all-done'
-	| 'cat-a-lot-done'
-	| 'cat-a-lot-added-cat'
-	| 'cat-a-lot-copied-cat'
-	| 'cat-a-lot-moved-cat'
-	| 'cat-a-lot-removed-cat'
-	| 'cat-a-lot-return-to-page'
-	| 'cat-a-lot-cat-not-found'
-	// as in 17 files selected
-	| 'cat-a-lot-files-selected'
-	// Actions
-	| 'cat-a-lot-copy'
-	| 'cat-a-lot-move'
-	| 'cat-a-lot-add'
-	| 'cat-a-lot-remove-from-cat'
-	| 'cat-a-lot-enter-name'
-	| 'cat-a-lot-select'
-	| 'cat-a-lot-all'
-	| 'cat-a-lot-none'
-	| 'cat-a-lot-none-selected'
-	// Summaries:
-	| 'cat-a-lot-summary-add'
-	| 'cat-a-lot-summary-copy'
-	| 'cat-a-lot-summary-move'
-	| 'cat-a-lot-summary-remove';
+/* eslint-disable mediawiki/msg-doc */
+import {
+	API_ENTRY_POINT,
+	API_TAG,
+	DEFAULT_SETTING,
+	ENABLE_NAMESPACE,
+	VERSION,
+	WG_ACTION,
+	WG_CANONICAL_SPECIAL_PAGE_NAME,
+	WG_FORMATTED_NAMESPACES,
+	WG_NAMESPACE_IDS,
+	WG_NAMESPACE_NUMBER,
+	WG_SCRIPT,
+	WG_TITLE,
+	WG_WIKI_ID,
+} from './constant';
+import {DEFAULT_MESSAGES, MessageKey, catALotMessages} from './messages';
+
 /**
- * @description Changes category of multiple files
+ * Changes category of multiple files
  */
-export const catALot = (): void => {
+const catALot = (): void => {
 	/*! Cat-a-lot | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
-	if (mw.config.get('wgAction') !== 'view') {
+	if (WG_ACTION !== 'view') {
 		return;
 	}
 
 	class CAL {
-		static readonly version: string = '5.0';
-		static readonly apiUrl: string = mw.util.wikiScript('api');
-		static readonly indexUrl: string = mw.config.get('wgScript');
-		static readonly changeTag: string = 'Cat-a-lot';
-		static readonly nsCat: number = 14;
-		static readonly currentCat: string = mw.config.get('wgTitle');
-		static readonly formattedNS: Record<number, string> = mw.config.get('wgFormattedNamespaces');
-		static readonly ns: number = mw.config.get('wgNamespaceNumber');
-		static readonly nsIDs: Record<string, number> = mw.config.get('wgNamespaceIds');
+		static readonly version: string = VERSION;
+		static readonly apiUrl: string = API_ENTRY_POINT;
+		static readonly indexUrl: string = WG_SCRIPT;
+		static readonly changeTag: string = API_TAG;
+		static readonly nsCat: number = ENABLE_NAMESPACE;
+		static readonly currentCat: string = WG_TITLE;
+		static readonly formattedNS: Record<number, string> = WG_FORMATTED_NAMESPACES;
+		static readonly ns: number = WG_NAMESPACE_NUMBER;
+		static readonly nsIDs: Record<string, number> = WG_NAMESPACE_IDS;
 		static searchmode = false;
-		static readonly msgs: Record<CAL_message_key, string> = {
-			// Preferences
-			// new: added 2012-09-19. Please translate.
-			// Use user language for i18n
-			'cat-a-lot-watchlistpref': 'Watchlist preference concerning files edited with Cat-A-Lot',
-			'cat-a-lot-watch_pref': 'According to your general preferences',
-			'cat-a-lot-watch_nochange': 'Do not change watchstatus',
-			'cat-a-lot-watch_watch': 'Watch pages edited with Cat-A-Lot',
-			'cat-a-lot-watch_unwatch': 'Remove pages while editing with Cat-A-Lot from your watchlist',
-			'cat-a-lot-minorpref':
-				"Mark edits as minor (if you generally mark your edits as minor, this won't change anything)",
-			'cat-a-lot-editpagespref': 'Allow categorising pages (including categories) that are not files',
-			'cat-a-lot-docleanuppref': 'Remove {{Check categories}} and other minor cleanup',
-			'cat-a-lot-subcatcountpref': 'Sub-categories to show at most',
-			// Progress
-			'cat-a-lot-loading': 'Loading...',
-			'cat-a-lot-editing': 'Editing page',
-			'cat-a-lot-of': 'of ',
-			'cat-a-lot-skipped-already':
-				'The following {{PLURAL:$1|page was|$1 pages were}} skipped, because the page was already in the category:',
-			'cat-a-lot-skipped-not-found':
-				'The following {{PLURAL:$1|page was|$1 pages were}} skipped, because the old category could not be found:',
-			'cat-a-lot-skipped-server':
-				"The following {{PLURAL:$1|page|$1 pages}} couldn't be changed, since there were problems connecting to the server:",
-			'cat-a-lot-all-done': 'All pages are processed.',
-			'cat-a-lot-done': 'Done!',
-			'cat-a-lot-added-cat': 'Added category $1',
-			'cat-a-lot-copied-cat': 'Copied to category $1',
-			'cat-a-lot-moved-cat': 'Moved to category $1',
-			'cat-a-lot-removed-cat': 'Removed from category $1',
-			'cat-a-lot-return-to-page': 'Return to page',
-			'cat-a-lot-cat-not-found': 'Category not found.',
-			// as in 17 files selected
-			'cat-a-lot-files-selected': '{{PLURAL:$1|One file|$1 files}} selected.',
-			// Actions
-			'cat-a-lot-copy': 'Copy',
-			'cat-a-lot-move': 'Move',
-			'cat-a-lot-add': 'Add',
-			'cat-a-lot-remove-from-cat': 'Remove from this category',
-			'cat-a-lot-enter-name': 'Enter category name',
-			'cat-a-lot-select': 'Select',
-			'cat-a-lot-all': 'all',
-			'cat-a-lot-none': 'none',
-			'cat-a-lot-none-selected': 'No files selected!',
-			// Summaries:
-			'cat-a-lot-summary-add': '[[Help:Cat-a-lot|Cat-a-lot]]: Adding [[Category:$1]]',
-			'cat-a-lot-summary-copy': '[[Help:Cat-a-lot|Cat-a-lot]]: Copying from [[Category:$1]] to [[Category:$2]]',
-			'cat-a-lot-summary-move': '[[Help:Cat-a-lot|Cat-a-lot]]: Moving from [[Category:$1]] to [[Category:$2]]',
-			'cat-a-lot-summary-remove': '[[Help:Cat-a-lot|Cat-a-lot]]: Removing from [[Category:$1]]',
-		};
+		static readonly msgs: Record<MessageKey, string> = DEFAULT_MESSAGES;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		private catALotPrefs: Record<string, any>;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -301,10 +224,10 @@ export const catALot = (): void => {
 		makeClickable(): void {
 			this.findAllLabels();
 			this.$labels
+				.addClass('cat_a_lot_label')
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				.catALotShiftClick(this.updateSelectionCounter)
-				.addClass('cat_a_lot_label');
+				.catALotShiftClick(this.updateSelectionCounter);
 		}
 		toggleAll(select: boolean): void {
 			this.$labels.toggleClass('cat_a_lot_selected', select);
@@ -353,17 +276,15 @@ export const catALot = (): void => {
 			if (this.variantCache[category] !== undefined) {
 				return this.variantCache[category] as string[];
 			}
-			['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw'].forEach(
-				(variant: string): void => {
-					const r: string = $($.ajax({url: baseUrl + variant, async: false}).responseJSON.parse.text['*'])
-						.eq(0)
-						.text()
-						.trim();
-					if (!result.includes(r)) {
-						result.push(r);
-					}
+			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
+				const r: string = $($.ajax({url: baseUrl + variant, async: false}).responseJSON.parse.text['*'])
+					.eq(0)
+					.text()
+					.trim();
+				if (!result.includes(r)) {
+					result.push(r);
 				}
-			);
+			}
 			this.variantCache[category] = result;
 			return result;
 		}
@@ -376,7 +297,7 @@ export const catALot = (): void => {
 			const variants: string[] = this.findAllVariants(category);
 			// escape regexp metacharacters (= any ASCII punctuation except _)
 			const variantArray: string[] = [];
-			variants.forEach((variant: string): void => {
+			for (let variant of variants) {
 				variant = mw.util.escapeRegExp(variant);
 				// any sequence of spaces and underscores should match any other
 				variant = variant.replace(/[\s_]+/g, '[\\s_]+');
@@ -386,7 +307,7 @@ export const catALot = (): void => {
 					variant = `[${first.toUpperCase()}${first.toLowerCase()}]${variant.slice(1)}`;
 				}
 				variantArray.push(variant);
-			});
+			}
 			// Compile it into a RegExp that matches MediaWiki category syntax (yeah, it looks ugly):
 			// XXX: the first capturing parens are assumed to match the sortkey, if present, including the | but excluding the ]]
 			return new RegExp(
@@ -421,7 +342,7 @@ export const catALot = (): void => {
 				};
 				$.ajax({
 					headers: {
-						'Api-User-Agent': `Qiuwen/1.1 (Cat-a-lot/${CAL.version}; ${mw.config.get('wgWikiID')})`,
+						'Api-User-Agent': `Qiuwen/1.1 (Cat-a-lot/${CAL.version}; ${WG_WIKI_ID})`,
 					},
 					url: CAL.apiUrl,
 					cache: false,
@@ -657,9 +578,9 @@ export const catALot = (): void => {
 			this.counterCurrent = 1;
 			this.counterNeeded = files.length;
 			this.showProgress();
-			files.forEach((file: [string, JQuery]): void => {
-				this.getContent(file as [string, JQuery], targetcat, mode);
-			});
+			for (const file of files) {
+				this.getContent(file, targetcat, mode);
+			}
 		}
 		addHere(targetcat: string): void {
 			this.doSomething(targetcat, 'add');
@@ -673,7 +594,7 @@ export const catALot = (): void => {
 		createCatLinks(symbol: string, list: string[]): void {
 			list.sort();
 			const domlist: JQuery<HTMLTableElement> = this.$resultList.find('table');
-			list.forEach((element: string): void => {
+			for (const element of list) {
 				const $tr: JQuery = $('<tr>').data('cat', element);
 				$tr.append($('<td>').text(symbol)).append(
 					$('<td>').append(
@@ -717,7 +638,7 @@ export const catALot = (): void => {
 					);
 				}
 				domlist.append($tr);
-			});
+			}
 		}
 		showCategoryList(): void {
 			const thiscat: string[] = [this.currentCategory];
@@ -764,10 +685,9 @@ export const catALot = (): void => {
 						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						cats = pages[id]!.categories ?? [];
 					}
-					type Cat = {title: string};
-					cats.forEach((cat: Cat): void => {
+					for (const cat of cats) {
 						this.parentCats.push(cat.title.replace(/^[^:]+:/, ''));
-					});
+					}
 					this.catCounter++;
 					if (this.catCounter === 2) {
 						this.showCategoryList();
@@ -787,10 +707,9 @@ export const catALot = (): void => {
 				(result): void => {
 					const cats: {title: string}[] = result?.query?.categorymembers || [];
 					this.subCats = [];
-					type Cat = {title: string};
-					cats.forEach((cat: Cat): void => {
+					for (const cat of cats) {
 						this.subCats.push(cat.title.replace(/^[^:]+:/, ''));
-					});
+					}
 					this.catCounter++;
 					if (this.catCounter === 2) {
 						this.showCategoryList();
@@ -847,45 +766,8 @@ export const catALot = (): void => {
 			if (this.settings['watchlist']) {
 				return;
 			}
-			const defaults = [
-				{
-					name: 'watchlist',
-					default: 'preferences',
-					label_i18n: 'watchlistpref',
-					select_i18n: {
-						watch_pref: 'preferences',
-						watch_nochange: 'nochange',
-						watch_watch: 'watch',
-						watch_unwatch: 'unwatch',
-					},
-				},
-				{
-					name: 'minor',
-					default: false,
-					label_i18n: 'minorpref',
-				},
-				{
-					name: 'editpages',
-					default: true,
-					label_i18n: 'editpagespref',
-					forcerestart: true,
-				},
-				{
-					name: 'docleanup',
-					default: false,
-					label_i18n: 'docleanuppref',
-				},
-				{
-					name: 'subcatcount',
-					default: 50,
-					min: 5,
-					max: 500,
-					label_i18n: 'subcatcountpref',
-					forcerestart: true,
-				},
-			];
 			this.catALotPrefs = window.CatALotPrefs || {};
-			for (const v of defaults) {
+			for (const v of DEFAULT_SETTING) {
 				this.settings[v.name] = this.catALotPrefs[v.name] || v.default;
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
@@ -910,14 +792,14 @@ export const catALot = (): void => {
 		}
 	}
 
-	if ((CAL.ns === -1 && mw.config.get('wgCanonicalSpecialPageName') === 'Search') || CAL.ns === CAL.nsCat) {
+	if ((CAL.ns === -1 && WG_CANONICAL_SPECIAL_PAGE_NAME === 'Search') || CAL.ns === CAL.nsCat) {
 		if (CAL.ns === -1) {
 			CAL.searchmode = true;
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
 		catALotMessages();
-		$((): void => {
-			new CAL();
-		});
+		$(new CAL());
 	}
 };
+
+export {catALot};
