@@ -5,5 +5,5 @@
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "mediawiki.Title", "mediawiki.util", "oojs-ui-core"],
 	"hidden": true,
-	"peers": ["ext.gadget.SiteCommon"]
+	"peers": ["SiteCommon"]
 }

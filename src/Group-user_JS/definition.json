@@ -5,6 +5,6 @@
 	"default": true,
 	"dependencies": ["ext.gadget.i18n"],
 	"hidden": true,
-	"peers": ["ext.gadget.Group-user"],
+	"peers": ["Group-user"],
 	"rights": ["edit"]
 }
