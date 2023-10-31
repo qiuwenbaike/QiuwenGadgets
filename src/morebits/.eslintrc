@@ -18,7 +18,6 @@
 		"no-shadow": "off",
 		"no-script-url": "off",
 		"no-useless-concat": "off",
-		"prefer-destructuring": "off",
 		"unicorn/no-for-loop": "off",
 		"unicorn/no-array-for-each": "off",
 		"unicorn/prefer-string-slice": "off",
@@ -29,6 +28,8 @@
 	"globals": {
 		"Morebits": "readonly",
 		"Twinkle": "writable",
-		"wgULS": "readonly"
+		"wgULS": "readonly",
+		"jQuery": "readonly",
+		"$": "readonly"
 	}
 }

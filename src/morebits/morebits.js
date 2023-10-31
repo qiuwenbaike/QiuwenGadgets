@@ -1,4 +1,4 @@
-/* Twinkle.js - morebits.js */
+/*! Twinkle.js - morebits.js */
 /**
  * A library full of lots of goodness for user scripts on MediaWiki wikis.
  *
@@ -32,7 +32,7 @@
  *
  * @namespace Morebits
  */
-const morebits = () => {
+(function morebits($) {
 	// Wrap entire file with anonymous function
 	/** @lends Morebits */
 	const Morebits = {};
@@ -142,7 +142,7 @@ const morebits = () => {
 		if (pageName === '') {
 			return '';
 		}
-		const firstChar = pageName[0];
+		const [firstChar] = pageName;
 		const remainder = Morebits.string.escapeRegExp(pageName.slice(1));
 		if (mw.Title.phpCharToUpper(firstChar) !== firstChar.toLowerCase()) {
 			return `[${mw.Title.phpCharToUpper(firstChar)}${firstChar.toLowerCase()}]${remainder}`;
@@ -238,7 +238,7 @@ const morebits = () => {
 				regex = '';
 				break;
 			case 1:
-				regex = aliases[0];
+				[regex] = aliases;
 				break;
 			default:
 				regex = `(?:${aliases.join('|')})`;
@@ -566,7 +566,7 @@ const morebits = () => {
 								if (e.target.checked) {
 									e.target.parentNode.appendChild(e.target.subgroup);
 									if (e.target.type === 'radio') {
-										const name = e.target.name;
+										const {name} = e.target;
 										if (e.target.form.names[name] !== undefined) {
 											e.target.form.names[name].parentNode.removeChild(
 												e.target.form.names[name].subgroup
@@ -585,7 +585,7 @@ const morebits = () => {
 						} else if (data.type === 'radio') {
 							event = (e) => {
 								if (e.target.checked) {
-									const name = e.target.name;
+									const {name} = e.target;
 									if (e.target.form.names[name] !== undefined) {
 										e.target.form.names[name].parentNode.removeChild(
 											e.target.form.names[name].subgroup
@@ -679,7 +679,7 @@ const morebits = () => {
 					},
 				});
 				node.appendChild(more[0]);
-				const moreButton = more[1];
+				const [, moreButton] = more;
 				const sublist = {
 					type: '_dyninput_element',
 					label: data.sublabel || data.label,
@@ -743,7 +743,7 @@ const morebits = () => {
 						},
 					});
 					node.appendChild(remove[0]);
-					const removeButton = remove[1];
+					const [, removeButton] = remove;
 					removeButton.inputnode = node;
 					removeButton.listnode = data.listnode;
 					removeButton.morebutton = data.morebutton;
@@ -1124,7 +1124,7 @@ const morebits = () => {
 		const return_array = [];
 		let i;
 		if (elements instanceof HTMLSelectElement) {
-			const options = elements.options;
+			const {options} = elements;
 			for (i = 0; i < options.length; ++i) {
 				if (options[i].selected) {
 					if (options[i].values) {
@@ -1176,7 +1176,7 @@ const morebits = () => {
 		const return_array = [];
 		let i;
 		if (elements instanceof HTMLSelectElement) {
-			const options = elements.options;
+			const {options} = elements;
 			for (i = 0; i < options.length; ++i) {
 				if (!options[i].selected) {
 					if (options[i].values) {
@@ -1724,7 +1724,7 @@ const morebits = () => {
 		 * @returns {string} The processed output.
 		 */
 		rebind() {
-			let content = this.content;
+			let {content} = this;
 			for (const current in this.history) {
 				if (Object.hasOwn(this.history, current)) {
 					content = content.replace(current, this.history[current]);
@@ -1766,7 +1766,7 @@ const morebits = () => {
 		// format, sans timezone (See also: #921, #936, #1174, #1187), and the
 		// 14-digit string will be interpreted differently.
 		if (args.length === 1) {
-			const param = args[0];
+			const [param] = args;
 			if (/^\d{14}$/.test(param)) {
 				// YYYYMMDDHHmmss
 				const digitMatch = /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/.exec(param);
@@ -1918,7 +1918,7 @@ const morebits = () => {
 				throw new TypeError(`Invalid number "${number}" provided.`);
 			}
 			unit = unit.toLowerCase(); // normalize
-			const unitMap = Morebits.date.unitMap;
+			const {unitMap} = Morebits.date;
 			let unitNorm = unitMap[unit] || unitMap[`${unit}s`]; // so that both singular and  plural forms work
 			if (unitNorm) {
 				// No built-in week functions, so rather than build out ISO's getWeek/setWeek, just multiply
@@ -3635,11 +3635,11 @@ const morebits = () => {
 				return; // abort
 			}
 
-			const page = response.pages[0];
+			const [page] = response.pages;
 			let rev;
 			ctx.pageExists = !page.missing;
 			if (ctx.pageExists) {
-				rev = page.revisions[0];
+				[rev] = page.revisions;
 				ctx.lastEditTime = rev.timestamp;
 				ctx.pageText = rev.content;
 				ctx.pageID = page.pageid;
@@ -3900,7 +3900,7 @@ const morebits = () => {
 						break;
 					case 'spamblacklist': {
 						// If multiple items are blacklisted, we only return the first
-						const spam = errorData.spamblacklist.matches[0];
+						const [spam] = errorData.spamblacklist.matches;
 						ctx.statusElement.error(
 							wgULS('不能保存页面，因URL ', '不能儲存頁面，因URL ') +
 								spam +
@@ -4034,7 +4034,7 @@ const morebits = () => {
 		 * @returns {boolean}
 		 */
 		const fnProcessChecks = function (action, onFailure, response) {
-			const missing = response.pages[0].missing;
+			const [{missing}] = response.pages;
 			// No undelete as an existing page could have deleted revisions
 			const actionMissing = missing && ['delete', 'move'].includes(action);
 			const protectMissing = action === 'protect' && missing && (ctx.protectEdit || ctx.protectMove);
@@ -4113,7 +4113,7 @@ const morebits = () => {
 				}
 
 				token = response.tokens.csrftoken;
-				const page = response.pages[0];
+				const [page] = response.pages;
 				pageTitle = page.title;
 				ctx.watched = page.watchlistexpiry || page.watched;
 			}
@@ -4166,7 +4166,7 @@ const morebits = () => {
 				if (!response.recentchanges[0].unpatrolled) {
 					return;
 				}
-				const lastrevid = response.pages[0].lastrevid;
+				const [{lastrevid}] = response.pages;
 				if (!lastrevid) {
 					return;
 				}
@@ -4198,7 +4198,7 @@ const morebits = () => {
 				}
 
 				token = response.tokens.csrftoken;
-				const page = response.pages[0];
+				const [page] = response.pages;
 				pageTitle = page.title;
 				ctx.watched = page.watchlistexpiry || page.watched;
 			}
@@ -4263,7 +4263,7 @@ const morebits = () => {
 				}
 
 				token = response.tokens.csrftoken;
-				const page = response.pages[0];
+				const [page] = response.pages;
 				pageTitle = page.title;
 				ctx.watched = page.watchlistexpiry || page.watched;
 			}
@@ -4336,7 +4336,7 @@ const morebits = () => {
 			}
 
 			const token = response.tokens.csrftoken;
-			const page = response.pages[0];
+			const [page] = response.pages;
 			const pageTitle = page.title;
 			ctx.watched = page.watchlistexpiry || page.watched;
 			// Fetch existing protection levels
@@ -5500,7 +5500,7 @@ const morebits = () => {
 				$(event.target).dialog('destroy').remove();
 			},
 			resizeStart() {
-				this.scrollbox = $(this).find('.morebits-scrollbox')[0];
+				[this.scrollbox] = $(this).find('.morebits-scrollbox');
 				if (this.scrollbox) {
 					this.scrollbox.style.maxHeight = 'none';
 				}
@@ -5783,8 +5783,4 @@ const morebits = () => {
 	Morebits.simpleWindow.setButtonsEnabled = (enabled) => {
 		$('.morebits-dialog-buttons button').prop('disabled', !enabled);
 	};
-};
-
-$(() => {
-	morebits();
-});
+})(jQuery);
