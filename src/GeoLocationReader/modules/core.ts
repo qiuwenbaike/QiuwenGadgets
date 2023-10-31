@@ -58,13 +58,11 @@ export const getLocation = (): void => {
 							: indicatorText ?? ''
 					)
 			);
-		$((): void => {
-			if (indicator === true) {
-				$indicator.appendTo($('.mw-indicators'));
-			} else {
-				$indicator.prependTo($('#footer-info, .page-info'));
-			}
-		});
+		if (indicator === true) {
+			$indicator.appendTo($('.mw-indicators'));
+		} else {
+			$indicator.prependTo($('#footer-info, .page-info'));
+		}
 	};
 	const api: mw.Api = new mw.Api({
 		ajax: {
