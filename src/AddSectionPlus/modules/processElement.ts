@@ -1,9 +1,9 @@
-import {SKIN} from './constant';
+import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 
 const processElement = ($element: JQuery): void => {
 	const title = getMessage('Title');
-	switch (SKIN) {
+	switch (WG_SKIN) {
 		case 'citizen':
 			$element.attr('style', 'font-size:0;gap:0');
 			break;

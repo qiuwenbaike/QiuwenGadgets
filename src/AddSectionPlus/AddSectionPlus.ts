@@ -1,4 +1,4 @@
-import {SKIN} from './modules/constant';
+import {WG_SKIN} from './modules/constant';
 import {processElement} from './modules/processElement';
 
 $(function addSectionPlus(): void {
@@ -7,7 +7,7 @@ $(function addSectionPlus(): void {
 		return;
 	}
 
-	const $target: JQuery = ['citizen', 'write'].includes(SKIN) ? $wrapper.find('a') : $wrapper.find('span');
+	const $target: JQuery = ['citizen', 'write'].includes(WG_SKIN) ? $wrapper.find('a') : $wrapper.find('span');
 	if (!$target.length) {
 		return;
 	}
