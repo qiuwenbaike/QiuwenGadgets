@@ -1,5 +1,5 @@
 import type {RemoteNotices} from './modules/util/queryApi';
-import {WG_ACTION} from './modules/constant';
+import {WG_ACTION} from '../constant';
 import {loadRemoteNotices} from './modules/loadRemoteNotices';
 import {showNotices} from './modules/showNotice';
 
