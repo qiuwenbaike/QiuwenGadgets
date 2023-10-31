@@ -1,4 +1,4 @@
-export const checkboxShiftClick = (): void => {
+const checkboxShiftClick = (): void => {
 	/*! jQuery checkboxShiftClick | GPL-2.0 <qwbk.cc/H:GPL> */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
@@ -37,3 +37,5 @@ export const checkboxShiftClick = (): void => {
 		return this;
 	};
 };
+
+export {checkboxShiftClick};
