@@ -1,5 +1,5 @@
-/* Twinkle.js - twinklebatchprotect.js */
-const twinklebatchprotect = () => {
+/*! Twinkle.js - twinklebatchprotect.js */
+(function twinklebatchprotect($) {
 	/**
 	 * twinklebatchprotect.js: Batch protect module (sysops only)
 	 * Mode of invocation: Tab ("P-batch")
@@ -75,9 +75,8 @@ const twinklebatchprotect = () => {
 			label: '移动权限：',
 			event: Twinkle.protect.formevents.movelevel,
 			list: Twinkle.protect.protectionLevels.filter(
-				(
-					protLevel // Autoconfirmed is required for a move, redundant
-				) => {
+				// Autoconfirmed is required for a move, redundant
+				(protLevel) => {
 					return protLevel.value !== 'autoconfirmed';
 				}
 			),
@@ -350,5 +349,4 @@ const twinklebatchprotect = () => {
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchprotect, 'batchprotect');
-};
-export default twinklebatchprotect;
+})(jQuery);

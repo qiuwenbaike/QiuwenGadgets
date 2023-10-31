@@ -1,5 +1,5 @@
-/* Twinkle.js - twinklebatchdelete.js */
-const twinklebatchdelete = () => {
+/*! Twinkle.js - twinklebatchdelete.js */
+(function twinklebatchdelete($) {
 	/**
 	 * twinklebatchdelete.js: Batch delete module (sysops only)
 	 * Mode of invocation: Tab ("D-batch")
@@ -891,5 +891,4 @@ const twinklebatchdelete = () => {
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchdelete, 'batchdelete');
-};
-export default twinklebatchdelete;
+})(jQuery);

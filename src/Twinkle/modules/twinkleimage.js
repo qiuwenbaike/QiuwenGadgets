@@ -1,5 +1,6 @@
-/* Twinkle.js - twinkleimage.js */
-const twinkleimage = () => {
+/*! Twinkle.js - twinkleimage.js */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+(function twinkleimage($) {
 	/**
 	 * twinkleimage.js: Image CSD module
 	 * Mode of invocation: Tab ("DI")
@@ -364,5 +365,4 @@ const twinkleimage = () => {
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.image, 'image');
-};
-export default twinkleimage;
+})(jQuery);

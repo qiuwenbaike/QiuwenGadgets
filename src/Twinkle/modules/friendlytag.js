@@ -1,6 +1,5 @@
-/* eslint-disable prefer-destructuring */
-/* Twinkle.js - friendlytag.js */
-const friendlytag = () => {
+/*! Twinkle.js - friendlytag.js */
+(function friendlytag($) {
 	/**
 	 * friendlytag.js: Tag module
 	 * Mode of invocation: Tab ("Tag")
@@ -83,13 +82,13 @@ const friendlytag = () => {
 						const searchHit = searchRegex.exec(label_text);
 						if (searchHit) {
 							const range = document.createRange();
-							const textnode = element.childNodes[0];
+							const [textnode] = element.childNodes;
 							range.selectNodeContents(textnode);
 							range.setStart(textnode, searchHit.index);
 							range.setEnd(textnode, searchHit.index + searchString.length);
-							const underline_span = $('<span>')
+							const [underline_span] = $('<span>')
 								.addClass('search-hit')
-								.css('text-decoration', 'underline')[0];
+								.css('text-decoration', 'underline');
 							range.surroundContents(underline_span);
 							element.parentElement.style.display = 'block'; // show
 						}
@@ -2229,5 +2228,4 @@ const friendlytag = () => {
 		qiuwen_page.load(Twinkle.tag.callbacks[Twinkle.tag.modeEn]);
 	};
 	Twinkle.addInitCallback(Twinkle.tag, 'tag');
-};
-export default friendlytag;
+})(jQuery);

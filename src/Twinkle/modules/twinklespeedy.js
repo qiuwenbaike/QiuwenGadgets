@@ -1,6 +1,5 @@
-/* eslint-disable prefer-destructuring */
-/* Twinkle.js - twinklespeedy.js */
-const twinklespeedy = () => {
+/*! Twinkle.js - twinklespeedy.js */
+(function twinklespeedy($) {
 	/**
 	 * twinklespeedy.js: CSD module
 	 * Mode of invocation: Tab ("CSD")
@@ -502,11 +501,11 @@ const twinklespeedy = () => {
 				list: Twinkle.speedy.generateCsdList(Twinkle.speedy.redirectList, mode),
 			});
 		}
-		const old_area = Morebits.quickForm.getElements(form, 'work_area')[0];
+		const [old_area] = Morebits.quickForm.getElements(form, 'work_area');
 		form.replaceChild(work_area.render(), old_area);
 		// if sysop, check if CSD is already on the page and fill in custom rationale
 		if (isSysopMode && Twinkle.speedy.hasCSD) {
-			const customOption = $('input[name=csd][value=reason]')[0];
+			const [customOption] = $('input[name=csd][value=reason]');
 			if (customOption) {
 				if (Twinkle.getPref('speedySelectionStyle') !== 'radioClick') {
 					// force listeners to re-init
@@ -1021,7 +1020,7 @@ const twinklespeedy = () => {
 					reason = prompt(wgULS('输入删除理由：', '輸入刪除理由：'), '');
 					Twinkle.speedy.callbacks.sysop.deletePage(reason, params);
 				} else {
-					const code = Twinkle.speedy.callbacks.getTemplateCodeAndParams(params)[0];
+					const [code] = Twinkle.speedy.callbacks.getTemplateCodeAndParams(params);
 					Twinkle.speedy.callbacks.parseWikitext(mw.config.get('wgPageName'), code, (reason) => {
 						if (params.promptForSummary) {
 							reason = prompt(
@@ -1337,8 +1336,8 @@ const twinklespeedy = () => {
 				// given the params, builds the template and also adds the user talk page parameters to the params that were passed in
 				// returns => [<string> wikitext, <object> utparams]
 				const buildData = Twinkle.speedy.callbacks.getTemplateCodeAndParams(params);
-				let code = buildData[0];
-				params.utparams = buildData[1];
+				let [code] = buildData;
+				[, params.utparams] = buildData;
 				const thispage = new Morebits.wiki.page(mw.config.get('wgPageName'));
 				// patrol the page, if reached from Special:NewPages
 				if (Twinkle.getPref('markSpeedyPagesAsPatrolled')) {
@@ -1759,5 +1758,4 @@ const twinklespeedy = () => {
 		qiuwen_page.load(Twinkle.speedy.callbacks.user.main);
 	};
 	Twinkle.addInitCallback(Twinkle.speedy, 'speedy');
-};
-export default twinklespeedy;
+})(jQuery);

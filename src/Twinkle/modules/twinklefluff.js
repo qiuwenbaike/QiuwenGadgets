@@ -1,5 +1,5 @@
-/* Twinkle.js - twinklefluff.js */
-const twinklefluff = () => {
+/*! Twinkle.js - twinklefluff.js */
+(function twinklefluff($) {
 	/**
 	 * twinklefluff.js: Revert/rollback module
 	 * Mode of invocation: Links on contributions,
@@ -497,8 +497,7 @@ const twinklefluff = () => {
 				statelem.error(wgULS('没有其它修订版本，无法回退', '沒有其它修訂版本，無法回退'));
 				return;
 			}
-			// eslint-disable-next-line prefer-destructuring
-			const top = revs[0];
+			const [top] = revs;
 			const lastuser = top.getAttribute('user');
 			if (lastrevid < params.revid) {
 				Morebits.status.error(
@@ -900,5 +899,4 @@ const twinklefluff = () => {
 		return result;
 	};
 	Twinkle.addInitCallback(Twinkle.fluff, 'fluff');
-};
-export default twinklefluff;
+})(jQuery);

@@ -27,6 +27,8 @@
 	"globals": {
 		"Morebits": "readonly",
 		"Twinkle": "writable",
-		"wgULS": "readonly"
+		"wgULS": "readonly",
+		"jQuery": "readonly",
+		"$": "readonly"
 	}
 }
