@@ -208,19 +208,21 @@ export const ToolsRedirect = {
 			})
 		).then(({query}) => {
 			const deferreds = [];
-			for (const page of query.pages) {
-				deferreds.push(
-					$.ajax(
-						self.buildQuery({
-							action: 'edit',
-							title: page.title,
-							token: query.tokens.csrftoken,
-							text: self.addRedirectTextSuffix(page.title, text),
-							summary,
-							tags: 'ToolsRedirect',
-						})
-					)
-				);
+			for (const page in query.pages) {
+				if (Object.hasOwn(query.pages, page)) {
+					deferreds.push(
+						$.ajax(
+							self.buildQuery({
+								action: 'edit',
+								title: page.title,
+								token: query.tokens.csrftoken,
+								text: self.addRedirectTextSuffix(page.title, text),
+								summary,
+								tags: 'ToolsRedirect',
+							})
+						)
+					);
+				}
 			}
 			return $.when(...deferreds);
 		});
@@ -241,22 +243,24 @@ export const ToolsRedirect = {
 			})
 		).then((data) => {
 			const deferreds = [];
-			for (const page of data.query.pages) {
-				const content = page.revisions[0]['*'];
-				const newContent = content.replace(regex, text);
-				deferreds.push(
-					$.ajax(
-						self.buildQuery({
-							action: 'edit',
-							title: page.title,
-							token: data.query.tokens.csrftoken,
-							text: newContent,
-							tags: 'ToolsRedirect',
-							basetimestamp: page.revisions[0].timestamp,
-							summary,
-						})
-					)
-				);
+			for (const page in data.query.pages) {
+				if (Object.hasOwn(data.query.pages, page)) {
+					const content = page.revisions[0]['*'];
+					const newContent = content.replace(regex, text);
+					deferreds.push(
+						$.ajax(
+							self.buildQuery({
+								action: 'edit',
+								title: page.title,
+								token: data.query.tokens.csrftoken,
+								text: newContent,
+								tags: 'ToolsRedirect',
+								basetimestamp: page.revisions[0].timestamp,
+								summary,
+							})
+						)
+					);
+				}
 			}
 			return $.when(...deferreds);
 		});
@@ -421,7 +425,7 @@ export const ToolsRedirect = {
 			let has_redirect = false;
 			const desc = $('p.desc', self.tabs.view.cont);
 			const maximumRedirectDepth = mw.config.get('toolsRedirectMaximumRedirectDepth', 10);
-			for (const page of query.pages) {
+			for (const page in query.pages) {
 				if (!('redirects' in page)) {
 					continue;
 				}
