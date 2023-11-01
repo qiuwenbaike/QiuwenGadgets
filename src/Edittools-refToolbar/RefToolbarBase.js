@@ -274,6 +274,8 @@ export const refToolbarBase = function refToolbarBase() {
 	 * The strings returned by the function should be valid HTML
 	 * function - The function described above testname - Name of the error check, must not contain spaces
 	 * desc - A short description of the test
+	 *
+	 * @param {unknown} obj
 	 */
 	window.CiteErrorCheck = function (obj) {
 		this.obj = obj;

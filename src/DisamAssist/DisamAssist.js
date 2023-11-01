@@ -910,16 +910,16 @@
 				const backlinks = [];
 				const linkTitles = [getCanonicalTitle(page)];
 				const backlinksQuery = query.backlinks;
-				$.each(backlinksQuery, (_index, element) => {
+				for (const element of backlinksQuery) {
 					backlinks.push(element.title);
 					if (element.redirlinks) {
 						linkTitles.push(element.title);
 						const {redirlinks} = element;
-						$.each(redirlinks, (__index, {title}) => {
+						for (const {title} of redirlinks) {
 							backlinks.push(title);
-						});
+						}
 					}
-				});
+				}
 				dfd.resolve(backlinks, linkTitles);
 			})
 			.fail((code) => {

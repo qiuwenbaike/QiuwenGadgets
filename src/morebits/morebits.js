@@ -30,6 +30,7 @@
  * For queries, suggestions, help, etc., head to [Help:Twinkle](https://www.qiuwenbaike.cn/wiki/H:TW).
  * The latest development source is available at {@link https://github.com/wikimedia-gadgets/twinkle/blob/master/morebits.js|GitHub}.
  *
+ * @param {JQuery} $
  * @namespace Morebits
  */
 (function morebits($) {
@@ -219,7 +220,7 @@
 		}
 		const aliases = [];
 		let regex;
-		$.each(mw.config.get('wgNamespaceIds'), (name, number) => {
+		for (const [name, number] of mw.config.get('wgNamespaceIds').entries()) {
 			if (namespaces.includes(number)) {
 				// Namespaces are completely agnostic as to case,
 				// and a regex string is more useful/compatible than a RegExp object,
@@ -232,7 +233,7 @@
 						.join('')
 				);
 			}
-		});
+		}
 		switch (aliases.length) {
 			case 0:
 				regex = '';
@@ -373,6 +374,7 @@
 	 * Renders the HTML output for the quickForm element.  This should be called
 	 * without parameters: `form.render()`.
 	 *
+	 * @param {number} internal_subgroup_id
 	 * @memberof Morebits.quickForm.element
 	 * @returns {HTMLElement}
 	 */
@@ -384,7 +386,11 @@
 		}
 		return currentNode[0];
 	};
-	/** @memberof Morebits.quickForm.element */
+	/**
+	 * @param {*} data
+	 * @param {number} in_id
+	 * @memberof Morebits.quickForm.element
+	 */
 	Morebits.quickForm.element.prototype.compute = function (data, in_id) {
 		let node;
 		let childContainer = null;
@@ -549,15 +555,14 @@
 								type: 'div',
 								id: `${id}_${i}_subgroup`,
 							});
-							// eslint-disable-next-line no-loop-func
-							$.each(tmpgroup, (idx, el) => {
+							for (const el of tmpgroup) {
 								const newEl = $.extend({}, el);
 								if (!newEl.type) {
 									newEl.type = data.type;
 								}
 								newEl.name = `${current.name || data.name}.${newEl.name}`;
 								subgroupRaw.append(newEl);
-							});
+							}
 							const subgroup = subgroupRaw.render(cur_id);
 							subgroup.className = 'quickformSubgroup';
 							subnode.subgroup = subgroup;
@@ -1287,6 +1292,7 @@
 		 * in conjunction with `wgRelevantUserName`.  CIDR limits are hardcoded as /16
 		 * for IPv4 and /32 for IPv6.
 		 *
+		 * @param {string} ip
 		 * @returns {boolean} - True for valid ranges within the CIDR limits,
 		 * otherwise false (ranges outside the limit, single IPs, non-IPs).
 		 */
@@ -1613,6 +1619,9 @@
 			/**
 			 * Custom matcher in which if the optgroup name matches, all options in that
 			 * group are shown, like in jquery.chosen.
+			 *
+			 * @param {*} params
+			 * @param {*} data
 			 */
 			optgroupFull: (params, data) => {
 				const originalMatcher = $.fn.select2.defaults.defaults.matcher;
@@ -1622,7 +1631,12 @@
 				}
 				return result;
 			},
-			/** Custom matcher that matches from the beginning of words only. */
+			/**
+			 * Custom matcher that matches from the beginning of words only.
+			 *
+			 * @param {*} params
+			 * @param {*} data
+			 */
 			wordBeginning: (params, data) => {
 				const originalMatcher = $.fn.select2.defaults.defaults.matcher;
 				const result = originalMatcher(params, data);
@@ -1635,7 +1649,11 @@
 				return null;
 			},
 		},
-		/** Underline matched part of options. */
+		/**
+		 * Underline matched part of options.
+		 *
+		 * @param {*} data
+		 */
 		highlightSearchMatches: (data) => {
 			const searchTerm = Morebits.select2SearchQuery;
 			if (!searchTerm || data.loading) {
@@ -1653,7 +1671,11 @@
 				data.text.slice(idx + searchTerm.length)
 			);
 		},
-		/** Intercept query as it is happening, for use in highlightSearchMatches. */
+		/**
+		 * Intercept query as it is happening, for use in highlightSearchMatches.
+		 *
+		 * @param {*} params
+		 */
 		queryInterceptor: (params) => {
 			Morebits.select2SearchQuery = params && params.term;
 		},
@@ -1661,6 +1683,7 @@
 		 * Open dropdown and begin search when the `.select2-selection` has
 		 * focus and a key is pressed.
 		 *
+		 * @param {KeyboardEvent} ev
 		 * @see {@link https://github.com/select2/select2/issues/3279#issuecomment-442524147}
 		 */
 		autoStart: (ev) => {
@@ -1742,7 +1765,10 @@
 		// 0++
 		history: null, // {}
 	};
-	/** @memberof Morebits.unbinder */
+	/**
+	 * @param {typeof Morebits} self
+	 * @memberof Morebits.unbinder
+	 */
 	Morebits.unbinder.getCallback = (self) => {
 		return (match) => {
 			const current = self.prefix + self.counter + self.postfix;
@@ -1757,6 +1783,7 @@
 	 * {@link https://momentjs.com/|moment.js}. MediaWiki timestamp format is also
 	 * acceptable, in addition to everything that JS Date() accepts.
 	 *
+	 * @param {...any} args
 	 * @memberof Morebits
 	 * @class
 	 */
@@ -2171,6 +2198,7 @@
 	 * function.  This is used for batch operations. The end of a batch is
 	 * signaled by calling Morebits.wiki.removeCheckpoint().
 	 *
+	 * @param {typeof Morebits} self
 	 * @memberof Morebits.wiki
 	 */
 	Morebits.wiki.actionCompleted = (self) => {
@@ -2421,7 +2449,11 @@
 			return this.response;
 		},
 	};
-	/** Retrieves wikitext from a page. Caching enabled, duration 1 day. */
+	/**
+	 * Retrieves wikitext from a page. Caching enabled, duration 1 day.
+	 *
+	 * @param {string} title
+	 */
 	Morebits.wiki.getCachedJson = (title) => {
 		const query = {
 			action: 'query',
@@ -5401,6 +5433,7 @@
 	 * before the dependent function runs. The values resolved by the dependencies
 	 * are made available to the dependant as arguments.
 	 *
+	 * @param {string} context
 	 * @memberof Morebits
 	 * @class
 	 */

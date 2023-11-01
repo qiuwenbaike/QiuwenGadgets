@@ -1,19 +1,21 @@
 const switcherJS = () => {
-	$.each(document.querySelectorAll('.switcher-container'), (index, container) => {
-		let selected: unknown[] | Element;
+	for (const [index, container] of [...document.querySelectorAll('.switcher-container')].entries()) {
+		// eslint-disable-next-line no-undef-init, unicorn/no-useless-undefined
+		let selected: unknown[] | Element | undefined = undefined;
 		let $radio: JQuery<Element> | undefined;
 		const switchers: Element[] = [];
 		const radioName = `switcher-${index}`;
-		$.each(container.children, (_index, switcher) => {
+		for (const [_index, switcher] of [...container.children].entries()) {
 			const label = switcher.querySelector('.switcher-label');
 			if (!label || label.childNodes.length === 0) {
-				return;
+				continue;
 			}
 			switchers.push(switcher);
 			$radio = $('<input>')
 				.prop({type: 'radio', name: radioName})
+				// eslint-disable-next-line no-loop-func
 				.on('click', () => {
-					$(selected).hide();
+					$(selected as NonNullable<typeof selected>).hide();
 					$(switcher).show();
 					selected = switcher;
 				});
@@ -33,7 +35,7 @@ const switcherJS = () => {
 				.append($radio, label.childNodes as unknown as HTMLElement)
 				.appendTo(container);
 			$(label).remove();
-		});
+		}
 		if (switchers.length > 1) {
 			$('<label>')
 				.css('display', 'block')
@@ -51,7 +53,7 @@ const switcherJS = () => {
 		if (switchers.length === 1 && $radio !== undefined) {
 			$radio.remove();
 		}
-	});
+	}
 };
 
 $(switcherJS);

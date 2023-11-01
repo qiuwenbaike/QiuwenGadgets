@@ -1,3 +1,6 @@
+/**
+ * Autolink [[wikilinks]], [external links] and {{templates}}
+ */
 import {
 	IS_DIFF_ACTION,
 	IS_TARGET_SPECIAL_PAGE,
@@ -10,9 +13,6 @@ import {
 } from './constant';
 import type {TargetElements} from './util/getTargetElements';
 
-/**
- * Autolink [[wikilinks]], [external links] and {{templates}}
- */
 const processElement = ({color, $targetElementArray}: TargetElements): void => {
 	let isActivateHTML = false;
 	/* Regex (default for diffs) */

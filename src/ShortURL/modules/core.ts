@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-add-event-listener */
 import {alertTitle, portletText, portletTooltip} from './messages';
 
 export const shortURL = (): void => {
@@ -46,7 +47,7 @@ export const shortURL = (): void => {
 			$headerElement.prependTo('.mw-indicators');
 			headerElement = $headerElement.get(0) as HTMLElement;
 		}
-		headerElement.onclick = (event: MouseEvent): void => {
+		headerElement.addEventListener('click', (event: MouseEvent): void => {
 			event.preventDefault();
 			const shorturl = `https://qwbk.cc${link}`;
 			// eslint-disable-next-line compat/compat
@@ -66,7 +67,7 @@ export const shortURL = (): void => {
 					),
 				{tag: 'shortURL', type: 'info'}
 			);
-		};
+		});
 	};
 	const init = ({
 		articleId,
