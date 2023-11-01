@@ -13,7 +13,7 @@ export const editIntro = (): void => {
 	}
 	switch (mw.config.get('wgNamespaceNumber')) {
 		case 0:
-			if (cats.includes('全部消歧義頁面')) {
+			if (cats.includes('全部消歧义页面')) {
 				addEditIntro('Template:Disambig_editintro');
 			}
 			if (cats.includes('在世人物')) {
