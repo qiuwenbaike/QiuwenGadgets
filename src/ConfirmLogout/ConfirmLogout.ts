@@ -1,11 +1,11 @@
-import {confirmLogout} from './modules/core';
+import {LOGIN_ELEMENT_SELECTOR, WG_USER_NAME} from './modules/constant';
+import {addListener} from './modules/addListener';
 
-(() => {
-	if (
-		!document.querySelectorAll('#ca-cb-logout>a,#topbar>a[href*="UserLogout"],#pt-logout>a') ||
-		!mw.config.get('wgUserName')
-	) {
+$(function confirmLogout(): void {
+	const $element: JQuery<HTMLAnchorElement> = $<HTMLAnchorElement>(LOGIN_ELEMENT_SELECTOR);
+	if (!$element.length || !WG_USER_NAME) {
 		return;
 	}
-	confirmLogout();
-})();
+
+	addListener($element);
+});
