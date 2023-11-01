@@ -47,7 +47,7 @@ export const shortURL = (): void => {
 			$headerElement.prependTo('.mw-indicators');
 			headerElement = $headerElement.get(0) as HTMLElement;
 		}
-		headerElement.addEventListener('click', (event: MouseEvent): void => {
+		headerElement.onclick = (event: MouseEvent): void => {
 			event.preventDefault();
 			const shorturl = `https://qwbk.cc${link}`;
 			// eslint-disable-next-line compat/compat
@@ -67,7 +67,7 @@ export const shortURL = (): void => {
 					),
 				{tag: 'shortURL', type: 'info'}
 			);
-		});
+		};
 	};
 	const init = ({
 		articleId,
