@@ -1,8 +1,6 @@
 export const easy_archive_lang = () => {
-	if (!window.easy_archive.lang) {
-		window.easy_archive.lang = {};
-	}
 	const {localize} = window.i18n;
+	window.easy_archive.lang ??= {};
 	window.easy_archive.lang.delete = localize({
 		en: 'delete',
 		'zh-hans': '删除',
