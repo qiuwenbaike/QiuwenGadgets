@@ -3724,7 +3724,7 @@ export const popups = () => {
 		 */
 		killImages() {
 			const forbiddenNamespaceAliases = [];
-			for (const [_namespaceId, _localizedNamespaceLc] of mw.config.get('wgNamespaceIds').entries()) {
+			for (const [_namespaceId, _localizedNamespaceLc] of Object.entries(mw.config.get('wgNamespaceIds'))) {
 				if (_namespaceId !== pg.nsImageId && _namespaceId !== pg.nsCategoryId) {
 					continue;
 				}
@@ -4852,7 +4852,7 @@ export const popups = () => {
 	// return a regexp pattern matching all variants to write the given namespace
 	const nsRe = (namespaceId) => {
 		const imageNamespaceVariants = [];
-		for (const [_namespaceId, _localizedNamespaceLc] of mw.config.get('wgNamespaceIds').entries()) {
+		for (const [_namespaceId, _localizedNamespaceLc] of Object.entries(mw.config.get('wgNamespaceIds'))) {
 			if (_namespaceId !== namespaceId) {
 				continue;
 			}

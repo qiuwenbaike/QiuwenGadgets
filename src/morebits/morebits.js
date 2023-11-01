@@ -220,7 +220,7 @@
 		}
 		const aliases = [];
 		let regex;
-		for (const [name, number] of mw.config.get('wgNamespaceIds').entries()) {
+		for (const [name, number] of Object.entries(mw.config.get('wgNamespaceIds'))) {
 			if (namespaces.includes(number)) {
 				// Namespaces are completely agnostic as to case,
 				// and a regex string is more useful/compatible than a RegExp object,
