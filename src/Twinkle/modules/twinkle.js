@@ -549,7 +549,12 @@
 			$('#p-cactions').css('margin-right', 'initial');
 		}
 	};
-	/** Twinkle-specific utility functions shared by multiple modules */
+	/**
+	 * Twinkle-specific utility functions shared by multiple modules
+	 *
+	 * @param {*} first
+	 * @param {*} second
+	 */
 	// Used in batch, unlink, and deprod to sort pages by namespace, as
 	// json formatversion=2 sorts by pageid instead (#1251)
 	Twinkle.sortByNamespace = (first, second) => {

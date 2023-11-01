@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-add-event-listener */
 import {ding} from '../../util';
 import {getMessage} from './i18n';
 

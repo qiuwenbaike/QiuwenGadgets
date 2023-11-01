@@ -1230,7 +1230,7 @@ import {hotCatMessages} from './modules/messages';
 		commitButton = make('input');
 		commitButton.type = 'button';
 		commitButton.value = HC.messages.commit;
-		commitButton.onclick = multiSubmit;
+		commitButton.addEventListener('click', multiSubmit);
 		if (multiSpan) {
 			multiSpan.parentNode.replaceChild(commitButton, multiSpan);
 		} else {
@@ -1475,7 +1475,7 @@ import {hotCatMessages} from './modules/messages';
 				this.linkSpan.className = 'noprint nopopups hotcatlink';
 				const link = make('a');
 				link.href = '#catlinks';
-				link.onclick = this.open.bind(this);
+				link.addEventListener('click', this.open.bind(this));
 				link.append(make(HC.links.add, true));
 				link.title = HC.tooltips.add;
 				this.linkSpan.append(link);
@@ -1519,7 +1519,7 @@ import {hotCatMessages} from './modules/messages';
 			if (this.originalCategory && this.originalCategory.length > 0) {
 				link = make('a');
 				link.href = '#catlinks';
-				link.onclick = this.remove.bind(this);
+				link.addEventListener('click', this.remove.bind(this));
 				link.append(make(HC.links.remove, true));
 				link.title = HC.tooltips.remove;
 				this.normalLinks.append(make(' ', true));
@@ -1528,7 +1528,7 @@ import {hotCatMessages} from './modules/messages';
 			if (!HC.template_categories[this.originalCategory]) {
 				link = make('a');
 				link.href = '#catlinks';
-				link.onclick = this.open.bind(this);
+				link.addEventListener('click', this.open.bind(this));
 				link.append(make(HC.links.change, true));
 				link.title = HC.tooltips.change;
 				this.normalLinks.append(make(' ', true));
@@ -1537,14 +1537,14 @@ import {hotCatMessages} from './modules/messages';
 					this.upDownLinks = make('span');
 					link = make('a');
 					link.href = '#catlinks';
-					link.onclick = this.down.bind(this);
+					link.addEventListener('click', this.down.bind(this));
 					link.append(make(HC.links.down, true));
 					link.title = HC.tooltips.down;
 					this.upDownLinks.append(make(' ', true));
 					this.upDownLinks.append(link);
 					link = make('a');
 					link.href = '#catlinks';
-					link.onclick = this.up.bind(this);
+					link.addEventListener('click', this.up.bind(this));
 					link.append(make(HC.links.up, true));
 					link.title = HC.tooltips.up;
 					this.upDownLinks.append(make(' ', true));
@@ -1560,7 +1560,7 @@ import {hotCatMessages} from './modules/messages';
 			this.undelLink.style.display = 'none';
 			link = make('a');
 			link.href = '#catlinks';
-			link.onclick = this.restore.bind(this);
+			link.addEventListener('click', this.restore.bind(this));
 			link.append(make(HC.links.restore, true));
 			link.title = HC.tooltips.restore;
 			this.undelLink.append(make(' ', true));
@@ -1585,7 +1585,7 @@ import {hotCatMessages} from './modules/messages';
 		makeForm() {
 			const form = make('form');
 			form.method = 'POST';
-			form.onsubmit = this.accept.bind(this);
+			form.addEventListener('submit', this.accept.bind(this));
 			this.form = form;
 			const self = this;
 			const text = make('input');
@@ -1602,8 +1602,8 @@ import {hotCatMessages} from './modules/messages';
 				// - Older browsers signal composition by keyDown === IME for the first and subsequent keys for a composition. The
 				//   first keyDown !== IME is certainly after the end of the composition. Typically, composition end can also be
 				//   detected by a keyDown IME with a keyUp of space, tab, escape, or return.
-				text.onkeyup = (event) => {
-					const key = event.keyCode || 0;
+				text.addEventListener('keyup', (event) => {
+					const key = event.key || 0;
 					if (
 						self.ime &&
 						self.lastKey === IME &&
@@ -1631,9 +1631,9 @@ import {hotCatMessages} from './modules/messages';
 						self.invokeSuggestions(key === BS || key === DEL || key === ESC);
 					}
 					return true;
-				};
-				text.onkeydown = (event) => {
-					const key = event.keyCode || 0;
+				});
+				text.addEventListener('keydown', (event) => {
+					const key = event.key || 0;
 					self.lastKey = key;
 					self.keyCount = 0;
 					// DOM Level < 3 IME input
@@ -1659,12 +1659,12 @@ import {hotCatMessages} from './modules/messages';
 					}
 					// Inhibit default behavior of ESC (revert to last real input in FF: we do that ourselves)
 					return key === ESC ? evtKill(event) : true;
-				};
+				});
 				// And handle continued pressing of arrow keys
-				text.onkeypress = (event) => {
+				text.addEventListener('keypress', (event) => {
 					self.keyCount++;
 					return self.processKey(event);
-				};
+				});
 				$(text).on('focus', () => {
 					makeActive(self);
 				});
@@ -1707,31 +1707,31 @@ import {hotCatMessages} from './modules/messages';
 			let list = null;
 			if (!noSuggestions) {
 				list = make('select');
-				list.onclick = () => {
+				list.addEventListener('click', () => {
 					if (self.highlightSuggestion(0)) {
 						self.textchange(false, true);
 					}
-				};
-				list.ondblclick = (e) => {
+				});
+				list.addEventListener('dblclick', (e) => {
 					if (self.highlightSuggestion(0)) {
 						self.accept(e);
 					}
-				};
-				list.onchange = () => {
+				});
+				list.addEventListener('change', () => {
 					self.highlightSuggestion(0);
 					self.text.focus();
-				};
-				list.onkeyup = (event) => {
-					if (event.keyCode === ESC) {
+				});
+				list.addEventListener('keyup', (event) => {
+					if (event.key === ESC) {
 						self.resetKeySelection();
 						self.text.focus();
 						window.setTimeout(() => {
 							self.textchange(true);
 						}, HC.suggest_delay);
-					} else if (event.keyCode === RET) {
+					} else if (event.key === RET) {
 						self.accept(event);
 					}
-				};
+				});
 				if (!HC.fixed_search) {
 					const engineSelector = make('select');
 					for (const key in suggestionConfigs) {
@@ -1745,11 +1745,11 @@ import {hotCatMessages} from './modules/messages';
 							engineSelector.append(opt);
 						}
 					}
-					engineSelector.onchange = () => {
+					engineSelector.addEventListener('change', () => {
 						self.engine = self.engineSelector.options[self.engineSelector.selectedIndex].value;
 						self.text.focus();
 						self.textchange(true, true); // Don't autocomplete, force re-display of list
-					};
+					});
 					this.engineSelector = engineSelector;
 				}
 			}
@@ -1765,12 +1765,12 @@ import {hotCatMessages} from './modules/messages';
 			const OK = make('input');
 			OK.type = 'button';
 			OK.value = button_label('wpOkUploadLbl', HC.messages.ok);
-			OK.onclick = this.accept.bind(this);
+			OK.addEventListener('click', this.accept.bind(this));
 			this.ok = OK;
 			const cancel = make('input');
 			cancel.type = 'button';
 			cancel.value = button_label('wpCancelUploadLbl', HC.messages.cancel);
-			cancel.onclick = this.cancel.bind(this);
+			cancel.addEventListener('click', this.cancel.bind(this));
 			this.cancelButton = cancel;
 			const span = make('span');
 			span.className = 'hotcatinput';
@@ -2043,7 +2043,7 @@ import {hotCatMessages} from './modules/messages';
 				const span = make('span');
 				const link = make('a');
 				link.href = '#catlinks';
-				link.onclick = this.rollback.bind(this);
+				link.addEventListener('click', this.rollback.bind(this));
 				link.append(make(HC.links.undo, true));
 				link.title = HC.tooltips.undo;
 				span.append(make(' ', true));
@@ -3074,7 +3074,7 @@ import {hotCatMessages} from './modules/messages';
 			const newRow = ip.insertRow(-1);
 			newRow.append(labelCell);
 			newRow.append(lineCell);
-			form.onsubmit = (oldSubmit, ...args) => {
+			form.addEventListener('submit', (oldSubmit, ...args) => {
 				return (() => {
 					let do_submit = true;
 					if (oldSubmit) {
@@ -3114,7 +3114,7 @@ import {hotCatMessages} from './modules/messages';
 					}
 					return true;
 				})(form.onsubmit);
-			};
+			});
 		}
 	};
 	let cleanedText = null;
@@ -3245,11 +3245,11 @@ import {hotCatMessages} from './modules/messages';
 			enableMulti.append(multiSpan);
 			multiSpan.innerHTML = `(<a>${HC.addmulti}</a>)`;
 			const link = multiSpan.querySelectorAll('a')[0];
-			link.onclick = (event) => {
+			link.addEventListener('click', (event) => {
 				setMultiInput();
 				checkMultiInput();
 				return evtKill(event);
-			};
+			});
 			link.title = HC.multi_tooltip;
 			link.style.cursor = 'pointer';
 		}

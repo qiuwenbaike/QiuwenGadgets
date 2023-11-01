@@ -21,7 +21,8 @@
 	/**
 	 * A few styling helper functions
 	 *
-	 * @return {undefined}
+	 * @param {string} iconClass
+	 * @return {JQuery}
 	 */
 	const createjIcon = (iconClass) => {
 		return $('<span>').attr('class', `ui-icon ${iconClass} catcheck-inline-icon`).text(' ');
