@@ -1,3 +1,3 @@
-import {diffLinkLoad} from './modules/core';
+import {addHook} from './modules/addHook';
 
-$(diffLinkLoad);
+addHook();
