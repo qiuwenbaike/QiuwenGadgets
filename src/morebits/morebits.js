@@ -2340,16 +2340,15 @@
 		 */
 		post(callerAjaxParameters) {
 			++Morebits.wiki.numberOfActionsLeft;
-			const queryString = Array.prototype.map
-				.call(Object.entries(this.query), (val, i) => {
-					if (Array.isArray(val)) {
-						return `${encodeURIComponent(i)}=${val.map(encodeURIComponent).join('|')}`;
-					} else if (val !== undefined) {
-						return `${encodeURIComponent(i)}=${encodeURIComponent(val)}`;
-					}
-				})
-				.join('&')
-				.replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
+			const _queryString = [];
+			for (const [i, val] of Object.entries(this.query)) {
+				if (Array.isArray(val)) {
+					_queryString.push(`${encodeURIComponent(i)}=${val.map(encodeURIComponent).join('|')}`);
+				} else if (val !== undefined) {
+					_queryString.push(`${encodeURIComponent(i)}=${encodeURIComponent(val)}`);
+				}
+			}
+			const queryString = _queryString.join('&').replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
 			// token should always be the last item in the query string (bug TW-B-0013)
 			const ajaxparams = $.extend(
 				{},
