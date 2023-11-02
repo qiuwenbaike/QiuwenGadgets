@@ -39,7 +39,7 @@
 		/* Regular expression matching the titles of disambiguation pages (when they are different from the titles of the primary topics) */
 		disamRegExp: '^(.*)（(消歧义|消歧義)）$',
 		/* Text that will be inserted after the link if the user requests help. If the value is null, the option to request help won't be offered */
-		disamNeededText: '{{dn|date={{subst:'.concat('CURRENTMONTHNAME', '}} {{subst:', 'CURRENTYEAR}}}}'),
+		disamNeededText: '{{dn|date={{'.concat('subst:', 'CURRENTMONTHNAME', '}} {{', 'subst:', 'CURRENTYEAR}}}}'),
 		/* Content of the "Foo (disambiguation)" pages that will be created automatically when using DisamAssist from a "Foo" page */
 		redirectToDisam: '#重定向 [[$1]]'.concat('{{R to disambiguation page}}'),
 		/* Whether intentional links to disambiguation pages can be explicitly marked by adding " (disambiguation)" */
