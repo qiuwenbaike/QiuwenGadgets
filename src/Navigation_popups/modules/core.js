@@ -37,7 +37,7 @@ export const popups = () => {
 		if (!container) {
 			// the main initial call
 			if (getValueOf('popupOnEditSelection') && document && document.editform && document.editform.wpTextbox1) {
-				document.editform.wpTextbox1.addEventListener('mouseup', doSelectionPopup);
+				document.editform.wpTextbox1.onmouseup = doSelectionPopup;
 			}
 			// article/content is a structure-dependent thing
 			container = defaultPopupsContainer();
@@ -118,9 +118,9 @@ export const popups = () => {
 		if (!isPopupLink(a)) {
 			return;
 		}
-		a.addEventListener('mouseover', mouseOverWikiLink);
-		a.addEventListener('mouseout', mouseOutWikiLink);
-		a.addEventListener('mousedown', killPopup);
+		a.onmouseover = mouseOverWikiLink;
+		a.onmouseout = mouseOutWikiLink;
+		a.onmousedown = killPopup;
 		a.hasPopup = true;
 		a.popData = popData;
 	};
@@ -609,9 +609,9 @@ export const popups = () => {
 		init(o, oRoot) {
 			const self = this;
 			this.obj = o;
-			o.addEventListener('mousedown', (e) => {
+			o.onmousedown = (e) => {
 				self.start(e);
-			});
+			};
 			o.dragging = false;
 			o.popups_draggable = true;
 			o.hmode = true;
@@ -647,12 +647,12 @@ export const popups = () => {
 			const self = this;
 			o.onmousemoveDefault = document.onmousemove;
 			o.dragging = true;
-			document.addEventListener('mousemove', (e) => {
+			document.onmousemove = (e) => {
 				self.drag(e);
-			});
-			document.addEventListener('mouseup', (e) => {
+			};
+			document.onmouseup = (e) => {
 				self.end(e);
-			});
+			};
 			return false;
 		}
 		/**
@@ -683,7 +683,7 @@ export const popups = () => {
 		 * @private
 		 */
 		end() {
-			document.addEventListener('mousemove', this.obj.onmousemoveDefault);
+			document.onmousemove = this.obj.onmousemoveDefault;
 			document.onmouseup = null;
 			this.obj.dragging = false;
 			if (this.endHook) {
@@ -1376,7 +1376,7 @@ export const popups = () => {
 			if (!this.http) {
 				return;
 			}
-			this.http.addEventListener('readystatechange', f);
+			this.http.onreadystatechange = f;
 		}
 		getStatus() {
 			if (!this.http) {
@@ -3618,6 +3618,14 @@ export const popups = () => {
 		killGalleries() {
 			this.data = this.data.replace(/< *gallery[^>]* *>[\S\s]*?< *\/ *gallery *>/gi, '');
 		}
+		/**
+		 * @param {Object} opening
+		 * @param {Object} closing
+		 * @param {Object} subopening
+		 * @param {Object} subclosing
+		 * @param {Object} repl
+		 * @private
+		 */
 		kill(opening, closing, subopening, subclosing, repl) {
 			let oldk = this.data;
 			let k = Previewmaker.killStuff(this.data, opening, closing, subopening, subclosing, repl);
@@ -3627,6 +3635,15 @@ export const popups = () => {
 			}
 			this.data = k;
 		}
+		/**
+		 * @param {Object} txt
+		 * @param {Object} opening
+		 * @param {Object} closing
+		 * @param {Object} subopening
+		 * @param {Object} subclosing
+		 * @param {Object} repl
+		 * @private
+		 */
 		static killStuff(txt, opening, closing, subopening, subclosing, repl) {
 			const op = Previewmaker.makeRegexp(opening);
 			const cl = Previewmaker.makeRegexp(closing, '^');
@@ -3669,6 +3686,12 @@ export const popups = () => {
 			}
 			return ret + (repl || '') + txt;
 		}
+		/**
+		 * @param {string|RegExp} x
+		 * @param {string|RegExp} prefix
+		 * @param {string|RegExp} suffix
+		 * @private
+		 */
 		static makeRegexp(x, prefix, suffix) {
 			prefix ||= '';
 			suffix ||= '';
@@ -3724,12 +3747,13 @@ export const popups = () => {
 		 */
 		killImages() {
 			const forbiddenNamespaceAliases = [];
-			for (const [_namespaceId, _localizedNamespaceLc] of Object.entries(mw.config.get('wgNamespaceIds'))) {
+			// eslint-disable-next-line no-jquery/no-each-util
+			$.each(mw.config.get('wgNamespaceIds'), (_localizedNamespaceLc, _namespaceId) => {
 				if (_namespaceId !== pg.nsImageId && _namespaceId !== pg.nsCategoryId) {
-					continue;
+					return;
 				}
 				forbiddenNamespaceAliases.push(_localizedNamespaceLc.split(' ').join('[ _]')); // todo: escape regexp fragments!
-			}
+			});
 			// images and categories are a nono
 			this.kill(new RegExp(`[[][[]\\s*(${forbiddenNamespaceAliases.join('|')})\\s*:`, 'i'), /]]\s*/, '[', ']');
 		}
@@ -3819,6 +3843,11 @@ export const popups = () => {
 			} while (dd.length > this.maxCharacters && n !== 0);
 			this.data = dd;
 		}
+		/**
+		 * @param {string} strs
+		 * @param {RegExp} reg
+		 * @private
+		 */
 		fixSentenceEnds(strs, reg) {
 			// take an array of strings, strs
 			// join strs[i] to strs[i+1] & strs[i+2] if strs[i] matches regex reg
@@ -3841,6 +3870,11 @@ export const popups = () => {
 			}
 			return strs;
 		}
+		/**
+		 * @param {string[]} strs
+		 * @param {number} howmany
+		 * @private
+		 */
 		static firstSentences(strs, howmany) {
 			const t = strs.slice(0, 2 * howmany);
 			return t.join('');
@@ -3886,6 +3920,10 @@ export const popups = () => {
 			this.fixHTML();
 			this.stripLongTemplates();
 		}
+		/**
+		 * @param {string} data
+		 * @private
+		 */
 		static esWiki2HtmlPart(data) {
 			const reLinks = /(?:\[\[([^\]|]*)(?:\|([^\]|]*))*]]([a-z]*))/gi; // match a wikilink
 			reLinks.lastIndex = 0; // reset regex
@@ -3976,12 +4014,12 @@ export const popups = () => {
 			a.className = 'popupMoreLink';
 			a.innerHTML = popupString('more...');
 			const self = this;
-			a.addEventListener('click', () => {
+			a.onclick = () => {
 				self.maxCharacters += 2000;
 				self.maxSentences += 20;
 				self.setData();
 				self.showPreview();
-			});
+			};
 			return a;
 		}
 		/**
@@ -4721,7 +4759,7 @@ export const popups = () => {
 				}
 			/* falls through */
 			case 'sizetoggle':
-				a.addEventListener('click', toggleSize);
+				a.onclick = toggleSize;
 				a.title = popupString('Toggle image size');
 				return;
 			case 'linkfull':
@@ -4852,16 +4890,17 @@ export const popups = () => {
 	// return a regexp pattern matching all variants to write the given namespace
 	const nsRe = (namespaceId) => {
 		const imageNamespaceVariants = [];
-		for (const [_namespaceId, _localizedNamespaceLc] of Object.entries(mw.config.get('wgNamespaceIds'))) {
+		// eslint-disable-next-line no-jquery/no-each-util
+		$.each(mw.config.get('wgNamespaceIds'), (_localizedNamespaceLc, _namespaceId) => {
 			if (_namespaceId !== namespaceId) {
-				continue;
+				return;
 			}
-			const localizedNamespaceLcUpcaseFirst = upcaseFirst(_localizedNamespaceLc);
+			_localizedNamespaceLc = upcaseFirst(_localizedNamespaceLc);
 			imageNamespaceVariants.push(
-				mw.util.escapeRegExp(localizedNamespaceLcUpcaseFirst).split(' ').join('[ _]'),
-				mw.util.escapeRegExp(encodeURI(localizedNamespaceLcUpcaseFirst))
+				mw.util.escapeRegExp(_localizedNamespaceLc).split(' ').join('[ _]'),
+				mw.util.escapeRegExp(encodeURI(_localizedNamespaceLc))
 			);
-		}
+		});
 		return `(?:${imageNamespaceVariants.join('|')})`;
 	};
 	const nsReImage = () => {
@@ -5130,9 +5169,9 @@ export const popups = () => {
 			// ~ Gotta save @tt{this} again for the closure, and use apply for
 			// ~ the member function.
 			const self = this;
-			document.addEventListener('mousemove', (e) => {
+			document.onmousemove = (e) => {
 				self.track(e);
-			});
+			};
 			if (this.loopDelay) {
 				this.timer = setInterval(() => {
 					// log('loop delay in mousetracker is working');
@@ -5148,7 +5187,7 @@ export const popups = () => {
 				return;
 			}
 			if (typeof this.savedListener === 'function') {
-				document.addEventListener('mousemove', this.savedListener);
+				document.onmousemove = this.savedListener;
 			} else {
 				delete document.onmousemove;
 			}
@@ -5476,9 +5515,9 @@ export const popups = () => {
 			this.runHooks('create', 'before');
 			const mainDiv = document.createElement('div');
 			const self = this;
-			mainDiv.addEventListener('click', (e) => {
+			mainDiv.onclick = (e) => {
 				self.onclickListener(e);
-			});
+			};
 			mainDiv.className = this.className ?? 'navpopup_maindiv';
 			mainDiv.id = mainDiv.className + this.uid;
 			mainDiv.style.position = 'absolute';
@@ -6660,7 +6699,7 @@ export const popups = () => {
 		if (document.onkeypress !== popupHandleKeypress) {
 			document.oldPopupOnkeypress = document.onkeypress;
 		}
-		document.addEventListener('keypress', popupHandleKeypress);
+		document.onkeypress = popupHandleKeypress;
 	};
 	const rmPopupShortcuts = () => {
 		popupHandleKeypress.lastPopupLinkSelected = null;
@@ -6670,7 +6709,7 @@ export const popups = () => {
 				document.onkeypress = null; // () => {};
 				return;
 			}
-			document.addEventListener('keypress', document.oldPopupOnkeypress);
+			document.onkeypress = document.oldPopupOnkeypress;
 		} catch {
 			/* IE goes here */
 		}
@@ -6790,7 +6829,7 @@ export const popups = () => {
 					const a = document.createElement('a');
 					a.innerHTML = popupString('mark patrolled');
 					a.title = popupString('markpatrolledHint');
-					a.addEventListener('click', () => {
+					a.onclick = () => {
 						const params = {
 							action: 'review',
 							comment: tprintf('defaultpopupReviewedSummary', [
@@ -6811,7 +6850,7 @@ export const popups = () => {
 									type: 'error',
 								});
 							});
-					});
+					};
 					setPopupHTML(a, target, navpop.idNumber, null, true);
 				}
 			});
@@ -7225,13 +7264,10 @@ export const popups = () => {
 	};
 	const magicWatchLink = function magicWatchLink(l) {
 		// Yuck!! Would require a thorough redesign to add this as a click event though ...
-		l.addEventListener(
-			'click',
-			simplePrintf("pg.fn.modifyWatchlist('%s','%s');return false;", [
-				l.article.toString(true).split('\\').join('\\\\').split("'").join("\\'"),
-				this.id,
-			])
-		);
+		l.onclick = simplePrintf("pg.fn.modifyWatchlist('%s','%s');return false;", [
+			l.article.toString(true).split('\\').join('\\\\').split("'").join("\\'"),
+			this.id,
+		]);
 		return wikiLink(l);
 	};
 	pg.fn.modifyWatchlist = (title, action) => {
