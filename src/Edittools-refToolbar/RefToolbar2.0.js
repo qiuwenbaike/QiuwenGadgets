@@ -1,4 +1,4 @@
-/* eslint-disable prefer-destructuring, no-loop-func */
+/* eslint-disable no-loop-func */
 import {refToolbarMesages} from './RefToolbarMessages';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
@@ -391,7 +391,7 @@ export const refToolbar2 = function () {
 				if (ref[9]) {
 					// Content + short tag check
 					// mw.notify(`"${ref[9]}"`, {tag: 'RefToolbar2.0', type: 'warn'});
-					refobj.content = ref[9];
+					[, , , , , , , , , refobj.content] = ref;
 					refobj.shorttag = false;
 				} else {
 					refobj.shorttag = true;
@@ -399,21 +399,21 @@ export const refToolbar2 = function () {
 				if (ref[1] !== '') {
 					// First name/group
 					if (ref[2]) {
-						refobj[`ref${ref[1]}`] = ref[2];
+						[, , refobj[`ref${ref[1]}`]] = ref;
 					} else if (ref[3]) {
-						refobj[`ref${ref[1]}`] = ref[3];
+						[, , , refobj[`ref${ref[1]}`]] = ref;
 					} else {
-						refobj[`ref${ref[1]}`] = ref[4];
+						[, , , , refobj[`ref${ref[1]}`]] = ref;
 					}
 				}
 				if (ref[5] !== '') {
 					// Second name/group
 					if (ref[6]) {
-						refobj[`ref${ref[5]}`] = ref[6];
+						[, , , , , , refobj[`ref${ref[5]}`]] = ref;
 					} else if (ref[7]) {
-						refobj[`ref${ref[5]}`] = ref[7];
+						[, , , , , , , refobj[`ref${ref[5]}`]] = ref;
 					} else {
-						refobj[`ref${ref[5]}`] = ref[8];
+						[, , , , , , , , refobj[`ref${ref[5]}`]] = ref;
 					}
 				}
 				CiteTB.mainRefList.push(refobj);
@@ -503,9 +503,9 @@ export const refToolbar2 = function () {
 		CiteTB.initAutofill = function () {
 			const elemid = $(this).attr('id');
 			const res = /^cite-auto-(.*?)-(.*)-(.*)$/.exec(elemid);
-			const tem = res[1];
-			const field = res[2];
-			const autotype = res[3];
+			const [, tem] = res;
+			const [, , field] = res;
+			const [, , , autotype] = res;
 			let id = $(`#cite-${tem}-${field}`).val();
 			if (!id) {
 				return false;
@@ -536,7 +536,7 @@ export const refToolbar2 = function () {
 					const patt = /cite-[^-]*?-incr-(.*)/;
 					for (const class_ of classes) {
 						if (patt.test(class_)) {
-							group = patt.exec(class_)[1];
+							[, group] = patt.exec(class_);
 							break;
 						}
 					}
@@ -554,7 +554,7 @@ export const refToolbar2 = function () {
 					const patt = /cite-[^-]*?-incr-(.*)/;
 					for (const class_ of classes) {
 						if (patt.test(class_)) {
-							group = patt.exec(class_)[1];
+							[, group] = patt.exec(class_);
 							break;
 						}
 					}
@@ -656,12 +656,12 @@ export const refToolbar2 = function () {
 		// Add new incrementable fields
 		CiteTB.incrementFields = function () {
 			const template = CiteTB.getOpenTemplate();
-			const currentrow = $(this).parents('tr')[0];
+			const [currentrow] = $(this).parents('tr');
 			$(this).prev().css('width', '100%');
 			$(this).detach();
 			const elemid = $(this).attr('id');
 			const res = /^cite-incr-(.*?)-(.*)$/.exec(elemid);
-			const group = res[2];
+			const [, , group] = res;
 			const increments = template.incrementables[group];
 			const {fields} = increments;
 			template.incrementables[group].val += 1;
@@ -675,8 +675,8 @@ export const refToolbar2 = function () {
 		CiteTB.fillAccessdate = function () {
 			const elemid = $(this).attr('id');
 			const res = /^cite-date-(.*?)-(.*)$/.exec(elemid);
-			const id = res[1];
-			const field = res[2];
+			const [, id] = res;
+			const [, , field] = res;
 			const DT = new Date();
 			const datestr = CiteTB.formatDate(DT);
 			$(`#cite-${id}-${field}`).val(datestr);
