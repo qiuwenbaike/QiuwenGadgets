@@ -457,8 +457,7 @@ import {hotCatMessages} from './modules/messages';
 		if (once) {
 			return cat_regex.exec(wikitext);
 		}
-		const wiki = 'wiki>';
-		const nowikiRegex = new RegExp(`<no${wiki}(\\s|\\S)*?</no${wiki}`, 'g');
+		const nowikiRegex = new RegExp('<no'.concat('wiki>', '(\\s|\\S)*?</no', 'wiki', '>'), 'g');
 		const copiedtext = wikitext.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks).replace(nowikiRegex, replaceByBlanks);
 		const result = [];
 		let curr_match = null;
@@ -473,8 +472,7 @@ import {hotCatMessages} from './modules/messages';
 	let interlanguageRE = null;
 	const change_category = (wikitext, toRemove, toAdd, key, is_hidden) => {
 		const find_insertionpoint = (_wikitext) => {
-			const wiki = 'wiki>';
-			const nowikiRegex = new RegExp(`<no${wiki}(\\s|\\S)*?</no${wiki}`, 'g');
+			const nowikiRegex = new RegExp('<no'.concat('wiki>', '(\\s|\\S)*?</no', 'wiki', '>'), 'g');
 			const copiedtext = _wikitext
 				.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks)
 				.replace(nowikiRegex, replaceByBlanks);
@@ -3102,8 +3100,7 @@ import {hotCatMessages} from './modules/messages';
 						const key = editor.currentKey;
 						const new_cat = `[[${HC.category_canonical}:${t}${key ? `|${key}` : ''}]]`;
 						// Only add if not already present
-						const wiki = 'wiki>';
-						const nowikiRegex = new RegExp(`<no${wiki}(\\s|\\S)*?</no${wiki}`, 'g');
+						const nowikiRegex = new RegExp('<no'.concat('wiki>', '(\\s|\\S)*?</no', 'wiki', '>'), 'g');
 						const _cleanedText = eb.value.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex);
 						if (!find_category(_cleanedText, t, true)) {
 							eb.value += `\n${new_cat}`;
@@ -3111,9 +3108,8 @@ import {hotCatMessages} from './modules/messages';
 						}
 					}
 					if (addedOne) {
-						const subst = 'subst';
 						// Remove "subst:unc" added by Flinfo if it didn't find categories
-						const regex = new RegExp(`{{${subst}:unc}}`, 'g');
+						const regex = new RegExp('{{$'.concat('subst').concat(':unc}}'), 'g');
 						eb.value = eb.value.replace(regex, '');
 					}
 					return true;
@@ -3142,8 +3138,7 @@ import {hotCatMessages} from './modules/messages';
 			return result;
 		}
 		if (cleanedText === null) {
-			const wiki = 'wiki>';
-			const nowikiRegex = new RegExp(`<no${wiki}(\\s|\\S)*?</no${wiki}`, 'g');
+			const nowikiRegex = new RegExp('<no'.concat('wiki>', '(\\s|\\S)*?</no', 'wiki', '>'), 'g');
 			cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
 		}
 		result.match = find_category(cleanedText, catTitle, true);

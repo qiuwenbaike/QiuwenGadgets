@@ -1420,10 +1420,8 @@
 		formatReasonText: (str, addSig) => {
 			let reason = (str || '').toString().trim();
 			const unbinder = new Morebits.unbinder(reason);
-			const wiki = 'wiki>';
-			unbinder.unbind(`<no${wiki}`, `</no${wiki}`);
-			const subst = 'subst';
-			unbinder.content = unbinder.content.replace(/\|/g, `{{${subst}:!}}`);
+			unbinder.unbind('<no'.concat('wiki', '>'), '</no'.concat('wiki', '>'));
+			unbinder.content = unbinder.content.replace(/\|/g, '{{'.concat('subst').concat(':!}}'));
 			reason = unbinder.rebind();
 			if (addSig) {
 				const sig = '~~'.concat('~~');

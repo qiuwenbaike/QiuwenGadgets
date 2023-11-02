@@ -1870,15 +1870,14 @@ export const popups = () => {
 			let close;
 			let subloop;
 			let html = '';
-			const wiki = 'wiki>';
-			while ((start = str.indexOf(`<no${wiki}`, substart)) !== -1) {
+			while ((start = str.indexOf('<no'.concat('wiki', '>'), substart)) !== -1) {
 				html += parse_inline_wiki(str.substring(lastend, start));
 				start += 8;
 				substart = start;
 				subloop = true;
 				do {
-					open = str.indexOf(`<no${wiki}`, substart);
-					close = str.indexOf(`</no${wiki}`, substart);
+					open = str.indexOf('<no'.concat('wiki', '>'), substart);
+					close = str.indexOf('</no'.concat('wiki', '>'), substart);
 					if (close <= open || open === -1) {
 						if (close === -1) {
 							return html + html_entities(str.slice(start));
@@ -3768,13 +3767,11 @@ export const popups = () => {
 			const splitted = this.data.parenSplit(/(<[\W\w]*?(?:>|$|(?=<)))/);
 			const len = splitted.length;
 			for (let i = 1; i < len; i += 2) {
-				const wiki = 'wiki>';
-				const quote = 'quote>';
 				switch (splitted[i]) {
-					case `<no${wiki}`:
-					case `</no${wiki}`:
-					case `<block${quote}`:
-					case `</block${quote}`:
+					case '<no'.concat('wiki', '>'):
+					case '</no'.concat('wiki', '>'):
+					case '<block'.concat('quote', '>'):
+					case '</block'.concat('quote', '>'):
 						break;
 					default:
 						splitted[i] = '';
