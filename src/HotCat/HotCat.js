@@ -496,7 +496,7 @@ import {hotCatMessages} from './modules/messages';
 							copiedtext
 					  ));
 				if (match) {
-					index = match.index;
+					({index} = match);
 				}
 				return {
 					idx: index,
@@ -538,7 +538,7 @@ import {hotCatMessages} from './modules/messages';
 				toAdd && // nameSpace = matches[ 0 ].match[ 1 ] || nameSpace; Canonical namespace should be always preferred
 				key === null
 			) {
-				key = matches[0].match[2];
+				[, , key] = matches[0].match;
 			}
 			// Remember the category key, if any.
 			// Remove whitespace (properly): strip whitespace, but only up to the next line feed.
@@ -597,7 +597,7 @@ import {hotCatMessages} from './modules/messages';
 			if (cat_point < 0) {
 				const point = find_insertionpoint(wikitext);
 				cat_point = point.idx;
-				onCat = point.onCat;
+				({onCat} = point);
 			} else {
 				onCat = true;
 			}
@@ -886,7 +886,7 @@ import {hotCatMessages} from './modules/messages';
 						});
 					}
 				} else if (error === null) {
-					error = result.error;
+					({error} = result);
 				}
 			} else if (
 				edit.state === CategoryEditor.DELETED &&
@@ -898,7 +898,7 @@ import {hotCatMessages} from './modules/messages';
 					changes++;
 					deleted.push(edit.originalCategory);
 				} else if (error === null) {
-					error = result.error;
+					({error} = result);
 				}
 			}
 		}
@@ -1143,10 +1143,10 @@ import {hotCatMessages} from './modules/messages';
 				// cursor at the end of the category, and do not display the old suggestion list.
 				which.showsList = false;
 				const v = actualValue.split('|');
-				which.lastInput = v[0];
+				[which.lastInput] = v;
 				which.lastRealInput = which.lastInput;
 				if (v.length > 1) {
-					which.currentKey = v[1];
+					[, which.currentKey] = v;
 				}
 				if (which.lastSelection) {
 					which.lastSelection = {
@@ -1260,7 +1260,7 @@ import {hotCatMessages} from './modules/messages';
 			handler: (queryResult, queryKey) => {
 				if (queryResult && queryResult.length >= 2) {
 					const key = queryResult[0].slice(Math.max(0, queryResult[0].indexOf(':') + 1));
-					const titles = queryResult[1];
+					const [, titles] = queryResult;
 					let exists = false;
 					if (!cat_prefix) {
 						cat_prefix = new RegExp(`^(${HC.category_regexp}):`);
@@ -1963,7 +1963,7 @@ import {hotCatMessages} from './modules/messages';
 			const value = this.text.value.split('|');
 			let key = null;
 			if (value.length > 1) {
-				key = value[1];
+				[, key] = value;
 			}
 			let v = value[0].replace(/_/g, ' ').replace(/^\s+|\s+$/g, '');
 			if (HC.capitalizePageNames) {
@@ -2438,7 +2438,7 @@ import {hotCatMessages} from './modules/messages';
 				}
 				return;
 			}
-			const firstTitle = titles[0];
+			const [firstTitle] = titles;
 			const completed = this.autoComplete(firstTitle, v, vNormalized, key, dontAutocomplete);
 			const existing = completed || knownToExist || firstTitle === replaceShortcuts(v, HC.shortcuts);
 			if (engineName && suggestionConfigs[engineName] && !suggestionConfigs[engineName].temp) {
@@ -3014,7 +3014,7 @@ import {hotCatMessages} from './modules/messages';
 				const value = edit.text.value.split('|');
 				let key = null;
 				if (value.length > 1) {
-					key = value[1];
+					[, key] = value;
 				}
 				const v = value[0].replace(/_/g, ' ').replace(/^\s+|\s+$/g, '');
 				if (v.length === 0) {
@@ -3246,7 +3246,7 @@ import {hotCatMessages} from './modules/messages';
 			multiSpan = make('span');
 			enableMulti.append(multiSpan);
 			multiSpan.innerHTML = `(<a>${HC.addmulti}</a>)`;
-			const link = multiSpan.querySelectorAll('a')[0];
+			const [link] = multiSpan.querySelectorAll('a');
 			link.addEventListener('click', (event) => {
 				setMultiInput();
 				checkMultiInput();
@@ -3322,7 +3322,7 @@ import {hotCatMessages} from './modules/messages';
 				}
 				let cat = cats[i].split('|');
 				const key = cat.length > 1 ? cat[1] : null;
-				cat = cat[0];
+				[cat] = cat;
 				const link = make('a');
 				link.href = wikiPagePath(`${HC.category_canonical}:${cat}`);
 				link.append(make(cat, true));

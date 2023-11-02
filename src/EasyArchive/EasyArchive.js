@@ -21,9 +21,9 @@ import {easy_archive_lang} from './modules/i18n';
 				/[#%@][Ss][Ee][Tt]/.test(pare_string.slice(0, 4)) &&
 				!config.includes('ignore-set')
 			) {
-				this.left = pare_string[4];
-				this.delim = pare_string[5];
-				this.right = pare_string[6];
+				[, , , , this.left] = pare_string;
+				[, , , , , this.delim] = pare_string;
+				[, , , , , , this.right] = pare_string;
 				if (this.left === this.right || this.left === this.delim || this.right === this.delim) {
 					throw new SyntaxError("Pound set statement has repetitive characters. E.g. '#set|:|' is illegal.");
 				}
@@ -416,9 +416,9 @@ import {easy_archive_lang} from './modules/i18n';
 		};
 		const notice_set = notice_tag_dictionary[notice_tag_acronym] ?? false;
 		if (notice_set !== false) {
-			const ntag = notice_set[0];
-			const ntype = notice_set[1];
-			const nsubst = notice_set[2];
+			const [ntag] = notice_set;
+			const [, ntype] = notice_set;
+			const [, , nsubst] = notice_set;
 			window.easy_archive.ding(message(ntag, nsubst), false, ntype);
 		}
 	};

@@ -8,7 +8,6 @@
 				"allowedNames": ["self"]
 			}
 		],
-		"prefer-destructuring": "off",
 		"no-new": "off"
 	},
 	"globals": {
