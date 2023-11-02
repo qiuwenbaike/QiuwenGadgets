@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prefer-add-event-listener */
 import {alertTitle, portletText, portletTooltip} from './messages';
 
 export const shortURL = (): void => {
