@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export const message = {
 	edit_summary: window.wgULS(
 		'[[MediaWiki:Gadget-RRD.js|半自动提报]]修订版本删除',
