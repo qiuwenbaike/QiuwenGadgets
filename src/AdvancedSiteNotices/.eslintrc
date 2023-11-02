@@ -5,7 +5,6 @@
 			{
 				"varsIgnorePattern": "^_"
 			}
-		],
-		"camelcase": "off"
+		]
 	}
 }
