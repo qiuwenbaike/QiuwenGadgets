@@ -951,7 +951,7 @@
 	};
 	Twinkle.warn.callbacks = {
 		getWarningWikitext: (templateName, article, reason, isCustom, noSign) => {
-			let text = `{{subst:${templateName}`;
+			let text = '{{'.concat('subst:', templateName);
 			// add linked article for user warnings
 			if (article) {
 				text += `|1=${article}`;
@@ -960,9 +960,9 @@
 				// add extra message
 				text += `|2=${reason}`;
 			}
-			text += '|subst=subst:';
+			text += '|subst='.concat('subst:');
 			if (!noSign) {
-				text += '|sig=~~~~';
+				text += '|sig=~~'.concat('~~');
 			}
 			text += '}}';
 			return text;

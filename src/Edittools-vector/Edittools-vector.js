@@ -66,8 +66,8 @@ const edittoolsVector = () => {
 					action: {
 						type: 'encapsulate',
 						options: {
-							pre: '<blockquote>',
-							post: '</blockquote>',
+							pre: '<block'.concat('quote>'),
+							post: '</block'.concat('quote>'),
 						},
 					},
 				},

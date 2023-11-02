@@ -133,7 +133,7 @@
 		Twinkle.arv.callback.set_sockmaster(e.target.value);
 	};
 	Twinkle.arv.callback.set_sockmaster = (sockmaster) => {
-		$('code.tw-arv-sockmaster').text(`{{subst:Socksuspectnotice|1=${sockmaster}}}`);
+		$('code.tw-arv-sockmaster').text('{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`));
 	};
 	Twinkle.arv.callback.changeCategory = (e) => {
 		const {value} = e.target;
@@ -584,7 +584,7 @@
 				comment += `* ${input.reason}\n`;
 				comment = comment.trim();
 				comment = Morebits.string.appendPunctuation(comment);
-				reason += `${comment}\n* 提報人：~~~~\n* 处理：`;
+				reason += `${comment}\n* 提报人：~~`.concat('~~\n* 处理：');
 				break;
 			}
 			// Report inappropriate username
@@ -631,7 +631,7 @@
 					comment += Morebits.string.toUpperCaseFirstChar(input.reason);
 				}
 				comment = Morebits.string.appendPunctuation(comment);
-				comment += '--~~~~';
+				comment += '--~~'.concat('~~');
 				comment = comment.replace(/\r?\n/g, '\n*:'); // indent newlines
 				reason = `== 不当用户名报告（${
 					input.hidename ? wgULS('已隐藏用户名', '已隱藏使用者名稱') : uid
@@ -660,9 +660,14 @@
 					});
 					return;
 				}
-				comment += '{{subst:SPI report|';
+				comment += '{{'.concat('subst:', 'SPI report|');
 				if (!sockpuppets.includes(input.sockmaster)) {
-					comment += `1={{subst:#ifexist:{{subst:FULLPAGENAME}}||${input.sockmaster}}}|`;
+					comment += '1={{'.concat(
+						'subst:',
+						'#ifexist:{{',
+						'subst:',
+						`FULLPAGENAME}}||${input.sockmaster}}}|`
+					);
 				}
 				comment += `${sockpuppets
 					.map((sock, index) => {
@@ -735,7 +740,7 @@
 				}
 				comment = comment.trim();
 				comment = Morebits.string.appendPunctuation(comment);
-				reason += `${comment}\n* 发现人：~~~~\n* 处理：`;
+				reason += `${comment}\n* 发现人：~~`.concat('~~\n* 处理：');
 				break;
 			}
 		}

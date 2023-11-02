@@ -1360,7 +1360,7 @@
 					tag += `|reason=${params.reason}`;
 				}
 				if (params.showexpiry && params.expiry && !Morebits.string.isInfinity(params.expiry)) {
-					tag += `|expiry={{subst:#time:c|${params.expiry}}}`;
+					tag += '|expiry={{'.concat('subst:', `#time:c|${params.expiry}}}`);
 				}
 				if (params.small) {
 					tag += '|small=yes';
@@ -1464,7 +1464,7 @@
 				wgULS('请求', '請求') +
 				Morebits.string.toUpperCaseFirstChar(words) +
 				(params.reason === '' ? '。' : `：${Morebits.string.formatReasonText(params.reason)}`)
-			}--~~~~`;
+			}--~~`.concat('~~');
 			let reg;
 			if (params.category === 'unprotect') {
 				reg = /(==\s*请求解除保护\s*==)/;
@@ -1559,11 +1559,11 @@
 				if (rppRe.exec(requestList[i])) {
 					requestList[i] = requestList[i].trimEnd();
 					if (params.type === 'unprotect') {
-						requestList[i] += '\n: {{RFPP|isun}}。--~~~~\n';
+						requestList[i] += '\n: {{RFPP|isun}}。--~~'.concat('~~\n');
 					} else {
 						requestList[i] += `\n: {{RFPP|${params.type}|${
 							Morebits.string.isInfinity(params.expiry) ? 'infinity' : expiryText
-						}}}。--~~~~\n`;
+						}}}。--~~`.concat('~~\n');
 					}
 					found = true;
 					break;

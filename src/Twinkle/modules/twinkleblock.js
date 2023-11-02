@@ -1333,7 +1333,7 @@
 			nocreate: true,
 			nonstandard: true,
 			forAnonOnly: true,
-			sig: '~~~~',
+			sig: '~~'.concat('~~'),
 		},
 		'blocked proxy': {
 			expiry: '2 years',
@@ -1350,7 +1350,7 @@
 			nocreate: true,
 			nonstandard: true,
 			reason: '{{checkuserblock}}',
-			sig: '~~~~',
+			sig: '~~'.concat('~~'),
 		},
 		'checkuserblock-account': {
 			autoblock: true,
@@ -1359,7 +1359,7 @@
 			nocreate: true,
 			nonstandard: true,
 			reason: '{{checkuserblock-account}}',
-			sig: '~~~~',
+			sig: '~~'.concat('~~'),
 		},
 		'school block': {
 			expiry: '1 week',
@@ -1367,14 +1367,14 @@
 			nocreate: true,
 			nonstandard: true,
 			reason: '{{school block}}',
-			sig: '~~~~',
+			sig: '~~'.concat('~~'),
 		},
 		'Bot block message': {
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			reason: wgULS('机器人故障', '機器人故障'),
 			summary: wgULS('封禁通知：机器人故障', '封鎖通知：機器人故障'),
-			sig: '~~~~',
+			sig: '~~'.concat('~~'),
 		},
 		// other block reasons
 		bioblock: {
@@ -2350,10 +2350,10 @@
 				requestList[i] = requestList[i].trimEnd();
 				let newText = requestList[i].replace(
 					/^(\*\s*处理：)[ \t]*(<!-- 非管理員僅可標記已執行的封禁，針對提報的意見請放在下一行 -->)?[ \t]*$/m,
-					`$1${comment}--~~~~`
+					`$1${comment}--~~`.concat('~~')
 				);
 				if (requestList[i] === newText) {
-					newText = `${requestList[i]}\n* 处理：${comment}--~~~~`;
+					newText = `${requestList[i]}\n* 处理：${comment}--~~`.concat('~~');
 				}
 				requestList[i] = `${newText}\n`;
 				found = true;
@@ -2387,7 +2387,7 @@
 		if (settings.nonstandard) {
 			text += params.template;
 		} else {
-			text += `subst:${params.template}`;
+			text += 'subst:'.concat(params.template);
 			if (params.article && settings.pageParam) {
 				text += `|page=${params.article}`;
 			}

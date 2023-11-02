@@ -572,7 +572,9 @@
 				);
 			}
 			if (params.code === 'mergeapproved') {
-				const tag = `{{subst:Merge approved/auto|discuss=${mw.config.get('wgPageName')}#${params.title}}}\n`;
+				const tag = '{{'
+					.concat('subst:')
+					.concat(`Merge approved/auto|discuss=${mw.config.get('wgPageName')}#${params.title}}}\n`);
 				// Insert tag after short description or any hatnotes
 				const qiuwen_page = new Morebits.wikitext.page(newtext);
 				newtext = qiuwen_page.insertAfterTemplates(tag, Twinkle.hatnoteRegex).getText();
@@ -623,7 +625,7 @@
 				text += '。';
 			}
 			if (!Morebits.userIsSysop) {
-				text += '{{subst:NAC}}';
+				text += '{{'.concat('subst:').concat('NAC}}');
 			}
 			text += '--~~' + '~~\n{{delf}}';
 			if (bar[1]) {

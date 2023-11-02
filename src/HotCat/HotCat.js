@@ -457,8 +457,7 @@ import {hotCatMessages} from './modules/messages';
 		if (once) {
 			return cat_regex.exec(wikitext);
 		}
-		const wiki = 'wiki>';
-		const nowikiRegex = new RegExp(`<no${wiki}(\\s|\\S)*?</no${wiki}`, 'g');
+		const nowikiRegex = new RegExp('<no'.concat('wiki>', '(\\s|\\S)*?</no', 'wiki', '>'), 'g');
 		const copiedtext = wikitext.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks).replace(nowikiRegex, replaceByBlanks);
 		const result = [];
 		let curr_match = null;
@@ -473,8 +472,7 @@ import {hotCatMessages} from './modules/messages';
 	let interlanguageRE = null;
 	const change_category = (wikitext, toRemove, toAdd, key, is_hidden) => {
 		const find_insertionpoint = (_wikitext) => {
-			const wiki = 'wiki>';
-			const nowikiRegex = new RegExp(`<no${wiki}(\\s|\\S)*?</no${wiki}`, 'g');
+			const nowikiRegex = new RegExp('<no'.concat('wiki>', '(\\s|\\S)*?</no', 'wiki', '>'), 'g');
 			const copiedtext = _wikitext
 				.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks)
 				.replace(nowikiRegex, replaceByBlanks);
@@ -3102,8 +3100,7 @@ import {hotCatMessages} from './modules/messages';
 						const key = editor.currentKey;
 						const new_cat = `[[${HC.category_canonical}:${t}${key ? `|${key}` : ''}]]`;
 						// Only add if not already present
-						const wiki = 'wiki>';
-						const nowikiRegex = new RegExp(`<no${wiki}(\\s|\\S)*?</no${wiki}`, 'g');
+						const nowikiRegex = new RegExp('<no'.concat('wiki>', '(\\s|\\S)*?</no', 'wiki', '>'), 'g');
 						const _cleanedText = eb.value.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex);
 						if (!find_category(_cleanedText, t, true)) {
 							eb.value += `\n${new_cat}`;
@@ -3112,7 +3109,8 @@ import {hotCatMessages} from './modules/messages';
 					}
 					if (addedOne) {
 						// Remove "subst:unc" added by Flinfo if it didn't find categories
-						eb.value = eb.value.replace(/{{subst:unc}}/g, '');
+						const regex = new RegExp('{{$'.concat('subst:').concat('unc}}'), 'g');
+						eb.value = eb.value.replace(regex, '');
 					}
 					return true;
 				})(form.onsubmit);
@@ -3140,8 +3138,7 @@ import {hotCatMessages} from './modules/messages';
 			return result;
 		}
 		if (cleanedText === null) {
-			const wiki = 'wiki>';
-			const nowikiRegex = new RegExp(`<no${wiki}(\\s|\\S)*?</no${wiki}`, 'g');
+			const nowikiRegex = new RegExp('<no'.concat('wiki>', '(\\s|\\S)*?</no', 'wiki', '>'), 'g');
 			cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
 		}
 		result.match = find_category(cleanedText, catTitle, true);
@@ -3269,11 +3266,11 @@ import {hotCatMessages} from './modules/messages';
 		const formContainer = make('div');
 		formContainer.style.display = 'none';
 		document.body.append(formContainer);
-		formContainer.innerHTML = `${`<form id="hotcatCommitForm" method="post" enctype="multipart/form-data" action="${
+		formContainer.innerHTML = `<form id="hotcatCommitForm" method="post" enctype="multipart/form-data" action="${
 			conf.wgScript
 		}?title=${encodeURIComponent(
 			conf.wgPageName
-		)}&action=submit">`}<input type="hidden" name="wpTextbox1">${`<input type="hidden" name="model" value="${conf.wgPageContentModel}">`}<input type="hidden" name="format" value="text/x-wiki"><input type="hidden" name="wpSummary" value=""><input type="checkbox" name="wpMinoredit" value="1"><input type="checkbox" name="wpWatchthis" value="1"><input type="hidden" name="wpAutoSummary" value="d41d8cd98f00b204e9800998ecf8427e"><input type="hidden" name="wpEdittime"><input type="hidden" name="wpStarttime"><input type="hidden" name="wpDiff" value="wpDiff"><input type="hidden" name="oldid" value="0"><input type="submit" name="hcCommit" value="hcCommit"><input type="hidden" name="wpEditToken"><input type="hidden" name="wpUltimateParam" value="1"><input type="hidden" name="wpChangeTags"><input type="hidden" value="ℳ𝒲♥𝓊𝓃𝒾𝒸ℴ𝒹ℯ" name="wpUnicodeCheck"></form>`;
+		)}&action=submit"><input type="hidden" name="wpTextbox1">${`<input type="hidden" name="model" value="${conf.wgPageContentModel}">`}<input type="hidden" name="format" value="text/x-wiki"><input type="hidden" name="wpSummary" value=""><input type="checkbox" name="wpMinoredit" value="1"><input type="checkbox" name="wpWatchthis" value="1"><input type="hidden" name="wpAutoSummary" value="d41d8cd98f00b204e9800998ecf8427e"><input type="hidden" name="wpEdittime"><input type="hidden" name="wpStarttime"><input type="hidden" name="wpDiff" value="wpDiff"><input type="hidden" name="oldid" value="0"><input type="submit" name="hcCommit" value="hcCommit"><input type="hidden" name="wpEditToken"><input type="hidden" name="wpUltimateParam" value="1"><input type="hidden" name="wpChangeTags"><input type="hidden" value="ℳ𝒲♥𝓊𝓃𝒾𝒸ℴ𝒹ℯ" name="wpUnicodeCheck"></form>`;
 		commitForm = document.querySelector('#hotcatCommitForm');
 	};
 	const getPage = () => {
