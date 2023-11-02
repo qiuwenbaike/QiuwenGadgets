@@ -891,7 +891,7 @@
 					selected: true,
 				},
 				{
-					label: '{{pp-sock}}: ' + '傀儡',
+					label: '{{pp-sock}}: 傀儡',
 					value: 'pp-sock',
 				},
 				{
