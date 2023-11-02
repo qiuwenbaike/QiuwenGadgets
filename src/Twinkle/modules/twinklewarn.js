@@ -746,7 +746,7 @@
 				container.appendChild(wrapperOptgroup);
 				container = wrapperOptgroup;
 			}
-			$.each(contents, (itemKey, itemProperties) => {
+			for (const [itemKey, itemProperties] of Object.entries(contents)) {
 				// Skip if the current template doesn't have a version for the current level
 				if (!!level && !itemProperties[val]) {
 					return;
@@ -765,7 +765,7 @@
 				}
 				const elemRendered = container.appendChild(elem.render());
 				$(elemRendered).data('messageData', itemProperties);
-			});
+			}
 		};
 		switch (value) {
 			case 'singlenotice':
@@ -792,7 +792,7 @@
 				break;
 			case 'kitchensink':
 				['level1', 'level2'].forEach((lvl) => {
-					$.each(Twinkle.warn.messages.levels, (_, levelGroup) => {
+					Twinkle.warn.messages.levels.forEach((levelGroup) => {
 						createEntries(levelGroup.list, sub_group, true, lvl);
 					});
 				});
@@ -804,7 +804,7 @@
 			case 'level2':
 				// Creates subgroup regardless of whether there is anything to place in it;
 				// leaves "Removal of deletion tags" empty for level 2
-				$.each(Twinkle.warn.messages.levels, (_, levelGroup) => {
+				Twinkle.warn.messages.levels.forEach((levelGroup) => {
 					let optgroup = new Morebits.quickForm.element({
 						type: 'optgroup',
 						label: levelGroup.category,
@@ -828,7 +828,7 @@
 					};
 					const lvl = `level${Twinkle.warn.callbacks.autolevelParseWikitext(wikitext, params, latest)[1]}`;
 					// Identical to level1, etc. above but explicitly provides the level
-					$.each(Twinkle.warn.messages.levels, (_, levelGroup) => {
+					Twinkle.warn.messages.levels.forEach((levelGroup) => {
 						let optgroup = new Morebits.quickForm.element({
 							type: 'optgroup',
 							label: levelGroup.category,

@@ -66,7 +66,7 @@
 			size: '30',
 			event: function event() {
 				// flush the DOM of all existing underline spans
-				$allCheckboxDivs.find('.search-hit').each((i, e) => {
+				$allCheckboxDivs.find('.search-hit').each((_i, e) => {
 					const label_element = e.parentElement;
 					// This would convert <label>Hello <span class=search-hit>wo</span>rld</label>
 					// to <label>Hello world</label>
@@ -307,7 +307,7 @@
 				// except when they are within {{multiple issues}}
 				$('.mw-parser-output')
 					.children()
-					.each((i, e) => {
+					.each((_i, e) => {
 						// break out on encountering the first heading, which means we are no
 						// longer in the lead section
 						if (e.tagName === 'H2') {
@@ -321,7 +321,7 @@
 							if (e.classList[0] === 'box-问题条目') {
 								$(e)
 									.find('.ambox')
-									.each((idx, e) => {
+									.each((_idx, e) => {
 										if (e.classList[0].indexOf('box-') === 0) {
 											const tag = e.classList[0].slice('box-'.length).replace(/_/g, ' ');
 											Twinkle.tag.alreadyPresentTags.push(tag);
@@ -632,7 +632,7 @@
 			// function to iterate through the tags and create a checkbox for each one
 			const doCategoryCheckboxes = (subdiv, subgroup) => {
 				const checkboxes = [];
-				$.each(subgroup, (k, item) => {
+				subgroup.forEach((item) => {
 					if (!Twinkle.tag.alreadyPresentTags.includes(item.tag)) {
 						checkboxes.push(makeCheckbox(item.tag, item.description));
 					}
@@ -1603,11 +1603,11 @@
 					(apiobj) => {
 						$(apiobj.responseXML)
 							.find('page')
-							.each((idx, page) => {
+							.each((_idx, page) => {
 								let removed = false;
 								$(page)
 									.find('lh')
-									.each((idx, el) => {
+									.each((_idx, el) => {
 										const tag = $(el).attr('title').slice(9);
 										const tag_re = new RegExp(
 											`\\{\\{${Morebits.pageNameRegex(
@@ -1648,10 +1648,9 @@
 			/**
 			 * Updates `tagText` with the syntax of `tagName` template with its parameters
 			 *
-			 * @param {number} tagIndex
 			 * @param {string} tagName
 			 */
-			const addTag = (tagIndex, tagName) => {
+			const addTag = (tagName) => {
 				let currentTag = '';
 				if (tagName === 'Uncategorized' || tagName === 'Improve categories') {
 					pageText += `\n\n{{${tagName}|time={{subst:#time:c}}}}`;
@@ -1745,7 +1744,7 @@
 			 * {{multiple issues}} is not being added to the page at all
 			 */
 			const addUngroupedTags = () => {
-				$.each(tags, addTag);
+				tags.forEach(addTag);
 				// Insert tag after short description or any hatnotes,
 				// as well as deletion/protection-related templates
 				const qiuwen_page = new Morebits.wikitext.page(pageText);
@@ -1819,7 +1818,7 @@
 					wgULS('加入支持的标记入已存在的{{multiple issues}}', '加入支援的標記入已存在的{{multiple issues}}')
 				);
 				tagText = '';
-				$.each(groupableTags, addTag);
+				groupableTags.forEach(addTag);
 				const miRegex = new RegExp(
 					`(\\{\\{\\s*${miTest[1]}\\s*(?:\\|(?:\\{\\{[^{}]*\\}\\}|[^{}])*)?)\\}\\}\\s*`,
 					'im'
@@ -1837,7 +1836,7 @@
 				 * Adds newly added tags to MI
 				 */
 				const addNewTagsToMI = () => {
-					$.each(groupableTags, addTag);
+					groupableTags.forEach(addTag);
 					tagText += '}}\n';
 					addUngroupedTags();
 				};
@@ -1871,11 +1870,11 @@
 					(apiobj) => {
 						$(apiobj.responseXML)
 							.find('page')
-							.each((idx, page) => {
+							.each((_idx, page) => {
 								let found = false;
 								$(page)
 									.find('lh')
-									.each((idx, el) => {
+									.each((_idx, el) => {
 										const tag = $(el).attr('title').slice(9);
 										const tag_re = new RegExp(
 											`(\\{\\{${Morebits.pageNameRegex(tag)}\\s*(\\|[^}]*)?\\}\\}\\n?)`
@@ -1934,7 +1933,8 @@
 					tags.push(params.tags[i]);
 				}
 			}
-			const addTag = (tagIndex, tagName) => {
+			// used in Array#forEach
+			const addTag = (tagName, tagIndex) => {
 				tagText += `\n{{${tagName}`;
 				if (tagName === '非中文重定向') {
 					if (params.altLangFrom) {
@@ -1962,7 +1962,7 @@
 				Morebits.status.warn(wgULS('信息', '資訊'), wgULS('没有标签可供标记', '沒有標籤可供標記'));
 			}
 			tags.sort();
-			$.each(tags, addTag);
+			tags.forEach(addTag);
 			// Check for all Rcat shell redirects (from #433)
 			if (pageText.match(/{{(?:redr|this is a redirect|r(?:edirect)?(?:.?cat.*)?[ _]?sh)/i)) {
 				// Regex inspired by [[User:Kephir/gadgets/sagittarius.js]] ([[Special:PermaLink/831402893]])
@@ -2008,7 +2008,7 @@
 			if (params.tags.length) {
 				let tagtext = '';
 				let currentTag;
-				$.each(params.tags, (k, tag) => {
+				params.tags.forEach((tag) => {
 					// when other commons-related tags are placed, remove "move to Share" tag
 					if (['Keep local', 'Now Qiuwen Share', 'Do not move to Qiuwen Share'].includes(tag)) {
 						text = text.replace(

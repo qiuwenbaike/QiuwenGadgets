@@ -13,8 +13,6 @@
 		"jsdoc/require-param-type": "off",
 		"mediawiki/class-doc": "off",
 		"new-cap": "off",
-		"no-jquery/no-each-util": "off",
-		"no-jquery/no-map-util": "off",
 		"no-script-url": "off",
 		"no-shadow": "off",
 		"no-useless-concat": "off",
