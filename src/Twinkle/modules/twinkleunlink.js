@@ -200,11 +200,11 @@
 							label: wgULS('文件使用', '檔案使用'),
 						});
 						namespaces = [];
-						Twinkle.getPref('unlinkNamespaces').forEach((v) => {
+						for (const v of Twinkle.getPref('unlinkNamespaces')) {
 							namespaces.push(
 								v === '0' ? wgULS('（条目）', '（條目）') : mw.config.get('wgFormattedNamespaces')[v]
 							);
-						});
+						}
 						apiobj.params.form.append({
 							type: 'div',
 							label: wgULS('已选择的命名空间：', '已選擇的命名空間：') + namespaces.join('、'),
@@ -266,11 +266,11 @@
 						label: wgULS('链入', '連入'),
 					});
 					namespaces = [];
-					Twinkle.getPref('unlinkNamespaces').forEach((v) => {
+					for (const v of Twinkle.getPref('unlinkNamespaces')) {
 						namespaces.push(
 							v === '0' ? wgULS('（条目）', '（條目）') : mw.config.get('wgFormattedNamespaces')[v]
 						);
-					});
+					}
 					apiobj.params.form.append({
 						type: 'div',
 						label: wgULS('已选择的命名空间：', '已選擇的命名空間：') + namespaces.join('、'),

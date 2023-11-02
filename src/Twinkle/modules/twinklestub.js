@@ -133,9 +133,9 @@
 				label: wgULS('自定义模板', '自訂模板'),
 			});
 			const customcheckboxes = [];
-			Twinkle.getPref('customStubList').forEach((item) => {
+			for (const item of Twinkle.getPref('customStubList')) {
 				customcheckboxes.push(makeCheckbox(item.value, item.label));
-			});
+			}
 			container.append({
 				type: 'checkbox',
 				name: 'articleTags',
@@ -147,10 +147,10 @@
 			// function to iterate through the tags and create a checkbox for each one
 			const doCategoryCheckboxes = (subdiv, array) => {
 				const checkboxes = [];
-				array.forEach((tag) => {
+				for (const tag of array) {
 					const description = Twinkle.stub.article.tags[tag];
 					checkboxes.push(makeCheckbox(tag, description));
-				});
+				}
 				subdiv.append({
 					type: 'checkbox',
 					name: 'articleTags',
@@ -208,7 +208,7 @@
 			'margin-top': '0.4em',
 		});
 		// add a link to each template's description page
-		Morebits.quickForm.getElements(e.target.form, 'articleTags').forEach((checkbox) => {
+		for (const checkbox of Morebits.quickForm.getElements(e.target.form, 'articleTags')) {
 			const $checkbox = $(checkbox);
 			const link = Morebits.htmlNode('a', '>');
 			link.setAttribute('class', 'tag-template-link');
@@ -218,7 +218,7 @@
 			);
 			link.setAttribute('target', '_blank');
 			$checkbox.parent().append(['\u00A0', link]);
-		});
+		}
 	};
 	// Tags for ARTICLES start here
 	Twinkle.stub.article = {};
@@ -332,7 +332,9 @@
 				summaryText += tagName.includes(':') ? tagName : `Template:${tagName}|${tagName}`;
 				summaryText += ']]}}';
 			};
-			tags.forEach(addTag);
+			for (const tag of tags) {
+				addTag(tag);
+			}
 			summaryText += wgULS('标记到', '標記到') + Twinkle.stub.mode;
 			pageobj.setPageText(pageText);
 			pageobj.setEditSummary(summaryText);

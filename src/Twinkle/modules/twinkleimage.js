@@ -1,6 +1,5 @@
 /*! Twinkle.js - twinkleimage.js */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-(function twinkleimage($) {
+(function twinkleimage() {
 	/**
 	 * twinkleimage.js: Image CSD module
 	 * Mode of invocation: Tab ("DI")
@@ -172,10 +171,9 @@
 		let type;
 		let notify = event.target.notify.checked;
 		const types = event.target.type;
-		// eslint-disable-next-line unicorn/no-for-loop
-		for (let i = 0; i < types.length; ++i) {
-			if (types[i].checked) {
-				type = types[i].values;
+		for (const type_ of types) {
+			if (type_.checked) {
+				type = type_.values;
 				break;
 			}
 		}
@@ -365,4 +363,4 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.image, 'image');
-})(jQuery);
+})();

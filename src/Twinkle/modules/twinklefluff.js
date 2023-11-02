@@ -213,9 +213,8 @@
 					// Check for first username different than the top user,
 					// only apply rollback links if/when found
 					// for faster than every
-					// eslint-disable-next-line unicorn/no-for-loop
-					for (let i = 0; i < histList.length; i++) {
-						if ($(histList[i]).find('.mw-userlink').text() !== vandal) {
+					for (const item of histList) {
+						if ($(item).find('.mw-userlink').text() !== vandal) {
 							first.appendChild(Twinkle.fluff.linkBuilder.rollbackLinks(vandal, true));
 							break;
 						}

@@ -514,9 +514,7 @@ export const ToolsRedirect = {
 			'zh-hans': true,
 			'zh-hant': true,
 		};
-		// eslint-disable-next-line @typescript-eslint/no-this-alias
-		const {variants} = this;
-		for (const [_index, variant] of Object.entries(variants)) {
+		for (const [_index, variant] of Object.entries(this.variants)) {
 			let xhr = $.ajax(
 				self.buildQuery({
 					action: 'parse',

@@ -20,9 +20,9 @@ export const onlineAdmins = (): void => {
 		event.preventDefault();
 		let users: string[] = [];
 		const usersExt: object[] = [];
-		let stewards: string[] = [];
-		let admins: string[] = [];
-		let patrollers: string[] = [];
+		const stewards: string[] = [];
+		const admins: string[] = [];
+		const patrollers: string[] = [];
 		// 最近更改30分钟内的编辑用户
 		const time: Date = new Date();
 		const rcstart: string = time.toISOString();
@@ -40,9 +40,9 @@ export const onlineAdmins = (): void => {
 				rcend,
 			};
 			const recentchanges = await api.get(recentchangesParams);
-			recentchanges['query'].recentchanges.forEach(({user}: {user: string}): void => {
+			for (const {user} of recentchanges['query'].recentchanges) {
 				users.push(user);
-			});
+			}
 			const logeventsParams: ApiQueryLogEventsParams = {
 				action: 'query',
 				formatversion: '2',
@@ -53,15 +53,14 @@ export const onlineAdmins = (): void => {
 				leend: rcend,
 			};
 			const logevents = await api.get(logeventsParams);
-			logevents['query'].logevents.forEach(({user}: {user: object}): void => {
+			for (const {user} of logevents['query'].logevents) {
 				usersExt.push(user);
-			});
+			}
 			Array.prototype.push.apply(users, usersExt);
 			// 用户名去重与分割
 			users = [...new Set(users)];
 			const promises: (() => Promise<void>)[] = [];
 			for (let i = 0; i < (users.length + 50) / 50; i++) {
-				// eslint-disable-next-line no-loop-func
 				promises.push(async () => {
 					const params: ApiQueryUsersParams = {
 						action: 'query',
@@ -72,9 +71,10 @@ export const onlineAdmins = (): void => {
 						usprop: 'groups',
 					};
 					const response = await api.get(params);
-					response['query'].users.forEach(({groups, name}: {groups: string[]; name: string}): void => {
+					for (const {groups, name} of response['query'].users) {
 						// 找到管理人员，去除adminbot
-						if (!groups.includes('bot') && !BLACK_LIST.includes(name)) {
+						// !!name可用于消除name的空值
+						if (!!name && !groups.includes('bot') && !BLACK_LIST.includes(name)) {
 							if (groups.includes('steward')) {
 								stewards.push(name);
 							}
@@ -85,26 +85,13 @@ export const onlineAdmins = (): void => {
 								patrollers.push(name);
 							}
 						}
-					});
+					}
 				});
 			}
 			// 查询用户权限
 			for (const promise of promises) {
 				await promise();
 			}
-			// 消除空值
-			const filter = (string: string): string => {
-				return string;
-			};
-			stewards = stewards.filter((element: string): string => {
-				return filter(element);
-			});
-			admins = admins.filter((element: string): string => {
-				return filter(element);
-			});
-			patrollers = patrollers.filter((element: string): string => {
-				return filter(element);
-			});
 			const userlink = (user: string): string => {
 				const _user = user
 					.replace(/&/g, '&amp;')

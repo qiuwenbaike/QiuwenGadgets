@@ -133,7 +133,7 @@
 			const previous = {};
 			// Save requested page's watched status for later in case needed when filing request
 			Twinkle.protect.watched = page.watchlistexpiry || page.watched === '';
-			page.protection.forEach((protection) => {
+			for (const protection of page.protection) {
 				if (protection.type !== 'aft') {
 					current[protection.type] = {
 						level: protection.level,
@@ -141,7 +141,7 @@
 						cascade: protection.cascade === '',
 					};
 				}
-			});
+			}
 			// Only use the log except unprotect
 			if (protectData.query.logevents.length >= 1 && protectData.query.logevents[0].action !== 'unprotect') {
 				[Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
@@ -149,7 +149,7 @@
 				[, Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
 			}
 			if (Twinkle.protect.previousProtectionLog) {
-				Twinkle.protect.previousProtectionLog.params.details.forEach((protection) => {
+				for (const protection of Twinkle.protect.previousProtectionLog.params.details) {
 					if (protection.type !== 'aft') {
 						previous[protection.type] = {
 							level: protection.level,
@@ -157,7 +157,7 @@
 							cascade: protection.cascade === '',
 						};
 					}
-				});
+				}
 			}
 			// show the protection level and log info
 			Twinkle.protect.hasProtectLog = !!protectData.query.logevents.length;
@@ -947,12 +947,11 @@
 		const {form} = e.target;
 		const actiontypes = form.actiontype;
 		let actiontype;
-		// eslint-disable-next-line unicorn/no-for-loop
-		for (let i = 0; i < actiontypes.length; i++) {
-			if (!actiontypes[i].checked) {
+		for (const action_type_value of actiontypes) {
+			if (!action_type_value.checked) {
 				continue;
 			}
-			actiontype = actiontypes[i].values;
+			actiontype = action_type_value.values;
 			break;
 		}
 		if (actiontype === 'protect') {

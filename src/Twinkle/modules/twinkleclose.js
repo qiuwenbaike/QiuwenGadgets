@@ -301,7 +301,7 @@
 				$(elemRendered).data('messageData', itemProperties);
 			}
 		};
-		Twinkle.close.codes.forEach((group) => {
+		for (const group of Twinkle.close.codes) {
 			let optgroup = new Morebits.quickForm.element({
 				type: 'optgroup',
 				label: group.key,
@@ -310,7 +310,7 @@
 			sub_group.appendChild(optgroup);
 			// create the options
 			createEntries(group.value, optgroup);
-		});
+		}
 		const event = document.createEvent('Event');
 		event.initEvent('change', true, true);
 		result.sub_group.dispatchEvent(event);

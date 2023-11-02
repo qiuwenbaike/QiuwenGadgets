@@ -4,7 +4,7 @@
 	const pendingActions: WeakMap<Element, DomMutationFunc[]> = new WeakMap<Element, DomMutationFunc[]>();
 
 	const onIntersection = (entries: IntersectionObserverEntry[], _observer: IntersectionObserver): void => {
-		entries.forEach((entry: IntersectionObserverEntry): void => {
+		for (const entry of entries) {
 			if (entry.isIntersecting) {
 				const element: Element = entry.target;
 				_observer.unobserve(element);
@@ -19,7 +19,7 @@
 					}
 				}
 			}
-		});
+		}
 	};
 	// eslint-disable-next-line compat/compat
 	const observer = new IntersectionObserver(onIntersection);
@@ -254,12 +254,12 @@
 	};
 	const run = (element: HTMLElement) => {
 		const leaves: HTMLElement[] = getLeafElements(element);
-		leaves.forEach((leaf: HTMLElement): void => {
+		for (const leaf of leaves) {
 			adjustSpacing(leaf);
-		});
+		}
 	};
 	const mutationObserver: MutationObserver = new MutationObserver((records: MutationRecord[]): void => {
-		records.forEach((record: MutationRecord): void => {
+		for (const record of records) {
 			if (record.type === 'childList') {
 				const nodes: Node[] = [...record.addedNodes];
 				if (
@@ -268,7 +268,7 @@
 					})
 				) {
 					requestAnimationFrame((): void => {
-						nodes.forEach((node: Node): void => {
+						for (const node of nodes) {
 							if (node instanceof HTMLElement) {
 								run(node);
 							} else if (node instanceof Text) {
@@ -277,11 +277,11 @@
 									run(parentElement);
 								}
 							}
-						});
+						}
 					});
 				}
 			}
-		});
+		}
 	});
 
 	const main = (): void => {
