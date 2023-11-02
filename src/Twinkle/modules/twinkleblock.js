@@ -2387,7 +2387,7 @@
 		if (settings.nonstandard) {
 			text += params.template;
 		} else {
-			text += 'subst'.concat(':', params.template);
+			text += 'subst:'.concat(params.template);
 			if (params.article && settings.pageParam) {
 				text += `|page=${params.article}`;
 			}

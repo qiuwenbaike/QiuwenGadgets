@@ -1421,7 +1421,7 @@
 			let reason = (str || '').toString().trim();
 			const unbinder = new Morebits.unbinder(reason);
 			unbinder.unbind('<no'.concat('wiki', '>'), '</no'.concat('wiki', '>'));
-			unbinder.content = unbinder.content.replace(/\|/g, '{{'.concat('subst').concat(':!}}'));
+			unbinder.content = unbinder.content.replace(/\|/g, '{{'.concat('subst:', '!}}'));
 			reason = unbinder.rebind();
 			if (addSig) {
 				const sig = '~~'.concat('~~');

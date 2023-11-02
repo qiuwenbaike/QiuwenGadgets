@@ -109,12 +109,11 @@
 			qiuwen_page.load(Twinkle.copyvio.callbacks.copyvioList);
 			// Notification to first contributor
 			if (params.notify) {
-				const subst = 'subst';
 				const usertalkpage = new Morebits.wiki.page(
 					`User talk:${initialContrib}`,
 					`${wgULS('通知页面创建者（', '通知頁面建立者（') + initialContrib}）`
 				);
-				const notifytext = `\n{{${subst}:CopyvioNotice|${mw.config.get('wgPageName')}}}`;
+				const notifytext = '\n{{'.concat('subst:', `CopyvioNotice|${mw.config.get('wgPageName')}}}`);
 				usertalkpage.setAppendText(notifytext);
 				usertalkpage.setEditSummary(
 					wgULS('通知：页面[[', '通知：頁面[[') +
@@ -129,15 +128,17 @@
 			}
 		},
 		taggingArticle: (pageobj) => {
-			const subst = 'subst';
 			const params = pageobj.getCallbackParameters();
 			const revisionId =
 				mw.config.get('wgRevisionId') || mw.config.get('wgDiffNewId') || mw.config.get('wgCurRevisionId');
-			let tag = `{{${subst}:Copyvio/auto|url=${params.source
-				.replace(/http/g, '&#104;ttp')
-				.replace(/\n+/g, '\n')
-				.replace(/^\s*([^*])/gm, '* $1')
-				.replace(/^\* $/m, '')}|OldRevision=${revisionId}}}`;
+			let tag = '{{'.concat(
+				'subst:',
+				`Copyvio/auto|url=${params.source
+					.replace(/http/g, '&#104;ttp')
+					.replace(/\n+/g, '\n')
+					.replace(/^\s*([^*])/gm, '* $1')
+					.replace(/^\* $/m, '')}|OldRevision=${revisionId}}}`
+			);
 			const text = pageobj.getPageText();
 			const oldcsd = text.match(/\{\{\s*(db(-\w*)?|d|delete)\s*(\|(?:\{\{[^{}]*\}\}|[^{}])*)?\}\}/i);
 			if (
@@ -183,7 +184,7 @@
 			if (!dateHeaderRegex.exec(text)) {
 				output = `\n\n==${date.getUTCMonth() + 1}月${date.getUTCDate()}日==`;
 			}
-			output += '\n{{'.concat('subst', `:CopyvioVFDRecord|${mw.config.get('wgPageName')}}}`);
+			output += '\n{{'.concat('subst:', `CopyvioVFDRecord|${mw.config.get('wgPageName')}}}`);
 			pageobj.setAppendText(output);
 			pageobj.setEditSummary(`加入[[${mw.config.get('wgPageName')}]]`);
 			pageobj.setChangeTags(Twinkle.changeTags);

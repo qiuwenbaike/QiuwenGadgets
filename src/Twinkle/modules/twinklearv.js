@@ -133,7 +133,7 @@
 		Twinkle.arv.callback.set_sockmaster(e.target.value);
 	};
 	Twinkle.arv.callback.set_sockmaster = (sockmaster) => {
-		$('code.tw-arv-sockmaster').text('{{'.concat('subst', `:Socksuspectnotice|1=${sockmaster}}}`));
+		$('code.tw-arv-sockmaster').text('{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`));
 	};
 	Twinkle.arv.callback.changeCategory = (e) => {
 		const {value} = e.target;
@@ -660,13 +660,13 @@
 					});
 					return;
 				}
-				comment += '{{'.concat('subst', ':SPI report|');
+				comment += '{{'.concat('subst:', 'SPI report|');
 				if (!sockpuppets.includes(input.sockmaster)) {
 					comment += '1={{'.concat(
-						'subst',
-						':#ifexist:{{',
-						'subst',
-						`:FULLPAGENAME}}||${input.sockmaster}}}|`
+						'subst:',
+						'#ifexist:{{',
+						'subst:',
+						`FULLPAGENAME}}||${input.sockmaster}}}|`
 					);
 				}
 				comment += `${sockpuppets

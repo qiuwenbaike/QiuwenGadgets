@@ -1356,12 +1356,11 @@
 				summary = wgULS('移除保护模板', '移除保護模板');
 			} else {
 				({tag} = params);
-				const subst = 'subst';
 				if (params.reason) {
 					tag += `|reason=${params.reason}`;
 				}
 				if (params.showexpiry && params.expiry && !Morebits.string.isInfinity(params.expiry)) {
-					tag += `|expiry={{${subst}:#time:c|${params.expiry}}}`;
+					tag += '|expiry={{'.concat('subst:', `#time:c|${params.expiry}}}`);
 				}
 				if (params.small) {
 					tag += '|small=yes';

@@ -1437,9 +1437,8 @@
 								talkPageName,
 								`${wgULS('通知页面创建者（', '通知頁面建立者（') + initialContrib}）`
 							);
-							const subst = 'subst';
 							let notifytext;
-							notifytext = `\n{{${subst}:db-notice|target=${Morebits.pageNameNorm}`;
+							notifytext = '\n{{'.concat('subst:', `db-notice|target=${Morebits.pageNameNorm}`);
 							notifytext += "|nowelcome=yes'}}--~~".concat('~~');
 							let editsummary = '通知：';
 							if (params.normalizeds.includes('g3')) {

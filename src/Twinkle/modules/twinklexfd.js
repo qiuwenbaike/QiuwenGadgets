@@ -317,8 +317,9 @@
 							talkPageName,
 							`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
 						);
-						const subst = 'subst';
-						const notifytext = `\n{{${subst}${`:AFDNote|${Morebits.pageNameNorm}}}--~~`.concat('~~')}`;
+						const notifytext = '\n{{'
+							.concat('subst:')
+							.concat(`AFDNote|${Morebits.pageNameNorm}}}--~~`, '~~');
 						usertalkpage.setAppendText(notifytext);
 						usertalkpage.setEditSummary(`通知：页面[[${Morebits.pageNameNorm}]]存废讨论提名`);
 						usertalkpage.setChangeTags(Twinkle.changeTags);
@@ -343,8 +344,7 @@
 				if (Morebits.isPageRedirect()) {
 					tag += '|r';
 				}
-				const subst = 'subst';
-				tag += `|date={{${subst}:#time:Y/m/d}}}}`;
+				tag += '|date={{'.concat('subst:', '#time:Y/m/d}}}}');
 				if (params.noinclude) {
 					tag = `<noinclude>${tag}</noinclude>`;
 					// 只有表格需要单独加回车，其他情况加回车会破坏模板。
@@ -454,17 +454,18 @@
 						}
 						break;
 					}
-					default: {
-						const subst = 'subst';
+					default:
 						pageobj.setAppendText(
-							`\n{{${subst}${`:DRItem|Type=${type}|DRarticles=${
-								Morebits.pageNameNorm
-							}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}${
-								params.fwdcsdreason.trim() === '' ? '' : `<br>\n转交理由：${params.fwdcsdreason}`
-							}|To=${to}}}~~`.concat('~~')}`
+							'\n{{'.concat(
+								'subst:',
+								`DRItem|Type=${type}|DRarticles=${
+									Morebits.pageNameNorm
+								}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}${
+									params.fwdcsdreason.trim() === '' ? '' : `<br>\n转交理由：${params.fwdcsdreason}`
+								}|To=${to}}}~~`.concat('~~')
+							)
 						);
 						break;
-					}
 				}
 				pageobj.setEditSummary(`加入[[${Morebits.pageNameNorm}]]`);
 				pageobj.setChangeTags(Twinkle.changeTags);
@@ -545,8 +546,7 @@
 						talkPageName,
 						`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
 					);
-					const subst = 'subst';
-					const notifytext = `\n{{${subst}${`:idw|File:${mw.config.get('wgTitle')}}}--~~`.concat('~~')}`;
+					const notifytext = '\n{{'.concat('subst:', `:idw|File:${mw.config.get('wgTitle')}}}`, '--~~', '~~');
 					usertalkpage.setAppendText(notifytext);
 					usertalkpage.setEditSummary(`通知：文件[[${Morebits.pageNameNorm}]]存废讨论提名`);
 					usertalkpage.setChangeTags(Twinkle.changeTags);
@@ -564,11 +564,13 @@
 				}
 			},
 			taggingImage: (pageobj) => {
-				const subst = 'subst';
 				const text = pageobj.getPageText();
 				const params = pageobj.getCallbackParameters();
 				pageobj.setPageText(
-					`{{ifd|${Morebits.string.formatReasonText(params.xfdreason)}|date={{${subst}:#time:c}}}}\n${text}`
+					`{{ifd|${Morebits.string.formatReasonText(params.xfdreason)}|date={{`.concat(
+						'subst:',
+						`#time:c}}}}\n${text}`
+					)
 				);
 				pageobj.setEditSummary(
 					`${wgULS('文件存废讨论：[[', '檔案存廢討論：[[') + params.logpage}#${Morebits.pageNameNorm}]]`
@@ -579,13 +581,15 @@
 				pageobj.save();
 			},
 			todaysList: (pageobj) => {
-				const subst = 'subst';
 				// const text = pageobj.getPageText();
 				const params = pageobj.getCallbackParameters();
 				pageobj.setAppendText(
-					`\n{{${subst}${`:IfdItem|Filename=${mw.config.get('wgTitle')}|Uploader=${
-						params.creator
-					}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}}}--~~`.concat('~~')}`
+					'\n{{'.concat(
+						'subst:',
+						`IfdItem|Filename=${mw.config.get('wgTitle')}|Uploader=${
+							params.creator
+						}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}}}--~~`.concat('~~')
+					)
 				);
 				pageobj.setEditSummary(`加入[[${Morebits.pageNameNorm}]]`);
 				pageobj.setChangeTags(Twinkle.changeTags);

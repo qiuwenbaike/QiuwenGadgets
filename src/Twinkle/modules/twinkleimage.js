@@ -247,11 +247,10 @@
 			}
 			// No auto-notification, display what was going to be added.
 			if (type !== 'orphaned fair use') {
-				const subst = 'subst';
 				const noteData = document.createElement('pre');
 				noteData.appendChild(
 					document.createTextNode(
-						`{{${subst}${`:Uploadvionotice|${Morebits.pageNameNorm}}}--~~`.concat('~~')}`
+						'{{'.concat('subst:', `Uploadvionotice|${Morebits.pageNameNorm}}}--~~`, '~~')
 					)
 				);
 				Morebits.status.info(
@@ -284,23 +283,25 @@
 				qiuwen_page.load(Twinkle.image.callbacks.imageList);
 			}
 			let tag = '';
-			const subst = 'subst';
 			switch (params.type) {
 				case 'orphaned fair use':
-					tag = `{{${subst}:orphaned fair use}}\n`;
+					tag = '{{'.concat('subst:', 'orphaned fair use}}\n');
 					break;
 				case 'no permission':
-					tag = `{{${subst}:${params.templatename}/auto|1=${params.f1_source
-						.replace(/http/g, '&#104;ttp')
-						.replace(/\n+/g, '\n')
-						.replace(/^\s*([^*])/gm, '* $1')
-						.replace(/^\* $/m, '')}}}\n`;
+					tag = '{{'.concat(
+						'subst:',
+						`${params.templatename}/auto|1=${params.f1_source
+							.replace(/http/g, '&#104;ttp')
+							.replace(/\n+/g, '\n')
+							.replace(/^\s*([^*])/gm, '* $1')
+							.replace(/^\* $/m, '')}}}\n`
+					);
 					break;
 				case 'replaceable fair use':
-					tag = `{{${subst}:${params.templatename}/auto|1=${params.f4_type}}}\n`;
+					tag = '{{'.concat('subst:', `${params.templatename}/auto|1=${params.f4_type}}}\n`);
 					break;
 				default:
-					tag = `{{${subst}:${params.templatename}/auto}}\n`;
+					tag = '{{'.concat('subst:', `${params.templatename}/auto}}\n`);
 					break;
 			}
 			const textNoSd = text.replace(
@@ -330,17 +331,18 @@
 			if (initialContrib === mw.config.get('wgUserName')) {
 				pageobj
 					.getStatusElement()
-					.warn(`您（${initialContrib}${wgULS('）创建了该页，跳过通知', '）建立了該頁，跳過通知')}`);
+					.warn(`您（${initialContrib}）${wgULS('创建了该页，跳过通知', '建立了該頁，跳過通知')}`);
 			} else {
-				const subst = 'subst';
 				const talkPageName = `User talk:${initialContrib}`;
 				const usertalkpage = new Morebits.wiki.page(
 					talkPageName,
-					`${wgULS('通知上传者（', '通知上傳者（') + initialContrib}）`
+					`${wgULS('通知上传者', '通知上傳者')}（${initialContrib}）`
 				);
-				const notifytext = `\n{{${subst}${`:Di-${params.templatename}-notice|1=${Morebits.pageNameNorm}}}--~~`.concat(
+				const notifytext = '\n{{'.concat(
+					'subst:',
+					`Di-${params.templatename}-notice|1=${Morebits.pageNameNorm}}}--~~`,
 					'~~'
-				)}`;
+				);
 				usertalkpage.setAppendText(notifytext);
 				usertalkpage.setEditSummary(
 					wgULS('通知：文件[[', '通知：檔案[[') +

@@ -82,12 +82,11 @@ const markAsDone = async (closingRemarks) => {
 };
 
 const issueTemplate = (watch) => {
-	const subst = 'subst';
 	const talkPage = `User talk:${userName.replace(/ /g, '_')}`;
 	const params = {
 		action: 'edit',
 		title: talkPage,
-		appendtext: `\n\n{{${subst}:${templates[permission]}}}`,
+		appendtext: '\n\n{{'.concat('subst:', templates[permission], '}}}'),
 		summary: `根据${permaLink}授予${permissionNames[permission]}${tagLine}`,
 		watchlist: watch ? 'watch' : 'unwatch',
 	};

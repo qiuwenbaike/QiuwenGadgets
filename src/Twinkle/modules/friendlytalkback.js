@@ -407,10 +407,15 @@
 			content = Morebits.string.safeReplace(Twinkle.talkback.noticeboards[page].content, '$SECTION', section);
 			text = `== ${title} ==\n${content}`;
 		} else if (tbtarget === 'see') {
-			const subst = 'subst';
 			title = page + wgULS('的相关讨论', '的相關討論');
-			content = `{{${subst}:Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`;
-			text = `{{${subst}:Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`;
+			content = '{{'.concat(
+				'subst:',
+				`Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`
+			);
+			text = '{{'.concat(
+				'subst:',
+				`Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`
+			);
 		} else {
 			text = '==';
 			if (tbtarget === 'mail') {

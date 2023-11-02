@@ -129,7 +129,9 @@ const showDialog = (): void => {
 		mw.notify(message.err_no_revision_provided, {tag: 'RRD', type: 'error'});
 		return;
 	}
-	const html = `${`<div id="rrdConfig">${message.hide_items}<br>`}<div style="float: left; padding: 0 5px;"><input name="content" id="rrdHideContent" type="checkbox" value="content" checked>${`<label for="rrdHideContent" id="rrd-content">${
+	const html = `<div id="rrdConfig">${
+		message.hide_items
+	}<br><div style="float: left; padding: 0 5px;"><input name="content" id="rrdHideContent" type="checkbox" value="content" checked>${`<label for="rrdHideContent" id="rrd-content">${
 		isLog ? message.hide_log : message.hide_content
 	}</label>`}</div><div style="float: left; padding: 0 5px;"><input name="username" id="rrdHideUsername" type="checkbox" value="username">${`<label for="rrdHideUsername" id="rrd-username">${message.hide_username}</label>`}</div><div style="float: left; padding: 0 5px;"><input name="summary" id="rrdHideSummary" type="checkbox" value="summary">${`<label for="rrdHideSummary" id="rrd-summary">${message.hide_summary}</label>`}${`</div><br><br>${message.hide_reason}<br>`}<select name="rrdReason" id="rrdReason">${`<option value="${message.hide_reason_rd1}">`}${`RD1：${message.hide_reason_rd1}</option>`}${`<option value="${message.hide_reason_rd2}">`}${`RD2：${message.hide_reason_rd2}</option>`}${`<option value="${message.hide_reason_rd3}">`}${`RD3：${message.hide_reason_rd3}</option>`}${`<option value="${message.hide_reason_rd4}">`}${`RD4：${message.hide_reason_rd4}</option>`}${`<option value="${message.hide_reason_rd5}">`}${`RD5：${message.hide_reason_rd5}</option>`}${`<option value="">${message.hide_reason_other}</option>`}</select>${`<br><br>${message.other_reasons}<br>`}<textarea name="otherReasons" id="rrdOtherReasons" rows="4"></textarea></div>`;
 	if ($dialog) {
