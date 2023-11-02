@@ -133,7 +133,7 @@
 				label: wgULS('自定义模板', '自訂模板'),
 			});
 			const customcheckboxes = [];
-			$.each(Twinkle.getPref('customStubList'), (_, item) => {
+			Twinkle.getPref('customStubList').forEach((item) => {
 				customcheckboxes.push(makeCheckbox(item.value, item.label));
 			});
 			container.append({
@@ -147,7 +147,7 @@
 			// function to iterate through the tags and create a checkbox for each one
 			const doCategoryCheckboxes = (subdiv, array) => {
 				const checkboxes = [];
-				$.each(array, (k, tag) => {
+				array.forEach((tag) => {
 					const description = Twinkle.stub.article.tags[tag];
 					checkboxes.push(makeCheckbox(tag, description));
 				});
@@ -159,7 +159,7 @@
 			};
 			let i = 0;
 			// go through each category and sub-category and append lists of checkboxes
-			$.each(Twinkle.stub.article.tagCategories, (title, content) => {
+			for (const [title, content] of Object.entries(Twinkle.stub.article.tagCategories)) {
 				const titleName = Twinkle.stub.article.tagCategoriesHeader[title];
 				container.append({
 					type: 'header',
@@ -173,21 +173,21 @@
 				if (Array.isArray(content)) {
 					doCategoryCheckboxes(subdiv, content);
 				} else {
-					$.each(content, (subtitle, subcontent) => {
+					for (const [subtitle, subcontent] of Object.entries(content)) {
 						subdiv.append({
 							type: 'div',
 							label: [Morebits.htmlNode('b', subtitle)],
 						});
 						doCategoryCheckboxes(subdiv, subcontent);
-					});
+					}
 				}
-			});
+			}
 			// alphabetical sort order
 		} else {
 			const checkboxes = [];
-			$.each(Twinkle.stub.article.tags, (tag, description) => {
+			for (const [tag, description] of Object.entries(Twinkle.stub.article.tags)) {
 				checkboxes.push(makeCheckbox(tag, description));
-			});
+			}
 			container.append({
 				type: 'checkbox',
 				name: 'articleTags',
@@ -208,7 +208,7 @@
 			'margin-top': '0.4em',
 		});
 		// add a link to each template's description page
-		$.each(Morebits.quickForm.getElements(e.target.form, 'articleTags'), (index, checkbox) => {
+		Morebits.quickForm.getElements(e.target.form, 'articleTags').forEach((checkbox) => {
 			const $checkbox = $(checkbox);
 			const link = Morebits.htmlNode('a', '>');
 			link.setAttribute('class', 'tag-template-link');
@@ -319,7 +319,7 @@
 			tags = [...tags, ...groupableTags];
 			tags.sort();
 			const totalTags = tags.length;
-			const addTag = (tagIndex, tagName) => {
+			const addTag = (tagName, tagIndex) => {
 				pageText += `\n{{${tagName}}}`;
 				if (tagIndex > 0) {
 					if (tagIndex === totalTags - 1) {
@@ -332,7 +332,7 @@
 				summaryText += tagName.includes(':') ? tagName : `Template:${tagName}|${tagName}`;
 				summaryText += ']]}}';
 			};
-			$.each(tags, addTag);
+			tags.forEach(addTag);
 			summaryText += wgULS('标记到', '標記到') + Twinkle.stub.mode;
 			pageobj.setPageText(pageText);
 			pageobj.setEditSummary(summaryText);

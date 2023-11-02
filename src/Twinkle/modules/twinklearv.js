@@ -567,7 +567,7 @@
 				}
 				reason += `== 编辑战举报（${uid}） ==\n`;
 				reason += `* '''{{vandal|${/[=]/.test(uid) ? '1=' : ''}${uid}}}'''\n`;
-				const pages = $.map($('input:text[name=page]', form), (o) => {
+				const pages = $('input:text[name=page]', form).map((o) => {
 					return $(o).val() || null;
 				});
 				for (const page_ of pages) {
@@ -649,7 +649,7 @@
 					return;
 				}
 				const sockpuppets = Morebits.array.uniq(
-					$.map($('input:text[name=sockpuppet]', form), (o) => {
+					$('input:text[name=sockpuppet]', form).map((o) => {
 						return $(o).val().trim() || null;
 					})
 				);

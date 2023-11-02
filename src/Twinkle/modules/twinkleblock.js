@@ -575,7 +575,7 @@
 					value: '',
 					tooltip: wgULS('指定封禁的命名空间。', '指定封鎖的命名空間。'),
 				});
-				$.each(menuFormattedNamespaces, (number, name) => {
+				for (const [number, name] of Object.entries(menuFormattedNamespaces)) {
 					// Ignore -1: Special; -2: Media; and 2300-2303: Gadget (talk) and Gadget definition (talk)
 					if (number >= 0 && number < 830) {
 						ns.append({
@@ -584,7 +584,7 @@
 							value: number,
 						});
 					}
-				});
+				}
 			}
 			const blockoptions = [
 				{
@@ -1476,7 +1476,7 @@
 	};
 	Twinkle.block.transformBlockPresets = () => {
 		// Merge custom reason
-		$.each(Twinkle.getPref('customBlockReasonList'), (_, item) => {
+		Twinkle.getPref('customBlockReasonList').forEach((item) => {
 			const newKey = `${item.value}|${item.label}`;
 			Twinkle.block.blockPresetsInfo[newKey] = {
 				autoblock: true,
@@ -1494,7 +1494,7 @@
 			}
 		});
 		// supply sensible defaults
-		$.each(Twinkle.block.blockPresetsInfo, (preset, settings) => {
+		for (const [preset, settings] of Object.entries(Twinkle.block.blockPresetsInfo)) {
 			settings.summary ||= settings.reason;
 			settings.sig = settings.sig === undefined ? 'yes' : settings.sig;
 			settings.indefinite ||= Morebits.string.isInfinity(settings.expiry);
@@ -1504,7 +1504,7 @@
 				settings.expiry ||= '1 day';
 			}
 			Twinkle.block.blockPresetsInfo[preset] = settings;
-		});
+		}
 	};
 	// These are the groups of presets and defines the order in which they appear. For each list item:
 	//   label: <string, the description that will be visible in the dropdown>
@@ -1604,24 +1604,24 @@
 		},
 	];
 	Twinkle.block.callback.filtered_block_groups = (group, show_template) => {
-		return $.map(group, (blockGroup) => {
+		return Array.prototype.map.call(group, (blockGroup) => {
 			// Add custom reason
 			if (blockGroup.custom) {
 				if (show_template) {
-					let templates = $.map(Twinkle.getPref('customBlockReasonList'), (item) => {
+					let templates = Array.prototype.map.call(Twinkle.getPref('customBlockReasonList'), (item) => {
 						if (Twinkle.block.blockPresetsInfo[item.value].custom) {
 							return item.value;
 						}
 					});
 					templates = Morebits.array.uniq(templates);
-					blockGroup.list = $.map(templates, (template) => {
+					blockGroup.list = Array.prototype.map.call(templates, (template) => {
 						return {
 							label: wgULS('自定义模板', '自訂模板'),
 							value: template,
 						};
 					});
 				} else {
-					blockGroup.list = $.map(Twinkle.getPref('customBlockReasonList'), (item) => {
+					blockGroup.list = Array.prototype.map.call(Twinkle.getPref('customBlockReasonList'), (item) => {
 						return {
 							label: item.label,
 							value: `${item.value}|${item.label}`,
@@ -1629,7 +1629,7 @@
 					});
 				}
 			}
-			const list = $.map(blockGroup.list, (blockPreset) => {
+			const list = Array.prototype.map.call(blockGroup.list, (blockPreset) => {
 				if (!show_template && blockPreset.meta) {
 					return;
 				}

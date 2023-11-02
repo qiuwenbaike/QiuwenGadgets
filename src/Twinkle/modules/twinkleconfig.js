@@ -1162,7 +1162,7 @@
 			const container = document.createElement('table');
 			container.style.width = '100%';
 			contentform.appendChild(container);
-			$(Twinkle.config.sections).each((sectionkey, section) => {
+			$(Twinkle.config.sections).each((_sectionkey, section) => {
 				if (section.hidden || (section.adminOnly && !Morebits.userIsSysop)) {
 					return true; // i.e. "continue" in this context
 				}
@@ -1187,7 +1187,7 @@
 				container.appendChild(row);
 				let rowcount = 1; // for row banding
 				// add each of the preferences to the form
-				$(section.preferences).each((prefkey, pref) => {
+				$(section.preferences).each((_prefkey, pref) => {
 					if (pref.adminOnly && !Morebits.userIsSysop) {
 						return true; // i.e. "continue" in this context
 					}
@@ -1264,7 +1264,7 @@
 							input.setAttribute('id', pref.name);
 							input.setAttribute('name', pref.name);
 							let optionExists = false;
-							$.each(pref.enumValues, (enumvalue, enumdisplay) => {
+							for (const [enumvalue, enumdisplay] of Object.entries(pref.enumValues)) {
 								const option = document.createElement('option');
 								option.setAttribute('value', enumvalue);
 								if (
@@ -1279,7 +1279,7 @@
 								}
 								option.appendChild(document.createTextNode(enumdisplay));
 								input.appendChild(option);
-							});
+							}
 							// Append user-defined value to options
 							if (!optionExists) {
 								const option = document.createElement('option');
@@ -1325,12 +1325,14 @@
 							};
 							if (pref.setDisplayOrder) {
 								// add check boxes according to the given display order
-								$.each(pref.setDisplayOrder, (itemkey, item) => {
+								for (const item of pref.setDisplayOrder) {
 									worker(item, pref.setValues[item]);
-								});
+								}
 							} else {
 								// add check boxes according to the order it gets fed to us (probably strict alphabetical)
-								$.each(pref.setValues, worker);
+								for (const [itemkey] of Object.entries(pref.setValues)) {
+									worker(itemkey);
+								}
 							}
 							cell.appendChild(checkdiv);
 							break;
@@ -1555,7 +1557,7 @@
 		dlgtbody.appendChild(dlgtr);
 		// content rows
 		let gotRow = false;
-		$.each(curvalue, (k, v) => {
+		curvalue.forEach((v) => {
 			gotRow = true;
 			Twinkle.config.listDialog.addRow(dlgtbody, v.value, v.label);
 		});
@@ -1636,7 +1638,7 @@
 		$tbody.find('tr').slice(1).remove(); // all rows except the first (header) row
 		// add the new values
 		const curvalue = $button.data('value');
-		$.each(curvalue, (k, v) => {
+		curvalue.forEach((v) => {
 			Twinkle.config.listDialog.addRow(tbody, v.value, v.label);
 		});
 		// save the old value
@@ -1647,7 +1649,7 @@
 		let current = {};
 		$(tbody)
 			.find('input[type="text"]')
-			.each((inputkey, input) => {
+			.each((_inputkey, input) => {
 				if ($(input).hasClass('twinkle-config-customlist-value')) {
 					current = {
 						value: input.value,
@@ -1666,13 +1668,13 @@
 	Twinkle.config.resetPrefLink = (e) => {
 		const wantedpref = e.target.id.slice(21); // "twinkle-config-reset-" prefix is stripped
 		// search tactics
-		$(Twinkle.config.sections).each((sectionkey, section) => {
+		$(Twinkle.config.sections).each((_sectionkey, section) => {
 			if (section.hidden || (section.adminOnly && !Morebits.userIsSysop)) {
 				return true; // continue: skip impossibilities
 			}
 
 			let foundit = false;
-			$(section.preferences).each((prefkey, pref) => {
+			$(section.preferences).each((_prefkey, pref) => {
 				if (pref.name !== wantedpref) {
 					return true; // continue
 				}
@@ -1701,12 +1703,12 @@
 				document.getElementById(pref.name).value = Twinkle.defaultConfig[pref.name];
 				break;
 			case 'set':
-				$.each(pref.setValues, (itemkey) => {
+				for (const [itemkey] of Object.entries(pref.setValues)) {
 					if (document.getElementById(`${pref.name}_${itemkey}`)) {
 						document.getElementById(`${pref.name}_${itemkey}`).checked =
 							Twinkle.defaultConfig[pref.name].includes(itemkey);
 					}
-				});
+				}
 				break;
 			case 'customList':
 				$(document.getElementById(pref.name)).data('value', Twinkle.defaultConfig[pref.name]);
@@ -1721,12 +1723,12 @@
 	};
 	Twinkle.config.resetAllPrefs = () => {
 		// no confirmation message - the user can just refresh/close the page to abort
-		$(Twinkle.config.sections).each((sectionkey, section) => {
+		$(Twinkle.config.sections).each((_sectionkey, section) => {
 			if (section.hidden || (section.adminOnly && !Morebits.userIsSysop)) {
 				return true; // continue: skip impossibilities
 			}
 
-			$(section.preferences).each((prefkey, pref) => {
+			$(section.preferences).each((_prefkey, pref) => {
 				if (!pref.adminOnly || Morebits.userIsSysop) {
 					Twinkle.config.resetPref(pref);
 				}
@@ -1780,12 +1782,12 @@
 			}
 			return a === b;
 		};
-		$(Twinkle.config.sections).each((sectionkey, section) => {
+		$(Twinkle.config.sections).each((_sectionkey, section) => {
 			if (section.adminOnly && !Morebits.userIsSysop) {
 				return; // i.e. "continue" in this context
 			}
 			// reach each of the preferences from the form
-			$(section.preferences).each((prefkey, pref) => {
+			$(section.preferences).each((_prefkey, pref) => {
 				let userValue; // = undefined
 				// only read form values for those prefs that have them
 				if (!pref.adminOnly || Morebits.userIsSysop) {
@@ -1818,18 +1820,18 @@
 								userValue = [];
 								if (pref.setDisplayOrder) {
 									// read only those keys specified in the display order
-									$.each(pref.setDisplayOrder, (itemkey, item) => {
+									for (const item of pref.setDisplayOrder) {
 										if (form[`${pref.name}_${item}`].checked) {
 											userValue.push(item);
 										}
-									});
+									}
 								} else {
 									// read all the keys in the list of values
-									$.each(pref.setValues, (itemkey) => {
+									for (const [itemkey] of Object.entries(pref.setValues)) {
 										if (form[`${pref.name}_${itemkey}`].checked) {
 											userValue.push(itemkey);
 										}
-									});
+									}
 								}
 								break;
 							case 'customList':

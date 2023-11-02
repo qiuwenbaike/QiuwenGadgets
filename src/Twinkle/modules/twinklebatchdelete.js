@@ -250,7 +250,7 @@
 					name: 'pages',
 					id: 'tw-dbatch-pages',
 					shiftClickSupport: true,
-					list: $.map(Twinkle.batchdelete.pages, (e) => {
+					list: Twinkle.batchdelete.pages.map((e) => {
 						return e;
 					}),
 				});
@@ -294,7 +294,7 @@
 			name: 'pages',
 			id: 'tw-dbatch-pages',
 			shiftClickSupport: true,
-			list: $.map(Twinkle.batchdelete.pages, (e) => {
+			list: Twinkle.batchdelete.pages.map((e) => {
 				return e;
 			}),
 		}).render();
@@ -388,7 +388,7 @@
 			// If lists of subpages were already loaded once, they are
 			// available without use of any API calls
 			if (subpagesLoaded) {
-				$.each(Twinkle.batchdelete.pages, (i, el) => {
+				Twinkle.batchdelete.pages.forEach((el) => {
 					// Get back the subgroup from subgroup_, where we saved it
 					if (el.subgroup === null && el.subgroup_) {
 						el.subgroup = el.subgroup_;
@@ -506,7 +506,7 @@
 				}
 			);
 		} else if (!e.target.checked) {
-			$.each(Twinkle.batchdelete.pages, (i, el) => {
+			Twinkle.batchdelete.pages.forEach((el) => {
 				if (el.subgroup) {
 					// Remove subgroup after saving its contents in subgroup_
 					// so that it can be retrieved easily if user decides to
