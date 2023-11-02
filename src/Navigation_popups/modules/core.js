@@ -3747,13 +3747,12 @@ export const popups = () => {
 		 */
 		killImages() {
 			const forbiddenNamespaceAliases = [];
-			// eslint-disable-next-line no-jquery/no-each-util
-			$.each(mw.config.get('wgNamespaceIds'), (_localizedNamespaceLc, _namespaceId) => {
-				if (_namespaceId !== pg.nsImageId && _namespaceId !== pg.nsCategoryId) {
+			for (const [localizedNamespaceLc, namespaceId] of Object.entries(mw.config.get('wgNamespaceIds'))) {
+				if (namespaceId !== pg.nsImageId && namespaceId !== pg.nsCategoryId) {
 					return;
 				}
-				forbiddenNamespaceAliases.push(_localizedNamespaceLc.split(' ').join('[ _]')); // todo: escape regexp fragments!
-			});
+				forbiddenNamespaceAliases.push(localizedNamespaceLc.split(' ').join('[ _]')); // todo: escape regexp fragments!
+			}
 			// images and categories are a nono
 			this.kill(new RegExp(`[[][[]\\s*(${forbiddenNamespaceAliases.join('|')})\\s*:`, 'i'), /]]\s*/, '[', ']');
 		}
@@ -4890,17 +4889,16 @@ export const popups = () => {
 	// return a regexp pattern matching all variants to write the given namespace
 	const nsRe = (namespaceId) => {
 		const imageNamespaceVariants = [];
-		// eslint-disable-next-line no-jquery/no-each-util
-		$.each(mw.config.get('wgNamespaceIds'), (_localizedNamespaceLc, _namespaceId) => {
+		for (const [_localizedNamespaceLc, _namespaceId] of Object.entries(mw.config.get('wgNamespaceIds'))) {
 			if (_namespaceId !== namespaceId) {
 				return;
 			}
-			_localizedNamespaceLc = upcaseFirst(_localizedNamespaceLc);
+			const localizedNamespaceLc = upcaseFirst(_localizedNamespaceLc);
 			imageNamespaceVariants.push(
-				mw.util.escapeRegExp(_localizedNamespaceLc).split(' ').join('[ _]'),
-				mw.util.escapeRegExp(encodeURI(_localizedNamespaceLc))
+				mw.util.escapeRegExp(localizedNamespaceLc).split(' ').join('[ _]'),
+				mw.util.escapeRegExp(encodeURI(localizedNamespaceLc))
 			);
-		});
+		}
 		return `(?:${imageNamespaceVariants.join('|')})`;
 	};
 	const nsReImage = () => {
