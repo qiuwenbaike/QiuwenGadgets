@@ -2340,8 +2340,8 @@
 		 */
 		post(callerAjaxParameters) {
 			++Morebits.wiki.numberOfActionsLeft;
-			const queryString = Array.prototype
-				.map(Object.entries(this.query), (val, i) => {
+			const queryString = Array.prototype.map
+				.call(Object.entries(this.query), (val, i) => {
 					if (Array.isArray(val)) {
 						return `${encodeURIComponent(i)}=${val.map(encodeURIComponent).join('|')}`;
 					} else if (val !== undefined) {
