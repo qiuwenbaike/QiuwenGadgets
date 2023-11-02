@@ -2341,8 +2341,7 @@
 		post(callerAjaxParameters) {
 			++Morebits.wiki.numberOfActionsLeft;
 			const queryString = Array.prototype
-				// eslint-disable-next-line unicorn/no-array-method-this-argument
-				.map(this.query, (val, i) => {
+				.map(Object.entries(this.query), (val, i) => {
 					if (Array.isArray(val)) {
 						return `${encodeURIComponent(i)}=${val.map(encodeURIComponent).join('|')}`;
 					} else if (val !== undefined) {
@@ -2351,7 +2350,6 @@
 				})
 				.join('&')
 				.replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
-
 			// token should always be the last item in the query string (bug TW-B-0013)
 			const ajaxparams = $.extend(
 				{},
