@@ -12,7 +12,6 @@
 		"jsdoc/valid-types": "off",
 		"jsdoc/require-param-type": "off",
 		"mediawiki/class-doc": "off",
-		"no-jquery/no-map-util": "off",
 		"new-cap": "off",
 		"no-new": "off",
 		"no-shadow": "off",

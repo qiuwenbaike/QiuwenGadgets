@@ -9,10 +9,13 @@ const SUFFIX_APPEND = 0;
 const SUFFIX_REPLACE = 1;
 const SUFFIX_SETDEFAULT = 2;
 let _nsCanonPrefix = `${origPageName.split(':')[0]}:`;
-// eslint-disable-next-line no-jquery/no-map-util
-let _nsPrefixPattern = $.map(mw.config.get('wgNamespaceIds'), (nsid, text) => {
-	return nsid === nsNumber ? text : null;
-}).join('|');
+const nsPrefixes = [];
+for (const [text, nsid] of Object.entries(mw.config.get('wgNamespaceIds'))) {
+	if (nsid === mw.config.get('wgNamespaceNumber') && !!text) {
+		nsPrefixes.push(text);
+	}
+}
+let _nsPrefixPattern = nsPrefixes.join('|');
 _nsPrefixPattern = new RegExp(`^(${_nsPrefixPattern}):`, 'i');
 if (nsNumber === 0) {
 	// articles
@@ -208,8 +211,7 @@ export const ToolsRedirect = {
 			})
 		).then(({query}) => {
 			const deferreds = [];
-			// eslint-disable-next-line no-jquery/no-each-util
-			$.each(query.pages, (_index, {title}) => {
+			for (const [_index, {title}] of Object.entries(query.pages)) {
 				deferreds.push(
 					$.ajax(
 						self.buildQuery({
@@ -222,7 +224,7 @@ export const ToolsRedirect = {
 						})
 					)
 				);
-			});
+			}
 			return $.when(...deferreds);
 		});
 	},
@@ -242,8 +244,7 @@ export const ToolsRedirect = {
 			})
 		).then((data) => {
 			const deferreds = [];
-			// eslint-disable-next-line no-jquery/no-each-util
-			$.each(data.query.pages, (_idx, page) => {
+			for (const [_index, page] of Object.entries(data.query.pages)) {
 				const content = page.revisions[0]['*'];
 				const newContent = content.replace(regex, text);
 				deferreds.push(
@@ -259,7 +260,7 @@ export const ToolsRedirect = {
 						})
 					)
 				);
-			});
+			}
 			return $.when(...deferreds);
 		});
 	},
@@ -361,12 +362,11 @@ export const ToolsRedirect = {
 		if ($container.length === 0) {
 			$container = $('<span>').addClass('tools-redirect_methods').appendTo($parent);
 		}
-		// eslint-disable-next-line no-jquery/no-each-util
-		$.each(methods, (_index, method) => {
+		for (const method of methods) {
 			if (!methodExist(method)) {
 				self.buildLink(method).appendTo($container);
 			}
-		});
+		}
 	},
 	buildSelection(main, metd, mt, dsab) {
 		const cont = $('<span>');
@@ -424,14 +424,12 @@ export const ToolsRedirect = {
 			let has_redirect = false;
 			const desc = $('p.desc', self.tabs.view.cont);
 			const maximumRedirectDepth = mw.config.get('toolsRedirectMaximumRedirectDepth', 10);
-			// eslint-disable-next-line no-jquery/no-each-util
-			$.each(query.pages, (_index, page) => {
-				if (!('redirects' in page)) {
+			for (const [_index, page] of Object.entries(query.pages)) {
+				if (!page.redirects) {
 					return;
 				}
 				const {redirects} = page;
-				// eslint-disable-next-line no-jquery/no-each-util
-				$.each(redirects, (__index, {title}) => {
+				for (const [__index, {title}] of Object.entries(redirects)) {
 					const rdtitle = title;
 					const ultitle = rdtitle.replace(/ /g, '_');
 					const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
@@ -469,8 +467,8 @@ export const ToolsRedirect = {
 						});
 					}
 					has_redirect = true;
-				});
-			});
+				}
+			}
 			if (has_redirect && deep === 1) {
 				self.addMethods(desc, [
 					{
@@ -518,8 +516,7 @@ export const ToolsRedirect = {
 		};
 		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		const {variants} = this;
-		// eslint-disable-next-line no-jquery/no-each-util
-		$.each(variants, (_index, variant) => {
+		for (const [_index, variant] of Object.entries(variants)) {
 			let xhr = $.ajax(
 				self.buildQuery({
 					action: 'parse',
@@ -555,11 +552,10 @@ export const ToolsRedirect = {
 				});
 			}
 			deferreds.push(xhr);
-		});
+		}
 		return $.when(...deferreds).then((...args) => {
 			const suffixes = [];
-			// eslint-disable-next-line no-jquery/no-each-util
-			$.each(args, (_index, arg) => {
+			for (const arg of args) {
 				let suffix;
 				// find title suffix,
 				// for example " (济南市)" to "市中区 (济南市)"
@@ -567,11 +563,10 @@ export const ToolsRedirect = {
 				suffix = suffix && suffix.length === 2 ? suffix[1] : '';
 				retTitles.push(arg);
 				suffixes.push(suffix);
-			});
+			}
 			// append suffixes
 			const suffixesDedup = [...new Set(suffixes)];
-			// eslint-disable-next-line no-jquery/no-each-util
-			$.each(suffixesDedup, (_index, suffix) => {
+			for (const suffix of suffixesDedup) {
 				$.merge(
 					retTitles,
 					titles.map((title) => {
@@ -579,7 +574,7 @@ export const ToolsRedirect = {
 						return suffixReg.test(title) ? title : title + suffix;
 					})
 				);
-			});
+			}
 			return self.findNotExists([...new Set(retTitles)]);
 		});
 	},
@@ -602,8 +597,7 @@ export const ToolsRedirect = {
 			);
 		}
 		return $.when(...deferreds).then((...args) => {
-			// eslint-disable-next-line no-jquery/no-each-util
-			$.each(args, (_index, arg) => {
+			for (const arg of args) {
 				alltitles = [
 					...alltitles,
 					...$(arg[0].parse.text['*'])
@@ -611,7 +605,7 @@ export const ToolsRedirect = {
 						.replace(/(^\s*|\s*$)/g, '')
 						.split('|'),
 				];
-			});
+			}
 			alltitles = alltitles.filter((v, i, arr) => {
 				return arr.indexOf(v) === i;
 			});
@@ -624,8 +618,7 @@ export const ToolsRedirect = {
 				})
 			).then(({query}) => {
 				titles = [];
-				// eslint-disable-next-line no-jquery/no-each-util
-				$.each(query.pages, (pageid, page) => {
+				for (const [pageid, page] of Object.entries(query.pages)) {
 					const {title} = page;
 					if (pageid < 0 && !excludes.has(title)) {
 						if (title in redirectExcludes) {
@@ -643,7 +636,7 @@ export const ToolsRedirect = {
 						// only set default suffix
 						window.toolsRedirect.setRedirectTextSuffix(title, '\n{{别名重定向}}', SUFFIX_SETDEFAULT);
 					}
-				});
+				}
 				return titles;
 			});
 		});
@@ -656,8 +649,7 @@ export const ToolsRedirect = {
 		const deferObj = $.Deferred();
 		let titles = [];
 		this.loading(container);
-		// eslint-disable-next-line no-jquery/no-each-util
-		$.each(findRedirectCallbacks, (_index, callback) => {
+		for (const callback of findRedirectCallbacks) {
 			const ret = callback(pagename, $content, titles);
 			if (typeof ret === 'string') {
 				titles.push(ret);
@@ -665,9 +657,9 @@ export const ToolsRedirect = {
 				// is Deferred
 				frcDeferreds.push(ret);
 			} else {
-				$.merge(titles, ret);
+				titles = [...new Set([...titles, ...ret])];
 			}
-		});
+		}
 		// remove all empty titles
 		titles = titles.map((title) => {
 			return title || null;
@@ -680,21 +672,19 @@ export const ToolsRedirect = {
 		// handles the deferred callbacks
 		$.when(...frcDeferreds)
 			.then((...args) => {
-				// eslint-disable-next-line no-jquery/no-each-util
-				$.each(args, (_index, ret) => {
+				for (const ret of args) {
 					if (typeof ret === 'string') {
 						titles.push(ret);
 					} else {
-						$.merge(titles, ret);
+						titles = [...new Set([...titles, ...ret])];
 					}
-				});
+				}
 				return self.findVariants(pagename, titles);
 			})
-			.done((titles_) => {
+			.done((fvtitles) => {
 				// build HTML
 				self.loaded(container);
-				// eslint-disable-next-line no-jquery/no-each-util
-				$.each(titles_, (_index, title) => {
+				for (const title of fvtitles) {
 					const ultitle = title.replace(' ', '_');
 					const entry = $('<p>').appendTo(container);
 					self.buildSelection(
@@ -713,9 +703,9 @@ export const ToolsRedirect = {
 						ultitle,
 						false
 					).appendTo(entry);
-				});
+				}
 				const desc = $('p.desc', container);
-				if (titles_.length > 0) {
+				if (fvtitles.length > 0) {
 					self.addMethods(desc, [
 						{
 							href: '#select-all',
@@ -742,9 +732,9 @@ export const ToolsRedirect = {
 							},
 						},
 					]);
-					deferObj.resolveWith(self, [titles_]);
+					deferObj.resolveWith(self, [fvtitles]);
 				} else {
-					deferObj.rejectWith(self, [titles_]);
+					deferObj.rejectWith(self, [fvtitles]);
 				}
 			});
 		return deferObj.promise();

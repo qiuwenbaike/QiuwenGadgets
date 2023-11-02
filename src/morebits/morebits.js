@@ -973,9 +973,8 @@
 	 * @returns {HTMLInputElement}
 	 */
 	Morebits.quickForm.getCheckboxOrRadio = (elementArray, value) => {
-		// eslint-disable-next-line no-jquery/no-grep
-		const found = $.grep(elementArray, (el) => {
-			return el.value === value;
+		const found = elementArray.filter((element) => {
+			return element.value === value;
 		});
 		if (found.length > 0) {
 			return found[0];
@@ -2341,15 +2340,17 @@
 		 */
 		post(callerAjaxParameters) {
 			++Morebits.wiki.numberOfActionsLeft;
-			const queryString = $.map(this.query, (val, i) => {
+			const {query} = this;
+			const _queryString = [];
+			query.map((val, i) => {
 				if (Array.isArray(val)) {
 					return `${encodeURIComponent(i)}=${val.map(encodeURIComponent).join('|')}`;
 				} else if (val !== undefined) {
 					return `${encodeURIComponent(i)}=${encodeURIComponent(val)}`;
 				}
-			})
-				.join('&')
-				.replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
+				return '';
+			});
+			const queryString = _queryString.join('&').replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
 			// token should always be the last item in the query string (bug TW-B-0013)
 			const ajaxparams = $.extend(
 				{},
