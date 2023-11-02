@@ -287,7 +287,7 @@
 		$(result).data('resultData', resultData);
 		// worker function to create the combo box entries
 		const createEntries = (contents, container) => {
-			$.each(contents, (itemKey, itemProperties) => {
+			for (const [itemKey, itemProperties] of Object.entries(contents)) {
 				const key = typeof itemKey === 'string' ? itemKey : itemProperties.value;
 				const elem = new Morebits.quickForm.element({
 					type: 'option',
@@ -299,7 +299,7 @@
 				});
 				const elemRendered = container.appendChild(elem.render());
 				$(elemRendered).data('messageData', itemProperties);
-			});
+			}
 		};
 		Twinkle.close.codes.forEach((group) => {
 			let optgroup = new Morebits.quickForm.element({

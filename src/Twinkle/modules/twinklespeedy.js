@@ -603,7 +603,7 @@
 			Twinkle.speedy.callback[evaluateType](e);
 			e.stopPropagation();
 		};
-		return $.map(list, (critElement) => {
+		return Array.prototype.map.call(list, (critElement) => {
 			const criterion = $.extend({}, critElement);
 			if (multiple) {
 				if (criterion.hideWhenMultiple) {
@@ -953,7 +953,7 @@
 			if (params.normalizeds.length > 1) {
 				code = '{{delete';
 				params.utparams = {};
-				$.each(params.normalizeds, (index, norm) => {
+				params.normalizeds.forEach((norm, index) => {
 					if (norm !== 'db') {
 						code += `|${norm.toUpperCase()}`;
 					}
@@ -1268,7 +1268,7 @@
 					}
 				};
 				Morebits.wiki.addCheckpoint();
-				$snapshot.each((key, value) => {
+				$snapshot.each((_key, value) => {
 					const title = $(value).attr('title');
 					const page = new Morebits.wiki.page(title, `${wgULS('删除重定向 "', '刪除重新導向 "') + title}"`);
 					page.setEditSummary(`[[QW:CSD#G9|G9]]: 孤立页面：重定向到已删除页面“${Morebits.pageNameNorm}”`);
@@ -1368,7 +1368,7 @@
 				let editsummary;
 				if (params.normalizeds.length > 1) {
 					editsummary = wgULS('请求快速删除（', '請求快速刪除（');
-					$.each(params.normalizeds, (index, norm) => {
+					params.normalizeds.forEach((norm) => {
 						if (norm !== 'db') {
 							editsummary += `[[QW:CSD#${norm.toUpperCase()}|CSD ${norm.toUpperCase()}]]、`;
 						}
@@ -1499,7 +1499,7 @@
 					}}}）`;
 				} else if (params.normalizeds.length > 1) {
 					appendText += '多个理由（';
-					$.each(params.normalizeds, (index, norm) => {
+					params.normalizeds.forEach((norm) => {
 						appendText += `[[QW:CSD#${norm.toUpperCase()}|${norm.toUpperCase()}]]、`;
 					});
 					appendText = appendText.slice(0, Math.max(0, appendText.length - 1)); // remove trailing comma
@@ -1529,7 +1529,7 @@
 	// validate subgroups in the form passed into the speedy deletion tag
 	Twinkle.speedy.getParameters = (form, values) => {
 		let parameters = [];
-		$.each(values, (index, value) => {
+		values.forEach((value) => {
 			const currentParams = [];
 			let redimage;
 			switch (value) {
@@ -1703,13 +1703,13 @@
 		}
 		// const multiple = form.multiple.checked;
 		const normalizeds = [];
-		$.each(values, (index, value) => {
+		values.forEach((value) => {
 			const norm = Twinkle.speedy.normalizeHash[value];
 			normalizeds.push(norm);
 		});
 		// analyse each criterion to determine whether to watch the page/notify the creator
 		let watchPage = false;
-		$.each(normalizeds, (index, norm) => {
+		normalizeds.forEach((norm) => {
 			if (Twinkle.getPref('watchSpeedyPages').includes(norm)) {
 				watchPage = Twinkle.getPref('watchSpeedyExpiry');
 				return false; // break
@@ -1718,7 +1718,7 @@
 
 		let notifyuser = false;
 		if (form.notify.checked) {
-			$.each(normalizeds, (index, norm) => {
+			normalizeds.forEach((norm) => {
 				if (Twinkle.getPref('notifyUserOnSpeedyDeletionNomination').includes(norm)) {
 					notifyuser = true;
 					return false; // break
@@ -1728,7 +1728,7 @@
 
 		let csdlog = false;
 		if (Twinkle.getPref('logSpeedyNominations')) {
-			$.each(normalizeds, (index, norm) => {
+			normalizeds.forEach((norm) => {
 				if (!Twinkle.getPref('noLogOnSpeedyNomination').includes(norm)) {
 					csdlog = true;
 					return false; // break

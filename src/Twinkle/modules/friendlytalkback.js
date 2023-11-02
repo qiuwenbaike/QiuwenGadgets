@@ -173,14 +173,14 @@
 					name: 'noticeboard',
 					label: '通告板：',
 				});
-				$.each(Twinkle.talkback.noticeboards, (value, data) => {
+				for (const [value, data] of Object.entries(Twinkle.talkback.noticeboards)) {
 					noticeboard.append({
 						type: 'option',
 						label: data.label,
 						value,
 						selected: !!data.defaultSelected,
 					});
-				});
+				}
 				work_area.append({
 					type: 'input',
 					name: 'section',

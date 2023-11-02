@@ -200,7 +200,7 @@
 							label: wgULS('文件使用', '檔案使用'),
 						});
 						namespaces = [];
-						$.each(Twinkle.getPref('unlinkNamespaces'), (_k, v) => {
+						Twinkle.getPref('unlinkNamespaces').forEach((v) => {
 							namespaces.push(
 								v === '0' ? wgULS('（条目）', '（條目）') : mw.config.get('wgFormattedNamespaces')[v]
 							);
@@ -266,7 +266,7 @@
 						label: wgULS('链入', '連入'),
 					});
 					namespaces = [];
-					$.each(Twinkle.getPref('unlinkNamespaces'), (_k, v) => {
+					Twinkle.getPref('unlinkNamespaces').forEach((v) => {
 						namespaces.push(
 							v === '0' ? wgULS('（条目）', '（條目）') : mw.config.get('wgFormattedNamespaces')[v]
 						);

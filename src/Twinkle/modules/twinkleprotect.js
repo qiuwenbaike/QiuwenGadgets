@@ -133,7 +133,7 @@
 			const previous = {};
 			// Save requested page's watched status for later in case needed when filing request
 			Twinkle.protect.watched = page.watchlistexpiry || page.watched === '';
-			$.each(page.protection, (index, protection) => {
+			page.protection.forEach((protection) => {
 				if (protection.type !== 'aft') {
 					current[protection.type] = {
 						level: protection.level,
@@ -149,7 +149,7 @@
 				[, Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
 			}
 			if (Twinkle.protect.previousProtectionLog) {
-				$.each(Twinkle.protect.previousProtectionLog.params.details, (index, protection) => {
+				Twinkle.protect.previousProtectionLog.params.details.forEach((protection) => {
 					if (protection.type !== 'aft') {
 						previous[protection.type] = {
 							level: protection.level,
@@ -1633,7 +1633,7 @@
 		if ($.isEmptyObject(protectionLevels)) {
 			protectionNode.push($(`<b>${wgULS('无保护', '無保護')}</b>`)[0]);
 		} else {
-			$.each(protectionLevels, (type, settings) => {
+			for (const [type, settings] of Object.entries(protectionLevels)) {
 				let label;
 				switch (type) {
 					case 'edit':
@@ -1684,7 +1684,7 @@
 				if (settings.cascade) {
 					protectionNode.push(wgULS('（连锁）', '（連鎖）'));
 				}
-			});
+			}
 		}
 		return protectionNode;
 	};
