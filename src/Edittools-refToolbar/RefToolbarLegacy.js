@@ -648,15 +648,15 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		let citebegin = '<ref';
 		let citename = '';
 		let citeinner = '';
-		for (const cite_ of cites) {
-			let citeid = cite_.id;
-			let citevalue = cite_.value;
+		for (const cite of cites) {
+			let citeid = cite.id;
+			let citevalue = cite.value;
 			citevalue = citevalue.trim(); // Trim leading and trailing whitespace
 			if (citeid === 'verbose') {
-				if (cite_.checked) {
+				if (cite.checked) {
 					citeinner = citeinner.replace(/\|/g, '\n|');
 				}
-			} else if (citevalue !== '' && cite_.type !== 'button' && cite_.type !== 'image') {
+			} else if (citevalue !== '' && cite.type !== 'button' && cite.type !== 'image') {
 				if (citeid === 'refname') {
 					citebegin += ` name="${citevalue}"`;
 				} else if (citeid === 'template') {
@@ -676,8 +676,8 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 				}
 			}
 		}
-		const cite = `${citebegin + citename + citeinner}}}</ref>`;
-		return cite;
+		const full_cite = `${citebegin + citename + citeinner}}}</ref>`;
+		return full_cite;
 	};
 	const addcites = (_template) => {
 		const cite = makeCiteCode();
@@ -720,14 +720,11 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 				nr = false;
 			} else {
 				if (ref[5]) {
-					// eslint-disable-next-line prefer-destructuring
-					namedrefs[i] = ref[5];
+					[, , , , , namedrefs[i]] = ref;
 				} else if (ref[3]) {
-					// eslint-disable-next-line prefer-destructuring
-					namedrefs[i] = ref[3];
+					[, , , namedrefs[i]] = ref;
 				} else {
-					// eslint-disable-next-line prefer-destructuring
-					namedrefs[i] = ref[6];
+					[, , , , , , namedrefs[i]] = ref;
 				}
 				i++;
 			}

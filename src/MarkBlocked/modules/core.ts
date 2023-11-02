@@ -156,11 +156,11 @@ export const markBlocked = (): void => {
 					.replace('$3', block.reason)
 					.replace('$4', inHours(serverTime - parseTS(block.timestamp)));
 				tip = isPartialBlcok ? tip.replace('$5', getMessage('partial')) : tip.replace('$5', '');
-				const $links: HTMLAnchorElement[] | undefined = userLinks[block.user];
+				const links: HTMLAnchorElement[] | undefined = userLinks[block.user];
 				let $link: JQuery<HTMLAnchorElement>;
-				if ($links) {
-					for (const $link_ of $links) {
-						$link = $($link_ as HTMLAnchorElement);
+				if (links) {
+					for (const link of links) {
+						$link = $(link as HTMLAnchorElement);
 						$link = $link.addClass(cssClass);
 						$link.attr('title', $link.attr('title') + tip);
 					}

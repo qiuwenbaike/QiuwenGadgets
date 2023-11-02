@@ -947,12 +947,11 @@
 		const {form} = e.target;
 		const actiontypes = form.actiontype;
 		let actiontype;
-		// eslint-disable-next-line unicorn/no-for-loop
-		for (let i = 0; i < actiontypes.length; i++) {
-			if (!actiontypes[i].checked) {
+		for (const action_type_value of actiontypes) {
+			if (!action_type_value.checked) {
 				continue;
 			}
-			actiontype = actiontypes[i].values;
+			actiontype = action_type_value.values;
 			break;
 		}
 		if (actiontype === 'protect') {

@@ -1988,8 +1988,9 @@ import {hotCatMessages} from './modules/messages';
 			return true;
 		},
 		accept(event) {
-			// eslint-disable-next-line no-bitwise
-			this.noCommit = (evtKeys(event) & 1) !== 0;
+			// (evtKeys(event) & 1) !== 0
+			// 当且仅当evtKeys(event)为1时，整个判别式才为true
+			this.noCommit = evtKeys(event) === 1;
 			const result = evtKill(event);
 			if (this.acceptCheck()) {
 				const toResolve = [this];
@@ -2092,8 +2093,9 @@ import {hotCatMessages} from './modules/messages';
 			}
 		},
 		remove(event) {
-			// eslint-disable-next-line no-bitwise
-			this.doRemove(evtKeys(event) & 1);
+			// (evtKeys(event) & 1)
+			// 当且仅当evtKeys(event)为1时，整个判别式才为1，否则都是0
+			this.doRemove(evtKeys(event) === 1);
 			return evtKill(event);
 		},
 		doRemove(noCommit) {

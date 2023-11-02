@@ -187,25 +187,25 @@ export const refToolbarBase = function refToolbarBase() {
 				.addClass('cite-basic-fields')
 				.attr('style', 'width: 100%; background-color: transparent');
 			let trs = this.makeFormInner(this.basic, true);
-			for (const tr_ of trs) {
-				form1.append(tr_);
+			for (const tr of trs) {
+				form1.append(tr);
 			}
 			const form2 = $('<table>')
 				.addClass('cite-extra-fields')
 				.attr('style', 'width: 100%; background-color: transparent; display: none');
 			trs = this.makeFormInner(this.extra, true);
-			for (const tr_ of trs) {
-				form2.append(tr_);
+			for (const tr of trs) {
+				form2.append(tr);
 			}
 			main.append(form1).append(form2);
 			const form3 = $('<table>')
 				.addClass('cite-other-fields')
 				.attr('style', 'width: 100%; background-color: transparent; padding-top: 1em');
-			const tr = $('<tr>');
-			const td1 = $('<td>').addClass('cite-form-td').attr('style', 'text-align: right; width: 20%');
-			const label1 = $('<label>');
-			label1.attr('for', `cite-${CiteTB.escStr(this.shortform)}-name`).text(mw.messages.get('cite-name-label'));
-			td1.append(label1);
+			const $tr = $('<tr>');
+			const $td1 = $('<td>').addClass('cite-form-td').attr('style', 'text-align: right; width: 20%');
+			const $label1 = $('<label>');
+			$label1.attr('for', `cite-${CiteTB.escStr(this.shortform)}-name`).text(mw.messages.get('cite-name-label'));
+			$td1.append($label1);
 			const td2 = $('<td>').addClass('cite-form-td').attr('style', 'width: 30%');
 			const input1 = $('<input>').attr({
 				tabindex: '1',
@@ -228,8 +228,8 @@ export const refToolbarBase = function refToolbarBase() {
 			});
 			input2.attr('id', `cite-${CiteTB.escStr(this.shortform)}-group`);
 			td4.append(input2);
-			tr.append(td1).append(td2).append(td3).append(td4);
-			form3.append(tr);
+			$tr.append($td1).append(td2).append(td3).append(td4);
+			form3.append($tr);
 			main.append(form3);
 			const extras = $('<div>');
 			extras.append(
