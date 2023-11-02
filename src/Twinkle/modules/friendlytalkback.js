@@ -296,7 +296,7 @@
 			content: `${wgULS(
 				'您的[[Qiuwen_talk:过滤器处理/报告|过滤器错误报告]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:过滤器处理/报告|過濾器錯誤報告]]已有回應，請前往查看。'
-			)}--~~~~`,
+			)}--~~`.concat('~~'),
 			editSummary: wgULS(
 				'有关[[Qiuwen_talk:过滤器处理/报告|过滤器错误报告]]的通知',
 				'有關[[Qiuwen_talk:过滤器处理/报告|過濾器錯誤報告]]的通知'
@@ -309,7 +309,7 @@
 			content: `${wgULS(
 				'您的[[Qiuwen_talk:管理员告示板|垃圾链接黑名单请求]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:管理员告示板|垃圾連結黑名單請求]]已有回應，請前往查看。'
-			)}--~~~~`,
+			)}--~~`.concat('~~'),
 			editSummary: wgULS(
 				'有关[[Qiuwen_talk:管理员告示板|垃圾链接黑名单请求]]的通知',
 				'有關[[Qiuwen_talk:管理员告示板|垃圾連結黑名單請求]]的通知'
@@ -321,7 +321,7 @@
 			content: `${wgULS(
 				'您的[[Qiuwen_talk:管理员告示板|垃圾链接白名单请求]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:管理员告示板|垃圾連結白名單請求]]已有回應，請前往查看。'
-			)}--~~~~`,
+			)}--~~`.concat('~~'),
 			editSummary: wgULS(
 				'有关[[Qiuwen_talk:管理员告示板|垃圾链接白名单请求]]的通知',
 				'有關[[Qiuwen_talk:管理员告示板|垃圾連結白名單請求]]的通知'
@@ -407,14 +407,15 @@
 			content = Morebits.string.safeReplace(Twinkle.talkback.noticeboards[page].content, '$SECTION', section);
 			text = `== ${title} ==\n${content}`;
 		} else if (tbtarget === 'see') {
+			const subst = 'subst';
 			title = page + wgULS('的相关讨论', '的相關討論');
-			content = `{{subst:Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`;
-			text = `{{subst:Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`;
+			content = `{{${subst}:Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`;
+			text = `{{${subst}:Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`;
 		} else {
 			text = '==';
 			if (tbtarget === 'mail') {
 				title = Twinkle.getPref('mailHeading');
-				content = `{{You've got mail|subject=${section}|ts=~~~~~}}`;
+				content = `{{You've got mail|subject=${section}|ts=~~`.concat('~', '~~}}');
 				text += `${Twinkle.getPref('mailHeading')}==\n{{You've got mail|subject=${section}`;
 			} else {
 				// tbtarget one of mytalk, usertalk, other
@@ -426,13 +427,13 @@
 					'$1'
 				)}==\n{{talkback|${page}${section ? `|${section}` : ''}`;
 			}
-			content += '|ts=~~~~~}}';
-			text += '|ts=~~~~~}}';
+			content += '|ts=~~'.concat('~', '~~}}');
+			text += '|ts=~~'.concat('~', '~~}}');
 			if (message) {
 				content += `\n${message}`;
-				text += `\n${message}  ~~~~`;
+				text += `\n${message}  ~~`.concat('~~');
 			} else if (Twinkle.getPref('insertTalkbackSignature')) {
-				text += '\n~~~~';
+				text += '\n~~'.concat('~~');
 			}
 		}
 		return [text, title, content];

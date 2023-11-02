@@ -167,11 +167,11 @@
 		if (!Array.isArray(input)) {
 			input = [input];
 		}
-		for (let i = 0; i < input.length; ++i) {
-			if (input[i] instanceof Node) {
-				fragment.appendChild(input[i]);
+		for (const element of input) {
+			if (element instanceof Node) {
+				fragment.appendChild(element);
 			} else {
-				for (const node of $.parseHTML(Morebits.createHtml.renderWikilinks(input[i]))) {
+				for (const node of $.parseHTML(Morebits.createHtml.renderWikilinks(element))) {
 					fragment.appendChild(node);
 				}
 			}
@@ -1328,7 +1328,7 @@
 			}
 			ipv6 = Morebits.ip.sanitizeIPv6(ipv6);
 			const ip_re = /^((?:[0-9A-F]{1,4}:){4})(?:[0-9A-F]{1,4}:){3}[0-9A-F]{1,4}(?:\/\d{1,3})?$/;
-			return ipv6.replace(ip_re, '$1' + '0:0:0:0/64');
+			return ipv6.replace(ip_re, '$1'.concat('0:0:0:0/64'));
 		},
 	};
 	/**
@@ -1384,9 +1384,9 @@
 				}
 			}
 			for (let i = 0; i < str.length; ++i) {
-				for (let j = 0; j < skiplist.length; ++j) {
-					if (str.substr(i, skiplist[j].length) === skiplist[j]) {
-						i += skiplist[j].length - 1;
+				for (const element of skiplist) {
+					if (str.substr(i, element.length) === element) {
+						i += element.length - 1;
 						continue;
 					}
 				}
@@ -1426,8 +1426,7 @@
 			unbinder.content = unbinder.content.replace(/\|/g, `{{${subst}:!}}`);
 			reason = unbinder.rebind();
 			if (addSig) {
-				let sig = '~~';
-				sig += '~~';
+				const sig = '~~'.concat('~~');
 				const sigIndex = reason.lastIndexOf(sig);
 				if (sigIndex === -1 || sigIndex !== reason.length - sig.length) {
 					reason += ` ${sig}`;
@@ -4004,10 +4003,10 @@
 		const fnLookupNonRedirectCreator = function () {
 			const response = ctx.lookupCreationApi.getResponse().query;
 			const revs = response.pages[0].revisions;
-			for (let i = 0; i < revs.length; i++) {
-				if (!isTextRedirect(revs[i].content)) {
-					ctx.creator = revs[i].user;
-					ctx.timestamp = revs[i].timestamp;
+			for (const rev of revs) {
+				if (!isTextRedirect(rev.content)) {
+					ctx.creator = rev.user;
+					ctx.timestamp = rev.timestamp;
 					break;
 				}
 			}
@@ -4737,10 +4736,10 @@
 				`\\[\\[${Morebits.namespaceRegex(6)}:\\s*${image_re_string}\\s*[\\|(?:\\]\\])]`
 			);
 			const allLinks = Morebits.string.splitWeightedByKeys(unbinder.content, '[[', ']]');
-			for (let i = 0; i < allLinks.length; ++i) {
-				if (links_re.test(allLinks[i])) {
-					const replacement = `<!-- ${reason}${allLinks[i]} -->`;
-					unbinder.content = unbinder.content.replace(allLinks[i], replacement);
+			for (const allLink of allLinks) {
+				if (links_re.test(allLink)) {
+					const replacement = `<!-- ${reason}${allLink} -->`;
+					unbinder.content = unbinder.content.replace(allLink, replacement);
 					// unbind the newly created comments
 					unbinder.unbind('<!--', '-->');
 				}
@@ -4779,12 +4778,11 @@
 				`\\[\\[${Morebits.namespaceRegex(6)}:\\s*${image_re_string}\\s*[\\|(?:\\]\\])]`
 			);
 			const allLinks = Morebits.string.splitWeightedByKeys(this.text, '[[', ']]');
-			for (let i = 0; i < allLinks.length; ++i) {
-				if (links_re.test(allLinks[i])) {
-					let replacement = allLinks[i];
+			for (let replacement of allLinks) {
+				if (links_re.test(replacement)) {
 					// just put it at the end?
 					replacement = replacement.replace(/\]\]$/, `|${data}]]`);
-					this.text = this.text.replace(allLinks[i], replacement);
+					this.text = this.text.replace(replacement, replacement);
 				}
 			}
 			const gallery_re = new RegExp(`^(\\s*${image_re_string}.*?)\\|?(.*?)$`, 'mg');
@@ -4805,9 +4803,9 @@
 				`\\{\\{(?:${Morebits.namespaceRegex(10)}:)?\\s*${template_re_string}\\s*[\\|(?:\\}\\})]`
 			);
 			const allTemplates = Morebits.string.splitWeightedByKeys(this.text, '{{', '}}', ['{{{', '}}}']);
-			for (let i = 0; i < allTemplates.length; ++i) {
-				if (links_re.test(allTemplates[i])) {
-					this.text = this.text.replace(allTemplates[i], '');
+			for (const allTemplate of allTemplates) {
+				if (links_re.test(allTemplate)) {
+					this.text = this.text.replace(allTemplate, '');
 				}
 			}
 			return this;

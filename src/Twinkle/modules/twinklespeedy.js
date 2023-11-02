@@ -1433,41 +1433,28 @@
 							initialContrib = null;
 						} else {
 							const talkPageName = `User talk:${initialContrib}`;
-							Morebits.wiki.flow.check(
+							const usertalkpage = new Morebits.wiki.page(
 								talkPageName,
-								() => {
-									const flowpage = new Morebits.wiki.flow(
-										talkPageName,
-										`${wgULS('通知页面创建者（', '通知頁面建立者（') + initialContrib}）`
-									);
-									flowpage.setTopic(`[[:${Morebits.pageNameNorm}]]的快速删除通知`);
-									flowpage.setContent(`{{subst:db-notice|target=${Morebits.pageNameNorm}|flow=yes}}`);
-									flowpage.newTopic();
-								},
-								() => {
-									const usertalkpage = new Morebits.wiki.page(
-										talkPageName,
-										`${wgULS('通知页面创建者（', '通知頁面建立者（') + initialContrib}）`
-									);
-									let notifytext;
-									notifytext = `\n{{subst:db-notice|target=${Morebits.pageNameNorm}`;
-									notifytext += "|nowelcome=yes'}}--~~~~";
-									let editsummary = '通知：';
-									if (params.normalizeds.includes('g3')) {
-										editsummary += '一攻击性页面';
-									} else {
-										// no article name in summary for G10 deletions
-										editsummary += `页面[[${Morebits.pageNameNorm}]]`;
-									}
-									editsummary += '快速删除提名';
-									usertalkpage.setAppendText(notifytext);
-									usertalkpage.setEditSummary(editsummary);
-									usertalkpage.setChangeTags(Twinkle.changeTags);
-									usertalkpage.setCreateOption('recreate');
-									usertalkpage.setFollowRedirect(true, false);
-									usertalkpage.append();
-								}
+								`${wgULS('通知页面创建者（', '通知頁面建立者（') + initialContrib}）`
 							);
+							const subst = 'subst';
+							let notifytext;
+							notifytext = `\n{{${subst}:db-notice|target=${Morebits.pageNameNorm}`;
+							notifytext += "|nowelcome=yes'}}--~~".concat('~~');
+							let editsummary = '通知：';
+							if (params.normalizeds.includes('g3')) {
+								editsummary += '一攻击性页面';
+							} else {
+								// no article name in summary for G10 deletions
+								editsummary += `页面[[${Morebits.pageNameNorm}]]`;
+							}
+							editsummary += '快速删除提名';
+							usertalkpage.setAppendText(notifytext);
+							usertalkpage.setEditSummary(editsummary);
+							usertalkpage.setChangeTags(Twinkle.changeTags);
+							usertalkpage.setCreateOption('recreate');
+							usertalkpage.setFollowRedirect(true, false);
+							usertalkpage.append();
 						}
 						// add this nomination to the user's userspace log, if the user has enabled it
 						if (params.lognomination) {
@@ -1515,7 +1502,7 @@
 				if (initialContrib) {
 					appendText += `；通知{{user|${initialContrib}}}`;
 				}
-				appendText += ' ~~~~~\n';
+				appendText += ' ~~'.concat('~', '~~\n');
 				usl.changeTags = Twinkle.changeTags;
 				usl.log(
 					appendText,

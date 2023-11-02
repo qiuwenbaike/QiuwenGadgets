@@ -1509,7 +1509,7 @@
 							`Talk:${params.discussArticle}`,
 							wgULS('将理由贴进讨论页', '將理由貼進討論頁')
 						);
-						talkpage.setNewSectionText(`${params.mergeReason.trim()} ~~~~`);
+						talkpage.setNewSectionText(`${params.mergeReason.trim()} ~~`.concat('~~'));
 						talkpage.setNewSectionTitle(`请求与[[${params.nonDiscussArticle}]]合并`);
 						talkpage.setChangeTags(Twinkle.changeTags);
 						talkpage.setWatchlist(Twinkle.getPref('watchMergeDiscussions'));
@@ -1542,8 +1542,9 @@
 					}
 					// special functions for requested move tags
 					if (params.moveReason) {
+						const subst = 'subst';
 						// post the rationale on the talk page (only operates in main namespace)
-						let moveTalkpageText = `\n\n{{subst:RM|1=${params.moveReason.trim()}`;
+						let moveTalkpageText = `\n\n{{${subst}:RM|1=${params.moveReason.trim()}`;
 						if (params.moveTarget) {
 							moveTalkpageText += `|2=${params.moveTarget}`;
 						}
@@ -1658,8 +1659,9 @@
 			 */
 			const addTag = (tagName) => {
 				let currentTag = '';
+				const subst = 'subst';
 				if (tagName === 'Uncategorized' || tagName === 'Improve categories') {
-					pageText += `\n\n{{${tagName}|time={{subst:#time:c}}}}`;
+					pageText += `\n\n{{${tagName}|time={{${subst}:#time:c}}}}`;
 				} else {
 					currentTag += `{{${tagName}`;
 					// fill in other parameters, based on the tag
@@ -1740,7 +1742,7 @@
 						default:
 							break;
 					}
-					currentTag += '|time={{subst:#time:c}}}}\n';
+					currentTag += `|time={{${subst}:#time:c}}}}\n`;
 					tagText += currentTag;
 				}
 			};
@@ -1918,9 +1920,10 @@
 			}
 		},
 		notabilityList: (pageobj) => {
+			const subst = 'subst';
 			// const text = pageobj.getPageText();
 			// const params = pageobj.getCallbackParameters();
-			pageobj.setAppendText(`\n{{subst:Fameitem|title=${Morebits.pageNameNorm}}}`);
+			pageobj.setAppendText(`\n{{${subst}:Fameitem|title=${Morebits.pageNameNorm}}}`);
 			pageobj.setEditSummary(`加入[[${Morebits.pageNameNorm}]]`);
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.setCreateOption('recreate');
@@ -2036,10 +2039,11 @@
 							''
 						);
 					}
+					const subst = 'subst';
 					currentTag = tag;
 					switch (tag) {
 						case 'Now Commons':
-							currentTag = `subst:${currentTag}`; // subst
+							currentTag = `${subst}:${currentTag}`; // subst
 							if (params.nowcommonsName !== '') {
 								currentTag += `|1=${params.nowcommonsName}`;
 							}

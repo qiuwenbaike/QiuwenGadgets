@@ -3111,8 +3111,10 @@ import {hotCatMessages} from './modules/messages';
 						}
 					}
 					if (addedOne) {
+						const subst = 'subst';
 						// Remove "subst:unc" added by Flinfo if it didn't find categories
-						eb.value = eb.value.replace(/{{subst:unc}}/g, '');
+						const regex = new RegExp(`{{${subst}:unc}}`, 'g');
+						eb.value = eb.value.replace(regex, '');
 					}
 					return true;
 				})(form.onsubmit);

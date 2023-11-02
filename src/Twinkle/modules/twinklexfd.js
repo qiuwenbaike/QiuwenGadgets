@@ -317,7 +317,8 @@
 							talkPageName,
 							`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
 						);
-						const notifytext = `\n{{subst:AFDNote|${Morebits.pageNameNorm}}}--~~~~`;
+						const subst = 'subst';
+						const notifytext = `\n{{${subst}${`:AFDNote|${Morebits.pageNameNorm}}}--~~`.concat('~~')}`;
 						usertalkpage.setAppendText(notifytext);
 						usertalkpage.setEditSummary(`通知：页面[[${Morebits.pageNameNorm}]]存废讨论提名`);
 						usertalkpage.setChangeTags(Twinkle.changeTags);
@@ -342,7 +343,8 @@
 				if (Morebits.isPageRedirect()) {
 					tag += '|r';
 				}
-				tag += '|date={{subst:#time:Y/m/d}}}}';
+				const subst = 'subst';
+				tag += `|date={{${subst}:#time:Y/m/d}}}}`;
 				if (params.noinclude) {
 					tag = `<noinclude>${tag}</noinclude>`;
 					// 只有表格需要单独加回车，其他情况加回车会破坏模板。
@@ -431,7 +433,8 @@
 							pageobj.setPageText(text);
 							append = false;
 						} else {
-							const appendText = `\n{{safesubst:SafeAfdHead}}\n${
+							const safesubst = 'safesubst';
+							const appendText = `\n{{${safesubst}${`:SafeAfdHead}}\n${
 								{
 									fame: '== 30天后仍挂有{{tl|notability}}模板的条目 ==\n<span style="font-size: smaller;">（已挂[[Template:notability|不符收录标准模板]]30天）</span>',
 									substub:
@@ -446,20 +449,22 @@
 									substub: '<u>长度过短</u>条目',
 									batch: '页面',
 								}[type]
-							}的求闻编者及时间：<br id="no-new-title">~~~~`;
+							}的求闻编者及时间：<br id="no-new-title">~~`.concat('~~')}`;
 							pageobj.setAppendText(appendText);
 						}
 						break;
 					}
-					default:
+					default: {
+						const subst = 'subst';
 						pageobj.setAppendText(
-							`\n{{subst:DRItem|Type=${type}|DRarticles=${
+							`\n{{${subst}${`:DRItem|Type=${type}|DRarticles=${
 								Morebits.pageNameNorm
 							}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}${
 								params.fwdcsdreason.trim() === '' ? '' : `<br>\n转交理由：${params.fwdcsdreason}`
-							}|To=${to}}}~~~~`
+							}|To=${to}}}~~`.concat('~~')}`
 						);
 						break;
+					}
 				}
 				pageobj.setEditSummary(`加入[[${Morebits.pageNameNorm}]]`);
 				pageobj.setChangeTags(Twinkle.changeTags);
@@ -540,7 +545,8 @@
 						talkPageName,
 						`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
 					);
-					const notifytext = `\n{{subst:idw|File:${mw.config.get('wgTitle')}}}--~~~~`;
+					const subst = 'subst';
+					const notifytext = `\n{{${subst}${`:idw|File:${mw.config.get('wgTitle')}}}--~~`.concat('~~')}`;
 					usertalkpage.setAppendText(notifytext);
 					usertalkpage.setEditSummary(`通知：文件[[${Morebits.pageNameNorm}]]存废讨论提名`);
 					usertalkpage.setChangeTags(Twinkle.changeTags);
@@ -558,10 +564,11 @@
 				}
 			},
 			taggingImage: (pageobj) => {
+				const subst = 'subst';
 				const text = pageobj.getPageText();
 				const params = pageobj.getCallbackParameters();
 				pageobj.setPageText(
-					`{{ifd|${Morebits.string.formatReasonText(params.xfdreason)}|date={{subst:#time:c}}}}\n${text}`
+					`{{ifd|${Morebits.string.formatReasonText(params.xfdreason)}|date={{${subst}:#time:c}}}}\n${text}`
 				);
 				pageobj.setEditSummary(
 					`${wgULS('文件存废讨论：[[', '檔案存廢討論：[[') + params.logpage}#${Morebits.pageNameNorm}]]`
@@ -572,12 +579,13 @@
 				pageobj.save();
 			},
 			todaysList: (pageobj) => {
+				const subst = 'subst';
 				// const text = pageobj.getPageText();
 				const params = pageobj.getCallbackParameters();
 				pageobj.setAppendText(
-					`\n{{subst:IfdItem|Filename=${mw.config.get('wgTitle')}|Uploader=${
+					`\n{{${subst}${`:IfdItem|Filename=${mw.config.get('wgTitle')}|Uploader=${
 						params.creator
-					}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}}}--~~~~`
+					}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}}}--~~`.concat('~~')}`
 				);
 				pageobj.setEditSummary(`加入[[${Morebits.pageNameNorm}]]`);
 				pageobj.setChangeTags(Twinkle.changeTags);
@@ -686,7 +694,7 @@
 			if (initialContrib) {
 				appendText += `；通知{{user|${initialContrib}}}`;
 			}
-			appendText += ' ~~~~~\n';
+			appendText += ' ~~'.concat('~~', '~\n');
 			usl.changeTags = Twinkle.changeTags;
 			usl.log(appendText, editsummary);
 		},

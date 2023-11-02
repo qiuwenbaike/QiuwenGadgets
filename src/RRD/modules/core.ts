@@ -31,7 +31,7 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 	for (const [index, id] of ids.entries()) {
 		rrdArr.push(`|id${index + 1} = ${id}`);
 	}
-	rrdArr.push('}}\n--~~~~');
+	rrdArr.push('}}\n--~~'.concat('~~'));
 	const api: mw.Api = new mw.Api({
 		ajax: {
 			headers: {
