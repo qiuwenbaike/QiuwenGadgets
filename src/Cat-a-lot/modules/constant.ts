@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const API_ENTRY_POINT: string = mw.util.wikiScript('api');
 const API_TAG = 'Cat-a-lot';
 const DEFAULT_SETTING = [

@@ -1,4 +1,3 @@
-// eslint-disable-next-line camelcase
 const WG_ACTION: MediaWikiConfigMap_WgAction = mw.config.get('wgAction');
 const WG_CANONICAL_NAMESPACE: string = mw.config.get('wgCanonicalNamespace');
 const WG_CANONICAL_SPECIAL_PAGE_NAME: string = mw.config.get('wgCanonicalSpecialPageName').toString();
