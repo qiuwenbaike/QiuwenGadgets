@@ -534,7 +534,7 @@
 								value: 'Property',
 							},
 							{
-								label: '{{Notability|Traffic}}：' + '交通',
+								label: '{{Notability|Traffic}}：交通',
 								value: 'Traffic',
 							},
 							{

@@ -627,7 +627,7 @@
 			if (!Morebits.userIsSysop) {
 				text += '{{'.concat('subst:').concat('NAC}}');
 			}
-			text += '--~~' + '~~\n{{delf}}';
+			text += '--~~'.concat('~~', '\n{{delf}}');
 			if (bar[1]) {
 				text += `\n----\n${bar.slice(1).join('\n----\n')}`;
 			}
