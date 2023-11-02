@@ -1557,10 +1557,10 @@
 		dlgtbody.appendChild(dlgtr);
 		// content rows
 		let gotRow = false;
-		curvalue.forEach((v) => {
+		for (const v of curvalue) {
 			gotRow = true;
 			Twinkle.config.listDialog.addRow(dlgtbody, v.value, v.label);
-		});
+		}
 		// if there are no values present, add a blank row to start the user off
 		if (!gotRow) {
 			Twinkle.config.listDialog.addRow(dlgtbody);
@@ -1638,9 +1638,9 @@
 		$tbody.find('tr').slice(1).remove(); // all rows except the first (header) row
 		// add the new values
 		const curvalue = $button.data('value');
-		curvalue.forEach((v) => {
+		for (const v of curvalue) {
 			Twinkle.config.listDialog.addRow(tbody, v.value, v.label);
-		});
+		}
 		// save the old value
 		$button.data('value', oldvalue);
 	};

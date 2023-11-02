@@ -779,11 +779,9 @@
 					Twinkle.warn.messages.singlewarn
 				);
 				const sortedSingletMessages = {};
-				Object.keys(unSortedSinglets)
-					.sort()
-					.forEach((key) => {
-						sortedSingletMessages[key] = unSortedSinglets[key];
-					});
+				for (const key of Object.keys(unSortedSinglets).sort()) {
+					sortedSingletMessages[key] = unSortedSinglets[key];
+				}
 				createEntries(sortedSingletMessages, sub_group, true);
 				break;
 			}
@@ -791,11 +789,11 @@
 				createEntries(Twinkle.getPref('customWarningList'), sub_group, true);
 				break;
 			case 'kitchensink':
-				['level1', 'level2'].forEach((lvl) => {
-					Twinkle.warn.messages.levels.forEach((levelGroup) => {
+				for (const lvl of ['level1', 'level2']) {
+					for (const levelGroup of Twinkle.warn.messages.levels) {
 						createEntries(levelGroup.list, sub_group, true, lvl);
-					});
-				});
+					}
+				}
 				createEntries(Twinkle.warn.messages.singlenotice, sub_group, true);
 				createEntries(Twinkle.warn.messages.singlewarn, sub_group, true);
 				createEntries(Twinkle.getPref('customWarningList'), sub_group, true);
@@ -804,7 +802,7 @@
 			case 'level2':
 				// Creates subgroup regardless of whether there is anything to place in it;
 				// leaves "Removal of deletion tags" empty for level 2
-				Twinkle.warn.messages.levels.forEach((levelGroup) => {
+				for (const levelGroup of Twinkle.warn.messages.levels) {
 					let optgroup = new Morebits.quickForm.element({
 						type: 'optgroup',
 						label: levelGroup.category,
@@ -813,7 +811,7 @@
 					sub_group.appendChild(optgroup);
 					// create the options
 					createEntries(levelGroup.list, optgroup, false);
-				});
+				}
 				break;
 			case 'autolevel': {
 				// Check user page to determine appropriate level
@@ -828,7 +826,7 @@
 					};
 					const lvl = `level${Twinkle.warn.callbacks.autolevelParseWikitext(wikitext, params, latest)[1]}`;
 					// Identical to level1, etc. above but explicitly provides the level
-					Twinkle.warn.messages.levels.forEach((levelGroup) => {
+					for (const levelGroup of Twinkle.warn.messages.levels) {
 						let optgroup = new Morebits.quickForm.element({
 							type: 'optgroup',
 							label: levelGroup.category,
@@ -837,7 +835,7 @@
 						sub_group.appendChild(optgroup);
 						// create the options
 						createEntries(levelGroup.list, optgroup, false, lvl);
-					});
+					}
 					// Trigger subcategory change, add select menu, etc.
 					Twinkle.warn.callback.postCategoryCleanup(e);
 				};

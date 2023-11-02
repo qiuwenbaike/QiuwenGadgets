@@ -534,9 +534,9 @@
 			}
 		};
 		// Initialise modules that were saved in initCallbacks array
-		Twinkle.initCallbacks.forEach((module) => {
+		for (const module of Twinkle.initCallbacks) {
 			Twinkle.addInitCallback(module.func, module.name);
-		});
+		}
 		// Increases text size in Twinkle dialogs, if so configured
 		if (Twinkle.getPref('dialogLargeFont')) {
 			mw.util.addCSS(

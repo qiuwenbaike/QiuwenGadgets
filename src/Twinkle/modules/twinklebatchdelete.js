@@ -259,7 +259,9 @@
 				});
 				const result = form.render();
 				apiobj.params.Window.setContent(result);
-				Morebits.quickForm.getElements(result, 'pages').forEach(generateArrowLinks);
+				for (const checkbox of Morebits.quickForm.getElements(result, 'pages')) {
+					generateArrowLinks(checkbox);
+				}
 			},
 			statelem
 		);
@@ -387,16 +389,20 @@
 			// If lists of subpages were already loaded once, they are
 			// available without use of any API calls
 			if (subpagesLoaded) {
-				Twinkle.batchdelete.pages.forEach((el) => {
+				for (const el of Twinkle.batchdelete.pages) {
 					// Get back the subgroup from subgroup_, where we saved it
 					if (el.subgroup === null && el.subgroup_) {
 						el.subgroup = el.subgroup_;
 					}
-				});
+				}
 				newPageList = Twinkle.batchdelete.generateNewPageList(form);
 				$('#tw-dbatch-pages').replaceWith(newPageList);
-				Morebits.quickForm.getElements(newPageList, 'pages').forEach(generateArrowLinks);
-				Morebits.quickForm.getElements(newPageList, 'pages.subpages').forEach(generateArrowLinks);
+				for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
+					generateArrowLinks(checkbox);
+				}
+				for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages.subpages')) {
+					generateArrowLinks(checkbox);
+				}
 				return;
 			}
 			// Proceed with API calls to get list of subpages
@@ -497,15 +503,19 @@
 					// List 'em on the interface
 					newPageList = Twinkle.batchdelete.generateNewPageList(form);
 					$('#tw-dbatch-pages').replaceWith(newPageList);
-					Morebits.quickForm.getElements(newPageList, 'pages').forEach(generateArrowLinks);
-					Morebits.quickForm.getElements(newPageList, 'pages.subpages').forEach(generateArrowLinks);
+					for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
+						generateArrowLinks(checkbox);
+					}
+					for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages.subpages')) {
+						generateArrowLinks(checkbox);
+					}
 					subpagesLoaded = true;
 					// Remove "Loading... " text
 					$('#dbatch-subpage-loading').remove();
 				}
 			);
 		} else if (!e.target.checked) {
-			Twinkle.batchdelete.pages.forEach((el) => {
+			for (const el of Twinkle.batchdelete.pages) {
 				if (el.subgroup) {
 					// Remove subgroup after saving its contents in subgroup_
 					// so that it can be retrieved easily if user decides to
@@ -513,10 +523,12 @@
 					el.subgroup_ = el.subgroup;
 					el.subgroup = null;
 				}
-			});
+			}
 			newPageList = Twinkle.batchdelete.generateNewPageList(form);
 			$('#tw-dbatch-pages').replaceWith(newPageList);
-			Morebits.quickForm.getElements(newPageList, 'pages').forEach(generateArrowLinks);
+			for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
+				generateArrowLinks(checkbox);
+			}
 		}
 	};
 	Twinkle.batchdelete.callback.evaluate = (event) => {

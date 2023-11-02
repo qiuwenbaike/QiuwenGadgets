@@ -18,7 +18,6 @@
 		"no-script-url": "off",
 		"no-useless-concat": "off",
 		"unicorn/no-for-loop": "off",
-		"unicorn/no-array-for-each": "off",
 		"unicorn/prefer-string-slice": "off",
 		"unicorn/prefer-dom-node-append": "off",
 		"unicorn/prefer-dom-node-dataset": "off",

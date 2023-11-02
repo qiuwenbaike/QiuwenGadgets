@@ -43,9 +43,9 @@ export const scrollUpButton = (): void => {
 		.on('click', (): void => {
 			scrollTop(0);
 		});
-	[$scrollDownButton, $scrollUpButton].forEach(($element: JQuery): void => {
+	for (const $element of [$scrollDownButton, $scrollUpButton]) {
 		$element.on('mouseenter mouseleave', changeOpacity).appendTo(document.body);
-	});
+	}
 	$window.on('scroll selectionchange', (): void => {
 		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {
 			$scrollDownButton.css('bottom', '78px');

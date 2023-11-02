@@ -171,9 +171,9 @@
 			if (input[i] instanceof Node) {
 				fragment.appendChild(input[i]);
 			} else {
-				$.parseHTML(Morebits.createHtml.renderWikilinks(input[i])).forEach((node) => {
+				for (const node of $.parseHTML(Morebits.createHtml.renderWikilinks(input[i]))) {
 					fragment.appendChild(node);
-				});
+				}
 			}
 		}
 		return fragment;
@@ -1344,7 +1344,7 @@
 		 */
 		toUpperCaseFirstChar: (str) => {
 			str = str.toString();
-			return str.substr(0, 1).toUpperCase() + str.substr(1);
+			return str.slice(0, 1).toUpperCase() + str.slice(1);
 		},
 		/**
 		 * @param {string} str
@@ -1352,7 +1352,7 @@
 		 */
 		toLowerCaseFirstChar: (str) => {
 			str = str.toString();
-			return str.substr(0, 1).toLowerCase() + str.substr(1);
+			return str.slice(0, 1).toLowerCase() + str.slice(1);
 		},
 		/**
 		 * Gives an array of substrings of `str` - starting with `start` and
@@ -2134,14 +2134,14 @@
 		},
 	};
 	// Allow native Date.prototype methods to be used on Morebits.date objects
-	Object.getOwnPropertyNames(Date.prototype).forEach((func) => {
+	for (const func of Object.getOwnPropertyNames(Date.prototype)) {
 		// Exclude methods that collide with PageTriage's Date.js external, which clobbers native Date
 		if (!['add', 'getDayName', 'getMonthName'].includes(func)) {
 			Morebits.date.prototype[func] = function (...args) {
 				return this._d[func](...Array.prototype.slice.call(args));
 			};
 		}
-	});
+	}
 	/* **************** Morebits.wiki **************** */
 	/**
 	 * Various objects for wiki editing and API access, including
@@ -3710,11 +3710,11 @@
 			ctx.revertCurID = page.lastrevid;
 			const testactions = page.actions;
 			ctx.testActions = []; // was null
-			Object.keys(testactions).forEach((action) => {
+			for (const action of Object.keys(testactions)) {
 				if (testactions[action]) {
 					ctx.testActions.push(action);
 				}
-			});
+			}
 			if (ctx.editMode === 'revert') {
 				ctx.revertCurID = rev && rev.revid;
 				if (!ctx.revertCurID) {
@@ -4608,7 +4608,7 @@
 		const findParam = (final) => {
 			// Nothing found yet, this must be the template name
 			if (count === -1) {
-				result.name = current.substring(2).trim();
+				result.name = current.slice(2).trim();
 				++count;
 			} else if (equals === -1) {
 				// In a parameter
@@ -4620,10 +4620,10 @@
 				}
 			} else {
 				// We found an equals, so save the parameter as key: value
-				key = current.substring(0, equals).trim();
+				key = current.slice(0, Math.max(0, equals)).trim();
 				value = final
 					? current.substring(equals + 1, current.length - 2).trim()
-					: current.substring(equals + 1).trim();
+					: current.slice(Math.max(0, equals + 1)).trim();
 				result.parameters[key] = value;
 				equals = -1;
 			}
@@ -5382,9 +5382,9 @@
 			}
 			// start workers for the current chunk
 			ctx.countStarted += chunk.length;
-			chunk.forEach((page) => {
+			for (const page of chunk) {
 				ctx.worker(page, thisProxy);
-			});
+			}
 		};
 		const fnDoneOne = () => {
 			ctx.countFinished++;
@@ -5467,7 +5467,7 @@
 		 */
 		this.execute = function () {
 			const self = this; // proxy for `this` for use inside functions where `this` is something else
-			this.taskDependencyMap.forEach((deps, task) => {
+			for (const [task, deps] of this.taskDependencyMap.entries()) {
 				const dependencyPromisesArray = deps.map((dep) => {
 					return self.deferreds.get(dep);
 				});
@@ -5496,7 +5496,7 @@
 						self.failureCallbackMap.get(task).apply(self.context, args);
 					}
 				);
-			});
+			}
 			return $.when(...this.allDeferreds); // resolved when everything is done!
 		};
 	};

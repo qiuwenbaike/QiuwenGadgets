@@ -106,23 +106,23 @@
 				// needed but also used to generate the alphabetical list
 				// Would be infinitely better with Object.values
 				Twinkle.tag.article.flatObject = {};
-				Twinkle.tag.article.tagList.forEach((group) => {
-					group.value.forEach((subgroup) => {
+				for (const group of Twinkle.tag.article.tagList) {
+					for (const subgroup of group.value) {
 						if (subgroup.value) {
-							subgroup.value.forEach((item) => {
+							for (const item of subgroup.value) {
 								Twinkle.tag.article.flatObject[item.tag] = {
 									description: item.description,
 									excludeMI: !!item.excludeMI,
 								};
-							});
+							}
 						} else {
 							Twinkle.tag.article.flatObject[subgroup.tag] = {
 								description: subgroup.description,
 								excludeMI: !!subgroup.excludeMI,
 							};
 						}
-					});
-				});
+					}
+				}
 				form.append({
 					type: 'select',
 					name: 'sortorder',
@@ -193,16 +193,16 @@
 				break;
 			case 'file':
 				Window.setTitle(wgULS('文件维护标记', '檔案維護標記'));
-				Twinkle.tag.fileList.forEach((group) => {
+				for (const group of Twinkle.tag.fileList) {
 					if (group.buildFilename) {
-						group.value.forEach((el) => {
+						for (const el of group.value) {
 							el.subgroup = {
 								type: 'input',
 								label: wgULS('替换的文件：', '替換的檔案：'),
 								tooltip: wgULS('输入替换此文件的文件名称（必填）', '輸入替換此檔案的檔案名稱（必填）'),
 								name: `${el.value.replace(/ /g, '_')}File`,
 							};
-						});
+						}
 					}
 					form.append({
 						type: 'header',
@@ -213,7 +213,7 @@
 						name: 'tags',
 						list: group.value,
 					});
-				});
+				}
 				if (Twinkle.getPref('customFileTagList').length) {
 					form.append({
 						type: 'header',
@@ -229,7 +229,7 @@
 			case 'redirect': {
 				Window.setTitle(wgULS('重定向标记', '重新導向標記'));
 				const i = 1;
-				Twinkle.tag.redirectList.forEach((group) => {
+				for (const group of Twinkle.tag.redirectList) {
 					form.append({
 						type: 'header',
 						id: `tagHeader${i}`,
@@ -246,7 +246,7 @@
 							};
 						}),
 					});
-				});
+				}
 				if (Twinkle.getPref('customRedirectTagList').length) {
 					form.append({
 						type: 'header',
@@ -359,7 +359,9 @@
 			result.sortorder.dispatchEvent(evt);
 		} else {
 			// Redirects and files: Add a link to each template's description page
-			Morebits.quickForm.getElements(result, 'tags').forEach(generateLinks);
+			for (const checkbox of Morebits.quickForm.getElements(result, 'tags')) {
+				generateLinks(checkbox);
+			}
 		}
 	};
 	// $allCheckboxDivs and $allHeaders are defined globally, rather than in the
@@ -609,7 +611,7 @@
 			});
 			const checkboxes = [];
 			const unCheckedTags = e.target.form.getUnchecked('existingTags');
-			Twinkle.tag.alreadyPresentTags.forEach((tag) => {
+			for (const tag of Twinkle.tag.alreadyPresentTags) {
 				const checkbox = {
 					value: tag,
 					label: `{{${tag}}}${
@@ -620,7 +622,7 @@
 					checked: !unCheckedTags.includes(tag),
 				};
 				checkboxes.push(checkbox);
-			});
+			}
 			subdiv.append({
 				type: 'checkbox',
 				name: 'existingTags',
@@ -632,11 +634,11 @@
 			// function to iterate through the tags and create a checkbox for each one
 			const doCategoryCheckboxes = (subdiv, subgroup) => {
 				const checkboxes = [];
-				subgroup.forEach((item) => {
+				for (const item of subgroup) {
 					if (!Twinkle.tag.alreadyPresentTags.includes(item.tag)) {
 						checkboxes.push(makeCheckbox(item.tag, item.description));
 					}
-				});
+				}
 				subdiv.append({
 					type: 'checkbox',
 					name: 'tags',
@@ -648,7 +650,7 @@
 			}
 			let i = 1;
 			// go through each category and sub-category and append lists of checkboxes
-			Twinkle.tag.article.tagList.forEach((group) => {
+			for (const group of Twinkle.tag.article.tagList) {
 				container.append({
 					type: 'header',
 					id: `tagHeader${i}`,
@@ -661,15 +663,15 @@
 				if (group.value[0].tag) {
 					doCategoryCheckboxes(subdiv, group.value);
 				} else {
-					group.value.forEach((subgroup) => {
+					for (const subgroup of group.value) {
 						subdiv.append({
 							type: 'div',
 							label: [Morebits.htmlNode('b', subgroup.key)],
 						});
 						doCategoryCheckboxes(subdiv, subgroup.value);
-					});
+					}
 				}
-			});
+			}
 		} else {
 			// alphabetical sort order
 			if (Twinkle.tag.alreadyPresentTags.length > 0) {
@@ -683,11 +685,11 @@
 			// Avoid repeatedly resorting
 			Twinkle.tag.article.alphabeticalList ||= Object.keys(Twinkle.tag.article.flatObject).sort();
 			const checkboxes = [];
-			Twinkle.tag.article.alphabeticalList.forEach((tag) => {
+			for (const tag of Twinkle.tag.article.alphabeticalList) {
 				if (!Twinkle.tag.alreadyPresentTags.includes(tag)) {
 					checkboxes.push(makeCheckbox(tag, Twinkle.tag.article.flatObject[tag].description));
 				}
-			});
+			}
 			container.append({
 				type: 'checkbox',
 				name: 'tags',
@@ -727,8 +729,12 @@
 		$workarea.find('div').filter(':has(span.quickformDescription)').css({
 			'margin-top': '0.4em',
 		});
-		Morebits.quickForm.getElements(form, 'existingTags').forEach(generateLinks);
-		Morebits.quickForm.getElements(form, 'tags').forEach(generateLinks);
+		for (const checkbox of Morebits.quickForm.getElements(form, 'existingTags')) {
+			generateLinks(checkbox);
+		}
+		for (const checkbox of Morebits.quickForm.getElements(form, 'tags')) {
+			generateLinks(checkbox);
+		}
 		// tally tags added/removed, update statusNode text
 		const statusNode = document.getElementById('tw-tag-status');
 		$('[name=tags], [name=existingTags]').on('click', function () {
@@ -1576,14 +1582,14 @@
 				// Remove the tags from the page text, if found in its proper name,
 				// otherwise moves it to `getRedirectsFor` array earmarking it for
 				// later removal
-				params.tagsToRemove.forEach((tag) => {
+				for (const tag of params.tagsToRemove) {
 					const tag_re = new RegExp(`\\{\\{${Morebits.pageNameRegex(tag)}\\s*(\\|[^}]+)?\\}\\}\\n?`);
 					if (tag_re.test(pageText)) {
 						pageText = pageText.replace(tag_re, '');
 					} else {
 						getRedirectsFor.push(`Template:${tag}`);
 					}
-				});
+				}
 				if (!getRedirectsFor.length) {
 					postRemoval();
 					return;
@@ -1744,7 +1750,9 @@
 			 * {{multiple issues}} is not being added to the page at all
 			 */
 			const addUngroupedTags = () => {
-				tags.forEach(addTag);
+				for (const tag of tags) {
+					addTag(tag);
+				}
 				// Insert tag after short description or any hatnotes,
 				// as well as deletion/protection-related templates
 				const qiuwen_page = new Morebits.wikitext.page(pageText);
@@ -1757,7 +1765,7 @@
 				removeTags();
 			};
 			// Separate tags into groupable ones (`groupableTags`) and non-groupable ones (`tags`)
-			params.tags.forEach((tag) => {
+			for (const tag of params.tags) {
 				tagRe = new RegExp(`\\{\\{${tag}(\\||\\}\\})`, 'im');
 				// regex check for preexistence of tag can be skipped if in canRemove mode
 				if (Twinkle.tag.canRemove || !tagRe.exec(pageText)) {
@@ -1800,14 +1808,14 @@
 						params.mergeTagOther = null;
 					}
 				}
-			});
+			}
 			// To-be-retained existing tags that are groupable
-			params.tagsToRemain.forEach((tag) => {
+			for (const tag of params.tagsToRemain) {
 				// If the tag is unknown to us, we consider it non-groupable
 				if (Twinkle.tag.article.flatObject[tag] && !Twinkle.tag.article.flatObject[tag].excludeMI) {
 					groupableExistingTags.push(tag);
 				}
-			});
+			}
 			const miTest =
 				/\{\{(multiple ?issues|article ?issues|mi|ai|issues|多個問題|多个问题|問題條目|问题条目|數個問題|数个问题)\s*\|[^}]+\{/im.exec(
 					pageText
@@ -1818,7 +1826,9 @@
 					wgULS('加入支持的标记入已存在的{{multiple issues}}', '加入支援的標記入已存在的{{multiple issues}}')
 				);
 				tagText = '';
-				groupableTags.forEach(addTag);
+				for (const tag of groupableTags) {
+					addTag(tag);
+				}
 				const miRegex = new RegExp(
 					`(\\{\\{\\s*${miTest[1]}\\s*(?:\\|(?:\\{\\{[^{}]*\\}\\}|[^{}])*)?)\\}\\}\\s*`,
 					'im'
@@ -1836,14 +1846,16 @@
 				 * Adds newly added tags to MI
 				 */
 				const addNewTagsToMI = () => {
-					groupableTags.forEach(addTag);
+					for (const tag of groupableTags) {
+						addTag(tag);
+					}
 					tagText += '}}\n';
 					addUngroupedTags();
 				};
 				const getRedirectsFor = [];
 				// Reposition the tags on the page into {{multiple issues}}, if found with its
 				// proper name, else moves it to `getRedirectsFor` array to be handled later
-				groupableExistingTags.forEach((tag) => {
+				for (const tag of groupableExistingTags) {
 					const tag_re = new RegExp(`(\\{\\{${Morebits.pageNameRegex(tag)}\\s*(\\|[^}]+)?\\}\\}\\n?)`);
 					if (tag_re.test(pageText)) {
 						tagText += tag_re.exec(pageText)[1];
@@ -1851,7 +1863,7 @@
 					} else {
 						getRedirectsFor.push(`Template:${tag}`);
 					}
-				});
+				}
 				if (!getRedirectsFor.length) {
 					addNewTagsToMI();
 					return;
@@ -1962,7 +1974,9 @@
 				Morebits.status.warn(wgULS('信息', '資訊'), wgULS('没有标签可供标记', '沒有標籤可供標記'));
 			}
 			tags.sort();
-			tags.forEach(addTag);
+			for (const tag of tags) {
+				addTag(tag);
+			}
 			// Check for all Rcat shell redirects (from #433)
 			if (pageText.match(/{{(?:redr|this is a redirect|r(?:edirect)?(?:.?cat.*)?[ _]?sh)/i)) {
 				// Regex inspired by [[User:Kephir/gadgets/sagittarius.js]] ([[Special:PermaLink/831402893]])
@@ -1973,12 +1987,12 @@
 				const pageTags = pageText.match(/\s*{{.+?重定向.*?}}/gim);
 				let oldPageTags = '';
 				if (pageTags) {
-					pageTags.forEach((pageTag) => {
+					for (let pageTag of pageTags) {
 						const pageRe = new RegExp(Morebits.string.escapeRegExp(pageTag), 'img');
 						pageText = pageText.replace(pageRe, '');
 						pageTag = pageTag.trim();
 						oldPageTags += `\n${pageTag}`;
-					});
+					}
 				}
 				pageText += `\n{{Redirect category shell|${tagText}${oldPageTags}\n}}`;
 			}
@@ -2008,7 +2022,7 @@
 			if (params.tags.length) {
 				let tagtext = '';
 				let currentTag;
-				params.tags.forEach((tag) => {
+				for (const tag of params.tags) {
 					// when other commons-related tags are placed, remove "move to Share" tag
 					if (['Keep local', 'Now Qiuwen Share', 'Do not move to Qiuwen Share'].includes(tag)) {
 						text = text.replace(
@@ -2065,7 +2079,7 @@
 					currentTag = `{{${currentTag}}}\n`;
 					tagtext += currentTag;
 					summary += `{{${tag}}}、`;
-				});
+				}
 				if (!tagtext) {
 					pageobj
 						.getStatusElement()
@@ -2092,6 +2106,7 @@
 		// Validation
 		// Given an array of incompatible tags, check if we have two or more selected
 		const checkIncompatible = (conflicts, extra) => {
+			// eslint-disable-next-line unicorn/no-array-reduce
 			const count = conflicts.reduce((sum, tag) => {
 				return (sum += params.tags.includes(tag));
 			}, 0);

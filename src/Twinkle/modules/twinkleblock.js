@@ -307,13 +307,11 @@
 	};
 	Twinkle.block.callback.saveFieldset = (fieldset) => {
 		Twinkle.block[$(fieldset).prop('name')] = {};
-		$(fieldset)
-			.serializeArray()
-			.forEach((el) => {
-				// namespaces and pages for partial blocks are overwritten
-				// here, but we're handling them elsewhere so that's fine
-				Twinkle.block[$(fieldset).prop('name')][el.name] = el.value;
-			});
+		for (const el of $(fieldset).serializeArray()) {
+			// namespaces and pages for partial blocks are overwritten
+			// here, but we're handling them elsewhere so that's fine
+			Twinkle.block[$(fieldset).prop('name')][el.name] = el.value;
+		}
 	};
 	Twinkle.block.callback.change_block64 = (e) => {
 		const $form = $(e.target.form);
@@ -1476,7 +1474,7 @@
 	};
 	Twinkle.block.transformBlockPresets = () => {
 		// Merge custom reason
-		Twinkle.getPref('customBlockReasonList').forEach((item) => {
+		for (const item of Twinkle.getPref('customBlockReasonList')) {
 			const newKey = `${item.value}|${item.label}`;
 			Twinkle.block.blockPresetsInfo[newKey] = {
 				autoblock: true,
@@ -1492,7 +1490,7 @@
 					custom: true,
 				};
 			}
-		});
+		}
 		// supply sensible defaults
 		for (const [preset, settings] of Object.entries(Twinkle.block.blockPresetsInfo)) {
 			settings.summary ||= settings.reason;
@@ -1779,12 +1777,12 @@
 					});
 					// since page restrictions use an ajax source, we
 					// short-circuit that and just add a new option
-					pages.forEach((page) => {
+					for (const page of pages) {
 						if (!$pageSelect.find(`option[value='${$.escapeSelector(page)}']`).length) {
 							const newOption = new Option(page, page, true, true);
 							$pageSelect.append(newOption);
 						}
-					});
+					}
 					$pageSelect
 						.val([...$pageSelect.val(), ...(Array.isArray(pages) ? pages : [pages])])
 						.trigger('change');
@@ -1916,6 +1914,7 @@
 		// Check tags
 		// Given an array of incompatible tags, check if we have two or more selected
 		const checkIncompatible = (conflicts, extra) => {
+			// eslint-disable-next-line unicorn/no-array-reduce
 			const count = conflicts.reduce((sum, tag) => {
 				return (sum += params.tag.includes(tag));
 			}, 0);
@@ -2239,7 +2238,7 @@
 		const statelem = pageobj.getStatusElement();
 		if (params.actiontype.includes('tag')) {
 			const tags = [];
-			params.tag.forEach((tag) => {
+			for (const tag of params.tag) {
 				let tagtext = `{{${tag}`;
 				switch (tag) {
 					case 'Blocked user':
@@ -2267,11 +2266,11 @@
 							type: 'warn',
 							tag: 'twinkleblock',
 						});
-						return;
+						continue;
 				}
 				tagtext += '}}';
 				tags.push(tagtext);
-			});
+			}
 			const text = tags.join('\n');
 			pageobj.setPageText(text);
 			pageobj.setEditSummary(wgULS('标记被永久封禁的用户页', '標記被永久封鎖的使用者頁面'));

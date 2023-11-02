@@ -133,7 +133,7 @@
 			const previous = {};
 			// Save requested page's watched status for later in case needed when filing request
 			Twinkle.protect.watched = page.watchlistexpiry || page.watched === '';
-			page.protection.forEach((protection) => {
+			for (const protection of page.protection) {
 				if (protection.type !== 'aft') {
 					current[protection.type] = {
 						level: protection.level,
@@ -141,7 +141,7 @@
 						cascade: protection.cascade === '',
 					};
 				}
-			});
+			}
 			// Only use the log except unprotect
 			if (protectData.query.logevents.length >= 1 && protectData.query.logevents[0].action !== 'unprotect') {
 				[Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
@@ -149,7 +149,7 @@
 				[, Twinkle.protect.previousProtectionLog] = protectData.query.logevents;
 			}
 			if (Twinkle.protect.previousProtectionLog) {
-				Twinkle.protect.previousProtectionLog.params.details.forEach((protection) => {
+				for (const protection of Twinkle.protect.previousProtectionLog.params.details) {
 					if (protection.type !== 'aft') {
 						previous[protection.type] = {
 							level: protection.level,
@@ -157,7 +157,7 @@
 							cascade: protection.cascade === '',
 						};
 					}
-				});
+				}
 			}
 			// show the protection level and log info
 			Twinkle.protect.hasProtectLog = !!protectData.query.logevents.length;

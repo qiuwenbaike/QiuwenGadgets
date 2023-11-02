@@ -953,7 +953,7 @@
 			if (params.normalizeds.length > 1) {
 				code = '{{delete';
 				params.utparams = {};
-				params.normalizeds.forEach((norm, index) => {
+				for (const [index, norm] of params.normalizeds.entries()) {
 					if (norm !== 'db') {
 						code += `|${norm.toUpperCase()}`;
 					}
@@ -964,7 +964,7 @@
 						}
 					}
 					$.extend(params.utparams, Twinkle.speedy.getUserTalkParameters(norm, parameters));
-				});
+				}
 				code += '}}';
 			} else {
 				parameters = params.templateParams[0] || [];
@@ -1368,11 +1368,11 @@
 				let editsummary;
 				if (params.normalizeds.length > 1) {
 					editsummary = wgULS('请求快速删除（', '請求快速刪除（');
-					params.normalizeds.forEach((norm) => {
+					for (const norm of params.normalizeds) {
 						if (norm !== 'db') {
 							editsummary += `[[QW:CSD#${norm.toUpperCase()}|CSD ${norm.toUpperCase()}]]、`;
 						}
-					});
+					}
 					editsummary = editsummary.slice(0, Math.max(0, editsummary.length - 1)); // remove trailing comma
 					editsummary += '）';
 				} else if (params.normalizeds[0] === 'db') {
@@ -1499,9 +1499,9 @@
 					}}}）`;
 				} else if (params.normalizeds.length > 1) {
 					appendText += '多个理由（';
-					params.normalizeds.forEach((norm) => {
+					for (const norm of params.normalizeds) {
 						appendText += `[[QW:CSD#${norm.toUpperCase()}|${norm.toUpperCase()}]]、`;
-					});
+					}
 					appendText = appendText.slice(0, Math.max(0, appendText.length - 1)); // remove trailing comma
 					appendText += '）';
 				} else if (params.normalizeds[0] === 'db') {
@@ -1529,7 +1529,7 @@
 	// validate subgroups in the form passed into the speedy deletion tag
 	Twinkle.speedy.getParameters = (form, values) => {
 		let parameters = [];
-		values.forEach((value) => {
+		for (const value of values) {
 			const currentParams = [];
 			let redimage;
 			switch (value) {
@@ -1542,7 +1542,8 @@
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							return false;
+							false;
+							continue;
 						}
 						currentParams['1'] = dbrationale;
 					}
@@ -1556,7 +1557,8 @@
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							return false;
+							false;
+							continue;
 						}
 						currentParams.pagename = otherpage;
 					}
@@ -1570,7 +1572,8 @@
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							return false;
+							false;
+							continue;
 						}
 						currentParams.pagename = pagename;
 					}
@@ -1584,7 +1587,8 @@
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							return false;
+							false;
+							continue;
 						}
 						currentParams.filename = redimage.replace(
 							new RegExp(`^\\s*${Morebits.namespaceRegex(6)}:`, 'i'),
@@ -1601,7 +1605,8 @@
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							return false;
+							false;
+							continue;
 						}
 						currentParams['1'] = redirtype;
 					}
@@ -1615,7 +1620,8 @@
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							return false;
+							false;
+							continue;
 						}
 						currentParams['1'] = redirtype;
 					}
@@ -1624,7 +1630,7 @@
 					break;
 			}
 			parameters.push(currentParams);
-		});
+		}
 		return parameters;
 	};
 	// Function for processing talk page notification template parameters
@@ -1667,14 +1673,14 @@
 		// analyse each criterion to determine whether to watch the page, prompt for summary, or open user talk page
 		let watchPage;
 		let promptForSummary;
-		normalizeds.forEach((norm) => {
+		for (const norm of normalizeds) {
 			if (Twinkle.getPref('watchSpeedyPages').includes(norm)) {
 				watchPage = Twinkle.getPref('watchSpeedyExpiry');
 			}
 			if (Twinkle.getPref('promptForSpeedyDeletionSummary').includes(norm)) {
 				promptForSummary = true;
 			}
-		});
+		}
 		const params = {
 			values,
 			normalizeds,
@@ -1703,37 +1709,40 @@
 		}
 		// const multiple = form.multiple.checked;
 		const normalizeds = [];
-		values.forEach((value) => {
+		for (const value of values) {
 			const norm = Twinkle.speedy.normalizeHash[value];
 			normalizeds.push(norm);
-		});
+		}
 		// analyse each criterion to determine whether to watch the page/notify the creator
 		let watchPage = false;
-		normalizeds.forEach((norm) => {
+		for (const norm of normalizeds) {
 			if (Twinkle.getPref('watchSpeedyPages').includes(norm)) {
 				watchPage = Twinkle.getPref('watchSpeedyExpiry');
-				return false; // break
+				false;
+				continue; // break
 			}
-		});
+		}
 
 		let notifyuser = false;
 		if (form.notify.checked) {
-			normalizeds.forEach((norm) => {
+			for (const norm of normalizeds) {
 				if (Twinkle.getPref('notifyUserOnSpeedyDeletionNomination').includes(norm)) {
 					notifyuser = true;
-					return false; // break
+					false;
+					continue; // break
 				}
-			});
+			}
 		}
 
 		let csdlog = false;
 		if (Twinkle.getPref('logSpeedyNominations')) {
-			normalizeds.forEach((norm) => {
+			for (const norm of normalizeds) {
 				if (!Twinkle.getPref('noLogOnSpeedyNomination').includes(norm)) {
 					csdlog = true;
-					return false; // break
+					false;
+					continue; // break
 				}
-			});
+			}
 		}
 
 		const params = {

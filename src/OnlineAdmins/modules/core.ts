@@ -40,9 +40,9 @@ export const onlineAdmins = (): void => {
 				rcend,
 			};
 			const recentchanges = await api.get(recentchangesParams);
-			recentchanges['query'].recentchanges.forEach(({user}: {user: string}): void => {
+			for (const {user} of recentchanges['query'].recentchanges) {
 				users.push(user);
-			});
+			}
 			const logeventsParams: ApiQueryLogEventsParams = {
 				action: 'query',
 				formatversion: '2',
@@ -53,9 +53,9 @@ export const onlineAdmins = (): void => {
 				leend: rcend,
 			};
 			const logevents = await api.get(logeventsParams);
-			logevents['query'].logevents.forEach(({user}: {user: object}): void => {
+			for (const {user} of logevents['query'].logevents) {
 				usersExt.push(user);
-			});
+			}
 			Array.prototype.push.apply(users, usersExt);
 			// 用户名去重与分割
 			users = [...new Set(users)];
@@ -71,7 +71,7 @@ export const onlineAdmins = (): void => {
 						usprop: 'groups',
 					};
 					const response = await api.get(params);
-					response['query'].users.forEach(({groups, name}: {groups: string[]; name: string}): void => {
+					for (const {groups, name} of response['query'].users) {
 						// 找到管理人员，去除adminbot
 						// !!name可用于消除name的空值
 						if (!!name && !groups.includes('bot') && !BLACK_LIST.includes(name)) {
@@ -85,7 +85,7 @@ export const onlineAdmins = (): void => {
 								patrollers.push(name);
 							}
 						}
-					});
+					}
 				});
 			}
 			// 查询用户权限

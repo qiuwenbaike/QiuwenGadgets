@@ -56,14 +56,14 @@ export const codeLinks = (): void => {
 	};
 
 	Array.prototype.forEach.call(document.querySelectorAll('.mw-highlight'), (codeBlock: HTMLElement): void => {
-		['c', 'c1', 'cm'].forEach((commentClass: string): void => {
+		for (const commentClass of ['c', 'c1', 'cm']) {
 			Array.prototype.forEach.call(
 				codeBlock.querySelectorAll(`.${commentClass}`),
 				(element: HTMLElement): void => {
 					processComment(element);
 				}
 			);
-		});
+		}
 	});
 
 	// Link module names after `require` and `mw.loadData`, and tracking template
@@ -197,11 +197,16 @@ export const codeLinks = (): void => {
 			if (!stringValue) {
 				return;
 			}
+			// eslint-disable-next-line unicorn/prefer-string-slice
 			const moduleName: string = stringValue.substring(1, stringValue.length - 1);
 			const linkPage: string = /^(module|模[组組块])?:/i.test(moduleName) ? moduleName : `Help:Lua#${moduleName}`;
 			addLink(module, linkPage);
 		};
-		moduleNames.forEach(addLinkCallback);
-		dataModuleNames.forEach(addLinkCallback);
+		for (const module of moduleNames) {
+			addLinkCallback(module);
+		}
+		for (const dataModule of dataModuleNames) {
+			addLinkCallback(dataModule);
+		}
 	}
 };

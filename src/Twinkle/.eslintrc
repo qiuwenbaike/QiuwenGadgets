@@ -16,9 +16,6 @@
 		"no-script-url": "off",
 		"no-shadow": "off",
 		"no-useless-concat": "off",
-		"prefer-template": "off",
-		"unicorn/no-array-reduce": "off",
-		"unicorn/no-array-for-each": "off",
 		"unicorn/prefer-dom-node-append": "off",
 		"unicorn/prefer-dom-node-remove": "off",
 		"unicorn/prefer-modern-dom-apis": "off"
