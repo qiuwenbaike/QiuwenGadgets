@@ -1,3 +1,4 @@
+/* eslint-disable mediawiki/msg-doc */
 import {
 	API_ENTRY_POINT,
 	API_TAG,
