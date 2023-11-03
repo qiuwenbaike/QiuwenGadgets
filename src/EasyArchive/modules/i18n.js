@@ -45,27 +45,6 @@ export const easy_archive_lang = () => {
 		'zh-hant':
 			'<div>您的賬號已經支持 Easy Archive，但是，為了開始使用該功能，您還需要在自己的用戶討論頁面上添加模板 {{Easy Archive|to=存檔位置}}。</div>',
 	});
-	window.easy_archive.lang.arc_all = localize({
-		en: 'Archive all topics',
-		'zh-hans': '存档全部讨论',
-		'zh-hant': '全部討論存檔',
-	});
-	window.easy_archive.lang.arc_old_percent = localize({
-		en: 'Archive oldest ${1}',
-		'zh-hans': '存档最旧${1}',
-		'zh-hant': '存檔最舊${1}',
-	});
-	window.easy_archive.lang.arc_old = localize({
-		en: 'Archive oldest ${1} topic${2}',
-		// ${2} = 's' if plural
-		'zh-hans': '存档最旧${1}个',
-		'zh-hant': '存檔最舊${1}個',
-	});
-	window.easy_archive.lang.arc_all_but = localize({
-		en: 'Archive all but ${1} topic${2}', // ${2} = 's' if plural
-		'zh-hans': '只留下${1}个最新',
-		'zh-hant': '只留最新${1}個',
-	});
 	window.easy_archive.lang.stop_using = localize({
 		en: 'Turn off',
 		'zh-hans': '停用',
@@ -99,24 +78,24 @@ export const easy_archive_lang = () => {
 			'<div>經過嘗試，無法自動停用 Easy Archive。請手動停用。</div><div>請從本頁刪除以下模板︰{{Easy Archive|to=存檔位置}}。</div>',
 	});
 	window.easy_archive.lang.loading_section_i = localize({
-		en: '<div>Loading section ${1}</div>',
-		'zh-hans': '<div>正在读取第 ${1} 节的内容</div>',
-		'zh-hant': '<div>正在讀取第 ${1} 節的內容</div>',
+		en: '<div>Loading section $1</div>',
+		'zh-hans': '<div>正在读取第 $1 节的内容</div>',
+		'zh-hant': '<div>正在讀取第 $1 節的內容</div>',
 	});
 	window.easy_archive.lang.deleting_section_i = localize({
-		en: '<div>Deleting section ${1}</div>',
-		'zh-hans': '<div>正在删除第 ${1} 节的内容</div>',
-		'zh-hant': '<div>正在刪除第 ${1} 節的內容</div>',
+		en: '<div>Deleting section $1</div>',
+		'zh-hans': '<div>正在删除第 $1 节的内容</div>',
+		'zh-hant': '<div>正在刪除第 $1 節的內容</div>',
 	});
 	window.easy_archive.lang.done_section_i = localize({
-		en: '<div>Section ${1} has been archived to ${2}</div>',
-		'zh-hans': '<div>已经将第 ${1} 节存档到 ${2}</div>',
-		'zh-hant': '<div>已經將第 ${1} 節存檔到 ${2}</div>',
+		en: '<div>Section $1 has been archived to $2</div>',
+		'zh-hans': '<div>已经将第 $1 节存档到 $2</div>',
+		'zh-hant': '<div>已經將第 $1 節存檔到 $2</div>',
 	});
 	window.easy_archive.lang.done_deleting_section_i = localize({
-		en: '<div>Section ${1} has been deleted</div>',
-		'zh-hans': '<div>已经将第 ${1} 节删除</div>',
-		'zh-hant': '<div>已經將第 ${1} 節刪除</div>',
+		en: '<div>Section $1 has been deleted</div>',
+		'zh-hans': '<div>已经将第 $1 节删除</div>',
+		'zh-hant': '<div>已經將第 $1 節刪除</div>',
 	});
 	window.easy_archive.lang.being_archived = localize({
 		en: 'being archived',
@@ -165,22 +144,17 @@ export const easy_archive_lang = () => {
 		'zh-hans': '<div>已在此页面停用 Easy Archive。</div>',
 		'zh-hant': '<div>已在此頁面停用 Easy Archive。</div>',
 	});
-	window.easy_archive.lang.clickable_questionmark_split_before = localize({
-		en: " (<a href='${1}'>?</a>)",
-		'zh-hans': "（<a href='${1}'>？</a>）",
-		'zh-hant': "（<a href='${1}'>？</a>）",
-	});
 	window.easy_archive.lang.problem_with_archive_location_main_space = localize({
-		en: '<div>Currently the archive location of this page, "${1}", is under the article namespace, where archives should not be normally directed to. </div><div>Please check if you have the correct archive location.</div>',
+		en: '<div>Currently the archive location of this page, "$1", is under the article namespace, where archives should not be normally directed to. </div><div>Please check if you have the correct archive location.</div>',
 		'zh-hans':
-			'<div>此页面目前的存档地址是“${1}”，在条目名称空间之下。</div><div>一般而言不应向条目名称空间进行存档，请检查存档地址。</div>',
+			'<div>此页面目前的存档地址是“$1”，在条目名称空间之下。</div><div>一般而言不应向条目名称空间进行存档，请检查存档地址。</div>',
 		'zh-hant':
-			'<div>此頁面當前的存檔地址是「${1}」，在條目名稱空間之下。</div><div>一般而言不應向條目名稱空間進行存檔，請檢查存檔地址。</div>',
+			'<div>此頁面當前的存檔地址是「$1」，在條目名稱空間之下。</div><div>一般而言不應向條目名稱空間進行存檔，請檢查存檔地址。</div>',
 	});
 	window.easy_archive.lang.problem_with_archive_location_same_page = localize({
-		en: '<div>Currently the archive location of this page, "${1}", is this page itself, Easy archive cannot operate like this. </div>',
-		'zh-hans': '<div>此页面目前的存档地址是“${1}”，和此页面名称相同。Easy Archive 无法按此地址存档。</div>',
-		'zh-hant': '<div>此頁面當前的存檔地址是「${1}」，和此頁面名稱相同。Easy Archive 無法按此地址存檔。</div>',
+		en: '<div>Currently the archive location of this page, "$1", is this page itself, Easy archive cannot operate like this. </div>',
+		'zh-hans': '<div>此页面目前的存档地址是“$1”，和此页面名称相同。Easy Archive 无法按此地址存档。</div>',
+		'zh-hant': '<div>此頁面當前的存檔地址是「$1」，和此頁面名稱相同。Easy Archive 無法按此地址存檔。</div>',
 	});
 	window.easy_archive.lang.archive_summary = localize({
 		en: 'archive section',
