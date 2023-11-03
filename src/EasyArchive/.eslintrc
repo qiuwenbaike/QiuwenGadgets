@@ -1,7 +1,5 @@
 {
 	"rules": {
-		"camelcase": "off",
-		"@typescript-eslint/no-unused-vars": "off",
-		"no-template-curly-in-string": "off"
+		"camelcase": "off"
 	}
 }

@@ -266,7 +266,7 @@ import {easy_archive_lang} from './modules/i18n';
 		try {
 			let content = window.easy_archive.lang[tag];
 			for (let has_unfulfilled_para = true, _i = 0; has_unfulfilled_para; _i++) {
-				const search = `\${${_i + 1}}`;
+				const search = `$${_i + 1}`;
 				if (content.includes(search)) {
 					content = para_list[_i]
 						? content.split(search).join(para_list[_i])
