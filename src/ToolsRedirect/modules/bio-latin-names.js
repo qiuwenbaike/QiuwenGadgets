@@ -11,7 +11,7 @@ export const toolsRedirect_bio_latin_names = () => {
 				previousNode = previousNode.previousSibling;
 			}
 			if (previousNode && prefixRegex.test(previousNode.textContent)) {
-				title = $(element).trim();
+				title = $(element).text().trim();
 				titles.push(title);
 				toolsRedirect.setRedirectTextSuffix(title, '\n{{学名重定向}}');
 			}

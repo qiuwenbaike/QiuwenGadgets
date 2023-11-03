@@ -42,7 +42,7 @@ export const fixSummary = (): void => {
 		if (!$('#wpReason').length) {
 			return;
 		}
-		const autoSummaryRegExp = /(内容为|page was empty|content before blanking was)/i;
+		const autoSummaryRegExp = /(内容|page was empty|content before blanking was)/i;
 		if (autoSummaryRegExp.test(String($('#wpReason').val()))) {
 			$('#wpReason').val('');
 		}
