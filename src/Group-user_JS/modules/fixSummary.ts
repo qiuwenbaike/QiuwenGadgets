@@ -38,7 +38,13 @@ export const fixSummary = (): void => {
 	}
 
 	// Delete screen
-	if ($('body.action-delete').length > 0) {
-		$('#wpReason').val('');
+	if (mw.config.get('wgAction') === 'delete') {
+		if (!$('#wpReason').length) {
+			return;
+		}
+		const autoSummaryRegExp = /(内容为|page was empty|content before blanking was)/i;
+		if (autoSummaryRegExp.test(String($('#wpReason').val()))) {
+			$('#wpReason').val('');
+		}
 	}
 };
