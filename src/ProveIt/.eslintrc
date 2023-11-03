@@ -1,7 +1,6 @@
 {
 	"rules": {
-		"mediawiki/msg-doc": "off",
-		"unicorn/prefer-string-slice": "off"
+		"mediawiki/msg-doc": "off"
 	},
 	"globals": {
 		"ProveIt": "writable",

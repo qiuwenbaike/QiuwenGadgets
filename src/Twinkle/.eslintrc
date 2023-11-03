@@ -15,6 +15,7 @@
 		"new-cap": "off",
 		"no-script-url": "off",
 		"no-shadow": "off",
+		"unicorn/no-array-reduce": "off",
 		"unicorn/prefer-dom-node-append": "off",
 		"unicorn/prefer-dom-node-remove": "off",
 		"unicorn/prefer-modern-dom-apis": "off"

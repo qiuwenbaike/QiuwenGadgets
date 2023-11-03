@@ -1385,23 +1385,23 @@
 			}
 			for (let i = 0; i < str.length; ++i) {
 				for (const element of skiplist) {
-					if (str.substr(i, element.length) === element) {
+					if (str.slice(i, i + element.length) === element) {
 						i += element.length - 1;
 						continue;
 					}
 				}
-				if (str.substr(i, start.length) === start) {
+				if (str.slice(i, i + start.length) === start) {
 					if (initial === null) {
 						initial = i;
 					}
 					++level;
 					i += start.length - 1;
-				} else if (str.substr(i, end.length) === end) {
+				} else if (str.slice(i, i + end.length) === end) {
 					--level;
 					i += end.length - 1;
 				}
 				if (!level && initial !== null) {
-					result.push(str.substring(initial, i + 1));
+					result.push(str.slice(initial, i + 1));
 					initial = null;
 				}
 			}
@@ -4610,7 +4610,7 @@
 			} else if (equals === -1) {
 				// In a parameter
 				// No equals, so it must be unnamed; no trim since whitespace allowed
-				const param = final ? current.substring(equals + 1, current.length - 2) : current;
+				const param = final ? current.slice(equals + 1, -2) : current;
 				if (param) {
 					result.parameters[++unnamed] = param;
 					++count;
@@ -4618,15 +4618,13 @@
 			} else {
 				// We found an equals, so save the parameter as key: value
 				key = current.slice(0, Math.max(0, equals)).trim();
-				value = final
-					? current.substring(equals + 1, current.length - 2).trim()
-					: current.slice(Math.max(0, equals + 1)).trim();
+				value = final ? current.slice(equals + 1, -2).trim() : current.slice(Math.max(0, equals + 1)).trim();
 				result.parameters[key] = value;
 				equals = -1;
 			}
 		};
 		for (let i = start; i < text.length; ++i) {
-			const test3 = text.substr(i, 3);
+			const test3 = text.slice(i, i + 3);
 			if (test3 === '{{{' || (test3 === '}}}' && level[level.length - 1] === 3)) {
 				current += test3;
 				i += 2;
@@ -4637,7 +4635,7 @@
 				}
 				continue;
 			}
-			const test2 = text.substr(i, 2);
+			const test2 = text.slice(i, i + 2);
 			// Entering a template (or link)
 			if (test2 === '{{' || test2 === '[[') {
 				current += test2;

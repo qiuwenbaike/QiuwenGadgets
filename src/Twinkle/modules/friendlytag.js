@@ -2106,7 +2106,6 @@
 		// Validation
 		// Given an array of incompatible tags, check if we have two or more selected
 		const checkIncompatible = (conflicts, extra) => {
-			// eslint-disable-next-line unicorn/no-array-reduce
 			const count = conflicts.reduce((sum, tag) => {
 				return (sum += params.tags.includes(tag));
 			}, 0);

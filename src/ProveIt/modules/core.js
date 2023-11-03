@@ -819,7 +819,7 @@ export const ProveIt = {
 						break;
 					}
 				}
-				templateWikitext = wikitext.substring(templateStart, templateEnd);
+				templateWikitext = wikitext.slice(templateStart, templateEnd);
 				template = new ProveIt.Template(templateWikitext);
 				templates.push(template);
 			}
@@ -1155,7 +1155,7 @@ export const ProveIt = {
 			// Remove the outer braces and split by pipe
 			// knowing that we may match pipes inside complex titles, wikilinks or subtemplates, like so:
 			// {{Cite book |title=Some|Title |author=[[Foo|Bar]] |year={{AD|123}} }}
-			const paramArray = this.wikitext.substring(2, this.wikitext.length - 2).split('|');
+			const paramArray = this.wikitext.slice(2, -2).split('|');
 			// Drop the template name
 			paramArray.shift();
 			let paramString;
