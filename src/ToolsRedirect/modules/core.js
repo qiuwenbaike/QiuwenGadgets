@@ -211,7 +211,7 @@ export const ToolsRedirect = {
 			})
 		).then(({query}) => {
 			const deferreds = [];
-			for (const [_index, {title}] of Object.entries(query.pages)) {
+			for (const [, {title}] of Object.entries(query.pages)) {
 				deferreds.push(
 					$.ajax(
 						self.buildQuery({
@@ -244,7 +244,7 @@ export const ToolsRedirect = {
 			})
 		).then((data) => {
 			const deferreds = [];
-			for (const [_index, page] of Object.entries(data.query.pages)) {
+			for (const [, page] of Object.entries(data.query.pages)) {
 				const content = page.revisions[0]['*'];
 				const newContent = content.replace(regex, text);
 				deferreds.push(
@@ -424,49 +424,50 @@ export const ToolsRedirect = {
 			let has_redirect = false;
 			const desc = $('p.desc', self.tabs.view.cont);
 			const maximumRedirectDepth = mw.config.get('toolsRedirectMaximumRedirectDepth', 10);
-			for (const [_index, page] of Object.entries(query.pages)) {
-				if (!('redirects' in page)) {
-					return;
-				}
-				const {redirects} = page;
-				for (const [__index, {title}] of Object.entries(redirects)) {
-					const rdtitle = title;
-					const ultitle = rdtitle.replace(/ /g, '_');
-					const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
-					const methods = [
-						{
-							href: mw.util.getUrl(ultitle, {action: 'edit'}),
-							title: ToolsRedirect.msg('rediedit'),
-						},
-					];
-					const isCycleRedirect = rdtitle in loaded;
-					loaded[rdtitle] = true;
-					if (!isCycleRedirect && deep) {
-						methods.push({
-							href: '#fix-redirect',
-							title: ToolsRedirect.msg('tabviewfix'),
-							click: onClickFix,
-						});
-					}
-					const $container = self
-						.buildSelection(
+			for (const [, page] of Object.entries(query.pages)) {
+				if ('redirects' in page) {
+					const {redirects} = page;
+					for (const [, {title}] of Object.entries(redirects)) {
+						const rdtitle = title;
+						const ultitle = rdtitle.replace(/ /g, '_');
+						const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
+						const methods = [
 							{
-								href: mw.util.getUrl(ultitle, {redirect: 'no'}),
-								title: rdtitle,
+								href: mw.util.getUrl(ultitle, {action: 'edit'}),
+								title: ToolsRedirect.msg('rediedit'),
 							},
-							methods,
-							ultitle,
-							!deep
-						)
-						.appendTo(entry);
-					if (isCycleRedirect) {
-						$container.append(`<span class="error">${ToolsRedirect.msg('errcycleredirect')}</span>`);
-					} else if (deep < maximumRedirectDepth) {
-						deferObj.done(() => {
-							return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
-						});
+						];
+						const isCycleRedirect = rdtitle in loaded;
+						loaded[rdtitle] = true;
+						if (!isCycleRedirect && deep) {
+							methods.push({
+								href: '#fix-redirect',
+								title: ToolsRedirect.msg('tabviewfix'),
+								click: onClickFix,
+							});
+						}
+						const $container = self
+							.buildSelection(
+								{
+									href: mw.util.getUrl(ultitle, {redirect: 'no'}),
+									title: rdtitle,
+								},
+								methods,
+								ultitle,
+								!deep
+							)
+							.appendTo(entry);
+						if (isCycleRedirect) {
+							$container.append(`<span class="error">${ToolsRedirect.msg('errcycleredirect')}</span>`);
+						} else if (deep < maximumRedirectDepth) {
+							deferObj.done(() => {
+								return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
+							});
+						}
+						has_redirect = true;
 					}
-					has_redirect = true;
+				} else {
+					has_redirect = false;
 				}
 			}
 			if (has_redirect && deep === 1) {
@@ -514,7 +515,7 @@ export const ToolsRedirect = {
 			'zh-hans': true,
 			'zh-hant': true,
 		};
-		for (const [_index, variant] of Object.entries(this.variants)) {
+		for (const [, variant] of Object.entries(this.variants)) {
 			let xhr = $.ajax(
 				self.buildQuery({
 					action: 'parse',
