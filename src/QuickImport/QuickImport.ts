@@ -61,7 +61,7 @@ const quickImport = async (): Promise<void> => {
 			titles: pageName,
 		};
 		const data = await api.get(params);
-		for (const [_pageid, pageinfo] of Object.entries(data['query'].pages)) {
+		for (const [, pageinfo] of Object.entries(data['query'].pages)) {
 			if ((pageinfo as Record<string, never>)['missing'] === '') {
 				await importPage(pageName);
 				const params2: ApiQueryParams = {
@@ -70,8 +70,7 @@ const quickImport = async (): Promise<void> => {
 					titles: pageName,
 				};
 				const result = await api.get(params2);
-				for (const pageItem of Object.entries(result['query'].pages)) {
-					const [_id, info] = pageItem;
+				for (const [, info] of Object.entries(result['query'].pages)) {
 					if ((info as Record<string, never>)['redirect'] === '') {
 						continue;
 					}
@@ -84,8 +83,7 @@ const quickImport = async (): Promise<void> => {
 					titles: pageName,
 				};
 				const result = await api.get(params3);
-				for (const pageItem of Object.entries(result['query'].pages)) {
-					const [_id, info] = pageItem;
+				for (const [, info] of Object.entries(result['query'].pages)) {
 					if ((info as Record<string, never>)['redirect'] === '') {
 						continue;
 					}

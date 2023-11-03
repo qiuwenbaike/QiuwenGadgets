@@ -5,7 +5,7 @@ const switcherJS = () => {
 		let $radio: JQuery<Element> | undefined;
 		const switchers: Element[] = [];
 		const radioName = `switcher-${index}`;
-		for (const [_index, switcher] of [...container.children].entries()) {
+		for (const [, switcher] of [...container.children].entries()) {
 			const label = switcher.querySelector('.switcher-label');
 			if (!label || label.childNodes.length === 0) {
 				continue;

@@ -58,7 +58,7 @@ export const enhancedSpecialSearch = (): void => {
 		}
 		targetElement.setAttribute('style', 'display:flex;flex-wrap:wrap;align-items:center');
 		const selectElement: HTMLSelectElement = createSelect();
-		for (const [_index, optionData] of Object.entries(_config)) {
+		for (const [, optionData] of Object.entries(_config)) {
 			selectElement.append(createOption(optionData));
 		}
 		targetElement.append(selectElement);
