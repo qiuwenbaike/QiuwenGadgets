@@ -425,7 +425,7 @@ export const ToolsRedirect = {
 			const desc = $('p.desc', self.tabs.view.cont);
 			const maximumRedirectDepth = mw.config.get('toolsRedirectMaximumRedirectDepth', 10);
 			for (const [_index, page] of Object.entries(query.pages)) {
-				if (!page.redirects) {
+				if (!('redirects' in page)) {
 					return;
 				}
 				const {redirects} = page;
