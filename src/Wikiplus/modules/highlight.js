@@ -1,5 +1,6 @@
-export const WikiplusHighlight = (async () => {
-	/*! Wikiplus-highlight | Bhsd, 机智的小鱼君 | GPL-3.0 <qwbk.cc/H:GPL-3.0> */ 'use strict';
+(async () => {
+	/*! Wikiplus-highlight | Bhsd, 机智的小鱼君 | GPL-3.0 <qwbk.cc/H:GPL-3.0> */
+	'use strict';
 	if (mw.libs.wphl && mw.libs.wphl.version) return;
 	mw.libs.wphl = mw.libs.wphl || {};
 	const i = '2.59.6',
