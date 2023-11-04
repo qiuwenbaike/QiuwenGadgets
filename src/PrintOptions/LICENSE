@@ -1,11 +1,10 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/PrintOptions|license=CC-BY-SA-4.0}}'
  *
  * @base <https://en.wikipedia.org/wiki/MediaWiki:Gadget-PrintOptions.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/PrintOptions>
  * @author Derk-Jan Hartman, English Wikipedia Contributors and Qiuwen Baike Contributors.
- * @dependency ext.gadget.i18n, mediawiki.util, oojs-ui-core, oojs-ui-widgets, oojs-ui-windows
  */
 
 /**

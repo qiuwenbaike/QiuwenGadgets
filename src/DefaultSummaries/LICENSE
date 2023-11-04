@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/DefaultSummaries|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/DefaultSummaries|license=CC-BY-SA-4.0}}'
  *
  * @base <https://en.wikipedia.org/wiki/MediaWiki:Gadget-defaultsummaries.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/DefaultSummaries>
