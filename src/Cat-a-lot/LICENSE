@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title1=Cat-a-lot.js|url1=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/core.ts|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title1=Cat-a-lot.js|license=CC-BY-SA-4.0|url1=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/core.ts}}'
  *
  * @title Cat-a-lot
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js>
@@ -10,7 +10,7 @@
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title2=Cat-a-lot.css|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/Cat-a-lot.less|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title2=Cat-a-lot.css|license=CC-BY-SA-4.0|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/Cat-a-lot.less}}'
  *
  * @title Cat-a-lot.css
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.css>
@@ -19,7 +19,7 @@
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=Cat-a-lot Messages|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/messages.ts|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title3=Cat-a-lot Messages|license=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/messages.ts}}'
  *
  * @title Cat-a-lot messages
  * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js/zh-hans>
@@ -28,7 +28,7 @@
  */
 /**
  * SPDX-License-Identifier: GPLv2
- * _addText: '{{Gadget Header|title4=jQuery checkboxShiftClick|url4=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/checkbox.ts|license=GPLv2}}'
+ * _addText: '{{Gadget Header|title4=jQuery checkboxShiftClick|license=GPLv2|url4=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/checkbox.ts}}'
  *
  * This will enable checkboxes to be checked or unchecked in a row by clicking one, holding shift and clicking another one
  *

@@ -1,12 +1,12 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title=GeoLocationReader|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title=GeoLocationReader|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/}}'
  *
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader>
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|titile2=GeoLocationReader.less|url2=https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|titile2=GeoLocationReader.less|license=CC-BY-SA-4.0|url2=https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css}}'
  *
  * @base <https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/GeoLocationReader.less>
