@@ -250,7 +250,7 @@
 					name: 'pages',
 					id: 'tw-dbatch-pages',
 					shiftClickSupport: true,
-					list: Twinkle.batchdelete.pages.map((e) => {
+					list: Object.entries(Twinkle.batchdelete.pages).map((e) => {
 						return e;
 					}),
 				});
@@ -295,7 +295,7 @@
 			name: 'pages',
 			id: 'tw-dbatch-pages',
 			shiftClickSupport: true,
-			list: Twinkle.batchdelete.pages.map((e) => {
+			list: Object.entries(Twinkle.batchdelete.pages).map((e) => {
 				return e;
 			}),
 		}).render();
@@ -409,7 +409,7 @@
 			const loadingText = `<strong id="dbatch-subpage-loading">${wgULS('加载中...', '載入中...')}</strong>`;
 			$(e.target).after(loadingText);
 			const pages = $(form.pages)
-				.map((i, el) => {
+				.map((_i, el) => {
 					return el.value;
 				})
 				.get();
