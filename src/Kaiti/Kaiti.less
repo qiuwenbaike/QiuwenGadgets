@@ -1,0 +1,16 @@
+@import '../variables.less';
+
+em,
+i {
+	&:lang(zh) {
+		font-style: normal;
+	}
+
+	&:lang(zh-hans) {
+		font-family: @cursive-hant, @serif-hans, cursive, serif, @emoji-font;
+	}
+
+	&:lang(zh-hant) {
+		font-family: @cursive-hant, @serif-hant, cursive, serif, @emoji-font;
+	}
+}
