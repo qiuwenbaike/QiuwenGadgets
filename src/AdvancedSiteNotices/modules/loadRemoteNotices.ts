@@ -1,4 +1,4 @@
-import {RemoteNotices, queryApi} from './util/queryApi';
+import {type RemoteNotices, queryApi} from './util/queryApi';
 
 const loadRemoteNotices = async (): Promise<RemoteNotices> => {
 	const response: Awaited<ReturnType<typeof queryApi>> = await queryApi();
