@@ -21,9 +21,6 @@ import {forcePreview} from './modules/forcePreview';
  */
 
 ((): void => {
-	if (!['edit', 'submit'].includes(mw.config.get('wgAction'))) {
-		return;
-	}
 	// 编辑工具栏
 	$(editToolbar);
 	// 在提交新段落时，让主题栏在特定情况下失效
