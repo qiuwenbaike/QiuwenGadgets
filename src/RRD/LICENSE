@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/RRD|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/RRD|license=CC-BY-SA-4.0}}'
  *
  * @base <https://zh.wikipedia.org/wiki/User:WhitePhosphorus/js/rrd.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/RRD>

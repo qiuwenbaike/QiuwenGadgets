@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title=HotCat|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HotCat|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title=HotCat|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HotCat|license=CC-BY-SA-4.0}}'
  *
  * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-HotCat.js>
  * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-HotCat.js/zh-hans>
@@ -9,7 +9,7 @@
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title=CheckCategories HotCat Extension|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HotCat/HotCat-check.js|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title=CheckCategories HotCat Extension|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HotCat/HotCat-check.js|license=CC-BY-SA-4.0}}'
  *
  * @base <https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Hotcatcheck.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HotCat/HotCat-check.js>

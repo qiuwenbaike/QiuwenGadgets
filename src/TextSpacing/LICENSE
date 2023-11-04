@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: BSD-3-Clause
- * _addText: '{{Gadget Header|license=BSD}}'
+ * _addText: '{{Gadget Header|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/TextSpacing|license=BSD}}'
  *
  * @base <https://github.com/diskdance/gadget-text-spacing>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/TextSpacing>

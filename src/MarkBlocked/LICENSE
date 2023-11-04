@@ -1,7 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/MarkBlocked|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/MarkBlocked|license=CC-BY-SA-4.0}}'
  *
  * @base <https://en.wikipedia.org/wiki/MediaWiki:Gadget-markblocked.js>
- * @dependency ext.gadget.i18n, mediawiki.util
  */

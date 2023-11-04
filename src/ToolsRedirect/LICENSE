@@ -1,11 +1,10 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title=ToolsRedirect|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title=ToolsRedirect|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/|license=CC-BY-SA-4.0}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ToolsRedirect.js>
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ToolsRedirect.css>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect>
- * @dependency ext.gadget.i18n, mediawiki.jqueryMsg, jquery.ui
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
