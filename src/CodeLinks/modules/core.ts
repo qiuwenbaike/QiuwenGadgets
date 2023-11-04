@@ -1,70 +1,14 @@
-export const codeLinks = (): void => {
-	/**
-	 * @source <https://daringfireball.net/2010/07/improved_regex_for_matching_urls>
-	 * @author John Gruber
-	 */
-	const urlRegExp =
-		/\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()[\]{};:'".,<>?«»“”‘’]))/i;
+import {addLink} from './addLink';
+import {processComment} from './processComment';
 
-	const processComment = (node: Node): void => {
-		const textNode: ChildNode | null = node.firstChild; // always a text node.
-		if (!textNode) {
-			return;
-		}
-		const {textContent} = textNode;
-		if (!textContent) {
-			return;
-		}
-		let wikilinkMatch: RegExpExecArray | null = /\[\[([^|{}[\]\n]+)?(?:\|.*?)?]]/.exec(textContent);
-		let templateMatch: RegExpExecArray | null = /(\{\{(?:#invoke:)?)([^|{}[\]\n#]+)(?=\||}})/i.exec(textContent);
-		let urlMatch: RegExpExecArray | null = urlRegExp.exec(textContent);
-		while (wikilinkMatch || templateMatch || urlMatch) {
-			const link: HTMLAnchorElement = document.createElement('a');
-			let start: number = (wikilinkMatch || templateMatch || urlMatch)?.index ?? 0;
-			let linkText = '';
-			link.classList.add('code-link');
-			if (urlMatch) {
-				const [url] = urlMatch;
-				link.href = url;
-				linkText = url;
-			} else {
-				let fullPageName = '';
-				if (wikilinkMatch) {
-					[linkText] = wikilinkMatch;
-					fullPageName = wikilinkMatch[1] as string;
-				} else if (templateMatch) {
-					const prefix: string = templateMatch[1] as string;
-					const pageName: string = templateMatch[2] as string;
-					linkText = pageName;
-					fullPageName = (prefix === '{{#invoke:' ? 'Module:' : 'Template:') + pageName;
-					link.title = fullPageName;
-					start += prefix.length;
-				}
-				link.href = mw.util.getUrl(fullPageName);
-			}
-			const beforeLink: string = textContent.slice(0, Math.max(0, start));
-			const afterLink: string = textContent.slice(Math.max(0, start + linkText.length));
-			textNode.textContent = afterLink;
-			link.append(document.createTextNode(linkText));
-			textNode.before(link);
-			node.insertBefore(document.createTextNode(beforeLink), link);
-			// ensure all matches are null at beginning of loop body; is this necessary?
-			urlMatch = null;
-			templateMatch = null;
-			wikilinkMatch = null;
-		}
-	};
-
-	Array.prototype.forEach.call(document.querySelectorAll('.mw-highlight'), (codeBlock: HTMLElement): void => {
+const codeLinks = (): void => {
+	for (const codeBlock of document.querySelectorAll('.mw-highlight')) {
 		for (const commentClass of ['c', 'c1', 'cm']) {
-			Array.prototype.forEach.call(
-				codeBlock.querySelectorAll(`.${commentClass}`),
-				(element: HTMLElement): void => {
-					processComment(element);
-				}
-			);
+			for (const comment of codeBlock.querySelectorAll(`.${commentClass}`)) {
+				processComment(comment);
+			}
 		}
-	});
+	}
 
 	// Link module names after `require` and `mw.loadData`, and tracking template
 	// names after `require("Module:debug").track`.
@@ -80,132 +24,126 @@ export const codeLinks = (): void => {
 		doubleQuoteString: 's2',
 	};
 
-	const moduleNames: Element[] = [];
-	Array.prototype.forEach.call(
-		document.querySelectorAll(`.${classes.functionName}`),
-		(functionName: HTMLElement): void => {
-			const text: string | null | undefined = functionName.firstChild?.nodeValue;
-			if (text !== 'require') {
-				return;
-			}
-			let next: Element | null = functionName.nextElementSibling;
-			if (!next) {
-				return;
-			}
-			let nextText: string | null = next.firstChild && next.firstChild.nodeValue;
-			const hasParenthesis: boolean = nextText === '(';
-			if (hasParenthesis) {
-				next = next.nextElementSibling;
-				if (!next) {
-					return;
-				}
-				nextText = next.firstChild && next.firstChild.nodeValue;
-			}
-			const {classList} = next;
-			if (!(classList.contains(classes.singleQuoteString) || classList.contains(classes.doubleQuoteString))) {
-				return;
-			}
-			const element: Element = next;
-			const elementValue: string | null = nextText;
-			if (!elementValue) {
-				return;
-			}
-			next = next.nextElementSibling;
-			if (!next) {
-				return;
-			}
-			nextText = next.firstChild && next.firstChild.nodeValue;
-			if (hasParenthesis && nextText?.[0] !== ')') {
-				return;
-			}
-			moduleNames.push(element);
+	const moduleNameElementArray: Element[] = [];
+	for (const functionNameElement of document.querySelectorAll(`.${classes.functionName}`)) {
+		const text: string | null | undefined = functionNameElement.firstChild?.nodeValue;
+		if (text !== 'require') {
+			continue;
 		}
-	);
 
-	const dataModuleNames: Element[] = [];
-	const callback = (element: HTMLElement): void => {
-		if (moduleNames.includes(element)) {
-			return;
+		let nextElement: Element | null = functionNameElement.nextElementSibling;
+		if (!nextElement) {
+			continue;
 		}
-		const stringValue: string | null | undefined = element.firstChild?.nodeValue;
-		if (!stringValue || !/^["'](?:module|模[组組块]):/i.test(stringValue)) {
-			return;
-		}
-		let prev: Element | null = element.previousElementSibling;
-		if (!prev) {
-			return;
-		}
-		let prevText: string | null = prev.firstChild && prev.firstChild.nodeValue;
-		if (prevText === '(') {
-			const next: Element | null = element.nextElementSibling;
-			if (!next) {
-				return;
-			}
-			const nextText: string | null = next.firstChild && next.firstChild.nodeValue;
-			if (nextText?.[0] !== ')') {
-				return;
-			}
-			prev = prev.previousElementSibling;
-			if (!prev) {
-				return;
-			}
-			prevText = prev.firstChild && prev.firstChild.nodeValue;
-		}
-		if (prevText !== 'loadData') {
-			return;
-		}
-		prev = prev.previousElementSibling;
-		if (!prev) {
-			return;
-		}
-		prevText = prev.firstChild && prev.firstChild.nodeValue;
-		if (prevText !== '.') {
-			return;
-		}
-		prev = prev.previousElementSibling;
-		if (!prev) {
-			return;
-		}
-		prevText = prev.firstChild && prev.firstChild.nodeValue;
-		if (prevText !== 'mw') {
-			return;
-		}
-		dataModuleNames.push(element);
-	};
-	Array.prototype.forEach.call(document.querySelectorAll(`.${classes.singleQuoteString}`), callback);
-	Array.prototype.forEach.call(document.querySelectorAll(`.${classes.doubleQuoteString}`), callback);
 
-	if (moduleNames.length || dataModuleNames.length) {
-		const addLink = (element: Element, page: string): void => {
-			if (!(element instanceof Element)) {
-				throw new TypeError('Expected Element object');
+		let nextElementFirstValue: string | null | undefined = nextElement.firstChild?.nodeValue;
+		const hasParenthesis: boolean = nextElementFirstValue === '(';
+		if (hasParenthesis) {
+			nextElement = nextElement.nextElementSibling;
+			if (!nextElement) {
+				continue;
 			}
-			const link: HTMLAnchorElement = document.createElement('a');
-			link.href = mw.util.getUrl(page);
-			// put text node from element inside link
-			const {firstChild} = element;
-			if (!(firstChild instanceof Text)) {
-				throw new TypeError('Expected Text object');
-			}
-			link.append(firstChild);
-			element.append(link); // put link inside syntax-highlighted string
-		};
-		// Link module names to module pages,
-		// or to the section in the Scribunto manual.
-		const addLinkCallback = (module: Element): void => {
-			const stringValue: string | null | undefined = module.firstChild?.nodeValue;
-			if (!stringValue) {
-				return;
-			}
-			const moduleName: string = stringValue.slice(1, -1);
-			const linkPage: string = /^(module|模[组組块])?:/i.test(moduleName) ? moduleName : `Help:Lua#${moduleName}`;
-			addLink(module, linkPage);
-		};
-		for (const module of moduleNames) {
-			addLinkCallback(module);
+			nextElementFirstValue = nextElement.firstChild?.nodeValue;
 		}
-		for (const dataModule of dataModuleNames) {
-			addLinkCallback(dataModule);
+
+		const {classList} = nextElement;
+		if (!(classList.contains(classes.singleQuoteString) || classList.contains(classes.doubleQuoteString))) {
+			continue;
 		}
+
+		const element: Element = nextElement;
+		const elementValue: string | null | undefined = nextElementFirstValue;
+		if (!elementValue) {
+			continue;
+		}
+
+		nextElement = nextElement.nextElementSibling;
+		if (!nextElement) {
+			continue;
+		}
+
+		nextElementFirstValue = nextElement.firstChild?.nodeValue;
+		if (hasParenthesis && nextElementFirstValue?.[0] !== ')') {
+			continue;
+		}
+
+		moduleNameElementArray.push(element);
+	}
+
+	const dataModuleNameElementArray: Element[] = [];
+	for (const element of [
+		...document.querySelectorAll(`.${classes.singleQuoteString}`),
+		...document.querySelectorAll(`.${classes.doubleQuoteString}`),
+	]) {
+		if (moduleNameElementArray.includes(element)) {
+			continue;
+		}
+
+		const elementFirstValue: string | null | undefined = element.firstChild?.nodeValue;
+		if (!elementFirstValue || !/^["'](?:module|模[组組块]):/i.test(elementFirstValue)) {
+			continue;
+		}
+
+		let prevElement: Element | null = element.previousElementSibling;
+		if (!prevElement) {
+			continue;
+		}
+
+		let prevElementFirstValue: string | null | undefined = prevElement.firstChild?.nodeValue;
+		if (prevElementFirstValue === '(') {
+			const nextElement: Element | null = element.nextElementSibling;
+			if (!nextElement) {
+				continue;
+			}
+			const nextElementFirstValue: string | null | undefined = nextElement.firstChild?.nodeValue;
+			if (nextElementFirstValue?.[0] !== ')') {
+				continue;
+			}
+			prevElement = prevElement.previousElementSibling;
+			if (!prevElement) {
+				continue;
+			}
+			prevElementFirstValue = prevElement.firstChild?.nodeValue;
+		}
+		if (prevElementFirstValue !== 'loadData') {
+			continue;
+		}
+
+		prevElement = prevElement.previousElementSibling;
+		if (!prevElement) {
+			continue;
+		}
+
+		prevElementFirstValue = prevElement.firstChild?.nodeValue;
+		if (prevElementFirstValue !== '.') {
+			continue;
+		}
+
+		prevElement = prevElement.previousElementSibling;
+		if (!prevElement) {
+			continue;
+		}
+
+		prevElementFirstValue = prevElement.firstChild?.nodeValue;
+		if (prevElementFirstValue !== 'mw') {
+			continue;
+		}
+
+		dataModuleNameElementArray.push(element);
+	}
+
+	// Link module names to module pages,
+	// or to the section in the Scribunto manual.
+	for (const element of [...moduleNameElementArray, ...dataModuleNameElementArray]) {
+		const elementFirstValue: string | null | undefined = element.firstChild?.nodeValue;
+		if (!elementFirstValue) {
+			continue;
+		}
+
+		const moduleName: string = elementFirstValue.slice(1, -1);
+		const targetTitle: string = /^(module|模[组組块])?:/i.test(moduleName) ? moduleName : `Help:Lua#${moduleName}`;
+		addLink(element, targetTitle);
 	}
 };
+
+export {codeLinks};
