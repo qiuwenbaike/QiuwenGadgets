@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/CodeLinks|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/CodeLinks}}'
  *
  * @base <https://en.wiktionary.org/wiki/MediaWiki:Gadget-CodeLinks.js>
  * @base <https://zh.wiktionary.org/wiki/MediaWiki:Gadget-CodeLinks.js>

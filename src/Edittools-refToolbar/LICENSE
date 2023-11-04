@@ -1,34 +1,34 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title1=RefToolbar.js|url1=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbar.ts|license1=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title1=RefToolbar.js|license1=CC-BY-SA-4.0|url1=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbar.ts}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-refToolbar.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar>
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title2=RefToolbarBase.js|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarBase.js|license2=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title2=RefToolbarBase.js|license2=CC-BY-SA-4.0|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarBase.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-refToolbarBase.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarBase.js>
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=RefToolbar.js (RefToolbar 2.0)|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbar2.0.js|license3=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title3=RefToolbar.js (RefToolbar 2.0)|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbar2.0.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:RefToolbar.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbar2.0.js>
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=RefToolbar (Legacy)|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarLegacy.js|license3=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title3=RefToolbar (Legacy)|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarLegacy.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:RefToolbarLegacy.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarLegacy.js>
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=RefToolBar messages|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarMessages.js|license3=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title3=RefToolBar messages|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarMessages.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:RefToolbarMessages-zh-hans.js>
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:RefToolbarMessages-zh-hant.js>
@@ -36,7 +36,7 @@
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=RefToolBar Config|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarConfig.js|license3=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title3=RefToolBar Config|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarConfig.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:RefToolbarConfig.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/RefToolbarConfig.js>

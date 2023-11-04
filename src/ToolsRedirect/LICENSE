@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title=ToolsRedirect|url=git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title=ToolsRedirect|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ToolsRedirect.js>
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ToolsRedirect.css>
@@ -8,7 +8,7 @@
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title2=ToolsRedirect Messages|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/messages.js|license2=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title2=ToolsRedirect Messages|license2=CC-BY-SA-4.0|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/messages.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ToolsRedirect-msg-zh-hans.js>
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ToolsRedirect-msg-zh-hant.js>
@@ -16,21 +16,21 @@
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=ToolsRedirect-bio-latin-names|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/bio-latin-names.js|license3=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title3=ToolsRedirect-bio-latin-names|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/bio-latin-names.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/Special:Permalink/61193369>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/bio-latin-names.js>
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=ToolsRedirect-courtesy-and-art-names|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/courtesy-and-art-names.js|license3=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title3=ToolsRedirect-courtesy-and-art-names|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/courtesy-and-art-names.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ToolsRedirect-courtesy-and-art-names.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/courtesy-and-art-names.js>
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=ToolsRedirect-opt-bolds|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/opt-bolds.js|license3=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title3=ToolsRedirect-opt-bolds|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/opt-bolds.js}}'
  *
  * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ToolsRedirect-opt-bolds.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ToolsRedirect/opt-bolds.js>
