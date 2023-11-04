@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 /* 此处的CSS只会影响使用Gongbi皮肤的用户 */
 
 /* 字体 */
@@ -7,12 +9,10 @@
 #p-logo-text a,
 #personal h2,
 .mw-logo-wordmark {
-	font-family: 'Source Serif', 'Source Han Serif SC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
-		'STSong SC', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-family: @serif-hans, serif, @emoji-font;
 
 	&:lang(zh-hant) {
-		font-family: 'Source Serif', 'Source Han Serif TC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
-			'MingLiU', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+		font-family: @serif-hant, serif, @emoji-font;
 	}
 }
 
