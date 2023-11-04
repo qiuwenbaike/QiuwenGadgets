@@ -1,13 +1,13 @@
+@import '../../variables.less';
+
 /* @description 此处的CSS只会在媒体查询为print时生效 */
 @media print {
 	html,
 	body {
-		font-family: 'Source Serif', 'Source Han Serif SC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
-			'STSong SC', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+		font-family: @serif-hans, serif, @emoji-font;
 
 		&:lang(zh-hant) {
-			font-family: 'Source Serif', 'Source Han Serif TC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
-				'MingLiU', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+			font-family: @serif-hant, serif, @emoji-font;
 		}
 	}
 
@@ -130,6 +130,7 @@
 	}
 
 	.toc {
+		-webkit-box-decoration-break: clone;
 		box-decoration-break: clone;
 	}
 

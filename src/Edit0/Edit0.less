@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 body {
 	&.ltr h1.firstHeading .mw-editsection-bracket:first-of-type,
 	&.rtl h1.firstHeading .mw-editsection-bracket:not(:first-of-type) {
@@ -31,13 +33,11 @@ body {
 
 			&::before {
 				content: '首段：';
-				font-family: 'Source Serif', 'Source Han Serif SC', 'Linux Libertine', 'Georgia', 'Times New Roman',
-					'Times', 'STSong SC', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+				font-family: @serif-hans, serif, @emoji-font;
 				font-size: 0.75rem;
 
 				&:lang(zh-hant) {
-					font-family: 'Source Serif', 'Source Han Serif TC', 'Linux Libertine', 'Georgia', 'Times New Roman',
-						'T/imes', 'MingLiU', 'SimSun', serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+					font-family: @serif-hant, serif, @emoji-font;
 				}
 			}
 		}
