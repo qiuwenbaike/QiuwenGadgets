@@ -10,7 +10,7 @@ import {
 	nameInput,
 	pwdInput,
 } from './element';
-import {ClientLoginParams, api} from './api';
+import {type ClientLoginParams, api} from './api';
 import {checkValid} from './util/checkValid';
 import {ding} from '../../util';
 import {getMessage} from './i18n';
@@ -18,7 +18,6 @@ import {oouiPrompt} from './util/oouiPrompt';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 
 let windowManager: OO.ui.WindowManager;
-
 const ajaxLogin = (): void => {
 	let loginToken = '';
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {

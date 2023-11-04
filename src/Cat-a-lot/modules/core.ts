@@ -14,7 +14,7 @@ import {
 	WG_TITLE,
 	WG_WIKI_ID,
 } from './constant';
-import {DEFAULT_MESSAGES, MessageKey, catALotMessages} from './messages';
+import {DEFAULT_MESSAGES, type MessageKey, catALotMessages} from './messages';
 
 /**
  * Changes category of multiple files
