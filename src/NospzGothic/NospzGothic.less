@@ -1,3 +1,5 @@
+@import '../../variables.less';
+
 @font-face {
 	font-display: swap;
 	font-family: 'NospzGothic';
@@ -42,34 +44,14 @@
 }
 
 body {
-	font-family: -apple-system, BlinkMacSystemFont, 'MiSans', '小米兰亭 Pro VF', 'OPPO Sans', 'HarmonyOS Sans',
-		'HONOR Sans', 'Source Sans 3', 'Source Sans Pro', 'Source Han Sans SC', 'Helvetica', 'Roboto',
-		'SFProDisplay-Regular', sans-serif, 'NospzGothic', 'Plangothic P1', 'Plangothic P2', '方正宋体S-超大字符集',
-		'方正宋体S-超大字符集(SIP)', '文泉驿等宽正黑', 'BabelStone Han', 'HanaMinB', 'FZSong-Extended',
-		'Arial Unicode MS', 'Code2002', 'DFSongStd', 'unifont', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-	--fonts-sans: '-apple-system', 'BlinkMacSystemFont', 'MiSans', '小米兰亭 Pro VF', 'OPPO Sans', 'HarmonyOS Sans',
-		'HONOR Sans', 'Source Sans 3', 'Source Sans Pro', 'Source Han Sans SC', 'Helvetica', 'Roboto',
-		'SFProDisplay-Regular', sans-serif, 'NospzGothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-	--fonts-serif: 'Source Serif', 'Source Han Serif SC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
-		'STSong SC', 'SimSun', serif, 'NospzGothic', 'Plangothic P1', 'Plangothic P2', '方正宋体S-超大字符集',
-		'方正宋体S-超大字符集(SIP)', '文泉驿等宽正黑', 'BabelStone Han', 'HanaMinB', 'FZSong-Extended',
-		'Arial Unicode MS', 'Code2002', 'DFSongStd', 'unifont', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-family: @sans-serif-hans, 'NospzGothic', @unihan, sans-serif, @emoji-font;
+	--fonts-sans: @sans-serif-hans, 'NospzGothic', @unihan, sans-serif, @emoji-font;
+	--fonts-serif: @serif-hans, 'NospzGothic', @unihan, serif, @emoji-font;
 
 	&:lang(zh-hant) {
-		font-family: -apple-system, BlinkMacSystemFont, 'MiSans', '小米兰亭 Pro VF', 'OPPO Sans', 'HarmonyOS Sans',
-			'HONOR Sans', 'Source Sans 3', 'Source Sans Pro', 'Source Han Sans TC', 'Helvetica', 'Roboto',
-			'SFProDisplay-Regular', sans-serif, 'NospzGothic', 'Plangothic P1', 'Plangothic P2', '方正宋体S-超大字符集',
-			'方正宋体S-超大字符集(SIP)', '文泉驿等宽正黑', 'BabelStone Han', 'HanaMinB', 'FZSong-Extended',
-			'Arial Unicode MS', 'Code2002', 'DFSongStd', 'unifont', 'Apple Color Emoji', 'Segoe UI Emoji',
-			'Segoe UI Symbol';
-		--fonts-sans: '-apple-system', 'BlinkMacSystemFont', 'MiSans', '小米兰亭 Pro VF', 'OPPO Sans', 'HarmonyOS Sans',
-			'HONOR Sans', 'Source Sans 3', 'Source Sans Pro', 'Source Han Sans TC', 'Helvetica', 'Roboto',
-			'SFProDisplay-Regular', sans-serif, 'NospzGothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-		--fonts-serif: 'Source Serif', 'Source Han Serif TC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
-			'MingLiU', 'SimSun', serif, 'NospzGothic', 'Plangothic P1', 'Plangothic P2', '方正宋体S-超大字符集',
-			'方正宋体S-超大字符集(SIP)', '文泉驿等宽正黑', 'BabelStone Han', 'HanaMinB', 'FZSong-Extended',
-			'Arial Unicode MS', 'Code2002', 'DFSongStd', 'unifont', 'Apple Color Emoji', 'Segoe UI Emoji',
-			'Segoe UI Symbol';
+		font-family: @sans-serif-hant, 'NospzGothic', @unihan, sans-serif, @emoji-font;
+		--fonts-sans: @sans-serif-hant, 'NospzGothic', @unihan, sans-serif, @emoji-font;
+		--fonts-serif: @serif-hant, 'NospzGothic', @unihan, serif, @emoji-font;
 	}
 }
 
@@ -80,17 +62,10 @@ body {
 .mw-body-content h5,
 .mw-body-content h6,
 h1#firstHeading {
-	font-family: 'Source Serif', 'Source Han Serif SC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
-		'STSong SC', 'SimSun', serif, 'NospzGothic', 'Plangothic P1', 'Plangothic P2', '方正宋体S-超大字符集',
-		'方正宋体S-超大字符集(SIP)', '文泉驿等宽正黑', 'BabelStone Han', 'HanaMinB', 'FZSong-Extended',
-		'Arial Unicode MS', 'Code2002', 'DFSongStd', 'unifont', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-family: @serif-hans, 'NospzGothic', @unihan, serif, @emoji-font;
 
 	&:lang(zh-hant) {
-		font-family: 'Source Serif', 'Source Han Serif TC', 'Linux Libertine', 'Georgia', 'Times New Roman', 'Times',
-			'MingLiU', 'SimSun', serif, 'NospzGothic', 'Plangothic P1', 'Plangothic P2', '方正宋体S-超大字符集',
-			'方正宋体S-超大字符集(SIP)', '文泉驿等宽正黑', 'BabelStone Han', 'HanaMinB', 'FZSong-Extended',
-			'Arial Unicode MS', 'Code2002', 'DFSongStd', 'unifont', 'Apple Color Emoji', 'Segoe UI Emoji',
-			'Segoe UI Symbol';
+		font-family: @serif-hant, 'NospzGothic', @unihan, serif, @emoji-font;
 	}
 }
 
@@ -99,10 +74,6 @@ html {
 	[style*='italic'] span[lang='ja' i],
 	span[lang='ja' i] i,
 	span[lang='ja' i] [style*='italic'] {
-		font-family: -apple-system, BlinkMacSystemFont, 'Meiryo', 'Source Sans 3', 'Source Sans Pro',
-			'Source Han Sans JP', 'Helvetica', 'Roboto', 'SFProDisplay-Regular', sans-serif, 'NospzGothic',
-			'Plangothic P1', 'Plangothic P2', '方正宋体S-超大字符集', '方正宋体S-超大字符集(SIP)', '文泉驿等宽正黑',
-			'BabelStone Han', 'HanaMinB', 'FZSong-Extended', 'Arial Unicode MS', 'Code2002', 'DFSongStd', 'unifont',
-			'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+		font-family: @sans-serif-ja, 'NospzGothic', @unihan, sans-serif, @emoji-font;
 	}
 }
