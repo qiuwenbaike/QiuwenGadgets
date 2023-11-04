@@ -250,7 +250,7 @@
 					name: 'pages',
 					id: 'tw-dbatch-pages',
 					shiftClickSupport: true,
-					list: Object.entries(Twinkle.batchdelete.pages).map((e) => {
+					list: Object.values(Twinkle.batchdelete.pages).map((e) => {
 						return e;
 					}),
 				});
@@ -295,7 +295,7 @@
 			name: 'pages',
 			id: 'tw-dbatch-pages',
 			shiftClickSupport: true,
-			list: Object.entries(Twinkle.batchdelete.pages).map((e) => {
+			list: Object.values(Twinkle.batchdelete.pages).map((e) => {
 				return e;
 			}),
 		}).render();
