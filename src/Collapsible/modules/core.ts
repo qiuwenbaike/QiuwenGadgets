@@ -1,4 +1,6 @@
 /**
+ * 为元素添加“隐藏”和“显示”的按钮。
+ *
  * 用法说明：
  *
  * 带有 collapsible 类的元素默认可折叠。
@@ -28,164 +30,66 @@
  * - data-expandtext 和 data-collapsetext 可用于控制折叠按钮的显示文字。不支持
  *   繁简转换，但是其默认值是可以正常根据界面语言繁简转换的。
  */
-/**
- * @description 为元素添加“隐藏”和“显示”的按钮。
- */
+import {addToggler} from './addToggler';
 import {getMessage} from './i18n';
+import {hideElement} from './util/hideElement';
+import {toggleElement} from './util/toggleElement';
 
-const appendToggle = ($collapsible: JQuery, $toggle: JQuery): void => {
-	const $appendHere: JQuery = $collapsible
-		.find('.collapsible-toggle-append-here')
-		.not('.collapsible-toggle-appended');
-	if ($collapsible.hasClass('collapsible-next')) {
-		// 若有 collapsible-next 类，那么被折叠的元素不在该元素内，此时直接将折叠按钮添加在末尾。
-		$collapsible.append($toggle);
-	} else if ($appendHere.length) {
-		// 带有 collapsible-toggle-append-here 类的元素，若存在，则无论可折叠元素是什么，则强制将折叠按钮添加至该元素中。
-		$appendHere.append($toggle);
-		$appendHere.addClass('collapsible-toggle-appended');
-		$appendHere.parentsUntil($collapsible).addClass('collapsible-always-show');
-	} else if ($collapsible.hasClass('navbox')) {
-		// navbox 元素的折叠按钮添加至 navbox-title 中，且该 navbox-title 会避免被折叠影响到。
-		$collapsible.children('.navbox-title').first().addClass('collapsible-always-show').append($toggle);
-	} else if ($collapsible.is('table')) {
-		// 对于 table 对象，尝试添加到 caption 中，若 caption 不存在，则添加到第一行的最后一列，并将第一行设为始终显示。
-		const $caption: JQuery = $collapsible.children('caption');
-		if ($caption.length) {
-			// 有caption的情况
-			$caption.first().append($toggle);
-		} else {
-			const $trows: JQuery<HTMLTableRowElement> = $collapsible.children().children('tr');
-			$trows.first().addClass('collapsible-always-show').children().last().append($toggle);
-		}
-	} else {
-		// 尝试查找带有 collapsible-always-show 类的子元素，若存在则将折叠按钮添加至其中。
-		// 否则，添加至整个可折叠元素的最前面。
-		const $toToggle: JQuery = $collapsible.children('.collapsible-always-show');
-		if ($toToggle.length) {
-			$toToggle.first().append($toggle);
-		} else {
-			$collapsible.prepend($toggle);
-			$toggle.addClass('collapsible-always-show');
-		}
-	}
-};
-
-// 隐藏某个可折叠的元素。
-const hide = ($collapsible: JQuery, time: number): void => {
-	const useSlide: boolean = $collapsible.hasClass('collapsible-using-slide');
-	if ($collapsible.hasClass('collapsible-next')) {
-		const $element: JQuery = $collapsible.next();
-		if (useSlide) {
-			$element.slideUp(time);
-		} else {
-			$element.fadeOut(time);
-		}
-	} else {
-		($collapsible.is('table') ? $collapsible.children().children('tr') : $collapsible.contents()).each(
-			(_index, element): void => {
-				const $element: JQuery = $(element as HTMLElement);
-				if ($element.hasClass('collapsible-cascade')) {
-					hide($element, time);
-				} else if (!$element.hasClass('collapsible-always-show')) {
-					if (useSlide) {
-						$element.slideUp(time);
-					} else {
-						$element.fadeOut(time);
-					}
-				}
+const collapsible = ($content: JQuery): void => {
+	for (const element of $content.find(
+		'.parent-collapsible, .parent-collapsible-using-slide, .parent-collapsible-next'
+	)) {
+		const $element: JQuery = $(element);
+		const $parent: JQuery = $element.parent();
+		for (const className of element.classList) {
+			if (className.slice(0, 18) === 'parent-collapsible') {
+				// The following classes are used here:
+				// * collapsible
+				// * collapsible-using-slide
+				// * collapsible-next
+				$parent.addClass(className.replace(/^parent-/, ''));
 			}
-		);
-	}
-};
-
-// 显示某个可折叠的元素。
-const show = ($collapsible: JQuery, time: number): void => {
-	const useSlide: boolean = $collapsible.hasClass('collapsible-using-slide');
-	if ($collapsible.hasClass('collapsible-next')) {
-		const $element: JQuery = $collapsible.next();
-		if (useSlide) {
-			$element.slideDown(time);
-		} else {
-			$element.fadeIn(time);
 		}
-	} else {
-		($collapsible.is('table') ? $collapsible.children().children('tr') : $collapsible.contents()).each(
-			(_index, element): void => {
-				const $element: JQuery = $(element as HTMLElement);
-				if ($element.hasClass('collapsible-cascade')) {
-					show($element, time);
-				} else if (!$element.hasClass('collapsible-always-show')) {
-					if (useSlide) {
-						$element.slideDown(time);
-					} else {
-						$element.fadeIn(time);
-					}
-				}
-			}
-		);
 	}
-};
 
-const toggle = ($collapsible: JQuery): void => {
-	const collapsed: boolean = $collapsible.hasClass('collapsed');
-	const duration: number = Number.parseInt($collapsible.data('collapse-duration'), 10) ?? 200;
-	if (collapsed) {
-		show($collapsible, duration);
-		$collapsible.removeClass('collapsed');
-	} else {
-		hide($collapsible, duration);
-		$collapsible.addClass('collapsed');
-	}
-};
-
-const collapsibleMain = ($content: JQuery): void => {
-	$content
-		.find('.parent-collapsible, .parent-collapsible-using-slide, .parent-collapsible-next')
-		.each((_index: number, element: HTMLElement): void => {
-			const $element: JQuery = $(element);
-			const $parent: JQuery = $element.parent();
-			for (const value of element.classList) {
-				if (value.slice(0, 18) === 'parent-collapsible') {
-					// The following classes are used here:
-					// * collapsible
-					// * collapsible-using-slide
-					// * collapsible-next
-					$parent.addClass(value.replace(/^parent-/, ''));
-				}
-			}
-		});
 	$content.find('.collapsible-using-slide, .collapsible-next').addClass('collapsible');
+
 	const $collapsibles: JQuery = $content.find('.collapsible');
 	if (!$collapsibles.length) {
 		return;
 	}
-	$collapsibles.each((_index: number, element: HTMLElement): void => {
+
+	for (const element of $collapsibles) {
 		const $collapsible: JQuery = $(element);
 		if ($collapsible.data('made-collapsible')) {
-			return;
+			continue;
 		}
+
 		const showText: string = $collapsible.data('expandtext') ?? getMessage('Expand');
 		const hideText: string = $collapsible.data('collapsetext') ?? getMessage('Collapse');
+
 		const $toggleLink: JQuery = $('<a>').addClass('jsLink').attr('role', 'button').attr('tabindex', '0');
-		const $toggle: JQuery = $('<span>').addClass('collapsetoggle').append('[', $toggleLink, ']');
 		// Set the text back to hide if it's not collapsed to begin with
 		if ($collapsible.hasClass('collapsed')) {
 			$toggleLink.text(showText);
 		} else {
 			$toggleLink.text(hideText);
 		}
-		appendToggle($collapsible, $toggle);
+
+		const $toggle: JQuery = $('<span>').addClass('collapsetoggle').append('[', $toggleLink, ']');
+		addToggler($collapsible, $toggle);
+
 		// 初始化隐藏所有元素，该过程没有动画。
 		if ($collapsible.hasClass('collapsed')) {
-			hide($collapsible, 0);
+			hideElement($collapsible, 0);
 		}
-		const eventListener = (event: JQuery.Event): void => {
+
+		const eventListener = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
 			if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
 				return;
 			}
 			event.preventDefault();
-			toggle($collapsible);
+			toggleElement($collapsible);
 			if ($collapsible.hasClass('collapsed')) {
 				$toggleLink.text(showText);
 			} else {
@@ -194,10 +98,9 @@ const collapsibleMain = ($content: JQuery): void => {
 		};
 		$toggle.on('click', eventListener);
 		$toggle.on('keydown', eventListener);
+
 		$collapsible.data('made-collapsible', true);
-	});
+	}
 };
 
-export const collapsibleLoad = (): void => {
-	mw.hook('wikipage.content').add(collapsibleMain);
-};
+export {collapsible};

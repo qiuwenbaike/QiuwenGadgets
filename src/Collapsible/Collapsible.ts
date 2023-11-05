@@ -1,3 +1,3 @@
-import {collapsibleLoad} from './modules/core';
+import {addHook} from './modules/addHook';
 
-$(collapsibleLoad);
+addHook();
