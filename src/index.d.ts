@@ -115,6 +115,7 @@ declare global {
 			my?: string,
 			en?: string
 		): string;
+		ClipboardJS: typeof ClipboardJS; // Clipboard
 		LogFilterInstalled: boolean; // LogFilter
 		RefToolbarInstalled: boolean; // RefToolbar
 		SiteCommonInstalled: boolean; // SiteCommon
