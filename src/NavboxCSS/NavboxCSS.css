@@ -10,7 +10,6 @@
 	background: #fdfdfd;
 	clear: both;
 	font-size: 97.5%; /* not subgroup */
-	-ms-grid-columns: auto 1fr;
 	grid-gap: 3px;
 	grid-template-columns: auto 1fr;
 	overflow-x: auto;
@@ -73,7 +72,6 @@
 	background-color: hsl(100deg 45% 80%);
 	font-size: 97.5%;
 	font-weight: bolder;
-	-ms-grid-columns: 1fr auto 1fr;
 	grid-template-columns: 1fr auto 1fr;
 }
 
