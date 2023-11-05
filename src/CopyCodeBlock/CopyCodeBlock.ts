@@ -1,5 +1,3 @@
-import {copyCodeBlockLoad} from './modules/core';
+import {addHook} from './modules/addHook';
 
-if (mw.config.get('wgAction') === 'view') {
-	$(copyCodeBlockLoad);
-}
+addHook();
