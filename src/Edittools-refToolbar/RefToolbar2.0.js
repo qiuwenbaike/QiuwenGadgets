@@ -902,7 +902,7 @@ export const refToolbar2 = function () {
 		};
 		// Escape spaces and quotes for use in HTML classes/ids
 		CiteTB.escStr = (s) => {
-			return s.replace(' ', '-').replace("'", "'").replace('"', '"');
+			return s.replace(' ', '-').replace("'", "\\'").replace('"', '\\"');
 		};
 		// MISC FUNCTIONS
 		// Determine which template form is open, and get the template object for it
