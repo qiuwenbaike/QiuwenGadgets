@@ -171,7 +171,6 @@
 		"unicorn/filename-case": "off",
 		"unicorn/no-abusive-eslint-disable": "off",
 		"unicorn/no-array-callback-reference": "off",
-		"unicorn/no-document-cookie": "off",
 		"unicorn/no-hex-escape": "off",
 		"unicorn/no-keyword-prefix": "off",
 		"unicorn/no-nested-ternary": "off",
