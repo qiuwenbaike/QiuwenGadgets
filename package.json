@@ -5,7 +5,7 @@
 		"type": "git",
 		"url": "https://github.com/AnYiEE/AwesomeGadgets"
 	},
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"description": "Storage, compile, and auto deploy gadgets.",
 	"type": "module",
 	"scripts": {
@@ -56,8 +56,9 @@
 		"eslint-plugin-unicorn": "^49.0.0",
 		"happy-dom": "^12.10.3",
 		"husky": "^8.0.3",
+		"less-plugin-autoprefix": "^2.0.0",
+		"less-plugin-npm-import": "^2.1.0",
 		"mwn": "^2.0.1",
-		"postcss-less": "^6.0.0",
 		"prettier": "^3.0.3",
 		"prompts": "^2.4.2",
 		"stylelint": "^15.11.0",
