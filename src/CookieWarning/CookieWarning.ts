@@ -1,14 +1,10 @@
-import {STORAGE_KEY} from './modules/constant';
-import {cookieWarning} from './modules/core';
+import {LAST_STORAGE_VALUE, WG_USER_NAME} from './modules/constant';
+import {insertElement} from './modules/insertElement';
 
-(() => {
-	if (mw.config.get('wgUserName') || location.search.includes('consentRead=')) {
-		return;
-	}
-	const storageValue: string | null = mw.storage.get(STORAGE_KEY) as string | null;
-	if (storageValue === '1') {
+$(function cookieWarning(): void {
+	if (WG_USER_NAME || LAST_STORAGE_VALUE === '1' || location.search.includes('consentRead=')) {
 		return;
 	}
 
-	$(cookieWarning);
-})();
+	insertElement();
+});
