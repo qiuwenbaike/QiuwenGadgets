@@ -1,9 +1,12 @@
-import {STORAGE_KEY} from './constant';
+import {CLASS_CONSENT_NOTICE, STORAGE_KEY} from './constant';
 import {getMessage} from './i18n';
 
 const insertElement = (): void => {
 	const $consentNotice: JQuery = $('<div>')
-		.addClass('consent-notice noprint')
+		// The following classes are used here:
+		// * see ./constant.ts
+		// * for more information
+		.addClass(`${CLASS_CONSENT_NOTICE} noprint`)
 		.append(
 			$('<p>').html(getMessage('TOSNotice')),
 			$('<p>').html(getMessage('CookieNotice')),
