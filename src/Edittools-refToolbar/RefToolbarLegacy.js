@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-export const refToolbarLegacy = function refToolbarLegacy() {
+export const refToolbarLegacy = () => {
 	let numforms = 0;
 	let citeUserDateFormat;
 	let refTagURL;
 	const defaultRefTagURL = '';
 	let refToolDebug;
+
 	const easyCiteMain = () => {
 		document.querySelector('#citeselect').style.display = '';
 		document.querySelector('#citemore').style.display = 'none';
 	};
+
 	const addOption = (script, text) => {
 		const option = document.createElement('input');
 		option.setAttribute('type', 'button');
@@ -16,6 +18,12 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		option.setAttribute('value', text);
 		return option;
 	};
+
+	const hideInitial = () => {
+		document.querySelector('#citeselect').style.display = 'none';
+		oldFormHide();
+	};
+
 	const refbuttons = () => {
 		if (mw.toolbar) {
 			mw.toolbar.addButton({
@@ -24,6 +32,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 				onClick: easyCiteMain,
 				imageId: 'mw-toolbar-editbutton',
 			});
+
 			const citemain = document.createElement('div');
 			citemain.style.display = 'none';
 			citemain.style.margin = '0 0 6px';
@@ -38,6 +47,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			citemain.append(addOption('dispErrors()', 'Error check'));
 			citemain.append(addOption('showMore()', 'More'));
 			citemain.append(addOption('hideInitial()', 'Cancel'));
+
 			const citemore = document.createElement('div');
 			citemore.style.display = 'none';
 			citemore.setAttribute('Id', 'citemore');
@@ -46,32 +56,33 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			citemore.append(addOption('citeMap()', 'Map'));
 			citemore.append(addOption('showRefSectionOptions()', 'Ref Section'));
 			citemain.append(citemore);
+
 			$(citemain).insertAfter($('#toolbar'));
+
 			const reftoolformarea = document.createElement('span');
 			reftoolformarea.id = 'refToolFormArea';
 			$('#citeselect').append(reftoolformarea);
 		}
-		if ((typeof EditTools === 'undefined' ? 'undefined' : typeof EditTools) === 'object') {
+		if (typeof EditTools === 'object') {
 			const placeholder = document.querySelector('#editpage-specialchars');
 			EditTools.createEditTools(placeholder);
 		}
 	};
+
 	const oldFormHide = () => {
 		// if (numforms !== 0) {
-		//  document..querySelector(`#citediv${numforms}`).style.display = 'none';
+		//   document.querySelector('#citediv' + numforms).style.display = 'none';
 		// }
 		document.querySelector('#refToolFormArea').innerHTML = '';
 		if (document.querySelector('#errorform') !== null) {
 			document.querySelector('#errorform').remove();
 		}
 	};
-	const hideInitial = () => {
-		document.querySelector('#citeselect').style.display = 'none';
-		oldFormHide();
-	};
+
 	const showMore = () => {
 		document.querySelector('#citemore').style.display = '';
 	};
+
 	const months = [
 		'January',
 		'February',
@@ -89,15 +100,27 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 	const citeGlobalDateFormat = '<date> <monthname> <year>';
 	const getTime = () => {
 		let datestr = '';
-		datestr = citeUserDateFormat ?? citeGlobalDateFormat;
+		if (citeUserDateFormat) {
+			datestr = citeUserDateFormat;
+		} else {
+			datestr = citeGlobalDateFormat;
+		}
 		const DT = new Date();
 		let zmonth = '';
 		let month = DT.getUTCMonth() + 1;
-		zmonth = month < 10 ? `0${month.toString()}` : month.toString();
+		if (month < 10) {
+			zmonth = `0${month.toString()}`;
+		} else {
+			zmonth = month.toString();
+		}
 		month = month.toString();
 		let zdate = '';
 		let date = DT.getUTCDate();
-		zdate = date < 10 ? `0${date.toString()}` : date.toString();
+		if (date < 10) {
+			zdate = `0${date.toString()}`;
+		} else {
+			zdate = date.toString();
+		}
 		date = date.toString();
 		datestr = datestr.replace('<date>', date);
 		datestr = datestr.replace('<month>', month);
@@ -107,6 +130,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		datestr = datestr.replace('<year>', DT.getUTCFullYear().toString());
 		return datestr;
 	};
+
 	const lastNameToRefname = () => {
 		// Note: This only works if field 'refname' comes after field 'last', but it always does
 		let lastName;
@@ -120,9 +144,11 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			}
 		}
 	};
+
 	const setAccessDateToday = () => {
 		document.querySelector('#access-date').value = getTime();
 	};
+
 	const getLastName = (authornum) => {
 		if (/\S/.test(document.querySelector(`#last${authornum}`).value)) {
 			return document.querySelector(`#last${authornum}`).value;
@@ -132,15 +158,19 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		if (match) {
 			return match[1];
 		}
+		return '';
 	};
+
 	const makeRefname = () => {
 		let refname;
-		refname = document.querySelector('#last1')
-			? document.querySelector('#last1').value + document.querySelector('#last2').value
-			: document.querySelector('#last').value;
+		if (document.querySelector('#last1')) {
+			refname = document.querySelector('#last1').value + document.querySelector('#last2').value;
+		} else {
+			refname = document.querySelector('#last').value;
+		}
 		if (/\S/.test(refname)) {
 			const date = document.querySelector('#date').value;
-			const match = /\d{4}/.exec(date);
+			const match = /[0-9]{4}/.exec(date);
 			if (match) {
 				refname += match[0];
 			}
@@ -149,509 +179,395 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		}
 		document.querySelector('#refname').value = refname;
 	};
-	const citeNewsWeb = (templatename) => {
-		oldFormHide();
-		const template = templatename;
-		const legend = template === 'cite web' ? 'Cite web source' : 'Cite news source';
-		const newtime = getTime();
-		numforms++;
-		let form = `<div id="citediv${numforms}">
-	<fieldset>
-		<legend>${legend}</legend>
-		<table cellspacing="5">
-			<input type="hidden" value="${template}" id="template">
-			<tr>
-				<td width="120"><label for="url">URL: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>
-				<td width="120"><label for="title">&nbsp;Title: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="last">Last name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="last"></td>
-				<td width="120"><label for="first">&nbsp;First name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="first"></td>
-			</tr>
-			<tr>
-				<td width="120"><!-- <label for="coauthors"><s>Coauthors: </s></label> --></td>
-				<td width="400"><span style="color:#696969;font-style:italic">Co-author parameter no longer supported</span><!-- <input type="text" tabindex=1 style="width:100%" id="coauthors" placeholder="this parameter no longer supported"> --></td>
-				<td width="120"><label for="date">&nbsp;Publication date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="date"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="work">${
-					template === 'cite news' ? 'Newspaper or&nbsp;work' : 'Website or&nbsp;work'
-				}: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="work"></td>
-				<td width="120"><label for="publisher">&nbsp;Publisher: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="pages">Pages: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="pages"></td>
-				<td width="120"><label for="language">&nbsp;Language: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="language"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="access-date">Access date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date" value="${newtime}"></td>
-`;
-		form +=
-			template === 'cite news'
-				? `				<td width="120"><label for="location">&nbsp;Location: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="location"></td></tr>`
-				: `				<td width="120"></td><td width="400"></td>
-			</tr>
-`;
-		if (template === 'cite web') {
-			form += `			<tr>
-				<td width="120"><label for="archive-url">Archive URL: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="archive-url"></td>
-				<td width="120"><label for="archive-date">&nbsp;Archive date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="archive-date"></td>
-			</tr>
-`;
-		}
-		form += `			<tr>
-				<td width="120"><label for="refname">Reference name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:60%" id="refname"><input type="button" value="<Last name" onClick="lastNameToRefname()"></td>
-			</tr>
-		</table>
-		<input type="button" value="Add citation" onClick="addcites()">
-		<input type="button" value="Preview citation" onClick="previewCitationDefault()">
-		<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility:hidden" />
-		<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose">
-		<label for="verbose">Vertical form</label>
-		<span style="float:right"><a href="//www.qiuwenbaike.cn/wiki/Template:${template.replace(
-			/ /g,
-			'_'
-		)}" rel="noopener" target="_blank">[Template documentation]</a></span>
-	</fieldset>
-	<span id="previewSpan"></span>
-</div>
-`;
-		document.querySelector('#refToolFormArea').innerHTML = form;
-	};
+
 	const citeWeb = () => {
 		citeNewsWeb('cite web');
 	};
 	const citeNews = () => {
 		citeNewsWeb('cite news');
 	};
+
+	const citeNewsWeb = (templatename) => {
+		oldFormHide();
+		const template = templatename;
+		let legend;
+		if (template === 'cite web') {
+			legend = 'Cite web source';
+		} else {
+			legend = 'Cite news source';
+		}
+		const newtime = getTime();
+		numforms++;
+		let form =
+			`<div id="citediv${numforms}">` +
+			`<fieldset><legend>${legend}</legend>` +
+			'<table cellspacing="5">' +
+			`<input type="hidden" value="${template}" id="template">` +
+			'<tr><td width="120"><label for="url">URL: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>' +
+			'<td width="120"><label for="title">&nbsp;Title: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td></tr>' +
+			'<tr><td width="120"><label for="last">Last name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="last"></td>' +
+			'<td width="120"><label for="first">&nbsp;First name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="first"></td></tr>' +
+			'<tr><td width="120"><!-- <label for="coauthors"><s>Coauthors: </s></label> --></td>' +
+			'<td width="400"><span style="color:#696969;font-style:italic;">Co-author parameter no longer supported</span><!-- <input type="text" tabindex=1 style="width:100%" id="coauthors" placeholder="this parameter no longer supported"> --></td>' +
+			'<td width="120"><label for="date">&nbsp;Publication date: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="date"></td></tr>' +
+			`<tr><td width="120"><label for="work">${
+				template === 'cite news' ? 'Newspaper or&nbsp;work' : 'Website or&nbsp;work'
+			}: </label></td>` +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="work"></td>' +
+			'<td width="120"><label for="publisher">&nbsp;Publisher: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td></tr>' +
+			'<tr><td width="120"><label for="pages">Pages: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="pages"></td>' +
+			'<td width="120"><label for="language">&nbsp;Language: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="language"></td></tr>' +
+			'<tr><td width="120"><label for="access-date">Access date: </label></td>' +
+			`<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date" value="${newtime}"></td>`;
+		if (template === 'cite news') {
+			form +=
+				'<td width="120"><label for="location">&nbsp;Location: </label></td>' +
+				'<td width="400"><input type="text" tabindex=1 style="width:100%" id="location"></td></tr>';
+		} else {
+			form += '<td width="120"></td><td width="400"></td></tr>';
+		}
+		if (template === 'cite web') {
+			form +=
+				'<tr><td width="120"><label for="archive-url">Archive URL: </label></td>' +
+				'<td width="400"><input type="text" tabindex=1 style="width:100%" id="archive-url"></td>' +
+				'<td width="120"><label for="archive-date">&nbsp;Archive date: </label></td>' +
+				'<td width="400"><input type="text" tabindex=1 style="width:100%" id="archive-date"></td></tr>';
+		}
+		form +=
+			'<tr><td width="120"><label for="refname">Reference name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:60%" id="refname"><input type="button" value="<Last name" onClick="lastNameToRefname()"></td></tr>' +
+			'</table>' +
+			' <input type="button" value="Add citation" onClick="addcites()">' +
+			' <input type="button" value="Preview citation" onClick="previewCitationDefault()">' +
+			' <img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility: hidden" />' +
+			'<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose"><label for="verbose">Vertical form</label>' +
+			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
+				/ /g,
+				'_'
+			)}" target="_blank">[Template documentation]</a></span>` +
+			'</fieldset><span id="previewSpan"></span></div>';
+		document.querySelector('#refToolFormArea').innerHTML = form;
+	};
+
 	const citeBook = () => {
 		oldFormHide();
 		const template = 'cite book';
 		numforms++;
-		let form = `<div id="citediv${numforms}">
-	<fieldset>
-		<legend>Cite book source</legend>
-`;
-		form += `		<table cellspacing="5" width="100%">
-			<tr>
-				<td><label for="title">Title: </label></td>
-				<td colspan=5><input type="text" tabindex=1 style="width:100%" id="title"></td>
-			</tr>
-`;
+		let form = `<div id="citediv${numforms}"><fieldset><legend>Cite book source</legend>`;
+
+		form +=
+			'<table cellspacing="5" width="100%">' +
+			'<tr><td><label for="title">Title: </label></td>' +
+			'<td colspan=5><input type="text" tabindex=1 style="width:100%" id="title"></td></tr>';
 		for (let i = 1; i <= 3; i++) {
 			const i_str = i === 1 ? '' : ` ${i}`;
-			form += `			<tr>
-				<td width="130"><label for="last${i}">Author${i_str} last&nbsp;name: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="last${i}"></td>
-				<td><label for="first${i}">&nbsp;first&nbsp;name: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="first${i}"></td>
-				<td><label for="author-link${i}">&nbsp;Author link: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="author-link${i}">
-				</td>
-			</tr>
-`;
+			form +=
+				'<tr>' +
+				`<td width="130"><label for="last${i}">Author${i_str} last&nbsp;name: </label></td>` +
+				`<td><input type="text" tabindex=1 style="width:100%" id="last${i}"></td>` +
+				`<td><label for="first${i}">&nbsp;first&nbsp;name: </label></td>` +
+				`<td><input type="text" tabindex=1 style="width:100%" id="first${i}"></td>` +
+				`<td><label for="author-link${i}">&nbsp;Author link: </label></td>` +
+				`<td><input type="text" tabindex=1 style="width:100%" id="author-link${i}">` +
+				'</td>' +
+				'</tr>';
 		}
-		form += `			<tr>
-				<td><!-- <label for="coauthors"><s>Coauthors: </s></label> --></td>
-				<td><span style="color:#696969;font-style:italic">Co-author parameter no longer supported</span><!-- <input type="text" tabindex=1 style="width:100%" id="coauthors" placeholder="this parameter no longer supported"> --></td>
-				<td><label for="editor">&nbsp;Editor: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="editor"></td>
-				<td><label for="others">&nbsp;Others: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="others"></td>
-			</tr>
-		</table>
-		<table cellspacing="5" width="100%">
-			<tr>
-				<td width="130"><label for="publisher">Publisher: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="publisher"></td>
-				<td><label for="location">&nbsp;Location: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="location"></td>
-			</tr>
-			<tr>
-				<td><label for="date">Publication&nbsp;date or&nbsp;year: </label></td>
-				<td><input type="text" tabindex=1 style="width:140px" id="date">
-					<input id="dmy" name="dateformat" value="dmy" type="radio" tabindex=1 onclick="reformatDates()"><label for="dmy">dmy</label>
-					<input id="mdy" name="dateformat" value="mdy" type="radio" tabindex=1 onclick="reformatDates()"><label for="mdy">md, y</label>
-					<input id="ymd" name="dateformat" value="ymd" type="radio" tabindex=1 onclick="reformatDates()"><label for="ymd">y-m-d</label>
-				</td>
-				<td><label for="edition">&nbsp;Edition: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="edition"></td>
-			</tr>
-			<tr>
-				<td><label for="series">Series: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="series"></td>
-				<td><label for="volume">&nbsp;Volume: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="volume"></td>
-			</tr>
-			<tr>
-				<td><label for="pages">Page number(s):</label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="pages" name="pages" onFocus="this.style.backgroundColor=''"></td>
-				<td><label for="chapter">&nbsp;Chapter: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="chapter"></td>
-			</tr>
-			<tr>
-				<td><label for="isbn">ISBN: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="isbn"></td>
-				<td><label for="language">&nbsp;Language: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="language"></td>
-			</tr>
-			<tr>
-				<td><label for="url">URL: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="url"></td>
-				<td><label for="access-date">&nbsp;Access&nbsp;date:</label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="access-date"></td>
-			</tr>
-			<tr>
-				<td><label for="otherfields">Other&nbsp;fields:</label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="otherfields"></td>
-				<td><label for="refname">&nbsp;Ref&nbsp;name: </label></td>
-				<td><input type="text" tabindex=1 style="width:100%" id="refname"></td>
-			</tr>
-		</table>
-		<input type="radio" tabindex=1 name="template" id="cite_book" value="cite_book" checked="1">
-		<label for="cite_book">{{cite book}}</label>
-		<sup><a href="//www.qiuwenbaike.cn/wiki/Template:Cite_book" rel="noopener" target="_blank">[doc]</a></sup>
-		<input type="radio" tabindex=1 name="template" id="citation" value="citation">
-		<label for="citation">{{citation}}</label> <sup><a href="//www.qiuwenbaike.cn/wiki/Template:Citation" rel="noopener" target="_blank">[doc]</a></sup>
-		<input type="radio" tabindex=1 name="template" id="plain" value="plain"><label for="plain">plain wikicode (experimental)</label>
-		<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose"><label for="verbose">Vertical form</label>
-		<input type="checkbox" tabindex=1 name="extraparams" id="extraparams" value="extraparams"><label for="extraparams">Extra parameters</label>
-		<br>
-		<input type="button" value="Add citation" onClick="makeCiteBook()">
-		<input type="button" value="Preview citation" onClick="previewCitationBook()">
-		<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility:hidden" />
- 	</fieldset>
-	<span id="previewSpan"></span>
-</div>
-`;
+		form +=
+			'<tr><td><!-- <label for="coauthors"><s>Coauthors: </s></label> --></td>' +
+			'<td><span style="color:#696969;font-style:italic;">Co-author parameter no longer supported</span><!-- <input type="text" tabindex=1 style="width:100%" id="coauthors" placeholder="this parameter no longer supported"> --></td>' +
+			'<td><label for="editor">&nbsp;Editor: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="editor"></td>' +
+			'<td><label for="others">&nbsp;Others: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="others"></td></tr>' +
+			'</table>' +
+			'<table cellspacing="5" width="100%">' +
+			'<tr><td width="130"><label for="publisher">Publisher: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="publisher"></td>' +
+			'<td><label for="location">&nbsp;Location: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="location"></td></tr>' +
+			'<tr><td><label for="date">Publication&nbsp;date or&nbsp;year: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:140px" id="date">' +
+			'<input id="dmy" name="dateformat" value="dmy" type="radio" tabindex=1 onclick="reformatDates()"><label for="dmy">dmy</label>' +
+			'<input id="mdy" name="dateformat" value="mdy" type="radio" tabindex=1 onclick="reformatDates()"><label for="mdy">md, y</label>' +
+			'<input id="ymd" name="dateformat" value="ymd" type="radio" tabindex=1 onclick="reformatDates()"><label for="ymd">y-m-d</label>' +
+			'</td>' +
+			'<td><label for="edition">&nbsp;Edition: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="edition"></td></tr>' +
+			'<tr><td><label for="series">Series: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="series"></td>' +
+			'<td><label for="volume">&nbsp;Volume: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="volume"></td></tr>' +
+			'<tr><td><label for="pages">Page number(s):</label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="pages" name="pages" onFocus="this.style.backgroundColor=\'\';"></td>' +
+			'<td><label for="chapter">&nbsp;Chapter: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="chapter"></td></tr>' +
+			'<tr><td><label for="isbn">ISBN: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="isbn"></td>' +
+			'<td><label for="language">&nbsp;Language: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="language"></td></tr>' +
+			'<tr><td><label for="url">URL: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="url"></td>' +
+			'<td><label for="access-date">&nbsp;Access&nbsp;date:</label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="access-date"></td></tr>' +
+			'<tr><td><label for="otherfields">Other&nbsp;fields:</label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="otherfields"></td>' +
+			'<td><label for="refname">&nbsp;Ref&nbsp;name: </label></td>' +
+			'<td><input type="text" tabindex=1 style="width:100%" id="refname"></td>' +
+			'</tr>' +
+			'</table>' +
+			'<input type="radio" tabindex=1 name="template" id="cite_book" value="cite_book" checked="1"><label for="cite_book">{{cite book}}</label> <sup><a href="https://www.qiuwenbaike.cn/wiki/Template:Cite_book" target="_blank">[doc]</a></sup>' +
+			'<input type="radio" tabindex=1 name="template" id="citation" value="citation"><label for="citation">{{citation}}</label> <sup><a href="https://www.qiuwenbaike.cn/wiki/Template:Citation" target="_blank">[doc]</a></sup>' +
+			'<input type="radio" tabindex=1 name="template" id="plain" value="plain"><label for="plain">plain wikicode (experimental)</label>' +
+			'<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose"><label for="verbose">Vertical form</label>' +
+			'<input type="checkbox" tabindex=1 name="extraparams" id="extraparams" value="extraparams"><label for="extraparams">Extra parameters</label>' +
+			'<br /><input type="button" value="Add citation" onClick="makeCiteBook()">' +
+			'<input type="button" value="Preview citation" onClick="previewCitationBook()">' +
+			'<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility: hidden" />' +
+			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
+
 	const citeJournal = () => {
 		oldFormHide();
 		const template = 'cite journal';
 		numforms++;
-		const form = `<div id="citediv${numforms}">
-	<fieldset>
-		<legend>Cite journal</legend>
-		<table cellspacing="5">
-			<input type="hidden" value="${template}" id="template">
-			<tr>
-				<td width="120"><label for="last">Last name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="last"></td>
-				<td width="120"><label for="first">&nbsp;First name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="first"></td>
-			</tr>
-			<tr>
-				<td width="120"><!-- <label for="coauthors"><s>Coauthors: </s></label> --></td>
-				<td width="400"><span style="color:#696969;font-style:italic">Co-author parameter no longer supported</span><!-- <input type="text" tabindex=1 style="width:100%" id="coauthors" placeholder="this parameter no longer supported"> --></td>
-				<td width="120"><label for="date">&nbsp;Publication date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="date"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="title">Title: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td>
-				<td width="120"><label for="journal">&nbsp;Journal: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="journal"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="publisher">Publisher: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td>
-				<td width="120"><label for="location">&nbsp;Location: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="location"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="volume">Volume: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="volume"></td>
-				<td width="120"><label for="issue">&nbsp;Issue: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="issue"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="pages">Pages: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="pages"></td>
-				<td width="120"><label for="issn">&nbsp;ISSN: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="issn"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="oclc">OCLC: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="oclc"></td>
-				<td width="120"><label for="doi">&nbsp;DOI: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="doi"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="pmid">PMID: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="pmid"></td>
-				<td width="120"><label for="quote">&nbsp;Quote: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="quote"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="url">URL: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>
-				<td width="120"><label for="access-date">&nbsp;Access date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="language">Language: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="language"></td>
-				<td width="120"><label for="refname">&nbsp;Reference name: </label></td>
-				<td width="400">
-					<input type="text" tabindex=1 style="width:60%" id="refname">
-					<input type="button" value="<Last name" onClick="lastNameToRefname()">
-				</td>
-			</tr>
-		</table>
-		<input type="button" value="Add citation" onClick="addcites()">
-		<input type="button" value="Preview citation" onClick="previewCitationDefault()">
-		<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility:hidden" />
-		<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose">
-		<label for="verbose">Vertical form</label>
-		<span style="float:right"><a href="//www.qiuwenbaike.cn/wiki/Template:${template.replace(
-			/ /g,
-			'_'
-		)}" rel="noopener" target="_blank">[Template documentation]</a></span>
-	</fieldset>
-	<span id="previewSpan"></span>
-</div>
-`;
+		const form =
+			`<div id="citediv${numforms}">` +
+			'<fieldset><legend>Cite journal</legend>' +
+			'<table cellspacing="5">' +
+			`<input type="hidden" value="${template}" id="template">` +
+			'<tr><td width="120"><label for="last">Last name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="last"></td>' +
+			'<td width="120"><label for="first">&nbsp;First name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="first"></td></tr>' +
+			'<tr><td width="120"><!-- <label for="coauthors"><s>Coauthors: </s></label> --></td>' +
+			'<td width="400"><span style="color:#696969;font-style:italic;">Co-author parameter no longer supported</span><!-- <input type="text" tabindex=1 style="width:100%" id="coauthors" placeholder="this parameter no longer supported"> --></td>' +
+			'<td width="120"><label for="date">&nbsp;Publication date: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="date"></td></tr>' +
+			'<tr><td width="120"><label for="title">Title: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td>' +
+			'<td width="120"><label for="journal">&nbsp;Journal: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="journal"></td></tr>' +
+			'<tr><td width="120"><label for="publisher">Publisher: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td>' +
+			'<td width="120"><label for="location">&nbsp;Location: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="location"></td></tr>' +
+			'<tr><td width="120"><label for="volume">Volume: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="volume"></td>' +
+			'<td width="120"><label for="issue">&nbsp;Issue: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="issue"></td></tr>' +
+			'<tr><td width="120"><label for="pages">Pages: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="pages"></td>' +
+			'<td width="120"><label for="issn">&nbsp;ISSN: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="issn"></td></tr>' +
+			'<tr><td width="120"><label for="oclc">OCLC: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="oclc"></td>' +
+			'<td width="120"><label for="doi">&nbsp;DOI: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="doi"></td></tr>' +
+			'<tr><td width="120"><label for="pmid">PMID: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="pmid"></td>' +
+			'<td width="120"><label for="quote">&nbsp;Quote: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="quote"></td></tr>' +
+			'<tr><td width="120"><label for="url">URL: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>' +
+			'<td width="120"><label for="access-date">&nbsp;Access date: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date"></td></tr>' +
+			'<tr><td width="120"><label for="language">Language: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="language"></td>' +
+			'<td width="120"><label for="refname">&nbsp;Reference name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:60%" id="refname"><input type="button" value="<Last name" onClick="lastNameToRefname()"></td></tr>' +
+			'</table>' +
+			'<input type="button" value="Add citation" onClick="addcites()">' +
+			' <input type="button" value="Preview citation" onClick="previewCitationDefault()">' +
+			'<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility: hidden" />' +
+			'<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose"><label for="verbose">Vertical form</label>' +
+			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
+				/ /g,
+				'_'
+			)}" target="_blank">[Template documentation]</a></span>` +
+			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
+
 	const citeEncyclopedia = () => {
 		oldFormHide();
 		const template = 'cite encyclopedia';
 		numforms++;
-		const form = `<div id="citediv${numforms}">
-	<fieldset>
-		<legend>Cite encyclopedia source</legend>
-		<table cellspacing="5">
-			<input type="hidden" value="${template}" id="template">
-			<tr>
-				<td width="120"><label for="last">Last name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="last"></td>
-				<td width="120"><label for="first">&nbsp;First name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="first"></td>
-			</tr>
-			<tr>
-				<td width="120"><!-- <label for="coauthors"><s>Coauthors: </s></label> --></td>
-				<td width="400"><span style="color:#696969;font-style:italic">Co-author parameter no longer supported</span><!-- <input type="text" tabindex=1 style="width:100%" id="coauthors" placeholder="this parameter no longer supported"> --></td>
-				<td width="120"><label for="editor">&nbsp;Editor: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="editor"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="title">Entry title: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td>
-				<td width="120"><label for="encyclopedia">&nbsp;Encyclopedia: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="encyclopedia"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="publisher">Publisher: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td>
-				<td width="120"><label for="location">&nbsp;Location: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="location"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="year">Year: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="year"></td>
-				<td width="120"><label for="volume">&nbsp;Volume: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="volume"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="pages">Pages: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="pages"></td>
-				<td width="120"><label for="isbn">&nbsp;ISBN: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="isbn"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="url">URL: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>
-				<td width="120"><label for="access-date">&nbsp;Access date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="language">Language: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="language"></td>
-				<td width="120"><label for="refname">&nbsp;Reference name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="refname"></td>
-			</tr>
-		</table>
-		<input type="button" value="Add citation" onClick="addcites()">
-		<input type="button" value="Preview citation" onClick="previewCitationDefault()">
-		<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility:hidden" />
-		<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose">
-		<label for="verbose">Vertical form</label>
-		<span style="float:right"><a href="//www.qiuwenbaike.cn/wiki/Template:${template.replace(
-			/ /g,
-			'_'
-		)}" rel="noopener" target="_blank">[Template documentation]</a></span>
-	</fieldset>
-	<span id="previewSpan"></span>
-</div>
-`;
+		const form =
+			`<div id="citediv${numforms}">` +
+			'<fieldset><legend>Cite encyclopedia source</legend>' +
+			'<table cellspacing="5">' +
+			`<input type="hidden" value="${template}" id="template">` +
+			'<tr><td width="120"><label for="last">Last name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="last"></td>' +
+			'<td width="120"><label for="first">&nbsp;First name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="first"></td></tr>' +
+			'<tr><td width="120"><!-- <label for="coauthors"><s>Coauthors: </s></label> --></td>' +
+			'<td width="400"><span style="color:#696969;font-style:italic;">Co-author parameter no longer supported</span><!-- <input type="text" tabindex=1 style="width:100%" id="coauthors" placeholder="this parameter no longer supported"> --></td>' +
+			'<td width="120"><label for="editor">&nbsp;Editor: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="editor"></td></tr>' +
+			'<tr><td width="120"><label for="title">Entry title: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td>' +
+			'<td width="120"><label for="encyclopedia">&nbsp;Encyclopedia: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="encyclopedia"></td></tr>' +
+			'<tr><td width="120"><label for="publisher">Publisher: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td>' +
+			'<td width="120"><label for="location">&nbsp;Location: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="location"></td></tr>' +
+			'<tr><td width="120"><label for="year">Year: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="year"></td>' +
+			'<td width="120"><label for="volume">&nbsp;Volume: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="volume"></td></tr>' +
+			'<tr><td width="120"><label for="pages">Pages: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="pages"></td>' +
+			'<td width="120"><label for="isbn">&nbsp;ISBN: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="isbn"></td></tr>' +
+			'<tr><td width="120"><label for="url">URL: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>' +
+			'<td width="120"><label for="access-date">&nbsp;Access date: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date"></td></tr>' +
+			'<tr><td width="120"><label for="language">Language: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="language"></td>' +
+			'<td width="120"><label for="refname">&nbsp;Reference name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="refname"></td></tr>' +
+			'</table>' +
+			'<input type="button" value="Add citation" onClick="addcites()">' +
+			' <input type="button" value="Preview citation" onClick="previewCitationDefault()">' +
+			'<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility: hidden" />' +
+			'<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose"><label for="verbose">Vertical form</label>' +
+			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
+				/ /g,
+				'_'
+			)}" target="_blank">[Template documentation]</a></span>` +
+			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
+
 	const citePressRelease = () => {
 		oldFormHide();
 		const template = 'cite press release';
 		numforms++;
-		const form = `<div id="citediv${numforms}">
-	<fieldset>
-		<legend>Cite press release</legend>
-		<table cellspacing="5">
-			<input type="hidden" value="${template}" id="template">
-			<tr>
-				<td width="120"><label for="title">Title: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td>
-				<td width="120"><label for="publisher">&nbsp;Publisher: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="date">Date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="date"></td>
-				<td width="120"><label for="language">&nbsp;Language: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="language"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="url">URL: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>
-				<td width="120"><label for="access-date">&nbsp;Access date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date" value="${getTime()}"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="refname">Reference name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="refname"></td>
-			</tr>
-		</table>
-		<input type="button" value="Add citation" onClick="addcites()">
-		<input type="button" value="Preview citation" onClick="previewCitationDefault()">
-		<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility:hidden" />
-		<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose">
-		<label for="verbose">Vertical form</label>
-		<span style="float:right"><a href="//www.qiuwenbaike.cn/wiki/Template:${template.replace(
-			/ /g,
-			'_'
-		)}" rel="noopener" target="_blank">[Template documentation]</a></span>
-	</fieldset>
-	<span id="previewSpan"></span>
-</div>
-`;
+		const form =
+			`<div id="citediv${numforms}">` +
+			'<fieldset><legend>Cite press release</legend>' +
+			'<table cellspacing="5">' +
+			`<input type="hidden" value="${template}" id="template">` +
+			'<tr><td width="120"><label for="title">Title: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td>' +
+			'<td width="120"><label for="publisher">&nbsp;Publisher: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td></tr>' +
+			'<tr><td width="120"><label for="date">Date: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="date"></td>' +
+			'<td width="120"><label for="language">&nbsp;Language: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="language"></td></tr>' +
+			'<tr><td width="120"><label for="url">URL: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>' +
+			'<td width="120"><label for="access-date">&nbsp;Access date: </label></td>' +
+			`<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date" value="${getTime()}"></td></tr>` +
+			'<tr><td width="120"><label for="refname">Reference name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="refname"></td></tr>' +
+			'</table>' +
+			'<input type="button" value="Add citation" onClick="addcites()">' +
+			' <input type="button" value="Preview citation" onClick="previewCitationDefault()">' +
+			'<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility: hidden" />' +
+			'<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose"><label for="verbose">Vertical form</label>' +
+			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
+				/ /g,
+				'_'
+			)}" target="_blank">[Template documentation]</a></span>` +
+			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
+
 	const citeMap = () => {
 		oldFormHide();
 		const template = 'cite map';
 		numforms++;
-		const form = `<div id="citediv${numforms}">
-	<fieldset>
-		<legend>Cite map</legend>
-		<table cellspacing="5">
-			<input type="hidden" value="${template}" id="template">
-			<tr>
-				<td width="120"><label for="publisher">Publisher: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td>
-				<td width="120"><label for="title">&nbsp;Title: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="url">URL: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>
-				<td width="120"><label for="access-date">&nbsp;Access date: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="edition">Edition: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="edition"></td>
-				<td width="120"><label for="date">&nbsp;Date or year: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="date"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="cartography">Cartography: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="cartography"></td>
-				<td width="120"><label for="scale">&nbsp;Scale: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="scale"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="series">Series: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="series"></td>
-				<td width="120"><label for="page">&nbsp;Page: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="page"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="section">Section: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="section"></td>
-				<td width="120"><label for="inset">&nbsp;Inset: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="inset"></td>
-			</tr>
-			<tr>
-				<td width="120"><label for="isbn">ISBN: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="isbn"></td>
-				<td width="120"><label for="refname">&nbsp;Reference name: </label></td>
-				<td width="400"><input type="text" tabindex=1 style="width:100%" id="refname"></td>
-			</tr>
-		</table>
-		<input type="button" value="Add citation" onClick="addcites()">
-		<input type="button" value="Preview citation" onClick="previewCitationDefault()">
-		<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility:hidden" />
-		<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose">
-		<label for="verbose">Vertical form</label>
-		<span style="float:right"><a href="//www.qiuwenbaike.cn/wiki/Template:${template.replace(
-			/ /g,
-			'_'
-		)}" rel="noopener" target="_blank">[Template documentation]</a></span>
-	</fieldset>
-	<span id="previewSpan"></span>
-</div>
-`;
+		const form =
+			`<div id="citediv${numforms}">` +
+			'<fieldset><legend>Cite map</legend>' +
+			'<table cellspacing="5">' +
+			`<input type="hidden" value="${template}" id="template">` +
+			'<tr><td width="120"><label for="publisher">Publisher: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="publisher"></td>' +
+			'<td width="120"><label for="title">&nbsp;Title: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="title"></td></tr>' +
+			'<tr><td width="120"><label for="url">URL: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="url"></td>' +
+			'<td width="120"><label for="access-date">&nbsp;Access date: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="access-date"></td></tr>' +
+			'<tr><td width="120"><label for="edition">Edition: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="edition"></td>' +
+			'<td width="120"><label for="date">&nbsp;Date or year: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="date"></td></tr>' +
+			'<tr><td width="120"><label for="cartography">Cartography: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="cartography"></td>' +
+			'<td width="120"><label for="scale">&nbsp;Scale: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="scale"></td></tr>' +
+			'<tr><td width="120"><label for="series">Series: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="series"></td>' +
+			'<td width="120"><label for="page">&nbsp;Page: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="page"></td></tr>' +
+			'<tr><td width="120"><label for="section">Section: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="section"></td>' +
+			'<td width="120"><label for="inset">&nbsp;Inset: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="inset"></td></tr>' +
+			'<tr><td width="120"><label for="isbn">ISBN: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="isbn"></td>' +
+			'<td width="120"><label for="refname">&nbsp;Reference name: </label></td>' +
+			'<td width="400"><input type="text" tabindex=1 style="width:100%" id="refname"></td></tr>' +
+			'</table>' +
+			'<input type="button" value="Add citation" onClick="addcites()">' +
+			' <input type="button" value="Preview citation" onClick="previewCitationDefault()">' +
+			'<img id="progress" src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" style="visibility: hidden" />' +
+			'<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose"><label for="verbose">Vertical form</label>' +
+			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
+				/ /g,
+				'_'
+			)}" target="_blank">[Template documentation]</a></span>` +
+			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
+
 	const showRefSectionOptions = () => {
 		oldFormHide();
 		const template = 'cite encyclopedia';
 		numforms++;
-		const form = `<div id="citediv${numforms}">
-	<fieldset>
-		<legend>Add references section</legend>Headline:<br>
-		<input id="references" name="headline" type="radio" tabindex=1 checked="checked">
-		<label for="references">== References ==</label>
-		<br>
-		<input id="notes" name="headline" type="radio" tabindex=1>
-		<label for="notes">== Notes ==</label>
-		<br>Type:<br>
-		<input id="type-references" name="type" type="radio" tabindex=1>
-		<label for="type-references">&lt;references/&gt;</label>
-		<br>
-		<input id="type-reflist" name="type" type="radio" tabindex=1 checked="checked">
-		<label for="type-reflist">{{Reflist}}</label>
-		<br>
-		<input type="checkbox" tabindex=1 id="ldr">
-		<label for="ldr">List-defined references</label> (<a href="//www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8" rel="noopener" target="_blank">Info 1</a>, <a href="//en.wikipedia.org/wiki/Help:Footnotes#List-defined_references" rel="noopener" target="_blank">Info 2</a>)<br>
-		<input type="button" value="Add references section" onClick="addRefSection()">
-	</fieldset>
-</div>
-`;
+		const form =
+			`<div id="citediv${numforms}">` +
+			'<fieldset><legend>Add references section</legend>' +
+			'Headline:<br />' +
+			'<input id="references" name="headline" type="radio" tabindex=1 checked="checked"><label for="references">== References ==</label><br />' +
+			'<input id="notes" name="headline" type="radio" tabindex=1><label for="notes">== Notes ==</label><br />' +
+			'Type:<br />' +
+			'<input id="type-references" name="type" type="radio" tabindex=1><label for="type-references">&lt;references/&gt;</label><br />' +
+			'<input id="type-reflist" name="type" type="radio" tabindex=1 checked="checked"><label for="type-reflist">{{Reflist}}</label><br />' +
+			'<input id="type-reflist2" name="type" type="radio" tabindex=1><label for="type-reflist2">{{Reflist|2}}</label><br />' +
+			'<input type="checkbox" tabindex=1 id="ldr"><label for="ldr">List-defined references</label> (<a href="https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8" target="_blank">Info 1</a>, <a href="https://www.qiuwenbaike.cn/wiki/Help:Footnotes#List-defined_references" target="_blank">Info 2</a>)<br />' +
+			'<input type="button" value="Add references section" onClick="addRefSection()">' +
+			'</fieldset></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
+
 	const makeCiteCode = () => {
 		const cites = document.querySelector(`#citediv${numforms}`).querySelectorAll('input');
 		let template = '';
 		let citebegin = '<ref';
 		let citename = '';
 		let citeinner = '';
-		for (const cite of cites) {
+		let cite;
+		for (cite of cites) {
 			let citeid = cite.id;
 			let citevalue = cite.value;
-			citevalue = citevalue.trim(); // Trim leading and trailing whitespace
+			citevalue = citevalue.trim(); //Trim leading and trailing whitespace
 			if (citeid === 'verbose') {
 				if (cite.checked) {
 					citeinner = citeinner.replace(/\|/g, '\n|');
@@ -664,28 +580,30 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 					template = citevalue;
 				} else {
 					if (citeid === 'pages') {
-						if (/^\w+$/.test(citevalue) && template !== 'cite encyclopedia') {
-							citeid = 'page'; // Use page= instead of pages= if only one page. Makes p. 5 instead of pp. 5.
+						if (citevalue.match(/^\w+$/) && template !== 'cite encyclopedia') {
+							citeid = 'page'; //Use page= instead of pages= if only one page. Makes p. 5 instead of pp. 5.
 						} else {
-							citevalue = citevalue.replace(/-/g, '–'); // Replace hyphens with en dashes
+							citevalue = citevalue.replace(/-/g, '–'); //Replace hyphens with en dashes [[WP:ENDASH]]
 						}
-					} else if (citeid === 'date' && /^\d{4}$/.test(citevalue)) {
+					} else if (citeid === 'date' && citevalue.match(/^\d\d\d\d$/)) {
 						citeid = 'year'; // Use year= instead of date= if only the year is specified
 					}
 					citeinner += `|${citeid}=${citevalue}`;
 				}
 			}
 		}
-		const full_cite = `${citebegin + citename + citeinner}}}</ref>`;
-		return full_cite;
+		cite = `${citebegin + citename + citeinner}}}</ref>`;
+		return cite;
 	};
-	const addcites = (_template) => {
+
+	const addcites = (template) => {
 		const cite = makeCiteCode();
 		$('#wpTextbox1').trigger('focus');
 		mw.toolbar.insertTags(cite, '', '');
-		// document.querySelector(`#citediv${numforms}`).style.display = 'none';
+		// document.querySelector('#citediv'+numforms).style.display = 'none';
 		oldFormHide();
 	};
+
 	const addRefSection = () => {
 		let wikicode = '\n';
 		if (document.querySelector('#references').checked) {
@@ -695,10 +613,23 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		} else {
 			mw.notify('No headline selected!', {tag: 'RefToolbarLegacy', type: 'error'});
 		}
+
 		if (document.querySelector('#type-references').checked) {
-			wikicode += document.querySelector('#ldr').checked ? '<references>\n\n</references>\n' : '<references />\n';
-		} else if (document.querySelector('#type-reflist').checked) {
-			wikicode += document.querySelector('#ldr').checked ? '{{Reflist|refs=\n\n}}\n' : '{{Reflist}}\n';
+			if (document.querySelector('#ldr').checked) {
+				wikicode += '<references>\n\n</references>\n';
+			} else {
+				wikicode += '<references/>\n';
+			}
+		} else if (
+			document.querySelector('#type-reflist').checked ||
+			document.querySelector('#type-reflist2').checked
+		) {
+			const col2 = document.querySelector('#type-reflist2').checked ? '|2' : '';
+			if (document.querySelector('#ldr').checked) {
+				wikicode += `{{Reflist${col2}|refs=\n\n}}\n`;
+			} else {
+				wikicode += `{{Reflist${col2}}}\n`;
+			}
 		} else {
 			mw.notify('No type selected!', {tag: 'RefToolbarLegacy', type: 'error'});
 		}
@@ -706,11 +637,15 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		mw.toolbar.insertTags(wikicode, '', '');
 		document.querySelector(`#citediv${numforms}`).innerHTML = '';
 	};
+
 	const getNamedRefs = (calls) => {
 		const text = document.querySelector('#wpTextbox1').value;
-		const regex = calls
-			? /< *?ref +?name *?= *?(('([^']*?)')|("([^"]*?)")|([^\s"']*?[^/]\b)) *?\/ *?>/gi // '
-			: /< *?ref +?name *?= *?(('([^']*?)')|("([^"]*?)")|([^\s"']*?[^/]\b)) *?>/gi; // '
+		let regex;
+		if (calls) {
+			regex = /< *?ref +?name *?= *?(('([^']*?)')|("([^"]*?)")|([^'"\s]*?[^/]\b)) *?\/ *?>/gi; //'
+		} else {
+			regex = /< *?ref +?name *?= *?(('([^']*?)')|("([^"]*?)")|([^'"\s]*?[^/]\b)) *?>/gi; //'
+		}
 		const namedrefs = [];
 		let i = 0;
 		let nr = true;
@@ -731,25 +666,37 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		} while (nr === true);
 		return namedrefs;
 	};
+
 	const citeNamedRef = () => {
 		const namedrefs = getNamedRefs(false);
 		if (namedrefs === '') {
 			oldFormHide();
 			numforms++;
-			const out = `<div id="citediv${numforms}"><fieldset><legend>References in text</legend>There are no named refs (<tt>&lt;ref name="Name"&gt;</tt>) in the text</fieldset></div>`;
+			const out =
+				`<div id="citediv${numforms}"><fieldset>` +
+				'<legend>References in text</legend>There are no named refs (<tt>&lt;ref name="Name"&gt;</tt>) in the text</fieldset></div>';
 			document.querySelector('#refToolFormArea').innerHTML = out;
 		} else {
 			oldFormHide();
 			numforms++;
-			let form = `<div id="citediv${numforms}"><fieldset><legend>References in article</legend><table cellspacing="5"><tr><td><label for="namedrefs">&nbsp;Named references in text</label></td><td><select name="namedrefs" id="namedrefs">`;
+			let form =
+				`<div id="citediv${numforms}">` +
+				'<fieldset><legend>References in article</legend>' +
+				'<table cellspacing="5">' +
+				'<tr><td><label for="namedrefs">&nbsp;Named references in text</label></td>' +
+				'<td><select name="namedrefs" id="namedrefs">';
 			for (const namedref of namedrefs) {
 				form += `<option value="${namedref}">${namedref}</option>`;
 			}
 			form +=
-				'</select></td></tr></table><input type="button" value="Add citation" onClick="addnamedcite()"></fieldset></div>';
+				'</select>' +
+				'</td></tr></table>' +
+				'<input type="button" value="Add citation" onClick="addnamedcite()">' +
+				'</fieldset></div>';
 			document.querySelector('#refToolFormArea').innerHTML = form;
 		}
 	};
+
 	const addnamedcite = () => {
 		const name = document.querySelector(`#citediv${numforms}`).querySelectorAll('select')[0].value;
 		const ref = `<ref name="${name}" />`;
@@ -757,10 +704,11 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		mw.toolbar.insertTags(ref, '', '');
 		document.querySelector(`#citediv${numforms}`).style.display = 'none';
 	};
+
 	const getAllRefs = () => {
 		const text = document.querySelector('#wpTextbox1').value;
 		const regex =
-			/< *?ref( +?name *?= *?(('([^']*?)')|("([^"]*?)")|([^\s"']*?[^/]\b)))? *?>((.|\n)*?)< *?\/? *?ref *?>/gim; // "
+			/< *?ref( +?name *?= *?(('([^']*?)')|("([^"]*?)")|([^'"\s]*?[^/]\b)))? *?>((.|\n)*?)< *?\/? *?ref *?>/gim; //"
 		const allrefs = [];
 		let i = 0;
 		let nr = true;
@@ -769,8 +717,8 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			if (ref === null) {
 				nr = false;
 			} else {
-				if (ref[0].search(/\S{150}/) !== -1) {
-					ref[0] = ref[0].replace(/\|(\S)/g, '| $1');
+				if (ref[0].search(/[^\s]{150}/) !== -1) {
+					ref[0] = ref[0].replace(/\|([^\s])/g, '| $1');
 				}
 				ref[0] = ref[0].replace(/</g, '&lt;');
 				ref[0] = ref[0].replace(/>/g, '&gt;');
@@ -780,6 +728,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		} while (nr === true);
 		return allrefs;
 	};
+
 	const NRcallError = (namedrefs, refname) => {
 		for (const namedref of namedrefs) {
 			if (namedref === refname) {
@@ -788,6 +737,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		}
 		return false;
 	};
+
 	const errorCheck = () => {
 		const allrefs = getAllRefs();
 		const allrefscontent = [];
@@ -799,9 +749,9 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		const namedrefcalls = getNamedRefs(true);
 		for (const [i, allref] of allrefs.entries()) {
 			allrefscontent[i] = allref.replace(
-				/&lt; *?ref( +?name *?= *?(('([^']*?)')|("([^"]*?)")|([^\s"']*?[^/]\b)))? *?&gt;((.|\n)*?)&lt; *?\/? *?ref *?&gt;/gim,
+				/&lt; *?ref( +?name *?= *?(('([^']*?)')|("([^"]*?)")|([^'"\s]*?[^/]\b)))? *?&gt;((.|\n)*?)&lt; *?\/? *?ref *?&gt;/gim,
 				'$8'
-			); // "
+			); //"
 		}
 		const namedrefs = getNamedRefs(false);
 		const errorlist = [];
@@ -824,29 +774,28 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 					}
 				}
 				let p = 0;
-				if (!skipcheck) {
-					while (p < allrefs.length) {
-						if (allrefscontent[i] === allrefscontent[p] && i !== p) {
-							errorlist[q] = `<tr><td width="75%"><tt>${allrefscontent[i]}</tt></td>`;
-							errorlist[q] +=
-								'<td width="25%">Multiple refs contain this content, a <a href="https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8">named reference</a> should be used instead</td></tr>';
-							q++;
-							samecontentexclude[sx] = allrefscontent[i];
-							sx++;
-							break;
-						}
-						p++;
+				// eslint-disable-next-line no-unmodified-loop-condition
+				while (p < allrefs.length && !skipcheck) {
+					if (allrefscontent[i] === allrefscontent[p] && i !== p) {
+						errorlist[q] = `<tr><td width="75%"><tt>${allrefscontent[i]}</tt></td>`;
+						errorlist[q] +=
+							'<td width="25%">Multiple refs contain this content, a <a href="https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8">named reference</a> should be used instead</td></tr>';
+						q++;
+						samecontentexclude[sx] = allrefscontent[i];
+						sx++;
+						break;
 					}
+					p++;
 				}
 				skipcheck = false;
 			}
 			if (
 				templates &&
-				allrefscontent[i].search(/{{cite/i) === -1 &&
-				allrefscontent[i].search(/{{citation/i) === -1 &&
-				allrefscontent[i].search(/{{comic (book|strip) reference/i) === -1 &&
-				allrefscontent[i].search(/{{editorial cartoon reference/i) === -1 &&
-				allrefscontent[i].search(/{{harv/i) === -1
+				allrefscontent[i].search(/\{\{cite/i) === -1 &&
+				allrefscontent[i].search(/\{\{citation/i) === -1 &&
+				allrefscontent[i].search(/\{\{Comic (book|strip) reference/i) === -1 &&
+				allrefscontent[i].search(/\{\{Editorial cartoon reference/i) === -1 &&
+				allrefscontent[i].search(/\{\{harv/i) === -1
 			) {
 				for (const element of templateexclude) {
 					if (allrefscontent[i] === element) {
@@ -856,7 +805,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 				if (!skipcheck) {
 					errorlist[q] = `<tr><td width="75%"><tt>${allrefs[i]}</tt></td>`;
 					errorlist[q] +=
-						'<td width="25%">Does not use a <a href="//www.qiuwenbaike.cn/wiki/Category:%E5%BC%95%E7%94%A8%E6%A8%A1%E6%9D%BF">citation template</a></td></tr>';
+						'<td width="25%">Does not use a <a href="https://www.qiuwenbaike.cn/wiki/Category:%E5%BC%95%E7%94%A8%E6%A8%A1%E6%9D%BF">citation template</a></td></tr>';
 					q++;
 					templateexclude[tx] = allrefscontent[i];
 					tx++;
@@ -874,19 +823,18 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 					}
 				}
 				let z = 0;
-				if (!skipcheck) {
-					while (z < namedrefs.length) {
-						if (namedrefs[k] === namedrefs[z] && k !== z) {
-							errorlist[q] = `<tr><td width="75%"><tt>${namedrefs[k]}</tt></td>`;
-							errorlist[q] +=
-								'<td width="25%">Multiple references are given the same <a href="https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8">name</a></td></tr>';
-							q++;
-							repeatnameexclude[rx] = namedrefs[z];
-							rx++;
-							break;
-						}
-						z++;
+				// eslint-disable-next-line no-unmodified-loop-condition
+				while (z < namedrefs.length && !skipcheck) {
+					if (namedrefs[k] === namedrefs[z] && k !== z) {
+						errorlist[q] = `<tr><td width="75%"><tt>${namedrefs[k]}</tt></td>`;
+						errorlist[q] +=
+							'<td width="25%">Multiple references are given the same <a href="https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8">name</a></td></tr>';
+						q++;
+						repeatnameexclude[rx] = namedrefs[z];
+						rx++;
+						break;
 					}
+					z++;
 				}
 				skipcheck = false;
 			}
@@ -895,8 +843,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			const undefexclude = [];
 			let ux = 0;
 			for (const [p, namedrefcall] of namedrefcalls.entries()) {
-				for (const element of undefexclude) {
-					let i;
+				for (const [i, element] of undefexclude.entries()) {
 					if (allrefscontent[i] === element) {
 						skipcheck = true;
 					}
@@ -904,7 +851,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 				if (!skipcheck && !NRcallError(namedrefs, namedrefcall)) {
 					errorlist[q] = `<tr><td width="75%"><tt>${namedrefcall}</tt></td>`;
 					errorlist[q] +=
-						'<td width="25%">A <a href="https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8">named reference</a> is used but not defined</td></tr>';
+						'<td width="25%">A <a href="https://https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8">named reference</a> is used but not defined</td></tr>';
 					q++;
 					undefexclude[ux] = namedrefs[p];
 					ux++;
@@ -917,25 +864,23 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		}
 		return 0;
 	};
+
 	const dispErrors = () => {
 		oldFormHide();
-		const form = `<div id="errorform">
-	<fieldset>
-		<legend>Error checking</legend>
-		<strong>Check for:</strong>
-		<br>
-		<input type="checkbox" id="unclosed"> Unclosed <tt>&lt;ref&gt;</tt> tags<br>
-		<input type="checkbox" id="samecontent"> References with the same content<br>
-		<input type="checkbox" id="templates"> References not using a <a href="//www.qiuwenbaike.cn/wiki/Category:%E5%BC%95%E7%94%A8%E6%A8%A1%E6%9D%BF">citation template</a>
-		<br>
-		<input type="checkbox" id="repeated"> Multiple references with the same name<br>
-		<input type="checkbox" id="undef"> Usage of undefined named references<br>
-		<input type="button" id="errorchecksubmit" value="Check for selected errors" onclick="doErrorCheck()"/>
-	</fieldset>
-</div>
-`;
+		const form =
+			'<div id="errorform"><fieldset>' +
+			'<legend>Error checking</legend>' +
+			'<b>Check for:</b><br/>' +
+			'<input type="checkbox" id="unclosed" /> Unclosed <tt>&lt;ref&gt;</tt> tags<br/>' +
+			'<input type="checkbox" id="samecontent" /> References with the same content<br/>' +
+			'<input type="checkbox" id="templates" /> References not using a <a href="https://www.qiuwenbaike.cn/wiki/Category:%E5%BC%95%E7%94%A8%E6%A8%A1%E6%9D%BF">citation template</a><br/>' +
+			'<input type="checkbox" id="repeated" /> Multiple references with the same name<br/>' +
+			'<input type="checkbox" id="undef" /> Usage of undefined named references<br/>' +
+			'<input type="button" id="errorchecksubmit" value="Check for selected errors" onclick="doErrorCheck()"/>' +
+			'</fieldset></div>';
 		document.querySelector('#citeselect').innerHTML += form;
 	};
+
 	const doErrorCheck = () => {
 		const errors = errorCheck();
 		document.querySelector('#errorform').remove();
@@ -944,7 +889,9 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 				document.querySelector(`#citediv${numforms}`).style.display = 'none';
 			}
 			numforms++;
-			const out = `<div id="citediv${numforms}"><fieldset><legend>Error checking</legend>No errors found.</fieldset></div>`;
+			const out =
+				`<div id="citediv${numforms}"><fieldset>` +
+				'<legend>Error checking</legend>No errors found.</fieldset></div>';
 			document.querySelector('#citeselect').innerHTML += out;
 		} else {
 			if (numforms !== 0) {
@@ -959,6 +906,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			document.querySelector('#citeselect').innerHTML += form;
 		}
 	};
+
 	const makeBookCitationCode = (callback) => {
 		let cite = '<ref';
 		const refname = document.querySelector('#refname').value;
@@ -966,6 +914,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			cite += ` name="${refname}"`;
 		}
 		cite += '>{{';
+
 		if (document.querySelector('#cite_book').checked || document.querySelector('#plain').checked) {
 			cite += 'cite book';
 		} else if (document.querySelector('#citation').checked) {
@@ -973,10 +922,11 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		} else {
 			mw.notify('No template selected.', {tag: 'RefToolbarLegacy', type: 'error'});
 		}
+
 		let authorcite = '';
 		let prevauthor = 0;
 		for (let i = 3; i >= 1; i--) {
-			// const author = document.querySelector(`#author${i}`).value;
+			// var author = document.querySelector('#author' + i).value;
 			const last = document.querySelector(`#last${i}`).value;
 			const first = document.querySelector(`#first${i}`).value;
 			const authorlink = document.querySelector(`#author-link${i}`).value;
@@ -992,6 +942,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			}
 		}
 		cite += authorcite;
+
 		const simplefields = [
 			'editor',
 			'others',
@@ -1010,25 +961,27 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			'chapter',
 		];
 		for (let fieldname of simplefields) {
-			let {value} = document.querySelector(`#${fieldname}`);
+			let {value} = document.getElementById(fieldname);
 			if (/\S/.test(value) || fieldname === 'title') {
 				if (fieldname === 'pages') {
 					if (/^\w+$/.test(value)) {
-						fieldname = 'page'; // Use page= instead of pages= if only one page. Makes p. 5 instead of pp. 5.
+						fieldname = 'page'; //Use page= instead of pages= if only one page. Makes p. 5 instead of pp. 5.
 					} else {
-						value = value.replace(/-/g, '–'); // Replace hyphens with en dashes
-						value = value.replace(/,\s*/g, ', '); // One space after each comma
+						value = value.replace(/-/g, '–'); //Replace hyphens with en dashes [[WP:ENDASH]]
+						value = value.replace(/,\s*\s?/g, ', '); //One space after each comma
 					}
-				} else if (fieldname === 'date' && /^\d{4}$/.test(value)) {
+				} else if (fieldname === 'date' && /^\d\d\d\d$/.test(value)) {
 					fieldname = 'year'; // Use year= instead of date= if only the year is specified
 				}
 				cite += `|${fieldname}=${value}`;
 			}
 		}
+
 		const otherfields = document.querySelector('#otherfields').value;
 		if (/\S/.test(otherfields)) {
 			cite += `|${otherfields}`;
 		}
+
 		if (document.querySelector('#extraparams').checked) {
 			cite += '|author-mask=';
 			if (!document.querySelector('#citation').checked) {
@@ -1050,9 +1003,11 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			cite += '|lay-url=';
 			cite += '|lay-date=';
 		}
+
 		cite += '}}</ref>';
+
 		if (document.querySelector('#plain').checked) {
-			const match = /^(.*?)({{.*}})(.*?)$/.exec(cite);
+			const match = /^(.*?)(\{\{.*}})(.*?)$/.exec(cite);
 			if (match) {
 				let [, , citemid] = match;
 				const [, citebeg, , citeend] = match;
@@ -1078,6 +1033,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 							expanded = expanded.replace(/&#59;/gi, ';');
 							expanded = expanded.replace(/&#91;/gi, '[');
 							expanded = expanded.replace(/&#93;/gi, ']');
+
 							const plaincite = citebeg + expanded + citeend;
 							// mw.notify(plaincite, {tag: 'RefToolbarLegacy', type: 'warn'});
 							callback(plaincite);
@@ -1098,6 +1054,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			callback(cite);
 		}
 	};
+
 	const makeCiteBook = () => {
 		makeBookCitationCode((cite) => {
 			$('#wpTextbox1').trigger('focus');
@@ -1107,6 +1064,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			}
 		});
 	};
+
 	const formatDate = (datein, dateformat) => {
 		if (dateformat === '') {
 			return datein;
@@ -1117,13 +1075,12 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		let date = -1;
 		const match = /^(\d\d\d\d)-(\d\d?)(-(\d\d?))?$/.exec(datein);
 		if (match) {
-			// mw.notify(` match[1]=${match[1]} match[2]=#${match[2]}# match[3]=${match[3]} match[4]=${match[4]}`, {tag: 'RefToolbarLegacy', type: 'warn'});
-			year = Number.parseInt(match[1], 10); // 10 forces decimal conversion
+			// mw.notify(` match[1]=${match[1]} match[2]=#${match[2]}# match[3]=${match[3]} match[4]=${match[4]}`, {tag: 'RefToolbarLegacy', type: 'warn'});			year = Number.parseInt(match[1], 10); //10 forces decimal conversion
 			month = Number.parseInt(match[2], 10);
 			if (match[4]) {
 				date = Number.parseInt(match[4], 10);
 			}
-		} else if (/^\d{1,2} \w+ \d{4}$/.test(datein) || /^\w+ \d{1,2}, \d{4}$/.test(datein)) {
+		} else if (/^\d\d? \w+ \d\d\d\d$/.test(datein) || /^\w+ \d\d?, \d\d\d\d$/.test(datein)) {
 			const DT = new Date(datein);
 			year = DT.getFullYear();
 			month = DT.getMonth() + 1;
@@ -1138,15 +1095,24 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		}
 		// mw.notify(`datein=${datein}, y=${year}, m=${month}, d=${date}`, {tag: 'RefToolbarLegacy', type: 'warn'});
 		let zmonth = '';
-		zmonth = month < 10 ? `0${month.toString()}` : month.toString();
+		if (month < 10) {
+			zmonth = `0${month.toString()}`;
+		} else {
+			zmonth = month.toString();
+		}
 		month = month.toString();
 		let zdate = '';
 		if (date > -1) {
-			zdate = date < 10 ? `0${date.toString()}` : date.toString();
+			if (date < 10) {
+				zdate = `0${date.toString()}`;
+			} else {
+				zdate = date.toString();
+			}
 			date = date.toString();
 		} else {
 			date = '';
 		}
+
 		let datestr = dateformat;
 		datestr = datestr.replace('<date>', date);
 		datestr = datestr.replace('<month>', month);
@@ -1157,6 +1123,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		datestr = datestr.replace(/\s+/, ' ').replace(/^\s+/, '').replace(/(\D),/, '$1').replace(/-$/, '');
 		return datestr;
 	};
+
 	const getDateFormat = () => {
 		let dateformat = '';
 		if (document.querySelector('#dmy')) {
@@ -1174,6 +1141,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		}
 		return dateformat;
 	};
+
 	const reformatDates = () => {
 		const dateformat = getDateFormat();
 		// mw.notify(`:${dateformat}:`, {tag: 'RefToolbarLegacy', type: 'warn'});
@@ -1184,9 +1152,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		document.querySelector('#date').value = formatDate(document.querySelector('#date').value, dateformat);
 		// document.querySelector('#dateformat_hidden').value = getDateFormatShort();
 	};
-	/* const updateGetButton = () => {
-	document.querySelector('#urlget').disabled = document.querySelector('#url').value === '';
-} */
+
 	const preview = (wikitext) => {
 		document.querySelector('#progress').style.visibility = 'visible';
 		wikitext += '<references />';
@@ -1202,9 +1168,9 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 						previewHTML = xmlDoc.querySelectorAll('text')[0].childNodes[0].nodeValue;
 					}
 					// mw.notify(previewHTML, {tag: 'RefToolbarLegacy', type: 'warn'});
-					previewHTML = previewHTML.replace(/href="\//gi, 'href="//www.qiuwenbaike.cn/');
-					document.querySelector(
-						'#previewSpan'
+					previewHTML = previewHTML.replace(/href="\//gi, 'href="https://www.qiuwenbaike.cn/');
+					document.getElementById(
+						'previewSpan'
 					).innerHTML = `<fieldset><legend>Citation preview</legend>${previewHTML}</fieldset>`;
 				} else {
 					mw.notify('The query returned an error.', {tag: 'RefToolbarLegacy', type: 'error'});
@@ -1214,62 +1180,16 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		xmlhttp.open('GET', url, true);
 		xmlhttp.send(null);
 	};
+
 	const previewCitationBook = () => {
 		makeBookCitationCode(preview);
 	};
+
 	const previewCitationDefault = () => {
 		const wikitext = makeCiteCode();
 		preview(wikitext);
 	};
-	const JsonRequest = (url) => {
-		const script = document.createElement('script');
-		script.setAttribute('src', url);
-		script.setAttribute('type', 'text/javascript');
-		document.querySelectorAll('head')[0].append(script);
-	};
-	const pullURL = () => {
-		let url = document.querySelector('#url').value;
-		if (url) {
-			document.querySelector('#progress').style.visibility = 'visible';
-			if (!refTagURL) {
-				refTagURL = defaultRefTagURL;
-			}
-			const baseurl = `${refTagURL}urlfetchjs.py`;
-			url = `${baseurl}?url=${encodeURIComponent(url)}&callback=useUrlData`;
-			JsonRequest(url);
-		} else {
-			mw.notify('No URL.', {tag: 'RefToolbarLegacy', type: 'error'});
-		}
-	};
-	const pullISBN = () => {
-		let isbn = document.querySelector('#isbn').value;
-		isbn = isbn.replace(/\D/g, ''); // Digits only
-		if (isbn) {
-			document.querySelector('#progress').style.visibility = 'visible';
-			if (!refTagURL) {
-				refTagURL = defaultRefTagURL;
-			}
-			const baseurl = `${refTagURL}getdiberri.py`;
-			const url = `${baseurl}?isbn=${isbn}&callback=useDiberriData`;
-			JsonRequest(url);
-		} else {
-			mw.notify('No ISBN.', {tag: 'RefToolbarLegacy', type: 'error'});
-		}
-	};
-	const pullDOI = () => {
-		const doi = document.querySelector('#doi').value;
-		if (doi) {
-			document.querySelector('#progress').style.visibility = 'visible';
-			if (!refTagURL) {
-				refTagURL = defaultRefTagURL;
-			}
-			const baseurl = `${refTagURL}doifetchjs.py`;
-			const url = `${baseurl}?doi=${encodeURIComponent(doi)}&callback=useDoiData`;
-			JsonRequest(url);
-		} else {
-			mw.notify('No DOI.', {tag: 'RefToolbarLegacy', type: 'error'});
-		}
-	};
+
 	const pullJs = () => {
 		const book_url = document.querySelector('#url').value;
 		if (book_url) {
@@ -1285,9 +1205,66 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 			mw.notify('No URL.', {tag: 'RefToolbarLegacy', type: 'error'});
 		}
 	};
+
+	const pullISBN = () => {
+		let isbn = document.querySelector('#isbn').value;
+		isbn = isbn.replace(/[^0-9]/g, ''); //Digits only
+		if (isbn) {
+			document.querySelector('#progress').style.visibility = 'visible';
+			if (!refTagURL) {
+				refTagURL = defaultRefTagURL;
+			}
+			const baseurl = `${refTagURL}getdiberri.py`;
+			const url = `${baseurl}?isbn=${isbn}&callback=useDiberriData`;
+			JsonRequest(url);
+		} else {
+			mw.notify('No ISBN.', {tag: 'RefToolbarLegacy', type: 'error'});
+		}
+	};
+
+	const pullDOI = () => {
+		const doi = document.querySelector('#doi').value;
+		if (doi) {
+			document.querySelector('#progress').style.visibility = 'visible';
+			if (!refTagURL) {
+				refTagURL = defaultRefTagURL;
+			}
+			const baseurl = `${refTagURL}doifetchjs.py`;
+			const url = `${baseurl}?doi=${encodeURIComponent(doi)}&callback=useDoiData`;
+			JsonRequest(url);
+		} else {
+			alert('No DOI.');
+		}
+	};
+
 	const pullPMID = () => {
 		mw.notify('Not implemented yet...', {tag: 'RefToolbarLegacy', type: 'error'});
 	};
+
+	const pullURL = () => {
+		let url = document.querySelector('#url').value;
+		if (url) {
+			document.querySelector('#progress').style.visibility = 'visible';
+			if (!refTagURL) {
+				refTagURL = defaultRefTagURL;
+			}
+			const baseurl = `${refTagURL}urlfetchjs.py`;
+			url = `${baseurl}?url=${encodeURIComponent(url)}&callback=useUrlData`;
+			JsonRequest(url);
+		} else {
+			mw.notify('No URL.', {tag: 'RefToolbarLegacy', type: 'error'});
+		}
+	};
+
+	const JsonRequest = (url) => {
+		// mw.loader.load(url)  //Bad: does not import the same script more than once
+		const script = document.createElement('script');
+		script.setAttribute('src', url);
+		script.setAttribute('type', 'text/javascript');
+		// document.body.appendChild(script);
+		document.querySelectorAll('head')[0].append(script);
+	};
+
 	const setFormValues = (bookdata) => {
 		document.querySelector('#progress').style.visibility = 'hidden';
 		// mw.notify(bookdata, {tag: 'RefToolbarLegacy', type: 'warn'});
@@ -1303,7 +1280,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		}
 		if (bookdata.pages.length > 0) {
 			document.querySelector('#pages').value = bookdata.pages;
-			document.querySelector('#pages').style.backgroundColor = '#ffff99';
+			document.querySelector('#pages').style.backgroundColor = '#FF9';
 		}
 		if (bookdata.url.length > 0) {
 			document.querySelector('#url').value = bookdata.url;
@@ -1311,6 +1288,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		if (bookdata.date.length > 0) {
 			document.querySelector('#date').value = bookdata.date;
 		}
+
 		for (let i = 0; i < bookdata.authors.length && i <= 2; i++) {
 			const authorn = i + 1;
 			const author = bookdata.authors[i];
@@ -1326,6 +1304,7 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		setAccessDateToday();
 		makeRefname();
 	};
+
 	const useDiberriData = (bookdata) => {
 		document.querySelector('#progress').style.visibility = 'hidden';
 		if (bookdata.title.length > 0) {
@@ -1359,20 +1338,15 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		}
 		makeRefname();
 	};
+
 	const useDoiData = (bookdata) => {
 		document.querySelector('#progress').style.visibility = 'hidden';
 		if (bookdata.title) {
 			document.querySelector('#title').value = bookdata.title;
 		}
-		// if (bookdata.isbn.length !== 0) {
-		//   document..querySelector('#isbn').value = bookdata.isbn;
-		// }
-		// if (bookdata.publisher.length !== 0) {
-		//   document..querySelector('#publisher').value = bookdata.publisher;
-		// }
-		// if (bookdata.location.length !== 0) {
-		//   document..querySelector('#location').value = bookdata.location;
-		// }
+		// if (bookdata.isbn.length > 0) { document.querySelector('#isbn').value = bookdata.isbn; }
+		// if (bookdata.publisher.length > 0) { document.querySelector('#publisher').value = bookdata.publisher; }
+		// if (bookdata.location.length > 0) { document.querySelector('#location').value = bookdata.location; }
 		if (bookdata.year) {
 			document.querySelector('#date').value = bookdata.year;
 		}
@@ -1391,8 +1365,10 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		if (bookdata.pages) {
 			document.querySelector('#pages').value = bookdata.pages;
 		}
+
 		if (bookdata.authors) {
 			const coauthors = [];
+
 			for (const [i, author] of bookdata.authors.entries()) {
 				const authorn = i + 1;
 				if (authorn === 1) {
@@ -1413,12 +1389,14 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 					coauthors.push(authorparts.join(' '));
 				}
 			}
+
 			if (coauthors[0]) {
 				document.querySelector('#coauthors').value = coauthors.join(', ');
 			}
 		}
 		makeRefname();
 	};
+
 	const useUrlData = (data) => {
 		document.querySelector('#progress').style.visibility = 'hidden';
 		if (data.title) {
@@ -1433,8 +1411,10 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 		if (data.date) {
 			document.querySelector('#date').value = formatDate(data.date, getDateFormat());
 		}
+
 		if (data.authors) {
 			const coauthors = [];
+
 			for (const [i, author] of data.authors.entries()) {
 				const authorn = i + 1;
 				if (authorn === 1) {
@@ -1449,11 +1429,13 @@ export const refToolbarLegacy = function refToolbarLegacy() {
 					coauthors.push(author);
 				}
 			}
+
 			if (coauthors[0]) {
 				document.querySelector('#coauthors').value = coauthors.join(', ');
 			}
 		}
 	};
+
 	mw.hook('mw.toolbar').add(() => {
 		refbuttons();
 	});

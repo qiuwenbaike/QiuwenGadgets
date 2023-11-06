@@ -1,4 +1,4 @@
-export const hotCatLocalDefaults = function hotCatLocalDefaults() {
+export const hotCatLocalDefaults = () => {
 	if (typeof HotCat !== 'undefined') {
 		HotCat.messages.cat_removed = '已移除[[Category:$1]]';
 		HotCat.messages.template_removed = '已移除{{[[Category:$1]]}}';

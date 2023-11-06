@@ -1,4 +1,4 @@
-export const refToolbarBase = function refToolbarBase() {
+export const refToolbarBase = () => {
 	if (window.CiteTB === undefined) {
 		window.CiteTB = {
 			Templates: {},
@@ -18,6 +18,7 @@ export const refToolbarBase = function refToolbarBase() {
 		this.templatename = templatename; // The template name - "cite web", "cite book", etc.
 		this.shortform = shortform; // A short form, used for the dropdown box
 		this.basic = basicfields; // Basic fields - author, title, publisher...
+
 		// Less common - quote, archiveurl - should be everything the template supports minus the basic ones
 		this.extra = expandedfields;
 		this.incrementables = {};
