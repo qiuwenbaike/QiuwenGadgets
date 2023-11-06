@@ -1,4 +1,4 @@
-export const hotCatMessages = function hotCatMessages() {
+export const hotCatMessages = () => {
 	if (typeof HotCat !== 'undefined') {
 		HotCat.messages.commit = '保存';
 		HotCat.messages.ok = '确定';
