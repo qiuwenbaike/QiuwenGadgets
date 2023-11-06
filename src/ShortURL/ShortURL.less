@@ -21,14 +21,8 @@
 .shortlink-icon,
 .mw-ui-icon-wikimedia-shortlink {
 	&::before {
-		/**
-		 * @description link Icon from OOjs UI
-		 * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/link.svg>
-		 * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
-		 */
-		background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cpath d='M4.83 15h2.91a4.88 4.88 0 01-1.55-2H5a3 3 0 110-6h3a3 3 0 012.82 4h2.1a4.82 4.82 0 00.08-.83v-.34A4.83 4.83 0 008.17 5H4.83A4.83 4.83 0 000 9.83v.34A4.83 4.83 0 004.83 15z'/%3E%3Cpath d='M15.17 5h-2.91a4.88 4.88 0 011.55 2H15a3 3 0 110 6h-3a3 3 0 01-2.82-4h-2.1a4.82 4.82 0 00-.08.83v.34A4.83 4.83 0 0011.83 15h3.34A4.83 4.83 0 0020 10.17v-.34A4.83 4.83 0 0015.17 5z'/%3E%3C/svg%3E");
-		background-image: linear-gradient(transparent, transparent),
-			url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cpath d='M4.83 15h2.91a4.88 4.88 0 01-1.55-2H5a3 3 0 110-6h3a3 3 0 012.82 4h2.1a4.82 4.82 0 00.08-.83v-.34A4.83 4.83 0 008.17 5H4.83A4.83 4.83 0 000 9.83v.34A4.83 4.83 0 004.83 15z'/%3E%3Cpath d='M15.17 5h-2.91a4.88 4.88 0 011.55 2H15a3 3 0 110 6h-3a3 3 0 01-2.82-4h-2.1a4.82 4.82 0 00-.08.83v.34A4.83 4.83 0 0011.83 15h3.34A4.83 4.83 0 0020 10.17v-.34A4.83 4.83 0 0015.17 5z'/%3E%3C/svg%3E");
+		background-image: data-url('./images/link.svg');
+		background-image: linear-gradient(transparent, transparent), data-url('./images/link.svg');
 		display: block;
 		width: 100%;
 		height: 100%;

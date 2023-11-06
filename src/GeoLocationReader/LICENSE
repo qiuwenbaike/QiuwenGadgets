@@ -11,3 +11,27 @@
  * @base <https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/GeoLocationReader.less>
  */
+/**
+ * @description globe Icon from OOjs UI
+ * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/globe.svg>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/images>
+ * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+ */
+/**
+ * @description helpNotice Icon (ltr) from OOjs UI
+ * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/helpNotice-ltr.svg>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/images>
+ * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+ */
+/**
+ * @description settings Icon (ltr) from OOjs UI
+ * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/settings.svg>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/images>
+ * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+ */
+/**
+ * @description userAvatar Icon (ltr) from OOjs UI
+ * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/userAvatar.svg>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/images>
+ * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+ */

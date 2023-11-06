@@ -6,3 +6,9 @@
  * @base <https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.js>
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/WhoIsActive>
  */
+/**
+ * @description userContributions Icon (ltr) from OOjs UI
+ * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/userContributions-ltr.svg>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/WhoIsActive/images>
+ * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+ */

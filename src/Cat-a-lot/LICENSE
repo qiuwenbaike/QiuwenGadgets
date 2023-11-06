@@ -37,3 +37,8 @@
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/checkbox.ts>
  * @author Krinkle <krinklemail@gmail.com>
  */
+/**
+ * @description check Icon from OOjs UI (constructive; green color)
+ * @base <https://www.qiuwenbaike.cn/wiki/File:OOjs_UI_icon_check-constructive.svg>
+ * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+ */
