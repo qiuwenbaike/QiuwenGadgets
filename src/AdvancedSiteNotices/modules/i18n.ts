@@ -1,17 +1,11 @@
-/* eslint-disable camelcase */
 const getI18nMessages: GetI18nMessages = () => {
 	const {localize} = i18n;
 	return {
-		asn__dismiss: localize({
+		Dismiss: localize({
 			en: 'turn off this notice',
 			ja: 'ASNをオフにする',
 			'zh-hans': '关闭公告',
 			'zh-hant': '關閉公告',
-		}),
-		asn__title: localize({
-			en: 'announcement',
-			ja: '通知',
-			zh: '公告',
 		}),
 		DismissNotice: localize({
 			en: 'You have chosen to turn off Advanced Site Notices for the next 30 days. <br>If the site-wide announcement is not updated within the next 30 days, it will no longer be displayed; however, if the site-wide announcement is updated, it will be displayed again.',
@@ -20,6 +14,11 @@ const getI18nMessages: GetI18nMessages = () => {
 				'您已选择在接下来30日内关闭“高级站点通告”。<br>若接下来30日内全站公告未有更新，则不再显示；但是，若全站公告内容更新，则将重新显示。',
 			'zh-hant':
 				'您已選擇在接下來30日內關閉「高級站點通告」。<br>若接下來30日內全站公告未有更新，則不再顯示；但是，若全站公告內容更新，則將重新顯示。',
+		}),
+		Title: localize({
+			en: 'announcement',
+			ja: '通知',
+			zh: '公告',
 		}),
 	};
 };
