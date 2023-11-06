@@ -5,7 +5,7 @@
 		"type": "git",
 		"url": "https://github.com/AnYiEE/AwesomeGadgets"
 	},
-	"version": "2.2.2",
+	"version": "2.3.0",
 	"description": "Storage, compile, and auto deploy MediaWiki gadgets.",
 	"type": "module",
 	"scripts": {
@@ -69,16 +69,5 @@
 		"types-mediawiki": "github:AnYiEE/types-mediawiki",
 		"typescript": "^5.2.2",
 		"svgo": "3.0.2"
-	},
-	"lint-staged": {
-		"*.{css,less}": [
-			"prettier --cache --write",
-			"stylelint --allow-empty-input --cache --fix"
-		],
-		"*.{cjs,js,ts}": [
-			"prettier --cache --write",
-			"eslint --cache --fix"
-		],
-		"*": "prettier --cache --ignore-unknown --write"
 	}
 }
