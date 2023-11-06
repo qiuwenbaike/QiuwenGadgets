@@ -5,3 +5,9 @@
  * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ShortURL>
  * @author 安忆 <i@anyi.in>; WaitSpring <me@waitspring.com>
  */
+/**
+ * @description link Icon from OOjs UI
+ * @base <https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/link.svg>
+ * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ShortURL/images>
+ * @license MIT <https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT>
+ */

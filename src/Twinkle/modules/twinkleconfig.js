@@ -1111,9 +1111,6 @@
 			if (!document.getElementById('twinkle-config')) {
 				return; // maybe the page is misconfigured, or something - but any attempt to modify it will be pointless
 			}
-			// set style (the url() CSS function doesn't seem to work from wikicode - ?!)
-			document.getElementById('twinkle-config-titlebar').style.backgroundImage =
-				'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAIAAADHFsdbAAAAO0lEQVR4AWK6ev81E6BqaSAAAIiB61/4jdk8AID3Gpf3udex/Y7s9Yp27B2+c/zuI+67wzNF472W+qM/RP8gdFf6CWQAAAAASUVORK5CYII=)';
 			const contentdiv = document.getElementById('twinkle-config-content');
 			contentdiv.textContent = ''; // clear children
 			// start a table of contents

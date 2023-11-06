@@ -2,3 +2,4 @@ dist/
 *.json
 *.yml
 *.yaml
+src/**/LICENSE

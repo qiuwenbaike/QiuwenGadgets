@@ -19,7 +19,7 @@
 		"lint": "pnpm eslint && pnpm stylelint",
 		"lint:fix": "pnpm eslint:fix && pnpm stylelint:fix",
 		"preinstall": "npx only-allow pnpm",
-		"prepare": "husky install"
+		"minify-svg": "svgo --config=.svgo.config.cjs --quiet --recursive --folder src"
 	},
 	"keywords": [
 		"Gadget",
@@ -66,7 +66,8 @@
 		"stylelint-config-wikimedia": "^0.16.1",
 		"ts-node": "^10.9.1",
 		"types-mediawiki": "github:AnYiEE/types-mediawiki",
-		"typescript": "^5.2.2"
+		"typescript": "^5.2.2",
+		"svgo": "3.0.2"
 	},
 	"lint-staged": {
 		"*.{css,less}": [

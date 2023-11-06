@@ -1243,7 +1243,8 @@ export const ProveIt = {
 			paramOrder = paramOrder.filter(
 				(
 					item,
-					index // Remove duplicates
+					// Remove duplicates
+					index
 				) => {
 					return paramOrder.indexOf(item) === index;
 				}

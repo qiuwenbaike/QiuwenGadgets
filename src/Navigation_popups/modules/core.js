@@ -832,11 +832,10 @@ export const popups = () => {
 	/** -- fancy2 -- */
 	// hack for MacGyverMagic
 	copyStructure('fancy', 'fancy2');
-	pg.structures.fancy2.popupTopLinks = (
-		x // hack out the <br> at the end and put one at the beginning
-	) => {
-		return `<br>${pg.structures.fancy.popupTopLinks(x).replace(/<br>$/i, '')}`;
-	};
+	pg.structures.fancy2.popupTopLinks = // hack out the <br> at the end and put one at the beginning
+		(x) => {
+			return `<br>${pg.structures.fancy.popupTopLinks(x).replace(/<br>$/i, '')}`;
+		};
 	pg.structures.fancy2.popupLayout = () => {
 		return [
 			'popupError',
@@ -1077,7 +1076,10 @@ export const popups = () => {
 		return {segment, remainder: str.slice(Math.max(0, endSegment + 1))};
 	};
 	const skipToEnd = (str, _sep) => {
-		return {segment: str, remainder: ''};
+		return {
+			segment: str,
+			remainder: '',
+		};
 	};
 	const findNext = (str, ch) => {
 		for (let i = 0; i < str.length; ++i) {

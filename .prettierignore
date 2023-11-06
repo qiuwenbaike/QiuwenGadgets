@@ -1,3 +1,4 @@
 dist/
 *.yml
 *.yaml
+src/**/LICENSE

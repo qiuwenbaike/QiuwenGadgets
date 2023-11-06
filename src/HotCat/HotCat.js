@@ -371,15 +371,9 @@ import {hotCatMessages} from './modules/messages';
 		}
 		return str.slice(0, 1).toUpperCase() + str.slice(1);
 	};
-	const wikiPagePath = (pageName) =>
-		// Note: do not simply use encodeURI, it doesn't encode '&', which might break if wgArticlePath actually has the $1 in
-		// a query parameter.
-		{
-			return conf.wgArticlePath.replace(
-				'$1',
-				encodeURIComponent(pageName).replace(/%3A/g, ':').replace(/%2F/g, '/')
-			);
-		};
+	const wikiPagePath = (pageName) => {
+		return conf.wgArticlePath.replace('$1', encodeURIComponent(pageName).replace(/%3A/g, ':').replace(/%2F/g, '/'));
+	};
 	const escapeRE = (str) => {
 		return str.replace(/([$()*+.?[\\\]^])/g, '\\$1');
 	};
