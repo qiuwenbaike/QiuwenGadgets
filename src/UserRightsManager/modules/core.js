@@ -30,13 +30,18 @@ const assignPermission = (summary, revId, expiry) => {
 	return api.postWithToken('userrights', params);
 };
 
-const markAsDone = async (closingRemarks) => {
+const markAsDone = (closingRemarks) => {
 	const sectionNode = document.getElementById(`User:${userName.replace(/"/g, '.22').replace(/ /g, '_')}`);
 	const [, sectionNumber] = $(sectionNode)
 		.siblings('.mw-editsection')
 		.find('a:not(.mw-editsection-visualeditor)')
 		.prop('href')
 		.match(/section=(\d+)/);
+	let basetimestamp;
+	let curtimestamp;
+	let page;
+	let revision;
+	let content;
 	const queryParams = {
 		action: 'query',
 		format: 'json',
@@ -47,40 +52,44 @@ const markAsDone = async (closingRemarks) => {
 		rvprop: ['content', 'timestamp'],
 		rvsection: sectionNumber,
 	};
-	const data = await api.get(queryParams);
-	if (!data.query || !data.query.pages) {
-		return $.Deferred().reject('unknown');
-	}
-	const [page] = data.query.pages;
-	if (!page || page.invalid) {
-		return $.Deferred().reject('invalidtitle');
-	}
-	if (page.missing) {
-		return $.Deferred().reject('nocreate-missing');
-	}
-	const [revision] = page.revisions;
-	const basetimestamp = revision.timestamp;
-	const {curtimestamp} = data;
-	let {content} = revision;
-	content = content.trim();
-	content = content.replace(/:{{status(\|.*?)?}}/i, ':{{Status|+}}');
-	content += closingRemarks;
-	const editParams = {
-		action: 'edit',
-		format: 'json',
-		formatversion: '2',
-		title: pageName,
-		assert: mw.config.get('wgUserName') ? 'user' : undefined,
-		nocreate: true,
-		section: sectionNumber,
-		starttimestamp: curtimestamp,
-		summary: `/* User:${userName} */ 完成${tagLine}`,
-		text: content,
-		basetimestamp,
-	};
-	return api.postWithEditToken(editParams);
+	return api
+		.get(queryParams)
+		.then((data) => {
+			if (!data.query || !data.query.pages) {
+				return $.Deferred().reject('unknown');
+			}
+			[page] = data.query.pages;
+			if (!page || page.invalid) {
+				return $.Deferred().reject('invalidtitle');
+			}
+			if (page.missing) {
+				return $.Deferred().reject('nocreate-missing');
+			}
+			[revision] = page.revisions;
+			basetimestamp = revision.timestamp;
+			({curtimestamp} = data);
+			({content} = revision);
+		})
+		.then(() => {
+			content = content.trim();
+			content = content.replace(/:{{status(\|.*?)?}}/i, ':{{Status|+}}');
+			content += closingRemarks;
+			const editParams = {
+				action: 'edit',
+				format: 'json',
+				formatversion: '2',
+				title: pageName,
+				assert: mw.config.get('wgUserName') ? 'user' : undefined,
+				nocreate: true,
+				section: sectionNumber,
+				starttimestamp: curtimestamp,
+				summary: `/* User:${userName} */ 完成${tagLine}`,
+				text: content,
+				basetimestamp,
+			};
+			return api.postWithEditToken(editParams);
+		});
 };
-
 const issueTemplate = (watch) => {
 	const talkPage = `User talk:${userName.replace(/ /g, '_')}`;
 	const params = {
@@ -93,7 +102,7 @@ const issueTemplate = (watch) => {
 	return api.postWithEditToken(params);
 };
 
-export const showDialog = () => {
+const showDialog = () => {
 	const Dialog = function (config) {
 		Dialog.super.call(this, config);
 	};
@@ -117,7 +126,7 @@ export const showDialog = () => {
 	Dialog.prototype.getBodyHeight = () => {
 		return 255;
 	};
-	Dialog.prototype.initialize = async function () {
+	Dialog.prototype.initialize = function () {
 		Dialog.super.prototype.initialize.call(this);
 		this.editFieldset = new OO.ui.FieldsetLayout({
 			classes: ['container'],
@@ -150,16 +159,17 @@ export const showDialog = () => {
 			letitle: `User:${userName}`,
 			list: 'logevents',
 		};
-		const {query} = await api.get(params);
-		const logs = query.logevents;
-		if (logs.length === 0) {
-			rightLogText.text('没有任何日志');
-		} else {
-			// eslint-disable-next-line new-cap
-			const timestamp = new Morebits.date(logs[0].timestamp).calendar();
-			const rights = logs[0].params.newgroups.join('、') || '（无）';
-			rightLogText.text(`${timestamp} ${logs[0].user}将用户组改为${rights}`);
-		}
+		api.get(params).done(({query}) => {
+			const logs = query.logevents;
+			if (logs.length === 0) {
+				rightLogText.text('没有任何日志');
+			} else {
+				// eslint-disable-next-line new-cap
+				const timestamp = new Morebits.date(logs[0].timestamp).calendar();
+				const rights = logs[0].params.newgroups.join('、') || '（无）';
+				rightLogText.text(`${timestamp} ${logs[0].user}将用户组改为${rights}`);
+			}
+		});
 		this.rightsChangeSummaryInput = new OO.ui.TextInputWidget({
 			value: '',
 			placeholder: '可留空',
