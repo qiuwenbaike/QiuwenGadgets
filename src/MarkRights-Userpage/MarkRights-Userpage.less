@@ -104,17 +104,6 @@
 			}
 		}
 
-		/* 特殊权限（确、自、免、代、机器用户）：绿色 */
-		&-confirmed,
-		&-autoconfirmed,
-		&-autoreviewer,
-		&-ipblock-exempt,
-		&-rnrsverify-exempt,
-		&-flood {
-			border-color: #00af89;
-			color: #00af89;
-		}
-
 		&-confirmed::before {
 			content: '[确]';
 
@@ -179,6 +168,17 @@
 	&-bot {
 		border-color: #36c;
 		color: #36c;
+	}
+
+	/* 特殊权限（确、自、免、代、机器用户）：绿色 */
+	&-confirmed,
+	&-autoconfirmed,
+	&-autoreviewer,
+	&-ipblock-exempt,
+	&-rnrsverify-exempt,
+	&-flood {
+		border-color: #00af89;
+		color: #00af89;
 	}
 
 	&-text {
