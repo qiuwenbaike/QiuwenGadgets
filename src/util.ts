@@ -159,6 +159,7 @@ const scrollTop = (
 		typeof effectsOptionsOrDuration === 'number'
 			? {
 					duration: effectsOptionsOrDuration,
+					easing: 'swing',
 			  }
 			: effectsOptionsOrDuration;
 	$('html, body').animate(
