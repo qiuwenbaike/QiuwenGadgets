@@ -40,7 +40,6 @@
 					.append($('<p>').append(createjIcon(icon).css('marginRight', '0.3em'), textNode))
 			);
 	};
-	mw.util.addCSS('.catcheck-inline-icon{display:inline-block;position:relative;top:2px}');
 	// Remove "check categories" when using HotCat
 	// Only executed on first submit
 	$('body').one('submit.checkCatListener', '#hotcatCommitForm', function (e) {
