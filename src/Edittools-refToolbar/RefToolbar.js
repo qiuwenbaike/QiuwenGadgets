@@ -1,5 +1,5 @@
 /**
- * @title RefToolbar
+ * RefToolbar
  *
  * @description Adds tools for citing references to the edit toolbar.
  * One of two possible versions will load (Reftoolbar 1.0 or Reftoolbar 1.0)

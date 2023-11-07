@@ -8,8 +8,8 @@ import {hotCatMessages} from './modules/messages';
  * plugs into the upload form. Search engines to use for the suggestion list are configurable, and
  * can be selected interactively.
  *
- * Documentation: commons.wikimedia.org/wiki/Help:Gadget-HotCat
- * List of main authors: commons.wikimedia.org/wiki/Help:Gadget-HotCat/Version_history
+ * @see {@link https://commons.wikimedia.org/wiki/Help:Gadget-HotCat}
+ * @author authors <https://commons.wikimedia.org/wiki/Help:Gadget-HotCat/Version_history>
  */
 (function hotCat() {
 	// Don't use mw.config.get() as that takes a copy of the config, and so doesn't

@@ -1,5 +1,5 @@
 /**
- * @description 在最近修改、监视列表、条目历史记录等位置以特殊格式显示有特殊权限的用户
+ * 在最近修改、监视列表、条目历史记录等位置以特殊格式显示有特殊权限的用户
  */
 $(function markRights(): void {
 	const groups: Record<string, string[]> = {

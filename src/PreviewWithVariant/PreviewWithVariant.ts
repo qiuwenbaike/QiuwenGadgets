@@ -1,5 +1,5 @@
 /**
- * @description Add a "Preview with variant" option to the edit form.
+ * Add a "Preview with variant" option to the edit form.
  */
 (function previewWithVariant(): void {
 	let initialized = false;
