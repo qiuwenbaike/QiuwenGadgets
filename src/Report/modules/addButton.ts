@@ -1,5 +1,5 @@
 import {CLASS_REPORT_BUTTON, URL} from './constant';
-import {generateSvgDataUrl} from '../../util';
+import {changeOpacityWhenMouseEnterOrLeave, generateSvgDataUrl} from '../../util';
 import {getMessage} from './i18n';
 import reportButton from '../images/report-button.svg';
 
@@ -9,9 +9,6 @@ const addButton = (): void => {
 	}
 
 	const linkTilte: string = getMessage('Report');
-	const changeOpacity = (event: JQuery.TriggeredEvent): void => {
-		event.currentTarget.style.opacity = event.type === 'mouseenter' ? '1' : '0.7';
-	};
 
 	const $reportButton: JQuery = $('<a>')
 		// The following classes are used here:
@@ -32,7 +29,11 @@ const addButton = (): void => {
 			})
 		);
 
-	$reportButton.on('mouseenter mouseleave', changeOpacity).appendTo(document.body);
+	$reportButton
+		.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
+			changeOpacityWhenMouseEnterOrLeave(event);
+		})
+		.appendTo(document.body);
 
 	setTimeout((): void => {
 		window.tippy($reportButton.get(0) as HTMLElement, {

@@ -1,3 +1,5 @@
+import {scrollTop} from '../../util';
+
 export const smoothTOC = (): void => {
 	const checkA11yKey = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): boolean => {
 		if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
@@ -18,15 +20,7 @@ export const smoothTOC = (): void => {
 			return;
 		}
 		event.preventDefault();
-		$('html, body').animate(
-			{
-				scrollTop: mw.config.get('skin') === 'vector' ? `${anchorOffset.top}px` : `${anchorOffset.top - 60}px`,
-			},
-			{
-				duration: 660,
-				easing: 'swing',
-			}
-		);
+		scrollTop(mw.config.get('skin') === 'vector' ? `${anchorOffset.top}px` : `${anchorOffset.top - 60}px`);
 	};
 	const smoothToc = (): void => {
 		$('#toc a, #p-toc a, .sidebar-toc-link').each((_index: number, element: HTMLElement): void => {

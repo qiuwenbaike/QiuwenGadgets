@@ -49,6 +49,10 @@ const addEventListenerWithRemover = <
 	};
 };
 
+const changeOpacityWhenMouseEnterOrLeave = (event: MouseEvent | JQuery.TriggeredEvent, opacity = 0.7): void => {
+	event.currentTarget.style.opacity = event.type === 'mouseenter' ? '1' : opacity.toString();
+};
+
 const checkA11yConfirmKey = (event: KeyboardEvent | MouseEvent | JQuery.ClickEvent | JQuery.KeyDownEvent): boolean => {
 	if (['click', 'keydown'].includes(event.type)) {
 		if (event.type === 'keydown') {
@@ -63,48 +67,15 @@ const ding = (value: string, autoHide = false, type: 'default' | 'info' | 'succe
 	autoHide ? DingExposedInterface(value, type) : DingExposedInterface(value, type, 'long');
 };
 
-const initMwApi = (userAgent?: string): mw.Api => {
-	return new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': userAgent,
-			},
-		},
-	});
-};
-
-const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
-	return OO.ui.confirm(
-		$('<div>')
-			.addClass('oo-ui-window-foot')
-			.css({
-				border: '.1rem solid #0645ad',
-				display: 'flex',
-				'justify-content': 'space-evenly',
-			})
-			.append(
-				$('<span>')
-					.css({
-						'font-size': '1.2rem',
-						'font-weight': '500',
-						'line-height': '1.8',
-						padding: '.4em 0',
-					})
-					.text(message)
-			)
-	);
-};
-
 /**
+ * svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
+ *
+ * @author Allan Moreno
+ * @license MIT {@link https://github.com/heyallan/svg-to-data-uri/blob/master/LICENSE}
  * @param {string} svg
  * @return {string}
  */
 const generateSvgDataUrl = (svg: string): string => {
-	/*!
-	 * @description svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
-	 * @author Allan Moreno
-	 * @license MIT {@link https://github.com/heyallan/svg-to-data-uri/blob/master/LICENSE}
-	 */
 	svg = svg.trim();
 	// remove xml, doctype, generator...
 	svg = svg.slice(svg.indexOf('<svg'));
@@ -144,4 +115,67 @@ const generateSvgDataUrl = (svg: string): string => {
 	return svg;
 };
 
-export {addEventListenerWithRemover, checkA11yConfirmKey, ding, generateSvgDataUrl, initMwApi, oouiConfirmWithStyle};
+const initMwApi = (userAgent?: string): mw.Api => {
+	return new mw.Api({
+		ajax: {
+			headers: {
+				'Api-User-Agent': userAgent,
+			},
+		},
+	});
+};
+
+const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
+	return OO.ui.confirm(
+		$('<div>')
+			.addClass('oo-ui-window-foot')
+			.css({
+				border: '.1rem solid #0645ad',
+				display: 'flex',
+				'justify-content': 'space-evenly',
+			})
+			.append(
+				$('<span>')
+					.css({
+						'font-size': '1.2rem',
+						'font-weight': '500',
+						'line-height': '1.8',
+						padding: '.4em 0',
+					})
+					.text(message)
+			)
+	);
+};
+
+const scrollTop = (
+	targetHeight: number | string,
+	// eslint-disable-next-line unicorn/no-object-as-default-parameter
+	effectsOptionsOrDuration: JQuery.EffectsOptions<HTMLElement> | number = {
+		duration: 660,
+		easing: 'swing',
+	}
+): void => {
+	const options: JQuery.EffectsOptions<HTMLElement> =
+		typeof effectsOptionsOrDuration === 'number'
+			? {
+					duration: effectsOptionsOrDuration,
+			  }
+			: effectsOptionsOrDuration;
+	$('html, body').animate(
+		{
+			scrollTop: targetHeight,
+		},
+		options
+	);
+};
+
+export {
+	addEventListenerWithRemover,
+	changeOpacityWhenMouseEnterOrLeave,
+	checkA11yConfirmKey,
+	ding,
+	generateSvgDataUrl,
+	initMwApi,
+	oouiConfirmWithStyle,
+	scrollTop,
+};
