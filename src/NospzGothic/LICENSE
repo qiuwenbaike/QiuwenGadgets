@@ -10,7 +10,7 @@
  * _addText: '<http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web>'
  * _addText: '</pre>'
  *
- * @base <https://zh.moegirl.org.cn/index.php?curid=365946>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NospzGothic>
- * @license <https://git.qiuwen.net.cn/InterfaceAdmin/NospzGothicMoe/raw/commit/b608e29d1ecf4029dca01c090d000f38daf6b262/LICENSE>
+ * @base {@link https://zh.moegirl.org.cn/index.php?curid=365946}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NospzGothic}
+ * @license {@link https://git.qiuwen.net.cn/InterfaceAdmin/NospzGothicMoe/raw/commit/b608e29d1ecf4029dca01c090d000f38daf6b262/LICENSE}
  */

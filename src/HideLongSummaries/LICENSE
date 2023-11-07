@@ -2,6 +2,6 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HideLongSummaries}}'
  *
- * @base <https://zh.wikipedia.org/wiki/User:Xiplus/js/hide-long-summary.js>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HideLongSummaries>
+ * @base {@link https://zh.wikipedia.org/wiki/User:Xiplus/js/hide-long-summary.js}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HideLongSummaries}
  */

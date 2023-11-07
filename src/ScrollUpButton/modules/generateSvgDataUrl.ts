@@ -1,9 +1,9 @@
-/**
- * @description svg-to-data-uri.js
+/*!
+ * @description svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
  * @author Allan Moreno
- * @base <https://github.com/heyallan/svg-to-data-uri/>
- * @license MIT <https://github.com/heyallan/svg-to-data-uri/blob/master/LICENSE>
- *
+ * @license MIT {@link https://github.com/heyallan/svg-to-data-uri/blob/master/LICENSE}
+ */
+/**
  * @param {string} svg
  * @return {string}
  */

@@ -275,7 +275,6 @@ export const popupStrings = {
 	// Popups setup
 	'Open full-size image': window.wgULS('查看全尺寸图像', '檢視全尺寸影像'),
 	// 以下内容由 AnnAngela 补正
-	globalSearchHint: window.wgULS('在维基百科其他语言搜索“%s”', '在求聞百科其他語言搜尋「%s」'),
 	bingSearchHint: window.wgULS('在 Bing 上搜索“%s”', '在 bing 上搜尋「%s」'),
 	'enable previews': window.wgULS('启用预览', '啟用預覽'),
 	'show preview': window.wgULS('禁用预览', '禁用預覽'),

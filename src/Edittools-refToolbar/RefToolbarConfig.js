@@ -16,7 +16,6 @@
  * "months" is a list of localized month names
  *
  * "modal" - if true, the dialogs will be modal windows, blocking access to the rest of the window.
- * See <en.wikipedia.org/wiki/Modal_window>
  * All dialogs in the toolbar are modal by default
  *
  * "autoparse" - if true, previewing a ref will automatically trigger a preview of the parsed wikitext.

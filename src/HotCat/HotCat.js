@@ -260,8 +260,8 @@ import {hotCatMessages} from './modules/messages';
 	const wikiTextBlank = '[\\t _\\xA0\\u1680\\u180E\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000]+';
 	const wikiTextBlankRE = new RegExp(wikiTextBlank, 'g');
 	// Regexp for handling blanks inside a category title or namespace name.
-	// See http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/Title.php?revision=104051&view=markup#l2722
-	// See also http://www.fileformat.info/info/unicode/category/Zs/list.htm
+	// See {@link http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/Title.php?revision=104051&view=markup#l2722}
+	// See also {@link http://www.fileformat.info/info/unicode/category/Zs/list.htm}
 	//   MediaWiki collapses several contiguous blanks inside a page title to one single blank. It also replace a
 	// number of special whitespace characters by simple blanks. And finally, blanks are treated as underscores.
 	// Therefore, when looking for page titles in wikitext, we must handle all these cases.
@@ -1619,7 +1619,7 @@ import {hotCatMessages} from './modules/messages';
 							return;
 						}
 						// Also do this for ESC as a workaround for Firefox bug 524360
-						// https://bugzilla.mozilla.org/show_bug.cgi?id=524360
+						// {@link https://bugzilla.mozilla.org/show_bug.cgi?id=524360}
 						self.invokeSuggestions(key === BS || key === DEL || key === ESC);
 					}
 					return true;

@@ -2,6 +2,13 @@
  * SPDX-License-Identifier: GPL-3.0
  * _addText: '{{Gadget Header|license=GPL-3.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ScrollUpButton}}'
  *
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ScrollUpButton>
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ScrollUpButton}
  * @author 安忆 <i@anyi.in>
+ */
+
+/**
+ * @description Up Arrow (with blue color and white background)
+ * @author WaitSpring
+ * @source {@link https://www.qiuwenbaike.cn/wiki/File:Up_Arrow_(Blue,_White_BG).svg}
+ * @license CC-BY-SA-4.0
  */

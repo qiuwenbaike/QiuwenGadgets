@@ -2,12 +2,12 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HistoryDisclaimer}}'
  *
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HistoryDisclaimer>
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HistoryDisclaimer}
  */
 /**
  * @description History disclaimer background images
  * @author Qiuwen Baike Tech Team
- * @base <https://git.qiuwen.net.cn/Qiuwen/qiuwen-logo/src/branch/master/.deprecated/notice/>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HistoryDisclaimer/images/>
+ * @base {@link https://git.qiuwen.net.cn/Qiuwen/qiuwen-logo/src/branch/master/.deprecated/notice/}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HistoryDisclaimer/images/}
  * @license CC-BY-SA-4.0
  */

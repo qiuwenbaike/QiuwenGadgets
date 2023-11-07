@@ -2,6 +2,6 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/morebits}}'
  *
- * @base <https://github.com/wikimedia-gadgets/twinkle-core/tree/master/morebits>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/morebits>
+ * @base {@link https://github.com/wikimedia-gadgets/twinkle-core/tree/master/morebits}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/morebits}
  */

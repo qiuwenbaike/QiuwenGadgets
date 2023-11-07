@@ -2,12 +2,12 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/SiteCommon}}'
  *
- * @base <https://zh.wikipedia.org/wiki/MediaWiki:Common.css>
- * @base <https://zh.wikipedia.org/wiki/MediaWiki:Filepage.css>
- * @base <https://zh.wikipedia.org/wiki/MediaWiki:Print.css>
- * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-fontsize.css>
- * @base <https://en.wikipedia.org/wiki/MediaWiki:Common.css>
- * @base <https://en.wikipedia.org/wiki/MediaWiki:Gadget-responsiveContentBase.css>
- * @base <https://www.mediawiki.org/wiki/Snippets/Horizontal_lists>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/SiteCommon>
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Common.css}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Filepage.css}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Print.css}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-fontsize.css}
+ * @base {@link https://en.wikipedia.org/wiki/MediaWiki:Common.css}
+ * @base {@link https://en.wikipedia.org/wiki/MediaWiki:Gadget-responsiveContentBase.css}
+ * @base {@link https://www.mediawiki.org/wiki/Snippets/Horizontal_lists}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/SiteCommon}
  */
