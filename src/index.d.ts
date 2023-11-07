@@ -14,6 +14,8 @@ import type {
 	UrlShortenerApiShortenUrlParams as _UrlShortenerApiShortenUrlParams,
 } from 'types-mediawiki/api_params';
 
+import tippy from 'tippy.js';
+
 type I18nCandidatesKey =
 	| 'en'
 	| 'ja'
@@ -116,6 +118,7 @@ declare global {
 			en?: string
 		): string;
 		ClipboardJS: typeof ClipboardJS; // Clipboard
+		tippy: typeof tippy; // Tippy
 		LogFilterInstalled: boolean; // LogFilter
 		RefToolbarInstalled: boolean; // RefToolbar
 		SiteCommonInstalled: boolean; // SiteCommon
