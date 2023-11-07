@@ -1,3 +1,5 @@
-import {scrollUpButton} from './modules/core';
+import {insertElementandListener} from './modules/insertElementAndListener';
 
-$(scrollUpButton);
+$(function scrollUpButton(): void {
+	insertElementandListener();
+});

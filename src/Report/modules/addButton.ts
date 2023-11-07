@@ -38,7 +38,7 @@ const addButton = (): void => {
 	setTimeout((): void => {
 		window.tippy($reportButton.get(0) as HTMLElement, {
 			arrow: true,
-			content: linkTilte,
+			content: $reportButton.attr('aria-label') as string,
 			placement: 'left',
 		});
 	}, 0);
