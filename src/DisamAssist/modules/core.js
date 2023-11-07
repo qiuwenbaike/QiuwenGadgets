@@ -1,5 +1,5 @@
-import {cfg} from './modules/config';
-import {txt} from './modules/message';
+import {cfg} from './config';
+import {txt} from './message';
 
 const api = new mw.Api({
 	ajax: {
