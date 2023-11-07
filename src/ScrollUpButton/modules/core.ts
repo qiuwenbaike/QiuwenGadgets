@@ -1,4 +1,4 @@
-import {generateSvgDataUrl} from './generateSvgDataUrl';
+import {generateSvgDataUrl} from '../../util';
 import {getMessage} from './i18n';
 import scrollButton from '../images/scroll-button.svg';
 
