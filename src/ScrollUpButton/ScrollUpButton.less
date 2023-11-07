@@ -1,5 +1,4 @@
-#scrollDownButton,
-#scrollUpButton {
+.gadget-scroll_up_button {
 	position: fixed;
 	right: 8px;
 	width: 32px;
@@ -11,13 +10,13 @@
 	.client-darkmode & {
 		transition: unset;
 	}
-}
 
-#scrollDownButton {
-	bottom: 36px;
-	transform: rotate(180deg);
-}
+	&--down {
+		bottom: 36px;
+		transform: rotate(180deg);
+	}
 
-#scrollUpButton {
-	bottom: 78px;
+	&--up {
+		bottom: 78px;
+	}
 }
