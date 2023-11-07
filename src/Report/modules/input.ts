@@ -4,12 +4,7 @@ const REPORT_TITLE =
 	(mw.util.getParamValue('report_title') ?? '') +
 	(mw.util.getParamValue('report_revision') ? `（版本${mw.util.getParamValue('report_revision')}）` : '');
 
-if (
-	['Special:Contact/report', 'Special:Contact/Report', 'Special:联系/report', 'Special:联系/Report'].includes(
-		mw.config.get('wgPageName')
-	) &&
-	!!REPORT_TITLE
-) {
+if (document.getElementsByClassName('page-Special_联系_Report').length > 0 && !!REPORT_TITLE) {
 	Array.prototype.forEach.call(document.getElementsByName('wpSubject'), (e) => {
 		e.value = `${LINK_TITLE}：${REPORT_TITLE}`;
 	});
