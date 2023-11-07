@@ -34,6 +34,7 @@ export const enhancedSpecialSearch = (): void => {
 		const element: HTMLAnchorElement = document.createElement('a');
 		element.setAttribute('href', url);
 		element.setAttribute('target', '_blank');
+		element.setAttribute('rel', 'noopener noreferrer');
 		element.click();
 	};
 	const onSumbit = (targetElement: HTMLElement, selectElement: HTMLSelectElement): void => {

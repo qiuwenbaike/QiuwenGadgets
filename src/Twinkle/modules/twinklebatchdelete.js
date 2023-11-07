@@ -276,6 +276,7 @@
 		link.setAttribute('class', 'tw-dbatch-page-link');
 		link.setAttribute('href', mw.util.getUrl(checkbox.value));
 		link.setAttribute('target', '_blank');
+		link.setAttribute('rel', 'noopener noreferrer');
 		checkbox.nextElementSibling.append(link);
 	};
 	Twinkle.batchdelete.generateNewPageList = (form) => {

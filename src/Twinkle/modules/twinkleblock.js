@@ -996,6 +996,7 @@
 						.attr({
 							href: mw.util.getUrl(choice.text),
 							target: '_blank',
+							rel: 'noopener noreferrer',
 						});
 				},
 			});
