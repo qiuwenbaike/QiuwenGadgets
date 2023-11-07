@@ -5,6 +5,6 @@
  * 由和平奋斗救地球稍作翻译 2021-05-15 CC BY-SA 3.0
  * 求闻百科Njzjz简体化 2022-2-14 CC BY-SA 4.0
  */
-import {install} from './module/core';
+import {install} from './modules/core';
 
 $(install);
