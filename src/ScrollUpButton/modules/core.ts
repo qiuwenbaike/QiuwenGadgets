@@ -46,7 +46,7 @@ export const scrollUpButton = (): void => {
 		$element.on('mouseenter mouseleave', changeOpacity).appendTo(document.body);
 	}
 
-	mw.loader.using('ext.gadget.Tippy').then(() => {
+	setTimeout((): void => {
 		window.tippy($scrollUpButton.get(0) as HTMLElement, {
 			arrow: true,
 			content: getMessage('ToTop'),
@@ -57,7 +57,7 @@ export const scrollUpButton = (): void => {
 			content: getMessage('ToBottom'),
 			placement: 'left',
 		});
-	});
+	}, 0);
 
 	const scrollListener = (): void => {
 		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {
@@ -68,6 +68,6 @@ export const scrollUpButton = (): void => {
 			$scrollUpButton.css('bottom', '78px');
 		}
 	};
-	const scrollListenerWithToggle = mw.util.throttle(scrollListener, 200);
-	$(window).on('scroll selectionchange', scrollListenerWithToggle);
+	const scrollListenerWithThrottle: typeof scrollListener = mw.util.throttle(scrollListener, 200);
+	$(window).on('scroll selectionchange', scrollListenerWithThrottle);
 };

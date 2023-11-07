@@ -34,13 +34,13 @@ const addButton = (): void => {
 
 	$reportButton.on('mouseenter mouseleave', changeOpacity).appendTo(document.body);
 
-	mw.loader.using('ext.gadget.Tippy').then(() => {
+	setTimeout((): void => {
 		window.tippy($reportButton.get(0) as HTMLElement, {
 			arrow: true,
 			content: linkTilte,
 			placement: 'left',
 		});
-	});
+	}, 0);
 
 	const scrollListener = (): void => {
 		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {
@@ -49,8 +49,8 @@ const addButton = (): void => {
 			$reportButton.css('bottom', '204px');
 		}
 	};
-	const scrollListenerWithToggle = mw.util.throttle(scrollListener, 200);
-	$(window).on('scroll selectionchange', scrollListenerWithToggle);
+	const scrollListenerWithThrottle: typeof scrollListener = mw.util.throttle(scrollListener, 200);
+	$(window).on('scroll selectionchange', scrollListenerWithThrottle);
 };
 
 export {addButton};

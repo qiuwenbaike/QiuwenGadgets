@@ -6727,66 +6727,64 @@ export const popups = () => {
 	// lets jump through hoops to find the rev ids we need to retrieve
 	const loadDiff = (article, oldid, diff, navpop) => {
 		navpop.diffData = {oldRev: {}, newRev: {}};
-		mw.loader.using(['mediawiki.api']).then(() => {
-			const api = getMwApi();
-			const params = {
-				action: 'compare',
-				prop: ['ids', 'title'],
-			};
-			if (article.title) {
-				params.fromtitle = article.title;
-			}
-			switch (diff) {
-				case 'cur':
-					switch (oldid) {
-						case null:
-						case '':
-						case 'prev':
-							// this can only work if we have the title
-							// cur -> prev
-							params.torelative = 'prev';
-							break;
-						default:
-							params.fromrev = oldid;
-							params.torelative = 'cur';
-							break;
-					}
-					break;
-				case 'prev':
-					if (oldid) {
+		const api = getMwApi();
+		const params = {
+			action: 'compare',
+			prop: ['ids', 'title'],
+		};
+		if (article.title) {
+			params.fromtitle = article.title;
+		}
+		switch (diff) {
+			case 'cur':
+				switch (oldid) {
+					case null:
+					case '':
+					case 'prev':
+						// this can only work if we have the title
+						// cur -> prev
+						params.torelative = 'prev';
+						break;
+					default:
 						params.fromrev = oldid;
-					} else {
-						params.fromtitle;
-					}
-					params.torelative = 'prev';
-					break;
-				case 'next':
-					params.fromrev = oldid || 0;
-					params.torelative = 'next';
-					break;
-				default:
-					params.fromrev = oldid || 0;
-					params.torev = diff || 0;
-					break;
-			}
-			api.get(params).then((data) => {
-				navpop.diffData.oldRev.revid = data.compare.fromrevid;
-				navpop.diffData.newRev.revid = data.compare.torevid;
-				addReviewLink(navpop, 'popupMiscTools');
-				const go = () => {
-					pendingNavpopTask(navpop);
-					let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query&`;
-					url += `revids=${navpop.diffData.oldRev.revid}|${navpop.diffData.newRev.revid}`;
-					url += '&prop=revisions&rvprop=ids|timestamp|content';
-					getPageWithCaching(url, doneDiff, navpop);
-					return true; // remove hook once run
-				};
-				if (navpop.visible || !getValueOf('popupLazyDownloads')) {
-					go();
-				} else {
-					navpop.addHook(go, 'unhide', 'before', 'DOWNLOAD_DIFFS');
+						params.torelative = 'cur';
+						break;
 				}
-			});
+				break;
+			case 'prev':
+				if (oldid) {
+					params.fromrev = oldid;
+				} else {
+					params.fromtitle;
+				}
+				params.torelative = 'prev';
+				break;
+			case 'next':
+				params.fromrev = oldid || 0;
+				params.torelative = 'next';
+				break;
+			default:
+				params.fromrev = oldid || 0;
+				params.torev = diff || 0;
+				break;
+		}
+		api.get(params).then((data) => {
+			navpop.diffData.oldRev.revid = data.compare.fromrevid;
+			navpop.diffData.newRev.revid = data.compare.torevid;
+			addReviewLink(navpop, 'popupMiscTools');
+			const go = () => {
+				pendingNavpopTask(navpop);
+				let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query&`;
+				url += `revids=${navpop.diffData.oldRev.revid}|${navpop.diffData.newRev.revid}`;
+				url += '&prop=revisions&rvprop=ids|timestamp|content';
+				getPageWithCaching(url, doneDiff, navpop);
+				return true; // remove hook once run
+			};
+			if (navpop.visible || !getValueOf('popupLazyDownloads')) {
+				go();
+			} else {
+				navpop.addHook(go, 'unhide', 'before', 'DOWNLOAD_DIFFS');
+			}
 		});
 	};
 	// Put a "mark patrolled" link to an element target
