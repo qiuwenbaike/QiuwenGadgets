@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-DisamAssist\"></span> 消歧义修复辅助工具",
+	"description": "<span id=\"Gadget-DisamAssist\"></span> DisamAssist <small>消歧义修复辅助工具</small>",
 	"section": "edit",
 	"dependencies": ["mediawiki.api", "mediawiki.Title"],
 	"rights": ["skipcaptcha"]
