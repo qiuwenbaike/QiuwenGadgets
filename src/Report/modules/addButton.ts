@@ -22,7 +22,7 @@ const addButton = (): void => {
 			href: URL,
 			rel: 'noopener noreferrer',
 			target: '_blank',
-			title: linkTilte,
+			'aria-label': linkTilte,
 		})
 		.append(
 			$('<img>').attr({
@@ -33,6 +33,11 @@ const addButton = (): void => {
 		);
 
 	$reportButton.on('mouseenter mouseleave', changeOpacity).appendTo(document.body);
+	window.tippy($reportButton.get(0) as HTMLElement, {
+		arrow: true,
+		content: linkTilte,
+		placement: 'left',
+	});
 
 	const scrollListener = (): void => {
 		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {
