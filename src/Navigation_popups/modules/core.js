@@ -894,9 +894,7 @@ export const popups = () => {
 		const jsHistory = '<<lastContrib|last set of edits>><<sinceMe|changes since mine>>';
 		const linkshere = '<<whatLinksHere|shortcut=l|what links here>>';
 		const related = '<<relatedChanges|shortcut=r|related changes>>';
-		const search =
-			'<menurow><<search|shortcut=s>>if(wikimedia){|<<globalsearch|shortcut=g|global>>}' +
-			'|<<google|shortcut=G|web>></menurow>';
+		const search = '<menurow><<search|shortcut=s>></menurow>';
 		const watch = '<menurow><<unwatch|unwatchShort>>|<<watch|shortcut=w|watchThingy>></menurow>';
 		const protect = '<menurow><<unprotect|unprotectShort>>|<<protect|shortcut=p>>|<<protectlog|log>></menurow>';
 		const del = '<menurow><<undelete|undeleteShort>>|<<delete|shortcut=d>>|<<deletelog|log>></menurow>';
@@ -1494,7 +1492,7 @@ export const popups = () => {
 	 * InstaView - a Mediawiki to HTML converter in JavaScript
 	 * Version 0.6.1
 	 * Copyright (C) Pedro Fayolle 2005-2006
-	 * <en.wikipedia.org/wiki/User:Pilaf>
+	 * {@link https://en.wikipedia.org/wiki/User:Pilaf}
 	 * Distributed under the BSD license
 	 *
 	 * Changelog:
@@ -2570,7 +2568,7 @@ export const popups = () => {
 			// In other words: return null if this ALREADY IS a talk page
 			// and return the corresponding talk page otherwise
 			//
-			// Per https://www.mediawiki.org/wiki/Manual:Namespace#Subject_and_talk_namespaces
+			// Per {@link https://www.mediawiki.org/wiki/Manual:Namespace#Subject_and_talk_namespaces}
 			// * All discussion namespaces have odd-integer indices
 			// * The discussion namespace index for a specific namespace with index n is n + 1
 			if (this.value === null) {
@@ -3173,7 +3171,7 @@ export const popups = () => {
 		return text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	};
 	pg.unescapeQuotesHTML = (html) => {
-		// From https://stackoverflow.com/a/7394787
+		// From {@link https://stackoverflow.com/a/7394787}
 		// This seems to be implemented correctly on all major browsers now, so we
 		// don't have to make our own function.
 		const txt = document.createElement('textarea');
@@ -3200,7 +3198,7 @@ export const popups = () => {
 	};
 	const listLinks = (wikitext, oldTarget, titleToEdit) => {
 		// mediawiki strips trailing spaces, so we do the same
-		// testcase: <en.wikipedia.org/w/index.php?title=Radial&oldid=97365633>
+		// testcase: {@link https://en.wikipedia.org/w/index.php?title=Radial&oldid=97365633}
 		const reg = /\[\[([^|]*?) *(\||]])/gi;
 		let ret = [];
 		const splitted = wikitext.parenSplit(reg);
@@ -4875,8 +4873,8 @@ export const popups = () => {
 	};
 	const setInterwiki = () => {
 		if (pg.wiki.wikimedia) {
-			// From https://meta.wikimedia.org/wiki/List_of_Wikipedias
-			// en.wikipedia.org/w/api.php?action=sitematrix&format=json&smtype=language&smlangprop=code&formatversion=2
+			// From {@link https://meta.wikimedia.org/wiki/List_of_Wikipedias}
+			// {@link https://en.wikipedia.org/w/api.php?action=sitematrix&format=json&smtype=language&smlangprop=code&formatversion=2}
 			pg.wiki.interwiki =
 				'aa|ab|ace|af|ak|als|am|an|ang|ar|arc|arz|as|ast|av|ay|az|ba|bar|bat-smg|bcl|be|be-x-old|bg|bh|bi|bjn|bm|bn|bo|bpy|br|bs|bug|bxr|ca|cbk-zam|cdo|ce|ceb|ch|cho|chr|chy|ckb|co|cr|crh|cs|csb|cu|cv|cy|da|de|diq|dsb|dv|dz|ee|el|eml|en|eo|es|et|eu|ext|fa|ff|fi|fiu-vro|fj|fo|fr|frp|frr|fur|fy|ga|gag|gan|gd|gl|glk|gn|got|gu|gv|ha|hak|haw|he|hi|hif|ho|hr|hsb|ht|hu|hy|hz|ia|id|ie|ig|ii|ik|ilo|io|is|it|iu|ja|jbo|jv|ka|kaa|kab|kbd|kg|ki|kj|kk|kl|km|kn|ko|koi|kr|krc|ks|ksh|ku|kv|kw|ky|la|lad|lb|lbe|lg|li|lij|lmo|ln|lo|lt|ltg|lv|map-bms|mdf|mg|mh|mhr|mi|mk|ml|mn|mo|mr|mrj|ms|mt|mus|mwl|my|myv|mzn|na|nah|nap|nds|nds-nl|ne|new|ng|nl|nn|no|nov|nrm|nv|ny|oc|om|or|os|pa|pag|pam|pap|pcd|pdc|pfl|pi|pih|pl|pms|pnb|pnt|ps|pt|qu|rm|rmy|rn|ro|roa-rup|roa-tara|ru|rue|rw|sa|sah|sc|scn|sco|sd|se|sg|sh|si|simple|sk|sl|sm|sn|so|sq|sr|srn|ss|st|stq|su|sv|sw|szl|ta|te|tet|tg|th|ti|tk|tl|tn|to|tpi|tr|ts|tt|tum|tw|ty|udm|ug|uk|ur|uz|ve|vec|vi|vls|vo|wa|war|wo|wuu|xal|xh|yi|yo|za|zea|zh|zh-classical|zh-min-nan|zh-yue|zu';
 			pg.re.interwiki = new RegExp(`^${pg.wiki.interwiki}:`);
@@ -4906,7 +4904,7 @@ export const popups = () => {
 	// ENDFILE: namespaces.js
 	// STARTFILE: selpop.js
 	const getEditboxSelection = () => {
-		// see http://www.webgurusforum.com/8/12/0
+		// see {@link http://www.webgurusforum.com/8/12/0}
 		let editbox;
 		try {
 			editbox = document.editform.wpTextbox1;
@@ -5820,7 +5818,7 @@ export const popups = () => {
 		}
 		return str;
 	};
-	// see http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Object
+	// see {@link http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Object}
 	// FIXME: use obj.hasOwnProperty instead of this kludge!
 	const jsReservedProperties = new RegExp(
 		'^(constructor|prototype|__((define|lookup)[GS]etter)__' +
@@ -6575,14 +6573,8 @@ export const popups = () => {
 				case 'count':
 					this.print = editCounterLink;
 					break;
-				case 'google':
-					this.print = googleLink;
-					break;
 				case 'editors':
 					this.print = editorListLink;
-					break;
-				case 'globalsearch':
-					this.print = globalSearchLink;
 					break;
 				case 'lastEdit':
 					this.print = titledDiffLink;
@@ -7605,34 +7597,6 @@ export const popups = () => {
 			noPopup: 1,
 		});
 	};
-	const globalSearchLink = (l) => {
-		if (!saneLinkCheck(l)) {
-			return null;
-		}
-		const base = 'http://vs.aka-online.de/cgi-bin/globalwpsearch.pl?timeout=120&search=';
-		const article = l.article.urlString({keepSpaces: true});
-		return generalNavLink({
-			url: base + article,
-			newWin: l.newWin,
-			title: tprintf('globalSearchHint', [safeDecodeURI(l.article)]),
-			text: l.text,
-			noPopup: 1,
-		});
-	};
-	const googleLink = (l) => {
-		if (!saneLinkCheck(l)) {
-			return null;
-		}
-		const base = 'https://www.google.com/search?q=';
-		const article = l.article.urlString({keepSpaces: true});
-		return generalNavLink({
-			url: `${base}%22${article}%22`,
-			newWin: l.newWin,
-			title: tprintf('googleSearchHint', [safeDecodeURI(l.article)]),
-			text: l.text,
-			noPopup: 1,
-		});
-	};
 	const editorListLink = (l) => {
 		if (!saneLinkCheck(l)) {
 			return null;
@@ -7888,7 +7852,7 @@ export const popups = () => {
 	// Translatable strings
 	//
 	// See instructions at
-	// <en.wikipedia.org/wiki/Wikipedia:Tools/Navigation_popups/Translation>
+	// {@link https://en.wikipedia.org/wiki/Wikipedia:Tools/Navigation_popups/Translation}
 	pg.string = {
 		// summary data, searching etc.
 		article: 'article',
@@ -7915,8 +7879,6 @@ export const popups = () => {
 		SearchHint: 'Find English Wikipedia articles containing %s',
 		web: 'web',
 		global: 'global',
-		globalSearchHint: 'Search across Wikipedias in different languages for %s',
-		googleSearchHint: 'Google for %s',
 		// article-related actions and info
 		// (some actions also apply to user pages)
 		actions: 'actions',

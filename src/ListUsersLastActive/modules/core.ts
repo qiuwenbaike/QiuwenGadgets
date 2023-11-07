@@ -1,7 +1,3 @@
-/**
- * @description 于[[Special:Listusers]]显示使用者最后编辑时间
- */
-
 const addLeadingZero = (number: number | string): string => {
 	const numberString: string =
 		typeof number === 'number' && number < 10 ? `0${number.toString()}` : number.toString();

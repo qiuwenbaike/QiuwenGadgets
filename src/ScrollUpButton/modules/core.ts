@@ -15,12 +15,6 @@ export const scrollUpButton = (): void => {
 			660
 		);
 	};
-	/**
-	 * @description Up Arrow (with blue color and white background)
-	 * @author WaitSpring
-	 * @base <https://www.qiuwenbaike.cn/wiki/File:Up_Arrow_(Blue,_White_BG).svg>
-	 * @license CC-BY-SA-4.0
-	 */
 	const $scrollButton: JQuery = $('<img>')
 		.addClass('noprint')
 		.attr({
