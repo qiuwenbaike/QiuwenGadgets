@@ -1,20 +1,8 @@
-import {generateSvgDataUrl} from '../../util';
+import {changeOpacityWhenMouseEnterOrLeave, generateSvgDataUrl, scrollTop} from '../../util';
 import {getMessage} from './i18n';
 import scrollButton from '../images/scroll-button.svg';
 
 export const scrollUpButton = (): void => {
-	const changeOpacity = (event: JQuery.TriggeredEvent): void => {
-		event.currentTarget.style.opacity = event.type === 'mouseenter' ? '1' : '0.7';
-	};
-	const scrollTop = (height: number): void => {
-		$('html, body').animate(
-			{
-				scrollTop: height,
-			},
-			660
-		);
-	};
-
 	const $scrollButton: JQuery = $('<img>')
 		.addClass('noprint')
 		.attr({
@@ -43,7 +31,11 @@ export const scrollUpButton = (): void => {
 		});
 
 	for (const $element of [$scrollDownButton, $scrollUpButton]) {
-		$element.on('mouseenter mouseleave', changeOpacity).appendTo(document.body);
+		$element
+			.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
+				changeOpacityWhenMouseEnterOrLeave(event);
+			})
+			.appendTo(document.body);
 	}
 
 	setTimeout((): void => {

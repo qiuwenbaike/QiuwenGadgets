@@ -1,4 +1,6 @@
 import {getMessage} from './i18n';
+import {scrollTop} from '../../util';
+
 type State = 'close' | 'open';
 interface Config {
 	floatTOC: State;
@@ -135,15 +137,7 @@ export const floatTOC = (): void => {
 			return;
 		}
 		event.preventDefault();
-		$('html, body').animate(
-			{
-				scrollTop: `${anchorOffset.top}px`,
-			},
-			{
-				duration: 660,
-				easing: 'swing',
-			}
-		);
+		scrollTop(`${anchorOffset.top}px`);
 	};
 	const closeNotification = (notification: ReturnType<typeof mw.notification.notify>): void => {
 		notification.close();
