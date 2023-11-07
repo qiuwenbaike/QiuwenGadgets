@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/AutoLink}}'
  *
- * @base <https://meta.wikimedia.org/wiki/MediaWiki:Gadget-autolink.js>
- * @base <https://en.wikipedia.org/wiki/Wikipedia:WikiProject_User_scripts/Scripts/Autolink>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/AutoLink>
+ * @base {@link https://meta.wikimedia.org/wiki/MediaWiki:Gadget-autolink.js}
+ * @base {@link https://en.wikipedia.org/wiki/Wikipedia:WikiProject_User_scripts/Scripts/Autolink}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/AutoLink}
  */

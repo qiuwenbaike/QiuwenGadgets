@@ -2,6 +2,6 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/OneSideMenu}}'
  *
- * @base <https://www.mediawiki.org/wiki/Skin:Timeless#CSS_snippets>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/OneSideMenu>
+ * @base {@link https://www.mediawiki.org/wiki/Skin:Timeless#CSS_snippets}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/OneSideMenu}
  */

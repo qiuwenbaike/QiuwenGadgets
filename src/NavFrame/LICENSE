@@ -2,10 +2,10 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NavFrame}}'
  *
- * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-NavFrame.css>
- * @base <https://www.mediawiki.org/wiki/MediaWiki:Gadget-NavFrame.css>
- * @base <https://zh.wikipedia.org/wiki/MediaWiki:Gadget-NavFrame.js>
- * @source <https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NavFrame>
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-NavFrame.css}
+ * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-NavFrame.css}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-NavFrame.js}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NavFrame}
  */
 
 /**
@@ -13,7 +13,7 @@
  *
  * Based on script from en.wikipedia.org, 2008-09-15.
  *
- * @base <https://www.mediawiki.org/wiki/MediaWiki:Gadget-NavFrame.js>
+ * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-NavFrame.js}
  * @maintainer Helder.wiki, 2012–2013
  * @maintainer Krinkle, 2013
  * @maintainer Fantasticfears, 2013-2014
