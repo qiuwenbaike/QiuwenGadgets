@@ -11,14 +11,7 @@ module.exports = {
 			name: 'preset-default',
 			params: {
 				overrides: {
-					collapseGroups: false,
-					convertPathData: false,
-					convertTransform: false,
-					inlineStyles: false,
-					minifyStyles: false,
-					removeUnknownsAndDefaults: false,
 					removeViewBox: false,
-					removeXMLProcInst: false,
 				},
 			},
 		},
