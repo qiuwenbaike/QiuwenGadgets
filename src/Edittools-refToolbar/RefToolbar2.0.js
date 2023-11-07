@@ -28,8 +28,6 @@ export const refToolbar2 = () => {
 	) {
 		return;
 	}
-	// TODO: Move this to [[MediaWiki:Gadget-refToolbarDialogs.css]] and add it to the definition of module 'ext.gadget.refToolbarDialogs'
-	mw.util.addCSS('.cite-form-td{padding:.1em!important;height:0!important}');
 
 	// Default options, these mainly exist so the script won't break if a new option is added
 	CiteTB.DefaultOptions = {
