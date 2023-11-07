@@ -15,6 +15,7 @@ $(function reportButtonLoad(): void {
 		.attr({
 			href: URL,
 			target: '_blank',
+			rel: 'noopener noreferrer',
 			id: 'reportButton',
 			draggable: false,
 			alt: LINK_TITLE,

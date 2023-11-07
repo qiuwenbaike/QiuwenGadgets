@@ -581,6 +581,7 @@
 					})
 				);
 				link.setAttribute('target', '_blank');
+				link.setAttribute('rel', 'noopener noreferrer');
 				$('#prior-deletion-count').text(message); // Space before log link
 				$('#prior-deletion-count').append(link);
 			}

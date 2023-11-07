@@ -4560,7 +4560,7 @@
 			mw.loader.load(response.parse.modulestyles);
 			mw.loader.load(response.parse.modules);
 			// this makes links open in new tab
-			$(previewbox).find('a').attr('target', '_blank');
+			$(previewbox).find('a').attr('target', '_blank').attr('rel', 'noopener noreferrer');
 		};
 		/** Hides the preview box and clears it. */
 		this.closePreview = () => {
@@ -5772,6 +5772,7 @@
 			link.setAttribute('href', mw.util.getUrl(wikiPage));
 			link.setAttribute('title', wikiPage);
 			link.setAttribute('target', '_blank');
+			link.setAttribute('rel', 'noopener noreferrer');
 			link.textContent = text;
 			if (prep) {
 				$footerlinks.prepend(link);

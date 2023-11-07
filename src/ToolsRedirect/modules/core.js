@@ -343,6 +343,7 @@ export const ToolsRedirect = {
 				title,
 				href,
 				target: '_blank',
+				rel: 'noopener noreferrer',
 			})
 			.text(title);
 		if (click) {

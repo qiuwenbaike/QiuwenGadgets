@@ -252,7 +252,7 @@ export const refToolbarLegacy = () => {
 			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
 				/ /g,
 				'_'
-			)}" target="_blank">[Template documentation]</a></span>` +
+			)}" rel="noopener noreferrer" target="_blank">[Template documentation]</a></span>` +
 			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
@@ -323,8 +323,8 @@ export const refToolbarLegacy = () => {
 			'<td><input type="text" tabindex=1 style="width:100%" id="refname"></td>' +
 			'</tr>' +
 			'</table>' +
-			'<input type="radio" tabindex=1 name="template" id="cite_book" value="cite_book" checked="1"><label for="cite_book">{{cite book}}</label> <sup><a href="https://www.qiuwenbaike.cn/wiki/Template:Cite_book" target="_blank">[doc]</a></sup>' +
-			'<input type="radio" tabindex=1 name="template" id="citation" value="citation"><label for="citation">{{citation}}</label> <sup><a href="https://www.qiuwenbaike.cn/wiki/Template:Citation" target="_blank">[doc]</a></sup>' +
+			'<input type="radio" tabindex=1 name="template" id="cite_book" value="cite_book" checked="1"><label for="cite_book">{{cite book}}</label> <sup><a href="https://www.qiuwenbaike.cn/wiki/Template:Cite_book" rel="noopener noreferrer" target="_blank">[doc]</a></sup>' +
+			'<input type="radio" tabindex=1 name="template" id="citation" value="citation"><label for="citation">{{citation}}</label> <sup><a href="https://www.qiuwenbaike.cn/wiki/Template:Citation" rel="noopener noreferrer" target="_blank">[doc]</a></sup>' +
 			'<input type="radio" tabindex=1 name="template" id="plain" value="plain"><label for="plain">plain wikicode (experimental)</label>' +
 			'<input type="checkbox" tabindex=1 name="verbose" id="verbose" value="verbose"><label for="verbose">Vertical form</label>' +
 			'<input type="checkbox" tabindex=1 name="extraparams" id="extraparams" value="extraparams"><label for="extraparams">Extra parameters</label>' +
@@ -392,7 +392,7 @@ export const refToolbarLegacy = () => {
 			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
 				/ /g,
 				'_'
-			)}" target="_blank">[Template documentation]</a></span>` +
+			)}" rel="noopener noreferrer" target="_blank">[Template documentation]</a></span>` +
 			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
@@ -446,7 +446,7 @@ export const refToolbarLegacy = () => {
 			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
 				/ /g,
 				'_'
-			)}" target="_blank">[Template documentation]</a></span>` +
+			)}" rel="noopener noreferrer" target="_blank">[Template documentation]</a></span>` +
 			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
@@ -482,7 +482,7 @@ export const refToolbarLegacy = () => {
 			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
 				/ /g,
 				'_'
-			)}" target="_blank">[Template documentation]</a></span>` +
+			)}" rel="noopener noreferrer" target="_blank">[Template documentation]</a></span>` +
 			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
@@ -532,7 +532,7 @@ export const refToolbarLegacy = () => {
 			`<span style="float:right"><a href="https://www.qiuwenbaike.cn/wiki/Template:${template.replace(
 				/ /g,
 				'_'
-			)}" target="_blank">[Template documentation]</a></span>` +
+			)}" rel="noopener noreferrer" target="_blank">[Template documentation]</a></span>` +
 			'</fieldset><span id="previewSpan"></span></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;
 	};
@@ -551,7 +551,7 @@ export const refToolbarLegacy = () => {
 			'<input id="type-references" name="type" type="radio" tabindex=1><label for="type-references">&lt;references/&gt;</label><br />' +
 			'<input id="type-reflist" name="type" type="radio" tabindex=1 checked="checked"><label for="type-reflist">{{Reflist}}</label><br />' +
 			'<input id="type-reflist2" name="type" type="radio" tabindex=1><label for="type-reflist2">{{Reflist|2}}</label><br />' +
-			'<input type="checkbox" tabindex=1 id="ldr"><label for="ldr">List-defined references</label> (<a href="https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8" target="_blank">Info 1</a>, <a href="https://www.qiuwenbaike.cn/wiki/Help:Footnotes#List-defined_references" target="_blank">Info 2</a>)<br />' +
+			'<input type="checkbox" tabindex=1 id="ldr"><label for="ldr">List-defined references</label> (<a href="https://www.qiuwenbaike.cn/wiki/Help:%E5%BC%95%E7%94%A8" rel="noopener noreferrer" target="_blank">Info 1</a>, <a href="https://www.qiuwenbaike.cn/wiki/Help:Footnotes#List-defined_references" rel="noopener noreferrer" target="_blank">Info 2</a>)<br />' +
 			'<input type="button" value="Add references section" onClick="addRefSection()">' +
 			'</fieldset></div>';
 		document.querySelector('#refToolFormArea').innerHTML = form;

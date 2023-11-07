@@ -567,6 +567,7 @@
 		link.setAttribute('class', 'tw-batchpage-link');
 		link.setAttribute('href', mw.util.getUrl($checkbox.val()));
 		link.setAttribute('target', '_blank');
+		link.setAttribute('rel', 'noopener noreferrer');
 		$checkbox.next().prepend([link, ' ']);
 	};
 })(jQuery);

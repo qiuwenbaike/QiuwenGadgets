@@ -767,6 +767,7 @@
 			)
 		);
 		link.setAttribute('target', '_blank');
+		link.setAttribute('rel', 'noopener noreferrer');
 		$(checkbox).parent().append(['\u00A0', link]);
 	};
 	// Tags for ARTICLES start here
