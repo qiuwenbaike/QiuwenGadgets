@@ -150,18 +150,21 @@ const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
 const scrollTop = (
 	targetHeight: number | string,
 	// eslint-disable-next-line unicorn/no-object-as-default-parameter
-	effectsOptionsOrDuration: JQuery.EffectsOptions<HTMLElement> | number = {
-		duration: 660,
-		easing: 'swing',
+	effectsOptionsOrDuration: JQuery.EffectsOptions<HTMLElement> | number | 'fast' | 'slow' = {
+		easing: 'linear',
 	}
 ): void => {
 	const options: JQuery.EffectsOptions<HTMLElement> =
-		typeof effectsOptionsOrDuration === 'number'
+		typeof effectsOptionsOrDuration === 'number' || typeof effectsOptionsOrDuration === 'string'
 			? {
 					duration: effectsOptionsOrDuration,
-					easing: 'swing',
+					easing: 'linear',
 			  }
-			: effectsOptionsOrDuration;
+			: {
+					duration: 'slow',
+					easing: 'linear',
+					...effectsOptionsOrDuration,
+			  };
 	$('html, body').animate(
 		{
 			scrollTop: targetHeight,
