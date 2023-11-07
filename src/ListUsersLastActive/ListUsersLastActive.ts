@@ -1,5 +1,5 @@
 /**
- * @description 于[[Special:Listusers]]显示使用者最后编辑时间
+ * 于[[Special:Listusers]]显示使用者最后编辑时间
  */
 import {checkLastActive} from './modules/core';
 

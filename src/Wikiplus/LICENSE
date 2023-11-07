@@ -2,7 +2,8 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|title=Wikiplus|license=CC-BY-SA-4.0}}'
  *
- * @title Wikiplus
+ * Wikiplus
+ *
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/module/core.js}
  * @author Eridanus Sora (妹空酱)
  */
@@ -10,13 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0
  * _addText: '{{Gadget Header|title=Wikiplus-highlight|license=GPL-3.0}}'
  *
- * @title Wikiplus-highlight
+ * Wikiplus-highlight
+ *
  * @base {@link https://github.com/bhsd-harry/Wikiplus-highlight/blob/main/main.js}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/module/highlight.js}
- * @author Bhsd {@link https://github.com/bhsd-harry>, 机智的小鱼君 <https://github.com/Dragon-Fish}
+ * @author Bhsd <https://github.com/bhsd-harry>, 机智的小鱼君 <https://github.com/Dragon-Fish>
  */
 /**
- * @description settings Icon from OOjs UI
+ * settings Icon from OOjs UI
+ *
  * @base {@link https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/settings.svg}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}

@@ -5,57 +5,66 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear}
  */
 /**
- * @description Qiuwen Baike Logo (With site name and slogan; Red version)
+ * Qiuwen Baike Logo (With site name and slogan; Red version)
+ *
  * @base {@link https://qwbk.cc/c/2575681}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license CC-BY-SA-4.0
  */
 /**
- * @description fullScreen Icon from OOjs UI
+ * fullScreen Icon from OOjs UI
+ *
  * @base {@link https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/fullScreen.svg}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
 /**
- * @description exitFullscreen Icon from OOjs UI
+ * exitFullscreen Icon from OOjs UI
+ *
  * @base {@link https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/exitFullscreen.svg}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
 /**
- * @description Dark mode icon
- * @author WaitSpring
+ * Dark mode icon
+ *
  * @base {@link https://www.qiuwenbaike.cn/wiki/File:Dark_Mode_Switcher_button.svg}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
+ * @author WaitSpring
  * @license CC-BY-SA-4.0
  */
 /**
- * @description Up Arrow (with blue color and white background)
- * @author WaitSpring
+ * Up Arrow (with blue color and white background)
+ *
  * @base {@link https://www.qiuwenbaike.cn/wiki/File:Up_Arrow_(Blue,_White_BG).svg}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
+ * @author WaitSpring
  * @license CC-BY-SA-4.0
  */
 /**
- * @description close Icon from OOjs UI (Red color)
+ * close Icon from OOjs UI (Red color)
+ *
  * @base {@link https://www.qiuwenbaike.cn/wiki/File:OOjs_UI_icon_close.svg}
- * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
+ * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
 /**
- * @description Qiuwen Baike Logo (Red version)
+ * Qiuwen Baike Logo (Red version)
+ *
  * @base {@link https://qwbk.cc/c/2223355}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license CC-BY-SA-4.0
  */
 /**
- * @description Qiuwen Baike wordmark (Red version)
+ * Qiuwen Baike wordmark (Red version)
+ *
  * @base {@link https://qwbk.cc/c/2223360}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license CC-BY-SA-4.0
  */
 /**
- * @description Qiuwen Baike wordmark (Square; red version)
+ * Qiuwen Baike wordmark (Square; red version)
+ *
  * @base {@link https://qwbk.cc/c/2054075}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license CC-BY-SA-4.0
