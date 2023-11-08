@@ -51,12 +51,12 @@ const getI18nMessages: GetI18nMessages = () => {
 			'zh-hans': '巡查豁免',
 			'zh-hant': '巡查豁免',
 		}),
-		senioreditor: localize({
+		SeniorEditor: localize({
 			en: 'Senior Editor',
 			'zh-hans': '资深编者',
 			'zh-hant': '資深編者',
 		}),
-		eventsponsor: localize({
+		EventSponsor: localize({
 			en: 'Event Sponsor',
 			'zh-hans': '活动组织者',
 			'zh-hant': '活動組織者',
