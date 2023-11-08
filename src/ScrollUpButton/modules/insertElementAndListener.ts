@@ -9,13 +9,11 @@ const insertElementandListener = (): void => {
 			})
 			.appendTo(document.body);
 
-		setTimeout((): void => {
-			window.tippy($element.get(0) as HTMLElement, {
-				arrow: true,
-				content: $element.attr('alt') as string,
-				placement: 'left',
-			});
-		}, 0);
+		tippy($element.get(0) as HTMLElement, {
+			arrow: true,
+			content: $element.attr('alt') as string,
+			placement: 'left',
+		});
 	}
 
 	const scrollListener = (): void => {

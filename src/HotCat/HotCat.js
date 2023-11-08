@@ -1151,9 +1151,9 @@ import {hotCatMessages} from './modules/messages';
 				which.displayList();
 			}
 			if (which.lastSelection) {
-				window.setTimeout(() => {
+				setTimeout(() => {
 					which.setSelection(which.lastSelection.start, which.lastSelection.end);
-				}, 1);
+				}, 0);
 			}
 		}
 	};
@@ -1570,7 +1570,7 @@ import {hotCatMessages} from './modules/messages';
 			} // Reset to a search upon input
 			this.state = CategoryEditor.CHANGE_PENDING;
 			const self = this;
-			window.setTimeout(() => {
+			setTimeout(() => {
 				self.textchange(dont_autocomplete);
 			}, HC.suggest_delay);
 		},
@@ -1717,7 +1717,7 @@ import {hotCatMessages} from './modules/messages';
 					if (event.key === ESC) {
 						self.resetKeySelection();
 						self.text.focus();
-						window.setTimeout(() => {
+						setTimeout(() => {
 							self.textchange(true);
 						}, HC.suggest_delay);
 					} else if (event.key === RET) {
@@ -2949,7 +2949,7 @@ import {hotCatMessages} from './modules/messages';
 						$(eForm.wpTextbox1)
 							.add(sum)
 							.one('input', () => {
-								window.setTimeout(() => {
+								setTimeout(() => {
 									if (isMinorChange()) {
 										removeChangeTag();
 									} else {
@@ -3284,7 +3284,7 @@ import {hotCatMessages} from './modules/messages';
 				setup(createCommitForm);
 			};
 			document.querySelectorAll('head')[0].append(s);
-			setupTimeout = window.setTimeout(() => {
+			setupTimeout = setTimeout(() => {
 				setup(createCommitForm);
 			}, 4000); // 4 sec, just in case getting the wikitext takes longer.
 		} else {

@@ -35,13 +35,11 @@ const addButton = (): void => {
 		})
 		.appendTo(document.body);
 
-	setTimeout((): void => {
-		window.tippy($reportButton.get(0) as HTMLElement, {
-			arrow: true,
-			content: $reportButton.attr('aria-label') as string,
-			placement: 'left',
-		});
-	}, 0);
+	tippy($reportButton.get(0) as HTMLElement, {
+		arrow: true,
+		content: $reportButton.attr('aria-label') as string,
+		placement: 'left',
+	});
 
 	const scrollListener = (): void => {
 		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {

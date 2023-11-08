@@ -1088,7 +1088,7 @@
 					talkpage.deletePage();
 					// this is ugly, but because of the architecture of wiki.api, it is needed
 					// (otherwise success/failure messages for the previous action would be suppressed)
-					window.setTimeout(() => {
+					setTimeout(() => {
 						Twinkle.speedy.callbacks.sysop.deleteRedirects(params);
 					}, 1800);
 				} else {

@@ -242,7 +242,7 @@
 			// use async timeoute to do this
 			setTimeout(() => {
 				$(printOptionsMain.install);
-			});
+			}, 0);
 		});
 	}
 })();
