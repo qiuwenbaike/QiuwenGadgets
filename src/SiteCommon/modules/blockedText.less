@@ -27,6 +27,15 @@
 		text-align: center;
 	}
 
+	&-title,
+	&-subtitle {
+		font-family: @serif-zh-hans, serif, @emoji-font;
+
+		body:lang(zh-hant) & {
+			font-family: @serif-zh-hant, serif, @emoji-font;
+		}
+	}
+
 	&-detail,
 	&-appeal {
 		padding: 0.75em 1em;
