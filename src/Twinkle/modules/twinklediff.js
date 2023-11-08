@@ -92,7 +92,7 @@
 				);
 				return;
 			}
-			window.location = mw.util.getUrl(mw.config.get('wgPageName'), {
+			location = mw.util.getUrl(mw.config.get('wgPageName'), {
 				diff: mw.config.get('wgCurRevisionId'),
 				oldid: revid,
 			});

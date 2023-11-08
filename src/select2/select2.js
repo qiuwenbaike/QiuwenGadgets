@@ -192,7 +192,7 @@
 									? N(E, g, h, e)
 									: setTimeout(() => {
 											N(E, g, h, e);
-									  }, 4),
+									  }, 0),
 								H
 							);
 						}),
@@ -729,11 +729,11 @@
 					}),
 					(c.prototype._handleBlur = function (b) {
 						const a = this;
-						window.setTimeout(() => {
+						setTimeout(() => {
 							document.activeElement == a.$selection[0] ||
 								g.contains(a.$selection[0], document.activeElement) ||
 								a.trigger('blur', b);
-						}, 1);
+						}, 0);
 					}),
 					(c.prototype._attachCloseHandler = (b) => {
 						g(document.body).on('mousedown.select2.' + b.id, (a) => {
@@ -2225,8 +2225,8 @@
 						'function' == typeof k.url && (k.url = k.url.call(this.$element, b));
 						'function' == typeof k.data && (k.data = k.data.call(this.$element, b));
 						this.ajaxOptions.delay && null != b.term
-							? (this._queryTimeout && window.clearTimeout(this._queryTimeout),
-							  (this._queryTimeout = window.setTimeout(d, this.ajaxOptions.delay)))
+							? (this._queryTimeout && clearTimeout(this._queryTimeout),
+							  (this._queryTimeout = setTimeout(d, this.ajaxOptions.delay)))
 							: d();
 					}),
 					c
@@ -2456,7 +2456,7 @@
 							d.$search.attr('tabindex', 0);
 							d.$search.attr('aria-controls', f);
 							d.$search.trigger('focus');
-							window.setTimeout(() => {
+							setTimeout(() => {
 								d.$search.trigger('focus');
 							}, 0);
 						});

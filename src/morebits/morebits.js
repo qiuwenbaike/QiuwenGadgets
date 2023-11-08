@@ -2216,8 +2216,8 @@
 					Morebits.wiki.actionCompleted.redirect += '?redirect=no';
 				}
 			}
-			window.setTimeout(() => {
-				window.location = Morebits.wiki.actionCompleted.redirect;
+			setTimeout(() => {
+				location = Morebits.wiki.actionCompleted.redirect;
 			}, Morebits.wiki.actionCompleted.timeOut);
 		}
 	};

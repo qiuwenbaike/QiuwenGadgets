@@ -1423,10 +1423,10 @@
 			footerbox.appendChild(footerspan);
 			contentform.appendChild(footerbox);
 			// since all the section headers exist now, we can try going to the requested anchor
-			if (window.location.hash) {
-				const loc = window.location.hash;
-				window.location.hash = '';
-				window.location.hash = loc;
+			if (location.hash) {
+				const loc = location.hash;
+				location.hash = '';
+				location.hash = loc;
 			}
 		} else if (
 			mw.config.get('wgNamespaceNumber') === mw.config.get('wgNamespaceIds').user &&

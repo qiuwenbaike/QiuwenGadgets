@@ -31,7 +31,7 @@ const initEdit = () => {
 	$('#editform').on('wikiCacheSettingsUpdate', autoSave).on('submit', onSubmit);
 	loadSettings();
 	defaultNotice();
-	if (window.location.hash.includes('wikicache=autoload')) {
+	if (location.hash.includes('wikicache=autoload')) {
 		load();
 	} else {
 		initLoad();
@@ -149,7 +149,7 @@ const autoSave = () => {
 const save = () => {
 	const asarea = autoSaveArea;
 	const autosave = {
-		_path: window.location.pathname + window.location.search,
+		_path: location.pathname + location.search,
 		_date: new Date(),
 	};
 	for (const sele in asarea) {

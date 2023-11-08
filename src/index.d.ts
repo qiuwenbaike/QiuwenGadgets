@@ -14,7 +14,7 @@ import type {
 	UrlShortenerApiShortenUrlParams as _UrlShortenerApiShortenUrlParams,
 } from 'types-mediawiki/api_params';
 
-import tippy from 'tippy.js';
+import _tippy from 'tippy.js';
 
 type I18nCandidatesKey =
 	| 'en'
@@ -74,6 +74,10 @@ declare global {
 		function vary(candidates: I18nCandidates): string;
 	}
 
+	// npm packages
+	const ClipboardJS: typeof ClipboardJS; // Clipboard clipboard.js
+	const tippy: typeof _tippy; // Tippy tippy.js
+
 	interface Window {
 		readonly CatALotPrefs: unknown; // Cat-a-lot
 		readonly DiffLink?: unknown[]; // DiffLink
@@ -117,12 +121,13 @@ declare global {
 			my?: string,
 			en?: string
 		): string;
-		ClipboardJS: typeof ClipboardJS; // Clipboard
-		tippy: typeof tippy; // Tippy
 		LogFilterInstalled: boolean; // LogFilter
 		RefToolbarInstalled: boolean; // RefToolbar
 		SiteCommonInstalled: boolean; // SiteCommon
 		UserJSInstalled: boolean; // UserJS
+		// npm packages
+		ClipboardJS: typeof ClipboardJS; // Clipboard clipboard.js
+		tippy: typeof _tippy; // Tippy tippy.js
 	}
 }
 
