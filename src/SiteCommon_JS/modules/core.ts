@@ -68,14 +68,53 @@ export const core = (): void => {
 	const locationHref = location.href.toString();
 	const noPerm = mw.util.getParamValue('noperm');
 	if (noPerm) {
-		mw.notify(
-			window.wgULS(
-				'您没有权限访问相关页面；若有疑问，请与求闻百科运营者联系。',
-				'您沒有權限訪問相關頁面；若有疑問，請與求聞百科運營者聯系。'
-			),
-			{tag: 'noPerm', type: 'error'}
-		);
-		const newURL = locationHref.replace(/[?&]noperm=[01]/, '');
+		switch (noPerm) {
+			case '0':
+				mw.notify(
+					window.wgULS(
+						'因技术原因，您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
+						'因技術原因，您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
+					),
+					{tag: 'noPerm', type: 'error'}
+				);
+				break;
+			case '1':
+				mw.notify(
+					window.wgULS(
+						'您没有权限访问相关页面。若您是资深编者，请与求闻百科技术团队联系，以获取权限。',
+						'您沒有權限訪問相關頁面。若您是資深編者，請與求聞百科技術團隊聯系，以獲取權限。'
+					),
+					{tag: 'noPerm', type: 'error'}
+				);
+				break;
+			case '2':
+				mw.notify(
+					window.wgULS(
+						'您的网络环境存在风险，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
+						'您的網路環境存在風險，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
+					),
+					{tag: 'noPerm', type: 'warn'}
+				);
+				break;
+			case '3':
+				mw.notify(
+					window.wgULS(
+						'相关功能仅向注册用户开放，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
+						'相關功能僅向注冊用戶開放，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
+					),
+					{tag: 'noPerm', type: 'warn'}
+				);
+				break;
+			default:
+				mw.notify(
+					window.wgULS(
+						'您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
+						'您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
+					),
+					{tag: 'noPerm', type: 'error'}
+				);
+		}
+		const newURL = locationHref.replace(/[?&]noperm=[0-9]+/, '');
 		history.pushState({}, document.title, newURL);
 	}
 	/**
@@ -158,7 +197,7 @@ export const core = (): void => {
 	 * (beta test)
 	 */
 	// Do not display on Special Pages
-	if (mw.config.get('wgNamespaceNumber') >= 0) {
+	if (!(mw.config.get('wgNamespaceNumber') < 0)) {
 		$('attr, .inline-unihan').each((_index: number, element: HTMLElement): void => {
 			const elementTitle: string = element.title;
 			if (!elementTitle) {
@@ -190,10 +229,5 @@ export const core = (): void => {
 	const $toggle = $('.mw-collapsible-toggle');
 	if ($toggle.length > 0 && $toggle.parent()[0]?.style.color) {
 		$toggle.find('a').css('color', 'inherit');
-	}
-	/* 隐藏首页红色链接 */
-	if (mw.config.get('wgIsMainPage') && mw.config.get('wgAction') === 'view') {
-		/* Remove red links */
-		$('#mw-content-text a.new').contents().unwrap();
 	}
 };

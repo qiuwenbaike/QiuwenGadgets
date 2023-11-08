@@ -2,7 +2,7 @@ import {URL} from './constant';
 import {getMessage} from './i18n';
 
 const addPortletLink = (): void => {
-	if (!(mw.config.get('wgNamespaceNumber') >= 0)) {
+	if (mw.config.get('wgNamespaceNumber') < 0) {
 		return;
 	}
 
