@@ -33,7 +33,7 @@ body {
 				font-family: @serif-zh-hans, serif, @emoji-font;
 				font-size: 0.75rem;
 
-				body:lang(zh-hant) & {
+				html:lang(zh-hant) & {
 					font-family: @serif-zh-hant, serif, @emoji-font;
 				}
 			}
@@ -43,7 +43,7 @@ body {
 	#firstHeading span.mw-editsection a::after {
 		content: ' (首段)';
 
-		body:lang(en) & {
+		html:lang(en) & {
 			content: ' (lead section)';
 		}
 	}
