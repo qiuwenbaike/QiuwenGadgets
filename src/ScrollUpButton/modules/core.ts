@@ -1,6 +1,6 @@
+import button from '../images/scroll-button.svg';
 import {generateSvgDataUrl} from '../../util';
 import {getMessage} from './i18n';
-import scrollButton from '../images/scroll-button.svg';
 
 export const scrollUpButton = (): void => {
 	const changeOpacity = (event: JQuery.TriggeredEvent): void => {
@@ -15,26 +15,28 @@ export const scrollUpButton = (): void => {
 		);
 	};
 
-	const $scrollButton: JQuery = $('<img>')
+	const $button: JQuery = $('<img>')
 		.addClass('noprint')
 		.attr({
 			draggable: false,
-			src: generateSvgDataUrl(scrollButton),
+			src: generateSvgDataUrl(button),
 		});
-	const $scrollDownButton: JQuery = $scrollButton
+	const $downButton: JQuery = $button
 		.clone()
 		.attr({
-			id: 'scrollDownButton',
+			id: 'gadget-scroll_up__button-down',
+			class: 'gadget-scroll_up__button-down',
 			alt: getMessage('ToBottom'),
 			title: getMessage('ToBottom'),
 		})
 		.on('click', (): void => {
 			scrollTop(($(document).height() ?? 0) - ($(window).height() ?? 0));
 		});
-	const $scrollUpButton: JQuery = $scrollButton
+	const $upButton: JQuery = $button
 		.clone()
 		.attr({
-			id: 'scrollUpButton',
+			id: 'gadget-scroll_up__button-up',
+			class: 'gadget-scroll_up__button-up',
 			alt: getMessage('ToTop'),
 			title: getMessage('ToTop'),
 		})
@@ -42,30 +44,28 @@ export const scrollUpButton = (): void => {
 			scrollTop(0);
 		});
 
-	for (const $element of [$scrollDownButton, $scrollUpButton]) {
+	for (const $element of [$downButton, $upButton]) {
 		$element.on('mouseenter mouseleave', changeOpacity).appendTo(document.body);
 	}
 
-	mw.loader.using('ext.gadget.Tippy').then(() => {
-		window.tippy($scrollUpButton.get(0) as HTMLElement, {
-			arrow: true,
-			content: getMessage('ToTop'),
-			placement: 'left',
-		});
-		window.tippy($scrollDownButton.get(0) as HTMLElement, {
-			arrow: true,
-			content: getMessage('ToBottom'),
-			placement: 'left',
-		});
+	window.tippy($upButton.get(0) as HTMLElement, {
+		arrow: true,
+		content: getMessage('ToTop'),
+		placement: 'left',
+	});
+	window.tippy($downButton.get(0) as HTMLElement, {
+		arrow: true,
+		content: getMessage('ToBottom'),
+		placement: 'left',
 	});
 
 	const scrollListener = (): void => {
 		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {
-			$scrollDownButton.css('bottom', '78px');
-			$scrollUpButton.css('bottom', '120px');
+			$downButton.css('bottom', '78px');
+			$upButton.css('bottom', '120px');
 		} else {
-			$scrollDownButton.css('bottom', '36px');
-			$scrollUpButton.css('bottom', '78px');
+			$downButton.css('bottom', '36px');
+			$upButton.css('bottom', '78px');
 		}
 	};
 	const scrollListenerWithToggle = mw.util.throttle(scrollListener, 200);

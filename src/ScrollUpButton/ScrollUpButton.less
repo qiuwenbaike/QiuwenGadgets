@@ -1,23 +1,25 @@
-#scrollDownButton,
-#scrollUpButton {
-	position: fixed;
-	right: 8px;
-	width: 32px;
-	height: 32px;
-	cursor: pointer;
-	opacity: 0.7;
-	user-select: none;
+#gadget-scroll_up_button {
+	&__up,
+	&__down {
+		position: fixed;
+		right: 8px;
+		width: 32px;
+		height: 32px;
+		cursor: pointer;
+		opacity: 0.7;
+		user-select: none;
 
-	.client-darkmode & {
-		transition: unset;
+		.client-darkmode & {
+			transition: unset;
+		}
 	}
-}
 
-#scrollDownButton {
-	bottom: 36px;
-	transform: rotate(180deg);
-}
+	&__up {
+		bottom: 36px;
+		transform: rotate(180deg);
+	}
 
-#scrollUpButton {
-	bottom: 78px;
+	&__down {
+		bottom: 78px;
+	}
 }
