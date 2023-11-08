@@ -83,7 +83,7 @@ export const getPermissions = () => {
 		if (groups.includes('suppress')) {
 			appendIcon(getMessage('Suppress'), 'suppress');
 		}
-		if (groups.includes('SysOp')) {
+		if (groups.includes('sysop')) {
 			appendIcon(getMessage('SysOp'), 'sysop');
 		}
 		if (groups.includes('interface-admin')) {
