@@ -4,15 +4,9 @@
 .kaiti,
 .Kaiti,
 .KaiTi {
-	&:lang(zh) {
-		font-style: normal;
-	}
+	font-family: @cursive-zh-hans, @serif-zh-hans, cursive, serif, @emoji-font;
 
-	&:lang(zh-hans) {
-		font-family: @cursive-zh-hans, @serif-zh-hans, cursive, serif, @emoji-font;
-	}
-
-	&:lang(zh-hant) {
+	body:lang(zh-hant) & {
 		font-family: @cursive-zh-hant, @serif-zh-hant, cursive, serif, @emoji-font;
 	}
 }
@@ -22,15 +16,9 @@
 .fangSong,
 .Fangsong,
 .FangSong {
-	&:lang(zh) {
-		font-style: normal;
-	}
+	font-family: @fangsong, @serif-zh-hans, fangsong, serif, @emoji-font;
 
-	&:lang(zh-hans) {
-		font-family: @fangsong, @serif-zh-hans, fangsong, serif, @emoji-font;
-	}
-
-	&:lang(zh-hant) {
+	body:lang(zh-hant) & {
 		font-family: @fangsong, @serif-zh-hant, fangsong, serif, @emoji-font;
 	}
 }
