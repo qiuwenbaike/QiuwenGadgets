@@ -34,12 +34,10 @@ const addButton = (): void => {
 
 	$reportButton.on('mouseenter mouseleave', changeOpacity).appendTo(document.body);
 
-	mw.loader.using('ext.gadget.Tippy').then(() => {
-		window.tippy($reportButton.get(0) as HTMLElement, {
-			arrow: true,
-			content: linkTilte,
-			placement: 'left',
-		});
+	window.tippy($reportButton.get(0) as HTMLElement, {
+		arrow: true,
+		content: linkTilte,
+		placement: 'left',
 	});
 
 	const scrollListener = (): void => {
