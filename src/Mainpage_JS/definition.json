@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage\"></span> 首页脚本",
+	"default": true,
+	"hidden": true,
+	"namespaces": [4, 10],
+	"peers": ["Mainpage"]
+}

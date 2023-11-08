@@ -158,7 +158,7 @@ export const core = (): void => {
 	 * (beta test)
 	 */
 	// Do not display on Special Pages
-	if (mw.config.get('wgNamespaceNumber') >= 0) {
+	if (!(mw.config.get('wgNamespaceNumber') < 0)) {
 		$('attr, .inline-unihan').each((_index: number, element: HTMLElement): void => {
 			const elementTitle: string = element.title;
 			if (!elementTitle) {
@@ -190,10 +190,5 @@ export const core = (): void => {
 	const $toggle = $('.mw-collapsible-toggle');
 	if ($toggle.length > 0 && $toggle.parent()[0]?.style.color) {
 		$toggle.find('a').css('color', 'inherit');
-	}
-	/* 隐藏首页红色链接 */
-	if (mw.config.get('wgIsMainPage') && mw.config.get('wgAction') === 'view') {
-		/* Remove red links */
-		$('#mw-content-text a.new').contents().unwrap();
 	}
 };
