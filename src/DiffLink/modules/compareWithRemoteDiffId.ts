@@ -22,7 +22,7 @@ const compareWithRemoteDiffId = async (diffId: number): Promise<void> => {
 			buildLink(0);
 		}
 	} catch {
-		ding(getMessage('Network error'), false, 'warning');
+		ding(getMessage('Network error'), false, 'error');
 	}
 };
 

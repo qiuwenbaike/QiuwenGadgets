@@ -40,7 +40,7 @@ const editPage = async (): Promise<void> => {
 			refreshPage(targetPage);
 		} catch (error: unknown) {
 			console.error('[BanPage] Ajax error:', error);
-			ding(getMessage('Network error'), false, 'warning');
+			ding(getMessage('Network error'), false, 'error');
 		}
 	}
 };
