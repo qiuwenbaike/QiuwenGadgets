@@ -178,7 +178,7 @@
 			(apiobj) => {
 				const xml = apiobj.responseXML;
 				const $pages = $(xml).find('page').filter(':not([missing])'); // :not([imagerepository="shared"])
-				$pages.each((index, page) => {
+				$pages.each((_index, page) => {
 					const $page = $(page);
 					const ns = $page.attr('ns');
 					const title = $page.attr('title');
@@ -442,7 +442,7 @@
 							const xml = apiobj.responseXML;
 							const $pages = $(xml).find('page');
 							const subpageList = [];
-							$pages.each((index, page) => {
+							$pages.each((_index, page) => {
 								const $page = $(page);
 								const ns = $page.attr('ns');
 								const title = $page.attr('title');
@@ -535,7 +535,7 @@
 	Twinkle.batchdelete.callback.evaluate = (event) => {
 		Morebits.wiki.actionCompleted.notice = wgULS('批量删除已完成', '批次刪除已完成');
 		const form = event.target;
-		const numProtected = $(Morebits.quickForm.getElements(form, 'pages')).filter((index, element) => {
+		const numProtected = $(Morebits.quickForm.getElements(form, 'pages')).filter((_index, element) => {
 			return element.checked && element.nextElementSibling.style.color === 'red';
 		}).length;
 		if (

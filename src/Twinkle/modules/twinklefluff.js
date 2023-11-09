@@ -157,7 +157,7 @@
 					(mw.config.get('wgUserName') === username && Twinkle.getPref('showRollbackLinks').includes('mine'))
 				) {
 					const $list = $('#mw-content-text').find('ul li:has(span.mw-uctop):has(.mw-changeslist-diff)');
-					$list.each((key, current) => {
+					$list.each((_key, current) => {
 						// revid is also available in the href of both
 						// .mw-changeslist-date or .mw-changeslist-diff
 						const page = $(current).find('.mw-contributions-title').text();
@@ -190,7 +190,7 @@
 				$list = $list
 					.not('.mw-rcfilters-ui-highlights-enhanced-toplevel')
 					.find('.mw-changeslist-line-inner, td.mw-enhanced-rc-nested');
-				$list.each((key, current) => {
+				$list.each((_key, current) => {
 					// The :not is possibly unnecessary, as it appears that
 					// .mw-userlink is simply not present if the username is hidden
 					const vandal = $(current).find('.mw-userlink:not(.history-deleted)').text();
@@ -324,7 +324,7 @@
 		// Array.from not available in IE11 :(
 		$(parentNode)
 			.children()
-			.each((_ix, node) => {
+			.each((_i, node) => {
 				node.innerHTML = node.textContent; // Feels like cheating
 				$(node).css('font-weight', 'normal').css('color', 'darkgray');
 			});

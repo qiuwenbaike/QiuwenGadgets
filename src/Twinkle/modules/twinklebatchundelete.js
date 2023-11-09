@@ -65,7 +65,7 @@
 				const xml = apiobj.responseXML;
 				const $pages = $(xml).find('page[missing]');
 				const list = [];
-				$pages.each((index, page) => {
+				$pages.each((_index, page) => {
 					const $page = $(page);
 					const title = $page.attr('title');
 					const $editprot = $page.find('pr[type="create"][level="sysop"]');
@@ -127,7 +127,7 @@
 	};
 	Twinkle.batchundelete.callback.evaluate = (event) => {
 		Morebits.wiki.actionCompleted.notice = wgULS('反删除已完成', '反刪除已完成');
-		const numProtected = $(Morebits.quickForm.getElements(event.target, 'pages')).filter((index, element) => {
+		const numProtected = $(Morebits.quickForm.getElements(event.target, 'pages')).filter((_index, element) => {
 			return element.checked && element.nextElementSibling.style.color === 'red';
 		}).length;
 		if (
