@@ -71,7 +71,7 @@ const ajaxLogin = (): void => {
 						},
 						'info'
 					);
-					windowManager.closeWindow(messageDialog);
+					await windowManager.closeWindow(messageDialog);
 					return;
 				} else if (value === '') {
 					if (retypePassword) {
