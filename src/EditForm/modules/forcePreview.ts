@@ -12,29 +12,39 @@ export const forcePreview = (): void => {
 		return;
 	}
 	let originalLabel: string | undefined;
+	let originalCaptchaWordLabel: string | undefined;
 	mw.hook('wikipage.editform').add(($editForm: JQuery): void => {
-		let saveButton: OO.ui.Element;
+		let saveButton: OO.ui.ButtonWidget;
 		try {
-			saveButton = OO.ui.infuse($editForm.find('#wpSaveWidget'));
+			saveButton = OO.ui.infuse($editForm.find('#wpSaveWidget')) as OO.ui.ButtonWidget;
 		} catch {
 			return;
 		}
+		const $captchaWordButton = $editForm.find('input[name=wpCaptchaWord]');
 		if (!$('#wikiPreview, #wikiDiff').is(':visible')) {
-			// @ts-ignore
 			if (saveButton.isDisabled()) {
 				return;
 			}
 			if (originalLabel === undefined) {
-				// @ts-ignore
-				originalLabel = saveButton.getLabel();
+				originalLabel = saveButton.getLabel()?.toString();
 			}
-			saveButton
-				// @ts-ignore
-				.setDisabled(true)
-				.setLabel(`${originalLabel}（${getMessage('Preview')}）`);
+			const previewRequestText = getMessage('Preview');
+			saveButton.setDisabled(true).setLabel(originalLabel + previewRequestText);
+			if ($captchaWordButton) {
+				if (originalCaptchaWordLabel === undefined) {
+					originalCaptchaWordLabel = $captchaWordButton.prop('placeholder');
+				}
+
+				$captchaWordButton.val('');
+				$captchaWordButton.prop('disabled', 1);
+				$captchaWordButton.attr('placeholder', originalCaptchaWordLabel + previewRequestText);
+			}
 		} else if (originalLabel !== undefined) {
-			// @ts-ignore
 			saveButton.setLabel(originalLabel).setDisabled(false);
+			if ($captchaWordButton && originalCaptchaWordLabel !== undefined) {
+				$captchaWordButton.attr('placeholder', originalCaptchaWordLabel);
+				$captchaWordButton.prop('disabled', null);
+			}
 		}
 	});
 };
