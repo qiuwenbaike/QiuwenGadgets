@@ -13,6 +13,12 @@ const getI18nMessages: GetI18nMessages = () => {
 			'zh-hans': '您确定要退出吗？',
 			'zh-hant': '您確定要登出嗎？',
 		}),
+		Succeed: localize({
+			en: 'Logout succeed. Refreshing...',
+			ja: 'ログアウトに成功しました。再読み込みします...',
+			'zh-hans': '退出成功，即将刷新页面……',
+			'zh-hant': '登出成功，即將重新載入……',
+		}),
 	};
 };
 

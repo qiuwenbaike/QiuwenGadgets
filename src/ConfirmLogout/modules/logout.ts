@@ -1,16 +1,30 @@
 import {api} from './api';
-import {ding} from '../../util';
 import {getMessage} from './i18n';
 
-const logout = async (): Promise<void> => {
+const logout = async (toastifyInstance: ReturnType<typeof toastify>): Promise<void> => {
 	try {
 		await api.postWithEditToken({
 			action: 'logout',
 		});
+
+		toastifyInstance.hideToast();
+		toastify(
+			{
+				text: getMessage('Succeed'),
+			},
+			'success'
+		);
+
 		location.reload();
 	} catch (error: unknown) {
 		console.error('[ConfirmLogout] Ajax error:', error);
-		ding(getMessage('Network error'), false, 'error');
+		toastifyInstance.hideToast();
+		toastify(
+			{
+				text: getMessage('Network error'),
+			},
+			'error'
+		);
 	}
 };
 
