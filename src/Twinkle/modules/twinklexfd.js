@@ -546,7 +546,7 @@
 						talkPageName,
 						`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
 					);
-					const notifytext = '\n{{'.concat('subst:', `:idw|File:${mw.config.get('wgTitle')}}}`, '--~~', '~~');
+					const notifytext = '\n{{'.concat('subst:', `idw|File:${mw.config.get('wgTitle')}}}`, '--~~', '~~');
 					usertalkpage.setAppendText(notifytext);
 					usertalkpage.setEditSummary(`通知：文件[[${Morebits.pageNameNorm}]]存废讨论提名`);
 					usertalkpage.setChangeTags(Twinkle.changeTags);
