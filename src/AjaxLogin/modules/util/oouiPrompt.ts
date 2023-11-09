@@ -14,11 +14,15 @@ const oouiPrompt = async (windowManager: OO.ui.WindowManager, retypePassword: bo
 			.addClass('oo-ui-messageDialog-title oo-ui-window-head')
 			.text(retypePassword ? getMessage('Enter password') : getMessage('Enter 2FA verification code')),
 	});
+
 	windowManager.addWindows([codeDialog]);
+
 	const instance = windowManager.openWindow(codeDialog, {
 		message: codeLayout.$element,
 	});
+
 	removeWindowResizeHandler(windowManager);
+
 	instance.opened.then((): void => {
 		codeInput.on('enter', (): void => {
 			(windowManager.getCurrentWindow() as OO.ui.Window).close({
@@ -27,8 +31,10 @@ const oouiPrompt = async (windowManager: OO.ui.WindowManager, retypePassword: bo
 		});
 		codeInput.focus();
 	});
+
 	const data: void = await instance.closed;
 	const _data = data as {action: string} | void;
+
 	return _data?.action === 'accept' ? codeInput.getValue() : null;
 };
 
