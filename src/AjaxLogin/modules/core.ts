@@ -222,6 +222,8 @@ const ajaxLogin = (): void => {
 	if (!windowManager) {
 		windowManager = new OO.ui.WindowManager();
 		windowManager.$element.appendTo(document.body);
+	}
+	if (!windowManager.hasWindow(messageDialog)) {
 		windowManager.addWindows([messageDialog]);
 	}
 	windowManager.openWindow(messageDialog, {
