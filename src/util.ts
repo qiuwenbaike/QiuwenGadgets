@@ -67,15 +67,13 @@ const ding = (value: string, autoHide = false, type: 'default' | 'info' | 'succe
 	autoHide ? DingExposedInterface(value, type) : DingExposedInterface(value, type, 'long');
 };
 
-/**
- * svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
- *
- * @author Allan Moreno
- * @license MIT {@link https://github.com/heyallan/svg-to-data-uri/blob/master/LICENSE}
- * @param {string} svg
- * @return {string}
- */
 const generateSvgDataUrl = (svg: string): string => {
+	/*!
+	 * svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
+	 *
+	 * @author Allan Moreno
+	 * @license MIT {@link https://github.com/heyallan/svg-to-data-uri/blob/master/LICENSE}
+	 */
 	svg = svg.trim();
 	// remove xml, doctype, generator...
 	svg = svg.slice(svg.indexOf('<svg'));
