@@ -55,8 +55,7 @@ const ajaxLogin = (): void => {
 				params.rememberMe = true;
 			}
 			if (loginContinue || retypePassword) {
-				lastToastifyInstance.hideToast();
-				await windowManager.closeWindow(messageDialog);
+				await windowManager.clearWindows();
 				delete params.loginreturnurl;
 				delete params.username;
 				delete params.password;
@@ -64,16 +63,17 @@ const ajaxLogin = (): void => {
 
 				const value: string | null = await oouiPrompt(windowManager, retypePassword);
 				if (value === null) {
-					lastToastifyInstance = toastify(
+					lastToastifyInstance.hideToast();
+					toastify(
 						{
-							duration: -1,
 							text: getMessage('Login cancelled'),
 						},
 						'info'
 					);
-					windowManager.closeWindow(messageDialog);
+					windowManager.clearWindows();
 					return;
 				} else if (value === '') {
+					lastToastifyInstance.hideToast();
 					if (retypePassword) {
 						lastToastifyInstance = toastify(
 							{
@@ -128,8 +128,9 @@ const ajaxLogin = (): void => {
 			} else if (response['clientlogin']?.messagecode) {
 				switch (response['clientlogin'].messagecode) {
 					case 'login-throttled':
-						toastify(
+						lastToastifyInstance = toastify(
 							{
+								duration: -1,
 								text: getMessage('TooFrequent'),
 							},
 							'error'
@@ -172,12 +173,13 @@ const ajaxLogin = (): void => {
 							},
 							'warning'
 						);
-						await windowManager.closeWindow(messageDialog);
+						await windowManager.clearWindows();
 						ajaxLogin();
 						break;
 					default:
-						toastify(
+						lastToastifyInstance = toastify(
 							{
+								duration: -1,
 								text: getMessage('Unknown API error'),
 							},
 							'error'
@@ -187,8 +189,9 @@ const ajaxLogin = (): void => {
 		} catch (error: unknown) {
 			console.error('[AjaxLogin] Ajax error:', error);
 			lastToastifyInstance.hideToast();
-			toastify(
+			lastToastifyInstance = toastify(
 				{
+					duration: -1,
 					text: getMessage('Network error'),
 				},
 				'error'
@@ -196,10 +199,14 @@ const ajaxLogin = (): void => {
 		}
 	};
 
-	const needCheckElements: Parameters<typeof checkValid> = [agreeTosCheckbox, nameInput, pwdInput];
+	const needCheckElements: [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget] = [
+		agreeTosCheckbox,
+		nameInput,
+		pwdInput,
+	];
 
 	pwdInput.on('enter', (): void => {
-		const {isValid, toastifyInstance} = checkValid(...needCheckElements);
+		const {isValid, toastifyInstance} = checkValid(...needCheckElements, lastToastifyInstance);
 		lastToastifyInstance = toastifyInstance;
 		if (isValid) {
 			login();
@@ -208,13 +215,14 @@ const ajaxLogin = (): void => {
 	messageDialog.getActionProcess = (action): OO.ui.Process => {
 		return new OO.ui.Process((): void => {
 			if (action === 'login') {
-				const {isValid, toastifyInstance} = checkValid(...needCheckElements);
+				const {isValid, toastifyInstance} = checkValid(...needCheckElements, lastToastifyInstance);
 				lastToastifyInstance = toastifyInstance;
 				if (isValid) {
 					login();
 				}
 			} else {
-				windowManager.closeWindow(messageDialog);
+				lastToastifyInstance.hideToast();
+				windowManager.clearWindows();
 			}
 		});
 	};
@@ -222,8 +230,10 @@ const ajaxLogin = (): void => {
 	if (!windowManager) {
 		windowManager = new OO.ui.WindowManager();
 		windowManager.$element.appendTo(document.body);
-		windowManager.addWindows([messageDialog]);
 	}
+	try {
+		windowManager.addWindows([messageDialog]);
+	} catch {}
 	windowManager.openWindow(messageDialog, {
 		actions: [
 			{
