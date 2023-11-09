@@ -55,7 +55,8 @@ const ajaxLogin = (): void => {
 				params.rememberMe = true;
 			}
 			if (loginContinue || retypePassword) {
-				await windowManager.clearWindows();
+				lastToastifyInstance.hideToast();
+				await windowManager.closeWindow(messageDialog);
 				delete params.loginreturnurl;
 				delete params.username;
 				delete params.password;
@@ -70,7 +71,7 @@ const ajaxLogin = (): void => {
 						},
 						'info'
 					);
-					windowManager.clearWindows();
+					windowManager.closeWindow(messageDialog);
 					return;
 				} else if (value === '') {
 					lastToastifyInstance.hideToast();
@@ -173,7 +174,7 @@ const ajaxLogin = (): void => {
 							},
 							'warning'
 						);
-						await windowManager.clearWindows();
+						await windowManager.closeWindow(messageDialog);
 						ajaxLogin();
 						break;
 					default:
@@ -221,8 +222,7 @@ const ajaxLogin = (): void => {
 					login();
 				}
 			} else {
-				lastToastifyInstance.hideToast();
-				windowManager.clearWindows();
+				windowManager.closeWindow(messageDialog);
 			}
 		});
 	};
@@ -230,10 +230,8 @@ const ajaxLogin = (): void => {
 	if (!windowManager) {
 		windowManager = new OO.ui.WindowManager();
 		windowManager.$element.appendTo(document.body);
-	}
-	try {
 		windowManager.addWindows([messageDialog]);
-	} catch {}
+	}
 	windowManager.openWindow(messageDialog, {
 		actions: [
 			{
