@@ -1,0 +1,9 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-EditForm_JS\"></span> 编辑界面脚本",
+	"section": "edit",
+	"dependencies": ["ext.gadget.i18n", "mediawiki.util", "oojs-ui-core", "oojs-ui-windows"],
+	"hidden": true,
+	"peers": ["EditForm"],
+	"rights": ["edit"]
+}

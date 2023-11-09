@@ -1,8 +1,7 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-EditForm\"></span> 编辑界面脚本及样式表",
+	"description": "<span id=\"Gadget-EditForm\"></span> 编辑界面样式表",
 	"section": "edit",
-	"dependencies": ["ext.gadget.i18n", "mediawiki.util", "oojs-ui-core", "oojs-ui-windows"],
 	"hidden": true,
 	"rights": ["edit"]
 }
