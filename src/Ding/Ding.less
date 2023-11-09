@@ -18,24 +18,26 @@
 .ding {
 	&_inner {
 		position: fixed;
-		z-index: 9999;
 		right: 0;
 		bottom: 0;
 		left: 0;
+		z-index: 9999;
+		margin: 0 auto;
+		padding: 0.75em 1.5em;
 		width: 75%;
 		height: auto;
 		min-height: 3.75%;
-		padding: 0.75em 1.5em;
 		border-radius: 1em 1em 0 0;
-		margin: 0 auto;
+		background-color: #36c;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-		font-size: 92.5%;
+		color: #fff;
+		text-align: center;
 		font-weight: bold;
+		font-size: 92.5%;
 		line-height: 1.25em;
 		opacity: 1;
-		text-align: center;
-		transform: translateY(125%);
 		transition: all 0.2s;
+		transform: translateY(125%);
 		word-break: break-word;
 
 		/* Avoid overlapping the blue bar with the limited width control */
