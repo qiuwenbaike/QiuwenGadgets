@@ -19,10 +19,7 @@ import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 let lastToastifyInstance: ReturnType<typeof toastify> = {
 	hideToast: () => {},
 };
-
-const windowManager = new OO.ui.WindowManager();
-windowManager.$element.appendTo(document.body);
-
+let windowManager: OO.ui.WindowManager;
 const ajaxLogin = (): void => {
 	let loginToken = '';
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
@@ -222,7 +219,11 @@ const ajaxLogin = (): void => {
 		});
 	};
 
-	windowManager.addWindows([messageDialog]);
+	if (!windowManager) {
+		windowManager = new OO.ui.WindowManager();
+		windowManager.$element.appendTo(document.body);
+		windowManager.addWindows([messageDialog]);
+	}
 	windowManager.openWindow(messageDialog, {
 		actions: [
 			{
