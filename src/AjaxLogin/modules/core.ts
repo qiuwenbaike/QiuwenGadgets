@@ -19,7 +19,10 @@ import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 let lastToastifyInstance: ReturnType<typeof toastify> = {
 	hideToast: () => {},
 };
-let windowManager: OO.ui.WindowManager;
+
+const windowManager = new OO.ui.WindowManager();
+windowManager.$element.appendTo(document.body);
+
 const ajaxLogin = (): void => {
 	let loginToken = '';
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
@@ -71,8 +74,7 @@ const ajaxLogin = (): void => {
 						},
 						'info'
 					);
-					// windowManager.clearWindows();
-					windowManager.destroy();
+					windowManager.clearWindows();
 					return;
 				} else if (value === '') {
 					if (retypePassword) {
@@ -173,8 +175,7 @@ const ajaxLogin = (): void => {
 							},
 							'warning'
 						);
-						// windowManager.clearWindows();
-						await windowManager.destroy();
+						await windowManager.clearWindows();
 						ajaxLogin();
 						break;
 					default:
@@ -216,16 +217,11 @@ const ajaxLogin = (): void => {
 					login();
 				}
 			} else {
-				// windowManager.clearWindows();
-				windowManager.destroy();
+				windowManager.clearWindows();
 			}
 		});
 	};
 
-	if (!windowManager) {
-		windowManager = new OO.ui.WindowManager();
-		windowManager.$element.appendTo(document.body);
-	}
 	windowManager.addWindows([messageDialog]);
 	windowManager.openWindow(messageDialog, {
 		actions: [
