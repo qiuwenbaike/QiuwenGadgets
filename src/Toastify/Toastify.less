@@ -1,0 +1,53 @@
+/* stylelint-disable-next-line wikimedia/no-at-import-css */
+@import '../../node_modules/toastify-js/src/toastify.css';
+@import '../variables.less';
+
+.gadget-toastify {
+	background: @const-color-gray;
+	border-radius: 0.5rem;
+	box-shadow:
+		0 3px 6px -1px rgba(0 0 0 / 10%),
+		0 10px 36px -4px rgba(0 0 0 / 20%);
+	cursor: auto;
+	color: @const-color-primary;
+	line-height: 1;
+
+	a {
+		&,
+		&:hover,
+		&:visited,
+		&:visited:hover {
+			color: #f4ff7f !important;
+		}
+	}
+
+	&--error,
+	&--info,
+	&--success,
+	&--warning {
+		color: @const-color-white;
+	}
+
+	&--error {
+		background: @color-error;
+	}
+
+	&--info {
+		background: @color-info;
+	}
+
+	&--success {
+		background: @color-success;
+	}
+
+	&--warning {
+		background: @color-warning;
+	}
+}
+
+.toast-close {
+	color: inherit;
+	font-family: sans-serif;
+	font-size: 0.8em;
+	padding: 0 0 0 1em;
+}

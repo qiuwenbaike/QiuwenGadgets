@@ -30,8 +30,10 @@
 	"author": "安忆 <i@anyi.in>",
 	"license": "GPL-3.0-or-later",
 	"dependencies": {
+		"@types/toastify-js": "^1.12.3",
 		"clipboard": "^2.0.11",
-		"tippy.js": "^6.3.7"
+		"tippy.js": "^6.3.7",
+		"toastify-js": "^1.12.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.2",

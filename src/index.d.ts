@@ -14,6 +14,7 @@ import type {
 	UrlShortenerApiShortenUrlParams as _UrlShortenerApiShortenUrlParams,
 } from 'types-mediawiki/api_params';
 
+import _Toastify from 'toastify-js';
 import _tippy from 'tippy.js';
 
 type I18nCandidatesKey =
@@ -128,6 +129,12 @@ declare global {
 		// npm packages
 		ClipboardJS: typeof ClipboardJS; // Clipboard clipboard.js
 		tippy: typeof _tippy; // Tippy tippy.js
+		toastify: (
+			options: _Toastify.Options,
+			type?: 'info' | 'success' | 'warning' | 'error'
+		) => {
+			hideToast: () => void;
+		}; // Toastify toastify-js
 	}
 }
 
