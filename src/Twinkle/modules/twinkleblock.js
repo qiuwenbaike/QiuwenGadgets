@@ -1744,7 +1744,7 @@
 		$(form)
 			.find('[name=field_block_options]')
 			.find(':checkbox')
-			.each((i, el) => {
+			.each((_i, el) => {
 				// don't override original options if useInitialOptions is set
 				if (data.useInitialOptions && data[el.name] === undefined) {
 					return;

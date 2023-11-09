@@ -40,37 +40,35 @@
 		delLink.appendChild(spanTag('Red', wgULS('关闭讨论', '關閉討論')));
 		delLink.appendChild(spanTag('Black', ']'));
 		delNode.appendChild(delLink);
-		titles.each((_key, current) => {
+		for (const current of titles) {
 			const headlinehref = $(current).find('.mw-headline a').attr('href');
-			if (headlinehref === undefined) {
-				return;
-			}
-			let title = null;
-			if (headlinehref.includes('redlink=1')) {
-				title = headlinehref.slice(19, -22);
-			} else {
-				const m = headlinehref.match(/\/wiki\/([^?]+)/, '$1');
-				if (m !== null) {
-					[, title] = m;
+			if (headlinehref !== undefined) {
+				let title = null;
+				if (headlinehref.includes('redlink=1')) {
+					title = headlinehref.slice(19, -22);
+				} else {
+					const m = headlinehref.match(/\/wiki\/([^?]+)/, '$1');
+					if (m !== null) {
+						[, title] = m;
+					}
+				}
+				if (title !== null) {
+					title = decodeURIComponent(title);
+					title = title.replace(/_/g, ' '); // Normalize for using in interface and summary
+					const pagenotexist = $(current).find('.mw-headline a').hasClass('new');
+					const {section} = current.dataset;
+					const [node] = current.querySelectorAll('.mw-headline');
+					node.appendChild(document.createTextNode(' '));
+					const tmpNode = delNode.cloneNode(true);
+					tmpNode.firstChild.href = `#${section}`;
+					$(tmpNode.firstChild).on('click', () => {
+						Twinkle.close.callback(title, section, pagenotexist);
+						return false;
+					});
+					node.appendChild(tmpNode);
 				}
 			}
-			if (title === null) {
-				return;
-			}
-			title = decodeURIComponent(title);
-			title = title.replace(/_/g, ' '); // Normalize for using in interface and summary
-			const pagenotexist = $(current).find('.mw-headline a').hasClass('new');
-			const {section} = current.dataset;
-			const [node] = current.querySelectorAll('.mw-headline');
-			node.appendChild(document.createTextNode(' '));
-			const tmpNode = delNode.cloneNode(true);
-			tmpNode.firstChild.href = `#${section}`;
-			$(tmpNode.firstChild).on('click', () => {
-				Twinkle.close.callback(title, section, pagenotexist);
-				return false;
-			});
-			node.appendChild(tmpNode);
-		});
+		}
 	};
 	// Keep this synchronized with {{delh}}
 	Twinkle.close.codes = [
