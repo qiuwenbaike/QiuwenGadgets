@@ -1,7 +1,7 @@
-import {ding, oouiConfirmWithStyle} from '../../util';
 import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 import {logout} from './logout';
+import {oouiConfirmWithStyle} from '../../util';
 import {refreshEventListener} from './util/refreshEventListener';
 
 const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
@@ -13,8 +13,11 @@ const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 			return;
 		}
 
-		ding(mw.message('logging-out-notify').toString(), false);
-		logout();
+		const toastifyInstance: ReturnType<typeof toastify> = toastify({
+			duration: -1,
+			text: mw.message('logging-out-notify').toString(),
+		});
+		logout(toastifyInstance);
 	};
 
 	refreshEventListener($element, clickListener);
