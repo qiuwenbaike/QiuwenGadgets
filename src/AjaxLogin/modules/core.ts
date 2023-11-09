@@ -1,22 +1,24 @@
-import {
-	$agreeTos,
-	$forgotPassword,
-	$inputBox,
-	$rememberMe,
-	$tosLabel,
-	agreeTosCheckbox,
-	keepLoginCheckbox,
-	messageDialog,
-	nameInput,
-	pwdInput,
-} from './element';
 import {type ClientLoginParams, api} from './api';
 import {checkValid} from './util/checkValid';
+import {generateElements} from './generateElements';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 
 const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnType<typeof toastify>): void => {
+	const {
+		$agreeTos,
+		$forgotPassword,
+		$inputBox,
+		$rememberMe,
+		$tosLabel,
+		agreeTosCheckbox,
+		keepLoginCheckbox,
+		messageDialog,
+		nameInput,
+		pwdInput,
+	} = generateElements();
+
 	let loginToken = '';
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
 		try {
@@ -235,9 +237,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnT
 		});
 	};
 
-	try {
-		windowManager.addWindows([messageDialog]);
-	} catch {}
+	windowManager.addWindows([messageDialog]);
 	windowManager.openWindow(messageDialog, {
 		actions: [
 			{
