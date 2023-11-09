@@ -10,7 +10,7 @@ const logout = async (): Promise<void> => {
 		location.reload();
 	} catch (error: unknown) {
 		console.error('[ConfirmLogout] Ajax error:', error);
-		ding(getMessage('Network error'), false, 'warning');
+		ding(getMessage('Network error'), false, 'error');
 	}
 };
 

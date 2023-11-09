@@ -25,6 +25,7 @@ export const dingCore: typeof DingExposedInterface = (
 	// * ding_info
 	// * ding_success
 	// * ding_warning
+	// * ding_error
 	dingInnerElement.className = `ding_inner ding_${type}`;
 	dingInnerElement.innerHTML = message;
 	dingElement.append(dingInnerElement);

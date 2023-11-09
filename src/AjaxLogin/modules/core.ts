@@ -109,12 +109,12 @@ const ajaxLogin = (): void => {
 						ajaxLogin();
 						break;
 					default:
-						ding(getMessage('Unknown API error'), false, 'warning');
+						ding(getMessage('Unknown API error'), false, 'error');
 				}
 			}
 		} catch (error: unknown) {
 			console.error('[AjaxLogin] Ajax error:', error);
-			ding(getMessage('Network error'), false, 'warning');
+			ding(getMessage('Network error'), false, 'error');
 		}
 	};
 

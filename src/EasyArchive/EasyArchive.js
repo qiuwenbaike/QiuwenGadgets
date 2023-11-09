@@ -391,7 +391,7 @@ import {easy_archive_lang} from './modules/i18n';
 	window.easy_archive.elaborate_notice = (notice_tag_acronym) => {
 		// acronym scheme: refer to qwerty keyboard layout. (p=9)
 		const notice_tag_dictionary = {
-			27: ['stop_manually', 'warning'],
+			27: ['stop_manually', 'error'],
 			227: ['warning_stop_using', 'warning', 'long', false, true],
 			933: ['please_enable_elaborate'],
 			953: ['others_talk_elaborate'],
