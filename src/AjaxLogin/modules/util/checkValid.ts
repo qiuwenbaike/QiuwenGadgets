@@ -4,7 +4,7 @@ const checkValid = (
 	agreeTosCheckbox: OO.ui.CheckboxInputWidget,
 	nameInput: OO.ui.TextInputWidget,
 	pwdInput: OO.ui.TextInputWidget,
-	lastToastifyInstance: ReturnType<typeof toastify>
+	toastifyInstance: ReturnType<typeof toastify>
 ): {
 	isValid: boolean;
 	toastifyInstance: ReturnType<typeof toastify>;
@@ -12,10 +12,10 @@ const checkValid = (
 	const agreedTos: boolean = agreeTosCheckbox.isSelected();
 	const filled = ![nameInput.getValue(), pwdInput.getValue()].includes('');
 
-	lastToastifyInstance.hideToast();
+	toastifyInstance.hideToast();
 
 	if (!agreedTos) {
-		lastToastifyInstance = toastify(
+		toastifyInstance = toastify(
 			{
 				duration: -1,
 				text: getMessage('AgreedOrNot'),
@@ -23,7 +23,7 @@ const checkValid = (
 			'info'
 		);
 	} else if (!filled) {
-		lastToastifyInstance = toastify(
+		toastifyInstance = toastify(
 			{
 				duration: -1,
 				text: getMessage('EmptyUsernameOrPassword'),
@@ -36,7 +36,7 @@ const checkValid = (
 
 	return {
 		isValid,
-		toastifyInstance: lastToastifyInstance,
+		toastifyInstance,
 	};
 };
 

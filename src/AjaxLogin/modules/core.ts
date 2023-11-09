@@ -16,24 +16,23 @@ import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 
-let lastToastifyInstance: ReturnType<typeof toastify> = {
-	hideToast: () => {},
-};
-let windowManager: OO.ui.WindowManager;
-const ajaxLogin = (): void => {
+const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnType<typeof toastify>): void => {
 	let loginToken = '';
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
 		try {
 			if (!loginContinue) {
-				lastToastifyInstance.hideToast();
-				toastify(
+				toastifyInstance.hideToast();
+				toastifyInstance = toastify(
 					{
 						text: getMessage('Getting login token'),
 					},
 					'info'
 				);
+
 				loginToken = await api.getToken('login');
-				lastToastifyInstance = toastify(
+
+				toastifyInstance.hideToast();
+				toastifyInstance = toastify(
 					{
 						duration: -1,
 						text: getMessage('Login token getted'),
@@ -63,8 +62,10 @@ const ajaxLogin = (): void => {
 				params.logincontinue = true;
 
 				const value: string | null = await oouiPrompt(windowManager, retypePassword);
+
+				toastifyInstance.hideToast();
+
 				if (value === null) {
-					lastToastifyInstance.hideToast();
 					toastify(
 						{
 							text: getMessage('Login cancelled'),
@@ -74,9 +75,8 @@ const ajaxLogin = (): void => {
 					windowManager.closeWindow(messageDialog);
 					return;
 				} else if (value === '') {
-					lastToastifyInstance.hideToast();
 					if (retypePassword) {
-						lastToastifyInstance = toastify(
+						toastifyInstance = toastify(
 							{
 								duration: -1,
 								text: getMessage('EmptyPassword'),
@@ -87,7 +87,7 @@ const ajaxLogin = (): void => {
 							retypePassword: true,
 						});
 					} else {
-						lastToastifyInstance = toastify(
+						toastifyInstance = toastify(
 							{
 								duration: -1,
 								text: getMessage('Empty2FA'),
@@ -98,6 +98,7 @@ const ajaxLogin = (): void => {
 							loginContinue: true,
 						});
 					}
+
 					return;
 				}
 
@@ -109,8 +110,8 @@ const ajaxLogin = (): void => {
 				}
 			}
 
-			lastToastifyInstance.hideToast();
-			toastify(
+			toastifyInstance.hideToast();
+			toastifyInstance = toastify(
 				{
 					text: getMessage('Logging in'),
 				},
@@ -118,6 +119,9 @@ const ajaxLogin = (): void => {
 			);
 
 			const response = await api.post(params);
+
+			toastifyInstance.hideToast();
+
 			if (response['clientlogin']?.status === 'PASS') {
 				toastify(
 					{
@@ -129,7 +133,7 @@ const ajaxLogin = (): void => {
 			} else if (response['clientlogin']?.messagecode) {
 				switch (response['clientlogin'].messagecode) {
 					case 'login-throttled':
-						lastToastifyInstance = toastify(
+						toastifyInstance = toastify(
 							{
 								duration: -1,
 								text: getMessage('TooFrequent'),
@@ -143,7 +147,7 @@ const ajaxLogin = (): void => {
 						});
 						break;
 					case 'oathauth-login-failed':
-						lastToastifyInstance = toastify(
+						toastifyInstance = toastify(
 							{
 								duration: -1,
 								text: getMessage('Invalid 2FA verification code'),
@@ -155,7 +159,7 @@ const ajaxLogin = (): void => {
 						});
 						break;
 					case 'resetpass-temp-emailed':
-						lastToastifyInstance = toastify(
+						toastifyInstance = toastify(
 							{
 								duration: -1,
 								text: getMessage('New password is required'),
@@ -167,18 +171,18 @@ const ajaxLogin = (): void => {
 						});
 						break;
 					case 'wrongpassword':
-						lastToastifyInstance = toastify(
+						toastifyInstance = toastify(
 							{
 								duration: -1,
 								text: getMessage('Invalid useruame or password'),
 							},
 							'warning'
 						);
-						await windowManager.closeWindow(messageDialog);
-						ajaxLogin();
+						await windowManager.clearWindows();
+						ajaxLogin(windowManager, toastifyInstance);
 						break;
 					default:
-						lastToastifyInstance = toastify(
+						toastifyInstance = toastify(
 							{
 								duration: -1,
 								text: getMessage('Unknown API error'),
@@ -189,8 +193,8 @@ const ajaxLogin = (): void => {
 			}
 		} catch (error: unknown) {
 			console.error('[AjaxLogin] Ajax error:', error);
-			lastToastifyInstance.hideToast();
-			lastToastifyInstance = toastify(
+			toastifyInstance.hideToast();
+			toastifyInstance = toastify(
 				{
 					duration: -1,
 					text: getMessage('Network error'),
@@ -207,8 +211,8 @@ const ajaxLogin = (): void => {
 	];
 
 	pwdInput.on('enter', (): void => {
-		const {isValid, toastifyInstance} = checkValid(...needCheckElements, lastToastifyInstance);
-		lastToastifyInstance = toastifyInstance;
+		const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(...needCheckElements, toastifyInstance);
+		toastifyInstance = lastToastifyInstance;
 		if (isValid) {
 			login();
 		}
@@ -216,22 +220,24 @@ const ajaxLogin = (): void => {
 	messageDialog.getActionProcess = (action): OO.ui.Process => {
 		return new OO.ui.Process((): void => {
 			if (action === 'login') {
-				const {isValid, toastifyInstance} = checkValid(...needCheckElements, lastToastifyInstance);
-				lastToastifyInstance = toastifyInstance;
+				const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(
+					...needCheckElements,
+					toastifyInstance
+				);
+				toastifyInstance = lastToastifyInstance;
 				if (isValid) {
 					login();
 				}
 			} else {
-				windowManager.closeWindow(messageDialog);
+				toastifyInstance.hideToast();
+				windowManager.clearWindows();
 			}
 		});
 	};
 
-	if (!windowManager) {
-		windowManager = new OO.ui.WindowManager();
-		windowManager.$element.appendTo(document.body);
+	try {
 		windowManager.addWindows([messageDialog]);
-	}
+	} catch {}
 	windowManager.openWindow(messageDialog, {
 		actions: [
 			{
