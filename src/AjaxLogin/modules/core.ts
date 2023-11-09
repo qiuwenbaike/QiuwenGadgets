@@ -12,20 +12,34 @@ import {
 } from './element';
 import {type ClientLoginParams, api} from './api';
 import {checkValid} from './util/checkValid';
-import {ding} from '../../util';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 
+let lastToastifyInstance: ReturnType<typeof toastify> = {
+	hideToast: () => {},
+};
 let windowManager: OO.ui.WindowManager;
 const ajaxLogin = (): void => {
 	let loginToken = '';
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
 		try {
 			if (!loginContinue) {
-				ding(getMessage('Getting login token'));
+				lastToastifyInstance.hideToast();
+				toastify(
+					{
+						text: getMessage('Getting login token'),
+					},
+					'info'
+				);
 				loginToken = await api.getToken('login');
-				ding(getMessage('Login token getted'), true);
+				lastToastifyInstance = toastify(
+					{
+						duration: -1,
+						text: getMessage('Login token getted'),
+					},
+					'info'
+				);
 			}
 
 			const params: ClientLoginParams = {
@@ -41,6 +55,7 @@ const ajaxLogin = (): void => {
 				params.rememberMe = true;
 			}
 			if (loginContinue || retypePassword) {
+				lastToastifyInstance.hideToast();
 				await windowManager.clearWindows();
 				delete params.loginreturnurl;
 				delete params.username;
@@ -49,17 +64,35 @@ const ajaxLogin = (): void => {
 
 				const value: string | null = await oouiPrompt(windowManager, retypePassword);
 				if (value === null) {
-					ding(getMessage('Login cancelled'), true);
+					lastToastifyInstance = toastify(
+						{
+							duration: -1,
+							text: getMessage('Login cancelled'),
+						},
+						'info'
+					);
 					windowManager.clearWindows();
 					return;
 				} else if (value === '') {
 					if (retypePassword) {
-						ding(getMessage('EmptyPassword'), true);
+						lastToastifyInstance = toastify(
+							{
+								duration: -1,
+								text: getMessage('EmptyPassword'),
+							},
+							'warning'
+						);
 						login({
 							retypePassword: true,
 						});
 					} else {
-						ding(getMessage('Empty2FA'), true);
+						lastToastifyInstance = toastify(
+							{
+								duration: -1,
+								text: getMessage('Empty2FA'),
+							},
+							'warning'
+						);
 						login({
 							loginContinue: true,
 						});
@@ -75,16 +108,32 @@ const ajaxLogin = (): void => {
 				}
 			}
 
-			ding(getMessage('Logging in'));
+			lastToastifyInstance.hideToast();
+			toastify(
+				{
+					text: getMessage('Logging in'),
+				},
+				'info'
+			);
 
 			const response = await api.post(params);
 			if (response['clientlogin']?.status === 'PASS') {
-				ding(getMessage('Login succeed'), false, 'success');
+				toastify(
+					{
+						text: getMessage('Login succeed'),
+					},
+					'success'
+				);
 				location.reload();
 			} else if (response['clientlogin']?.messagecode) {
 				switch (response['clientlogin'].messagecode) {
 					case 'login-throttled':
-						ding(getMessage('TooFrequent'));
+						toastify(
+							{
+								text: getMessage('TooFrequent'),
+							},
+							'error'
+						);
 						break;
 					case 'oathauth-auth-ui':
 						login({
@@ -92,43 +141,76 @@ const ajaxLogin = (): void => {
 						});
 						break;
 					case 'oathauth-login-failed':
-						ding(getMessage('Invalid 2FA verification code'), true, 'warning');
+						lastToastifyInstance = toastify(
+							{
+								duration: -1,
+								text: getMessage('Invalid 2FA verification code'),
+							},
+							'warning'
+						);
 						login({
 							loginContinue: true,
 						});
 						break;
 					case 'resetpass-temp-emailed':
-						ding(getMessage('New password is required'), true);
+						lastToastifyInstance = toastify(
+							{
+								duration: -1,
+								text: getMessage('New password is required'),
+							},
+							'warning'
+						);
 						login({
 							retypePassword: true,
 						});
 						break;
 					case 'wrongpassword':
-						ding(getMessage('Invalid useruame or password'), true, 'warning');
+						lastToastifyInstance = toastify(
+							{
+								duration: -1,
+								text: getMessage('Invalid useruame or password'),
+							},
+							'warning'
+						);
 						await windowManager.clearWindows();
 						ajaxLogin();
 						break;
 					default:
-						ding(getMessage('Unknown API error'), false, 'error');
+						toastify(
+							{
+								text: getMessage('Unknown API error'),
+							},
+							'error'
+						);
 				}
 			}
 		} catch (error: unknown) {
 			console.error('[AjaxLogin] Ajax error:', error);
-			ding(getMessage('Network error'), false, 'error');
+			lastToastifyInstance.hideToast();
+			toastify(
+				{
+					text: getMessage('Network error'),
+				},
+				'error'
+			);
 		}
 	};
 
 	const needCheckElements: Parameters<typeof checkValid> = [agreeTosCheckbox, nameInput, pwdInput];
 
 	pwdInput.on('enter', (): void => {
-		if (checkValid(...needCheckElements)) {
+		const {isValid, toastifyInstance} = checkValid(...needCheckElements);
+		lastToastifyInstance = toastifyInstance;
+		if (isValid) {
 			login();
 		}
 	});
 	messageDialog.getActionProcess = (action): OO.ui.Process => {
 		return new OO.ui.Process((): void => {
 			if (action === 'login') {
-				if (checkValid(...needCheckElements)) {
+				const {isValid, toastifyInstance} = checkValid(...needCheckElements);
+				lastToastifyInstance = toastifyInstance;
+				if (isValid) {
 					login();
 				}
 			} else {
