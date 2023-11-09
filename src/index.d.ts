@@ -78,6 +78,7 @@ declare global {
 	// npm packages
 	const ClipboardJS: typeof ClipboardJS; // Clipboard clipboard.js
 	const tippy: typeof _tippy; // Tippy tippy.js
+	const toastify: typeof window.toastify; // Toastify toastify-js
 
 	interface Window {
 		readonly CatALotPrefs: unknown; // Cat-a-lot

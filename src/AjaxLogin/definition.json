@@ -4,8 +4,8 @@
 	"section": "browser",
 	"default": true,
 	"dependencies": [
-		"ext.gadget.Ding",
 		"ext.gadget.i18n",
+		"ext.gadget.Toastify",
 		"mediawiki.api",
 		"oojs-ui-core",
 		"oojs-ui-windows",
