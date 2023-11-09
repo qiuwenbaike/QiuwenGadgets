@@ -71,7 +71,8 @@ const ajaxLogin = (): void => {
 						},
 						'info'
 					);
-					windowManager.clearWindows();
+					// windowManager.clearWindows();
+					windowManager.destroy();
 					return;
 				} else if (value === '') {
 					if (retypePassword) {
@@ -172,7 +173,8 @@ const ajaxLogin = (): void => {
 							},
 							'warning'
 						);
-						await windowManager.clearWindows();
+						// windowManager.clearWindows();
+						await windowManager.destroy();
 						ajaxLogin();
 						break;
 					default:
@@ -214,7 +216,8 @@ const ajaxLogin = (): void => {
 					login();
 				}
 			} else {
-				windowManager.clearWindows();
+				// windowManager.clearWindows();
+				windowManager.destroy();
 			}
 		});
 	};
