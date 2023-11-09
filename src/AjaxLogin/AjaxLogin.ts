@@ -8,12 +8,19 @@ $(function initAutoLogin() {
 		return;
 	}
 
+	const windowManager = new OO.ui.WindowManager();
+	windowManager.$element.appendTo(document.body);
+
+	const fakeToastifyInstance: ReturnType<typeof toastify> = {
+		hideToast: () => {},
+	};
+
 	const eventListener = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
 		if (!checkA11yConfirmKey(event)) {
 			return;
 		}
 		event.preventDefault();
-		ajaxLogin();
+		ajaxLogin(windowManager, fakeToastifyInstance);
 	};
 	$element.on('click', eventListener);
 	$element.on('keydown', eventListener);
