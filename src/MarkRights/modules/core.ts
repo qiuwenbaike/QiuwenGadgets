@@ -1,3 +1,4 @@
+import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
 const groups: Record<string, string[]> = {
@@ -89,7 +90,34 @@ export const markUserRights = ($content: JQuery): void => {
 					if (groupsGroup.includes(username)) {
 						const className = `gadgets-markrights__${group}`;
 						if (!$sups.find('sup').hasClass(className)) {
-							$sups.append(`<sup class="${className}"></sup>`);
+							$sups.append(
+								// The following classes are used here:
+								// * gadget-markrights__qiuwen
+								// * gadget-markrights__steward
+								// * gadget-markrights__checkuser
+								// * gadget-markrights__suppress
+								// * gadget-markrights__sysop
+								// * gadget-markrights__interface-admin
+								// * gadget-markrights__templateeditor
+								// * gadget-markrights__transwiki
+								// * gadget-markrights__patroller
+								// * gadget-markrights__autoreviewer
+								// * gadget-markrights__senioreditor
+								// * gadget-markrights__eventsponsor
+								// * gadget-markrights__massmessage-sender
+								// * gadget-markrights__confirmed
+								// * gadget-markrights__autoconfirmed
+								// * gadget-markrights__bot
+								// * gadget-markrights__flood
+								// * gadget-markrights__ipblock-exempt
+								// * gadget-markrights__rnrsverify-exempt
+								$('<sup>')
+									.addClass(className)
+									.attr({
+										alt: getMessage(group),
+										title: getMessage(group),
+									})
+							);
 						}
 					}
 				}

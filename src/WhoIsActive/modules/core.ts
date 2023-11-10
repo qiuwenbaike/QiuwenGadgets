@@ -50,15 +50,15 @@ export const whoIsActive = (): void => {
 				? 'li'
 				: 'div';
 		// The following classes are used here:
-		// * mw-whoisactive-OverAYear
-		// * mw-whoisactive-ThisYear
-		// * mw-whoisactive-ThisMonth
-		// * mw-whoisactive-ThisWeek
+		// * gadget-whoisactive__OverAYear
+		// * gadget-whoisactive__ThisYear
+		// * gadget-whoisactive__ThisMonth
+		// * gadget-whoisactive__ThisWeek
 		const $icon: JQuery = $(`<${elementName}>`)
-			.addClass(`mw-whoisactive-span mw-whoisactive-${timespan}`)
+			.addClass(`gadget-whoisactive__span gadget-whoisactive__${timespan}`)
 			.append(
 				$('<span>')
-					.addClass(`mw-whoisactive-icon mw-whoisactive-icon-${timespan}`)
+					.addClass(`gadget-whoisactive__icon gadget-whoisactive__icon__${timespan}`)
 					.attr({
 						alt: getMessage(timespan),
 						title: getMessage(timespan),
@@ -66,7 +66,7 @@ export const whoIsActive = (): void => {
 			)
 			.append(
 				$('<span>')
-					.addClass(`mw-whoisactive-text${indicator === true ? '  mw-whoisactive-notext' : ''}`)
+					.addClass(`gadget-whoisactive__text${indicator === true ? '  gadget-whoisactive__notext' : ''}`)
 					.text(getMessage(timespan))
 			);
 		return $icon;
