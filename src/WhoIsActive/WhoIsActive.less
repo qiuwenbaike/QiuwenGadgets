@@ -1,5 +1,5 @@
-.mw-whoisactive {
-	&-span {
+.gadget-whoisactive {
+	&__span {
 		display: inline-block;
 		padding: 0 0.5em !important;
 		border: 1px solid #ddd;
@@ -17,27 +17,27 @@
 		}
 	}
 
-	&-ThisWeek {
+	&__ThisWeek {
 		border-color: #181;
 		color: #181 !important;
 	}
 
-	&-ThisMonth {
+	&__ThisMonth {
 		border-color: #36c;
 		color: #36c !important;
 	}
 
-	&-ThisYear {
+	&__ThisYear {
 		border-color: #a60;
 		color: #a60 !important;
 	}
 
-	&-OverAYear {
+	&__OverAYear {
 		border-color: #b32424;
 		color: #b32424 !important;
 	}
 
-	&-icon {
+	&__icon {
 		margin: 0;
 
 		&::before {
@@ -51,24 +51,24 @@
 			vertical-align: middle;
 		}
 
-		&-ThisWeek::before {
+		&__ThisWeek::before {
 			background-image: data-uri('./images/userContributions-green.svg');
 		}
 
-		&-ThisMonth::before {
+		&__ThisMonth::before {
 			background-image: data-uri('./images/userContributions-blue.svg');
 		}
 
-		&-ThisYear::before {
+		&__ThisYear::before {
 			background-image: data-uri('./images/userContributions-brown.svg');
 		}
 
-		&-OverAYear::before {
+		&__OverAYear::before {
 			background-image: data-uri('./images/userContributions-red.svg');
 		}
 	}
 
-	&-text {
+	&__text {
 		margin-left: 5px;
 		vertical-align: middle;
 
@@ -77,7 +77,7 @@
 		}
 	}
 
-	&-notext {
+	&__notext {
 		font-size: 0 !important;
 		margin-left: 0;
 		clip-path: inset(50%);
