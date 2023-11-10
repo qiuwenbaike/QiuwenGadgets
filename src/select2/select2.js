@@ -216,7 +216,7 @@
 						console &&
 						console.error &&
 						console.error(
-							'Select2: An instance of jQuery or a jQuery-compatible library was not found. Make sure that you are including jQuery before Select2 on your web page.'
+							'[Select2] An instance of jQuery or a jQuery-compatible library was not found. Make sure that you are including jQuery before Select2 on your web page.'
 						),
 					g
 				);
@@ -912,7 +912,7 @@
 							window.console &&
 							console.error &&
 							console.error(
-								'Select2: The `allowClear` option should be used in combination with the `placeholder` option.'
+								'[Select2] The `allowClear` option should be used in combination with the `placeholder` option.'
 							);
 						this.$selection.on('mousedown', '.select2-selection__clear', (k) => {
 							f._handleClear(k);
@@ -2207,7 +2207,7 @@
 										console.error &&
 										((n && n.results && e.isArray(n.results)) ||
 											console.error(
-												'Select2: The AJAX results did not return an array in the `results` key of the response.'
+												'[Select2] The AJAX results did not return an array in the `results` key of the response.'
 											));
 									a(n);
 								},
@@ -2952,7 +2952,7 @@
 												window.console &&
 												console.warn &&
 												console.warn(
-													'Select2: The language file for "' +
+													'[Select2] The language file for "' +
 														x +
 														'" could not be automatically loaded. A fallback will be used instead.'
 												);
@@ -3006,7 +3006,7 @@
 								window.console &&
 								console.warn &&
 								console.warn(
-									'Select2: The `data-select2-tags` attribute has been changed to use the `data-data` and `data-tags="true"` attributes and will be removed in future versions of Select2.'
+									'[Select2] The `data-select2-tags` attribute has been changed to use the `data-data` and `data-tags="true"` attributes and will be removed in future versions of Select2.'
 								),
 							c.StoreData(a[0], 'data', c.GetData(a[0], 'select2Tags')),
 							c.StoreData(a[0], 'tags', !0));
@@ -3015,7 +3015,7 @@
 								window.console &&
 								console.warn &&
 								console.warn(
-									'Select2: The `data-ajax-url` attribute has been changed to `data-ajax--url` and support for the old attribute will be removed in future versions of Select2.'
+									'[Select2] The `data-ajax-url` attribute has been changed to `data-ajax--url` and support for the old attribute will be removed in future versions of Select2.'
 								),
 							a.attr('ajax--url', c.GetData(a[0], 'ajaxUrl')),
 							c.StoreData(a[0], 'ajax-Url', c.GetData(a[0], 'ajaxUrl')));
@@ -3302,7 +3302,7 @@
 							window.console &&
 							console.warn &&
 							console.warn(
-								'Select2: The `select2("enable")` method has been deprecated and will be removed in later Select2 versions. Use $element.prop("disabled") instead.'
+								'[Select2] The `select2("enable")` method has been deprecated and will be removed in later Select2 versions. Use $element.prop("disabled") instead.'
 							);
 						(null != a && 0 !== a.length) || (a = [!0]);
 						this.$element.prop('disabled', !a[0]);
@@ -3313,7 +3313,7 @@
 							window.console &&
 							console.warn &&
 							console.warn(
-								'Select2: Data can no longer be set using `select2("data")`. You should consider setting the value instead using `$element.val()`.'
+								'[Select2] Data can no longer be set using `select2("data")`. You should consider setting the value instead using `$element.val()`.'
 							);
 						let a = [];
 						return (
@@ -3329,7 +3329,7 @@
 								window.console &&
 								console.warn &&
 								console.warn(
-									'Select2: The `select2("val")` method has been deprecated and will be removed in later Select2 versions. Use $element.val() instead.'
+									'[Select2] The `select2("val")` method has been deprecated and will be removed in later Select2 versions. Use $element.val() instead.'
 								),
 							null == a || 0 === a.length)
 						)
@@ -3392,7 +3392,7 @@
 									this
 								);
 							if ('string' != typeof d) {
-								throw Error('Invalid arguments for Select2: ' + d);
+								throw Error('Invalid arguments for [Select2] ' + d);
 							}
 							let f;
 							const k = Array.prototype.slice.call(arguments, 1);

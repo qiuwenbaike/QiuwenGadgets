@@ -5031,7 +5031,7 @@
 						Morebits.status.errorEvent();
 					}
 					// also log error messages in the browser console
-					console.error(`${this.textRaw}: ${this.statRaw}`);
+					console.error(`[Morebits] ${this.textRaw}: ${this.statRaw}`);
 				}
 			}
 			this.render();
