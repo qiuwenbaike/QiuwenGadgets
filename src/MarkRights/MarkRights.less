@@ -1,33 +1,21 @@
 /* 在最近修改、监视列表、条目历史记录等位置以特殊格式显示有特殊权限的用户 */
 
-.markrights {
-	/* 裁决委员会：紫黑 */
-	&-qiuwen::after,
-	&-steward::after {
-		color: #800080;
-	}
+.gadgets-markrights {
+	display: inline-block;
 
-	&-qiuwen::after {
+	&__qiuwen::after {
 		content: '站';
 	}
 
-	&-steward::after {
+	&__steward::after {
 		content: '裁';
 	}
 
-	/* 高级管理人员（管、界、监、查）：紫红 */
-	&-sysop::after,
-	&-interface-admin::after,
-	&-suppress::after,
-	&-checkuser::after {
-		color: #c71590;
-	}
-
-	&-sysop::after {
+	&__sysop::after {
 		content: '管';
 	}
 
-	&-interface-admin::after {
+	&__interface-admin::after {
 		content: '界';
 
 		body:lang(zh-hant) & {
@@ -35,11 +23,11 @@
 		}
 	}
 
-	&-checkuser::after {
+	&__checkuser::after {
 		content: '查';
 	}
 
-	&-suppress::after {
+	&__suppress::after {
 		content: '监';
 
 		body:lang(zh-hant) & {
@@ -47,34 +35,19 @@
 		}
 	}
 
-	/* 一般管理人员（巡、活）：棕 */
-	&-patroller::after,
-	&-eventsponsor::after {
-		color: #a60;
-	}
-
-	&-patroller::after {
+	&__patroller::after {
 		content: '巡';
 	}
 
-	&-eventsponsor::after {
+	&__eventsponsor::after {
 		content: '活';
 	}
 
-	/* 编辑权限（模、资、导/汇、发、机器人）：蓝 */
-	&-templateeditor::after,
-	&-senioreditor::after,
-	&-transwiki::after,
-	&-massmessage-sender::after,
-	&-bot::after {
-		color: #36c;
-	}
-
-	&-templateeditor::after {
+	&__templateeditor::after {
 		content: '模';
 	}
 
-	&-senioreditor::after {
+	&__senioreditor::after {
 		content: '资';
 
 		body:lang(zh-hant) & {
@@ -82,7 +55,7 @@
 		}
 	}
 
-	&-transwiki::after {
+	&__transwiki::after {
 		content: '导';
 
 		body:lang(zh-hant) & {
@@ -90,7 +63,7 @@
 		}
 	}
 
-	&-massmessage-sender::after {
+	&__massmessage-sender::after {
 		content: '发';
 
 		body:lang(zh-hant) & {
@@ -98,7 +71,7 @@
 		}
 	}
 
-	&-bot::after {
+	&__bot::after {
 		content: '机';
 
 		body:lang(zh-hant) & {
@@ -106,17 +79,7 @@
 		}
 	}
 
-	/* 特殊权限（确、自、免、代、机器用户）：绿色 */
-	&-confirmed::after,
-	&-autoconfirmed::after,
-	&-autoreviewer::after,
-	&-ipblock-exempt::after,
-	&-rnrsverify-exempt::after,
-	&-flood::after {
-		color: #181;
-	}
-
-	&-confirmed::after {
+	&__confirmed::after {
 		content: '确';
 
 		body:lang(zh-hant) & {
@@ -124,15 +87,15 @@
 		}
 	}
 
-	&-autoreviewer::after {
+	&__autoreviewer::after {
 		content: '免';
 	}
 
-	&-ipblock-exempt::after {
+	&__ipblock-exempt::after {
 		content: '代';
 	}
 
-	&-rnrsverify-exempt::after {
+	&__rnrsverify-exempt::after {
 		content: '认';
 
 		body:lang(zh-hant) & {
@@ -140,11 +103,55 @@
 		}
 	}
 
-	&-flood::after {
+	&__flood::after {
 		content: '机';
 
 		body:lang(zh-hant) & {
 			content: '機';
 		}
+	}
+
+	/* 裁决委员会：紫黑 */
+	&__qiuwen,
+	&__steward {
+		border-color: #800080;
+		color: #800080;
+	}
+
+	/* 高级管理人员（管、界、监、查）：紫红 */
+	&__sysop,
+	&__interface-admin,
+	&__suppress,
+	&__checkuser {
+		border-color: #c71590;
+		color: #c71590;
+	}
+
+	/* 一般管理人员（巡、活）：棕 */
+	&__patroller,
+	&__eventsponsor {
+		border-color: #a60;
+		color: #a60;
+	}
+
+	/* 编辑权限（模、资、导/汇、发、机器人）：蓝 */
+	&__templateeditor,
+	&__senioreditor,
+	&__transwiki,
+	&__massmessage-sender,
+	&__bot {
+		border-color: #36c;
+		color: #36c;
+	}
+
+	/* 特殊权限（确、自、免、代、机器用户）：绿色 */
+	&__confirmed,
+	&__autoconfirmed,
+	&__autoreviewer,
+	&__ipblock-exempt,
+	&__rnrsverify-exempt,
+	&__flood {
+		border-color: #181;
+		color: #181;
 	}
 }

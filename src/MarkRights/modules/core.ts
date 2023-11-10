@@ -82,17 +82,19 @@ export const markUserRights = ($content: JQuery): void => {
 			if (!username) {
 				return;
 			}
+			const $sups: JQuery = $('<span>').addClass('gadgets-markrights');
 			for (const group in groups) {
 				if (Object.hasOwn(groups, group)) {
 					const groupsGroup: string[] = groups[group] ?? [];
 					if (groupsGroup.includes(username)) {
-						const className = `markrights-${group}`;
-						if (!$element.find('sup').hasClass(className)) {
-							$element.append(`<sup class="${className}"></sup>`);
+						const className = `gadgets-markrights__${group}`;
+						if (!$sups.find('sup').hasClass(className)) {
+							$sups.append(`<sup class="${className}"></sup>`);
 						}
 					}
 				}
 			}
+			$element.after($sups);
 		});
 	};
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (MarkRights/1.1; ${mw.config.get('wgWikiID')})`);

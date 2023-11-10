@@ -1,4 +1,4 @@
-.mw-markrights {
+.gadget-markrights_userpage {
 	display: inline-block;
 	margin-bottom: 0.25em !important;
 	padding: 0 0.5em !important;
@@ -10,7 +10,7 @@
 	.mw-footer & {
 		margin-bottom: 0.25em !important;
 
-		& + .mw-markrights {
+		& + .gadget-markrights_userpage {
 			margin-left: 0.25em !important;
 		}
 
@@ -19,7 +19,16 @@
 		}
 	}
 
-	&-icon {
+	&__text {
+		margin-left: 5px;
+		vertical-align: middle;
+
+		.skin-citizen & {
+			font-size: 1.125em;
+		}
+	}
+
+	&__icon {
 		margin: 0;
 
 		&::before {
@@ -28,19 +37,19 @@
 			vertical-align: middle;
 		}
 
-		&-qiuwen::before {
+		&__qiuwen::before {
 			content: '[站]';
 		}
 
-		&-steward::before {
+		&__steward::before {
 			content: '[裁]';
 		}
 
-		&-sysop::before {
+		&__sysop::before {
 			content: '[管]';
 		}
 
-		&-interface-admin::before {
+		&__interface-admin::before {
 			content: '[界]';
 
 			body:lang(zh-hant) & {
@@ -48,11 +57,11 @@
 			}
 		}
 
-		&-checkuser::before {
+		&__checkuser::before {
 			content: '[查]';
 		}
 
-		&-suppress::before {
+		&__suppress::before {
 			content: '[监]';
 
 			body:lang(zh-hant) & {
@@ -60,19 +69,19 @@
 			}
 		}
 
-		&-patroller::before {
+		&__patroller::before {
 			content: '[巡]';
 		}
 
-		&-eventsponsor::before {
+		&__eventsponsor::before {
 			content: '[活]';
 		}
 
-		&-templateeditor::before {
+		&__templateeditor::before {
 			content: '[模]';
 		}
 
-		&-senioreditor::before {
+		&__senioreditor::before {
 			content: '[资]';
 
 			body:lang(zh-hant) & {
@@ -80,7 +89,7 @@
 			}
 		}
 
-		&-transwiki::before {
+		&__transwiki::before {
 			content: '[导]';
 
 			body:lang(zh-hant) & {
@@ -88,7 +97,7 @@
 			}
 		}
 
-		&-massmessage-sender::before {
+		&__massmessage-sender::before {
 			content: '[发]';
 
 			body:lang(zh-hant) & {
@@ -96,7 +105,7 @@
 			}
 		}
 
-		&-bot::before {
+		&__bot::before {
 			content: '[机]';
 
 			body:lang(zh-hant) & {
@@ -104,7 +113,7 @@
 			}
 		}
 
-		&-confirmed::before {
+		&__confirmed::before {
 			content: '[确]';
 
 			body:lang(zh-hant) & {
@@ -112,15 +121,15 @@
 			}
 		}
 
-		&-autoreviewer::before {
+		&__autoreviewer::before {
 			content: '[免]';
 		}
 
-		&-ipblock-exempt::before {
+		&__ipblock-exempt::before {
 			content: '[代]';
 		}
 
-		&-rnrsverify-exempt::before {
+		&__rnrsverify-exempt::before {
 			content: '[认]';
 
 			body:lang(zh-hant) & {
@@ -128,7 +137,7 @@
 			}
 		}
 
-		&-flood::before {
+		&__flood::before {
 			content: '[机]';
 
 			body:lang(zh-hant) & {
@@ -138,55 +147,46 @@
 	}
 
 	/* 裁决委员会：紫黑 */
-	&-qiuwen,
-	&-steward {
+	&__qiuwen,
+	&__steward {
 		border-color: #800080;
 		color: #800080;
 	}
 
 	/* 高级管理人员（管、界、监、查）：紫红 */
-	&-sysop,
-	&-interface-admin,
-	&-suppress,
-	&-checkuser {
+	&__sysop,
+	&__interface-admin,
+	&__suppress,
+	&__checkuser {
 		border-color: #c71590;
 		color: #c71590;
 	}
 
 	/* 一般管理人员（巡、活）：棕 */
-	&-patroller,
-	&-eventsponsor {
+	&__patroller,
+	&__eventsponsor {
 		border-color: #a60;
 		color: #a60;
 	}
 
 	/* 编辑权限（模、资、导/汇、发、机器人）：蓝 */
-	&-templateeditor,
-	&-senioreditor,
-	&-transwiki,
-	&-massmessage-sender,
-	&-bot {
+	&__templateeditor,
+	&__senioreditor,
+	&__transwiki,
+	&__massmessage-sender,
+	&__bot {
 		border-color: #36c;
 		color: #36c;
 	}
 
 	/* 特殊权限（确、自、免、代、机器用户）：绿色 */
-	&-confirmed,
-	&-autoconfirmed,
-	&-autoreviewer,
-	&-ipblock-exempt,
-	&-rnrsverify-exempt,
-	&-flood {
+	&__confirmed,
+	&__autoconfirmed,
+	&__autoreviewer,
+	&__ipblock-exempt,
+	&__rnrsverify-exempt,
+	&__flood {
 		border-color: #181;
 		color: #181;
-	}
-
-	&-text {
-		margin-left: 5px;
-		vertical-align: middle;
-
-		.skin-citizen & {
-			font-size: 1.125em;
-		}
 	}
 }

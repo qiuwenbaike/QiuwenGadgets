@@ -15,36 +15,38 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 			? 'li'
 			: 'div';
 	// The following classes are used here:
-	// * mw-markrights-qiuwen
-	// * mw-markrights-steward
-	// * mw-markrights-checkuser
-	// * mw-markrights-suppress
-	// * mw-markrights-sysop
-	// * mw-markrights-interface-admin
-	// * mw-markrights-templateeditor
-	// * mw-markrights-transwiki
-	// * mw-markrights-patroller
-	// * mw-markrights-autoreviewer
-	// * mw-markrights-senioreditor
-	// * mw-markrights-eventsponsor
-	// * mw-markrights-massmessage-sender
-	// * mw-markrights-confirmed
-	// * mw-markrights-autoconfirmed
-	// * mw-markrights-bot
-	// * mw-markrights-flood
-	// * mw-markrights-ipblock-exempt
-	// * mw-markrights-rnrsverify-exempt
+	// * gadget-markrights_userpage__qiuwen
+	// * gadget-markrights_userpage__steward
+	// * gadget-markrights_userpage__checkuser
+	// * gadget-markrights_userpage__suppress
+	// * gadget-markrights_userpage__sysop
+	// * gadget-markrights_userpage__interface-admin
+	// * gadget-markrights_userpage__templateeditor
+	// * gadget-markrights_userpage__transwiki
+	// * gadget-markrights_userpage__patroller
+	// * gadget-markrights_userpage__autoreviewer
+	// * gadget-markrights_userpage__senioreditor
+	// * gadget-markrights_userpage__eventsponsor
+	// * gadget-markrights_userpage__massmessage-sender
+	// * gadget-markrights_userpage__confirmed
+	// * gadget-markrights_userpage__autoconfirmed
+	// * gadget-markrights_userpage__bot
+	// * gadget-markrights_userpage__flood
+	// * gadget-markrights_userpage__ipblock-exempt
+	// * gadget-markrights_userpage__rnrsverify-exempt
 	const $indicator: JQuery = $(`<${elementName}>`)
-		.addClass(`mw-markrights mw-markrights-${spanClass}`)
+		.addClass(`gadget-markrights_userpage gadget-markrights_userpage__${spanClass}`)
 		.append(
-			$('<span>').addClass(`mw-markrights-icon mw-markrights-icon-${spanClass}`).attr({
-				alt: indicatorText,
-				title: indicatorText,
-			})
+			$('<span>')
+				.addClass(`gadget-markrights_userpage__icon gadget-markrights_userpage__icon__${spanClass}`)
+				.attr({
+					alt: indicatorText,
+					title: indicatorText,
+				})
 		)
 		.append(
 			$('<span>')
-				.addClass('mw-markrights-text')
+				.addClass('gadget-markrights_userpage__text')
 				.text(indicatorText ?? '')
 		);
 	$indicator.prependTo($('#footer-info, .page-info'));
