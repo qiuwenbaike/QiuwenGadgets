@@ -3278,7 +3278,7 @@ export const popups = () => {
 	// this has to use a timer loop as we don't know if the DOM element exists when we want to set the text
 	const setPopupHTML = function setPopupHTML(str, elementId, popupId, onSuccess, append) {
 		if (popupId === undefined) {
-			// console.error('popupId is not defined in setPopupHTML, html='+str.substring(0,100));
+			// console.error('[Popups] popupId is not defined in setPopupHTML, html='+str.substring(0,100));
 			popupId = pg.idNumber;
 		}
 		const popupElement = document.getElementById(elementId + popupId);
@@ -4670,7 +4670,7 @@ export const popups = () => {
 				window.console.log(x);
 			};
 			window.errlog = (x) => {
-				window.console.error(x);
+				console.error(`[Popups] ${x}`);
 			};
 			log('Initializing logger');
 		} else {
