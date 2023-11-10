@@ -1,10 +1,6 @@
-const api: mw.Api = new mw.Api({
-	ajax: {
-		headers: {
-			'Api-User-Agent': `Qiuwen/1.1 (NoteTA/1.1; ${mw.config.get('wgWikiID')})`,
-		},
-	},
-});
+import {initMwApi} from '../../util';
+
+const api: mw.Api = initMwApi(`Qiuwen/1.1 (NoteTA/1.1; ${mw.config.get('wgWikiID')})`);
 
 let messageDialog: OO.ui.MessageDialog;
 let windowManager: OO.ui.WindowManager;

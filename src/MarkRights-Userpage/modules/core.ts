@@ -1,5 +1,6 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 export const wgRelevantUserName: string | null = mw.config.get('wgRelevantUserName');
 
@@ -53,13 +54,7 @@ export const getPermissions = () => {
 	if (!wgRelevantUserName) {
 		return;
 	}
-	const api: mw.Api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (MarkRights-Userpage/1.0; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (MarkRights-Userpage/1.0; ${mw.config.get('wgWikiID')})`);
 	const listUsersParams: ApiQueryUsersParams = {
 		action: 'query',
 		format: 'json',

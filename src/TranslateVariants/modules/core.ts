@@ -1,4 +1,5 @@
 import {TRANSLATE_VARIANTS_SUMMARY} from './constant';
+import {initMwApi} from '../../util';
 
 export const translateVariants = () => {
 	const langs = new Set(['zh', 'zh-hans', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hant', 'zh-hk', 'zh-mo', 'zh-tw']);
@@ -14,13 +15,7 @@ export const translateVariants = () => {
 		'zh-tw': '中國臺灣繁體',
 	};
 	const result = {};
-	const api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (TranslateVariants/1.1; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api = initMwApi(`Qiuwen/1.1 (TranslateVariants/1.1; ${mw.config.get('wgWikiID')})`);
 	let basepagetext = '';
 	const table = $('<div>').attr('id', 'TranslateVariants').prependTo('#bodyContent');
 	const $submitAll = $('<button>').text(window.wgULS('发布所有更改', '發佈所有變更'));

@@ -1,6 +1,7 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
 import {geoCountryName, geoRegionName} from './name';
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 const countryList = geoCountryName;
 const regionList = geoRegionName;
@@ -64,13 +65,7 @@ export const getLocation = (): void => {
 			$indicator.prependTo($('#footer-info, .page-info'));
 		}
 	};
-	const api: mw.Api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (GeoLocationReader/1.0; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (GeoLocationReader/1.0; ${mw.config.get('wgWikiID')})`);
 	const getUserGeoIP = (): void => {
 		const propRevisionsParams: ApiQueryRevisionsParams = {
 			action: 'query',

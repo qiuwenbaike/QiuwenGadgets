@@ -1,13 +1,7 @@
-import {ding} from '../util';
+import {ding, initMwApi} from '../util';
 
 const quickImport = async (): Promise<void> => {
-	const api: mw.Api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (QuickImport/1.0; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (QuickImport/1.0; ${mw.config.get('wgWikiID')})`);
 
 	const pageName = $('.redirectText a')[0]?.textContent || mw.config.get('wgPageName');
 

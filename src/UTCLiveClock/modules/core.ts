@@ -1,4 +1,5 @@
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 const padWithZeroes = (number: number) => {
 	// Pad a number with zeroes. The number must be an integer where
@@ -73,13 +74,7 @@ export const liveClock = (): void => {
 	// API, as purge URLs now make people click through a confirmation screen.
 	$element.on('click', (event: JQuery.ClickEvent<HTMLLIElement>): void => {
 		event.preventDefault();
-		const api: mw.Api = new mw.Api({
-			ajax: {
-				headers: {
-					'Api-User-Agent': `Qiuwen/1.1 (UTCLiveClock/1.1; ${mw.config.get('wgWikiID')})`,
-				},
-			},
-		});
+		const api: mw.Api = initMwApi(`Qiuwen/1.1 (UTCLiveClock/1.1; ${mw.config.get('wgWikiID')})`);
 		const params: ApiPurgeParams = {
 			action: 'purge',
 			titles: mw.config.get('wgPageName'),

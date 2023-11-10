@@ -1,17 +1,11 @@
-import {ding} from '../../util';
+import {ding, initMwApi} from '../../util';
 import {getMessage} from './i18n';
 
 export const purgePageCache = (): void => {
 	const purgePageCacheMain = (event: Event, title: string): void => {
 		event.preventDefault();
 		ding(getMessage('Purging'), false);
-		const api: mw.Api = new mw.Api({
-			ajax: {
-				headers: {
-					'Api-User-Agent': `Qiuwen/1.1 (PurgePageCache/1.1; ${mw.config.get('wgWikiID')})`,
-				},
-			},
-		});
+		const api: mw.Api = initMwApi(`Qiuwen/1.1 (PurgePageCache/1.1; ${mw.config.get('wgWikiID')})`);
 		const params: ApiPurgeParams = {
 			action: 'purge',
 			format: 'json',

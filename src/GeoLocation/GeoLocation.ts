@@ -1,14 +1,9 @@
 import {IGNORE_LIST, WEBMASTER_LIST} from './modules/constant';
 import {getMessage} from './modules/i18n';
+import {initMwApi} from '../util';
 
 (async function geoLocation(): Promise<void> {
-	const api: mw.Api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (GeoLocation/2.0; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (GeoLocation/2.0; ${mw.config.get('wgWikiID')})`);
 	const {country, region} = await window.geo();
 	const wgUserGroups: string[] = mw.config.get('wgUserGroups') ?? ['*'];
 	const wgUserName: string | null = mw.config.get('wgUserName');

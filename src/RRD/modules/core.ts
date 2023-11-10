@@ -1,4 +1,5 @@
 import {RRD_PAGE} from './constant';
+import {initMwApi} from '../../util';
 import {message} from './messages';
 
 export const isLog = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
@@ -32,13 +33,7 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 		rrdArr.push(`|id${index + 1} = ${id}`);
 	}
 	rrdArr.push('}}\n--~~'.concat('~~'));
-	const api: mw.Api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (RRD/2.0; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (RRD/2.0; ${mw.config.get('wgWikiID')})`);
 	const params: ApiQueryRevisionsParams = {
 		action: 'query',
 		format: 'json',

@@ -1,13 +1,8 @@
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 export const whoIsActive = (): void => {
-	const api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api = initMwApi(`Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`);
 	const filteredLinks: {username: string; element: JQuery}[] = [];
 	const {2: localizedUserNamespace} = mw.config.get('wgFormattedNamespaces');
 	$('.mw-body-content')
