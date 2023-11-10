@@ -1,5 +1,6 @@
 import {BLACK_LIST} from './constant';
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 export const onlineAdmins = (): void => {
 	// Create portlet link
@@ -9,13 +10,7 @@ export const onlineAdmins = (): void => {
 		getMessage('Online'),
 		't-onlineadmin'
 	);
-	const api: mw.Api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (OnlineAdmins/1.1; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (OnlineAdmins/1.1; ${mw.config.get('wgWikiID')})`);
 	const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 		event.preventDefault();
 		let users: string[] = [];

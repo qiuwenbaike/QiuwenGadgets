@@ -1,5 +1,6 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
 import {alertTitle, portletText, portletTooltip} from './messages';
+import {initMwApi} from '../../util';
 
 export const shortURL = (): void => {
 	let isInit = false;
@@ -90,13 +91,7 @@ export const shortURL = (): void => {
 			};
 			buildLink(oldId);
 			if (oldId) {
-				const api: mw.Api = new mw.Api({
-					ajax: {
-						headers: {
-							'Api-User-Agent': `Qiuwen/1.1 (ShortURL/1.1; ${mw.config.get('wgWikiID')})`,
-						},
-					},
-				});
+				const api: mw.Api = initMwApi(`Qiuwen/1.1 (ShortURL/1.1; ${mw.config.get('wgWikiID')})`);
 				const params: ApiComparePagesParams = {
 					action: 'compare',
 					format: 'json',

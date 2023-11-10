@@ -1,3 +1,5 @@
+import {initMwApi} from '../../util';
+
 const addLeadingZero = (number: number | string): string => {
 	const numberString: string =
 		typeof number === 'number' && number < 10 ? `0${number.toString()}` : number.toString();
@@ -46,13 +48,7 @@ const adjustTime = (time: Date): string => {
 };
 
 export const checkLastActive = (name: string, element: HTMLElement): void => {
-	const api: mw.Api = new mw.Api({
-		ajax: {
-			headers: {
-				'Api-User-Agent': `Qiuwen/1.1 (ListUsersLastActive/1.1; ${mw.config.get('wgWikiID')})`,
-			},
-		},
-	});
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (ListUsersLastActive/1.1; ${mw.config.get('wgWikiID')})`);
 	const params: ApiQueryUserContribsParams = {
 		action: 'query',
 		format: 'json',
