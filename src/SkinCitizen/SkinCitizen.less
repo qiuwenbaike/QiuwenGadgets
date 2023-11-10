@@ -58,16 +58,16 @@
 /* 可视化编辑器界面，隐藏标题 */
 .ve-activated {
 	h1#firstHeading {
-		display: none;
+		margin-top: calc(2 * var(--space-md));
+
+		@media screen and (max-width: 720px) {
+			margin-top: calc(3 * var(--space-md));
+		}
 	}
 
 	.citizen-body-header--sticky .mw-body-header::before {
 		display: none;
 	}
-}
-
-.ve-init-mw-desktopArticleTarget #bodyContent {
-	margin-top: calc(2 * var(--space-md));
 }
 
 /* 目录 (TOC) */
