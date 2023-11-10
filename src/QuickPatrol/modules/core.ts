@@ -4,10 +4,10 @@ export const QuickPatrol = () => {
 	/* Patrol single page */
 	$('.not-patrolled').each((index, element): void => {
 		const $patrolBtn = $('<a>')
-			.addClass('patrolbtn')
-			.text(getMessage('Patrol'))
+			.addClass('gadget-quick_patrol__patrolbtn')
+			.text(getMessage('[') + getMessage('Patrol') + getMessage(']'))
 			.attr({
-				id: `patrol_${index}`,
+				id: `gadget-quick_patrol__${index}`,
 				'data-btnid': index,
 				'data-revid': element.dataset['mwRevid'],
 			});
@@ -26,9 +26,9 @@ export const QuickPatrol = () => {
 				success: (data) => {
 					if (data.error) {
 						mw.notify(`${getMessage('API')}${data.error.info}`, {type: 'error', tag: 'QuickPatrol'});
-						$(`#patrol_${btnid}`).css('color', '#f00');
+						$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 					} else {
-						$(`#patrol_${btnid}`)
+						$(`#gadget-quick_patrol__${btnid}`)
 							.css({
 								pointerEvents: 'none',
 								color: '#888',
@@ -39,21 +39,25 @@ export const QuickPatrol = () => {
 				error: (error) => {
 					mw.notify(getMessage('AJAX'), {type: 'error', tag: 'QuickPatrol'});
 					console.error(`[QuickPatrol] Ajax error: ${error}`);
-					$(`#patrol_${btnid}`).css('color', '#f00');
+					$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 				},
 			});
 		});
 		$patrolBtn.appendTo(element);
 	});
 	/* Patrol all pages */
-	const $patrolAllBtn = $('<li>').append($('<a>').attr('id', 'patrol_all').text(getMessage('Patrol all pages')));
+	const $patrolAllBtn = $('<li>').append(
+		$('<a>')
+			.attr('id', 'gadget-quick_patrol__all')
+			.text(getMessage('[') + getMessage('Patrol all pages') + getMessage(']'))
+	);
 	$patrolAllBtn.on('click', () => {
 		if (!confirm(getMessage('Patrol all pages?'))) {
 			return;
 		}
 		$('.not-patrolled').each((index): void => {
-			if ($(`#patrol_${index}`).css('pointer-events') !== 'none') {
-				$(`#patrol_${index}`).trigger('click');
+			if ($(`#gadget-quick_patrol__${index}`).css('pointer-events') !== 'none') {
+				$(`#gadget-quick_patrol__${index}`).trigger('click');
 			}
 		});
 	});

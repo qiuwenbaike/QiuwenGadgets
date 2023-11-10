@@ -31,6 +31,8 @@ const getI18nMessages: GetI18nMessages = () => {
 			'zh-hans': 'API失败：',
 			'zh-hant': 'API失敗：',
 		}),
+		'[': '[',
+		']': ']',
 	};
 };
 
