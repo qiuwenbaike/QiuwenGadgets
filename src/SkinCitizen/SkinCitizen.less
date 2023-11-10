@@ -57,6 +57,7 @@
 
 /* 可视化编辑器界面，隐藏标题 */
 .ve-activated {
+	/* 隐藏标题 */
 	h1#firstHeading {
 		margin-top: calc(2 * var(--space-md));
 
@@ -67,6 +68,12 @@
 
 	.citizen-body-header--sticky .mw-body-header::before {
 		display: none;
+	}
+
+	/* 编辑区域外侧加框 */
+	.ve-ui-surface {
+		border: 1px dotted var(--border-color-input);
+		padding: 1em 0;
 	}
 }
 
