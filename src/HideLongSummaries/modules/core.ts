@@ -5,7 +5,10 @@ export const hideLongSummaries = () => {
 	$('.comment').each((_index: number, element: HTMLElement): void => {
 		if (element.textContent && element.textContent.length > LIMIT && element.parentElement !== null) {
 			$(element).addClass('gadget-hide_long_summaries__long');
-			$('<a>').addClass('gadget-hide_long_summaries__switch').text(getMessage('Expand')).insertAfter(element);
+			$('<a>')
+				.addClass('gadget-hide_long_summaries__switch')
+				.text(getMessage('[') + getMessage('Expand') + getMessage(']'))
+				.insertAfter(element);
 			const $short: JQuery = $('<span>').addClass(
 				'comment comment--without-parentheses gadget-hide_long_summaries__short'
 			);
