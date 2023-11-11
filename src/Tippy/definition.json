@@ -2,5 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-Tippy\"></span> [https://atomiks.github.io/tippyjs/ tippy.js]",
 	"section": "compatibility",
-	"hidden": true
+	"hidden": true,
+	"peers": ["Tippy-pagestyles"]
 }
