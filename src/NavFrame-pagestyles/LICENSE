@@ -1,0 +1,12 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NavFrame-pagestyles}}'
+ *
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-NavFrame.css}
+ * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-NavFrame.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NavFrame-pagestyles}
+ */
+
+/**
+ * Warning: NavFrame is retained for compatibility. Use .mw-collapsible instead.
+ */
