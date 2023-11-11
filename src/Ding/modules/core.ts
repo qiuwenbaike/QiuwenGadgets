@@ -8,7 +8,7 @@ export const dingCore: typeof DingExposedInterface = (
 		const dingDiv: HTMLElement = document.createElement('div');
 		dingDiv.id = 'ding';
 		dingDiv.className = 'noprint';
-		document.body.insertAdjacentElement('afterbegin', dingDiv);
+		(document.querySelector('body') as HTMLBodyElement).insertAdjacentElement('afterbegin', dingDiv);
 	}
 	const dingElement: HTMLElement = document.querySelector('#ding') as HTMLElement;
 	const previousMessage: ChildNode | null = dingElement.lastChild;

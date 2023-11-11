@@ -35,7 +35,7 @@ export const wordCountCore = (): void => {
 			padding: '6px',
 		})
 		.html(getCountByTextLength(text))
-		.appendTo(document.body);
+		.appendTo($('body'));
 	setTimeout((): void => {
 		$wordcount.fadeOut('slow');
 	}, 5000);

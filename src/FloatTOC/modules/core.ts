@@ -52,7 +52,7 @@ export const floatTOC = (): void => {
 			$('<span>').text(getMessage('Contents'))
 		)
 		.hide()
-		.appendTo(document.body);
+		.appendTo($('body'));
 	let isShow: boolean;
 	let preNotification: ReturnType<typeof mw.notification.notify> | undefined;
 	let disableStyleTimer: ReturnType<typeof setTimeout>;

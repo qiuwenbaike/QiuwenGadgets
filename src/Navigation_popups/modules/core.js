@@ -5106,11 +5106,11 @@ export const popups = () => {
 					if (docElt) {
 						left = docElt.scrollLeft;
 					}
-					left ||= document.body.scrollLeft || document.scrollLeft || 0;
+					left ||= document.querySelector('body').scrollLeft || document.scrollLeft || 0;
 					if (docElt) {
 						top = docElt.scrollTop;
 					}
-					top ||= document.body.scrollTop || document.scrollTop || 0;
+					top ||= document.querySelector('body').scrollTop || document.scrollTop || 0;
 					x = e.clientX + left;
 					y = e.clientY + top;
 				}
@@ -5339,7 +5339,7 @@ export const popups = () => {
 			this.updateDimensions();
 			const x = this.left;
 			const w = this.width;
-			const cWidth = document.body.clientWidth;
+			const cWidth = document.querySelector('body').clientWidth;
 			//	log('limitHorizontalPosition: x='+x+
 			//			', this.left=' + this.left +
 			//			', this.width=' + this.width +
@@ -5522,7 +5522,7 @@ export const popups = () => {
 			// easy access to javascript object through DOM functions
 			mainDiv.navpopup = this;
 			this.mainDiv = mainDiv;
-			document.body.append(mainDiv);
+			document.querySelector('body').append(mainDiv);
 			this.runHooks('create', 'after');
 		}
 		/**

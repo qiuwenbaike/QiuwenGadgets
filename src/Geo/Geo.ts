@@ -51,8 +51,7 @@ const parseStorageValue = (storageValue: string): GeoInfo => {
  */
 const storeGeoInStorage = async (): Promise<GeoInfo> => {
 	try {
-		const response: Response = await fetch('/rest.php/geo');
-		const data: GeoInfo = await response.json();
+		const data: GeoInfo = await $.getJSON('/rest.php/geo');
 		const parts: string[] = [data.country, data.region, data.city];
 		const storageValue: string = parts.join('-');
 		mw.storage.set(STORAGE_ITEM_NAME, storageValue, 3600); // 1 hour

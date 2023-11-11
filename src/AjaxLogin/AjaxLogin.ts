@@ -9,7 +9,7 @@ $(function initAutoLogin() {
 	}
 
 	const windowManager = new OO.ui.WindowManager();
-	windowManager.$element.appendTo(document.body);
+	windowManager.$element.appendTo($('body'));
 
 	const fakeToastifyInstance: ReturnType<typeof toastify> = {
 		hideToast: () => {},

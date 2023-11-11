@@ -953,7 +953,7 @@ export const refToolbar2 = () => {
 
 	// Escape spaces and quotes for use in HTML classes/ids
 	CiteTB.escStr = (s) => {
-		return s.replace(/ /g, '-').replace(/'/g, "\\'").replace(/"/g, '\\"');
+		return s.replace(/\s/g, '-').replace(/'/g, "\\'").replace(/"/g, '\\"');
 	};
 
 	// MISC FUNCTIONS

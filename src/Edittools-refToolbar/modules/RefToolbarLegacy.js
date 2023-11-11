@@ -1262,7 +1262,7 @@ export const refToolbarLegacy = () => {
 		script.setAttribute('src', url);
 		script.setAttribute('type', 'text/javascript');
 		// document.body.appendChild(script);
-		document.querySelectorAll('head')[0].append(script);
+		document.querySelector('head').append(script);
 	};
 
 	const setFormValues = (bookdata) => {

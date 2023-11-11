@@ -437,7 +437,7 @@ const togglePendingEditBox = (show) => {
 const notifyCompletion = () => {
 	const oldTitle = document.title;
 	document.title = txt.notifyCharacter + document.title;
-	const $body = $(document.body);
+	const $body = $('body');
 	$body.one('mousemove', () => {
 		document.title = oldTitle;
 	});

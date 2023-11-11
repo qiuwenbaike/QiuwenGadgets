@@ -44,7 +44,7 @@ const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 		observer.disconnect();
 	};
 	const mutationObserver: MutationObserver = new MutationObserver(observerCallback);
-	mutationObserver.observe(document.body, {
+	mutationObserver.observe(document.querySelector('body') ?? document.documentElement, {
 		attributes: true,
 		attributeFilter: ['class'],
 	});
