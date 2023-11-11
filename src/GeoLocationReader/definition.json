@@ -1,9 +1,10 @@
 {
 	"enable": true,
-	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-GeoLocationReader\"></span> 自动读取用户的IP地理位置信息",
+	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-GeoLocationReader\"></span> 自动读取用户的IP地理位置信息",
 	"section": "compatibility",
 	"default": true,
 	"dependencies": ["ext.gadget.Geo", "mediawiki.api", "mediawiki.Title", "mediawiki.util"],
+	"rights": ["edit"],
 	"namespaces": [2],
 	"hidden": true
 }
