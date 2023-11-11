@@ -7,4 +7,10 @@
 # ios 11
 # android 5.0
 
-extends browserslist-config-wikimedia/modern
+Chrome >= 63
+Edge >= 79
+Opera >= 50
+Firefox >= 58
+Safari >= 11.1
+iOS >= 11
+Android >= 5
