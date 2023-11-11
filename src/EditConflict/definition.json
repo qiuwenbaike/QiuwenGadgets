@@ -3,6 +3,6 @@
 	"description": "<span id=\"Gadget-EditConflict\"></span> [[Help:编辑冲突|编辑冲突]]提示",
 	"section": "edit",
 	"actions": ["edit", "submit"],
-	"dependencies": ["ext.gadget.Ding", "ext.gadget.i18n"],
+	"dependencies": ["ext.gadget.Ding", "ext.gadget.Ding-pagestyles", "ext.gadget.i18n"],
 	"rights": ["skipcaptcha"]
 }
