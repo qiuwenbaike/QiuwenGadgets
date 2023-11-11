@@ -11,17 +11,7 @@
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title2=Cat-a-lot.css|license=CC-BY-SA-4.0|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/Cat-a-lot.less}}'
- *
- * Cat-a-lot.css
- *
- * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.css}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot//Cat-a-lot.less}
- * @author Magnus Manske, Ilmari Karonen, DieBuche, 安忆 <i@anyi.in>
- */
-/**
- * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=Cat-a-lot Messages|license=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/messages.ts}}'
+ * _addText: '{{Gadget Header|title2=Cat-a-lot Messages|license2=CC-BY-SA-4.0|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/messages.ts}}'
  *
  * Cat-a-lot messages
  *
@@ -31,7 +21,7 @@
  */
 /**
  * SPDX-License-Identifier: GPLv2
- * _addText: '{{Gadget Header|title4=jQuery checkboxShiftClick|license=GPLv2|url4=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/checkbox.ts}}'
+ * _addText: '{{Gadget Header|title3=jQuery checkboxShiftClick|license3=GPLv2|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/checkbox.ts}}'
  *
  * jQuery checkboxShiftClick
  *
@@ -39,10 +29,4 @@
  * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/checkbox.ts}
  * @author Krinkle <krinklemail@gmail.com>
- */
-/**
- * check Icon from OOjs UI (constructive; green color)
- *
- * @base {@link https://www.qiuwenbaike.cn/wiki/File:OOjs_UI_icon_check-constructive.svg}
- * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
