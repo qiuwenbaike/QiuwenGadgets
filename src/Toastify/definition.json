@@ -1,6 +1,7 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Toastify\"></span> [https://apvarun.github.io/toastify-js/ toastify.js]",
+	"description": "<span id=\"Gadget-Toastify\"></span> [https://apvarun.github.io/toastify-js/ toastify.js]配套样式表",
 	"section": "compatibility",
-	"hidden": true
+	"hidden": true,
+	"peers": ["Toastify-pagestyles"]
 }
