@@ -33,7 +33,7 @@ const addButton = (): void => {
 		.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
 			changeOpacityWhenMouseEnterOrLeave(event);
 		})
-		.appendTo(document.body);
+		.appendTo($('body'));
 
 	tippy($reportButton.get(0) as HTMLElement, {
 		arrow: true,

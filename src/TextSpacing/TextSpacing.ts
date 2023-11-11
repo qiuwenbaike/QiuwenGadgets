@@ -286,11 +286,12 @@
 
 	const main = (): void => {
 		document.title = addSpaceToString(document.title);
-		mutationObserver.observe(document.body, {
+		const targetElement: HTMLElement = document.querySelector('body') ?? document.documentElement;
+		mutationObserver.observe(targetElement, {
 			subtree: true,
 			childList: true,
 		});
-		run(document.body);
+		run(targetElement);
 	};
 	$(main);
 })();

@@ -1406,7 +1406,7 @@ import {hotCatMessages} from './modules/messages';
 		if (dummyElement.parentNode) {
 			dummyElement.remove();
 		} else {
-			document.body.append(dummyElement);
+			document.querySelector('body').append(dummyElement);
 		}
 	};
 	// Event keyCodes that we handle in the text input field/suggestion list.
@@ -2501,13 +2501,13 @@ import {hotCatMessages} from './modules/messages';
 				}
 				const s = `client${what}`;
 				if (window.opera) {
-					return document.body[s];
+					return $('body')[0][s];
 				}
-				return (document.documentElement ? document.documentElement[s] : 0) || document.body[s] || 0;
+				return (document.documentElement ? document.documentElement[s] : 0) || $('body')[0][s] || 0;
 			};
 			const scroll_offset = (what) => {
 				const s = `scroll${what}`;
-				let result = (document.documentElement ? document.documentElement[s] : 0) || document.body[s] || 0;
+				let result = (document.documentElement ? document.documentElement[s] : 0) || $('body')[0][s] || 0;
 				if (is_rtl && what === 'Left') {
 					// RTL inconsistencies.
 					// FF: 0 at the far right, then increasingly negative values.
@@ -2977,17 +2977,19 @@ import {hotCatMessages} from './modules/messages';
 			}
 		}
 		// Catch both native RTL and "faked" RTL through [[MediaWiki:Rtl.js]]
-		is_rtl = hasClass(document.body, 'rtl');
+		is_rtl = hasClass(document.querySelector('body'), 'rtl');
 		if (!is_rtl) {
 			if (document.defaultView && document.defaultView.getComputedStyle) {
 				// Gecko etc.
-				is_rtl = document.defaultView.getComputedStyle(document.body, null).getPropertyValue('direction');
-			} else if (document.body.currentStyle) {
+				is_rtl = document.defaultView
+					.getComputedStyle(document.querySelector('body'), null)
+					.getPropertyValue('direction');
+			} else if ($('body')[0].currentStyle) {
 				// IE, has subtle differences to getComputedStyle
-				is_rtl = document.body.currentStyle.direction;
+				is_rtl = $('body')[0].currentStyle.direction;
 			} else {
 				// Not exactly right, but best effort
-				is_rtl = document.body.style.direction;
+				is_rtl = $('body')[0].style.direction;
 			}
 			is_rtl = is_rtl === 'rtl';
 		}
@@ -3259,7 +3261,7 @@ import {hotCatMessages} from './modules/messages';
 		}
 		const formContainer = make('div');
 		formContainer.style.display = 'none';
-		document.body.append(formContainer);
+		document.querySelector('body').append(formContainer);
 		formContainer.innerHTML = `<form id="hotcatCommitForm" method="post" enctype="multipart/form-data" action="${
 			conf.wgScript
 		}?title=${encodeURIComponent(

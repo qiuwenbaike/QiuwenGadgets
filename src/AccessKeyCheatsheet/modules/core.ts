@@ -29,7 +29,7 @@ const accessKeyCheatsheet = (): void => {
 		.attr('accesskey', '?')
 		.text(getMessage('Text'))
 		.hide()
-		.appendTo(document.body);
+		.appendTo($('body'));
 
 	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData = {
 		title: getMessage('Title'),
@@ -57,7 +57,7 @@ const accessKeyCheatsheet = (): void => {
 		}
 		messageDialog = new OO.ui.MessageDialog();
 		const windowManager: OO.ui.WindowManager = new OO.ui.WindowManager();
-		windowManager.$element.css('width', '35em').appendTo(document.body);
+		windowManager.$element.css('width', '35em').appendTo($('body'));
 		windowManager.addWindows([messageDialog]);
 		windowManager.openWindow(messageDialog, messageDialogProperty);
 	});

@@ -16,7 +16,7 @@ const insertElement = (): void => {
 		mw.storage.set(STORAGE_KEY, '1', 60 * 60 * 1000 * 24 * 30);
 		$consentNotice.fadeOut().remove();
 	});
-	$consentNotice.appendTo(document.body);
+	$consentNotice.appendTo($('body'));
 };
 
 export {insertElement};

@@ -7,7 +7,7 @@ const insertElementandListener = (): void => {
 			.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
 				changeOpacityWhenMouseEnterOrLeave(event);
 			})
-			.appendTo(document.body);
+			.appendTo($('body'));
 
 		tippy($element.get(0) as HTMLElement, {
 			arrow: true,

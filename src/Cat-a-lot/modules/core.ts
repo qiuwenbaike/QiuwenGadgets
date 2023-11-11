@@ -106,7 +106,7 @@ const catALot = (): void => {
 			this.$counter = $();
 
 			this.initSettings();
-			this.$body = $(document.body);
+			this.$body = $('body');
 			this.$container = $('<div>').attr('id', 'cat_a_lot').appendTo(this.$body);
 			this.$dataContainer = $('<div>').attr('id', 'cat_a_lot_data').appendTo(this.$container);
 			this.$searchInputContainer = $('<div>').appendTo(this.$dataContainer);
@@ -380,7 +380,7 @@ const catALot = (): void => {
 			}
 		}
 		displayResult(): void {
-			document.body.style.cursor = 'auto';
+			this.$body.css('cursor', 'auto');
 			$('.cat_a_lot_feedback').addClass('cat_a_lot_done');
 			$('.ui-dialog-content').height('auto');
 			const $parent: JQuery = this.$counter.parent();
@@ -546,7 +546,7 @@ const catALot = (): void => {
 			return marked;
 		}
 		showProgress(): void {
-			document.body.style.cursor = 'wait';
+			this.$body.css('cursor', 'wait');
 			this.$progressDialog = $('<div>')
 				.html(
 					` ${CAL.msg('editing')}<span id="cat_a_lot_current">${this.counterCurrent}</span>${CAL.msg('of')}${
@@ -647,7 +647,7 @@ const catALot = (): void => {
 			this.createCatLinks('↑', this.parentCats);
 			this.createCatLinks('→', thiscat);
 			this.createCatLinks('↓', this.subCats);
-			document.body.style.cursor = 'auto';
+			this.$body.css('cursor', 'auto');
 			// Reset width
 			this.$container.width('');
 			this.$container.height('');
@@ -673,7 +673,7 @@ const catALot = (): void => {
 					const {pages} = result.query;
 					if (pages[-1]?.missing === '') {
 						this.$resultList.html(`<span id="cat_a_lot_no_found">${CAL.msg('cat-not-found')}</span>`);
-						document.body.style.cursor = 'auto';
+						this.$body.css('cursor', 'auto');
 						this.createCatLinks('→', [this.currentCategory]);
 						return;
 					}
@@ -723,7 +723,7 @@ const catALot = (): void => {
 			this.getSubCats();
 		}
 		updateCats(newcat: string): void {
-			document.body.style.cursor = 'wait';
+			this.$body.css('cursor', 'wait');
 			this.currentCategory = newcat;
 			this.$resultList.html(`<div class="cat_a_lot_loading">${CAL.msg('loading')}</div>`);
 			this.getCategoryList();

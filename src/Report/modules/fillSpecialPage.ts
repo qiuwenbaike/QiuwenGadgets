@@ -15,7 +15,10 @@ const fillSpecialPage = (): void => {
 			? `${getMessage('(')}${getMessage('Revision')}${mw.util.getParamValue('report_revision')}${getMessage(')')}`
 			: '');
 
-	if (document.body.classList.contains('page-Special_联系_Report') && !!reportTitle) {
+	if (
+		(document.querySelector('body') as HTMLBodyElement).classList.contains('page-Special_联系_Report') &&
+		!!reportTitle
+	) {
 		wpSubjectElement.value = `${linkTilte}${getMessage(':')}${reportTitle}`;
 		(wpTitleElement as NonNullable<typeof wpTitleElement>).value = reportTitle;
 	} else {

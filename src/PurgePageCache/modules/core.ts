@@ -38,8 +38,9 @@ export const purgePageCache = (): void => {
 	Array.prototype.forEach.call(
 		document.querySelectorAll('a[href*="action=purge"]'),
 		(_element: HTMLAnchorElement): void => {
-			const params: URLSearchParams = new URL(_element.href).searchParams;
-			const title: string = params.get('title') ?? mw.config.get('wgPageName');
+			const url: mw.Uri = new mw.Uri(_element.href);
+			const params: Record<string, string> = url.query;
+			const title: string = params['title'] ?? mw.config.get('wgPageName');
 			_element.addEventListener('click', (event: MouseEvent): void => {
 				purgePageCacheMain(event, title);
 			});
