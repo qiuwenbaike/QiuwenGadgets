@@ -8,6 +8,6 @@ if (!mw.user.options.get('gadget-ToolsRedirect')) {
 		format: 'json',
 		change: 'gadget-ToolsRedirect=1',
 	}).done(() => {
-		mw.loader.load('ext.gadget.ToolsRedirect');
+		mw.loader.using(['ext.gadget.ToolsRedirect']);
 	});
 }
