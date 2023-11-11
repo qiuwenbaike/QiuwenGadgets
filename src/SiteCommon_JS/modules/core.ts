@@ -120,18 +120,10 @@ export const core = (): void => {
 	/**
 	 * Add highlight to revisions when using `&hilight=revid` or `&highlight=revid`
 	 */
-	const hilight = mw.util.getParamValue('hilight');
-	const highlight = mw.util.getParamValue('highlight');
-	if (mw.config.get('wgAction') === 'history') {
-		if (hilight) {
-			for (const [version, _index] of hilight.split(',').entries()) {
-				$(`input[name=oldid][value=${version}]`).parent().addClass('not-patrolled');
-			}
-		}
-		if (highlight) {
-			for (const [version, _index] of highlight.split(',').entries()) {
-				$(`input[name=oldid][value=${version}]`).parent().addClass('not-patrolled');
-			}
+	const highlight = mw.util.getParamValue('hilight') || mw.util.getParamValue('highlight');
+	if (mw.config.get('wgAction') === 'history' && highlight) {
+		for (const [version, _index] of highlight.split(',').entries()) {
+			$(`input[name=oldid][value=${version}]`).parent().addClass('not-patrolled');
 		}
 	}
 	/**

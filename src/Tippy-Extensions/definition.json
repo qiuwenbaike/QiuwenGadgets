@@ -1,8 +1,0 @@
-{
-	"enable": true,
-	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Tippy-Extensions\"></span> 为扩展按钮添加悬浮说明",
-	"section": "browser",
-	"hidden": true,
-	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Tippy", "ext.DarkMode", "ext.CollapsibleSidebar.js"]
-}
