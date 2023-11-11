@@ -14,7 +14,7 @@ export const refToolbarLegacy = () => {
 	const addOption = (script, text) => {
 		const option = document.createElement('input');
 		option.setAttribute('type', 'button');
-		option.addEventListener('click', script);
+		option.setAttribute('onclick', script);
 		option.setAttribute('value', text);
 		return option;
 	};
@@ -39,22 +39,22 @@ export const refToolbarLegacy = () => {
 			citemain.style.clear = 'both';
 			citemain.style.height = 'auto';
 			citemain.setAttribute('Id', 'citeselect');
-			citemain.append(addOption(citeWeb, 'Web'));
-			citemain.append(addOption(citeNews, 'News'));
-			citemain.append(addOption(citeBook, 'Book'));
-			citemain.append(addOption(citeJournal, 'Journal'));
-			citemain.append(addOption(citeNamedRef, 'Named references'));
-			citemain.append(addOption(dispErrors, 'Error check'));
-			citemain.append(addOption(showMore, 'More'));
-			citemain.append(addOption(hideInitial, 'Cancel'));
+			citemain.append(addOption('citeWeb()', 'Web'));
+			citemain.append(addOption('citeNews()', 'News'));
+			citemain.append(addOption('citeBook()', 'Book'));
+			citemain.append(addOption('citeJournal()', 'Journal'));
+			citemain.append(addOption('citeNamedRef()', 'Named references'));
+			citemain.append(addOption('dispErrors()', 'Error check'));
+			citemain.append(addOption('showMore()', 'More'));
+			citemain.append(addOption('hideInitial()', 'Cancel'));
 
 			const citemore = document.createElement('div');
 			citemore.style.display = 'none';
 			citemore.setAttribute('Id', 'citemore');
-			citemore.append(addOption(citeEncyclopedia, 'Encyclopedia'));
-			citemore.append(addOption(citePressRelease, 'Press release'));
-			citemore.append(addOption(citeMap, 'Map'));
-			citemore.append(addOption(showRefSectionOptions, 'Ref Section'));
+			citemore.append(addOption('citeEncyclopedia()', 'Encyclopedia'));
+			citemore.append(addOption('citePressRelease()', 'Press release'));
+			citemore.append(addOption('citeMap()', 'Map'));
+			citemore.append(addOption('showRefSectionOptions()', 'Ref Section'));
 			citemain.append(citemore);
 
 			$(citemain).insertAfter($('#toolbar'));
