@@ -1,44 +1,12 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title1=Cat-a-lot.js|license=CC-BY-SA-4.0|url1=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/core.ts}}'
- *
- * Cat-a-lot
- *
- * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js}
- * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/core.ts}
- * @author Magnus Manske, Ilmari Karonen, DieBuche, 安忆 <i@anyi.in>
- */
-/**
- * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title2=Cat-a-lot.css|license=CC-BY-SA-4.0|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/Cat-a-lot.less}}'
+ * _addText: '{{Gadget Header|title=Cat-a-lot.css|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot-pagestyles}}'
  *
  * Cat-a-lot.css
  *
  * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.css}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot//Cat-a-lot.less}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot-pagestyles}
  * @author Magnus Manske, Ilmari Karonen, DieBuche, 安忆 <i@anyi.in>
- */
-/**
- * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=Cat-a-lot Messages|license=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/messages.ts}}'
- *
- * Cat-a-lot messages
- *
- * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js/zh-hans}
- * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js/zh-hant}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/messages.ts}
- */
-/**
- * SPDX-License-Identifier: GPLv2
- * _addText: '{{Gadget Header|title4=jQuery checkboxShiftClick|license=GPLv2|url4=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/checkbox.ts}}'
- *
- * jQuery checkboxShiftClick
- *
- * @description This will enable checkboxes to be checked or unchecked in a row by clicking one, holding shift and clicking another one
- * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/checkbox.ts}
- * @author Krinkle <krinklemail@gmail.com>
  */
 /**
  * check Icon from OOjs UI (constructive; green color)
