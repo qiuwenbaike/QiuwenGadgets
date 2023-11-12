@@ -1,10 +1,9 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0 + GPL-2.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|license2=GPL-2.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ProveIt}}'
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|license2=GPL-2.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ProveIt-pagestyles}}'
  *
- * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-ProveIt.js}
- * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-ProveIt.js}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ProveIt}
+ * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-ProveIt.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ProveIt-pagestyles}
  * @author 2008-2011 Georgia Tech Research Corporation, Atlanta, GA 30332-041
  * @author 2011- Matthew Flaschen
  * @author 2014- Sophivorus since
