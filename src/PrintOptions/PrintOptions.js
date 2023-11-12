@@ -175,10 +175,10 @@
 				printStyle += '#toc,.toc{display:none}';
 			}
 			if (this.nobackground) {
-				printStyle += '*{background:none!important}';
+				printStyle += '*{background:none !important}';
 			}
 			if (this.blacktext) {
-				printStyle += '*{color:#000!important}';
+				printStyle += '*{color:#000 !important}';
 			}
 			if (printStyle) {
 				if (document.getElementById('printStyle')) {

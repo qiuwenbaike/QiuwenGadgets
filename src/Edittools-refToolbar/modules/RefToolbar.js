@@ -10,7 +10,6 @@
 
 import {refToolbar2} from './RefToolbar2.0';
 import {refToolbarBase} from './RefToolbarBase';
-import {refToolbarLegacy} from './RefToolbarLegacy';
 
 export const initializeRefTools = () => {
 	if (window.RefToolbarInstalled || document.querySelectorAll('#wpTextbox1[readonly]').length > 0) {
@@ -22,9 +21,6 @@ export const initializeRefTools = () => {
 		mw.loader.using(['ext.wikiEditor']).done(() => {
 			refToolbar2();
 		});
-	} else if (mw.user.options.get('showtoolbar')) {
-		// Enhanced editing toolbar is off. Loading RefToolbar 1.0. (legacy)
-		refToolbarLegacy();
 	} else {
 		return;
 	}

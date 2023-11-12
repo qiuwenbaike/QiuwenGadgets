@@ -21,13 +21,6 @@
  */
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title3=RefToolbar (Legacy)|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/modules/RefToolbarLegacy.js}}'
- *
- * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:RefToolbarLegacy.js}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/modules/RefToolbarLegacy.js}
- */
-/**
- * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|title3=RefToolBar messages|license3=CC-BY-SA-4.0|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/modules/RefToolbarMessages.js}}'
  *
  * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:RefToolbarMessages-zh-hans.js}
