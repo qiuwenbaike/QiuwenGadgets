@@ -17,9 +17,9 @@ export const initializeRefTools = () => {
 	}
 	if (mw.user.options.get('usebetatoolbar')) {
 		// Enhanced editing toolbar is on. Going to load RefToolbar 2.0.
-		$(refToolbarBase);
+		refToolbarBase();
 		mw.loader.using(['ext.wikiEditor']).done(() => {
-			$(refToolbar2);
+			refToolbar2();
 		});
 	} else {
 		return;
