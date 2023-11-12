@@ -1,8 +1,8 @@
 {
 	"name": "awesome-gadgets",
-	"private": true,
-	"version": "2.10.0",
+	"version": "2.10.1",
 	"description": "Storage, compile, and auto deploy MediaWiki gadgets.",
+	"private": true,
 	"type": "module",
 	"scripts": {
 		"build": "pnpm format && node --no-warnings --loader ts-node/esm scripts/only-build.ts",

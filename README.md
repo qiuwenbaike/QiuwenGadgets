@@ -1,3 +1,6 @@
+[![NPM version](https://img.shields.io/npm/v/awesome-gadgets.svg)](https://www.npmjs.com/package/awesome-gadgets)
+[![Linter](https://github.com/qiuwenbaike/QiuwenGadgets/actions/workflows/lint.yml/badge.svg)](https://github.com/qiuwenbaike/QiuwenGadgets/actions/workflows/lint.yml)
+
 # _Qiuwen_ Gadgets
 
 ## 简介 / Introduction
