@@ -1,7 +1,6 @@
 import {CLASS_REPORT_BUTTON, URL} from './constant';
-import {changeOpacityWhenMouseEnterOrLeave, generateSvgDataUrl} from '../../util';
+import {changeOpacityWhenMouseEnterOrLeave} from '../../util';
 import {getMessage} from './i18n';
-import reportButton from '../images/report-button.svg';
 
 const addButton = (): void => {
 	if (mw.config.get('wgNamespaceNumber') < 0) {
@@ -9,6 +8,8 @@ const addButton = (): void => {
 	}
 
 	const linkTilte: string = getMessage('Report');
+	const reportButton =
+		"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E";
 
 	const $reportButton: JQuery = $('<a>')
 		// The following classes are used here:
@@ -23,9 +24,11 @@ const addButton = (): void => {
 		})
 		.append(
 			$('<img>').attr({
-				src: generateSvgDataUrl(reportButton),
+				src: reportButton,
 				draggable: false,
 				alt: linkTilte,
+				width: '32',
+				height: '32',
 			})
 		);
 
