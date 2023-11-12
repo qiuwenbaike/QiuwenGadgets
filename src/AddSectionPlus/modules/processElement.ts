@@ -5,19 +5,16 @@ const processElement = ($element: JQuery): void => {
 	const title = getMessage('Title');
 	switch (WG_SKIN) {
 		case 'citizen':
-			$element.attr('style', '');
-			$element.css({
+			$element.attr('style', '').css({
 				'font-size': '0',
 				gap: '0',
 			});
 			break;
 		case 'gongbi':
-			$element.attr('title', title);
-			$element.html('&#8203');
+			$element.attr('title', title).html('&#8203');
 			break;
 		default:
-			$element.attr('title', title);
-			$element.text('[+]');
+			$element.attr('title', title).text('[+]');
 			break;
 	}
 };
