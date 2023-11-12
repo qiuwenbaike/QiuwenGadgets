@@ -61,16 +61,18 @@ const defaultNotice = () => {
 };
 
 const notice = (msg, more) => {
-	let _notice = $('#wikicache-notice');
+	let _notice = $('#gadget-wikicache__notice');
 	if (_notice.length === 0) {
-		_notice = $('<div>').addClass('ui-widget-content wikicache-notice').attr('id', 'wikicache-notice');
+		_notice = $('<div>')
+			.addClass('ui-widget-content gadget-wikicache__notice')
+			.attr('id', 'gadget-wikicache__notice');
 	}
 	_notice.empty().off('mouseenter').off('mouseleave').append(msg).appendTo($('body')).fadeIn();
 	if (more instanceof Object) {
 		_notice
 			.on('mouseenter', () => {
 				const element = $('<span>')
-					.addClass('wikicache-more')
+					.addClass('gadget-wikicache__more')
 					.appendTo(_notice)
 					.append(messages['bracket-left']);
 				let first = true;
@@ -88,7 +90,7 @@ const notice = (msg, more) => {
 				element.append(messages['bracket-right']);
 			})
 			.on('mouseleave', function () {
-				$('.wikicache-more', this).remove();
+				$('.gadget-wikicache__more', this).remove();
 			});
 	}
 };
@@ -99,7 +101,7 @@ const settingsDialog = () => {
 		$(this).dialog('close');
 	};
 	const dialog = $('<div>')
-		.addClass('wikicache-dialog')
+		.addClass('gadget-wikicache__dialog')
 		.attr('title', messages['settings-title'])
 		.append(
 			$('<p>')
