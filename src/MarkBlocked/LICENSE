@@ -3,4 +3,5 @@
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/MarkBlocked}}'
  *
  * @base {@link https://en.wikipedia.org/wiki/MediaWiki:Gadget-markblocked.js}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/MarkBlocked}
  */
