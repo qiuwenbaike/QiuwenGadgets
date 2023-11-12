@@ -1,4 +1,6 @@
 /* eslint-disable no-loop-func */
+import {refToolbarMesages} from './RefToolbarMessages';
+
 // TODO: make autodate an option in the CiteTemplate object, not a preference
 export const refToolbar2 = () => {
 	// Global object
@@ -279,6 +281,9 @@ export const refToolbar2 = () => {
 			// error occurred setting up wikieditor.
 		}
 	};
+
+	// Load local data - messages, cite templates, etc.
+	refToolbarMesages();
 
 	// Setup the main object
 	CiteTB.mainRefList = [];
