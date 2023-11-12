@@ -4,6 +4,7 @@
 	"section": "compatibility",
 	"default": true,
 	"dependencies": ["ext.gadget.Geo", "mediawiki.api", "mediawiki.Title", "mediawiki.util"],
+	"peers": ["GeoLocationReader-pagestyles"],
 	"rights": ["edit"],
 	"namespaces": [2],
 	"hidden": true
