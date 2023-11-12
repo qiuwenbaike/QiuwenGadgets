@@ -4,6 +4,6 @@
 	"section": "edit",
 	"actions": ["edit", "submit"],
 	"default": true,
-	"dependencies": ["mediawiki.util", "user.options"],
+	"dependencies": ["ext.wikiEditor", "mediawiki.jqueryMsg", "mediawiki.util", "user.options"],
 	"rights": ["edit"]
 }

@@ -1,13 +1,4 @@
 export const refToolbarBase = () => {
-	if (window.CiteTB === undefined) {
-		window.CiteTB = {
-			Templates: {}, // All templates
-			Options: {}, // Global options
-			UserOptions: {}, // User options
-			DefaultOptions: {}, // Script defaults
-			ErrorChecks: {}, // Error check functions
-		};
-	}
 	// Object for cite templates
 	window.CiteTemplate = function (templatename, shortform, basicfields, expandedfields) {
 		// Properties

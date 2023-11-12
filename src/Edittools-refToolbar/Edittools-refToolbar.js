@@ -1,6 +1,28 @@
-import {initializeRefTools} from './modules/RefToolbar';
+/**
+ * RefToolbar
+ *
+ * @description Adds tools for citing references to the edit toolbar.
+ * One of two possible versions will load (Reftoolbar 1.0 or Reftoolbar 1.0)
+ * depending on the user preferences (the usebetatoolbar preference).
+ *
+ * @author: Mr.Z-man, Kaldari
+ */
 
-if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
-	// Double check if user.options is loaded, to prevent errors when copy pasted accross installations
-	mw.loader.using(['user.options']).done(initializeRefTools);
-}
+import {refToolbar2} from './modules/RefToolbar2.0';
+import {refToolbarMesages} from './modules/RefToolbarMessages';
+
+(() => {
+	if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
+		if (window.RefToolbarInstalled || document.querySelectorAll('#wpTextbox1[readonly]').length > 0) {
+			return;
+		}
+		if (!mw.user.options.get('usebetatoolbar')) {
+			return;
+		}
+		// Load local messages.
+		refToolbarMesages();
+		// Load main functions
+		refToolbar2();
+		window.RefToolbarInstalled = true;
+	}
+})();
