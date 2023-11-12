@@ -4,5 +4,6 @@
 	"section": "browser",
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "mediawiki.api", "mediawiki.util", "mediawiki.widgets", "oojs-ui-windows"],
+	"peers": ["ShortURL-pagestyles"],
 	"rights": ["edit"]
 }
