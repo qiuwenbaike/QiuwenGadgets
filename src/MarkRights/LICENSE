@@ -1,7 +1,7 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/MarkRights|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/MarkRights}}'
  *
- * @base {@link https://zh.wikipedia.org/w/index.php?oldid=67165936}
- * @base {@link https://zh.wikipedia.org/w/index.php?oldid=52825311}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-MarkRights.js}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/MarkRights}
  */
