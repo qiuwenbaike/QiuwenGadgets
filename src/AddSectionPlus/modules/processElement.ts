@@ -5,7 +5,7 @@ const processElement = ($element: JQuery): void => {
 	const title = getMessage('Title');
 	switch (WG_SKIN) {
 		case 'citizen':
-			$element.attr('style', 'font-size:0;gap:0');
+			$element.css('font-size', '0').css('gap', '0');
 			break;
 		case 'gongbi':
 			$element.attr('title', title);
