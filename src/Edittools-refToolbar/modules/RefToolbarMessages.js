@@ -1,5 +1,3 @@
-import {refToolbarConfig} from './RefToolbarConfig';
-
 export const refToolbarMesages = () => {
 	// All user-facing messages
 	// TODO: Document usage
@@ -240,7 +238,4 @@ export const refToolbarMesages = () => {
 			'cite-laysource-tooltip': '该文献相关的新闻报道的出处',
 		});
 	}
-
-	// Load configuration for site
-	refToolbarConfig();
 };

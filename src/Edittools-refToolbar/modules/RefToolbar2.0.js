@@ -1,21 +1,11 @@
-/* eslint-disable no-loop-func */
+import {refToolbarBase} from './RefToolbarBase';
+import {refToolbarConfig} from './RefToolbarConfig';
 import {refToolbarMesages} from './RefToolbarMessages';
+
+refToolbarBase();
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
 export const refToolbar2 = () => {
-	// Global object
-	// TODO:
-	// * Remove this once the page is moved to a module 'ext.gadget.refToolbarDialogs' depending on 'ext.gadget.refToolbarBase'
-	if (typeof CiteTB === 'undefined') {
-		CiteTB = {
-			Templates: {}, // All templates
-			Options: {}, // Global options
-			UserOptions: {}, // User options
-			DefaultOptions: {}, // Script defaults
-			ErrorChecks: {}, // Error check functions
-		};
-	}
-
 	// Only execute when editing/previewing wikitext pages
 	// TODO: Remove tests already done by [[MediaWiki:Gadget-RefToolbar.js]]
 	if (
@@ -282,7 +272,7 @@ export const refToolbar2 = () => {
 		}
 	};
 
-	// Load local data - messages, cite templates, etc.
+	// Load local messages.
 	refToolbarMesages();
 
 	// Setup the main object
@@ -1031,6 +1021,9 @@ export const refToolbar2 = () => {
 			}
 		}
 	};
+
+	// Load configuration for site
+	$(refToolbarConfig);
 
 	// End of code loaded only on edit
 };

@@ -28,6 +28,8 @@
  * This may slow loading the named refs and error check dialogs.
  */
 export const refToolbarConfig = () => {
+	const {CiteTemplate, CiteErrorCheck} = window;
+
 	CiteTB.Options = {
 		'date format': '<year>-<zmonth>-<zdate>',
 		'autodate fields': ['accessdate'],
@@ -36,6 +38,7 @@ export const refToolbarConfig = () => {
 		autoparse: true,
 		expandtemplates: false,
 	};
+
 	// Cite template definitions
 	new CiteTemplate(
 		'cite web',
@@ -690,6 +693,8 @@ export const refToolbarConfig = () => {
 			},
 		]
 	);
+
+	// Cite error check definitions
 	new CiteErrorCheck({
 		type: 'reflist',
 		testname: 'samecontent',
@@ -778,5 +783,7 @@ export const refToolbarConfig = () => {
 			return ret;
 		},
 	});
+
+	// execute main function
 	CiteTB.init();
 };
