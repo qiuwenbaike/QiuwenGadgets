@@ -540,7 +540,7 @@
 		// Increases text size in Twinkle dialogs, if so configured
 		if (Twinkle.getPref('dialogLargeFont')) {
 			mw.util.addCSS(
-				'.morebits-dialog-content,.morebits-dialog-footerlinks{font-size:100%!important}.morebits-dialog input,.morebits-dialog select,.morebits-dialog-content button{font-size:inherit!important}'
+				'.morebits-dialog-content,.morebits-dialog-footerlinks{font-size:100%!important}.morebits-dialog input,.morebits-dialog select,.morebits-dialog-content button{font-size:inherit !important}'
 			);
 		}
 		// Hide the lingering space if the TW menu is empty

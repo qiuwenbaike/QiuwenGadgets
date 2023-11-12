@@ -8,14 +8,10 @@ export const refToolbar2 = () => {
 	// * Remove this once the page is moved to a module 'ext.gadget.refToolbarDialogs' depending on 'ext.gadget.refToolbarBase'
 	if (typeof CiteTB === 'undefined') {
 		CiteTB = {
-			Templates: {},
-			// All templates
-			Options: {},
-			// Global options
-			UserOptions: {},
-			// User options
-			DefaultOptions: {},
-			// Script defaults
+			Templates: {}, // All templates
+			Options: {}, // Global options
+			UserOptions: {}, // User options
+			DefaultOptions: {}, // Script defaults
 			ErrorChecks: {}, // Error check functions
 		};
 	}
@@ -38,6 +34,7 @@ export const refToolbar2 = () => {
 		autoparse: false,
 		expandtemplates: false,
 	};
+
 	// Get an option - user settings override global which override defaults
 	CiteTB.getOption = (opt) => {
 		if (CiteTB.UserOptions[opt] !== undefined) {
@@ -48,7 +45,7 @@ export const refToolbar2 = () => {
 		return CiteTB.DefaultOptions[opt];
 	};
 
-	CiteTB.init = () => {
+	CiteTB.init = function () {
 		/* Main stuff, build the actual toolbar structure
 		 * 1. get the template list, make the dropdown list and set up the template dialog boxes
 		 * 2. actually build the toolbar:
@@ -58,6 +55,7 @@ export const refToolbar2 = () => {
 		 * -- button for errorcheck
 		 * 3. add the whole thing to the main toolbar
 		 */
+
 		if ($('div[rel=cites]')[0] !== undefined) {
 			// Mystery IE bug workaround
 			return;
@@ -134,9 +132,9 @@ export const refToolbar2 = () => {
 				} catch {
 					/* empty */
 				}
-				// TypeError: range is null
+				// // TypeError: range is null
 				// if (!CiteTB.getOption('modal')) {
-				// $('#citetoolbar-'+sform).dialog('option', 'modal', false);
+				//     $('#citetoolbar-'+sform).dialog('option', 'modal', false);
 				// }
 				temlist[sform] = {
 					label: tem.templatename,
@@ -203,7 +201,7 @@ export const refToolbar2 = () => {
 				id: 'citetoolbar-errorcheck',
 				resizeme: false,
 				init: () => {},
-				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" /> &nbsp;${mw.messages.get(
+				html: `<div id="cite-namedref-loading"><img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" />&nbsp;${mw.message(
 					'cite-loading'
 				)}</div>`,
 				dialog: {
@@ -231,7 +229,7 @@ export const refToolbar2 = () => {
 				titleMsg: 'cite-named-refs-title',
 				resizeme: false,
 				id: 'citetoolbar-namedrefs',
-				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" /> &nbsp;${mw.messages.get(
+				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" /> &nbsp;${mw.message(
 					'cite-loading'
 				)}</div>`,
 				init: () => {},
@@ -265,6 +263,7 @@ export const refToolbar2 = () => {
 				},
 			},
 		};
+
 		try {
 			$target.wikiEditor('addDialog', defaultdialogs);
 		} catch {
@@ -274,7 +273,7 @@ export const refToolbar2 = () => {
 		if (!CiteTB.getOption('modal')) {
 			// $('#citetoolbar-namedrefs').dialog('option', 'modal', false);
 			// $('#citetoolbar-errorcheck').dialog('option', 'modal', false);
-			mw.util.addCSS('.ui-widget-overlay{display:none!important}');
+			mw.util.addCSS('.ui-widget-overlay{display:none !important}');
 		}
 		try {
 			$target.wikiEditor('addToToolbar', refsection);
@@ -308,12 +307,12 @@ export const refToolbar2 = () => {
 			let refname = $(`#cite-${CiteTB.escStr(template.shortform)}-name`).val();
 			res += '<ref';
 			if (refname) {
-				refname = String.prototype.trim(refname);
+				refname = String(refname).trim();
 				res += ` name=${CiteTB.getQuotedString(refname)}`;
 				refobj.refname = refname;
 			}
 			if (group) {
-				group = String.prototype.trim(group);
+				group = String(group).trim();
 				res += ` group=${CiteTB.getQuotedString(group)}`;
 				refobj.refgroup = group;
 			}
@@ -330,7 +329,7 @@ export const refToolbar2 = () => {
 						const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldid}`).val();
 						if (field) {
 							content += ` |${fieldid}=`;
-							content += String.prototype.trim(field);
+							content += String(field).trim();
 						}
 					}
 				}
@@ -344,7 +343,7 @@ export const refToolbar2 = () => {
 			const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldname}`).val();
 			if (field) {
 				content += ` |${fieldname}=`;
-				content += String.prototype.trim(field);
+				content += String(field).trim();
 			}
 		}
 		if ($('#cite-form-status').val() !== 'closed') {
@@ -356,7 +355,7 @@ export const refToolbar2 = () => {
 				const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldname}`).val();
 				if (field) {
 					content += ` |${fieldname}=`;
-					content += String.prototype.trim(field);
+					content += String(field).trim();
 				}
 			}
 		}
@@ -547,6 +546,7 @@ export const refToolbar2 = () => {
 	// TODO: Autofill the URL, at least for DOI
 	CiteTB.autoFill = (data, template, type) => {
 		const cl = `cite-${template}-`;
+		let i, j;
 		let coauthors;
 		$(`.${cl}title`).val(data.title);
 		// Fill in authors
@@ -564,7 +564,7 @@ export const refToolbar2 = () => {
 				$(`.${cl}last-incr-1`).val(data.authors[0][0]);
 				$(`.${cl}first-incr-1`).val(data.authors[0][1]);
 				const elemid = `#cite-incr-${template}-${group}`;
-				for (let i = 2; i < data.authors.length + 1; i++) {
+				for (i = 2; i < data.authors.length + 1; i++) {
 					$(elemid).trigger('click');
 					$(`.${cl}last-incr-${i.toString()}`).val(data.authors[i - 1][0]);
 					$(`.${cl}first-incr-${i.toString()}`).val(data.authors[i - 1][1]);
@@ -581,18 +581,18 @@ export const refToolbar2 = () => {
 				}
 				$(`.${cl}author-incr-1`).val(data.authors[0].join(', '));
 				const elemid = `#cite-incr-${template}-${group}`;
-				for (let i = 2; i < data.authors.length + 1; i++) {
+				for (i = 2; i < data.authors.length + 1; i++) {
 					$(elemid).trigger('click');
 					$(`.${cl}author-incr-${i.toString()}`).val(data.authors[i - 1].join(', '));
 				}
 			} else if ($(`.${cl}last1`).length > 0) {
-				for (let i = 0; data.authors && i < data.authors.length; i++) {
+				for (i = 0; data.authors && i < data.authors.length; i++) {
 					if ($(`.${cl}last${i + 1}`).length) {
 						$(`.${cl}last${i + 1}`).val(data.authors[i][0]);
 						$(`.${cl}first${i + 1}`).val(data.authors[i][1]);
 					} else {
 						coauthors = [];
-						for (let j = i; j < data.authors.length; j++) {
+						for (j = i; j < data.authors.length; j++) {
 							coauthors.push(data.authors[j].join(', '));
 						}
 						$(`.${cl}coauthors`).val(coauthors.join('; '));
@@ -601,17 +601,17 @@ export const refToolbar2 = () => {
 				}
 			} else if ($(`.${cl}author1`).length === 0) {
 				const authors = [];
-				for (let i = 0; data.authors && i < data.authors.length; i++) {
+				for (i = 0; data.authors && i < data.authors.length; i++) {
 					authors.push(data.authors[i].join(', '));
 				}
 				$(`.${cl}authors`).val(authors.join('; '));
 			} else {
-				for (let i = 0; data.authors && i < data.authors.length; i++) {
+				for (i = 0; data.authors && i < data.authors.length; i++) {
 					if ($(`.${cl}author${i + 1}`).length) {
 						$(`.${cl}author${i + 1}`).val(data.authors[i].join(', '));
 					} else {
 						coauthors = [];
-						for (let j = i; j < data.authors.length; j++) {
+						for (j = i; j < data.authors.length; j++) {
 							coauthors.push(data.authors[j].join(', '));
 						}
 						$(`.${cl}coauthors`).val(coauthors.join('; '));
@@ -771,11 +771,11 @@ export const refToolbar2 = () => {
 		const stuff = $('<div>');
 		$('#citetoolbar-namedrefs').html(stuff);
 		if (names.length === 0) {
-			stuff.html(mw.messages.get('cite-no-namedrefs'));
+			stuff.html(mw.message('cite-no-namedrefs'));
 		} else {
-			stuff.html(mw.messages.get('cite-namedrefs-intro'));
+			stuff.html(mw.message('cite-namedrefs-intro'));
 			const select = $('<select>').attr('id', 'cite-namedref-select');
-			select.append($('<option>').attr('value', '').text(mw.messages.get('cite-named-refs-dropdown')));
+			select.append($('<option>').attr('value', '').text(mw.message('cite-named-refs-dropdown')));
 			for (i = 0; i < names.length; i++) {
 				select.append($('<option>').text(names[i].refname));
 			}
@@ -784,16 +784,16 @@ export const refToolbar2 = () => {
 			const prevlabel = $('<div>')
 				.attr('id', 'cite-nref-preview-label')
 				.css('display', 'none')
-				.html(mw.messages.get('cite-raw-preview'));
+				.html(mw.message('cite-raw-preview'));
 			select.after(prevlabel);
 			prevlabel.before('<br><br>');
-			prevlabel.after('<div id="cite-namedref-preview" style="padding:.5em;font-size:110%" />');
+			prevlabel.after('<div id="cite-namedref-preview" style="padding:0.5em; font-size:110%" />');
 			const parselabel = $('<span>')
 				.attr('id', 'cite-parsed-label')
 				.css('display', 'none')
-				.html(mw.messages.get('cite-parsed-label'));
+				.html(mw.message('cite-parsed-label'));
 			$('#cite-namedref-preview').after(parselabel);
-			parselabel.after('<div id="cite-namedref-parsed" style="padding-bottom:.5em;font-size:110%" />');
+			parselabel.after('<div id="cite-namedref-parsed" style="padding-bottom:0.5em; font-size:110%" />');
 			const link = $('<a>')
 				.attr({
 					href: '#',
@@ -804,7 +804,7 @@ export const refToolbar2 = () => {
 					display: 'none',
 					color: '#00008b',
 				});
-			link.html(mw.messages.get('cite-form-parse'));
+			link.html(mw.message('cite-form-parse'));
 			$('#cite-namedref-parsed').after(link);
 
 			$('#cite-namedref-select').on('change', CiteTB.namedRefSelectClick);
@@ -814,7 +814,7 @@ export const refToolbar2 = () => {
 
 	// Function to get the errorcheck form HTML
 	CiteTB.setupErrorCheck = () => {
-		const form = $('<div>').attr('id', 'cite-errorcheck-heading').html(mw.messages.get('cite-errorcheck-heading'));
+		const form = $('<div>').attr('id', 'cite-errorcheck-heading').html(mw.message('cite-errorcheck-heading'));
 		const ul = $('<ul>').attr('id', 'cite-errcheck-list');
 		let test;
 		for (const t in CiteTB.ErrorChecks) {
@@ -833,7 +833,7 @@ export const refToolbar2 = () => {
 		$('#cite-namedref-parsed').html(parsed);
 	};
 
-	// Click listener for the named-ref parsed preview
+	// Click handler for the named-ref parsed preview
 	CiteTB.nrefParseClick = () => {
 		const choice = $('#cite-namedref-select').val();
 		if (choice === '') {
@@ -850,7 +850,7 @@ export const refToolbar2 = () => {
 		}
 	};
 
-	// Click listener for the named-ref dropdown
+	// Click handler for the named-ref dropdown
 	CiteTB.lastnamedrefchoice = '';
 	CiteTB.namedRefSelectClick = () => {
 		const choice = $('#cite-namedref-select').val();
@@ -887,7 +887,7 @@ export const refToolbar2 = () => {
 		div.find('.cite-preview-parsed').html(text);
 	};
 
-	// Click listener for template parsed preview
+	// Click handler for template parsed preview
 	CiteTB.prevParseClick = () => {
 		const ref = CiteTB.getRef(true, false);
 		const template = CiteTB.getOpenTemplate();
@@ -904,7 +904,7 @@ export const refToolbar2 = () => {
 		if (setting === 'closed') {
 			div.find('.cite-form-status').val('open');
 			div.find('.cite-extra-fields').show(1, () => {
-				// jQuery adds "display: block", which screws things up
+				// jQuery adds `display: block`, which screws things up
 				div.find('.cite-extra-fields').css({
 					width: '100%',
 					'background-color': 'transparent',
@@ -957,6 +957,7 @@ export const refToolbar2 = () => {
 	};
 
 	// MISC FUNCTIONS
+
 	// Determine which template form is open, and get the template object for it
 	CiteTB.getOpenTemplate = () => {
 		const dialogs = $('.ui-dialog-content.ui-widget-content:visible');
@@ -977,18 +978,13 @@ export const refToolbar2 = () => {
 		$('#editpage-copywarn').before(table);
 		let tr;
 		const tr1 = $('<tr>').css('width', '100%');
-		const th1 = $('<th>')
-			.attr('style', 'width: 60%; font-size:110%')
-			.html(mw.messages.get('cite-err-report-heading'));
-		const th2 = $('<th>').attr('style', 'text-align: right; width: 40%');
+		const th1 = $('<th>').css('width', '60%').css('font-size', '110%').html(mw.message('cite-err-report-heading'));
+		const th2 = $('<th>').css('width', '40%').css('text-align', 'right;');
 		const im = $('<img>').attr(
 			'src',
 			'https://tu.zhongwen.wiki/images/qiuwen/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png'
 		);
-		im.attr('alt', mw.messages.get('cite-err-report-close')).attr(
-			'title',
-			mw.messages.get('cite-err-report-close')
-		);
+		im.attr('alt', mw.message('cite-err-report-close')).attr('title', mw.message('cite-err-report-close'));
 		const ad = $('<a>').attr({
 			id: 'cite-err-check-close',
 			href: '#',
@@ -1003,8 +999,9 @@ export const refToolbar2 = () => {
 		if (errors.length === 0) {
 			tr = $('<tr>').css('width', '100%');
 			const td = $('<td>')
-				.attr('style', 'text-align: center; margin: 1.5px;')
-				.html(mw.messages.get('cite-err-report-empty'));
+				.css('text-align', 'center')
+				.css('margin', '1.5px')
+				.html(mw.message('cite-err-report-empty'));
 			tr.append(td);
 			table.append(tr);
 
@@ -1027,7 +1024,8 @@ export const refToolbar2 = () => {
 						margin: '1.5px',
 						width: '40%',
 					})
-					.html(mw.messages.get(err.msg));
+					// eslint-disable-next-line mediawiki/msg-doc
+					.html(mw.message(err.msg));
 				tr.append(td1).append(td2);
 				table.append(tr);
 			}
