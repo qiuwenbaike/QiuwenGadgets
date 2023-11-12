@@ -1,6 +1,15 @@
 import {refToolbarBase} from './RefToolbarBase';
 import {refToolbarConfig} from './RefToolbarConfig';
-import {refToolbarMesages} from './RefToolbarMessages';
+
+if (window.CiteTB === undefined) {
+	window.CiteTB = {
+		Templates: {}, // All templates
+		Options: {}, // Global options
+		UserOptions: {}, // User options
+		DefaultOptions: {}, // Script defaults
+		ErrorChecks: {}, // Error check functions
+	};
+}
 
 refToolbarBase();
 
@@ -271,9 +280,6 @@ export const refToolbar2 = () => {
 			// error occurred setting up wikieditor.
 		}
 	};
-
-	// Load local messages.
-	refToolbarMesages();
 
 	// Setup the main object
 	CiteTB.mainRefList = [];
