@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|titile=GeoLocationReader.less|license=CC-BY-SA-4.0|url=https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css}}'
+ * _addText: '{{Gadget Header|titile=GeoLocationReader.less|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/GeoLocationReader.less}}'
  *
  * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/GeoLocationReader.less}

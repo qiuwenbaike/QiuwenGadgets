@@ -11,5 +11,6 @@
 		"oojs-ui.styles.icons-interactions",
 		"oojs-ui.styles.icons-movement"
 	],
+	"peers": ["FloatTOC-pagestyles"],
 	"skins": ["citizen", "vector"]
 }

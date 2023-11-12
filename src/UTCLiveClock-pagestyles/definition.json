@@ -1,5 +1,6 @@
 {
 	"enable": true,
 	"description": "<span id=\"Gadget-UTCLiveClock-pagestyles\"></span> 顶栏时钟配套样式表",
-	"section": "browser"
+	"section": "browser",
+	"hidden": true
 }

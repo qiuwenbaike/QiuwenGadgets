@@ -8,7 +8,7 @@
 		"mediawiki.api",
 		"mediawiki.widgets.SelectWithInputWidget",
 		"mediawiki.widgets.expiry",
-		"oojs-ui"
+		"oojs"
 	],
 	"rights": ["protect"]
 }
