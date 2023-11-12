@@ -4,5 +4,6 @@
 	"section": "edit",
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "jquery.ui", "mediawiki.storage", "mediawiki.util", "mediawiki.user"],
-	"rights": ["skipcaptcha"]
+	"rights": ["skipcaptcha"],
+	"peers": ["HotCat-pagestyles"]
 }

@@ -1257,7 +1257,7 @@ export const refToolbarLegacy = () => {
 	};
 
 	const JsonRequest = (url) => {
-		// mw.loader.load(url)  //Bad: does not import the same script more than once
+		// mw.loader.load(url)  // Bad: does not import the same script more than once
 		const script = document.createElement('script');
 		script.setAttribute('src', url);
 		script.setAttribute('type', 'text/javascript');
