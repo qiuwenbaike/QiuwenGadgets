@@ -1,3 +1,4 @@
+import {getMessage} from './util';
 import {refToolbarBase} from './RefToolbarBase';
 import {refToolbarConfig} from './RefToolbarConfig';
 
@@ -200,7 +201,7 @@ export const refToolbar2 = () => {
 				id: 'citetoolbar-errorcheck',
 				resizeme: false,
 				init: () => {},
-				html: `<div id="cite-namedref-loading"><img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" />&nbsp;${mw.message(
+				html: `<div id="cite-namedref-loading"><img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" />&nbsp;${getMessage(
 					'cite-loading'
 				)}</div>`,
 				dialog: {
@@ -228,7 +229,7 @@ export const refToolbar2 = () => {
 				titleMsg: 'cite-named-refs-title',
 				resizeme: false,
 				id: 'citetoolbar-namedrefs',
-				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" /> &nbsp;${mw.message(
+				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" /> &nbsp;${getMessage(
 					'cite-loading'
 				)}</div>`,
 				init: () => {},
@@ -767,11 +768,11 @@ export const refToolbar2 = () => {
 		const stuff = $('<div>');
 		$('#citetoolbar-namedrefs').html(stuff);
 		if (names.length === 0) {
-			stuff.html(mw.message('cite-no-namedrefs'));
+			stuff.html(getMessage('cite-no-namedrefs'));
 		} else {
-			stuff.html(mw.message('cite-namedrefs-intro'));
+			stuff.html(getMessage('cite-namedrefs-intro'));
 			const select = $('<select>').attr('id', 'cite-namedref-select');
-			select.append($('<option>').attr('value', '').text(mw.message('cite-named-refs-dropdown')));
+			select.append($('<option>').attr('value', '').text(getMessage('cite-named-refs-dropdown')));
 			for (i = 0; i < names.length; i++) {
 				select.append($('<option>').text(names[i].refname));
 			}
@@ -780,14 +781,14 @@ export const refToolbar2 = () => {
 			const prevlabel = $('<div>')
 				.attr('id', 'cite-nref-preview-label')
 				.css('display', 'none')
-				.html(mw.message('cite-raw-preview'));
+				.html(getMessage('cite-raw-preview'));
 			select.after(prevlabel);
 			prevlabel.before('<br><br>');
 			prevlabel.after('<div id="cite-namedref-preview" style="padding:0.5em; font-size:110%" />');
 			const parselabel = $('<span>')
 				.attr('id', 'cite-parsed-label')
 				.css('display', 'none')
-				.html(mw.message('cite-parsed-label'));
+				.html(getMessage('cite-parsed-label'));
 			$('#cite-namedref-preview').after(parselabel);
 			parselabel.after('<div id="cite-namedref-parsed" style="padding-bottom:0.5em; font-size:110%" />');
 			const link = $('<a>')
@@ -800,7 +801,7 @@ export const refToolbar2 = () => {
 					display: 'none',
 					color: '#00008b',
 				});
-			link.html(mw.message('cite-form-parse'));
+			link.html(getMessage('cite-form-parse'));
 			$('#cite-namedref-parsed').after(link);
 
 			$('#cite-namedref-select').on('change', CiteTB.namedRefSelectClick);
@@ -810,7 +811,7 @@ export const refToolbar2 = () => {
 
 	// Function to get the errorcheck form HTML
 	CiteTB.setupErrorCheck = () => {
-		const form = $('<div>').attr('id', 'cite-errorcheck-heading').html(mw.message('cite-errorcheck-heading'));
+		const form = $('<div>').attr('id', 'cite-errorcheck-heading').html(getMessage('cite-errorcheck-heading'));
 		const ul = $('<ul>').attr('id', 'cite-errcheck-list');
 		let test;
 		for (const t in CiteTB.ErrorChecks) {
@@ -974,13 +975,13 @@ export const refToolbar2 = () => {
 		$('#editpage-copywarn').before(table);
 		let tr;
 		const tr1 = $('<tr>').css('width', '100%');
-		const th1 = $('<th>').css('width', '60%').css('font-size', '110%').html(mw.message('cite-err-report-heading'));
+		const th1 = $('<th>').css('width', '60%').css('font-size', '110%').html(getMessage('cite-err-report-heading'));
 		const th2 = $('<th>').css('width', '40%').css('text-align', 'right;');
 		const im = $('<img>').attr(
 			'src',
 			'https://tu.zhongwen.wiki/images/qiuwen/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png'
 		);
-		im.attr('alt', mw.message('cite-err-report-close')).attr('title', mw.message('cite-err-report-close'));
+		im.attr('alt', getMessage('cite-err-report-close')).attr('title', getMessage('cite-err-report-close'));
 		const ad = $('<a>').attr({
 			id: 'cite-err-check-close',
 			href: '#',
@@ -997,7 +998,7 @@ export const refToolbar2 = () => {
 			const td = $('<td>')
 				.css('text-align', 'center')
 				.css('margin', '1.5px')
-				.html(mw.message('cite-err-report-empty'));
+				.html(getMessage('cite-err-report-empty'));
 			tr.append(td);
 			table.append(tr);
 
@@ -1020,8 +1021,7 @@ export const refToolbar2 = () => {
 						margin: '1.5px',
 						width: '40%',
 					})
-					// eslint-disable-next-line mediawiki/msg-doc
-					.html(mw.message(err.msg));
+					.html(getMessage(err.msg));
 				tr.append(td1).append(td2);
 				table.append(tr);
 			}
