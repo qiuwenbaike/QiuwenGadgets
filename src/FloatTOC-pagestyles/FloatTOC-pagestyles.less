@@ -42,6 +42,10 @@
 			top: 0;
 		}
 	}
+
+	.ve-activated & {
+		display: none !important;
+	}
 }
 
 #floatToc-opener {
@@ -90,6 +94,10 @@
 			color: #000;
 		}
 	}
+
+	.ve-activated & {
+		display: none !important;
+	}
 }
 
 .skin-citizen #toc .toctitle {
@@ -109,9 +117,4 @@
 	.oo-ui-indicatorElement-indicator.collapse {
 		transform: rotate(180deg);
 	}
-}
-
-.ve-activated #floatToc,
-.ve-activated #floatToc-opener {
-	display: none !important;
 }
