@@ -3,7 +3,7 @@ import {WG_ACTION} from './modules/constant';
 import {loadRemoteNotices} from './modules/loadRemoteNotices';
 import {showNotices} from './modules/showNotice';
 
-$(async function advancedSiteNotices() {
+$(async function advancedSiteNotices(): Promise<void> {
 	const $siteNotice: JQuery = $('#siteNotice');
 	if (['edit', 'submit'].includes(WG_ACTION) || !$siteNotice.length) {
 		return;
