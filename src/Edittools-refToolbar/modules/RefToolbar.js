@@ -10,6 +10,7 @@
 
 import {refToolbar2} from './RefToolbar2.0';
 import {refToolbarBase} from './RefToolbarBase';
+import {refToolbarMesages} from './RefToolbarMessages';
 
 export const initializeRefTools = () => {
 	if (window.RefToolbarInstalled || document.querySelectorAll('#wpTextbox1[readonly]').length > 0) {
@@ -17,9 +18,11 @@ export const initializeRefTools = () => {
 	}
 	if (mw.user.options.get('usebetatoolbar')) {
 		// Enhanced editing toolbar is on. Going to load RefToolbar 2.0.
-		refToolbarBase();
+		$(refToolbarBase);
+		// Load local data - messages, cite templates, etc.
+		$(refToolbarMesages);
 		mw.loader.using(['ext.wikiEditor']).done(() => {
-			refToolbar2();
+			$(refToolbar2);
 		});
 	} else {
 		return;
