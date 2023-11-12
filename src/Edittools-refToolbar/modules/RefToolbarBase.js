@@ -1,3 +1,5 @@
+import {getMessage} from './util';
+
 export const refToolbarBase = () => {
 	// Object for cite templates
 	window.CiteTemplate = function (templatename, shortform, basicfields, expandedfields) {
@@ -57,7 +59,7 @@ export const refToolbarBase = () => {
 						'src',
 						'https://tu.zhongwen.wiki/images/qiuwen/thumb/7/7b/Nuvola_apps_date.svg/20px-Nuvola_apps_date.svg.png'
 					);
-					im.attr('alt', mw.message('cite-insert-date')).attr('title', mw.message('cite-insert-date'));
+					im.attr('alt', getMessage('cite-insert-date')).attr('title', getMessage('cite-insert-date'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
 					ad.attr('id', `cite-date-${CiteTB.escStr(this.shortform)}-${field}`);
@@ -73,7 +75,7 @@ export const refToolbarBase = () => {
 						'src',
 						'https://tu.zhongwen.wiki/images/qiuwen/thumb/1/17/System-search.svg/20px-System-search.svg.png'
 					);
-					im.attr('alt', mw.message('cite-autofill-alt')).attr('title', mw.message('cite-autofill-alt'));
+					im.attr('alt', getMessage('cite-autofill-alt')).attr('title', getMessage('cite-autofill-alt'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
 					ad.attr('id', `cite-auto-${CiteTB.escStr(this.shortform)}-${field}-${autotype}`);
@@ -85,19 +87,18 @@ export const refToolbarBase = () => {
 						'src',
 						'https://tu.zhongwen.wiki/images/qiuwen/thumb/b/b9/Nuvola_action_edit_add.svg/20px-Nuvola_action_edit_add.svg.png'
 					);
-					im.attr('alt', mw.message('cite-increment-alt')).attr('title', mw.message('cite-increment-alt'));
+					im.attr('alt', getMessage('cite-increment-alt')).attr('title', getMessage('cite-increment-alt'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
 					ad.attr('id', `cite-incr-${CiteTB.escStr(this.shortform)}-${incrtype}`);
 				}
-				// eslint-disable-next-line mediawiki/msg-doc
-				let display = mw.message(`cite-${labelfield}-label`);
+
+				let display = getMessage(`cite-${labelfield}-label`);
 				if (typeof display !== 'string') {
 					display = fieldobj.label ? CiteTB.fixStr(fieldobj.label) : CiteTB.fixStr(labelfield);
 				}
 				const tooltip = fieldobj.tooltip
-					? // eslint-disable-next-line mediawiki/msg-doc
-					  $('<abbr>').attr('title', mw.message(fieldobj.tooltip)).html($('<sup>').text('?'))
+					? $('<abbr>').attr('title', getMessage(fieldobj.tooltip)).html($('<sup>').text('?'))
 					: false;
 				let input = '';
 				input = $('<input>').attr({
@@ -193,7 +194,7 @@ export const refToolbarBase = () => {
 				width: '20%',
 			});
 			const $label1 = $('<label>');
-			$label1.attr('for', `cite-${CiteTB.escStr(this.shortform)}-name`).text(mw.message('cite-name-label'));
+			$label1.attr('for', `cite-${CiteTB.escStr(this.shortform)}-name`).text(getMessage('cite-name-label'));
 			$td1.append($label1);
 			const td2 = $('<td>').addClass('cite-form-td').css('width', '30%');
 			const input1 = $('<input>').attr({
@@ -209,7 +210,7 @@ export const refToolbarBase = () => {
 				width: '20%',
 			});
 			const label2 = $('<label>');
-			label2.attr('for', `cite-${CiteTB.escStr(this.shortform)}-group`).text(mw.message('cite-group-label'));
+			label2.attr('for', `cite-${CiteTB.escStr(this.shortform)}-group`).text(getMessage('cite-group-label'));
 			td3.append(label2);
 			const td4 = $('<td>').addClass('cite-form-td').css('width', '30%');
 			const input2 = $('<input>').attr({
@@ -233,7 +234,7 @@ export const refToolbarBase = () => {
 			hidden.val(this.templatename);
 			extras.append(hidden);
 			const span1 = $('<span>').addClass('cite-preview-label').css('display', 'none');
-			span1.text(mw.message('cite-raw-preview'));
+			span1.text(getMessage('cite-raw-preview'));
 			extras.append(span1).append(
 				$('<div>').addClass('cite-ref-preview').css({
 					padding: '0.5em',
@@ -241,7 +242,7 @@ export const refToolbarBase = () => {
 				})
 			);
 			const span2 = $('<span>').addClass('cite-prev-parsed-label').css('display', 'none');
-			span2.text(mw.message('cite-parsed-label'));
+			span2.text(getMessage('cite-parsed-label'));
 			extras.append(span2).append(
 				$('<div>').addClass('cite-preview-parsed').css({
 					'padding-bottom': '0.5em',
@@ -253,7 +254,7 @@ export const refToolbarBase = () => {
 				display: 'none',
 				color: '#00008b',
 			});
-			link.text(mw.message('cite-form-parse'));
+			link.text(getMessage('cite-form-parse'));
 			extras.append(link);
 			main.append(extras);
 			return main;
@@ -312,8 +313,7 @@ export const refToolbarBase = () => {
 				name: 'cite-err-test',
 			});
 			check.attr('value', this.obj.testname);
-			// eslint-disable-next-line mediawiki/msg-doc
-			const label = $('<label>').html(mw.message(this.obj.desc));
+			const label = $('<label>').html(getMessage(this.obj.desc));
 			label.attr('for', this.obj.testname);
 			row.append(check).append(' &ndash; ').append(label);
 			return row;
