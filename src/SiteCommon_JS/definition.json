@@ -9,9 +9,7 @@
 		"mediawiki.util",
 		"oojs-ui-core",
 		"ext.gadget.Tippy",
-		"ext.gadget.Tippy-pagestyles",
-		"ext.DarkMode",
-		"ext.CollapsibleSidebar.js"
+		"ext.gadget.Tippy-pagestyles"
 	],
 	"hidden": true,
 	"peers": ["SiteCommon"]
