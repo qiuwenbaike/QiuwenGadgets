@@ -60,7 +60,7 @@
 				label: '中國臺灣繁體',
 			},
 		];
-		const uriVariant: string = new mw.Uri().query.variant;
+		const uriVariant: string | null = mw.util.getParamValue('variant');
 		const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 			selected: Boolean(uriVariant),
 		});
