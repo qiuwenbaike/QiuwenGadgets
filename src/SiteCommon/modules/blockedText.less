@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 /**
  * [[MediaWiki:Blockedtext]]样式
  *
@@ -7,7 +9,7 @@
 	padding: 2em;
 	background-color: #ffefd5;
 	border: 1px solid #a2a9b1;
-	border-radius: 0.2em;
+	border-radius: @border-radius--small;
 
 	&-inner {
 		width: 100%;
@@ -15,14 +17,14 @@
 	}
 
 	&-title {
-		color: #d33;
+		color: @color--error;
 		font-size: 1.5em;
 		text-align: center;
 	}
 
 	&-subtitle {
 		display: block;
-		border-radius: 3px;
+		border-radius: @border-radius--small;
 		margin: auto;
 		text-align: center;
 	}
@@ -40,9 +42,9 @@
 	&-appeal {
 		padding: 0.75em 1em;
 		border: 0;
-		border-radius: 0.2em;
+		border-radius: @border-radius--small;
 		margin: 1em;
-		background: #fff;
+		background: @const-color-white;
 		color: #2a4b8d;
 
 		&-title {
@@ -66,12 +68,12 @@
 	&-expire-text,
 	&-userip-text,
 	&-blockid-text {
-		color: #d33;
+		color: @color--error;
 	}
 
 	&-userwarn {
 		margin: 1.25em 0;
-		color: #d33;
+		color: @color--error;
 		font-size: 1.25em;
 		text-align: center;
 	}

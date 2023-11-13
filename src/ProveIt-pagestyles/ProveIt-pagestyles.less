@@ -1,10 +1,12 @@
+@import '../variables.less';
+
 #proveit {
 	position: fixed;
 	z-index: 9;
 	right: 0;
 	bottom: 0;
 	max-width: 100%;
-	background: #fff;
+	background: @const-color-white;
 	font-size: 0.8em;
 
 	&-header {
@@ -14,8 +16,8 @@
 
 	&-logo {
 		height: 43px;
-		background: #000;
-		color: #fff;
+		background: @const-color-black;
+		color: @const-color-white;
 		cursor: pointer;
 		float: right;
 		font-family: monospace;
@@ -41,7 +43,7 @@
 			margin: 0;
 
 			&:nth-child(odd) {
-				background: #fff;
+				background: @const-color-white;
 			}
 
 			&:hover {
@@ -111,7 +113,7 @@
 			border-radius: 0;
 			margin: 1px 0;
 			appearance: none;
-			background: #fff;
+			background: @const-color-white;
 			font: inherit;
 			vertical-align: middle;
 		}
@@ -171,8 +173,8 @@
 		}
 
 		.progressive {
-			background: #36c;
-			color: #fff;
+			background: @color--primary;
+			color: @const-color-white;
 		}
 	}
 
@@ -192,10 +194,10 @@
 				width: 300px;
 				box-sizing: border-box;
 				padding: 1em;
-				border-radius: 0.25em;
+				border-radius: @border-radius--small;
 				background: #333;
 				background: rgba(0, 0, 0, 0.8);
-				color: #fff;
+				color: @const-color-white;
 				content: attr(data-tooltip);
 				font-weight: normal;
 			}

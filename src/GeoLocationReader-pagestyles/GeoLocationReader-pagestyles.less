@@ -1,10 +1,12 @@
+@import '../variables.less';
+
 .mw-geolocation {
 	display: inline-block;
 	margin: 0 0.25em !important;
 	padding: 0 0.5em !important;
 	border: 1px solid #ddd;
 	white-space: nowrap;
-	border-radius: 0.25em;
+	border-radius: @border-radius--small;
 	font-size: 0.9em;
 
 	.mw-footer & {
@@ -16,18 +18,18 @@
 	}
 
 	&-blue {
-		border-color: #36c;
-		color: #36c !important;
+		border-color: @color--primary;
+		color: @color--primary !important;
 	}
 
 	&-green {
-		border-color: #181;
-		color: #181 !important;
+		border-color: @color--success;
+		color: @color--success !important;
 	}
 
 	&-orange {
-		border-color: #a60;
-		color: #a60 !important;
+		border-color: @color--warning;
+		color: @color--warning !important;
 	}
 
 	&-icon {

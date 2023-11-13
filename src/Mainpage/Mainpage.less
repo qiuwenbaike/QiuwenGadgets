@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 /* == 非页面正文 == */
 
 /* 隐藏首页的页顶、页尾及其他无用要素 */
@@ -62,7 +64,7 @@
 
 #mainpage {
 	padding: 1em;
-	border-radius: 0.2em;
+	border-radius: @border-radius--small;
 	line-height: 1.5;
 
 	&-copyright,
@@ -98,10 +100,10 @@
 	h2 {
 		padding: 0.5em;
 		border: 0;
-		border-radius: 0.2em;
+		border-radius: @border-radius--small;
 		margin: 0 auto 1em;
-		background: #36d;
-		color: #fff;
+		background: @color--primary;
+		color: @const-color-white;
 		font-size: 1.25em;
 		font-weight: normal;
 		text-align: center;
@@ -113,7 +115,7 @@
 		.mw-headline {
 			&::before,
 			&::after {
-				color: #fff;
+				color: @const-color-white;
 				font-weight: normal;
 			}
 
@@ -174,8 +176,8 @@
 	}
 
 	.mw-ui-progressive {
-		border-color: #36c;
-		background-color: #36c;
+		border-color: @color--primary;
+		background-color: @color--primary;
 	}
 
 	ul.gallery {
@@ -211,7 +213,7 @@
 	&-footer-box {
 		flex: 1 1 340px;
 		padding: 1em;
-		border-radius: 0.2em;
+		border-radius: @border-radius--small;
 		background-color: rgba(255, 255, 255, 0.75);
 		box-shadow:
 			0 1px 2px rgba(51, 102, 221, 0.25),
@@ -290,7 +292,7 @@
 		a {
 			padding: 0.25em 0.5em;
 			border: 0;
-			border-radius: 0.25em;
+			border-radius: @border-radius--small;
 			cursor: pointer;
 
 			&,
@@ -299,8 +301,8 @@
 				&,
 				&:visited {
 					&:hover {
-						background: #36d;
-						color: #fff;
+						background: @color--primary;
+						color: @const-color-white;
 						text-decoration: none;
 					}
 				}

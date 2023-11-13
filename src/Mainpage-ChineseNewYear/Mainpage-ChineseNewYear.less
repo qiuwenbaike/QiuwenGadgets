@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 /* 特殊时期，庆祝节日 */
 .skin-citizen.page-Qiuwen_首页.action-view .mw-body,
 .skin-vector.page-Qiuwen_首页.action-view .mw-body,
@@ -44,7 +46,7 @@
 			border-color: #c33;
 			box-shadow:
 				inset 0 0 0 1px #c33,
-				inset 0 0 0 2px #fff;
+				inset 0 0 0 2px @const-color-white;
 		}
 	}
 
@@ -74,7 +76,7 @@
 			&:hover,
 			&:visited:hover {
 				background: #c33;
-				color: #fff !important;
+				color: @const-color-white !important;
 				text-decoration: none;
 			}
 		}
@@ -109,7 +111,7 @@
 
 	&__title {
 		background: #c33;
-		color: #fff;
+		color: @const-color-white;
 	}
 
 	&__dismiss a:hover {
