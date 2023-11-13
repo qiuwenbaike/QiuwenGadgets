@@ -1,13 +1,10 @@
+import {WG_USER_NAME} from './modules/constant';
 import {api} from './modules/api';
 import {loginToEdit} from './modules/core';
 
 (() => {
-	if (mw.config.get('wgUserName')) {
-		api.postWithEditToken({
-			action: 'options',
-			format: 'json',
-			change: 'gadget-LoginToEdit=0',
-		});
+	if (WG_USER_NAME) {
+		api.saveOption('gadget-LoginToEdit', '0');
 		return;
 	}
 
