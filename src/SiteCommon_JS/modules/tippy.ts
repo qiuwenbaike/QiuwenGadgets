@@ -10,7 +10,7 @@ const loadTippy = (): void => {
 		});
 	});
 
-	if (WG_SKIN) {
+	if (WG_SKIN === 'vector') {
 		mw.loader.using('ext.CollapsibleSidebar.vector').then(() => {
 			tippy(document.getElementById('sidebarCollapse') as HTMLElement, {
 				arrow: true,
