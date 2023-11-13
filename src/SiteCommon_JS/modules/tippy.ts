@@ -36,10 +36,11 @@ const loadTippy = (): void => {
 			'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a,.page-actions>nav>ul>li a,.page-actions__button'
 		)) {
 			const $element = $(element);
-			const title: string | undefined = $element.attr('title');
+			let title: string | undefined = $element.attr('title');
 			if (!title) {
 				continue;
 			}
+			title = title.replace(/\s*?\[.+?]$/, '');
 			$element.attr({
 				'aria-label': title,
 				title: '',
