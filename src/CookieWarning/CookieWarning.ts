@@ -7,7 +7,7 @@ $(function cookieWarning(): void {
 		api.postWithEditToken({
 			action: 'options',
 			format: 'json',
-			change: 'gadget-LoginToEdit=0',
+			change: 'gadget-CookieWarning=0',
 		});
 		return;
 	}
