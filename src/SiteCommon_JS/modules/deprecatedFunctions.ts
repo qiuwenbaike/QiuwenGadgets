@@ -1,4 +1,4 @@
-export const deprecatedFunctions = (): void => {
+const deprecatedFunctions = (): void => {
 	/**
 	 * maintenance: Some user scripts may be using the following deprecated functions.
 	 * These functions are no longer supported and should be updated to use mw.loader.getScript.
@@ -86,3 +86,5 @@ export const deprecatedFunctions = (): void => {
 	 * wgU*S functions have been split to a seperate gadget (ext.gadget.i18n).
 	 */
 };
+
+export {deprecatedFunctions};
