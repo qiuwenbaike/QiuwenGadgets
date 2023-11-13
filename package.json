@@ -1,7 +1,7 @@
 {
 	"name": "awesome-gadgets",
-	"version": "2.10.1",
-	"description": "Storage, compile, and auto deploy MediaWiki gadgets.",
+	"version": "2.11.0",
+	"description": "Storage, management, compilation, and automatic deployment of MediaWiki gadgets.",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -77,7 +77,7 @@
 		"mwn": "^2.0.1",
 		"postcss-import": "^15.1.0",
 		"postcss-preset-env": "^9.3.0",
-		"prettier": "^3.0.3",
+		"prettier": "^3.1.0",
 		"prompts": "^2.4.2",
 		"stylelint": "^15.11.0",
 		"stylelint-config-wikimedia": "latest",
