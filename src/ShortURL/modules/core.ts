@@ -56,8 +56,12 @@ export const shortURL = (): void => {
 		headerElement.onclick = (event: MouseEvent): void => {
 			event.preventDefault();
 			const shorturl = `https://qwbk.cc${link}`;
-			// eslint-disable-next-line compat/compat
-			navigator.clipboard?.writeText(shorturl);
+			// eslint-disable-next-line no-new
+			new ClipboardJS(event.currentTarget as HTMLAnchorElement, {
+				text: (): string => {
+					return shorturl;
+				},
+			});
 			mw.notify(
 				$('<span>')
 					.text(alertTitle)
