@@ -10,7 +10,7 @@ const loadTippy = (): void => {
 		});
 	});
 
-	if (WG_SKIN) {
+	if (WG_SKIN === 'vector') {
 		mw.loader.using('ext.CollapsibleSidebar.vector').then(() => {
 			tippy(document.getElementById('sidebarCollapse') as HTMLElement, {
 				arrow: true,
@@ -33,7 +33,7 @@ const loadTippy = (): void => {
 			return;
 		}
 		for (const element of $(
-			'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,citizen-header__logo a'
+			'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a'
 		)) {
 			const $element = $(element);
 			const title: string | undefined = $element.attr('title');
