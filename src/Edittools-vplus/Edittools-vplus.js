@@ -50,8 +50,11 @@ const edittoolsVplus = () => {
 							action: {
 								type: 'encapsulate',
 								options: {
-									pre: "\n'''{{subst:PAGENAME}}'''可以指：\n",
-									periMsg: '* [[歧义1]]：描述1\n* [[歧义2]]：描述2',
+									pre: "\n'''{{subst:".concat("PAGENAME}}'''可以指：\n"),
+									periMsg: window.wgULS(
+										'* [[歧义1]]：描述1\n* [[歧义2]]：描述2',
+										'* [[歧義1]]：描述1\n* [[歧義2]]：描述2'
+									),
 									post: '\n{{disambig}}',
 								},
 							},
@@ -62,7 +65,10 @@ const edittoolsVplus = () => {
 								type: 'encapsulate',
 								options: {
 									pre: '{{Otheruses|',
-									periMsg: '条目名称|subject=本页主題描述|other=同名或類似名的其它條目描述',
+									periMsg: window.wgULS(
+										'条目名称|subject=本页主题描述|other=同名或类似名的其它条目描述',
+										'條目名稱|subject=本頁主題描述|other=同名或類似名的其它條目描述'
+									),
 									post: '}}',
 								},
 							},
@@ -72,7 +78,7 @@ const edittoolsVplus = () => {
 							action: {
 								type: 'encapsulate',
 								options: {
-									pre: '{{Current}}',
+									pre: '{{Current|time={{subst:'.concat('#time:Y年Fj日|{{#time:c}}}}'),
 								},
 							},
 						},
@@ -116,7 +122,7 @@ const edittoolsVplus = () => {
 								type: 'encapsulate',
 								options: {
 									pre: '{{mergeto|',
-									periMsg: '合并本条目到的条目名称',
+									periMsg: window.wgULS('合并本条目到的条目名称', '合並本條目到的條目名稱'),
 									post: '}}',
 								},
 							},
@@ -127,7 +133,7 @@ const edittoolsVplus = () => {
 								type: 'encapsulate',
 								options: {
 									pre: '{{mergefrom|',
-									periMsg: '需要合并到本条目的条目名称',
+									periMsg: window.wgULS('需要合并到本条目的条目名称', '需要合並到本條目的條目名稱'),
 									post: '}}',
 								},
 							},
@@ -141,17 +147,6 @@ const edittoolsVplus = () => {
 								},
 							},
 						},
-						/* translation: {
-							label: window.wgULS("正在翻译", "正在翻譯")
-							action: {
-								type: "encapsulate",
-								options: {
-									pre: "{{subst:Translating/auto|tfrom=",
-									periMsg: "在此填入来源",
-									post: "|tpercent=翻譯進度百分數}}"
-								}
-							}
-						} */
 					},
 				},
 				zhhanshant: {
@@ -164,7 +159,7 @@ const edittoolsVplus = () => {
 								type: 'encapsulate',
 								options: {
 									pre: '-{',
-									periMsg: '不转换内容',
+									periMsg: window.wgULS('不转换内容', '不轉換內容'),
 									post: '}-',
 								},
 							},
@@ -175,7 +170,7 @@ const edittoolsVplus = () => {
 								type: 'encapsulate',
 								options: {
 									pre: '-{T|',
-									periMsg: '正确标题名称',
+									periMsg: window.wgULS('正确标题名称', '正確標題名稱'),
 									post: '}-',
 								},
 							},
@@ -186,8 +181,10 @@ const edittoolsVplus = () => {
 								type: 'encapsulate',
 								options: {
 									pre: '{{noteTA\n',
-									periMsg:
-										'|G1=公共组名\n|1=zh-cn:大陆;zh-tw:台灣;zh-hk:香港;zh-sg:新马;\n|2=zh-cn:大陆;zh-tw:台灣;zh-hk:香港;zh-sg:新马;\n',
+									periMsg: `|G1=${window.wgULS(
+										'公共组名',
+										'公共組名'
+									)}\n|1=zh-cn:大陆;zh-tw:台灣;zh-hk:香港;zh-sg:新马;\n|2=zh-cn:大陆;zh-tw:台灣;zh-hk:香港;zh-sg:新马;\n`,
 									post: '}}',
 								},
 							},
@@ -198,8 +195,13 @@ const edittoolsVplus = () => {
 								type: 'encapsulate',
 								options: {
 									pre: '{{Image\n',
-									periMsg:
-										'\t|zh=無轉換圖像名\n\t|zh-hans=简体图像名\n\t|zh-hant= 繁体圖像名\n\t|zh-cn=大陆图像名\n\t|zh-tw=臺灣圖像名\n\t|zh-hk=香港圖像名\n\t|zh=马新图像名\n\t|图像属性\n',
+									periMsg: `\t|zh=${wgULS(
+										'无转换图像名',
+										'無轉換圖像名'
+									)}\n\t|zh-hans=简体图像名\n\t|zh-hant= 繁体圖像名\n\t|zh-cn=大陆图像名\n\t|zh-tw=臺灣圖像名\n\t|zh-hk=香港圖像名\n\t|zh=马新图像名\n\t|${wgULS(
+										'图像属性',
+										'圖像屬性'
+									)}\n`,
 									post: '}}',
 								},
 							},
