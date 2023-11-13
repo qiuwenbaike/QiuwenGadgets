@@ -32,24 +32,27 @@ const loadTippy = (): void => {
 		if (WG_SKIN !== 'citizen') {
 			return;
 		}
-		for (const element of $(
-			'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a'
-		)) {
-			const $element = $(element);
-			const title: string | undefined = $element.attr('title');
-			if (!title) {
-				continue;
+		const addTippy = (): void => {
+			for (const element of $(
+				'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a,.page-actions>nav>ul>li a,.page-actions__button,#mw-indicator-shortURL a'
+			)) {
+				const $element = $(element);
+				const title: string | undefined = $element.attr('title');
+				if (!title) {
+					continue;
+				}
+				$element.attr({
+					'aria-label': title,
+					title: '',
+				});
+				tippy($element.get(0) as HTMLElement, {
+					arrow: true,
+					content: title,
+					placement: 'bottom',
+				});
 			}
-			$element.attr({
-				'aria-label': title,
-				title: '',
-			});
-			tippy($element.get(0) as HTMLElement, {
-				arrow: true,
-				content: title,
-				placement: 'bottom',
-			});
-		}
+		};
+		setTimeout(addTippy, 0);
 	});
 };
 
