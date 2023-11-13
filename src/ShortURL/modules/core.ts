@@ -32,7 +32,7 @@ export const shortURL = (): void => {
 				$(element).find('a').prepend('<span class="citizen-ui-icon mw-ui-icon-wikimedia-shortlink"></span>');
 			}
 		}
-		let headerElement: HTMLElement | null = document.querySelector('#mw-indicator-shortURL');
+		let headerElement: HTMLAnchorElement | null = document.querySelector('#mw-indicator-shortURL a');
 		if (!headerElement) {
 			const $headerElement: JQuery = $('<div>')
 				.addClass('mw-indicator')
@@ -41,18 +41,27 @@ export const shortURL = (): void => {
 					$('<a>')
 						.attr({
 							href: '#',
-							title: portletText,
+							'aria-label': portletText,
 						})
 						.append($('<span>').addClass('shortlink-icon').text(portletText))
 				);
 			$headerElement.prependTo('.mw-indicators');
-			headerElement = $headerElement.get(0) as HTMLElement;
+			headerElement = $headerElement.find('a').get(0) as HTMLAnchorElement;
+			tippy(headerElement, {
+				arrow: true,
+				content: portletText,
+				placement: 'bottom',
+			});
 		}
 		headerElement.onclick = (event: MouseEvent): void => {
 			event.preventDefault();
 			const shorturl = `https://qwbk.cc${link}`;
-			// eslint-disable-next-line compat/compat
-			navigator.clipboard?.writeText(shorturl);
+			// eslint-disable-next-line no-new
+			new ClipboardJS(event.currentTarget as HTMLAnchorElement, {
+				text: (): string => {
+					return shorturl;
+				},
+			});
 			mw.notify(
 				$('<span>')
 					.text(alertTitle)
