@@ -187,7 +187,7 @@ const edittoolsVplus = () => {
 								options: {
 									pre: '{{noteTA\n',
 									periMsg:
-										'|G1=公共组名\n|1=zh-cn:大陆;zh-tw:台灣;zh-hk:香港;zh-sg:新马;\n|2=zh-cn:大陆;zh-tw:台灣;zh-hk:香港;zh-sg:新马;\n',
+										'|G1=公共组名\n|1=zh-cn:中国大陆简体;zh-hk:中國香港繁體;zh-mo:中國澳門繁體;zh-my:马来西亚简体;zh-sg:新加坡简体;zh-tw:中國臺灣繁體;\n|2=zh-cn:中国大陆简体;zh-hk:中國香港繁體;zh-mo:中國澳門繁體;zh-my:马来西亚简体;zh-sg:新加坡简体;zh-tw:中國臺灣繁體;\n',
 									post: '}}',
 								},
 							},
@@ -199,7 +199,7 @@ const edittoolsVplus = () => {
 								options: {
 									pre: '{{Image\n',
 									periMsg:
-										'\t|zh=無轉換圖像名\n\t|zh-hans=简体图像名\n\t|zh-hant= 繁体圖像名\n\t|zh-cn=大陆图像名\n\t|zh-tw=臺灣圖像名\n\t|zh-hk=香港圖像名\n\t|zh=马新图像名\n\t|图像属性\n',
+										'\t|zh=無轉換圖像名\n\t|zh-hans=简体图像名\n\t|zh-hant=繁体圖像名\n\t|zh-cn=中国大陆图像名\n\t|zh-tw=臺灣圖像名\n\t|zh-hk=港澳圖像名\n\t|zh=新马图像名\n\t|图像属性\n',
 									post: '}}',
 								},
 							},
