@@ -2,7 +2,7 @@ export const toolsRedirectMessages = () => {
 	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))) {
 		mw.messages.set({
 			'toolsredirect-btntitle': '重新導向',
-			'toolsredirect-btndesc': '創建和管理此頁面的重新導向。',
+			'toolsredirect-btndesc': '創建和管理此頁面的重新導向',
 			'toolsredirect-dlgtitle': '創建和管理重新導向',
 			'toolsredirect-rediloading': '數據加載中，請稍候……',
 			'toolsredirect-rediedit': '編輯',
@@ -29,7 +29,7 @@ export const toolsRedirectMessages = () => {
 	} else {
 		mw.messages.set({
 			'toolsredirect-btntitle': '重定向',
-			'toolsredirect-btndesc': '创建和管理此页面的重定向。',
+			'toolsredirect-btndesc': '创建和管理此页面的重定向',
 			'toolsredirect-dlgtitle': '创建和管理重定向',
 			'toolsredirect-rediloading': '数据加载中，请稍候……',
 			'toolsredirect-rediedit': '编辑',
