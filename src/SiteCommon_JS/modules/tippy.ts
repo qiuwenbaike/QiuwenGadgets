@@ -33,7 +33,7 @@ const loadTippy = (): void => {
 			return;
 		}
 		for (const element of $(
-			'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,citizen-header__logo a'
+			'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a'
 		)) {
 			const $element = $(element);
 			const title: string | undefined = $element.attr('title');
