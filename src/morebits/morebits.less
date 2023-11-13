@@ -1,4 +1,6 @@
-/*! Twinkle.js - morebits.css */
+@import '../variables.less';
+
+/** Twinkle.js - morebits.css */
 
 /**
  * morebits.css
@@ -130,7 +132,7 @@ div.morebits-scrollbox {
 	border: 1px solid #808080;
 	margin-top: 0.6em;
 	margin-bottom: 0.6em;
-	background: #fff;
+	background: @const-color-white;
 
 	> h5:first-child {
 		padding-top: 0;
@@ -149,8 +151,8 @@ div.morebits-previewbox {
 	padding: 0.2em 0.4em;
 	border: 2px inset;
 	margin: 0.4em auto 0.2em;
-	background: #fff;
-	color: #000;
+	background: @const-color-white;
+	color: @const-color-black;
 
 	*:not(img) {
 		vertical-align: baseline;

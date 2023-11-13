@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 .gadget-whoisactive {
 	&__span {
 		display: inline-block;
@@ -5,7 +7,7 @@
 		border: 1px solid #ddd;
 		margin: 0 0.25em;
 		white-space: nowrap;
-		border-radius: 0.25em;
+		border-radius: @border-radius--small;
 		font-size: 0.9em;
 
 		.mw-footer & {
@@ -18,23 +20,23 @@
 	}
 
 	&__ThisWeek {
-		border-color: #181;
-		color: #181 !important;
+		border-color: @color--success;
+		color: @color--success !important;
 	}
 
 	&__ThisMonth {
-		border-color: #36c;
-		color: #36c !important;
+		border-color: @color--info;
+		color: @color--info !important;
 	}
 
 	&__ThisYear {
-		border-color: #a60;
-		color: #a60 !important;
+		border-color: @color--warning;
+		color: @color--warning !important;
 	}
 
 	&__OverAYear {
-		border-color: #b32424;
-		color: #b32424 !important;
+		border-color: @color--error;
+		color: @color--error !important;
 	}
 
 	&__icon {

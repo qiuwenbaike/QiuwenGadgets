@@ -1,10 +1,12 @@
+@import '../variables.less';
+
 .foldref {
 	&-folded {
 		position: relative;
 		max-height: 60vh;
 		padding: 0.2em 0.4em 2em;
 		border: 1px solid #ccc;
-		border-radius: 0.25em;
+		border-radius: @border-radius--small;
 		background-color: rgba(0, 0, 0, 0.015);
 		box-shadow:
 			inset 0 1px 3px rgba(0, 0, 0, 0.075),
@@ -21,14 +23,14 @@
 		height: 2em;
 		border: 1px solid #ccc;
 		border-radius: 0.5em 0.5em 0 0;
-		background-color: #fff;
+		background-color: @const-color-white;
 		cursor: pointer;
 		line-height: 2em;
 		text-align: center;
 		transform: translateX(-50%);
 
 		&:hover {
-			color: #36c;
+			color: @color--primary;
 			transition: 0.2s ease-in-out;
 		}
 	}

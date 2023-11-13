@@ -1,8 +1,10 @@
+@import '../variables.less';
+
 #ding {
 	button {
 		box-sizing: border-box;
 		padding: 0 0.7em;
-		border: 0.2em solid #fff;
+		border: 0.2em solid @const-color-white;
 		border-radius: 9em;
 		margin: 0 0.2em;
 		background: 0 0;
@@ -30,7 +32,7 @@
 		border-radius: 0.75em;
 		background-color: #36c;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-		color: #fff;
+		color: @const-color-white;
 		text-align: center;
 		font-weight: bold;
 		font-size: 92.5%;
@@ -52,23 +54,23 @@
 	&_success,
 	&_warning,
 	&_error {
-		color: #fff;
+		color: @const-color-white;
 	}
 
 	&_info {
-		background-color: #36c;
+		background-color: @color--info;
 	}
 
 	&_success {
-		background-color: #181;
+		background-color: @color--success;
 	}
 
 	&_warning {
-		background-color: #a60;
+		background-color: @color--warning;
 	}
 
 	&_error {
-		background-color: #b32424;
+		background-color: @color--error;
 	}
 
 	&_inner a {
