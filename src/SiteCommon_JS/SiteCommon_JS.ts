@@ -7,6 +7,7 @@ import {loadTippy} from './modules/tippy';
 		return;
 	}
 	window.SiteCommonInstalled = true;
+
 	$(core);
 	deprecatedFunctions();
 	loadTippy();
