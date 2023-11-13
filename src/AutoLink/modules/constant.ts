@@ -2,7 +2,7 @@ const WG_ACTION: MediaWikiConfigMapWgAction = mw.config.get('wgAction');
 const WG_CANONICAL_NAMESPACE: string = mw.config.get('wgCanonicalNamespace');
 const WG_CANONICAL_SPECIAL_PAGE_NAME: string = mw.config.get('wgCanonicalSpecialPageName').toString();
 
-const IS_DIFF_ACTION: boolean = location.href.includes('diff=');
+const IS_DIFF_ACTION = !!mw.util.getParamValue('diff');
 // Special crono pages where this script is enabled
 const IS_TARGET_SPECIAL_PAGE: boolean = [
 	'Contributions',
