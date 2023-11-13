@@ -81,7 +81,7 @@
 		"prompts": "^2.4.2",
 		"stylelint": "^15.11.0",
 		"stylelint-config-wikimedia": "latest",
-		"svgo": "3.0.2",
+		"svgo": "3.0.3",
 		"ts-node": "^10.9.1",
 		"types-mediawiki-renovate": "latest",
 		"typescript": "^5.2.2"
