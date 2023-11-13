@@ -3,9 +3,10 @@
 .gadget-cookie_warning {
 	&__consent-notice {
 		position: fixed;
-		z-index: 102;
+		z-index: 101;
 		bottom: 1em;
-		left: auto;
+		right: 0;
+		left: 0;
 		max-width: 92.5%;
 		padding: 0.75em;
 		border: solid 1px #cdcbc8;
@@ -25,7 +26,7 @@
 		.mw-ui-button {
 			display: block;
 			width: 100%;
-			padding: 1em;
+			padding: 0.5em 0;
 			border-color: @color--primary;
 			border-radius: @border-radius--small;
 			margin: 0 auto;
@@ -36,7 +37,9 @@
 		}
 
 		@media screen and (min-width: 768px) {
-			max-width: 40em;
+			width: 20em;
+			left: 0;
+			right: auto;
 		}
 	}
 }
