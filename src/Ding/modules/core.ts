@@ -40,7 +40,7 @@ export const dingCore: typeof DingExposedInterface = (
 		});
 	}
 	setTimeout((): void => {
-		noticeElementStyle.transform = 'translateY(0%)';
+		noticeElementStyle.transform = 'translateY(-125%)';
 	}, 10);
 	if (ttl !== 'long') {
 		setTimeout((): void => {
