@@ -4,15 +4,11 @@ import {insertElement} from './modules/insertElement';
 
 $(function cookieWarning(): void {
 	if (WG_USER_NAME) {
-		api.postWithEditToken({
-			action: 'options',
-			format: 'json',
-			change: 'gadget-CookieWarning=0',
-		});
+		api.saveOption('gadget-CookieWarning', '0');
 		return;
 	}
 
-	if (LAST_STORAGE_VALUE === '1' || location.search.includes('consentRead=')) {
+	if (WG_USER_NAME || LAST_STORAGE_VALUE === '1' || location.search.includes('consentRead=')) {
 		return;
 	}
 

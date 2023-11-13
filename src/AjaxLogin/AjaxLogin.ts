@@ -6,15 +6,11 @@ import {checkA11yConfirmKey} from '../util';
 $(function initAutoLogin() {
 	const $element: JQuery<HTMLAnchorElement> = $(LOGIN_ELEMENT_SELECTOR);
 	if (WG_USER_NAME) {
-		api.postWithEditToken({
-			action: 'options',
-			format: 'json',
-			change: 'gadget-AjaxLogin=0',
-		});
+		api.saveOption('gadget-AjaxLogin', '0');
 		return;
 	}
 
-	if (!$element.length) {
+	if (WG_USER_NAME || !$element.length) {
 		return;
 	}
 
