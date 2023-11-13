@@ -1,15 +1,9 @@
 import {LOGIN_ELEMENT_SELECTOR, WG_USER_NAME} from './modules/constant';
 import {ajaxLogin} from './modules/core';
-import {api} from './modules/api';
 import {checkA11yConfirmKey} from '../util';
 
 $(function initAutoLogin() {
 	const $element: JQuery<HTMLAnchorElement> = $(LOGIN_ELEMENT_SELECTOR);
-	if (WG_USER_NAME) {
-		api.saveOption('gadget-AjaxLogin', '0');
-		return;
-	}
-
 	if (WG_USER_NAME || !$element.length) {
 		return;
 	}

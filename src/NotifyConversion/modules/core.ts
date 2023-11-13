@@ -1,5 +1,5 @@
-import {ding, initMwApi} from '../../util';
 import {GADGET_NAME} from './constant';
+import {ding} from '../../util';
 
 export const notifyConversion = (): void => {
 	const messageHansBefore =
@@ -61,15 +61,7 @@ export const notifyConversion = (): void => {
 	// 点击“不再提示”，在LocalStorage添加条目
 	$('#gadget-notify_conversion__donotshow').on('click', (event: JQuery.ClickEvent): void => {
 		event.preventDefault();
-		if (mw.config.get('wgUserGroups')?.includes('user')) {
-			// 登录用户直接停用小工具
-			const api: mw.Api = initMwApi(`Qiuwen/1.1 (NotifyConversion/2.0; ${mw.config.get('wgWikiID')})`);
-			api.saveOption('gadget-NotifyConversion', '0').fail((): void => {
-				mw.storage.set(GADGET_NAME, 'hide');
-			});
-		} else {
-			mw.storage.set(GADGET_NAME, 'hide');
-		}
+		mw.storage.set(GADGET_NAME, 'hide');
 		$('.gadget-notify_conversion').parent().hide();
 	});
 	$('#gadget-notify_conversion__showmore').on('click', (event: JQuery.ClickEvent): void => {
