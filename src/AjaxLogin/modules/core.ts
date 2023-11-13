@@ -56,7 +56,6 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnT
 				params.rememberMe = true;
 			}
 			if (loginContinue || retypePassword) {
-				toastifyInstance.hideToast();
 				await windowManager.clearWindows();
 				delete params.loginreturnurl;
 				delete params.username;
