@@ -938,6 +938,17 @@
 					],
 				},
 				{
+					key: wgULS('内容', '內容'),
+					value: [
+						{tag: 'Missing information', description: '缺少必要的信息'}, // these three have a subgroup with several options
+						{tag: 'Substub', description: wgULS('过于短小', '過於短小'), excludeMI: true},
+						{
+							tag: 'Unencyclopedic',
+							description: wgULS('可能不适合写入百科全书', '可能不適合寫入百科全書'),
+						},
+					],
+				},
+				{
 					key: wgULS('信息和细节', '資訊和細節'),
 					value: [
 						{
@@ -972,7 +983,7 @@
 					],
 				},
 				{
-					key: wgULS('中立、偏见和事实准确性', '中立、偏見和事實準確性'),
+					key: wgULS('客观性和事实准确性', '客觀性和事實準確性'),
 					value: [
 						{
 							tag: 'Autobiography',
@@ -1003,8 +1014,8 @@
 						{
 							tag: 'POV',
 							description: wgULS(
-								'中立性有争议。内容、语调可能带有明显的个人观点或地方色彩',
-								'中立性有爭議。內容、語調可能帶有明顯的個人觀點或地方色彩'
+								'客观性有争议。内容、语调可能带有明显的个人观点或地方色彩',
+								'客觀性有爭議。內容、語調可能帶有明顯的個人觀點或地方色彩'
 							),
 						},
 						{
@@ -1014,8 +1025,8 @@
 						{
 							tag: 'Weasel',
 							description: wgULS(
-								'语义模棱两可而损及其中立性或准确性',
-								'語意模棱兩可而損及其中立性或準確性'
+								'语义模棱两可而损及其客观性或准确性',
+								'語意模棱兩可而損及其客觀性或準確性'
 							),
 						},
 					],
