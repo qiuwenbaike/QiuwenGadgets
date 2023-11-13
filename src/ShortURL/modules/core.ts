@@ -4,6 +4,7 @@ import {initMwApi} from '../../util';
 
 export const shortURL = (): void => {
 	let isInit = false;
+	let clipboardInstance: ClipboardJS | undefined;
 	const doIns = (link: string): void => {
 		const isCitizen: boolean = mw.config.get('skin') === 'citizen';
 		let element: HTMLLIElement | null = document.querySelector('#t-shortlink');
@@ -53,15 +54,9 @@ export const shortURL = (): void => {
 				placement: 'bottom',
 			});
 		}
+		const shorturl = `https://qwbk.cc${link}`;
 		headerElement.onclick = (event: MouseEvent): void => {
 			event.preventDefault();
-			const shorturl = `https://qwbk.cc${link}`;
-			// eslint-disable-next-line no-new
-			new ClipboardJS(event.currentTarget as HTMLAnchorElement, {
-				text: (): string => {
-					return shorturl;
-				},
-			});
 			mw.notify(
 				$('<span>')
 					.text(alertTitle)
@@ -78,6 +73,12 @@ export const shortURL = (): void => {
 				{tag: 'shortURL', type: 'info'}
 			);
 		};
+		clipboardInstance?.destroy();
+		clipboardInstance = new ClipboardJS(headerElement, {
+			text: (): string => {
+				return shorturl;
+			},
+		});
 	};
 	const init = ({
 		articleId,
