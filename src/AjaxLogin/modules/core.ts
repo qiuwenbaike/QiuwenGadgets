@@ -57,7 +57,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnT
 			}
 			if (loginContinue || retypePassword) {
 				toastifyInstance.hideToast();
-				await windowManager.closeWindow(messageDialog);
+				await windowManager.clearWindows();
 				delete params.loginreturnurl;
 				delete params.username;
 				delete params.password;
@@ -74,7 +74,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnT
 						},
 						'info'
 					);
-					windowManager.closeWindow(messageDialog);
+					windowManager.clearWindows();
 					return;
 				} else if (value === '') {
 					if (retypePassword) {
