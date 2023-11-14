@@ -1,8 +1,14 @@
+import {LOGIN_ELEMENT_SELECTOR} from './constant';
 import {getMessage} from './i18n';
 
 export const loginToEdit = (): void => {
 	const isCitizen: boolean = mw.config.get('skin') === 'citizen';
-	const registerURL = `/wiki/Special:CreateAccount?returnto=${mw.util.rawurlencode(mw.config.get('wgPageName'))}`;
+	const loginURL = mw.util.getUrl('Special:UserLogin', {
+		returnto: mw.config.get('wgPageName'),
+	});
+	const registerURL = mw.util.getUrl('Special:CreateAccount', {
+		returnto: mw.config.get('wgPageName'),
+	});
 	let messageDialog: OO.ui.MessageDialog;
 	let windowManager: OO.ui.WindowManager;
 	const windowOpeningData: OO.ui.WindowManager.WindowOpeningData = {
@@ -31,7 +37,12 @@ export const loginToEdit = (): void => {
 			messageDialog = new OO.ui.MessageDialog();
 			messageDialog.getActionProcess = (action: string): OO.ui.Process => {
 				if (action === 'login') {
-					$('#pt-login').trigger('click');
+					const $element: JQuery<HTMLAnchorElement> = $(LOGIN_ELEMENT_SELECTOR);
+					if ($element.length) {
+						$element.trigger('click');
+					} else {
+						location.href = loginURL;
+					}
 				} else if (action === 'register') {
 					location.href = registerURL;
 				}
