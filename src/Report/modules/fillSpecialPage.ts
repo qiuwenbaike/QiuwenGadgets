@@ -1,28 +1,25 @@
 import {getMessage} from './i18n';
 
 const fillSpecialPage = (): void => {
-	const wpSubjectElement: HTMLInputElement | null = document.querySelector('[name="wpSubject"]');
-	if (!wpSubjectElement) {
+	const $wpSubjectElement = $('[name="wpSubject"]');
+	if (!$wpSubjectElement.length) {
 		return;
 	}
 
-	const wpTitleElement: HTMLInputElement | null = document.querySelector('[name="wpTitle"]');
+	const $wpTitleElement = $('[name="wpTitle"]');
 
 	const linkTilte: string = getMessage('Report');
-	const reportTitle: string =
-		(mw.util.getParamValue('report_title') ?? '') +
-		(mw.util.getParamValue('report_revision')
-			? `${getMessage('(')}${getMessage('Revision')}${mw.util.getParamValue('report_revision')}${getMessage(')')}`
-			: '');
+	const reportRevision = mw.util.getParamValue('report_revision') ?? null;
+	let reportTitle: string = mw.util.getParamValue('report_title') ?? '';
+	if (reportRevision) {
+		reportTitle += `${getMessage('(')}${getMessage('Revision')}${reportRevision}${getMessage(')')}`;
+	}
 
-	if (
-		(document.querySelector('body') as HTMLBodyElement).classList.contains('page-Special_联系_Report') &&
-		!!reportTitle
-	) {
-		wpSubjectElement.value = `${linkTilte}${getMessage(':')}${reportTitle}`;
-		(wpTitleElement as NonNullable<typeof wpTitleElement>).value = reportTitle;
+	if ($('body').hasClass('page-Special_联系_Report') && !!reportTitle) {
+		$wpSubjectElement.val(`${linkTilte}${getMessage(':')}${reportTitle}`);
+		$wpTitleElement.val(reportTitle);
 	} else {
-		wpSubjectElement.value = linkTilte;
+		$wpSubjectElement.val(linkTilte);
 	}
 };
 
