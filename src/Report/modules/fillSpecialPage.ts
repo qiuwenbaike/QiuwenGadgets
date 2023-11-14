@@ -9,9 +9,9 @@ const fillSpecialPage = (): void => {
 	const $wpTitleElement = $('[name="wpTitle"]');
 
 	const linkTilte: string = getMessage('Report');
-	const reportRevision = mw.util.getParamValue('report_revision') ?? null;
-	let reportTitle: string = mw.util.getParamValue('report_title') ?? '';
-	if (reportRevision) {
+	const reportRevision = mw.util.getParamValue('report_revision') || null;
+	let reportTitle: string = mw.util.getParamValue('report_title') || '';
+	if (reportRevision && reportRevision !== '0') {
 		reportTitle += `${getMessage('(')}${getMessage('Revision')}${reportRevision}${getMessage(')')}`;
 	}
 
