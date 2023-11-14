@@ -2,8 +2,6 @@ import type {DefaultDefinition, DefaultSectionMap} from './scripts';
 
 const HEADER = '/* <nowiki> */';
 
-const FOOTER = '/* </nowiki> */';
-
 const WARNING = `/**
  * +--------------------------------------------------------+
  * |         === WARNING: GLOBAL GADGET FILE ===            |
@@ -15,6 +13,8 @@ const WARNING = `/**
  * |  Please discuss changes at talk page before editing.   |
  * +--------------------------------------------------------+
  */`;
+
+const FOOTER = '/* </nowiki> */';
 
 /**
  * `MediaWiki:Gadgets-definition`页面最上方的文本
@@ -79,6 +79,13 @@ const DEPLOY_USER_AGENT =
  */
 const IS_CONVERT_VARIANT = true;
 
+/**
+ * 部署时请求目标 MediaWiki 网站 API 的最大并发数，上限为 256
+ *
+ * The maximum concurrency number of requests to the API during deployment, the upper limit is 256
+ */
+const MAX_CONCURRENCY = 64;
+
 export {
 	HEADER,
 	WARNING,
@@ -88,4 +95,5 @@ export {
 	DEFINITION_SECTION_MAP,
 	DEPLOY_USER_AGENT,
 	IS_CONVERT_VARIANT,
+	MAX_CONCURRENCY,
 };
