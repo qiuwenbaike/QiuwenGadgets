@@ -316,19 +316,19 @@
 						return void 0 === t
 							? 'Undefined'
 							: null === t
-							? 'Null'
-							: 'string' ==
-							  typeof (n = ((t, e) => {
-									try {
-										return t[e];
-									} catch (t) {}
-							  })((e = Object(t)), o))
-							? n
-							: a
-							? i(e)
-							: 'Object' == (r = i(e)) && 'function' == typeof e.callee
-							? 'Arguments'
-							: r;
+							  ? 'Null'
+							  : 'string' ==
+							      typeof (n = ((t, e) => {
+											try {
+												return t[e];
+											} catch (t) {}
+							      })((e = Object(t)), o))
+							    ? n
+							    : a
+							      ? i(e)
+							      : 'Object' == (r = i(e)) && 'function' == typeof e.callee
+							        ? 'Arguments'
+							        : r;
 				  };
 		},
 		5631: function (t, e, n) {
@@ -472,8 +472,8 @@
 								? 'keys' == e
 									? {value: n.key, done: !1}
 									: 'values' == e
-									? {value: n.value, done: !1}
-									: {value: [n.key, n.value], done: !1}
+									  ? {value: n.value, done: !1}
+									  : {value: [n.key, n.value], done: !1}
 								: ((t.target = void 0), {value: void 0, done: !0});
 						},
 						n ? 'entries' : 'values',
@@ -517,20 +517,20 @@
 									return e.call(this, 0 === t ? 0 : t), this;
 							  }
 							: 'delete' == t
-							? function (t) {
-									return !(g && !l(t)) && e.call(this, 0 === t ? 0 : t);
-							  }
-							: 'get' == t
-							? function (t) {
-									return g && !l(t) ? void 0 : e.call(this, 0 === t ? 0 : t);
-							  }
-							: 'has' == t
-							? function (t) {
-									return !(g && !l(t)) && e.call(this, 0 === t ? 0 : t);
-							  }
-							: function (t, n) {
-									return e.call(this, 0 === t ? 0 : t, n), this;
-							  }
+							  ? function (t) {
+										return !(g && !l(t)) && e.call(this, 0 === t ? 0 : t);
+							    }
+							  : 'get' == t
+							    ? function (t) {
+											return g && !l(t) ? void 0 : e.call(this, 0 === t ? 0 : t);
+							      }
+							    : 'has' == t
+							      ? function (t) {
+												return !(g && !l(t)) && e.call(this, 0 === t ? 0 : t);
+							        }
+							      : function (t, n) {
+												return e.call(this, 0 === t ? 0 : t, n), this;
+							        }
 					);
 				};
 
@@ -1332,21 +1332,21 @@
 							m.nextTick(r);
 					  })
 					: g && !v
-					? ((c = !0),
-					  (u = document.createTextNode('')),
-					  new g(r).observe(u, {characterData: !0}),
-					  (a = () => {
-							u.data = c = !c;
-					  }))
-					: y && y.resolve
-					? ((s = y.resolve(void 0)),
-					  (l = s.then),
-					  (a = () => {
-							l.call(s, r);
-					  }))
-					: (a = () => {
-							h.call(f, r);
-					  })),
+					  ? ((c = !0),
+					    (u = document.createTextNode('')),
+					    new g(r).observe(u, {characterData: !0}),
+					    (a = () => {
+								u.data = c = !c;
+					    }))
+					  : y && y.resolve
+					    ? ((s = y.resolve(void 0)),
+					      (l = s.then),
+					      (a = () => {
+									l.call(s, r);
+					      }))
+					    : (a = () => {
+									h.call(f, r);
+					      })),
 				(t.exports =
 					A ||
 					((t) => {
@@ -1616,10 +1616,10 @@
 						r(t, c)
 							? t[c]
 							: 'function' == typeof t.constructor && t instanceof t.constructor
-							? t.constructor.prototype
-							: t instanceof Object
-							? u
-							: null
+							  ? t.constructor.prototype
+							  : t instanceof Object
+							    ? u
+							    : null
 				  );
 		},
 		6324: function (t, e, n) {
@@ -1759,8 +1759,8 @@
 					t !== r
 						? (u ? !p && t[e] && (s = !0) : delete t[e], s ? (t[e] = n) : i(t, e, n))
 						: s
-						? (t[e] = n)
-						: a(e, n);
+						  ? (t[e] = n)
+						  : a(e, n);
 			})(Function.prototype, 'toString', function () {
 				return ('function' == typeof this && s(this).source) || c(this);
 			});
@@ -1960,16 +1960,16 @@
 						? ''
 						: void 0
 					: (o = c.charCodeAt(u)) < 55296 ||
-					  o > 56319 ||
-					  u + 1 === s ||
-					  (a = c.charCodeAt(u + 1)) < 56320 ||
-					  a > 57343
-					? t
-						? c.charAt(u)
-						: o
-					: t
-					? c.slice(u, u + 2)
-					: a - 56320 + ((o - 55296) << 10) + 65536;
+					    o > 56319 ||
+					    u + 1 === s ||
+					    (a = c.charCodeAt(u + 1)) < 56320 ||
+					    a > 57343
+					  ? t
+							? c.charAt(u)
+							: o
+					  : t
+					    ? c.slice(u, u + 2)
+					    : a - 56320 + ((o - 55296) << 10) + 65536;
 			};
 
 			t.exports = {codeAt: o(!1), charAt: o(!0)};
@@ -2120,27 +2120,27 @@
 							g.nextTick(x(t));
 					  })
 					: y && y.now
-					? (r = (t) => {
-							y.now(x(t));
-					  })
-					: m && !p
-					? ((o = (i = new m()).port2), (i.port1.onmessage = I), (r = s(o.postMessage, o, 1)))
-					: !a.addEventListener ||
-					  'function' != typeof postMessage ||
-					  a.importScripts ||
-					  c(C) ||
-					  'file:' === d.protocol
-					? (r =
-							A in f('script')
-								? (t) => {
-										l.appendChild(f('script')).onreadystatechange = function () {
-											l.removeChild(this), w(t);
-										};
-								  }
-								: (t) => {
-										setTimeout(x(t), 0);
-								  })
-					: ((r = C), a.addEventListener('message', I, !1))),
+					  ? (r = (t) => {
+								y.now(x(t));
+					    })
+					  : m && !p
+					    ? ((o = (i = new m()).port2), (i.port1.onmessage = I), (r = s(o.postMessage, o, 1)))
+					    : !a.addEventListener ||
+					        'function' != typeof postMessage ||
+					        a.importScripts ||
+					        c(C) ||
+					        'file:' === d.protocol
+					      ? (r =
+										A in f('script')
+											? (t) => {
+													l.appendChild(f('script')).onreadystatechange = function () {
+														l.removeChild(this), w(t);
+													};
+											  }
+											: (t) => {
+													setTimeout(x(t), 0);
+											  })
+					      : ((r = C), a.addEventListener('message', I, !1))),
 				(t.exports = {set: h, clear: v});
 		},
 		1400: function (t, e, n) {
@@ -2386,10 +2386,10 @@
 					return !e || r >= e.length
 						? ((t.target = void 0), {value: void 0, done: !0})
 						: 'keys' == n
-						? {value: r, done: !1}
-						: 'values' == n
-						? {value: e[r], done: !1}
-						: {value: [r, e[r]], done: !1};
+						  ? {value: r, done: !1}
+						  : 'values' == n
+						    ? {value: e[r], done: !1}
+						    : {value: [r, e[r]], done: !1};
 				},
 				'values'
 			)),
@@ -2700,8 +2700,8 @@
 									  c === l.promise
 											? d(U('Promise-chain cycle'))
 											: (u = Z(c))
-											? u.call(c, p, d)
-											: p(c))
+											  ? u.call(c, p, d)
+											  : p(c))
 									: d(i);
 							} catch (t) {
 								h && !s && h.exit(), d(t);
@@ -3215,10 +3215,10 @@
 										return 0 === f
 											? e
 											: f <= s
-											? void 0 === i[f - 1]
-												? o.charAt(1)
-												: i[f - 1] + o.charAt(1)
-											: e;
+											  ? void 0 === i[f - 1]
+													? o.charAt(1)
+													: i[f - 1] + o.charAt(1)
+											  : e;
 									}
 									c = i[l - 1];
 							}
@@ -4128,12 +4128,12 @@
 									'file' == t.scheme
 										? (l = gt)
 										: X(t) && i && i.scheme == t.scheme
-										? (l = at)
-										: X(t)
-										? (l = lt)
-										: '/' == o[p + 1]
-										? ((l = ct), p++)
-										: ((t.cannotBeABaseURL = !0), t.path.push(''), (l = At));
+										  ? (l = at)
+										  : X(t)
+										    ? (l = lt)
+										    : '/' == o[p + 1]
+										      ? ((l = ct), p++)
+										      : ((t.cannotBeABaseURL = !0), t.path.push(''), (l = At));
 							}
 							break;
 						case ot:
@@ -4347,12 +4347,12 @@
 									'%2e%2e' === s
 										? (et(t), '/' == a || ('\\' == a && X(t)) || t.path.push(''))
 										: nt(h)
-										? '/' == a || ('\\' == a && X(t)) || t.path.push('')
-										: ('file' == t.scheme &&
-												!t.path.length &&
-												K(h) &&
-												(t.host && (t.host = ''), (h = h.charAt(0) + ':')),
-										  t.path.push(h)),
+										  ? '/' == a || ('\\' == a && X(t)) || t.path.push('')
+										  : ('file' == t.scheme &&
+													!t.path.length &&
+													K(h) &&
+													(t.host && (t.host = ''), (h = h.charAt(0) + ':')),
+										    t.path.push(h)),
 									(h = ''),
 									'file' == t.scheme && (a == r || '?' == a || '#' == a))
 								)
@@ -4364,8 +4364,8 @@
 							'?' == a
 								? ((t.query = ''), (l = wt))
 								: '#' == a
-								? ((t.fragment = ''), (l = xt))
-								: a != r && (t.path[0] += H(a, F));
+								  ? ((t.fragment = ''), (l = xt))
+								  : a != r && (t.path[0] += H(a, F));
 							break;
 						case wt:
 							n || '#' != a
@@ -5013,8 +5013,8 @@
 								'break' === t.type || 'continue' === t.type
 									? (this.next = t.arg)
 									: 'return' === t.type
-									? ((this.rval = this.arg = t.arg), (this.method = 'return'), (this.next = 'end'))
-									: 'normal' === t.type && e && (this.next = e),
+									  ? ((this.rval = this.arg = t.arg), (this.method = 'return'), (this.next = 'end'))
+									  : 'normal' === t.type && e && (this.next = e),
 								v
 							);
 						},
@@ -5928,10 +5928,10 @@
 								U(t, e, n[e]);
 						  })
 						: Object.getOwnPropertyDescriptors
-						? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n))
-						: R(Object(n)).forEach((e) => {
-								Object.defineProperty(t, e, Object.getOwnPropertyDescriptor(n, e));
-						  });
+						  ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n))
+						  : R(Object(n)).forEach((e) => {
+									Object.defineProperty(t, e, Object.getOwnPropertyDescriptor(n, e));
+						    });
 				}
 				return t;
 			}
@@ -6316,8 +6316,8 @@
 															l.error && l.error.code
 																? j.error(l.error.code)
 																: l.code
-																? j.error(l.code)
-																: j.error('unknown_edit_error');
+																  ? j.error(l.code)
+																  : j.error('unknown_edit_error');
 														case 23:
 														case 'end':
 															return t.stop();
@@ -6388,10 +6388,10 @@
 								H(t, e, n[e]);
 						  })
 						: Object.getOwnPropertyDescriptors
-						? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n))
-						: q(Object(n)).forEach((e) => {
-								Object.defineProperty(t, e, Object.getOwnPropertyDescriptor(n, e));
-						  });
+						  ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n))
+						  : q(Object(n)).forEach((e) => {
+									Object.defineProperty(t, e, Object.getOwnPropertyDescriptor(n, e));
+						    });
 				}
 				return t;
 			}
@@ -7019,10 +7019,10 @@
 								return 'minerva' === r.skin && $('#p-tb').length > 0
 									? ($('#p-tb').append(n), $('#'.concat(e)))
 									: 'moeskin' === r.skin
-									? ($('.more-actions-list').first().append(n), $('#'.concat(e)))
-									: $('#p-cactions').length > 0
-									? ($('#p-cactions ul').append(n), $('#'.concat(e)))
-									: void j.info(b.translate('cant_add_funcbtn'));
+									  ? ($('.more-actions-list').first().append(n), $('#'.concat(e)))
+									  : $('#p-cactions').length > 0
+									    ? ($('#p-cactions ul').append(n), $('#'.concat(e)))
+									    : void j.info(b.translate('cant_add_funcbtn'));
 							},
 						},
 						{
@@ -7786,10 +7786,10 @@
 								_t(t, e, n[e]);
 						  })
 						: Object.getOwnPropertyDescriptors
-						? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n))
-						: Ct(Object(n)).forEach((e) => {
-								Object.defineProperty(t, e, Object.getOwnPropertyDescriptor(n, e));
-						  });
+						  ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n))
+						  : Ct(Object(n)).forEach((e) => {
+									Object.defineProperty(t, e, Object.getOwnPropertyDescriptor(n, e));
+						    });
 				}
 				return t;
 			}

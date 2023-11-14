@@ -434,14 +434,14 @@
 				: await (N.endsWith('/doc')
 						? 'mediawiki'
 						: 274 !== u && 828 !== u
-						? R[U]
-						: ((o = 274 === u ? 'Widget' : 'Lua'),
-						  await mw.loader.using(['oojs-ui-windows', 'oojs-ui.styles.icons-content']),
-						  (await OO.ui.confirm(m('contentmodel'), {
-								actions: [{label: o}, {label: 'Wikitext', action: 'accept'}],
-						  }))
-								? 'mediawiki'
-								: o.toLowerCase())),
+						  ? R[U]
+						  : ((o = 274 === u ? 'Widget' : 'Lua'),
+						    await mw.loader.using(['oojs-ui-windows', 'oojs-ui.styles.icons-content']),
+						    (await OO.ui.confirm(m('contentmodel'), {
+									actions: [{label: o}, {label: 'Wikitext', action: 'accept'}],
+						    }))
+									? 'mediawiki'
+									: o.toLowerCase())),
 			t = oe(n),
 			[a] = await Promise.all([re(n, t), t]);
 		if (!i && x.has('wikiEditor'))

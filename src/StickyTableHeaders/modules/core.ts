@@ -10,8 +10,8 @@ export const stickyTableHeaders = (): void => {
 		const $target: JQuery<HTMLTableSectionElement> | JQuery<HTMLTableRowElement> | null = $thead.length
 			? $thead
 			: $trTh.length
-			? $trTh
-			: null;
+			  ? $trTh
+			  : null;
 		if ($target && $trTd.length >= 5) {
 			$table.addClass('mw-sticky-header');
 			$target.addClass('thead');

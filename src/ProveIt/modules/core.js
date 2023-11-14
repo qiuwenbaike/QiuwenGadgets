@@ -224,8 +224,8 @@ export const ProveIt = {
 				const userLanguage = ['zh-cn', 'zh-my', 'zh-sg'].includes(mw.config.get('wgUserLanguage'))
 					? 'zh-hans'
 					: ['zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))
-					? 'zh-hant'
-					: mw.config.get('wgUserLanguage');
+					  ? 'zh-hant'
+					  : mw.config.get('wgUserLanguage');
 				$.get(
 					`https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/${userLanguage}.json`
 				).always((i18nMsg, status) => {
