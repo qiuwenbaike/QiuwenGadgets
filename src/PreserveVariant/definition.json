@@ -1,0 +1,6 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-PreserveVariant\"></span> 令未登录者记住其所选择的变体",
+	"section": "compatibility",
+	"dependencies": ["mediawiki.Uri", "mediawiki.util"]
+}

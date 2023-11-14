@@ -1,8 +1,9 @@
 import {GADGET_NAME, SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, wgUserGroups, wgUserName, wgUserVariant} from './constant';
 import {getMessage} from './i18n';
-import {removeWindowResizeHandler} from './removeWindowResizeHandler';
+import {initMwApi} from '../../util';
 
 const locationHref: string = location.href;
+const api: mw.Api = initMwApi(`Qiuwen/1.1 (NotifyConversion/2.0; ${mw.config.get('wgWikiID')})`);
 
 const isExperiencedUser = (): boolean => {
 	if (!wgUserName || !wgUserGroups) {
@@ -75,11 +76,13 @@ const showDialog = (): void => {
 			$('<p>').text(getMessage('dialogDesc')),
 			$('<p>').addClass('gadget-notify_conversion__message_extend').text(getMessage('dialogDescExtend1')),
 			$('<p>').addClass('gadget-notify_conversion__message_extend').text(getMessage('dialogDescExtend2')),
-			buttonSelect.$element,
+			buttonSelect.$element.addClass('gadget-notify_conversion__selection'),
 			$('<p>').addClass('gadget-notify_conversion__message_privacy-notice').text(getMessage('privacyNotice'))
 		);
 
-	const windowManager = new OO.ui.WindowManager();
+	const windowManager = new OO.ui.WindowManager({
+		modal: false,
+	});
 	windowManager.$element.appendTo($('body'));
 
 	const messageDialog = new OO.ui.MessageDialog();
@@ -98,6 +101,7 @@ const showDialog = (): void => {
 				label: $('<b>').text(getMessage('cancel')),
 			},
 		],
+		size: 'medium',
 	};
 
 	windowManager.addWindows([messageDialog]);
@@ -114,8 +118,14 @@ const showDialog = (): void => {
 				const URL_REGEX = /(\/\/[^/]+\/)([^/]+)(\/)/;
 				const selectedItem = buttonSelect.findSelectedItem() as OO.ui.OptionWidget;
 				clearWindows();
-				const variant = selectedItem.getData();
-				location.href = locationHref.replace(URL_REGEX, `$1${variant}$3`);
+				const variant = String(selectedItem.getData());
+				if (mw.config.get('wgUserName')) {
+					api.saveOption('variant', variant).done(() => {
+						location.href = locationHref.replace(URL_REGEX, '$1wiki$3');
+					});
+				} else {
+					location.href = locationHref.replace(URL_REGEX, `$1${variant}$3`);
+				}
 			} else {
 				OO.ui.confirm(getMessage('Are you sure?')).done((confirmed) => {
 					if (confirmed) {
@@ -125,8 +135,6 @@ const showDialog = (): void => {
 			}
 		});
 	};
-
-	removeWindowResizeHandler(windowManager);
 };
 
 const preferredVariant: string | null =
@@ -134,12 +142,15 @@ const preferredVariant: string | null =
 
 export const notifyConversion = (): void => {
 	if (!wgUserVariant) {
-		return; // Special pages
+		return; // on Special pages
 	}
-	if (isExperiencedUser() || isLanguageSet()) {
+	if (isLanguageSet()) {
+		return; // set `uselang` or `variant` get parameters
+	}
+	if (isExperiencedUser()) {
 		return;
 	}
-	if (preferredVariant === null || isWrongURL()) {
+	if (preferredVariant === null || ['zh', 'zh-hans', 'zh-hant'].includes(preferredVariant) || isWrongURL()) {
 		showDialog();
 	}
 };

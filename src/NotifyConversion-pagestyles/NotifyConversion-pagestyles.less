@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 .gadget-notify_conversion {
 	&__title {
 		margin: 0.5em auto;
@@ -8,8 +10,14 @@
 
 		&_extend,
 		&_privacy-notice {
-			color: #aaa;
+			color: @const-color-gray;
 			font-size: 90%;
 		}
+	}
+
+	&__selection {
+		display: flex;
+		gap: 0.6em;
+		flex-wrap: wrap;
 	}
 }
