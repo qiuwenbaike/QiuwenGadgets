@@ -3,8 +3,8 @@ import {preserveVariant, userVariant} from './modules/core';
 (() => {
 	if (
 		!userVariant ||
-		userVariant.indexOf('zh-') !== 0 ||
-		(window.location.pathname.indexOf(`/${userVariant}/`) !== 0 && mw.util.getParamValue('variant') !== userVariant)
+		!userVariant.includes('zh-') ||
+		!(window.location.pathname.includes(`/${userVariant}/`) && mw.util.getParamValue('variant') !== userVariant)
 	) {
 		return;
 	}
