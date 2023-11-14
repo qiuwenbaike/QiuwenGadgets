@@ -111,7 +111,12 @@ import {easy_archive_lang} from './modules/i18n';
 			} catch {
 				return false;
 			}
-			if (typeof data !== 'object' || !('query' in data) || !('pages' in data.query) || -1 in data.query.pages) {
+			if (
+				typeof data !== 'object' ||
+				!('query' in data) ||
+				!('pages' in data.query) ||
+				(-1) in data.query.pages
+			) {
 				return false;
 			}
 			return true;

@@ -601,8 +601,8 @@
 							'true' !== f.attr('aria-selected')
 								? a.trigger('select', {originalEvent: d, data: k})
 								: a.options.get('multiple')
-								? a.trigger('unselect', {originalEvent: d, data: k})
-								: a.trigger('close', {});
+								  ? a.trigger('unselect', {originalEvent: d, data: k})
+								  : a.trigger('close', {});
 						});
 						this.$results.on('mouseenter', '.select2-results__option[aria-selected]', function (d) {
 							d = h.GetData(this, 'data');
@@ -637,8 +637,8 @@
 						null == c
 							? (b.style.display = 'none')
 							: 'string' == typeof c
-							? (b.innerHTML = d(c))
-							: g(b).append(c);
+							  ? (b.innerHTML = d(c))
+							  : g(b).append(c);
 					}),
 					e
 				);
@@ -2070,8 +2070,8 @@
 						b.children
 							? ((a = document.createElement('optgroup')).label = b.text)
 							: void 0 !== (a = document.createElement('option')).textContent
-							? (a.textContent = b.text)
-							: (a.innerText = b.text);
+							  ? (a.textContent = b.text)
+							  : (a.innerText = b.text);
 						void 0 !== b.id && (a.value = b.id);
 						b.disabled && (a.disabled = !0);
 						b.selected && (a.selected = !0);
@@ -2807,8 +2807,8 @@
 									(null != l.ajax
 										? (l.dataAdapter = z)
 										: null != l.data
-										? (l.dataAdapter = y)
-										: (l.dataAdapter = t),
+										  ? (l.dataAdapter = y)
+										  : (l.dataAdapter = t),
 									0 < l.minimumInputLength && (l.dataAdapter = m.Decorate(l.dataAdapter, ba)),
 									0 < l.maximumInputLength && (l.dataAdapter = m.Decorate(l.dataAdapter, ca)),
 									0 < l.maximumSelectionLength && (l.dataAdapter = m.Decorate(l.dataAdapter, da)),
@@ -2997,8 +2997,8 @@
 							(a.prop('dir')
 								? (this.options.dir = a.prop('dir'))
 								: a.closest('[dir]').prop('dir')
-								? (this.options.dir = a.closest('[dir]').prop('dir'))
-								: (this.options.dir = 'ltr'));
+								  ? (this.options.dir = a.closest('[dir]').prop('dir'))
+								  : (this.options.dir = 'ltr'));
 						a.prop('disabled', this.options.disabled);
 						a.prop('multiple', this.options.multiple);
 						c.GetData(a[0], 'select2Tags') &&
@@ -3095,8 +3095,8 @@
 						(null != a.attr('id')
 							? a.attr('id')
 							: null != a.attr('name')
-							? a.attr('name') + '-' + e.generateChars(2)
-							: e.generateChars(4)
+							  ? a.attr('name') + '-' + e.generateChars(2)
+							  : e.generateChars(4)
 						).replace(/(:|\.|\[|\]|,)/g, '')),
 					(b.prototype._placeContainer = function (a) {
 						a.insertAfter(this.$element);
@@ -3230,12 +3230,12 @@
 								? f === c.ESC || f === c.TAB || (f === c.UP && d.altKey)
 									? (a.close(), d.preventDefault())
 									: f === c.ENTER
-									? (a.trigger('results:select', {}), d.preventDefault())
-									: f === c.SPACE && d.ctrlKey
-									? (a.trigger('results:toggle', {}), d.preventDefault())
-									: f === c.UP
-									? (a.trigger('results:previous', {}), d.preventDefault())
-									: f === c.DOWN && (a.trigger('results:next', {}), d.preventDefault())
+									  ? (a.trigger('results:select', {}), d.preventDefault())
+									  : f === c.SPACE && d.ctrlKey
+									    ? (a.trigger('results:toggle', {}), d.preventDefault())
+									    : f === c.UP
+									      ? (a.trigger('results:previous', {}), d.preventDefault())
+									      : f === c.DOWN && (a.trigger('results:next', {}), d.preventDefault())
 								: (f === c.ENTER || f === c.SPACE || (f === c.DOWN && d.altKey)) &&
 								  (a.open(), d.preventDefault());
 						});

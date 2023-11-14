@@ -12,8 +12,8 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 		mw.config.get('skin') === 'citizen'
 			? 'section'
 			: ['vector', 'vector-2022', 'gongbi', 'write'].includes(mw.config.get('skin'))
-			? 'li'
-			: 'div';
+			  ? 'li'
+			  : 'div';
 	// The following classes are used here:
 	// * gadget-markrights_userpage__qiuwen
 	// * gadget-markrights_userpage__steward
