@@ -9,6 +9,7 @@
 		"oojs-ui-widgets",
 		"oojs-ui.styles.icons-editing-advanced",
 		"mediawiki.storage",
+		"mediawiki.Uri",
 		"mediawiki.util"
 	],
 	"peers": ["NotifyConversion-pagestyles"]
