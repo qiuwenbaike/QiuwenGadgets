@@ -1,6 +1,5 @@
 import {GADGET_NAME, SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, wgUserGroups, wgUserName, wgUserVariant} from './constant';
 import {getMessage} from './i18n';
-import {removeWindowResizeHandler} from './removeWindowResizeHandler';
 
 const locationHref: string = location.href;
 
@@ -125,8 +124,6 @@ const showDialog = (): void => {
 			}
 		});
 	};
-
-	removeWindowResizeHandler(windowManager);
 };
 
 const preferredVariant: string | null =
