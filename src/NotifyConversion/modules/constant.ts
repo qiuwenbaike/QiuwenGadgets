@@ -17,3 +17,5 @@ export const WEBMASTER_LIST = ['QiuWen', 'QiuWen for Accounts', 'QiuwenSocialMed
 export const wgUserName: string = mw.config.get('wgUserName') || '';
 export const wgUserGroups: string[] = mw.config.get('wgUserGroups') || [];
 export const wgUserVariant: string | null = mw.config.get('wgUserVariant');
+
+export const GOOD_VARIANTS = ['zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw'];
