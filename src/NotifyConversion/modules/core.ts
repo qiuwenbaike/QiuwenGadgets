@@ -108,8 +108,8 @@ const showDialog = (): void => {
 	windowManager.openWindow(messageDialog, messageDialogProperty);
 
 	messageDialog.getActionProcess = (action): OO.ui.Process => {
-		const clearWindows = () => {
-			mw.storage.set(GADGET_NAME, 'hide');
+		const clearWindows = (variant?: string) => {
+			mw.storage.set(GADGET_NAME, variant || 'hide');
 			windowManager.clearWindows();
 		};
 
@@ -117,8 +117,8 @@ const showDialog = (): void => {
 			if (action === 'confirm') {
 				const URL_REGEX = /(\/\/[^/]+\/)([^/]+)(\/)/;
 				const selectedItem = buttonSelect.findSelectedItem() as OO.ui.OptionWidget;
-				clearWindows();
 				const variant = String(selectedItem.getData());
+				clearWindows(variant);
 				if (mw.config.get('wgUserName')) {
 					api.saveOption('variant', variant).done(() => {
 						location.href = locationHref.replace(URL_REGEX, '$1wiki$3');
