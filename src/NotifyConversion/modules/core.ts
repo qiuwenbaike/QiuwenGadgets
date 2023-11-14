@@ -40,14 +40,6 @@ const showDialog = (): void => {
 		label: getMessage('dialogTitle'),
 	});
 
-	const $dialogMessage = $('<div>')
-		.addClass('gadget-notify_conversion__message')
-		.append(
-			$('<p>').text(getMessage('dialogDesc')),
-			$('<p>').addClass('gadget-notify_conversion__message_extend').text(getMessage('dialogDescExtend1')),
-			$('<p>').addClass('gadget-notify_conversion__message_extend').text(getMessage('dialogDescExtend2'))
-		);
-
 	const generateButton = (variant: string): OO.ui.ButtonOptionWidget => {
 		return new OO.ui.ButtonOptionWidget({
 			data: variant,
@@ -74,15 +66,26 @@ const showDialog = (): void => {
 		buttonSelect.selectItemByData(preferredVariant);
 	}
 
+	const $dialogTitle = $('<span>')
+		.addClass('gadget-notify_conversion__title')
+		.append(dialogTitleIcon.$element, dialogTitle.$element);
+	const $dialogMessage = $('<div>')
+		.addClass('gadget-notify_conversion__message')
+		.append(
+			$('<p>').text(getMessage('dialogDesc')),
+			$('<p>').addClass('gadget-notify_conversion__message_extend').text(getMessage('dialogDescExtend1')),
+			$('<p>').addClass('gadget-notify_conversion__message_extend').text(getMessage('dialogDescExtend2')),
+			buttonSelect.$element,
+			$('<p>').addClass('gadget-notify_conversion__message_privacy-notice').text(getMessage('privacyNotice'))
+		);
+
 	const windowManager = new OO.ui.WindowManager();
 	windowManager.$element.appendTo($('body'));
 
 	const messageDialog = new OO.ui.MessageDialog();
 	const messageDialogProperty = {
-		title: $('<span>')
-			.addClass('gadget-notify_conversion__title')
-			.append(dialogTitleIcon.$element, dialogTitle.$element),
-		message: $dialogMessage.append(buttonSelect.$element),
+		title: $dialogTitle,
+		message: $dialogMessage,
 		actions: [
 			{
 				action: 'confirm',
