@@ -1,4 +1,5 @@
-import {preserveVariant, userVariant} from './modules/core';
+import {preserveVariant} from './modules/core';
+import {userVariant} from './modules/constant';
 
 (() => {
 	if (
