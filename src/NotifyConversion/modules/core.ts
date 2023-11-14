@@ -74,11 +74,13 @@ const showDialog = (): void => {
 			$('<p>').text(getMessage('dialogDesc')),
 			$('<p>').addClass('gadget-notify_conversion__message_extend').text(getMessage('dialogDescExtend1')),
 			$('<p>').addClass('gadget-notify_conversion__message_extend').text(getMessage('dialogDescExtend2')),
-			buttonSelect.$element,
+			buttonSelect.$element.addClass('gadget-notify_conversion__selection'),
 			$('<p>').addClass('gadget-notify_conversion__message_privacy-notice').text(getMessage('privacyNotice'))
 		);
 
-	const windowManager = new OO.ui.WindowManager();
+	const windowManager = new OO.ui.WindowManager({
+		modal: false,
+	});
 	windowManager.$element.appendTo($('body'));
 
 	const messageDialog = new OO.ui.MessageDialog();
@@ -97,6 +99,7 @@ const showDialog = (): void => {
 				label: $('<b>').text(getMessage('cancel')),
 			},
 		],
+		size: 'medium',
 	};
 
 	windowManager.addWindows([messageDialog]);
