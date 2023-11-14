@@ -80,9 +80,7 @@ const showDialog = (): void => {
 			$('<p>').addClass('gadget-notify_conversion__message_privacy-notice').text(getMessage('privacyNotice'))
 		);
 
-	const windowManager = new OO.ui.WindowManager({
-		modal: false,
-	});
+	const windowManager = new OO.ui.WindowManager();
 	windowManager.$element.appendTo($('body'));
 
 	const messageDialog = new OO.ui.MessageDialog();
