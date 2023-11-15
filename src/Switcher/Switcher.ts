@@ -1,7 +1,6 @@
 const switcherJS = () => {
 	for (const [index, container] of [...document.querySelectorAll('.switcher-container')].entries()) {
-		// eslint-disable-next-line no-undef-init, unicorn/no-useless-undefined
-		let selected: unknown[] | Element | undefined = undefined;
+		let selected: unknown[] | Element | undefined;
 		let $radio: JQuery<Element> | undefined;
 		const switchers: Element[] = [];
 		const radioName = `switcher-${index}`;
