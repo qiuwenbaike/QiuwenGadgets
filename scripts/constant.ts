@@ -85,7 +85,7 @@ const IS_CONVERT_VARIANT = true;
  *
  * The maximum concurrency number of requests to the API during deployment, the upper limit is 256
  */
-const MAX_CONCURRENCY = 64;
+const MAX_CONCURRENCY = 16;
 
 export {
 	HEADER,
