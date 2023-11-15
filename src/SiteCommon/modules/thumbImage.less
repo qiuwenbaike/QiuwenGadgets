@@ -1,17 +1,16 @@
 /* 小屏幕缩略图自适应 */
+
 /* stylelint-disable-next-line media-feature-name-no-unknown */
 @media only screen and (max-width: 768px) and (min-device-pixel-ratio: 1.5),
 	only screen and (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5),
 	only screen and (max-width: 768px) and (min-resolution: 1.5dppx) {
-	@supports (object-fit: contain) {
-		.mw-body-content div.thumbinner {
-			width: 100% !important;
+	.mw-body-content div.thumbinner {
+		width: 100% !important;
 
-			.thumbimage {
-				width: 100%;
-				height: auto;
-				max-height: 60vh;
-			}
+		.thumbimage {
+			width: 100%;
+			height: auto;
+			max-height: 60vh;
 		}
 	}
 }
