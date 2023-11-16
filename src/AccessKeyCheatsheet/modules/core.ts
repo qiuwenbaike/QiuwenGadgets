@@ -20,9 +20,16 @@ const accessKeyCheatsheet = (): void => {
 			}
 			return;
 		}
+
 		messageDialog = new OO.ui.MessageDialog();
+
 		const windowManager: OO.ui.WindowManager = new OO.ui.WindowManager();
-		windowManager.$element.css('width', '35em').appendTo($body);
+		windowManager.$element
+			.css({
+				'margin-bottom': '0',
+				width: '35em',
+			})
+			.appendTo($body);
 		windowManager.addWindows([messageDialog]);
 		windowManager.openWindow(messageDialog, messageDialogProperty);
 	});
