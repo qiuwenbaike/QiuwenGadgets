@@ -16,4 +16,5 @@ const generateMessageDialogProperty = ($accessKeysTable: JQuery): OO.ui.WindowMa
 
 	return messageDialogProperty;
 };
+
 export {generateMessageDialogProperty};
