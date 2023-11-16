@@ -1,10 +1,16 @@
 /* eslint-disable mediawiki/class-doc */
-import {CLASS_NOTICES_AREA, CLASS_NOTICES_DISMISS, CLASS_NOTICES_NOTICE_AREA, CLASS_NOTICES_TITLE} from './constant';
+import {
+	CLASS_NOTICES_AREA,
+	CLASS_NOTICES_DISMISS,
+	CLASS_NOTICES_NOTICE,
+	CLASS_NOTICES_NOTICE_AREA,
+	CLASS_NOTICES_TITLE,
+} from './constant';
 import {getMessage} from './i18n';
 
 const insertArea = (): JQuery => {
 	const $area: JQuery = $('<div>').addClass(`${CLASS_NOTICES_AREA} noprint`).attr('id', 'advancedSiteNotices');
-	const $currentNotice: JQuery = $('<div>').addClass('gadget-advanced_site_notices__notice center');
+	const $currentNotice: JQuery = $('<div>').addClass(`${CLASS_NOTICES_NOTICE} center`);
 	const $dismiss: JQuery = $('<div>')
 		.addClass(CLASS_NOTICES_DISMISS)
 		.append(
