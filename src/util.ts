@@ -68,7 +68,16 @@ const ding = (
 	autoHide = false,
 	type: 'default' | 'info' | 'success' | 'warning' | 'error' = 'default'
 ): void => {
-	autoHide ? DingExposedInterface(value, type) : DingExposedInterface(value, type, 'long');
+	mw.loader.using('ext.gadget.Toastify').then((): void => {
+		toastify(
+			{
+				text: value,
+				close: !autoHide,
+				duration: autoHide ? 30 * 1000 : -1,
+			},
+			type === 'default' ? undefined : type
+		);
+	});
 };
 
 const generateSvgDataUrl = (svg: string): string => {
