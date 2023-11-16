@@ -21,6 +21,7 @@ import type _Toastify from 'toastify-js';
 type I18nCandidatesKey =
 	| 'en'
 	| 'ja'
+	| 'ru'
 	| 'zh'
 	| 'zh-hans'
 	| 'zh-hant'
