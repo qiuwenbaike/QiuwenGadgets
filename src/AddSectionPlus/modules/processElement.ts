@@ -1,8 +1,7 @@
 import {WG_SKIN} from './constant';
-import {getMessage} from './i18n';
 
 const processElement = ($element: JQuery): void => {
-	const title = getMessage('Title');
+	const title: string = $element.attr('title') ?? $element.attr('aria-label') ?? $element.text().trim();
 	switch (WG_SKIN) {
 		case 'citizen':
 			$element.attr('style', '').css({
