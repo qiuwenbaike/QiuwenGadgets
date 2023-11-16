@@ -3,12 +3,6 @@
 	"description": "<span id=\"Gadget-BanPage\"></span> 一键禁用页面和文件",
 	"section": "sysop",
 	"default": true,
-	"dependencies": [
-		"ext.gadget.Ding",
-		"ext.gadget.Ding-pagestyles",
-		"ext.gadget.i18n",
-		"mediawiki.api",
-		"mediawiki.util"
-	],
+	"dependencies": ["ext.gadget.Ding", "ext.gadget.i18n", "mediawiki.api", "mediawiki.util"],
 	"rights": ["skipcaptcha"]
 }
