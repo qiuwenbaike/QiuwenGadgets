@@ -13,16 +13,16 @@ if (!window.toastify) {
 		if (type) {
 			switch (type) {
 				case 'error':
-					className += ' gadget-toastify--error';
+					className += ` ${className}--error`;
 					break;
 				case 'success':
-					className += ' gadget-toastify--success';
+					className += ` ${className}--success`;
 					break;
 				case 'warning':
-					className += ' gadget-toastify--warning';
+					className += ` ${className}--warning`;
 					break;
 				default:
-					className += ' gadget-toastify--info';
+					className += ` ${className}--info`;
 			}
 		}
 		// eslint-disable-next-line mediawiki/class-doc
