@@ -24,23 +24,17 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 		try {
 			if (!loginContinue) {
 				toastifyInstance.hideToast();
-				toastifyInstance = toastify(
-					{
-						text: getMessage('Getting login token'),
-					},
-					'info'
-				);
+				toastifyInstance = toastify({
+					text: getMessage('Getting login token'),
+				});
 
 				loginToken = await api.getToken('login');
 
 				toastifyInstance.hideToast();
-				toastifyInstance = toastify(
-					{
-						text: getMessage('Login token getted'),
-						duration: -1,
-					},
-					'info'
-				);
+				toastifyInstance = toastify({
+					text: getMessage('Login token getted'),
+					duration: -1,
+				});
 			}
 
 			const params: ClientLoginParams = {
