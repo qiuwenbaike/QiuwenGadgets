@@ -17,16 +17,16 @@ const checkValid = (
 	if (!agreedTos) {
 		toastifyInstance = toastify(
 			{
-				duration: -1,
 				text: getMessage('AgreedOrNot'),
+				duration: -1,
 			},
 			'info'
 		);
 	} else if (!filled) {
 		toastifyInstance = toastify(
 			{
-				duration: -1,
 				text: getMessage('EmptyUsernameOrPassword'),
+				duration: -1,
 			},
 			'info'
 		);

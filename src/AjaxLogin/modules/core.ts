@@ -36,8 +36,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 				toastifyInstance.hideToast();
 				toastifyInstance = toastify(
 					{
-						duration: -1,
 						text: getMessage('Login token getted'),
+						duration: -1,
 					},
 					'info'
 				);
@@ -79,8 +79,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 					if (retypePassword) {
 						toastifyInstance = toastify(
 							{
-								duration: -1,
 								text: getMessage('EmptyPassword'),
+								duration: -1,
 							},
 							'warning'
 						);
@@ -90,8 +90,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 					} else {
 						toastifyInstance = toastify(
 							{
-								duration: -1,
 								text: getMessage('Empty2FA'),
+								duration: -1,
 							},
 							'warning'
 						);
@@ -136,8 +136,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 					case 'login-throttled':
 						toastifyInstance = toastify(
 							{
-								duration: -1,
 								text: getMessage('TooFrequent'),
+								duration: -1,
 							},
 							'error'
 						);
@@ -150,8 +150,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 					case 'oathauth-login-failed':
 						toastifyInstance = toastify(
 							{
-								duration: -1,
 								text: getMessage('Invalid 2FA verification code'),
+								duration: -1,
 							},
 							'warning'
 						);
@@ -162,8 +162,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 					case 'resetpass-temp-emailed':
 						toastifyInstance = toastify(
 							{
-								duration: -1,
 								text: getMessage('New password is required'),
+								duration: -1,
 							},
 							'warning'
 						);
@@ -174,8 +174,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 					case 'wrongpassword':
 						toastifyInstance = toastify(
 							{
-								duration: -1,
 								text: getMessage('Invalid useruame or password'),
+								duration: -1,
 							},
 							'warning'
 						);
@@ -185,8 +185,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 					default:
 						toastifyInstance = toastify(
 							{
-								duration: -1,
 								text: getMessage('Unknown API error'),
+								duration: -1,
 							},
 							'error'
 						);
@@ -197,8 +197,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 			toastifyInstance.hideToast();
 			toastifyInstance = toastify(
 				{
-					duration: -1,
 					text: getMessage('Network error'),
+					duration: -1,
 				},
 				'error'
 			);

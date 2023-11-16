@@ -14,8 +14,8 @@ const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 		}
 
 		const toastifyInstance: ToastifyInstance = toastify({
-			duration: -1,
 			text: mw.message('logging-out-notify').toString(),
+			duration: -1,
 		});
 		logout(toastifyInstance);
 	};
