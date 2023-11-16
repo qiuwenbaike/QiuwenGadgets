@@ -73,7 +73,7 @@ const ding = (
 			{
 				text: value,
 				close: !autoHide,
-				duration: autoHide ? 30 * 1000 : -1,
+				duration: autoHide ? 3 * 1000 : -1,
 			},
 			type === 'default' ? undefined : type
 		);
