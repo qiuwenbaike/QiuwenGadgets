@@ -17,7 +17,7 @@ const generateAccessKeysTableWithOpener = (
 						element.title ||
 						element.textContent ||
 						(element as HTMLInputElement).value ||
-						$(`label[for="${element.id}"]`).text()
+						$body.find(`label[for="${element.id}"]`).text()
 					).replace(/\s*?\[.+?]$/, '')
 				)
 			);
