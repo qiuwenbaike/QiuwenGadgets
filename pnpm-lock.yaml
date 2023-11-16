@@ -15,7 +15,7 @@ overrides:
 
 patchedDependencies:
   eslint-plugin-compat@4.2.0:
-    hash: 3q6vi2pkryrnmsqbaioldffjbm
+    hash: xb3fkg7yobwl6hbmal63hdsoh4
     path: patches/eslint-plugin-compat@4.2.0.patch
 
 dependencies:
@@ -2724,7 +2724,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001562
-      electron-to-chromium: 1.4.583
+      electron-to-chromium: 1.4.585
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: true
@@ -3225,8 +3225,8 @@ packages:
       readable-stream: 1.1.14
     dev: true
 
-  /electron-to-chromium@1.4.583:
-    resolution: {integrity: sha512-93y1gcONABZ7uqYe/JWDVQP/Pj/sQSunF0HVAPdlg/pfBnOyBMLlQUxWvkqcljJg1+W6cjvPuYD+r1Th9Tn8mA==}
+  /electron-to-chromium@1.4.585:
+    resolution: {integrity: sha512-B4yBlX0azdA3rVMxpYwLQfDpdwOgcnLCkpvSOd68iFmeedo+WYjaBJS3/W58LVD8CB2nf+o7C4K9xz1l09RkWg==}
     dev: true
 
   /emoji-regex@10.3.0:
@@ -3332,7 +3332,7 @@ packages:
     dependencies:
       browserslist-config-wikimedia: 0.5.1
       eslint: 8.53.0
-      eslint-plugin-compat: 4.2.0(patch_hash=3q6vi2pkryrnmsqbaioldffjbm)(eslint@8.53.0)
+      eslint-plugin-compat: 4.2.0(patch_hash=xb3fkg7yobwl6hbmal63hdsoh4)(eslint@8.53.0)
       eslint-plugin-es-x: 5.4.0(eslint@8.53.0)
       eslint-plugin-jsdoc: 39.2.2(eslint@8.53.0)
       eslint-plugin-json-es: 1.5.7(eslint@8.53.0)
@@ -3350,7 +3350,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-compat@4.2.0(patch_hash=3q6vi2pkryrnmsqbaioldffjbm)(eslint@8.53.0):
+  /eslint-plugin-compat@4.2.0(patch_hash=xb3fkg7yobwl6hbmal63hdsoh4)(eslint@8.53.0):
     resolution: {integrity: sha512-RDKSYD0maWy5r7zb5cWQS+uSPc26mgOzdORJ8hxILmWM7S/Ncwky7BcAtXVY5iRbKjBdHsWU8Yg7hfoZjtkv7w==}
     engines: {node: '>=14.x'}
     peerDependencies:

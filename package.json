@@ -1,12 +1,12 @@
 {
 	"name": "awesome-gadgets",
-	"version": "2.14.0",
+	"version": "2.15.0",
 	"description": "Storage, management, compilation, and automatic deployment of MediaWiki gadgets.",
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "pnpm format && node --no-warnings --loader ts-node/esm scripts/only-build.ts",
-		"deploy": "pnpm format && node --no-warnings --loader ts-node/esm esbuild.config.ts",
+		"build": "pnpm format && node --no-warnings --loader ts-node/esm scripts/build.ts",
+		"deploy": "pnpm format && node --no-warnings --loader ts-node/esm scripts/deploy.ts",
 		"format": "prettier --cache --write . && pnpm lint:fix && tsc --noEmit && pnpm minify-svg",
 		"eslint": "eslint --cache .",
 		"eslint:fix": "eslint --cache --fix .",
