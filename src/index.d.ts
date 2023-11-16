@@ -14,8 +14,9 @@ import type {
 	UrlShortenerApiShortenUrlParams as _UrlShortenerApiShortenUrlParams,
 } from 'types-mediawiki/api_params';
 
-import _Toastify from 'toastify-js';
-import _tippy from 'tippy.js';
+import type _ClipboardJS from 'clipboard';
+import type {Tippy as _Tippy} from 'tippy.js';
+import type _Toastify from 'toastify-js';
 
 type I18nCandidatesKey =
 	| 'en'
@@ -76,8 +77,8 @@ declare global {
 	}
 
 	// npm packages
-	const ClipboardJS: typeof ClipboardJS; // Clipboard clipboard.js
-	const tippy: typeof _tippy; // Tippy tippy.js
+	const ClipboardJS: typeof window.ClipboardJS; // Clipboard clipboard.js
+	const tippy: typeof window.tippy; // Tippy tippy.js
 	const toastify: typeof window.toastify; // Toastify toastify-js
 
 	interface Window {
@@ -99,34 +100,11 @@ declare global {
 			my?: string,
 			en?: string
 		): string;
-		wgULS(
-			hans?: string,
-			hant?: string,
-			cn?: string,
-			tw?: string,
-			hk?: string,
-			sg?: string,
-			zh?: string,
-			mo?: string,
-			my?: string,
-			en?: string
-		): string;
-		wgUVS(
-			hans?: string,
-			hant?: string,
-			cn?: string,
-			tw?: string,
-			hk?: string,
-			sg?: string,
-			zh?: string,
-			mo?: string,
-			my?: string,
-			en?: string
-		): string;
-
+		wgULS: typeof window.wgUCS;
+		wgUVS: typeof window.wgUCS;
 		// npm packages
-		ClipboardJS: typeof ClipboardJS; // Clipboard clipboard.js
-		tippy: typeof _tippy; // Tippy tippy.js
+		ClipboardJS: typeof _ClipboardJS; // Clipboard clipboard.js
+		tippy: _Tippy; // Tippy tippy.js
 		toastify: (
 			options: _Toastify.Options,
 			type?: 'info' | 'success' | 'warning' | 'error'
