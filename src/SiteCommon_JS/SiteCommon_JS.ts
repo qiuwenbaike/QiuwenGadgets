@@ -3,10 +3,10 @@ import {deprecatedFunctions} from './modules/deprecatedFunctions';
 import {loadTippy} from './modules/tippy';
 
 (function siteCommon(): void {
-	if (window.SiteCommonInstalled) {
+	if (mw.config.get('wgSiteCommonInstalled')) {
 		return;
 	}
-	window.SiteCommonInstalled = true;
+	mw.config.set('wgSiteCommonInstalled', true);
 
 	$(core);
 	deprecatedFunctions();

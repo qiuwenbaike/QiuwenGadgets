@@ -6,10 +6,11 @@ import {loadEditFormJS} from './modules/loadEditFormJs';
 import {smartNewSection} from './modules/smartNewSection';
 
 (function userJS(): void {
-	if (window.UserJSInstalled) {
+	if (mw.config.get('wgUserJSInstalled')) {
 		return;
 	}
-	window.UserJSInstalled = true;
+	mw.config.set('wgUserJSInstalled', true);
+
 	/* 加载编辑界面脚本 */
 	$(loadEditFormJS);
 	/* 编辑提示（EditIntro） */
