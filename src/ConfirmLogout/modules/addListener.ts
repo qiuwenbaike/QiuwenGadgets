@@ -13,10 +13,13 @@ const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 			return;
 		}
 
-		const toastifyInstance: ToastifyInstance = toastify({
-			text: mw.message('logging-out-notify').toString(),
-			duration: -1,
-		});
+		const toastifyInstance: ToastifyInstance = toastify(
+			{
+				text: mw.message('logging-out-notify').toString(),
+				duration: -1,
+			},
+			'info'
+		);
 		logout(toastifyInstance);
 	};
 
