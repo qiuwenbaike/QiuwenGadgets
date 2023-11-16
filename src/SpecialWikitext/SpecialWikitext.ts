@@ -184,7 +184,7 @@ const previewTool = () => {
 
 	// 检查对应selector的网页对象是否存在
 	const $elementExist = (selectors: string | string[]) => {
-		const selectorArray = [...selectors];
+		const selectorArray = Array.isArray(selectors) ? selectors : selectors ? [selectors] : [];
 		let eleCount = 0;
 		for (const index in selectorArray) {
 			if (Object.hasOwn(selectorArray, index)) {
@@ -201,7 +201,7 @@ const previewTool = () => {
 			return false;
 		}
 		mwConfigData = mwConfigData.toString().toLowerCase();
-		const mwConfigArray = [...mwConfigs];
+		const mwConfigArray = Array.isArray(mwConfigs) ? mwConfigs : mwConfigs ? [mwConfigs] : [];
 		return mwConfigArray.includes(mwConfigData as string);
 	};
 
@@ -228,6 +228,7 @@ const previewTool = () => {
 			$htmlObj.insertBefore('#mw-content-text');
 		}
 	};
+
 	// 若网页对象存在，则改动其html内容
 	const $setHtml = (selector: string, $htmlContent: string) => {
 		if ($elementExist(selector)) {
