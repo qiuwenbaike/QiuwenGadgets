@@ -79,7 +79,7 @@ export const markUserRights = ($content: JQuery): void => {
 	const done = (): void => {
 		$userLinks.each((_index: number, element: HTMLElement): void => {
 			const $element: JQuery = $(element);
-			if ($($element).parent().parent().find('.gadgets-markrights').length > 0) {
+			if ($($element).parents('li').find('.gadgets-markrights').length > 0) {
 				return;
 			}
 			const username: string = getUsername($element.attr('href') ?? '');

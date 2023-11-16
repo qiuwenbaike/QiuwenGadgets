@@ -222,7 +222,10 @@ const core = (): void => {
 	/* 临时：禁止用户查看用户创建日志 */
 	if (WG_CANONICAL_SPECIAL_PAGE_NAME === 'Log') {
 		$('input[name="wpfilters[]"][value=newusers]').attr('checked', 0);
-		$('input[name="wpfilters[]"][value=newusers]').parent().parent().parent().parent().remove();
+		const $element = $('input[name="wpfilters[]"][value=newusers]').parents('.oo-ui-labelElement').get(0);
+		if ($element) {
+			$element.remove();
+		}
 	}
 	/* 调整折叠按钮的颜色 */
 	const $toggle = $('.mw-collapsible-toggle');
