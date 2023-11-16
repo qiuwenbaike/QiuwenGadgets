@@ -11,7 +11,7 @@ $(function initAutoLogin() {
 	const windowManager = new OO.ui.WindowManager();
 	windowManager.$element.appendTo($('body'));
 
-	const fakeToastifyInstance: ReturnType<typeof toastify> = {
+	const fakeToastifyInstance: ToastifyInstance = {
 		hideToast: () => {},
 	};
 

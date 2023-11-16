@@ -17,7 +17,7 @@ $area.find(`.${CLASS_NOTICES_DISMISS}`).on('click', (event: JQuery.ClickEvent): 
 	$area.remove();
 	localNoticesVersion = currentNoticesVersion;
 	mw.storage.set(STORAGE_KEY, currentNoticesVersion, 60 * 60 * 24 * 30 * 1000);
-	const toastifyInstance: ReturnType<typeof toastify> = toastify({
+	const toastifyInstance: ToastifyInstance = toastify({
 		node: $('<span>').html(getMessage('DismissNotice')).get(0),
 		close: true,
 		duration: 10 * 1000,

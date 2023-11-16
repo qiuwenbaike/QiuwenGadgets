@@ -193,5 +193,4 @@ const catALotMessages = (): void => {
 	}
 };
 
-export type {MessageKey};
-export {DEFAULT_MESSAGES, catALotMessages};
+export {type MessageKey, DEFAULT_MESSAGES, catALotMessages};

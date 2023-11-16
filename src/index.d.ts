@@ -81,6 +81,7 @@ declare global {
 	const ClipboardJS: typeof window.ClipboardJS; // Clipboard clipboard.js
 	const tippy: typeof window.tippy; // Tippy tippy.js
 	const toastify: typeof window.toastify; // Toastify toastify-js
+	type ToastifyInstance = ReturnType<typeof toastify>; // Toastify toastify-js
 
 	interface Window {
 		readonly CatALotPrefs: unknown; // Cat-a-lot

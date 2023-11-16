@@ -1,7 +1,7 @@
 import {api} from './api';
 import {getMessage} from './i18n';
 
-const logout = async (toastifyInstance: ReturnType<typeof toastify>): Promise<void> => {
+const logout = async (toastifyInstance: ToastifyInstance): Promise<void> => {
 	try {
 		await api.postWithEditToken({
 			action: 'logout',
