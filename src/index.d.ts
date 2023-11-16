@@ -123,10 +123,7 @@ declare global {
 			my?: string,
 			en?: string
 		): string;
-		LogFilterInstalled: boolean; // LogFilter
-		RefToolbarInstalled: boolean; // RefToolbar
-		SiteCommonInstalled: boolean; // SiteCommon
-		UserJSInstalled: boolean; // UserJS
+
 		// npm packages
 		ClipboardJS: typeof ClipboardJS; // Clipboard clipboard.js
 		tippy: typeof _tippy; // Tippy tippy.js
