@@ -5,6 +5,7 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.Ding",
+		"ext.gadget.Ding-pagestyles",
 		"ext.gadget.i18n",
 		"mediawiki.api",
 		"mediawiki.util",
