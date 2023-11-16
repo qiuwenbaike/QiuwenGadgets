@@ -13,7 +13,7 @@ const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 			return;
 		}
 
-		const toastifyInstance: ReturnType<typeof toastify> = toastify({
+		const toastifyInstance: ToastifyInstance = toastify({
 			duration: -1,
 			text: mw.message('logging-out-notify').toString(),
 		});

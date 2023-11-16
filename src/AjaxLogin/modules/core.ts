@@ -1,11 +1,11 @@
 import {type ClientLoginParams, api} from './api';
-import {checkValid} from './util/checkValid';
+import {type NeedCheckElements, checkValid} from './util/checkValid';
 import {generateElements} from './generateElements';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 
-const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnType<typeof toastify>): void => {
+const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ToastifyInstance): void => {
 	const {
 		$agreeTos,
 		$forgotPassword,
@@ -205,14 +205,10 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnT
 		}
 	};
 
-	const needCheckElements: [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget] = [
-		agreeTosCheckbox,
-		nameInput,
-		pwdInput,
-	];
+	const needCheckElements: NeedCheckElements = [agreeTosCheckbox, nameInput, pwdInput];
 
 	pwdInput.on('enter', (): void => {
-		const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(...needCheckElements, toastifyInstance);
+		const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(needCheckElements, toastifyInstance);
 		toastifyInstance = lastToastifyInstance;
 		if (isValid) {
 			login();
@@ -222,7 +218,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ReturnT
 		return new OO.ui.Process((): void => {
 			if (action === 'login') {
 				const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(
-					...needCheckElements,
+					needCheckElements,
 					toastifyInstance
 				);
 				toastifyInstance = lastToastifyInstance;

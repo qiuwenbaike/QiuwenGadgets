@@ -25,5 +25,4 @@ const queryApi = async (): Promise<ReturnType<mw.Api['get']>> => {
 	}
 };
 
-export type {RemoteNotices};
-export {queryApi};
+export {type RemoteNotices, queryApi};

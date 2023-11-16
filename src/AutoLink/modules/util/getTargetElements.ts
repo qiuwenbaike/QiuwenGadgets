@@ -27,5 +27,4 @@ const getTargetElements = (): TargetElements => {
 	};
 };
 
-export type {TargetElements};
-export {getTargetElements};
+export {type TargetElements, getTargetElements};

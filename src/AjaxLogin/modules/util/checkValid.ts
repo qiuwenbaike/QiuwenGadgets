@@ -1,13 +1,13 @@
 import {getMessage} from '../i18n';
 
+type NeedCheckElements = [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget];
+
 const checkValid = (
-	agreeTosCheckbox: OO.ui.CheckboxInputWidget,
-	nameInput: OO.ui.TextInputWidget,
-	pwdInput: OO.ui.TextInputWidget,
-	toastifyInstance: ReturnType<typeof toastify>
+	[agreeTosCheckbox, nameInput, pwdInput]: NeedCheckElements,
+	toastifyInstance: ToastifyInstance
 ): {
 	isValid: boolean;
-	toastifyInstance: ReturnType<typeof toastify>;
+	toastifyInstance: ToastifyInstance;
 } => {
 	const agreedTos: boolean = agreeTosCheckbox.isSelected();
 	const filled = ![nameInput.getValue(), pwdInput.getValue()].includes('');
@@ -40,4 +40,4 @@ const checkValid = (
 	};
 };
 
-export {checkValid};
+export {type NeedCheckElements, checkValid};
