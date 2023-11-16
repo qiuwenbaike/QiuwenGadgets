@@ -14,7 +14,9 @@
 import {filterLists} from './modules/core';
 
 const filterListsLoad = () => {
-	window.LogFilterInstalled = true;
+	// Set guard
+	mw.config.set('wgLogFilterInstalled', true);
+
 	// When to enable all this
 	if (
 		mw.config.get('wgAction') === 'history' ||
@@ -30,10 +32,10 @@ const filterListsLoad = () => {
 
 const logFilterLoad = () => {
 	// Guard against double inclusions
-	if (window.LogFilterInstalled) {
+	if (mw.config.get('wgLogFilterInstalled')) {
 		return;
 	}
-	// End guard
+
 	filterListsLoad();
 };
 

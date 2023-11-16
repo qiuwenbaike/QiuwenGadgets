@@ -12,8 +12,11 @@ import {refToolbar2} from './modules/RefToolbar2.0';
 import {refToolbarMesages} from './modules/RefToolbarMessages';
 
 (() => {
+	if (mw.config.get('wgRefToolbarInstalled')) {
+		return;
+	}
 	if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
-		if (window.RefToolbarInstalled || document.querySelectorAll('#wpTextbox1[readonly]').length > 0) {
+		if (document.querySelectorAll('#wpTextbox1[readonly]').length > 0) {
 			return;
 		}
 		if (!mw.user.options.get('usebetatoolbar')) {
@@ -23,6 +26,7 @@ import {refToolbarMesages} from './modules/RefToolbarMessages';
 		refToolbarMesages();
 		// Load main functions
 		refToolbar2();
-		window.RefToolbarInstalled = true;
+		// Set guard
+		mw.config.set('wgRefToolbarInstalled', true);
 	}
 })();
