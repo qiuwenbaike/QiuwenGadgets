@@ -1,6 +1,5 @@
 import {WG_NAMESPACE_NUMBER, WG_PAGE_NAME} from './constant';
 import {api} from './api';
-import {ding} from '../../util';
 import {getMessage} from './i18n';
 import {refreshPage} from './util/refreshPage';
 
@@ -40,7 +39,13 @@ const editPage = async (): Promise<void> => {
 			refreshPage(targetPage);
 		} catch (error: unknown) {
 			console.error('[BanPage] Ajax error:', error);
-			ding(getMessage('Network error'), false, 'error');
+			toastify(
+				{
+					text: getMessage('Network error'),
+					duration: -1,
+				},
+				'error'
+			);
 		}
 	}
 };
