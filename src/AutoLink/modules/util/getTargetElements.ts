@@ -9,16 +9,23 @@ const getTargetElements = (): TargetElements => {
 	const $targetElementArray: JQuery[] = [];
 	let color = ''; // links color (coloured links)
 
+	const $body: JQuery<HTMLBodyElement> = $(document).find('body');
 	if (IS_DIFF_ACTION) {
 		// in diff pages
 		color = 'inherit'; // not coloured links
-		$targetElementArray.push($('.diff'), $('.firstrevisionheader'));
+		$targetElementArray.push($body.find('.diff'), $body.find('.firstrevisionheader'));
 	} else if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_TARGET_SPECIAL_PAGE) {
 		// in comments
-		$targetElementArray.push($('.comment'));
+		$targetElementArray.push($body.find('.comment'));
 	} else {
 		// in code sections
-		$targetElementArray.push($('source'), $('.css'), $('.source-css'), $('.javascript'), $('.source-javascript'));
+		$targetElementArray.push(
+			$body.find('source'),
+			$body.find('.css'),
+			$body.find('.source-css'),
+			$body.find('.javascript'),
+			$body.find('.source-javascript')
+		);
 	}
 
 	return {
