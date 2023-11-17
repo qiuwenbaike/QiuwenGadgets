@@ -14,7 +14,7 @@ export const onlineAdmins = (): void => {
 	const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 		event.preventDefault();
 		let users: string[] = [];
-		const usersExt: object[] = [];
+		const usersExt: string[] = [];
 		const stewards: string[] = [];
 		const admins: string[] = [];
 		const patrollers: string[] = [];
@@ -51,9 +51,8 @@ export const onlineAdmins = (): void => {
 			for (const {user} of logevents['query'].logevents) {
 				usersExt.push(user);
 			}
-			Array.prototype.push.apply(users, usersExt);
-			// 用户名去重与分割
-			users = [...new Set(users)];
+			// 用户名列表合并、去重、分割
+			users = [...new Set([...users, ...usersExt])];
 			const promises: (() => Promise<void>)[] = [];
 			for (let i = 0; i < (users.length + 50) / 50; i++) {
 				promises.push(async () => {
