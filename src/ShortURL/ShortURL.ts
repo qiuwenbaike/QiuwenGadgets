@@ -3,7 +3,7 @@ import {shortURL} from './modules/core';
 (() => {
 	if (
 		mw.config.get('wgNamespaceNumber') === -1 ||
-		document.getElementsByClassName('noarticletext').length > 0 ||
+		document.querySelectorAll('.noarticletext').length ||
 		mw.config.get('wgAction') !== 'view'
 	) {
 		return;

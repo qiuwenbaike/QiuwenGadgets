@@ -3,7 +3,7 @@ import {getMessage} from './i18n';
 
 const loadTippy = (): void => {
 	mw.loader.using('ext.CollapsibleSidebar.js').then((): void => {
-		tippy(document.getElementById('sidebarButton') as HTMLElement, {
+		tippy(document.querySelector('#sidebarButton') as HTMLElement, {
 			arrow: true,
 			content: getMessage('CollapseExpandSidebar'),
 			placement: 'left',
@@ -12,7 +12,7 @@ const loadTippy = (): void => {
 
 	if (WG_SKIN === 'vector') {
 		mw.loader.using('ext.CollapsibleSidebar.vector').then(() => {
-			tippy(document.getElementById('sidebarCollapse') as HTMLElement, {
+			tippy(document.querySelector('#sidebarCollapse') as HTMLElement, {
 				arrow: true,
 				content: getMessage('CollapseExpandSidebar'),
 				placement: 'right',
@@ -21,7 +21,7 @@ const loadTippy = (): void => {
 	}
 
 	mw.loader.using('ext.DarkMode').then((): void => {
-		tippy(document.getElementById('darkmode-button') as HTMLElement, {
+		tippy(document.querySelector('#darkmode-button') as HTMLElement, {
 			arrow: true,
 			content: getMessage('EnableDisableDarkMode'),
 			placement: 'left',

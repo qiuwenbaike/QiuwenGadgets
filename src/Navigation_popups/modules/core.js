@@ -46,16 +46,16 @@ export const popups = () => {
 			return;
 		}
 		container.ranSetupTooltipsAlready = !remove;
-		const anchors = container.getElementsByTagName('a');
+		const anchors = container.querySelectorAll('a');
 		setupTooltipsLoop(anchors, 0, 250, 100, remove, popData);
 	};
 	const defaultPopupsContainer = () => {
 		if (getValueOf('popupOnlyArticleLinks')) {
 			return (
 				document.querySelector('.skin-vector-2022 .vector-body') ||
-				document.getElementById('mw_content') ||
-				document.getElementById('content') ||
-				document.getElementById('article') ||
+				document.querySelector('#mw_content') ||
+				document.querySelector('#content') ||
+				document.querySelector('#article') ||
 				document
 			);
 		}
@@ -105,9 +105,9 @@ export const popups = () => {
 	// eliminate popups from the TOC
 	// This also kills any onclick stuff that used to be going on in the toc
 	const rmTocTooltips = () => {
-		const toc = document.getElementById('toc');
+		const toc = document.querySelector('#toc');
 		if (toc) {
-			const tocLinks = toc.getElementsByTagName('A');
+			const tocLinks = toc.querySelectorAll('a');
 			const tocLen = tocLinks.length;
 			for (let j = 0; j < tocLen; ++j) {
 				removeTooltip(tocLinks[j], true);
@@ -201,7 +201,7 @@ export const popups = () => {
 		if (lTitle.toString(true) !== aTitle.toString(true)) {
 			return false;
 		}
-		let el = document.getElementById(anch);
+		let el = document.querySelector(`#${anch}`);
 		while (el && typeof el.nodeName === 'string') {
 			const nt = el.nodeName.toLowerCase();
 			if (nt === 'li') {
@@ -1558,10 +1558,10 @@ export const popups = () => {
 	};
 	Insta.dump = function (from, to) {
 		if (typeof from === 'string') {
-			from = document.getElementById(from);
+			from = document.querySelector(`#${from}`);
 		}
 		if (typeof to === 'string') {
-			to = document.getElementById(to);
+			to = document.querySelector(`#${to}`);
 		}
 		to.innerHTML = this.convert(from.value);
 	};
@@ -3234,7 +3234,7 @@ export const popups = () => {
 			// console.error('[Popups] popupId is not defined in setPopupHTML, html='+str.substring(0,100));
 			popupId = pg.idNumber;
 		}
-		const popupElement = document.getElementById(elementId + popupId);
+		const popupElement = document.querySelector(`#${elementId}${popupId}`);
 		if (popupElement) {
 			if (!append) {
 				popupElement.innerHTML = '';
@@ -3409,7 +3409,7 @@ export const popups = () => {
 			when = 250;
 		}
 		const popTips = () => {
-			setupTooltips(document.getElementById(id), false, true, popData);
+			setupTooltips(document.querySelector(`#${id}`), false, true, popData);
 		};
 		return () => {
 			setTimeout(popTips, when, popData);
@@ -4683,7 +4683,7 @@ export const popups = () => {
 			log('popupsInsertImage failed :(');
 			return;
 		}
-		const popupImage = document.getElementById(`popupImg${id}`);
+		const popupImage = document.querySelector(`#popupImg${id}`);
 		if (!popupImage) {
 			log('could not find insertion point for image');
 			return;
@@ -4699,7 +4699,7 @@ export const popups = () => {
 		} else {
 			log("fullsize imagethumb, but not sure if it's an image");
 		}
-		const a = document.getElementById(`popupImageLink${id}`);
+		const a = document.querySelector(`#popupImageLink${id}`);
 		if (a === null) {
 			return null;
 		}
@@ -5517,7 +5517,7 @@ export const popups = () => {
 			}
 			let dragHandle;
 			if (handleName) {
-				dragHandle = document.getElementById(handleName);
+				dragHandle = document.querySelector(`#${handleName}`);
 			}
 			if (!dragHandle) {
 				dragHandle = this.mainDiv;

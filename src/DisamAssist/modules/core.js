@@ -37,7 +37,7 @@ export const install = () => {
 			if (new RegExp(cfg.disamRegExp).test(getTitle())) {
 				const startMainLink = $(
 					mw.util.addPortletLink(
-						document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
+						document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
 						'#',
 						txt.startMain,
 						'ca-disamassist-main'
@@ -45,7 +45,7 @@ export const install = () => {
 				).on('click', startMain);
 				const startSameLink = $(
 					mw.util.addPortletLink(
-						document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
+						document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
 						'#',
 						txt.startSame,
 						'ca-disamassist-same'
@@ -55,7 +55,7 @@ export const install = () => {
 			} else {
 				startLink = $(
 					mw.util.addPortletLink(
-						document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
+						document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
 						'#',
 						txt.start,
 						'ca-disamassist-page'

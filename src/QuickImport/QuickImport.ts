@@ -99,7 +99,7 @@ if (mw.config.get('wgNamespaceNumber') === 6 && !$('#mw-noarticletext').length) 
 
 const buttonLabel = $('.redirectText a')[0] ? '重定向目标' : '页面';
 const element: HTMLLIElement | null = mw.util.addPortletLink(
-	document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
+	document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
 	'#',
 	`导入${mw.config.get('wgNamespaceNumber') === 6 ? (label === '' ? '页面' : `文件（${label}）`) : `${buttonLabel}`}`,
 	't-import'

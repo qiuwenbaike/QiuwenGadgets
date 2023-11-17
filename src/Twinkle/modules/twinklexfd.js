@@ -17,8 +17,8 @@
 			mw.config.get('wgNamespaceNumber') < 0 ||
 			!mw.config.get('wgArticleId') ||
 			(mw.config.get('wgNamespaceNumber') === 6 &&
-				(document.getElementById('mw-sharedupload') ||
-					(!document.getElementById('mw-imagepage-section-filehistory') && !Morebits.isPageRedirect())))
+				(document.querySelector('#mw-sharedupload') ||
+					(!document.querySelector('#mw-imagepage-section-filehistory') && !Morebits.isPageRedirect())))
 		) {
 			return;
 		}
@@ -102,7 +102,7 @@
 		const {form} = e.target;
 		const [old_area] = Morebits.quickForm.getElements(e.target.form, 'work_area');
 		let work_area = null;
-		const [oldreasontextbox] = form.getElementsByTagName('textarea');
+		const oldreasontextbox = form.querySelector('textarea');
 		let oldreason = oldreasontextbox ? oldreasontextbox.value : '';
 		const appendReasonBox = (xfd_cat) => {
 			switch (xfd_cat) {
