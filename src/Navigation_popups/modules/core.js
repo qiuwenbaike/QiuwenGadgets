@@ -5710,20 +5710,12 @@ export const popups = () => {
 		}
 		return ret;
 	};
-	const diffString = (o, n, simpleSplit) => {
-		const splitRe = /(\[{2}|]{2}|{{2,3}|}{2,3}|\||=|<|>|[*:]+|\s|\b)/;
+	const diffString = (o, n) => {
 		//  We need to split the strings o and n first, and entify() the parts
 		//  individually, so that the HTML entities are never cut apart. (AxelBoldt)
 		let i;
-		let oSplitted;
-		let nSplitted;
-		if (simpleSplit) {
-			oSplitted = o.split(/\b/);
-			nSplitted = n.split(/\b/);
-		} else {
-			oSplitted = o.split(splitRe);
-			nSplitted = n.split(splitRe);
-		}
+		const oSplitted = o.split(/\b/);
+		const nSplitted = n.split(/\b/);
 		for (i = 0; i < oSplitted.length; ++i) {
 			oSplitted[i] = oSplitted[i].entify();
 		}
@@ -6944,14 +6936,13 @@ export const popups = () => {
 		const lines2 = rmBoringLines(lineDiff.o, lineDiff.n);
 		const oldlines2 = lines2.a;
 		const newlines2 = lines2.b;
-		const simpleSplit = !String.prototype.split.isNative;
 		let html = '<hr>';
 		if (getValueOf('popupDiffDates')) {
 			html += diffDatesTable(navpop);
 			html += '<hr>';
 		}
 		html += shortenDiffString(
-			diffString(oldlines2.join('\n'), newlines2.join('\n'), simpleSplit),
+			diffString(oldlines2.join('\n'), newlines2.join('\n')),
 			getValueOf('popupDiffContextCharacters')
 		).join('<hr>');
 		setPopupTipsAndHTML(
