@@ -8,8 +8,8 @@
 	Twinkle.image = () => {
 		if (
 			mw.config.get('wgNamespaceNumber') === 6 &&
-			!document.querySelector('#mw-sharedupload') &&
-			document.querySelector('#mw-imagepage-section-filehistory')
+			!document.getElementById('mw-sharedupload') &&
+			document.getElementById('mw-imagepage-section-filehistory')
 		) {
 			Twinkle.addPortletLink(
 				Twinkle.image.callback,

@@ -35,7 +35,7 @@ const addPortletLink = ({
 	let element: HTMLLIElement | null = document.querySelector('#t-difflink');
 	if (!element) {
 		element = mw.util.addPortletLink(
-			document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
+			document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
 			'#',
 			text,
 			't-difflink',

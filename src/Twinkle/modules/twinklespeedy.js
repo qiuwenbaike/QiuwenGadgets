@@ -1075,7 +1075,7 @@
 				if (
 					params.deleteTalkPage &&
 					params.normalized !== 'o1' &&
-					!document.querySelector('#ca-talk').classList.contains('new')
+					!document.getElementById('ca-talk').classList.contains('new')
 				) {
 					const talkpage = new Morebits.wiki.page(
 						`${
