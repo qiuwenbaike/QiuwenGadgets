@@ -1,9 +1,15 @@
 import {WG_SCRIPT} from '../constant';
-import {ding} from '../../../util';
 import {getMessage} from '../i18n';
 
 const refreshPage = (targetPage: string): void => {
-	ding(getMessage('Refreshing'), false, 'success');
+	toastify(
+		{
+			text: getMessage('Refreshing'),
+			duration: -1,
+		},
+		'success'
+	);
+
 	location.replace(`${WG_SCRIPT}?title=${mw.util.rawurlencode(targetPage)}`);
 };
 
