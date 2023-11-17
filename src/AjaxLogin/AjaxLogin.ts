@@ -3,7 +3,7 @@ import {ajaxLogin} from './modules/core';
 import {checkA11yConfirmKey} from '../util';
 
 $(function initAutoLogin(): void {
-	const $body: JQuery<HTMLBodyElement> = $('body');
+	const $body: JQuery<HTMLBodyElement> = $(document).find('body');
 
 	const $element: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>(LOGIN_ELEMENT_SELECTOR);
 	if (WG_USER_NAME || !$element.length) {
