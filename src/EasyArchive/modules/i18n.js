@@ -53,6 +53,10 @@ export const easy_archive_lang = () => {
 			en: ')',
 			zh: '）',
 		}),
+		period: localize({
+			en: '.',
+			zh: '。',
+		}),
 		archive_path_colon_split: localize({
 			en: 'Archive location: ',
 			'zh-hans': '存档地址：',
@@ -115,16 +119,6 @@ export const easy_archive_lang = () => {
 			'zh-hant':
 				'這些頁面不受 Easy Archive 支持：File、Template、Module、MediaWiki、Category、Special、JavaScript、CSS、JSON。',
 		}),
-		cancelled: localize({
-			en: 'Cancelled',
-			'zh-hans': '已取消',
-			'zh-hant': '已取消',
-		}),
-		easy_archive_has_been_stopped: localize({
-			en: 'Easy Archive has been stopped.',
-			'zh-hans': '已在此页面停用 Easy Archive。',
-			'zh-hant': '已在此頁面停用 Easy Archive。',
-		}),
 		problem_with_archive_location_main_space: localize({
 			en: 'Currently the archive location of this page, "$1", is under the article namespace, where archives should not be normally directed to. Please check if you have the correct archive location.',
 			'zh-hans':
@@ -146,11 +140,6 @@ export const easy_archive_lang = () => {
 			en: 'delete section',
 			'zh-hans': '删除段落',
 			'zh-hant': '刪除段落',
-		}),
-		turn_off_summary: localize({
-			en: 'Disable Easy Archive on this page.',
-			'zh-hans': '在此页面停用 Easy Archive。',
-			'zh-hant': '在本頁停用 Easy Archive。',
 		}),
 	};
 };

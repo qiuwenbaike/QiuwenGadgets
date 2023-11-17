@@ -391,8 +391,6 @@ import {easy_archive_lang} from './modules/i18n';
 		const notice_tag_dictionary = {
 			933: ['please_enable_elaborate'],
 			953: ['others_talk_elaborate'],
-			3163: ['cancelled', 'warning', 1000],
-			3165: ['easy_archive_has_been_stopped', 'warning', 3000],
 			3959: ['enable_on_generic_page'],
 			9219: [
 				'problem_with_archive_location_main_space',
@@ -518,7 +516,7 @@ import {easy_archive_lang} from './modules/i18n';
 					'archive_path_colon_split'
 				)}<a href="/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}">${sanitize_html(
 					window.easy_archive.settings.find('arc-loc')
-				)}</a>${message('right_par')}</div>`
+				)}</a>${message('right_par')}${message('period')}</div>`
 			);
 		};
 		normal_function_inject_interface();
