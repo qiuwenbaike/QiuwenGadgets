@@ -87,7 +87,7 @@ export const ToolsRedirect = {
 	variants: ['zh-hans', 'zh-hant', 'zh-cn', 'zh-hk', 'zh-mo', 'zh-sg', 'zh-tw'],
 	msg(key, ...args) {
 		key = `toolsredirect-${key}`;
-		return args.length ? mw.message.apply(mw.message, [key, ...args]).parse() : mw.message(key).plain();
+		return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 	},
 	init() {
 		const self = this;

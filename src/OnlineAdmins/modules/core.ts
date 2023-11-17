@@ -51,7 +51,7 @@ export const onlineAdmins = (): void => {
 			for (const {user} of logevents['query'].logevents) {
 				usersExt.push(user);
 			}
-			Array.prototype.push.apply(users, usersExt);
+			Array.prototype.push.call(users, usersExt);
 			// 用户名去重与分割
 			users = [...new Set(users)];
 			const promises: (() => Promise<void>)[] = [];

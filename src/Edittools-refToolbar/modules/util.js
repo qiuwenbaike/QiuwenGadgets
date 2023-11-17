@@ -1,4 +1,6 @@
 export const getMessage = (key, ...args) => {
-	// eslint-disable-next-line mediawiki/msg-doc
-	return args.length ? mw.message.apply(mw.message, [key, ...args]).parse() : mw.message(key).plain();
+	// Messages that can be used here:
+	// * see RefToobarMessages.js
+	// * for more information
+	return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 };

@@ -200,7 +200,7 @@ const catALot = (): void => {
 		}
 		static msg(key: string, ...args: string[]): string {
 			key = `cat-a-lot-${key}`;
-			return args.length ? mw.message.apply(mw.message, [key, ...args]).parse() : mw.message(key).plain();
+			return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 		}
 		findAllLabels(): void {
 			// It's possible to allow any kind of pages as well but what happens if you click on "select all" and don't expect it
