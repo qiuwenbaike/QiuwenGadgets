@@ -280,7 +280,7 @@
 	 */
 	Twinkle.addPortlet = (navigation, id, text, type, nextnodeid) => {
 		// sanity checks, and get required DOM nodes
-		const root = document.querySelector(`#${navigation}`) || document.querySelector(navigation);
+		const root = document.querySelector(/^(?:#|\.)/.test(navigation) ? navigation : `#${navigation}`);
 		if (!root) {
 			return null;
 		}
