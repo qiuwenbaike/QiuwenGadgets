@@ -386,18 +386,9 @@ import {easy_archive_lang} from './modules/i18n';
 		report_doneness_ui(_nominal, 'archive', to, 'ongoing').section_link();
 		archive_section_core(section_number, _nominal);
 	};
-	window.easy_archive.turn_off = (stage) => {
-		if (stage === 0) {
-			window.easy_archive.elaborate_notice(227);
-		} else if (stage === 1) {
-			window.easy_archive.elaborate_notice(27);
-		}
-	};
 	window.easy_archive.elaborate_notice = (notice_tag_acronym) => {
 		// acronym scheme: refer to qwerty keyboard layout. (p=9)
 		const notice_tag_dictionary = {
-			27: ['stop_manually', 'error'],
-			227: ['warning_stop_using', 'warning', 'long', false, true],
 			933: ['please_enable_elaborate'],
 			953: ['others_talk_elaborate'],
 			3163: ['cancelled', 'warning', 1000],
@@ -523,15 +514,11 @@ import {easy_archive_lang} from './modules/i18n';
 			window.easy_archive.section_count = i - j + 1;
 			footer_info_ele.insertAdjacentHTML(
 				position_of_insertion,
-				`<div id="easy_archive_supports_notice">${message('supports')}${message(
-					'left_par_split'
-				)}<a href="javascript:window.easy_archive.turn_off(0)">${message('stop_using')}</a>${message(
-					'right_par'
-				)}</div>` +
-					`<div id="easy_archive_stop_notice">${message(
-						'archive_path_colon_split'
-					)}<a href="/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}"` +
-					`>${sanitize_html(window.easy_archive.settings.find('arc-loc'))}`
+				`<div id="easy_archive_supports_notice">${message('supports')}${message('left_par_split')}${message(
+					'archive_path_colon_split'
+				)}<a href="/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}">${sanitize_html(
+					window.easy_archive.settings.find('arc-loc')
+				)}</a>${message('right_par')}</div>`
 			);
 		};
 		normal_function_inject_interface();

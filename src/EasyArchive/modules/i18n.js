@@ -45,11 +45,6 @@ export const easy_archive_lang = () => {
 			'zh-hant':
 				'您的賬號已經支持 Easy Archive，但是，為了開始使用該功能，您還需要在自己的用戶討論頁面上添加模板 {{Easy Archive|to=存檔位置}}。',
 		}),
-		stop_using: localize({
-			en: 'Turn off',
-			'zh-hans': '停用',
-			'zh-hant': '停用',
-		}),
 		left_par_split: localize({
 			en: ' (',
 			zh: '（',
@@ -62,20 +57,6 @@ export const easy_archive_lang = () => {
 			en: 'Archive location: ',
 			'zh-hans': '存档地址：',
 			'zh-hant': '存檔至：',
-		}),
-		warning_stop_using: localize({
-			en: 'Once Easy Archive is turned off, and you want it back on, you\'ll have to turn it on manually.Do you want to turn it off? <div style="height:.5em"><button onclick="window.easy_archive.turn_off(1)">Yes</button><button onclick="window.easy_archive.elaborate_notice(3163);">No</button>',
-			'zh-hans':
-				'停用 Easy Archive 后，如要再次启用，只能手工操作。要现在停用 Easy Archive 吗？<div style="height:.5em"><button onclick=onclick="window.easy_archive.turn_off(1)">是</button><button onclick="window.easy_archive.elaborate_notice(3163);">否</button>',
-			'zh-hant':
-				'停用 Easy Archive 後，如要再次啟用，則必須手動重啟。要現在停用 Easy Archive 嗎？<div style="height:.5em"><button onclick=onclick="window.easy_archive.turn_off(1)">是</button><button onclick="window.easy_archive.elaborate_notice(3163);">否</button>',
-		}),
-		stop_manually: localize({
-			en: 'Cannot turn off Easy Archive automatically. To manually discontinue use, delete the template {{Easy Archive|to=[Archive location]}} from this page.',
-			'zh-hans':
-				'经过尝试，无法自动停用 Easy Archive。请手动停用。请从此页面删除如下模版：{{Easy Archive|to=存档位置}}。',
-			'zh-hant':
-				'經過嘗試，無法自動停用 Easy Archive。請手動停用。請從本頁刪除以下模板︰{{Easy Archive|to=存檔位置}}。',
 		}),
 		loading_section_i: localize({
 			en: 'Loading section $1',
