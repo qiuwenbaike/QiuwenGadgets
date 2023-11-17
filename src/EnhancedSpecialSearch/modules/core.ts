@@ -52,8 +52,8 @@ export const enhancedSpecialSearch = (): void => {
 	};
 	const enhancedSpecialSearchMain = (_config: OptionData[]): void => {
 		const searchElement: HTMLElement | null =
-			document.querySelector('#search') ?? document.querySelector('#powersearch');
-		const targetElement: HTMLElement | null = document.querySelector('#mw-search-top-table');
+			document.getElementById('search') ?? document.getElementById('powersearch');
+		const targetElement: HTMLElement | null = document.getElementById('mw-search-top-table');
 		if (!searchElement || !targetElement) {
 			return;
 		}

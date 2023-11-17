@@ -5,7 +5,7 @@ import {initMwApi} from '../../util';
 export const onlineAdmins = (): void => {
 	// Create portlet link
 	const portletLinkOnline: HTMLLIElement | null = mw.util.addPortletLink(
-		document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
+		document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
 		'#',
 		getMessage('Online'),
 		't-onlineadmin'

@@ -1108,10 +1108,10 @@
 	Twinkle.config.init = () => {
 		// create the config page at Twinkle.getPref('configPage')
 		if (mw.config.get('wgPageName') === Twinkle.getPref('configPage') && mw.config.get('wgAction') === 'view') {
-			if (!document.querySelector('#twinkle-config')) {
+			if (!document.getElementById('twinkle-config')) {
 				return; // maybe the page is misconfigured, or something - but any attempt to modify it will be pointless
 			}
-			const contentdiv = document.querySelector('#twinkle-config-content');
+			const contentdiv = document.getElementById('twinkle-config-content');
 			contentdiv.textContent = ''; // clear children
 			// start a table of contents
 			const toctable = document.createElement('div');
@@ -1692,23 +1692,23 @@
 	Twinkle.config.resetPref = (pref) => {
 		switch (pref.type) {
 			case 'boolean':
-				document.querySelector(`#${pref.name}`).checked = Twinkle.defaultConfig[pref.name];
+				document.getElementById(pref.name).checked = Twinkle.defaultConfig[pref.name];
 				break;
 			case 'string':
 			case 'integer':
 			case 'enum':
-				document.gquerySelector(`#${pref.name}`).value = Twinkle.defaultConfig[pref.name];
+				document.getElementById(pref.name).value = Twinkle.defaultConfig[pref.name];
 				break;
 			case 'set':
 				for (const [itemkey] of Object.entries(pref.setValues)) {
-					if (document.querySelector(`#${pref.name}_${itemkey}`)) {
-						document.querySelector(`#${pref.name}_${itemkey}`).checked =
+					if (document.getElementById(`${pref.name}_${itemkey}`)) {
+						document.getElementById(`${pref.name}_${itemkey}`).checked =
 							Twinkle.defaultConfig[pref.name].includes(itemkey);
 					}
 				}
 				break;
 			case 'customList':
-				$(document.querySelector(`#${pref.name}`)).data('value', Twinkle.defaultConfig[pref.name]);
+				$(document.getElementById(pref.name)).data('value', Twinkle.defaultConfig[pref.name]);
 				break;
 			default:
 				mw.notify(`twinkleconfig: unknown data type for preference ${pref.name}`, {
@@ -1736,7 +1736,7 @@
 	};
 
 	Twinkle.config.save = (e) => {
-		Morebits.status.init(document.querySelector('#twinkle-config-content'));
+		Morebits.status.init(document.getElementById('twinkle-config-content'));
 		const userjs = `${mw.config.get('wgFormattedNamespaces')[mw.config.get('wgNamespaceIds').user]}:${mw.config.get(
 			'wgUserName'
 		)}/twinkleoptions.js`;

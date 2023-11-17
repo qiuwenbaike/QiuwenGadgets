@@ -16,13 +16,13 @@ const fullProtectURL = mw.util.getUrl(mw.config.get('wgPageName'), {
 
 export const HRTProtectLink = (): void => {
 	mw.util.addPortletLink(
-		document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
+		document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
 		semiProtectURL,
 		getMessage('Semi-protect HRT'),
 		't-hrt-semiprotect'
 	);
 	mw.util.addPortletLink(
-		document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
+		document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
 		fullProtectURL,
 		getMessage('Full-protect HRT'),
 		't-hrt-fullprotect'

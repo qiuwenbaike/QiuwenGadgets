@@ -20,8 +20,8 @@
 			// file tagging
 		} else if (
 			mw.config.get('wgNamespaceNumber') === 6 &&
-			!document.querySelector('#mw-sharedupload') &&
-			document.querySelector('#mw-imagepage-section-filehistory')
+			!document.getElementById('mw-sharedupload') &&
+			document.getElementById('mw-imagepage-section-filehistory')
 		) {
 			Twinkle.tag.mode = wgULS('文件', '檔案');
 			Twinkle.tag.modeEn = 'file';
@@ -267,7 +267,7 @@
 				});
 				break;
 		}
-		if (document.querySelectorAll('.patrollink').length) {
+		if (document.getElementsByClassName('patrollink').length) {
 			form.append({
 				type: 'checkbox',
 				list: [
@@ -736,7 +736,7 @@
 			generateLinks(checkbox);
 		}
 		// tally tags added/removed, update statusNode text
-		const statusNode = document.querySelector('#tw-tag-status');
+		const statusNode = document.getElementById('tw-tag-status');
 		$('[name=tags], [name=existingTags]').on('click', function () {
 			if (this.name === 'tags') {
 				Twinkle.tag.status.numAdded += this.checked ? 1 : -1;

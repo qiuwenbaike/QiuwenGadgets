@@ -119,7 +119,7 @@
 	Morebits.isPageRedirect = () => {
 		return !!(
 			mw.config.get('wgIsRedirect') ||
-			document.querySelector('#softredirect') ||
+			document.getElementById('softredirect') ||
 			$('.box-RfD').length ||
 			$('.box-Redirect_category_shell').length
 		);
@@ -1020,13 +1020,13 @@
 			return element;
 			// for fieldsets, the label is the child <legend> element
 		} else if (element instanceof HTMLFieldSetElement) {
-			return element.querySelector('legend');
+			return element.getElementsByTagName('legend')[0];
 			// for textareas, the label is the sibling <h5> element
 		} else if (element instanceof HTMLTextAreaElement) {
-			return element.parentNode.querySelector('h5');
+			return element.parentNode.getElementsByTagName('h5')[0];
 		}
 		// for others, the label is the sibling <label> element
-		return element.parentNode.querySelector('label');
+		return element.parentNode.getElementsByTagName('label')[0];
 	};
 	/**
 	 * Gets the label text of the element.
