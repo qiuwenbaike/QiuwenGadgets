@@ -2245,14 +2245,14 @@ export const popups = () => {
 		return wikiText.split('[[').length - 1;
 	};
 	// if N = # matches, n = # brackets, then
-	// String.parenSplit(regex) intersperses the N+1 split elements
+	// String.split(regex) intersperses the N+1 split elements
 	// with Nn other elements. So total length is
 	// L= N+1 + Nn = N(n+1)+1. So N=(L-1)/(n+1).
 	const countImages = (wikiText) => {
-		return (wikiText.parenSplit(pg.re.image).length - 1) / (pg.re.imageBracketCount + 1);
+		return (wikiText.split(pg.re.image).length - 1) / (pg.re.imageBracketCount + 1);
 	};
 	const countCategories = (wikiText) => {
-		return (wikiText.parenSplit(pg.re.category).length - 1) / (pg.re.categoryBracketCount + 1);
+		return (wikiText.split(pg.re.category).length - 1) / (pg.re.categoryBracketCount + 1);
 	};
 	const popupFilterStubDetect = (data, _download, article) => {
 		const counts = stubCount(data, article);
@@ -2315,8 +2315,8 @@ export const popups = () => {
 		 * @param {RegExp} x
 		 * @type Array
 		 */
-		this.parenSplit = function (x) {
-			return this.toString().parenSplit(x);
+		this.split = function (x) {
+			return this.toString().split(x);
 		};
 		/**
 		 * Wrapper for this.toString().substring()
@@ -2401,7 +2401,7 @@ export const popups = () => {
 			if (!this.anchor) {
 				return '';
 			}
-			const split = this.anchor.parenSplit(/((?:\.[\dA-F]{2})+)/);
+			const split = this.anchor.split(/((?:\.[\dA-F]{2})+)/);
 			const len = split.length;
 			let value;
 			for (let j = 1; j < len; j += 2) {
@@ -2417,7 +2417,7 @@ export const popups = () => {
 			return split.join('');
 		}
 		urlAnchor() {
-			const split = this.anchor.parenSplit('/((?:[%][0-9A-F]{2})+)/');
+			const split = this.anchor.split('/((?:[%][0-9A-F]{2})+)/');
 			const len = split.length;
 			for (let j = 1; j < len; j += 2) {
 				split[j] = split[j].split('%').join('.');
@@ -2516,7 +2516,7 @@ export const popups = () => {
 		}
 		// Decode valid %-encodings, otherwise escape them
 		static decodeEscapes(txt) {
-			const split = txt.parenSplit(/((?:%[\dA-Fa-f]{2})+)/);
+			const split = txt.split(/((?:%[\dA-Fa-f]{2})+)/);
 			const len = split.length;
 			// No %-encoded items found, so replace the literal %
 			if (len === 1) {
@@ -2798,7 +2798,7 @@ export const popups = () => {
 		let sectStub = 0;
 		let realStub = 0;
 		if (pg.re.stub.test(data)) {
-			const s = data.parenSplit(pg.re.stub);
+			const s = data.split(pg.re.stub);
 			for (let i = 1; i < s.length; i += 2) {
 				if (s[i]) {
 					++sectStub;
@@ -2938,53 +2938,6 @@ export const popups = () => {
 		return pg.cache.pages.push(page);
 	};
 	// ENDFILE: getpage.js
-	// STARTFILE: parensplit.js
-	// parenSplit
-	// String.prototype.parenSplit should do what ECMAscript says String.prototype.split does,
-	// interspersing paren matches (regex capturing groups) between the split elements.
-	// i.e. 'abc'.split(/(b)/)) should return ['a','b','c'], not ['a','c']
-	if (String('abc'.split(/(b)/)) === 'a,b,c') {
-		String.prototype.parenSplit = function (re) {
-			return this.split(re);
-		};
-		String.prototype.parenSplit.isNative = true;
-	} else {
-		// broken String.split, e.g. konq, IE < 10
-		String.prototype.parenSplit = function (re) {
-			re = nonGlobalRegex(re);
-			let self = this;
-			let m = re.exec(self);
-			let ret = [];
-			while (m && self) {
-				// without the following loop, we have
-				// 'ab'.parenSplit(/a|(b)/) !== 'ab'.split(/a|(b)/)
-				for (let i = 0; i < m.length; ++i) {
-					if (m[i] === undefined) {
-						m[i] = '';
-					}
-				}
-				ret.push(self.slice(0, Math.max(0, m.index)));
-				ret = [...ret, ...m.slice(1)];
-				self = self.slice(Math.max(0, m.index + m[0].length));
-				m = re.exec(self);
-			}
-			ret.push(self);
-			return ret;
-		};
-	}
-	const nonGlobalRegex = (re) => {
-		const s = re.toString();
-		let flags = '';
-		let j;
-		for (j = s.length; s.charAt(j) !== '/'; --j) {
-			if (s.charAt(j) !== 'g') {
-				flags += s.charAt(j);
-			}
-		}
-		const t = s.substring(1, j);
-		return new RegExp(t, flags);
-	};
-	// ENDFILE: parensplit.js
 	// STARTFILE: tools.js
 	// IE madness with encoding
 	// ========================
@@ -3088,7 +3041,7 @@ export const popups = () => {
 			return str;
 		}
 		const ret = [];
-		const s = str.parenSplit(/(%s|\$\d+)/);
+		const s = str.split(/(%s|\$\d+)/);
 		let i = 0;
 		do {
 			ret.push(s.shift());
@@ -3201,7 +3154,7 @@ export const popups = () => {
 		// testcase: {@link https://en.wikipedia.org/w/index.php?title=Radial&oldid=97365633}
 		const reg = /\[\[([^|]*?) *(\||]])/gi;
 		let ret = [];
-		const splitted = wikitext.parenSplit(reg);
+		const splitted = wikitext.split(reg);
 		// ^[a-z]+ should match interwiki links, hopefully (case-insensitive)
 		// and ^[a-z]* should match those and [[:Category...]] style links too
 		const omitRegex = /^[a-z]*:|^[Ss]pecial:|^[Ii]mage|^[Cc]ategory/;
@@ -3421,7 +3374,7 @@ export const popups = () => {
 			if (typeof element === typeof '') {
 				ret += emptySpanHTML(element, navpop.idNumber, 'div');
 			} else if (typeof element === typeof [] && element.length > 0) {
-				ret = ret.parenSplit(/(<\/[^>]*?>$)/).join(makeEmptySpans(element, navpop));
+				ret = ret.split(/(<\/[^>]*?>$)/).join(makeEmptySpans(element, navpop));
 			} else if (typeof element === typeof {} && element.nodeType) {
 				ret += emptySpanHTML(element.name, navpop.idNumber, element.nodeType);
 			}
@@ -3764,7 +3717,7 @@ export const popups = () => {
 			// let's also delete entire lines starting with <. it's worth a try.
 			this.data = this.data.replace(/(^|\n) *<.*/g, '\n');
 			// and those pesky html tags, but not nowiki or blockquote tags
-			const splitted = this.data.parenSplit(/(<[\W\w]*?(?:>|$|(?=<)))/);
+			const splitted = this.data.split(/(<[\W\w]*?(?:>|$|(?=<)))/);
 			const len = splitted.length;
 			for (let i = 1; i < len; i += 2) {
 				switch (splitted[i]) {
@@ -3825,7 +3778,7 @@ export const popups = () => {
 			}
 			// Split sentences. Superfluous sentences are RIGHT OUT.
 			// note: exactly 1 set of parens here needed to make the slice work
-			d = d.parenSplit(/([!.?]+["']*\s)/g);
+			d = d.split(/([!.?]+["']*\s)/g);
 			// leading space is bad, mmkay?
 			d[0] = d[0].replace(/^\s*/, '');
 			const notSentenceEnds = /([^.][a-z]\. *[a-z]|etc|sic|dr|mr|mrs|ms|st|no|op|cit|\[[^\]]*|\s[a-z])$/i;
@@ -4808,7 +4761,7 @@ export const popups = () => {
 		return `${mw.config.get('wgFormattedNamespaces')[pg.nsImageId]}:${upcaseFirst(matched)}`;
 	};
 	const removeMatchesUnless = (str, re1, parencount, re2) => {
-		const split = str.parenSplit(re1);
+		const split = str.split(re1);
 		const c = parencount + 1;
 		for (let i = 0; i < split.length; ++i) {
 			if (i % c === 0 || re2.test(split[i])) {
@@ -5734,7 +5687,7 @@ export const popups = () => {
 	};
 	const shortenDiffString = function shortenDiffString(str, context) {
 		const re = /(<del[\S\s]*?<\/del>|<ins[\S\s]*?<\/ins>)/;
-		const splitted = str.parenSplit(re);
+		const splitted = str.split(re);
 		let ret = [''];
 		for (let i = 0; i < splitted.length; i += 2) {
 			if (splitted[i].length < 2 * context) {
@@ -5768,8 +5721,8 @@ export const popups = () => {
 			oSplitted = o.split(/\b/);
 			nSplitted = n.split(/\b/);
 		} else {
-			oSplitted = o.parenSplit(splitRe);
-			nSplitted = n.parenSplit(splitRe);
+			oSplitted = o.split(splitRe);
+			nSplitted = n.split(splitRe);
 		}
 		for (i = 0; i < oSplitted.length; ++i) {
 			oSplitted[i] = oSplitted[i].entify();
@@ -6175,7 +6128,7 @@ export const popups = () => {
 		}
 		// (1	 if	\\(	(2	2)	\\)	  {(3	3)}  (4   else	  {(5	 5)}  4)1)
 		const conditionalSplitRegex = /(;?\s*if\s*\(\s*(\w*)\s*\)\s*{([^{}]*)}(\s*else\s*{([^{}]*?)}|))/i;
-		const splitted = s.parenSplit(conditionalSplitRegex);
+		const splitted = s.split(conditionalSplitRegex);
 		// $1: whole conditional
 		// $2: test condition
 		// $3: true expansion
@@ -6241,7 +6194,7 @@ export const popups = () => {
 	};
 	const navlinkStringToArray = (s, article, params) => {
 		s = expandConditionalNavlinkString(s, article, params);
-		const splitted = s.parenSplit(/<<(.*?)>>/);
+		const splitted = s.split(/<<(.*?)>>/);
 		const ret = [];
 		for (const [i, element] of splitted.entries()) {
 			if (i % 2) {
@@ -6991,7 +6944,7 @@ export const popups = () => {
 		const lines2 = rmBoringLines(lineDiff.o, lineDiff.n);
 		const oldlines2 = lines2.a;
 		const newlines2 = lines2.b;
-		const simpleSplit = !String.prototype.parenSplit.isNative;
+		const simpleSplit = !String.prototype.split.isNative;
 		let html = '<hr>';
 		if (getValueOf('popupDiffDates')) {
 			html += diffDatesTable(navpop);
@@ -7426,7 +7379,7 @@ export const popups = () => {
 		return ret;
 	};
 	const appendParamsToLink = (linkstr, params) => {
-		const sp = linkstr.parenSplit(/(href="[^"]+?)"/i);
+		const sp = linkstr.split(/(href="[^"]+?)"/i);
 		if (sp.length < 2) {
 			return null;
 		}
