@@ -17,8 +17,8 @@
 			mw.config.get('wgNamespaceNumber') < 0 ||
 			!mw.config.get('wgArticleId') ||
 			(mw.config.get('wgNamespaceNumber') === 6 &&
-				(document.getElementById('mw-sharedupload') ||
-					(!document.getElementById('mw-imagepage-section-filehistory') && !Morebits.isPageRedirect())))
+				(document.querySelector('#mw-sharedupload') ||
+					(!document.querySelector('#mw-imagepage-section-filehistory') && !Morebits.isPageRedirect())))
 		) {
 			return;
 		}

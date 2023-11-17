@@ -31,7 +31,7 @@ const assignPermission = (summary, revId, expiry) => {
 };
 
 const markAsDone = (closingRemarks) => {
-	const sectionNode = document.getElementById(`User:${userName.replace(/"/g, '.22').replace(/ /g, '_')}`);
+	const sectionNode = document.querySelector(`#User:${userName.replace(/"/g, '.22').replace(/ /g, '_')}`);
 	const [, sectionNumber] = $(sectionNode)
 		.siblings('.mw-editsection')
 		.find('a:not(.mw-editsection-visualeditor)')

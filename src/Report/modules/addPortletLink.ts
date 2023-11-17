@@ -8,7 +8,7 @@ const addPortletLink = (): void => {
 
 	const linkTilte: string = getMessage('Report');
 	mw.util.addPortletLink(
-		document.getElementById('p-pagemisc') ? 'p-pagemisc' : 'p-tb',
+		document.querySelector('#p-pagemisc') ? 'p-pagemisc' : 'p-tb',
 		URL,
 		linkTilte,
 		't-report',

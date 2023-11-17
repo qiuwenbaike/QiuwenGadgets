@@ -181,9 +181,7 @@
 				printStyle += '*{color:#000 !important}';
 			}
 			if (printStyle) {
-				if (document.getElementById('printStyle')) {
-					document.getElementById('printStyle').remove();
-				}
+				document.querySelector('#printStyle')?.remove();
 				const styleTag = document.createElement('style');
 				styleTag.id = 'printStyle';
 				styleTag.media = 'print';

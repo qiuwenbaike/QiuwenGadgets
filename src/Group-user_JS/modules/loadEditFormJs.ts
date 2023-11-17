@@ -2,7 +2,7 @@ export const loadEditFormJS = (): void => {
 	/* 加载编辑界面脚本 */
 	if (
 		['edit', 'submit'].includes(mw.config.get('wgAction')) ||
-		(mw.config.get('wgAction') === 'view' && document.getElementById('ca-addsection'))
+		(mw.config.get('wgAction') === 'view' && document.querySelector('#ca-addsection'))
 	) {
 		mw.loader.using(['ext.gadget.EditForm', 'ext.gadget.EditForm_JS']);
 	} else {

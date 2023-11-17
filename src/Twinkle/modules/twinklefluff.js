@@ -255,7 +255,7 @@
 			// Don't load if there's a single revision or weird diff (cur on latest)
 			if (mw.config.get('wgDiffOldId') && mw.config.get('wgDiffOldId') !== mw.config.get('wgDiffNewId')) {
 				// Add a [restore this revision] link to the older revision
-				const oldTitle = document.getElementById('mw-diff-otitle1').parentNode;
+				const oldTitle = document.querySelector('#mw-diff-otitle1').parentNode;
 				const revertToRevision = Twinkle.fluff.linkBuilder.restoreThisRevisionLink('wgDiffOldId');
 				oldTitle.insertBefore(revertToRevision, oldTitle.firstChild);
 				if (Twinkle.getPref('customRevertSummary').length > 0) {
@@ -283,9 +283,9 @@
 			warnFromTalk('ntitle'); // Add quick-warn link to user talk link
 			// Add either restore or rollback links to the newer revision
 			// Don't show if there's a single revision or weird diff (prev on first)
-			if (document.getElementById('differences-nextlink')) {
+			if (document.querySelector('#differences-nextlink')) {
 				// Not latest revision, add [restore this revision] link to newer revision
-				const newTitle = document.getElementById('mw-diff-ntitle1').parentNode;
+				const newTitle = document.querySelector('#mw-diff-ntitle1').parentNode;
 				newTitle.insertBefore(
 					Twinkle.fluff.linkBuilder.restoreThisRevisionLink('wgDiffNewId'),
 					newTitle.firstChild
@@ -294,7 +294,7 @@
 				Twinkle.getPref('showRollbackLinks').includes('diff') &&
 				mw.config.get('wgDiffOldId') &&
 				(mw.config.get('wgDiffOldId') !== mw.config.get('wgDiffNewId') ||
-					document.getElementById('differences-prevlink'))
+					document.querySelector('#differences-prevlink'))
 			) {
 				// Normally .mw-userlink is a link, but if the
 				// username is hidden, it will be a span with
@@ -310,13 +310,13 @@
 				// checking a.mw-userlink instead, but revert() will
 				// need reworking around userHidden
 				const vandal = $('#mw-diff-ntitle2').find('.mw-userlink')[0].text;
-				const ntitle = document.getElementById('mw-diff-ntitle1').parentNode;
+				const ntitle = document.querySelector('#mw-diff-ntitle1').parentNode;
 				ntitle.insertBefore(Twinkle.fluff.linkBuilder.rollbackLinks(vandal), ntitle.firstChild);
 			}
 		},
 		oldid: () => {
 			// Add a [restore this revision] link on old revisions
-			const title = document.getElementById('mw-revision-info').parentNode;
+			const title = document.querySelector('#mw-revision-info').parentNode;
 			title.insertBefore(Twinkle.fluff.linkBuilder.restoreThisRevisionLink('wgRevisionId'), title.firstChild);
 		},
 	};
@@ -349,7 +349,7 @@
 
 			Morebits.status.init(notifyStatus);
 		} else {
-			Morebits.status.init(document.getElementById('mw-content-text'));
+			Morebits.status.init(document.querySelector('#mw-content-text'));
 			$('#catlinks').remove();
 		}
 		const params = {
@@ -384,7 +384,7 @@
 		if (document.getElementsByName('revertsummary')[0] !== undefined) {
 			summary = document.getElementsByName('revertsummary')[0].value;
 		}
-		Morebits.status.init(document.getElementById('mw-content-text'));
+		Morebits.status.init(document.querySelector('#mw-content-text'));
 		const query = {
 			action: 'query',
 			prop: ['info', 'revisions'],

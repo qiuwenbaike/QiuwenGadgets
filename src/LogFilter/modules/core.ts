@@ -24,7 +24,7 @@ export const filterLists = {
 		mw.messages.set(filterLists.i18n);
 		// Create portlet link
 		const portletlink: HTMLLIElement | null = mw.util.addPortletLink(
-			document.getElementById('p-cactions') ? 'p-cactions' : 'p-tb',
+			document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
 			'#',
 			mw.msg('filter-portlet-text'),
 			'ca-rxfilter',
