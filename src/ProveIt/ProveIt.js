@@ -1,6 +1,6 @@
 /**
  * ProveIt is a powerful reference manager for Wikipedia
- * Documentation at <commons.wikimedia.org/wiki/Help:Gadget-ProveIt>
+ * Documentation at <https://commons.wikimedia.org/wiki/Help:Gadget-ProveIt>
  *
  * This script sets the configuration options specific to this wiki
  * and loads the gadget code from Wikimedia Commons

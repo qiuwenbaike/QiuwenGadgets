@@ -1,4 +1,3 @@
-/* eslint-disable mediawiki/msg-doc */
 import {
 	API_ENTRY_POINT,
 	API_TAG,
@@ -200,6 +199,9 @@ const catALot = (): void => {
 		}
 		static msg(key: string, ...args: string[]): string {
 			key = `cat-a-lot-${key}`;
+			// Messages that can be used here:
+			// * see messages.ts
+			// * for more information
 			return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 		}
 		findAllLabels(): void {
@@ -772,6 +774,9 @@ const catALot = (): void => {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
 				v.value = this.settings[v.name];
+				// Messages that can be used here:
+				// * see messages.ts
+				// * for more information
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
 				v.label = CAL.msg(v.label_i18n);
@@ -783,6 +788,9 @@ const catALot = (): void => {
 						if (!Object.hasOwn(v.select_i18n, key)) {
 							continue;
 						}
+						// Messages that can be used here:
+						// * see messages.ts
+						// * for more information
 						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 						// @ts-ignore
 						v.select[CAL.msg(key)] = v.select_i18n[key];

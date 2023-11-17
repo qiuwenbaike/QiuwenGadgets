@@ -24,6 +24,9 @@ export const ProveIt = {
 	 * @return {string} Message value
 	 */
 	getMessage: (key) => {
+		// Messages that can be used here:
+		// * see messages.js and <https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/>
+		// * for more information
 		return mw.message(`proveit-${key}`);
 	},
 	/**

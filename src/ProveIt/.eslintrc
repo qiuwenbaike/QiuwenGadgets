@@ -1,7 +1,4 @@
 {
-	"rules": {
-		"mediawiki/msg-doc": "off"
-	},
 	"globals": {
 		"ProveIt": "writable",
 		"ve": "readonly"

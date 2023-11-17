@@ -4601,6 +4601,9 @@ export const popups = () => {
 			if (user.groups) {
 				for (const groupName of user.groups) {
 					if (!['*', 'user', 'autoconfirmed'].includes(groupName)) {
+						// Messages that can be used here:
+						// * see [[Special:PrefixIndex/MediaWiki:Group-]]
+						// * for more information
 						ret.push(pg.escapeQuotesHTML(mw.message(`group-${groupName}-member`, user.gender).text()));
 					}
 				}
@@ -4608,6 +4611,9 @@ export const popups = () => {
 			if (globaluserinfo && globaluserinfo.groups) {
 				for (const groupName of globaluserinfo.groups) {
 					ret.push(
+						// Messages that can be used here:
+						// * see [[Special:PrefixIndex/MediaWiki:Group-]]
+						// * for more information
 						`<i>${pg.escapeQuotesHTML(mw.message(`group-${groupName}-member`, user.gender).text())}</i>`
 					);
 				}
@@ -7276,6 +7282,9 @@ export const popups = () => {
 			messageName = action === 'watch' ? 'addedwatchtext' : 'removedwatchtext';
 		}
 		$.when(getMwApi().postWithToken('watch', reqData), getMwApi().loadMessagesIfMissing([messageName])).done(() => {
+			// Messages that can be used here:
+			// * see string.js
+			// * for more information
 			mw.notify(mw.message(messageName, title).parseDom(), {tag: 'popups'});
 		});
 	};
