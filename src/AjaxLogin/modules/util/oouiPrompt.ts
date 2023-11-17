@@ -17,7 +17,7 @@ const oouiPrompt = async (windowManager: OO.ui.WindowManager, retypePassword: bo
 
 	windowManager.addWindows([codeDialog]);
 
-	const instance = windowManager.openWindow(codeDialog, {
+	const instance: OO.ui.WindowInstance = windowManager.openWindow(codeDialog, {
 		message: codeLayout.$element,
 	});
 
