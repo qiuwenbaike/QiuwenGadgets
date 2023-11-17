@@ -2,7 +2,6 @@
 	"rules": {
 		"camelcase": "off",
 		"jsdoc/valid-types": "off",
-		"mediawiki/class-doc": "off",
-		"mediawiki/msg-doc": "off"
+		"mediawiki/class-doc": "off"
 	}
 }

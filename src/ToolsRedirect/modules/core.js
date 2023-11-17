@@ -86,8 +86,11 @@ export const ToolsRedirect = {
 	tagselem: null,
 	variants: ['zh-hans', 'zh-hant', 'zh-cn', 'zh-hk', 'zh-mo', 'zh-sg', 'zh-tw'],
 	msg(key, ...args) {
+		// Messages that can be used here:
+		// * see messages.js
+		// * for more information
 		key = `toolsredirect-${key}`;
-		return args.length ? mw.message.apply(mw.message, [key, ...args]).parse() : mw.message(key).plain();
+		return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 	},
 	init() {
 		const self = this;
@@ -281,9 +284,15 @@ export const ToolsRedirect = {
 			callback
 				.apply(this)
 				.done(() => {
+					// Messages that can be used here:
+					// * see messages.js
+					// * for more information
 					$text.text(ToolsRedirect.msg(`tab${tabname}desc`));
 				})
 				.fail(() => {
+					// Messages that can be used here:
+					// * see messages.js
+					// * for more information
 					$text.text(ToolsRedirect.msg(`tab${tabname}notfound`));
 				})
 				.always(() => {
