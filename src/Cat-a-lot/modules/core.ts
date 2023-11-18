@@ -206,7 +206,9 @@ const catALot = (): void => {
 				.addClass('cat_a_lot__label')
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				.onCatALotShiftClick(this.updateSelectionCounter);
+				.onCatALotShiftClick((): void => {
+					this.updateSelectionCounter();
+				});
 		}
 		toggleAll(select: boolean): void {
 			// The following classes are used here:
