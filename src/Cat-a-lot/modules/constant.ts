@@ -46,7 +46,6 @@ const DEFAULT_SETTING = [
 const ENABLE_NAMESPACE = 14;
 const VERSION = '5.0';
 
-const WG_ACTION: MediaWikiConfigMapWgAction = mw.config.get('wgAction');
 const WG_CANONICAL_SPECIAL_PAGE_NAME: string = mw.config.get('wgCanonicalSpecialPageName').toString();
 const WG_FORMATTED_NAMESPACES: Record<number, string> = mw.config.get('wgFormattedNamespaces');
 const WG_NAMESPACE_IDS: Record<string, number> = mw.config.get('wgNamespaceIds');
@@ -65,7 +64,6 @@ export {
 	DEFAULT_SETTING,
 	ENABLE_NAMESPACE,
 	VERSION,
-	WG_ACTION,
 	WG_CANONICAL_SPECIAL_PAGE_NAME,
 	WG_FORMATTED_NAMESPACES,
 	WG_NAMESPACE_IDS,

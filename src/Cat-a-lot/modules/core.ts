@@ -6,7 +6,6 @@ import {
 	DEFAULT_SETTING,
 	ENABLE_NAMESPACE,
 	VERSION,
-	WG_ACTION,
 	WG_CANONICAL_SPECIAL_PAGE_NAME,
 	WG_FORMATTED_NAMESPACES,
 	WG_NAMESPACE_IDS,
@@ -22,10 +21,6 @@ import {DEFAULT_MESSAGES, type MessageKey, catALotMessages} from './messages';
  */
 const catALot = (): void => {
 	/*! Cat-a-lot | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
-	if (WG_ACTION !== 'view') {
-		return;
-	}
-
 	class CAL {
 		static readonly version: string = VERSION;
 		static readonly apiUrl: string = API_ENTRY_POINT;
