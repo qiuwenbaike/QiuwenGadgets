@@ -310,28 +310,28 @@
 	}
 
 	.navbox {
-		&-group {
+		.navbox-group {
 			justify-content: center;
 			text-align: center;
 		}
 
-		&.vertical > .navbox-group,
-		&-group.vertical {
-			writing-mode: horizontal-tb;
-		}
-
-		&-list,
-		&-cell {
+		.navbox-list,
+		.navbox-cell {
 			padding: 0.0875em 0;
 		}
 
-		&-list {
+		.navbox-list {
 			& > .navbox,
 			& > span > .navbox,
 			& > span > span > .navbox {
 				margin: unset;
 				margin-right: 0;
 			}
+		}
+
+		&.vertical > .navbox-group,
+		&-group.vertical {
+			writing-mode: horizontal-tb;
 		}
 
 		.mw-body-content & {
