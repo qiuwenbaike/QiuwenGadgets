@@ -6,7 +6,6 @@ import {
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
 	ENABLE_NAMESPACE,
-	type Setting,
 	VERSION,
 	WG_CANONICAL_SPECIAL_PAGE_NAME,
 	WG_FORMATTED_NAMESPACES,
@@ -16,6 +15,7 @@ import {
 	WG_WIKI_ID,
 } from './constant';
 import {DEFAULT_MESSAGES, type MessageKey, catALotMessages} from './messages';
+import type {Setting, SettingGlobal} from './types';
 
 /**
  * Changes category of multiple files
@@ -56,15 +56,13 @@ const catALot = (): void => {
 		static parentCats: string[] = [];
 		static subCats: string[] = [];
 
+		static settings: SettingGlobal = {};
 		static variantCache: Record<string, string[]> = {};
 
 		static $counter = $();
 		static $progressDialog = $();
 		static $labels = $();
 		static $selectedLabels = $();
-
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		private readonly settings: Record<string, any>;
 
 		private readonly $body: JQuery;
 		private readonly $container: JQuery;
@@ -84,11 +82,9 @@ const catALot = (): void => {
 				mw.messages.set(CAL.MESSAGES);
 			}
 
-			this.settings = {};
-
 			const reCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category')}:`, '');
 
-			this.initSettings();
+			CAL.initSettings();
 
 			this.$body = $('body');
 			this.$container = $('<div>').attr('id', 'cat_a_lot').appendTo(this.$body);
@@ -187,16 +183,16 @@ const catALot = (): void => {
 			// * for more information
 			return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 		}
-		findAllLabels(): void {
+		static findAllLabels(): void {
 			// It's possible to allow any kind of pages as well but what happens if you click on "select all" and don't expect it
 			if (CAL.isSearchMode) {
 				CAL.$labels = $('table.searchResultImage').find('tr>td').eq(1);
-				if (this.settings['editpages']) {
+				if (CAL.settings.editpages) {
 					CAL.$labels = CAL.$labels.add('div.mw-search-result-heading');
 				}
 			} else {
 				CAL.$labels = $('div.gallerytext').add($('div#mw-category-media').find('li[class!="gallerybox"]'));
-				if (this.settings['editpages']) {
+				if (CAL.settings.editpages) {
 					const $pages: JQuery<HTMLLIElement> = $('div#mw-pages, div#mw-subcategories').find('li');
 					CAL.$labels = CAL.$labels.add($pages);
 				}
@@ -207,7 +203,7 @@ const catALot = (): void => {
 			this.$markCounter.show().html(CAL.msg('files-selected', CAL.$selectedLabels.length.toString()));
 		}
 		makeClickable(): void {
-			this.findAllLabels();
+			CAL.findAllLabels();
 			CAL.$labels
 				.addClass('cat_a_lot__label')
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -344,8 +340,8 @@ const catALot = (): void => {
 		static removeUncat(text: string): string {
 			return text.replace(/\{\{\s*[Uu]ncategorized\s*(\|?.*?)\}\}/, '');
 		}
-		doCleanup(text: string): string {
-			return this.settings['docleanup'] ? text.replace(/{{\s*[Cc]heck categories\s*(\|?.*?)}}/, '') : text;
+		static doCleanup(text: string): string {
+			return CAL.settings.docleanup ? text.replace(/{{\s*[Cc]heck categories\s*(\|?.*?)}}/, '') : text;
 		}
 		static markAsDone($label: JQuery, mode: 'add' | 'copy' | 'move' | 'remove', targetcat: string): void {
 			$label.addClass('cat_a_lot_markAsDone');
@@ -473,7 +469,7 @@ const catALot = (): void => {
 			// Remove uncat after we checked whether we changed the text successfully.
 			// Otherwise we might fail to do the changes, but still replace {{uncat}}
 			if (mode !== 'remove') {
-				text = this.doCleanup(CAL.removeUncat(text));
+				text = CAL.doCleanup(CAL.removeUncat(text));
 			}
 			this.doAPICall(
 				{
@@ -485,7 +481,7 @@ const catALot = (): void => {
 					bot: true,
 					starttimestamp,
 					basetimestamp: timestamp,
-					watchlist: this.settings['watchlist'],
+					watchlist: CAL.settings.watchlist,
 					tags: CAL.API_TAG,
 					token: CAL.editToken,
 				},
@@ -686,7 +682,7 @@ const catALot = (): void => {
 					action: 'query',
 					list: 'categorymembers',
 					cmtype: 'subcat',
-					cmlimit: this.settings['subcatcount'],
+					cmlimit: CAL.settings.subcatcount,
 					cmtitle: `Category:${CAL.currentCategory}`,
 				},
 				(result): void => {
@@ -747,37 +743,29 @@ const catALot = (): void => {
 				CAL.$labels.off('click.catALot');
 			}
 		}
-		initSettings(): void {
-			if (this.settings['watchlist']) {
-				return;
+		static initSettings(): void {
+			let catALotPrefs: SettingGlobal = window.CatALotPrefs ?? {};
+			const typeOfCatALotPrefs = typeof catALotPrefs;
+			if ((typeOfCatALotPrefs === 'object' && !Array.isArray(catALotPrefs)) || typeOfCatALotPrefs !== 'object') {
+				catALotPrefs = {};
 			}
-			const catALotPrefs: typeof window.CatALotPrefs = window.CatALotPrefs || {};
-			for (const v of DEFAULT_SETTING) {
-				this.settings[v.name] = catALotPrefs[v.name] || v.default;
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				v.value = this.settings[v.name];
-				// Messages that can be used here:
-				// * see messages.ts
-				// * for more information
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				v.label = CAL.msg(v.label_i18n);
-				if (v.select_i18n) {
-					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-					// @ts-ignore
-					v.select = {};
-					for (const key in v.select_i18n) {
-						if (!Object.hasOwn(v.select_i18n, key)) {
-							continue;
-						}
-						// Messages that can be used here:
-						// * see messages.ts
-						// * for more information
-						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-						// @ts-ignore
-						v.select[CAL.msg(key)] = v.select_i18n[key];
-					}
+
+			for (const settingKey of Object.keys(CAL.DEFAULT_SETTING) as (keyof Setting)[]) {
+				const setting = CAL.DEFAULT_SETTING[settingKey];
+
+				CAL.settings[settingKey] = catALotPrefs[settingKey] ?? setting.default;
+
+				if (!setting.select_i18n) {
+					continue;
+				}
+
+				setting.select = {};
+				for (const messageKey of Object.keys(setting.select_i18n)) {
+					const message: string = setting.select_i18n[messageKey] as keyof typeof setting.select_i18n;
+					// Messages that can be used here:
+					// * see messages.ts
+					// * for more information
+					setting.select[CAL.msg(messageKey)] = message;
 				}
 			}
 		}

@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import type {Setting} from './types';
+
 const API_ENTRY_POINT: string = mw.util.wikiScript('api');
 const API_TAG = 'Cat-a-lot';
 
@@ -6,43 +8,35 @@ const CLASS_NAME_LABEL = 'cat_a_lot__label';
 const CLASS_NAME_LABEL_LAST_SELECTED = 'cat_a_lot__label--last-selected';
 const CLASS_NAME_LABEL_SELECTED = 'cat_a_lot__label--selected';
 
-const DEFAULT_SETTING = [
-	{
-		name: 'watchlist',
-		default: 'preferences',
-		label_i18n: 'watchlistpref',
-		select_i18n: {
-			watch_pref: 'preferences',
-			watch_nochange: 'nochange',
-			watch_watch: 'watch',
-			watch_unwatch: 'unwatch',
-		},
-	},
-	{
-		name: 'minor',
-		default: false,
-		label_i18n: 'minorpref',
-	},
-	{
-		name: 'editpages',
-		default: true,
-		label_i18n: 'editpagespref',
-		forcerestart: true,
-	},
-	{
-		name: 'docleanup',
+const DEFAULT_SETTING: Setting = {
+	docleanup: {
 		default: false,
 		label_i18n: 'docleanuppref',
 	},
-	{
-		name: 'subcatcount',
-		default: 50,
-		min: 5,
-		max: 500,
-		label_i18n: 'subcatcountpref',
-		forcerestart: true,
+	editpages: {
+		default: true,
+		label_i18n: 'editpagespref',
 	},
-];
+	minor: {
+		default: false,
+		label_i18n: 'minorpref',
+	},
+	subcatcount: {
+		default: 50,
+		label_i18n: 'subcatcountpref',
+	},
+	watchlist: {
+		default: 'preferences',
+		label_i18n: 'watchlistpref',
+		select_i18n: {
+			watch_nochange: 'nochange',
+			watch_pref: 'preferences',
+			watch_unwatch: 'unwatch',
+			watch_watch: 'watch',
+		},
+	},
+};
+
 const ENABLE_NAMESPACE = 14;
 const VERSION = '5.0';
 
