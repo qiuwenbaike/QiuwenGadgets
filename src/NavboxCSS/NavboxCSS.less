@@ -151,16 +151,16 @@
 	.navbar {
 		display: inline;
 		font-weight: normal;
-	}
 
-	.navbar ul {
-		display: inline;
+		ul {
+			display: inline;
 
-		/* white-space: nowrap; */
-	}
+			/* white-space: nowrap; */
+		}
 
-	.navbar li {
-		word-spacing: -0.125em;
+		li {
+			word-spacing: -0.125em;
+		}
 	}
 
 	.navbar-mini li abbr[title] {
@@ -171,26 +171,29 @@
 	}
 
 	/* 子导航框有关功能 */
-	.navbox-list.navbox,
-	.navbox-list > span > .navbox,
-	.navbox-list > span > span > .navbox,
-	.navbox-list > .navbox {
-		align-items: stretch;
-		align-self: stretch;
-		padding: 0;
-		border: 0;
-		margin: 0;
-		font-size: inherit;
-	}
+	/* stylelint-disable-next-line no-duplicate-selectors */
+	.navbox-list {
+		&.navbox,
+		& > span > .navbox,
+		& > span > span > .navbox,
+		& > .navbox {
+			align-items: stretch;
+			align-self: stretch;
+			padding: 0;
+			border: 0;
+			margin: 0;
+			font-size: inherit;
+		}
 
-	.navbox-list > .navbox,
-	.navbox-list > span > .navbox,
-	.navbox-list > span > span > .navbox {
-		margin: -0.0875em -1em;
-	}
+		& > .navbox,
+		& > span > .navbox,
+		& > span > span > .navbox {
+			margin: -0.0875em -1em;
+		}
 
-	.navbox-list > .navbox:not(.navbox-level-0) {
-		margin: 0;
+		& > .navbox:not(.navbox-level-0) {
+			margin: 0;
+		}
 	}
 
 	/* Style for horizontal lists (separator following item) */
@@ -209,18 +212,21 @@
 		dt,
 		li {
 			white-space: nowrap; /* Nowrap list items in navboxes */
+
+			dl,
+			ul,
+			ol {
+				white-space: normal; /* But allow parent list items to be wrapped */
+			}
 		}
 
-		dd dl,
-		dt dl,
-		li ol,
-		li ul {
-			white-space: normal; /* But allow parent list items to be wrapped */
-		}
-
-		ul ul {
-			padding-left: 0;
-			margin-left: 0;
+		ul,
+		ol {
+			ul,
+			ol {
+				padding-left: 0;
+				margin-left: 0;
+			}
 		}
 
 		td {
