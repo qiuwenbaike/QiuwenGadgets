@@ -34,11 +34,6 @@
 		}
 	}
 
-	&_last_selected {
-		outline: 1px dotted #999;
-	}
-
-	&_last_selected,
 	&_no_found,
 	&_settings {
 		font-weight: bold;
@@ -100,7 +95,12 @@
 		background-color: #bbb !important;
 	}
 
-	&_selected {
+	&__label--last-selected {
+		font-weight: bold;
+		outline: 1px dotted #999;
+	}
+
+	&__label--selected {
 		background-color: #df6 !important;
 	}
 }

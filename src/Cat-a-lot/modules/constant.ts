@@ -1,6 +1,11 @@
 /* eslint-disable camelcase */
 const API_ENTRY_POINT: string = mw.util.wikiScript('api');
 const API_TAG = 'Cat-a-lot';
+
+const CLASS_NAME_LABEL = 'cat_a_lot__label';
+const CLASS_NAME_LABEL_LAST_SELECTED = 'cat_a_lot__label--last-selected';
+const CLASS_NAME_LABEL_SELECTED = 'cat_a_lot__label--selected';
+
 const DEFAULT_SETTING = [
 	{
 		name: 'watchlist',
@@ -54,6 +59,9 @@ const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 export {
 	API_ENTRY_POINT,
 	API_TAG,
+	CLASS_NAME_LABEL,
+	CLASS_NAME_LABEL_LAST_SELECTED,
+	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
 	ENABLE_NAMESPACE,
 	VERSION,

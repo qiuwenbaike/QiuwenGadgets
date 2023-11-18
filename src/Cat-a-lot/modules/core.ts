@@ -1,6 +1,8 @@
+/* eslint-disable mediawiki/class-doc */
 import {
 	API_ENTRY_POINT,
 	API_TAG,
+	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
 	ENABLE_NAMESPACE,
 	VERSION,
@@ -220,19 +222,19 @@ const catALot = (): void => {
 			}
 		}
 		updateSelectionCounter(): void {
-			this.$selectedLabels = this.$labels.filter('.cat_a_lot_selected');
+			this.$selectedLabels = this.$labels.filter(`.${CLASS_NAME_LABEL_SELECTED}`);
 			this.$markCounter.show().html(CAL.msg('files-selected', this.$selectedLabels.length.toString()));
 		}
 		makeClickable(): void {
 			this.findAllLabels();
 			this.$labels
-				.addClass('cat_a_lot_label')
+				.addClass('cat_a_lot__label')
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				.catALotShiftClick(this.updateSelectionCounter);
+				.onCatALotShiftClick(this.updateSelectionCounter);
 		}
 		toggleAll(select: boolean): void {
-			this.$labels.toggleClass('cat_a_lot_selected', select);
+			this.$labels.toggleClass(CLASS_NAME_LABEL_SELECTED, select);
 			this.updateSelectionCounter();
 		}
 		static localizedRegex(namespaceNumber: number, fallback: string): string {
@@ -535,7 +537,7 @@ const catALot = (): void => {
 		}
 		getMarkedLabels(): [string, JQuery][] {
 			const marked: ReturnType<typeof this.getMarkedLabels> = [];
-			this.$selectedLabels = this.$labels.filter('.cat_a_lot_selected');
+			this.$selectedLabels = this.$labels.filter(`.${CLASS_NAME_LABEL_SELECTED}`);
 			this.$selectedLabels.each((_index: number, element: HTMLElement): void => {
 				const $this: JQuery = $(element);
 				const $file: JQuery = $this.find('a[title]');
