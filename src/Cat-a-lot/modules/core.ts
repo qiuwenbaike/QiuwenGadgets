@@ -1,5 +1,3 @@
-/* eslint-disable no-jquery/no-global-selector */
-/* eslint-disable mediawiki/class-doc */
 import {
 	API_ENTRY_POINT,
 	API_TAG,
@@ -14,8 +12,8 @@ import {
 	WG_TITLE,
 	WG_WIKI_ID,
 } from './constant';
-import {DEFAULT_MESSAGES, type MessageKey, catALotMessages} from './messages';
-import type {Setting, SettingGlobal} from './types';
+import {DEFAULT_MESSAGES, setMessages} from './messages';
+import type {MessageKey, Setting, SettingGlobal} from './types';
 
 /**
  * Changes category of multiple files
@@ -211,6 +209,9 @@ const catALot = (): void => {
 				.onCatALotShiftClick(this.updateSelectionCounter);
 		}
 		toggleAll(select: boolean): void {
+			// The following classes are used here:
+			// * see ./constant.ts
+			// * for more information
 			CAL.$labels.toggleClass(CLASS_NAME_LABEL_SELECTED, select);
 			this.updateSelectionCounter();
 		}
@@ -779,7 +780,7 @@ const catALot = (): void => {
 			CAL.isSearchMode = true;
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
-		catALotMessages();
+		setMessages();
 		$(new CAL());
 	}
 };
