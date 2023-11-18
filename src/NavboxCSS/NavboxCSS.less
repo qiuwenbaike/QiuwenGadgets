@@ -1,3 +1,4 @@
+/* stylelint-disable declaration-block-no-duplicate-properties */
 /**
  * Style for navboxes
  *
@@ -12,6 +13,8 @@
 
 .navbox {
 	/* Fallback start */
+	display: flex;
+	flex-direction: column;
 	/* Fallback end */
 	box-sizing: border-box;
 	padding: 3px;
@@ -42,6 +45,10 @@
 	.navbox-below,
 	.navbox-title {
 		text-align: center;
+	}
+
+	.navbox-above,
+	.navbox-below {
 		margin-top: 3px;
 	}
 
@@ -51,11 +58,10 @@
 
 	.navbox-group {
 		/* Fallback start */
+		display: flex;
+		justify-content: center;
 		margin-top: 3px;
 		/* Fallback end */
-
-		/* max-width: 9em; */
-
 		font-weight: bold;
 		display: grid;
 		align-items: center;
@@ -63,11 +69,13 @@
 		grid-column: 1 / 2;
 		text-align: end;
 		vertical-align: middle;
+
+		/* max-width: 9em; */
 	}
 
 	.navbox-list {
 		/* Fallback start */
-		text-align: left;
+		display: flex;
 		/* Fallback end */
 		display: grid;
 		align-items: center;
@@ -75,6 +83,7 @@
 
 	.navbox-title {
 		/* Fallback start */
+		display: block;
 		text-align: center;
 		/* Fallback end */
 		padding-left: 1em;
@@ -324,6 +333,7 @@
 			& > .navbox,
 			& > span > .navbox,
 			& > span > span > .navbox {
+				/* stylelint-disable-next-line plugin/no-unsupported-browser-features */
 				margin: unset;
 				margin-right: 0;
 			}
