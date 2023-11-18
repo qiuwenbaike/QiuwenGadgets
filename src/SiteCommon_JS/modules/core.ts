@@ -228,7 +228,7 @@ const core = (): void => {
 		}
 	}
 	/* 调整折叠按钮的颜色 */
-	const $toggle = $('.mw-collapsible-toggle');
+	const $toggle = $('.mw-collapsible-toggle, .gadget-collapsible__toggler');
 	if ($toggle.length && $toggle.parent()[0]?.style.color) {
 		$toggle.find('a').css('color', 'inherit');
 	}

@@ -45,10 +45,6 @@
 	.navbox-below,
 	.navbox-title {
 		text-align: center;
-	}
-
-	.navbox-above,
-	.navbox-below {
 		margin-top: 3px;
 	}
 
@@ -113,7 +109,8 @@
 		}
 
 		.collapsetoggle,
-		.mw-collapsible-toggle {
+		.mw-collapsible-toggle,
+		.gadget-collapsible__toggler {
 			font-weight: normal;
 			grid-column: 3 / span 1;
 			justify-self: end;
@@ -154,16 +151,16 @@
 	.navbar {
 		display: inline;
 		font-weight: normal;
-	}
 
-	.navbar ul {
-		display: inline;
+		ul {
+			display: inline;
 
-		/* white-space: nowrap; */
-	}
+			/* white-space: nowrap; */
+		}
 
-	.navbar li {
-		word-spacing: -0.125em;
+		li {
+			word-spacing: -0.125em;
+		}
 	}
 
 	.navbar-mini li abbr[title] {
@@ -174,26 +171,29 @@
 	}
 
 	/* 子导航框有关功能 */
-	.navbox-list.navbox,
-	.navbox-list > span > .navbox,
-	.navbox-list > span > span > .navbox,
-	.navbox-list > .navbox {
-		align-items: stretch;
-		align-self: stretch;
-		padding: 0;
-		border: 0;
-		margin: 0;
-		font-size: inherit;
-	}
+	/* stylelint-disable-next-line no-duplicate-selectors */
+	.navbox-list {
+		&.navbox,
+		& > span > .navbox,
+		& > span > span > .navbox,
+		& > .navbox {
+			align-items: stretch;
+			align-self: stretch;
+			padding: 0;
+			border: 0;
+			margin: 0;
+			font-size: inherit;
+		}
 
-	.navbox-list > .navbox,
-	.navbox-list > span > .navbox,
-	.navbox-list > span > span > .navbox {
-		margin: -0.0875em -1em;
-	}
+		& > .navbox,
+		& > span > .navbox,
+		& > span > span > .navbox {
+			margin: -0.0875em -1em;
+		}
 
-	.navbox-list > .navbox:not(.navbox-level-0) {
-		margin: 0;
+		& > .navbox:not(.navbox-level-0) {
+			margin: 0;
+		}
 	}
 
 	/* Style for horizontal lists (separator following item) */
@@ -212,18 +212,21 @@
 		dt,
 		li {
 			white-space: nowrap; /* Nowrap list items in navboxes */
+
+			dl,
+			ul,
+			ol {
+				white-space: normal; /* But allow parent list items to be wrapped */
+			}
 		}
 
-		dd dl,
-		dt dl,
-		li ol,
-		li ul {
-			white-space: normal; /* But allow parent list items to be wrapped */
-		}
-
-		ul ul {
-			padding-left: 0;
-			margin-left: 0;
+		ul,
+		ol {
+			ul,
+			ol {
+				padding-left: 0;
+				margin-left: 0;
+			}
 		}
 
 		td {
@@ -263,13 +266,16 @@
 	}
 }
 
-/* .navbox-title > .mw-collapsible-toggle { */
+/* .navbox-title > .mw-collapsible-toggle,
+/* .navbox-title > .gadget-collapsible__toggler { */
 /*    margin-left: -100%; */
 /*    margin-right: 0; */
 /* } */
 
 /* .mw-content-rtl .navbox-title > .mw-collapsible-toggle, */
 /* .mw-content-rtl .mw-parser-output .navbox-title > .mw-collapsible-toggle { */
+/* .mw-content-rtl .navbox-title > .gadget-collapsible__toggler, */
+/* .mw-content-rtl .mw-parser-output .navbox-title > .gadget-collapsible__toggler { */
 /*    margin-right: -100%; */
 /*    margin-left: 0; */
 /* } */
