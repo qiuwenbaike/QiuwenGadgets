@@ -157,7 +157,7 @@
 		"no-jquery/no-global-selector": [
 			"warn",
 			{
-				"allowIds": true
+				"allowBody": true
 			}
 		],
 		"no-jquery/no-sizzle": "off",
