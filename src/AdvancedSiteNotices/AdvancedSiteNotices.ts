@@ -4,7 +4,9 @@ import {loadRemoteNotices} from './modules/loadRemoteNotices';
 import {showNotices} from './modules/showNotice';
 
 $(async function advancedSiteNotices(): Promise<void> {
-	const $siteNotice: JQuery = $(document).find('#siteNotice');
+	const $body: JQuery<HTMLBodyElement> = $('body');
+
+	const $siteNotice: JQuery = $body.find('#siteNotice');
 	if (['edit', 'submit'].includes(WG_ACTION) || !$siteNotice.length) {
 		return;
 	}

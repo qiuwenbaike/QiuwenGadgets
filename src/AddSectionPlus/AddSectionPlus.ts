@@ -6,7 +6,9 @@ $(function addSectionPlus(): void {
 		return; // style is already added by [[MediaWiki:Gadget-AddSectionPlus-pagestyles.css]]
 	}
 
-	const $wrapper: JQuery = $(document).find('#ca-addsection');
+	const $body: JQuery<HTMLBodyElement> = $('body');
+
+	const $wrapper: JQuery = $body.find('#ca-addsection');
 	if (!$wrapper.length) {
 		return;
 	}
