@@ -13,6 +13,7 @@
 .navbox {
 	/* Fallback start */
 	display: flex;
+	flex-direction: column;
 	/* Fallback end */
 	box-sizing: border-box;
 	padding: 3px;
@@ -44,6 +45,10 @@
 	.navbox-below,
 	.navbox-title {
 		text-align: center;
+	}
+
+	.navbox-above,
+	.navbox-below {
 		margin-top: 3px;
 	}
 
@@ -53,23 +58,26 @@
 
 	.navbox-group {
 		/* Fallback start */
+		display: flex;
+		justify-content: center;
 		margin-top: 3px;
 		/* Fallback end */
-
-		/* max-width: 9em; */
-
 		font-weight: bold;
+		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
 		display: grid;
 		align-items: center;
+		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
 		justify-content: flex-end;
 		grid-column: 1 / 2;
 		text-align: end;
 		vertical-align: middle;
+
+		/* max-width: 9em; */
 	}
 
 	.navbox-list {
 		/* Fallback start */
-		text-align: left;
+		display: flex;
 		/* Fallback end */
 		display: grid;
 		align-items: center;
@@ -77,6 +85,7 @@
 
 	.navbox-title {
 		/* Fallback start */
+		display: block;
 		text-align: center;
 		/* Fallback end */
 		padding-left: 1em;
@@ -84,6 +93,7 @@
 		background-color: var(--navbox-title-color);
 		font-size: 97.5%;
 		font-weight: bolder;
+		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
 		display: grid;
 		grid-template-columns: 1fr auto 1fr;
 	}
@@ -326,6 +336,7 @@
 			& > .navbox,
 			& > span > .navbox,
 			& > span > span > .navbox {
+				/* stylelint-disable-next-line plugin/no-unsupported-browser-features */
 				margin: unset;
 				margin-right: 0;
 			}
