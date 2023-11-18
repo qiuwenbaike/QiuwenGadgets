@@ -3,7 +3,7 @@
 @font-face {
 	font-display: swap;
 	font-family: 'NospzGothic';
-	src: url('https://gitcdn.qiuwen.net.cn//InterfaceAdmin/NospzGothicMoe/raw/branch/main/font/20230216.woff2')
+	src: url('https://gitcdn.qiuwen.net.cn/InterfaceAdmin/NospzGothicMoe/raw/branch/main/font/20230216.woff2')
 		format('woff2');
 	unicode-range: U+3099-309A, U+312E-312F, U+31B8-31BF, U+32FF, U+9FB2, U+9FB5, U+9FCF, U+9FD4, U+9FEB-9FED,
 		U+1AFF0-1AFF3, U+1AFF5-1AFFB, U+1AFFD-1AFFE, U+1B000-1B122, U+1B132, U+1B150-1B152, U+1B155, U+1B164-1B167,
@@ -44,9 +44,12 @@
 }
 
 body {
-	font-family: @sans-serif-zh-hans, 'NospzGothic', @unihan, sans-serif, @emoji-font;
-	--fonts-sans: @sans-serif-zh-hans, 'NospzGothic', @unihan, sans-serif, @emoji-font;
-	--fonts-serif: @serif-zh-hans, 'NospzGothic', @unihan, serif, @emoji-font;
+	&:lang(zh),
+	&:lang(zh-hans) {
+		font-family: @sans-serif-zh-hans, 'NospzGothic', @unihan, sans-serif, @emoji-font;
+		--fonts-sans: @sans-serif-zh-hans, 'NospzGothic', @unihan, sans-serif, @emoji-font;
+		--fonts-serif: @serif-zh-hans, 'NospzGothic', @unihan, serif, @emoji-font;
+	}
 
 	&:lang(zh-hant) {
 		font-family: @sans-serif-zh-hant, 'NospzGothic', @unihan, sans-serif, @emoji-font;
@@ -62,7 +65,10 @@ body {
 .mw-body-content h5,
 .mw-body-content h6,
 h1#firstHeading {
-	font-family: @serif-zh-hans, 'NospzGothic', @unihan, serif, @emoji-font;
+	body:lang(zh) &,
+	body:lang(zh-hans) & {
+		font-family: @serif-zh-hans, 'NospzGothic', @unihan, serif, @emoji-font;
+	}
 
 	body:lang(zh-hant) & {
 		font-family: @serif-zh-hant, 'NospzGothic', @unihan, serif, @emoji-font;
