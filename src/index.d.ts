@@ -14,6 +14,8 @@ import type {
 	UrlShortenerApiShortenUrlParams as _UrlShortenerApiShortenUrlParams,
 } from 'types-mediawiki/api_params';
 
+import type {SettingGlobal as CatALotSetting} from './Cat-a-lot/modules/types'; // Cat-a-lot
+
 import type _ClipboardJS from 'clipboard';
 import type {Tippy as _Tippy} from 'tippy.js';
 import type _Toastify from 'toastify-js';
@@ -84,7 +86,7 @@ declare global {
 	type ToastifyInstance = ReturnType<typeof toastify>; // Toastify toastify-js
 
 	interface Window {
-		readonly CatALotPrefs: unknown; // Cat-a-lot
+		readonly CatALotPrefs?: CatALotSetting | unknown; // Cat-a-lot
 		readonly DiffLink?: unknown[]; // DiffLink
 		readonly UTCLiveClockTimeZone?: unknown; // UTCLiveClock
 		geo(): Promise<GeoInfo>; // Geo

@@ -1,7 +1,7 @@
 import {catALot} from './modules/core';
-import {checkboxShiftClick} from './modules/checkbox';
+import {extendJQueryPrototype} from './modules/checkbox';
 
 /*! jQuery checkboxShiftClick | GPL-2.0 <qwbk.cc/H:GPL> */
-checkboxShiftClick();
+extendJQueryPrototype();
 /*! Cat-a-lot | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
 catALot();

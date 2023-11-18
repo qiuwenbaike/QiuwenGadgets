@@ -1,67 +1,66 @@
 import {
 	API_ENTRY_POINT,
 	API_TAG,
+	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
 	ENABLE_NAMESPACE,
 	VERSION,
-	WG_ACTION,
 	WG_CANONICAL_SPECIAL_PAGE_NAME,
 	WG_FORMATTED_NAMESPACES,
 	WG_NAMESPACE_IDS,
 	WG_NAMESPACE_NUMBER,
-	WG_SCRIPT,
 	WG_TITLE,
 	WG_WIKI_ID,
 } from './constant';
-import {DEFAULT_MESSAGES, type MessageKey, catALotMessages} from './messages';
+import {DEFAULT_MESSAGES, setMessages} from './messages';
+import type {MessageKey, Setting, SettingGlobal} from './types';
 
 /**
  * Changes category of multiple files
  */
 const catALot = (): void => {
 	/*! Cat-a-lot | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
-	if (WG_ACTION !== 'view') {
-		return;
-	}
-
 	class CAL {
-		static readonly version: string = VERSION;
-		static readonly apiUrl: string = API_ENTRY_POINT;
-		static readonly indexUrl: string = WG_SCRIPT;
-		static readonly changeTag: string = API_TAG;
-		static readonly nsCat: number = ENABLE_NAMESPACE;
-		static readonly currentCat: string = WG_TITLE;
-		static readonly formattedNS: Record<number, string> = WG_FORMATTED_NAMESPACES;
-		static readonly ns: number = WG_NAMESPACE_NUMBER;
-		static readonly nsIDs: Record<string, number> = WG_NAMESPACE_IDS;
-		static searchmode = false;
-		static readonly msgs: Record<MessageKey, string> = DEFAULT_MESSAGES;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		private catALotPrefs: Record<string, any>;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		private readonly settings: Record<string, any>;
-		private readonly variantCache: Record<string, string[]>;
+		static readonly MESSAGES: Record<MessageKey, string> = DEFAULT_MESSAGES;
+		static readonly DEFAULT_SETTING: Setting = DEFAULT_SETTING;
+		static readonly VERSION: string = VERSION;
 
-		private autoCompleteIsEnabled: boolean;
-		private setHeight: number;
+		static readonly API_ENTRY_POINT: string = API_ENTRY_POINT;
+		static readonly API_TAG: string = API_TAG;
+		static readonly ENABLE_NAMESPACE: number = ENABLE_NAMESPACE;
 
-		private catCounter: number;
-		private currentCategory: string;
-		private edittoken: string;
-		private localCatName: string;
-		private parentCats: string[];
-		private subCats: string[];
+		static readonly CURRENT_CATEGROY: string = WG_TITLE;
+		static readonly CURRENT_NAMESPACE_NUMBER: number = WG_NAMESPACE_NUMBER;
 
-		private alreadyThere: string[];
-		private connectionError: string[];
-		private notFound: string[];
-		private counterCurrent: number;
-		private counterNeeded: number;
+		static readonly WG_FORMATTED_NAMESPACES: Record<number, string> = WG_FORMATTED_NAMESPACES;
+		static readonly WG_NAMESPACE_IDS: Record<string, number> = WG_NAMESPACE_IDS;
 
-		private $labels: JQuery;
-		private $selectedLabels: JQuery;
-		private $progressDialog: JQuery;
-		private $counter: JQuery;
+		static enableAutoComplete = false;
+		static isSearchMode = false;
+
+		static alreadyThere: string[] = [];
+		static connectionError: string[] = [];
+		static notFound: string[] = [];
+		static counterCurrent = 0;
+		static counterNeeded = 0;
+
+		static counterCat = 0;
+		static currentCategory = '';
+
+		static dialogHeight = 450;
+		static editToken = '';
+		static localCatName = WG_FORMATTED_NAMESPACES[ENABLE_NAMESPACE] as string;
+
+		static parentCats: string[] = [];
+		static subCats: string[] = [];
+
+		static settings: SettingGlobal = {};
+		static variantCache: Record<string, string[]> = {};
+
+		static $counter = $();
+		static $progressDialog = $();
+		static $labels = $();
+		static $selectedLabels = $();
 
 		private readonly $body: JQuery;
 		private readonly $container: JQuery;
@@ -75,36 +74,16 @@ const catALot = (): void => {
 		private readonly $selectNone: JQuery;
 		private readonly $head: JQuery;
 		private readonly $link: JQuery;
+
 		public constructor() {
 			if (!mw.message('cat-a-lot-loading')) {
-				mw.messages.set(CAL.msgs);
+				mw.messages.set(CAL.MESSAGES);
 			}
 
-			this.catALotPrefs = {};
-			this.settings = {};
-			this.variantCache = {};
+			const reCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category')}:`, '');
 
-			this.autoCompleteIsEnabled = false;
-			this.setHeight = 450;
+			CAL.initSettings();
 
-			this.currentCategory = '';
-			this.catCounter = 0;
-			this.edittoken = '';
-			this.parentCats = [];
-			this.subCats = [];
-
-			this.alreadyThere = [];
-			this.connectionError = [];
-			this.notFound = [];
-			this.counterCurrent = 0;
-			this.counterNeeded = 0;
-
-			this.$labels = $();
-			this.$selectedLabels = $();
-			this.$progressDialog = $();
-			this.$counter = $();
-
-			this.initSettings();
 			this.$body = $('body');
 			this.$container = $('<div>').attr('id', 'cat_a_lot').appendTo(this.$body);
 			this.$dataContainer = $('<div>').attr('id', 'cat_a_lot_data').appendTo(this.$container);
@@ -132,7 +111,6 @@ const catALot = (): void => {
 				.appendTo(this.$selections.append(' • '));
 			this.$head = $('<div>').attr('id', 'cat_a_lot_head').appendTo(this.$container);
 			this.$link = $('<a>').attr('id', 'cat_a_lot_toggle').text('Cat-a-lot').appendTo(this.$head);
-			const reCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.nsCat, 'Category')}:`, '');
 			this.$searchInput
 				.on('keypress', ({currentTarget, keyCode, which}): void => {
 					if ((keyCode || which) === 13) {
@@ -146,14 +124,14 @@ const catALot = (): void => {
 						(currentTarget as HTMLInputElement).value = newVal;
 					}
 				});
-			if (CAL.searchmode) {
+			if (CAL.isSearchMode) {
 				this.$searchInput.val(mw.util.getParamValue('search') ?? '');
 			}
 			const initAutocomplete = (): void => {
-				if (this.autoCompleteIsEnabled) {
+				if (CAL.enableAutoComplete) {
 					return;
 				}
-				this.autoCompleteIsEnabled = true;
+				CAL.enableAutoComplete = true;
 				this.$searchInput.autocomplete({
 					source: (request: {term: unknown}, response: (arg: JQuery<string>) => void) => {
 						this.doAPICall(
@@ -161,7 +139,7 @@ const catALot = (): void => {
 								action: 'opensearch',
 								search: request.term,
 								redirects: 'resolve',
-								namespace: CAL.nsCat,
+								namespace: CAL.ENABLE_NAMESPACE,
 							},
 							(result): void => {
 								if (result[1]) {
@@ -195,7 +173,6 @@ const catALot = (): void => {
 				initAutocomplete();
 				this.run();
 			});
-			this.localCatName = CAL.formattedNS[CAL.nsCat] as string;
 		}
 		static msg(key: string, ...args: string[]): string {
 			key = `cat-a-lot-${key}`;
@@ -204,35 +181,38 @@ const catALot = (): void => {
 			// * for more information
 			return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 		}
-		findAllLabels(): void {
+		static findAllLabels(): void {
 			// It's possible to allow any kind of pages as well but what happens if you click on "select all" and don't expect it
-			if (CAL.searchmode) {
-				this.$labels = $('table.searchResultImage').find('tr>td').eq(1);
-				if (this.settings['editpages']) {
-					this.$labels = this.$labels.add('div.mw-search-result-heading');
+			if (CAL.isSearchMode) {
+				CAL.$labels = $('table.searchResultImage').find('tr>td').eq(1);
+				if (CAL.settings.editpages) {
+					CAL.$labels = CAL.$labels.add('div.mw-search-result-heading');
 				}
 			} else {
-				this.$labels = $('div.gallerytext').add($('div#mw-category-media').find('li[class!="gallerybox"]'));
-				if (this.settings['editpages']) {
+				CAL.$labels = $('div.gallerytext').add($('div#mw-category-media').find('li[class!="gallerybox"]'));
+				if (CAL.settings.editpages) {
 					const $pages: JQuery<HTMLLIElement> = $('div#mw-pages, div#mw-subcategories').find('li');
-					this.$labels = this.$labels.add($pages);
+					CAL.$labels = CAL.$labels.add($pages);
 				}
 			}
 		}
 		updateSelectionCounter(): void {
-			this.$selectedLabels = this.$labels.filter('.cat_a_lot_selected');
-			this.$markCounter.show().html(CAL.msg('files-selected', this.$selectedLabels.length.toString()));
+			CAL.$selectedLabels = CAL.$labels.filter(`.${CLASS_NAME_LABEL_SELECTED}`);
+			this.$markCounter.show().html(CAL.msg('files-selected', CAL.$selectedLabels.length.toString()));
 		}
 		makeClickable(): void {
-			this.findAllLabels();
-			this.$labels
-				.addClass('cat_a_lot_label')
+			CAL.findAllLabels();
+			CAL.$labels
+				.addClass('cat_a_lot__label')
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				.catALotShiftClick(this.updateSelectionCounter);
+				.onCatALotShiftClick(this.updateSelectionCounter);
 		}
 		toggleAll(select: boolean): void {
-			this.$labels.toggleClass('cat_a_lot_selected', select);
+			// The following classes are used here:
+			// * see ./constant.ts
+			// * for more information
+			CAL.$labels.toggleClass(CLASS_NAME_LABEL_SELECTED, select);
 			this.updateSelectionCounter();
 		}
 		static localizedRegex(namespaceNumber: number, fallback: string): string {
@@ -253,30 +233,30 @@ const catALot = (): void => {
 				return regexName.replace(/([$()*+.?\\^])/g, '\\$1').replace(wikiTextBlankRE, wikiTextBlank);
 			};
 			fallback = fallback.toLowerCase();
-			const canonical: string | undefined = CAL.formattedNS[namespaceNumber]?.toLowerCase();
+			const canonical: string | undefined = CAL.WG_FORMATTED_NAMESPACES[namespaceNumber]?.toLowerCase();
 			let regexString = createRegexStr(canonical);
 			if (fallback && canonical !== fallback) {
 				regexString += `|${createRegexStr(fallback)}`;
 			}
-			for (const catName in CAL.nsIDs) {
+			for (const catName in CAL.WG_NAMESPACE_IDS) {
 				if (
 					typeof catName === 'string' &&
 					catName.toLowerCase() !== canonical &&
 					catName.toLowerCase() !== fallback &&
-					CAL.nsIDs[catName] === namespaceNumber
+					CAL.WG_NAMESPACE_IDS[catName] === namespaceNumber
 				) {
 					regexString += `|${createRegexStr(catName)}`;
 				}
 			}
 			return `(?:${regexString})`;
 		}
-		findAllVariants(category: string): string[] {
+		static findAllVariants(category: string): string[] {
 			const result: string[] = [];
-			const baseUrl = `${CAL.apiUrl}?action=parse&text=${encodeURIComponent(
+			const baseUrl = `${CAL.API_ENTRY_POINT}?action=parse&text=${encodeURIComponent(
 				category
 			)}&title=temp&format=json&variant=`;
-			if (this.variantCache[category] !== undefined) {
-				return this.variantCache[category] as string[];
+			if (CAL.variantCache[category] !== undefined) {
+				return CAL.variantCache[category] as string[];
 			}
 			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
 				const r: string = $($.ajax({url: baseUrl + variant, async: false}).responseJSON.parse.text['*'])
@@ -287,16 +267,16 @@ const catALot = (): void => {
 					result.push(r);
 				}
 			}
-			this.variantCache[category] = result;
+			CAL.variantCache[category] = result;
 			return result;
 		}
-		regexBuilder(category: string): RegExp {
-			const catName: string = CAL.localizedRegex(CAL.nsCat, 'Category');
+		static regexBuilder(category: string): RegExp {
+			const catName: string = CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category');
 			// Build a regexp string for matching the given category:
 			// trim leading/trailing whitespace and underscores
 			category = category.replace(/^[\s_]+/, '').replace(/[\s_]+$/, '');
 			// Find all variants
-			const variants: string[] = this.findAllVariants(category);
+			const variants: string[] = CAL.findAllVariants(category);
 			// escape regexp metacharacters (= any ASCII punctuation except _)
 			const variantArray: string[] = [];
 			for (let variant of variants) {
@@ -338,15 +318,15 @@ const catALot = (): void => {
 						setTimeout(doCall, 300);
 						i++;
 					} else if (params['title']) {
-						this.connectionError.push(params['title']);
+						CAL.connectionError.push(params['title']);
 						this.updateCounter();
 					}
 				};
 				$.ajax({
 					headers: {
-						'Api-User-Agent': `Qiuwen/1.1 (Cat-a-lot/${CAL.version}; ${WG_WIKI_ID})`,
+						'Api-User-Agent': `Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`,
 					},
-					url: CAL.apiUrl,
+					url: CAL.API_ENTRY_POINT,
 					cache: false,
 					dataType: 'json',
 					data: params,
@@ -361,8 +341,8 @@ const catALot = (): void => {
 		static removeUncat(text: string): string {
 			return text.replace(/\{\{\s*[Uu]ncategorized\s*(\|?.*?)\}\}/, '');
 		}
-		doCleanup(text: string): string {
-			return this.settings['docleanup'] ? text.replace(/{{\s*[Cc]heck categories\s*(\|?.*?)}}/, '') : text;
+		static doCleanup(text: string): string {
+			return CAL.settings.docleanup ? text.replace(/{{\s*[Cc]heck categories\s*(\|?.*?)}}/, '') : text;
 		}
 		static markAsDone($label: JQuery, mode: 'add' | 'copy' | 'move' | 'remove', targetcat: string): void {
 			$label.addClass('cat_a_lot_markAsDone');
@@ -385,34 +365,34 @@ const catALot = (): void => {
 			this.$body.css('cursor', 'auto');
 			$('.cat_a_lot_feedback').addClass('cat_a_lot_done');
 			$('.ui-dialog-content').height('auto');
-			const $parent: JQuery = this.$counter.parent();
+			const $parent: JQuery = CAL.$counter.parent();
 			$parent.html(`<h3>${CAL.msg('done')}</h3>`);
 			$parent.append(`${CAL.msg('all-done')}<br>`);
 			const $close: JQuery = $('<a>').text(CAL.msg('return-to-page'));
 			$close.on('click', (): void => {
-				this.$progressDialog.remove();
+				CAL.$progressDialog.remove();
 				this.toggleAll(false);
 			});
 			$parent.append($close);
-			if (this.alreadyThere.length) {
-				$parent.append(`<h5>${CAL.msg('skipped-already', this.alreadyThere.length.toString())}</h5>`);
-				$parent.append(this.alreadyThere.join('<br>'));
+			if (CAL.alreadyThere.length) {
+				$parent.append(`<h5>${CAL.msg('skipped-already', CAL.alreadyThere.length.toString())}</h5>`);
+				$parent.append(CAL.alreadyThere.join('<br>'));
 			}
-			if (this.notFound.length) {
-				$parent.append(`<h5>${CAL.msg('skipped-not-found', this.notFound.length.toString())}</h5>`);
-				$parent.append(this.notFound.join('<br>'));
+			if (CAL.notFound.length) {
+				$parent.append(`<h5>${CAL.msg('skipped-not-found', CAL.notFound.length.toString())}</h5>`);
+				$parent.append(CAL.notFound.join('<br>'));
 			}
-			if (this.connectionError.length) {
-				$parent.append(`<h5>${CAL.msg('skipped-server', this.connectionError.length.toString())}</h5>`);
-				$parent.append(this.connectionError.join('<br>'));
+			if (CAL.connectionError.length) {
+				$parent.append(`<h5>${CAL.msg('skipped-server', CAL.connectionError.length.toString())}</h5>`);
+				$parent.append(CAL.connectionError.join('<br>'));
 			}
 		}
 		updateCounter(): void {
-			this.counterCurrent++;
-			if (this.counterCurrent > this.counterNeeded) {
+			CAL.counterCurrent++;
+			if (CAL.counterCurrent > CAL.counterNeeded) {
 				this.displayResult();
 			} else {
-				this.$counter.text(this.counterCurrent);
+				CAL.$counter.text(CAL.counterCurrent);
 			}
 		}
 		editCategories(
@@ -424,14 +404,14 @@ const catALot = (): void => {
 		): void {
 			if (!result?.['query']) {
 				// Happens on unstable wifi connections..
-				this.connectionError.push(file[0]);
+				CAL.connectionError.push(file[0]);
 				this.updateCounter();
 				return;
 			}
 			let otext = '';
 			let starttimestamp = 0;
 			let timestamp = 0;
-			this.edittoken = result['query'].tokens.csrftoken;
+			CAL.editToken = result['query'].tokens.csrftoken;
 			const {pages} = result['query'];
 			// there should be only one, but we don't know its ID
 			for (const id in pages) {
@@ -442,14 +422,14 @@ const catALot = (): void => {
 				({starttimestamp} = pages[id]);
 				[{timestamp}] = pages[id].revisions;
 			}
-			const sourcecat: string = CAL.currentCat;
+			const sourcecat: string = CAL.CURRENT_CATEGROY;
 			// Check if that file is already in that category
-			if (mode !== 'remove' && this.regexBuilder(targetcat).test(otext)) {
+			if (mode !== 'remove' && CAL.regexBuilder(targetcat).test(otext)) {
 				// If the new cat is already there, just remove the old one
 				if (mode === 'move') {
 					mode = 'remove';
 				} else {
-					this.alreadyThere.push(file[0]);
+					CAL.alreadyThere.push(file[0]);
 					this.updateCounter();
 					return;
 				}
@@ -459,38 +439,38 @@ const catALot = (): void => {
 			// Fix text
 			switch (mode) {
 				case 'add':
-					text += `\n[[${this.localCatName}:${targetcat}]]\n`;
+					text += `\n[[${CAL.localCatName}:${targetcat}]]\n`;
 					comment = CAL.msg('summary-add').replace('$1', targetcat);
 					break;
 				case 'copy':
 					text = text.replace(
-						this.regexBuilder(sourcecat),
-						`[[${this.localCatName}:${sourcecat}$1]]\n[[${this.localCatName}:${targetcat}$1]]`
+						CAL.regexBuilder(sourcecat),
+						`[[${CAL.localCatName}:${sourcecat}$1]]\n[[${CAL.localCatName}:${targetcat}$1]]`
 					);
 					comment = CAL.msg('summary-copy').replace('$1', sourcecat).replace('$2', targetcat);
 					// If category is added through template:
 					if (otext === text) {
-						text += `\n[[${this.localCatName}:${targetcat}]]`;
+						text += `\n[[${CAL.localCatName}:${targetcat}]]`;
 					}
 					break;
 				case 'move':
-					text = text.replace(this.regexBuilder(sourcecat), `[[${this.localCatName}:${targetcat}$1]]`);
+					text = text.replace(CAL.regexBuilder(sourcecat), `[[${CAL.localCatName}:${targetcat}$1]]`);
 					comment = CAL.msg('summary-move').replace('$1', sourcecat).replace('$2', targetcat);
 					break;
 				case 'remove':
-					text = text.replace(this.regexBuilder(sourcecat), '');
+					text = text.replace(CAL.regexBuilder(sourcecat), '');
 					comment = CAL.msg('summary-remove').replace('$1', sourcecat);
 					break;
 			}
 			if (text === otext) {
-				this.notFound.push(file[0]);
+				CAL.notFound.push(file[0]);
 				this.updateCounter();
 				return;
 			}
 			// Remove uncat after we checked whether we changed the text successfully.
 			// Otherwise we might fail to do the changes, but still replace {{uncat}}
 			if (mode !== 'remove') {
-				text = this.doCleanup(CAL.removeUncat(text));
+				text = CAL.doCleanup(CAL.removeUncat(text));
 			}
 			this.doAPICall(
 				{
@@ -502,9 +482,9 @@ const catALot = (): void => {
 					bot: true,
 					starttimestamp,
 					basetimestamp: timestamp,
-					watchlist: this.settings['watchlist'],
-					tags: CAL.changeTag,
-					token: this.edittoken,
+					watchlist: CAL.settings.watchlist,
+					tags: CAL.API_TAG,
+					token: CAL.editToken,
 				},
 				(): void => {
 					this.updateCounter();
@@ -535,8 +515,8 @@ const catALot = (): void => {
 		}
 		getMarkedLabels(): [string, JQuery][] {
 			const marked: ReturnType<typeof this.getMarkedLabels> = [];
-			this.$selectedLabels = this.$labels.filter('.cat_a_lot_selected');
-			this.$selectedLabels.each((_index: number, element: HTMLElement): void => {
+			CAL.$selectedLabels = CAL.$labels.filter(`.${CLASS_NAME_LABEL_SELECTED}`);
+			CAL.$selectedLabels.each((_index: number, element: HTMLElement): void => {
 				const $this: JQuery = $(element);
 				const $file: JQuery = $this.find('a[title]');
 				const title: string =
@@ -549,10 +529,10 @@ const catALot = (): void => {
 		}
 		showProgress(): void {
 			this.$body.css('cursor', 'wait');
-			this.$progressDialog = $('<div>')
+			CAL.$progressDialog = $('<div>')
 				.html(
-					` ${CAL.msg('editing')}<span id="cat_a_lot_current">${this.counterCurrent}</span>${CAL.msg('of')}${
-						this.counterNeeded
+					` ${CAL.msg('editing')}<span id="cat_a_lot_current">${CAL.counterCurrent}</span>${CAL.msg('of')}${
+						CAL.counterNeeded
 					}`
 				)
 				.dialog({
@@ -566,7 +546,7 @@ const catALot = (): void => {
 					dialogClass: 'cat_a_lot_feedback',
 				});
 			$('.ui-dialog-titlebar').hide();
-			this.$counter = $('#cat_a_lot_current');
+			CAL.$counter = $('#cat_a_lot_current');
 		}
 		doSomething(targetcat: string, mode: 'add' | 'copy' | 'move' | 'remove'): void {
 			const files: [string, JQuery][] = this.getMarkedLabels();
@@ -574,11 +554,11 @@ const catALot = (): void => {
 				mw.notify(CAL.msg('none-selected'), {tag: 'catALot'});
 				return;
 			}
-			this.alreadyThere = [];
-			this.connectionError = [];
-			this.notFound = [];
-			this.counterCurrent = 1;
-			this.counterNeeded = files.length;
+			CAL.alreadyThere = [];
+			CAL.connectionError = [];
+			CAL.notFound = [];
+			CAL.counterCurrent = 1;
+			CAL.counterNeeded = files.length;
 			this.showProgress();
 			for (const file of files) {
 				this.getContent(file, targetcat, mode);
@@ -608,7 +588,7 @@ const catALot = (): void => {
 					)
 				);
 				// Can't move to source category
-				if (element !== CAL.currentCat && CAL.searchmode) {
+				if (element !== CAL.CURRENT_CATEGROY && CAL.isSearchMode) {
 					$tr.append(
 						$('<td>').append(
 							$('<a>')
@@ -619,7 +599,7 @@ const catALot = (): void => {
 								})
 						)
 					);
-				} else if (element !== CAL.currentCat && !CAL.searchmode) {
+				} else if (element !== CAL.CURRENT_CATEGROY && !CAL.isSearchMode) {
 					$tr.append(
 						$('<td>').append(
 							$('<a>')
@@ -643,19 +623,19 @@ const catALot = (): void => {
 			}
 		}
 		showCategoryList(): void {
-			const thiscat: string[] = [this.currentCategory];
+			const thiscat: string[] = [CAL.currentCategory];
 			this.$resultList.empty();
 			this.$resultList.append($('<table>'));
-			this.createCatLinks('↑', this.parentCats);
+			this.createCatLinks('↑', CAL.parentCats);
 			this.createCatLinks('→', thiscat);
-			this.createCatLinks('↓', this.subCats);
+			this.createCatLinks('↓', CAL.subCats);
 			this.$body.css('cursor', 'auto');
 			// Reset width
 			this.$container.width('');
 			this.$container.height('');
 			this.$container.width(Math.min((this.$container.width() ?? 0) * 1.1 + 15, ($(window).width() ?? 0) - 10));
 			this.$resultList.css({
-				'max-height': `${this.setHeight}px`,
+				'max-height': `${CAL.dialogHeight}px`,
 				height: '',
 			});
 		}
@@ -664,19 +644,19 @@ const catALot = (): void => {
 				{
 					action: 'query',
 					prop: 'categories',
-					titles: `Category:${this.currentCategory}`,
+					titles: `Category:${CAL.currentCategory}`,
 				},
 				(result): void => {
 					if (!result) {
 						return;
 					}
-					this.parentCats = [];
+					CAL.parentCats = [];
 					let cats: {title: string}[] = [];
 					const {pages} = result.query;
 					if (pages[-1]?.missing === '') {
 						this.$resultList.html(`<span id="cat_a_lot_no_found">${CAL.msg('cat-not-found')}</span>`);
 						this.$body.css('cursor', 'auto');
-						this.createCatLinks('→', [this.currentCategory]);
+						this.createCatLinks('→', [CAL.currentCategory]);
 						return;
 					}
 					// there should be only one, but we don't know its ID
@@ -688,10 +668,10 @@ const catALot = (): void => {
 						cats = pages[id]!.categories ?? [];
 					}
 					for (const cat of cats) {
-						this.parentCats.push(cat.title.replace(/^[^:]+:/, ''));
+						CAL.parentCats.push(cat.title.replace(/^[^:]+:/, ''));
 					}
-					this.catCounter++;
-					if (this.catCounter === 2) {
+					CAL.counterCat++;
+					if (CAL.counterCat === 2) {
 						this.showCategoryList();
 					}
 				}
@@ -703,30 +683,30 @@ const catALot = (): void => {
 					action: 'query',
 					list: 'categorymembers',
 					cmtype: 'subcat',
-					cmlimit: this.settings['subcatcount'],
-					cmtitle: `Category:${this.currentCategory}`,
+					cmlimit: CAL.settings.subcatcount,
+					cmtitle: `Category:${CAL.currentCategory}`,
 				},
 				(result): void => {
 					const cats: {title: string}[] = result?.query?.categorymembers || [];
-					this.subCats = [];
+					CAL.subCats = [];
 					for (const cat of cats) {
-						this.subCats.push(cat.title.replace(/^[^:]+:/, ''));
+						CAL.subCats.push(cat.title.replace(/^[^:]+:/, ''));
 					}
-					this.catCounter++;
-					if (this.catCounter === 2) {
+					CAL.counterCat++;
+					if (CAL.counterCat === 2) {
 						this.showCategoryList();
 					}
 				}
 			);
 		}
 		getCategoryList(): void {
-			this.catCounter = 0;
+			CAL.counterCat = 0;
 			this.getParentCats();
 			this.getSubCats();
 		}
 		updateCats(newcat: string): void {
 			this.$body.css('cursor', 'wait');
-			this.currentCategory = newcat;
+			CAL.currentCategory = newcat;
 			this.$resultList.html(`<div class="cat_a_lot_loading">${CAL.msg('loading')}</div>`);
 			this.getCategoryList();
 		}
@@ -742,7 +722,7 @@ const catALot = (): void => {
 							left: '',
 							top: '',
 						});
-						this.setHeight = $(currentTarget).height() ?? this.setHeight;
+						CAL.dialogHeight = $(currentTarget).height() ?? CAL.dialogHeight;
 						this.$resultList.css({
 							maxHeight: '',
 							width: '',
@@ -752,60 +732,55 @@ const catALot = (): void => {
 				this.$resultList.css({
 					maxHeight: '450px',
 				});
-				if (CAL.searchmode) {
+				if (CAL.isSearchMode) {
 					this.updateCats('Pictures and images');
 				} else {
-					this.updateCats(CAL.currentCat);
+					this.updateCats(CAL.CURRENT_CATEGROY);
 				}
 			} else {
 				this.$dataContainer.hide();
 				this.$container.resizable('destroy');
 				// Unbind click listeners
-				this.$labels.off('click.catALot');
+				CAL.$labels.off('click.catALot');
 			}
 		}
-		initSettings(): void {
-			if (this.settings['watchlist']) {
-				return;
+		static initSettings(): void {
+			let catALotPrefs: SettingGlobal = window.CatALotPrefs ?? {};
+			const typeOfCatALotPrefs = typeof catALotPrefs;
+			if ((typeOfCatALotPrefs === 'object' && !Array.isArray(catALotPrefs)) || typeOfCatALotPrefs !== 'object') {
+				catALotPrefs = {};
 			}
-			this.catALotPrefs = window.CatALotPrefs || {};
-			for (const v of DEFAULT_SETTING) {
-				this.settings[v.name] = this.catALotPrefs[v.name] || v.default;
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				v.value = this.settings[v.name];
-				// Messages that can be used here:
-				// * see messages.ts
-				// * for more information
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				v.label = CAL.msg(v.label_i18n);
-				if (v.select_i18n) {
-					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-					// @ts-ignore
-					v.select = {};
-					for (const key in v.select_i18n) {
-						if (!Object.hasOwn(v.select_i18n, key)) {
-							continue;
-						}
-						// Messages that can be used here:
-						// * see messages.ts
-						// * for more information
-						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-						// @ts-ignore
-						v.select[CAL.msg(key)] = v.select_i18n[key];
-					}
+
+			for (const settingKey of Object.keys(CAL.DEFAULT_SETTING) as (keyof Setting)[]) {
+				const setting = CAL.DEFAULT_SETTING[settingKey];
+
+				CAL.settings[settingKey] = catALotPrefs[settingKey] ?? setting.default;
+
+				if (!setting.select_i18n) {
+					continue;
+				}
+
+				setting.select = {};
+				for (const messageKey of Object.keys(setting.select_i18n)) {
+					const message: string = setting.select_i18n[messageKey] as keyof typeof setting.select_i18n;
+					// Messages that can be used here:
+					// * see messages.ts
+					// * for more information
+					setting.select[CAL.msg(messageKey)] = message;
 				}
 			}
 		}
 	}
 
-	if ((CAL.ns === -1 && WG_CANONICAL_SPECIAL_PAGE_NAME === 'Search') || CAL.ns === CAL.nsCat) {
-		if (CAL.ns === -1) {
-			CAL.searchmode = true;
+	if (
+		(CAL.CURRENT_NAMESPACE_NUMBER === -1 && WG_CANONICAL_SPECIAL_PAGE_NAME === 'Search') ||
+		CAL.CURRENT_NAMESPACE_NUMBER === CAL.ENABLE_NAMESPACE
+	) {
+		if (CAL.CURRENT_NAMESPACE_NUMBER === -1) {
+			CAL.isSearchMode = true;
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
-		catALotMessages();
+		setMessages();
 		$(new CAL());
 	}
 };
