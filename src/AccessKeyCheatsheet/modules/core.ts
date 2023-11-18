@@ -5,7 +5,7 @@ import {generateMessageDialogProperty} from './util/generateMessageDialogPropert
  * Adds alt+shift+? as an access key to show a list of all default access keys
  */
 const accessKeyCheatsheet = (): void => {
-	const $body: JQuery<HTMLBodyElement> = $(document).find('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	const {$accessKeysTable, $accessKeyCheatsheetOpener} = generateAccessKeysTableWithOpener($body);
 	const messageDialogProperty = generateMessageDialogProperty($accessKeysTable);

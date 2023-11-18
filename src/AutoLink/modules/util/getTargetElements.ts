@@ -9,7 +9,8 @@ const getTargetElements = (): TargetElements => {
 	const $targetElementArray: JQuery[] = [];
 	let color = ''; // links color (coloured links)
 
-	const $body: JQuery<HTMLBodyElement> = $(document).find('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
+
 	if (IS_DIFF_ACTION) {
 		// in diff pages
 		color = 'inherit'; // not coloured links
