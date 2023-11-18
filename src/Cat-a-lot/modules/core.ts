@@ -10,7 +10,6 @@ import {
 	WG_FORMATTED_NAMESPACES,
 	WG_NAMESPACE_IDS,
 	WG_NAMESPACE_NUMBER,
-	WG_SCRIPT,
 	WG_TITLE,
 	WG_WIKI_ID,
 } from './constant';
@@ -22,17 +21,21 @@ import {DEFAULT_MESSAGES, type MessageKey, catALotMessages} from './messages';
 const catALot = (): void => {
 	/*! Cat-a-lot | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
 	class CAL {
-		static readonly version: string = VERSION;
-		static readonly apiUrl: string = API_ENTRY_POINT;
-		static readonly indexUrl: string = WG_SCRIPT;
-		static readonly changeTag: string = API_TAG;
-		static readonly nsCat: number = ENABLE_NAMESPACE;
-		static readonly currentCat: string = WG_TITLE;
-		static readonly formattedNS: Record<number, string> = WG_FORMATTED_NAMESPACES;
-		static readonly ns: number = WG_NAMESPACE_NUMBER;
-		static readonly nsIDs: Record<string, number> = WG_NAMESPACE_IDS;
-		static searchmode = false;
-		static readonly msgs: Record<MessageKey, string> = DEFAULT_MESSAGES;
+		static readonly MESSAGES: Record<MessageKey, string> = DEFAULT_MESSAGES;
+		static readonly VERSION: string = VERSION;
+
+		static readonly API_ENTRY_POINT: string = API_ENTRY_POINT;
+		static readonly API_TAG: string = API_TAG;
+		static readonly ENABLE_NAMESPACE: number = ENABLE_NAMESPACE;
+
+		static readonly CURRENT_CATEGROY: string = WG_TITLE;
+		static readonly CURRENT_NAMESPACE_NUMBER: number = WG_NAMESPACE_NUMBER;
+
+		static readonly WG_FORMATTED_NAMESPACES: Record<number, string> = WG_FORMATTED_NAMESPACES;
+		static readonly WG_NAMESPACE_IDS: Record<string, number> = WG_NAMESPACE_IDS;
+
+		static isSearchMode = false;
+
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		private catALotPrefs: Record<string, any>;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,7 +77,7 @@ const catALot = (): void => {
 		private readonly $link: JQuery;
 		public constructor() {
 			if (!mw.message('cat-a-lot-loading')) {
-				mw.messages.set(CAL.msgs);
+				mw.messages.set(CAL.MESSAGES);
 			}
 
 			this.catALotPrefs = {};
@@ -129,7 +132,7 @@ const catALot = (): void => {
 				.appendTo(this.$selections.append(' • '));
 			this.$head = $('<div>').attr('id', 'cat_a_lot_head').appendTo(this.$container);
 			this.$link = $('<a>').attr('id', 'cat_a_lot_toggle').text('Cat-a-lot').appendTo(this.$head);
-			const reCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.nsCat, 'Category')}:`, '');
+			const reCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category')}:`, '');
 			this.$searchInput
 				.on('keypress', ({currentTarget, keyCode, which}): void => {
 					if ((keyCode || which) === 13) {
@@ -143,7 +146,7 @@ const catALot = (): void => {
 						(currentTarget as HTMLInputElement).value = newVal;
 					}
 				});
-			if (CAL.searchmode) {
+			if (CAL.isSearchMode) {
 				this.$searchInput.val(mw.util.getParamValue('search') ?? '');
 			}
 			const initAutocomplete = (): void => {
@@ -158,7 +161,7 @@ const catALot = (): void => {
 								action: 'opensearch',
 								search: request.term,
 								redirects: 'resolve',
-								namespace: CAL.nsCat,
+								namespace: CAL.ENABLE_NAMESPACE,
 							},
 							(result): void => {
 								if (result[1]) {
@@ -192,7 +195,7 @@ const catALot = (): void => {
 				initAutocomplete();
 				this.run();
 			});
-			this.localCatName = CAL.formattedNS[CAL.nsCat] as string;
+			this.localCatName = CAL.WG_FORMATTED_NAMESPACES[CAL.ENABLE_NAMESPACE] as string;
 		}
 		static msg(key: string, ...args: string[]): string {
 			key = `cat-a-lot-${key}`;
@@ -203,7 +206,7 @@ const catALot = (): void => {
 		}
 		findAllLabels(): void {
 			// It's possible to allow any kind of pages as well but what happens if you click on "select all" and don't expect it
-			if (CAL.searchmode) {
+			if (CAL.isSearchMode) {
 				this.$labels = $('table.searchResultImage').find('tr>td').eq(1);
 				if (this.settings['editpages']) {
 					this.$labels = this.$labels.add('div.mw-search-result-heading');
@@ -250,17 +253,17 @@ const catALot = (): void => {
 				return regexName.replace(/([$()*+.?\\^])/g, '\\$1').replace(wikiTextBlankRE, wikiTextBlank);
 			};
 			fallback = fallback.toLowerCase();
-			const canonical: string | undefined = CAL.formattedNS[namespaceNumber]?.toLowerCase();
+			const canonical: string | undefined = CAL.WG_FORMATTED_NAMESPACES[namespaceNumber]?.toLowerCase();
 			let regexString = createRegexStr(canonical);
 			if (fallback && canonical !== fallback) {
 				regexString += `|${createRegexStr(fallback)}`;
 			}
-			for (const catName in CAL.nsIDs) {
+			for (const catName in CAL.WG_NAMESPACE_IDS) {
 				if (
 					typeof catName === 'string' &&
 					catName.toLowerCase() !== canonical &&
 					catName.toLowerCase() !== fallback &&
-					CAL.nsIDs[catName] === namespaceNumber
+					CAL.WG_NAMESPACE_IDS[catName] === namespaceNumber
 				) {
 					regexString += `|${createRegexStr(catName)}`;
 				}
@@ -269,7 +272,7 @@ const catALot = (): void => {
 		}
 		findAllVariants(category: string): string[] {
 			const result: string[] = [];
-			const baseUrl = `${CAL.apiUrl}?action=parse&text=${encodeURIComponent(
+			const baseUrl = `${CAL.API_ENTRY_POINT}?action=parse&text=${encodeURIComponent(
 				category
 			)}&title=temp&format=json&variant=`;
 			if (this.variantCache[category] !== undefined) {
@@ -288,7 +291,7 @@ const catALot = (): void => {
 			return result;
 		}
 		regexBuilder(category: string): RegExp {
-			const catName: string = CAL.localizedRegex(CAL.nsCat, 'Category');
+			const catName: string = CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category');
 			// Build a regexp string for matching the given category:
 			// trim leading/trailing whitespace and underscores
 			category = category.replace(/^[\s_]+/, '').replace(/[\s_]+$/, '');
@@ -341,9 +344,9 @@ const catALot = (): void => {
 				};
 				$.ajax({
 					headers: {
-						'Api-User-Agent': `Qiuwen/1.1 (Cat-a-lot/${CAL.version}; ${WG_WIKI_ID})`,
+						'Api-User-Agent': `Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`,
 					},
-					url: CAL.apiUrl,
+					url: CAL.API_ENTRY_POINT,
 					cache: false,
 					dataType: 'json',
 					data: params,
@@ -439,7 +442,7 @@ const catALot = (): void => {
 				({starttimestamp} = pages[id]);
 				[{timestamp}] = pages[id].revisions;
 			}
-			const sourcecat: string = CAL.currentCat;
+			const sourcecat: string = CAL.CURRENT_CATEGROY;
 			// Check if that file is already in that category
 			if (mode !== 'remove' && this.regexBuilder(targetcat).test(otext)) {
 				// If the new cat is already there, just remove the old one
@@ -500,7 +503,7 @@ const catALot = (): void => {
 					starttimestamp,
 					basetimestamp: timestamp,
 					watchlist: this.settings['watchlist'],
-					tags: CAL.changeTag,
+					tags: CAL.API_TAG,
 					token: this.edittoken,
 				},
 				(): void => {
@@ -605,7 +608,7 @@ const catALot = (): void => {
 					)
 				);
 				// Can't move to source category
-				if (element !== CAL.currentCat && CAL.searchmode) {
+				if (element !== CAL.CURRENT_CATEGROY && CAL.isSearchMode) {
 					$tr.append(
 						$('<td>').append(
 							$('<a>')
@@ -616,7 +619,7 @@ const catALot = (): void => {
 								})
 						)
 					);
-				} else if (element !== CAL.currentCat && !CAL.searchmode) {
+				} else if (element !== CAL.CURRENT_CATEGROY && !CAL.isSearchMode) {
 					$tr.append(
 						$('<td>').append(
 							$('<a>')
@@ -749,10 +752,10 @@ const catALot = (): void => {
 				this.$resultList.css({
 					maxHeight: '450px',
 				});
-				if (CAL.searchmode) {
+				if (CAL.isSearchMode) {
 					this.updateCats('Pictures and images');
 				} else {
-					this.updateCats(CAL.currentCat);
+					this.updateCats(CAL.CURRENT_CATEGROY);
 				}
 			} else {
 				this.$dataContainer.hide();
@@ -797,9 +800,12 @@ const catALot = (): void => {
 		}
 	}
 
-	if ((CAL.ns === -1 && WG_CANONICAL_SPECIAL_PAGE_NAME === 'Search') || CAL.ns === CAL.nsCat) {
-		if (CAL.ns === -1) {
-			CAL.searchmode = true;
+	if (
+		(CAL.CURRENT_NAMESPACE_NUMBER === -1 && WG_CANONICAL_SPECIAL_PAGE_NAME === 'Search') ||
+		CAL.CURRENT_NAMESPACE_NUMBER === CAL.ENABLE_NAMESPACE
+	) {
+		if (CAL.CURRENT_NAMESPACE_NUMBER === -1) {
+			CAL.isSearchMode = true;
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
 		catALotMessages();
