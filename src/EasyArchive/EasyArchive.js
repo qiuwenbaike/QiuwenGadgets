@@ -1,4 +1,3 @@
-import {ding} from '../util';
 import {easy_archive_lang} from './modules/i18n';
 
 (function easyArchive() {
@@ -303,7 +302,6 @@ import {easy_archive_lang} from './modules/i18n';
 	};
 	// ... interface done
 	// archiving logic injection
-	window.easy_archive.ding = ding;
 	const report_doneness_ui = (section_number, doneness_type, to, ongoing_or_done) => {
 		let tag_ding;
 		let tag_section;
@@ -332,7 +330,11 @@ import {easy_archive_lang} from './modules/i18n';
 		}
 		const actions = {
 			ding: () => {
-				window.easy_archive.ding(message(tag_ding, [section_number.toString(), to]), ding_autohide, ding_type);
+				window.DingExposedInterface(
+					message(tag_ding, [section_number.toString(), to]),
+					ding_type,
+					ding_autohide ? 3000 : 'long'
+				);
 			},
 			section_link: () => {
 				const node = document.querySelector(`.easy-archive-section-id-span-order-${section_number}`);
@@ -413,7 +415,7 @@ import {easy_archive_lang} from './modules/i18n';
 			const [ntag] = notice_set;
 			const [, ntype] = notice_set;
 			const [, , nsubst] = notice_set;
-			window.easy_archive.ding(message(ntag, nsubst), false, ntype);
+			window.DingExposedInterface(message(ntag, nsubst), ntype, 'long');
 		}
 	};
 	// real deal here
