@@ -1,7 +1,7 @@
-import {ding, initMwApi} from '../../util';
 import {WG_WIKI_ID} from './constant';
 import {buildLink} from './buildLink';
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 const compareWithRemoteDiffId = async (diffId: number): Promise<void> => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (DiffLink/1.1; ${WG_WIKI_ID})`);
@@ -22,7 +22,14 @@ const compareWithRemoteDiffId = async (diffId: number): Promise<void> => {
 			buildLink(0);
 		}
 	} catch {
-		ding(getMessage('Network error'), false, 'error');
+		toastify(
+			{
+				text: getMessage('Network error'),
+				close: true,
+				duration: -1,
+			},
+			'error'
+		);
 	}
 };
 

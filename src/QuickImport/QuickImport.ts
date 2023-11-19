@@ -1,17 +1,35 @@
-import {ding, initMwApi} from '../util';
+import {initMwApi} from '../util';
 
 const quickImport = async (): Promise<void> => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (QuickImport/1.0; ${mw.config.get('wgWikiID')})`);
 
 	const pageName = $('.redirectText a')[0]?.textContent || mw.config.get('wgPageName');
 
+	let toastifyInstance: ToastifyInstance = {
+		hideToast: () => {},
+	};
+
 	const refreshPage = (): void => {
-		ding('正在刷新', false, 'success');
+		toastifyInstance.hideToast();
+		toastify(
+			{
+				text: '正在刷新页面',
+				duration: -1,
+			},
+			'info'
+		);
 		location.replace(`${mw.config.get('wgScript')}?title=${mw.util.rawurlencode(mw.config.get('wgPageName'))}`);
 	};
 
 	const importPage = async (iwprefix = 'zhwiki'): Promise<void> => {
-		ding('导入页面中');
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: '导入页面中',
+				duration: -1,
+			},
+			'info'
+		);
 
 		let summary = '页面文字原许可：[[cc-by-sa:4.0|CC BY-SA 4.0]]；作者请参见来源页面历史';
 		if (mw.config.get('wgNamespaceNumber') === 6) {
@@ -28,12 +46,26 @@ const quickImport = async (): Promise<void> => {
 		};
 		await api.postWithEditToken(params);
 
-		ding('页面导入完成', false, 'success');
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: '页面导入完成',
+				duration: -1,
+			},
+			'success'
+		);
 	};
 
 	const uploadFile = async (): Promise<void> => {
 		const url = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(pageName)}`;
-		ding('迁移文件中');
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: '迁移文件中',
+				duration: -1,
+			},
+			'info'
+		);
 		const params: ApiUploadParams = {
 			action: 'upload',
 			filename: pageName,

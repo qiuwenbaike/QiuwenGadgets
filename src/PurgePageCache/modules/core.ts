@@ -1,10 +1,16 @@
-import {ding, initMwApi} from '../../util';
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 export const purgePageCache = (): void => {
 	const purgePageCacheMain = (event: Event, title: string): void => {
 		event.preventDefault();
-		ding(getMessage('Purging'), false);
+		const toastifyInstance: ToastifyInstance = toastify(
+			{
+				text: getMessage('Purging'),
+				duration: -1,
+			},
+			'info'
+		);
 		const api: mw.Api = initMwApi(`Qiuwen/1.1 (PurgePageCache/1.1; ${mw.config.get('wgWikiID')})`);
 		const params: ApiPurgeParams = {
 			action: 'purge',
@@ -20,7 +26,15 @@ export const purgePageCache = (): void => {
 			})
 			.catch((error: never): void => {
 				console.error('[PurgePageCache] Ajax error:', error);
-				ding(getMessage('Failed'), false, 'error');
+				toastifyInstance.hideToast();
+				toastify(
+					{
+						text: getMessage('Failed'),
+						close: true,
+						duration: -1,
+					},
+					'error'
+				);
 			});
 	};
 
