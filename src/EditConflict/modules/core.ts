@@ -1,4 +1,3 @@
-import {ding} from '../../util';
 import {getMessage} from './i18n';
 
 export const editConflict = (): void => {
@@ -84,7 +83,14 @@ export const editConflict = (): void => {
 			}
 		} else if (pageRevisionId > mw.config.get('wgCurRevisionId')) {
 			isInit = true;
-			ding(getMessage('Notice'), false, 'info');
+			toastify(
+				{
+					text: getMessage('Notice'),
+					close: true,
+					duration: -1,
+				},
+				'info'
+			);
 			if (timer !== null) {
 				clearInterval(timer);
 			}

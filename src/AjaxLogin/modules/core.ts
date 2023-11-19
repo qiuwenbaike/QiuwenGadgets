@@ -180,6 +180,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 						toastifyInstance = toastify(
 							{
 								text: getMessage('Unknown API error'),
+								close: true,
 								duration: -1,
 							},
 							'error'
@@ -192,6 +193,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 			toastifyInstance = toastify(
 				{
 					text: getMessage('Network error'),
+					close: true,
 					duration: -1,
 				},
 				'error'

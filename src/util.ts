@@ -63,23 +63,6 @@ const checkA11yConfirmKey = (event: KeyboardEvent | MouseEvent | JQuery.ClickEve
 	return false;
 };
 
-const ding = (
-	value: string,
-	autoHide = false,
-	type: 'default' | 'info' | 'success' | 'warning' | 'error' = 'default'
-): void => {
-	mw.loader.using('ext.gadget.Toastify').then((): void => {
-		toastify(
-			{
-				text: value,
-				close: !autoHide,
-				duration: autoHide ? 3 * 1000 : -1,
-			},
-			type === 'default' ? undefined : type
-		);
-	});
-};
-
 const generateSvgDataUrl = (svg: string): string => {
 	/*!
 	 * svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
@@ -173,7 +156,7 @@ const scrollTop = (
 					easing: 'linear',
 					...effectsOptionsOrDuration,
 			  };
-	$('html, body').animate(
+	$(document).find('html,body').animate(
 		{
 			scrollTop: targetHeight,
 		},
@@ -185,7 +168,6 @@ export {
 	addEventListenerWithRemover,
 	changeOpacityWhenMouseEnterOrLeave,
 	checkA11yConfirmKey,
-	ding,
 	generateSvgDataUrl,
 	initMwApi,
 	oouiConfirmWithStyle,

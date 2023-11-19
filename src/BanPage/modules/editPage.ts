@@ -42,6 +42,7 @@ const editPage = async (): Promise<void> => {
 			toastify(
 				{
 					text: getMessage('Network error'),
+					close: true,
 					duration: -1,
 				},
 				'error'
