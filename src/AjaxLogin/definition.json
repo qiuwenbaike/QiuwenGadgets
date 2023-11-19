@@ -6,7 +6,7 @@
 	"dependencies": [
 		"ext.gadget.i18n",
 		"ext.gadget.Toastify",
-		"ext.gadget.Toastify-pagestyles",
+
 		"mediawiki.api",
 		"oojs-ui-core",
 		"oojs-ui-windows",
