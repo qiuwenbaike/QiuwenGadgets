@@ -1,7 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Ding\"></span> 页脚提示库",
+	"description": "<span id=\"Gadget-Ding\"></span> 页脚提示库 <small>仅出于兼容性保留<small>",
 	"section": "compatibility",
-	"hidden": true,
-	"peers": ["Ding-pagestyles"]
+	"hidden": true
 }
