@@ -5,7 +5,6 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.Toastify",
-		"ext.gadget.Toastify-pagestyles",
 		"ext.gadget.i18n",
 		"mediawiki.api",
 		"mediawiki.util",

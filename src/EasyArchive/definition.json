@@ -2,7 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-EasyArchive\"></span> [[Help:Easy Archive|快速存档]] <small>一键存档讨论页</small>",
 	"section": "edit",
-	"dependencies": ["ext.gadget.Toastify", "ext.gadget.Toastify-pagestyles", "ext.gadget.i18n"],
+	"dependencies": ["ext.gadget.Toastify", "ext.gadget.i18n"],
 	"rights": ["skipcaptcha"],
 	"peers": ["EasyArchive-pagestyles"]
 }

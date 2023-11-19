@@ -12,7 +12,7 @@ const loadTippy = (): void => {
 		instance.setContent(getContent(instance.reference));
 	};
 
-	mw.loader.using('ext.CollapsibleSidebar.js').then((): void => {
+	mw.loader.using('ext.CollapsibleSidebar.js').done((): void => {
 		tippy('#sidebarButton', {
 			arrow: true,
 			content: getContent,
@@ -23,7 +23,7 @@ const loadTippy = (): void => {
 	});
 
 	if (WG_SKIN === 'vector') {
-		mw.loader.using('ext.CollapsibleSidebar.vector').then(() => {
+		mw.loader.using('ext.CollapsibleSidebar.vector').done(() => {
 			tippy('#sidebarCollapse', {
 				arrow: true,
 				content: getContent,
@@ -34,7 +34,7 @@ const loadTippy = (): void => {
 		});
 	}
 
-	mw.loader.using('ext.DarkMode').then((): void => {
+	mw.loader.using('ext.DarkMode').done((): void => {
 		tippy('#darkmode-button', {
 			arrow: true,
 			content: getContent,
