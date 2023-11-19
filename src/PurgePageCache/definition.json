@@ -3,8 +3,8 @@
 	"description": "<span id=\"Gadget-PurgePageCache\"></span> 一键清除页面缓存",
 	"section": "browser",
 	"dependencies": [
-		"ext.gadget.Ding",
-		"ext.gadget.Ding-pagestyles",
+		"ext.gadget.Toastify",
+		"ext.gadget.Toastify-pagestyles",
 		"ext.gadget.i18n",
 		"mediawiki.api",
 		"mediawiki.util"
