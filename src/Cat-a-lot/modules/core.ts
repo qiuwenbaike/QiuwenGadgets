@@ -1,6 +1,20 @@
+/* eslint-disable mediawiki/class-doc */
 import {
 	API_ENTRY_POINT,
 	API_TAG,
+	CLASS_NAME_CONTAINER,
+	CLASS_NAME_CONTAINER_DATA,
+	CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST,
+	CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND,
+	CLASS_NAME_CONTAINER_DATA_MARK_COUNTER,
+	CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT,
+	CLASS_NAME_CONTAINER_DATA_SELECTIONS,
+	CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED,
+	CLASS_NAME_CURRENT,
+	CLASS_NAME_FEEDBACK,
+	CLASS_NAME_FEEDBACK_DONE,
+	CLASS_NAME_LABEL,
+	CLASS_NAME_LABEL_DONE,
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
 	ENABLE_NAMESPACE,
@@ -65,10 +79,10 @@ const catALot = (): void => {
 		private readonly $body: JQuery;
 		private readonly $container: JQuery;
 		private readonly $dataContainer: JQuery;
+		private readonly $markCounter: JQuery;
+		private readonly $resultList: JQuery;
 		private readonly $searchInputContainer: JQuery;
 		private readonly $searchInput: JQuery;
-		private readonly $resultList: JQuery;
-		private readonly $markCounter: JQuery;
 		private readonly $selections: JQuery;
 		private readonly $selectAll: JQuery;
 		private readonly $selectNone: JQuery;
@@ -85,32 +99,31 @@ const catALot = (): void => {
 			CAL.initSettings();
 
 			this.$body = $('body');
-			this.$container = $('<div>').attr('id', 'cat_a_lot').appendTo(this.$body);
-			this.$dataContainer = $('<div>').attr('id', 'cat_a_lot_data').appendTo(this.$container);
+			this.$container = $('<div>').addClass(CLASS_NAME_CONTAINER).appendTo(this.$body);
+			this.$dataContainer = $('<div>').addClass(CLASS_NAME_CONTAINER_DATA).appendTo(this.$container);
+			this.$markCounter = $('<div>')
+				.addClass(CLASS_NAME_CONTAINER_DATA_MARK_COUNTER)
+				.appendTo(this.$dataContainer);
+			this.$resultList = $('<div>')
+				.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST)
+				.appendTo(this.$dataContainer);
 			this.$searchInputContainer = $('<div>').appendTo(this.$dataContainer);
 			this.$searchInput = $('<input>')
+				.addClass(CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT)
 				.attr({
-					id: 'cat_a_lot_searchcatname',
 					placeholder: CAL.msg('enter-name'),
 					type: 'text',
 				})
 				.appendTo(this.$searchInputContainer);
-			this.$resultList = $('<div>').attr('id', 'cat_a_lot_category_list').appendTo(this.$dataContainer);
-			this.$markCounter = $('<div>').attr('id', 'cat_a_lot_mark_counter').appendTo(this.$dataContainer);
 			this.$selections = $('<div>')
-				.attr('id', 'cat_a_lot_selections')
+				.addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS)
 				.text(CAL.msg('select'))
 				.appendTo(this.$dataContainer);
-			this.$selectAll = $('<a>')
-				.attr('id', 'cat_a_lot_select_all')
-				.text(CAL.msg('all'))
-				.appendTo(this.$selections.append(' '));
-			this.$selectNone = $('<a>')
-				.attr('id', 'cat_a_lot_select_none')
-				.text(CAL.msg('none'))
-				.appendTo(this.$selections.append(' • '));
-			this.$head = $('<div>').attr('id', 'cat_a_lot_head').appendTo(this.$container);
-			this.$link = $('<a>').attr('id', 'cat_a_lot_toggle').text('Cat-a-lot').appendTo(this.$head);
+			this.$selectAll = $('<a>').text(CAL.msg('all')).appendTo(this.$selections.append(' '));
+			this.$selectNone = $('<a>').text(CAL.msg('none')).appendTo(this.$selections.append(' • '));
+			this.$head = $('<div>').appendTo(this.$container);
+			this.$link = $('<a>').text('Cat-a-lot').appendTo(this.$head);
+
 			this.$searchInput
 				.on('keypress', ({currentTarget, keyCode, which}): void => {
 					if ((keyCode || which) === 13) {
@@ -153,13 +166,13 @@ const catALot = (): void => {
 						);
 					},
 					open: (): void => {
-						$('.ui-autocomplete').position({
+						this.$body.find('.ui-autocomplete').position({
 							my: 'right bottom',
 							at: 'right top',
 							of: this.$searchInput,
 						});
 					},
-					appendTo: '#cat_a_lot',
+					appendTo: `.${CLASS_NAME_CONTAINER}`,
 				});
 			};
 			this.$selectAll.on('click', (): void => {
@@ -169,7 +182,7 @@ const catALot = (): void => {
 				this.toggleAll(false);
 			});
 			this.$link.on('click', ({currentTarget}): void => {
-				$(currentTarget).toggleClass('cat_a_lot_enabled');
+				$(currentTarget).toggleClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED);
 				initAutocomplete();
 				this.run();
 			});
@@ -181,17 +194,21 @@ const catALot = (): void => {
 			// * for more information
 			return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 		}
-		static findAllLabels(): void {
+		findAllLabels(): void {
 			// It's possible to allow any kind of pages as well but what happens if you click on "select all" and don't expect it
 			if (CAL.isSearchMode) {
-				CAL.$labels = $('table.searchResultImage').find('tr>td').eq(1);
+				CAL.$labels = this.$body.find('table.searchResultImage').find('tr>td').eq(1);
 				if (CAL.settings.editpages) {
 					CAL.$labels = CAL.$labels.add('div.mw-search-result-heading');
 				}
 			} else {
-				CAL.$labels = $('div.gallerytext').add($('div#mw-category-media').find('li[class!="gallerybox"]'));
+				CAL.$labels = this.$body
+					.find('div.gallerytext')
+					.add(this.$body.find('div#mw-category-media').find('li[class!="gallerybox"]'));
 				if (CAL.settings.editpages) {
-					const $pages: JQuery<HTMLLIElement> = $('div#mw-pages, div#mw-subcategories').find('li');
+					const $pages: JQuery<HTMLLIElement> = this.$body
+						.find('div#mw-pages, div#mw-subcategories')
+						.find('li');
 					CAL.$labels = CAL.$labels.add($pages);
 				}
 			}
@@ -201,9 +218,9 @@ const catALot = (): void => {
 			this.$markCounter.show().html(CAL.msg('files-selected', CAL.$selectedLabels.length.toString()));
 		}
 		makeClickable(): void {
-			CAL.findAllLabels();
+			this.findAllLabels();
 			CAL.$labels
-				.addClass('cat_a_lot__label')
+				.addClass(CLASS_NAME_LABEL)
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
 				.onCatALotShiftClick((): void => {
@@ -347,7 +364,7 @@ const catALot = (): void => {
 			return CAL.settings.docleanup ? text.replace(/{{\s*[Cc]heck categories\s*(\|?.*?)}}/, '') : text;
 		}
 		static markAsDone($label: JQuery, mode: 'add' | 'copy' | 'move' | 'remove', targetcat: string): void {
-			$label.addClass('cat_a_lot_markAsDone');
+			$label.addClass(CLASS_NAME_LABEL_DONE);
 			switch (mode) {
 				case 'add':
 					$label.append(`<br>${CAL.msg('added-cat', targetcat)}`);
@@ -365,8 +382,8 @@ const catALot = (): void => {
 		}
 		displayResult(): void {
 			this.$body.css('cursor', 'auto');
-			$('.cat_a_lot_feedback').addClass('cat_a_lot_done');
-			$('.ui-dialog-content').height('auto');
+			$(`.${CLASS_NAME_FEEDBACK}`).addClass(CLASS_NAME_FEEDBACK_DONE);
+			$(`.${CLASS_NAME_FEEDBACK}.ui-dialog-content`).height('auto');
 			const $parent: JQuery = CAL.$counter.parent();
 			$parent.html(`<h3>${CAL.msg('done')}</h3>`);
 			$parent.append(`${CAL.msg('all-done')}<br>`);
@@ -533,9 +550,9 @@ const catALot = (): void => {
 			this.$body.css('cursor', 'wait');
 			CAL.$progressDialog = $('<div>')
 				.html(
-					` ${CAL.msg('editing')}<span id="cat_a_lot_current">${CAL.counterCurrent}</span>${CAL.msg('of')}${
-						CAL.counterNeeded
-					}`
+					` ${CAL.msg('editing')}<span id="${CLASS_NAME_CURRENT}">${CAL.counterCurrent}</span>${CAL.msg(
+						'of'
+					)}${CAL.counterNeeded}`
 				)
 				.dialog({
 					width: 450,
@@ -545,10 +562,10 @@ const catALot = (): void => {
 					resizable: false,
 					draggable: false,
 					closeOnEscape: false,
-					dialogClass: 'cat_a_lot_feedback',
+					dialogClass: CLASS_NAME_FEEDBACK,
 				});
-			$('.ui-dialog-titlebar').hide();
-			CAL.$counter = $('#cat_a_lot_current');
+			$(`.${CLASS_NAME_FEEDBACK}.ui-dialog-titlebar`).hide();
+			CAL.$counter = $(`.${CLASS_NAME_CURRENT}`);
 		}
 		doSomething(targetcat: string, mode: 'add' | 'copy' | 'move' | 'remove'): void {
 			const files: [string, JQuery][] = this.getMarkedLabels();
@@ -594,7 +611,6 @@ const catALot = (): void => {
 					$tr.append(
 						$('<td>').append(
 							$('<a>')
-								.addClass('cat_a_lot_action')
 								.text(CAL.msg('add'))
 								.on('click', ({currentTarget}): void => {
 									this.addHere($(currentTarget).closest('tr').data('cat'));
@@ -605,7 +621,6 @@ const catALot = (): void => {
 					$tr.append(
 						$('<td>').append(
 							$('<a>')
-								.addClass('cat_a_lot_move')
 								.text(CAL.msg('move'))
 								.on('click', ({currentTarget}): void => {
 									this.moveHere($(currentTarget).closest('tr').data('cat'));
@@ -613,7 +628,6 @@ const catALot = (): void => {
 						),
 						$('<td>').append(
 							$('<a>')
-								.addClass('cat_a_lot_action')
 								.text(CAL.msg('copy'))
 								.on('click', ({currentTarget}): void => {
 									this.copyHere($(currentTarget).closest('tr').data('cat'));
@@ -656,7 +670,11 @@ const catALot = (): void => {
 					let cats: {title: string}[] = [];
 					const {pages} = result.query;
 					if (pages[-1]?.missing === '') {
-						this.$resultList.html(`<span id="cat_a_lot_no_found">${CAL.msg('cat-not-found')}</span>`);
+						this.$resultList.html(
+							`<span class="${CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND}">${CAL.msg(
+								'cat-not-found'
+							)}</span>`
+						);
 						this.$body.css('cursor', 'auto');
 						this.createCatLinks('→', [CAL.currentCategory]);
 						return;
@@ -709,16 +727,16 @@ const catALot = (): void => {
 		updateCats(newcat: string): void {
 			this.$body.css('cursor', 'wait');
 			CAL.currentCategory = newcat;
-			this.$resultList.html(`<div class="cat_a_lot_loading">${CAL.msg('loading')}</div>`);
+			this.$resultList.html(`<div>${CAL.msg('loading')}</div>`);
 			this.getCategoryList();
 		}
 		run(): void {
-			if ($('.cat_a_lot_enabled').length) {
+			if ($(`.${CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED}`).length) {
 				this.makeClickable();
 				this.$dataContainer.show();
 				this.$container.resizable({
 					handles: 'n',
-					alsoResize: '#cat_a_lot_category_list',
+					alsoResize: `.${CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST}`,
 					resize: ({currentTarget}): void => {
 						$(currentTarget).css({
 							left: '',
