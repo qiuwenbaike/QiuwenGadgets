@@ -9,6 +9,5 @@
 		"mediawiki.api",
 		"mediawiki.language"
 	],
-	"rights": ["skipcaptcha"],
-	"peers": ["Twinkle-pagestyles"]
+	"rights": ["skipcaptcha"]
 }
