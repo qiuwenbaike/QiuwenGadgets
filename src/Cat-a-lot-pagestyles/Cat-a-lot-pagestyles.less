@@ -1,17 +1,30 @@
+@import '../variables.less';
+
+@background-color-primary: rgba(51, 102, 204, 0.2);
+@background-color-secondary: rgba(51, 102, 204, 0.1);
+
+.background() {
+	/* stylelint-disable-next-line plugin/no-unsupported-browser-features */
+	backdrop-filter: saturate(50%) blur(16px);
+	background: @background-color-secondary;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
 .gadget-cat_a_lot {
 	a {
 		cursor: pointer;
 	}
 
 	&__container {
-		background-color: #fef6e7;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		border-radius: @border-radius--medium;
+		.background;
 		display: block;
 		position: fixed;
 		bottom: 0;
 		right: 0;
+		margin: 0.5em;
 		padding: 0.5em;
-		z-index: 100;
+		z-index: 200;
 
 		&__data {
 			display: none;
@@ -30,17 +43,17 @@
 				}
 
 				tr {
-					&:hover {
-						background-color: #fc3;
+					td {
+						padding: 0 0.5em 0.25em;
 					}
 
-					td {
-						a {
-							font-weight: bold;
-						}
+					&:hover {
+						background-color: @background-color-primary;
+						border: 1px solid @const-color-primary;
 					}
 				}
 
+				&__action,
 				&--no-found {
 					font-weight: bold;
 				}
@@ -48,59 +61,57 @@
 
 			&__mark-counter {
 				display: none;
-				padding: 0.5em;
+				margin: 0.5em 0;
 			}
 
 			&__search-input-container {
 				&__input {
-					font-size: 112%;
-					margin: -0.5em 0 0.5em -0.5em;
-					width: 100%;
+					display: block;
+					font-size: 1em;
+					margin: 0.5em auto;
+					width: 95%;
 				}
 			}
 
 			&__selections {
-				padding: 0.5em;
+				margin: 0.5em 0;
 			}
+		}
+
+		.skin-vector & {
+			font-size: 0.75em;
 		}
 	}
 
 	&__feedback {
-		background: #eaf2cb no-repeat 8px 14px !important;
-		border: 1px #a9de16 solid !important;
-		font-size: 1.1em !important;
-		min-height: 8em !important;
-		padding-left: 2.85em !important;
-		padding-top: 10px !important;
+		.background;
+		border: 0;
+		padding: 0.5em 2.5em;
 
-		&.ui-dialog-content {
-			min-height: 8em !important;
+		.ui-widget-overlay {
+			background: none;
 		}
 
 		&--done {
-			background-image: data-uri('./images/check-constructive.svg') !important;
-			background-size: 40px;
-			background-position: 8px 50% !important;
-			padding-top: 0 !important;
+			background-image: data-uri('./images/check-constructive.svg');
+			background-size: 2em;
+			background-position: 1em 50%;
+			background-repeat: no-repeat;
 		}
 	}
 
 	&__label {
 		&--last-selected {
 			font-weight: bold;
-			outline: 1px dotted #999;
+			outline: 1px dotted @const-color-primary;
 		}
 
 		&--selected {
-			background-color: #df6 !important;
+			background-color: @background-color-primary;
 		}
 
 		&--done {
-			background-color: #bbb !important;
+			background-color: @const-color-inactive;
 		}
-	}
-
-	.skin-vector & {
-		font-size: 0.75em;
 	}
 }

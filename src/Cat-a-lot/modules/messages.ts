@@ -59,7 +59,7 @@ const setMessages = (): void => {
 	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(WG_USER_LANGUAGE)) {
 		mw.messages.set({
 			// as in 17 files selected
-			'cat-a-lot-files-selected': '$1個文件已選擇。',
+			'cat-a-lot-files-selected': '$1個文件已選擇',
 			// Actions
 			'cat-a-lot-copy': '複製',
 			'cat-a-lot-move': '移動',
@@ -105,7 +105,7 @@ const setMessages = (): void => {
 	} else {
 		mw.messages.set({
 			// as in 17 files selected
-			'cat-a-lot-files-selected': '已选择$1个页面或文件。',
+			'cat-a-lot-files-selected': '已选择$1个页面或文件',
 			// Actions
 			'cat-a-lot-copy': '复制',
 			'cat-a-lot-move': '移动',
