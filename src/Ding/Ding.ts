@@ -1,3 +1,3 @@
-import {dingCore} from './modules/core';
+import {ding} from './modules/shims';
 
-window.DingExposedInterface = dingCore;
+(window as unknown as {DingExposedInterface: typeof ding}).DingExposedInterface = ding;
