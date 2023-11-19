@@ -5,6 +5,7 @@ import {
 	CLASS_NAME_CONTAINER,
 	CLASS_NAME_CONTAINER_DATA,
 	CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST,
+	CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION,
 	CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND,
 	CLASS_NAME_CONTAINER_DATA_MARK_COUNTER,
 	CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT,
@@ -166,7 +167,7 @@ const catALot = (): void => {
 						);
 					},
 					open: (): void => {
-						this.$body.find('.ui-autocomplete').position({
+						this.$body.find(`${CLASS_NAME_CONTAINER} .ui-autocomplete`).position({
 							my: 'right bottom',
 							at: 'right top',
 							of: this.$searchInput,
@@ -381,9 +382,11 @@ const catALot = (): void => {
 			}
 		}
 		displayResult(): void {
-			this.$body.css('cursor', 'auto');
-			$(`.${CLASS_NAME_FEEDBACK}`).addClass(CLASS_NAME_FEEDBACK_DONE);
-			$(`.${CLASS_NAME_FEEDBACK}.ui-dialog-content`).height('auto');
+			this.$body.css({
+				cursor: '',
+				overflow: '',
+			});
+			this.$body.find(`.${CLASS_NAME_FEEDBACK}`).addClass(CLASS_NAME_FEEDBACK_DONE);
 			const $parent: JQuery = CAL.$counter.parent();
 			$parent.html(`<h3>${CAL.msg('done')}</h3>`);
 			$parent.append(`${CAL.msg('all-done')}<br>`);
@@ -547,7 +550,6 @@ const catALot = (): void => {
 			return marked;
 		}
 		showProgress(): void {
-			this.$body.css('cursor', 'wait');
 			CAL.$progressDialog = $('<div>')
 				.html(
 					` ${CAL.msg('editing')}<span id="${CLASS_NAME_CURRENT}">${CAL.counterCurrent}</span>${CAL.msg(
@@ -564,8 +566,13 @@ const catALot = (): void => {
 					closeOnEscape: false,
 					dialogClass: CLASS_NAME_FEEDBACK,
 				});
-			$(`.${CLASS_NAME_FEEDBACK}.ui-dialog-titlebar`).hide();
-			CAL.$counter = $(`.${CLASS_NAME_CURRENT}`);
+			this.$body.css({
+				cursor: 'wait',
+				overflow: 'hidden',
+			});
+			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-titlebar`).hide();
+			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-content`).height('auto');
+			CAL.$counter = this.$body.find(`.${CLASS_NAME_CURRENT}`);
 		}
 		doSomething(targetcat: string, mode: 'add' | 'copy' | 'move' | 'remove'): void {
 			const files: [string, JQuery][] = this.getMarkedLabels();
@@ -611,6 +618,7 @@ const catALot = (): void => {
 					$tr.append(
 						$('<td>').append(
 							$('<a>')
+								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
 								.text(CAL.msg('add'))
 								.on('click', ({currentTarget}): void => {
 									this.addHere($(currentTarget).closest('tr').data('cat'));
@@ -621,6 +629,7 @@ const catALot = (): void => {
 					$tr.append(
 						$('<td>').append(
 							$('<a>')
+								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
 								.text(CAL.msg('move'))
 								.on('click', ({currentTarget}): void => {
 									this.moveHere($(currentTarget).closest('tr').data('cat'));
@@ -628,6 +637,7 @@ const catALot = (): void => {
 						),
 						$('<td>').append(
 							$('<a>')
+								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
 								.text(CAL.msg('copy'))
 								.on('click', ({currentTarget}): void => {
 									this.copyHere($(currentTarget).closest('tr').data('cat'));
@@ -645,7 +655,7 @@ const catALot = (): void => {
 			this.createCatLinks('↑', CAL.parentCats);
 			this.createCatLinks('→', thiscat);
 			this.createCatLinks('↓', CAL.subCats);
-			this.$body.css('cursor', 'auto');
+			this.$body.css('cursor', '');
 			// Reset width
 			this.$container.width('');
 			this.$container.height('');
@@ -675,7 +685,7 @@ const catALot = (): void => {
 								'cat-not-found'
 							)}</span>`
 						);
-						this.$body.css('cursor', 'auto');
+						this.$body.css('cursor', '');
 						this.createCatLinks('→', [CAL.currentCategory]);
 						return;
 					}
@@ -731,18 +741,19 @@ const catALot = (): void => {
 			this.getCategoryList();
 		}
 		run(): void {
-			if ($(`.${CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED}`).length) {
+			if (this.$body.find(`.${CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED}`).length) {
 				this.makeClickable();
 				this.$dataContainer.show();
 				this.$container.resizable({
 					handles: 'n',
 					alsoResize: `.${CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST}`,
 					resize: ({currentTarget}): void => {
-						$(currentTarget).css({
+						const $currentTarget = $(currentTarget);
+						$currentTarget.css({
 							left: '',
 							top: '',
 						});
-						CAL.dialogHeight = $(currentTarget).height() ?? CAL.dialogHeight;
+						CAL.dialogHeight = $currentTarget.height() ?? CAL.dialogHeight;
 						this.$resultList.css({
 							maxHeight: '',
 							width: '',
