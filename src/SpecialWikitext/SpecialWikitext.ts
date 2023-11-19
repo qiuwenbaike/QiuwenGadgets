@@ -278,7 +278,7 @@ const previewTool = () => {
 				params.disableeditsection = 1;
 			}
 			api.post(params)
-				.done((data) => {
+				.then((data) => {
 					if (!data || !data['parse'] || !data['parse'].text || !data['parse'].text['*']) {
 						return;
 					}
@@ -289,7 +289,7 @@ const previewTool = () => {
 						$addParsedWikitext(parsedWiki);
 					}
 				})
-				.fail(() => {
+				.catch(() => {
 					$loadingFailNotice();
 				});
 		}
@@ -330,7 +330,7 @@ const previewTool = () => {
 				params.disableeditsection = 1;
 			}
 			api.post(params)
-				.done((data) => {
+				.then((data) => {
 					if (!data || !data['parse'] || !data['parse'].text || !data['parse'].text['*']) {
 						return;
 					}
@@ -348,7 +348,7 @@ const previewTool = () => {
 						$removeLoadingNotice();
 					}
 				})
-				.fail(() => {
+				.catch(() => {
 					$loadingFailNotice();
 				});
 		}
@@ -364,7 +364,7 @@ const previewTool = () => {
 			oldid: mw.config.get('wgRevisionId'),
 		};
 		api.get(params)
-			.done((data) => {
+			.then((data) => {
 				// 若取得 _addText 则显示预览
 				if (!data || !data['parse'] || !data['parse'].wikitext || !data['parse'].wikitext['*']) {
 					return;
@@ -380,7 +380,7 @@ const previewTool = () => {
 					mwAddWikiText(pageContent, currentPageName, true);
 				}
 			})
-			.fail(() => {
+			.catch(() => {
 				$removeLoadingNotice();
 			});
 	};
@@ -396,7 +396,7 @@ const previewTool = () => {
 			uselang: getLanguage(),
 			useskin: mw.config.get('skin'),
 		};
-		api.post(params).done((data) => {
+		api.post(params).then((data) => {
 			if (!data || !data['parse'] || !data['parse'].text || !data['parse'].text['*']) {
 				return;
 			}
@@ -498,7 +498,7 @@ const previewTool = () => {
 				params.disableeditsection = 1;
 			}
 
-			api.post(params).done((data) => {
+			api.post(params).then((data) => {
 				if (!data || !data['parse'] || !data['parse'].text || !data['parse'].text['*']) {
 					return;
 				}

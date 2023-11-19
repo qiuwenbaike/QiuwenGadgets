@@ -68,7 +68,7 @@ const ding = (
 	autoHide = false,
 	type: 'default' | 'info' | 'success' | 'warning' | 'error' = 'default'
 ): void => {
-	mw.loader.using(['ext.gadget.Toastify', 'ext.gadget.Toastify-pagestyles']).then((): void => {
+	mw.loader.using('ext.gadget.Toastify').then((): void => {
 		toastify(
 			{
 				text: value,

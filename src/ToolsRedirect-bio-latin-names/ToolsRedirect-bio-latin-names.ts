@@ -7,7 +7,7 @@ if (!mw.user.options.get('gadget-ToolsRedirect')) {
 		action: 'options',
 		format: 'json',
 		change: 'gadget-ToolsRedirect=1',
-	}).done(() => {
+	}).then(() => {
 		mw.loader.using(['ext.gadget.ToolsRedirect', 'ext.gadget.ToolsRedirect-pagestyles']);
 	});
 }

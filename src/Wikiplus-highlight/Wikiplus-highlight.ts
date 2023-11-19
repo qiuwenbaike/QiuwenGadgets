@@ -7,7 +7,7 @@ if (!mw.user.options.get('gadget-Wikiplus')) {
 		action: 'options',
 		format: 'json',
 		change: 'gadget-Wikiplus=1',
-	}).done(() => {
+	}).then(() => {
 		mw.loader.using(['ext.gadget.Wikiplus', 'ext.gadget.Wikiplus-pagestyles']);
 	});
 }

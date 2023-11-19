@@ -80,11 +80,11 @@ export const liveClock = (): void => {
 			titles: mw.config.get('wgPageName'),
 		};
 		api.post(params)
-			.done(() => {
+			.then(() => {
 				mw.notify(getMessage('Success'), {tag: 'UTCLiveClock', type: 'success'});
 				location.reload();
 			})
-			.fail(() => {
+			.catch(() => {
 				mw.notify(getMessage('Failed'), {tag: 'UTCLiveClock', type: 'error'});
 			});
 	});

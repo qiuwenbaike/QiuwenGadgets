@@ -43,7 +43,7 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 		rvprop: 'content',
 	};
 	api.get(params)
-		.done((response): void => {
+		.then((response): void => {
 			let content: string | undefined;
 			if (response['query']?.pages) {
 				[{content}] = response['query'].pages[0].revisions;
@@ -61,7 +61,7 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 				summary: message.edit_summary,
 			};
 			api.postWithEditToken(_params)
-				.done((result): void => {
+				.then((result): void => {
 					if (result['edit']?.result === 'Success') {
 						location.replace(mw.util.getUrl(RRD_PAGE));
 					} else if (result['error']?.code) {
@@ -76,11 +76,11 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 						});
 					}
 				})
-				.fail((): void => {
+				.catch((): void => {
 					mw.notify(`Error when editing page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
 				});
 		})
-		.fail((): void => {
+		.catch((): void => {
 			mw.notify(`Error when loading page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
 		});
 };

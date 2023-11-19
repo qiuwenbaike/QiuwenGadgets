@@ -138,7 +138,7 @@ export const markUserRights = ($content: JQuery): void => {
 			usprop: 'groups',
 			ususers,
 		};
-		api.get(params).done((response) => {
+		api.get(params).then((response) => {
 			const _users: {groups: string; name: string}[] = response['query']?.users ?? [];
 			for (const user of _users) {
 				if (user.groups) {

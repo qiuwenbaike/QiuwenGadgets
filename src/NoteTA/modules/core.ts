@@ -47,10 +47,10 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 			params.variant = wgUserVariant;
 		}
 		api.post(params)
-			.done((results): void => {
+			.then((results): void => {
 				$dialogMessage.html(results['parse'].text['*']);
 			})
-			.fail(parse);
+			.catch(parse);
 	};
 	let maybeTitle = parse;
 	const $noteTAtitle: JQuery = $dom.find('.noteTA-title');
@@ -74,7 +74,7 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 				variant: 'zh',
 			};
 			api.post(params)
-				.done((results): void => {
+				.then((results): void => {
 					const $multititle: JQuery = $(results['parse'].text['*']).find('.noteTA-multititle');
 					if ($multititle.length) {
 						const textVariant: Record<string, string> = {};
@@ -136,7 +136,7 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 					}
 					parse();
 				})
-				.fail(maybeTitle);
+				.catch(maybeTitle);
 		};
 	}
 	const $noteTAgroups: JQuery = $dom.find('.noteTA-group > *[data-noteta-group]');

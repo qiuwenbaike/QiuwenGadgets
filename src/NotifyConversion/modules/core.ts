@@ -118,14 +118,14 @@ const showDialog = (): void => {
 				const variant = String(selectedItem.getData());
 				clearWindows(variant);
 				if (mw.config.get('wgUserName')) {
-					api.saveOption('variant', variant).done(() => {
+					api.saveOption('variant', variant).then(() => {
 						location.href = locationHref.replace(URL_REGEX, '$1wiki$3');
 					});
 				} else {
 					location.href = locationHref.replace(URL_REGEX, `$1${variant}$3`);
 				}
 			} else {
-				OO.ui.confirm(getMessage('Are you sure?')).done((confirmed) => {
+				OO.ui.confirm(getMessage('Are you sure?')).then((confirmed) => {
 					if (confirmed) {
 						clearWindows();
 					}

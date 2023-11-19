@@ -31,7 +31,7 @@ export const pagePatroller = () => {
 			rvdir: 'newer',
 		},
 	})
-		.done(({query}): void => {
+		.then(({query}): void => {
 			let cts = '';
 			let html = '';
 			if (query && query.logevents && query.logevents.length) {
@@ -72,8 +72,8 @@ export const pagePatroller = () => {
 				$patroller.html(html);
 			}
 		})
-		.fail((_jqXHR: JQuery.jqXHR, _textStatus: JQuery.Ajax.ErrorTextStatus, errorThrown: string): void => {
-			console.error(`[PagePatroller]: ${errorThrown}`);
+		.catch((error: never): void => {
+			console.error(`[PagePatroller]: ${error}`);
 			$patroller.text(window.wgULS('查找巡查者时出现错误。', '查找巡查者時出現錯誤。'));
 		});
 };
