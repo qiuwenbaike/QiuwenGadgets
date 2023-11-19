@@ -4601,30 +4601,6 @@
 			}
 			g(Ct, 'URL'), i({global: !0, forced: !a, sham: !o}, {URL: Ct});
 		},
-		9183: function (t, e, n) {
-			'use strict';
-			const r = n(7537);
-			const i = n.n(r);
-			const o = n(3645);
-			const a = n.n(o)()(i());
-			a.push([
-				t.id,
-				'.clear{clear:both}#Wikiplus-Quickedit-Summary-Input{width:50%}#Wikiplus-Quickedit-Preview-Submit, #Wikiplus-Quickedit-Submit{margin-top:5px;padding:revert}.Wikiplus-Btn{position:relative;float:left;margin:3px 5px;padding:3px 1em;width:auto;background-color:#fff;box-shadow:0 1px 2px #aaa;text-align:center;cursor:pointer}.Wikiplus-Btn a{position:relative;display:block;margin:0;color:#000;text-decoration:none}.Wikiplus-InterBox{position:absolute;top:20%;z-index:200;padding:20px 10px;width:600px;min-height:100px;border:1px rgba(161, 154, 220, 0.41) solid;background-color:#edf9f7;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.Wikiplus-InterBox-Header{position:relative;top:0;top:-8px;margin:0;width:100%;border-bottom:1px #6cf solid;text-align:left;font-size:15px;line-height:30px;cursor:move}.Wikiplus-InterBox-Input{margin:20px;width:60%}.Wikiplus-InterBox-Btn{position:relative;float:right;margin:auto 3px;padding:6px 12px;border:1px solid #dedede;background-color:#fff;vertical-align:middle;text-align:center;cursor:pointer}.Wikiplus-InterBox-Btn:hover{background-color:#e8e8e8}.Wikiplus-InterBox-Close{position:absolute;top:0;right:0;margin:3px 7px;font-size:20px;cursor:pointer}.Wikiplus-InterBox label{font-size:13px}.Wikiplus-InterBox table.diff{table-layout:auto !important}.Wikiplus-InterBox table.diff .diff-addedline,.Wikiplus-InterBox table.diff .diff-deletedline,.Wikiplus-InterBox table.diff .diff-lineno{width:50%}.Wikiplus-InterBox table.diff .diff-marker{text-align:left}#Wikiplus-Quickedit-Preview-Output{clear:both;margin:5px 0}#Wikiplus-Quickedit{word-break:break-all;width:100%;min-height:500px}.Wikiplus-Banner{margin:0;padding:10px 5px;min-height:50px;background:rgba(193, 222, 214, 0.51);text-align:center;font-size:30px;font-family:微软雅黑}.MoeNotification-notice{position:relative;display:none;overflow:hidden;margin:3px 5px;padding:0 5px;width:auto;box-shadow:0 3px 3px #aaa;font-size:14px !important}.MoeNotification-notice span{position:relative;margin:3px auto 3px 3px;color:#fff;text-align:left;font-size:14px !important;font-family:Arial, Tahoma, Microsoft YaHei, \\5fae\\8f6f\\96c5\\9ed1, Hiragino Sans GB, Microsoft JhengHei, 微軟正黑體, sans-serif;line-height:1.5 !important}.MoeNotification-notice-success{border-left:5px #8dda93 solid;border-bottom-left-radius:3px;border-top-left-radius:3px;background-color:#008a00}.MoeNotification-notice-warning{border-left:5px #ffdf00 solid;border-bottom-left-radius:3px;border-top-left-radius:3px;background-color:#f4bd00}.MoeNotification-notice-warning span{color:#000}.MoeNotification-notice-error{border-left:5px #e71717 solid;border-bottom-left-radius:3px;border-top-left-radius:3px;background-color:#b00e06}#MoeNotification{position:fixed;bottom:30px;left:0;z-index:713;min-width:20%}.mw-editsection-divider{display:inline !important}.skin-vector #Wikiplus-Quickedit-Summary-Input{margin-top:5px}',
-				'',
-				{
-					version: 3,
-					sources: ['webpack://./src/wikiplus.css'],
-					names: [],
-					mappings:
-						'AAAA;IACI,WAAW;AACf;AACA;IACI,UAAU;AACd;AACA;;IAEI,eAAe;IACf,eAAe;AACnB;AACA;IACI,kBAAkB;IAClB,WAAW;IACX,eAAe;IACf,gBAAgB;IAChB,WAAW;IACX,sBAAsB;IACtB,0BAA0B;IAC1B,kBAAkB;IAClB,eAAe;AACnB;AACA;IACI,kBAAkB;IAClB,cAAc;IACd,SAAS;IACT,WAAW;IACX,qBAAqB;AACzB;AACA;IACI,kBAAkB;IAClB,QAAQ;IACR,YAAY;IACZ,kBAAkB;IAClB,YAAY;IACZ,iBAAiB;IACjB,2CAA2C;IAC3C,yBAAyB;IACzB,iBAAiB;IACjB,yBAAyB;IACzB,sBAAsB;IACtB,qBAAqB;AACzB;AACA;IACI,kBAAkB;IAClB,MAAM;IACN,SAAS;IACT,SAAS;IACT,WAAW;IACX,6BAA6B;IAC7B,gBAAgB;IAChB,eAAe;IACf,iBAAiB;IACjB,YAAY;AAChB;AACA;IACI,YAAY;IACZ,UAAU;AACd;AACA;IACI,kBAAkB;IAClB,YAAY;IACZ,gBAAgB;IAChB,iBAAiB;IACjB,yBAAyB;IACzB,sBAAsB;IACtB,sBAAsB;IACtB,kBAAkB;IAClB,eAAe;AACnB;AACA;IACI,yBAAyB;AAC7B;AACA;IACI,kBAAkB;IAClB,MAAM;IACN,QAAQ;IACR,eAAe;IACf,eAAe;IACf,eAAe;AACnB;AACA;IACI,eAAe;AACnB;AACA;IACI,6BAA6B;AACjC;AACA;;;IAGI,UAAU;AACd;AACA;IACI,gBAAgB;AACpB;AACA;IACI,WAAW;IACX,aAAa;AACjB;AACA;IACI,qBAAqB;IACrB,WAAW;IACX,iBAAiB;AACrB;AACA;IACI,SAAS;IACT,iBAAiB;IACjB,gBAAgB;IAChB,qCAAqC;IACrC,kBAAkB;IAClB,eAAe;IACf,iBAAiB;AACrB;AACA;IACI,kBAAkB;IAClB,aAAa;IACb,gBAAgB;IAChB,eAAe;IACf,cAAc;IACd,WAAW;IACX,0BAA0B;IAC1B,0BAA0B;AAC9B;AACA;IACI,kBAAkB;IAClB,wBAAwB;IACxB,WAAW;IACX,gBAAgB;IAChB,0BAA0B;IAC1B;6CACyC;IACzC,2BAA2B;AAC/B;AACA;IACI,8BAA8B;IAC9B,8BAA8B;IAC9B,2BAA2B;IAC3B,yBAAyB;AAC7B;AACA;IACI,8BAA8B;IAC9B,8BAA8B;IAC9B,2BAA2B;IAC3B,yBAAyB;AAC7B;AACA;IACI,WAAW;AACf;AACA;IACI,8BAA8B;IAC9B,8BAA8B;IAC9B,2BAA2B;IAC3B,yBAAyB;AAC7B;AACA;IACI,eAAe;IACf,YAAY;IACZ,OAAO;IACP,YAAY;IACZ,cAAc;AAClB;AACA;IACI,0BAA0B;AAC9B;AACA;;;;IAII,WAAW;AACf;AACA;IACI,UAAU;AACd;AACA;;IAEI,eAAe;AACnB;AACA;IACI,wBAAwB;IACxB,4BAA4B;AAChC;AACA;IACI,YAAY;IACZ,UAAU;AACd;AACA;IACI;uHACmH;AACvH;AACA;IACI;yIACqI;AACzI;AACA;IACI,wBAAwB;IACxB,mBAAmB;AACvB;AACA;IACI,wBAAwB;AAC5B;AACA;IACI,eAAe;AACnB;AACA;IACI,qBAAqB;IACrB,sBAAsB;IACtB,gBAAgB;IAChB,qBAAqB;AACzB;AACA;IACI,aAAa;IACb,WAAW;IACX,YAAY;IACZ,kBAAkB;IAClB,gCAAgC;IAChC,gDAAgD;IAChD,cAAc;IACd,kBAAkB;IAClB,wCAAwC;IACxC,yBAAyB;IACzB,kBAAkB;IAClB,uBAAuB;IACvB,mBAAmB;IACnB,eAAe;AACnB;AACA;IACI,qCAAqC;IACrC,+CAA+C;IAC/C,2CAA2C;AAC/C;AACA;IACI,aAAa;AACjB;AACA;IACI,aAAa;IACb,qBAAqB;IACrB,iBAAiB;IACjB,kBAAkB;IAClB,2BAA2B;AAC/B',
-					sourcesContent: [
-						'.clear{clear:both}#Wikiplus-Quickedit-Summary-Input{width:50%}#Wikiplus-Quickedit-Preview-Submit, #Wikiplus-Quickedit-Submit{margin-top:5px;padding:revert}.Wikiplus-Btn{position:relative;float:left;margin:3px 5px;padding:3px 1em;width:auto;background-color:#fff;box-shadow:0 1px 2px #aaa;text-align:center;cursor:pointer}.Wikiplus-Btn a{position:relative;display:block;margin:0;color:#000;text-decoration:none}.Wikiplus-InterBox{position:absolute;top:20%;z-index:200;padding:20px 10px;width:600px;min-height:100px;border:1px rgba(161, 154, 220, 0.41) solid;background-color:#edf9f7;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.Wikiplus-InterBox-Header{position:relative;top:0;top:-8px;margin:0;width:100%;border-bottom:1px #6cf solid;text-align:left;font-size:15px;line-height:30px;cursor:move}.Wikiplus-InterBox-Input{margin:20px;width:60%}.Wikiplus-InterBox-Btn{position:relative;float:right;margin:auto 3px;padding:6px 12px;border:1px solid #dedede;background-color:#fff;vertical-align:middle;text-align:center;cursor:pointer}.Wikiplus-InterBox-Btn:hover{background-color:#e8e8e8}.Wikiplus-InterBox-Close{position:absolute;top:0;right:0;margin:3px 7px;font-size:20px;cursor:pointer}.Wikiplus-InterBox label{font-size:13px}.Wikiplus-InterBox table.diff{table-layout:auto !important}.Wikiplus-InterBox table.diff .diff-addedline,.Wikiplus-InterBox table.diff .diff-deletedline,.Wikiplus-InterBox table.diff .diff-lineno{width:50%}.Wikiplus-InterBox table.diff .diff-marker{text-align:left}#Wikiplus-Quickedit-Preview-Output{clear:both;margin:5px 0}#Wikiplus-Quickedit{word-break:break-all;width:100%;min-height:500px}.Wikiplus-Banner{margin:0;padding:10px 5px;min-height:50px;background:rgba(193, 222, 214, 0.51);text-align:center;font-size:30px;font-family:微软雅黑}.MoeNotification-notice{position:relative;display:none;overflow:hidden;margin:3px 5px;padding:0 5px;width:auto;box-shadow:0 3px 3px #aaa;font-size:14px !important}.MoeNotification-notice span{position:relative;margin:3px auto 3px 3px;color:#fff;text-align:left;font-size:14px !important;font-family:Arial, Tahoma, Microsoft YaHei, \\5fae\\8f6f\\96c5\\9ed1, Hiragino Sans GB, Microsoft JhengHei, 微軟正黑體, sans-serif;line-height:1.5 !important}.MoeNotification-notice-success{border-left:5px #8dda93 solid;border-bottom-left-radius:3px;border-top-left-radius:3px;background-color:#008a00}.MoeNotification-notice-warning{border-left:5px #ffdf00 solid;border-bottom-left-radius:3px;border-top-left-radius:3px;background-color:#f4bd00}.MoeNotification-notice-warning span{color:#000}.MoeNotification-notice-error{border-left:5px #e71717 solid;border-bottom-left-radius:3px;border-top-left-radius:3px;background-color:#b00e06}#MoeNotification{position:fixed;bottom:30px;left:0;z-index:713;min-width:20%}.mw-editsection-divider{display:inline !important}.skin-vector #Wikiplus-Quickedit-Summary-Input{margin-top:5px}',
-					],
-					sourceRoot: '',
-				},
-			]),
-				(e.Z = a);
-		},
 		3645: function (t) {
 			'use strict';
 			t.exports = (t) => {
@@ -7762,14 +7738,12 @@
 			const bt = n.n(kt);
 			const At = n(4589);
 			const wt = n.n(At);
-			const xt = n(9183);
 			const It = {};
 			(It.styleTagTransform = wt()),
 				(It.setAttributes = yt()),
 				(It.insert = gt().bind(null, 'head')),
 				(It.domAPI = ht()),
 				(It.insertStyleElement = bt());
-			pt()(xt.Z, It), xt.Z && xt.Z.locals && xt.Z.locals;
 			function Ct(t, e) {
 				const n = Object.keys(t);
 				if (Object.getOwnPropertySymbols) {
