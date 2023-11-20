@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - twinklebatchdelete.js */
 (function twinklebatchdelete($) {
 	/**

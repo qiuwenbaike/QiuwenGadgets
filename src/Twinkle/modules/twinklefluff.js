@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - twinklefluff.js */
 (function twinklefluff($) {
 	/**

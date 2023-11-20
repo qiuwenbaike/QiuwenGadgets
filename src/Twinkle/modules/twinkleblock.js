@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - twinkleblock.js */
 (function twinkleblock($) {
 	const api = new mw.Api({

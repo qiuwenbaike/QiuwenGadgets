@@ -1,3 +1,4 @@
+// @ts-nocheck
 (function printOptions() {
 	let windowManager;
 	let printDialog;

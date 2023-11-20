@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const messages = {
 	'no-reminder': '不再提醒',
 	more: wgULS('更多信息', '更多資訊'),

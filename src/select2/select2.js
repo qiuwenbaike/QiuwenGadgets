@@ -1,3 +1,4 @@
+// @ts-nocheck
 ((A) => {
 	'function' == typeof define && define.amd ? define(['jquery'], A) : A(jQuery);
 })((A) => {

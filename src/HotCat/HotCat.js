@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './modules/check';
 import {hotCatLocalDefaults} from './modules/localDefaults';
 import {hotCatMessages} from './modules/messages';

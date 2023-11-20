@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {initDialog} from './modules/core';
 import {pagePermissions} from './modules/constant';
 

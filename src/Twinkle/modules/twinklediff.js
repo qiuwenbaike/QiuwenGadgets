@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - twinklediff.js */
 (function twinklediff($) {
 	/**

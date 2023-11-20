@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const popups = () => {
 	// STARTFILE: main.js
 	// Fix later

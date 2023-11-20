@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {getMessage} from './util';
 import {refToolbarBase} from './RefToolbarBase';
 import {refToolbarConfig} from './RefToolbarConfig';

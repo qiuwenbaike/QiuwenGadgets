@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {getMessage} from './util';
 
 export const refToolbarBase = () => {

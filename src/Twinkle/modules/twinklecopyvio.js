@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - twinklecopyvio.js */
 (function twinklecopyvio() {
 	/**

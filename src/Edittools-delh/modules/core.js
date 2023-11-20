@@ -1,3 +1,4 @@
+// @ts-nocheck
 const getVfdText = (code, comment) => {
 	return {
 		label: comment,

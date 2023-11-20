@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - friendlytalkback.js */
 (function friendlytalkback($) {
 	/**

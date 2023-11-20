@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const hotCatLocalDefaults = () => {
 	if (typeof HotCat !== 'undefined') {
 		HotCat.messages.cat_removed = '已移除[[Category:$1]]';

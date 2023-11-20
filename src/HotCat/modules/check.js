@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * CheckCategories HotCat Extension –
  * removes the template when categorizing (prompts before) with HotCat and

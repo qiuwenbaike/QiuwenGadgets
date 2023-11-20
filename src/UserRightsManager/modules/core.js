@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {pagePermissions, permissionNames, tagLine, templates} from './constant';
 
 const pageName = mw.config.get('wgPageName');

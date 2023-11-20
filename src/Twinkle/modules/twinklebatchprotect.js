@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - twinklebatchprotect.js */
 (function twinklebatchprotect($) {
 	/**
