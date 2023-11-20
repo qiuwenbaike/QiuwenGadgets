@@ -7,6 +7,7 @@ const api = initMwApi(`Qiuwen/1.1 (UserRightsManager/1.1; ${mw.config.get('wgWik
 let permaLink;
 let userName;
 let dialog;
+let index;
 
 const assignPermission = (summary, revId, expiry) => {
 	permaLink = `[[Special:PermaLink/${revId}#User:${userName}|权限申请]]`;
@@ -26,7 +27,9 @@ const assignPermission = (summary, revId, expiry) => {
 };
 
 const markAsDone = (closingRemarks) => {
-	const sectionNode = document.querySelector(`#User\\:${userName.replace(/"/g, '.22').replace(/ /g, '_')}`);
+	const sectionNode = document.querySelector(
+		`#User\\:${userName.replace(/"/g, '.22').replace(/ /g, '_')}${index ?? ''}`
+	);
 	const [, sectionNumber] = $(sectionNode)
 		.siblings('.mw-editsection')
 		.find('a:not(.mw-editsection-visualeditor)')
@@ -357,6 +360,10 @@ export const initDialog = () => {
 		}
 		e.preventDefault();
 		userName = mw.util.getParamValue('user', $(this).attr('href'));
+		const id = $(this).attr('id');
+		if (id !== userName) {
+			index = id.replace(userName, '');
+		}
 		showDialog();
 	});
 };
