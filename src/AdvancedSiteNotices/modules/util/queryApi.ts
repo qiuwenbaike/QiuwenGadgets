@@ -1,4 +1,5 @@
-import {AJAX_PAGE_TITLE, WG_USER_LANGUAGE} from '../constant';
+import OPTIONS from '../../options.json';
+import {WG_USER_LANGUAGE} from '../constant';
 import {api} from '../api';
 
 interface RemoteNotices {
@@ -11,7 +12,7 @@ const parameters: ApiParseParams = {
 	format: 'json',
 	formatversion: '2',
 	prop: 'text',
-	page: AJAX_PAGE_TITLE,
+	page: OPTIONS.ajaxPageTitle,
 	uselang: WG_USER_LANGUAGE,
 	variant: WG_USER_LANGUAGE,
 };
