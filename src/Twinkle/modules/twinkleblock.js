@@ -1,7 +1,8 @@
-import {$body, initMwApi} from '../../util.ts';
+import {initMwApi} from '../../util.ts';
 
 /*! Twinkle.js - twinkleblock.js */
 (function twinkleblock($) {
+	const $body = $('body');
 	const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
 	let relevantUserName;
 	let blockedUserName;

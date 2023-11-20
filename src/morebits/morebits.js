@@ -1,5 +1,3 @@
-import {$body} from '../util.ts';
-
 /*! Twinkle.js - morebits.js */
 /**
  * A library full of lots of goodness for user scripts on MediaWiki wikis.
@@ -39,6 +37,8 @@ import {$body} from '../util.ts';
 	// Wrap entire file with anonymous function
 	/** @lends Morebits */
 	const Morebits = {};
+	// add $body variable
+	const $body = $('body');
 	window.Morebits = Morebits; // allow global access
 	// No Morebits.i18n at this time
 	/**

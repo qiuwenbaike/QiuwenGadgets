@@ -1,6 +1,5 @@
 /* eslint-disable mediawiki/class-doc */
 import {CLASS_NAME_LABEL, CLASS_NAME_LABEL_LAST_SELECTED, CLASS_NAME_LABEL_SELECTED} from './constant';
-import {$document} from '../../util';
 
 const extendJQueryPrototype = (): void => {
 	/*! jQuery checkboxShiftClick | GPL-2.0 <qwbk.cc/H:GPL> */
@@ -17,7 +16,7 @@ const extendJQueryPrototype = (): void => {
 			}
 
 			// Highlight last selected
-			$document.find(`.${CLASS_NAME_LABEL_LAST_SELECTED}`).removeClass(CLASS_NAME_LABEL_LAST_SELECTED);
+			$(document).find(`.${CLASS_NAME_LABEL_LAST_SELECTED}`).removeClass(CLASS_NAME_LABEL_LAST_SELECTED);
 
 			let $thisControl: JQuery = $(event.target);
 			if (!$thisControl.hasClass(CLASS_NAME_LABEL)) {

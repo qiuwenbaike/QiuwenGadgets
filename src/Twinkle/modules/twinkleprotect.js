@@ -1,7 +1,8 @@
-import {$body, initMwApi} from '../../util.ts';
+import {initMwApi} from '../../util.ts';
 
 /*! Twinkle.js - twinkleprotect.js */
 (function twinkleprotect($) {
+	const $body = $('body');
 	/**
 	 * twinkleprotect.js: Protect/RPP module
 	 * Mode of invocation: Tab ("PP"/"RPP")

@@ -1,5 +1,4 @@
 import {getGadgetName, makeGadgetId, processGadgetDefinition} from './modules/core';
-import {$body} from '../util';
 
 (() => {
 	// Only operate on [[MediaWiki:Gadgets-definition]] when the text is visible.
@@ -14,6 +13,7 @@ import {$body} from '../util';
 	}
 
 	const gadgetsDefinitionLoad = () => {
+		const $body = $('body');
 		const $parserOutput = $body.find('.mw-parser-output');
 		// Process gadget definitions in lists.
 		$parserOutput.find('li').each((_index, element) => {

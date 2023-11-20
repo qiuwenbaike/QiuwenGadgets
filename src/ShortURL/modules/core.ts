@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
-import {$body, initMwApi} from '../../util';
 import {alertTitle, portletText, portletTooltip} from './messages';
+import {initMwApi} from '../../util';
 
 export const shortURL = (): void => {
 	let isInit = false;
@@ -91,6 +91,7 @@ export const shortURL = (): void => {
 		oldId: number | false;
 		revisionId: number;
 	}): void => {
+		const $body = $('body');
 		if (diffId) {
 			const buildLink = (_oldId: number | false, link = '/d'): void => {
 				if (_oldId) {

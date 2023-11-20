@@ -1,4 +1,4 @@
-import {$body, $window} from '../../util.ts';
+const $body = $('body');
 
 const origPageName = mw.config.get('wgPageName');
 const scriptPath = mw.config.get('wgScriptPath');
@@ -115,10 +115,10 @@ export const ToolsRedirect = {
 				bgiframe: true,
 				resizable: false,
 				modal: true,
-				width: Math.round($window.width() * 0.8),
+				width: Math.round($(window).width() * 0.8),
 				position: 'center',
 			});
-		dlg.css('max-height', `${Math.round($window.height() * 0.8)}px`);
+		dlg.css('max-height', `${Math.round($(window).height() * 0.8)}px`);
 		this.tabselem = $('<div>').addClass('tab-redirect').appendTo(dlg);
 		this.tagselem = $('<ul>').appendTo(this.tabselem);
 		this.addTabs();

@@ -1,7 +1,8 @@
-import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 const fillSpecialPage = (): void => {
+	const $body = $('body');
+
 	const $wpSubjectElement = $body.find('[name="wpSubject"]');
 	if (!$wpSubjectElement.length) {
 		return;

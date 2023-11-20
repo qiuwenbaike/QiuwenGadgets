@@ -1,4 +1,6 @@
-import {$body, $document, initMwApi} from '../../util.ts';
+import {initMwApi} from '../../util.ts';
+
+const $body = $('body');
 
 export const ProveIt = {
 	/**
@@ -882,7 +884,7 @@ export const ProveIt = {
 				break;
 			}
 			case '2017':
-				$document.on('focus', '.ve-ui-mwSaveDialog-summary textarea', function () {
+				$(document).on('focus', '.ve-ui-mwSaveDialog-summary textarea', function () {
 					const $summaryTextarea = $(this);
 					const currentSummary = $summaryTextarea.val();
 					if (!currentSummary) {

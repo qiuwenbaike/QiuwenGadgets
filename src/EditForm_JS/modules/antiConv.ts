@@ -1,7 +1,8 @@
-import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const antiConv = (): void => {
+	const $body = $('body');
+
 	// 检测客户端繁简转换
 	$body.find('#antispam-container').append(
 		$('<input>').attr({

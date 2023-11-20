@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklearv.js */
 (function twinklearv($) {
+	const $body = $('body');
 	/**
 	 * twinklearv.js: ARV module
 	 * Mode of invocation: Tab ("ARV")

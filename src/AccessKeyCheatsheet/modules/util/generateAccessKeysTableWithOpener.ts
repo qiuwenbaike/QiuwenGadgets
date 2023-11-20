@@ -32,7 +32,7 @@ const generateAccessKeysTableWithOpener = (
 		.attr('accesskey', '?')
 		.text(getMessage('Text'))
 		.hide()
-		.appendTo($body);
+		.appendTo(document.body);
 
 	return {
 		$accessKeysTable,

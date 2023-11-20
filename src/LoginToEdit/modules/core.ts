@@ -1,17 +1,13 @@
-import {$body} from '../../util';
-import {LOGIN_ELEMENT_SELECTOR} from './constant';
+import {LOGIN_ELEMENT_SELECTOR, LOGIN_URL, REGISTER_URL} from './constant';
 import {getMessage} from './i18n';
 
 export const loginToEdit = (): void => {
 	const isCitizen: boolean = mw.config.get('skin') === 'citizen';
-	const loginURL = mw.util.getUrl('Special:UserLogin', {
-		returnto: mw.config.get('wgPageName'),
-	});
-	const registerURL = mw.util.getUrl('Special:CreateAccount', {
-		returnto: mw.config.get('wgPageName'),
-	});
+	const $body = $('body');
+
 	let messageDialog: OO.ui.MessageDialog;
 	let windowManager: OO.ui.WindowManager;
+
 	const windowOpeningData: OO.ui.WindowManager.WindowOpeningData = {
 		title: $('<b>').addClass('oo-ui-window-head').text(getMessage('DialogTitle')),
 		message: $('<span>').addClass('oo-ui-window-foot').text(getMessage('DialogMessage')),
@@ -33,6 +29,7 @@ export const loginToEdit = (): void => {
 			},
 		],
 	};
+
 	const openDialog = (): void => {
 		if (!windowManager) {
 			messageDialog = new OO.ui.MessageDialog();
@@ -42,10 +39,10 @@ export const loginToEdit = (): void => {
 					if ($element.length) {
 						$element.trigger('click');
 					} else {
-						location.href = loginURL;
+						location.href = LOGIN_URL;
 					}
 				} else if (action === 'register') {
-					location.href = registerURL;
+					location.href = REGISTER_URL;
 				}
 				return new OO.ui.Process((): void => {
 					windowManager.closeWindow(messageDialog);
@@ -57,7 +54,9 @@ export const loginToEdit = (): void => {
 		}
 		windowManager.openWindow(messageDialog, windowOpeningData);
 	};
+
 	const $caViewsource: JQuery = $body.find('#ca-viewsource');
+
 	if ($caViewsource.length) {
 		const editIcon = isCitizen ? '<span class="citizen-ui-icon mw-ui-icon-wikimedia-edit"></span>' : '';
 		$caViewsource
@@ -70,6 +69,7 @@ export const loginToEdit = (): void => {
 			openDialog();
 		});
 	}
+
 	if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
 		openDialog();
 	}

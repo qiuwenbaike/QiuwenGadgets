@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklebatchprotect.js */
 (function twinklebatchprotect($) {
+	const $body = $('body');
 	/**
 	 * twinklebatchprotect.js: Batch protect module (sysops only)
 	 * Mode of invocation: Tab ("P-batch")

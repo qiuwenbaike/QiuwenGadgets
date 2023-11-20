@@ -1,4 +1,5 @@
-import {$body, $document} from '../../util';
+const $body = $('body'),
+	$document = $(document);
 
 const countByte = (text: string): number => {
 	text = text.replace(/[\u0000-\u007F]/g, '.');
@@ -37,7 +38,7 @@ export const wordCountCore = (): void => {
 			padding: '6px',
 		})
 		.html(getCountByTextLength(text))
-		.appendTo($body);
+		.appendTo(document.body);
 	setTimeout((): void => {
 		$wordcount.fadeOut('slow');
 	}, 5000);

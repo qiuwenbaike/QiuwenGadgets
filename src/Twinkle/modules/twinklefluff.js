@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklefluff.js */
 (function twinklefluff($) {
+	const $body = $('body');
 	/**
 	 * twinklefluff.js: Revert/rollback module
 	 * Mode of invocation: Links on contributions,

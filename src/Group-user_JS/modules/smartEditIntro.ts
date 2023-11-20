@@ -1,6 +1,5 @@
-import {$body} from '../../util';
-
 export const editIntro = (): void => {
+	const $body = $('body');
 	/* 编辑提示（editintro） */
 	const addEditIntro = (name: string): void => {
 		$body

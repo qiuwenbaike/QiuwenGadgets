@@ -1,5 +1,3 @@
-import {$body} from '../util';
-
 /**
  * @description Add a "Preview with variant" option to the edit form.
  */
@@ -9,18 +7,25 @@ mw.hook('wikipage.editform').add((): void => {
 	if (mw.config.get('wgPreviewWithVariantInitialized')) {
 		return;
 	}
+
+	const $body = $('body');
+
 	const $editForm: JQuery = $body.find('#editform');
 	const $templateSandboxPreview: JQuery = $editForm.find('input[name="wpTemplateSandboxPreview"]');
+
 	// It is possible that a user want to preview a page with a non-wikitext module
 	// Do not return in this case
 	if (mw.config.get('wgPageContentModel') !== 'wikitext' && !$templateSandboxPreview.length) {
 		return;
 	}
+
 	const $layout: JQuery = $editForm.find('.editCheckboxes .oo-ui-horizontalLayout');
 	if (!$layout.length) {
 		return;
 	}
+
 	mw.config.set('wgPreviewWithVariantInitialized', true);
+
 	const VARIANTS: {
 		data: string;
 		label: string;
@@ -62,10 +67,13 @@ mw.hook('wikipage.editform').add((): void => {
 			label: '中國臺灣繁體',
 		},
 	];
+
 	const uriVariant: string | null = mw.util.getParamValue('variant');
+
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: Boolean(uriVariant),
 	});
+
 	const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
 		$overlay: true,
 		disabled: !checkbox.isSelected(),
@@ -78,10 +86,13 @@ mw.hook('wikipage.editform').add((): void => {
 			}),
 		},
 	});
+
 	dropdown.getMenu().selectItemByData(mw.config.get('wgUserVariant') || uriVariant || mw.user.options.get('variant'));
+
 	checkbox.on('change', (selected: boolean | string): void => {
 		dropdown.setDisabled(!selected);
 	});
+
 	const getSelectedVariant = (): string | undefined => {
 		if (!checkbox.isSelected()) {
 			return;
@@ -89,6 +100,7 @@ mw.hook('wikipage.editform').add((): void => {
 		const selectedItem = dropdown.getMenu().findSelectedItem();
 		return selectedItem ? ((selectedItem as OO.ui.OptionWidget).getData() as string) : undefined;
 	};
+
 	const manipulateActionUrl = (): void => {
 		const selectedVariant: string | undefined = getSelectedVariant();
 		const originalAction: string | undefined = $editForm.attr('action');
@@ -103,22 +115,29 @@ mw.hook('wikipage.editform').add((): void => {
 			);
 		}
 	};
+
 	const manipulateVariantConfig = (): void => {
 		mw.config.set('wgUserVariant', getSelectedVariant() || mw.user.options.get('variant'));
 	};
+
 	$editForm
 		.find('#wpPreview')
 		.on('click', mw.user.options.get('uselivepreview') ? manipulateVariantConfig : manipulateActionUrl);
+
 	$templateSandboxPreview.on('click', manipulateActionUrl);
+
 	dropdown.getMenu().on('select', manipulateVariantConfig);
+
 	const checkboxField: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
 		align: 'inline',
 		label: window.wgULS('预览字词转换', '預覽字詞轉換'),
 	});
+
 	const dropdownField: OO.ui.FieldLayout<OO.ui.DropdownWidget> = new OO.ui.FieldLayout(dropdown, {
 		align: 'top',
 		label: window.wgULS('使用该语言变体显示预览：', '使用該語言變體顯示預覽：'),
 		invisibleLabel: true,
 	});
+
 	$layout.append($('<div>').attr('id', 'pwv-area').append(checkboxField.$element, dropdownField.$element));
 });

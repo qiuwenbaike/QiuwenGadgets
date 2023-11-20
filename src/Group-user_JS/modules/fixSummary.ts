@@ -1,6 +1,6 @@
-import {$body} from '../../util';
-
 export const fixSummary = (): void => {
+	const $body = $('body');
+
 	switch (mw.config.get('wgCanonicalSpecialPageName')) {
 		case 'MassEditRegex':
 			// MassEditRegex

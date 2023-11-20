@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinkle.js */
 (function twinkle($) {
+	const $body = $('body');
 	// Wrap with anonymous function
 	// Check if account is experienced enough to use Twinkle
 	if (!Morebits.userIsInGroup('autoconfirmed') && !Morebits.userIsInGroup('confirmed')) {

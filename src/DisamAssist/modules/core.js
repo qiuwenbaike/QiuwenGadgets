@@ -1,8 +1,11 @@
-import {$body, $window, initMwApi} from '../../util.ts';
 import {cfg} from './config';
+import {initMwApi} from '../../util.ts';
 import {txt} from './messages';
 
 const api = initMwApi(`Qiuwen/1.1 (DisamAssist/1.1; ${mw.config.get('wgWikiID')})`);
+
+const $body = $('body');
+
 let startLink;
 let ui;
 let links;
@@ -138,7 +141,7 @@ const createUI = () => {
 
 /* If there are pending changes, show a confirm dialog before closing */
 const addUnloadConfirm = () => {
-	$window.on('beforeunload', () => {
+	$(window).on('beforeunload', () => {
 		if (running && checkActualChanges()) {
 			return txt.pending;
 		} else if (editCount !== 0) {

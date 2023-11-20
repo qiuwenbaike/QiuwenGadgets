@@ -1,11 +1,12 @@
 import {IS_DIFF_ACTION, IS_TARGET_SPECIAL_PAGE, IS_WG_EDIT_OR_SUBMIT_ACTION, IS_WG_HISTORY_ACTION} from '../constant';
-import {$body} from '../../../util';
 interface TargetElements {
 	color: string;
 	$targetElementArray: JQuery[];
 }
 
 const getTargetElements = (): TargetElements => {
+	const $body = $('body');
+
 	const $targetElementArray: JQuery[] = [];
 	let color = ''; // links color (coloured links)
 

@@ -1,5 +1,5 @@
-import {$body, initMwApi} from '../../util';
 import {TRANSLATE_VARIANTS_SUMMARY} from './constant';
+import {initMwApi} from '../../util';
 
 export const translateVariants = () => {
 	const langs = new Set(['zh', 'zh-hans', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hant', 'zh-hk', 'zh-mo', 'zh-tw']);
@@ -20,6 +20,7 @@ export const translateVariants = () => {
 	const table = $('<div>').attr('id', 'TranslateVariants').prependTo('#bodyContent');
 	const $submitAll = $('<button>').text(window.wgULS('发布所有更改', '發佈所有變更'));
 	$submitAll.on('click', () => {
+		const $body = $('body');
 		const $buttons = $body.find('.TranslateVariants-publish-changes');
 		if ($buttons.length === 0) {
 			mw.notify(window.wgULS('没有任何可以发布的更改', '沒有任何變更可發佈'), {

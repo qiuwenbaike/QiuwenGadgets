@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinkleconfig.js */
 (function twinkleconfig($) {
+	const $body = $('body');
 	/**
 	 * twinkleconfig.js: Preferences module
 	 * Mode of invocation: Adds configuration form to Help:Twinkle/参数设置,

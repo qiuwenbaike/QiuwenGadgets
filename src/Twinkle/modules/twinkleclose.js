@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinkleclose.js */
 (function twinkleclose($) {
+	const $body = $('body');
 	/**
 	 * twinkleclose.js: XFD closing module
 	 * Mode of invocation: Links after section heading

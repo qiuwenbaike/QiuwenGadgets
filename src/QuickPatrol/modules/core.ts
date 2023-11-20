@@ -1,7 +1,8 @@
-import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const QuickPatrol = () => {
+	const $body = $('body');
+
 	/* Patrol single page */
 	$body.find('.not-patrolled').each((index, element): void => {
 		const $patrolBtn = $('<a>')

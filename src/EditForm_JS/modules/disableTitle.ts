@@ -1,6 +1,6 @@
-import {$body} from '../../util';
-
 export const disableTitle = (): void => {
+	const $body = $('body');
+
 	// 在提交新段落时，让主题栏在特定情况下失效
 	if ($body.find('#no-new-title').length > 0 && $body.find('#editform input[name=wpSection]').val() === 'new') {
 		// 传统文本编辑器

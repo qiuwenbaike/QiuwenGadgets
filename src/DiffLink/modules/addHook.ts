@@ -1,9 +1,10 @@
-import {$body} from '../../util';
 import {checkRevisionPage} from './util/checkRevisionPage';
 import {processId} from './processId';
 
 const addHook = (): void => {
 	mw.hook('wikipage.content').add(($content): void => {
+		const $body = $('body');
+
 		if ($content.attr('id') !== 'mw-content-text') {
 			return;
 		}

@@ -1,4 +1,3 @@
-import {$body} from '../util.ts';
 import {easy_archive_lang} from './modules/i18n';
 
 (function easyArchive() {
@@ -6,6 +5,8 @@ import {easy_archive_lang} from './modules/i18n';
 		return;
 	}
 	window.easy_archive ??= {};
+	const $body = $('body');
+
 	// minified code dependency functions
 	class Pare_str {
 		constructor(pare_string, config) {

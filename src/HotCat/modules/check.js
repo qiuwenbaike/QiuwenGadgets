@@ -1,5 +1,3 @@
-import {$body} from '../../util.ts';
-
 /**
  * CheckCategories HotCat Extension –
  * removes the template when categorizing (prompts before) with HotCat and
@@ -12,10 +10,11 @@ import {$body} from '../../util.ts';
 	if (
 		mw.config.get('wgNamespaceNumber') !== 6 ||
 		window.HotCatAutoRemoveCheckCatOptOut ||
-		!$body.find('.checkcategories')[0]
+		!document.querySelectorAll('.checkcategories').length
 	) {
 		return;
 	}
+	const $body = $('body');
 	const checkCategoriesRegExp = /{{[Cc]heck[ _]categories[^{}]*}}/g;
 	const selfName = '([[MediaWiki:Gadget-HotCat-check.js|Script]]): ';
 	const storageItemName = 'checkCat';

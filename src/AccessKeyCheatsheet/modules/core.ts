@@ -1,4 +1,3 @@
-import {$body} from '../../util';
 import {generateAccessKeysTableWithOpener} from './util/generateAccessKeysTableWithOpener';
 import {generateMessageDialogProperty} from './util/generateMessageDialogProperty';
 
@@ -6,6 +5,8 @@ import {generateMessageDialogProperty} from './util/generateMessageDialogPropert
  * Adds alt+shift+? as an access key to show a list of all default access keys
  */
 const accessKeyCheatsheet = (): void => {
+	const $body = $('body');
+
 	const {$accessKeysTable, $accessKeyCheatsheetOpener} = generateAccessKeysTableWithOpener($body);
 	const messageDialogProperty = generateMessageDialogProperty($accessKeysTable);
 
@@ -29,7 +30,7 @@ const accessKeyCheatsheet = (): void => {
 				'margin-bottom': '0',
 				width: '35em',
 			})
-			.appendTo($body);
+			.appendTo(document.body);
 		windowManager.addWindows([messageDialog]);
 		windowManager.openWindow(messageDialog, messageDialogProperty);
 	});

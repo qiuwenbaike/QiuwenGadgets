@@ -1,5 +1,4 @@
 import {CLASS_CONSENT_NOTICE, STORAGE_KEY} from './constant';
-import {$body} from '../../util';
 
 import {getMessage} from './i18n';
 
@@ -18,7 +17,7 @@ const insertElement = (): void => {
 		mw.storage.set(STORAGE_KEY, '1', 60 * 60 * 1000 * 24 * 30);
 		$consentNotice.fadeOut().remove();
 	});
-	$consentNotice.appendTo($body);
+	$consentNotice.appendTo(document.body);
 };
 
 export {insertElement};

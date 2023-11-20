@@ -1,7 +1,7 @@
-import {$body, initMwApi} from '../../util';
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
 import {geoCountryName, geoRegionName} from './name';
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 const countryList = geoCountryName;
 const regionList = geoRegionName;
@@ -22,6 +22,7 @@ export const getLocation = (): void => {
 	}
 	const ipGeoLocationDesc: string = getMessage('Location');
 	const appendIcon = (indicatorText: string, spanClass: string, icon: string, indicator?: boolean): void => {
+		const $body = $('body');
 		const elementName =
 			indicator === true
 				? 'div'

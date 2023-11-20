@@ -1,4 +1,6 @@
-import {$body, initMwApi} from '../util';
+import {initMwApi} from '../util';
+
+const $body = $('body');
 
 const quickImport = async (): Promise<void> => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (QuickImport/1.0; ${mw.config.get('wgWikiID')})`);

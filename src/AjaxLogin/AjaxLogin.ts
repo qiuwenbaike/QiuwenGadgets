@@ -1,15 +1,17 @@
-import {$body, checkA11yConfirmKey} from '../util';
 import {LOGIN_ELEMENT_SELECTOR, WG_USER_NAME} from './modules/constant';
 import {ajaxLogin} from './modules/core';
+import {checkA11yConfirmKey} from '../util';
 
 $(function initAutoLogin(): void {
+	const $body = $('body');
+
 	const $element: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>(LOGIN_ELEMENT_SELECTOR);
 	if (WG_USER_NAME || !$element.length) {
 		return;
 	}
 
 	const windowManager = new OO.ui.WindowManager();
-	windowManager.$element.appendTo($body);
+	windowManager.$element.appendTo(document.body);
 
 	const fakeToastifyInstance: ToastifyInstance = {
 		hideToast: () => {},

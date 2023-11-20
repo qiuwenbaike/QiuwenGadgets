@@ -1,4 +1,3 @@
-import {$body, $document, $window} from './../../util.ts';
 import {getMessage} from './util';
 import {refToolbarBase} from './RefToolbarBase';
 import {refToolbarConfig} from './RefToolbarConfig';
@@ -14,6 +13,10 @@ if (window.CiteTB === undefined) {
 }
 
 refToolbarBase();
+
+const $body = $('body'),
+	$document = $(document),
+	$window = $(window);
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
 export const refToolbar2 = () => {

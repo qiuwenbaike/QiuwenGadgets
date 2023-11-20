@@ -1,8 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklexfd.js */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 (function twinklexfd($) {
+	const $body = $('body');
 	/**
 	 * twinklexfd.js: XFD module
 	 * Mode of invocation: Tab ("XFD")

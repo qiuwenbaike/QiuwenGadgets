@@ -1,9 +1,9 @@
-import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const foldRef = (): void => {
+	const $body = $('body');
 	let $currentToFoldElement;
-	// create a div, place [[Template:Reflist]]s inside
+	// create a div, place {{Reflist}}s inside
 	const foldRefMain = (element: JQuery<Element>): void => {
 		const newRefFolder: JQuery = $('<div>').addClass('foldref-folded');
 		newRefFolder.insertBefore(element);
@@ -12,7 +12,7 @@ export const foldRef = (): void => {
 		newRefFolder.after($('<div>').addClass('foldref-expand-button').text(getMessage('Expand')));
 	};
 	const viewPortHeight: number = window.innerHeight;
-	// for articles using <references />, [[Template:Reflist]]s or similar templates
+	// for articles using <references />, {{Reflist}}s or similar templates
 	const toFold: JQuery = $body.find('.refbegin, .mw-references-wrap');
 	for (const element of toFold) {
 		$currentToFoldElement = $(element);

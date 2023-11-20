@@ -1,7 +1,8 @@
-import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const edit0 = (): void => {
+	const $body = $('body');
+
 	const localTitle: string = getMessage('Edit0');
 	const $ourContent: JQuery = $body.find('#content, #mw_content').first();
 

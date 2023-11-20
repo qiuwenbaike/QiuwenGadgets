@@ -1,5 +1,6 @@
 import {articleSummaries, commonSummaries, talkPageSummaries} from './messages';
-import {$body} from '../../util';
+
+const $body = $('body');
 
 let $wpSummary: JQuery = $body.find('#wpSummary');
 

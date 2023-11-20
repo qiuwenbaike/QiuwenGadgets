@@ -1,5 +1,5 @@
-import {$body, initMwApi} from '../../util';
 import {getMessage} from './i18n';
+import {initMwApi} from '../../util';
 
 const padWithZeroes = (number: number) => {
 	// Pad a number with zeroes. The number must be an integer where
@@ -60,6 +60,7 @@ const showTime = ($target: JQuery): void => {
 };
 
 export const liveClock = (): void => {
+	const $body = $('body');
 	// Reset whitespace that was set in the peer CSS gadget; this prevents the
 	// effect of the p-personal menu jumping to the left when the JavaScript
 	// loads.

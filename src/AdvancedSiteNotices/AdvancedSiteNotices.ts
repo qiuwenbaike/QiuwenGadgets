@@ -1,10 +1,10 @@
-import {$body} from '../util';
 import type {RemoteNotices} from './modules/util/queryApi';
 import {WG_ACTION} from './modules/constant';
 import {loadRemoteNotices} from './modules/loadRemoteNotices';
 import {showNotices} from './modules/showNotice';
 
 $(async function advancedSiteNotices(): Promise<void> {
+	const $body = $('body');
 	const $siteNotice: JQuery = $body.find('#siteNotice');
 	if (['edit', 'submit'].includes(WG_ACTION) || !$siteNotice.length) {
 		return;

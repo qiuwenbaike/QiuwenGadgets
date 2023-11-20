@@ -1,10 +1,12 @@
-import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const AiAssisted = (): void => {
-	let isInit = false;
+	const $body = $('body');
+
+	mw.config.set('wgEditAiAssistedInitialized', false);
+
 	const statement = (tagName: string, labelName: string) => {
-		if (isInit) {
+		if (mw.config.get('wgEditAiAssistedInitialized')) {
 			return;
 		}
 		// @ts-ignore
@@ -14,7 +16,7 @@ export const AiAssisted = (): void => {
 		if (!$layout.length) {
 			return;
 		}
-		isInit = true;
+		mw.config.set('wgEditAiAssistedInitialized', true);
 		const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 			selected: false,
 		});

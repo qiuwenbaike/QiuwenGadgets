@@ -1,7 +1,7 @@
-import {$document} from './../../util.ts';
 import {getMessage} from './util';
 
 export const refToolbarBase = () => {
+	const $document = $(document);
 	// Object for cite templates
 	window.CiteTemplate = function (templatename, shortform, basicfields, expandedfields) {
 		// Properties

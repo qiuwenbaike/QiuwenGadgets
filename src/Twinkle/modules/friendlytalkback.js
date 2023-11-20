@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - friendlytalkback.js */
 (function friendlytalkback($) {
+	const $body = $('body');
 	/**
 	 * friendlytalkback.js: Talkback module
 	 * Mode of invocation: Tab ("TB")

@@ -1,7 +1,8 @@
-import {$body} from '../../util.ts';
 import {messages} from './messages';
 
 let autoSaveId = null;
+
+const $body = $('body');
 
 const $editform = $body.find('#editform');
 
@@ -70,7 +71,7 @@ const notice = (msg, more) => {
 			.addClass('ui-widget-content gadget-wikicache__notice')
 			.attr('id', 'gadget-wikicache__notice');
 	}
-	_notice.empty().off('mouseenter').off('mouseleave').append(msg).appendTo($body).fadeIn();
+	_notice.empty().off('mouseenter').off('mouseleave').append(msg).appendTo(document.body).fadeIn();
 	if (more instanceof Object) {
 		_notice
 			.on('mouseenter', () => {
@@ -120,7 +121,7 @@ const settingsDialog = () => {
 				)
 				.append(`&nbsp;${messages['settings-autosave-interval-suffix']}`)
 		);
-	dialog.appendTo($body).dialog({
+	dialog.appendTo(document.body).dialog({
 		draggable: false,
 		modal: true,
 		width: 400,

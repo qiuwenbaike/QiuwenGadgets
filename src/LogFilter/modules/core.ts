@@ -1,4 +1,4 @@
-import {$body} from '../../util';
+const $body = $('body');
 
 export const filterLists = {
 	i18n: {

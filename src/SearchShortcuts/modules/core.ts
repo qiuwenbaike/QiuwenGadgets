@@ -1,4 +1,4 @@
-import {$body} from '../../util';
+const $body = $('body');
 
 export const $searchInput: JQuery = $body.find('#searchInput'),
 	searchShortcutsMain = (): void => {

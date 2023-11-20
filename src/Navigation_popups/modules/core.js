@@ -1,4 +1,4 @@
-import {$body, $window, initMwApi} from '../../util.ts';
+import {initMwApi} from '../../util.ts';
 
 export const popups = () => {
 	// STARTFILE: main.js
@@ -2866,7 +2866,7 @@ export const popups = () => {
 		if (!getValueOf('popupOnlyArticleLinks')) {
 			fixVectorMenuPopups();
 		}
-		const s = $body.find('.nopopups').toArray();
+		const s = $('body').find('.nopopups').toArray();
 		for (const element of s) {
 			const as = element.querySelectorAll('a');
 			for (const a of as) {
@@ -2876,7 +2876,7 @@ export const popups = () => {
 		markNopopupSpanLinks.done = true;
 	};
 	const fixVectorMenuPopups = () => {
-		$body.find('nav.vector-menu h3:first a:first').prop('inNopopupSpan', true);
+		$('body').find('nav.vector-menu h3:first a:first').prop('inNopopupSpan', true);
 	};
 	// ENDFILE: titles.js
 	// STARTFILE: getpage.js
@@ -8063,7 +8063,7 @@ export const popups = () => {
 		autoEdit();
 	} else {
 		// will setup popups
-		$window.on('load', autoEdit);
+		$(window).on('load', autoEdit);
 	}
 	// Support for MediaWiki's live preview, VisualEditor's saves and Echo's flyout.
 	(() => {

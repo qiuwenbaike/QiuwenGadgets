@@ -1,5 +1,5 @@
-import {$body, scrollTop} from '../../util';
 import {getMessage} from './i18n';
+import {scrollTop} from '../../util';
 
 type State = 'close' | 'open';
 interface Config {
@@ -13,6 +13,7 @@ export const floatTOC = (): void => {
 	if (!originToc) {
 		return;
 	}
+	const $body = $('body');
 	const ID = 'floatTOC';
 	let config: Config = mw.storage.getObject(ID);
 	if (!config) {
@@ -52,7 +53,7 @@ export const floatTOC = (): void => {
 			$('<span>').text(getMessage('Contents'))
 		)
 		.hide()
-		.appendTo($body);
+		.appendTo(document.body);
 	let isShow: boolean;
 	let preNotification: ReturnType<typeof mw.notification.notify> | undefined;
 	let disableStyleTimer: ReturnType<typeof setTimeout>;

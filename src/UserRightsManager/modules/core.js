@@ -1,9 +1,11 @@
-import {$body, initMwApi} from '../../util.ts';
 import {pagePermissions, permissionNames, tagLine, templates} from './constant';
+import {initMwApi} from '../../util.ts';
 
 const pageName = mw.config.get('wgPageName');
 const permission = pagePermissions[pageName];
 const api = initMwApi(`Qiuwen/1.1 (UserRightsManager/1.1; ${mw.config.get('wgWikiID')})`);
+const $body = $('body');
+
 let permaLink;
 let userName;
 let dialog;

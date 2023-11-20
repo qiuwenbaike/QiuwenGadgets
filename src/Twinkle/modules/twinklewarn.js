@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklewarn.js */
 (function twinklewarn($) {
+	const $body = $('body');
 	/**
 	 * twinklewarn.js: Warn module
 	 * Mode of invocation: Tab ("Warn")

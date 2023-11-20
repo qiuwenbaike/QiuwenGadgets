@@ -1,4 +1,3 @@
-import {$body, $document} from '../../util';
 import {
 	URL_DIFF,
 	URL_HIGHLIGHT,
@@ -17,6 +16,9 @@ import {
 } from './constant';
 
 const core = (): void => {
+	const $body = $('body'),
+		$document = $(document);
+
 	/**
 	 * &withCSS= and &withJS= URL parameters
 	 * Allow to try custom scripts from MediaWiki space

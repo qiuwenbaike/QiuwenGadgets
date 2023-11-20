@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklespeedy.js */
 (function twinklespeedy($) {
+	const $body = $('body');
 	/**
 	 * twinklespeedy.js: CSD module
 	 * Mode of invocation: Tab ("CSD")

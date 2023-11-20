@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklebatchdelete.js */
 (function twinklebatchdelete($) {
+	const $body = $('body');
 	/**
 	 * twinklebatchdelete.js: Batch delete module (sysops only)
 	 * Mode of invocation: Tab ("D-batch")

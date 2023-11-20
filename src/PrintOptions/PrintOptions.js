@@ -1,7 +1,7 @@
-import {$body} from '../util.ts';
-
 let windowManager;
 let printDialog;
+
+const $body = $('body');
 
 const printOptionsMain = {
 	install: () => {

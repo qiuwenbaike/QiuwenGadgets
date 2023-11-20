@@ -1,4 +1,6 @@
-import {$body, initMwApi} from '../util';
+import {initMwApi} from '../util';
+
+const $body = $('body');
 
 /* 跟[[Module:Special wikitext]]保持一致的段落。 */
 const wikiTextKey = '_addText';

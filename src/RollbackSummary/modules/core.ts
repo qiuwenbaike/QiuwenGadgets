@@ -1,8 +1,10 @@
-import {$body} from '../../util';
 import {messages} from './messages';
 
 export const rollbackSummary = (): void => {
 	messages();
+
+	const $body = $('body');
+
 	const updateLinks = (): void => {
 		$body.find('.mw-rollback-link a').off('click');
 		$body

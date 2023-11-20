@@ -1,4 +1,3 @@
-import {$body} from '../../util';
 import {WG_SKIN} from './constant';
 
 const loadTippy = (): void => {
@@ -49,6 +48,8 @@ const loadTippy = (): void => {
 		if (WG_SKIN !== 'citizen') {
 			return;
 		}
+
+		const $body = $('body');
 
 		for (const element of $body.find(
 			'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a,.page-actions>nav>ul>li a,.page-actions__button'

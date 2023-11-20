@@ -1,7 +1,6 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - friendlytag.js */
 (function friendlytag($) {
+	const $body = $('body');
 	/**
 	 * friendlytag.js: Tag module
 	 * Mode of invocation: Tab ("Tag")

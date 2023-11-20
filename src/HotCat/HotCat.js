@@ -1,6 +1,5 @@
 import './modules/check';
 
-import {$body} from '../util.ts';
 import {hotCatLocalDefaults} from './modules/localDefaults';
 import {hotCatMessages} from './modules/messages';
 
@@ -21,6 +20,8 @@ import {hotCatMessages} from './modules/messages';
 	if ((window.HotCat && !window.HotCat.nodeName) || conf.wgAction === 'edit') {
 		return; // Not on edit mode
 	}
+	// add $body variable
+	const $body = $('body');
 	// Configuration stuff.
 	window.HotCat = {
 		// Localize these messages to the main language of your wiki.
