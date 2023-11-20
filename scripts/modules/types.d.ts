@@ -40,9 +40,7 @@ interface DefaultDefinition {
 	dependencies: string[];
 	hidden: boolean;
 	namespaces: false | number[];
-	package: boolean;
 	peers: string[];
-	requiresES6: boolean;
 	rights: string[];
 	skins: string[];
 	supportsUrlLoad: boolean;

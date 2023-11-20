@@ -64,20 +64,12 @@
 				}
 			]
 		},
-		"package": {
-			"type": "boolean",
-			"default": false
-		},
 		"peers": {
 			"type": "array",
 			"default": [],
 			"items": {
 				"type": "string"
 			}
-		},
-		"requiresES6": {
-			"type": "boolean",
-			"default": false
 		},
 		"rights": {
 			"type": "array",
