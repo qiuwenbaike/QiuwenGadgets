@@ -31,7 +31,7 @@ $area.find(`.${CLASS_NOTICES_DISMISS}`).on('click', (event: JQuery.ClickEvent): 
 
 const noticeStyles: CSSStyleSheet[] = [];
 let $notices: JQuery;
-const showNotices = ($siteNotice: JQuery, index: number, remoteNotices?: RemoteNotices): void => {
+const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteNotices): void => {
 	currentNoticesVersion = remoteNotices?.version ?? currentNoticesVersion;
 	if (currentNoticesVersion === localNoticesVersion) {
 		return;
@@ -49,7 +49,7 @@ const showNotices = ($siteNotice: JQuery, index: number, remoteNotices?: RemoteN
 		$notice = $notices.eq(index);
 		if ($notice.length) {
 			if (!matchCriteria($notice)) {
-				showNotices($siteNotice, nextNoticeIndex);
+				showNotices($mountPoint, nextNoticeIndex);
 				return;
 			}
 			index = index++ % noticesLength;
@@ -91,7 +91,7 @@ const showNotices = ($siteNotice: JQuery, index: number, remoteNotices?: RemoteN
 			}
 		});
 	} else if (!currentNoticeHtml) {
-		$siteNotice.append($area);
+		$mountPoint.append($area);
 		const noticeStyle: CSSStyleSheet | undefined = noticeStyles[noticeStyleId];
 		if (noticeStyle) {
 			noticeStyle.disabled = false;
@@ -100,7 +100,7 @@ const showNotices = ($siteNotice: JQuery, index: number, remoteNotices?: RemoteN
 	}
 
 	timer = setTimeout((): void => {
-		showNotices($siteNotice, nextNoticeIndex);
+		showNotices($mountPoint, nextNoticeIndex);
 	}, 7 * 1000);
 };
 

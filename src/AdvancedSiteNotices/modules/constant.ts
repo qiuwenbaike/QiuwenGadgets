@@ -1,5 +1,3 @@
-const AJAX_PAGE_TITLE = 'Template:AdvancedSiteNotices/ajax';
-
 const CLASS_NOTICES = 'gadget-advanced_site_notices';
 const CLASS_NOTICES_AREA = `${CLASS_NOTICES}__area`;
 const CLASS_NOTICES_DISMISS = `${CLASS_NOTICES}__dismiss`;
@@ -15,7 +13,6 @@ const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
 const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
 export {
-	AJAX_PAGE_TITLE,
 	CLASS_NOTICES_AREA,
 	CLASS_NOTICES_DISMISS,
 	CLASS_NOTICES_NOTICE,

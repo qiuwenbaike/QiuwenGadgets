@@ -1,3 +1,4 @@
+import OPTIONS from './options.json';
 import type {RemoteNotices} from './modules/util/queryApi';
 import {WG_ACTION} from './modules/constant';
 import {loadRemoteNotices} from './modules/loadRemoteNotices';
@@ -6,8 +7,8 @@ import {showNotices} from './modules/showNotice';
 $(async function advancedSiteNotices(): Promise<void> {
 	const $body: JQuery<HTMLBodyElement> = $('body');
 
-	const $siteNotice: JQuery = $body.find('#siteNotice');
-	if (['edit', 'submit'].includes(WG_ACTION) || !$siteNotice.length) {
+	const $mountPoint: JQuery = $body.find(OPTIONS.mountPointSelector);
+	if (OPTIONS.disableActios.includes(WG_ACTION) || !$mountPoint.length) {
 		return;
 	}
 
@@ -17,5 +18,5 @@ $(async function advancedSiteNotices(): Promise<void> {
 	}
 
 	const randomIndex: number = Math.floor(Math.random() * remoteNotices.$notices.length);
-	showNotices($siteNotice, randomIndex, remoteNotices);
+	showNotices($mountPoint, randomIndex, remoteNotices);
 });
