@@ -1,4 +1,4 @@
-import OPTIONS from './options.json';
+import * as OPTIONS from './options.json';
 import type {RemoteNotices} from './modules/util/queryApi';
 import {WG_ACTION} from './modules/constant';
 import {loadRemoteNotices} from './modules/loadRemoteNotices';
