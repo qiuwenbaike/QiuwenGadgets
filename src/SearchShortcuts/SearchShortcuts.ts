@@ -1,5 +1,9 @@
-import {$searchInput, searchShortcutsMain} from './modules/core';
+import {addKeyDownListener} from './modules/addKeyDownListener';
+import {getSearchInput} from './modules/getSearchInput';
 
-$(() => {
-	$searchInput.on('keydown', searchShortcutsMain);
+$(function searchShortcuts(): void {
+	const $body: JQuery<HTMLBodyElement> = $('body');
+	const $searchInput: JQuery<HTMLInputElement> = getSearchInput($body);
+
+	addKeyDownListener($searchInput);
 });
