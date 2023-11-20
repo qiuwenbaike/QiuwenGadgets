@@ -1,15 +1,19 @@
+import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const edit0 = (): void => {
 	const localTitle: string = getMessage('Edit0');
-	const $ourContent: JQuery = $('#content, #mw_content').first();
+	const $ourContent: JQuery = $body.find('#content, #mw_content').first();
+
 	const $span1: JQuery = $ourContent.find('span.mw-editsection:not(.plainlinks)').first();
 	if (!$span1.length) {
 		return;
 	}
 	const $span0: JQuery = $span1.clone();
-	$('body:not(.skin-citizen) #content h1#firstHeading').append($span0);
-	$('body.skin-citizen .mw-indicators').prepend($span0);
+
+	$body.find('body:not(.skin-citizen) #content h1#firstHeading').append($span0);
+	$body.find('body.skin-citizen .mw-indicators').prepend($span0);
+
 	$span0.find('a').each((_index: number, element: HTMLAnchorElement): void => {
 		const $a: JQuery<HTMLAnchorElement> = $(element);
 		const href: string = $a.attr('href') ?? '';

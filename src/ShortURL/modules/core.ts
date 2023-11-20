@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
+import {$body, initMwApi} from '../../util';
 import {alertTitle, portletText, portletTooltip} from './messages';
-import {initMwApi} from '../../util';
 
 export const shortURL = (): void => {
 	let isInit = false;
@@ -121,7 +121,8 @@ export const shortURL = (): void => {
 			}
 		} else if (
 			revisionId &&
-			($('#contentSub').find('#mw-revision-nav').length || $('main#content>.pre-content #mw-revision-nav').length)
+			($body.find('#contentSub').find('#mw-revision-nav').length ||
+				$body.find('main#content>.pre-content #mw-revision-nav').length)
 		) {
 			doIns(`/p/${revisionId}`);
 		} else if (articleId) {

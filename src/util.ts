@@ -141,6 +141,10 @@ const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
 	);
 };
 
+const $window = $(window);
+const $document = $(document);
+const $body = $('body');
+
 const scrollTop = (
 	targetHeight: number | string,
 	effectsOptionsOrDuration: JQuery.EffectsOptions<HTMLElement> | number | 'fast' | 'slow' = {}
@@ -156,15 +160,17 @@ const scrollTop = (
 					easing: 'linear',
 					...effectsOptionsOrDuration,
 			  };
-	$(document).find('html,body').animate(
+	$document.find('html,body').animate(
 		{
 			scrollTop: targetHeight,
 		},
 		options
 	);
 };
-
 export {
+	$body,
+	$document,
+	$window,
 	addEventListenerWithRemover,
 	changeOpacityWhenMouseEnterOrLeave,
 	checkA11yConfirmKey,

@@ -1,4 +1,6 @@
 import './modules/check';
+
+import {$body} from '../util.ts';
 import {hotCatLocalDefaults} from './modules/localDefaults';
 import {hotCatMessages} from './modules/messages';
 
@@ -2501,13 +2503,13 @@ import {hotCatMessages} from './modules/messages';
 				}
 				const s = `client${what}`;
 				if (window.opera) {
-					return $('body')[0][s];
+					return $body[0][s];
 				}
-				return (document.documentElement ? document.documentElement[s] : 0) || $('body')[0][s] || 0;
+				return (document.documentElement ? document.documentElement[s] : 0) || $body[0][s] || 0;
 			};
 			const scroll_offset = (what) => {
 				const s = `scroll${what}`;
-				let result = (document.documentElement ? document.documentElement[s] : 0) || $('body')[0][s] || 0;
+				let result = (document.documentElement ? document.documentElement[s] : 0) || $body[0][s] || 0;
 				if (is_rtl && what === 'Left') {
 					// RTL inconsistencies.
 					// FF: 0 at the far right, then increasingly negative values.
@@ -2940,7 +2942,7 @@ import {hotCatMessages} from './modules/messages';
 						.val(HC.changeTag);
 					$(eForm).append($ct);
 					oldTxt = eForm.wpTextbox1.value;
-					$('#wpSave').one('click', () => {
+					$body.find('#wpSave').one('click', () => {
 						if ($ct.val()) {
 							sum.value = sum.value.replace(HC.messages.using || HC.messages.prefix, '');
 						}
@@ -2984,12 +2986,12 @@ import {hotCatMessages} from './modules/messages';
 				is_rtl = document.defaultView
 					.getComputedStyle(document.querySelector('body'), null)
 					.getPropertyValue('direction');
-			} else if ($('body')[0].currentStyle) {
+			} else if ($body[0].currentStyle) {
 				// IE, has subtle differences to getComputedStyle
-				is_rtl = $('body')[0].currentStyle.direction;
+				is_rtl = $body[0].currentStyle.direction;
 			} else {
 				// Not exactly right, but best effort
-				is_rtl = $('body')[0].style.direction;
+				is_rtl = $body[0].style.direction;
 			}
 			is_rtl = is_rtl === 'rtl';
 		}
@@ -3253,7 +3255,7 @@ import {hotCatMessages} from './modules/messages';
 			additionalWork();
 		}
 		mw.hook('hotcat.ready').fire(); // Execute registered callback functions
-		$('body').trigger('hotcatSetupCompleted');
+		$body.trigger('hotcatSetupCompleted');
 	};
 	const createCommitForm = () => {
 		if (commitForm) {

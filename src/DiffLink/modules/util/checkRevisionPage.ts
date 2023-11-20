@@ -1,6 +1,9 @@
+import {$body} from '../../../util';
+
 const checkRevisionPage = (): boolean => {
 	return (
-		($('#contentSub').find('#mw-revision-nav').length || $('main#content>.pre-content #mw-revision-nav').length) > 0
+		($body.find('#contentSub').find('#mw-revision-nav').length ||
+			$body.find('main#content>.pre-content #mw-revision-nav').length) > 0
 	);
 };
 

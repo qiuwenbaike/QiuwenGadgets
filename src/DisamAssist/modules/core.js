@@ -1,13 +1,8 @@
+import {$body, $window, initMwApi} from '../../util.ts';
 import {cfg} from './config';
 import {txt} from './messages';
 
-const api = new mw.Api({
-	ajax: {
-		headers: {
-			'Api-User-Agent': `Qiuwen/1.1 (DisamAssist/1.1; ${mw.config.get('wgWikiID')})`,
-		},
-	},
-});
+const api = initMwApi(`Qiuwen/1.1 (DisamAssist/1.1; ${mw.config.get('wgWikiID')})`);
 let startLink;
 let ui;
 let links;
@@ -137,13 +132,13 @@ const createUI = () => {
 	updateEditCounter();
 	toggleActionButtons(false);
 	// Insert the UI in the page
-	$('#mw-content-text').before(ui.display);
+	$body.find('#mw-content-text').before(ui.display);
 	ui.display.hide().fadeIn();
 };
 
 /* If there are pending changes, show a confirm dialog before closing */
 const addUnloadConfirm = () => {
-	$(window).on('beforeunload', () => {
+	$window.on('beforeunload', () => {
 		if (running && checkActualChanges()) {
 			return txt.pending;
 		} else if (editCount !== 0) {
@@ -424,7 +419,7 @@ const togglePendingEditBox = (show) => {
 		if (editLimit) {
 			pendingEditBox.append($('<div>').text(txt.pendingEditBoxLimited).addClass('disamassist-subtitle'));
 		}
-		$('#mw-content-text').before(pendingEditBox);
+		$body.find('#mw-content-text').before(pendingEditBox);
 		updateEditCounter();
 	}
 	if (show) {
@@ -437,7 +432,6 @@ const togglePendingEditBox = (show) => {
 const notifyCompletion = () => {
 	const oldTitle = document.title;
 	document.title = txt.notifyCharacter + document.title;
-	const $body = $('body');
 	$body.one('mousemove', () => {
 		document.title = oldTitle;
 	});
@@ -580,7 +574,7 @@ const countActuallyChangedFullyCheckedPages = () => {
 
 /* Find the links to disambiguation options in a disambiguation page */
 const getDisamOptions = () => {
-	return $('#mw-content-text a').filter((_index, element) => {
+	return $body.find('#mw-content-text a').filter((_index, element) => {
 		return !!extractPageName($(element));
 	});
 };
@@ -597,7 +591,7 @@ const end = () => {
 	choosing = false;
 	running = false;
 	startLink.removeClass('selected');
-	$('.disamassist-optionmarker').remove();
+	$body.find('.disamassist-optionmarker').remove();
 	currentToolUI.fadeOut({
 		complete() {
 			currentToolUI.remove();
@@ -618,7 +612,7 @@ const error = (errorDescription) => {
 		}).addClass('disamassist-errorbutton')
 	);
 	const uiIsInPlace = ui && $.contains(document.documentElement, ui.display[0]);
-	const nextElement = uiIsInPlace ? ui.display : $('#mw-content-text');
+	const nextElement = uiIsInPlace ? ui.display : $body.find('#mw-content-text');
 	nextElement.before(errorBox);
 	errorBox.hide().fadeIn();
 };

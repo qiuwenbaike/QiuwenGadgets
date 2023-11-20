@@ -1,4 +1,4 @@
-import {scrollTop} from '../../util';
+import {$body, scrollTop} from '../../util';
 
 export const smoothTOC = (): void => {
 	const checkA11yKey = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): boolean => {
@@ -23,7 +23,7 @@ export const smoothTOC = (): void => {
 		scrollTop(mw.config.get('skin') === 'vector' ? `${anchorOffset.top}px` : `${anchorOffset.top - 60}px`);
 	};
 	const smoothToc = (): void => {
-		$('#toc a, #p-toc a, .sidebar-toc-link').each((_index: number, element: HTMLElement): void => {
+		$body.find('#toc a, #p-toc a, .sidebar-toc-link').each((_index: number, element: HTMLElement): void => {
 			const $element: JQuery = $(element);
 			$element.on('click', (event: JQuery.ClickEvent): void => {
 				eventListener($element, event);

@@ -1,3 +1,4 @@
+import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const markBlocked = (): void => {
@@ -169,7 +170,7 @@ export const markBlocked = (): void => {
 			if (--apiRequests === 0) {
 				// last response
 				$container.removeClass('markblocked-loading');
-				$('#ca-showblocks').parent().remove(); // remove added portlet link
+				$body.find('#ca-showblocks').parent().remove(); // remove added portlet link
 			}
 		};
 		$container.addClass('markblocked-loading');

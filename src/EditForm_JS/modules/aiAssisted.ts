@@ -1,3 +1,4 @@
+import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const AiAssisted = (): void => {
@@ -8,8 +9,8 @@ export const AiAssisted = (): void => {
 		}
 		// @ts-ignore
 		const $layout: JQuery = ve.init
-			? $('.ve-ui-mwSaveDialog-checkboxes')
-			: $('#editform').find('.editCheckboxes .oo-ui-horizontalLayout');
+			? $body.find('.ve-ui-mwSaveDialog-checkboxes')
+			: $body.find('#editform').find('.editCheckboxes .oo-ui-horizontalLayout');
 		if (!$layout.length) {
 			return;
 		}
@@ -39,9 +40,9 @@ export const AiAssisted = (): void => {
 					type: 'hidden',
 					value: '',
 				});
-				const $wpChangeTags: JQuery = $('#wpChangeTags');
+				const $wpChangeTags: JQuery = $body.find('#wpChangeTags');
 				if (!$wpChangeTags.length) {
-					$('#editform').prepend($tagInput);
+					$body.find('#editform').prepend($tagInput);
 				}
 				changeTags = String($wpChangeTags.val());
 				changeTags = checkbox.isSelected() ? `${changeTags},${tagName}` : changeTags.replace(`,${tagName}`, '');
