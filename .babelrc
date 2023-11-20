@@ -9,7 +9,7 @@
 					"proposals": true
 				},
 				"modules": false,
-				"useBuiltIns": "entry"
+				"useBuiltIns": "usage"
 			}
 		]
 	],
