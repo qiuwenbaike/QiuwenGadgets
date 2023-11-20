@@ -1,4 +1,3 @@
-/* eslint-disable sort-imports */
 import type {
 	ApiClientLoginParams as _ApiClientLoginParams,
 	ApiComparePagesParams as _ApiComparePagesParams,
@@ -17,9 +16,9 @@ import type {
 
 import type {SettingGlobal as CatALotSetting} from './Cat-a-lot/modules/types'; // Cat-a-lot
 
-import type * as _ClipboardJS from 'clipboard';
+import type _ClipboardJS from 'clipboard';
 import type {Tippy as _Tippy} from 'tippy.js';
-import type * as _Toastify from 'toastify-js';
+import type _Toastify from 'toastify-js';
 
 type I18nCandidatesKey =
 	| 'en'

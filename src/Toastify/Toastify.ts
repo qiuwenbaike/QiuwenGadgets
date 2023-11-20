@@ -1,4 +1,4 @@
-import * as Toastify from 'toastify-js';
+import Toastify from 'toastify-js';
 
 if (!window.toastify) {
 	window.toastify = (
