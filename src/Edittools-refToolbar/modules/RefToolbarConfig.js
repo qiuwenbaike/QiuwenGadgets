@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Sitewide options for the the Cite toolbar button:
  * All options should be specified

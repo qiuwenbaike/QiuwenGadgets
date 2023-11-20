@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {cfg} from './config';
 import {txt} from './messages';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - twinklearv.js */
 (function twinklearv($) {
 	/**

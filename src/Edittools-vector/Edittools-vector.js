@@ -1,3 +1,4 @@
+// @ts-nocheck
 const edittoolsVector = () => {
 	window.customizeToolbar(function () {
 		this.wikiEditor('addToToolbar', {

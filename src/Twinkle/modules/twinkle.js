@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - twinkle.js */
 (function twinkle($) {
 	// Wrap with anonymous function

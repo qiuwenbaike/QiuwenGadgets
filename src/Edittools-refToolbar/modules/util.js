@@ -1,4 +1,4 @@
-export const getMessage = (key, ...args) => {
+export const getMessage = (/** @type {string} */ key, /** @type {string[]} */ ...args) => {
 	// Messages that can be used here:
 	// * see RefToobarMessages.js
 	// * for more information

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {easy_archive_lang} from './modules/i18n';
 
 (function easyArchive() {

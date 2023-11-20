@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {messages} from './messages';
 
 let autoSaveId = null;

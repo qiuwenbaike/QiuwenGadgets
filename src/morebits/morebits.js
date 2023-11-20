@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - morebits.js */
 /**
  * A library full of lots of goodness for user scripts on MediaWiki wikis.

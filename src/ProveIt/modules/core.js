@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const ProveIt = {
 	/**
 	 * Template data of the templates

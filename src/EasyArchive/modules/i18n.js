@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const easy_archive_lang = () => {
 	const {localize} = window.i18n;
 	window.easy_archive.lang = {

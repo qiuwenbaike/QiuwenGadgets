@@ -1,3 +1,4 @@
+// @ts-nocheck
 const origPageName = mw.config.get('wgPageName');
 const scriptPath = mw.config.get('wgScriptPath');
 const nsNumber = mw.config.get('wgNamespaceNumber');

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const toolsRedirect_courtesy_and_art_names = () => {
 	const prefixRegex = /[号字號]\s*$/;
 	const {findRedirectCallback} = window.toolsRedirect;

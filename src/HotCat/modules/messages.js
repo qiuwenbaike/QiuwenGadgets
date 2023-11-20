@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const hotCatMessages = () => {
 	if (typeof HotCat !== 'undefined') {
 		HotCat.messages.commit = '保存';

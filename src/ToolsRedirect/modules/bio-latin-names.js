@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const toolsRedirect_bio_latin_names = () => {
 	const prefixRegex = /[学學]名\s*：?\s*$/;
 	const colonRegex = /^\s*[:：]?\s*$/;

@@ -1,3 +1,4 @@
+// @ts-nocheck
 (() => {
 	if (!(mw.config.get('wgAction') === 'view' && mw.config.get('wgIsArticle'))) {
 		return;

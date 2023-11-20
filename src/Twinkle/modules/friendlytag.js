@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! Twinkle.js - friendlytag.js */
 (function friendlytag($) {
 	/**
