@@ -1,3 +1,5 @@
+import {$body, $window, initMwApi} from '../../util.ts';
+
 export const popups = () => {
 	// STARTFILE: main.js
 	// Fix later
@@ -2864,7 +2866,7 @@ export const popups = () => {
 		if (!getValueOf('popupOnlyArticleLinks')) {
 			fixVectorMenuPopups();
 		}
-		const s = $('.nopopups').toArray();
+		const s = $body.find('.nopopups').toArray();
 		for (const element of s) {
 			const as = element.querySelectorAll('a');
 			for (const a of as) {
@@ -2874,7 +2876,7 @@ export const popups = () => {
 		markNopopupSpanLinks.done = true;
 	};
 	const fixVectorMenuPopups = () => {
-		$('nav.vector-menu h3:first a:first').prop('inNopopupSpan', true);
+		$body.find('nav.vector-menu h3:first a:first').prop('inNopopupSpan', true);
 	};
 	// ENDFILE: titles.js
 	// STARTFILE: getpage.js
@@ -6016,13 +6018,7 @@ export const popups = () => {
 	const getMwApi = () => {
 		if (!pg.api.client) {
 			pg.api.userAgent = `Navigation popups/1.0 (${mw.config.get('wgWikiID')})`;
-			pg.api.client = new mw.Api({
-				ajax: {
-					headers: {
-						'Api-User-Agent': pg.api.userAgent,
-					},
-				},
-			});
+			pg.api.client = initMwApi(pg.api.userAgent);
 		}
 		return pg.api.client;
 	};
@@ -8067,7 +8063,7 @@ export const popups = () => {
 		autoEdit();
 	} else {
 		// will setup popups
-		$(window).on('load', autoEdit);
+		$window.on('load', autoEdit);
 	}
 	// Support for MediaWiki's live preview, VisualEditor's saves and Echo's flyout.
 	(() => {

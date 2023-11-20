@@ -1,3 +1,5 @@
+import {$body} from '../../util.ts';
+
 /**
  * CheckCategories HotCat Extension –
  * removes the template when categorizing (prompts before) with HotCat and
@@ -10,7 +12,7 @@
 	if (
 		mw.config.get('wgNamespaceNumber') !== 6 ||
 		window.HotCatAutoRemoveCheckCatOptOut ||
-		!$('.checkcategories')[0]
+		!$body.find('.checkcategories')[0]
 	) {
 		return;
 	}
@@ -42,7 +44,7 @@
 	};
 	// Remove "check categories" when using HotCat
 	// Only executed on first submit
-	$('body').one('submit.checkCatListener', '#hotcatCommitForm', function (e) {
+	$body.one('submit.checkCatListener', '#hotcatCommitForm', function (e) {
 		if (storageItem === 'disabled') {
 			return true;
 		}
@@ -177,7 +179,7 @@
 				width: 450,
 				buttons: dlgButtons,
 				close: () => {
-					$('#hotcatCommitForm').trigger('submit');
+					$body.find('#hotcatCommitForm').trigger('submit');
 				},
 				open() {
 					const $buttons = $(this).parent().find('.ui-dialog-buttonpane button');
@@ -247,7 +249,7 @@
 				} else {
 					$el.text('Edit Done.');
 				}
-				$('.checkcategories').fadeOut();
+				$body.find('.checkcategories').fadeOut();
 			};
 			$el.text('Doing..');
 			$.post(mw.util.wikiScript('api'), params, editDone);
@@ -269,6 +271,6 @@
 		});
 	});
 	$(() => {
-		$('#catlinks').find('ul:first').append($('<li>').append($okLink));
+		$body.find('#catlinks').find('ul:first').append($('<li>').append($okLink));
 	});
 })();

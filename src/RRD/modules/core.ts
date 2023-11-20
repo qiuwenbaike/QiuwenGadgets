@@ -1,5 +1,5 @@
+import {$body, initMwApi} from '../../util';
 import {RRD_PAGE} from './constant';
-import {initMwApi} from '../../util';
 import {message} from './messages';
 
 export const isLog = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
@@ -87,20 +87,20 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 
 const updateConfig = (): void => {
 	const checkBoxes = {};
-	if ($('#rrdHideContent').prop('checked')) {
+	if ($body.find('#rrdHideContent').prop('checked')) {
 		Object.defineProperty(checkBoxes, 'rrdHideContent', {value: 1});
 	}
-	if ($('#rrdHideUsername').prop('checked')) {
+	if ($body.find('#rrdHideUsername').prop('checked')) {
 		Object.defineProperty(checkBoxes, 'rrdHideUsername', {value: 1});
 	}
-	if ($('#rrdHideSummary').prop('checked')) {
+	if ($body.find('#rrdHideSummary').prop('checked')) {
 		Object.defineProperty(checkBoxes, 'rrdHideSummary', {value: 1});
 	}
 	Object.defineProperty(config, 'checkboxes', {value: checkBoxes});
 	const others = {};
 	Object.defineProperties(others, {
-		rrdReason: {value: $('#rrdReason').val()},
-		rrdOtherReasons: {value: $('#rrdOtherReasons').val()},
+		rrdReason: {value: $body.find('#rrdReason').val()},
+		rrdOtherReasons: {value: $body.find('#rrdOtherReasons').val()},
 	});
 	Object.defineProperty(config, 'others', {value: others});
 };
@@ -194,7 +194,7 @@ export const main = (): void => {
 		.text(isLog ? message.report_button_log_text : message.report_button_text);
 	$report.on('click', showDialog);
 	// For action=history
-	$('.historysubmit.mw-history-compareselectedversions-button').after($report);
+	$body.find('.historysubmit.mw-history-compareselectedversions-button').after($report);
 	// For Special:Log
-	$('.editchangetags-log-submit.mw-log-editchangetags-button').after($report);
+	$body.find('.editchangetags-log-submit.mw-log-editchangetags-button').after($report);
 };

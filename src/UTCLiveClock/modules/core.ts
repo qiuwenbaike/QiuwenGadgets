@@ -1,5 +1,5 @@
+import {$body, initMwApi} from '../../util';
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
 
 const padWithZeroes = (number: number) => {
 	// Pad a number with zeroes. The number must be an integer where
@@ -63,7 +63,7 @@ export const liveClock = (): void => {
 	// Reset whitespace that was set in the peer CSS gadget; this prevents the
 	// effect of the p-personal menu jumping to the left when the JavaScript
 	// loads.
-	$('.client-js > body.skin-vector #p-personal ul').css('margin-right', 'initial');
+	$body.find('.client-js > body.skin-vector #p-personal ul').css('margin-right', 'initial');
 	// Add the portlet link.
 	const element: HTMLLIElement | null = mw.util.addPortletLink('p-personal', '#', '', 'utcdate');
 	if (!element) {

@@ -1,3 +1,4 @@
+import {$document} from '../../util';
 import {wgUserVariant} from './constant';
 
 export const preserveVariant = () => {
@@ -8,7 +9,7 @@ export const preserveVariant = () => {
 	) {
 		return;
 	}
-	$(document).on('keydown mousedown touchstart', 'a', function (): void {
+	$document.on('keydown mousedown touchstart', 'a', function (): void {
 		const originalHref = $(this).attr('href');
 		let uri;
 		if (!originalHref) {

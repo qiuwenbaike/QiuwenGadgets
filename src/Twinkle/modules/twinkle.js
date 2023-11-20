@@ -1,3 +1,5 @@
+import {$body} from '../../util.ts';
+
 /*! Twinkle.js - twinkle.js */
 (function twinkle($) {
 	// Wrap with anonymous function
@@ -218,11 +220,14 @@
 			break;
 		case 'gongbi':
 			Twinkle.defaultConfig.portletArea =
-				$('#page-tools .sidebar-inner').length > 0 ? '#page-tools .sidebar-inner' : '#page-more .sidebar-inner';
+				$body.find('#page-tools .sidebar-inner').length > 0
+					? '#page-tools .sidebar-inner'
+					: '#page-more .sidebar-inner';
 			Twinkle.defaultConfig.portletId = 'p-twinkle';
 			Twinkle.defaultConfig.portletName = 'Twinkle';
 			Twinkle.defaultConfig.portletType = null;
-			Twinkle.defaultConfig.portletNext = $('#page-tools .sidebar-inner').length > 0 ? 'page-more' : null;
+			Twinkle.defaultConfig.portletNext =
+				$body.find('#page-tools .sidebar-inner').length > 0 ? 'page-more' : null;
 			break;
 		case 'citizen':
 			Twinkle.defaultConfig.portletArea = '#page-actions-more__card';
@@ -433,7 +438,7 @@
 			id,
 			tooltip
 		);
-		$('.client-js .skin-vector #p-cactions').css('margin-right', 'initial');
+		$body.find('.client-js .skin-vector #p-cactions').css('margin-right', 'initial');
 		if (typeof task === 'function') {
 			$(link)
 				.find('a')
@@ -545,8 +550,8 @@
 		}
 		// Hide the lingering space if the TW menu is empty
 		const isVector = ['vector', 'vector-2022'].includes(mw.config.get('skin'));
-		if (isVector && Twinkle.getPref('portletType') === 'menu' && $('#p-twinkle').length === 0) {
-			$('#p-cactions').css('margin-right', 'initial');
+		if (isVector && Twinkle.getPref('portletType') === 'menu' && $body.find('#p-twinkle').length === 0) {
+			$body.find('#p-cactions').css('margin-right', 'initial');
 		}
 	};
 	/**

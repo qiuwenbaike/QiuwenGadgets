@@ -1,14 +1,9 @@
+import {$body, initMwApi} from '../../util.ts';
 import {pagePermissions, permissionNames, tagLine, templates} from './constant';
 
 const pageName = mw.config.get('wgPageName');
 const permission = pagePermissions[pageName];
-const api = new mw.Api({
-	ajax: {
-		headers: {
-			'Api-User-Agent': `Qiuwen/1.1 (UserRightsManager/1.1; ${mw.config.get('wgWikiID')})`,
-		},
-	},
-});
+const api = initMwApi(`Qiuwen/1.1 (UserRightsManager/1.1; ${mw.config.get('wgWikiID')})`);
 let permaLink;
 let userName;
 let dialog;
@@ -175,7 +170,7 @@ const showDialog = () => {
 			placeholder: '可留空',
 		});
 		this.expiryInput = new mw.widgets.ExpiryWidget({
-			$overlay: $('.oo-ui-window'),
+			$overlay: $body.find('.oo-ui-window'),
 			RelativeInputClass: mw.widgets.SelectWithInputWidget,
 			relativeInput: {
 				or: true,
@@ -350,13 +345,13 @@ const showDialog = () => {
 		size: 'medium',
 	});
 	const windowManager = new OO.ui.WindowManager();
-	$('body').append(windowManager.$element);
+	$body.append(windowManager.$element);
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 };
 
 export const initDialog = () => {
-	$('.perm-assign-permissions a').on('click', function (e) {
+	$body.find('.perm-assign-permissions a').on('click', function (e) {
 		if (permission === 'AutoWikiBrowser') {
 			return true;
 		}

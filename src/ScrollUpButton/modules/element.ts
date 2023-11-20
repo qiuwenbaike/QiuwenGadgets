@@ -1,6 +1,6 @@
+import {$document, $window, scrollTop} from '../../util';
 import {CLASS_BUTTON, CLASS_BUTTON_DOWN, CLASS_BUTTON_UP} from './constant';
 import {getMessage} from './i18n';
-import {scrollTop} from '../../util';
 
 const scrollButton = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E";
 
@@ -26,7 +26,7 @@ const $scrollDownButton: JQuery = $scrollButton
 		'aria-label': toBottom,
 	})
 	.on('click', (): void => {
-		scrollTop(($(document).height() ?? 0) - ($(window).height() ?? 0));
+		scrollTop(($document.height() ?? 0) - ($window.height() ?? 0));
 	});
 
 const toTop: string = getMessage('ToTop');

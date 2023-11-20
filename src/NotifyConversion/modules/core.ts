@@ -1,6 +1,6 @@
+import {$body, initMwApi} from '../../util';
 import {GADGET_NAME, SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, wgUserGroups, wgUserName, wgUserVariant} from './constant';
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
 
 const locationHref: string = location.href;
 const api: mw.Api = initMwApi(`Qiuwen/1.1 (NotifyConversion/2.0; ${mw.config.get('wgWikiID')})`);
@@ -81,7 +81,7 @@ const showDialog = (): void => {
 		);
 
 	const windowManager = new OO.ui.WindowManager();
-	windowManager.$element.appendTo($('body'));
+	windowManager.$element.appendTo($body);
 
 	const messageDialog = new OO.ui.MessageDialog();
 	const messageDialogProperty = {

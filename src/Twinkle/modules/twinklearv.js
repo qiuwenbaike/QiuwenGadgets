@@ -1,3 +1,5 @@
+import {$body} from '../../util.ts';
+
 /*! Twinkle.js - twinklearv.js */
 (function twinklearv($) {
 	/**
@@ -112,10 +114,10 @@
 				message +=
 					block.rangestart === block.rangeend ? wgULS('封禁。', '封鎖。') : wgULS('段封禁。', '段封鎖。');
 				if (block.partial) {
-					$('#twinkle-arv-blockwarning').css('color', 'black'); // Less severe
+					$body.find('#twinkle-arv-blockwarning').css('color', 'black'); // Less severe
 				}
 
-				$('#twinkle-arv-blockwarning').text(message);
+				$body.find('#twinkle-arv-blockwarning').text(message);
 			}
 		}).post();
 		// We must init the
@@ -133,7 +135,7 @@
 		Twinkle.arv.callback.set_sockmaster(e.target.value);
 	};
 	Twinkle.arv.callback.set_sockmaster = (sockmaster) => {
-		$('code.tw-arv-sockmaster').text('{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`));
+		$body.find('code.tw-arv-sockmaster').text('{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`));
 	};
 	Twinkle.arv.callback.changeCategory = (e) => {
 		const {value} = e.target;

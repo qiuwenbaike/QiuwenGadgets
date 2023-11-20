@@ -1,3 +1,5 @@
+import {$body} from '../../util.ts';
+
 /*! Twinkle.js - twinklefluff.js */
 (function twinklefluff($) {
 	/**
@@ -146,7 +148,7 @@
 			// $('sp-contributions-footer-anon-range') relies on the fmbox
 			// id in [[MediaWiki:Sp-contributions-footer-anon-range]] and
 			// is used to show rollback/vandalism links for IP ranges
-			const isRange = !!$('#sp-contributions-footer-anon-range')[0];
+			const isRange = !!$body.find('#sp-contributions-footer-anon-range')[0];
 			if (mw.config.exists('wgRelevantUserName') || isRange) {
 				// Get the username these contributions are for
 				let username = mw.config.get('wgRelevantUserName');
@@ -156,7 +158,9 @@
 						Twinkle.getPref('showRollbackLinks').includes('others')) ||
 					(mw.config.get('wgUserName') === username && Twinkle.getPref('showRollbackLinks').includes('mine'))
 				) {
-					const $list = $('#mw-content-text').find('ul li:has(span.mw-uctop):has(.mw-changeslist-diff)');
+					const $list = $body
+						.find('#mw-content-text')
+						.find('ul li:has(span.mw-uctop):has(.mw-changeslist-diff)');
 					$list.each((_key, current) => {
 						// revid is also available in the href of both
 						// .mw-changeslist-date or .mw-changeslist-diff
@@ -184,7 +188,7 @@
 					Twinkle.getPref('showRollbackLinks').includes('recentchangeslinked'))
 			) {
 				// Latest and revertable (not page creations, logs, categorizations, etc.)
-				let $list = $('.mw-changeslist .mw-changeslist-last.mw-changeslist-src-mw-edit');
+				let $list = $body.find('.mw-changeslist .mw-changeslist-last.mw-changeslist-src-mw-edit');
 				// Exclude top-level header if "group changes" preference is used
 				// and find only individual lines or nested lines
 				$list = $list
@@ -204,10 +208,10 @@
 		history: () => {
 			if (Twinkle.getPref('showRollbackLinks').includes('history')) {
 				// All revs
-				const histList = $('#pagehistory li').toArray();
+				const histList = $body.find('#pagehistory li').toArray();
 				// On first page of results, so add revert/rollback
 				// links to the top revision
-				if (!$('a.mw-firstlink').length) {
+				if (!$body.find('a.mw-firstlink').length) {
 					const first = histList.shift();
 					const vandal = $(first).find('.mw-userlink:not(.history-deleted)').text();
 					// Check for first username different than the top user,
@@ -309,7 +313,7 @@
 				// &unhide=1), since the username will be available by
 				// checking a.mw-userlink instead, but revert() will
 				// need reworking around userHidden
-				const vandal = $('#mw-diff-ntitle2').find('.mw-userlink')[0].text;
+				const vandal = $body.find('#mw-diff-ntitle2').find('.mw-userlink')[0].text;
 				const ntitle = document.querySelector('#mw-diff-ntitle1').parentNode;
 				ntitle.insertBefore(Twinkle.fluff.linkBuilder.rollbackLinks(vandal), ntitle.firstChild);
 			}
@@ -350,7 +354,7 @@
 			Morebits.status.init(notifyStatus);
 		} else {
 			Morebits.status.init(document.querySelector('#mw-content-text'));
-			$('#catlinks').remove();
+			$body.find('#catlinks').remove();
 		}
 		const params = {
 			type,

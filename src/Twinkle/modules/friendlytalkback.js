@@ -1,3 +1,5 @@
+import {$body} from '../../util.ts';
+
 /*! Twinkle.js - friendlytalkback.js */
 (function friendlytalkback($) {
 	/**
@@ -116,7 +118,7 @@
 			const reason = mw.util.getParamValue('reason', url);
 			Twinkle.talkback.optout += reason ? `：${Morebits.string.appendPunctuation(reason)}` : '。';
 		}
-		$('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
+		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
 	};
 	let prev_page = '';
 	let prev_section = '';
@@ -287,7 +289,7 @@
 		if (root.message) {
 			root.message.value = prev_message;
 		}
-		$('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
+		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
 	};
 	Twinkle.talkback.noticeboards = {
 		affp: {

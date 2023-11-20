@@ -1,4 +1,6 @@
-export const $searchInput: JQuery = $('#searchInput'),
+import {$body} from '../../util';
+
+export const $searchInput: JQuery = $body.find('#searchInput'),
 	searchShortcutsMain = (): void => {
 		const $searchInputVal = String($searchInput.val());
 		if (!$searchInputVal) {

@@ -1,5 +1,7 @@
+import {$body} from '../../util';
+
 export const stickyTableHeaders = (): void => {
-	$('.wikitable:not(.sortable)').each((_index: number, table: HTMLElement): void => {
+	$body.find('.wikitable:not(.sortable)').each((_index: number, table: HTMLElement): void => {
 		const $table: JQuery<HTMLTableElement> = $(table) as JQuery<HTMLTableElement>;
 		const $thead: JQuery<HTMLTableSectionElement> = $table.find('thead');
 		const $trTh: JQuery<HTMLTableRowElement> = $table

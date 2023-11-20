@@ -1,8 +1,10 @@
+import {$body} from '../../util';
+
 export const disableTitle = (): void => {
 	// 在提交新段落时，让主题栏在特定情况下失效
-	if ($('#no-new-title').length > 0 && $('#editform input[name=wpSection]').val() === 'new') {
+	if ($body.find('#no-new-title').length > 0 && $body.find('#editform input[name=wpSection]').val() === 'new') {
 		// 传统文本编辑器
-		const $wpSummary: JQuery = $('#wpSummary');
+		const $wpSummary: JQuery = $body.find('#wpSummary');
 		$wpSummary.attr('disabled', 'disabled');
 		$wpSummary.val('');
 	}

@@ -1,6 +1,6 @@
+import {$body, initMwApi} from '../../util';
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
 
 export const wgRelevantUserName: string | null = mw.config.get('wgRelevantUserName');
 
@@ -49,7 +49,7 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 				.addClass('gadget-markrights_userpage__text')
 				.text(indicatorText ?? '')
 		);
-	$indicator.prependTo($('#footer-info, .page-info'));
+	$indicator.prependTo($body.find('#footer-info, .page-info'));
 };
 
 export const getPermissions = () => {

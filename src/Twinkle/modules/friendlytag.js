@@ -1,3 +1,5 @@
+import {$body} from '../../util.ts';
+
 /*! Twinkle.js - friendlytag.js */
 (function friendlytag($) {
 	/**
@@ -305,7 +307,8 @@
 				// Look for existing maintenance tags in the lead section and put them in array
 				// All tags are HTML table elements that are direct children of .mw-parser-output,
 				// except when they are within {{multiple issues}}
-				$('.mw-parser-output')
+				$body
+					.find('.mw-parser-output')
 					.children()
 					.each((_i, e) => {
 						// break out on encountering the first heading, which means we are no
@@ -335,10 +338,10 @@
 						}
 					});
 				// {{Uncategorized}} and {{Improve categories}} are usually placed at the end
-				if ($('.box-Uncategorized').length) {
+				if ($body.find('.box-Uncategorized').length) {
 					Twinkle.tag.alreadyPresentTags.push('Uncategorized');
 				}
-				if ($('.box-Improve_categories').length) {
+				if ($body.find('.box-Improve_categories').length) {
 					Twinkle.tag.alreadyPresentTags.push('Improve categories');
 				}
 			}
@@ -352,7 +355,7 @@
 				numAdded: 0,
 				numRemoved: 0,
 			};
-			$('button.tw-tag-submit').after(statusNode);
+			$body.find('button.tw-tag-submit').after(statusNode);
 			// fake a change event on the sort dropdown, to initialize the tag list
 			const evt = document.createEvent('Event');
 			evt.initEvent('change', true, true);
@@ -737,7 +740,7 @@
 		}
 		// tally tags added/removed, update statusNode text
 		const statusNode = document.querySelector('#tw-tag-status');
-		$('[name=tags], [name=existingTags]').on('click', function () {
+		$body.find('[name=tags], [name=existingTags]').on('click', function () {
 			if (this.name === 'tags') {
 				Twinkle.tag.status.numAdded += this.checked ? 1 : -1;
 			} else if (this.name === 'existingTags') {

@@ -1,3 +1,5 @@
+import {$body} from '../util.ts';
+
 /*! Twinkle.js - morebits.js */
 /**
  * A library full of lots of goodness for user scripts on MediaWiki wikis.
@@ -120,8 +122,8 @@
 		return !!(
 			mw.config.get('wgIsRedirect') ||
 			document.querySelector('#softredirect') ||
-			$('.box-RfD').length ||
-			$('.box-Redirect_category_shell').length
+			$body.find('.box-RfD').length ||
+			$body.find('.box-Redirect_category_shell').length
 		);
 	};
 	/**
@@ -3450,8 +3452,8 @@
 				return;
 			}
 			// If a link is present, don't need to check if it's patrolled
-			if ($('.patrollink').length) {
-				const patrolhref = $('.patrollink a').attr('href');
+			if ($body.find('.patrollink').length) {
+				const patrolhref = $body.find('.patrollink a').attr('href');
 				ctx.rcid = mw.util.getParamValue('rcid', patrolhref);
 				fnProcessPatrol(this, this);
 			} else {
@@ -5808,6 +5810,6 @@
 	 * @param {boolean} enabled
 	 */
 	Morebits.simpleWindow.setButtonsEnabled = (enabled) => {
-		$('.morebits-dialog-buttons button').prop('disabled', !enabled);
+		$body.find('.morebits-dialog-buttons button').prop('disabled', !enabled);
 	};
 })(jQuery);

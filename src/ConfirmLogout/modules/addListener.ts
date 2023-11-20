@@ -1,7 +1,7 @@
+import {$body, oouiConfirmWithStyle} from '../../util';
 import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 import {logout} from './logout';
-import {oouiConfirmWithStyle} from '../../util';
 import {refreshEventListener} from './util/refreshEventListener';
 
 const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
@@ -30,7 +30,7 @@ const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 	}
 
 	const observerCallback = (_mutations: MutationRecord[], observer: MutationObserver): void => {
-		if (!$(document.body).hasClass('vector-sticky-header-visible')) {
+		if (!$body.hasClass('vector-sticky-header-visible')) {
 			return;
 		}
 

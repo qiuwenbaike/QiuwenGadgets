@@ -1,3 +1,4 @@
+import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const foldRef = (): void => {
@@ -12,7 +13,7 @@ export const foldRef = (): void => {
 	};
 	const viewPortHeight: number = window.innerHeight;
 	// for articles using <references />, [[Template:Reflist]]s or similar templates
-	const toFold: JQuery = $('.refbegin, .mw-references-wrap');
+	const toFold: JQuery = $body.find('.refbegin, .mw-references-wrap');
 	for (const element of toFold) {
 		$currentToFoldElement = $(element);
 		if (
@@ -30,7 +31,7 @@ export const foldRef = (): void => {
 		}
 	}
 	// attach event listener to the expand buttons
-	$('.foldref-expand-button').on('click', function (): void {
+	$body.find('.foldref-expand-button').on('click', function (): void {
 		const $this: JQuery = $(this);
 		$this.prev('.foldref-folded').removeClass('foldref-folded');
 		$this.remove();

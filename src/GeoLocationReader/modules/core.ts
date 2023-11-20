@@ -1,7 +1,7 @@
+import {$body, initMwApi} from '../../util';
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
 import {geoCountryName, geoRegionName} from './name';
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
 
 const countryList = geoCountryName;
 const regionList = geoRegionName;
@@ -60,9 +60,9 @@ export const getLocation = (): void => {
 					)
 			);
 		if (indicator === true) {
-			$indicator.appendTo($('.mw-indicators'));
+			$indicator.appendTo($body.find('.mw-indicators'));
 		} else {
-			$indicator.prependTo($('#footer-info, .page-info'));
+			$indicator.prependTo($body.find('#footer-info, .page-info'));
 		}
 	};
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (GeoLocationReader/1.0; ${mw.config.get('wgWikiID')})`);

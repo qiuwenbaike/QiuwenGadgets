@@ -1,3 +1,5 @@
+import {$body, $document} from '../../util';
+
 const countByte = (text: string): number => {
 	text = text.replace(/[\u0000-\u007F]/g, '.');
 	text = text.replace(/[\u0080-\u07FF\uD800-\uDFFF]/g, '..');
@@ -20,7 +22,7 @@ const getCountByTextLength = (text: string) => {
 };
 
 export const wordCountCore = (): void => {
-	$('.wordcount').remove();
+	$body.find('.wordcount').remove();
 	const text: string = window.getSelection()?.toString() ?? '';
 	if (!text) {
 		return;
@@ -35,7 +37,7 @@ export const wordCountCore = (): void => {
 			padding: '6px',
 		})
 		.html(getCountByTextLength(text))
-		.appendTo($('body'));
+		.appendTo($body);
 	setTimeout((): void => {
 		$wordcount.fadeOut('slow');
 	}, 5000);
@@ -46,8 +48,8 @@ export const wordCountLoad = () => {
 		return;
 	}
 	if ('ontouchstart' in document) {
-		$(document).on('touchstart touchend', wordCountCore);
+		$document.on('touchstart touchend', wordCountCore);
 	} else {
-		$(document).on('mouseup keyup', wordCountCore);
+		$document.on('mouseup keyup', wordCountCore);
 	}
 };
