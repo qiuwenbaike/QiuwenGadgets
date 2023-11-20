@@ -80,7 +80,7 @@ const collapsible = ($content: JQuery): void => {
 		// The following classes are used here:
 		// * see ./constant.ts
 		// * for more information
-		const $toggle: JQuery = $('<span>').addClass(CLASS_TOGGLER).append('[', $toggleLink, ']');
+		const $toggle: JQuery = $('<span>').addClass(`${CLASS_TOGGLER} noprint`).append('[', $toggleLink, ']');
 		addToggler($collapsible, $toggle);
 
 		// 初始化隐藏所有元素，该过程没有动画。
