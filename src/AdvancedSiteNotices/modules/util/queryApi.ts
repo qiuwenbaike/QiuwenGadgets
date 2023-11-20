@@ -1,4 +1,4 @@
-import OPTIONS from '../../options.json';
+import * as OPTIONS from '../../options.json';
 import {WG_USER_LANGUAGE} from '../constant';
 import {api} from '../api';
 

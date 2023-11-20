@@ -1,4 +1,4 @@
-import OPTIONS from '../options.json';
+import * as OPTIONS from '../options.json';
 import {WG_WIKI_ID} from './constant';
 import {initMwApi} from '../../util';
 

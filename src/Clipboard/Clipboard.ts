@@ -1,4 +1,4 @@
-import ClipboardJS from 'clipboard';
+import * as ClipboardJS from 'clipboard';
 
 if (!window.ClipboardJS) {
 	window.ClipboardJS = ClipboardJS;
