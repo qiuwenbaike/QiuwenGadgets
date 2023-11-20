@@ -1,10 +1,7 @@
-import {$body} from '../../util';
-
 export const editIntro = (): void => {
 	/* 编辑提示（editintro） */
 	const addEditIntro = (name: string): void => {
-		$body
-			.find('.mw-editsection, #ca-edit, #ca-addsection')
+		$('.mw-editsection, #ca-edit, #ca-addsection')
 			.find('a')
 			.each((_index, element) => {
 				element.href = `${$(element).attr('href')}&editintro=${name}`;
@@ -51,10 +48,10 @@ export const editIntro = (): void => {
 			}
 			if (
 				['edit', 'submit'].includes(mw.config.get('wgAction')) &&
-				$body.find('.mw-editintro').length > 0 &&
-				$body.find('#editpage-copywarn').length > 0
+				$('.mw-editintro').length > 0 &&
+				$('#editpage-copywarn').length > 0
 			) {
-				$body.find('.mw-editintro').appendTo($body.find('#editpage-copywarn'));
+				$('.mw-editintro').appendTo($('#editpage-copywarn'));
 			}
 			break;
 	}

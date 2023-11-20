@@ -1,5 +1,3 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklespeedy.js */
 (function twinklespeedy($) {
 	/**
@@ -37,7 +35,7 @@ import {$body} from '../../util.ts';
 	// Used by unlink feature
 	Twinkle.speedy.dialog = null;
 	// Used throughout
-	Twinkle.speedy.hasCSD = !!$body.find('#delete-reason').length;
+	Twinkle.speedy.hasCSD = !!$('#delete-reason').length;
 	// The speedy criteria list can be in one of several modes
 	Twinkle.speedy.mode = {
 		sysopSingleSubmit: 1,
@@ -324,13 +322,13 @@ import {$body} from '../../util.ts';
 		const mode = Twinkle.speedy.callback.getMode(form);
 		const isSysopMode = Twinkle.speedy.mode.isSysop(mode);
 		if (isSysopMode) {
-			$body.find('[name=delete_options]').show();
-			$body.find('[name=tag_options]').hide();
-			$body.find('button.tw-speedy-submit').text(wgULS('删除页面', '刪除頁面'));
+			$('[name=delete_options]').show();
+			$('[name=tag_options]').hide();
+			$('button.tw-speedy-submit').text(wgULS('删除页面', '刪除頁面'));
 		} else {
-			$body.find('[name=delete_options]').hide();
-			$body.find('[name=tag_options]').show();
-			$body.find('button.tw-speedy-submit').text(wgULS('标记页面', '標記頁面'));
+			$('[name=delete_options]').hide();
+			$('[name=tag_options]').show();
+			$('button.tw-speedy-submit').text(wgULS('标记页面', '標記頁面'));
 		}
 		const work_area = new Morebits.quickForm.element({
 			type: 'div',
@@ -507,7 +505,7 @@ import {$body} from '../../util.ts';
 		form.replaceChild(work_area.render(), old_area);
 		// if sysop, check if CSD is already on the page and fill in custom rationale
 		if (isSysopMode && Twinkle.speedy.hasCSD) {
-			const [customOption] = $body.find('input[name=csd][value=reason]');
+			const [customOption] = $('input[name=csd][value=reason]');
 			if (customOption) {
 				if (Twinkle.getPref('speedySelectionStyle') !== 'radioClick') {
 					// force listeners to re-init
@@ -515,7 +513,7 @@ import {$body} from '../../util.ts';
 					customOption.parentNode.appendChild(customOption.subgroup);
 				}
 				customOption.subgroup.querySelector('input').value = decodeURIComponent(
-					$body.find('#delete-reason').text()
+					$('#delete-reason').text()
 				).replace(/\+/g, ' ');
 			}
 		}
@@ -526,8 +524,8 @@ import {$body} from '../../util.ts';
 			document.querySelector('input[value="g7"]').labels[0].style = 'font-size: 1.5em; line-height: 1.5em;';
 		}
 		if (!isSysopMode && mw.config.get('wgPageContentModel') !== 'wikitext') {
-			$body.find('[name=tag_options]').hide();
-			$body.find('[name=work_area]').empty();
+			$('[name=tag_options]').hide();
+			$('[name=work_area]').empty();
 			const message = [
 				wgULS('Twinkle不支持在页面内容模型为', 'Twinkle不支援在頁面內容模型為'),
 				mw.config.get('wgPageContentModel'),
@@ -540,7 +538,7 @@ import {$body} from '../../util.ts';
 					.text(wgULS('手动放置模板时的注意事项', '手動放置模板時的注意事項'))[0],
 				'。',
 			];
-			$body.find('[name=work_area]').append(message);
+			$('[name=work_area]').append(message);
 			Morebits.simpleWindow.setButtonsEnabled(false);
 		} else {
 			Morebits.simpleWindow.setButtonsEnabled(true);
@@ -572,7 +570,7 @@ import {$body} from '../../util.ts';
 				message += `${delCount}次`;
 				// 3+ seems problematic
 				if (delCount >= 3) {
-					$body.find('#prior-deletion-count').css('color', '#ff0000');
+					$('#prior-deletion-count').css('color', '#ff0000');
 				}
 				// Provide a link to page logs (CSD templates have one for sysops)
 				const link = Morebits.htmlNode('a', wgULS('（日志）', '（日誌）'));
@@ -584,8 +582,8 @@ import {$body} from '../../util.ts';
 				);
 				link.setAttribute('target', '_blank');
 				link.setAttribute('rel', 'noopener noreferrer');
-				$body.find('#prior-deletion-count').text(message); // Space before log link
-				$body.find('#prior-deletion-count').append(link);
+				$('#prior-deletion-count').text(message); // Space before log link
+				$('#prior-deletion-count').append(link);
 			}
 		}).post();
 	};
@@ -681,12 +679,10 @@ import {$body} from '../../util.ts';
 						return originalEvent(e);
 					}
 					const normalizedCriterion = Twinkle.speedy.normalizeHash[e.target.value];
-					$body
-						.find('[name=openusertalk]')
-						.prop(
-							'checked',
-							Twinkle.getPref('openUserTalkPageOnSpeedyDelete').includes(normalizedCriterion)
-						);
+					$('[name=openusertalk]').prop(
+						'checked',
+						Twinkle.getPref('openUserTalkPageOnSpeedyDelete').includes(normalizedCriterion)
+					);
 					if (originalEvent) {
 						return originalEvent(e);
 					}

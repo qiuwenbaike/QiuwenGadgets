@@ -1,5 +1,5 @@
-import {$body, $window, changeOpacityWhenMouseEnterOrLeave} from '../../util';
 import {CLASS_REPORT_BUTTON, URL} from './constant';
+import {changeOpacityWhenMouseEnterOrLeave} from '../../util';
 import {getMessage} from './i18n';
 
 const addButton = (): void => {
@@ -36,7 +36,7 @@ const addButton = (): void => {
 		.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
 			changeOpacityWhenMouseEnterOrLeave(event);
 		})
-		.appendTo($body);
+		.appendTo($('body'));
 
 	tippy($reportButton.get(0) as HTMLElement, {
 		arrow: true,
@@ -45,14 +45,14 @@ const addButton = (): void => {
 	});
 
 	const scrollListener = (): void => {
-		if ($body.find('#cat_a_lot').length || $body.find('#proveit').length || $body.find('.wordcount').length) {
+		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {
 			$reportButton.css('bottom', '246px');
 		} else {
 			$reportButton.css('bottom', '204px');
 		}
 	};
 	const scrollListenerWithThrottle: typeof scrollListener = mw.util.throttle(scrollListener, 200);
-	$window.on('scroll selectionchange', scrollListenerWithThrottle);
+	$(window).on('scroll selectionchange', scrollListenerWithThrottle);
 };
 
 export {addButton};

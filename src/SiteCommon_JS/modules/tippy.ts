@@ -1,4 +1,3 @@
-import {$body} from '../../util';
 import {WG_SKIN} from './constant';
 
 const loadTippy = (): void => {
@@ -50,6 +49,7 @@ const loadTippy = (): void => {
 			return;
 		}
 
+		const $body: JQuery<HTMLBodyElement> = $('body');
 		for (const element of $body.find(
 			'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a,.page-actions>nav>ul>li a,.page-actions__button'
 		)) {

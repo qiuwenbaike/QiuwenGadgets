@@ -1,4 +1,3 @@
-import {$body} from '../../util';
 import {checkRevisionPage} from './util/checkRevisionPage';
 import {processId} from './processId';
 
@@ -8,7 +7,7 @@ const addHook = (): void => {
 			return;
 		}
 
-		if (!(checkRevisionPage() || $body.find('table').hasClass('diff'))) {
+		if (!(checkRevisionPage() || $('table').hasClass('diff'))) {
 			return;
 		}
 

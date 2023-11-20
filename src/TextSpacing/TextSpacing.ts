@@ -1,5 +1,4 @@
 import {WRAPPER_CLASS, addSpaceToString, adjustSpacing, getLeafElements} from './modules/spacing';
-import {$body} from '../util';
 
 const run = (element: HTMLElement): void => {
 	const leaves: HTMLElement[] = getLeafElements(element);
@@ -45,7 +44,7 @@ const mutationObserver = new MutationObserver((records: MutationRecord[]): void 
 const main = (): void => {
 	document.title = addSpaceToString(document.title);
 
-	const bodyElement: HTMLBodyElement = $body.get(0) as HTMLBodyElement;
+	const bodyElement: HTMLBodyElement = $('body').get(0) as HTMLBodyElement;
 	// Watch for added nodes
 	mutationObserver.observe(bodyElement, {
 		subtree: true,

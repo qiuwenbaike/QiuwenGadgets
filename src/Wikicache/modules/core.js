@@ -1,9 +1,6 @@
-import {$body} from '../../util.ts';
 import {messages} from './messages';
 
 let autoSaveId = null;
-
-const $editform = $body.find('#editform');
 
 const settings = {
 	'autosave-interval': 60,
@@ -31,7 +28,7 @@ const initView = () => {
 };
 
 const initEdit = () => {
-	$editform.on('wikiCacheSettingsUpdate', autoSave).on('submit', onSubmit);
+	$('#editform').on('wikiCacheSettingsUpdate', autoSave).on('submit', onSubmit);
 	loadSettings();
 	defaultNotice();
 	if (location.hash.includes('wikicache=autoload')) {
@@ -46,12 +43,12 @@ const loadSettings = () => {
 	if (_settings instanceof Object) {
 		$.extend(settings, _settings);
 	}
-	$editform.trigger('wikiCacheSettingsUpdate');
+	$('#editform').trigger('wikiCacheSettingsUpdate');
 };
 
 const saveSettings = () => {
 	mw.storage.setObject('wikicache-settings', settings);
-	$editform.trigger('wikiCacheSettingsUpdate');
+	$('#editform').trigger('wikiCacheSettingsUpdate');
 };
 
 const defaultNotice = () => {
@@ -64,13 +61,13 @@ const defaultNotice = () => {
 };
 
 const notice = (msg, more) => {
-	let _notice = $body.find('#gadget-wikicache__notice');
+	let _notice = $('#gadget-wikicache__notice');
 	if (_notice.length === 0) {
 		_notice = $('<div>')
 			.addClass('ui-widget-content gadget-wikicache__notice')
 			.attr('id', 'gadget-wikicache__notice');
 	}
-	_notice.empty().off('mouseenter').off('mouseleave').append(msg).appendTo($body).fadeIn();
+	_notice.empty().off('mouseenter').off('mouseleave').append(msg).appendTo($('body')).fadeIn();
 	if (more instanceof Object) {
 		_notice
 			.on('mouseenter', () => {
@@ -93,7 +90,7 @@ const notice = (msg, more) => {
 				element.append(messages['bracket-right']);
 			})
 			.on('mouseleave', function () {
-				$body.find('.gadget-wikicache__more', this).remove();
+				$('.gadget-wikicache__more', this).remove();
 			});
 	}
 };
@@ -120,12 +117,12 @@ const settingsDialog = () => {
 				)
 				.append(`&nbsp;${messages['settings-autosave-interval-suffix']}`)
 		);
-	dialog.appendTo($body).dialog({
+	dialog.appendTo($('body')).dialog({
 		draggable: false,
 		modal: true,
 		width: 400,
 		beforeClose() {
-			let interval = $body.find('#autosave-interval', dialog).val();
+			let interval = $('#autosave-interval', dialog).val();
 			if (Number.isNaN(interval)) {
 				mw.notify(messages['settings-autosave-interval-invalid'], {tag: 'wikiCache', type: 'error'});
 				return false;
@@ -164,7 +161,7 @@ const save = () => {
 		autosave[sele] = asarea[sele]($(sele));
 	}
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
-	const section = $body.find('input[name="wpSection"]:first').val();
+	const section = $('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;
 	}
@@ -174,7 +171,7 @@ const save = () => {
 
 const initLoad = () => {
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
-	const section = $body.find('input[name="wpSection"]:first').val();
+	const section = $('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;
 	}
@@ -201,7 +198,7 @@ const load = (autosave) => {
 		_autosave = autosave;
 	} else {
 		let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
-		const section = $body.find('input[name="wpSection"]:first').val();
+		const section = $('input[name="wpSection"]:first').val();
 		if (section) {
 			thekey += `_${section}`;
 		}
@@ -221,7 +218,7 @@ const load = (autosave) => {
 const onSubmit = () => {
 	save();
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
-	const section = $body.find('input[name="wpSection"]:first').val();
+	const section = $('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;
 	}

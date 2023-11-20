@@ -1,8 +1,12 @@
-import {$body, initMwApi} from '../../util.ts';
-
 /*! Twinkle.js - twinkleblock.js */
 (function twinkleblock($) {
-	const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
+	const api = new mw.Api({
+		ajax: {
+			headers: {
+				'Api-User-Agent': `Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`,
+			},
+		},
+	});
 	let relevantUserName;
 	let blockedUserName;
 	const menuFormattedNamespaces = $.extend({}, mw.config.get('wgFormattedNamespaces'));
@@ -296,7 +300,7 @@ import {$body, initMwApi} from '../../util.ts';
 				Twinkle.block.processUserInfo(data, fn);
 			},
 			(error) => {
-				Morebits.status.init($body.find('div[name="currentblock"] span').last()[0]);
+				Morebits.status.init($('div[name="currentblock"] span').last()[0]);
 				Morebits.status.warn(wgULS('抓取用户信息出错', '抓取使用者資訊出錯'), error);
 			}
 		);
@@ -436,10 +440,10 @@ import {$body, initMwApi} from '../../util.ts';
 				return bg.label !== prior.label;
 			});
 		}
-		Twinkle.block.callback.saveFieldset($body.find('[name=field_block_options]'));
-		Twinkle.block.callback.saveFieldset($body.find('[name=field_template_options]'));
-		Twinkle.block.callback.saveFieldset($body.find('[name=field_tag_options]'));
-		Twinkle.block.callback.saveFieldset($body.find('[name=field_unblock_options]'));
+		Twinkle.block.callback.saveFieldset($('[name=field_block_options]'));
+		Twinkle.block.callback.saveFieldset($('[name=field_template_options]'));
+		Twinkle.block.callback.saveFieldset($('[name=field_tag_options]'));
+		Twinkle.block.callback.saveFieldset($('[name=field_unblock_options]'));
 		if (blockBox) {
 			field_preset = new Morebits.quickForm.element({
 				type: 'field',
@@ -1046,7 +1050,7 @@ import {$body, initMwApi} from '../../util.ts';
 			// false for an ip covered by a range or a smaller range within a larger range;
 			// true for a user, single ip block, or the exact range for a range block
 			const sameUser = blockedUserName === relevantUserName;
-			Morebits.status.init($body.find('div[name="currentblock"] span').last()[0]);
+			Morebits.status.init($('div[name="currentblock"] span').last()[0]);
 			let statusStr = `${relevantUserName}已被${
 				Twinkle.block.currentBlockInfo.partial === ''
 					? wgULS('部分封禁', '部分封鎖')
@@ -1135,7 +1139,7 @@ import {$body, initMwApi} from '../../util.ts';
 					);
 				}
 			}
-			Morebits.status.init($body.find('div[name="hasblocklog"] span').last()[0]);
+			Morebits.status.init($('div[name="hasblocklog"] span').last()[0]);
 			Morebits.status.warn(blockloginfo, $blockloglink[0]);
 		}
 		// Make sure all the fields are correct based on initial defaults

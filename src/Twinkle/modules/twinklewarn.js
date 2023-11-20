@@ -1,5 +1,3 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklewarn.js */
 (function twinklewarn($) {
 	/**
@@ -29,7 +27,7 @@ import {$body} from '../../util.ts';
 		// Modify URL of talk page on rollback success pages, makes use of a
 		// custom message box in [[MediaWiki:Rollback-success]]
 		if (mw.config.get('wgAction') === 'rollback') {
-			const $vandalTalkLink = $body.find('#mw-rollback-success').find('.mw-usertoollinks a').first();
+			const $vandalTalkLink = $('#mw-rollback-success').find('.mw-usertoollinks a').first();
 			if ($vandalTalkLink.length) {
 				Twinkle.warn.makeVandalTalkLink($vandalTalkLink, Morebits.pageNameNorm);
 				$vandalTalkLink.css('font-weight', 'bold');
@@ -39,7 +37,7 @@ import {$body} from '../../util.ts';
 			mw.config.get('wgCanonicalSpecialPageName') === 'AbuseLog' &&
 			mw.config.get('wgAbuseFilterVariables') !== null
 		) {
-			const afTalkLink = $body.find('.mw-usertoollinks-talk').first();
+			const afTalkLink = $('.mw-usertoollinks-talk').first();
 			if (afTalkLink.length) {
 				Twinkle.warn.makeVandalTalkLink(afTalkLink, mw.config.get('wgAbuseFilterVariables').page_prefixedtitle);
 				afTalkLink.css('font-weight', 'bold');
@@ -232,7 +230,7 @@ import {$body} from '../../util.ts';
 								'其他人回退了该页面，并可能已经警告该用户。',
 								'其他人回退了該頁面，並可能已經警告該使用者。'
 							);
-							$body.find('#twinkle-warn-warning-messages').text(`警告：${message}`);
+							$('#twinkle-warn-warning-messages').text(`警告：${message}`);
 						}
 					}
 				).post();
@@ -245,7 +243,7 @@ import {$body} from '../../util.ts';
 						'这笔编辑是在24小时前做出的，现在警告可能已过时。',
 						'這筆編輯是在24小時前做出的，現在警告可能已過時。'
 					);
-					$body.find('#twinkle-warn-warning-messages').text(`警告：${message}`);
+					$('#twinkle-warn-warning-messages').text(`警告：${message}`);
 				}
 			};
 			let vantimestamp = mw.util.getParamValue('vantimestamp');
@@ -867,7 +865,7 @@ import {$body} from '../../util.ts';
 										'無法載入使用者討論頁，這可能是因為它是跨命名空間重新導向，自動選擇警告級別將不會運作。'
 									)
 								);
-							$noTalkPageNode.insertBefore($body.find('#twinkle-warn-warning-messages'));
+							$noTalkPageNode.insertBefore($('#twinkle-warn-warning-messages'));
 							// If a preview was opened while in a different mode, close it
 							// Should nullify the need to catch the error in preview callback
 							e.target.root.previewer.closePreview();
@@ -887,7 +885,7 @@ import {$body} from '../../util.ts';
 		// Here because of the async load for autolevel
 		if (value !== 'autolevel') {
 			// reset any autolevel-specific messages while we're here
-			$body.find('#twinkle-warn-autolevel-message').remove();
+			$('#twinkle-warn-autolevel-message').remove();
 			Twinkle.warn.callback.postCategoryCleanup(e);
 		}
 	};
@@ -899,8 +897,7 @@ import {$body} from '../../util.ts';
 		Twinkle.warn.callback.change_subcategory(e);
 		// Use select2 to make the select menu searchable
 		if (!Twinkle.getPref('oldSelect')) {
-			$body
-				.find('select[name=sub_group]')
+			$('select[name=sub_group]')
 				.select2({
 					width: '100%',
 					matcher: Morebits.select2.matchers.optgroupFull,
@@ -910,7 +907,7 @@ import {$body} from '../../util.ts';
 					},
 				})
 				.change(Twinkle.warn.callback.change_subcategory);
-			$body.find('.select2-selection').on('keydown', Morebits.select2.autoStart).trigger('focus');
+			$('.select2-selection').on('keydown', Morebits.select2.autoStart).trigger('focus');
 			mw.util.addCSS(
 				/* Increase height;
 				 * Reduce padding;
@@ -950,7 +947,7 @@ import {$body} from '../../util.ts';
 			}
 		}
 		// add big red notice, warning users about how to use {{uw-[coi-]username}} appropriately
-		$body.find('#tw-warn-red-notice').remove();
+		$('#tw-warn-red-notice').remove();
 	};
 	Twinkle.warn.callbacks = {
 		getWarningWikitext: (templateName, article, reason, isCustom, noSign) => {
@@ -1118,8 +1115,8 @@ import {$body} from '../../util.ts';
 									Morebits.wiki.actionCompleted.redirect = null;
 									Twinkle.warn.dialog.close();
 									Twinkle.arv.callback(relevantUserName);
-									$body.find('input[name=page]').val(params.article); // Target page
-									$body.find('input[value=final]').prop('checked', true); // Vandalism after final
+									$('input[name=page]').val(params.article); // Target page
+									$('input[value=final]').prop('checked', true); // Vandalism after final
 								});
 
 							const statusNode = $('<div>')
@@ -1154,8 +1151,8 @@ import {$body} from '../../util.ts';
 				)
 			);
 			// Place after the stale and other-user-reverted (text-only) messages
-			$body.find('#twinkle-warn-autolevel-message').remove(); // clean slate
-			$autolevelMessage.insertAfter($body.find('#twinkle-warn-warning-messages'));
+			$('#twinkle-warn-autolevel-message').remove(); // clean slate
+			$autolevelMessage.insertAfter($('#twinkle-warn-warning-messages'));
 			let template = params.sub_group.replace(/(.*)\d$/, '$1');
 			// Validate warning level, falling back to the uw-generic series.
 			// Only a few items are missing a level, and in all but a handful

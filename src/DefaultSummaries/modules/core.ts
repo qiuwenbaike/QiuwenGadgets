@@ -1,7 +1,6 @@
 import {articleSummaries, commonSummaries, talkPageSummaries} from './messages';
-import {$body} from '../../util';
 
-let $wpSummary: JQuery = $body.find('#wpSummary');
+let $wpSummary: JQuery = $('#wpSummary');
 
 const addOptionsToDropdown = (dropdown: OO.ui.DropdownWidget, optionTexts: string[]): void => {
 	dropdown.getMenu().addItems(
@@ -49,10 +48,10 @@ const getSummaryDropdowns = (): JQuery => {
 // VisualEditor
 const loadDefaultSummariesInVE = (): void => {
 	// .ve-init-mw-viewPageTarget-saveDialog-checkboxes
-	if ($body.data('wppresent')) {
+	if ($('body').data('wppresent')) {
 		return;
 	}
-	$body.data('wppresent', 'true');
+	$('body').data('wppresent', 'true');
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	const {target} = ve.init;
@@ -67,7 +66,7 @@ const loadDefaultSummariesInVE = (): void => {
 
 // WikiEditor
 const loadDefaultSummariesInWikiEditor = (): void => {
-	const $editCheckboxes: JQuery = $body.find('.editCheckboxes');
+	const $editCheckboxes: JQuery = $('.editCheckboxes');
 	// If we failed to find the editCheckboxes class
 	if (!$editCheckboxes.length) {
 		return;

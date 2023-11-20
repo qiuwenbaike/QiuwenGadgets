@@ -1,5 +1,4 @@
 /* eslint-disable mediawiki/class-doc */
-import {$body, $window} from '../../util';
 import {
 	API_ENTRY_POINT,
 	API_TAG,
@@ -100,7 +99,7 @@ const catALot = (): void => {
 
 			CAL.initSettings();
 
-			this.$body = $body;
+			this.$body = $('body');
 			this.$container = $('<div>').addClass(CLASS_NAME_CONTAINER).appendTo(this.$body);
 			this.$dataContainer = $('<div>').addClass(CLASS_NAME_CONTAINER_DATA).appendTo(this.$container);
 			this.$markCounter = $('<div>')
@@ -660,7 +659,7 @@ const catALot = (): void => {
 			// Reset width
 			this.$container.width('');
 			this.$container.height('');
-			this.$container.width(Math.min((this.$container.width() ?? 0) * 1.1 + 15, ($window.width() ?? 0) - 10));
+			this.$container.width(Math.min((this.$container.width() ?? 0) * 1.1 + 15, ($(window).width() ?? 0) - 10));
 			this.$resultList.css({
 				'max-height': `${CAL.dialogHeight}px`,
 				height: '',

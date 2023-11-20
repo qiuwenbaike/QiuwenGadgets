@@ -1,5 +1,3 @@
-import {$body, initMwApi} from '../../util.ts';
-
 /*! Twinkle.js - twinkleprotect.js */
 (function twinkleprotect($) {
 	/**
@@ -109,7 +107,13 @@ import {$body, initMwApi} from '../../util.ts';
 	Twinkle.protect.currentProtectionLevels = {};
 	Twinkle.protect.previousProtectionLevels = {};
 	Twinkle.protect.fetchProtectionLevel = () => {
-		const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
+		const api = new mw.Api({
+			ajax: {
+				headers: {
+					'Api-User-Agent': `Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`,
+				},
+			},
+		});
 		const params = {
 			format: 'json',
 			indexpageids: true,
@@ -178,7 +182,7 @@ import {$body, initMwApi} from '../../util.ts';
 					Twinkle.protect.hasStableLog ? $('<span>').html(' &bull; ') : null
 				);
 			}
-			Morebits.status.init($body.find('div[name="hasprotectlog"] span')[0]);
+			Morebits.status.init($('div[name="hasprotectlog"] span')[0]);
 			Morebits.status.warn(
 				currentlyProtected
 					? wgULS('先前保护', '先前保護')
@@ -195,7 +199,7 @@ import {$body, initMwApi} from '../../util.ts';
 				$linkMarkup[0]
 			);
 		}
-		Morebits.status.init($body.find('div[name="currentprot"] span')[0]);
+		Morebits.status.init($('div[name="currentprot"] span')[0]);
 		let protectionNode = [];
 		let statusLevel = 'info';
 		protectionNode = Twinkle.protect.formatProtectionDescription(Twinkle.protect.currentProtectionLevels);

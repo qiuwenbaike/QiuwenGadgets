@@ -1,5 +1,3 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - friendlytag.js */
 (function friendlytag($) {
 	/**
@@ -307,8 +305,7 @@ import {$body} from '../../util.ts';
 				// Look for existing maintenance tags in the lead section and put them in array
 				// All tags are HTML table elements that are direct children of .mw-parser-output,
 				// except when they are within {{multiple issues}}
-				$body
-					.find('.mw-parser-output')
+				$('.mw-parser-output')
 					.children()
 					.each((_i, e) => {
 						// break out on encountering the first heading, which means we are no
@@ -338,10 +335,10 @@ import {$body} from '../../util.ts';
 						}
 					});
 				// {{Uncategorized}} and {{Improve categories}} are usually placed at the end
-				if ($body.find('.box-Uncategorized').length) {
+				if ($('.box-Uncategorized').length) {
 					Twinkle.tag.alreadyPresentTags.push('Uncategorized');
 				}
-				if ($body.find('.box-Improve_categories').length) {
+				if ($('.box-Improve_categories').length) {
 					Twinkle.tag.alreadyPresentTags.push('Improve categories');
 				}
 			}
@@ -355,7 +352,7 @@ import {$body} from '../../util.ts';
 				numAdded: 0,
 				numRemoved: 0,
 			};
-			$body.find('button.tw-tag-submit').after(statusNode);
+			$('button.tw-tag-submit').after(statusNode);
 			// fake a change event on the sort dropdown, to initialize the tag list
 			const evt = document.createEvent('Event');
 			evt.initEvent('change', true, true);
@@ -740,7 +737,7 @@ import {$body} from '../../util.ts';
 		}
 		// tally tags added/removed, update statusNode text
 		const statusNode = document.querySelector('#tw-tag-status');
-		$body.find('[name=tags], [name=existingTags]').on('click', function () {
+		$('[name=tags], [name=existingTags]').on('click', function () {
 			if (this.name === 'tags') {
 				Twinkle.tag.status.numAdded += this.checked ? 1 : -1;
 			} else if (this.name === 'existingTags') {

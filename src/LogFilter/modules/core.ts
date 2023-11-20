@@ -1,5 +1,3 @@
-import {$body} from '../../util';
-
 export const filterLists = {
 	i18n: {
 		'filter-portlet-text': '过滤',
@@ -50,8 +48,8 @@ export const filterLists = {
 		const instructions: string = this.rightsLogOnly
 			? mw.msg('filter-rights-list-instructions')
 			: mw.msg('filter-other-list-instructions');
-		$body.find('#ca-rxfilter').hide();
-		const $pageTop: JQuery = $body.find('#contentSub, #topbar');
+		$('#ca-rxfilter').hide();
+		const $pageTop: JQuery = $('#contentSub, #topbar');
 		if (!$pageTop.length) {
 			return;
 		}
@@ -87,13 +85,12 @@ export const filterLists = {
 		$fieldSet.append(fieldsetHtml);
 		$pageTop.after($fieldSet);
 		// Set passed values
-		$body.find('#rfRegex ').val(value ?? '');
-		$body.find('#rfCase').prop('checked', !casing);
-		$body.find('#rfInvert').prop('checked', inverted);
-		$body.find('#rfRegex').trigger('focus');
+		$('#rfRegex ').val(value ?? '');
+		$('#rfCase').prop('checked', !casing);
+		$('#rfInvert').prop('checked', inverted);
+		$('#rfRegex').trigger('focus');
 		// Bind click and change listeners
-		$body
-			.find('#rightsFilter')
+		$('#rightsFilter')
 			.find('input')
 			.on('keyup change', function (): void {
 				const $this = $(this);
@@ -120,11 +117,11 @@ export const filterLists = {
 		let rx: RegExp;
 		// Grab options from form
 		if (this.rightsLogOnly) {
-			type = $body.find('#rfSelect').attr('selectedIndex');
+			type = $('#rfSelect').attr('selectedIndex');
 		}
-		const invert: boolean = $body.find('#rfInvert').prop('checked');
-		const search = String($body.find('#rfRegex').val());
-		const flags: 'ig' | 'g' = $body.find('#rfCase').prop('checked') ? 'ig' : 'g';
+		const invert: boolean = $('#rfInvert').prop('checked');
+		const search = String($('#rfRegex').val());
+		const flags: 'ig' | 'g' = $('#rfCase').prop('checked') ? 'ig' : 'g';
 		hilight = !!(hilight || this.lastClicked.toString() === '1');
 		try {
 			rx = new RegExp(`${search}`, `${flags}`);
@@ -132,7 +129,7 @@ export const filterLists = {
 			console.log(error);
 		}
 		// Grab the list of all <li> in the content
-		const $listItems: JQuery = $body.find('#bodyContent').find('li');
+		const $listItems: JQuery = $('#bodyContent').find('li');
 		if (!$listItems.length) {
 			return;
 		}

@@ -1,5 +1,5 @@
-import {$body, scrollTop} from '../../util';
 import {getMessage} from './i18n';
+import {scrollTop} from '../../util';
 
 type State = 'close' | 'open';
 interface Config {
@@ -52,7 +52,7 @@ export const floatTOC = (): void => {
 			$('<span>').text(getMessage('Contents'))
 		)
 		.hide()
-		.appendTo($body);
+		.appendTo($('body'));
 	let isShow: boolean;
 	let preNotification: ReturnType<typeof mw.notification.notify> | undefined;
 	let disableStyleTimer: ReturnType<typeof setTimeout>;
@@ -90,8 +90,8 @@ export const floatTOC = (): void => {
 			return;
 		}
 		let isCollapse = config.originTOC === 'close';
-		const $originTocTitle: JQuery = $body.find('#toc .toctitle');
-		const $originTocItem: JQuery<HTMLElement> = $body.find('#toc ul');
+		const $originTocTitle: JQuery = $('#toc .toctitle');
+		const $originTocItem: JQuery<HTMLUListElement> = $('#toc ul');
 		const $tocToggle: JQuery<HTMLSpanElement> = $('<span>').addClass(
 			'oo-ui-indicatorElement-indicator oo-ui-icon-downTriangle'
 		);

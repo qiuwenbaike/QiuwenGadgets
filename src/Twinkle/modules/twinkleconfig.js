@@ -1,5 +1,3 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinkleconfig.js */
 (function twinkleconfig($) {
 	/**
@@ -1466,7 +1464,7 @@ import {$body} from '../../util.ts';
 				link.appendChild(document.createTextNode(wgULS('Twinkle参数设置面板', 'Twinkle偏好設定面板')));
 				box.appendChild(link);
 				box.appendChild(document.createTextNode(wgULS('，或直接编辑本页。', '，或直接編輯本頁。')));
-				$(box).insertAfter($body.find('#contentSub'));
+				$(box).insertAfter($('#contentSub'));
 			} else if (['vector', 'vector-2022', 'gongbi', 'citizen', 'write', 'common'].includes(scriptPageName)) {
 				// place "Looking for Twinkle options?" notice
 				box.setAttribute('class', 'config-userskin-box');
@@ -1478,7 +1476,7 @@ import {$body} from '../../util.ts';
 				link.appendChild(document.createTextNode(wgULS('Twinkle参数设置面板', 'Twinkle偏好設定面板')));
 				box.appendChild(link);
 				box.appendChild(document.createTextNode('。'));
-				$(box).insertAfter($body.find('#contentSub'));
+				$(box).insertAfter($('#contentSub'));
 			}
 		}
 	};
@@ -1699,7 +1697,7 @@ import {$body} from '../../util.ts';
 			case 'string':
 			case 'integer':
 			case 'enum':
-				document.querySelector(`#${pref.name}`).value = Twinkle.defaultConfig[pref.name];
+				document.gquerySelector(`#${pref.name}`).value = Twinkle.defaultConfig[pref.name];
 				break;
 			case 'set':
 				for (const [itemkey] of Object.entries(pref.setValues)) {

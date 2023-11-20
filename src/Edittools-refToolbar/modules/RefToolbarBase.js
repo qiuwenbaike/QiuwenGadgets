@@ -1,4 +1,3 @@
-import {$document} from './../../util.ts';
 import {getMessage} from './util';
 
 export const refToolbarBase = () => {
@@ -64,7 +63,7 @@ export const refToolbarBase = () => {
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
 					ad.attr('id', `cite-date-${CiteTB.escStr(this.shortform)}-${field}`);
-					$document.on(
+					$(document).on(
 						'click',
 						`#cite-date-${CiteTB.escStr(this.shortform)}-${field}`,
 						CiteTB.fillAccessdate
@@ -144,13 +143,13 @@ export const refToolbarBase = () => {
 			for (const g in this.incrementables) {
 				if (!this.incrementables[g].setup) {
 					needsetup = true;
-					$document.on('click', `#cite-incr-${CiteTB.escStr(this.shortform)}-${g}`, CiteTB.incrementFields);
+					$(document).on('click', `#cite-incr-${CiteTB.escStr(this.shortform)}-${g}`, CiteTB.incrementFields);
 					this.incrementables[g].setup = true;
 				}
 			}
 			if (needsetup || $.isEmptyObject(this.incrementables)) {
 				for (const autofill of autofills) {
-					$document.on('click', autofill, CiteTB.initAutofill);
+					$(document).on('click', autofill, CiteTB.initAutofill);
 				}
 			}
 			return trs;
@@ -320,5 +319,5 @@ export const refToolbarBase = () => {
 			return row;
 		};
 	};
-	$document.find('head').trigger('reftoolbarbase');
+	$('head').trigger('reftoolbarbase');
 };

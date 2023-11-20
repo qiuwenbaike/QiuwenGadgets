@@ -1,4 +1,3 @@
-import {$body} from '../../util';
 import {LOGIN_ELEMENT_SELECTOR} from './constant';
 import {getMessage} from './i18n';
 
@@ -57,7 +56,7 @@ export const loginToEdit = (): void => {
 		}
 		windowManager.openWindow(messageDialog, windowOpeningData);
 	};
-	const $caViewsource: JQuery = $body.find('#ca-viewsource');
+	const $caViewsource: JQuery = $('#ca-viewsource');
 	if ($caViewsource.length) {
 		const editIcon = isCitizen ? '<span class="citizen-ui-icon mw-ui-icon-wikimedia-edit"></span>' : '';
 		$caViewsource
@@ -65,7 +64,7 @@ export const loginToEdit = (): void => {
 			.find('a')
 			.attr('title', getMessage('Edit'))
 			.html(`${editIcon}${getMessage('Edit')}`);
-		$body.find('#ca-edit a').on('click', (event: JQuery.ClickEvent) => {
+		$('#ca-edit a').on('click', (event: JQuery.ClickEvent) => {
 			event.preventDefault();
 			openDialog();
 		});

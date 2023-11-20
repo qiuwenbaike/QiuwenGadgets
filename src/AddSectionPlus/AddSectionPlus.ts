@@ -1,4 +1,3 @@
-import {$body} from '../util';
 import {WG_SKIN} from './modules/constant';
 import {processElement} from './modules/processElement';
 
@@ -6,6 +5,8 @@ $(function addSectionPlus(): void {
 	if (WG_SKIN === 'citizen') {
 		return; // style is already added by [[MediaWiki:Gadget-AddSectionPlus-pagestyles.css]]
 	}
+
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	const $wrapper: JQuery = $body.find('#ca-addsection');
 	if (!$wrapper.length) {

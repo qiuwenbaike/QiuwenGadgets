@@ -1,15 +1,12 @@
-import {$body} from '../../util';
 import {messages} from './messages';
-
 export const rollbackSummary = (): void => {
 	messages();
 	const updateLinks = (): void => {
-		$body.find('.mw-rollback-link a').off('click');
-		$body
-			.find('.mw-rollback-link a')
+		$('.mw-rollback-link a').off('click');
+		$('.mw-rollback-link a')
 			.on('click', function (event: JQuery.ClickEvent): void {
 				event.preventDefault();
-				let {href} = this as unknown as HTMLAnchorElement;
+				let {href} = this as HTMLAnchorElement;
 				let summary: string | null = prompt(
 					window.wgULS(
 						'请输入自定义回退摘要（留空则使用系统默认摘要）',

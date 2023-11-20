@@ -1,7 +1,4 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklexfd.js */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 (function twinklexfd($) {
 	/**
 	 * twinklexfd.js: XFD module
@@ -110,7 +107,7 @@ import {$body} from '../../util.ts';
 		const appendReasonBox = (xfd_cat) => {
 			switch (xfd_cat) {
 				case 'fwdcsd':
-					oldreason = decodeURIComponent($body.find('#delete-reason').text()).replace(/\+/g, ' ');
+					oldreason = decodeURIComponent($('#delete-reason').text()).replace(/\+/g, ' ');
 					break;
 				case 'fame':
 					oldreason = Twinkle.getPref('afdFameDefaultReason');
@@ -272,10 +269,7 @@ import {$body} from '../../util.ts';
 				e.target.form.mergeinto.parentElement.removeAttribute('hidden');
 				e.target.form.fwdcsdreason.parentElement.removeAttribute('hidden');
 				e.target.form.mergeinto.previousElementSibling.innerHTML = '提交人：';
-				e.target.form.xfdreason.value = decodeURIComponent($body.find('#delete-reason').text()).replace(
-					/\+/g,
-					' '
-				);
+				e.target.form.xfdreason.value = decodeURIComponent($('#delete-reason').text()).replace(/\+/g, ' ');
 				break;
 			case 'fame':
 				e.target.form.mergeinto.parentElement.setAttribute('hidden', '');

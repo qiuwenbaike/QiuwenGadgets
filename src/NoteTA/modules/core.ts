@@ -1,4 +1,4 @@
-import {$body, initMwApi} from '../../util';
+import {initMwApi} from '../../util';
 
 const api: mw.Api = initMwApi(`Qiuwen/1.1 (NoteTA/1.1; ${mw.config.get('wgWikiID')})`);
 
@@ -187,7 +187,7 @@ const init = (hash: string): JQuery => {
 
 export const noteTALoad = (): void => {
 	mw.hook('wikipage.content').add((): void => {
-		$body.find('.mw-indicator[id^=mw-indicator-noteTA-]').each((_index: number, element: HTMLElement): void => {
+		$('.mw-indicator[id^=mw-indicator-noteTA-]').each((_index: number, element: HTMLElement): void => {
 			const $element: JQuery = $(element);
 			const $elementId: string | undefined = $element.attr('id');
 			const hash: string = $elementId?.replace(/^mw-indicator-noteTA-/, '') ?? '';

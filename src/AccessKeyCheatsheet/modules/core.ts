@@ -1,4 +1,3 @@
-import {$body} from '../../util';
 import {generateAccessKeysTableWithOpener} from './util/generateAccessKeysTableWithOpener';
 import {generateMessageDialogProperty} from './util/generateMessageDialogProperty';
 
@@ -6,6 +5,8 @@ import {generateMessageDialogProperty} from './util/generateMessageDialogPropert
  * Adds alt+shift+? as an access key to show a list of all default access keys
  */
 const accessKeyCheatsheet = (): void => {
+	const $body: JQuery<HTMLBodyElement> = $('body');
+
 	const {$accessKeysTable, $accessKeyCheatsheetOpener} = generateAccessKeysTableWithOpener($body);
 	const messageDialogProperty = generateMessageDialogProperty($accessKeysTable);
 

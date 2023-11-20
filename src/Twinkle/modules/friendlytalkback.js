@@ -1,5 +1,3 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - friendlytalkback.js */
 (function friendlytalkback($) {
 	/**
@@ -118,7 +116,7 @@ import {$body} from '../../util.ts';
 			const reason = mw.util.getParamValue('reason', url);
 			Twinkle.talkback.optout += reason ? `：${Morebits.string.appendPunctuation(reason)}` : '。';
 		}
-		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
+		$('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
 	};
 	let prev_page = '';
 	let prev_section = '';
@@ -289,7 +287,7 @@ import {$body} from '../../util.ts';
 		if (root.message) {
 			root.message.value = prev_message;
 		}
-		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
+		$('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
 	};
 	Twinkle.talkback.noticeboards = {
 		affp: {

@@ -1,5 +1,3 @@
-import {$body} from '../../util.ts';
-
 /*! Twinkle.js - twinklebatchdelete.js */
 (function twinklebatchdelete($) {
 	/**
@@ -232,7 +230,7 @@ import {$body} from '../../util.ts';
 								e.click(); // check it, and invoke click event so that subgroup can be shown
 							});
 						// Check any unchecked subpages too
-						$body.find('input[name="pages.subpages"]').prop('checked', true);
+						$('input[name="pages.subpages"]').prop('checked', true);
 					},
 				});
 				form.append({
@@ -399,7 +397,7 @@ import {$body} from '../../util.ts';
 					}
 				}
 				newPageList = Twinkle.batchdelete.generateNewPageList(form);
-				$body.find('#tw-dbatch-pages').replaceWith(newPageList);
+				$('#tw-dbatch-pages').replaceWith(newPageList);
 				for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
 					generateArrowLinks(checkbox);
 				}
@@ -505,7 +503,7 @@ import {$body} from '../../util.ts';
 				() => {
 					// List 'em on the interface
 					newPageList = Twinkle.batchdelete.generateNewPageList(form);
-					$body.find('#tw-dbatch-pages').replaceWith(newPageList);
+					$('#tw-dbatch-pages').replaceWith(newPageList);
 					for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
 						generateArrowLinks(checkbox);
 					}
@@ -514,7 +512,7 @@ import {$body} from '../../util.ts';
 					}
 					subpagesLoaded = true;
 					// Remove "Loading... " text
-					$body.find('#dbatch-subpage-loading').remove();
+					$('#dbatch-subpage-loading').remove();
 				}
 			);
 		} else if (!e.target.checked) {
@@ -528,7 +526,7 @@ import {$body} from '../../util.ts';
 				}
 			}
 			newPageList = Twinkle.batchdelete.generateNewPageList(form);
-			$body.find('#tw-dbatch-pages').replaceWith(newPageList);
+			$('#tw-dbatch-pages').replaceWith(newPageList);
 			for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
 				generateArrowLinks(checkbox);
 			}

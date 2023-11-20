@@ -1,16 +1,15 @@
-import {$body} from '../../util';
 import {getMessage} from './i18n';
 
 export const QuickPatrol = () => {
 	/* Patrol single page */
-	$body.find('.not-patrolled').each((index, element): void => {
+	$('.not-patrolled').each((index, element): void => {
 		const $patrolBtn = $('<a>')
 			.addClass('gadget-quick_patrol__patrolbtn')
 			.text(getMessage('[') + getMessage('Patrol') + getMessage(']'))
 			.attr({
 				id: `gadget-quick_patrol__${index}`,
 				'data-btnid': index,
-				'data-revid': element['dataset']['mwRevid'],
+				'data-revid': element.dataset['mwRevid'],
 			});
 		$patrolBtn.on('click', function (): void {
 			const self = this;
@@ -56,11 +55,11 @@ export const QuickPatrol = () => {
 		if (!confirm(getMessage('Patrol all pages?'))) {
 			return;
 		}
-		$body.find('.not-patrolled').each((index: number): void => {
+		$('.not-patrolled').each((index): void => {
 			if ($(`#gadget-quick_patrol__${index}`).css('pointer-events') !== 'none') {
 				$(`#gadget-quick_patrol__${index}`).trigger('click');
 			}
 		});
 	});
-	$patrolAllBtn.appendTo($body.find('#mw-content-text ul'));
+	$patrolAllBtn.appendTo($('#mw-content-text ul'));
 };

@@ -1,5 +1,3 @@
-import {$body, $window} from '../../util.ts';
-
 const origPageName = mw.config.get('wgPageName');
 const scriptPath = mw.config.get('wgScriptPath');
 const nsNumber = mw.config.get('wgNamespaceNumber');
@@ -105,7 +103,8 @@ export const ToolsRedirect = {
 			event.preventDefault();
 			self.dialog();
 		});
-		$body.find('li#ca-history').after(button);
+		$('li#ca-history').after(button);
+		$('li#ca-history').after(button);
 	},
 	dialog() {
 		const dlg = $('<div>')
@@ -115,10 +114,10 @@ export const ToolsRedirect = {
 				bgiframe: true,
 				resizable: false,
 				modal: true,
-				width: Math.round($window.width() * 0.8),
+				width: Math.round($(window).width() * 0.8),
 				position: 'center',
 			});
-		dlg.css('max-height', `${Math.round($window.height() * 0.8)}px`);
+		dlg.css('max-height', `${Math.round($(window).height() * 0.8)}px`);
 		this.tabselem = $('<div>').addClass('tab-redirect').appendTo(dlg);
 		this.tagselem = $('<ul>').appendTo(this.tabselem);
 		this.addTabs();
@@ -655,7 +654,7 @@ export const ToolsRedirect = {
 		const self = this;
 		const frcDeferreds = [];
 		const container = this.tabs.create.cont;
-		const $content = $body.find('#mw-content-text > div.mw-parser-output');
+		const $content = $('#mw-content-text > div.mw-parser-output');
 		const deferObj = $.Deferred();
 		let titles = [];
 		this.loading(container);

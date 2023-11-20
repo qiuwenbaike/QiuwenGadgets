@@ -1,5 +1,3 @@
-import {$body} from '../../util';
-
 export const pagePatroller = () => {
 	const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
 	const loading: string = window.wgULS('正在加载此页面的巡查者……', '正在加載此頁面的巡查者……');
@@ -11,9 +9,9 @@ export const pagePatroller = () => {
 	} else {
 		$patroller = $('<div>').attr('id', 'footer-info-patroller').text(loading);
 	}
-	$body.find('#footer-info, .page-info').prepend($patroller);
+	$('#footer-info, .page-info').prepend($patroller);
 	// 针对有巡查权限的用户优化。若页面上能看到巡查按钮，那一定没被巡查过。
-	if ($body.find('.patrollink').length) {
+	if ($('.patrollink').length) {
 		$patroller.text(window.wgULS('此页面尚未被巡查。', '此頁面尚未被巡查。'));
 		return;
 	}
