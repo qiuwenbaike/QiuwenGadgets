@@ -60,10 +60,11 @@ const showTime = ($target: JQuery): void => {
 };
 
 export const liveClock = (): void => {
+	const $body = $('body');
 	// Reset whitespace that was set in the peer CSS gadget; this prevents the
 	// effect of the p-personal menu jumping to the left when the JavaScript
 	// loads.
-	$('.client-js > body.skin-vector #p-personal ul').css('margin-right', 'initial');
+	$body.find('.client-js > body.skin-vector #p-personal ul').css('margin-right', 'initial');
 	// Add the portlet link.
 	const element: HTMLLIElement | null = mw.util.addPortletLink('p-personal', '#', '', 'utcdate');
 	if (!element) {

@@ -2,8 +2,8 @@ import {initMwApi} from '../util';
 
 const quickImport = async (): Promise<void> => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (QuickImport/1.0; ${mw.config.get('wgWikiID')})`);
-
-	const pageName = $('.redirectText a')[0]?.textContent || mw.config.get('wgPageName');
+	const $body = $('body');
+	const pageName = $body.find('.redirectText a')[0]?.textContent || mw.config.get('wgPageName');
 
 	let toastifyInstance: ToastifyInstance = {
 		hideToast: () => {},
@@ -77,9 +77,9 @@ const quickImport = async (): Promise<void> => {
 		refreshPage();
 	};
 
-	if (mw.config.get('wgNamespaceNumber') === 6 && !$('#mw-noarticletext').length) {
+	if (mw.config.get('wgNamespaceNumber') === 6 && !document.querySelector('#mw-noarticletext')) {
 		let source = '';
-		source = $("#ca-view-foreign a[href*='zh.wikipedia.org']").length ? 'zhwiki' : 'commons';
+		source = document.querySelectorAll("#ca-view-foreign a[href*='zh.wikipedia.org']")[0] ? 'zhwiki' : 'commons';
 		await importPage(source);
 		const params: ApiQueryParams = {
 			action: 'query',
@@ -123,13 +123,13 @@ const quickImport = async (): Promise<void> => {
 };
 
 let label = '';
-if (mw.config.get('wgNamespaceNumber') === 6 && !$('#mw-noarticletext').length) {
-	label = $("#ca-view-foreign a[href*='zh.wikipedia.org']").length ? 'zhwiki' : 'commons';
+if (mw.config.get('wgNamespaceNumber') === 6 && !document.querySelector('#mw-noarticletext')) {
+	label = document.querySelectorAll("#ca-view-foreign a[href*='zh.wikipedia.org']")[0] ? 'zhwiki' : 'commons';
 } else {
 	label = '';
 }
 
-const buttonLabel = $('.redirectText a')[0] ? '重定向目标' : '页面';
+const buttonLabel = document.querySelectorAll('.redirectText a')[0] ? '重定向目标' : '页面';
 const element: HTMLLIElement | null = mw.util.addPortletLink(
 	document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
 	'#',

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import './modules/check';
 import {hotCatLocalDefaults} from './modules/localDefaults';
@@ -2941,7 +2942,8 @@ import {hotCatMessages} from './modules/messages';
 						.val(HC.changeTag);
 					$(eForm).append($ct);
 					oldTxt = eForm.wpTextbox1.value;
-					$('#wpSave').one('click', () => {
+					const $body = $('body');
+					$body.find('#wpSave').one('click', () => {
 						if ($ct.val()) {
 							sum.value = sum.value.replace(HC.messages.using || HC.messages.prefix, '');
 						}

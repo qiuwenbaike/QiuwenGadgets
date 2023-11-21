@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 export const toolsRedirect_courtesy_and_art_names = () => {
 	const prefixRegex = /[号字號]\s*$/;

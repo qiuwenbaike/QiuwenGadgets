@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 export const ProveIt = {
 	/**
@@ -45,7 +46,8 @@ export const ProveIt = {
 		const action = mw.config.get('wgAction');
 		if (['edit', 'submit'].includes(action)) {
 			if (mw.user.options.get('usebetatoolbar') === 1) {
-				if ($('.CodeMirror').length > 0) {
+				const $body = $('body');
+				if ($body.find('.CodeMirror').length > 0) {
 					return 'codemirror';
 				}
 				return 'wikieditor'; // WikiEditor
@@ -59,14 +61,16 @@ export const ProveIt = {
 	 * @return {string} Wikitext of the current page
 	 */
 	getWikitext: () => {
-		return $('#wpTextbox1').textSelection('getContents');
+		const $body = $('body');
+		return $body.find('#wpTextbox1').textSelection('getContents');
 	},
 	/**
 	 * Initialization script
 	 */
 	init: () => {
+		const $body = $('body');
 		// Remove any previous instance
-		$('#proveit').remove();
+		$body.find('#proveit').remove();
 		// Only continue on wikitext pages
 		const contentModel = mw.config.get('wgPageContentModel');
 		if (contentModel !== 'wikitext') {
@@ -86,11 +90,11 @@ export const ProveIt = {
 		ProveIt.buildGUI();
 		// Remove ProveIt when switching out from the source editor
 		mw.hook('ve.deactivationComplete').add(() => {
-			$('#proveit').remove();
+			$body.find('#proveit').remove();
 		});
 		// When previewing, re-add the ProveIt tag (T154357)
 		if (mw.config.get('wgAction') === 'submit') {
-			const currentSummary = $('#wpSummary').val();
+			const currentSummary = $body.find('#wpSummary').val();
 			const proveitSummary = ProveIt.getOption('summary');
 			if (proveitSummary && currentSummary.includes(proveitSummary)) {
 				ProveIt.addTag();
@@ -104,7 +108,7 @@ export const ProveIt = {
 		// Define the basic elements
 		const $gui = $('<div>').attr('id', 'proveit');
 		const $header = $('<div>').attr('id', 'proveit-header');
-		const $body = $('<div>').attr('id', 'proveit-body');
+		const $main = $('<div>').attr('id', 'proveit-body');
 		const $footer = $('<div>').attr('id', 'proveit-footer');
 		const $logo = $('<span>').attr('id', 'proveit-logo');
 		const $logoText = $('<span>').attr('id', 'proveit-logo-text').text('P');
@@ -113,7 +117,7 @@ export const ProveIt = {
 		// Put everything together and add it to the DOM
 		$logo.append($logoLeftBracket, $logoText, $logoRightBracket);
 		$header.append($logo);
-		$gui.append($header, $body, $footer);
+		$gui.append($header, $main, $footer);
 		$('body').append($gui);
 		// Make the GUI draggable
 		$gui.draggable({
@@ -126,19 +130,20 @@ export const ProveIt = {
 		// Toggle the GUI when the logo is clicked
 		let minimized = true;
 		$logo.on('click', () => {
+			const $body = $('body');
 			if (minimized) {
 				minimized = false;
-				$('#proveit-logo-text').text('ProveIt');
-				$('#proveit-header button, #proveit-body, #proveit-footer').show();
+				$body.find('#proveit-logo-text').text('ProveIt');
+				$body.find('#proveit-header button, #proveit-body, #proveit-footer').show();
 				if ($.isEmptyObject(ProveIt.templateData)) {
 					ProveIt.realInit();
-				} else if ($('#proveit-list').length > 0) {
+				} else if ($body.find('#proveit-list').length > 0) {
 					ProveIt.buildList(); // Make sure the list is updated
 				}
 			} else {
 				minimized = true;
-				$('#proveit-logo-text').text('P');
-				$('#proveit-header button, #proveit-body, #proveit-footer').hide();
+				$body.find('#proveit-logo-text').text('P');
+				$body.find('#proveit-header button, #proveit-body, #proveit-footer').hide();
 			}
 			$gui.css({top: 'auto', left: 'auto', right: 0, bottom: 0}); // Reset the position of the gadget
 		});
@@ -147,7 +152,8 @@ export const ProveIt = {
 	 * Get the template data, redirects and interface messages, then build the reference list
 	 */
 	realInit: async () => {
-		$('#proveit-logo-text').text('.'); // Start loading
+		const $body = $('body');
+		$body.find('#proveit-logo-text').text('.'); // Start loading
 		// Get the list of template names and prepend the namespace
 		const templates = ProveIt.getOption('templates') || [];
 		const formattedNamespaces = mw.config.get('wgFormattedNamespaces');
@@ -173,7 +179,7 @@ export const ProveIt = {
 			redirects: true,
 		};
 		const {pages} = await api.get(templateDataParams);
-		$('#proveit-logo-text').text('..'); // Still loading
+		$body.find('#proveit-logo-text').text('..'); // Still loading
 		// Extract and set the template data
 		let templateData;
 		let templateTitle;
@@ -201,7 +207,7 @@ export const ProveIt = {
 			rdnamespace: 10,
 		};
 		const {query} = await api.get(queryRedirectsParams);
-		$('#proveit-logo-text').text('...'); // Still loading
+		$body.find('#proveit-logo-text').text('...'); // Still loading
 		// Map the redirects to the cannonical names
 		let redirects;
 		let redirectTitle;
@@ -233,7 +239,7 @@ export const ProveIt = {
 				$.get(
 					`https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/${userLanguage}.json`
 				).always((i18nMsg, status) => {
-					$('#proveit-logo-text').text('ProveIt'); // Finish loading
+					$body.find('#proveit-logo-text').text('ProveIt'); // Finish loading
 					let translatedMessages = {};
 					if (status === 'success') {
 						translatedMessages = typeof i18nMsg === 'object' ? i18nMsg : JSON.parse(i18nMsg);
@@ -321,17 +327,18 @@ export const ProveIt = {
 			// Add to the list
 			$list.append($item);
 		}
+		const $body = $('body');
 		if (references.length > 0 || templates.length > 0) {
 			// Add the list to the GUI and make sure we're at the top
-			$('#proveit-body').html($list).scrollTop(0);
+			$body.find('#proveit-body').html($list).scrollTop(0);
 		} else {
 			const $div = $('<div>')
 				.attr('id', 'proveit-no-references-message')
 				.text(ProveIt.getMessage('no-references'));
-			$('#proveit-body').html($div);
+			$body.find('#proveit-body').html($div);
 		}
 		// Build the footer
-		const $footer = $('#proveit-footer');
+		const $footer = $body.find('#proveit-footer');
 		$footer.empty();
 		if (references.length > 0 || templates.length > 0) {
 			const $normalizeButton = $('<button>')
@@ -366,7 +373,7 @@ export const ProveIt = {
 			});
 		}
 		// Build the header
-		const $header = $('#proveit-header');
+		const $header = $body.find('#proveit-header');
 		const $addReferenceButton = $('<button>')
 			.text(ProveIt.getMessage('add-reference-button'))
 			.addClass('progressive');
@@ -396,16 +403,17 @@ export const ProveIt = {
 	 */
 	buildForm: (object) => {
 		const $form = $('<div>').attr('id', 'proveit-form'); // Yea it's not a <form>, for easier styling
+		const $body = $('body');
 		// Add the form to the GUI and make sure we're at the top
-		$('#proveit-body').html($form).scrollTop(0);
+		$body.find('#proveit-body').html($form).scrollTop(0);
 		// Build the header
-		const $header = $('#proveit-header');
+		const $header = $body.find('#proveit-header');
 		const $backButton = $('<button>').text(ProveIt.getMessage('back-button'));
 		$('button', $header).remove();
 		$header.prepend($backButton);
 		$backButton.on('click', ProveIt.buildList);
 		// Build the footer
-		const $footer = $('#proveit-footer');
+		const $footer = $body.find('#proveit-footer');
 		const $insertButton = $('<button>')
 			.attr('id', 'proveit-insert-button')
 			.text(ProveIt.getMessage('insert-button'))
@@ -441,6 +449,7 @@ export const ProveIt = {
 	 * @param {ProveIt.Reference} reference Reference object to fill the fields
 	 */
 	buildReferenceFields: (reference) => {
+		const $body = $('body');
 		const $fields = $('<div>').attr('id', 'proveit-reference-fields');
 		let $label;
 		let $input;
@@ -467,8 +476,8 @@ export const ProveIt = {
 			ProveIt.buildTemplateFields(dummy.template);
 		});
 		// Add the fields to the form
-		$('#proveit-reference-fields').remove();
-		$('#proveit-form').prepend($fields);
+		$body.find('#proveit-reference-fields').remove();
+		$body.find('#proveit-form').prepend($fields);
 		// Add the footer buttons
 		const $buttons = $('<span>').attr('id', 'proveit-reference-buttons');
 		const $citeButton = $('<button>')
@@ -476,8 +485,8 @@ export const ProveIt = {
 			.text(ProveIt.getMessage('cite-button'))
 			.on('click', reference, reference.cite);
 		$buttons.append($citeButton);
-		$('#proveit-reference-buttons').remove();
-		$('#proveit-footer').prepend($buttons);
+		$body.find('#proveit-reference-buttons').remove();
+		$body.find('#proveit-footer').prepend($buttons);
 	},
 	/**
 	 * Build the fields for the template parameters and add them to the reference form
@@ -485,6 +494,7 @@ export const ProveIt = {
 	 * @param {ProveIt.Template} template Template object to fill the fields, if any
 	 */
 	buildTemplateFields: (template) => {
+		const $body = $('body');
 		const $fields = $('<div>').attr('id', 'proveit-template-fields');
 		let $label;
 		let $input;
@@ -572,11 +582,11 @@ export const ProveIt = {
 						// Reset the button
 						$button_.text(ProveIt.getMessage('citoid-load')).prop('disabled', false);
 						// Update the reference content too
-						if ($('#proveit-reference-content').length > 0) {
-							let content = $('#proveit-reference-content').val();
+						if ($body.find('#proveit-reference-content').length > 0) {
+							let content = $body.find('#proveit-reference-content').val();
 							const dummy = new ProveIt.Reference(`<ref>${content}</ref>`);
 							content = dummy.buildContent();
-							$('#proveit-reference-content').val(content);
+							$body.find('#proveit-reference-content').val(content);
 						}
 						// @todo For some reason this isn't firing
 					})
@@ -718,8 +728,8 @@ export const ProveIt = {
 			$fields.append($div);
 		}
 		// Add the fields to the form
-		$('#proveit-template-fields').remove();
-		$('#proveit-form').append($fields);
+		$body.find('#proveit-template-fields').remove();
+		$body.find('#proveit-form').append($fields);
 		// Add the footer buttons
 		const $buttons = $('<span>').attr('id', 'proveit-template-buttons');
 		const $filterFields = $('<input>').attr('placeholder', ProveIt.getMessage('filter-fields'));
@@ -730,18 +740,18 @@ export const ProveIt = {
 			$buttons.append($filterFields);
 		}
 		if (
-			$('.proveit-required, .proveit-suggested').length > 0 &&
-			$('.proveit-deprecated, .proveit-optional').length > 0
+			$body.find('.proveit-required, .proveit-suggested').length > 0 &&
+			$body.find('.proveit-deprecated, .proveit-optional').length > 0
 		) {
 			$buttons.append($showAllButton);
 		} else {
-			$('.proveit-deprecated, .proveit-optional').show();
+			$body.find('.proveit-deprecated, .proveit-optional').show();
 		}
-		$('#proveit-template-buttons').remove();
-		$('#proveit-footer').prepend($buttons);
+		$body.find('#proveit-template-buttons').remove();
+		$body.find('#proveit-footer').prepend($buttons);
 		// Bind events
 		$showAllButton.on('click', function () {
-			$('.proveit-deprecated, .proveit-optional').show();
+			$body.find('.proveit-deprecated, .proveit-optional').show();
 			$(this).remove();
 		});
 		$filterFields.on('keyup', function () {
@@ -752,15 +762,15 @@ export const ProveIt = {
 					return !$(element).text().toLowerCase().includes(filter);
 				})
 				.hide();
-			$('#proveit-show-all-button').remove();
+			$body.find('#proveit-show-all-button').remove();
 		});
 		// When a template parameter changes, update the reference content
-		if ($('#proveit-reference-content').length > 0) {
-			$('select, input, textarea', '#proveit-template-fields').on('change', () => {
-				let content = $('#proveit-reference-content').val();
+		if ($body.find('#proveit-reference-content').length > 0) {
+			$body.find('select, input, textarea', '#proveit-template-fields').on('change', () => {
+				let content = $body.find('#proveit-reference-content').val();
 				const dummy = new ProveIt.Reference(`<ref>${content}</ref>`);
 				content = dummy.buildContent();
-				$('#proveit-reference-content').val(content);
+				$body.find('#proveit-reference-content').val(content);
 			});
 		}
 	},
@@ -842,7 +852,8 @@ export const ProveIt = {
 			case 'core':
 			case 'wikieditor':
 			case 'codemirror': {
-				let $tagInput = $('#wpChangeTags');
+				const $body = $('body');
+				let $tagInput = $body.find('#wpChangeTags');
 				// Don't add it twice
 				if (!$tagInput.data('proveit')) {
 					if ($tagInput.length > 0) {
@@ -854,7 +865,7 @@ export const ProveIt = {
 							name: 'wpChangeTags',
 							value: tag,
 						});
-						$('#editform').prepend($tagInput);
+						$body.find('#editform').prepend($tagInput);
 					}
 					$tagInput.data('proveit', true);
 				}
@@ -879,7 +890,8 @@ export const ProveIt = {
 			case 'core':
 			case 'wikieditor':
 			case 'codemirror': {
-				const $summaryTextarea = $('#wpSummary');
+				const $body = $('body');
+				const $summaryTextarea = $body.find('#wpSummary');
 				const currentSummary = $summaryTextarea.val();
 				if (!currentSummary) {
 					$summaryTextarea.val(proveitSummary);
@@ -907,10 +919,11 @@ export const ProveIt = {
 			object = object.data;
 		}
 		const wikitext = object.buildWikitext();
+		const $body = $('body');
 		if (object instanceof ProveIt.Citation) {
-			object.index = $('#wpTextbox1').textSelection('getCaretPosition');
+			object.index = $body.find('#wpTextbox1').textSelection('getCaretPosition');
 		}
-		$('#wpTextbox1').textSelection('encapsulateSelection', {
+		$body.find('#wpTextbox1').textSelection('encapsulateSelection', {
 			peri: wikitext,
 			replace: true,
 		});
@@ -987,7 +1000,9 @@ export const ProveIt = {
 		if (object.index) {
 			index = wikitext.indexOf(object.wikitext, object.index);
 		}
-		$('#wpTextbox1')
+		const $body = $('body');
+		$body
+			.find('#wpTextbox1')
 			// Focus for wikieditor
 			.trigger('focus')
 			.textSelection('setSelection', {
@@ -1006,7 +1021,9 @@ export const ProveIt = {
 		const wikitext = ProveIt.getWikitext();
 		const start = wikitext.indexOf(search);
 		if (start !== -1) {
-			$('#wpTextbox1')
+			const $body = $('body');
+			$body
+				.find('#wpTextbox1')
 				.textSelection('setSelection', {
 					start,
 					end: start + search.length,
@@ -1085,8 +1102,9 @@ export const ProveIt = {
 		 * @return {string} citation wikitext
 		 */
 		this.buildWikitext = () => {
-			const name = $('#proveit-reference-name').val();
-			const group = $('#proveit-reference-group').val();
+			const $body = $('body');
+			const name = $body.find('#proveit-reference-name').val();
+			const group = $body.find('#proveit-reference-group').val();
 			let wikitext_ = '<ref';
 			if (name) {
 				wikitext_ += ` name="${name}"`;
@@ -1283,12 +1301,13 @@ export const ProveIt = {
 		 */
 		this.buildWikitext = function () {
 			let templateWikitext = '';
-			const templateName = $('#proveit-template-select').val();
+			const $body = $('body');
+			const templateName = $body.find('#proveit-template-select').val();
 			if (templateName) {
 				let paramName;
 				let paramValue;
 				templateWikitext = `{{${templateName}`;
-				$('input, textarea', '.proveit-template-param').each((_index, element) => {
+				$body.find('input, textarea', '.proveit-template-param').each((_index, element) => {
 					const $element = $(element);
 					paramName = $element.attr('name');
 					paramValue = $element.val();
@@ -1333,12 +1352,13 @@ export const ProveIt = {
 		 */
 		this.cite = function ({data}) {
 			const reference = data;
-			let name = $('#proveit-reference-name').val();
+			const $body = $('body');
+			let name = $body.find('#proveit-reference-name').val();
 			if (!name) {
 				name = reference.snippet;
 				name = name.replace('"', '');
 				name = `${name.slice(0, 30).trim()}...`;
-				$('#proveit-reference-name').val(name);
+				$body.find('#proveit-reference-name').val(name);
 			}
 			const citationWikitext = `<ref name="${this.name}" ${reference.group ? ` group="${this.group}"` : ''} />`;
 			const citation = new ProveIt.Citation(citationWikitext);
@@ -1464,8 +1484,9 @@ export const ProveIt = {
 		 * @return {string} Reference wikitext
 		 */
 		this.buildWikitext = function () {
-			const name = $('#proveit-reference-name').val();
-			const group = $('#proveit-reference-group').val();
+			const $body = $('body');
+			const name = $body.find('#proveit-reference-name').val();
+			const group = $body.find('#proveit-reference-group').val();
 			const content = this.buildContent();
 			let wikitext_ = '<ref';
 			if (name) {
@@ -1483,7 +1504,8 @@ export const ProveIt = {
 		 * @return {string} Reference content
 		 */
 		this.buildContent = function () {
-			let content = $('#proveit-reference-content').val();
+			const $body = $('body');
+			let content = $body.find('#proveit-reference-content').val();
 			const dummy = new ProveIt.Reference(`<ref>${content}</ref>`);
 			content = content.replace(dummy.template.wikitext, this.template.buildWikitext());
 			content = content.trim();

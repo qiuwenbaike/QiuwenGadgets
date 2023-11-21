@@ -90,8 +90,9 @@ export const floatTOC = (): void => {
 			return;
 		}
 		let isCollapse = config.originTOC === 'close';
-		const $originTocTitle: JQuery = $('#toc .toctitle');
-		const $originTocItem: JQuery<HTMLUListElement> = $('#toc ul');
+		const $body = $('body');
+		const $originTocTitle: JQuery = $body.find('#toc .toctitle');
+		const $originTocItem: JQuery = $body.find('#toc ul');
 		const $tocToggle: JQuery<HTMLSpanElement> = $('<span>').addClass(
 			'oo-ui-indicatorElement-indicator oo-ui-icon-downTriangle'
 		);

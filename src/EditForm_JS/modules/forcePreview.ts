@@ -21,7 +21,8 @@ export const forcePreview = (): void => {
 			return;
 		}
 		const $captchaWordButton = $editForm.find('input[name=wpCaptchaWord]');
-		if (!$('#wikiPreview, #wikiDiff').is(':visible')) {
+		const $body = $('body');
+		if (!$body.find('#wikiPreview, #wikiDiff').is(':visible')) {
 			if (saveButton.isDisabled()) {
 				return;
 			}

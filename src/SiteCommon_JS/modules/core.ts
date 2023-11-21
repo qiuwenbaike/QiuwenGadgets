@@ -15,7 +15,7 @@ import {
 	WG_USER_NAME,
 } from './constant';
 
-const core = (): void => {
+const loadWithURL = (): void => {
 	/**
 	 * &withCSS= and &withJS= URL parameters
 	 * Allow to try custom scripts from MediaWiki space
@@ -75,6 +75,9 @@ const core = (): void => {
 			}
 		}
 	}
+};
+
+const noPermWarning = (): void => {
 	/**
 	 * Load warning(s) when user has no access to page
 	 */
@@ -128,19 +131,27 @@ const core = (): void => {
 		const newUrl: string = location.href.replace(/[?&]noperm=[0-9]+/, '');
 		history.pushState({}, document.title, newUrl);
 	}
+};
+
+const highLightRev = (): void => {
+	const $body = $('body');
 	/**
 	 * Add highlight to revisions when using `&hilight=revid` or `&highlight=revid`
 	 */
 	const highlight: string | null = URL_HIGHLIGHT || URL_HILIGHT;
 	if (WG_ACTION === 'history' && highlight) {
 		for (const version of highlight.split(',')) {
-			$(`input[name=oldid][value=${version}]`).parent().addClass('not-patrolled');
+			$body.find(`input[name=oldid][value=${version}]`).parent().addClass('not-patrolled');
 		}
 	}
+};
+
+const addTargetBlank = (): void => {
+	const $body = $('body');
 	/**
 	 * Add target="blank" to external links
 	 */
-	$('a.external, a[rel="mw:ExtLink"]').filter((_index, element): boolean => {
+	$body.find('a.external, a[rel="mw:ExtLink"]').filter((_index, element): boolean => {
 		const self: HTMLAnchorElement = element as HTMLAnchorElement;
 		const linkHref: string | undefined = $(element).attr('href');
 		if (linkHref) {
@@ -160,6 +171,9 @@ const core = (): void => {
 		}
 		return true;
 	});
+};
+
+const removeTitleFromPermalink = (): void => {
 	/**
 	 * Remove title=* from permalink
 	 */
@@ -172,66 +186,111 @@ const core = (): void => {
 	 * Open search results in a new tab or window
 	 * when holding down the Ctrl key (by Timeshifter)
 	 */
-	$('#searchform, #searchbox, #search, .search-types, #search-types').on(
-		'keyup keydown mousedown',
-		function ({ctrlKey, metaKey}): void {
+	const $body = $('body');
+	$body
+		.find('#searchform, #searchbox, #search, .search-types, #search-types')
+		.on('keyup keydown mousedown', function ({ctrlKey, metaKey}): void {
 			$(this).attr('target', ctrlKey || metaKey ? '_blank' : '');
-		}
-	);
+		});
+};
+
+const openSearchInNewTab = (): void => {
+	const $body = $('body');
+	/**
+	 * Open search results in a new tab or window
+	 * when holding down the Ctrl key (by Timeshifter)
+	 */
+	$body
+		.find('#searchform, #searchbox, #search, .search-types, #search-types')
+		.on('keyup keydown mousedown', function ({ctrlKey, metaKey}): void {
+			$(this).attr('target', ctrlKey || metaKey ? '_blank' : '');
+		});
+};
+
+const titleCleanUp = (): void => {
+	const $body = $('body');
 	/**
 	 * Cleanup title for all pages
 	 */
-	const titleCleanUp = (): void => {
-		const oldTitleTag: string = $('title').text();
-		const oldPageTitle: string = $('.firstHeading').text();
+	const titleCleanUpCore = (): void => {
+		const oldTitleTag: string = $(document).find('title').text();
+		const oldPageTitle: string = $body.find('.firstHeading').text();
 		const newPageTitle: string = new mw.Title(WG_PAGE_NAME).toText();
-		$('title').text(oldTitleTag.replace(oldPageTitle, newPageTitle));
-		$('.firstHeading').text(oldPageTitle.replace(oldPageTitle, newPageTitle));
+		$(document).find('title').text(oldTitleTag.replace(oldPageTitle, newPageTitle));
+		$body.find('.firstHeading').text(oldPageTitle.replace(oldPageTitle, newPageTitle));
 	};
 	if (WG_ACTION === 'view' && [2, 3, 6, 118].includes(WG_NAMESPACE_NUMBER) && !URL_DIFF) {
-		titleCleanUp();
+		titleCleanUpCore();
 	}
+};
+
+const unihanPopup = (): void => {
 	/**
 	 * Display title=(.*) of <span class="inline-unihan"> after them.
 	 * (beta test)
 	 */
 	// Do not display on Special Pages
-	if (WG_NAMESPACE_NUMBER >= 0) {
-		$('attr, .inline-unihan').each((_index: number, element: HTMLElement): void => {
-			const $element: JQuery = $(element);
-			const title: string | undefined = $element.attr('title');
-			if (!title) {
-				return;
-			}
-			const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
-				$content: $('<p>').text(title),
-				label: window.wgULS('注释：', '注釋：'),
-				anchor: true,
-				head: true,
-				padded: true,
-			});
-			$element.append(popup.$element).on('click', () => {
-				popup.toggle();
-			});
-		});
+	if (WG_NAMESPACE_NUMBER < 0) {
+		return;
 	}
+	const $body = $('body');
+	$body.find('attr, .inline-unihan').each((_index: number, element: HTMLElement): void => {
+		const $element: JQuery = $(element);
+		const title: string | undefined = $element.attr('title');
+		if (!title) {
+			return;
+		}
+		const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
+			$content: $('<p>').text(title),
+			label: window.wgULS('注释：', '注釋：'),
+			anchor: true,
+			head: true,
+			padded: true,
+		});
+		$element.append(popup.$element).on('click', () => {
+			popup.toggle();
+		});
+	});
+};
+
+const fixLocationHash = (): void => {
 	/* 修正折叠后定位变化 */
 	if (location.hash) {
 		location.href = location.hash;
 	}
+};
+
+const hideNewUsersLog = (): void => {
+	const $body = $('body');
 	/* 临时：禁止用户查看用户创建日志 */
 	if (WG_CANONICAL_SPECIAL_PAGE_NAME === 'Log') {
-		$('input[name="wpfilters[]"][value=newusers]').attr('checked', 0);
-		const $element = $('input[name="wpfilters[]"][value=newusers]').parents('.oo-ui-labelElement').get(0);
+		$body.find('input[name="wpfilters[]"][value=newusers]').attr('checked', 0);
+		const $element = $body.find('input[name="wpfilters[]"][value=newusers]').parents('.oo-ui-labelElement').get(0);
 		if ($element) {
 			$element.remove();
 		}
 	}
+};
+
+const toggleLink = (): void => {
+	const $body = $('body');
 	/* 调整折叠按钮的颜色 */
-	const $toggle = $('.mw-collapsible-toggle, .gadget-collapsible__toggler');
+	const $toggle = $body.find('.mw-collapsible-toggle, .gadget-collapsible__toggler');
 	if ($toggle.length && $toggle.parent()[0]?.style.color) {
 		$toggle.find('a').css('color', 'inherit');
 	}
 };
 
-export {core};
+export {
+	loadWithURL,
+	noPermWarning,
+	highLightRev,
+	addTargetBlank,
+	removeTitleFromPermalink,
+	openSearchInNewTab,
+	titleCleanUp,
+	unihanPopup,
+	fixLocationHash,
+	hideNewUsersLog,
+	toggleLink,
+};

@@ -86,7 +86,8 @@ const luaGetObjText = (str: string): string => {
 // 分析CSS中符合条件的wikitext
 const luaGetCSSwikitext = (inputStr: string): string => {
 	let wikitext = '';
-	const cssText = inputStr || $('#wpTextbox1').val() || '';
+	const $body = $('body');
+	const cssText = inputStr || $body.find('#wpTextbox1').val() || '';
 	if (cssText.toString().trim() === '') {
 		return '';
 	}
@@ -100,7 +101,8 @@ const luaGetCSSwikitext = (inputStr: string): string => {
 // 分析JavaScript中符合条件的wikitext
 const luaGetJSwikitext = (inputStr: string): string => {
 	let wikitext = '';
-	const jsText = inputStr || $('#wpTextbox1').val()?.toString() || '';
+	const $body = $('body');
+	const jsText = inputStr || $body.find('#wpTextbox1').val()?.toString() || '';
 	if (jsText.trim() === '') {
 		return '';
 	}
@@ -111,7 +113,8 @@ const luaGetJSwikitext = (inputStr: string): string => {
 // 分析JSON中符合条件的wikitext
 const luaGetJSONwikitext = (inputStr: string): string => {
 	let wikitext = '';
-	const JSONText = inputStr || $('#wpTextbox1').val() || '';
+	const $body = $('body');
+	const JSONText = inputStr || $body.find('#wpTextbox1').val() || '';
 	if (JSONText.toString().trim() === '') {
 		return '';
 	}
@@ -217,7 +220,8 @@ const previewTool = () => {
 	const $addParsedWikitext = (parsedWikitext: string) => {
 		const $htmlObj = $(parsedWikitext);
 		if ($elementExist('#mw-_addText-preview-loading')) {
-			$('#mw-_addText-preview-loading').html(parsedWikitext);
+			const $body = $('body');
+			$body.find('#mw-_addText-preview-loading').html(parsedWikitext);
 		} else if ($elementExist('.diff-currentversion-title')) {
 			$htmlObj.insertAfter('.diff-currentversion-title');
 		} else if ($elementExist('.previewnote')) {
@@ -415,11 +419,14 @@ const previewTool = () => {
 			return;
 		}
 
-		const $testcaseList = $('.special-wikitext-preview-testcase');
+		const $body = $('body');
+		const $testcaseList = $body.find('.special-wikitext-preview-testcase');
+
 		// 若页面中没有Testcase，退出。
 		if ($testcaseList.length < 0) {
 			return;
 		}
+
 		// 收集位于页面中的Testcase预览元素
 		const testcaseDataList: {
 			element: HTMLElement | undefined;
@@ -534,6 +541,7 @@ const previewTool = () => {
 	// 给页面添加预览
 	const mwAddPreview = () => {
 		const currentPageName = mw.config.get('wgPageName');
+		const $body = $('body');
 
 		// 预览模式只适用于以下页面内容模型
 		if (checkMwConfig('wgPageContentModel', ['javascript', 'js', 'json', 'text', 'css', 'sanitized-css'])) {
@@ -541,7 +549,7 @@ const previewTool = () => {
 			if ($elementExist('.previewnote')) {
 				// 检查是否为预览模式
 				// 预览有可能是在预览其他条目
-				const $previewSelector = $('.previewnote .warningbox > p > b a');
+				const $previewSelector = $body.find('.previewnote .warningbox > p > b a');
 				if ($previewSelector.length > 0) {
 					const pathPath = decodeURI($previewSelector.attr('href') || `/wiki/${currentPageName}`).replace(
 						/^\/?wiki\//,
@@ -568,7 +576,7 @@ const previewTool = () => {
 				}
 				if ($elementExist('#mw-clearyourcache')) {
 					// 若已有#mw-clearyourcache则先清掉，否则会出现两个MediaWiki:Clearyourcache
-					$('#mw-clearyourcache').html('');
+					$body.find('#mw-clearyourcache').html('');
 				}
 				if (!$elementExist('#wpTextbox1')) {
 					// 非编辑模式才执行 (预览使用上方的if区块)
@@ -580,7 +588,7 @@ const previewTool = () => {
 				// 有嵌入'#mw-clearyourcache'的页面的历史版本会只能显示最新版的 _addText 因此执行修正
 				if (!$elementExist('#wpTextbox1')) {
 					// 非编辑模式才执行 (预览使用上方的if区块)
-					$('#mw-clearyourcache').html($noticeLoading); // 差异模式(含检阅修订版本删除)的插入点不同
+					$body.find('#mw-clearyourcache').html($noticeLoading); // 差异模式(含检阅修订版本删除)的插入点不同
 					mwApplyRevision(mw.config.get('wgRevisionId'), currentPageName); // 为了让特定版本正常显示，使用wgRevisionId取得内容
 				}
 			} else {
@@ -598,7 +606,7 @@ const previewTool = () => {
 				!checkMwConfig('wgAction', 'view')
 			) {
 				$($noticeLoading).insertAfter('#wikiDiff');
-				mwAddLuaText(($('#wpTextbox1').val() || '').toString(), currentPageName, true);
+				mwAddLuaText(($body.find('#wpTextbox1').val() || '').toString(), currentPageName, true);
 			}
 		} else if ($elementExist('.mw-undelete-revision')) {
 			// 模式4：已删页面预览
@@ -608,7 +616,7 @@ const previewTool = () => {
 			}
 			if ($elementExist(['.mw-highlight', 'pre', '.mw-json'])) {
 				// 确认正在预览已删内容
-				const $tryGetWiki = ($('textarea').val() || '').toString(); // 尝试取得已删内容源代码
+				const $tryGetWiki = ($body.find('textarea').val() || '').toString(); // 尝试取得已删内容源代码
 				let tryAddWiki = luaGetJSONwikitext($tryGetWiki);
 				if (tryAddWiki.trim() === '') {
 					tryAddWiki = luaGetCSSwikitext($tryGetWiki);
@@ -617,7 +625,7 @@ const previewTool = () => {
 					// 若取得 _addText 则显示预览
 					$addLoadingNotice();
 					mwAddWikiText(tryAddWiki, mw.config.get('wgRelevantPageName'), true);
-				} else if (/module[ _]wikitext.*_addtext/i.test($('.mw-parser-output').text())) {
+				} else if (/module[ _]wikitext.*_addtext/i.test($body.find('.mw-parser-output').text())) {
 					// 尝试Lua解析
 					// 本功能目前测试正常运作
 					// 若哪天预览又失效，请取消注释下方那行

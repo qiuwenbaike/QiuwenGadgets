@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - morebits.js */
 /**
@@ -118,11 +119,12 @@
 	 * @returns {boolean}
 	 */
 	Morebits.isPageRedirect = () => {
+		const $body = $('body');
 		return !!(
 			mw.config.get('wgIsRedirect') ||
 			document.querySelector('#softredirect') ||
-			$('.box-RfD').length ||
-			$('.box-Redirect_category_shell').length
+			$body.find('.box-RfD').length ||
+			$body.find('.box-Redirect_category_shell').length
 		);
 	};
 	/**
@@ -3450,9 +3452,10 @@
 			if (!Morebits.userIsSysop && !Morebits.userIsInGroup('patroller')) {
 				return;
 			}
+			const $body = $('body');
 			// If a link is present, don't need to check if it's patrolled
-			if ($('.patrollink').length) {
-				const patrolhref = $('.patrollink a').attr('href');
+			if ($body.find('.patrollink').length) {
+				const patrolhref = $body.find('.patrollink a').attr('href');
 				ctx.rcid = mw.util.getParamValue('rcid', patrolhref);
 				fnProcessPatrol(this, this);
 			} else {
@@ -5809,6 +5812,7 @@
 	 * @param {boolean} enabled
 	 */
 	Morebits.simpleWindow.setButtonsEnabled = (enabled) => {
-		$('.morebits-dialog-buttons button').prop('disabled', !enabled);
+		const $body = $('body');
+		$body.find('.morebits-dialog-buttons button').prop('disabled', !enabled);
 	};
 })(jQuery);

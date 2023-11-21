@@ -1,6 +1,8 @@
 import {articleSummaries, commonSummaries, talkPageSummaries} from './messages';
 
-let $wpSummary: JQuery = $('#wpSummary');
+const $body = $('body');
+
+let $wpSummary: JQuery = $body.find('#wpSummary');
 
 const addOptionsToDropdown = (dropdown: OO.ui.DropdownWidget, optionTexts: string[]): void => {
 	dropdown.getMenu().addItems(
@@ -66,7 +68,7 @@ const loadDefaultSummariesInVE = (): void => {
 
 // WikiEditor
 const loadDefaultSummariesInWikiEditor = (): void => {
-	const $editCheckboxes: JQuery = $('.editCheckboxes');
+	const $editCheckboxes: JQuery = $body.find('.editCheckboxes');
 	// If we failed to find the editCheckboxes class
 	if (!$editCheckboxes.length) {
 		return;

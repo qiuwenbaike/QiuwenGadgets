@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - twinklearv.js */
 (function twinklearv($) {
@@ -102,6 +103,7 @@
 			query.bkusers = uid;
 		}
 		new Morebits.wiki.api(wgULS('检查用户的封禁状态', '檢查使用者的封鎖狀態'), query, (apiobj) => {
+			const $body = $('body');
 			const blocklist = apiobj.getResponse().query.blocks;
 			if (blocklist.length) {
 				const [block] = blocklist;
@@ -110,13 +112,11 @@
 					wgULS('已经被', '已經被') +
 					(block.partial ? '部分' : '');
 				// Start and end differ, range blocked
-				message +=
-					block.rangestart === block.rangeend ? wgULS('封禁。', '封鎖。') : wgULS('段封禁。', '段封鎖。');
+				message += block.rangestart === (block.rangeend ? '段' : '') + wgULS('封禁。', '封鎖。');
 				if (block.partial) {
-					$('#twinkle-arv-blockwarning').css('color', 'black'); // Less severe
+					$body.find('#twinkle-arv-blockwarning').css('color', 'black'); // Less severe
 				}
-
-				$('#twinkle-arv-blockwarning').text(message);
+				$body.find('#twinkle-arv-blockwarning').text(message);
 			}
 		}).post();
 		// We must init the
@@ -134,7 +134,8 @@
 		Twinkle.arv.callback.set_sockmaster(e.target.value);
 	};
 	Twinkle.arv.callback.set_sockmaster = (sockmaster) => {
-		$('code.tw-arv-sockmaster').text('{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`));
+		const $body = $('body');
+		$body.find('code.tw-arv-sockmaster').text('{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`));
 	};
 	Twinkle.arv.callback.changeCategory = (e) => {
 		const {value} = e.target;

@@ -1,9 +1,12 @@
 import {messages} from './messages';
+
 export const rollbackSummary = (): void => {
 	messages();
 	const updateLinks = (): void => {
-		$('.mw-rollback-link a').off('click');
-		$('.mw-rollback-link a')
+		const $body = $('body');
+		$body.find('.mw-rollback-link a').off('click');
+		$body
+			.find('.mw-rollback-link a')
 			.on('click', function (event: JQuery.ClickEvent): void {
 				event.preventDefault();
 				let {href} = this as HTMLAnchorElement;

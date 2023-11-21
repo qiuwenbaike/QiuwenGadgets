@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {easy_archive_lang} from './modules/i18n';
 
@@ -550,22 +551,24 @@ import {easy_archive_lang} from './modules/i18n';
 		);
 	}
 	if (mw.config.get('skin') === 'citizen') {
-		$('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice').replaceWith(
-			function () {
+		const $body = $('body');
+		$body
+			.find('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice')
+			.replaceWith(function () {
 				const $this = $(this);
 				return $('<section>').addClass('page-info__item').attr('id', $this.attr('id')).html($this.html());
-			}
-		);
+			});
 	}
 	if (
 		['vector', 'vector-2022', 'gongbi', 'write'].includes(mw.config.get('skin')) ||
 		document.querySelector('ul#footer-info')
 	) {
-		$('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice').replaceWith(
-			function () {
+		const $body = $('body');
+		$body
+			.find('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice')
+			.replaceWith(function () {
 				const $this = $(this);
 				return $('<li>').attr('id', $this.attr('id')).html($this.html());
-			}
-		);
+			});
 	}
 })();

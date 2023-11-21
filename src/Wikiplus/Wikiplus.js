@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 (() => {
 	if (!(mw.config.get('wgAction') === 'view' && mw.config.get('wgIsArticle'))) {

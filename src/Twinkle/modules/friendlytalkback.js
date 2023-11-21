@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - friendlytalkback.js */
 (function friendlytalkback($) {
@@ -117,7 +118,8 @@
 			const reason = mw.util.getParamValue('reason', url);
 			Twinkle.talkback.optout += reason ? `：${Morebits.string.appendPunctuation(reason)}` : '。';
 		}
-		$('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
+		const $body = $('body');
+		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
 	};
 	let prev_page = '';
 	let prev_section = '';
@@ -288,7 +290,8 @@
 		if (root.message) {
 			root.message.value = prev_message;
 		}
-		$('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
+		const $body = $('body');
+		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
 	};
 	Twinkle.talkback.noticeboards = {
 		affp: {

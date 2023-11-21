@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {pagePermissions, permissionNames, tagLine, templates} from './constant';
 
@@ -10,6 +11,7 @@ const api = new mw.Api({
 		},
 	},
 });
+
 let permaLink;
 let userName;
 let dialog;
@@ -174,12 +176,13 @@ const showDialog = () => {
 				rightLogText.text(`${timestamp} ${logs[0].user}将用户组改为${rights}`);
 			}
 		});
+		this.$body = $('body');
 		this.rightsChangeSummaryInput = new OO.ui.TextInputWidget({
 			value: '',
 			placeholder: '可留空',
 		});
 		this.expiryInput = new mw.widgets.ExpiryWidget({
-			$overlay: $('.oo-ui-window'),
+			$overlay: this.$body.find('.oo-ui-window'),
 			RelativeInputClass: mw.widgets.SelectWithInputWidget,
 			relativeInput: {
 				or: true,
@@ -360,7 +363,8 @@ const showDialog = () => {
 };
 
 export const initDialog = () => {
-	$('.perm-assign-permissions a').on('click', function (e) {
+	const $body = $('body');
+	$body.find('.perm-assign-permissions a').on('click', function (e) {
 		if (permission === 'AutoWikiBrowser') {
 			return true;
 		}

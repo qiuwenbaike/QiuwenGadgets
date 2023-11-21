@@ -86,21 +86,22 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 };
 
 const updateConfig = (): void => {
+	const $body = $('body');
 	const checkBoxes = {};
-	if ($('#rrdHideContent').prop('checked')) {
+	if ($body.find('#rrdHideContent').prop('checked')) {
 		Object.defineProperty(checkBoxes, 'rrdHideContent', {value: 1});
 	}
-	if ($('#rrdHideUsername').prop('checked')) {
+	if ($body.find('#rrdHideUsername').prop('checked')) {
 		Object.defineProperty(checkBoxes, 'rrdHideUsername', {value: 1});
 	}
-	if ($('#rrdHideSummary').prop('checked')) {
+	if ($body.find('#rrdHideSummary').prop('checked')) {
 		Object.defineProperty(checkBoxes, 'rrdHideSummary', {value: 1});
 	}
 	Object.defineProperty(config, 'checkboxes', {value: checkBoxes});
 	const others = {};
 	Object.defineProperties(others, {
-		rrdReason: {value: $('#rrdReason').val()},
-		rrdOtherReasons: {value: $('#rrdOtherReasons').val()},
+		rrdReason: {value: $body.find('#rrdReason').val()},
+		rrdOtherReasons: {value: $body.find('#rrdOtherReasons').val()},
 	});
 	Object.defineProperty(config, 'others', {value: others});
 };
@@ -193,8 +194,11 @@ export const main = (): void => {
 		})
 		.text(isLog ? message.report_button_log_text : message.report_button_text);
 	$report.on('click', showDialog);
-	// For action=history
-	$('.historysubmit.mw-history-compareselectedversions-button').after($report);
-	// For Special:Log
-	$('.editchangetags-log-submit.mw-log-editchangetags-button').after($report);
+	const $body = $('body');
+	// For action=history and Special:Log
+	$body
+		.find(
+			'.historysubmit.mw-history-compareselectedversions-button, .editchangetags-log-submit.mw-log-editchangetags-button'
+		)
+		.after($report);
 };

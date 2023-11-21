@@ -1,19 +1,20 @@
 import {getMessage} from './i18n';
 
 export const AiAssisted = (): void => {
-	let isInit = false;
+	mw.config.set('wgAiAssistedStatementInitialized', false);
 	const statement = (tagName: string, labelName: string) => {
-		if (isInit) {
+		if (mw.config.get('wgAiAssistedStatementInitialized')) {
 			return;
 		}
+		const $body = $('body');
 		// @ts-ignore
 		const $layout: JQuery = ve.init
-			? $('.ve-ui-mwSaveDialog-checkboxes')
-			: $('#editform').find('.editCheckboxes .oo-ui-horizontalLayout');
+			? $body.find('.ve-ui-mwSaveDialog-checkboxes')
+			: $body.find('#editform').find('.editCheckboxes .oo-ui-horizontalLayout');
 		if (!$layout.length) {
 			return;
 		}
-		isInit = true;
+		mw.config.set('wgAiAssistedStatementInitialized', true);
 		const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 			selected: false,
 		});
@@ -39,9 +40,9 @@ export const AiAssisted = (): void => {
 					type: 'hidden',
 					value: '',
 				});
-				const $wpChangeTags: JQuery = $('#wpChangeTags');
+				const $wpChangeTags: JQuery = $body.find('#wpChangeTags');
 				if (!$wpChangeTags.length) {
-					$('#editform').prepend($tagInput);
+					$body.find('#editform').prepend($tagInput);
 				}
 				changeTags = String($wpChangeTags.val());
 				changeTags = checkbox.isSelected() ? `${changeTags},${tagName}` : changeTags.replace(`,${tagName}`, '');

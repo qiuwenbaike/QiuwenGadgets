@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {getMessage} from './util';
 
@@ -320,5 +321,5 @@ export const refToolbarBase = () => {
 			return row;
 		};
 	};
-	$('head').trigger('reftoolbarbase');
+	$(document).find('head').trigger('reftoolbarbase');
 };

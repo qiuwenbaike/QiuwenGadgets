@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /**
  * CheckCategories HotCat Extension –
@@ -11,7 +12,7 @@
 	if (
 		mw.config.get('wgNamespaceNumber') !== 6 ||
 		window.HotCatAutoRemoveCheckCatOptOut ||
-		!$('.checkcategories')[0]
+		!document.querySelectorAll('.checkcategories')[0]
 	) {
 		return;
 	}
@@ -178,7 +179,8 @@
 				width: 450,
 				buttons: dlgButtons,
 				close: () => {
-					$('#hotcatCommitForm').trigger('submit');
+					const $body = $('body');
+					$body.find('#hotcatCommitForm').trigger('submit');
 				},
 				open() {
 					const $buttons = $(this).parent().find('.ui-dialog-buttonpane button');
@@ -248,7 +250,8 @@
 				} else {
 					$el.text('Edit Done.');
 				}
-				$('.checkcategories').fadeOut();
+				const $body = $('body');
+				$body.find('.checkcategories').fadeOut();
 			};
 			$el.text('Doing..');
 			$.post(mw.util.wikiScript('api'), params, editDone);
@@ -270,6 +273,7 @@
 		});
 	});
 	$(() => {
-		$('#catlinks').find('ul:first').append($('<li>').append($okLink));
+		const $body = $('body');
+		$body.find('#catlinks').find('ul:first').append($('<li>').append($okLink));
 	});
 })();

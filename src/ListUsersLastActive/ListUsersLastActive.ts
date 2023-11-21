@@ -5,7 +5,8 @@ import {checkLastActive} from './modules/core';
 
 const ListUsersLastActiveLoad = () => {
 	if (mw.config.get('wgCanonicalSpecialPageName') === 'Listusers') {
-		$('#mw-content-text>ul>li').each((_index: number, element: HTMLElement): void => {
+		const $body = $('body');
+		$body.find('#mw-content-text>ul>li').each((_index: number, element: HTMLElement): void => {
 			checkLastActive($(element).find('.mw-userlink>bdi').text(), element);
 		});
 	}

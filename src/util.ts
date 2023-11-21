@@ -156,7 +156,7 @@ const scrollTop = (
 					easing: 'linear',
 					...effectsOptionsOrDuration,
 			  };
-	$(document).find('html,body').animate(
+	$(document).find('html, body').animate(
 		{
 			scrollTop: targetHeight,
 		},

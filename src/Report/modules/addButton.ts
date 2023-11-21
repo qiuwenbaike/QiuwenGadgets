@@ -45,7 +45,11 @@ const addButton = (): void => {
 	});
 
 	const scrollListener = (): void => {
-		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {
+		if (
+			document.querySelector('#cat_a_lot') ||
+			document.querySelector('#proveit') ||
+			document.querySelectorAll('.wordcount').length
+		) {
 			$reportButton.css('bottom', '246px');
 		} else {
 			$reportButton.css('bottom', '204px');
