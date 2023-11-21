@@ -2,6 +2,7 @@
 import {
 	API_ENTRY_POINT,
 	API_TAG,
+	CLASS_NAME,
 	CLASS_NAME_CONTAINER,
 	CLASS_NAME_CONTAINER_DATA,
 	CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST,
@@ -100,7 +101,7 @@ const catALot = (): void => {
 			CAL.initSettings();
 
 			this.$body = $('body');
-			this.$container = $('<div>').addClass(CLASS_NAME_CONTAINER).appendTo(this.$body);
+			this.$container = $('<div>').addClass(`${CLASS_NAME} ${CLASS_NAME_CONTAINER} noprint`).appendTo(this.$body);
 			this.$dataContainer = $('<div>').addClass(CLASS_NAME_CONTAINER_DATA).appendTo(this.$container);
 			this.$markCounter = $('<div>')
 				.addClass(CLASS_NAME_CONTAINER_DATA_MARK_COUNTER)

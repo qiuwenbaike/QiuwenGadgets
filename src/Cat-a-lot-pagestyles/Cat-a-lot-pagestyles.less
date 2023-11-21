@@ -4,17 +4,14 @@
 @background-color-secondary: rgba(51, 102, 204, 0.1);
 
 .background() {
+	/* stylelint-disable-next-line plugin/no-unsupported-browser-features */
 	backdrop-filter: saturate(50%) blur(16px);
 	background: @background-color-secondary;
 	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
 }
 
 .gadget-cat_a_lot {
-	a {
-		cursor: pointer;
-	}
-
-	&__container {
+	&-container {
 		border-radius: @border-radius--medium;
 		.background;
 		display: block;
@@ -24,6 +21,10 @@
 		margin: 0.5em;
 		padding: 0.5em;
 		z-index: 200;
+
+		a {
+			cursor: pointer;
+		}
 
 		&__data {
 			display: none;
@@ -82,7 +83,7 @@
 		}
 	}
 
-	&__feedback {
+	&-feedback {
 		.background;
 		border: 0;
 		padding: 0.5em 2.5em;
@@ -99,7 +100,7 @@
 		}
 	}
 
-	&__label {
+	&-label {
 		&--last-selected {
 			font-weight: bold;
 			outline: 1px dotted @const-color-primary;
