@@ -272,7 +272,7 @@
 			cache: false,
 		});
 	});
-	$(() => {
+	$(function loadHotCatCheck() {
 		const $body = $('body');
 		$body.find('#catlinks').find('ul:first').append($('<li>').append($okLink));
 	});

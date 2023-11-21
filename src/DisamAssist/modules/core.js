@@ -35,7 +35,7 @@ let runningSaves = false;
 /* Entry point. Check whether we are in a disambiguation page. If so, add a link to start the tool */
 export const install = () => {
 	if (mw.config.get('wgAction') === 'view' && isDisam()) {
-		$(() => {
+		$(function loadDisamAssist() {
 			// This is a " (disambiguation)" page
 			if (new RegExp(cfg.disamRegExp).test(getTitle())) {
 				const startMainLink = $(
