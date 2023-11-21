@@ -26,6 +26,7 @@ const mutationObserver = new MutationObserver((records: MutationRecord[]): void 
 		}
 
 		// Optimization: prevent forced reflows
+		// eslint-disable-next-line compat/compat
 		requestAnimationFrame((): void => {
 			for (const node of addedNodes) {
 				if (node instanceof HTMLElement) {
