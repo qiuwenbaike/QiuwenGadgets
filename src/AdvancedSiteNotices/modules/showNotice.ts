@@ -11,7 +11,8 @@ let timer: ReturnType<typeof setTimeout>;
 
 const $area: JQuery = insertArea();
 const $currentNotice: JQuery = $area.find(`.${CLASS_NOTICES_NOTICE_CONTENT}`);
-$area.find(`.${CLASS_NOTICES_DISMISS}`).on('click', (event: JQuery.ClickEvent): void => {
+const $dismiss: JQuery<HTMLAnchorElement> = $area.find(`.${CLASS_NOTICES_DISMISS}`).find('a');
+$dismiss.on('click', (event: JQuery.ClickEvent): void => {
 	event.preventDefault();
 	clearTimeout(timer);
 	$area.remove();
@@ -27,6 +28,11 @@ $area.find(`.${CLASS_NOTICES_DISMISS}`).on('click', (event: JQuery.ClickEvent): 
 			toastifyInstance.hideToast();
 		},
 	});
+});
+tippy($dismiss.get(0) as HTMLElement, {
+	arrow: true,
+	content: $dismiss.attr('aria-label') as string,
+	placement: 'bottom',
 });
 
 const noticeStyles: CSSStyleSheet[] = [];
@@ -92,11 +98,6 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 		});
 	} else if (!currentNoticeHtml) {
 		$mountPoint.append($area);
-		tippy($area.get(0) as HTMLElement, {
-			arrow: true,
-			content: $area.attr('aria-label') as string,
-			placement: 'bottom',
-		});
 		const noticeStyle: CSSStyleSheet | undefined = noticeStyles[noticeStyleId];
 		if (noticeStyle) {
 			noticeStyle.disabled = false;
