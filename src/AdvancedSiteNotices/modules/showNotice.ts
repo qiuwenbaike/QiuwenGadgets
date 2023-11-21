@@ -92,6 +92,11 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 		});
 	} else if (!currentNoticeHtml) {
 		$mountPoint.append($area);
+		tippy($area.get(0) as HTMLElement, {
+			arrow: true,
+			content: $area.attr('aria-label') as string,
+			placement: 'bottom',
+		});
 		const noticeStyle: CSSStyleSheet | undefined = noticeStyles[noticeStyleId];
 		if (noticeStyle) {
 			noticeStyle.disabled = false;
