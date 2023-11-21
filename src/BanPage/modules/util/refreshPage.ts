@@ -10,7 +10,11 @@ const refreshPage = (targetPage: string): void => {
 		'success'
 	);
 
-	location.replace(`${WG_SCRIPT}?title=${mw.util.rawurlencode(targetPage)}`);
+	location.replace(
+		mw.util.getUrl(WG_SCRIPT, {
+			title: targetPage,
+		})
+	);
 };
 
 export {refreshPage};
