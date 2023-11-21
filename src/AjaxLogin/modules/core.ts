@@ -1,5 +1,5 @@
 import {type ClientLoginParams, api} from './api';
-import {type NeedCheckElements, checkValid} from './util/checkValid';
+import {type NeedToCheckElements, checkValid} from './util/checkValid';
 import {generateElements} from './generateElements';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
@@ -201,10 +201,10 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 		}
 	};
 
-	const needCheckElements: NeedCheckElements = [agreeTosCheckbox, nameInput, pwdInput];
+	const needToCheckElements: NeedToCheckElements = [agreeTosCheckbox, nameInput, pwdInput];
 
 	pwdInput.on('enter', (): void => {
-		const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(needCheckElements, toastifyInstance);
+		const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(needToCheckElements, toastifyInstance);
 		toastifyInstance = lastToastifyInstance;
 		if (isValid) {
 			login();
@@ -214,7 +214,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 		return new OO.ui.Process((): void => {
 			if (action === 'login') {
 				const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(
-					needCheckElements,
+					needToCheckElements,
 					toastifyInstance
 				);
 				toastifyInstance = lastToastifyInstance;
