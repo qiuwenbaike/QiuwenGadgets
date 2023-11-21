@@ -1,4 +1,4 @@
-import {CLASS_NOTICES_DISMISS, CLASS_NOTICES_NOTICE, STORAGE_KEY} from './constant';
+import {CLASS_NOTICES_DISMISS, CLASS_NOTICES_NOTICE_CONTENT, STORAGE_KEY} from './constant';
 import type {RemoteNotices} from './util/queryApi';
 import {getMessage} from './i18n';
 import {insertArea} from './insertArea';
@@ -10,7 +10,7 @@ let localNoticesVersion: string | null = mw.storage.get(STORAGE_KEY) as string |
 let timer: ReturnType<typeof setTimeout>;
 
 const $area: JQuery = insertArea();
-const $currentNotice: JQuery = $area.find(`.${CLASS_NOTICES_NOTICE}`);
+const $currentNotice: JQuery = $area.find(`.${CLASS_NOTICES_NOTICE_CONTENT}`);
 $area.find(`.${CLASS_NOTICES_DISMISS}`).on('click', (event: JQuery.ClickEvent): void => {
 	event.preventDefault();
 	clearTimeout(timer);
