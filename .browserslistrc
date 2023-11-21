@@ -1,27 +1,3 @@
-# https://gitlab.wikimedia.org/repos/ci-tools/browserslist-config-wikimedia/-/blob/main/basic.json
-# # extends browserslist-config-wikimedia/modern
-# Chrome >= 31
-# Firefox >= 39
-# Opera >= 18
-# Edge >= 12
-# IE >= 11
-# Safari >= 9.1
-# iOS >= 9
-# Android >= 5
-
-# For MediaWiki
-Chrome >= 31
-Firefox >= 39
-Opera >= 18
-Edge >= 12
-IE >= 11
-Safari >= 9.1
-iOS >= 9
-Android >= 5
-
-# In addtion to support MediaWiki 1.39
-# see also: https://github.com/wikimedia/mediawiki/blob/REL1_39/resources/src/startup/startup.js#L10
-> 0.3%
+extends browserslist-config-wikimedia/basic
+> 0.2%
 defaults
-fully supports es6-module
-maintained node versions
