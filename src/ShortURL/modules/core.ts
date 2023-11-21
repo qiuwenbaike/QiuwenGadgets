@@ -91,6 +91,7 @@ export const shortURL = (): void => {
 		oldId: number | false;
 		revisionId: number;
 	}): void => {
+		const $body = $('body');
 		if (diffId) {
 			const buildLink = (_oldId: number | false, link = '/d'): void => {
 				if (_oldId) {
@@ -119,7 +120,11 @@ export const shortURL = (): void => {
 					}
 				});
 			}
-		} else if (revisionId && !!document.querySelector('#mw-revision-nav')) {
+		} else if (
+			revisionId &&
+			($body.find('#contentSub').find('#mw-revision-nav').length ||
+				$body.find('main#content>.pre-content #mw-revision-nav').length) > 0
+		) {
 			doIns(`/p/${revisionId}`);
 		} else if (articleId) {
 			doIns(`/c/${articleId}`);
