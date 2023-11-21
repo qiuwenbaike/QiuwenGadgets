@@ -20,7 +20,6 @@ const insertArea = (): JQuery => {
 				.attr({
 					href: '#',
 					role: 'button',
-					title: getMessage('Dismiss'),
 					'aria-label': getMessage('Dismiss'),
 				})
 				.text(getMessage('Dismiss'))
