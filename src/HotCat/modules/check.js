@@ -20,7 +20,6 @@
 	const selfName = '([[MediaWiki:Gadget-HotCat-check.js|Script]]): ';
 	const storageItemName = 'checkCat';
 	const storageItem = mw.storage.get(storageItemName);
-	const $body = $('body');
 	/**
 	 * A few styling helper functions
 	 *
@@ -180,6 +179,7 @@
 				width: 450,
 				buttons: dlgButtons,
 				close: () => {
+					const $body = $('body');
 					$body.find('#hotcatCommitForm').trigger('submit');
 				},
 				open() {
@@ -250,6 +250,7 @@
 				} else {
 					$el.text('Edit Done.');
 				}
+				const $body = $('body');
 				$body.find('.checkcategories').fadeOut();
 			};
 			$el.text('Doing..');
@@ -272,6 +273,7 @@
 		});
 	});
 	$(() => {
+		const $body = $('body');
 		$body.find('#catlinks').find('ul:first').append($('<li>').append($okLink));
 	});
 })();

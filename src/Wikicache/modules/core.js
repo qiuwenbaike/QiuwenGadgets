@@ -2,8 +2,6 @@
 // @ts-nocheck
 import {messages} from './messages';
 
-const $body = $('body');
-
 let autoSaveId = null;
 
 const settings = {
@@ -32,6 +30,7 @@ const initView = () => {
 };
 
 const initEdit = () => {
+	const $body = $('body');
 	$body.find('#editform').on('wikiCacheSettingsUpdate', autoSave).on('submit', onSubmit);
 	loadSettings();
 	defaultNotice();
@@ -47,11 +46,13 @@ const loadSettings = () => {
 	if (_settings instanceof Object) {
 		$.extend(settings, _settings);
 	}
+	const $body = $('body');
 	$body.find('#editform').trigger('wikiCacheSettingsUpdate');
 };
 
 const saveSettings = () => {
 	mw.storage.setObject('wikicache-settings', settings);
+	const $body = $('body');
 	$body.find('#editform').trigger('wikiCacheSettingsUpdate');
 };
 
@@ -65,6 +66,7 @@ const defaultNotice = () => {
 };
 
 const notice = (msg, more) => {
+	const $body = $('body');
 	let _notice = $body.find('#gadget-wikicache__notice');
 	if (_notice.length === 0) {
 		_notice = $('<div>')
@@ -165,6 +167,7 @@ const save = () => {
 		autosave[sele] = asarea[sele]($(sele));
 	}
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
+	const $body = $('body');
 	const section = $body.find('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;
@@ -175,6 +178,7 @@ const save = () => {
 
 const initLoad = () => {
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
+	const $body = $('body');
 	const section = $body.find('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;
@@ -202,6 +206,7 @@ const load = (autosave) => {
 		_autosave = autosave;
 	} else {
 		let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
+		const $body = $('body');
 		const section = $body.find('input[name="wpSection"]:first').val();
 		if (section) {
 			thekey += `_${section}`;
@@ -222,6 +227,7 @@ const load = (autosave) => {
 const onSubmit = () => {
 	save();
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
+	const $body = $('body');
 	const section = $body.find('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;

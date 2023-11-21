@@ -108,9 +108,11 @@
 		let oldreason = oldreasontextbox ? oldreasontextbox.value : '';
 		const appendReasonBox = (xfd_cat) => {
 			switch (xfd_cat) {
-				case 'fwdcsd':
-					oldreason = decodeURIComponent($('#delete-reason').text()).replace(/\+/g, ' ');
+				case 'fwdcsd': {
+					const $body = $('body');
+					oldreason = decodeURIComponent($body.find('#delete-reason').text()).replace(/\+/g, ' ');
 					break;
+				}
 				case 'fame':
 					oldreason = Twinkle.getPref('afdFameDefaultReason');
 					break;
@@ -267,12 +269,17 @@
 				e.target.form.fwdcsdreason.parentElement.setAttribute('hidden', '');
 				e.target.form.mergeinto.previousElementSibling.innerHTML = wgULS('合并到：', '合併到：');
 				break;
-			case 'fwdcsd':
+			case 'fwdcsd': {
+				const $body = $('body');
 				e.target.form.mergeinto.parentElement.removeAttribute('hidden');
 				e.target.form.fwdcsdreason.parentElement.removeAttribute('hidden');
 				e.target.form.mergeinto.previousElementSibling.innerHTML = '提交人：';
-				e.target.form.xfdreason.value = decodeURIComponent($('#delete-reason').text()).replace(/\+/g, ' ');
+				e.target.form.xfdreason.value = decodeURIComponent($body.find('#delete-reason').text()).replace(
+					/\+/g,
+					' '
+				);
 				break;
+			}
 			case 'fame':
 				e.target.form.mergeinto.parentElement.setAttribute('hidden', '');
 				e.target.form.fwdcsdreason.parentElement.setAttribute('hidden', '');

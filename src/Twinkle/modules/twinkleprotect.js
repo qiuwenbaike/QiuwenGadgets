@@ -2,6 +2,7 @@
 // @ts-nocheck
 /*! Twinkle.js - twinkleprotect.js */
 (function twinkleprotect($) {
+	const $body = $('body');
 	/**
 	 * twinkleprotect.js: Protect/RPP module
 	 * Mode of invocation: Tab ("PP"/"RPP")
@@ -184,7 +185,7 @@
 					Twinkle.protect.hasStableLog ? $('<span>').html(' &bull; ') : null
 				);
 			}
-			Morebits.status.init($('div[name="hasprotectlog"] span')[0]);
+			Morebits.status.init($body.find('div[name="hasprotectlog"] span')[0]);
 			Morebits.status.warn(
 				currentlyProtected
 					? wgULS('先前保护', '先前保護')
@@ -201,7 +202,7 @@
 				$linkMarkup[0]
 			);
 		}
-		Morebits.status.init($('div[name="currentprot"] span')[0]);
+		Morebits.status.init($body.find('div[name="currentprot"] span')[0]);
 		let protectionNode = [];
 		let statusLevel = 'info';
 		protectionNode = Twinkle.protect.formatProtectionDescription(Twinkle.protect.currentProtectionLevels);

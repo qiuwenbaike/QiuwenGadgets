@@ -26,6 +26,7 @@
 	// Has the subpages list been loaded?
 	let subpagesLoaded;
 	Twinkle.batchdelete.callback = () => {
+		const $body = $('body');
 		subpagesLoaded = false;
 		const Window = new Morebits.simpleWindow(600, 400);
 		Window.setTitle(wgULS('批量删除', '批次刪除'));
@@ -232,7 +233,7 @@
 								e.click(); // check it, and invoke click event so that subgroup can be shown
 							});
 						// Check any unchecked subpages too
-						$('input[name="pages.subpages"]').prop('checked', true);
+						$body.find('input[name="pages.subpages"]').prop('checked', true);
 					},
 				});
 				form.append({
@@ -383,6 +384,7 @@
 		e.target.value = '';
 	};
 	Twinkle.batchdelete.callback.toggleSubpages = (e) => {
+		const $body = $('body');
 		const {form} = e.target;
 		let newPageList;
 		if (e.target.checked) {
@@ -399,7 +401,7 @@
 					}
 				}
 				newPageList = Twinkle.batchdelete.generateNewPageList(form);
-				$('#tw-dbatch-pages').replaceWith(newPageList);
+				$body.find('#tw-dbatch-pages').replaceWith(newPageList);
 				for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
 					generateArrowLinks(checkbox);
 				}
@@ -505,7 +507,7 @@
 				() => {
 					// List 'em on the interface
 					newPageList = Twinkle.batchdelete.generateNewPageList(form);
-					$('#tw-dbatch-pages').replaceWith(newPageList);
+					$body.find('#tw-dbatch-pages').replaceWith(newPageList);
 					for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
 						generateArrowLinks(checkbox);
 					}
@@ -514,7 +516,7 @@
 					}
 					subpagesLoaded = true;
 					// Remove "Loading... " text
-					$('#dbatch-subpage-loading').remove();
+					$body.find('#dbatch-subpage-loading').remove();
 				}
 			);
 		} else if (!e.target.checked) {
@@ -528,7 +530,7 @@
 				}
 			}
 			newPageList = Twinkle.batchdelete.generateNewPageList(form);
-			$('#tw-dbatch-pages').replaceWith(newPageList);
+			$body.find('#tw-dbatch-pages').replaceWith(newPageList);
 			for (const checkbox of Morebits.quickForm.getElements(newPageList, 'pages')) {
 				generateArrowLinks(checkbox);
 			}

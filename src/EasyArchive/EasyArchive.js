@@ -7,7 +7,6 @@ import {easy_archive_lang} from './modules/i18n';
 		return;
 	}
 	window.easy_archive ??= {};
-	const $body = $('body');
 	// minified code dependency functions
 	class Pare_str {
 		constructor(pare_string, config) {
@@ -552,6 +551,7 @@ import {easy_archive_lang} from './modules/i18n';
 		);
 	}
 	if (mw.config.get('skin') === 'citizen') {
+		const $body = $('body');
 		$body
 			.find('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice')
 			.replaceWith(function () {
@@ -563,6 +563,7 @@ import {easy_archive_lang} from './modules/i18n';
 		['vector', 'vector-2022', 'gongbi', 'write'].includes(mw.config.get('skin')) ||
 		document.querySelector('ul#footer-info')
 	) {
+		const $body = $('body');
 		$body
 			.find('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice')
 			.replaceWith(function () {

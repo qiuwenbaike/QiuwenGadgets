@@ -17,7 +17,11 @@ const insertElementandListener = (): void => {
 	}
 
 	const scrollListener = (): void => {
-		if ($('#cat_a_lot').length || $('#proveit').length || $('.wordcount').length) {
+		if (
+			document.querySelector('#cat_a_lot') ||
+			document.querySelector('#proveit') ||
+			document.querySelectorAll('.wordcount').length
+		) {
 			$scrollDownButton.css('bottom', '78px');
 			$scrollUpButton.css('bottom', '120px');
 		} else {

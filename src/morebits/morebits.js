@@ -40,8 +40,6 @@
 	/** @lends Morebits */
 	const Morebits = {};
 	window.Morebits = Morebits; // allow global access
-	// Add $body variable
-	const $body = $('body');
 	// No Morebits.i18n at this time
 	/**
 	 * Wiki-specific configurations for Morebits
@@ -121,6 +119,7 @@
 	 * @returns {boolean}
 	 */
 	Morebits.isPageRedirect = () => {
+		const $body = $('body');
 		return !!(
 			mw.config.get('wgIsRedirect') ||
 			document.querySelector('#softredirect') ||
@@ -3453,6 +3452,7 @@
 			if (!Morebits.userIsSysop && !Morebits.userIsInGroup('patroller')) {
 				return;
 			}
+			const $body = $('body');
 			// If a link is present, don't need to check if it's patrolled
 			if ($body.find('.patrollink').length) {
 				const patrolhref = $body.find('.patrollink a').attr('href');
@@ -5812,6 +5812,7 @@
 	 * @param {boolean} enabled
 	 */
 	Morebits.simpleWindow.setButtonsEnabled = (enabled) => {
+		const $body = $('body');
 		$body.find('.morebits-dialog-buttons button').prop('disabled', !enabled);
 	};
 })(jQuery);

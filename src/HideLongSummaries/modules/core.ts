@@ -2,7 +2,8 @@ import {LIMIT} from './constant';
 import {getMessage} from './i18n';
 
 export const hideLongSummaries = () => {
-	$('.comment').each((_index: number, element: HTMLElement): void => {
+	const $body = $('body');
+	$body.find('.comment').each((_index: number, element: HTMLElement): void => {
 		if (element.textContent && element.textContent.length > LIMIT && element.parentElement !== null) {
 			$(element).addClass('gadget-hide_long_summaries__long');
 			$('<a>')
@@ -17,7 +18,7 @@ export const hideLongSummaries = () => {
 			$(element.parentElement).find('>.gadget-hide_long_summaries__long').hide();
 		}
 	});
-	$('.gadget-hide_long_summaries__switch').on('click', (event: JQuery.ClickEvent): void => {
+	$body.find('.gadget-hide_long_summaries__switch').on('click', (event: JQuery.ClickEvent): void => {
 		const {parentElement} = event.target;
 		if (parentElement !== null) {
 			const $parentElement: JQuery = $(parentElement);

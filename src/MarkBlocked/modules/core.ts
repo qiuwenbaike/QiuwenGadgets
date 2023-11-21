@@ -167,9 +167,10 @@ export const markBlocked = (): void => {
 				}
 			}
 			if (--apiRequests === 0) {
+				const $body = $('body');
 				// last response
 				$container.removeClass('markblocked-loading');
-				$('#ca-showblocks').parent().remove(); // remove added portlet link
+				$body.find('#ca-showblocks').parent().remove(); // remove added portlet link
 			}
 		};
 		$container.addClass('markblocked-loading');

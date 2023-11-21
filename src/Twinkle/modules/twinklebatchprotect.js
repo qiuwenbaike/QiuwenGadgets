@@ -154,9 +154,10 @@
 			query.gcmtitle = mw.config.get('wgPageName');
 			query.gcmlimit = Twinkle.getPref('batchMax');
 		} else if (mw.config.get('wgCanonicalSpecialPageName') === 'Prefixindex') {
+			const $body = $('body');
 			query.generator = 'allpages';
-			query.gapnamespace = mw.util.getParamValue('namespace') || $('select[name=namespace]').val();
-			query.gapprefix = mw.util.getParamValue('prefix') || $('input[name=prefix]').val();
+			query.gapnamespace = mw.util.getParamValue('namespace') || $body.find('select[name=namespace]').val();
+			query.gapprefix = mw.util.getParamValue('prefix') || $body.find('input[name=prefix]').val();
 			query.gaplimit = Twinkle.getPref('batchMax');
 		} else {
 			query.generator = 'links';

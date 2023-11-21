@@ -11,8 +11,6 @@ const api = new mw.Api({
 	},
 });
 
-const $body = $('body');
-
 let startLink;
 let ui;
 let links;
@@ -105,6 +103,7 @@ const startMain = () => {
 
 /* Create and show the user interface. */
 const createUI = () => {
+	const $body = $('body');
 	ui = {
 		display: $('<div>').addClass('disamassist-box disamassist-mainbox'),
 		finishedMessage: $('<div>').text(txt.noMoreLinks).hide(),
@@ -422,6 +421,7 @@ const toggleFinishedMessage = (show) => {
 };
 
 const togglePendingEditBox = (show) => {
+	const $body = $('body');
 	if (!pendingEditBox) {
 		pendingEditBox = $('<div>').addClass('disamassist-box disamassist-pendingeditbox');
 		pendingEditBoxText = $('<div>');
@@ -440,6 +440,7 @@ const togglePendingEditBox = (show) => {
 };
 
 const notifyCompletion = () => {
+	const $body = $('body');
 	const oldTitle = document.title;
 	document.title = txt.notifyCharacter + document.title;
 	$body.one('mousemove', () => {
@@ -584,6 +585,7 @@ const countActuallyChangedFullyCheckedPages = () => {
 
 /* Find the links to disambiguation options in a disambiguation page */
 const getDisamOptions = () => {
+	const $body = $('body');
 	return $body.find('#mw-content-text a').filter((_index, element) => {
 		return !!extractPageName($(element));
 	});
@@ -597,6 +599,7 @@ const saveAndEnd = () => {
 
 /* Close the tool */
 const end = () => {
+	const $body = $('body');
 	const currentToolUI = ui.display;
 	choosing = false;
 	running = false;
@@ -614,6 +617,7 @@ const end = () => {
 
 /* Display an error message */
 const error = (errorDescription) => {
+	const $body = $('body');
 	const errorBox = $('<div>').addClass('disamassist-box disamassist-errorbox');
 	errorBox.text(txt.error.replace('$1', errorDescription));
 	errorBox.append(

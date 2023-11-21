@@ -59,10 +59,11 @@ export const getLocation = (): void => {
 							: indicatorText ?? ''
 					)
 			);
+		const $body = $('body');
 		if (indicator === true) {
-			$indicator.appendTo($('.mw-indicators'));
+			$indicator.appendTo($body.find('.mw-indicators'));
 		} else {
-			$indicator.prependTo($('#footer-info, .page-info'));
+			$indicator.prependTo($body.find('#footer-info, .page-info'));
 		}
 	};
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (GeoLocationReader/1.0; ${mw.config.get('wgWikiID')})`);

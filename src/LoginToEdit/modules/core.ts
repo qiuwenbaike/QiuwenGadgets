@@ -51,12 +51,13 @@ export const loginToEdit = (): void => {
 				});
 			};
 			windowManager = new OO.ui.WindowManager();
-			windowManager.$element.appendTo(document.body);
+			windowManager.$element.appendTo($('body'));
 			windowManager.addWindows([messageDialog]);
 		}
 		windowManager.openWindow(messageDialog, windowOpeningData);
 	};
-	const $caViewsource: JQuery = $('#ca-viewsource');
+	const $body = $('body');
+	const $caViewsource: JQuery = $body.find('#ca-viewsource');
 	if ($caViewsource.length) {
 		const editIcon = isCitizen ? '<span class="citizen-ui-icon mw-ui-icon-wikimedia-edit"></span>' : '';
 		$caViewsource
@@ -64,7 +65,7 @@ export const loginToEdit = (): void => {
 			.find('a')
 			.attr('title', getMessage('Edit'))
 			.html(`${editIcon}${getMessage('Edit')}`);
-		$('#ca-edit a').on('click', (event: JQuery.ClickEvent) => {
+		$body.find('#ca-edit a').on('click', (event: JQuery.ClickEvent) => {
 			event.preventDefault();
 			openDialog();
 		});

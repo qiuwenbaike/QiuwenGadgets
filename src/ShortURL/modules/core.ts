@@ -119,10 +119,7 @@ export const shortURL = (): void => {
 					}
 				});
 			}
-		} else if (
-			revisionId &&
-			($('#contentSub').find('#mw-revision-nav').length || $('main#content>.pre-content #mw-revision-nav').length)
-		) {
+		} else if (revisionId && !!document.querySelector('#mw-revision-nav')) {
 			doIns(`/p/${revisionId}`);
 		} else if (articleId) {
 			doIns(`/c/${articleId}`);

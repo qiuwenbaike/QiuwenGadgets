@@ -14,7 +14,7 @@ const openDialog = ($message: JQuery): void => {
 			});
 		};
 		windowManager = new OO.ui.WindowManager();
-		windowManager.$element.appendTo(document.body);
+		windowManager.$element.appendTo($('body'));
 		windowManager.addWindows([messageDialog]);
 	}
 	windowManager.openWindow(messageDialog, {
@@ -187,7 +187,8 @@ const init = (hash: string): JQuery => {
 
 export const noteTALoad = (): void => {
 	mw.hook('wikipage.content').add((): void => {
-		$('.mw-indicator[id^=mw-indicator-noteTA-]').each((_index: number, element: HTMLElement): void => {
+		const $body = $('body');
+		$body.find('.mw-indicator[id^=mw-indicator-noteTA-]').each((_index: number, element: HTMLElement): void => {
 			const $element: JQuery = $(element);
 			const $elementId: string | undefined = $element.attr('id');
 			const hash: string = $elementId?.replace(/^mw-indicator-noteTA-/, '') ?? '';
