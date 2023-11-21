@@ -1,0 +1,4 @@
+{
+	"loginElementSelector": "#pt-login>a,.vector-user-menu-login>a,#user-tools>a[href*=\"Special\"]",
+	"version": "3.0"
+}

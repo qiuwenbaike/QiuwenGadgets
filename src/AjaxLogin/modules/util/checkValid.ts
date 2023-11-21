@@ -1,9 +1,9 @@
 import {getMessage} from '../i18n';
 
-type NeedCheckElements = [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget];
+type NeedToCheckElements = [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget];
 
 const checkValid = (
-	[agreeTosCheckbox, nameInput, pwdInput]: NeedCheckElements,
+	[agreeTosCheckbox, nameInput, pwdInput]: NeedToCheckElements,
 	toastifyInstance: ToastifyInstance
 ): {
 	isValid: boolean;
@@ -40,4 +40,4 @@ const checkValid = (
 	};
 };
 
-export {type NeedCheckElements, checkValid};
+export {type NeedToCheckElements, checkValid};
