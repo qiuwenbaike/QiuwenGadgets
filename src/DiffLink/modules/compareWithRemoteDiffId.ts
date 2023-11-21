@@ -19,7 +19,7 @@ const compareWithRemoteDiffId = async (diffId: number): Promise<void> => {
 			diffId === mw.config.get('wgDiffNewId') &&
 			response['compare']?.fromrevid === mw.config.get('wgDiffOldId')
 		) {
-			buildLink(0);
+			buildLink(false, diffId);
 		}
 	} catch {
 		toastify(
