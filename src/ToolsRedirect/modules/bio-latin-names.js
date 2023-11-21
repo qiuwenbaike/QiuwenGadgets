@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 export const toolsRedirect_bio_latin_names = () => {
 	const prefixRegex = /[学學]名\s*：?\s*$/;

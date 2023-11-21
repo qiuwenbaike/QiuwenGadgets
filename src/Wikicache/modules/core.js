@@ -1,5 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {messages} from './messages';
+
+const $body = $('body');
 
 let autoSaveId = null;
 
@@ -29,7 +32,7 @@ const initView = () => {
 };
 
 const initEdit = () => {
-	$('#editform').on('wikiCacheSettingsUpdate', autoSave).on('submit', onSubmit);
+	$body.find('#editform').on('wikiCacheSettingsUpdate', autoSave).on('submit', onSubmit);
 	loadSettings();
 	defaultNotice();
 	if (location.hash.includes('wikicache=autoload')) {
@@ -44,12 +47,12 @@ const loadSettings = () => {
 	if (_settings instanceof Object) {
 		$.extend(settings, _settings);
 	}
-	$('#editform').trigger('wikiCacheSettingsUpdate');
+	$body.find('#editform').trigger('wikiCacheSettingsUpdate');
 };
 
 const saveSettings = () => {
 	mw.storage.setObject('wikicache-settings', settings);
-	$('#editform').trigger('wikiCacheSettingsUpdate');
+	$body.find('#editform').trigger('wikiCacheSettingsUpdate');
 };
 
 const defaultNotice = () => {
@@ -62,7 +65,7 @@ const defaultNotice = () => {
 };
 
 const notice = (msg, more) => {
-	let _notice = $('#gadget-wikicache__notice');
+	let _notice = $body.find('#gadget-wikicache__notice');
 	if (_notice.length === 0) {
 		_notice = $('<div>')
 			.addClass('ui-widget-content gadget-wikicache__notice')
@@ -162,7 +165,7 @@ const save = () => {
 		autosave[sele] = asarea[sele]($(sele));
 	}
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
-	const section = $('input[name="wpSection"]:first').val();
+	const section = $body.find('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;
 	}
@@ -172,7 +175,7 @@ const save = () => {
 
 const initLoad = () => {
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
-	const section = $('input[name="wpSection"]:first').val();
+	const section = $body.find('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;
 	}
@@ -199,7 +202,7 @@ const load = (autosave) => {
 		_autosave = autosave;
 	} else {
 		let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
-		const section = $('input[name="wpSection"]:first').val();
+		const section = $body.find('input[name="wpSection"]:first').val();
 		if (section) {
 			thekey += `_${section}`;
 		}
@@ -219,7 +222,7 @@ const load = (autosave) => {
 const onSubmit = () => {
 	save();
 	let thekey = `wikicache-autosave-${mw.config.get('wgPageName')}`;
-	const section = $('input[name="wpSection"]:first').val();
+	const section = $body.find('input[name="wpSection"]:first').val();
 	if (section) {
 		thekey += `_${section}`;
 	}

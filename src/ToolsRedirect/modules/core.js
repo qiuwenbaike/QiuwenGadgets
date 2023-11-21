@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 const origPageName = mw.config.get('wgPageName');
 const scriptPath = mw.config.get('wgScriptPath');
@@ -95,6 +96,7 @@ export const ToolsRedirect = {
 	},
 	init() {
 		const self = this;
+		const $body = $('body');
 		const button = $('<li>')
 			.addClass('mw-list-item collapsible')
 			.attr('id', 'ca-redirect')
@@ -104,8 +106,7 @@ export const ToolsRedirect = {
 			event.preventDefault();
 			self.dialog();
 		});
-		$('li#ca-history').after(button);
-		$('li#ca-history').after(button);
+		$body.find('li#ca-history').after(button);
 	},
 	dialog() {
 		const dlg = $('<div>')
@@ -655,7 +656,8 @@ export const ToolsRedirect = {
 		const self = this;
 		const frcDeferreds = [];
 		const container = this.tabs.create.cont;
-		const $content = $('#mw-content-text > div.mw-parser-output');
+		const $body = $('body');
+		const $content = $body.find('#mw-content-text > div.mw-parser-output');
 		const deferObj = $.Deferred();
 		let titles = [];
 		this.loading(container);

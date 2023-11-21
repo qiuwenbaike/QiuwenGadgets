@@ -5,7 +5,9 @@ export const whoIsActive = (): void => {
 	const api = initMwApi(`Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`);
 	const filteredLinks: {username: string; element: JQuery}[] = [];
 	const {2: localizedUserNamespace} = mw.config.get('wgFormattedNamespaces');
-	$('.mw-body-content')
+	const $body = $('body');
+	$body
+		.find('.mw-body-content')
 		.find(
 			`a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"]), a[title^="${localizedUserNamespace}:"]:not(.mw-changeslist-date):not([href*="undo"])`
 		)
@@ -101,7 +103,7 @@ export const whoIsActive = (): void => {
 			api.get(params).then((result) => {
 				if (result['query'].usercontribs.length > 0) {
 					const [{timestamp}] = result['query'].usercontribs;
-					getLastActiveMarker(timestamp, false).prependTo($('#footer-info, .page-info'));
+					getLastActiveMarker(timestamp, false).prependTo($body.find('#footer-info, .page-info'));
 				}
 			});
 		}

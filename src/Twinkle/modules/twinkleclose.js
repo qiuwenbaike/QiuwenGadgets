@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - twinkleclose.js */
 (function twinkleclose($) {
@@ -21,20 +22,23 @@
 		});
 	};
 	Twinkle.close.addLinks = () => {
+		const $body = $('body');
 		const spanTag = (color, content) => {
 			const span = document.createElement('span');
 			span.style.color = color;
 			span.appendChild(document.createTextNode(content));
 			return span;
 		};
-		$(
-			'h1:has(.mw-headline),h2:has(.mw-headline),h3:has(.mw-headline),h4:has(.mw-headline),h5:has(.mw-headline),h6:has(.mw-headline)',
-			'#bodyContent'
-		).each((index, element) => {
-			element.dataset.section = index + 1;
-		});
+		$body
+			.find(
+				'h1:has(.mw-headline),h2:has(.mw-headline),h3:has(.mw-headline),h4:has(.mw-headline),h5:has(.mw-headline),h6:has(.mw-headline)',
+				'#bodyContent'
+			)
+			.each((index, element) => {
+				element.dataset.section = index + 1;
+			});
 		const selector = ':has(.mw-headline a:only-of-type):not(:has(+ div.NavFrame))';
-		const titles = $('#bodyContent').find(`h2${selector}:not(:has(+ p + h3)), h3${selector}`); // really needs to work on
+		const titles = $body.find('#bodyContent').find(`h2${selector}:not(:has(+ p + h3)), h3${selector}`); // really needs to work on
 		const delNode = document.createElement('strong');
 		const delLink = document.createElement('a');
 		delLink.appendChild(spanTag('Black', '['));

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /**
  * CheckCategories HotCat Extension –
@@ -11,7 +12,7 @@
 	if (
 		mw.config.get('wgNamespaceNumber') !== 6 ||
 		window.HotCatAutoRemoveCheckCatOptOut ||
-		!$('.checkcategories')[0]
+		!document.querySelectorAll('.checkcategories')[0]
 	) {
 		return;
 	}
@@ -19,6 +20,7 @@
 	const selfName = '([[MediaWiki:Gadget-HotCat-check.js|Script]]): ';
 	const storageItemName = 'checkCat';
 	const storageItem = mw.storage.get(storageItemName);
+	const $body = $('body');
 	/**
 	 * A few styling helper functions
 	 *
@@ -178,7 +180,7 @@
 				width: 450,
 				buttons: dlgButtons,
 				close: () => {
-					$('#hotcatCommitForm').trigger('submit');
+					$body.find('#hotcatCommitForm').trigger('submit');
 				},
 				open() {
 					const $buttons = $(this).parent().find('.ui-dialog-buttonpane button');
@@ -248,7 +250,7 @@
 				} else {
 					$el.text('Edit Done.');
 				}
-				$('.checkcategories').fadeOut();
+				$body.find('.checkcategories').fadeOut();
 			};
 			$el.text('Doing..');
 			$.post(mw.util.wikiScript('api'), params, editDone);
@@ -270,6 +272,6 @@
 		});
 	});
 	$(() => {
-		$('#catlinks').find('ul:first').append($('<li>').append($okLink));
+		$body.find('#catlinks').find('ul:first').append($('<li>').append($okLink));
 	});
 })();

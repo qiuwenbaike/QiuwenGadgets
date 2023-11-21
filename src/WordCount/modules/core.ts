@@ -20,7 +20,9 @@ const getCountByTextLength = (text: string) => {
 };
 
 export const wordCountCore = (): void => {
-	$('.wordcount').remove();
+	const $body = $('body');
+
+	$body.find('.wordcount').remove();
 	const text: string = window.getSelection()?.toString() ?? '';
 	if (!text) {
 		return;

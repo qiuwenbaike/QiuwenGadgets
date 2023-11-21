@@ -16,6 +16,7 @@ import {
 } from './constant';
 
 const core = (): void => {
+	const $body = $('body');
 	/**
 	 * &withCSS= and &withJS= URL parameters
 	 * Allow to try custom scripts from MediaWiki space
@@ -140,7 +141,7 @@ const core = (): void => {
 	/**
 	 * Add target="blank" to external links
 	 */
-	$('a.external, a[rel="mw:ExtLink"]').filter((_index, element): boolean => {
+	$body.find('a.external, a[rel="mw:ExtLink"]').filter((_index, element): boolean => {
 		const self: HTMLAnchorElement = element as HTMLAnchorElement;
 		const linkHref: string | undefined = $(element).attr('href');
 		if (linkHref) {
@@ -172,21 +173,20 @@ const core = (): void => {
 	 * Open search results in a new tab or window
 	 * when holding down the Ctrl key (by Timeshifter)
 	 */
-	$('#searchform, #searchbox, #search, .search-types, #search-types').on(
-		'keyup keydown mousedown',
-		function ({ctrlKey, metaKey}): void {
+	$body
+		.find('#searchform, #searchbox, #search, .search-types, #search-types')
+		.on('keyup keydown mousedown', function ({ctrlKey, metaKey}): void {
 			$(this).attr('target', ctrlKey || metaKey ? '_blank' : '');
-		}
-	);
+		});
 	/**
 	 * Cleanup title for all pages
 	 */
 	const titleCleanUp = (): void => {
-		const oldTitleTag: string = $('title').text();
-		const oldPageTitle: string = $('.firstHeading').text();
+		const oldTitleTag: string = $(document).find('title').text();
+		const oldPageTitle: string = $body.find('.firstHeading').text();
 		const newPageTitle: string = new mw.Title(WG_PAGE_NAME).toText();
-		$('title').text(oldTitleTag.replace(oldPageTitle, newPageTitle));
-		$('.firstHeading').text(oldPageTitle.replace(oldPageTitle, newPageTitle));
+		$(document).find('title').text(oldTitleTag.replace(oldPageTitle, newPageTitle));
+		$body.find('.firstHeading').text(oldPageTitle.replace(oldPageTitle, newPageTitle));
 	};
 	if (WG_ACTION === 'view' && [2, 3, 6, 118].includes(WG_NAMESPACE_NUMBER) && !URL_DIFF) {
 		titleCleanUp();
@@ -197,7 +197,7 @@ const core = (): void => {
 	 */
 	// Do not display on Special Pages
 	if (WG_NAMESPACE_NUMBER >= 0) {
-		$('attr, .inline-unihan').each((_index: number, element: HTMLElement): void => {
+		$body.find('attr, .inline-unihan').each((_index: number, element: HTMLElement): void => {
 			const $element: JQuery = $(element);
 			const title: string | undefined = $element.attr('title');
 			if (!title) {
@@ -221,14 +221,14 @@ const core = (): void => {
 	}
 	/* 临时：禁止用户查看用户创建日志 */
 	if (WG_CANONICAL_SPECIAL_PAGE_NAME === 'Log') {
-		$('input[name="wpfilters[]"][value=newusers]').attr('checked', 0);
-		const $element = $('input[name="wpfilters[]"][value=newusers]').parents('.oo-ui-labelElement').get(0);
+		$body.find('input[name="wpfilters[]"][value=newusers]').attr('checked', 0);
+		const $element = $body.find('input[name="wpfilters[]"][value=newusers]').parents('.oo-ui-labelElement').get(0);
 		if ($element) {
 			$element.remove();
 		}
 	}
 	/* 调整折叠按钮的颜色 */
-	const $toggle = $('.mw-collapsible-toggle, .gadget-collapsible__toggler');
+	const $toggle = $body.find('.mw-collapsible-toggle, .gadget-collapsible__toggler');
 	if ($toggle.length && $toggle.parent()[0]?.style.color) {
 		$toggle.find('a').css('color', 'inherit');
 	}

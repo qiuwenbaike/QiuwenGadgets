@@ -8,6 +8,7 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 	if (spanClass === 'unknown') {
 		return;
 	}
+	const $body = $('body');
 	const elementName =
 		mw.config.get('skin') === 'citizen'
 			? 'section'
@@ -49,7 +50,7 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 				.addClass('gadget-markrights_userpage__text')
 				.text(indicatorText ?? '')
 		);
-	$indicator.prependTo($('#footer-info, .page-info'));
+	$indicator.prependTo($body.find('#footer-info, .page-info'));
 };
 
 export const getPermissions = () => {

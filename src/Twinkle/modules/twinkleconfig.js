@@ -1,6 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - twinkleconfig.js */
 (function twinkleconfig($) {
+	const $body = $('body');
 	/**
 	 * twinkleconfig.js: Preferences module
 	 * Mode of invocation: Adds configuration form to Help:Twinkle/参数设置,
@@ -1465,7 +1467,7 @@
 				link.appendChild(document.createTextNode(wgULS('Twinkle参数设置面板', 'Twinkle偏好設定面板')));
 				box.appendChild(link);
 				box.appendChild(document.createTextNode(wgULS('，或直接编辑本页。', '，或直接編輯本頁。')));
-				$(box).insertAfter($('#contentSub'));
+				$(box).insertAfter($body.find('#contentSub'));
 			} else if (['vector', 'vector-2022', 'gongbi', 'citizen', 'write', 'common'].includes(scriptPageName)) {
 				// place "Looking for Twinkle options?" notice
 				box.setAttribute('class', 'config-userskin-box');
@@ -1477,7 +1479,7 @@
 				link.appendChild(document.createTextNode(wgULS('Twinkle参数设置面板', 'Twinkle偏好設定面板')));
 				box.appendChild(link);
 				box.appendChild(document.createTextNode('。'));
-				$(box).insertAfter($('#contentSub'));
+				$(box).insertAfter($body.find('#contentSub'));
 			}
 		}
 	};

@@ -1,12 +1,14 @@
 import {getMessage} from './i18n';
 
 const fillSpecialPage = (): void => {
-	const $wpSubjectElement = $('[name="wpSubject"]');
+	const $body = $('body');
+
+	const $wpSubjectElement = $body.find('[name="wpSubject"]');
 	if (!$wpSubjectElement.length) {
 		return;
 	}
 
-	const $wpTitleElement = $('[name="wpTitle"]');
+	const $wpTitleElement = $body.find('[name="wpTitle"]');
 
 	const linkTilte: string = getMessage('Report');
 	const reportRevision = mw.util.getParamValue('report_revision') || null;

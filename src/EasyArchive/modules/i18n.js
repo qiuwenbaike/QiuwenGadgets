@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 export const easy_archive_lang = () => {
 	const {localize} = window.i18n;
