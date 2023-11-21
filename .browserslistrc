@@ -1,9 +1,13 @@
-# https://gitlab.wikimedia.org/repos/ci-tools/browserslist-config-wikimedia/-/blob/main/modern.json
-# chrome 88
-# edge 87
-# firefox 91
-# safari 11
-# ios 11.0
-# android 119
+# https://gitlab.wikimedia.org/repos/ci-tools/browserslist-config-wikimedia/-/blob/main/basic.json
+# https://github.com/wikimedia/mediawiki/blob/REL1_39/resources/src/startup/startup.js#L10
+# Chrome >= 31
+# Firefox >= 39
+# Opera >= 18
+# Edge >= 12
+# IE >= 11
+# Safari >= 9.1
+# iOS >= 9
+# Android >= 5
 
-extends browserslist-config-wikimedia/modern
+extends browserslist-config-wikimedia/modern,
+>0.3%, defaults, fully supports es6-module, maintained node versions
