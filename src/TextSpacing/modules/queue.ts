@@ -27,7 +27,6 @@ const onIntersection = (entries: IntersectionObserverEntry[]): void => {
 };
 
 // Optimization: lazily execute pending actions once an element is visible
-// eslint-disable-next-line compat/compat
 const observer: IntersectionObserver = new IntersectionObserver(onIntersection);
 
 const queueDomMutation = (element: Element, callback: DomMutationFunc): void => {
