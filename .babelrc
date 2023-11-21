@@ -1,22 +1,19 @@
 {
-	"presets": [
-		[
-			"@babel/preset-env",
-			{
-				"bugfixes": true,
-				"corejs": {
-					"version": "3.33",
-					"proposals": true
-				},
-				"modules": false,
-				"useBuiltIns": "usage"
-			}
-		]
-	],
+	"presets": ["@babel/preset-env"],
 	"plugins": [
 		"@babel/plugin-transform-member-expression-literals",
 		"@babel/plugin-transform-property-literals",
-		"@babel/plugin-transform-reserved-words"
+		"@babel/plugin-transform-reserved-words",
+		[
+			"polyfill-corejs3",
+			{
+				"bugfixes": true,
+				"version": "3.33",
+				"proposals": true,
+				"modules": false,
+				"method": "usage-global"
+			}
+		]
 	],
 	"compact": false
 }

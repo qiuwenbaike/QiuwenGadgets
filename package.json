@@ -60,6 +60,7 @@
 		"@types/prompts": "^2.4.9",
 		"@typescript-eslint/eslint-plugin": "^5.62.0",
 		"@typescript-eslint/parser": "^5.62.0",
+		"babel-plugin-polyfill-corejs3": "^0.8.6",
 		"browserslist-config-wikimedia": "latest",
 		"chalk": "^5.3.0",
 		"core-js": "^3.33.3",
