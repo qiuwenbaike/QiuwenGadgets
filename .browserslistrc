@@ -9,5 +9,4 @@
 # iOS >= 9
 # Android >= 5
 
-extends browserslist-config-wikimedia/modern,
->0.3%, defaults, fully supports es6-module, maintained node versions
+extends browserslist-config-wikimedia/modern, >0.3%, defaults, fully supports es6-module, maintained node versions
