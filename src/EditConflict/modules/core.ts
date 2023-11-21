@@ -53,6 +53,7 @@ export const editConflict = (): void => {
 			return false;
 		};
 		const checkPageRevisionId = (title: string): Promise<number> => {
+			// eslint-disable-next-line compat/compat
 			return new Promise((resolve): void => {
 				getPage(title, ({readyState, responseText}: XMLHttpRequest): void => {
 					if (readyState !== 4) {
