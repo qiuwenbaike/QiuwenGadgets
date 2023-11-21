@@ -33,7 +33,6 @@ const esbuildOptions: BuildOptions = {
 	],
 	treeShaking: true,
 	write: false,
-	external: ['@babel/*'],
 };
 
 export {esbuildOptions};
