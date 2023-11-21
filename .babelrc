@@ -16,7 +16,17 @@
 	"plugins": [
 		"@babel/plugin-transform-member-expression-literals",
 		"@babel/plugin-transform-property-literals",
-		"@babel/plugin-transform-reserved-words"
+		"@babel/plugin-transform-reserved-words",
+		[
+			"@babel/plugin-transform-runtime",
+			{
+				"corejs": {
+					"version": "3",
+					"proposals": true
+				},
+				"version": "^7.23"
+			}
+		]
 	],
 	"compact": false
 }
