@@ -8684,8 +8684,9 @@
 																(t.prev = 2),
 																(t.next = 5),
 																fetch(
-																	'https://git.qiuwen.net.cn/InterfaceAdmin/Wikiplus/raw/branch/dev/languages/'.concat(
-																		e
+																	'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/Wikiplus/raw/branch/dev/languages/'.concat(
+																		e,
+																		'.json'
 																	)
 																)
 															);
