@@ -2,247 +2,347 @@
 // @ts-nocheck
 (async () => {
 	/*! Wikiplus-highlight | Bhsd, 机智的小鱼君 | GPL-3.0 <qwbk.cc/H:GPL-3.0> */
-	'use strict';
-	if (mw.libs.wphl && mw.libs.wphl.version) return;
-	mw.libs.wphl = mw.libs.wphl || {};
-	const i = '2.59.6';
+	if (mw.libs.wphl && mw.libs.wphl.version) {
+		return;
+	}
+	mw.libs.wphl = mw.libs.wphl || {}; // 开始加载
 
-	const c =
-		'object' == typeof mw.storage && 'function' == typeof mw.storage.getObject
+	const version = '2.60';
+	const newAddon = 0;
+
+	/** @type {typeof mw.storage} */
+	const storage =
+		typeof mw.storage === 'object' && typeof mw.storage.getObject === 'function'
 			? mw.storage
 			: {
-					getObject(e) {
-						const i = localStorage.getItem(e);
-						if (!1 === i) return !1;
+					/** @override */
+					getObject(key) {
+						const json = localStorage.getItem(key);
+						if (json === false) {
+							return false;
+						}
 						try {
-							return JSON.parse(i);
+							return JSON.parse(json);
 						} catch (e) {
 							return null;
 						}
 					},
-					setObject(e, i) {
+					/** @override */
+					setObject(key, value) {
 						try {
-							return localStorage.setItem(e, JSON.stringify(i));
+							return localStorage.setItem(key, JSON.stringify(value));
 						} catch (e) {
-							return !1;
+							return false;
 						}
 					},
 			  };
 
-	const s =
-		((Object.fromEntries =
-			Object.fromEntries ||
-			((e) => {
-				let i;
-				let t;
-				const a = {};
-				for ([i, t] of e) a[i] = t;
-				return a;
-			})),
-		(e = i) => e.split('.').map(Number));
+	Object.fromEntries =
+		Object.fromEntries ||
+		((entries) => {
+			const /** @type {Record<string, T>} */ obj = {};
+			for (const [key, value] of entries) {
+				obj[key] = value;
+			}
+			return obj;
+		});
 
-	const m = (e, ...i) => mw.msg('wphl-' + e, ...i);
-	const a = (...e) => $($.parseHTML(m(...e)));
+	/**
+	 * 解析版本号
+	 * @param {string} str 版本号
+	 */
+	const getVersion = (str = version) => str.split('.').map(Number);
 
-	var e =
-		(...i) =>
+	/**
+	 * 比较版本号
+	 * @param {string} a 版本号1
+	 * @param {string} b 版本号2
+	 * @returns {boolean} `a`的版本号是否小于`b`的版本号
+	 */
+	const cmpVersion = (a, b) => {
+		const [a0, a1] = getVersion(a);
+		const [b0, b1] = getVersion(b);
+		return a0 < b0 || (a0 === b0 && a1 < b1);
+	};
+
+	/**
+	 * 获取I18N消息
+	 * @param {string} key 消息键，省略`wphl-`前缀
+	 * @param {string[]} args 替换`$1`等的参数
+	 */
+	const msg = (key, ...args) => mw.msg(`wphl-${key}`, ...args);
+
+	/**
+	 * 生成JQuery的I18N消息
+	 * @param {string[]} args 替换`$1`等的参数
+	 */
+	const htmlMsg = (...args) => $($.parseHTML(msg(...args)));
+
+	/**
+	 * 提示消息
+	 * @param {string[]} args 替换`$1`等的参数
+	 */
+	const notify =
+		(...args) =>
 		() => {
-			const e = $('<p>', {html: m(...i)});
-			return mw.notify(e, {type: 'success', autoHideSeconds: 'long', tag: 'wikiplus-highlight'}), e;
+			const $p = $('<p>', {html: msg(...args)});
+			mw.notify($p, {type: 'success', autoHideSeconds: 'long', tag: 'wikiplus-highlight'});
+			return $p;
 		};
 
-	let t = s().slice(0, 2).join('.');
-	const p = '//fastly.jsdelivr.net';
-	const g = 'npm/codemirror@5.65.3';
-	const z = 'gh/bhsd-harry/codemirror-mediawiki@1.1.11';
-	const D = 'npm/wikiparser-node@0.11.0-b';
-	const o = 'gh/bhsd-harry/Wikiplus-highlight@' + t;
+	// 插件和I18N依主版本号
+	const majorVersion = getVersion().slice(0, 2).join('.');
+
+	// 路径
+	const CDN = '//git.qiuwen.net.cn/mirror';
+
+	const CM_CDN = 'codemirror/raw/branch/master';
+	const MW_CDN = 'codemirror-mediawiki/raw/branch/stable';
+	const PARSER_CDN = 'wikiparser-node/raw/branch/main';
+	const REPO_CDN = `wikiplus-highlight/raw/branch/main`;
 
 	const {
-		wgPageName: N,
-		wgNamespaceNumber: u,
-		wgPageContentModel: U,
-		wgServerName: H,
-		wgScriptPath: F,
-		wgUserLanguage: Q,
-		skin: n,
-	} = mw['config']['values'];
+		config: {
+			values: {
+				wgPageName: page,
+				wgNamespaceNumber: ns,
+				wgPageContentModel: contentmodel,
+				wgServerName: server,
+				wgScriptPath: scriptPath,
+				wgUserLanguage: userLang,
+				skin,
+			},
+		},
+	} = mw;
 
-	const h = null !== mw.loader.getState('ext.CodeMirror');
-	const V = mw.loader.getState('ext.CodeMirror.data') ? 'ext.CodeMirror.data' : 'ext.CodeMirror';
-	const r = c.getObject('InPageEditMwConfig') || {};
-	const B = '' + H + F;
-	const k = r[B] || {};
-	const f = !(k.time > Date.now() - 2592e6);
-	const R = {css: 'css', 'sanitized-css': 'css', javascript: 'javascript', json: 'javascript', wikitext: 'mediawiki'};
+	// 和本地缓存有关的常数
+	const USING_LOCAL = mw.loader.getState('ext.CodeMirror') !== null;
 
-	const d = h
+	const DATA_MODULE = mw.loader.getState('ext.CodeMirror.data') ? 'ext.CodeMirror.data' : 'ext.CodeMirror';
+
+	const /** @type {Record<string, {time: number, config: mwConfig}>} */
+		ALL_SETTINGS_CACHE = storage.getObject('InPageEditMwConfig') || {};
+
+	const SITE_ID = `${server}${scriptPath}`;
+	const /** @type {{time: number, config: mwConfig}} */ SITE_SETTINGS = ALL_SETTINGS_CACHE[SITE_ID] || {};
+	const EXPIRED = !(SITE_SETTINGS.time > Date.now() - 86400 * 1000 * 30);
+
+	const /** @type {Record<string, string>} */ CONTENTMODEL = {
+			css: 'css',
+			'sanitized-css': 'css',
+			javascript: 'javascript',
+			json: 'javascript',
+			wikitext: 'mediawiki',
+		};
+
+	const MODE_LIST = USING_LOCAL
 		? {
 				lib: 'ext.CodeMirror.lib',
 				css: 'ext.CodeMirror.lib.mode.css',
 				javascript: 'ext.CodeMirror.lib.mode.javascript',
-				lua: g + '/mode/lua/lua.min.js',
-				mediawiki: f ? V : [],
+				lua: `${CM_CDN}/mode/lua/lua.min.js`,
+				mediawiki: EXPIRED ? DATA_MODULE : [],
 				htmlmixed: 'ext.CodeMirror.lib.mode.htmlmixed',
 				xml: [],
 		  }
 		: {
-				lib: g + '/lib/codemirror.min.js',
-				css: g + '/mode/css/css.min.js',
-				javascript: g + '/mode/javascript/javascript.min.js',
-				lua: g + '/mode/lua/lua.min.js',
+				lib: `${CM_CDN}/lib/codemirror.min.js`,
+				css: `${CM_CDN}/mode/css/css.min.js`,
+				javascript: `${CM_CDN}/mode/javascript/javascript.min.js`,
+				lua: `${CM_CDN}/mode/lua/lua.min.js`,
 				mediawiki: [],
-				htmlmixed: g + '/mode/htmlmixed/htmlmixed.min.js',
-				xml: g + '/mode/xml/xml.min.js',
+				htmlmixed: `${CM_CDN}/mode/htmlmixed/htmlmixed.min.js`,
+				xml: `${CM_CDN}/mode/xml/xml.min.js`,
 		  };
 
-	const w = {
-		searchcursor: g + '/addon/search/searchcursor.min.js',
-		search: o + '/search.min.js',
-		markSelection: g + '/addon/selection/mark-selection.min.js',
-		activeLine: g + '/addon/selection/active-line.min.js',
-		trailingspace: g + '/addon/edit/trailingspace.min.js',
-		matchBrackets: g + '/addon/edit/matchbrackets.min.js',
-		closeBrackets: g + '/addon/edit/closebrackets.min.js',
-		matchTags: o + '/matchtags.min.js',
-		fold: o + '/fold.min.js',
+	const ADDON_LIST = {
+		searchcursor: `${CM_CDN}/addon/search/searchcursor.min.js`,
+		search: `${REPO_CDN}/search.min.js`,
+		markSelection: `${CM_CDN}/addon/selection/mark-selection.min.js`,
+		activeLine: `${CM_CDN}/addon/selection/active-line.min.js`,
+		trailingspace: `${CM_CDN}/addon/edit/trailingspace.min.js`,
+		matchBrackets: `${CM_CDN}/addon/edit/matchbrackets.min.js`,
+		closeBrackets: `${CM_CDN}/addon/edit/closebrackets.min.js`,
+		matchTags: `${REPO_CDN}/matchtags.min.js`,
+		fold: `${REPO_CDN}/fold.min.js`,
 		wikiEditor: 'ext.wikiEditor',
 		contextmenu: 'mediawiki.Title',
-		lint: g + '/addon/lint/lint.min.js',
-		annotateScrollbar: g + '/addon/scroll/annotatescrollbar.min.js',
-		parser: D + '/extensions/base.min.js',
-		lintWikitext: o + '/lint.min.js',
+		lint: `${CM_CDN}/addon/lint/lint.min.js`,
+		annotateScrollbar: `${CM_CDN}/addon/scroll/annotatescrollbar.min.js`,
+		parser: `${PARSER_CDN}/extensions/dist/base.min.js`,
+		linter: `${PARSER_CDN}/extensions/dist/lint.min.js`,
+		lintWikitext: `${REPO_CDN}/lint.min.js`,
 	};
 
-	const b = [
-		{
-			option: 'styleSelectedText',
-			addon: 'search',
-			download: 'markSelection',
-			only: !0,
-			complex: () => !x.has('wikiEditor'),
-		},
-		{option: 'styleActiveLine', addon: 'activeLine'},
-		{option: 'showTrailingSpace', addon: 'trailingspace'},
-		{option: 'matchBrackets', complex: (e, i) => ('mediawiki' !== e && !i) || {bracketRegex: /[{}[\]]/u}},
-		{
-			option: 'autoCloseBrackets',
-			addon: 'closeBrackets',
-			complex: (e, i) => ('mediawiki' !== e && !i) || '()[]{}""',
-		},
-		{option: 'matchTags', addon: ['matchTags', 'fold'], modes: new Set(['mediawiki', 'widget'])},
-		{option: 'fold', modes: new Set(['mediawiki', 'widget'])},
-	];
+	const /** @type {addon[]} */ options = [
+			{
+				option: 'styleSelectedText',
+				addon: 'search',
+				download: 'markSelection',
+				only: true,
+				/** @implements */ complex: () => !addons.has('wikiEditor'),
+			},
+			{option: 'styleActiveLine', addon: 'activeLine'},
+			{option: 'showTrailingSpace', addon: 'trailingspace'},
+			{
+				option: 'matchBrackets',
+				/** @implements */ complex: (mode, json) =>
+					mode === 'mediawiki' || json ? {bracketRegex: /[{}[\]]/u} : true,
+			},
+			{
+				option: 'autoCloseBrackets',
+				addon: 'closeBrackets',
+				/** @implements */ complex: (mode, json) => (mode === 'mediawiki' || json ? '()[]{}""' : true),
+			},
+			{option: 'matchTags', addon: ['matchTags', 'fold'], modes: new Set(['mediawiki', 'widget'])},
+			{option: 'fold', modes: new Set(['mediawiki', 'widget'])},
+		];
 
-	const x = new Set(c.getObject('Wikiplus-highlight-addons') || ['search']);
-	let y = c.getObject('Wikiplus-highlight-indent') || 4;
-	const q = {'"': 'quot', "'": 'apos', '<': 'lt', '>': 'gt', '&': 'amp', ' ': 'nbsp'};
+	const defaultAddons = ['search'];
+	const defaultIndent = 4;
+	const /** @type {Set<string>} */ addons = new Set(storage.getObject('Wikiplus-highlight-addons') || defaultAddons);
+	let /** @type {number} */ indent = storage.getObject('Wikiplus-highlight-indent') || defaultIndent;
 
-	const l = (i) => (e) => {
-		e.replaceSelections(
-			e.getSelections().map((e) => e.split('\n').map(i).join('\n')),
-			'around'
-		);
-	};
+	/** @type {Record<string, string>} */
+	const entity = {'"': 'quot', "'": 'apos', '<': 'lt', '>': 'gt', '&': 'amp', ' ': 'nbsp'};
 
-	const K = l((e) =>
-		[...e]
-			.map((e) => {
-				let i;
-				return e in q ? `&${q[e]};` : (i = e.codePointAt()) < 256 ? `&#${i};` : `&#x${i.toString(16)};`;
+	const /** @type {(func: (str: string) => string) => (doc: CodeMirror.Editor) => void} */
+		convert = (func) => (doc) => {
+			doc.replaceSelections(
+				doc.getSelections().map((selection) => selection.split('\n').map(func).join('\n')),
+				'around'
+			);
+		};
+
+	const escapeHTML = convert((str) =>
+		[...str]
+			.map((c) => {
+				if (c in entity) {
+					return `&${entity[c]};`;
+				}
+				const code = c.codePointAt();
+				return code < 256 ? `&#${code};` : `&#x${code.toString(16)};`;
 			})
 			.join('')
 	);
 
-	const J = l((e) => {
-		if (e.includes('%'))
+	const escapeURI = convert((str) => {
+		if (str.includes('%')) {
 			try {
-				return decodeURIComponent(e);
+				return decodeURIComponent(str);
 			} catch (e) {}
-		return encodeURIComponent(e);
+		}
+		return encodeURIComponent(str);
 	});
 
-	const G = l((i) => {
+	const escapeHash = convert((str) => {
 		try {
-			return decodeURIComponent(i.replace(/\.([\da-f]{2})/giu, '%$1'));
+			return decodeURIComponent(str.replace(/\.([\da-f]{2})/giu, '%$1'));
 		} catch (e) {
-			return i;
+			return str;
 		}
 	});
 
-	const v = ({keyMap: e}) => e.default === e.pcDefault;
+	const /** @type {(cm: typeof CodeMirror) => boolean} */ isPc = ({keyMap}) => keyMap.default === keyMap.pcDefault;
 
-	const X = (e) => {
-		const i = v(e) ? 'Ctrl' : 'Cmd';
-		return {[i + '-/']: K, [i + '-\\']: J, [`Shift-${i}-\\`]: G};
-	};
+	const /** @type {(cm: typeof CodeMirror) => Record<string, (doc: CodeMirror.Editor) => void} */ extraKeys = (
+			CM
+		) => {
+			const ctrl = isPc(CM) ? 'Ctrl' : 'Cmd';
+			return {[`${ctrl}-/`]: escapeHTML, [`${ctrl}-\\`]: escapeURI, [`Shift-${ctrl}-\\`]: escapeHash};
+		};
 
-	const j = (g, e) => {
-		if (('mediawiki' === e || 'widget' === e) && x.has('contextmenu')) {
-			const t = $(g.getWrapperElement()).addClass('CodeMirror-contextmenu'),
-				[a] = (mw.config.get('extCodeMirrorConfig') || {
-					functionSynonyms: [{invoke: 'invoke', 调用: 'invoke', widget: 'widget', 小工具: 'widget'}],
-				})['functionSynonyms'];
-			const i = (i) =>
-				new Set(
-					Object.keys(a)
-						.filter((e) => a[e] === i)
-						.map((e) => (e.startsWith('#') ? e : '#' + e))
-				);
-			const u = i('invoke'),
-				w = i('widget');
-			t.contextmenu(({pageX: e, pageY: i}) => {
-				const t = g.coordsChar({left: e, top: i}),
-					{line: a, ch: o} = t,
-					n = g.getTokenTypeAt(t);
-				if (/\bmw-(?:template-name|parserfunction)\b/u.test(n)) {
-					const s = g.getLineTokens(a);
-					for (let e = s.length - 1; 0 < e; e--) {
-						const {type: r, end: d, string: l} = s[e];
-						s[e - 1].type === r && ((s[e - 1].end = d), (s[e - 1].string += l), s.splice(e, 1));
-					}
-					const c = s.findIndex(({start: e, end: i}) => e < o && i >= o),
-						m = s[c].string
-							.replace(/\u200E/gu, '')
-							.replace(/_/gu, ' ')
-							.trim();
-					if (/\bmw-template-name\b/u.test(n))
-						return (
-							0 !== (p = new mw.Title(m)).namespace || m.startsWith(':')
-								? open(p.getUrl(), '_blank')
-								: open(mw.util.getUrl('Template:' + m), '_blank'),
-							!1
-						);
-					if (
-						!(c < 2) &&
-						/\bmw-parserfunction-delimiter\b/u.test(s[c - 1].type) &&
-						/\bmw-parserfunction-name\b/u.test(s[c - 2].type)
-					) {
-						var p = s[c - 2].string.trim().toLowerCase();
-						if (u.has(p)) open(mw.util.getUrl('Module:' + m), '_blank');
-						else {
-							if (!w.has(p)) return;
-							open(mw.util.getUrl('Widget:' + m, {action: 'edit'}), '_blank');
-						}
-						return !1;
-					}
-				}
-			});
+	/**
+	 * contextMenu插件
+	 * @param {CodeMirror.Editor} doc CodeMirror编辑区
+	 * @param {string} mode 高亮模式
+	 */
+	const handleContextMenu = (doc, mode) => {
+		if ((mode !== 'mediawiki' && mode !== 'widget') || !addons.has('contextmenu')) {
+			return;
 		}
+		const $wrapper = $(doc.getWrapperElement()).addClass('CodeMirror-contextmenu');
+
+		const {
+			functionSynonyms: [synonyms],
+		} = mw.config.get('extCodeMirrorConfig') || {
+			functionSynonyms: [{invoke: 'invoke', 调用: 'invoke', widget: 'widget', 小工具: 'widget'}],
+		};
+
+		/**
+		 * 生成别名映射表
+		 * @param {string} str 别名
+		 */
+		const getSysnonyms = (str) =>
+			new Set(
+				Object.keys(synonyms)
+					.filter((key) => synonyms[key] === str)
+					.map((key) => (key.startsWith('#') ? key : `#${key}`))
+			);
+		const invoke = getSysnonyms('invoke');
+		const widget = getSysnonyms('widget');
+
+		$wrapper.contextmenu(({pageX, pageY}) => {
+			const pos = doc.coordsChar({left: pageX, top: pageY});
+			const {line, ch} = pos;
+			const curType = doc.getTokenTypeAt(pos);
+			if (!/\bmw-(?:template-name|parserfunction)\b/u.test(curType)) {
+				return undefined;
+			}
+			const tokens = doc.getLineTokens(line);
+			for (let i = tokens.length - 1; i > 0; i--) {
+				const {type, end, string} = tokens[i];
+				if (tokens[i - 1].type === type) {
+					tokens[i - 1].end = end;
+					tokens[i - 1].string += string;
+					tokens.splice(i, 1);
+				}
+			}
+			const index = tokens.findIndex(({start, end}) => start < ch && end >= ch);
+
+			const text = tokens[index].string
+				.replace(/\u200E/gu, '')
+				.replace(/_/gu, ' ')
+				.trim();
+
+			if (/\bmw-template-name\b/u.test(curType)) {
+				const title = new mw.Title(text);
+				if (title.namespace !== 0 || text.startsWith(':')) {
+					open(title.getUrl(), '_blank');
+				} else {
+					open(mw.util.getUrl(`Template:${text}`), '_blank');
+				}
+				return false;
+			} else if (
+				index < 2 ||
+				!/\bmw-parserfunction-delimiter\b/u.test(tokens[index - 1].type) ||
+				!/\bmw-parserfunction-name\b/u.test(tokens[index - 2].type)
+			) {
+				return undefined;
+			}
+			const parserFunction = tokens[index - 2].string.trim().toLowerCase();
+			if (invoke.has(parserFunction)) {
+				open(mw.util.getUrl(`Module:${text}`), '_blank');
+			} else if (widget.has(parserFunction)) {
+				open(mw.util.getUrl(`Widget:${text}`, {action: 'edit'}), '_blank');
+			} else {
+				return undefined;
+			}
+			return false;
+		});
 	};
 
-	const C = c.getObject('Wikiplus-highlight-i18n') || {};
-	let S;
-	C['wphl-version']
-		? ((e, i) => {
-				const [t, a] = s(e);
-				const [o, n] = s(i);
-				return t < o || (t === o && a < n);
-		  })(C['wphl-version'], i) && (S = e('welcome-upgrade', i, 0))
-		: (S = e('welcome'));
+	const /** @type {Record<string, string>} */ i18n = storage.getObject('Wikiplus-highlight-i18n') || {};
+	let /** @type {() => JQuery<HTMLElement>} */ welcome;
+	if (!i18n['wphl-version']) {
+		// 首次安装
+		welcome = notify('welcome');
+	} else if (cmpVersion(i18n['wphl-version'], version)) {
+		// 更新版本
+		welcome = notify(`welcome-${newAddon ? 'new-addon' : 'upgrade'}`, version, newAddon);
+	}
 
-	const M =
-		{
+	const /** @type {Record<string, string>} */ i18nLanguages = {
 			zh: 'zh-hans',
 			'zh-hans': 'zh-hans',
 			'zh-cn': 'zh-hans',
@@ -253,449 +353,725 @@
 			'zh-hk': 'zh-hant',
 			'zh-mo': 'zh-hant',
 			ka: 'ka',
-		}[Q] || 'en';
+		};
 
-	const Y = `${p}/${o}/i18n/${M}.json`;
-	const Z = C['wphl-version'] === t;
-	(e = async () => {
-		(Z && C['wphl-lang'] === M) ||
-			(Object.assign(C, await $.ajax(Y, {dataType: 'json', cache: !0})),
-			c.setObject('Wikiplus-highlight-i18n', C)),
-			mw.messages.set(C);
-	}),
-		(t = Promise.all([mw.loader.using('mediawiki.util'), e()]));
-	const W = (e) => (0 < e.length ? mw.loader.using(e) : Promise.resolve());
+	const i18nLang = i18nLanguages[userLang] || 'en';
+	const I18N_CDN = `${CDN}/${REPO_CDN}/i18n/${i18nLang}.json`;
+	const isLatest = i18n['wphl-version'] === majorVersion;
 
-	const ee = (e) =>
-		0 < e.length
-			? $.ajax(p + '/' + (1 < e.length ? 'combine/' : '') + e.join(), {dataType: 'script', cache: !0})
+	/** 加载 I18N */
+	const setI18N = async () => {
+		if (!isLatest || i18n['wphl-lang'] !== i18nLang) {
+			Object.assign(
+				i18n,
+				await $.ajax(`${I18N_CDN}`, {
+					// eslint-disable-line require-atomic-updates
+					dataType: 'json',
+					cache: true,
+				})
+			);
+			storage.setObject('Wikiplus-highlight-i18n', i18n);
+		}
+		mw.messages.set(i18n);
+	};
+
+	const i18nPromise = Promise.all([
+		// 提前加载I18N
+		mw.loader.using('mediawiki.util'),
+		setI18N(),
+	]);
+
+	/**
+	 * 下载MW扩展脚本
+	 * @param {string[]} exts CodeMirror扩展模块
+	 */
+	const getInternalScript = (exts) => (exts.length > 0 ? mw.loader.using(exts) : Promise.resolve());
+
+	/**
+	 * 下载外部脚本
+	 * @param {string[]} urls CodeMirror脚本网址
+	 */
+	const getExternalScript = (urls) =>
+		urls.length > 0
+			? $.ajax(`${CDN}/${urls.length > 1 ? 'combine/' : ''}${urls.join()}`, {dataType: 'script', cache: true})
 			: Promise.resolve();
 
-	const ie = async (e, i) => {
-		const t = e.filter((e) => !e.includes('/')),
-			a = e.filter((e) => e.includes('/'));
-		return !0 === i ? (await W(t), ee(a)) : !1 === i ? (await ee(a), W(t)) : Promise.all([W(t), ee(a)]);
+	/**
+	 * 下载脚本
+	 * @param {string[]} urls 脚本路径
+	 * @param {boolean|undefined} local 是否先从本地下载
+	 */
+	const getScript = async (urls, local) => {
+		const internal = urls.filter((url) => !url.includes('/'));
+		const external = urls.filter((url) => url.includes('/'));
+		if (local === true) {
+			await getInternalScript(internal);
+			return getExternalScript(external);
+		} else if (local === false) {
+			await getExternalScript(external);
+			return getInternalScript(internal);
+		}
+		return Promise.all([getInternalScript(internal), getExternalScript(external)]);
 	};
 
-	let O;
+	// 以下进入CodeMirror相关内容
+	let /** @type {CodeMirror.EditorFromTextArea} */ cm;
 
-	const te = (e, i = !1) => {
-		let t;
-		let a;
-		let o;
-		let n;
-		const s = [];
-		for ({option: t, addon: a = t, download: o = Array.isArray(a) ? t : a, only: n} of b)
-			(n && i) || t in e.optionHandlers || !ae(a, x) || s.push(w[o]);
-		return s;
-	};
-
-	const ae = (e, i) => (Array.isArray(e) ? e.some((e) => i.has(e)) : i.has(e));
-
-	const oe = (e) => {
-		let i = [];
-		let t;
-		const a = 'function' == typeof window.CodeMirror;
-		const o = a ? window.CodeMirror : {modes: {}, prototype: {}, commands: {}, optionHandlers: {}, helpers: {}};
-		if (
-			(a || (i.push(d.lib), h) || mw.loader.load(`${p}/${g}/lib/codemirror.min.css`, 'text/css'),
-			('mediawiki' !== (e = 'mediawiki' === e && k.config && k.config.tags.html ? 'html' : e) &&
-				'widget' !== e) ||
-				o.modes.mediawiki ||
-				(mw.loader.load(`${p}/${z}/mediawiki.min.css`, 'text/css'), i.push(z + '/mediawiki.min.js')),
-			'widget' === e || 'html' === e)
-		)
-			for (const n of ['css', 'javascript', 'mediawiki', 'htmlmixed', 'xml']) o.modes[n] || (i = i.concat(d[n]));
-		else i = i.concat(d[e]);
-		return (
-			o.prototype.getSearchCursor || !x.has('search') || x.has('wikiEditor') || i.push(w.searchcursor),
-			!o.prototype.annotateScrollbar && 'mediawiki' === e && x.has('lint') && i.push(w.annotateScrollbar),
-			o.commands.find || !x.has('search') || x.has('wikiEditor') || i.push(w.search),
-			!window.wikiparse && 'mediawiki' === e && x.has('lint') && i.push(w.parser),
-			!o.optionHandlers.lint &&
-				'mediawiki' === e &&
-				x.has('lint') &&
-				(mw.loader.load(`${p}/${g}/addon/lint/lint.min.css`, 'text/css'), i.push(w.lint)),
-			(o.helpers.lint && o.helpers.lint.mediawiki) ||
-				'mediawiki' !== e ||
-				!x.has('lint') ||
-				i.push(w.lintWikitext),
-			x.has('wikiEditor') &&
-				((t = mw.loader.getState('ext.wikiEditor'))
-					? 'ready' !== t && i.push(w.wikiEditor)
-					: x.delete('wikiEditor')),
-			'ready' !== mw.loader.getState('mediawiki.Title') && x.has('contextmenu') && i.push(w.contextmenu),
-			i.push(...te(o)),
-			ie(i, a ? void 0 : h)
-		);
-	};
-
-	const ne = (e) => {
-		(r[B] = {config: e, time: Date.now()}), c.setObject('InPageEditMwConfig', r);
-	};
-
-	const E = (e) => e.flatMap(({aliases: e, name: i}) => e.map((e) => ({alias: e, name: i})));
-	const _ = (e) => Object.fromEntries(e.map(({alias: e, name: i}) => [e.replace(/:$/u, ''), i]));
-
-	const se = (e) => {
-		for (const i of ['indicator', 'poem', 'ref', 'tabs', 'tab', 'poll'])
-			e.tags[i] && (e.tagModes[i] = 'text/mediawiki');
-	};
-
-	const re = async (e, i) => {
-		if ('mediawiki' === e || 'widget' === e) {
-			h && f && (await i);
-			let e = mw.config.get('extCodeMirrorConfig');
-			e || f || !Z || (({config: e} = k), se(e), mw.config.set('extCodeMirrorConfig', e));
-			const t = e && Object.values(e.functionSynonyms[0]).includes(!0);
-			if (!(e && e.redirect && e.img && e.variants) || t) {
-				const {
-					general: {variants: a},
-					magicwords: o,
-					extensiontags: n,
-					functionhooks: s,
-					variables: r,
-				} = (
-					await new mw.Api().get({
-						meta: 'siteinfo',
-						siprop: 'general|magicwords' + (e && !t ? '' : '|extensiontags|functionhooks|variables'),
-						formatversion: 2,
-					})
-				)['query'];
-				const m = new Set(['msg', 'raw', 'msgnw', 'subst', 'safesubst']);
-				if (e && !t) {
-					let d;
-					let l;
-					const [c] = e['functionSynonyms'];
-					if (!c.subst)
-						for ({alias: d, name: l} of E(o.filter(({name: e}) => m.has(e)))) c[d.replace(/:$/u, '')] = l;
-				} else {
-					e = {
-						tagModes: {pre: 'mw-tag-pre', nowiki: 'mw-tag-nowiki', ref: 'text/mediawiki'},
-						tags: Object.fromEntries(n.map((e) => [e.slice(1, -1), !0])),
-						urlProtocols: mw.config.get('wgUrlProtocols'),
-					};
-					const p = new Set([...s, ...r, ...m]),
-						g = o.filter(({name: e, aliases: i}) => i.some((e) => /^__.+__$/u.test(e)) || p.has(e)),
-						u = E(g.filter((e) => e['case-sensitive'])),
-						w = E(g.filter((e) => !e['case-sensitive'])).map(({alias: e, name: i}) => ({
-							alias: e.toLowerCase(),
-							name: i,
-						}));
-					(e.doubleUnderscore = [
-						_(w.filter(({alias: e}) => /^__.+__$/u.test(e))),
-						_(u.filter(({alias: e}) => /^__.+__$/u.test(e))),
-					]),
-						(e.functionSynonyms = [
-							_(w.filter(({alias: e}) => !/^__.+__|^#$/u.test(e))),
-							_(u.filter(({alias: e}) => !/^__.+__|^#$/u.test(e))),
-						]);
-				}
-				(e.redirect = o.find(({name: e}) => 'redirect' === e).aliases),
-					(e.img = _(E(o.filter(({name: e}) => e.startsWith('img_'))))),
-					(e.variants = a ? a.map(({code: e}) => e) : []),
-					se(e),
-					mw.config.set('extCodeMirrorConfig', e),
-					ne(e);
+	/**
+	 * 生成需要的插件列表
+	 * @param {typeof CodeMirror} CM CodeMirror
+	 * @param {boolean} other 是否用于Wikiplus以外的textarea
+	 */
+	const getAddonScript = ({optionHandlers}, other = false) => {
+		const /** @type {string[]} */ addonScript = [];
+		for (const {option, addon = option, download = Array.isArray(addon) ? option : addon, only} of options) {
+			if (!(only && other) && !(option in optionHandlers) && intersect(addon, addons)) {
+				addonScript.push(ADDON_LIST[download]);
 			}
-			return e;
+		}
+		return addonScript;
+	};
+
+	/**
+	 * 交集
+	 * @param {T[]|T} arr 集合1（可重）
+	 * @param {Set<T>} set 集合2
+	 * @template T
+	 */
+	const intersect = (arr, set) => (Array.isArray(arr) ? arr.some((ele) => set.has(ele)) : set.has(arr));
+
+	/**
+	 * 根据文本的高亮模式加载依赖项
+	 * @param {string} type 高亮模式
+	 */
+	const initMode = (type) => {
+		let /** @type {string[]} */ scripts = [];
+		const loaded = typeof window.CodeMirror === 'function';
+
+		/**
+		 * 代替`CodeMirror`的局部变量
+		 * @type {typeof CodeMirror}
+		 */
+		const CM = loaded
+			? window.CodeMirror
+			: {modes: {}, prototype: {}, commands: {}, optionHandlers: {}, helpers: {}};
+
+		// lib
+		if (!loaded) {
+			scripts.push(MODE_LIST.lib);
+			if (!USING_LOCAL) {
+				mw.loader.load(`${CDN}/${CM_CDN}/lib/codemirror.min.css`, 'text/css');
+			}
+		}
+
+		// modes
+		if (type === 'mediawiki' && SITE_SETTINGS.config && SITE_SETTINGS.config.tags.html) {
+			// NamespaceHTML扩展自由度过高，所以这里一律当作允许<html>标签
+			type = 'html'; // eslint-disable-line no-param-reassign
+		}
+		if ((type === 'mediawiki' || type === 'widget') && !CM.modes.mediawiki) {
+			// 总是外部样式表和外部脚本
+			mw.loader.load(`${CDN}/${MW_CDN}/mediawiki.min.css`, 'text/css');
+			scripts.push(`${MW_CDN}/mediawiki.min.js`);
+		}
+		if (type === 'widget' || type === 'html') {
+			for (const lang of ['css', 'javascript', 'mediawiki', 'htmlmixed', 'xml']) {
+				if (!CM.modes[lang]) {
+					scripts = scripts.concat(MODE_LIST[lang]);
+				}
+			}
+		} else {
+			scripts = scripts.concat(MODE_LIST[type]);
+		}
+
+		// addons
+		if (!CM.prototype.getSearchCursor && addons.has('search') && !addons.has('wikiEditor')) {
+			scripts.push(ADDON_LIST.searchcursor);
+		}
+		if (!CM.prototype.annotateScrollbar && type === 'mediawiki' && addons.has('lint')) {
+			scripts.push(ADDON_LIST.annotateScrollbar);
+		}
+		if (!CM.commands.find && addons.has('search') && !addons.has('wikiEditor')) {
+			scripts.push(ADDON_LIST.search);
+		}
+		if (!window.wikiparse && type === 'mediawiki' && addons.has('lint')) {
+			scripts.push(ADDON_LIST.parser, ADDON_LIST.linter);
+		}
+		if (!CM.optionHandlers.lint && type === 'mediawiki' && addons.has('lint')) {
+			mw.loader.load(`${CDN}/${CM_CDN}/addon/lint/lint.min.css`, 'text/css');
+			scripts.push(ADDON_LIST.lint);
+		}
+		if (!(CM.helpers.lint && CM.helpers.lint.mediawiki) && type === 'mediawiki' && addons.has('lint')) {
+			scripts.push(ADDON_LIST.lintWikitext);
+		}
+		if (addons.has('wikiEditor')) {
+			const state = mw.loader.getState('ext.wikiEditor');
+			if (!state) {
+				addons.delete('wikiEditor');
+			} else if (state !== 'ready') {
+				scripts.push(ADDON_LIST.wikiEditor);
+			}
+		}
+		if (mw.loader.getState('mediawiki.Title') !== 'ready' && addons.has('contextmenu')) {
+			scripts.push(ADDON_LIST.contextmenu);
+		}
+		scripts.push(...getAddonScript(CM));
+
+		return getScript(scripts, loaded ? undefined : USING_LOCAL);
+	};
+
+	/**
+	 * 更新缓存的设置数据
+	 * @param {mwConfig} config wikitext设置
+	 */
+	const updateCachedConfig = (config) => {
+		ALL_SETTINGS_CACHE[SITE_ID] = {config, time: Date.now()};
+		storage.setObject('InPageEditMwConfig', ALL_SETTINGS_CACHE);
+	};
+
+	/**
+	 * 展开别名列表
+	 * @param {{aliases: string[], name: string}[]} words 原名
+	 */
+	const getAliases = (words) => words.flatMap(({aliases, name}) => aliases.map((alias) => ({alias, name})));
+
+	/**
+	 * 将别名信息转换为CodeMirror接受的设置
+	 * @param {{alias: string, name: string}[]} aliases 别名
+	 * @returns {Record<string, string>}
+	 */
+	const getConfig = (aliases) => Object.fromEntries(aliases.map(({alias, name}) => [alias.replace(/:$/u, ''), name]));
+
+	/**
+	 * 高亮扩展标签内部
+	 * @param {mwConfig} config 设置
+	 */
+	const setPlainMode = (config) => {
+		const tags = ['indicator', 'poem', 'ref', 'tabs', 'tab', 'poll'];
+		for (const tag of tags) {
+			if (config.tags[tag]) {
+				config.tagModes[tag] = 'text/mediawiki';
+			}
 		}
 	};
 
-	const de = {
-		getContents() {
-			return O.getValue();
-		},
-		setContents(e) {
-			return O.setValue(e), this;
-		},
-		getSelection() {
-			return O.getSelection();
-		},
-		setSelection(e) {
-			return (
-				O.setSelection(O.posFromIndex(e.start), 'end' in e ? O.posFromIndex(e.end) : void 0), O.focus(), this
+	/**
+	 * 加载CodeMirror的mediawiki模块需要的设置数据
+	 * @param {string} type 高亮模式
+	 * @param {Promise<void>} initModePromise 使用本地CodeMirror扩展时大部分数据来自ext.CodeMirror.data模块
+	 */
+	const getMwConfig = async (type, initModePromise) => {
+		if (type !== 'mediawiki' && type !== 'widget') {
+			return undefined;
+		}
+
+		if (USING_LOCAL && EXPIRED) {
+			// 只在localStorage过期时才会重新加载ext.CodeMirror.data
+			await initModePromise;
+		}
+
+		let config = mw.config.get('extCodeMirrorConfig');
+		if (!config && !EXPIRED && isLatest) {
+			({config} = SITE_SETTINGS);
+			setPlainMode(config);
+			mw.config.set('extCodeMirrorConfig', config);
+		}
+		const isIPE = config && Object.values(config.functionSynonyms[0]).includes(true);
+		// 情形1：config已更新，可能来自localStorage
+		if (config && config.redirect && config.img && config.variants && !isIPE) {
+			return config;
+		}
+
+		// 以下情形均需要发送API请求
+		// 情形2：localStorage未过期但不包含新设置
+		// 情形3：新加载的 ext.CodeMirror.data
+		// 情形4：`config === null`
+		const {
+			query: {
+				general: {variants},
+				magicwords,
+				extensiontags,
+				functionhooks,
+				variables,
+			},
+		} = await new mw.Api().get({
+			meta: 'siteinfo',
+			siprop: `general|magicwords${config && !isIPE ? '' : '|extensiontags|functionhooks|variables'}`,
+			formatversion: 2,
+		});
+		const otherMagicwords = new Set(['msg', 'raw', 'msgnw', 'subst', 'safesubst']);
+
+		if (config && !isIPE) {
+			// 情形2或3
+			const {
+				functionSynonyms: [insensitive],
+			} = config;
+			if (!insensitive.subst) {
+				const aliases = getAliases(magicwords.filter(({name}) => otherMagicwords.has(name)));
+				for (const {alias, name} of aliases) {
+					insensitive[alias.replace(/:$/u, '')] = name;
+				}
+			}
+		} else {
+			// 情形4：`config === null`
+			config = {
+				tagModes: {
+					pre: 'mw-tag-pre',
+					nowiki: 'mw-tag-nowiki',
+					ref: 'text/mediawiki',
+				},
+				tags: Object.fromEntries(extensiontags.map((tag) => [tag.slice(1, -1), true])),
+				urlProtocols: mw.config.get('wgUrlProtocols'),
+			};
+			const realMagicwords = new Set([...functionhooks, ...variables, ...otherMagicwords]);
+
+			const allMagicwords = magicwords.filter(
+				({name, aliases}) => aliases.some((alias) => /^__.+__$/u.test(alias)) || realMagicwords.has(name)
 			);
+
+			const sensitive = getAliases(allMagicwords.filter((word) => word['case-sensitive']));
+
+			const insensitive = getAliases(allMagicwords.filter((word) => !word['case-sensitive'])).map(
+				({alias, name}) => ({alias: alias.toLowerCase(), name})
+			);
+
+			config.doubleUnderscore = [
+				getConfig(insensitive.filter(({alias}) => /^__.+__$/u.test(alias))),
+				getConfig(sensitive.filter(({alias}) => /^__.+__$/u.test(alias))),
+			];
+			config.functionSynonyms = [
+				getConfig(insensitive.filter(({alias}) => !/^__.+__|^#$/u.test(alias))),
+				getConfig(sensitive.filter(({alias}) => !/^__.+__|^#$/u.test(alias))),
+			];
+		}
+		config.redirect = magicwords.find(({name}) => name === 'redirect').aliases;
+		config.img = getConfig(getAliases(magicwords.filter(({name}) => name.startsWith('img_'))));
+		config.variants = variants ? variants.map(({code}) => code) : [];
+		setPlainMode(config);
+		mw.config.set('extCodeMirrorConfig', config);
+		updateCachedConfig(config);
+		return config;
+	};
+
+	/** 检查页面语言类型 */
+	const getPageMode = async () => {
+		if (page.endsWith('/doc')) {
+			return 'mediawiki';
+		} else if (ns !== 274 && ns !== 828) {
+			return CONTENTMODEL[contentmodel];
+		}
+		const pageMode = ns === 274 ? 'Widget' : 'Lua';
+		await mw.loader.using(['oojs-ui-windows', 'oojs-ui.styles.icons-content']);
+		const bool = await OO.ui.confirm(msg('contentmodel'), {
+			actions: [{label: pageMode}, {label: 'Wikitext', action: 'accept'}],
+		});
+		return bool ? 'mediawiki' : pageMode.toLowerCase();
+	};
+
+	/**
+	 * jQuery.textSelection overrides for CodeMirror.
+	 * See jQuery.textSelection.js for method documentation
+	 */
+	const cmTextSelection = {
+		/** @override */ getContents() {
+			return cm.getValue();
 		},
-		replaceSelection(e) {
-			return O.replaceSelection(e), this;
+		/** @override */ setContents(content) {
+			cm.setValue(content);
+			return this;
 		},
-		getCaretPosition(e) {
-			const i = O.indexFromPos(O.getCursor('from')),
-				t = O.indexFromPos(O.getCursor('to'));
-			return e.startAndEnd ? [i, t] : i;
+		/** @override */ getSelection() {
+			return cm.getSelection();
 		},
-		scrollToCaretPosition() {
-			return O.scrollIntoView(), this;
+		/** @override */ setSelection(option) {
+			cm.setSelection(cm.posFromIndex(option.start), 'end' in option ? cm.posFromIndex(option.end) : undefined);
+			cm.focus();
+			return this;
+		},
+		/** @override */ replaceSelection(value) {
+			cm.replaceSelection(value);
+			return this;
+		},
+		/** @override */ getCaretPosition({startAndEnd}) {
+			const caretPos = cm.indexFromPos(cm.getCursor('from'));
+			const endPos = cm.indexFromPos(cm.getCursor('to'));
+			return startAndEnd ? [caretPos, endPos] : caretPos;
+		},
+		/** @override */ scrollToCaretPosition() {
+			cm.scrollIntoView();
+			return this;
 		},
 	};
 
-	const le = async (e, i) => {
-		const n = i
-				? 'javascript'
-				: await (N.endsWith('/doc')
-						? 'mediawiki'
-						: 274 !== u && 828 !== u
-						  ? R[U]
-						  : ((o = 274 === u ? 'Widget' : 'Lua'),
-						    await mw.loader.using(['oojs-ui-windows', 'oojs-ui.styles.icons-content']),
-						    (await OO.ui.confirm(m('contentmodel'), {
-									actions: [{label: o}, {label: 'Wikitext', action: 'accept'}],
-						    }))
-									? 'mediawiki'
-									: o.toLowerCase())),
-			t = oe(n),
-			[a] = await Promise.all([re(n, t), t]);
-		if (!i && x.has('wikiEditor'))
+	/**
+	 * 渲染编辑器
+	 * @param {JQuery<HTMLTextAreaElement>} $target 目标编辑框
+	 * @param {boolean} setting 是否是Wikiplus设置（使用json语法）
+	 */
+	const renderEditor = async ($target, setting) => {
+		const mode = setting ? 'javascript' : await getPageMode();
+		const initModePromise = initMode(mode);
+		const [mwConfig] = await Promise.all([getMwConfig(mode, initModePromise), initModePromise]);
+
+		if (!setting && addons.has('wikiEditor')) {
 			try {
-				'function' == typeof mw.addWikiEditor
-					? mw.addWikiEditor(e)
-					: (({
+				if (typeof mw.addWikiEditor === 'function') {
+					mw.addWikiEditor($target);
+				} else {
+					const {
+						wikiEditor: {
 							modules: {
-								dialogs: {config: d},
+								dialogs: {config},
 							},
-					  } = $['wikiEditor']),
-					  e.wikiEditor('addModule', {
-							...$.wikiEditor.modules.toolbar.config.getDefaultConfig(),
-							...d.getDefaultConfig(),
-					  }),
-					  d.replaceIcons(e));
+						},
+					} = $;
+					$target.wikiEditor('addModule', {
+						...$.wikiEditor.modules.toolbar.config.getDefaultConfig(),
+						...config.getDefaultConfig(),
+					});
+					config.replaceIcons($target);
+				}
 			} catch (e) {
-				x.delete('wikiEditor'), mw.notify('WikiEditor工具栏加载失败。', {type: 'error'}), console.error(e);
+				addons.delete('wikiEditor');
+				mw.notify('WikiEditor工具栏加载失败。', {type: 'error'});
+				console.error(e);
 			}
-		'mediawiki' === n && a.tags.html
-			? ((a.tagModes.html = 'htmlmixed'), await oe('html'))
-			: 'widget' !== n ||
-			  CodeMirror.mimeModes.widget ||
-			  CodeMirror.defineMIME('widget', {name: 'htmlmixed', tags: {noinclude: [[null, null, 'mediawiki']]}});
-		var o = e.height();
-		O && O.toTextArea();
-		const s = i || 'json' === U;
-		(O = CodeMirror.fromTextArea(
-			e[0],
+		}
+
+		if (mode === 'mediawiki' && mwConfig.tags.html) {
+			mwConfig.tagModes.html = 'htmlmixed';
+			await initMode('html'); // 如果已经缓存过`mwConfig`，这一步什么都不会发生
+		} else if (mode === 'widget' && !CodeMirror.mimeModes.widget) {
+			// 到这里CodeMirror已确定加载完毕
+			CodeMirror.defineMIME('widget', {name: 'htmlmixed', tags: {noinclude: [[null, null, 'mediawiki']]}});
+		}
+
+		// 储存初始高度
+		const height = $target.height();
+
+		if (cm) {
+			cm.toTextArea();
+		}
+
+		const json = setting || contentmodel === 'json';
+		cm = CodeMirror.fromTextArea(
+			$target[0],
 			$.extend(
 				{
 					inputStyle: 'contenteditable',
 					lineNumbers: !/Android\b/u.test(navigator.userAgent),
-					lineWrapping: !0,
-					mode: n,
-					mwConfig: a,
-					json: s,
+					lineWrapping: true,
+					mode,
+					mwConfig,
+					json,
 				},
 				Object.fromEntries(
-					b.map(({option: e, addon: i = e, modes: t, complex: a = (e) => !t || t.has(e)}) => {
-						const o = Array.isArray(i) ? i[0] : i;
-						return [e, x.has(o) && a(n, s)];
+					options.map(({option, addon = option, modes, complex = (mod) => !modes || modes.has(mod)}) => {
+						const mainAddon = Array.isArray(addon) ? addon[0] : addon;
+						return [option, addons.has(mainAddon) && complex(mode, json)];
 					})
 				),
-				'mediawiki' === n
-					? {extraKeys: x.has('escape') && X(CodeMirror)}
-					: {indentUnit: x.has('indentWithSpace') ? y : 4, indentWithTabs: !x.has('indentWithSpace')}
+				mode === 'mediawiki'
+					? {
+							extraKeys: addons.has('escape') && extraKeys(CodeMirror),
+					  }
+					: {
+							indentUnit: addons.has('indentWithSpace') ? indent : defaultIndent,
+							indentWithTabs: !addons.has('indentWithSpace'),
+					  }
 			)
-		)).setSize(null, o),
-			(O.getWrapperElement().id = 'Wikiplus-CodeMirror'),
-			$.fn.textSelection && e.textSelection('register', de);
-		let r;
-		var d = v(CodeMirror) ? 'Ctrl' : 'Cmd';
-		if (x.has('wikiEditor')) {
-			const l = e.data('wikiEditorContext');
-			O.addKeyMap({
-				[d + '-F']() {
-					$.wikiEditor.modules.dialogs.api.openDialog(l, 'search-and-replace');
+		);
+		cm.setSize(null, height);
+		cm.getWrapperElement().id = 'Wikiplus-CodeMirror';
+
+		if ($.fn.textSelection) {
+			$target.textSelection('register', cmTextSelection);
+		}
+
+		const ctrl = isPc(CodeMirror) ? 'Ctrl' : 'Cmd';
+		if (addons.has('wikiEditor')) {
+			const context = $target.data('wikiEditorContext');
+			cm.addKeyMap({
+				/** 替代CodeMirror的搜索功能 */ [`${ctrl}-F`]() {
+					$.wikiEditor.modules.dialogs.api.openDialog(context, 'search-and-replace');
 				},
 			});
 		}
-		j(O, n),
-			$('#Wikiplus-Quickedit-Jump').children('a').attr('href', '#Wikiplus-CodeMirror'),
-			i ||
-				((r = ((r = c.getObject('Wikiplus_Settings')) && r.esc_to_exit_quickedit) || r.escToExitQuickEdit),
-				O.addKeyMap(
-					$.extend(
-						{
-							[d + '-S']: () => {
-								$('#Wikiplus-Quickedit-Submit').triggerHandler('click');
-							},
-							[`Shift-${d}-S`]: () => {
-								$('#Wikiplus-Quickedit-MinorEdit').click(),
-									$('#Wikiplus-Quickedit-Submit').triggerHandler('click');
-							},
-						},
-						!0 === r || 'true' === r
-							? {
-									Esc() {
-										$('#Wikiplus-Quickedit-Back').triggerHandler('click');
-									},
-							  }
-							: {}
-					)
-				)),
-			O.refresh(),
-			mw.hook('wiki-codemirror').fire(O);
+
+		handleContextMenu(cm, mode);
+
+		$('#Wikiplus-Quickedit-Jump').children('a').attr('href', '#Wikiplus-CodeMirror');
+
+		if (!setting) {
+			// 普通Wikiplus编辑区
+			const settings = storage.getObject('Wikiplus_Settings');
+
+			const escToExitQuickEdit = (settings && settings.esc_to_exit_quickedit) || settings.escToExitQuickEdit;
+
+			const submit = /** 提交编辑 */ () => {
+				$('#Wikiplus-Quickedit-Submit').triggerHandler('click');
+			};
+
+			const submitMinor = /** 提交小编辑 */ () => {
+				$('#Wikiplus-Quickedit-MinorEdit').click();
+				$('#Wikiplus-Quickedit-Submit').triggerHandler('click');
+			};
+
+			cm.addKeyMap(
+				$.extend(
+					{[`${ctrl}-S`]: submit, [`Shift-${ctrl}-S`]: submitMinor},
+					escToExitQuickEdit === true || escToExitQuickEdit === 'true'
+						? {
+								/** 按下Esc键退出编辑 */ Esc() {
+									$('#Wikiplus-Quickedit-Back').triggerHandler('click');
+								},
+						  }
+						: {}
+				)
+			);
+		}
+
+		cm.refresh();
+		mw.hook('wiki-codemirror').fire(cm);
 	};
 
-	const ce = document['body'];
+	const {body} = document;
 
-	const me =
-		(new MutationObserver((e) => {
-			const i = $(e.flatMap(({addedNodes: e}) => [...e])).find('#Wikiplus-Quickedit, #Wikiplus-Setting-Input');
-			0 < i.length && le(i, 'Wikiplus-Setting-Input' === i.attr('id'));
-		}).observe(ce, {childList: !0}),
-		$(ce).on('keydown.wphl', '.ui-dialog', function (e) {
-			let i;
-			'Escape' === e.key &&
-				(i = $(this).children('.ui-dialog-content').data('context')) &&
-				i.$textarea &&
-				'Wikiplus-Quickedit' === i.$textarea.attr('id') &&
-				e.stopPropagation();
-		}),
-		(e) => 'Wikiplus-Quickedit' === e.id || 'Wikiplus-Setting-Input' === e.id);
-
-	($.valHooks.textarea = {
-		get(e) {
-			return me(e) && O ? O.getValue() : e.value;
-		},
-		set(e, i) {
-			me(e) && O ? O.setValue(i) : (e.value = i);
-		},
-	}),
-		await t;
-	let T;
-	let A;
-	let pe;
-	let ge;
-	let I;
-	let ue;
-	let P;
-	const we = (e = [...x]) => {
-		P.toggle(e.includes('indentWithSpace'));
-	};
-	t = $(
-		mw.util.addPortletLink(
-			{minerva: 'page-actions-overflow', moeskin: 'ca-more-actions'}[n] || 'p-cactions',
-			'#',
-			m('portlet'),
-			'wphl-settings'
-		)
-	).click(async () => {
-		T
-			? (A.setValue([...x]), I.setValue(y))
-			: (await mw.loader.using(['oojs-ui-windows', 'oojs-ui.styles.icons-content']),
-			  (T = new OO.ui.MessageDialog({id: 'Wikiplus-highlight-dialog'})),
-			  (e = ((e = new OO.ui.WindowManager()).$element.appendTo(ce),
-			  e.addWindows([T]),
-			  (A = new OO.ui.CheckboxMultiselectInputWidget({
-					options: [
-						...b.map(({option: e, addon: i = e}) => {
-							const t = Array.isArray(i) ? i[0] : i;
-							return {data: t, label: a('addon-' + t.toLowerCase())};
-						}),
-						...['wikiEditor', 'escape', 'contextmenu', 'lint', 'indentWithSpace', 'otherEditors'].map(
-							(e) => ({data: e, label: a('addon-' + e.toLowerCase())})
-						),
-					],
-					value: [...x],
-			  }).on('change', we)))['checkboxMultiselectWidget']),
-			  (pe = e.findItemFromData('search')),
-			  (ge = e.findItemFromData('wikiEditor')),
-			  (I = new OO.ui.NumberInputWidget({min: 0, value: y})),
-			  (ue = new OO.ui.FieldLayout(A, {label: m('addon-label'), notices: [m('addon-notice')], align: 'top'})),
-			  (P = new OO.ui.FieldLayout(I, {label: m('addon-indent')})),
-			  we(),
-			  Object.assign(mw.libs.wphl, {widget: A, indentWidget: I}));
-		var e = 'object' == typeof window.Wikiplus || 'object' == typeof window._WikiplusPages;
-
-		var e =
-			(pe.setDisabled(!e),
-			ge.setDisabled(!e || !mw.loader.getState('ext.wikiEditor')),
-			await T.open({
-				title: m('addon-title'),
-				message: ue.$element.add(P.$element).add($('<p>', {html: m('feedback')})),
-				actions: [
-					{action: 'reject', label: mw.msg('ooui-dialog-message-reject')},
-					{action: 'accept', label: mw.msg('ooui-dialog-message-accept'), flags: 'progressive'},
-				],
-				size: 'en' === M || 'minerva' === n ? 'medium' : 'small',
-			}).closing);
-
-		if ((ue.$element.detach(), P.$element.detach(), 'object' == typeof e && 'accept' === e.action)) {
-			e = A.getValue();
-			x.clear();
-			for (const i of e) x.add(i);
-			(y = Number(I.getValue())),
-				c.setObject('Wikiplus-highlight-addons', e),
-				c.setObject('Wikiplus-highlight-indent', y);
+	// 监视 Wikiplus 编辑框
+	const observer = new MutationObserver((records) => {
+		const $editArea = $(records.flatMap(({addedNodes}) => [...addedNodes])).find(
+			'#Wikiplus-Quickedit, #Wikiplus-Setting-Input'
+		);
+		if ($editArea.length > 0) {
+			renderEditor($editArea, $editArea.attr('id') === 'Wikiplus-Setting-Input');
 		}
 	});
-	'minerva' === n && t.find('.mw-ui-icon').addClass('mw-ui-icon-minerva-settings'),
-		'function' == typeof S &&
-			S()
-				.find('#wphl-settings-notify')
-				.click((e) => {
-					e.preventDefault(), $('#wphl-settings').triggerHandler('click');
-				});
-	const L = async (e) => {
-		if (x.has('otherEditors')) {
-			let i = 'text/mediawiki' === (i = e.getOption('mode')) ? 'mediawiki' : i;
-			const t = te(CodeMirror, !0);
-			const a = e.getOption('json');
+	observer.observe(body, {childList: true});
 
-			const {
-				prototype: o,
-				optionHandlers: n,
-				helpers: {lint: s},
-			} = CodeMirror;
-
-			!o.annotateScrollbar && 'mediawiki' === i && x.has('lint') && t.push(w.annotateScrollbar),
-				!window.wikiparse && 'mediawiki' === i && x.has('lint') && t.push(w.parser),
-				!n.lint &&
-					'mediawiki' === i &&
-					x.has('lint') &&
-					(mw.loader.load(`${p}/${g}/addon/lint/lint.min.css`, 'text/css'), t.push(w.lint)),
-				(s && s.mediawiki) || 'mediawiki' !== i || !x.has('lint') || t.push(w.lintWikitext),
-				await ie(t);
-			for (const {option: d, addon: l = d, modes: c, complex: m = (e) => !c || c.has(e)} of b.filter(
-				({only: e}) => !e
-			)) {
-				const r = Array.isArray(l) ? l[0] : l;
-				void 0 === e.getOption(d) && x.has(r) && e.setOption(d, m(i, a));
+	$(body).on(
+		'keydown.wphl',
+		'.ui-dialog',
+		/** @this {HTMLBodyElement} */
+		function (e) {
+			if (e.key === 'Escape') {
+				/** @type {{$textarea: JQuery<HTMLTextAreaElement>}} */
+				const context = $(this).children('.ui-dialog-content').data('context');
+				if (context && context.$textarea && context.$textarea.attr('id') === 'Wikiplus-Quickedit') {
+					e.stopPropagation();
+				}
 			}
-			'mediawiki' === i && x.has('escape')
-				? e.addKeyMap(X(CodeMirror), !0)
-				: 'mediawiki' !== i &&
-				  x.has('indentWithSpace') &&
-				  (e.setOption('indentUnit', y), e.setOption('indentWithTabs', !1)),
-				j(e, i);
 		}
+	);
+
+	/**
+	 * 是否是Wikiplus编辑区
+	 * @param {HTMLTextAreaElement} elem textarea元素
+	 */
+	const isWikiplus = ({id}) => id === 'Wikiplus-Quickedit' || id === 'Wikiplus-Setting-Input';
+	$.valHooks.textarea = {
+		/** @override */ get(elem) {
+			return isWikiplus(elem) && cm ? cm.getValue() : elem.value;
+		},
+		/** @override */ set(elem, value) {
+			if (isWikiplus(elem) && cm) {
+				cm.setValue(value);
+			} else {
+				elem.value = value;
+			}
+		},
 	};
-	mw.hook('InPageEdit.quickEdit.codemirror').add(({cm: e}) => L(e)),
-		mw.hook('inspector').add((e) => L(e)),
-		mw.hook('wiki-codemirror').add((e) => {
-			(e.getTextArea && me(e.getTextArea())) || L(e);
-		}),
-		mw.loader.load(p + `/${o}/styles.min.css`, 'text/css'),
-		Object.assign(mw.libs.wphl, {
-			version: i,
-			options: b,
-			addons: x,
-			i18n: C,
-			i18nLang: M,
-			storage: c,
-			$portlet: t,
-			CDN: p,
-			PARSER_CDN: D,
-			USING_LOCAL: h,
-			MODE_LIST: d,
-			ADDON_LIST: w,
-			msg: m,
-			htmlMsg: a,
-			escapeHTML: K,
-			handleContextMenu: j,
-			setI18N: e,
-			getAddonScript: te,
-			updateCachedConfig: ne,
-			getMwConfig: re,
-			renderEditor: le,
-			handleOtherEditors: L,
-			isPc: v,
-		});
+
+	await i18nPromise; // 以下内容依赖I18N
+
+	// 设置对话框
+	let /** @type {OOUI.MessageDialog} */ dialog;
+
+	let /** @type {OOUI.CheckboxMultiselectInputWidget} */ widget;
+	let /** @type {OOUI.CheckboxMultioptionWidget} */ searchWidget;
+	let /** @type {OOUI.CheckboxMultioptionWidget} */ wikiEditorWidget;
+	let /** @type {OOUI.NumberInputWidget} */ indentWidget;
+	let /** @type {OOUI.FieldLayout} */ field;
+	let /** @type {OOUI.FieldLayout} */ indentField;
+	/**
+	 * 显示/隐藏缩进大小选项
+	 * @param {string[]} value 加载的插件
+	 */
+	const toggleIndent = (value = [...addons]) => {
+		indentField.toggle(value.includes('indentWithSpace'));
+	};
+	const portletContainer = {
+		minerva: 'page-actions-overflow',
+		moeskin: 'ca-more-actions',
+	};
+	const $portlet = $(
+		mw.util.addPortletLink(portletContainer[skin] || 'p-cactions', '#', msg('portlet'), 'wphl-settings')
+	).click(async () => {
+		if (dialog) {
+			widget.setValue([...addons]);
+			indentWidget.setValue(indent);
+		} else {
+			await mw.loader.using(['oojs-ui-windows', 'oojs-ui.styles.icons-content']);
+			// eslint-disable-next-line require-atomic-updates
+			dialog = new OO.ui.MessageDialog({id: 'Wikiplus-highlight-dialog'});
+			const windowManager = new OO.ui.WindowManager();
+			windowManager.$element.appendTo(body);
+			windowManager.addWindows([dialog]);
+			widget = new OO.ui.CheckboxMultiselectInputWidget({
+				options: [
+					...options.map(({option, addon = option}) => {
+						const mainAddon = Array.isArray(addon) ? addon[0] : addon;
+						return {data: mainAddon, label: htmlMsg(`addon-${mainAddon.toLowerCase()}`)};
+					}),
+					...['wikiEditor', 'escape', 'contextmenu', 'lint', 'indentWithSpace', 'otherEditors'].map(
+						(addon) => ({data: addon, label: htmlMsg(`addon-${addon.toLowerCase()}`)})
+					),
+				],
+				value: [...addons],
+			}).on('change', toggleIndent);
+			const {checkboxMultiselectWidget} = widget;
+			searchWidget = checkboxMultiselectWidget.findItemFromData('search');
+			wikiEditorWidget = checkboxMultiselectWidget.findItemFromData('wikiEditor');
+			indentWidget = new OO.ui.NumberInputWidget({min: 0, value: indent});
+			field = new OO.ui.FieldLayout(widget, {
+				label: msg('addon-label'),
+				notices: [msg('addon-notice')],
+				align: 'top',
+			});
+			indentField = new OO.ui.FieldLayout(indentWidget, {label: msg('addon-indent')});
+			toggleIndent();
+			Object.assign(mw.libs.wphl, {widget, indentWidget});
+		}
+		const wikiplusLoaded = typeof window.Wikiplus === 'object' || typeof window._WikiplusPages === 'object';
+		searchWidget.setDisabled(!wikiplusLoaded);
+		wikiEditorWidget.setDisabled(!wikiplusLoaded || !mw.loader.getState('ext.wikiEditor'));
+		const data = await dialog.open({
+			title: msg('addon-title'),
+			message: field.$element.add(indentField.$element).add($('<p>', {html: msg('feedback')})),
+			actions: [
+				{action: 'reject', label: mw.msg('ooui-dialog-message-reject')},
+				{action: 'accept', label: mw.msg('ooui-dialog-message-accept'), flags: 'progressive'},
+			],
+			size: i18nLang === 'en' || skin === 'minerva' ? 'medium' : 'small',
+		}).closing;
+		field.$element.detach();
+		indentField.$element.detach();
+		if (typeof data === 'object' && data.action === 'accept') {
+			/* eslint-disable require-atomic-updates */
+			const value = widget.getValue();
+			addons.clear();
+			for (const addon of value) {
+				addons.add(addon);
+			}
+			indent = Number(indentWidget.getValue());
+			storage.setObject('Wikiplus-highlight-addons', value);
+			storage.setObject('Wikiplus-highlight-indent', indent);
+			/* eslint-enable require-atomic-updates */
+		}
+	});
+	if (skin === 'minerva') {
+		$portlet.find('.mw-ui-icon').addClass('mw-ui-icon-minerva-settings');
+	}
+
+	// 发送欢迎提示
+	if (typeof welcome === 'function') {
+		welcome()
+			.find('#wphl-settings-notify')
+			.click((e) => {
+				e.preventDefault();
+				$('#wphl-settings').triggerHandler('click');
+			});
+	}
+
+	/**
+	 * 处理非Wikiplus编辑器
+	 * @param {CodeMirror.Editor} doc CodeMirror编辑区
+	 */
+	const handleOtherEditors = async (doc) => {
+		if (!addons.has('otherEditors')) {
+			return;
+		}
+		let mode = doc.getOption('mode');
+		mode = mode === 'text/mediawiki' ? 'mediawiki' : mode;
+		const addonScript = getAddonScript(CodeMirror, true);
+		const json = doc.getOption('json');
+
+		const {
+			prototype,
+			optionHandlers,
+			helpers: {lint},
+		} = CodeMirror;
+
+		if (!prototype.annotateScrollbar && mode === 'mediawiki' && addons.has('lint')) {
+			addonScript.push(ADDON_LIST.annotateScrollbar);
+		}
+		if (!window.wikiparse && mode === 'mediawiki' && addons.has('lint')) {
+			addonScript.push(ADDON_LIST.parser);
+		}
+		if (!optionHandlers.lint && mode === 'mediawiki' && addons.has('lint')) {
+			mw.loader.load(`${CDN}/${CM_CDN}/addon/lint/lint.min.css`, 'text/css');
+			addonScript.push(ADDON_LIST.lint);
+		}
+		if (!(lint && lint.mediawiki) && mode === 'mediawiki' && addons.has('lint')) {
+			addonScript.push(ADDON_LIST.lintWikitext);
+		}
+		await getScript(addonScript);
+		for (const {
+			option,
+			addon = option,
+			modes,
+			complex = (/** @type {string} */ mod) => !modes || modes.has(mod),
+		} of options.filter(({only}) => !only)) {
+			const mainAddon = Array.isArray(addon) ? addon[0] : addon;
+			if (doc.getOption(option) === undefined && addons.has(mainAddon)) {
+				doc.setOption(option, complex(mode, json));
+			}
+		}
+		if (mode === 'mediawiki' && addons.has('escape')) {
+			doc.addKeyMap(extraKeys(CodeMirror), true);
+		} else if (mode !== 'mediawiki' && addons.has('indentWithSpace')) {
+			doc.setOption('indentUnit', indent);
+			doc.setOption('indentWithTabs', false);
+		}
+		handleContextMenu(doc, mode);
+	};
+
+	mw.hook('InPageEdit.quickEdit.codemirror').add(
+		/** @param {{cm: CodeMirror.Editor}} */ ({cm: doc}) => handleOtherEditors(doc)
+	);
+	mw.hook('inspector').add(/** @param {CodeMirror.Editor} doc */ (doc) => handleOtherEditors(doc));
+	mw.hook('wiki-codemirror').add(
+		/** @param {CodeMirror.Editor} doc */ (doc) => {
+			if (!doc.getTextArea || !isWikiplus(doc.getTextArea())) {
+				handleOtherEditors(doc);
+			}
+		}
+	);
+
+	mw.loader.load(`${CDN}/${REPO_CDN}/styles.min.css`, 'text/css');
+
+	Object.assign(mw.libs.wphl, {
+		version,
+		options,
+		addons,
+		i18n,
+		i18nLang,
+		storage,
+		$portlet,
+		CDN,
+		PARSER_CDN,
+		USING_LOCAL,
+		MODE_LIST,
+		ADDON_LIST,
+		msg,
+		htmlMsg,
+		escapeHTML,
+		handleContextMenu,
+		setI18N,
+		getAddonScript,
+		updateCachedConfig,
+		getMwConfig,
+		renderEditor,
+		handleOtherEditors,
+		isPc,
+	}); // 加载完毕
 })();
