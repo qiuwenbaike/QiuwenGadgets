@@ -278,8 +278,8 @@ const previewTool = () => {
 				useskin: mw.config.get('skin'),
 			};
 			if (isPreview) {
-				params.preview = 1;
-				params.disableeditsection = 1;
+				params.preview = true;
+				params.disableeditsection = true;
 			}
 			api.post(params)
 				.then((data) => {
@@ -330,8 +330,8 @@ const previewTool = () => {
 				useskin: mw.config.get('skin'),
 			};
 			if (isPreview) {
-				params.preview = 1;
-				params.disableeditsection = 1;
+				params.preview = true;
+				params.disableeditsection = true;
 			}
 			api.post(params)
 				.then((data) => {
@@ -501,8 +501,8 @@ const previewTool = () => {
 			};
 
 			if (isPreview) {
-				params.preview = 1;
-				params.disableeditsection = 1;
+				params.preview = true;
+				params.disableeditsection = true;
 			}
 
 			api.post(params).then((data) => {
