@@ -1765,16 +1765,13 @@
 				if (a.length !== b.length) {
 					return false;
 				}
-				const asort = a.sort();
-				const bsort = b.sort();
-				for (let i = 0; asort[i]; ++i) {
+				a.sort();
+				b.sort();
+				for (let i = 0; a[i]; ++i) {
 					// comparison of the two properties of custom lists
-					if (
-						typeof asort[i] === 'object' &&
-						(asort[i].label !== bsort[i].label || asort[i].value !== bsort[i].value)
-					) {
+					if (typeof a[i] === 'object' && (a[i].label !== b[i].label || a[i].value !== b[i].value)) {
 						return false;
-					} else if (asort[i].toString() !== bsort[i].toString()) {
+					} else if (a[i].toString() !== b[i].toString()) {
 						return false;
 					}
 				}
