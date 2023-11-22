@@ -211,12 +211,16 @@
 		dt,
 		li {
 			white-space: nowrap; /* Nowrap list items in navboxes */
-			display: inline-block;
+			display: inline;
 
 			dl,
 			ul,
 			ol {
 				white-space: normal; /* But allow parent list items to be wrapped */
+			}
+
+			a {
+				display: inline-block;
 			}
 		}
 
