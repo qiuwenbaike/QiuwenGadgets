@@ -12,7 +12,7 @@ import {
 	CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT,
 	CLASS_NAME_CONTAINER_DATA_SELECTIONS,
 	CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED,
-	CLASS_NAME_CURRENT,
+	CLASS_NAME_CURRENT_COUNTER,
 	CLASS_NAME_FEEDBACK,
 	CLASS_NAME_FEEDBACK_DONE,
 	CLASS_NAME_LABEL,
@@ -73,35 +73,35 @@ const catALot = (): void => {
 		static settings: SettingGlobal = {};
 		static variantCache: Record<string, string[]> = {};
 
-		static $counter = $();
-		static $progressDialog = $();
-		static $labels = $();
-		static $selectedLabels = $();
+		static $counter: JQuery<HTMLSpanElement> = $<HTMLSpanElement>();
+		static $progressDialog: JQuery = $();
+		static $labels: JQuery = $();
+		static $selectedLabels: JQuery = $();
 
-		private readonly $body: JQuery;
+		private readonly $body: JQuery<HTMLBodyElement>;
 		private readonly $container: JQuery;
 		private readonly $dataContainer: JQuery;
 		private readonly $markCounter: JQuery;
 		private readonly $resultList: JQuery;
 		private readonly $searchInputContainer: JQuery;
-		private readonly $searchInput: JQuery;
+		private readonly $searchInput: JQuery<HTMLInputElement>;
 		private readonly $selections: JQuery;
-		private readonly $selectAll: JQuery;
-		private readonly $selectNone: JQuery;
+		private readonly $selectAll: JQuery<HTMLAnchorElement>;
+		private readonly $selectNone: JQuery<HTMLAnchorElement>;
 		private readonly $head: JQuery;
-		private readonly $link: JQuery;
+		private readonly $link: JQuery<HTMLAnchorElement>;
 
 		public constructor() {
 			if (!mw.message('cat-a-lot-loading')) {
 				mw.messages.set(CAL.MESSAGES);
 			}
 
-			const reCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category')}:`, '');
-
 			CAL.initSettings();
 
+			// The order here will directly affect the position of elements in the interface
 			this.$body = $('body');
 			this.$container = $('<div>').addClass(`${CLASS_NAME} ${CLASS_NAME_CONTAINER} noprint`).appendTo(this.$body);
+
 			this.$dataContainer = $('<div>').addClass(CLASS_NAME_CONTAINER_DATA).appendTo(this.$container);
 			this.$markCounter = $('<div>')
 				.addClass(CLASS_NAME_CONTAINER_DATA_MARK_COUNTER)
@@ -109,58 +109,68 @@ const catALot = (): void => {
 			this.$resultList = $('<div>')
 				.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST)
 				.appendTo(this.$dataContainer);
+
 			this.$searchInputContainer = $('<div>').appendTo(this.$dataContainer);
-			this.$searchInput = $('<input>')
+			this.$searchInput = $<HTMLInputElement>('<input>')
 				.addClass(CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT)
 				.attr({
 					placeholder: CAL.msg('enter-name'),
 					type: 'text',
 				})
 				.appendTo(this.$searchInputContainer);
+
 			this.$selections = $('<div>')
 				.addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS)
 				.text(CAL.msg('select'))
 				.appendTo(this.$dataContainer);
-			this.$selectAll = $('<a>').text(CAL.msg('all')).appendTo(this.$selections.append(' '));
-			this.$selectNone = $('<a>').text(CAL.msg('none')).appendTo(this.$selections.append(' • '));
+			this.$selectAll = $<HTMLAnchorElement>('<a>').text(CAL.msg('all')).appendTo(this.$selections.append(' '));
+			this.$selectNone = $<HTMLAnchorElement>('<a>')
+				.text(CAL.msg('none'))
+				.appendTo(this.$selections.append(' • '));
+
 			this.$head = $('<div>').appendTo(this.$container);
-			this.$link = $('<a>').text('Cat-a-lot').appendTo(this.$head);
+			this.$link = $<HTMLAnchorElement>('<a>').text('Cat-a-lot').appendTo(this.$head);
+			// End of UI elements
+
+			const regexCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category')}:`, '');
 
 			this.$searchInput
-				.on('keypress', ({currentTarget, keyCode, which}): void => {
-					if ((keyCode || which) === 13) {
-						this.updateCats(String($(currentTarget).val()).trim());
+				.on('keypress', (event: JQuery.KeyPressEvent<HTMLInputElement>): void => {
+					if (event.which === 13) {
+						this.updateCats($(event.currentTarget).val().trim());
 					}
 				})
-				.on('input keyup', ({currentTarget}): void => {
-					const oldVal: string = (currentTarget as HTMLInputElement).value;
-					const newVal: string = oldVal.replace(reCat, '');
-					if (newVal !== oldVal) {
-						(currentTarget as HTMLInputElement).value = newVal;
+				.on(
+					'input keyup',
+					(event: JQuery.TriggeredEvent<HTMLInputElement> | JQuery.KeyUpEvent<HTMLInputElement>): void => {
+						const oldVal: string = event.currentTarget.value;
+						const newVal: string = oldVal.replace(regexCat, '');
+						if (newVal !== oldVal) {
+							event.currentTarget.value = newVal;
+						}
 					}
-				});
-			if (CAL.isSearchMode) {
-				this.$searchInput.val(mw.util.getParamValue('search') ?? '');
-			}
+				);
+
 			const initAutocomplete = (): void => {
 				if (CAL.enableAutoComplete) {
 					return;
 				}
 				CAL.enableAutoComplete = true;
+
 				this.$searchInput.autocomplete({
 					source: (request: {term: unknown}, response: (arg: JQuery<string>) => void) => {
 						this.doAPICall(
 							{
 								action: 'opensearch',
-								search: request.term,
-								redirects: 'resolve',
 								namespace: CAL.ENABLE_NAMESPACE,
+								redirects: 'resolve',
+								search: request.term,
 							},
 							(result): void => {
 								if (result[1]) {
 									response(
 										$(result[1]).map((_index: number, item: string): string => {
-											return item.replace(reCat, '');
+											return item.replace(regexCat, '');
 										})
 									);
 								}
@@ -177,18 +187,24 @@ const catALot = (): void => {
 					appendTo: `.${CLASS_NAME_CONTAINER}`,
 				});
 			};
+			this.$link.on('click', ({currentTarget}): void => {
+				$(currentTarget).toggleClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED);
+				initAutocomplete();
+				this.run();
+			});
+
 			this.$selectAll.on('click', (): void => {
 				this.toggleAll(true);
 			});
 			this.$selectNone.on('click', (): void => {
 				this.toggleAll(false);
 			});
-			this.$link.on('click', ({currentTarget}): void => {
-				$(currentTarget).toggleClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED);
-				initAutocomplete();
-				this.run();
-			});
+
+			if (CAL.isSearchMode) {
+				this.$searchInput.val(mw.util.getParamValue('search') ?? '');
+			}
 		}
+
 		static msg(key: string, ...args: string[]): string {
 			key = `cat-a-lot-${key}`;
 			// Messages that can be used here:
@@ -196,6 +212,7 @@ const catALot = (): void => {
 			// * for more information
 			return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 		}
+
 		findAllLabels(): void {
 			// It's possible to allow any kind of pages as well but what happens if you click on "select all" and don't expect it
 			if (CAL.isSearchMode) {
@@ -553,9 +570,9 @@ const catALot = (): void => {
 		showProgress(): void {
 			CAL.$progressDialog = $('<div>')
 				.html(
-					` ${CAL.msg('editing')}<span id="${CLASS_NAME_CURRENT}">${CAL.counterCurrent}</span>${CAL.msg(
-						'of'
-					)}${CAL.counterNeeded}`
+					` ${CAL.msg('editing')}<span class="${CLASS_NAME_CURRENT_COUNTER}">${
+						CAL.counterCurrent
+					}</span>${CAL.msg('of')}${CAL.counterNeeded}`
 				)
 				.dialog({
 					width: 450,
@@ -573,7 +590,7 @@ const catALot = (): void => {
 			});
 			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-titlebar`).hide();
 			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-content`).height('auto');
-			CAL.$counter = this.$body.find(`.${CLASS_NAME_CURRENT}`);
+			CAL.$counter = this.$body.find(`.${CLASS_NAME_CURRENT_COUNTER}`);
 		}
 		doSomething(targetcat: string, mode: 'add' | 'copy' | 'move' | 'remove'): void {
 			const files: [string, JQuery][] = this.getMarkedLabels();
