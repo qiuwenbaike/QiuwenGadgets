@@ -12,7 +12,7 @@ import type {
 	ApiQueryUsersParams as _ApiQueryUsersParams,
 	ApiUploadParams as _ApiUploadParams,
 	UrlShortenerApiShortenUrlParams as _UrlShortenerApiShortenUrlParams,
-} from 'types-mediawiki/api_params';
+} from 'types-mediawiki-renovate/api_params';
 
 import type {SettingGlobal as CatALotSetting} from './Cat-a-lot/modules/types'; // Cat-a-lot
 
