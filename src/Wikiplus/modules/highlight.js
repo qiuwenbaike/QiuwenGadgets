@@ -1047,8 +1047,6 @@
 		}
 	);
 
-	mw.loader.load(`${CDN}/${REPO_CDN}/styles.min.css`, 'text/css');
-
 	Object.assign(mw.libs.wphl, {
 		version,
 		options,
