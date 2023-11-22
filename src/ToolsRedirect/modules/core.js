@@ -167,7 +167,7 @@ export const ToolsRedirect = {
 		$('p.desc', this.tabs.view.cont).text(ToolsRedirect.msg('fixloading'));
 		$('p[class!=desc]', this.tabs.view.cont).remove();
 		this.loading(this.tabs.view.cont);
-		this.bulkEditByRegex(pagenames, / \[\[.*?\]\]/, ` [[${origPageName}]]`, ToolsRedirect.msg('fixsummary')).done(
+		this.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${origPageName}]]`, ToolsRedirect.msg('fixsummary')).done(
 			() => {
 				// delay load before the asynchronous tasks on server finished
 				setTimeout(() => {
