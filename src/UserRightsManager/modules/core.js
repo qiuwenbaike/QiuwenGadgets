@@ -372,9 +372,7 @@ export const initDialog = () => {
 		e.preventDefault();
 		const $element = $(this);
 		userName = mw.util.getParamValue('user', $element.attr('href'));
-		const sectionId = $($($($element).parents('dl')[0]).prev('h4'))
-			.find('.mw-headline')[0]
-			.getAttribute('id');
+		const sectionId = $(this).parents('dl').prev('h4').find('.mw-headline').attr('id');
 		index = sectionId === userName ? '' : sectionId.replace(userName, '');
 		showDialog();
 	});
