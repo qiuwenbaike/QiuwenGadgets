@@ -212,7 +212,7 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	const oldTitle: string = document.title;
 	const oldPageTitle: string = $firstHeading.text();
 	const newTitle: string = oldTitle.replace(oldPageTitle, fullPageName);
-	const newPageTitle: string = oldPageTitle.replace(oldPageTitle, newTitle);
+	const newPageTitle: string = oldPageTitle.replace(oldPageTitle, fullPageName);
 	document.title = newTitle;
 	$firstHeading.text(newPageTitle);
 };
