@@ -207,12 +207,13 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	if (URL_DIFF || WG_ACTION !== 'view' || ![2, 3, 6, 118].includes(WG_NAMESPACE_NUMBER)) {
 		return;
 	}
+	const fullPageName: string = new mw.Title(WG_PAGE_NAME).getPrefixedText();
 	const oldTitle: string = document.title;
 	const oldPageTitle: string = $body.find('.firstHeading').text();
-	const fullPageName: string = new mw.Title(WG_PAGE_NAME).getPrefixedText();
-	const newPageTitle: string = oldTitle.replace(oldPageTitle, fullPageName);
-	document.title = newPageTitle;
-	$body.find('.firstHeading').text(oldPageTitle.replace(oldPageTitle, newPageTitle));
+	const newTitle: string = oldTitle.replace(oldPageTitle, fullPageName);
+	const newPageTitle: string = oldPageTitle.replace(oldPageTitle, newTitle);
+	document.title = newTitle;
+	$body.find('.firstHeading').text(newPageTitle);
 };
 
 const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
