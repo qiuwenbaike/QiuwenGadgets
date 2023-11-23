@@ -11,15 +11,18 @@ const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 		framed: false,
 		icon: 'copy',
 	});
+	const $copyButton = copyButton.$element;
+
+	$copyButton.attr('aria-label', getMessage('Copy'));
 
 	// The following classes are used here:
 	// * see ./constant.ts
 	// * for more information
-	$pres.addClass(CLASS_NAME).append(copyButton.$element);
+	$pres.addClass(CLASS_NAME).append($copyButton);
 
-	tippy(copyButton.$element.get(0) as HTMLSpanElement, {
+	tippy($copyButton.get(0) as HTMLSpanElement, {
 		arrow: true,
-		content: getMessage('Copy'),
+		content: $copyButton.attr('aria-label') as string,
 		placement: 'bottom',
 	});
 
