@@ -1,14 +1,14 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
-import {geoCountryName, geoRegionName} from './name';
+import {geoCountryOrAreaName, geoRegionName} from './name';
 import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
-const countryList = geoCountryName;
+const countryOrAreaList = geoCountryOrAreaName;
 const regionList = geoRegionName;
-const _countryList: Record<string, string> = countryList();
+const _countryOrAreaList: Record<string, string> = countryOrAreaList();
 const _regionList: Record<string, string> = regionList();
-const getCountryName = (key: string) => {
-	return _countryList[key] || key;
+const getCountryOrAreaName = (key: string) => {
+	return _countryOrAreaList[key] || key;
 };
 const getRegionName = (key: string) => {
 	return _regionList[key] || key;
@@ -80,9 +80,11 @@ export const getLocation = (): void => {
 		api.get(propRevisionsParams)
 			.then((data): void => {
 				const response: GeoInfo = JSON.parse(data['query'].pages[0].revisions[0].slots.main.content);
-				const countryText: string = getCountryName(response.country) ?? getMessage('Unknown');
-				const regionText: string = response.country === 'CN' ? getRegionName(response.region) ?? '' : '';
-				const indicatorText = `${countryText}${regionText}`;
+				const countryOrAreaText: string =
+					getCountryOrAreaName(response.country ?? response.countryOrArea) ?? getMessage('Unknown');
+				const regionText: string =
+					(response.country ?? response.countryOrArea) === 'CN' ? getRegionName(response.region) ?? '' : '';
+				const indicatorText = `${countryOrAreaText}${regionText}`;
 				const spanClass = 'green';
 				appendIcon(indicatorText, spanClass, 'globe');
 			})

@@ -4,12 +4,12 @@ import {initMwApi} from '../util';
 
 (async function geoLocation(): Promise<void> {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (GeoLocation/2.0; ${mw.config.get('wgWikiID')})`);
-	const {country, region} = await window.geo();
+	const {country, countryOrArea, region} = await window.geo();
 	const wgUserGroups: string[] = mw.config.get('wgUserGroups') ?? ['*'];
 	const wgUserName: string | null = mw.config.get('wgUserName');
 
 	const storeLocation = async (): Promise<void> => {
-		if (!country || !wgUserName) {
+		if (!(country ?? countryOrArea) || !wgUserName) {
 			return;
 		}
 		if (IGNORE_LIST.includes(wgUserName) || WEBMASTER_LIST.includes(wgUserName)) {
@@ -36,8 +36,9 @@ import {initMwApi} from '../util';
 				return JSON.parse(data['query'].pages[0].revisions[0].slots.main.content);
 			});
 			if (
-				response.country === country &&
-				(response.region === region || (response.region !== '' && region === ''))
+				(response.country ?? response.countryOrArea) === (country ?? countryOrArea) &&
+				(response.region === region || (response.region !== '' && region === '')) &&
+				!response.country
 			) {
 				return;
 			}
@@ -50,7 +51,7 @@ import {initMwApi} from '../util';
 				contentformat: 'application/json',
 				contentmodel: 'json',
 				title: `User:${wgUserName}/GeoIP.json`,
-				text: `{"country":"${country}","region":"${region}"}`,
+				text: `{"countryOrArea":"${country ?? countryOrArea}","region":"${region}"}`,
 				summary: getMessage('Update'),
 				minor: true,
 				recreate: true,

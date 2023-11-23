@@ -1,11 +1,13 @@
 import {STORAGE_ITEM_NAME} from './modules/constant';
 
 const defaultGeoInfo: {
-	country: string;
+	country?: string;
+	countryOrArea: string;
 	region: string;
 	city: string;
 } = {
 	country: '',
+	countryOrArea: '',
 	region: '',
 	city: '',
 };
@@ -33,14 +35,15 @@ const parseStorageValue = (storageValue: string): GeoInfo => {
 	if (!matches) {
 		return defaultGeoInfo;
 	}
-	// There was no info found if there's no country field, or if it's
-	// empty
+	// There was no info found if there's no country field or
+	// countryOrArea, or if it's empty
 	if (typeof matches[1] !== 'string' || !matches[1].length) {
 		return defaultGeoInfo;
 	}
 	// Return a juicy Geo object
 	return {
 		country: matches[1],
+		countryOrArea: matches[1],
 		region: matches[2] ?? '',
 		city: matches[3] ?? '',
 	};
@@ -52,7 +55,7 @@ const parseStorageValue = (storageValue: string): GeoInfo => {
 const storeGeoInStorage = async (): Promise<GeoInfo> => {
 	try {
 		const data: GeoInfo = await $.getJSON('/rest.php/geo');
-		const parts: string[] = [data.country, data.region, data.city];
+		const parts: string[] = [data.country ?? data.countryOrArea, data.region, data.city];
 		const storageValue: string = parts.join('-');
 		mw.storage.set(STORAGE_ITEM_NAME, storageValue, 3600); // 1 hour
 		// Return Geo object
