@@ -1604,7 +1604,6 @@ MediaWiki:Gadget-Wikicache/zh-sg
 MediaWiki:Gadget-Wikicache/zh-tw
 MediaWiki:Gadget-Wikiplus
 MediaWiki:Gadget-Wikiplus-highlight
-MediaWiki:Gadget-Wikiplus-highlight.css
 MediaWiki:Gadget-Wikiplus-highlight.js
 MediaWiki:Gadget-Wikiplus-highlight/zh
 MediaWiki:Gadget-Wikiplus-highlight/zh-cn
@@ -1615,17 +1614,7 @@ MediaWiki:Gadget-Wikiplus-highlight/zh-mo
 MediaWiki:Gadget-Wikiplus-highlight/zh-my
 MediaWiki:Gadget-Wikiplus-highlight/zh-sg
 MediaWiki:Gadget-Wikiplus-highlight/zh-tw
-MediaWiki:Gadget-Wikiplus-pagestyles
-MediaWiki:Gadget-Wikiplus-pagestyles.css
-MediaWiki:Gadget-Wikiplus-pagestyles/zh
-MediaWiki:Gadget-Wikiplus-pagestyles/zh-cn
-MediaWiki:Gadget-Wikiplus-pagestyles/zh-hans
-MediaWiki:Gadget-Wikiplus-pagestyles/zh-hant
-MediaWiki:Gadget-Wikiplus-pagestyles/zh-hk
-MediaWiki:Gadget-Wikiplus-pagestyles/zh-mo
-MediaWiki:Gadget-Wikiplus-pagestyles/zh-my
-MediaWiki:Gadget-Wikiplus-pagestyles/zh-sg
-MediaWiki:Gadget-Wikiplus-pagestyles/zh-tw
+MediaWiki:Gadget-Wikiplus.css
 MediaWiki:Gadget-Wikiplus.js
 MediaWiki:Gadget-Wikiplus/zh
 MediaWiki:Gadget-Wikiplus/zh-cn
