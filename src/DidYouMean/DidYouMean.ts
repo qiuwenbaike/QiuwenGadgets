@@ -1,22 +1,26 @@
-import {SELECTOR} from './modules/constant';
+import * as OPTIONS from './options.json';
 import {getMessage} from './modules/i18n';
 
 $(function DidYouMean(): void {
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
-	if (!$body.find(SELECTOR).length) {
+	const $element: JQuery = $body.find(OPTIONS.targetSelector);
+	if (!$element.length) {
 		return;
 	}
 
-	const linkHref: string = $body.find(SELECTOR).attr('href') ?? '';
+	const linkHref: string = $element.attr('href') ?? '';
 	if (!linkHref) {
 		return;
 	}
 
-	location.href = linkHref;
+	toastify(
+		{
+			text: getMessage('Redirecting'),
+			duration: -1,
+		},
+		'info'
+	);
 
-	mw.notify(getMessage('Redirecting'), {
-		tag: 'DidYouMean',
-		type: 'warn',
-	});
+	location.href = linkHref;
 });
