@@ -29,7 +29,7 @@ $dismiss.on('click', (event: JQuery.ClickEvent): void => {
 		},
 	});
 });
-tippy($dismiss.get(0) as HTMLElement, {
+tippy($dismiss.get(0) as HTMLAnchorElement, {
 	arrow: true,
 	content: $dismiss.attr('aria-label') as string,
 	placement: 'bottom',

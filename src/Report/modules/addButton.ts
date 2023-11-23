@@ -11,7 +11,7 @@ const addButton = (): void => {
 	const reportButton =
 		"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E";
 
-	const $reportButton: JQuery = $('<a>')
+	const $reportButton: JQuery<HTMLAnchorElement> = $<HTMLAnchorElement>('<a>')
 		// The following classes are used here:
 		// * see ./constant.ts
 		// * for more information
@@ -33,12 +33,12 @@ const addButton = (): void => {
 		);
 
 	$reportButton
-		.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
+		.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLAnchorElement>): void => {
 			changeOpacityWhenMouseEnterOrLeave(event);
 		})
 		.appendTo($('body'));
 
-	tippy($reportButton.get(0) as HTMLElement, {
+	tippy($reportButton.get(0) as HTMLAnchorElement, {
 		arrow: true,
 		content: $reportButton.attr('aria-label') as string,
 		placement: 'left',
