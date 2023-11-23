@@ -209,12 +209,13 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 	const fullPageName: string = new mw.Title(WG_PAGE_NAME).getPrefixedText();
 	const $firstHeading: JQuery = $body.find('.firstHeading');
-	const oldTitle: string = document.title;
-	const oldPageTitle: string = $firstHeading.text();
-	const newTitle: string = oldTitle.replace(oldPageTitle, fullPageName);
-	const newPageTitle: string = oldPageTitle.replace(oldPageTitle, fullPageName);
-	document.title = newTitle;
-	$firstHeading.text(newPageTitle);
+	const documentTitle: string = document.title;
+	const pageTitle: string = $firstHeading.text();
+	const replaceTitle = (title: string): string => {
+		return title.replace(pageTitle, fullPageName);
+	};
+	document.title = replaceTitle(documentTitle);
+	$firstHeading.text(replaceTitle(pageTitle));
 };
 
 const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
