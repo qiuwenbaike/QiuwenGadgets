@@ -7,7 +7,7 @@ const URL_WITH_CSS: string | null = mw.util.getParamValue('withCSS');
 const URL_WITH_JS: string | null = mw.util.getParamValue('withJS');
 const URL_WITH_MODULE: string | null = mw.util.getParamValue('withModule');
 
-const WG_ACTION: string = mw.config.get('wgAction');
+const WG_ACTION: MediaWikiConfigMapWgAction = mw.config.get('wgAction');
 const WG_CANONICAL_SPECIAL_PAGE_NAME: string | false = mw.config.get('wgCanonicalSpecialPageName');
 const WG_NAMESPACE_NUMBER: number = mw.config.get('wgNamespaceNumber');
 const WG_PAGE_NAME: string = mw.config.get('wgPageName');
