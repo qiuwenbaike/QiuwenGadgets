@@ -1,4 +1,4 @@
-import {CLASS_NAME_CONSENT_NOTICE, STORAGE_KEY} from './constant';
+import {CLASS_NAME, STORAGE_KEY} from './constant';
 import {getMessage} from './i18n';
 
 const insertElement = (): void => {
@@ -10,7 +10,7 @@ const insertElement = (): void => {
 		// The following classes are used here:
 		// * see ./constant.ts
 		// * for more information
-		.addClass(`${CLASS_NAME_CONSENT_NOTICE} noprint`)
+		.addClass(`${CLASS_NAME} noprint`)
 		.append($('<p>').html(getMessage('TOSNotice')), $('<p>').html(getMessage('CookieNotice')), $agreeButton);
 	$agreeButton.on('click', (): void => {
 		mw.storage.set(STORAGE_KEY, '1', 60 * 60 * 1000 * 24 * 30);
