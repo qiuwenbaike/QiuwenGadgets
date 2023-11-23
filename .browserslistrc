@@ -6,7 +6,4 @@ Firefox >= 58
 Safari >= 11.1
 iOS >= 11
 Android >= 5.0
-> 0.2%
 defaults
-not <= 0.05%
-not dead
