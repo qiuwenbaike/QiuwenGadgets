@@ -809,7 +809,7 @@ const catALot = (): void => {
 		}
 
 		run(): void {
-			if (this.$body.find(`.${CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED}`).length) {
+			if (this.$link.hasClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED)) {
 				this.makeClickable();
 				this.$dataContainer.show();
 				this.$container.resizable({
@@ -837,6 +837,7 @@ const catALot = (): void => {
 			} else {
 				this.$dataContainer.hide();
 				this.$container.resizable('destroy');
+				this.$container.css('width', '');
 				CAL.$labels.off('click.catALot');
 			}
 		}
