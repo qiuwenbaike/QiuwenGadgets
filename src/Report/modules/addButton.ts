@@ -1,4 +1,4 @@
-import {CLASS_REPORT_BUTTON, URL} from './constant';
+import {CLASS_NAME_BUTTON, URL} from './constant';
 import {changeOpacityWhenMouseEnterOrLeave} from '../../util';
 import {getMessage} from './i18n';
 
@@ -15,7 +15,7 @@ const addButton = (): void => {
 		// The following classes are used here:
 		// * see ./constant.ts
 		// * for more information
-		.addClass(`${CLASS_REPORT_BUTTON} noprint`)
+		.addClass(`${CLASS_NAME_BUTTON} noprint`)
 		.attr({
 			href: URL,
 			rel: 'noopener noreferrer',

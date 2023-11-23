@@ -30,7 +30,7 @@
  * - data-expandtext 和 data-collapsetext 可用于控制折叠按钮的显示文字。不支持
  *   繁简转换，但是其默认值是可以正常根据界面语言繁简转换的。
  */
-import {CLASS_TOGGLER} from './constant';
+import {CLASS_NAME_TOGGLER} from './constant';
 import {addToggler} from './addToggler';
 import {getMessage} from './i18n';
 import {hideElement} from './util/hideElement';
@@ -80,7 +80,7 @@ const collapsible = ($content: JQuery): void => {
 		// The following classes are used here:
 		// * see ./constant.ts
 		// * for more information
-		const $toggle: JQuery = $('<span>').addClass(`${CLASS_TOGGLER} noprint`).append('[', $toggleLink, ']');
+		const $toggle: JQuery = $('<span>').addClass(`${CLASS_NAME_TOGGLER} noprint`).append('[', $toggleLink, ']');
 		addToggler($collapsible, $toggle);
 
 		// 初始化隐藏所有元素，该过程没有动画。

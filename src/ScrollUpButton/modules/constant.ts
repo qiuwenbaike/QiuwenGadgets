@@ -1,5 +1,5 @@
-const CLASS_BUTTON = 'gadget-scroll_up_button';
-const CLASS_BUTTON_DOWN = `${CLASS_BUTTON}--down`;
-const CLASS_BUTTON_UP = `${CLASS_BUTTON}--up`;
+const CLASS_NAME = 'gadget-scroll_up_button';
+const CLASS_NAME_DOWN = `${CLASS_NAME}-down`;
+const CLASS_NAME_UP = `${CLASS_NAME}-up`;
 
-export {CLASS_BUTTON, CLASS_BUTTON_DOWN, CLASS_BUTTON_UP};
+export {CLASS_NAME, CLASS_NAME_DOWN, CLASS_NAME_UP};
