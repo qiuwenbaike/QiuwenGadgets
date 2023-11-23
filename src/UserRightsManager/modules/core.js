@@ -370,9 +370,9 @@ export const initDialog = () => {
 			return true;
 		}
 		e.preventDefault();
-		const $element = $(this);
-		userName = mw.util.getParamValue('user', $element.attr('href'));
-		const sectionId = $(this).parents('dl').prev('h4').find('.mw-headline').attr('id');
+		const $this = $(this);
+		userName = mw.util.getParamValue('user', $this.attr('href'));
+		const sectionId = $this.parents('dl').prev('h4').find('.mw-headline').attr('id');
 		index = sectionId === userName ? '' : sectionId.replace(userName, '');
 		showDialog();
 	});
