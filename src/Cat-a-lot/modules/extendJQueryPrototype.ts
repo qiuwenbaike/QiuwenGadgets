@@ -25,7 +25,7 @@ const extendJQueryPrototype = (): void => {
 
 			$thisControl.addClass(CLASS_NAME_LABEL_LAST_SELECTED).toggleClass(CLASS_NAME_LABEL_SELECTED);
 
-			// And one has been clicked before……
+			// And one has been clicked before...
 			if (prevCheckbox && event.shiftKey) {
 				const method: 'addClass' | 'removeClass' = $thisControl.hasClass(CLASS_NAME_LABEL_SELECTED)
 					? 'addClass'

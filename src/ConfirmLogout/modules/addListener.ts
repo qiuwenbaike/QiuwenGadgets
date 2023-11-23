@@ -1,10 +1,16 @@
+import * as OPTIONS from '../options.json';
 import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 import {logout} from './logout';
 import {oouiConfirmWithStyle} from '../../util';
 import {refreshEventListener} from './util/refreshEventListener';
 
-const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
+const addListener = ($body: JQuery<HTMLBodyElement>): void => {
+	const $element: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>(OPTIONS.logoutElementSelector);
+	if (!$element.length) {
+		return;
+	}
+
 	const clickListener = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 		event.preventDefault();
 
@@ -30,11 +36,11 @@ const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 	}
 
 	const observerCallback = (_mutations: MutationRecord[], observer: MutationObserver): void => {
-		if (!$(document.body).hasClass('vector-sticky-header-visible')) {
+		if (!$body.hasClass('vector-sticky-header-visible')) {
 			return;
 		}
 
-		const SELECTOR = '#pt-logout-sticky-header>a';
+		const SELECTOR: string = OPTIONS.logoutElementSelectorOfVector2022StickyHeader;
 		const element: HTMLAnchorElement | null = document.querySelector(SELECTOR);
 		if (!element) {
 			return;
@@ -43,11 +49,11 @@ const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 		const elementClone: Node = element.cloneNode(true);
 		element.replaceWith(elementClone);
 
-		refreshEventListener($(SELECTOR), clickListener);
+		refreshEventListener($body.find<HTMLAnchorElement>(SELECTOR), clickListener);
 		observer.disconnect();
 	};
 	const mutationObserver: MutationObserver = new MutationObserver(observerCallback);
-	mutationObserver.observe(document.querySelector('body') ?? document.documentElement, {
+	mutationObserver.observe($body.get(0) ?? document.documentElement, {
 		attributes: true,
 		attributeFilter: ['class'],
 	});

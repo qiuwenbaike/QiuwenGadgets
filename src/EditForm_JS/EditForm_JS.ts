@@ -15,7 +15,7 @@ import {forcePreview} from './modules/forcePreview';
  *
  * 因此，若代码与可视化编辑器、2017 wikitext编辑器相关，需要在进入编辑器时运行，请集中放在后面的
  *  mw.hook('ve.activationComplete').add((): void => {
- *  ……
+ *  ...
  *  });
  * 中。
  */
