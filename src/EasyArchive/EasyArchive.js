@@ -390,33 +390,31 @@ import {easy_archive_lang} from './modules/i18n';
 		report_doneness_ui(_nominal, 'archive', to, 'ongoing').section_link();
 		archive_section_core(section_number, _nominal);
 	};
-	window.easy_archive.elaborate_notice = (notice_tag_acronym) => {
+	window.easy_archive.elaborate_notice = (notice_tag_name) => {
 		// acronym scheme: refer to qwerty keyboard layout. (p=9)
 		const notice_tag_dictionary = {
-			933: ['please_enable_elaborate'],
-			953: ['others_talk_elaborate'],
-			3959: ['enable_on_generic_page'],
-			9219: [
+			please_enable_elaborate: ['please_enable_elaborate'],
+			others_talk_elaborate: ['others_talk_elaborate'],
+			enable_on_generic_page: ['enable_on_generic_page'],
+			problem_with_archive_location_main_space: [
 				'problem_with_archive_location_main_space',
 				'warning',
 				'long',
 				false,
 				[sanitize_html(window.easy_archive.settings.find('arc-loc'))],
 			],
-			9220: [
+			problem_with_archive_location_same_page: [
 				'problem_with_archive_location_same_page',
 				'warning',
 				'long',
 				false,
 				[sanitize_html(window.easy_archive.settings.find('arc-loc'))],
 			],
-			9623: ['page_not_supported_elaborate'],
+			page_not_supported_elaborate: ['page_not_supported_elaborate'],
 		};
-		const notice_set = notice_tag_dictionary[notice_tag_acronym] ?? false;
+		const notice_set = notice_tag_dictionary[notice_tag_name] || false;
 		if (notice_set !== false) {
-			const [ntag] = notice_set;
-			const [, ntype] = notice_set;
-			const [, , nsubst] = notice_set;
+			const [ntag, ntype, nsubst] = notice_set;
 			window.DingExposedInterface(message(ntag, nsubst), ntype, 'long');
 		}
 	};
@@ -464,17 +462,17 @@ import {easy_archive_lang} from './modules/i18n';
 		// insert not supported notice if the page name indicates that it is not supported.
 		footer_info_ele.insertAdjacentHTML(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice(9623)">${message(
+			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('page_not_supported_elaborate')">${message(
 				'page_not_supported'
 			)}</a></div>`
 		);
 	} else if (mw.config.get('wgPageName') === window.easy_archive.settings.find('arc-loc')) {
-		window.easy_archive.elaborate_notice(9220);
+		window.easy_archive.elaborate_notice('problem_with_archive_location_same_page');
 	} else if (window.easy_archive.has_template && !window.easy_archive.others_user_talk) {
 		// any page that has template that's not others' talk page. function normally.
 		// !! the archive location in main space and needs attention !!
 		if (/.+:.+/.test(window.easy_archive.settings.find('arc-loc')) !== true) {
-			window.easy_archive.elaborate_notice(9219);
+			window.easy_archive.elaborate_notice('problem_with_archive_location_main_space');
 		}
 		const normal_function_inject_interface = () => {
 			const editSectionCollection = document.querySelectorAll('.mw-editsection');
@@ -528,7 +526,7 @@ import {easy_archive_lang} from './modules/i18n';
 		// others user talk.
 		footer_info_ele.insertAdjacentHTML(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice(953)'>${message(
+			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice('others_talk_elaborate')'>${message(
 				'others_page'
 			)}</a></div>`
 		);
@@ -536,7 +534,7 @@ import {easy_archive_lang} from './modules/i18n';
 		// a generic page that did not enable easy archive.
 		footer_info_ele.insertAdjacentHTML(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice(3959)'>${message(
+			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice('enable_on_generic_page')'>${message(
 				'to_enable'
 			)}</a></div>`
 		);
@@ -545,7 +543,7 @@ import {easy_archive_lang} from './modules/i18n';
 		// my user talk -- installed easy archive but lacking template.
 		footer_info_ele.insertAdjacentHTML(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice(933)'>${message(
+			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice('please_enable_elaborate')'>${message(
 				'please_enable'
 			)}</a></div>`
 		);
