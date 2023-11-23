@@ -69,7 +69,7 @@ const collapsible = ($content: JQuery): void => {
 		const showText: string = $collapsible.data('expandtext') ?? getMessage('Expand');
 		const hideText: string = $collapsible.data('collapsetext') ?? getMessage('Collapse');
 
-		const $toggleLink: JQuery = $('<a>').addClass('jsLink').attr('role', 'button').attr('tabindex', '0');
+		const $toggleLink: JQuery = $('<a>').attr('role', 'button').attr('tabindex', '0');
 		// Set the text back to hide if it's not collapsed to begin with
 		if ($collapsible.hasClass('collapsed')) {
 			$toggleLink.text(showText);

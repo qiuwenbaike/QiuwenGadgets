@@ -1,4 +1,4 @@
-const CLASS_NAME_CONSENT_NOTICE = 'gadget-cookie_warning__consent-notice';
+const CLASS_NAME = 'gadget-cookie_warning';
 
 const STORAGE_KEY = 'ext.gadget.CookieWarning_cookieConsent';
 
@@ -8,4 +8,4 @@ const URL_CONSENT_READ: string | null = mw.util.getParamValue('consentRead');
 
 const WG_USER_NAME: string | null = mw.config.get('wgUserName');
 
-export {CLASS_NAME_CONSENT_NOTICE, LAST_STORAGE_VALUE, STORAGE_KEY, URL_CONSENT_READ, WG_USER_NAME};
+export {CLASS_NAME, LAST_STORAGE_VALUE, STORAGE_KEY, URL_CONSENT_READ, WG_USER_NAME};
