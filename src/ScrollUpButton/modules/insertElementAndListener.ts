@@ -4,12 +4,12 @@ import {changeOpacityWhenMouseEnterOrLeave} from '../../util';
 const insertElementandListener = (): void => {
 	for (const $element of [$scrollDownButton, $scrollUpButton]) {
 		$element
-			.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
+			.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLImageElement>): void => {
 				changeOpacityWhenMouseEnterOrLeave(event);
 			})
 			.appendTo($('body'));
 
-		tippy($element.get(0) as HTMLElement, {
+		tippy($element.get(0) as HTMLImageElement, {
 			arrow: true,
 			content: $element.attr('alt') as string,
 			placement: 'left',
