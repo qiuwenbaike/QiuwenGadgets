@@ -53,7 +53,8 @@ declare global {
 	type UrlShortenerApiShortenUrlParams = _UrlShortenerApiShortenUrlParams;
 
 	type GeoInfo = {
-		country: string;
+		country?: string;
+		countryOrArea: string;
 		region: string;
 		city: string;
 	};
@@ -77,7 +78,7 @@ declare global {
 		readonly DiffLink?: unknown[]; // DiffLink
 		readonly UTCLiveClockTimeZone?: unknown; // UTCLiveClock
 		geo(): Promise<GeoInfo>; // Geo
-		geoCountryName(): Record<string, string>; // GeoLocationName
+		geoCountryOrAreaName(): Record<string, string>; // GeoLocationName
 		geoRegionName(): Record<string, string>; // GeoLocationName
 		wgUCS(
 			hans?: string,

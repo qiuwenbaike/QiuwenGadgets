@@ -1,4 +1,4 @@
-const getCountryName = (): Record<string, string> => {
+const getCountryOrAreaName = (): Record<string, string> => {
 	if (['zh-hant', 'zh-hk', 'zh-mo'].includes(mw.config.get('wgUserLanguage'))) {
 		return {
 			AF: '阿富汗',
@@ -1080,12 +1080,12 @@ const getRegionName = (): Record<string, string> => {
 	};
 };
 
-const geoCountryName = (): Record<string, string> => {
-	return getCountryName();
+const geoCountryOrAreaName = (): Record<string, string> => {
+	return getCountryOrAreaName();
 };
 
 const geoRegionName = (): Record<string, string> => {
 	return getRegionName();
 };
 
-export {geoCountryName, geoRegionName};
+export {geoCountryOrAreaName, geoRegionName};
