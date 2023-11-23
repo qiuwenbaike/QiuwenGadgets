@@ -1,13 +1,9 @@
-import {defaultSummariesLoad} from './modules/core';
+import {WG_ACTION} from './modules/constant';
+import {addHook} from './modules/addHook';
+import {addVisualEditorPlugin} from './modules/addVisualEditorPlugin';
 
-if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
-	$(defaultSummariesLoad);
+if (['edit', 'submit'].includes(WG_ACTION)) {
+	addHook();
 } else {
-	mw.loader.using('ext.visualEditor.desktopArticleTarget.init').then((): void => {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		/* @ts-ignore */
-		mw.libs.ve.addPlugin((): void => {
-			$(defaultSummariesLoad);
-		});
-	});
+	addVisualEditorPlugin();
 }

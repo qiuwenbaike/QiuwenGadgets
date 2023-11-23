@@ -6,7 +6,7 @@ const CLASS_NAME_TITLE = `${CLASS_NAME}__title`;
 
 const STORAGE_KEY = 'ext.gadget.AdvancedSiteNotices_dismissASN';
 
-const WG_ACTION: string = mw.config.get('wgAction');
+const WG_ACTION: MediaWikiConfigMapWgAction = mw.config.get('wgAction');
 const WG_USER_GROUPS: string[] | null = mw.config.get('wgUserGroups');
 const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
 const WG_WIKI_ID: string = mw.config.get('wgWikiID');
