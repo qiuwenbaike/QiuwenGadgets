@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-IsCompatible\"></span> 警告IE浏览器用户升级",
+	"section": "compatibility",
+	"default": true,
+	"hidden": true,
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify"]
+}
