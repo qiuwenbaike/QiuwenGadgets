@@ -528,7 +528,7 @@ export const ToolsRedirect = {
 			'zh-hant': true,
 		};
 		for (const [, variant] of Object.entries(this.variants)) {
-			let $xhr = $.ajax(
+			let xhr = $.ajax(
 				self.buildQuery({
 					action: 'parse',
 					page: pagename,
@@ -543,27 +543,26 @@ export const ToolsRedirect = {
 				return title;
 			});
 			if (isCategory) {
-				$xhr = $xhr.then((origTitle) => {
-					$.ajax(
+				xhr = xhr.then(async (origTitle) => {
+					const data = await $.ajax(
 						self.buildQuery({
 							action: 'parse',
 							text: pagename,
 							prop: 'text',
 							variant,
 						})
-					).then((data) => {
-						const tmpTitle = $(data.parse.text['*'])
-							.text()
-							.replace(/(^\s*|\s*$)/g, '');
-						// should not create redirect categories
-						// if the conversion is already in global table,
-						// or it will mess up a lot
-						redirectExcludes[tmpTitle] = true;
-						return origTitle;
-					});
+					);
+					const tmpTitle = $(data.parse.text['*'])
+						.text()
+						.replace(/(^\s*|\s*$)/g, '');
+					// should not create redirect categories
+					// if the conversion is already in global table,
+					// or it will mess up a lot
+					redirectExcludes[tmpTitle] = true;
+					return origTitle;
 				});
 			}
-			deferreds.push($xhr);
+			deferreds.push(xhr);
 		}
 		return $.when(...deferreds).then((...args) => {
 			const suffixes = [];
