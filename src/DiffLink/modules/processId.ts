@@ -8,7 +8,7 @@ const processId = (
 	{diffId, oldId, revisionId}: {diffId: number; oldId: number; revisionId: number}
 ): void => {
 	if (diffId) {
-		buildLink(oldId);
+		buildLink(oldId, diffId);
 		if (oldId) {
 			compareWithRemoteDiffId(diffId);
 		}
