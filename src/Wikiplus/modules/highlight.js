@@ -140,38 +140,38 @@
 				lib: 'ext.CodeMirror.lib',
 				css: 'ext.CodeMirror.lib.mode.css',
 				javascript: 'ext.CodeMirror.lib.mode.javascript',
-				lua: `${CM_CDN}/mode/lua/lua.min.js`,
+				lua: `${CM_CDN}/mode/lua/lua.js`,
 				mediawiki: EXPIRED ? DATA_MODULE : [],
 				htmlmixed: 'ext.CodeMirror.lib.mode.htmlmixed',
 				xml: [],
 		  }
 		: {
-				lib: `${CM_CDN}/lib/codemirror.min.js`,
-				css: `${CM_CDN}/mode/css/css.min.js`,
-				javascript: `${CM_CDN}/mode/javascript/javascript.min.js`,
-				lua: `${CM_CDN}/mode/lua/lua.min.js`,
+				lib: `${CM_CDN}/lib/codemirror.js`,
+				css: `${CM_CDN}/mode/css/css.js`,
+				javascript: `${CM_CDN}/mode/javascript/javascript.js`,
+				lua: `${CM_CDN}/mode/lua/lua.js`,
 				mediawiki: [],
-				htmlmixed: `${CM_CDN}/mode/htmlmixed/htmlmixed.min.js`,
-				xml: `${CM_CDN}/mode/xml/xml.min.js`,
+				htmlmixed: `${CM_CDN}/mode/htmlmixed/htmlmixed.js`,
+				xml: `${CM_CDN}/mode/xml/xml.js`,
 		  };
 
 	const ADDON_LIST = {
-		searchcursor: `${CM_CDN}/addon/search/searchcursor.min.js`,
-		search: `${REPO_CDN}/search.min.js`,
-		markSelection: `${CM_CDN}/addon/selection/mark-selection.min.js`,
-		activeLine: `${CM_CDN}/addon/selection/active-line.min.js`,
-		trailingspace: `${CM_CDN}/addon/edit/trailingspace.min.js`,
-		matchBrackets: `${CM_CDN}/addon/edit/matchbrackets.min.js`,
-		closeBrackets: `${CM_CDN}/addon/edit/closebrackets.min.js`,
-		matchTags: `${REPO_CDN}/matchtags.min.js`,
-		fold: `${REPO_CDN}/fold.min.js`,
+		searchcursor: `${CM_CDN}/addon/search/searchcursor.js`,
+		search: `${REPO_CDN}/search.js`,
+		markSelection: `${CM_CDN}/addon/selection/mark-selection.js`,
+		activeLine: `${CM_CDN}/addon/selection/active-line.js`,
+		trailingspace: `${CM_CDN}/addon/edit/trailingspace.js`,
+		matchBrackets: `${CM_CDN}/addon/edit/matchbrackets.js`,
+		closeBrackets: `${CM_CDN}/addon/edit/closebrackets.js`,
+		matchTags: `${REPO_CDN}/matchtags.js`,
+		fold: `${REPO_CDN}/fold.js`,
 		wikiEditor: 'ext.wikiEditor',
 		contextmenu: 'mediawiki.Title',
-		lint: `${CM_CDN}/addon/lint/lint.min.js`,
-		annotateScrollbar: `${CM_CDN}/addon/scroll/annotatescrollbar.min.js`,
-		parser: `${PARSER_CDN}/extensions/dist/base.min.js`,
-		linter: `${PARSER_CDN}/extensions/dist/lint.min.js`,
-		lintWikitext: `${REPO_CDN}/lint.min.js`,
+		lint: `${CM_CDN}/addon/lint/lint.js`,
+		annotateScrollbar: `${CM_CDN}/addon/scroll/annotatescrollbar.js`,
+		parser: `${PARSER_CDN}/extensions/dist/base.js`,
+		linter: `${PARSER_CDN}/extensions/dist/lint.js`,
+		lintWikitext: `${REPO_CDN}/lint.js`,
 	};
 
 	const /** @type {addon[]} */ options = [
@@ -460,7 +460,7 @@
 		if (!loaded) {
 			scripts.push(MODE_LIST.lib);
 			if (!USING_LOCAL) {
-				mw.loader.load(`${CDN}/${CM_CDN}/lib/codemirror.min.css`, 'text/css');
+				mw.loader.load(`${CDN}/${CM_CDN}/lib/codemirror.css`, 'text/css');
 			}
 		}
 
@@ -471,8 +471,8 @@
 		}
 		if ((type === 'mediawiki' || type === 'widget') && !CM.modes.mediawiki) {
 			// 总是外部样式表和外部脚本
-			mw.loader.load(`${CDN}/${MW_CDN}/mediawiki.min.css`, 'text/css');
-			scripts.push(`${MW_CDN}/mediawiki.min.js`);
+			mw.loader.load(`${CDN}/${MW_CDN}/mediawiki.css`, 'text/css');
+			scripts.push(`${MW_CDN}/mediawiki.js`);
 		}
 		if (type === 'widget' || type === 'html') {
 			for (const lang of ['css', 'javascript', 'mediawiki', 'htmlmixed', 'xml']) {
@@ -498,7 +498,7 @@
 			scripts.push(ADDON_LIST.parser, ADDON_LIST.linter);
 		}
 		if (!CM.optionHandlers.lint && type === 'mediawiki' && addons.has('lint')) {
-			mw.loader.load(`${CDN}/${CM_CDN}/addon/lint/lint.min.css`, 'text/css');
+			mw.loader.load(`${CDN}/${CM_CDN}/addon/lint/lint.css`, 'text/css');
 			scripts.push(ADDON_LIST.lint);
 		}
 		if (!(CM.helpers.lint && CM.helpers.lint.mediawiki) && type === 'mediawiki' && addons.has('lint')) {
@@ -1008,7 +1008,7 @@
 			addonScript.push(ADDON_LIST.parser);
 		}
 		if (!optionHandlers.lint && mode === 'mediawiki' && addons.has('lint')) {
-			mw.loader.load(`${CDN}/${CM_CDN}/addon/lint/lint.min.css`, 'text/css');
+			mw.loader.load(`${CDN}/${CM_CDN}/addon/lint/lint.css`, 'text/css');
 			addonScript.push(ADDON_LIST.lint);
 		}
 		if (!(lint && lint.mediawiki) && mode === 'mediawiki' && addons.has('lint')) {
