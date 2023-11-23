@@ -772,6 +772,17 @@ MediaWiki:Gadget-InPageEdit/zh-mo
 MediaWiki:Gadget-InPageEdit/zh-my
 MediaWiki:Gadget-InPageEdit/zh-sg
 MediaWiki:Gadget-InPageEdit/zh-tw
+MediaWiki:Gadget-IsCompatible
+MediaWiki:Gadget-IsCompatible.js
+MediaWiki:Gadget-IsCompatible/zh
+MediaWiki:Gadget-IsCompatible/zh-cn
+MediaWiki:Gadget-IsCompatible/zh-hans
+MediaWiki:Gadget-IsCompatible/zh-hant
+MediaWiki:Gadget-IsCompatible/zh-hk
+MediaWiki:Gadget-IsCompatible/zh-mo
+MediaWiki:Gadget-IsCompatible/zh-my
+MediaWiki:Gadget-IsCompatible/zh-sg
+MediaWiki:Gadget-IsCompatible/zh-tw
 MediaWiki:Gadget-ListUsersLastActive
 MediaWiki:Gadget-ListUsersLastActive.js
 MediaWiki:Gadget-ListUsersLastActive/zh
