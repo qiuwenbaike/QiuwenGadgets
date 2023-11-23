@@ -8,16 +8,16 @@ const getI18nMessages: GetI18nMessages = () => {
 			'zh-hant': '拷貝至剪貼簿',
 		}),
 		Copied: localize({
-			en: 'Copied.',
-			ja: 'コピーが成功しました。',
-			'zh-hans': '已复制。',
-			'zh-hant': '已拷貝。',
+			en: 'Copied',
+			ja: 'コピーが成功しました',
+			'zh-hans': '已复制',
+			'zh-hant': '已拷貝',
 		}),
 		Failed: localize({
-			en: 'Copy failed.',
-			ja: 'コピーに失敗しました。',
-			'zh-hans': '复制失败。',
-			'zh-hant': '拷貝失敗。',
+			en: 'Copy failed',
+			ja: 'コピーに失敗しました',
+			'zh-hans': '复制失败',
+			'zh-hant': '拷貝失敗',
 		}),
 	};
 };
