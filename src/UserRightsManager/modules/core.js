@@ -96,6 +96,7 @@ const markAsDone = (closingRemarks) => {
 			return api.postWithEditToken(editParams);
 		});
 };
+
 const issueTemplate = (watch) => {
 	const talkPage = `User talk:${userName.replace(/ /g, '_')}`;
 	const params = {
@@ -369,11 +370,12 @@ export const initDialog = () => {
 			return true;
 		}
 		e.preventDefault();
-		userName = mw.util.getParamValue('user', $(this).attr('href'));
-		const id = $(this).attr('id');
-		if (id !== userName) {
-			index = id.replace(userName, '');
-		}
+		const $element = $(this);
+		userName = mw.util.getParamValue('user', $element.attr('href'));
+		const sectionId = $($($($element).parents('dl')[0]).prev('h4'))
+			.find('.mw-headline')[0]
+			.getAttribute('id');
+		index = sectionId === userName ? '' : sectionId.replace(userName, '');
 		showDialog();
 	});
 };

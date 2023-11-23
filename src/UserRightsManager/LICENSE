@@ -3,6 +3,6 @@
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/UserRightsManager}}'
  *
  * @base {@link https://zh.wikipedia.org/wiki/User:Xiplus/js/userRightsManager.js}
- * @base {@link https://zh.wikipedia.org/wiki/User:MusikAnimal/userRightsManager.js}
+ * @base {@link https://en.wikipedia.org/wiki/User:MusikAnimal/userRightsManager.js}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/UserRightsManager}
  */
