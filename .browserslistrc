@@ -1,6 +1,6 @@
 extends browserslist-config-wikimedia/modern
 Chrome >= 63
-Edge >= 79
+Edge >= 17
 Opera >= 50
 Firefox >= 58
 Safari >= 11.1
