@@ -1,8 +1,5 @@
-const checkDiffPage = (): boolean => {
-	return (
-		(!!document.querySelectorAll('table.diff') && !!mw.config.get('wgCurRevisionId')) ||
-		!!document.querySelectorAll('.mw-revslider-container')
-	);
+const checkDiffPage = ($content: JQuery): boolean => {
+	return !$content.find('table').hasClass('diff') && !!mw.config.get('wgCurRevisionId');
 };
 
 export {checkDiffPage};

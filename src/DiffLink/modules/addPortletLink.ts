@@ -17,7 +17,9 @@ if (window.DiffLink !== undefined && Object.prototype.toString.call(window.DiffL
 	}
 }
 
-let lastEventListener: ReturnType<typeof addEventListenerWithRemover>;
+let eventListener: ReturnType<typeof addEventListenerWithRemover> = {
+	remove: (): void => {},
+};
 
 const addPortletLink = ({
 	text,
@@ -46,9 +48,6 @@ const addPortletLink = ({
 		return;
 	}
 
-	if (lastEventListener) {
-		lastEventListener.remove();
-	}
 	const clickListener = (event: MouseEvent): void => {
 		event.preventDefault();
 		const $element: JQuery = $('<div>');
@@ -69,7 +68,9 @@ const addPortletLink = ({
 			size: 'medium',
 		});
 	};
-	lastEventListener = addEventListenerWithRemover({
+
+	eventListener.remove();
+	eventListener = addEventListenerWithRemover({
 		target: (element.firstElementChild ?? element) as HTMLElement,
 		type: 'click',
 		listener: clickListener,

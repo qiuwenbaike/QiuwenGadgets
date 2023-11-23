@@ -1,8 +1,7 @@
-const checkRevisionPage = (): boolean => {
-	const $body = $('body');
+const checkRevisionPage = ($content: JQuery): boolean => {
 	return (
-		($body.find('#contentSub').find('#mw-revision-nav').length ||
-			$body.find('main#content>.pre-content #mw-revision-nav').length) > 0
+		($content.find('#contentSub #mw-revision-nav').length ||
+			$content.find('main#content>.pre-content #mw-revision-nav').length) > 0
 	);
 };
 
