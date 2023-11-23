@@ -4,5 +4,5 @@
 	"section": "compatibility",
 	"default": true,
 	"hidden": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify"]
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify", "mediawiki.cookie"]
 }
