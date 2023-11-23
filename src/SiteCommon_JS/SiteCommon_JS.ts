@@ -11,8 +11,8 @@ import {
 	toggleLink,
 	unihanPopup,
 } from './modules/core';
+import {tippyForCitizenHeader, tippyForExtension} from './modules/tippy';
 import {deprecatedFunctions} from './modules/deprecatedFunctions';
-import {loadTippy} from './modules/tippy';
 
 (function siteCommon(): void {
 	if (mw.config.get('wgSiteCommonInstalled')) {
@@ -22,20 +22,29 @@ import {loadTippy} from './modules/tippy';
 
 	// Core modules
 	loadWithURL();
-	$(noPermWarning);
-	$(highLightRev);
-	$(addTargetBlank);
-	$(removeTitleFromPermalink);
-	$(openSearchInNewTab);
-	$(titleCleanUp);
-	$(unihanPopup);
-	$(fixLocationHash);
-	$(hideNewUsersLog);
-	$(toggleLink);
+	noPermWarning();
+	fixLocationHash();
+
+	$((): void => {
+		const $body: JQuery<HTMLBodyElement> = $('body');
+
+		// Core modules (need $.ready)
+		highLightRev($body);
+		addTargetBlank($body);
+		removeTitleFromPermalink($body);
+		openSearchInNewTab($body);
+		titleCleanUp($body);
+		unihanPopup($body);
+		hideNewUsersLog($body);
+		toggleLink($body);
+
+		// Tippy-related codes (need $.ready)
+		tippyForCitizenHeader($body);
+	});
 
 	// Deprecated functions
 	deprecatedFunctions();
 
 	// Tippy-related codes
-	loadTippy();
+	tippyForExtension();
 })();

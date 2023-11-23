@@ -60,7 +60,7 @@ const loadWithURL = (): void => {
 		const path = `${WG_SCRIPT}?action=raw&ctype=text/`;
 		for (const useFile of URL_USE.split('|')) {
 			const name: string = useFile.toString().trim();
-			const what: string[] = REGEX_FILE.exec(name) || ['', ''];
+			const what: string[] = REGEX_FILE.exec(name) ?? ['', ''];
 			switch (what[1]) {
 				case 'js':
 					mw.loader.load(`${path}javascript&title=${encodeURIComponent(name)}`);
@@ -81,78 +81,77 @@ const noPermWarning = (): void => {
 	/**
 	 * Load warning(s) when user has no access to page
 	 */
-	if (URL_NO_PERM) {
-		switch (URL_NO_PERM) {
-			case '0':
-				mw.notify(
-					window.wgULS(
-						'因技术原因，您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
-						'因技術原因，您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
-					),
-					{tag: 'noPerm', type: 'error'}
-				);
-				break;
-			case '1':
-				mw.notify(
-					window.wgULS(
-						'您没有权限访问相关页面。若您是资深编者，请与求闻百科技术团队联系，以获取权限。',
-						'您沒有權限訪問相關頁面。若您是資深編者，請與求聞百科技術團隊聯系，以獲取權限。'
-					),
-					{tag: 'noPerm', type: 'error'}
-				);
-				break;
-			case '2':
-				mw.notify(
-					window.wgULS(
-						'您的网络环境存在风险，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
-						'您的網路環境存在風險，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
-					),
-					{tag: 'noPerm', type: 'warn'}
-				);
-				break;
-			case '3':
-				mw.notify(
-					window.wgULS(
-						'相关功能仅向注册用户开放，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
-						'相關功能僅向注冊用戶開放，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
-					),
-					{tag: 'noPerm', type: 'warn'}
-				);
-				break;
-			default:
-				mw.notify(
-					window.wgULS(
-						'您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
-						'您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
-					),
-					{tag: 'noPerm', type: 'error'}
-				);
-		}
-		const newUrl: string = location.href.replace(/[?&]noperm=[0-9]+/, '');
-		history.pushState({}, document.title, newUrl);
+	if (!URL_NO_PERM) {
+		return;
 	}
+	switch (URL_NO_PERM) {
+		case '0':
+			mw.notify(
+				window.wgULS(
+					'因技术原因，您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
+					'因技術原因，您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
+				),
+				{tag: 'noPerm', type: 'error'}
+			);
+			break;
+		case '1':
+			mw.notify(
+				window.wgULS(
+					'您没有权限访问相关页面。若您是资深编者，请与求闻百科技术团队联系，以获取权限。',
+					'您沒有權限訪問相關頁面。若您是資深編者，請與求聞百科技術團隊聯系，以獲取權限。'
+				),
+				{tag: 'noPerm', type: 'error'}
+			);
+			break;
+		case '2':
+			mw.notify(
+				window.wgULS(
+					'您的网络环境存在风险，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
+					'您的網路環境存在風險，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
+				),
+				{tag: 'noPerm', type: 'warn'}
+			);
+			break;
+		case '3':
+			mw.notify(
+				window.wgULS(
+					'相关功能仅向注册用户开放，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
+					'相關功能僅向注冊用戶開放，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
+				),
+				{tag: 'noPerm', type: 'warn'}
+			);
+			break;
+		default:
+			mw.notify(
+				window.wgULS(
+					'您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
+					'您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
+				),
+				{tag: 'noPerm', type: 'error'}
+			);
+	}
+	const newUrl: string = location.href.replace(/[?&]noperm=[0-9]+/, '');
+	history.pushState({}, document.title, newUrl);
 };
 
-const highLightRev = (): void => {
-	const $body = $('body');
+const highLightRev = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Add highlight to revisions when using `&hilight=revid` or `&highlight=revid`
 	 */
-	const highlight: string | null = URL_HIGHLIGHT || URL_HILIGHT;
-	if (WG_ACTION === 'history' && highlight) {
-		for (const version of highlight.split(',')) {
-			$body.find(`input[name=oldid][value=${version}]`).parent().addClass('not-patrolled');
-		}
+	const highlight: string | null = URL_HIGHLIGHT ?? URL_HILIGHT;
+	if (!highlight || WG_ACTION !== 'history') {
+		return;
+	}
+	for (const version of highlight.split(',')) {
+		$body.find(`input[name=oldid][value=${version}]`).parent().addClass('not-patrolled');
 	}
 };
 
-const addTargetBlank = (): void => {
-	const $body = $('body');
+const addTargetBlank = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Add target="blank" to external links
 	 */
-	$body.find('a.external, a[rel="mw:ExtLink"]').filter((_index, element): boolean => {
-		const self: HTMLAnchorElement = element as HTMLAnchorElement;
+	$body.find<HTMLAnchorElement>('a.external, a[rel="mw:ExtLink"]').filter((_index, element): boolean => {
 		const linkHref: string | undefined = $(element).attr('href');
 		if (linkHref) {
 			const hrefSplit: string[] = linkHref.split('/');
@@ -160,71 +159,63 @@ const addTargetBlank = (): void => {
 				return false;
 			}
 		}
-		if (self.href.includes(`${location.protocol}//${location.hostname}`)) {
-			self.target = '_blank';
-			if (!self.rel.includes('noopener')) {
-				self.rel += ' noopener';
+		if (element.href.includes(`${location.protocol}//${location.hostname}`)) {
+			element.target = '_blank';
+			if (!element.rel.includes('noopener')) {
+				element.rel += ' noopener';
 			}
-			if (!self.rel.includes('noreferrer')) {
-				self.rel += ' noreferrer';
+			if (!element.rel.includes('noreferrer')) {
+				element.rel += ' noreferrer';
 			}
 		}
 		return true;
 	});
 };
 
-const removeTitleFromPermalink = (): void => {
+const removeTitleFromPermalink = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Remove title=* from permalink
 	 */
-	const permaLink: HTMLElement | null = document.querySelector('#t-permalink');
-	if (permaLink) {
-		const permaLinkFirstChild: HTMLAnchorElement = permaLink.firstChild as HTMLAnchorElement;
-		permaLinkFirstChild.href = permaLinkFirstChild.href.replace(/title=[^&]*&/, '');
+	const $permaLink: JQuery = $body.find('#t-permalink');
+	if ($permaLink.length) {
+		const $permaLinkFirstChild: JQuery<HTMLAnchorElement> = $permaLink.find<HTMLAnchorElement>(':first-child');
+		const href: string | undefined = $permaLinkFirstChild.attr('href')?.replace(/title=[^&]*&/, '');
+		if (!href) {
+			return;
+		}
+		$permaLinkFirstChild.attr('href', href);
 	}
-	/**
-	 * Open search results in a new tab or window
-	 * when holding down the Ctrl key (by Timeshifter)
-	 */
-	const $body = $('body');
-	$body
-		.find('#searchform, #searchbox, #search, .search-types, #search-types')
-		.on('keyup keydown mousedown', function ({ctrlKey, metaKey}): void {
-			$(this).attr('target', ctrlKey || metaKey ? '_blank' : '');
-		});
 };
 
-const openSearchInNewTab = (): void => {
-	const $body = $('body');
+const openSearchInNewTab = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Open search results in a new tab or window
 	 * when holding down the Ctrl key (by Timeshifter)
 	 */
 	$body
-		.find('#searchform, #searchbox, #search, .search-types, #search-types')
-		.on('keyup keydown mousedown', function ({ctrlKey, metaKey}): void {
-			$(this).attr('target', ctrlKey || metaKey ? '_blank' : '');
+		.find('#search,#searchbox,#searchform,.search-types,#search-types')
+		.on('keydown keyup mousedown', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
+			const {ctrlKey, metaKey, target} = event;
+			$(target).attr('target', ctrlKey ?? metaKey ? '_blank' : '');
 		});
 };
 
-const titleCleanUp = (): void => {
-	const $body = $('body');
+const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Cleanup title for all pages
 	 */
-	const titleCleanUpCore = (): void => {
-		const oldTitleTag: string = $(document).find('title').text();
-		const oldPageTitle: string = $body.find('.firstHeading').text();
-		const newPageTitle: string = new mw.Title(WG_PAGE_NAME).toText();
-		$(document).find('title').text(oldTitleTag.replace(oldPageTitle, newPageTitle));
-		$body.find('.firstHeading').text(oldPageTitle.replace(oldPageTitle, newPageTitle));
-	};
-	if (WG_ACTION === 'view' && [2, 3, 6, 118].includes(WG_NAMESPACE_NUMBER) && !URL_DIFF) {
-		titleCleanUpCore();
+	if (URL_DIFF || WG_ACTION !== 'view' || ![2, 3, 6, 118].includes(WG_NAMESPACE_NUMBER)) {
+		return;
 	}
+	const oldTitle: string = document.title;
+	const oldPageTitle: string = $body.find('.firstHeading').text();
+	const fullPageName: string = new mw.Title(WG_PAGE_NAME).getPrefixedText();
+	const newPageTitle: string = oldTitle.replace(oldPageTitle, fullPageName);
+	document.title = newPageTitle;
+	$body.find('.firstHeading').text(newPageTitle);
 };
 
-const unihanPopup = (): void => {
+const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Display title=(.*) of <span class="inline-unihan"> after them.
 	 * (beta test)
@@ -233,22 +224,23 @@ const unihanPopup = (): void => {
 	if (WG_NAMESPACE_NUMBER < 0) {
 		return;
 	}
-	const $body = $('body');
 	$body.find('attr, .inline-unihan').each((_index: number, element: HTMLElement): void => {
 		const $element: JQuery = $(element);
 		const title: string | undefined = $element.attr('title');
 		if (!title) {
 			return;
 		}
-		const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
-			$content: $('<p>').text(title),
-			label: window.wgULS('注释：', '注釋：'),
-			anchor: true,
-			head: true,
-			padded: true,
-		});
-		$element.append(popup.$element).on('click', () => {
-			popup.toggle();
+		mw.loader.using('oojs-ui-core').then((): void => {
+			const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
+				$content: $('<p>').text(title),
+				label: window.wgULS('注释：', '注釋：'),
+				anchor: true,
+				head: true,
+				padded: true,
+			});
+			$element.append(popup.$element).on('click', (): void => {
+				popup.toggle();
+			});
 		});
 	});
 };
@@ -260,24 +252,21 @@ const fixLocationHash = (): void => {
 	}
 };
 
-const hideNewUsersLog = (): void => {
-	const $body = $('body');
+const hideNewUsersLog = ($body: JQuery<HTMLBodyElement>): void => {
 	/* 临时：禁止用户查看用户创建日志 */
-	if (WG_CANONICAL_SPECIAL_PAGE_NAME === 'Log') {
-		$body.find('input[name="wpfilters[]"][value=newusers]').attr('checked', 0);
-		const $element = $body.find('input[name="wpfilters[]"][value=newusers]').parents('.oo-ui-labelElement').get(0);
-		if ($element) {
-			$element.remove();
-		}
+	if (WG_CANONICAL_SPECIAL_PAGE_NAME !== 'Log') {
+		return;
 	}
+	const $newUsersLog: JQuery = $body.find('input[name="wpfilters[]"][value=newusers]');
+	$newUsersLog.attr('checked', 0);
+	$newUsersLog.parents('.oo-ui-labelElement').remove();
 };
 
-const toggleLink = (): void => {
-	const $body = $('body');
+const toggleLink = ($body: JQuery<HTMLBodyElement>): void => {
 	/* 调整折叠按钮的颜色 */
-	const $toggle = $body.find('.mw-collapsible-toggle, .gadget-collapsible__toggler');
-	if ($toggle.length && $toggle.parent()[0]?.style.color) {
-		$toggle.find('a').css('color', 'inherit');
+	const $toggler = $body.find('.mw-collapsible-toggle, .gadget-collapsible__toggler');
+	if ($toggler.length && $toggler.parent()[0]?.style.color) {
+		$toggler.find('a').css('color', 'inherit');
 	}
 };
 
