@@ -1,5 +1,4 @@
-const CLASS_CODE_BLOCK = 'gadget-copy_code_block__code-block';
-const CLASS_COPY_BUTTON = 'gadget-copy_code_block__copy-button';
-const NOTIFY_TAG = 'ext.gadget.CopyCodeBlock';
+const CLASS_NAME = 'gadget-copy_code_block';
+const CLASS_NAME_COPY_BUTTON = `${CLASS_NAME}__copy-button`;
 
-export {CLASS_CODE_BLOCK, CLASS_COPY_BUTTON, NOTIFY_TAG};
+export {CLASS_NAME, CLASS_NAME_COPY_BUTTON};
