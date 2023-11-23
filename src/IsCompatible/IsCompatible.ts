@@ -82,55 +82,19 @@ const isCompatible = (): boolean => {
 	);
 };
 
-if (!isCompatible()) {
-	const getCookie = (name: string) => {
-		return '; '.concat(decodeURIComponent(document.cookie)).split('; '.concat(name, '=')).pop()?.split(';').shift();
-	};
-
-	const setCookie = ({
-		name,
-		value,
-		hour = 0,
-		path = '/',
-		isSecure = true,
-	}: {
-		name: string;
-		value: string;
-		hour?: number;
-		path?: string;
-		isSecure?: boolean;
-	}) => {
-		if (!name || !value || !path) {
-			return;
-		}
-
-		const base = `${name}=${encodeURIComponent(value)};path=${path}${isSecure ? ';Secure' : ''}`;
-		const date = new Date();
-
-		if (hour === 0) {
-			document.cookie = base;
-		} else {
-			date.setTime(date.getTime() + hour * 60 * 60 * 1000);
-			document.cookie = `${base};expires=${date.toUTCString()}`;
-		}
-	};
-
-	if (!getCookie('hideIEWarning')) {
-		const toastifyInstance: ToastifyInstance = toastify(
-			{
-				close: false,
-				duration: -1,
-				node: $('<span>').html(getMessage()).get(0),
-				onClick: (): void => {
-					setCookie({
-						name: 'hideIEWarning',
-						value: '1',
-						hour: 24 * 365 * 1000,
-					});
-					toastifyInstance.hideToast();
-				},
+if (!isCompatible() && !mw.cookie.get('hideIEWarning') && mw.config.get('wgPageName') !== 'Help:浏览器兼容性') {
+	const toastifyInstance: ToastifyInstance = toastify(
+		{
+			close: false,
+			duration: -1,
+			node: $('<span>').html(getMessage()).get(0),
+			onClick: (): void => {
+				mw.cookie.set('hideIEWarning', '1', {
+					expires: 24 * 365 * 1000,
+				});
+				toastifyInstance.hideToast();
 			},
-			'warning'
-		);
-	}
+		},
+		'warning'
+	);
 }
