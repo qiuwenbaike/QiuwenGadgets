@@ -1,4 +1,4 @@
-extends browserslist-config-wikimedia/basic
+extends browserslist-config-wikimedia/modern
 Chrome >= 63
 Edge >= 79
 Opera >= 50
@@ -9,3 +9,4 @@ Android >= 5.0
 > 0.2%
 defaults
 not <= 0.05%
+not dead
