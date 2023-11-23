@@ -90,7 +90,7 @@ if (!isCompatible() && !mw.cookie.get('hideIEWarning') && mw.config.get('wgPageN
 			node: $('<span>').html(getMessage()).get(0),
 			onClick: (): void => {
 				mw.cookie.set('hideIEWarning', '1', {
-					expires: 24 * 365 * 1000,
+					expires: 60 * 60 * 24 * 30 * 1000,
 				});
 				toastifyInstance.hideToast();
 			},
