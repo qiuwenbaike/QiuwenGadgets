@@ -208,12 +208,13 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 	const fullPageName: string = new mw.Title(WG_PAGE_NAME).getPrefixedText();
+	const $firstHeading: JQuery = $body.find('.firstHeading');
 	const oldTitle: string = document.title;
-	const oldPageTitle: string = $body.find('.firstHeading').text();
+	const oldPageTitle: string = $firstHeading.text();
 	const newTitle: string = oldTitle.replace(oldPageTitle, fullPageName);
 	const newPageTitle: string = oldPageTitle.replace(oldPageTitle, newTitle);
 	document.title = newTitle;
-	$body.find('.firstHeading').text(newPageTitle);
+	$firstHeading.text(newPageTitle);
 };
 
 const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
