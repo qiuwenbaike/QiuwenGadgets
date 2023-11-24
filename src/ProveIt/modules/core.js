@@ -34,7 +34,7 @@ export const ProveIt = {
 	/**
 	 * Convenience method to detect the current editor
 	 *
-	 * @return {string|null} Name of the current editor ('core', 'wikieditor', 'codemirror' or '2017') or null if it's not supported
+	 * @return {string|undefined} Name of the current editor ('core', 'wikieditor', 'codemirror' or '2017') or null if it's not supported
 	 */
 	getEditor: () => {
 		if (window.ve && ve.init && ve.init.target && ve.init.target.active) {
@@ -1059,7 +1059,7 @@ export const ProveIt = {
 		/**
 		 * Get the name out of the wikitext
 		 *
-		 * @return {string} citation name
+		 * @return {string|undefined} citation name
 		 */
 		this.getName = function () {
 			// Match <ref name="Foo">, <ref name="Foo's">
@@ -1079,7 +1079,7 @@ export const ProveIt = {
 		/**
 		 * Get the group out of the wikitext
 		 *
-		 * @return {string} citation group
+		 * @return {string|undefined} citation group
 		 */
 		this.getGroup = function () {
 			// Match <ref group="Foo">, <ref group="Foo's">
@@ -1393,7 +1393,7 @@ export const ProveIt = {
 		/**
 		 * Get the name out of the wikitext
 		 *
-		 * @return {string} New reference
+		 * @return {string|undefined} New reference
 		 */
 		this.getName = function () {
 			// Match <ref name="Foo">, <ref name="Foo's">
@@ -1413,7 +1413,7 @@ export const ProveIt = {
 		/**
 		 * Get the group out of the wikitext
 		 *
-		 * @return {string} New reference
+		 * @return {string|undefined} New reference
 		 */
 		this.getGroup = function () {
 			// Match <ref group="Foo">, <ref group="Foo's">
