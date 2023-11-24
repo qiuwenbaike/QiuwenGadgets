@@ -63,6 +63,12 @@ const checkA11yConfirmKey = (event: KeyboardEvent | MouseEvent | JQuery.ClickEve
 	return false;
 };
 
+const delay = (ms: number): Promise<void> => {
+	return new Promise((resolve: () => void): void => {
+		setTimeout(resolve, ms);
+	});
+};
+
 const generateSvgDataUrl = (svg: string): string => {
 	/*!
 	 * svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
@@ -168,6 +174,7 @@ export {
 	addEventListenerWithRemover,
 	changeOpacityWhenMouseEnterOrLeave,
 	checkA11yConfirmKey,
+	delay,
 	generateSvgDataUrl,
 	initMwApi,
 	oouiConfirmWithStyle,
