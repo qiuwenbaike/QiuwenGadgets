@@ -1,13 +1,17 @@
 import {initMwApi} from '../util';
 
-if (!mw.user.options.get('gadget-Wikiplus')) {
+(async () => {
+	if (!mw.user.options.get('gadget-Wikiplus')) {
+		return;
+	}
+
 	const api = initMwApi(`Qiuwen/1.1 (Wikiplus-highlight/2.0; ${mw.config.get('wgWikiID')})`);
 
-	api.postWithEditToken({
+	await api.postWithEditToken({
 		action: 'options',
 		format: 'json',
 		change: 'gadget-Wikiplus=1',
-	}).then(() => {
-		mw.loader.using(['ext.gadget.Wikiplus']);
 	});
-}
+
+	mw.loader.using(['ext.gadget.Wikiplus']);
+})();
