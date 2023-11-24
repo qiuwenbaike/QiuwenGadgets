@@ -4851,7 +4851,7 @@ export const popups = () => {
 		const imageNamespaceVariants = [];
 		for (const [_localizedNamespaceLc, _namespaceId] of Object.entries(mw.config.get('wgNamespaceIds'))) {
 			if (_namespaceId !== namespaceId) {
-				return;
+				continue;
 			}
 			const localizedNamespaceLc = upcaseFirst(_localizedNamespaceLc);
 			imageNamespaceVariants.push(

@@ -7,4 +7,6 @@ const URL: string = mw.util.getUrl('Special:Contact/Report', {
 	report_revision: (mw.config.get('wgRevisionId') || mw.config.get('wgCurRevisionId')).toString(),
 });
 
-export {CLASS_NAME_BUTTON, URL};
+const WG_NAMESPACE_NUMBER: number = mw.config.get('wgNamespaceNumber');
+
+export {CLASS_NAME_BUTTON, URL, WG_NAMESPACE_NUMBER};
