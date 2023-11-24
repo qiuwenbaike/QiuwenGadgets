@@ -94,7 +94,7 @@
 	const majorVersion = getVersion().slice(0, 2).join('.');
 
 	// 路径
-	const CDN = '//git.qiuwen.net.cn/mirror';
+	const CDN = '//gitcdn.qiuwen.net.cn/mirror';
 
 	const CM_CDN = 'codemirror/raw/branch/master';
 	const MW_CDN = 'codemirror-mediawiki/raw/branch/stable';
