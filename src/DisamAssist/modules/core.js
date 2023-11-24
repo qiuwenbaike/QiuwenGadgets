@@ -34,59 +34,48 @@ let runningSaves = false;
 
 /* Entry point. Check whether we are in a disambiguation page. If so, add a link to start the tool */
 export const install = () => {
-	if (mw.config.get('wgAction') === 'view' && isDisam()) {
-		$(function loadDisamAssist() {
-			// This is a " (disambiguation)" page
-			if (new RegExp(cfg.disamRegExp).test(getTitle())) {
-				const startMainLink = $(
-					mw.util.addPortletLink(
-						document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
-						'#',
-						txt.startMain,
-						'ca-disamassist-main'
-					)
-				).on('click', startMain);
-				const startSameLink = $(
-					mw.util.addPortletLink(
-						document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
-						'#',
-						txt.startSame,
-						'ca-disamassist-same'
-					)
-				).on('click', startSame);
-				startLink = startMainLink.add(startSameLink);
-			} else {
-				startLink = $(
-					mw.util.addPortletLink(
-						document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
-						'#',
-						txt.start,
-						'ca-disamassist-page'
-					)
-				).on('click', start);
-			}
-		});
+	if (mw.config.get('wgAction') !== 'view' || !isDisam()) {
+		return;
 	}
+	$(() => {
+		const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
+		// This is a " (disambiguation)" page
+		if (new RegExp(cfg.disamRegExp).test(getTitle())) {
+			const startMainLink = $(mw.util.addPortletLink(portletId, '#', txt.startMain, 'ca-disamassist-main')).on(
+				'click',
+				startMain
+			);
+			const startSameLink = $(mw.util.addPortletLink(portletId, '#', txt.startSame, 'ca-disamassist-same')).on(
+				'click',
+				startSame
+			);
+			startLink = startMainLink.add(startSameLink);
+		} else {
+			startLink = $(mw.util.addPortletLink(portletId, '#', txt.start, 'ca-disamassist-page')).on('click', start);
+		}
+	});
 };
 
 /* Start the tool. Display the UI and begin looking for links to fix */
 const start = () => {
-	if (!running) {
-		running = true;
-		links = [];
-		pageChanges = [];
-		displayedPages = {};
-		ensureDABExists().then((canMark) => {
-			canMarkIntentionalLinks = canMark;
-			createUI();
-			addUnloadConfirm();
-			markDisamOptions();
-			checkEditLimit().then(() => {
-				togglePendingEditBox(false);
-				doPage();
-			});
-		});
+	if (running) {
+		return;
 	}
+
+	running = true;
+	links = [];
+	pageChanges = [];
+	displayedPages = {};
+	ensureDABExists().then((canMark) => {
+		canMarkIntentionalLinks = canMark;
+		createUI();
+		addUnloadConfirm();
+		markDisamOptions();
+		checkEditLimit().then(() => {
+			togglePendingEditBox(false);
+			doPage();
+		});
+	});
 };
 
 /* Start DisamAssist. Disambiguate incoming links to the current page, regardless of the title. */
@@ -877,12 +866,13 @@ const getBacklinks = (page) => {
 			const backlinksQuery = query.backlinks;
 			for (const element of backlinksQuery) {
 				backlinks.push(element.title);
-				if (element.redirlinks) {
-					linkTitles.push(element.title);
-					const {redirlinks} = element;
-					for (const {title} of redirlinks) {
-						backlinks.push(title);
-					}
+				if (!element.redirlinks) {
+					continue;
+				}
+				linkTitles.push(element.title);
+				const {redirlinks} = element;
+				for (const {title} of redirlinks) {
+					backlinks.push(title);
 				}
 			}
 			dfd.resolve(backlinks, linkTitles);

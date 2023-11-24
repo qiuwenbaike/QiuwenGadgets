@@ -3,12 +3,8 @@ import {getMessage} from './i18n';
 import {oouiConfirmWithStyle} from '../../util';
 
 const addPortletLink = (): void => {
-	const element: HTMLLIElement | null = mw.util.addPortletLink(
-		document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
-		'#',
-		getMessage('Ban'),
-		't-banpage'
-	);
+	const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
+	const element: HTMLLIElement | null = mw.util.addPortletLink(portletId, '#', getMessage('Ban'), 't-banpage');
 	if (!element) {
 		return;
 	}
