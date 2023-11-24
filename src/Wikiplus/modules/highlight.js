@@ -393,7 +393,9 @@
 	 */
 	const getExternalScript = (urls) =>
 		urls.length > 0
-			? $.ajax(`${CDN}/${urls.length > 1 ? 'combine/' : ''}${urls.join()}`, {dataType: 'script', cache: true})
+			? urls.forEach((url) => {
+					$.ajax(`${CDN}/${url}`, {dataType: 'script', cache: true});
+			  })
 			: Promise.resolve();
 
 	/**
