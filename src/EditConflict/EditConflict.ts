@@ -1,9 +1,6 @@
+import {WG_ACTION, WG_CUR_REVISION_ID} from './modules/constant';
 import {editConflict} from './modules/core';
 
-(() => {
-	if (!['edit', 'submit'].includes(mw.config.get('wgAction')) || mw.config.get('wgCurRevisionId') === 0) {
-		return;
-	}
-
+if (['edit', 'submit'].includes(WG_ACTION) && WG_CUR_REVISION_ID) {
 	$(editConflict);
-})();
+}
