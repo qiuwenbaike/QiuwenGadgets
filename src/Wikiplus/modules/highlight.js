@@ -98,7 +98,7 @@
 
 	const CM_CDN = 'codemirror/raw/branch/master';
 	const MW_CDN = 'codemirror-mediawiki/raw/branch/stable';
-	const PARSER_CDN = 'wikiparser-node/raw/branch/main';
+	const PARSER_CDN = 'wikiparser-node/raw/branch/browser';
 	const REPO_CDN = `wikiplus-highlight/raw/branch/main`;
 
 	const {
