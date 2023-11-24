@@ -66,18 +66,19 @@ export const onlineAdmins = (): void => {
 					};
 					const response = await api.get(params);
 					for (const {groups, name} of response['query'].users) {
-						// 找到管理人员，去除adminbot
+						// 找到管理人员，去除机器人
 						// !!name可用于消除name的空值
-						if (!!name && !groups.includes('bot') && !BLACK_LIST.includes(name)) {
-							if (groups.includes('steward')) {
-								stewards.push(name);
-							}
-							if (groups.includes('sysop')) {
-								admins.push(name);
-							}
-							if (groups.includes('patroller')) {
-								patrollers.push(name);
-							}
+						if (groups.includes('bot') || BLACK_LIST.includes(name) || !!name) {
+							continue;
+						}
+						if (groups.includes('steward')) {
+							stewards.push(name);
+						}
+						if (groups.includes('sysop')) {
+							admins.push(name);
+						}
+						if (groups.includes('patroller')) {
+							patrollers.push(name);
 						}
 					}
 				});
