@@ -4,6 +4,5 @@
 	"section": "edit",
 	"actions": ["view"],
 	"dependencies": ["jquery.ui", "mediawiki.jqueryMsg", "user.options"],
-	"peers": ["ToolsRedirect-pagestyles"],
 	"rights": ["edit"]
 }

@@ -1,13 +1,17 @@
 import {initMwApi} from '../util';
 
-if (!mw.user.options.get('gadget-ToolsRedirect')) {
+(async () => {
+	if (!mw.user.options.get('gadget-ToolsRedirect')) {
+		return;
+	}
+
 	const api = initMwApi(`Qiuwen/1.1 (ToolsRedirect-courtesy-and-art-names/2.0; ${mw.config.get('wgWikiID')})`);
 
-	api.postWithEditToken({
+	await api.postWithEditToken({
 		action: 'options',
 		format: 'json',
 		change: 'gadget-ToolsRedirect=1',
-	}).then(() => {
-		mw.loader.using(['ext.gadget.ToolsRedirect', 'ext.gadget.ToolsRedirect-pagestyles']);
 	});
-}
+
+	mw.loader.using(['ext.gadget.ToolsRedirect']);
+})();
