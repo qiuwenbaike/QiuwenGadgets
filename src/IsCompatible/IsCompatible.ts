@@ -55,9 +55,16 @@ const isCompatible = (): boolean => {
 		(() => {
 			try {
 				// eslint-disable-next-line no-new, no-new-func
-				new Function('(a = 0) => a');
-				// eslint-disable-next-line no-new, no-new-func
 				new Function('(() => 0)()');
+				return true;
+			} catch {
+				return false;
+			}
+		})() &&
+		(() => {
+			try {
+				// eslint-disable-next-line no-new, no-new-func
+				new Function('(a = 0) => a');
 				return true;
 			} catch {
 				return false;
