@@ -87,18 +87,19 @@ const isCompatible = (): boolean => {
 	);
 };
 
-if (!isCompatible() && !mw.cookie.get('hideIEWarning') && mw.config.get('wgPageName') !== 'Help:浏览器兼容性') {
-	const toastifyInstance: ToastifyInstance = toastify(
-		{
-			node: $('<span>').html(getMessage()).get(0),
-			duration: -1,
-			onClick: (): void => {
-				mw.cookie.set('hideIEWarning', '1', {
-					expires: 60 * 60 * 24 * 365 * 1000,
-				});
-				toastifyInstance.hideToast();
+if (!isCompatible() && !mw.cookie.get('hideIEWarning')) {
+	if (mw.config.get('wgPageName') === 'Help:浏览器兼容性') {
+		mw.cookie.set('hideIEWarning', '1', {
+			expires: 60 * 60 * 24 * 365 * 1000,
+		});
+	} else {
+		toastify(
+			{
+				node: $('<span>').html(getMessage()).get(0),
+				duration: -1,
+				onClick: (): void => {},
 			},
-		},
-		'warning'
-	);
+			'warning'
+		);
+	}
 }
