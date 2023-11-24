@@ -18,17 +18,26 @@ export const filterLists = {
 	},
 	rightsLogOnly: location.href.includes('type=rights') || location.href.includes('Log/rights'),
 	lastClicked: false,
+	msg(key: string): string {
+		key = `filter-${key}`;
+		// Messages that can be used here:
+		// * see `i18n`
+		// * for more information
+		return mw.message(key).plain();
+	},
 	load(): void {
-		$.extend(true, filterLists.i18n);
+		const {msg, i18n} = filterLists;
+		$.extend(true, i18n);
 		// Define interface messages
-		mw.messages.set(filterLists.i18n);
+		mw.messages.set(i18n);
 		// Create portlet link
+		const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 		const portletlink: HTMLLIElement | null = mw.util.addPortletLink(
-			document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
+			portletId,
 			'#',
-			mw.msg('filter-portlet-text'),
+			msg('portlet-text'),
 			'ca-rxfilter',
-			mw.msg('filter-portlet-description')
+			msg('portlet-description')
 		);
 		// Bind click listener
 		if (portletlink) {
@@ -45,9 +54,10 @@ export const filterLists = {
 	buildForm(): void {
 		let fieldsetHtml: string;
 		let oldInput: string;
+		const {msg} = filterLists;
 		const instructions: string = this.rightsLogOnly
-			? mw.msg('filter-rights-list-instructions')
-			: mw.msg('filter-other-list-instructions');
+			? msg('rights-list-instructions')
+			: msg('other-list-instructions');
 		const $body = $('body');
 		$body.find('#ca-rxfilter').hide();
 		const $pageTop: JQuery = $body.find('#contentSub, #topbar');
@@ -60,28 +70,26 @@ export const filterLists = {
 		const inverted = mw.util.getParamValue('lifilterinv') === '1';
 		// Generate the form
 		const $fieldSet: JQuery = $('<fieldset>').attr('id', 'rightsFilter').text(instructions);
-		const $legend: JQuery = $('<legend>').text(mw.msg('filter-legend'));
+		const $legend: JQuery = $('<legend>').text(msg('legend'));
 		$fieldSet.append($legend);
 		fieldsetHtml = '';
 		if (this.rightsLogOnly) {
 			fieldsetHtml += '<select id="rfSelect">';
-			fieldsetHtml += `<option>${mw.html.escape(mw.msg('filter-option-added'))}</option>`;
-			fieldsetHtml += `<option>${mw.html.escape(mw.msg('filter-option-removed'))}</option>`;
-			fieldsetHtml += `<option>${mw.html.escape(mw.msg('filter-option-added-or-removed'))}</option>`;
-			fieldsetHtml += `<option>${mw.html.escape(mw.msg('filter-option-added-removed-static'))}</option>`;
+			fieldsetHtml += `<option>${mw.html.escape(msg('option-added'))}</option>`;
+			fieldsetHtml += `<option>${mw.html.escape(msg('option-removed'))}</option>`;
+			fieldsetHtml += `<option>${mw.html.escape(msg('option-added-or-removed'))}</option>`;
+			fieldsetHtml += `<option>${mw.html.escape(msg('option-added-removed-static'))}</option>`;
 			fieldsetHtml += '</select>';
 		}
-		fieldsetHtml += `<label for="rfRegex">${mw.html.escape(
-			mw.msg('filter-regex-label')
-		)}</label><input id="rfRegex">`;
+		fieldsetHtml += `<label for="rfRegex">${mw.html.escape(msg('regex-label'))}</label><input id="rfRegex">`;
 		fieldsetHtml += `<input id="rfInvert" type="checkbox"><label for="rfInvert">${mw.html.escape(
-			mw.msg('filter-invert-label')
+			msg('invert-label')
 		)}</label>`;
 		fieldsetHtml += `<input id="rfCase" type="checkbox"><label for="rfCase">${mw.html.escape(
-			mw.msg('filter-case-label')
+			msg('case-label')
 		)}</label>`;
-		fieldsetHtml += `<button type="button" value="0">${mw.html.escape(mw.msg('filter-filter-button'))}</button>`;
-		fieldsetHtml += `<button type="button" value="1">${mw.html.escape(mw.msg('filter-highlight-button'))}</button>`;
+		fieldsetHtml += `<button type="button" value="0">${mw.html.escape(msg('filter-button'))}</button>`;
+		fieldsetHtml += `<button type="button" value="1">${mw.html.escape(msg('highlight-button'))}</button>`;
 		// Inject the html into the fieldset
 		$fieldSet.append(fieldsetHtml);
 		$pageTop.after($fieldSet);
