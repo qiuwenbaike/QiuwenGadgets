@@ -4,6 +4,5 @@
 	"section": "edit",
 	"actions": ["edit", "submit"],
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify"],
-	"requiresES6": true,
 	"rights": ["skipcaptcha"]
 }

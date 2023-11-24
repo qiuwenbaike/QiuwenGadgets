@@ -1,5 +1,4 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-TextSpacing\"></span> 中西文混排时，自动调整字间距",
-	"requiresES6": true
+	"description": "<span id=\"Gadget-TextSpacing\"></span> 中西文混排时，自动调整字间距"
 }
