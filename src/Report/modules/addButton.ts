@@ -1,9 +1,9 @@
-import {CLASS_NAME_BUTTON, URL} from './constant';
+import {CLASS_NAME_BUTTON, URL, WG_NAMESPACE_NUMBER} from './constant';
 import {changeOpacityWhenMouseEnterOrLeave} from '../../util';
 import {getMessage} from './i18n';
 
 const addButton = (): void => {
-	if (mw.config.get('wgNamespaceNumber') < 0) {
+	if (WG_NAMESPACE_NUMBER < 0) {
 		return;
 	}
 

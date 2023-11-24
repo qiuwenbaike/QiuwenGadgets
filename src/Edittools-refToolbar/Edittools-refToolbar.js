@@ -15,18 +15,25 @@ import {refToolbarMesages} from './modules/RefToolbarMessages';
 	if (mw.config.get('wgRefToolbarInstalled')) {
 		return;
 	}
-	if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
-		if (document.querySelectorAll('#wpTextbox1[readonly]').length > 0) {
-			return;
-		}
-		if (!mw.user.options.get('usebetatoolbar')) {
-			return;
-		}
-		// Load local messages.
-		refToolbarMesages();
-		// Load main functions
-		refToolbar2();
-		// Set guard
-		mw.config.set('wgRefToolbarInstalled', true);
+
+	if (!['edit', 'submit'].includes(mw.config.get('wgAction'))) {
+		return;
 	}
+
+	if (document.querySelectorAll('#wpTextbox1[readonly]').length > 0) {
+		return;
+	}
+
+	if (!mw.user.options.get('usebetatoolbar')) {
+		return;
+	}
+
+	// Load local messages.
+	refToolbarMesages();
+
+	// Load main functions
+	refToolbar2();
+
+	// Set guard
+	mw.config.set('wgRefToolbarInstalled', true);
 })();

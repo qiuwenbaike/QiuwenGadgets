@@ -1,5 +1,9 @@
+import {WG_NAMESPACE_NUMBER} from './modules/constant';
 import {whoIsActive} from './modules/core';
 
-if (!(mw.config.get('wgNamespaceNumber') < 0)) {
+(() => {
+	if (WG_NAMESPACE_NUMBER < 0) {
+		return;
+	}
 	$(whoIsActive);
-}
+})();

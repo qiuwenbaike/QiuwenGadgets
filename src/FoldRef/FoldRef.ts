@@ -1,8 +1,9 @@
+import {WG_NAMESPACE_NUMBER} from './modules/constant';
 import {foldRef} from './modules/core';
 
 (() => {
 	// for article space only
-	if (mw.config.get('wgNamespaceNumber') !== 0) {
+	if (WG_NAMESPACE_NUMBER !== 0) {
 		return;
 	}
 

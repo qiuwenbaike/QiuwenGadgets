@@ -1,5 +1,14 @@
+import {WG_ACTION, WG_NAMESPACE_NUMBER} from './modules/constant';
 import {edit0} from './modules/core';
 
-if (mw.config.get('wgAction') === 'view' && !(mw.config.get('wgNamespaceNumber') < 0)) {
+(() => {
+	if (WG_ACTION !== 'view') {
+		return;
+	}
+
+	if (WG_NAMESPACE_NUMBER < 0) {
+		return;
+	}
+
 	$(edit0);
-}
+})();
