@@ -37,16 +37,6 @@
 					},
 			  };
 
-	Object.fromEntries =
-		Object.fromEntries ||
-		((entries) => {
-			const /** @type {Record<string, T>} */ obj = {};
-			for (const [key, value] of entries) {
-				obj[key] = value;
-			}
-			return obj;
-		});
-
 	/**
 	 * 解析版本号
 	 * @param {string} str 版本号
