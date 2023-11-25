@@ -130,8 +130,9 @@ if (mw.config.get('wgNamespaceNumber') === 6 && !document.querySelector('#mw-noa
 }
 
 const buttonLabel = document.querySelectorAll('.redirectText a')[0] ? '重定向目标' : '页面';
+const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 const element: HTMLLIElement | null = mw.util.addPortletLink(
-	document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
+	portletId ? 'p-cactions' : 'p-tb',
 	'#',
 	`导入${mw.config.get('wgNamespaceNumber') === 6 ? (label === '' ? '页面' : `文件（${label}）`) : `${buttonLabel}`}`,
 	't-import'

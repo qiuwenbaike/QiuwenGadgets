@@ -38,8 +38,9 @@ export const purgePageCache = (): void => {
 			});
 	};
 
+	const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 	const element: HTMLLIElement | null = mw.util.addPortletLink(
-		document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
+		portletId,
 		'#',
 		getMessage('Purge'),
 		'ca-purge',
