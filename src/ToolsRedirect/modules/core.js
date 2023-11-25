@@ -543,23 +543,24 @@ export const ToolsRedirect = {
 				return title;
 			});
 			if (isCategory) {
-				xhr = xhr.then(async (origTitle) => {
-					const data = await $.ajax(
+				xhr = xhr.then((origTitle) => {
+					$.ajax(
 						self.buildQuery({
 							action: 'parse',
 							text: pagename,
 							prop: 'text',
 							variant,
 						})
-					);
-					const tmpTitle = $(data.parse.text['*'])
-						.text()
-						.replace(/(^\s*|\s*$)/g, '');
-					// should not create redirect categories
-					// if the conversion is already in global table,
-					// or it will mess up a lot
-					redirectExcludes[tmpTitle] = true;
-					return origTitle;
+					).then((data) => {
+						const tmpTitle = $(data.parse.text['*'])
+							.text()
+							.replace(/(^\s*|\s*$)/g, '');
+						// should not create redirect categories
+						// if the conversion is already in global table,
+						// or it will mess up a lot
+						redirectExcludes[tmpTitle] = true;
+						return origTitle;
+					});
 				});
 			}
 			deferreds.push(xhr);
