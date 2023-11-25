@@ -66,14 +66,14 @@ const quickImport = async (): Promise<void> => {
 			},
 			'info'
 		);
-		const params: ApiUploadParams = {
+		const uploadParams: ApiUploadParams = {
 			action: 'upload',
 			filename: pageName,
 			comment: '自其他网站迁移文件',
 			ignorewarnings: true,
 			url,
 		};
-		await api.postWithEditToken(params);
+		await api.postWithEditToken(uploadParams);
 		refreshPage();
 	};
 
@@ -81,21 +81,21 @@ const quickImport = async (): Promise<void> => {
 		let source = '';
 		source = document.querySelectorAll("#ca-view-foreign a[href*='zh.wikipedia.org']")[0] ? 'zhwiki' : 'commons';
 		await importPage(source);
-		const params: ApiQueryParams = {
+		const queryParams: ApiQueryParams = {
 			action: 'query',
 			prop: 'info',
 			titles: pageName,
 		};
-		const data = await api.get(params);
+		const data = await api.get(queryParams);
 		for (const [, pageinfo] of Object.entries(data['query'].pages)) {
 			if ((pageinfo as Record<string, never>)['missing'] === '') {
 				await importPage(pageName);
-				const params2: ApiQueryParams = {
+				const params: ApiQueryParams = {
 					action: 'query',
 					prop: 'info',
 					titles: pageName,
 				};
-				const result = await api.get(params2);
+				const result = await api.get(params);
 				for (const [, info] of Object.entries(result['query'].pages)) {
 					if ((info as Record<string, never>)['redirect'] === '') {
 						continue;
@@ -103,12 +103,12 @@ const quickImport = async (): Promise<void> => {
 					uploadFile();
 				}
 			} else {
-				const params3: ApiQueryParams = {
+				const params: ApiQueryParams = {
 					action: 'query',
 					prop: 'info',
 					titles: pageName,
 				};
-				const result = await api.get(params3);
+				const result = await api.get(params);
 				for (const [, info] of Object.entries(result['query'].pages)) {
 					if ((info as Record<string, never>)['redirect'] === '') {
 						continue;
