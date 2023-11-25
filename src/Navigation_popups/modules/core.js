@@ -4652,7 +4652,7 @@ export const popups = () => {
 		if (!getValueOf('popupImages')) {
 			return;
 		}
-		if (!isValidImageName(image)) {
+		if (!isValidImageName(image.toString())) {
 			return false;
 		}
 		const art = image.urlString();
