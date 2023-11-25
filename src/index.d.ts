@@ -94,7 +94,6 @@ declare global {
 		): string;
 		wgULS: typeof window.wgUCS;
 		wgUVS: typeof window.wgUCS;
-		pushReplaceRun: function[];
 		// npm packages
 		ClipboardJS: typeof _ClipboardJS; // Clipboard clipboard.js
 		tippy: _Tippy; // Tippy tippy.js
