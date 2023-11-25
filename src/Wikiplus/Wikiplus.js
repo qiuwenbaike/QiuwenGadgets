@@ -1,8 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-(() => {
+(async () => {
 	if (!(mw.config.get('wgAction') === 'view' && mw.config.get('wgIsArticle'))) {
 		return;
+	}
+
+	/* see <https://github.com/Wikiplus/Wikiplus/issues/65> */
+	if (mw.user.options.get('visualeditor-enable') === 1) {
+		await mw.loader.using('ext.visualEditor.desktopArticleTarget.init');
 	}
 
 	/*! Wikiplus - 4.0.11 | Eridanus Sora (妹空酱) | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
