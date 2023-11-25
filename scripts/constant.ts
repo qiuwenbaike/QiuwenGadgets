@@ -1,8 +1,22 @@
 import type {DefaultDefinition, DefaultSectionMap} from './modules/types';
 
-const HEADER = '/* <nowiki> */';
+/**
+ * `MediaWiki:Gadgets-definition`页面最上方的文本
+ *
+ * The content above the `MediaWiki:Gadgets-definition` page
+ */
+const BANNER = `<div class="mw-message-box mw-message-box-notice">
+<big>本页面内容由脚本自动生成，维护于Git仓库内。对本页面内容的变更，应通知技术团队，以免在代码部署时被误覆盖。</big>
+* 若需要查看本地小工具使用情况，请前往[[Special:GadgetUsage|“小工具使用统计”界面]]。
+* 若需要设置您所需启用或关闭的小工具，请前往[[Special:参数设置#mw-prefsection-gadgets|参数设置]]。
+</div>`;
 
-const WARNING = `/**
+/**
+ * 小工具样式和脚本文件上方的文本，需为 CSS 和 JavaScript 所兼容的注释
+ *
+ * The content above each gadget (CSS and JavaScript files), should be compatible comments for CSS and JavaScript
+ */
+const HEADER = `/**
  * +--------------------------------------------------------+
  * |         === WARNING: GLOBAL GADGET FILE ===            |
  * +--------------------------------------------------------+
@@ -13,19 +27,6 @@ const WARNING = `/**
  * |  Please discuss changes at talk page before editing.   |
  * +--------------------------------------------------------+
  */`;
-
-const FOOTER = '/* </nowiki> */';
-
-/**
- * `MediaWiki:Gadgets-definition`页面最上方的文本
- *
- * The content at the top of the `MediaWiki:Gadgets-definition` page
- */
-const BANNER = `<div class="mw-message-box mw-message-box-notice">
-<big>本页面内容由脚本自动生成，维护于Git仓库内。对本页面内容的变更，应通知技术团队，以免在代码部署时被误覆盖。</big>
-* 若需要查看本地小工具使用情况，请前往[[Special:GadgetUsage|“小工具使用统计”界面]]。
-* 若需要设置您所需启用或关闭的小工具，请前往[[Special:参数设置#mw-prefsection-gadgets|参数设置]]。
-</div>`;
 
 const DEFAULT_DEFINITION: DefaultDefinition = {
 	enable: true,
@@ -41,7 +42,7 @@ const DEFAULT_DEFINITION: DefaultDefinition = {
 	rights: [],
 	skins: [],
 	supportsUrlLoad: false,
-	// package: boolean -> 无需指定，在 TypeScript 中可以引用任何东西 / No need to specify, just import anything in TypeScript
+	// package: boolean -> 已弃用，在 TypeScript 中可以引用任何东西 / Deprecated, just import anything in TypeScript
 	// requiresES6: boolean -> 无需指定，以下方`GLOBAL_REQUIRES_ES6`为准 / No need to specify, the following is based on `GLOBAL_REQUIRES_ES6`
 	// targets: 'desktop' | 'mobile' -> 已弃用，转用 skins 参数 / Deprecated, switch to the "skins" parameter
 	// type: 'general' | 'styles' -> 自动识别，无需指定 / Automatically recognized, no need to specify <https://github.com/wikimedia/mediawiki-extensions-Gadgets/blob/master/includes/Gadget.php#L514>
@@ -110,10 +111,8 @@ const IS_CONVERT_VARIANT = true;
 const MAX_CONCURRENCY = 16;
 
 export {
-	HEADER,
-	WARNING,
-	FOOTER,
 	BANNER,
+	HEADER,
 	DEFAULT_DEFINITION,
 	DEFINITION_SECTION_MAP,
 	DEPLOY_USER_AGENT,
