@@ -1,3 +1,4 @@
+import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 
 const edit0 = (): void => {
@@ -11,8 +12,13 @@ const edit0 = (): void => {
 
 	const $span0: JQuery = $span1.clone();
 
-	$body.find('body:not(.skin-citizen) #content h1#firstHeading').append($span0);
-	$body.find('body.skin-citizen .mw-indicators').prepend($span0);
+	switch (WG_SKIN) {
+		case 'citizen':
+			$body.find('.mw-indicators').prepend($span0);
+			break;
+		default:
+			$body.find('#content h1#firstHeading').append($span0);
+	}
 
 	for (const element of $span0.find('a')) {
 		element.title = getMessage('Edit0');
