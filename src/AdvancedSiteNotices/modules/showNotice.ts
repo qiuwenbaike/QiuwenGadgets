@@ -35,7 +35,7 @@ tippy($dismiss.get(0) as HTMLAnchorElement, {
 	placement: 'bottom',
 });
 
-const noticeStyles: CSSStyleSheet[] = [];
+const noticeStyles: HTMLStyleElement[] = [];
 let $notices: JQuery;
 const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteNotices): void => {
 	currentNoticesVersion = remoteNotices?.version ?? currentNoticesVersion;
@@ -67,11 +67,11 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 		$notice.data('asn-html', '');
 	}
 	if (typeof $notice.data('asn-style') === 'string') {
-		const style: CSSStyleSheet = mw.util.addCSS(
-			decodeURIComponent($notice.data('asn-style').replace(/\+/g, '%20'))
-		);
 		$notice.data('asn-style', '');
 		$notice.data('asn-style-id', noticeStyles.length);
+		const style: HTMLStyleElement = mw.loader.addStyleTag(
+			decodeURIComponent($notice.data('asn-style').replace(/\+/g, '%20'))
+		);
 		style.disabled = true;
 		noticeStyles.push(style);
 	}
@@ -84,7 +84,7 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 			for (const style of noticeStyles) {
 				style.disabled = true;
 			}
-			const noticeStyle: CSSStyleSheet | undefined = noticeStyles[noticeStyleId];
+			const noticeStyle: HTMLStyleElement | undefined = noticeStyles[noticeStyleId];
 			if (noticeStyle) {
 				noticeStyle.disabled = false;
 			}
@@ -98,7 +98,7 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 		});
 	} else if (!currentNoticeHtml) {
 		$mountPoint.append($area);
-		const noticeStyle: CSSStyleSheet | undefined = noticeStyles[noticeStyleId];
+		const noticeStyle: HTMLStyleElement | undefined = noticeStyles[noticeStyleId];
 		if (noticeStyle) {
 			noticeStyle.disabled = false;
 		}

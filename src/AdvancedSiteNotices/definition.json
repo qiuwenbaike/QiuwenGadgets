@@ -8,8 +8,7 @@
 		"ext.gadget.Tippy",
 		"ext.gadget.Toastify",
 		"mediawiki.api",
-		"mediawiki.storage",
-		"mediawiki.util"
+		"mediawiki.storage"
 	],
 	"peers": ["AdvancedSiteNotices-pagestyles"]
 }
