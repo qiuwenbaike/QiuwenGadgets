@@ -1,8 +1,5 @@
-const editCount = (): void => {
-	const editCountNumber: number = mw.config.get('wgUserEditCount') ?? 0;
-	mw.util.addCSS(
-		`#pt-mycontris>a::after,.menu__item--userContributions>span>span::after{content:" (${editCountNumber})"}`
-	);
-};
+import {WG_USER_EDIT_COUNT} from './constant';
 
-$(editCount);
+mw.loader.addStyleTag(
+	`#pt-mycontris>a::after,.menu__item--userContributions>span>span::after{content:" (${WG_USER_EDIT_COUNT ?? 0})"}`
+);
