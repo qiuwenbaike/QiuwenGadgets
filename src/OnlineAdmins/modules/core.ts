@@ -4,8 +4,9 @@ import {initMwApi} from '../../util';
 
 export const onlineAdmins = (): void => {
 	// Create portlet link
+	const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 	const portletLinkOnline: HTMLLIElement | null = mw.util.addPortletLink(
-		document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb',
+		portletId,
 		'#',
 		getMessage('Online'),
 		't-onlineadmin'
@@ -66,9 +67,8 @@ export const onlineAdmins = (): void => {
 					};
 					const response = await api.get(params);
 					for (const {groups, name} of response['query'].users) {
-						// 找到管理人员，去除机器人
-						// !!name可用于消除name的空值
-						if (groups.includes('bot') || BLACK_LIST.includes(name) || !!name) {
+						// 找到管理人员，去除机器人，消除name的空值
+						if (groups.includes('bot') || BLACK_LIST.includes(name) || !name) {
 							continue;
 						}
 						if (groups.includes('steward')) {
