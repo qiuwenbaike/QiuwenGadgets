@@ -51,6 +51,8 @@ const parseStorageValue = (storageValue: string): GeoInfo => {
 
 /**
  * Request geo data and store it in the local storage
+ *
+ * @return {Object} Promise<GeoInfo>
  */
 const storeGeoInStorage = async (): Promise<GeoInfo> => {
 	try {
