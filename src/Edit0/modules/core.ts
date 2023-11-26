@@ -2,7 +2,7 @@ import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 
 const edit0 = (): void => {
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	const $content: JQuery = $body.find('#content, #mw_content').first();
 	const $span1: JQuery = $content.find('span.mw-editsection:not(.plainlinks)').first();
@@ -24,7 +24,10 @@ const edit0 = (): void => {
 		element.title = getMessage('Edit0');
 
 		const {href} = element;
-		const urlSearch = {
+		const urlSearch: {
+			summary: string;
+			section: string;
+		} = {
 			summary: '/* top */ ',
 			section: '0',
 		};

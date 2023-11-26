@@ -3,8 +3,8 @@ import {messages} from './messages';
 
 const updateLinks = (): void => {
 	messages();
-	const $body = $('body');
-	const $mwRollbackLinkA = $body.find('.mw-rollback-link a');
+	const $body: JQuery<HTMLBodyElement> = $('body');
+	const $mwRollbackLinkA: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>('.mw-rollback-link a');
 	$mwRollbackLinkA.off('click');
 	$mwRollbackLinkA.on('click', function (event: JQuery.ClickEvent): void {
 		event.preventDefault();

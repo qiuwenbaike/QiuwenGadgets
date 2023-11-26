@@ -1,5 +1,5 @@
-export const pagePatroller = () => {
-	const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+export const pagePatroller = (): void => {
+	const weekdays: string[] = ['日', '一', '二', '三', '四', '五', '六'];
 	const loading: string = window.wgULS('正在加载此页面的巡查者……', '正在加載此頁面的巡查者……');
 	let $patroller: JQuery;
 	if (mw.config.get('skin') === 'citizen') {
@@ -9,7 +9,7 @@ export const pagePatroller = () => {
 	} else {
 		$patroller = $('<div>').attr('id', 'footer-info-patroller').text(loading);
 	}
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	$body.find('#footer-info, .page-info').prepend($patroller);
 	// 针对有巡查权限的用户优化。若页面上能看到巡查按钮，那一定没被巡查过。
 	if (document.querySelectorAll('.patrollink').length) {

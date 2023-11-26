@@ -12,7 +12,7 @@ $(function initAutoLogin(): void {
 		return;
 	}
 
-	const windowManager = initWindowManager($body);
+	const windowManager: OO.ui.WindowManager = initWindowManager($body);
 
 	const fakeToastifyInstance: ToastifyInstance = {
 		hideToast: () => {},

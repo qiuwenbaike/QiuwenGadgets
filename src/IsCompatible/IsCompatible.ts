@@ -33,7 +33,7 @@ const isCompatible = (): boolean => {
 		// https://caniuse.com/promise-finally
 		// Chrome 63+, Edge 18+, Opera 50+, Safari 11.1+, Firefox 58+, iOS 11+
 		//
-		(() => {
+		((): boolean => {
 			try {
 				// eslint-disable-next-line no-new, no-new-func
 				new Function(
@@ -52,7 +52,7 @@ const isCompatible = (): boolean => {
 		//
 		// Based on Benjamin De Cock's snippet here:
 		// https://gist.github.com/bendc/d7f3dbc83d0f65ca0433caf90378cd95
-		(() => {
+		((): boolean => {
 			try {
 				// eslint-disable-next-line no-new, no-new-func
 				new Function('(() => 0)()');
@@ -61,7 +61,7 @@ const isCompatible = (): boolean => {
 				return false;
 			}
 		})() &&
-		(() => {
+		((): boolean => {
 			try {
 				// eslint-disable-next-line no-new, no-new-func
 				new Function('(a = 0) => a');
@@ -75,7 +75,7 @@ const isCompatible = (): boolean => {
 		// https://caniuse.com/mdn-javascript_builtins_regexp_flags
 		// Edge 79+ (Chromium-based, rejects MSEdgeHTML-based Edge <= 18)
 		//
-		(() => {
+		((): boolean => {
 			try {
 				// eslint-disable-next-line no-new, no-new-func
 				new Function('(function(){return /./g.flags === "g"})();');

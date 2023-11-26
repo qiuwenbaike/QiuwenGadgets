@@ -49,11 +49,11 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 				.addClass('gadget-markrights_userpage__text')
 				.text(indicatorText ?? '')
 		);
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	$indicator.prependTo($body.find('#footer-info, .page-info'));
 };
 
-export const getPermissions = () => {
+export const getPermissions = (): void => {
 	if (!wgRelevantUserName) {
 		return;
 	}

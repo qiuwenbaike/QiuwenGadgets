@@ -38,7 +38,7 @@ export const purgePageCache = (): void => {
 			});
 	};
 
-	const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
+	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 	const element: HTMLLIElement | null = mw.util.addPortletLink(
 		portletId,
 		'#',

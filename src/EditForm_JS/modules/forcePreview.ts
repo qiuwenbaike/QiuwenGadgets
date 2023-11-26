@@ -23,7 +23,8 @@ const forcePreview = ($editForm: JQuery): void => {
 	}
 
 	const $body: JQuery<HTMLBodyElement> = $editForm.parents('body');
-	const $captchaWordButton = $editForm.find('input[name="wpCaptchaWord"]');
+	const $captchaWordButton: JQuery<HTMLInputElement> =
+		$editForm.find<HTMLInputElement>('input[name="wpCaptchaWord"]');
 
 	if (!$body.find('#wikiPreview, #wikiDiff').is(':visible')) {
 		if (saveButton.isDisabled()) {
@@ -32,7 +33,7 @@ const forcePreview = ($editForm: JQuery): void => {
 
 		originLabel ??= saveButton.getLabel()?.toString();
 
-		const previewRequestText = getMessage('Preview');
+		const previewRequestText: string = getMessage('Preview');
 		saveButton.setDisabled(true).setLabel(originLabel + previewRequestText);
 
 		if (!$captchaWordButton.length) {

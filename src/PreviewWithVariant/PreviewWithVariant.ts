@@ -7,7 +7,7 @@ mw.hook('wikipage.editform').add((): void => {
 	if (mw.config.get('wgPreviewWithVariantInitialized')) {
 		return;
 	}
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	const $editForm: JQuery = $body.find('#editform');
 	const $templateSandboxPreview: JQuery = $editForm.find('input[name="wpTemplateSandboxPreview"]');
 	// It is possible that a user want to preview a page with a non-wikitext module
@@ -85,8 +85,10 @@ mw.hook('wikipage.editform').add((): void => {
 		if (!checkbox.isSelected()) {
 			return;
 		}
-		const selectedItem = dropdown.getMenu().findSelectedItem();
-		return selectedItem ? ((selectedItem as OO.ui.OptionWidget).getData() as string) : undefined;
+		const selectedItem: OO.ui.OptionWidget | null = dropdown
+			.getMenu()
+			.findSelectedItem() as OO.ui.OptionWidget | null;
+		return selectedItem ? (selectedItem.getData() as string) : undefined;
 	};
 	const manipulateActionUrl = (): void => {
 		const selectedVariant: string | undefined = getSelectedVariant();

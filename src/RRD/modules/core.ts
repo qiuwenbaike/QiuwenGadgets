@@ -2,7 +2,7 @@ import {RRD_PAGE} from './constant';
 import {initMwApi} from '../../util';
 import {message} from './messages';
 
-export const isLog = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
+export const isLog: boolean = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
 const config = {checkboxes: {}, others: {}};
 let ids: string[] = [];
 let $dialog: JQuery;
@@ -86,7 +86,7 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 };
 
 const updateConfig = (): void => {
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	const checkBoxes = {};
 	if ($body.find('#rrdHideContent').prop('checked')) {
 		Object.defineProperty(checkBoxes, 'rrdHideContent', {value: 1});
@@ -194,7 +194,7 @@ export const main = (): void => {
 		})
 		.text(isLog ? message.report_button_log_text : message.report_button_text);
 	$report.on('click', showDialog);
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	// For action=history and Special:Log
 	$body
 		.find(

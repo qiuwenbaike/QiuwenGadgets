@@ -1,19 +1,19 @@
 import {getMessage} from './i18n';
 
 const fillSpecialPage = (): void => {
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
-	const $wpSubjectElement = $body.find('[name="wpSubject"]');
+	const $wpSubjectElement: JQuery<HTMLInputElement> = $body.find<HTMLInputElement>('input[name="wpSubject"]');
 	if (!$wpSubjectElement.length) {
 		return;
 	}
 
-	const $wpTitleElement = $body.find('[name="wpTitle"]');
+	const $wpTitleElement: JQuery<HTMLInputElement> = $body.find<HTMLInputElement>('input[name="wpTitle"]');
 
 	const linkTilte: string = getMessage('Report');
-	const reportRevision = mw.util.getParamValue('report_revision') || null;
+	const reportRevision: string = mw.util.getParamValue('report_revision') ?? '';
 	let reportTitle: string = mw.util.getParamValue('report_title') || '';
-	if (reportRevision && reportRevision !== '0') {
+	if (reportRevision !== '0') {
 		reportTitle += `${getMessage('(')}${getMessage('Revision')}${reportRevision}${getMessage(')')}`;
 	}
 

@@ -3,10 +3,8 @@ import {geoCountryOrAreaName, geoRegionName} from './name';
 import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
-const countryOrAreaList = geoCountryOrAreaName;
-const regionList = geoRegionName;
-const _countryOrAreaList: Record<string, string> = countryOrAreaList();
-const _regionList: Record<string, string> = regionList();
+const _countryOrAreaList: Record<string, string> = geoCountryOrAreaName();
+const _regionList: Record<string, string> = geoRegionName();
 const getCountryOrAreaName = (key: string) => {
 	return _countryOrAreaList[key] || key;
 };
@@ -59,7 +57,7 @@ export const getLocation = (): void => {
 							: indicatorText ?? ''
 					)
 			);
-		const $body = $('body');
+		const $body: JQuery<HTMLBodyElement> = $('body');
 		if (indicator === true) {
 			$indicator.appendTo($body.find('.mw-indicators'));
 		} else {
@@ -89,7 +87,7 @@ export const getLocation = (): void => {
 				appendIcon(indicatorText, spanClass, 'globe');
 			})
 			.catch((): void => {
-				const indicatorText = getMessage('Unknown');
+				const indicatorText: string = getMessage('Unknown');
 				const spanClass = 'orange';
 				appendIcon(indicatorText, spanClass, 'helpNotice');
 			});

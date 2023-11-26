@@ -31,7 +31,7 @@ export const filterLists = {
 		// Define interface messages
 		mw.messages.set(i18n);
 		// Create portlet link
-		const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
+		const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 		const portletlink: HTMLLIElement | null = mw.util.addPortletLink(
 			portletId,
 			'#',
@@ -58,7 +58,7 @@ export const filterLists = {
 		const instructions: string = this.rightsLogOnly
 			? msg('rights-list-instructions')
 			: msg('other-list-instructions');
-		const $body = $('body');
+		const $body: JQuery<HTMLBodyElement> = $('body');
 		$body.find('#ca-rxfilter').hide();
 		const $pageTop: JQuery = $body.find('#contentSub, #topbar');
 		if (!$pageTop.length) {
@@ -66,8 +66,8 @@ export const filterLists = {
 		}
 		// Set up config
 		const value: string | null = mw.util.getParamValue('lifilterexpr');
-		const casing = mw.util.getParamValue('lifiltercase') === '1';
-		const inverted = mw.util.getParamValue('lifilterinv') === '1';
+		const casing: boolean = mw.util.getParamValue('lifiltercase') === '1';
+		const inverted: boolean = mw.util.getParamValue('lifilterinv') === '1';
 		// Generate the form
 		const $fieldSet: JQuery = $('<fieldset>').attr('id', 'rightsFilter').text(instructions);
 		const $legend: JQuery = $('<legend>').text(msg('legend'));
@@ -103,7 +103,7 @@ export const filterLists = {
 			.find('#rightsFilter')
 			.find('input')
 			.on('keyup change', function (): void {
-				const $this = $(this);
+				const $this: JQuery<HTMLInputElement> = $(this);
 				if ($this.attr('id') !== 'rfRegex') {
 					filterLists.filterLi();
 					return;
@@ -125,13 +125,13 @@ export const filterLists = {
 	filterLi(hilight?: boolean) {
 		let type: string | undefined;
 		let rx: RegExp;
-		const $body = $('body');
+		const $body: JQuery<HTMLBodyElement> = $('body');
 		// Grab options from form
 		if (this.rightsLogOnly) {
 			type = $body.find('#rfSelect').attr('selectedIndex');
 		}
 		const invert: boolean = $body.find('#rfInvert').prop('checked');
-		const search = String($body.find('#rfRegex').val());
+		const search: string = $body.find('#rfRegex').val()?.toString() ?? '';
 		const flags: 'ig' | 'g' = $body.find('#rfCase').prop('checked') ? 'ig' : 'g';
 		hilight = !!(hilight || this.lastClicked.toString() === '1');
 		try {

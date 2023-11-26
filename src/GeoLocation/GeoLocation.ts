@@ -32,7 +32,7 @@ import {initMwApi} from '../util';
 				rvprop: 'content',
 				rvslots: 'main',
 			};
-			const response: GeoInfo = await api.get(params).then((data) => {
+			const response: GeoInfo = await api.get(params).then((data): GeoInfo => {
 				return JSON.parse(data['query'].pages[0].revisions[0].slots.main.content);
 			});
 			if (

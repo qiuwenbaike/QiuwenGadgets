@@ -6,7 +6,7 @@
  */
 // Technique gleaned from [[enwiki:fr:Utilisateur:Od1n/AddLinksGadgetsDefinition.js]].
 // This anchor element is used to generate links and is not attached to the document.
-const link = document.createElement('a');
+const link: HTMLAnchorElement = document.createElement('a');
 
 const makeLink = (href: string, text: string | null) => {
 	link.href = href;
@@ -24,9 +24,9 @@ const linkGadgetSource = (sourcePage: string) => {
 
 const gadgetNameRegex = /^(\s*)([\w_-]+)\s*/;
 
-export const getGadgetName = (innerHTML: string) => {
-	const match = gadgetNameRegex.exec(innerHTML);
-	return match ? match[2] : null;
+export const getGadgetName = (innerHTML: string): string => {
+	const match: RegExpExecArray | null = gadgetNameRegex.exec(innerHTML);
+	return (match ? match[2] : null) ?? '';
 };
 
 export const makeGadgetId = (gadgetName: string) => {
@@ -66,7 +66,7 @@ export const processGadgetDefinition = (innerHTML: string) => {
 						splitValue = splitValue.map((dependency: string) => {
 							const gadgetName = /^ext\.gadget\.(.+)$/.exec(dependency);
 							if (gadgetName) {
-								const _gadgetName = gadgetName[1] ?? '';
+								const _gadgetName: string = gadgetName[1] ?? '';
 								return linkGadgetAnchor(_gadgetName, dependency);
 							}
 							return makeWikilink(
@@ -79,7 +79,7 @@ export const processGadgetDefinition = (innerHTML: string) => {
 						key = makeWikilink('Special:GoToInterwiki/mw:Manual:User_rights#List_of_permissions', key);
 						break;
 					case 'peers':
-						splitValue = splitValue.map((gadgetName) => {
+						splitValue = splitValue.map((gadgetName: string): string => {
 							return linkGadgetAnchor(gadgetName);
 						});
 				}

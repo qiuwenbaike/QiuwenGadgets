@@ -12,7 +12,7 @@ export const foldRef = (): void => {
 	};
 	const viewPortHeight: number = window.innerHeight;
 	// for articles using <references />, {{Reflist}}s or similar templates
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	const toFold: JQuery = $body.find('.refbegin, .mw-references-wrap');
 	for (const element of toFold) {
 		$currentToFoldElement = $(element);

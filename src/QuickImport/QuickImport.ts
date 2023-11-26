@@ -2,8 +2,8 @@ import {initMwApi} from '../util';
 
 const quickImport = async (): Promise<void> => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (QuickImport/1.0; ${mw.config.get('wgWikiID')})`);
-	const $body = $('body');
-	const pageName = $body.find('.redirectText a')[0]?.textContent || mw.config.get('wgPageName');
+	const $body: JQuery<HTMLBodyElement> = $('body');
+	const pageName: string = $body.find('.redirectText a')[0]?.textContent || mw.config.get('wgPageName');
 
 	let toastifyInstance: ToastifyInstance = {
 		hideToast: () => {},
@@ -36,9 +36,9 @@ const quickImport = async (): Promise<void> => {
 			summary += '；文件作者请参见此页面及来源页面记载';
 		}
 
-		const params = {
+		const params: ApiImportParams = {
 			action: 'import',
-			assignknownusers: 1,
+			assignknownusers: true,
 			interwikipage: pageName,
 			interwikiprefix: iwprefix,
 			interwikisource: iwprefix,
@@ -129,8 +129,8 @@ if (mw.config.get('wgNamespaceNumber') === 6 && !document.querySelector('#mw-noa
 	label = '';
 }
 
-const buttonLabel = document.querySelectorAll('.redirectText a')[0] ? '重定向目标' : '页面';
-const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
+const buttonLabel: string = document.querySelectorAll('.redirectText a')[0] ? '重定向目标' : '页面';
+const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 const element: HTMLLIElement | null = mw.util.addPortletLink(
 	portletId,
 	'#',

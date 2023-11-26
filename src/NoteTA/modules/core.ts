@@ -90,7 +90,8 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 									writable: true,
 								});
 								if (Object.getOwnPropertyDescriptor(textVariant, text)) {
-									const textVariantText = Object.getOwnPropertyDescriptor(textVariant, text)?.value;
+									const textVariantText: string[] = Object.getOwnPropertyDescriptor(textVariant, text)
+										?.value;
 									textVariantText.push(variant);
 									Object.defineProperty(textVariant, text, {
 										value: textVariantText,
@@ -120,7 +121,7 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 									});
 								}
 								const variantsName: string = variants
-									.map((variantName) => {
+									.map((variantName: string): string => {
 										return `-{R|{{MediaWiki:Variantname-${variantName}}}}-`;
 									})
 									.join('、');
@@ -187,7 +188,7 @@ const init = (hash: string): JQuery => {
 
 export const noteTALoad = (): void => {
 	mw.hook('wikipage.content').add((): void => {
-		const $body = $('body');
+		const $body: JQuery<HTMLBodyElement> = $('body');
 		$body.find('.mw-indicator[id^=mw-indicator-noteTA-]').each((_index: number, element: HTMLElement): void => {
 			const $element: JQuery = $(element);
 			const $elementId: string | undefined = $element.attr('id');

@@ -11,11 +11,11 @@ export const smoothTOC = (): void => {
 		if (checkA11yKey(event)) {
 			return;
 		}
-		const herf = $element.attr('href');
+		const herf: string | undefined = $element.attr('href');
 		if (!herf) {
 			return;
 		}
-		const anchorOffset = $(herf).offset();
+		const anchorOffset: JQuery.Coordinates | undefined = $(herf).offset();
 		if (!anchorOffset) {
 			return;
 		}
@@ -23,7 +23,7 @@ export const smoothTOC = (): void => {
 		scrollTop(mw.config.get('skin') === 'vector' ? `${anchorOffset.top}px` : `${anchorOffset.top - 60}px`);
 	};
 	const smoothToc = (): void => {
-		const $body = $('body');
+		const $body: JQuery<HTMLBodyElement> = $('body');
 		$body.find('#toc a, #p-toc a, .sidebar-toc-link').each((_index: number, element: HTMLElement): void => {
 			const $element: JQuery = $(element);
 			$element.on('click', (event: JQuery.ClickEvent): void => {

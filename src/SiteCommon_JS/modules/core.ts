@@ -266,7 +266,7 @@ const hideNewUsersLog = ($body: JQuery<HTMLBodyElement>): void => {
 
 const toggleLink = ($body: JQuery<HTMLBodyElement>): void => {
 	/* 调整折叠按钮的颜色 */
-	const $toggler = $body.find('.mw-collapsible-toggle, .gadget-collapsible-toggler');
+	const $toggler: JQuery = $body.find('.mw-collapsible-toggle, .gadget-collapsible-toggler');
 	if ($toggler.length && $toggler.parent()[0]?.style.color) {
 		$toggler.find('a').css('color', 'inherit');
 	}

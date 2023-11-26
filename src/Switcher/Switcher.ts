@@ -1,11 +1,11 @@
-const switcherJS = () => {
+const switcherJS = (): void => {
 	for (const [index, container] of [...document.querySelectorAll('.switcher-container')].entries()) {
 		let selected: unknown[] | Element | undefined;
 		let $radio: JQuery<Element> | undefined;
 		const switchers: Element[] = [];
 		const radioName = `switcher-${index}`;
 		for (const [, switcher] of [...container.children].entries()) {
-			const label = switcher.querySelector('.switcher-label');
+			const label: HTMLElement | null = switcher.querySelector('.switcher-label');
 			if (!label || label.childNodes.length === 0) {
 				continue;
 			}
@@ -13,7 +13,7 @@ const switcherJS = () => {
 			$radio = $('<input>')
 				.prop({type: 'radio', name: radioName})
 				// eslint-disable-next-line no-loop-func
-				.on('click', () => {
+				.on('click', (): void => {
 					$(selected as NonNullable<typeof selected>).hide();
 					$(switcher).show();
 					selected = switcher;
@@ -42,7 +42,7 @@ const switcherJS = () => {
 				.prepend(
 					$('<input>')
 						.prop({type: 'radio', name: radioName})
-						.on('click', () => {
+						.on('click', (): void => {
 							$(switchers).show();
 							selected = switchers;
 						})

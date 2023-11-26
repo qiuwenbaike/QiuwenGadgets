@@ -2,6 +2,7 @@ import type {
 	ApiClientLoginParams as _ApiClientLoginParams,
 	ApiComparePagesParams as _ApiComparePagesParams,
 	ApiEditPageParams as _ApiEditPageParams,
+	ApiImportParams as _ApiImportParams,
 	ApiParseParams as _ApiParseParams,
 	ApiPurgeParams as _ApiPurgeParams,
 	ApiQueryLogEventsParams as _ApiQueryLogEventsParams,
@@ -41,6 +42,7 @@ declare global {
 	type ApiClientLoginParams = _ApiClientLoginParams;
 	type ApiComparePagesParams = _ApiComparePagesParams;
 	type ApiEditPageParams = _ApiEditPageParams;
+	type ApiImportParams = _ApiImportParams;
 	type ApiParseParams = _ApiParseParams;
 	type ApiPurgeParams = _ApiPurgeParams;
 	type ApiQueryLogEventsParams = _ApiQueryLogEventsParams;

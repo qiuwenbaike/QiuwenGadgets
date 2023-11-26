@@ -65,7 +65,7 @@ const SELECTOR_ALLOWED: string[] = [
 	'time',
 	'u',
 ];
-const SELECTOR_BLOCKED = [
+const SELECTOR_BLOCKED: string[] = [
 	'code',
 	'kbd',
 	'pre',
@@ -171,7 +171,7 @@ const getNextVisibleSibling = (node: Node): HTMLElement | Text | null => {
 };
 
 const createSpacingWrapper = (str: string): [string, HTMLSpanElement] => {
-	const span = document.createElement('span');
+	const span: HTMLSpanElement = document.createElement('span');
 	// eslint-disable-next-line mediawiki/class-doc
 	span.className = WRAPPER_CLASS;
 	span.textContent = str.slice(-1);

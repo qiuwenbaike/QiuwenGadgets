@@ -13,7 +13,7 @@
  */
 import {filterLists} from './modules/core';
 
-const filterListsLoad = () => {
+const filterListsLoad = (): void => {
 	// Set guard
 	mw.config.set('wgLogFilterInstalled', true);
 
@@ -30,7 +30,7 @@ const filterListsLoad = () => {
 	}
 };
 
-const logFilterLoad = () => {
+const logFilterLoad = (): void => {
 	// Guard against double inclusions
 	if (mw.config.get('wgLogFilterInstalled')) {
 		return;

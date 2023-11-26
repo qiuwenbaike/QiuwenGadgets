@@ -8,7 +8,7 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 	for (const element of $body.find(
 		'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a,.page-actions>nav>ul>li a,.page-actions__button'
 	)) {
-		const $element = $(element);
+		const $element: JQuery = $(element);
 		let title: string | undefined = $element.attr('title');
 		if (!title) {
 			continue;
@@ -51,7 +51,7 @@ const tippyForExtension = (): void => {
 	});
 
 	if (WG_SKIN === 'vector') {
-		mw.loader.using('ext.CollapsibleSidebar.vector').then(() => {
+		mw.loader.using('ext.CollapsibleSidebar.vector').then((): void => {
 			tippy('#sidebarCollapse', {
 				arrow: true,
 				content: getContent,

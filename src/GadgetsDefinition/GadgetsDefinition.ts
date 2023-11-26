@@ -1,6 +1,6 @@
 import {getGadgetName, makeGadgetId, processGadgetDefinition} from './modules/core';
 
-(() => {
+((): void => {
 	// Only operate on [[MediaWiki:Gadgets-definition]] when the text is visible.
 	if (
 		!(
@@ -12,14 +12,14 @@ import {getGadgetName, makeGadgetId, processGadgetDefinition} from './modules/co
 		return;
 	}
 
-	const gadgetsDefinitionLoad = () => {
-		const $body = $('body');
-		const $parserOutput = $body.find('.mw-parser-output');
+	const gadgetsDefinitionLoad = (): void => {
+		const $body: JQuery<HTMLBodyElement> = $('body');
+		const $parserOutput: JQuery = $body.find('.mw-parser-output');
 		// Process gadget definitions in lists.
 		$parserOutput.find('li').each((_index, element) => {
 			// Add id so that gadget definitions can be highlighted when we click a link
 			// to them.
-			const gadgetName = getGadgetName(element.innerHTML);
+			const gadgetName: string = getGadgetName(element.innerHTML);
 			if (gadgetName) {
 				element.id = makeGadgetId(gadgetName);
 			}

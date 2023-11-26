@@ -59,7 +59,7 @@ export const checkLastActive = (name: string, element: HTMLElement): void => {
 		uclimit: 1,
 		ucprop: 'timestamp',
 	};
-	api.get(params).then((usercontribs) => {
+	api.get(params).then((usercontribs): void => {
 		let maxdate: number | Date | null = null;
 		if (usercontribs['query'].usercontribs[0] !== undefined) {
 			maxdate = new Date(usercontribs['query'].usercontribs[0].timestamp);
@@ -72,9 +72,9 @@ export const checkLastActive = (name: string, element: HTMLElement): void => {
 			lelimit: 1,
 			leprop: 'timestamp',
 		};
-		api.get(_params).then((logevents) => {
+		api.get(_params).then((logevents): void => {
 			if (logevents['query'].logevents[0] !== undefined) {
-				const date = new Date(logevents['query'].logevents[0].timestamp);
+				const date: Date = new Date(logevents['query'].logevents[0].timestamp);
 				if (maxdate === null) {
 					maxdate = date;
 				} else if (date > maxdate) {

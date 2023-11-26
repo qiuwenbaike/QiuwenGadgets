@@ -11,7 +11,7 @@ const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 		framed: false,
 		icon: 'copy',
 	});
-	const $copyButton = copyButton.$element;
+	const $copyButton: JQuery = copyButton.$element;
 
 	$copyButton.attr('aria-label', getMessage('Copy'));
 

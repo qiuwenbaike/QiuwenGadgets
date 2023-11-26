@@ -8,16 +8,16 @@ const onIntersection = (entries: IntersectionObserverEntry[]): void => {
 			continue;
 		}
 
-		const element = entry.target;
+		const element: Element = entry.target;
 		observer.unobserve(element);
 
-		const callbacks = pendingActions.get(element);
+		const callbacks: DomMutationFunc[] | undefined = pendingActions.get(element);
 		if (!callbacks) {
 			continue;
 		}
 
 		while (true) {
-			const callback = callbacks.shift(); // FIFO
+			const callback: DomMutationFunc | undefined = callbacks.shift(); // FIFO
 			if (!callback) {
 				break;
 			}

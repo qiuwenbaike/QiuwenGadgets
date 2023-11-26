@@ -8,7 +8,8 @@ const accessKeyCheatsheet = (): void => {
 	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	const {$accessKeysTable, $accessKeyCheatsheetOpener} = generateAccessKeysTableWithOpener($body);
-	const messageDialogProperty = generateMessageDialogProperty($accessKeysTable);
+	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData =
+		generateMessageDialogProperty($accessKeysTable);
 
 	let messageDialog: OO.ui.MessageDialog;
 	$accessKeyCheatsheetOpener.on('click', (event: JQuery.ClickEvent): void => {
