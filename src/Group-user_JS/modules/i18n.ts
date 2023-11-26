@@ -1,6 +1,11 @@
 const getI18nMessages: GetI18nMessages = () => {
 	const {localize} = i18n;
 	return {
+		Edit: localize({
+			en: 'Edit',
+			'zh-hans': '编辑',
+			'zh-hant': '編輯',
+		}),
 		Log: localize({
 			en: 'Log',
 			ja: '折り畳み',
