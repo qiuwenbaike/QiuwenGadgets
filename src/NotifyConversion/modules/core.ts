@@ -10,7 +10,7 @@ const isExperiencedUser = (): boolean => {
 		return false;
 	}
 	return (
-		['sysop', 'senioreditor', 'steward', 'qiuwen'].some((element) => {
+		['sysop', 'senioreditor', 'steward', 'qiuwen'].some((element: string): boolean => {
 			return wgUserGroups.includes(element);
 		}) ||
 		SYSTEM_SCRIPT_LIST.includes(wgUserName) ||
@@ -33,11 +33,11 @@ const isWrongURL = (): boolean => {
 };
 
 const showDialog = (): void => {
-	const dialogTitleIcon = new OO.ui.IconWidget({
+	const dialogTitleIcon: OO.ui.IconWidget = new OO.ui.IconWidget({
 		icon: 'language',
 		title: getMessage('dialogTitle'),
 	});
-	const dialogTitle = new OO.ui.LabelWidget({
+	const dialogTitle: OO.ui.LabelWidget = new OO.ui.LabelWidget({
 		label: getMessage('dialogTitle'),
 	});
 
@@ -50,7 +50,7 @@ const showDialog = (): void => {
 	};
 	// Create a new ButtonSelectWidget and add the button options to it
 	// via the ButtonSelectWidget's 'items' config option.
-	const buttonSelect = new OO.ui.ButtonSelectWidget({
+	const buttonSelect: OO.ui.ButtonSelectWidget = new OO.ui.ButtonSelectWidget({
 		items: [
 			generateButton('zh-cn'),
 			generateButton('zh-hk'),
@@ -67,10 +67,10 @@ const showDialog = (): void => {
 		buttonSelect.selectItemByData(preferredVariant);
 	}
 
-	const $dialogTitle = $('<span>')
+	const $dialogTitle: JQuery = $('<span>')
 		.addClass('gadget-notify_conversion__title')
 		.append(dialogTitleIcon.$element, dialogTitle.$element);
-	const $dialogMessage = $('<div>')
+	const $dialogMessage: JQuery = $('<div>')
 		.addClass('gadget-notify_conversion__message')
 		.append(
 			$('<p>').text(getMessage('dialogDesc')),
@@ -80,11 +80,11 @@ const showDialog = (): void => {
 			$('<p>').addClass('gadget-notify_conversion__message_privacy-notice').text(getMessage('privacyNotice'))
 		);
 
-	const windowManager = new OO.ui.WindowManager();
+	const windowManager: OO.ui.WindowManager = new OO.ui.WindowManager();
 	windowManager.$element.appendTo($('body'));
 
-	const messageDialog = new OO.ui.MessageDialog();
-	const messageDialogProperty = {
+	const messageDialog: OO.ui.MessageDialog = new OO.ui.MessageDialog();
+	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData = {
 		title: $dialogTitle,
 		message: $dialogMessage,
 		actions: [
@@ -114,18 +114,18 @@ const showDialog = (): void => {
 		return new OO.ui.Process((): void => {
 			if (action === 'confirm') {
 				const URL_REGEX = /(\/\/[^/]+\/)([^/]+)(\/)/;
-				const selectedItem = buttonSelect.findSelectedItem() as OO.ui.OptionWidget;
-				const variant = String(selectedItem.getData());
+				const selectedItem: OO.ui.OptionWidget = buttonSelect.findSelectedItem() as OO.ui.OptionWidget;
+				const variant: string = selectedItem.getData() as string;
 				clearWindows(variant);
 				if (mw.config.get('wgUserName')) {
-					api.saveOption('variant', variant).then(() => {
+					api.saveOption('variant', variant).then((): void => {
 						location.href = locationHref.replace(URL_REGEX, '$1wiki$3');
 					});
 				} else {
 					location.href = locationHref.replace(URL_REGEX, `$1${variant}$3`);
 				}
 			} else {
-				OO.ui.confirm(getMessage('Are you sure?')).then((confirmed) => {
+				OO.ui.confirm(getMessage('Are you sure?')).then((confirmed: boolean): void => {
 					if (confirmed) {
 						clearWindows();
 					}

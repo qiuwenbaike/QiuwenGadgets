@@ -1,9 +1,8 @@
-import {floatTOC, originToc, skin} from './modules/core';
+import {floatTOC} from './modules/core';
 
-(() => {
-	if (mw.config.get('wgAction') !== 'view' || !['citizen', 'vector'].includes(skin) || !originToc) {
-		return;
+$((): void => {
+	const originToc: HTMLDivElement | null = document.querySelector('#toc');
+	if (mw.config.get('wgAction') === 'view' && originToc) {
+		floatTOC(originToc);
 	}
-
-	$(floatTOC);
-})();
+});

@@ -1,5 +1,5 @@
 export const fixSummary = (): void => {
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	switch (mw.config.get('wgCanonicalSpecialPageName')) {
 		case 'MassEditRegex':
 			// MassEditRegex

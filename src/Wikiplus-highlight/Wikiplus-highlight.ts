@@ -1,11 +1,11 @@
 import {initMwApi} from '../util';
 
-(async () => {
+(async (): Promise<void> => {
 	if (!mw.user.options.get('gadget-Wikiplus')) {
 		return;
 	}
 
-	const api = initMwApi(`Qiuwen/1.1 (Wikiplus-highlight/2.0; ${mw.config.get('wgWikiID')})`);
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (Wikiplus-highlight/2.0; ${mw.config.get('wgWikiID')})`);
 
 	await api.postWithEditToken({
 		action: 'options',

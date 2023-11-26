@@ -166,7 +166,7 @@ export const markBlockedUser = ($container: JQuery): void => {
 			}
 		}
 		if (--apiRequests === 0) {
-			const $body = $('body');
+			const $body: JQuery<HTMLBodyElement> = $('body');
 			// last response
 			$container.removeClass('markblocked-loading');
 			$body.find('#ca-showblocks').parent().remove(); // remove added portlet link

@@ -7,13 +7,13 @@ const run = (element: HTMLElement): void => {
 	}
 };
 
-const mutationObserver = new MutationObserver((records: MutationRecord[]): void => {
+const mutationObserver: MutationObserver = new MutationObserver((records: MutationRecord[]): void => {
 	for (const record of records) {
 		if (record.type !== 'childList') {
 			continue;
 		}
 
-		const addedNodes = [...record.addedNodes];
+		const addedNodes: Node[] = [...record.addedNodes];
 
 		// Exclude mutations caused by adjustSpacing() to prevent infinite loops
 		// Typically they will contain nodes with class WRAPPER_CLASS

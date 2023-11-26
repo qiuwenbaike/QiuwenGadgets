@@ -20,7 +20,7 @@ const getCountByTextLength = (text: string) => {
 };
 
 export const wordCountCore = (): void => {
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	$body.find('.wordcount').remove();
 	const text: string = window.getSelection()?.toString() ?? '';
@@ -43,7 +43,7 @@ export const wordCountCore = (): void => {
 	}, 5000);
 };
 
-export const wordCountLoad = () => {
+export const wordCountLoad = (): void => {
 	if (mw.config.get('wgAction') !== 'view') {
 		return;
 	}

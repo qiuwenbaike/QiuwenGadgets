@@ -5,7 +5,7 @@ export const linkSearchEditButton = (): void => {
 	if (mw.config.get('wgCanonicalSpecialPageName') !== 'LinkSearch') {
 		return;
 	}
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	$body.find('.mw-spcontent a[href^="/wiki"]').each((_index, element): void => {
 		$('<span>')
 			.append($(document.createTextNode(' （')))

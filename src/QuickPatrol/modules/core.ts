@@ -1,18 +1,18 @@
 import {getMessage} from './i18n';
 
-export const QuickPatrol = () => {
-	const $body = $('body');
+export const QuickPatrol = (): void => {
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	/* Patrol single page */
 	$body.find('.not-patrolled').each((index, element): void => {
 		const [time] = $(element).find('a');
-		const timeHref = time?.getAttribute('href');
-		const revIds = timeHref?.match(/oldid=([0-9]+)/);
+		const timeHref: string | null | undefined = time?.getAttribute('href');
+		const revIds: RegExpMatchArray | null | undefined = timeHref?.match(/oldid=([0-9]+)/);
 		if (!revIds || !revIds[1]) {
 			return;
 		}
 		const [, revId] = revIds;
-		const $patrolBtn = $('<a>')
+		const $patrolBtn: JQuery<HTMLAnchorElement> = $<HTMLAnchorElement>('<a>')
 			.addClass('gadget-quick_patrol__patrolbtn')
 			.text(getMessage('[') + getMessage('Patrol') + getMessage(']'))
 			.attr({
@@ -20,9 +20,8 @@ export const QuickPatrol = () => {
 				'data-btnid': index,
 				'data-revid': revId,
 			});
-		$patrolBtn.on('click', function (): void {
-			const self = this;
-			const {btnid, revid} = self.dataset;
+		$patrolBtn.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
+			const {btnid, revid} = event.currentTarget.dataset;
 			$.ajax({
 				type: 'POST',
 				url: `${mw.config.get('wgScriptPath')}/api.php`,
@@ -32,7 +31,7 @@ export const QuickPatrol = () => {
 					token: mw.user.tokens.get('patrolToken'),
 					revid,
 				},
-				success: (data) => {
+				success: (data): void => {
 					if (data.error) {
 						mw.notify(`${getMessage('API')}${data.error.info}`, {type: 'error', tag: 'QuickPatrol'});
 						$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
@@ -45,7 +44,7 @@ export const QuickPatrol = () => {
 							.text(getMessage('Patrolled'));
 					}
 				},
-				error: (error) => {
+				error: (error): void => {
 					mw.notify(getMessage('AJAX'), {type: 'error', tag: 'QuickPatrol'});
 					console.error(`[QuickPatrol] Ajax error: ${error}`);
 					$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
@@ -55,12 +54,12 @@ export const QuickPatrol = () => {
 		$patrolBtn.appendTo(element);
 	});
 	/* Patrol all pages */
-	const $patrolAllBtn = $('<li>').append(
+	const $patrolAllBtn: JQuery = $('<li>').append(
 		$('<a>')
 			.attr('id', 'gadget-quick_patrol__all')
 			.text(getMessage('[') + getMessage('Patrol all pages') + getMessage(']'))
 	);
-	$patrolAllBtn.on('click', () => {
+	$patrolAllBtn.on('click', (): void => {
 		if (!confirm(getMessage('Patrol all pages?'))) {
 			return;
 		}

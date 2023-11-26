@@ -7,7 +7,7 @@ export const shortURL = (): void => {
 	let clipboardInstance: ClipboardJS | undefined;
 	const doIns = (link: string): void => {
 		const isCitizen: boolean = mw.config.get('skin') === 'citizen';
-		const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
+		const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 		let element: HTMLLIElement | null = document.querySelector('#t-shortlink');
 		if (!element) {
 			element = mw.util.addPortletLink(portletId, '#', portletText, 't-shortlink', portletTooltip);
@@ -86,7 +86,7 @@ export const shortURL = (): void => {
 		oldId: number | false;
 		revisionId: number;
 	}): void => {
-		const $body = $('body');
+		const $body: JQuery<HTMLBodyElement> = $('body');
 		if (diffId) {
 			const buildLink = (_oldId: number | false, link = '/d'): void => {
 				if (_oldId) {
@@ -106,7 +106,7 @@ export const shortURL = (): void => {
 					fromrev: diffId,
 					torelative: 'prev',
 				};
-				api.get(params).then((response) => {
+				api.get(params).then((response): void => {
 					if (
 						diffId === mw.config.get('wgDiffNewId') &&
 						response['compare']?.fromrevid === mw.config.get('wgDiffOldId')

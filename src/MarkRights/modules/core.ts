@@ -54,7 +54,7 @@ export const markUserRights = ($content: JQuery): void => {
 		const username: string | null = mw.util.getParamValue('title', url);
 		const decode = (string: string, replace: (_string: string) => string): string => {
 			return decodeURIComponent(
-				(() => {
+				((): string => {
 					try {
 						return decodeURIComponent(replace(string));
 					} catch {
@@ -64,13 +64,13 @@ export const markUserRights = ($content: JQuery): void => {
 			);
 		};
 		if (username) {
-			return decode(username, (string) => {
+			return decode(username, (string: string): string => {
 				return string.replace('User:', '').replace(/_/g, ' ');
 			});
 		}
 		const usernameMatch: RegExpMatchArray | null = url.match(/\/wiki\/User:(.+?)$/);
 		if (usernameMatch?.[1]) {
-			return decode(usernameMatch[1], (string) => {
+			return decode(usernameMatch[1], (string: string): string => {
 				return string.replace(/_/g, ' ');
 			});
 		}
@@ -138,15 +138,15 @@ export const markUserRights = ($content: JQuery): void => {
 			usprop: 'groups',
 			ususers,
 		};
-		api.get(params).then((response) => {
+		api.get(params).then((response): void => {
 			const _users: {groups: string; name: string}[] = response['query']?.users ?? [];
 			for (const user of _users) {
 				if (user.groups) {
 					for (const group in groups) {
 						if (Object.hasOwn(groups, group)) {
-							const groupsGroup = groups[group];
+							const groupsGroup: string[] = groups[group] as string[];
 							if (user.groups.includes(group)) {
-								groupsGroup?.push(user.name);
+								groupsGroup.push(user.name);
 							}
 						}
 					}

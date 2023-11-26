@@ -60,7 +60,7 @@ const showTime = ($target: JQuery): void => {
 };
 
 export const liveClock = (): void => {
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	// Reset whitespace that was set in the peer CSS gadget; this prevents the
 	// effect of the p-personal menu jumping to the left when the JavaScript
 	// loads.
@@ -81,11 +81,11 @@ export const liveClock = (): void => {
 			titles: mw.config.get('wgPageName'),
 		};
 		api.post(params)
-			.then(() => {
+			.then((): void => {
 				mw.notify(getMessage('Success'), {tag: 'UTCLiveClock', type: 'success'});
 				location.reload();
 			})
-			.catch(() => {
+			.catch((): void => {
 				mw.notify(getMessage('Failed'), {tag: 'UTCLiveClock', type: 'error'});
 			});
 	});

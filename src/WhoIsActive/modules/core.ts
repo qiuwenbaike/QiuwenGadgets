@@ -2,22 +2,22 @@ import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
 export const whoIsActive = (): void => {
-	const api = initMwApi(`Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`);
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`);
 	const filteredLinks: {username: string; element: JQuery}[] = [];
 	const {2: localizedUserNamespace} = mw.config.get('wgFormattedNamespaces');
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	$body
 		.find('.mw-body-content')
 		.find(
 			`a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"]), a[title^="${localizedUserNamespace}:"]:not(.mw-changeslist-date):not([href*="undo"])`
 		)
 		.each((_index: number, element: HTMLElement) => {
-			const link = $(element);
-			const href = decodeURI(link.attr('href') ?? '');
+			const link: JQuery = $(element);
+			const href: string = decodeURI(link.attr('href') ?? '');
 			const userRegex = new RegExp(`((User)|(${localizedUserNamespace})):(.*?)(?=&|$)`);
-			const username = href.match(userRegex);
+			const username: RegExpMatchArray | null = href.match(userRegex);
 			if (username) {
-				const index = username[0].indexOf('/');
+				const index: number = username[0].indexOf('/');
 				if (index === -1) {
 					filteredLinks.push({
 						username: username[0],
@@ -30,9 +30,9 @@ export const whoIsActive = (): void => {
 		return;
 	}
 	const getLastActiveMarker = (timestamp: string, indicator?: boolean) => {
-		const date = Date.parse(timestamp);
-		const now = Date.now();
-		const diff = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+		const date: number = Date.parse(timestamp);
+		const now: number = Date.now();
+		const diff: number = Math.floor((now - date) / (1000 * 60 * 60 * 24));
 		let timespan: string;
 		if (diff > 365) {
 			timespan = 'OverAYear';
@@ -82,7 +82,7 @@ export const whoIsActive = (): void => {
 			uclimit: 1,
 			ucuser: username,
 		};
-		api.get(params).then((result) => {
+		api.get(params).then((result): void => {
 			if (result['query'].usercontribs.length > 0) {
 				const [{timestamp}] = result['query'].usercontribs;
 				getLastActiveMarker(timestamp, true).insertAfter(element);
@@ -100,7 +100,7 @@ export const whoIsActive = (): void => {
 				uclimit: 1,
 				ucuser: wgRelevantUserName,
 			};
-			api.get(params).then((result) => {
+			api.get(params).then((result): void => {
 				if (result['query'].usercontribs.length > 0) {
 					const [{timestamp}] = result['query'].usercontribs;
 					getLastActiveMarker(timestamp, false).prependTo($body.find('#footer-info, .page-info'));

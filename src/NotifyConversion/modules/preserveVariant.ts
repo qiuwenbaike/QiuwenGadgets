@@ -1,6 +1,6 @@
 import {wgUserVariant} from './constant';
 
-export const preserveVariant = () => {
+export const preserveVariant = (): void => {
 	if (
 		!wgUserVariant ||
 		!wgUserVariant.includes('zh-') ||
@@ -9,11 +9,11 @@ export const preserveVariant = () => {
 		return;
 	}
 	$(document).on('keydown mousedown touchstart', 'a', function (): void {
-		const originalHref = $(this).attr('href');
-		let uri;
+		const originalHref: string | undefined = $(this).attr('href');
 		if (!originalHref) {
 			return;
 		}
+		let uri;
 		try {
 			uri = new mw.Uri(originalHref);
 		} catch {

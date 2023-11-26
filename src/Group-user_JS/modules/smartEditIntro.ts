@@ -1,7 +1,7 @@
 import {IS_WG_EDIT_OR_SUBMIT_ACTION} from './constant';
 
 export const editIntro = (): void => {
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	/* 编辑提示（editintro） */
 	const addEditIntro = (name: string): void => {
 		$body
@@ -11,7 +11,7 @@ export const editIntro = (): void => {
 				element.href = `${$(element).attr('href')}&editintro=${name}`;
 			});
 	};
-	const cats = mw.config.get('wgCategories');
+	const cats: string[] = mw.config.get('wgCategories');
 	if (!cats) {
 		return;
 	}

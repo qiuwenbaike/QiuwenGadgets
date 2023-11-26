@@ -1,7 +1,7 @@
 import {getMessage} from './i18n';
 
-const collapseCaption = getMessage('Hide');
-const expandCaption = getMessage('Show');
+const collapseCaption: string = getMessage('Hide');
+const expandCaption: string = getMessage('Show');
 const navigationBarHide = `<span title="${collapseCaption}" class="oo-ui-indicatorElement-indicator oo-ui-indicator-up" role="button" tabindex="0"></span>`;
 const navigationBarShow = `<span title="${expandCaption}" class="oo-ui-indicatorElement-indicator oo-ui-indicator-down" role="button" tabindex="0"></span>`;
 
@@ -47,7 +47,7 @@ const toggleNavigationBar = (indexNavigationBar: number): false | void => {
 const createNavigationBarToggleButton = ($content: JQuery): void => {
 	// Iterate over all (new) nav frames
 	$content.find('div.NavFrame').each((indexNavigationBar: number, frameElement: HTMLElement): void => {
-		const $frame = $(frameElement).attr('id', `NavFrame${indexNavigationBar}`);
+		const $frame: JQuery = $(frameElement).attr('id', `NavFrame${indexNavigationBar}`);
 		// If found a navigation bar
 		const $navToggle: JQuery = $('<span>').addClass('NavToggle').attr('id', `NavToggle${indexNavigationBar}`);
 		$frame.find('> .NavHead').each((_index: number, element: HTMLElement): false => {

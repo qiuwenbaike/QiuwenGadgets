@@ -3,10 +3,10 @@ import {getMessage} from './i18n';
 
 export const loginToEdit = (): void => {
 	const isCitizen: boolean = mw.config.get('skin') === 'citizen';
-	const loginURL = mw.util.getUrl('Special:UserLogin', {
+	const loginURL: string = mw.util.getUrl('Special:UserLogin', {
 		returnto: mw.config.get('wgPageName'),
 	});
-	const registerURL = mw.util.getUrl('Special:CreateAccount', {
+	const registerURL: string = mw.util.getUrl('Special:CreateAccount', {
 		returnto: mw.config.get('wgPageName'),
 	});
 	let messageDialog: OO.ui.MessageDialog;
@@ -56,10 +56,10 @@ export const loginToEdit = (): void => {
 		}
 		windowManager.openWindow(messageDialog, windowOpeningData);
 	};
-	const $body = $('body');
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	const $caViewsource: JQuery = $body.find('#ca-viewsource');
 	if ($caViewsource.length) {
-		const editIcon = isCitizen ? '<span class="citizen-ui-icon mw-ui-icon-wikimedia-edit"></span>' : '';
+		const editIcon: string = isCitizen ? '<span class="citizen-ui-icon mw-ui-icon-wikimedia-edit"></span>' : '';
 		$caViewsource
 			.attr('id', 'ca-edit')
 			.find('a')

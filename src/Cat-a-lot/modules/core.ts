@@ -247,9 +247,9 @@ const catALot = (): void => {
 				}
 				let regexName = '';
 				for (let i = 0; i < name.length; i++) {
-					const initial = name.slice(i, i + 1);
-					const ll = initial.toLowerCase();
-					const ul = initial.toUpperCase();
+					const initial: string = name.slice(i, i + 1);
+					const ll: string = initial.toLowerCase();
+					const ul: string = initial.toUpperCase();
 					regexName += ll === ul ? initial : `[${ll}${ul}]`;
 				}
 				return regexName.replace(/([$()*+.?\\^])/g, '\\$1').replace(wikiTextBlankRE, wikiTextBlank);

@@ -4,7 +4,7 @@ import {initMwApi} from '../../util';
 
 export const onlineAdmins = (): void => {
 	// Create portlet link
-	const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
+	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 	const portletLinkOnline: HTMLLIElement | null = mw.util.addPortletLink(
 		portletId,
 		'#',
@@ -56,7 +56,7 @@ export const onlineAdmins = (): void => {
 			users = [...new Set([...users, ...usersExt])];
 			const promises: (() => Promise<void>)[] = [];
 			for (let i = 0; i < (users.length + 50) / 50; i++) {
-				promises.push(async () => {
+				promises.push(async (): Promise<void> => {
 					const params: ApiQueryUsersParams = {
 						action: 'query',
 						format: 'json',

@@ -1,8 +1,8 @@
 import {LIMIT} from './constant';
 import {getMessage} from './i18n';
 
-export const hideLongSummaries = () => {
-	const $body = $('body');
+export const hideLongSummaries = (): void => {
+	const $body: JQuery<HTMLBodyElement> = $('body');
 	$body.find('.comment').each((_index: number, element: HTMLElement): void => {
 		if (element.textContent && element.textContent.length > LIMIT && element.parentElement !== null) {
 			$(element).addClass('gadget-hide_long_summaries__long');

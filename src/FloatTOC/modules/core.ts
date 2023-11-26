@@ -7,13 +7,12 @@ interface Config {
 	originTOC: State;
 }
 
-export const skin: string = mw.config.get('skin');
-export const originToc: HTMLDivElement | null = document.querySelector('#toc');
-export const floatTOC = (): void => {
+export const floatTOC = (originToc: HTMLDivElement | null): void => {
 	if (!originToc) {
 		return;
 	}
 	const ID = 'floatTOC';
+	const skin: string = mw.config.get('skin');
 	let config: Config = mw.storage.getObject(ID);
 	if (!config) {
 		config = {floatTOC: window.outerHeight < window.outerWidth ? 'open' : 'close', originTOC: 'open'};
@@ -90,7 +89,7 @@ export const floatTOC = (): void => {
 			return;
 		}
 		let isCollapse = config.originTOC === 'close';
-		const $body = $('body');
+		const $body: JQuery<HTMLBodyElement> = $('body');
 		const $originTocTitle: JQuery = $body.find('#toc .toctitle');
 		const $originTocItem: JQuery = $body.find('#toc ul');
 		const $tocToggle: JQuery<HTMLSpanElement> = $('<span>').addClass(
