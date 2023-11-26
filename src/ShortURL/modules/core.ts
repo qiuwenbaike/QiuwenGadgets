@@ -7,15 +7,10 @@ export const shortURL = (): void => {
 	let clipboardInstance: ClipboardJS | undefined;
 	const doIns = (link: string): void => {
 		const isCitizen: boolean = mw.config.get('skin') === 'citizen';
+		const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 		let element: HTMLLIElement | null = document.querySelector('#t-shortlink');
 		if (!element) {
-			element = mw.util.addPortletLink(
-				isCitizen ? 'p-tb' : 'p-cactions',
-				'#',
-				portletText,
-				't-shortlink',
-				portletTooltip
-			);
+			element = mw.util.addPortletLink(portletId, '#', portletText, 't-shortlink', portletTooltip);
 		}
 		if (element) {
 			((element.firstElementChild ?? element) as HTMLElement).onclick = (event: MouseEvent): void => {

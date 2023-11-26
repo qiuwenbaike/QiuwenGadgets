@@ -4,10 +4,7 @@ const usingEditFormJS = (): void => {
 
 export const loadEditFormJS = (): void => {
 	/* 加载编辑界面脚本 */
-	if (
-		['edit', 'submit'].includes(mw.config.get('wgAction')) ||
-		(mw.config.get('wgAction') === 'view' && document.querySelector('#ca-addsection'))
-	) {
+	if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
 		usingEditFormJS();
 	} else {
 		mw.loader.using('ext.visualEditor.desktopArticleTarget.init').then((): void => {
