@@ -5,12 +5,7 @@ import {logout} from './logout';
 import {oouiConfirmWithStyle} from '../../util';
 import {refreshEventListener} from './util/refreshEventListener';
 
-const addListener = ($body: JQuery<HTMLBodyElement>): void => {
-	const $element: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>(OPTIONS.logoutElementSelector);
-	if (!$element.length) {
-		return;
-	}
-
+const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
 	const clickListener = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 		event.preventDefault();
 
@@ -34,6 +29,8 @@ const addListener = ($body: JQuery<HTMLBodyElement>): void => {
 	if (WG_SKIN !== 'vector-2022') {
 		return;
 	}
+
+	const $body: JQuery<HTMLBodyElement> = $element.parents('body');
 
 	const observerCallback = (_mutations: MutationRecord[], observer: MutationObserver): void => {
 		if (!$body.hasClass('vector-sticky-header-visible')) {

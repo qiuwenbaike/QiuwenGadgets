@@ -1,3 +1,5 @@
+import {IS_WG_EDIT_OR_SUBMIT_ACTION} from './constant';
+
 export const editIntro = (): void => {
 	const $body = $('body');
 	/* 编辑提示（editintro） */
@@ -49,7 +51,7 @@ export const editIntro = (): void => {
 				addEditIntro('Template:MIT_editintro');
 			}
 			if (
-				['edit', 'submit'].includes(mw.config.get('wgAction')) &&
+				IS_WG_EDIT_OR_SUBMIT_ACTION &&
 				$body.find('.mw-editintro').length > 0 &&
 				$body.find('#editpage-copywarn').length > 0
 			) {

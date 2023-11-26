@@ -5,11 +5,9 @@ interface TargetElements {
 	$targetElementArray: JQuery[];
 }
 
-const getTargetElements = (): TargetElements => {
+const getTargetElements = ($body: JQuery<HTMLBodyElement>): TargetElements => {
 	const $targetElementArray: JQuery[] = [];
 	let color = ''; // links color (coloured links)
-
-	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	if (IS_DIFF_ACTION) {
 		// in diff pages

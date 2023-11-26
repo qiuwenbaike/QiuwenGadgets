@@ -36,5 +36,4 @@ export {
 	REGEX_IMPORT_SCRIPT,
 	REGEX_TL,
 	REGEX_URL,
-	WG_ACTION,
 };

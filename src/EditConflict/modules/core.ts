@@ -29,7 +29,7 @@ const editConflict = async (): Promise<void> => {
 			break;
 		}
 
-		await delay(2 * 1000);
+		await delay(3 * 1000);
 	}
 
 	$('body')
