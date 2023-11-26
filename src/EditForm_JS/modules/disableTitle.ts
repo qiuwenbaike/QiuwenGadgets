@@ -1,20 +1,22 @@
-export const disableTitle = (): void => {
-	const $body = $('body');
-	// 在提交新段落时，让主题栏在特定情况下失效
-	if ($body.find('#no-new-title').length > 0 && $body.find('#editform input[name=wpSection]').val() === 'new') {
+import {WG_PAGE_NAME} from './constant';
+
+const disableTitle = ($body: JQuery<HTMLBodyElement>): void => {
+	if ($body.find('#no-new-title').length && $body.find('#editform input[name="wpSection"]').val() === 'new') {
 		// 传统文本编辑器
 		const $wpSummary: JQuery = $body.find('#wpSummary');
-		$wpSummary.attr('disabled', 'disabled');
+		$wpSummary.prop('disabled', true);
 		$wpSummary.val('');
 	}
-	// 可视化编辑器 / 新wikitext模式
+
 	const noSectionTitlePages: string[] = ['Qiuwen_talk:侵权提报', 'Qiuwen_talk:存废讨论/关注度提报'];
 	const noSectionTitlePagesRegex = /^Qiuwen_talk:存废讨论/;
 	if (
-		(noSectionTitlePages.includes(mw.config.get('wgPageName')) ||
-			noSectionTitlePagesRegex.test(mw.config.get('wgPageName'))) &&
+		(noSectionTitlePages.includes(WG_PAGE_NAME) || noSectionTitlePagesRegex.test(WG_PAGE_NAME)) &&
 		mw.util.getParamValue('section') === 'new'
 	) {
+		// 可视化编辑器 / 新wikitext模式
 		mw.util.addCSS('h2.ve-ui-init-desktopArticleTarget-sectionTitle{display:none}');
 	}
 };
+
+export {disableTitle};

@@ -1,59 +1,68 @@
 import {getMessage} from './i18n';
 
-export const AiAssisted = (): void => {
-	mw.config.set('wgAiAssistedStatementInitialized', false);
-	const statement = (tagName: string, labelName: string) => {
-		if (mw.config.get('wgAiAssistedStatementInitialized')) {
-			return;
-		}
-		const $body = $('body');
-		// @ts-ignore
-		const $layout: JQuery = ve.init
-			? $body.find('.ve-ui-mwSaveDialog-checkboxes')
-			: $body.find('#editform').find('.editCheckboxes .oo-ui-horizontalLayout');
-		if (!$layout.length) {
-			return;
-		}
-		mw.config.set('wgAiAssistedStatementInitialized', true);
-		const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
-			selected: false,
-		});
-		const checkboxField: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
-			align: 'inline',
-			label: labelName,
-		});
-		checkbox.on('change', (): void => {
-			let changeTags: string;
+let isInit = false;
+
+const aiAssisted = ({$body, $editForm}: {$body?: JQuery<HTMLBodyElement>; $editForm?: JQuery}): void => {
+	if (isInit) {
+		return;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	const isVeInit = !!ve.init;
+
+	const $target: JQuery = isVeInit
+		? ($body as JQuery<HTMLBodyElement>).find('.ve-ui-mwSaveDialog-checkboxes')
+		: ($editForm as JQuery).find('.editCheckboxes .oo-ui-horizontalLayout');
+	if (!$target.length) {
+		return;
+	}
+
+	isInit = true;
+
+	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
+		selected: false,
+	});
+	checkbox.on('change', (): void => {
+		const changeTag = 'AI_assisted';
+		const generateChangeTags = (originChangeTags: string): string => {
+			return checkbox.isSelected()
+				? `${originChangeTags},${changeTag}`
+				: originChangeTags.replace(`,${changeTag}`, '');
+		};
+
+		let changeTags = '';
+		if (isVeInit) {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			if (ve.init) {
-				// @ts-ignore
-				changeTags = ve.init.target.saveFields.wpChangeTags?.() ?? '';
-				changeTags = checkbox.isSelected() ? `${changeTags},${tagName}` : changeTags.replace(`,${tagName}`, '');
-				// @ts-ignore
-				ve.init.target.saveFields.wpChangeTags = (): string => {
-					return changeTags;
-				};
-			} else {
-				const $tagInput: JQuery = $('<input>').attr({
-					id: 'wpChangeTags',
-					name: 'wpChangeTags',
-					type: 'hidden',
-					value: '',
-				});
-				const $wpChangeTags: JQuery = $body.find('#wpChangeTags');
-				if (!$wpChangeTags.length) {
-					$body.find('#editform').prepend($tagInput);
-				}
-				changeTags = String($wpChangeTags.val());
-				changeTags = checkbox.isSelected() ? `${changeTags},${tagName}` : changeTags.replace(`,${tagName}`, '');
-				$wpChangeTags.val(changeTags);
+			changeTags = generateChangeTags(ve.init.target.saveFields.wpChangeTags?.() ?? '');
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			ve.init.target.saveFields.wpChangeTags = (): string => {
+				return changeTags;
+			};
+		} else {
+			const $wpChangeTags: JQuery = $('<input>').attr({
+				id: 'wpChangeTags',
+				name: 'wpChangeTags',
+				type: 'hidden',
+				value: '',
+			});
+			$body = ($editForm as JQuery).parents('body');
+			const $originWpChangeTags: JQuery = $body.find('#wpChangeTags');
+			if (!$originWpChangeTags.length) {
+				$body.prepend($wpChangeTags);
 			}
-		});
-		$layout.append(checkboxField.$element);
-	};
-	const addStatement = (): void => {
-		statement('AI_assisted', getMessage('AiAssisted'));
-	};
-	mw.hook('wikipage.editform').add(addStatement);
-	mw.hook('ve.saveDialog.stateChanged').add(addStatement);
+			changeTags = generateChangeTags($originWpChangeTags.val()?.toString() ?? '');
+			$originWpChangeTags.val(changeTags);
+		}
+	});
+
+	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
+		align: 'inline',
+		label: getMessage('AiAssisted'),
+	});
+	$target.append(checkboxLayout.$element);
 };
+
+export {aiAssisted};
