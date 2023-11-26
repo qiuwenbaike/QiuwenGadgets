@@ -1,11 +1,12 @@
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
-const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
-	// .ve-init-mw-viewPageTarget-saveDialog-checkboxes
-	if ($body.data('wppresent')) {
+let isInit = false;
+
+const processVisualEditor = (): void => {
+	if (isInit) {
 		return;
 	}
-	$body.data('wppresent', 'true');
+	isInit = true;
 
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
