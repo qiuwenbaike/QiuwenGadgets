@@ -71,19 +71,15 @@ const DEPLOY_USER_AGENT =
 	'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0 AnYiEE/AwesomeGadgets (https://github.com/AnYiEE/AwesomeGadgets; i@anyi.in) Qiuwenbaike/QiuwenGadgets (https://github.com/Qiuwenbaike/QiuwenGadgets; adjcom@volunteers.qiuwen.org)';
 
 /**
- * 启用此选项会为全部小工具设置`requiresES6`标识，禁用 Gadget 扩展的语法检查功能以允许使用 ES6 语法（即使经过编译）
- *
- * 需要目标 MediaWiki 网站版本大于等于 1.40.0-wmf.7
+ * 启用此选项会为全部小工具设置`requiresES6`标识，禁用 Gadget 扩展的语法检查功能以允许使用 ES6 及以上版本语法（即使经过编译）
  *
  * 如需自定义`.browserslistrc`，应启用此选项
  *
  * 注意：Gadget 扩展默认不支持小工具同时存在`default`和`requiresES6`标识，如需为存在`default`标识的小工具绕过服务端语法检查，应自行修改 Gadget 扩展，否则**不应**将此选项设置为 true
  *
- * Allow the use of ES6 syntax (ES2015) in all gadgets
+ * Allow the use of ES6+ syntax in all gadgets
  *
- * Enabling this option will set the `requiresES6` flag for all gadgets, which means that server-side syntax validation is skipped to allow the use of ES6 syntax (even after compilation)
- *
- * Requires target MediaWiki version greater than or equal to 1.40.0-wmf.7
+ * Enabling this option will set the `requiresES6` flag for all gadgets, which means that server-side syntax validation is skipped to allow the use of ES6+ syntax (even after compilation)
  *
  * If you want to customize `.browserslistrc`, enable this option
  *
