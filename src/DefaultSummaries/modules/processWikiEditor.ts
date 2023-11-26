@@ -1,6 +1,8 @@
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
-const processWikiEditor = ($body: JQuery<HTMLBodyElement>): void => {
+const processWikiEditor = (): void => {
+	const $body: JQuery<HTMLBodyElement> = $('body');
+
 	const $editCheckboxes: JQuery = $body.find('.editCheckboxes');
 	if (!$editCheckboxes.length) {
 		return;
