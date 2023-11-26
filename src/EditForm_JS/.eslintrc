@@ -1,8 +1,0 @@
-{
-	"rules": {
-		"@typescript-eslint/ban-ts-comment": "off"
-	},
-	"globals": {
-		"ve": "readonly"
-	}
-}
