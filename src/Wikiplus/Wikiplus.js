@@ -17,7 +17,7 @@
 
 	/* see <https://github.com/Wikiplus/Wikiplus/issues/65> */
 	if (mw.user.options.get('visualeditor-enable') === 1) {
-		mw.loader.using('ext.visualEditor.desktopArticleTarget.init').then(wikiplusLoad);
+		mw.loader.using('ext.visualEditor.core').then(wikiplusLoad);
 	} else {
 		wikiplusLoad();
 	}
