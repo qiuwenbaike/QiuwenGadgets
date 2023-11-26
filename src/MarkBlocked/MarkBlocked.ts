@@ -1,7 +1,8 @@
+import {IS_WG_EDIT_OR_SUBMIT_ACTION} from './modules/constant';
 import {markBlockedUser} from './modules/core';
 
 (() => {
-	if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
+	if (IS_WG_EDIT_OR_SUBMIT_ACTION) {
 		return;
 	}
 

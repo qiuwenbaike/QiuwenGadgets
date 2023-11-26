@@ -1,3 +1,10 @@
-import {addHook} from './modules/addHook';
+import {addButton} from './modules/addButton';
 
-addHook();
+mw.hook('wikipage.content').add(($content: JQuery): void => {
+	const $pres: JQuery<HTMLPreElement> = $content.find('pre');
+	if (!$pres.length) {
+		return;
+	}
+
+	addButton($pres);
+});

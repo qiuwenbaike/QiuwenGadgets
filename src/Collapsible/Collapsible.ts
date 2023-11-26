@@ -1,3 +1,3 @@
-import {addHook} from './modules/addHook';
+import {collapsible} from './modules/core';
 
-addHook();
+mw.hook('wikipage.content').add(collapsible);

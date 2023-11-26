@@ -1,4 +1,4 @@
-import {IS_EDIT_OR_SUBMIT_ACTION, WG_USER_GROUPS} from './constant';
+import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_USER_GROUPS} from './constant';
 import {getMessage} from './i18n';
 
 let originLabel: string | undefined;
@@ -12,7 +12,7 @@ const forcePreview = ($editForm: JQuery): void => {
 			return WG_USER_GROUPS?.includes(group) ?? false;
 		});
 	};
-	if (!IS_EDIT_OR_SUBMIT_ACTION || checkPermittedGroups()) {
+	if (!IS_WG_EDIT_OR_SUBMIT_ACTION || checkPermittedGroups()) {
 		return;
 	}
 

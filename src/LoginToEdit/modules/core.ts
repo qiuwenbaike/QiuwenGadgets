@@ -1,4 +1,4 @@
-import {LOGIN_ELEMENT_SELECTOR} from './constant';
+import {IS_WG_EDIT_OR_SUBMIT_ACTION, LOGIN_ELEMENT_SELECTOR} from './constant';
 import {getMessage} from './i18n';
 
 export const loginToEdit = (): void => {
@@ -70,7 +70,7 @@ export const loginToEdit = (): void => {
 			openDialog();
 		});
 	}
-	if (['edit', 'submit'].includes(mw.config.get('wgAction'))) {
+	if (IS_WG_EDIT_OR_SUBMIT_ACTION) {
 		openDialog();
 	}
 };

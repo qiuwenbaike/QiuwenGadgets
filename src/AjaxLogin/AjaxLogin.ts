@@ -2,6 +2,7 @@ import * as OPTIONS from './options.json';
 import {WG_USER_NAME} from './modules/constant';
 import {ajaxLogin} from './modules/core';
 import {checkA11yConfirmKey} from '../util';
+import {initWindowManager} from './modules/initWindowManager';
 
 $(function initAutoLogin(): void {
 	const $body: JQuery<HTMLBodyElement> = $('body');
@@ -11,8 +12,7 @@ $(function initAutoLogin(): void {
 		return;
 	}
 
-	const windowManager = new OO.ui.WindowManager();
-	windowManager.$element.appendTo($body);
+	const windowManager = initWindowManager($body);
 
 	const fakeToastifyInstance: ToastifyInstance = {
 		hideToast: () => {},

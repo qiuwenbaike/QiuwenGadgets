@@ -7,6 +7,9 @@ $(function autoLink(): void {
 		return; // Disabled in the other special pages
 	}
 
-	const targetElements: TargetElements = getTargetElements();
+	const $body: JQuery<HTMLBodyElement> = $('body');
+
+	const targetElements: TargetElements = getTargetElements($body);
+
 	processElement(targetElements);
 });
