@@ -1,8 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-const edittoolsVplus = () => {
-	window.customizeToolbar(function () {
-		this.wikiEditor('addToToolbar', {
+const edittoolsVplus = (): void => {
+	(window as unknown as {customizeToolbar: typeof edittoolsCustomizeToolbar}).customizeToolbar(function (
+		this: JQuery
+	): void {
+		const self = this as JQuery & {wikiEditor: (method: string, options: Record<string, unknown>) => void};
+
+		self.wikiEditor('addToToolbar', {
 			sections: {
 				pageedits: {
 					type: 'toolbar',
@@ -11,13 +13,13 @@ const edittoolsVplus = () => {
 				},
 			},
 		});
-		this.wikiEditor('addToToolbar', {
+		self.wikiEditor('addToToolbar', {
 			section: 'pageedits',
 			groups: {
 				pageedits: {},
 			},
 		});
-		this.wikiEditor('addToToolbar', {
+		self.wikiEditor('addToToolbar', {
 			section: 'pageedits',
 			group: 'pageedits',
 			tools: {
@@ -197,10 +199,10 @@ const edittoolsVplus = () => {
 								type: 'encapsulate',
 								options: {
 									pre: '{{Image\n',
-									periMsg: `\t|zh=${wgULS(
+									periMsg: `\t|zh=${window.wgULS(
 										'无转换图像名',
 										'無轉換圖像名'
-									)}\n\t|zh-hans=简体图像名\n\t|zh-hant= 繁体圖像名\n\t|zh-cn=大陆图像名\n\t|zh-tw=臺灣圖像名\n\t|zh-hk=香港圖像名\n\t|zh=马新图像名\n\t|${wgULS(
+									)}\n\t|zh-hans=简体图像名\n\t|zh-hant= 繁体圖像名\n\t|zh-cn=大陆图像名\n\t|zh-tw=臺灣圖像名\n\t|zh-hk=香港圖像名\n\t|zh=马新图像名\n\t|${window.wgULS(
 										'图像属性',
 										'圖像屬性'
 									)}\n`,
@@ -353,6 +355,4 @@ const edittoolsVplus = () => {
 	});
 };
 
-if (![8, 828].includes(mw.config.get('wgNamespaceNumber'))) {
-	$(edittoolsVplus);
-}
+export {edittoolsVplus};
