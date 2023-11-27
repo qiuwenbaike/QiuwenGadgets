@@ -18,9 +18,9 @@ const insertElementandListener = (): void => {
 
 	const scrollListener = (): void => {
 		if (
-			document.querySelector('#cat_a_lot') ||
 			document.querySelector('#proveit') ||
-			document.querySelectorAll('.wordcount').length
+			document.querySelector('.gadget-cat_a_lot-container') ||
+			document.querySelector('.wordcount')
 		) {
 			$scrollDownButton.css('bottom', '78px');
 			$scrollUpButton.css('bottom', '120px');
