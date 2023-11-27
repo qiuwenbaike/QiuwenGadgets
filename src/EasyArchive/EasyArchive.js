@@ -332,10 +332,13 @@ import {easy_archive_lang} from './modules/i18n';
 		}
 		const actions = {
 			ding: () => {
-				window.DingExposedInterface(
-					message(tag_ding, [section_number.toString(), to]),
-					ding_type,
-					ding_autohide ? 3000 : 'long'
+				window.toastify(
+					{
+						text: message(tag_ding, [section_number.toString(), to]),
+						close: !ding_autohide,
+						duration: ding_autohide ? 3000 : -1,
+					},
+					ding_type
 				);
 			},
 			section_link: () => {
@@ -414,8 +417,21 @@ import {easy_archive_lang} from './modules/i18n';
 		};
 		const notice_set = notice_tag_dictionary[notice_tag_name] || false;
 		if (notice_set !== false) {
-			const [ntag, ntype, nsubst] = notice_set;
-			window.DingExposedInterface(message(ntag, nsubst), ntype, 'long');
+			const [ntag, ntype, nttl, npersist, nsubst] = notice_set;
+			const toastifyInstance = window.toastify(
+				{
+					node: $('<span>').append(message(ntag, nsubst)).get(0),
+					close: nttl === 'long',
+					duration: nttl === 'long' ? -1 : nttl,
+					onClick: () => {
+						if (npersist) {
+							return;
+						}
+						toastifyInstance.hideToast();
+					},
+				},
+				ntype
+			);
 		}
 	};
 	// real deal here
