@@ -240,17 +240,6 @@ MediaWiki:Gadget-DiffLink/zh-mo
 MediaWiki:Gadget-DiffLink/zh-my
 MediaWiki:Gadget-DiffLink/zh-sg
 MediaWiki:Gadget-DiffLink/zh-tw
-MediaWiki:Gadget-Ding
-MediaWiki:Gadget-Ding.js
-MediaWiki:Gadget-Ding/zh
-MediaWiki:Gadget-Ding/zh-cn
-MediaWiki:Gadget-Ding/zh-hans
-MediaWiki:Gadget-Ding/zh-hant
-MediaWiki:Gadget-Ding/zh-hk
-MediaWiki:Gadget-Ding/zh-mo
-MediaWiki:Gadget-Ding/zh-my
-MediaWiki:Gadget-Ding/zh-sg
-MediaWiki:Gadget-Ding/zh-tw
 MediaWiki:Gadget-DisamAssist
 MediaWiki:Gadget-DisamAssist-pagestyles
 MediaWiki:Gadget-DisamAssist-pagestyles.css
