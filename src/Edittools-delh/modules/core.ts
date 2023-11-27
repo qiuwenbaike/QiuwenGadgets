@@ -1,32 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-const getVfdText = (code, comment) => {
-	return {
-		label: comment,
-		action: {
-			type: 'encapsulate',
-			options: {
-				pre: `{${`{delh|${code}}}\n`}`,
-				post: `\n----\n: ${comment}。--~~`.concat('~~\n{', '{delf}}'),
-			},
-		},
-	};
-};
+import {getList} from './getList';
 
-const getList = (list) => {
-	const obj = {};
-	for (const item in list) {
-		if (!Object.hasOwn(list, item)) {
-			continue;
-		}
-		obj[item] = getVfdText(item, list[item]);
-	}
-	return obj;
-};
+const edittoolsDelh = (): void => {
+	(window as unknown as {customizeToolbar: typeof edittoolsCustomizeToolbar}).customizeToolbar(function (
+		this: JQuery
+	): void {
+		const self = this as JQuery & {wikiEditor: (method: string, options: Record<string, unknown>) => void};
 
-export const delHCore = () => {
-	window.customizeToolbar(function () {
-		this.wikiEditor('addToToolbar', {
+		self.wikiEditor('addToToolbar', {
 			sections: {
 				delh: {
 					type: 'toolbar',
@@ -34,13 +14,13 @@ export const delHCore = () => {
 				},
 			},
 		});
-		this.wikiEditor('addToToolbar', {
+		self.wikiEditor('addToToolbar', {
 			section: 'delh',
 			groups: {
 				vfd: {},
 			},
 		});
-		this.wikiEditor('addToToolbar', {
+		self.wikiEditor('addToToolbar', {
 			section: 'delh',
 			group: 'vfd',
 			tools: {
@@ -100,3 +80,5 @@ export const delHCore = () => {
 		});
 	});
 };
+
+export {edittoolsDelh};
