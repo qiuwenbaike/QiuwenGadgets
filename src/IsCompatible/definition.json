@@ -1,8 +1,0 @@
-{
-	"enable": true,
-	"description": "<span id=\"Gadget-IsCompatible\"></span> 提示使用不兼容浏览器的用户升级",
-	"section": "compatibility",
-	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify", "mediawiki.cookie"],
-	"hidden": true
-}

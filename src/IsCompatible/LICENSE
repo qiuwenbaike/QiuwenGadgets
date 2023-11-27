@@ -1,8 +1,0 @@
-/**
- * SPDX-License-Identifier: GPL-2.0-or-later
- * _addText: '{{Gadget Header|license=GPL-2.0-or-later|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/IsCompatible}}'
- *
- * @base {@link https://github.com/wikimedia/mediawiki/blob/master/resources/src/startup/startup.js}
- * @base {@link https://github.com/qiuwenbaike/mediawiki-extensions-DarkMode/blob/master/resources/ext.DarkMode.js}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/IsCompatible}
- */
