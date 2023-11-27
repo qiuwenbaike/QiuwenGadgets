@@ -46,9 +46,9 @@ const addButton = (): void => {
 
 	const scrollListener = (): void => {
 		if (
-			document.querySelector('#cat_a_lot') ||
 			document.querySelector('#proveit') ||
-			document.querySelectorAll('.wordcount').length
+			document.querySelector('.gadget-cat_a_lot-container') ||
+			document.querySelector('.wordcount')
 		) {
 			$reportButton.css('bottom', '246px');
 		} else {
