@@ -374,7 +374,7 @@ MediaWiki:Gadget-Edittools-delh/zh-my
 MediaWiki:Gadget-Edittools-delh/zh-sg
 MediaWiki:Gadget-Edittools-delh/zh-tw
 MediaWiki:Gadget-Edittools-refToolbar
-MediaWiki:Gadget-Edittools-refToolbar-Dialog.css
+MediaWiki:Gadget-Edittools-refToolbar.css
 MediaWiki:Gadget-Edittools-refToolbar.js
 MediaWiki:Gadget-Edittools-refToolbar/zh
 MediaWiki:Gadget-Edittools-refToolbar/zh-cn
@@ -761,17 +761,6 @@ MediaWiki:Gadget-InPageEdit/zh-mo
 MediaWiki:Gadget-InPageEdit/zh-my
 MediaWiki:Gadget-InPageEdit/zh-sg
 MediaWiki:Gadget-InPageEdit/zh-tw
-MediaWiki:Gadget-IsCompatible
-MediaWiki:Gadget-IsCompatible.js
-MediaWiki:Gadget-IsCompatible/zh
-MediaWiki:Gadget-IsCompatible/zh-cn
-MediaWiki:Gadget-IsCompatible/zh-hans
-MediaWiki:Gadget-IsCompatible/zh-hant
-MediaWiki:Gadget-IsCompatible/zh-hk
-MediaWiki:Gadget-IsCompatible/zh-mo
-MediaWiki:Gadget-IsCompatible/zh-my
-MediaWiki:Gadget-IsCompatible/zh-sg
-MediaWiki:Gadget-IsCompatible/zh-tw
 MediaWiki:Gadget-ListUsersLastActive
 MediaWiki:Gadget-ListUsersLastActive.js
 MediaWiki:Gadget-ListUsersLastActive/zh
