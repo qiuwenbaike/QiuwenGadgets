@@ -1,6 +1,6 @@
 import {type ClientLoginParams, api} from './api';
 import {type NeedToCheckElements, checkValid} from './util/checkValid';
-import {generateElements} from './generateElements';
+import {generateElements} from './util/generateElements';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';

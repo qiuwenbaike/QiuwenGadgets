@@ -1,4 +1,4 @@
-import {getMessage} from './i18n';
+import {getMessage} from '../i18n';
 
 const generateElements = () => {
 	const messageDialog: OO.ui.MessageDialog = new OO.ui.MessageDialog();

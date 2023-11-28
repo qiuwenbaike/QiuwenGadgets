@@ -1,5 +1,5 @@
 import {LAST_STORAGE_VALUE, STORAGE_KEY, URL_CONSENT_READ, WG_USER_NAME} from './modules/constant';
-import {generateElements} from './modules/generateElements';
+import {generateElements} from './modules/util/generateElements';
 
 $(function cookieWarning(): void {
 	if (WG_USER_NAME || LAST_STORAGE_VALUE === '1' || URL_CONSENT_READ) {

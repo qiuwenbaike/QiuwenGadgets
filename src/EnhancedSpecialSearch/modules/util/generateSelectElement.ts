@@ -1,4 +1,4 @@
-import {type OptionData, getOptionData} from './getOptionData';
+import {type OptionData, getOptionData} from '../getOptionData';
 
 const generateSelectElement = (): HTMLSelectElement => {
 	const selectElement: HTMLSelectElement = document.createElement('select');
