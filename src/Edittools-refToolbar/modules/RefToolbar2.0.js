@@ -1,32 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {getMessage} from './util';
-import {refToolbarBase} from './RefToolbarBase';
+import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
-if (window.CiteTB === undefined) {
-	window.CiteTB = {
-		Templates: {}, // All templates
-		Options: {}, // Global options
-		UserOptions: {}, // User options
-		DefaultOptions: {}, // Script defaults
-		ErrorChecks: {}, // Error check functions
-	};
-}
-
-refToolbarBase();
-
 // TODO: make autodate an option in the CiteTemplate object, not a preference
-export const refToolbar2 = () => {
-	// Only execute when editing/previewing wikitext pages
-	// TODO: Remove tests already done by [[MediaWiki:Gadget-RefToolbar.js]]
-	if (
-		!['edit', 'submit'].includes(mw.config.get('wgAction')) ||
-		!mw.config.get('wgPageContentModel') === 'wikitext'
-	) {
-		return;
-	}
-
+const refToolbar2 = () => {
 	const $body = $('body');
 
 	// Default options, these mainly exist so the script won't break if a new option is added
@@ -83,7 +61,7 @@ export const refToolbar2 = () => {
 					init: () => {},
 					html: tem.getInitial(),
 					dialog: {
-						width: Math.round($(window).width() * 0.8),
+						width: Math.round($(window).width() ?? 0 * 0.8),
 						open() {
 							$(this).html(CiteTB.getOpenTemplate().getForm());
 							/** @param {jQuery.Event} e */
@@ -209,7 +187,7 @@ export const refToolbar2 = () => {
 					'cite-loading'
 				)}</div>`,
 				dialog: {
-					width: Math.round($(window).width() * 0.8),
+					width: Math.round($(window).width() ?? 0 * 0.8),
 					open() {
 						CiteTB.loadRefs();
 					},
@@ -238,7 +216,7 @@ export const refToolbar2 = () => {
 				)}</div>`,
 				init: () => {},
 				dialog: {
-					width: Math.round($(window).width() * 0.8),
+					width: Math.round($(window).width() ?? 0 * 0.8),
 					open() {
 						CiteTB.loadRefs();
 					},
@@ -521,8 +499,11 @@ export const refToolbar2 = () => {
 
 	// Autofill a template from an ID (ISBN, DOI, PMID, URL)
 	CiteTB.initAutofill = function () {
-		const elemid = $(this).attr('id');
+		const elemid = $(this).attr('id') ?? '';
 		const res = /^cite-auto-(.*?)-(.*)-(.*)$/.exec(elemid);
+		if (!res) {
+			return false;
+		}
 		const [, tem] = res;
 		const [, , field] = res;
 		const [, , , autotype] = res;
@@ -539,7 +520,7 @@ export const refToolbar2 = () => {
 		const s = document.createElement('script');
 		s.setAttribute('src', url);
 		s.setAttribute('type', 'text/javascript');
-		document.querySelectorAll('head')[0].append(s);
+		document.head.append(s);
 		return false;
 	};
 
@@ -553,7 +534,10 @@ export const refToolbar2 = () => {
 		// Fill in authors
 		if (data.authors && data.authors.length > 0) {
 			if ($(`.${cl}last-incr-1`).length > 0) {
-				const classes = $(`.${cl}last-incr-1`).eq(0).attr('class').split(/\s+/);
+				const classes = $(`.${cl}last-incr-1`).eq(0).attr('class')?.split(/\s+/);
+				if (!classes) {
+					return;
+				}
 				let group = false;
 				const patt = /cite-[^-]*?-incr-(.*)/;
 				for (const class_ of classes) {
@@ -571,7 +555,10 @@ export const refToolbar2 = () => {
 					$(`.${cl}first-incr-${i.toString()}`).val(data.authors[i - 1][1]);
 				}
 			} else if ($(`.${cl}author-incr-1`).length > 0) {
-				const classes = $(`.${cl}author-incr-1`).eq(0).attr('class').split(/\s+/);
+				const classes = $(`.${cl}author-incr-1`).eq(0).attr('class')?.split(/\s+/);
+				if (!classes) {
+					return;
+				}
 				let group = false;
 				const patt = /cite-[^-]*?-incr-(.*)/;
 				for (const class_ of classes) {
@@ -690,8 +677,11 @@ export const refToolbar2 = () => {
 		const [currentrow] = $(this).parents('tr');
 		$(this).prev().css('width', '100%');
 		$(this).detach();
-		const elemid = $(this).attr('id');
+		const elemid = $(this).attr('id') ?? '';
 		const res = /^cite-incr-(.*?)-(.*)$/.exec(elemid);
+		if (!res) {
+			return;
+		}
 		const [, , group] = res;
 		const increments = template.incrementables[group];
 		const {fields} = increments;
@@ -705,9 +695,12 @@ export const refToolbar2 = () => {
 
 	// fill the accessdate param with the current date
 	CiteTB.fillAccessdate = function () {
-		const elemid = $(this).attr('id');
+		const elemid = $(this).attr('id') ?? '';
 		const res = /^cite-date-(.*?)-(.*)$/.exec(elemid);
 		const [, id] = res;
+		if (!res) {
+			return;
+		}
 		const [, , field] = res;
 		const DT = new Date();
 		const datestr = CiteTB.formatDate(DT);
@@ -770,7 +763,7 @@ export const refToolbar2 = () => {
 			}
 		}
 		const stuff = $('<div>');
-		$body.find('#citetoolbar-namedrefs').html(stuff);
+		$body.find('#citetoolbar-namedrefs').html(stuff.html());
 		if (names.length === 0) {
 			stuff.html(getMessage('cite-no-namedrefs'));
 		} else {
@@ -825,7 +818,7 @@ export const refToolbar2 = () => {
 			}
 		}
 		form.append(ul);
-		$body.find('#citetoolbar-errorcheck').html(form);
+		$body.find('#citetoolbar-errorcheck').html(form.html());
 	};
 
 	// Callback function for parsed preview
@@ -1037,3 +1030,5 @@ export const refToolbar2 = () => {
 
 	// End of code loaded only on edit
 };
+
+export {refToolbar2};

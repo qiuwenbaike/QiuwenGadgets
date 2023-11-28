@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/* eslint-disable camelcase, no-new, no-undef, @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 /**
  * Sitewide options for the the Cite toolbar button:
@@ -29,7 +29,7 @@
  * references using {{#tag:ref}} to be listed in the named refs dialog and searched by error checks.
  * This may slow loading the named refs and error check dialogs.
  */
-export const refToolbarConfig = () => {
+const refToolbarConfig = () => {
 	const {CiteTemplate, CiteErrorCheck} = window;
 
 	CiteTB.Options = {
@@ -705,14 +705,16 @@ export const refToolbarConfig = () => {
 			const errors = [];
 			const refs2 = [];
 			for (const element of reflist) {
-				if (!element.shorttag) {
-					if (refs2.includes(element.content)) {
-						if (!errors.includes(element.content)) {
-							errors.push(element.content);
-						}
-					} else {
-						refs2.push(element.content);
+				if (element.shorttag) {
+					continue;
+				}
+				if (refs2.includes(element.content)) {
+					if (errors.includes(element.content)) {
+						continue;
 					}
+					errors.push(element.content);
+				} else {
+					refs2.push(element.content);
 				}
 			}
 			const ret = [];
@@ -733,14 +735,16 @@ export const refToolbarConfig = () => {
 			const errors = [];
 			const refs2 = [];
 			for (const element of reflist) {
-				if (!element.shorttag && element.refname) {
-					if (refs2.includes(element.refname)) {
-						if (!errors.includes(element.refname)) {
-							errors.push(element.refname);
-						}
-					} else {
-						refs2.push(element.refname);
+				if (element.shorttag || !element.refname) {
+					continue;
+				}
+				if (refs2.includes(element.refname)) {
+					if (errors.includes(element.refname)) {
+						continue;
 					}
+					errors.push(element.refname);
+				} else {
+					refs2.push(element.refname);
 				}
 			}
 			const ret = [];
@@ -760,19 +764,13 @@ export const refToolbarConfig = () => {
 		func: (reflist) => {
 			const errors = [];
 			const longrefs = [];
-			let i;
-			for (i = 0; i < reflist.length; i++) {
-				if (!reflist[i].shorttag && reflist[i].refname) {
-					longrefs.push(reflist[i].refname);
+			for (const value of Object.values(reflist)) {
+				const {refname, shorttag} = value;
+				if (!shorttag && refname) {
+					longrefs.push(value.refname);
 				}
-			}
-			for (let j = 0; i < reflist.length; j++) {
-				if (
-					reflist[i].shorttag &&
-					errors.inArray(reflist[i].refname) === -1 &&
-					!longrefs.includes(reflist[i].refname)
-				) {
-					errors.push(reflist[i].refname);
+				if (shorttag && errors.inArray(refname) === -1 && !longrefs.includes(refname)) {
+					errors.push(refname);
 				}
 			}
 			const ret = [];
@@ -789,3 +787,5 @@ export const refToolbarConfig = () => {
 	// execute main function
 	CiteTB.init();
 };
+
+export {refToolbarConfig};

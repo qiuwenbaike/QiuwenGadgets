@@ -1,6 +1,6 @@
 import {WG_USER_LANGUAGE} from './constant';
 
-export const refToolbarMesages = () => {
+const refToolbarMesages = (): void => {
 	if (WG_USER_LANGUAGE === 'en') {
 		return;
 	}
@@ -272,3 +272,5 @@ export const refToolbarMesages = () => {
 		});
 	}
 };
+
+export {refToolbarMesages};
