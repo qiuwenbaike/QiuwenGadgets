@@ -1,5 +1,5 @@
 import {addListener} from './addListener';
-import {generateSelectElement} from './generateSelectElement';
+import {generateSelectElement} from './util/generateSelectElement';
 
 const processElement = (searchElement: HTMLElement, targetElement: HTMLElement): void => {
 	targetElement.setAttribute('style', 'display:flex;flex-wrap:wrap;align-items:center');

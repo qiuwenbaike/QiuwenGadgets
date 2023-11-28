@@ -1,5 +1,5 @@
-import {CLASS_NAME} from './constant';
-import {getMessage} from './i18n';
+import {CLASS_NAME} from '../constant';
+import {getMessage} from '../i18n';
 
 const generateElements = () => {
 	const $agreeButton: JQuery = $('<span>')
