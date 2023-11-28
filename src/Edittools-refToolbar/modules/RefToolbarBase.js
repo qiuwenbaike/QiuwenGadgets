@@ -1,23 +1,35 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {getMessage} from './util';
+import {getMessage} from './util/getMessage';
 
-export const refToolbarBase = () => {
-	// Object for cite templates
-	window.CiteTemplate = function (templatename, shortform, basicfields, expandedfields) {
-		// Properties
-		this.templatename = templatename; // The template name - "cite web", "cite book", etc.
-		this.shortform = shortform; // A short form, used for the dropdown box
-		this.basic = basicfields; // Basic fields - author, title, publisher...
+const refToolbarBase = () => {
+	if (!window.CiteTB) {
+		window.CiteTB = {
+			Templates: {}, // All templates
+			Options: {}, // Global options
+			UserOptions: {}, // User options
+			DefaultOptions: {}, // Script defaults
+			ErrorChecks: {}, // Error check functions
+		};
+	}
 
-		// Less common - quote, archiveurl - should be everything the template supports minus the basic ones
-		this.extra = expandedfields;
-		this.incrementables = {};
-		// Add it to the list
-		const self = this;
-		CiteTB.Templates[this.templatename] = self;
-		// Methods
-		this.makeFormInner = function (fields, incrsetup) {
+	// Class for cite templates
+	window.CiteTemplate = class CiteTemplate {
+		constructor(templatename, shortform, basicfields, expandedfields) {
+			// Properties
+			this.templatename = templatename; // The template name - "cite web", "cite book", etc.
+			this.shortform = shortform; // A short form, used for the dropdown box
+			this.basic = basicfields; // Basic fields - author, title, publisher...
+
+			// Less common - quote, archiveurl - should be everything the template supports minus the basic ones
+			this.extra = expandedfields;
+			this.incrementables = {};
+
+			// Add it to the list
+			// eslint-disable-next-line @typescript-eslint/no-this-alias
+			CiteTB.Templates[this.templatename] = this;
+		}
+		makeFormInner(fields, incrsetup) {
 			const trs = [];
 			const autofills = [];
 			let tr;
@@ -112,9 +124,11 @@ export const refToolbarBase = () => {
 				if (fieldobj.autofillprop) {
 					let classname = `cite-${CiteTB.escStr(this.shortform)}-${fieldobj.autofillprop}`;
 					if (fieldobj.increment_group) {
+						// eslint-disable-next-line mediawiki/class-doc
 						input.addClass(`cite-${CiteTB.escStr(this.shortform)}-incr-${fieldobj.increment_group}`);
 						classname += `-${this.incrementables[fieldobj.increment_group].val.toString()}`;
 					}
+					// eslint-disable-next-line mediawiki/class-doc
 					input.addClass(classname);
 				}
 				const label = $('<label>');
@@ -155,17 +169,17 @@ export const refToolbarBase = () => {
 				}
 			}
 			return trs;
-		};
+		}
 		// gives a little bit of HTML so the open form can be identified
-		this.getInitial = function () {
+		getInitial() {
 			const hidden = $('<input>').addClass('cite-template').attr({
 				type: 'hidden',
 				value: this.templatename,
 			});
 			return hidden;
-		};
+		}
 		// makes the form used in the dialog boxes
-		this.getForm = function () {
+		getForm() {
 			const main = $('<div>').addClass('cite-form-container');
 			const form1 = $('<table>').addClass('cite-basic-fields').css({
 				width: '100%',
@@ -260,7 +274,7 @@ export const refToolbarBase = () => {
 			extras.append(link);
 			main.append(extras);
 			return main;
-		};
+		}
 	};
 	/**
 	 * Class for error checks
@@ -278,11 +292,14 @@ export const refToolbarBase = () => {
 	 *
 	 * @param {unknown} obj
 	 */
-	window.CiteErrorCheck = function (obj) {
-		this.obj = obj;
-		const self = this;
-		CiteTB.ErrorChecks[this.obj.testname] = self;
-		this.run = function () {
+	window.CiteErrorCheck = class CiteErrorCheck {
+		constructor(obj) {
+			this.obj = obj;
+
+			// eslint-disable-next-line @typescript-eslint/no-this-alias
+			CiteTB.ErrorChecks[this.obj.testname] = this;
+		}
+		run() {
 			let errors = [];
 			switch (this.obj.type) {
 				case 'refcheck':
@@ -307,8 +324,8 @@ export const refToolbarBase = () => {
 				}
 			}
 			return errors;
-		};
-		this.getRow = function () {
+		}
+		getRow() {
 			const row = $('<li>');
 			const check = $('<input>').attr({
 				type: 'checkbox',
@@ -319,7 +336,10 @@ export const refToolbarBase = () => {
 			label.attr('for', this.obj.testname);
 			row.append(check).append(' &ndash; ').append(label);
 			return row;
-		};
+		}
 	};
+
 	$(document).find('head').trigger('reftoolbarbase');
 };
+
+export {refToolbarBase};
