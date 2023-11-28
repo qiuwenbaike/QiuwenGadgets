@@ -1,7 +1,7 @@
 import {aiAssisted} from './modules/aiAssisted';
 import {clearUndoSummary} from './modules/clearUndoSummary';
 import {disableTitle} from './modules/disableTitle';
-import {forcePreview} from './modules/forcePreview';
+// import {forcePreview} from './modules/forcePreview';
 
 $(function editForm(): void {
 	const $body: JQuery<HTMLBodyElement> = $('body');
@@ -21,5 +21,5 @@ mw.hook('wikipage.editform').add(($editForm: JQuery): void => {
 	// AI辅助编辑特殊声明
 	aiAssisted({$editForm});
 	// 强制预览
-	forcePreview($editForm);
+	// forcePreview($editForm);
 });
