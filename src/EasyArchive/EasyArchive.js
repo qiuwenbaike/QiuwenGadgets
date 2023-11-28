@@ -542,7 +542,7 @@ import {easy_archive_lang} from './modules/i18n';
 		// others user talk.
 		footer_info_ele.insertAdjacentHTML(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice('others_talk_elaborate')'>${message(
+			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('others_talk_elaborate')">${message(
 				'others_page'
 			)}</a></div>`
 		);
@@ -550,7 +550,7 @@ import {easy_archive_lang} from './modules/i18n';
 		// a generic page that did not enable easy archive.
 		footer_info_ele.insertAdjacentHTML(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice('enable_on_generic_page')'>${message(
+			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('enable_on_generic_page')">${message(
 				'to_enable'
 			)}</a></div>`
 		);
@@ -559,7 +559,7 @@ import {easy_archive_lang} from './modules/i18n';
 		// my user talk -- installed easy archive but lacking template.
 		footer_info_ele.insertAdjacentHTML(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href='javascript:window.easy_archive.elaborate_notice('please_enable_elaborate')'>${message(
+			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('please_enable_elaborate')">${message(
 				'please_enable'
 			)}</a></div>`
 		);
