@@ -1,3 +1,19 @@
-import {accessKeyCheatsheet} from './modules/core';
+import {addListener} from './modules/addListener';
+import {generateElements} from './modules/util/generateElements';
+import {generateMessageDialogProperty} from './modules/util/generateMessageDialogProperty';
+import {initWindowManager} from './modules/initWindowManager';
 
-$(accessKeyCheatsheet);
+/**
+ * Adds alt+shift+? as an access key to show a list of all default access keys
+ */
+$(function accessKeyCheatsheet(): void {
+	const $body: JQuery<HTMLBodyElement> = $('body');
+
+	const {$table, $opener} = generateElements($body);
+	$opener.hide().appendTo($body);
+
+	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData = generateMessageDialogProperty($table);
+	const windowManager: OO.ui.WindowManager = initWindowManager($body);
+
+	addListener($opener, windowManager, messageDialogProperty);
+});

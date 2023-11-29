@@ -1,9 +1,9 @@
 import {getMessage} from '../i18n';
 
-const generateMessageDialogProperty = ($accessKeysTable: JQuery): OO.ui.WindowManager.WindowOpeningData => {
+const generateMessageDialogProperty = ($element: JQuery): OO.ui.WindowManager.WindowOpeningData => {
 	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData = {
 		title: getMessage('Title'),
-		message: $accessKeysTable,
+		message: $element,
 		actions: [
 			{
 				action: 'close',
