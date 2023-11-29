@@ -4,10 +4,10 @@ const processElement = ($element: JQuery): void => {
 	const title: string = $element.attr('title') ?? $element.attr('aria-label') ?? $element.text().trim();
 	switch (WG_SKIN) {
 		case 'gongbi':
-			$element.attr('title', title).html('&#8203');
+			$element.attr({title}).html('&#8203');
 			break;
 		default:
-			$element.attr('title', title).text('[+]');
+			$element.attr({title}).text('[+]');
 			break;
 	}
 };
