@@ -1,157 +1,76 @@
+import type {Config, State} from './types';
+import {ID, WG_SKIN} from './constant';
+import {checkA11yConfirmKey, scrollTop} from '../../util';
+import {generateElements} from './util/generateElements';
+import {generateTogglerElement} from './util/generateTogglerElement';
+import {getConfig} from './getConfig';
 import {getMessage} from './i18n';
-import {scrollTop} from '../../util';
+import {setMwNotifyStyle} from './setMwNotifyStyle';
 
-type State = 'close' | 'open';
-interface Config {
-	floatTOC: State;
-	originTOC: State;
-}
+const floatTOC = (originToc: HTMLElement): void => {
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
-export const floatTOC = (originToc: HTMLDivElement | null): void => {
-	if (!originToc) {
-		return;
-	}
-	const ID = 'floatTOC';
-	const skin: string = mw.config.get('skin');
-	let config: Config = mw.storage.getObject(ID);
-	if (!config) {
-		config = {floatTOC: window.outerHeight < window.outerWidth ? 'open' : 'close', originTOC: 'open'};
-	}
-	const style: HTMLStyleElement = mw.loader.addStyleTag(
-		'.mw-notification-area{right:unset;width:auto;max-width:20em}.mw-notification{-webkit-transform:translateX(-999px);-moz-transform:translateX(-999px);transform:translateX(-999px)}.mw-notification-visible{-webkit-transform:translateX(0);-moz-transform:translateX(0);transform:translateX(0)}'
-	);
-	style.disabled = true;
-	const toc: HTMLDivElement = originToc.cloneNode(true) as HTMLDivElement;
-	toc.querySelector('input')?.remove();
-	toc.querySelector('.toctogglespan')?.remove();
-	const $toc: JQuery = $(toc);
-	const $floatToc: JQuery = $toc
-		.clone()
-		.removeAttr('id')
-		.prepend(
-			$('<span>')
-				.addClass('oo-ui-indicatorElement-indicator oo-ui-icon-close')
-				.attr({
-					id: 'close',
-					title: getMessage('Close'),
-					role: 'button',
-					tabindex: '0',
-				})
-		);
-	const $floatTocOpener: JQuery<HTMLDivElement> = $<HTMLDivElement>('<div>')
-		.addClass('noprint')
-		.attr({
-			id: 'floatToc-opener',
-			title: getMessage('Contents'),
-			role: 'button',
-			tabindex: '0',
-		})
-		.append(
-			$('<span>').addClass('oo-ui-indicatorElement-indicator oo-ui-icon-reference'),
-			$('<span>').text(getMessage('Contents'))
-		)
-		.hide()
-		.appendTo($('body'));
-	let isShow: boolean;
-	let preNotification: ReturnType<typeof mw.notification.notify> | undefined;
-	let disableStyleTimer: ReturnType<typeof setTimeout>;
-	const checkA11yKey = (
-		event: JQuery.ClickEvent | JQuery.KeyDownEvent,
-		{preventDefault = false, stopPropagation = false}: {preventDefault?: boolean; stopPropagation?: boolean} = {}
-	): boolean => {
-		if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
-			return true;
-		}
-		if (preventDefault) {
-			event.preventDefault();
-		}
-		if (stopPropagation) {
-			event.stopPropagation();
-		}
-		return false;
-	};
-	const disableStyle = (): void => {
-		if (disableStyleTimer) {
-			clearTimeout(disableStyleTimer);
-		}
-		disableStyleTimer = setTimeout((): void => {
-			if (!isShow) {
-				style.disabled = true;
-			}
-		}, 5000);
-	};
+	const {$floatToc, $floatTocOpener} = generateElements(originToc);
+	$floatTocOpener.hide().appendTo($body);
+
+	const config: Config = getConfig(ID);
+	const mwNotifyStyle: HTMLStyleElement = setMwNotifyStyle();
+
+	let isShow = false;
 	const storeState = (target: keyof Config, state: State): void => {
 		config[target] = state;
 		mw.storage.setObject(ID, config);
 	};
-	const collapseOriginToc = (): void => {
-		if (skin !== 'citizen') {
-			return;
+
+	let disableMwNotifyStyleTimer: ReturnType<typeof setTimeout>;
+	const disableMwNotifyStyle = (): void => {
+		if (disableMwNotifyStyleTimer) {
+			clearTimeout(disableMwNotifyStyleTimer);
 		}
-		let isCollapse = config.originTOC === 'close';
-		const $body: JQuery<HTMLBodyElement> = $('body');
-		const $originTocTitle: JQuery = $body.find('#toc .toctitle');
-		const $originTocItem: JQuery = $body.find('#toc ul');
-		const $tocToggle: JQuery<HTMLSpanElement> = $('<span>').addClass(
-			'oo-ui-indicatorElement-indicator oo-ui-icon-downTriangle'
-		);
-		const getToggleElement = (): JQuery<HTMLSpanElement> => {
-			let $element: JQuery<HTMLSpanElement> = $tocToggle.clone();
-			$element = isCollapse
-				? $element.attr('title', getMessage('Expand'))
-				: $element.attr('title', getMessage('Collapse')).addClass('collapse');
-			return $element;
-		};
-		const collapseToggle = (): void => {
-			const $element: JQuery<HTMLSpanElement> = $originTocTitle.find('.oo-ui-indicatorElement-indicator');
-			$element.toggleClass('collapse');
-			if (isCollapse) {
-				$element.attr('title', getMessage('Expand'));
-			} else {
-				$element.attr('title', getMessage('Collapse'));
+		disableMwNotifyStyleTimer = setTimeout((): void => {
+			if (!isShow) {
+				mwNotifyStyle.disabled = true;
 			}
-		};
-		$originTocTitle.append(getToggleElement());
-		$originTocTitle.on('click', (): void => {
-			isCollapse = !isCollapse;
-			isCollapse ? storeState('originTOC', 'close') : storeState('originTOC', 'open');
-			collapseToggle();
-			$originTocItem.fadeToggle();
-		});
-		if (isCollapse) {
-			$originTocItem.fadeOut();
-		}
+		}, 5 * 1000);
 	};
+
+	let notification: ReturnType<typeof mw.notification.notify> | undefined;
+	const closeNotification = (currentNotification: NonNullable<typeof notification>): void => {
+		currentNotification.close();
+		$floatTocOpener.fadeIn();
+		storeState('floatTOC', 'close');
+		disableMwNotifyStyle();
+	};
+
 	const smoothScroll = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
-		if (skin === 'citizen') {
+		if (WG_SKIN === 'citizen') {
 			return;
 		}
+
 		const {target} = event;
 		const $target: JQuery = $(target).parent();
 		const href: string | undefined = $target.attr('href');
 		if (!href) {
 			return;
 		}
+
 		const anchorOffset: JQuery.Coordinates | undefined = $(href).offset();
 		if (!anchorOffset) {
 			return;
 		}
+
 		event.preventDefault();
 		scrollTop(`${anchorOffset.top}px`);
 	};
-	const closeNotification = (notification: ReturnType<typeof mw.notification.notify>): void => {
-		notification.close();
-		$floatTocOpener.fadeIn();
-		storeState('floatTOC', 'close');
-		disableStyle();
-	};
+
 	const toggleToc = (
-		_isShow: boolean | 'open' = true,
-		_preNotification: typeof preNotification = undefined
-	): typeof preNotification => {
-		_preNotification?.close();
-		isShow = !!_isShow;
-		switch (_isShow) {
+		currentIsShow: boolean | 'open' = true,
+		preNotification: typeof notification = undefined
+	): typeof notification => {
+		preNotification?.close();
+		isShow = !!currentIsShow;
+
+		switch (currentIsShow) {
 			case true:
 				if (config.floatTOC === 'close') {
 					$floatTocOpener.fadeIn();
@@ -164,57 +83,93 @@ export const floatTOC = (originToc: HTMLDivElement | null): void => {
 				break;
 			default:
 				$floatTocOpener.fadeOut();
-				disableStyle();
+				disableMwNotifyStyle();
 				return;
 		}
-		style.disabled = false;
-		if (_preNotification) {
-			_preNotification.start();
+
+		mwNotifyStyle.disabled = false;
+
+		if (preNotification) {
+			preNotification.start();
 		} else {
-			_preNotification = mw.notification.notify($floatToc, {classes: 'noprint', id: ID, autoHide: false});
+			preNotification = mw.notification.notify($floatToc, {
+				classes: 'noprint',
+				id: ID,
+				autoHide: false,
+			});
 			const notificationListener = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
-				if (
-					checkA11yKey(event, {
-						stopPropagation: true,
-					})
-				) {
+				event.stopPropagation();
+				if (!checkA11yConfirmKey(event)) {
 					return;
 				}
 				const {target}: {target: HTMLElement} = event;
 				if (target.id === 'close') {
-					closeNotification(_preNotification as ReturnType<typeof mw.notification.notify>);
+					closeNotification(preNotification as NonNullable<typeof preNotification>);
 				} else {
 					smoothScroll(event);
 				}
 			};
-			_preNotification.$notification.on('click', notificationListener);
-			_preNotification.$notification.on('keydown', notificationListener);
+			preNotification.$notification.on('click', notificationListener);
+			preNotification.$notification.on('keydown', notificationListener);
 		}
-		return _preNotification;
+
+		return preNotification;
 	};
-	if ('IntersectionObserver' in window) {
-		const observerCallback = (entries: IntersectionObserverEntry[]): void => {
-			const [entry] = entries;
-			if (!entry) {
-				return;
-			}
-			const {intersectionRatio} = entry;
-			preNotification = toggleToc(intersectionRatio === 0, preNotification);
-		};
-		const intersectionObserver: IntersectionObserver = new IntersectionObserver(observerCallback);
-		intersectionObserver.observe(originToc);
-	}
-	collapseOriginToc();
-	const openerListener = (event: JQuery.ClickEvent<HTMLDivElement> | JQuery.KeyDownEvent<HTMLDivElement>): void => {
-		if (
-			checkA11yKey(event, {
-				preventDefault: true,
-			})
-		) {
+
+	const observerCallback = (entries: IntersectionObserverEntry[]): void => {
+		const [entry] = entries;
+		if (!entry) {
 			return;
 		}
-		preNotification = toggleToc('open');
+		const {intersectionRatio} = entry;
+		notification = toggleToc(intersectionRatio === 0, notification);
+	};
+	const intersectionObserver: IntersectionObserver = new IntersectionObserver(observerCallback);
+	intersectionObserver.observe(originToc);
+
+	const openerListener = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
+		event.preventDefault();
+		if (!checkA11yConfirmKey(event)) {
+			return;
+		}
+		notification = toggleToc('open');
 	};
 	$floatTocOpener.on('click', openerListener);
 	$floatTocOpener.on('keydown', openerListener);
+
+	const collapseOriginToc = (): void => {
+		if (WG_SKIN !== 'citizen') {
+			return;
+		}
+
+		const isCollapse = config.originTOC === 'close';
+
+		const $originTocTitle: JQuery = $body.find('#toc .toctitle');
+		const $originTocItem: JQuery = $body.find('#toc ul');
+
+		const $toggler: JQuery = generateTogglerElement(isCollapse);
+		$originTocTitle.append($toggler);
+
+		const collapseToggle = (): void => {
+			const $element: JQuery = $originTocTitle.find('.oo-ui-indicatorElement-indicator');
+			$element.toggleClass('collapse');
+			if (isCollapse) {
+				$element.attr('title', getMessage('Expand'));
+			} else {
+				$element.attr('title', getMessage('Collapse'));
+			}
+		};
+		$originTocTitle.on('click', (): void => {
+			isCollapse ? storeState('originTOC', 'open') : storeState('originTOC', 'close');
+			collapseToggle();
+			$originTocItem.fadeToggle();
+		});
+
+		if (isCollapse) {
+			$originTocItem.fadeOut();
+		}
+	};
+	collapseOriginToc();
 };
+
+export {floatTOC};
