@@ -12,7 +12,8 @@ $(function initAutoLogin(): void {
 		return;
 	}
 
-	const windowManager: OO.ui.WindowManager = initWindowManager($body);
+	const windowManager: OO.ui.WindowManager = initWindowManager();
+	windowManager.$element.appendTo($body);
 
 	const fakeToastifyInstance: ToastifyInstance = {
 		hideToast: () => {},
