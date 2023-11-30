@@ -9,12 +9,12 @@ const checkValid = (
 	isValid: boolean;
 	toastifyInstance: ToastifyInstance;
 } => {
-	const agreedTos: boolean = agreeTosCheckbox.isSelected();
-	const filled = ![nameInput.getValue(), pwdInput.getValue()].includes('');
+	const isAgreeTos: boolean = agreeTosCheckbox.isSelected();
+	const isFill = ![nameInput.getValue(), pwdInput.getValue()].includes('');
 
 	toastifyInstance.hideToast();
 
-	if (!agreedTos) {
+	if (!isAgreeTos) {
 		toastifyInstance = toastify(
 			{
 				text: getMessage('AgreedOrNot'),
@@ -22,7 +22,7 @@ const checkValid = (
 			},
 			'info'
 		);
-	} else if (!filled) {
+	} else if (!isFill) {
 		toastifyInstance = toastify(
 			{
 				text: getMessage('EmptyUsernameOrPassword'),
@@ -32,7 +32,7 @@ const checkValid = (
 		);
 	}
 
-	const isValid: boolean = agreedTos && filled;
+	const isValid: boolean = isAgreeTos && isFill;
 
 	return {
 		isValid,

@@ -3,7 +3,9 @@ import {type NeedToCheckElements, checkValid} from './util/checkValid';
 import {generateElements} from './util/generateElements';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
+import {queryLoginToken} from './util/queryLoginToken';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
+import {showError} from './util/showError';
 
 const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ToastifyInstance): void => {
 	const {
@@ -23,18 +25,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
 		try {
 			if (!loginContinue) {
-				toastifyInstance.hideToast();
-				toastifyInstance = toastify({
-					text: getMessage('Getting login token'),
-				});
-
-				loginToken = await api.getToken('login');
-
-				toastifyInstance.hideToast();
-				toastifyInstance = toastify({
-					text: getMessage('Login token getted'),
-					duration: -1,
-				});
+				({loginToken, toastifyInstance} = await queryLoginToken(api, toastifyInstance));
 			}
 
 			const params: ClientLoginParams = {
@@ -68,6 +59,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 						'info'
 					);
 					windowManager.clearWindows();
+
 					return;
 				} else if (value === '') {
 					if (retypePassword) {
@@ -188,16 +180,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 				}
 			}
 		} catch (error: unknown) {
-			console.error('[AjaxLogin] Ajax error:', error);
-			toastifyInstance.hideToast();
-			toastifyInstance = toastify(
-				{
-					text: getMessage('Network error'),
-					close: true,
-					duration: -1,
-				},
-				'error'
-			);
+			toastifyInstance = showError(error, toastifyInstance);
 		}
 	};
 

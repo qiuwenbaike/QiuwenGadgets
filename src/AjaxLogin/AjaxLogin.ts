@@ -1,14 +1,19 @@
 import * as OPTIONS from './options.json';
 import {WG_USER_NAME} from './modules/constant';
+import {addListener} from './modules/addListener';
 import {ajaxLogin} from './modules/core';
 import {checkA11yConfirmKey} from '../util';
 import {initWindowManager} from './modules/initWindowManager';
 
 $(function initAutoLogin(): void {
+	if (WG_USER_NAME) {
+		return;
+	}
+
 	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	const $loginElement: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>(OPTIONS.loginElementSelector);
-	if (WG_USER_NAME || !$loginElement.length) {
+	if (!$loginElement.length) {
 		return;
 	}
 
@@ -27,6 +32,5 @@ $(function initAutoLogin(): void {
 		event.preventDefault();
 		ajaxLogin(windowManager, fakeToastifyInstance);
 	};
-	$loginElement.on('click', eventListener);
-	$loginElement.on('keydown', eventListener);
+	addListener($loginElement, eventListener);
 });
