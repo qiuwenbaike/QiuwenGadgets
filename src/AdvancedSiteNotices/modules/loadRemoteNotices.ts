@@ -8,12 +8,13 @@ const loadRemoteNotices = async (): Promise<RemoteNotices> => {
 
 	const $remoteNotices: NonNullable<RemoteNotices['$notices']> = $('<div>')
 		.html(response['parse'].text)
-		.find('ul.sitents li');
+		.find('ul.sitents');
 
+	const $notices: JQuery = $remoteNotices.find('li');
 	const remoteNoticesVersion: NonNullable<RemoteNotices['version']> = $remoteNotices.data('asn-version').toString();
 
 	return {
-		$notices: $remoteNotices,
+		$notices,
 		version: remoteNoticesVersion,
 	};
 };

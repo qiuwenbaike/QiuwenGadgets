@@ -46,16 +46,17 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 	}
 
 	const noticesLength: number = $notices.length;
-	const nextNoticeIndex: number = index++ % noticesLength;
+	const nextNoticeIndex: number = (index + 1) % noticesLength;
 	let $notice: JQuery = $();
 
-	for (let i = 0; i < noticesLength; i++) {
+	let i = 0;
+	while (i++ < noticesLength) {
 		$notice = $notices.eq(index);
 		if (!matchCriteria($notice)) {
 			showNotices($mountPoint, nextNoticeIndex);
 			return;
 		}
-		index = nextNoticeIndex;
+		index = index++ % noticesLength;
 	}
 
 	if (typeof $notice.data('asn-html') === 'string') {
