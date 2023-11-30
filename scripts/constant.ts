@@ -86,7 +86,7 @@ const DEPLOY_USER_AGENT =
  * Note: By default, Gadget extensions do not support gadgets that have both the `default` and `requiresES6` flags. If you need to bypass server-side syntax validation for gadgets with the `default` flag, you should modify the Gadget extension yourself. Otherwise, **DO NOT** set this option to true
  *
  */
-const GLOBAL_REQUIRES_ES6 = false;
+const GLOBAL_REQUIRES_ES6 = true;
 
 /**
  * 是否自动转换`MediaWiki:Gadget-${gadgetName}`和`MediaWiki:Gadget-section-${DEFAULT_DEFINITION.section}`页面的语言变体
