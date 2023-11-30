@@ -1,23 +1,21 @@
 import {CLASS_NAME_DISMISS, CLASS_NAME_NOTICE_CONTENT, STORAGE_KEY} from './constant';
-import type {RemoteNotices} from './util/queryApi';
+import {type RemoteNotices} from './util/queryApi';
 import {getMessage} from './i18n';
 import {insertArea} from './insertArea';
 import {matchCriteria} from './util/matchCriteria';
 
-let currentNoticesVersion = '0';
-let localNoticesVersion: string | null = mw.storage.get(STORAGE_KEY) as string | null;
+let currentVersion = '0';
+const localVersion: string | null = mw.storage.get(STORAGE_KEY) as string | null;
 
 let timer: ReturnType<typeof setTimeout>;
 
 const $area: JQuery = insertArea();
 const $currentNotice: JQuery = $area.find(`.${CLASS_NAME_NOTICE_CONTENT}`);
 const $dismiss: JQuery<HTMLAnchorElement> = $area.find(`.${CLASS_NAME_DISMISS}`).find('a');
-$dismiss.on('click', (event: JQuery.ClickEvent): void => {
-	event.preventDefault();
+$dismiss.on('click', (): void => {
 	clearTimeout(timer);
 	$area.remove();
-	localNoticesVersion = currentNoticesVersion;
-	mw.storage.set(STORAGE_KEY, currentNoticesVersion, 60 * 60 * 24 * 30 * 1000);
+	mw.storage.set(STORAGE_KEY, currentVersion, 60 * 60 * 24 * 30 * 1000);
 	const toastifyInstance: ToastifyInstance = toastify({
 		node: $('<span>').html(getMessage('DismissNotice')).get(0),
 		close: true,
@@ -35,11 +33,11 @@ tippy($dismiss.get(0) as HTMLAnchorElement, {
 	placement: 'bottom',
 });
 
-const noticeStyles: HTMLStyleElement[] = [];
 let $notices: JQuery;
+const noticeStyles: HTMLStyleElement[] = [];
 const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteNotices): void => {
-	currentNoticesVersion = remoteNotices?.version ?? currentNoticesVersion;
-	if (currentNoticesVersion === localNoticesVersion) {
+	currentVersion = remoteNotices?.version ?? currentVersion;
+	if (currentVersion === localVersion) {
 		return;
 	}
 
@@ -48,32 +46,28 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 	}
 
 	const noticesLength: number = $notices.length;
-	const nextNoticeIndex: number = (index + 1) % noticesLength;
+	const nextNoticeIndex: number = index++ % noticesLength;
 	let $notice: JQuery = $();
-	let i = 0;
-	while (i++ < noticesLength) {
+
+	for (let i = 0; i < noticesLength; i++) {
 		$notice = $notices.eq(index);
-		if ($notice.length) {
-			if (!matchCriteria($notice)) {
-				showNotices($mountPoint, nextNoticeIndex);
-				return;
-			}
-			index = index++ % noticesLength;
+		if (!matchCriteria($notice)) {
+			showNotices($mountPoint, nextNoticeIndex);
+			return;
 		}
+		index = nextNoticeIndex;
 	}
 
 	if (typeof $notice.data('asn-html') === 'string') {
-		$notice.data('asn-html-raw', decodeURIComponent($notice.data('asn-html').replace(/\+/g, '%20')));
-		$notice.data('asn-html', '');
+		$notice.data('asn-html-raw', mw.Uri.decode($notice.data('asn-html')));
+		$notice.data('asn-html', null);
 	}
 	if (typeof $notice.data('asn-style') === 'string') {
-		$notice.data('asn-style', '');
 		$notice.data('asn-style-id', noticeStyles.length);
-		const style: HTMLStyleElement = mw.loader.addStyleTag(
-			decodeURIComponent($notice.data('asn-style').replace(/\+/g, '%20'))
-		);
+		const style: HTMLStyleElement = mw.loader.addStyleTag(mw.Uri.decode($notice.data('asn-style')));
 		style.disabled = true;
 		noticeStyles.push(style);
+		$notice.data('asn-style', null);
 	}
 
 	const noticeHtml: string = $notice.data('asn-html-raw') || $notice.html();
@@ -92,9 +86,7 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 			// animation try /catched to avoid TypeError: (Animation.tweeners[prop]||[]).concat is not a function error being seen in production
 			try {
 				$currentNotice.fadeIn();
-			} catch {
-				/* empty */
-			}
+			} catch {}
 		});
 	} else if (!currentNoticeHtml) {
 		$mountPoint.append($area);

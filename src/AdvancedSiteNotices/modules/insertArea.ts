@@ -16,13 +16,10 @@ const insertArea = (): JQuery => {
 	const $dismiss: JQuery = $('<div>')
 		.addClass(CLASS_NAME_DISMISS)
 		.append(
-			$('<a>')
-				.attr({
-					href: '#',
-					role: 'button',
-					'aria-label': getMessage('Dismiss'),
-				})
-				.text(getMessage('Dismiss'))
+			$('<a>').attr({
+				'aria-label': getMessage('Dismiss'),
+				role: 'button',
+			})
 		);
 
 	$area.append($title, $noticeArea.append($notice), $dismiss);
