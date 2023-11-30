@@ -28,7 +28,10 @@ const matchCriteria = ($notice: JQuery): boolean => {
 	}
 
 	let criteria: string | undefined = $notice.attr('data-asn-criteria');
-	if (criteria === undefined) {
+	if (criteria) {
+		criteria = mw.Uri.decode(criteria);
+		criteria = criteria.trim() || 'true';
+	} else {
 		criteria = $notice.attr('class') ? 'false' : 'true';
 		if ($notice.hasClass('only_sysop')) {
 			criteria += '||in_group("sysop")';
@@ -57,9 +60,6 @@ const matchCriteria = ($notice: JQuery): boolean => {
 		if ($notice.hasClass('only_zh_tw')) {
 			criteria += '||only_for("zh-tw")';
 		}
-	} else {
-		criteria = decodeURIComponent(criteria.replace(/\+/g, '%20'));
-		criteria = criteria.trim() || 'true';
 	}
 
 	const result: boolean = testCriteria(criteria);
