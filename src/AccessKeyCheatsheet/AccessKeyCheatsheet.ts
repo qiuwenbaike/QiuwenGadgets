@@ -12,8 +12,10 @@ $(function accessKeyCheatsheet(): void {
 	const {$table, $opener} = generateElements($body);
 	$opener.hide().appendTo($body);
 
+	const windowManager: OO.ui.WindowManager = initWindowManager();
+	windowManager.$element.appendTo($body);
+
 	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData = generateMessageDialogProperty($table);
-	const windowManager: OO.ui.WindowManager = initWindowManager($body);
 
 	addListener($opener, windowManager, messageDialogProperty);
 });
