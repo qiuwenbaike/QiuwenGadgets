@@ -29,7 +29,7 @@ const groups: Record<string, string[]> = {
 	'rnrsverify-exempt': [],
 };
 
-export const markUserRights = ($content: JQuery): void => {
+export const markUserRights = async ($content: JQuery): Promise<void> => {
 	const $userLinks: JQuery = $content.find('a.mw-userlink:not(.mw-anonuserlink)');
 	let users: string[] = [];
 	const queue: Array<typeof users> = [];
@@ -138,21 +138,20 @@ export const markUserRights = ($content: JQuery): void => {
 			usprop: 'groups',
 			ususers,
 		};
-		api.get(params).then((response): void => {
-			const _users: {groups: string; name: string}[] = response['query']?.users ?? [];
-			for (const user of _users) {
-				if (user.groups) {
-					for (const group in groups) {
-						if (Object.hasOwn(groups, group)) {
-							const groupsGroup: string[] = groups[group] as string[];
-							if (user.groups.includes(group)) {
-								groupsGroup.push(user.name);
-							}
+		const response = await api.get(params);
+		const _users: {groups: string; name: string}[] = response['query']?.users ?? [];
+		for (const user of _users) {
+			if (user.groups) {
+				for (const group in groups) {
+					if (Object.hasOwn(groups, group)) {
+						const groupsGroup: string[] = groups[group] as string[];
+						if (user.groups.includes(group)) {
+							groupsGroup.push(user.name);
 						}
 					}
 				}
 			}
-			done();
-		});
+		}
+		done();
 	}
 };
