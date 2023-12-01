@@ -144,7 +144,11 @@ const readFileText = (name: string, file: string): string => {
  * @param {string} content The content of this page
  * @param {ApiQueue} object The api instance, the editing summary used by this api instance and the deployment queue
  */
-const convertVariant = (pageTitle: string, content: string, {api, editSummary, queue}: ApiQueue): void => {
+const convertVariant = async (
+	pageTitle: string,
+	content: string,
+	{api, editSummary, queue}: ApiQueue
+): Promise<void> => {
 	/**
 	 * @base <https://zh.wikipedia.org/wiki/User:Xiplus/js/TranslateVariants>
 	 * @license CC-BY-SA-4.0
@@ -196,20 +200,18 @@ const convertVariant = (pageTitle: string, content: string, {api, editSummary, q
 		});
 	}
 
-	queue
-		.addAll(taskQueue)
-		.then((nochanges): void => {
-			const isNoChange: boolean = nochanges.every(Boolean);
-			if (isNoChange) {
-				console.log(chalk.yellow(`━ No change converting ${chalk.bold(pageTitle)}`));
-			} else {
-				console.log(chalk.green(`✔ Successfully converted ${chalk.bold(pageTitle)}`));
-			}
-		})
-		.catch((error: unknown): void => {
-			console.log(chalk.red(`✘ Failed to convert ${chalk.bold(pageTitle)}`));
-			console.error(error);
-		});
+	try {
+		const nochanges = await queue.addAll(taskQueue);
+		const isNoChange: boolean = nochanges.every(Boolean);
+		if (isNoChange) {
+			console.log(chalk.yellow(`━ No change converting ${chalk.bold(pageTitle)}`));
+		} else {
+			console.log(chalk.green(`✔ Successfully converted ${chalk.bold(pageTitle)}`));
+		}
+	} catch (error: unknown) {
+		console.log(chalk.red(`✘ Failed to convert ${chalk.bold(pageTitle)}`));
+		console.error(error);
+	}
 };
 
 /**
