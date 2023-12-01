@@ -88,42 +88,45 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 			}
 			const $sups: JQuery = $('<span>').addClass('gadgets-markrights');
 			for (const group in groups) {
-				if (Object.hasOwn(groups, group)) {
-					const groupsGroup: string[] = groups[group] ?? [];
-					if (groupsGroup.includes(username)) {
-						const className = `gadgets-markrights__${group}`;
-						if (!$sups.find('sup').hasClass(className)) {
-							$sups.append(
-								// The following classes are used here:
-								// * gadget-markrights__qiuwen
-								// * gadget-markrights__steward
-								// * gadget-markrights__checkuser
-								// * gadget-markrights__suppress
-								// * gadget-markrights__sysop
-								// * gadget-markrights__interface-admin
-								// * gadget-markrights__templateeditor
-								// * gadget-markrights__transwiki
-								// * gadget-markrights__patroller
-								// * gadget-markrights__autoreviewer
-								// * gadget-markrights__senioreditor
-								// * gadget-markrights__eventsponsor
-								// * gadget-markrights__massmessage-sender
-								// * gadget-markrights__confirmed
-								// * gadget-markrights__autoconfirmed
-								// * gadget-markrights__bot
-								// * gadget-markrights__flood
-								// * gadget-markrights__ipblock-exempt
-								// * gadget-markrights__rnrsverify-exempt
-								$('<sup>')
-									.addClass(className)
-									.attr({
-										alt: getMessage(group),
-										title: getMessage(group),
-									})
-							);
-						}
-					}
+				if (!Object.hasOwn(groups, group)) {
+					continue;
 				}
+				const groupsGroup: string[] = groups[group] ?? [];
+				if (!groupsGroup.includes(username)) {
+					continue;
+				}
+				const className = `gadgets-markrights__${group}`;
+				if ($sups.find('sup').hasClass(className)) {
+					return;
+				}
+				$sups.append(
+					// The following classes are used here:
+					// * gadget-markrights__qiuwen
+					// * gadget-markrights__steward
+					// * gadget-markrights__checkuser
+					// * gadget-markrights__suppress
+					// * gadget-markrights__sysop
+					// * gadget-markrights__interface-admin
+					// * gadget-markrights__templateeditor
+					// * gadget-markrights__transwiki
+					// * gadget-markrights__patroller
+					// * gadget-markrights__autoreviewer
+					// * gadget-markrights__senioreditor
+					// * gadget-markrights__eventsponsor
+					// * gadget-markrights__massmessage-sender
+					// * gadget-markrights__confirmed
+					// * gadget-markrights__autoconfirmed
+					// * gadget-markrights__bot
+					// * gadget-markrights__flood
+					// * gadget-markrights__ipblock-exempt
+					// * gadget-markrights__rnrsverify-exempt
+					$('<sup>')
+						.addClass(className)
+						.attr({
+							alt: getMessage(group),
+							title: getMessage(group),
+						})
+				);
 			}
 			$element.after($sups);
 		});
@@ -141,14 +144,16 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 		const response = await api.get(params);
 		const _users: {groups: string; name: string}[] = response['query']?.users ?? [];
 		for (const user of _users) {
-			if (user.groups) {
-				for (const group in groups) {
-					if (Object.hasOwn(groups, group)) {
-						const groupsGroup: string[] = groups[group] as string[];
-						if (user.groups.includes(group)) {
-							groupsGroup.push(user.name);
-						}
-					}
+			if (!user.groups) {
+				continue;
+			}
+			for (const group in groups) {
+				if (!Object.hasOwn(groups, group)) {
+					continue;
+				}
+				const groupsGroup: string[] = groups[group] as string[];
+				if (user.groups.includes(group)) {
+					groupsGroup.push(user.name);
 				}
 			}
 		}
