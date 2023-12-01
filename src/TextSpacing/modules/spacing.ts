@@ -230,7 +230,7 @@ const adjustSpacing = (element: HTMLElement): void => {
 				.flatMap((fragment: string): [string, HTMLSpanElement] => {
 					return createSpacingWrapper(fragment);
 				});
-			replacement.push(fragments.slice(-1)[0] as string);
+			replacement.push(fragments.at(-1) as string);
 
 			node.replaceWith(...replacement);
 		}

@@ -1681,7 +1681,7 @@ export const popups = () => {
 						ps('<dl>');
 					}
 				}
-				switch (l_match[1].charAt(l_match[1].length - 1)) {
+				switch (l_match[1].at(-1)) {
 					case '*':
 					case '#':
 						ps(`<li>${parse_inline_nowiki(l_match[2])}`);
@@ -3192,7 +3192,7 @@ export const popups = () => {
 	const rmDupesFromSortedList = (list) => {
 		const ret = [];
 		for (const element of list) {
-			if (ret.length === 0 || element !== ret[ret.length - 1]) {
+			if (ret.length === 0 || element !== ret.at(-1)) {
 				ret.push(element);
 			}
 		}
@@ -3658,7 +3658,7 @@ export const popups = () => {
 			} else if (isRegExp(x)) {
 				let s = x.toString().slice(1);
 				const sp = s.split('/');
-				flags = sp[sp.length - 1];
+				flags = sp.at(-1);
 				sp[sp.length - 1] = '';
 				s = sp.join('/');
 				s = s.slice(0, Math.max(0, s.length - 1));
@@ -6491,9 +6491,9 @@ export const popups = () => {
 					if (getValueOf('popupSimplifyMainLink') && isInStrippableNamespace(this.article)) {
 						// only show the /subpage part of the title text
 						const s = this.text.split('/');
-						this.text = s[s.length - 1];
+						this.text = s.at(-1);
 						if (this.text === '' && s.length > 1) {
-							this.text = s[s.length - 2];
+							this.text = s.at(-2);
 						}
 					}
 					this.print = titledWikiLink;
