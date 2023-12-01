@@ -43,14 +43,12 @@ const mutationObserver: MutationObserver = new MutationObserver((records: Mutati
 
 const main = (): void => {
 	document.title = addSpaceToString(document.title);
-
-	const bodyElement: HTMLBodyElement = $('body').get(0) as HTMLBodyElement;
 	// Watch for added nodes
-	mutationObserver.observe(bodyElement, {
+	mutationObserver.observe(document.body, {
 		subtree: true,
 		childList: true,
 	});
-	run(bodyElement);
+	run(document.body);
 };
 
 $(main);
