@@ -7211,7 +7211,7 @@ export const popups = () => {
 		]);
 		return wikiLink(l);
 	};
-	pg.fn.modifyWatchlist = (title, action) => {
+	pg.fn.modifyWatchlist = async (title, action) => {
 		const reqData = {
 			action: 'watch',
 			formatversion: 2,
@@ -7229,12 +7229,12 @@ export const popups = () => {
 		} else {
 			messageName = action === 'watch' ? 'addedwatchtext' : 'removedwatchtext';
 		}
-		$.when(getMwApi().postWithToken('watch', reqData), getMwApi().loadMessagesIfMissing([messageName])).done(() => {
-			// Messages that can be used here:
-			// * see string.js
-			// * for more information
-			mw.notify(mw.message(messageName, title).parseDom(), {tag: 'popups'});
-		});
+		await getMwApi().postWithToken('watch', reqData);
+		await getMwApi().loadMessagesIfMissing([messageName]);
+		// Messages that can be used here:
+		// * see string.js
+		// * for more information
+		mw.notify(mw.message(messageName, title).parseDom(), {tag: 'popups'});
 	};
 	const magicHistoryLink = (l) => {
 		// FIXME use onclick change href trick to sort this out instead of window.open

@@ -118,7 +118,8 @@ const quickImport = async (): Promise<void> => {
 			}
 		}
 	} else {
-		importPage().then(refreshPage);
+		await importPage();
+		refreshPage();
 	}
 };
 

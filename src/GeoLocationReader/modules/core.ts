@@ -14,7 +14,7 @@ const getRegionName = (key: string) => {
 
 export const wgRelevantUserName: string | null = mw.config.get('wgRelevantUserName');
 
-export const getLocation = (): void => {
+export const getLocation = async (): Promise<void> => {
 	if (!wgRelevantUserName) {
 		return;
 	}
@@ -65,43 +65,43 @@ export const getLocation = (): void => {
 		}
 	};
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (GeoLocationReader/1.0; ${mw.config.get('wgWikiID')})`);
-	const getUserGeoIP = (): void => {
-		const propRevisionsParams: ApiQueryRevisionsParams = {
+	const getUserGeoIP = async (): Promise<void> => {
+		try {
+			const propRevisionsParams: ApiQueryRevisionsParams = {
+				action: 'query',
+				format: 'json',
+				formatversion: '2',
+				titles: `User:${wgRelevantUserName}/GeoIP.json`,
+				prop: 'revisions',
+				rvprop: 'content',
+				rvslots: 'main',
+			};
+			const {query} = await api.get(propRevisionsParams);
+			const {country, countryOrArea, region}: GeoInfo = JSON.parse(
+				query.pages[0].revisions[0].slots.main.content
+			);
+			const countryOrAreaText: string = getCountryOrAreaName(country ?? countryOrArea) ?? getMessage('Unknown');
+			const regionText: string = (country ?? countryOrArea) === 'CN' ? getRegionName(region) ?? '' : '';
+			const indicatorText = `${countryOrAreaText}${regionText}`;
+			const spanClass = 'green';
+			appendIcon(indicatorText, spanClass, 'globe');
+		} catch {
+			const indicatorText: string = getMessage('Unknown');
+			const spanClass = 'orange';
+			appendIcon(indicatorText, spanClass, 'helpNotice');
+		}
+	};
+	try {
+		const listUsersParams: ApiQueryUsersParams = {
 			action: 'query',
 			format: 'json',
 			formatversion: '2',
-			titles: `User:${wgRelevantUserName}/GeoIP.json`,
-			prop: 'revisions',
-			rvprop: 'content',
-			rvslots: 'main',
+			list: 'users',
+			ususers: wgRelevantUserName,
+			usprop: 'groups',
 		};
-		api.get(propRevisionsParams)
-			.then((data): void => {
-				const response: GeoInfo = JSON.parse(data['query'].pages[0].revisions[0].slots.main.content);
-				const countryOrAreaText: string =
-					getCountryOrAreaName(response.country ?? response.countryOrArea) ?? getMessage('Unknown');
-				const regionText: string =
-					(response.country ?? response.countryOrArea) === 'CN' ? getRegionName(response.region) ?? '' : '';
-				const indicatorText = `${countryOrAreaText}${regionText}`;
-				const spanClass = 'green';
-				appendIcon(indicatorText, spanClass, 'globe');
-			})
-			.catch((): void => {
-				const indicatorText: string = getMessage('Unknown');
-				const spanClass = 'orange';
-				appendIcon(indicatorText, spanClass, 'helpNotice');
-			});
-	};
-	const listUsersParams: ApiQueryUsersParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		list: 'users',
-		ususers: wgRelevantUserName,
-		usprop: 'groups',
-	};
-	api.get(listUsersParams).then((response): void => {
-		const [{groups}]: [{groups: string[]}] = response['query'].users;
+		const {query} = await api.get(listUsersParams);
+		const [{groups}]: [{groups: string[]}] = query.users;
 		if (SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName) || groups.includes('bot')) {
 			appendIcon(getMessage('Bot'), 'blue', 'settings');
 		} else if (WEBMASTER_LIST.includes(wgRelevantUserName) || groups.includes('qiuwen')) {
@@ -109,5 +109,5 @@ export const getLocation = (): void => {
 		} else {
 			getUserGeoIP();
 		}
-	});
+	} catch {}
 };

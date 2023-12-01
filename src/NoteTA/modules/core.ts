@@ -35,22 +35,23 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 	let wikitext = '';
 	const $dom: JQuery = $(`#noteTA-${hash}`);
 	const actualTitle: string = mw.config.get('wgPageName').replace(/_/g, ' ');
-	const parse = (): void => {
-		const params: ApiParseParams = {
-			action: 'parse',
-			prop: 'text',
-			title: 'Template:CGroup/-',
-			text: wikitext,
-		};
-		const wgUserVariant: string | null = mw.config.get('wgUserVariant');
-		if (wgUserVariant) {
-			params.variant = wgUserVariant;
+	const parse = async (): Promise<void> => {
+		try {
+			const params: ApiParseParams = {
+				action: 'parse',
+				prop: 'text',
+				title: 'Template:CGroup/-',
+				text: wikitext,
+			};
+			const wgUserVariant: string | null = mw.config.get('wgUserVariant');
+			if (wgUserVariant) {
+				params.variant = wgUserVariant;
+			}
+			const results = await api.post(params);
+			$dialogMessage.html(results['parse'].text['*']);
+		} catch {
+			parse();
 		}
-		api.post(params)
-			.then((results): void => {
-				$dialogMessage.html(results['parse'].text['*']);
-			})
-			.catch(parse);
 	};
 	let maybeTitle = parse;
 	const $noteTAtitle: JQuery = $dom.find('.noteTA-title');
@@ -65,79 +66,79 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 		}
 		wikitext += `* 实际标题为：-{R|${actualTitle}}-；当前显示为：-{|${titleConv}}-\n`;
 	} else {
-		maybeTitle = (): void => {
-			const params: ApiParseParams = {
-				action: 'parse',
-				prop: 'text',
-				title: actualTitle,
-				text: `{{noteTA/multititle|${actualTitle}}}`,
-				variant: 'zh',
-			};
-			api.post(params)
-				.then((results): void => {
-					const $multititle: JQuery = $(results['parse'].text['*']).find('.noteTA-multititle');
-					if ($multititle.length) {
-						const textVariant: Record<string, string> = {};
-						const variantText: Record<string, string> = {};
-						let multititleText = '';
-						$multititle.children().each((_index: number, element: HTMLElement): void => {
-							const $li: JQuery = $(element);
-							const variant: string | undefined = $li.attr('data-noteta-multititle-variant');
-							const text: string = $li.text();
-							if (variant !== undefined) {
-								Object.defineProperty(variantText, variant, {
-									value: text,
+		maybeTitle = async (): Promise<void> => {
+			try {
+				const params: ApiParseParams = {
+					action: 'parse',
+					prop: 'text',
+					title: actualTitle,
+					text: `{{noteTA/multititle|${actualTitle}}}`,
+					variant: 'zh',
+				};
+				const results = await api.post(params);
+				const $multititle: JQuery = $(results['parse'].text['*']).find('.noteTA-multititle');
+				if ($multititle.length) {
+					const textVariant: Record<string, string> = {};
+					const variantText: Record<string, string> = {};
+					let multititleText = '';
+					$multititle.children().each((_index: number, element: HTMLElement): void => {
+						const $li: JQuery = $(element);
+						const variant: string | undefined = $li.attr('data-noteta-multititle-variant');
+						const text: string = $li.text();
+						if (variant !== undefined) {
+							Object.defineProperty(variantText, variant, {
+								value: text,
+								writable: true,
+							});
+							if (Object.getOwnPropertyDescriptor(textVariant, text)) {
+								const textVariantText: string[] = Object.getOwnPropertyDescriptor(textVariant, text)
+									?.value;
+								textVariantText.push(variant);
+								Object.defineProperty(textVariant, text, {
+									value: textVariantText,
+								});
+							} else {
+								Object.defineProperty(textVariant, text, {
+									value: [variant],
 									writable: true,
 								});
-								if (Object.getOwnPropertyDescriptor(textVariant, text)) {
-									const textVariantText: string[] = Object.getOwnPropertyDescriptor(textVariant, text)
-										?.value;
-									textVariantText.push(variant);
-									Object.defineProperty(textVariant, text, {
-										value: textVariantText,
-									});
-								} else {
-									Object.defineProperty(textVariant, text, {
-										value: [variant],
-										writable: true,
-									});
-								}
-							}
-						});
-						multititleText += '; 本文[[Help:字词转换处理|标题可能经过转换]]\n';
-						const multititle: string[] = [];
-						const titleConverted: string | undefined = variantText[mw.config.get('wgUserVariant') ?? ''];
-						for (const variant in variantText) {
-							if (Object.hasOwn(variantText, variant)) {
-								const text: string | null = Object.getOwnPropertyDescriptor(variantText, variant)
-									?.value;
-								if (text === null) {
-									continue;
-								}
-								const variants: string[] = Object.getOwnPropertyDescriptor(textVariant, text)?.value;
-								for (const variant_ of variants) {
-									Object.defineProperty(variantText, variant_, {
-										value: null,
-									});
-								}
-								const variantsName: string = variants
-									.map((variantName: string): string => {
-										return `-{R|{{MediaWiki:Variantname-${variantName}}}}-`;
-									})
-									.join('、');
-								multititle.push(`${variantsName}：-{R|${text}}-`);
 							}
 						}
-						if (multititle && multititle.length) {
-							multititleText += '* 转换标题为：';
-							multititleText += multititle.join('；');
+					});
+					multititleText += '; 本文[[Help:字词转换处理|标题可能经过转换]]\n';
+					const multititle: string[] = [];
+					const titleConverted: string | undefined = variantText[mw.config.get('wgUserVariant') ?? ''];
+					for (const variant in variantText) {
+						if (Object.hasOwn(variantText, variant)) {
+							const text: string | null = Object.getOwnPropertyDescriptor(variantText, variant)?.value;
+							if (text === null) {
+								continue;
+							}
+							const variants: string[] = Object.getOwnPropertyDescriptor(textVariant, text)?.value;
+							for (const variant_ of variants) {
+								Object.defineProperty(variantText, variant_, {
+									value: null,
+								});
+							}
+							const variantsName: string = variants
+								.map((variantName: string): string => {
+									return `-{R|{{MediaWiki:Variantname-${variantName}}}}-`;
+								})
+								.join('、');
+							multititle.push(`${variantsName}：-{R|${text}}-`);
 						}
-						multititleText += `\n* 实际标题为：-{R|${actualTitle}}-；当前显示为：-{R|${titleConverted}}-\n`;
-						wikitext = multititleText + wikitext;
 					}
-					parse();
-				})
-				.catch(maybeTitle);
+					if (multititle && multititle.length) {
+						multititleText += '* 转换标题为：';
+						multititleText += multititle.join('；');
+					}
+					multititleText += `\n* 实际标题为：-{R|${actualTitle}}-；当前显示为：-{R|${titleConverted}}-\n`;
+					wikitext = multititleText + wikitext;
+				}
+				parse();
+			} catch {
+				maybeTitle();
+			}
 		};
 	}
 	const $noteTAgroups: JQuery = $dom.find('.noteTA-group > *[data-noteta-group]');

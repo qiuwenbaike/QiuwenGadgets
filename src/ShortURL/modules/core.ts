@@ -75,7 +75,7 @@ export const shortURL = (): void => {
 			},
 		});
 	};
-	const init = ({
+	const init = async ({
 		articleId,
 		diffId,
 		oldId,
@@ -85,7 +85,7 @@ export const shortURL = (): void => {
 		diffId: number;
 		oldId: number | false;
 		revisionId: number;
-	}): void => {
+	}): Promise<void> => {
 		const $body: JQuery<HTMLBodyElement> = $('body');
 		if (diffId) {
 			const buildLink = (_oldId: number | false, link = '/d'): void => {
@@ -98,22 +98,23 @@ export const shortURL = (): void => {
 			buildLink(oldId);
 			if (oldId) {
 				const api: mw.Api = initMwApi(`Qiuwen/1.1 (ShortURL/1.1; ${mw.config.get('wgWikiID')})`);
-				const params: ApiComparePagesParams = {
-					action: 'compare',
-					format: 'json',
-					formatversion: '2',
-					prop: 'ids',
-					fromrev: diffId,
-					torelative: 'prev',
-				};
-				api.get(params).then((response): void => {
+				try {
+					const params: ApiComparePagesParams = {
+						action: 'compare',
+						format: 'json',
+						formatversion: '2',
+						prop: 'ids',
+						fromrev: diffId,
+						torelative: 'prev',
+					};
+					const {compare} = await api.get(params);
 					if (
 						diffId === mw.config.get('wgDiffNewId') &&
-						response['compare']?.fromrevid === mw.config.get('wgDiffOldId')
+						compare?.fromrevid === mw.config.get('wgDiffOldId')
 					) {
 						buildLink(false);
 					}
-				});
+				} catch {}
 			}
 		} else if (
 			revisionId &&
