@@ -7,7 +7,7 @@ initShims(i18nMethods);
 /* 用法
 	// 定义多条消息
 	// 支持多语言，可选值定义在modules/types.d.ts#L-1，可直接添加其他值（RFC 5646）
-	const getI18nMessages: GetI18nMessages = () => {
+	const getI18nMessages = () => {
 		const {localize} = i18n;
 		// i18n的三个方法会匹配当前语言和它所接收对象中的键，对于localize来说，假设已定义zh、en和ja，则
 		//   当页面语言（wgUserLanguage ?? wgContentLanguage）为中文/英语/日语时，返回页面语言所对应的值
@@ -33,8 +33,8 @@ initShims(i18nMethods);
 			}),
 		};
 	};
-	const i18nMessages: I18nMessages = getI18nMessages();
-	const getMessage = (key: string): string => {
+	const i18nMessages = getI18nMessages();
+	const getMessage: GetMessages<typeof i18nMessages> = (key) => {
 		return i18nMessages[key] || key;
 	};
 	// 调用

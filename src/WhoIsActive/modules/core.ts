@@ -33,7 +33,7 @@ export const whoIsActive = (): void => {
 		const date: number = Date.parse(timestamp);
 		const now: number = Date.now();
 		const diff: number = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-		let timespan: string;
+		let timespan: 'ThisWeek' | 'ThisMonth' | 'ThisYear' | 'OverAYear';
 		if (diff > 365) {
 			timespan = 'OverAYear';
 		} else if (diff > 30) {
