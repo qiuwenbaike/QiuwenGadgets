@@ -782,8 +782,7 @@ import {hotCatMessages} from './modules/messages';
 	const multiChangeMsg = (count) => {
 		let msg = HC.messages.multi_change;
 		if (typeof msg !== 'string' && msg.length > 0) {
-			msg =
-				mw.language && mw.language.convertPlural ? mw.language.convertPlural(count, msg) : msg[msg.length - 1];
+			msg = mw.language?.convertPlural ? mw.language.convertPlural(count, msg) : msg.at(-1);
 		}
 		return substitute(msg, [null, String(count)]);
 	};
@@ -3219,7 +3218,7 @@ import {hotCatMessages} from './modules/messages';
 					new CategoryEditor(line, copyCats[i], test.title, test.match[2], is_hidden);
 				}
 			}
-			return copyCats.length > 0 ? copyCats[copyCats.length - 1] : null;
+			return copyCats.length > 0 ? copyCats.at(-1) : null;
 		};
 		const lastSpan = createEditors(catLine, false);
 		// Create one to add a new category

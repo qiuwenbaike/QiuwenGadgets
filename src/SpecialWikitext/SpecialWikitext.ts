@@ -37,7 +37,7 @@ const luaGetString = (str: string) => {
 	}
 	const trimCheck: string = testStr?.trim();
 	const firstChar: string = trimCheck.charAt(0);
-	if (firstChar === trimCheck[trimCheck.length - 1] && (firstChar === "'" || firstChar === '"')) {
+	if (firstChar === trimCheck.at(-1) && (firstChar === "'" || firstChar === '"')) {
 		return trimCheck.slice(1, 1 + trimCheck.length - 2);
 	}
 	return testStrArray;

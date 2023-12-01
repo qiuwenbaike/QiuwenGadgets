@@ -358,7 +358,7 @@ const chooseDisamNeeded = () => {
 /* Undo the last change */
 const undo = () => {
 	if (pageChanges.length) {
-		const lastPage = pageChanges[pageChanges.length - 1];
+		const lastPage = pageChanges.at(-1);
 		if (currentPageTitle !== lastPage.title) {
 			links.unshift(currentPageTitle);
 			currentPageTitle = lastPage.title;
@@ -525,7 +525,7 @@ const applyAllChanges = () => {
 
 /* Record a new pending change/* * pageTitle: Title of the page/* * page: Content of the page/* * oldContent: Content of the page before the change/* * link: Link that has been changed/* * summary: Change summary */
 const addChange = (pageTitle, page, oldContent, link, summary) => {
-	if (!pageChanges.length || pageChanges[pageChanges.length - 1].title !== pageTitle) {
+	if (!pageChanges.length || pageChanges.at(-1).title !== pageTitle) {
 		pageChanges.push({
 			title: pageTitle,
 			page,
@@ -534,7 +534,7 @@ const addChange = (pageTitle, page, oldContent, link, summary) => {
 			summary: [],
 		});
 	}
-	const lastPageChange = pageChanges[pageChanges.length - 1];
+	const lastPageChange = pageChanges.at(-1);
 	lastPageChange.contentBefore.push(oldContent);
 	lastPageChange.links.push(link);
 	lastPageChange.summary.push(summary);
@@ -560,7 +560,7 @@ const countActualChanges = () => {
 const countActuallyChangedFullyCheckedPages = () => {
 	let changeCount = countActualChanges();
 	if (pageChanges.length) {
-		const lastChange = pageChanges[pageChanges.length - 1];
+		const lastChange = pageChanges.at(-1);
 		if (
 			lastChange.title === currentPageTitle &&
 			currentLink &&

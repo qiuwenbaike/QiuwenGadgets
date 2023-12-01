@@ -4629,7 +4629,7 @@
 		};
 		for (let i = start; i < text.length; ++i) {
 			const test3 = text.slice(i, i + 3);
-			if (test3 === '{{{' || (test3 === '}}}' && level[level.length - 1] === 3)) {
+			if (test3 === '{{{' || (test3 === '}}}' && level.at(-1) === 3)) {
 				current += test3;
 				i += 2;
 				if (test3 === '{{{') {
@@ -4652,10 +4652,7 @@
 				continue;
 			}
 			// Either leaving a link or template/parser function
-			if (
-				(test2 === '}}' && level[level.length - 1] === 2) ||
-				(test2 === ']]' && level[level.length - 1] === 'wl')
-			) {
+			if ((test2 === '}}' && level.at(-1) === 2) || (test2 === ']]' && level.at(-1) === 'wl')) {
 				current += test2;
 				++i;
 				level.pop();
