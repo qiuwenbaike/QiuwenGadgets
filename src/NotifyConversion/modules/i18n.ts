@@ -1,5 +1,6 @@
 const getI18nMessages: GetI18nMessages = () => {
 	const {localize} = i18n;
+
 	return {
 		dialogTitle: localize({
 			en: 'For your better user experience',
@@ -49,8 +50,10 @@ const getI18nMessages: GetI18nMessages = () => {
 	};
 };
 
-const i18nMessages = getI18nMessages();
+const i18nMessages: I18nMessages = getI18nMessages();
 
-export const getMessage = (key: string): string => {
+const getMessage = (key: string): string => {
 	return i18nMessages[key] || key;
 };
+
+export {getMessage};
