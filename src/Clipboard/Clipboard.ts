@@ -1,15 +1,5 @@
-import LocalClipboardJS from 'clipboard';
+import ClipboardJS from 'clipboard';
 
 if (!window.ClipboardJS) {
-	window.ClipboardJS = LocalClipboardJS;
+	window.ClipboardJS = ClipboardJS;
 }
-
-declare global {
-	const ClipboardJS: typeof LocalClipboardJS;
-
-	interface Window {
-		ClipboardJS: typeof LocalClipboardJS;
-	}
-}
-
-export default global;

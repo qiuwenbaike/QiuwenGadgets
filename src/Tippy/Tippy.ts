@@ -1,15 +1,5 @@
-import localTippy from 'tippy.js';
+import tippy from 'tippy.js';
 
 if (!window.tippy) {
-	window.tippy = localTippy;
+	window.tippy = tippy;
 }
-
-declare global {
-	const tippy: typeof localTippy;
-
-	interface Window {
-		tippy: typeof localTippy;
-	}
-}
-
-export default global;
