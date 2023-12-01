@@ -1,7 +1,7 @@
 import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
-const groups: Record<string, string[]> = {
+const groups = {
 	// 全站管理型权限
 	qiuwen: [],
 	steward: [],
@@ -91,7 +91,7 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 				if (!Object.hasOwn(groups, group)) {
 					continue;
 				}
-				const groupsGroup: string[] = groups[group] ?? [];
+				const groupsGroup: string[] = groups[group as never] ?? [];
 				if (!groupsGroup.includes(username)) {
 					continue;
 				}
@@ -123,8 +123,8 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 					$('<sup>')
 						.addClass(className)
 						.attr({
-							alt: getMessage(group),
-							title: getMessage(group),
+							alt: getMessage(group as keyof typeof groups),
+							title: getMessage(group as keyof typeof groups),
 						})
 				);
 			}
@@ -151,7 +151,7 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 				if (!Object.hasOwn(groups, group)) {
 					continue;
 				}
-				const groupsGroup: string[] = groups[group] as string[];
+				const groupsGroup: string[] = groups[group as never] as string[];
 				if (user.groups.includes(group)) {
 					groupsGroup.push(user.name);
 				}

@@ -1,12 +1,12 @@
-const getI18nMessages: GetI18nMessages = () => {
+const getI18nMessages = () => {
 	const {localize} = i18n;
 
 	return {
-		// qiuwen: localize({
-		// 	en: 'Webmaster',
-		// 	'zh-hans': '站长',
-		// 	'zh-hant': '站長',
-		// }),
+		qiuwen: localize({
+			en: 'Webmaster',
+			'zh-hans': '站长',
+			'zh-hant': '站長',
+		}),
 		steward: localize({
 			en: 'Steward',
 			'zh-hans': '裁决委员',
@@ -72,11 +72,11 @@ const getI18nMessages: GetI18nMessages = () => {
 			'zh-hans': '确认用户',
 			'zh-hant': '確認用戶',
 		}),
-		// autoconfirmed: localize({
-		// 	en: 'Auto-confirmed user',
-		// 	'zh-hans': '自动确认用户',
-		// 	'zh-hant': '自動確認用戶',
-		// }),
+		autoconfirmed: localize({
+			en: 'Auto-confirmed user',
+			'zh-hans': '自动确认用户',
+			'zh-hant': '自動確認用戶',
+		}),
 		bot: localize({
 			en: 'Bot',
 			'zh-hans': '机器人',
@@ -100,9 +100,9 @@ const getI18nMessages: GetI18nMessages = () => {
 	};
 };
 
-const i18nMessages: I18nMessages = getI18nMessages();
+const i18nMessages = getI18nMessages();
 
-const getMessage = (key: string): string => {
+const getMessage: GetMessages<typeof i18nMessages> = (key) => {
 	return i18nMessages[key] || key;
 };
 

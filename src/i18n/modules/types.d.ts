@@ -28,11 +28,9 @@ type WgUXS = (
 ) => string;
 
 declare global {
-	type I18nMessages = {
-		readonly [message: string]: string | undefined;
-	};
-
-	type GetI18nMessages = () => I18nMessages;
+	interface GetMessages<T> {
+		<K extends keyof T>(key: K): K | NonNullable<T[K]>;
+	}
 
 	namespace i18n {
 		function content(candidates: I18nCandidates): string;

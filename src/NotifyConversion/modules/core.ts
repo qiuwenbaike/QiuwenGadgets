@@ -41,7 +41,9 @@ const showDialog = (): void => {
 		label: getMessage('dialogTitle'),
 	});
 
-	const generateButton = (variant: string): OO.ui.ButtonOptionWidget => {
+	const generateButton = (
+		variant: 'zh-cn' | 'zh-hk' | 'zh-tw' | 'zh-sg' | 'zh-my' | 'zh-mo'
+	): OO.ui.ButtonOptionWidget => {
 		return new OO.ui.ButtonOptionWidget({
 			data: variant,
 			label: getMessage(`variant-${variant}`),

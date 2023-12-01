@@ -1,4 +1,4 @@
-const getI18nMessages: GetI18nMessages = () => {
+const getI18nMessages = () => {
 	const {localize} = i18n;
 
 	return {
@@ -50,9 +50,9 @@ const getI18nMessages: GetI18nMessages = () => {
 		}),
 	};
 };
-const i18nMessages: I18nMessages = getI18nMessages();
+const i18nMessages = getI18nMessages();
 
-const getMessage = (key: string): string => {
+const getMessage: GetMessages<typeof i18nMessages> = (key) => {
 	return i18nMessages[key] || key;
 };
 
