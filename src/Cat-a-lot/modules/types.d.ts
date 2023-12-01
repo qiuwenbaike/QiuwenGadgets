@@ -71,6 +71,11 @@ interface Setting {
 	watchlist: SettingWatchlist;
 }
 
-type SettingGlobal = Partial<Record<keyof Setting, unknown>>;
+declare global {
+	interface Window {
+		readonly CatALotPrefs?: Partial<Record<keyof Setting, unknown>>;
+	}
+}
 
-export type {MessageKey, Setting, SettingGlobal};
+export default global;
+export type {MessageKey, Setting};

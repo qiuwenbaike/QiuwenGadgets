@@ -1,5 +1,6 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
 import {geoCountryOrAreaName, geoRegionName} from './name';
+import {GeoInfo} from '../../Geo/modules/types';
 import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
