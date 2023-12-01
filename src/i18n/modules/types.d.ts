@@ -14,6 +14,19 @@ type I18nCandidatesKey =
 
 type I18nCandidates = Partial<Record<I18nCandidatesKey, string>>;
 
+type WgUXS = (
+	hans?: unknown,
+	hant?: unknown,
+	cn?: unknown,
+	tw?: unknown,
+	hk?: unknown,
+	sg?: unknown,
+	zh?: unknown,
+	mo?: unknown,
+	my?: unknown,
+	en?: unknown
+) => string;
+
 declare global {
 	type I18nMessages = {
 		readonly [message: string]: string | undefined;
@@ -26,7 +39,13 @@ declare global {
 		function localize(candidates: I18nCandidates): string;
 		function vary(candidates: I18nCandidates): string;
 	}
+
+	interface Window {
+		wgUCS: WgUXS;
+		wgULS: WgUXS;
+		wgUVS: WgUXS;
+	}
 }
 
 export default global;
-export {I18nCandidates};
+export type {I18nCandidates};

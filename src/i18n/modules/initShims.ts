@@ -1,24 +1,3 @@
-type WgUXS = (
-	hans?: unknown,
-	hant?: unknown,
-	cn?: unknown,
-	tw?: unknown,
-	hk?: unknown,
-	sg?: unknown,
-	zh?: unknown,
-	mo?: unknown,
-	my?: unknown,
-	en?: unknown
-) => string;
-
-declare global {
-	interface Window {
-		wgUCS: WgUXS;
-		wgULS: WgUXS;
-		wgUVS: WgUXS;
-	}
-}
-
 const initShims = (i18nMethods: typeof i18n): void => {
 	const wgUXS = (
 		hans: unknown,
@@ -69,5 +48,4 @@ const initShims = (i18nMethods: typeof i18n): void => {
 	};
 };
 
-export default global;
 export {initShims};
