@@ -125,6 +125,10 @@ const initMwApi = (userAgent?: string): mw.Api => {
 	});
 };
 
+const isValidKey = (object: object, key: string | number | symbol): key is keyof typeof object => {
+	return key in object;
+};
+
 const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
 	return OO.ui.confirm(
 		$('<div>')
@@ -177,6 +181,7 @@ export {
 	delay,
 	generateSvgDataUrl,
 	initMwApi,
+	isValidKey,
 	oouiConfirmWithStyle,
 	scrollTop,
 };

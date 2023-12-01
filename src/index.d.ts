@@ -21,23 +21,6 @@ import type _ClipboardJS from 'clipboard';
 import type {Tippy as _Tippy} from 'tippy.js';
 import type _Toastify from 'toastify-js';
 
-type I18nCandidatesKey =
-	| 'en'
-	| 'ja'
-	| 'ru'
-	| 'zh'
-	| 'zh-hans'
-	| 'zh-hant'
-	| 'zh-cn'
-	| 'zh-sg'
-	| 'zh-my'
-	| 'zh-tw'
-	| 'zh-hk'
-	| 'zh-mo';
-type I18nMessages = {
-	readonly [message: string]: string | undefined;
-};
-
 declare global {
 	type ApiClientLoginParams = _ApiClientLoginParams;
 	type ApiComparePagesParams = _ApiComparePagesParams;
@@ -61,14 +44,6 @@ declare global {
 		city: string;
 	};
 
-	type I18nCandidates = Partial<Record<I18nCandidatesKey, string>>;
-	type GetI18nMessages = () => I18nMessages;
-	namespace i18n {
-		function content(candidates: I18nCandidates): string;
-		function localize(candidates: I18nCandidates): string;
-		function vary(candidates: I18nCandidates): string;
-	}
-
 	// npm packages
 	const ClipboardJS: typeof window.ClipboardJS; // Clipboard clipboard.js
 	const tippy: typeof window.tippy; // Tippy tippy.js
@@ -82,20 +57,6 @@ declare global {
 		geo(): Promise<GeoInfo>; // Geo
 		geoCountryOrAreaName(): Record<string, string>; // GeoLocationName
 		geoRegionName(): Record<string, string>; // GeoLocationName
-		wgUCS(
-			hans?: string,
-			hant?: string,
-			cn?: string,
-			tw?: string,
-			hk?: string,
-			sg?: string,
-			zh?: string,
-			mo?: string,
-			my?: string,
-			en?: string
-		): string;
-		wgULS: typeof window.wgUCS;
-		wgUVS: typeof window.wgUCS;
 		// npm packages
 		ClipboardJS: typeof _ClipboardJS; // Clipboard clipboard.js
 		tippy: _Tippy; // Tippy tippy.js
