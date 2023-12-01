@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-(() => {
+(async () => {
 	if (!(mw.config.get('wgAction') === 'view' && mw.config.get('wgIsArticle'))) {
 		return;
 	}
@@ -17,8 +17,8 @@
 
 	/* see <https://github.com/Wikiplus/Wikiplus/issues/65> */
 	if (mw.user.options.get('visualeditor-enable') === 1) {
-		mw.loader.using('ext.visualEditor.core').always(wikiplusLoad);
-	} else {
-		wikiplusLoad();
+		await mw.loader.using('ext.visualEditor.core');
 	}
+
+	wikiplusLoad();
 })();

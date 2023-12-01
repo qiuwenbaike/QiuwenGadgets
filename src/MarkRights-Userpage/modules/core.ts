@@ -53,21 +53,22 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 	$indicator.prependTo($body.find('#footer-info, .page-info'));
 };
 
-export const getPermissions = (): void => {
+export const getPermissions = async (): Promise<void> => {
 	if (!wgRelevantUserName) {
 		return;
 	}
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (MarkRights-Userpage/1.0; ${mw.config.get('wgWikiID')})`);
-	const listUsersParams: ApiQueryUsersParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		list: 'users',
-		ususers: wgRelevantUserName,
-		usprop: 'groups',
-	};
-	api.get(listUsersParams).then((response): void => {
-		const [{groups}]: [{groups: string[]}] = response['query'].users;
+	try {
+		const listUsersParams: ApiQueryUsersParams = {
+			action: 'query',
+			format: 'json',
+			formatversion: '2',
+			list: 'users',
+			ususers: wgRelevantUserName,
+			usprop: 'groups',
+		};
+		const {query} = await api.get(listUsersParams);
+		const [{groups}]: [{groups: string[]}] = query.users;
 		if (WEBMASTER_LIST.includes(wgRelevantUserName) || groups.includes('qiuwen')) {
 			/* appendIcon(message('Webmaster'), 'qiuwen'); */
 			return; // Already shown in GeoLocationViewer
@@ -127,5 +128,5 @@ export const getPermissions = (): void => {
 		// if (groups.includes('ipblock-exempt')) {
 		//     appendIcon(message('IPBlockExempt'), 'ipblock-exempt');
 		// }
-	});
+	} catch {}
 };

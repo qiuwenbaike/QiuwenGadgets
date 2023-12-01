@@ -2,7 +2,7 @@ import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
 export const purgePageCache = (): void => {
-	const purgePageCacheMain = (event: Event, title: string): void => {
+	const purgePageCacheMain = async (event: Event, title: string): Promise<void> => {
 		event.preventDefault();
 		const toastifyInstance: ToastifyInstance = toastify(
 			{
@@ -12,30 +12,29 @@ export const purgePageCache = (): void => {
 			'info'
 		);
 		const api: mw.Api = initMwApi(`Qiuwen/1.1 (PurgePageCache/1.1; ${mw.config.get('wgWikiID')})`);
-		const params: ApiPurgeParams = {
-			action: 'purge',
-			format: 'json',
-			formatversion: '2',
-			titles: title,
-			forcelinkupdate: true,
-		};
-		api.post(params)
-			.then((): void => {
-				localStorage.removeItem(`MediaWikiModuleStore:${mw.config.get('wgWikiID')}`);
-				location.reload();
-			})
-			.catch((error: never): void => {
-				console.error('[PurgePageCache] Ajax error:', error);
-				toastifyInstance.hideToast();
-				toastify(
-					{
-						text: getMessage('Failed'),
-						close: true,
-						duration: -1,
-					},
-					'error'
-				);
-			});
+		try {
+			const params: ApiPurgeParams = {
+				action: 'purge',
+				format: 'json',
+				formatversion: '2',
+				titles: title,
+				forcelinkupdate: true,
+			};
+			await api.post(params);
+			localStorage.removeItem(`MediaWikiModuleStore:${mw.config.get('wgWikiID')}`);
+			location.reload();
+		} catch (error: unknown) {
+			console.error('[PurgePageCache] Ajax error:', error);
+			toastifyInstance.hideToast();
+			toastify(
+				{
+					text: getMessage('Failed'),
+					close: true,
+					duration: -1,
+				},
+				'error'
+			);
+		}
 	};
 
 	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';

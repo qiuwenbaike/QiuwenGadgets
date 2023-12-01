@@ -109,7 +109,7 @@
 	// { edit: { level: "sysop", expiry: <some date>, cascade: true }, ... }
 	Twinkle.protect.currentProtectionLevels = {};
 	Twinkle.protect.previousProtectionLevels = {};
-	Twinkle.protect.fetchProtectionLevel = () => {
+	Twinkle.protect.fetchProtectionLevel = async () => {
 		const api = new mw.Api({
 			ajax: {
 				headers: {
@@ -117,19 +117,19 @@
 				},
 			},
 		});
-		const params = {
-			format: 'json',
-			indexpageids: true,
-			action: 'query',
-			list: 'logevents',
-			letype: 'protect',
-			letitle: mw.config.get('wgPageName'),
-			prop: 'info',
-			inprop: 'protection|watched',
-			titles: mw.config.get('wgPageName'),
-		};
-		const protectDeferred = api.get(params);
-		$.when(protectDeferred).done((protectData) => {
+		try {
+			const params = {
+				format: 'json',
+				indexpageids: true,
+				action: 'query',
+				list: 'logevents',
+				letype: 'protect',
+				letitle: mw.config.get('wgPageName'),
+				prop: 'info',
+				inprop: 'protection|watched',
+				titles: mw.config.get('wgPageName'),
+			};
+			const protectData = await api.get(params);
 			const [pageid] = protectData.query.pageids;
 			const page = protectData.query.pages[pageid];
 			const current = {};
@@ -167,7 +167,7 @@
 			Twinkle.protect.currentProtectionLevels = current;
 			Twinkle.protect.previousProtectionLevels = previous;
 			Twinkle.protect.callback.showLogAndCurrentProtectInfo();
-		});
+		} catch {}
 	};
 	Twinkle.protect.callback.showLogAndCurrentProtectInfo = () => {
 		const currentlyProtected = !$.isEmptyObject(Twinkle.protect.currentProtectionLevels);

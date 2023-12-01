@@ -28,7 +28,7 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 };
 
-const tippyForExtension = (): void => {
+const tippyForExtension = async (): Promise<void> => {
 	const getContent = (reference: Element): string => {
 		return reference.getAttribute('alt') as string;
 	};
@@ -40,36 +40,33 @@ const tippyForExtension = (): void => {
 		instance.setContent(getContent(instance.reference));
 	};
 
-	mw.loader.using('ext.CollapsibleSidebar.js').then((): void => {
-		tippy('#sidebarButton', {
-			arrow: true,
-			content: getContent,
-			placement: 'left',
-			onCreate: onCreateCallback,
-			onShow: onShowCallback,
-		});
+	await mw.loader.using('ext.CollapsibleSidebar.js');
+	tippy('#sidebarButton', {
+		arrow: true,
+		content: getContent,
+		placement: 'left',
+		onCreate: onCreateCallback,
+		onShow: onShowCallback,
 	});
 
 	if (WG_SKIN === 'vector') {
-		mw.loader.using('ext.CollapsibleSidebar.vector').then((): void => {
-			tippy('#sidebarCollapse', {
-				arrow: true,
-				content: getContent,
-				placement: 'right',
-				onCreate: onCreateCallback,
-				onShow: onShowCallback,
-			});
-		});
-	}
-
-	mw.loader.using('ext.DarkMode').then((): void => {
-		tippy('#darkmode-button', {
+		await mw.loader.using('ext.CollapsibleSidebar.vector');
+		tippy('#sidebarCollapse', {
 			arrow: true,
 			content: getContent,
-			placement: 'left',
+			placement: 'right',
 			onCreate: onCreateCallback,
 			onShow: onShowCallback,
 		});
+	}
+
+	await mw.loader.using('ext.DarkMode');
+	tippy('#darkmode-button', {
+		arrow: true,
+		content: getContent,
+		placement: 'left',
+		onCreate: onCreateCallback,
+		onShow: onShowCallback,
 	});
 };
 

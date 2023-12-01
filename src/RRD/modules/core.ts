@@ -20,7 +20,7 @@ const loadIDs = (): void => {
 	}
 };
 
-const submit = (toHide: string, reason: string, otherReasons: string): void => {
+const submit = async (toHide: string, reason: string, otherReasons: string): Promise<void> => {
 	ids = [...new Set(ids)];
 	const rrdArr: string[] = [
 		'{{Revdel',
@@ -34,24 +34,25 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 	}
 	rrdArr.push('}}\n--~~'.concat('~~'));
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (RRD/2.0; ${mw.config.get('wgWikiID')})`);
-	const params: ApiQueryRevisionsParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: 'revisions',
-		titles: 'Qiuwen_talk:版本删除提报',
-		rvprop: 'content',
-	};
-	api.get(params)
-		.then((response): void => {
-			let content: string | undefined;
-			if (response['query']?.pages) {
-				[{content}] = response['query'].pages[0].revisions;
-			}
-			if (content === undefined) {
-				mw.notify(`Error when loading page ${RRD_PAGE}: missing`, {tag: 'RRD', type: 'error'});
-				return;
-			}
+	try {
+		const params: ApiQueryRevisionsParams = {
+			action: 'query',
+			format: 'json',
+			formatversion: '2',
+			prop: 'revisions',
+			titles: 'Qiuwen_talk:版本删除提报',
+			rvprop: 'content',
+		};
+		const {query} = await api.get(params);
+		let content: string | undefined;
+		if (query.pages) {
+			[{content}] = query.pages[0].revisions;
+		}
+		if (content === undefined) {
+			mw.notify(`Error when loading page ${RRD_PAGE}: missing`, {tag: 'RRD', type: 'error'});
+			return;
+		}
+		try {
 			const _params: ApiEditPageParams = {
 				action: 'edit',
 				format: 'json',
@@ -60,29 +61,26 @@ const submit = (toHide: string, reason: string, otherReasons: string): void => {
 				text: `${content}\n\n${rrdArr.join('\n')}`,
 				summary: message.edit_summary,
 			};
-			api.postWithEditToken(_params)
-				.then((result): void => {
-					if (result['edit']?.result === 'Success') {
-						location.replace(mw.util.getUrl(RRD_PAGE));
-					} else if (result['error']?.code) {
-						mw.notify(`Some errors occured while saving page: ${result['error'].code}`, {
-							tag: 'RRD',
-							type: 'error',
-						});
-					} else {
-						mw.notify('Some errors occured while saving page: unknown', {
-							tag: 'RRD',
-							type: 'error',
-						});
-					}
-				})
-				.catch((): void => {
-					mw.notify(`Error when editing page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
+			const result = await api.postWithEditToken(_params);
+			if (result['edit']?.result === 'Success') {
+				location.replace(mw.util.getUrl(RRD_PAGE));
+			} else if (result['error']?.code) {
+				mw.notify(`Some errors occured while saving page: ${result['error'].code}`, {
+					tag: 'RRD',
+					type: 'error',
 				});
-		})
-		.catch((): void => {
-			mw.notify(`Error when loading page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
-		});
+			} else {
+				mw.notify('Some errors occured while saving page: unknown', {
+					tag: 'RRD',
+					type: 'error',
+				});
+			}
+		} catch {
+			mw.notify(`Error when editing page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
+		}
+	} catch {
+		mw.notify(`Error when loading page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
+	}
 };
 
 const updateConfig = (): void => {

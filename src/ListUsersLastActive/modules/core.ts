@@ -47,32 +47,34 @@ const adjustTime = (time: Date): string => {
 	return returnDate;
 };
 
-export const checkLastActive = (name: string, element: HTMLElement): void => {
+export const checkLastActive = async (name: string, element: HTMLElement): Promise<void> => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (ListUsersLastActive/1.1; ${mw.config.get('wgWikiID')})`);
-	const params: ApiQueryUserContribsParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		list: 'usercontribs',
-		ucuser: name,
-		ucdir: 'older',
-		uclimit: 1,
-		ucprop: 'timestamp',
-	};
-	api.get(params).then((usercontribs): void => {
+	try {
+		const userContribsParams: ApiQueryUserContribsParams = {
+			action: 'query',
+			format: 'json',
+			formatversion: '2',
+			list: 'usercontribs',
+			ucuser: name,
+			ucdir: 'older',
+			uclimit: 1,
+			ucprop: 'timestamp',
+		};
+		const usercontribs = await api.get(userContribsParams);
 		let maxdate: number | Date | null = null;
 		if (usercontribs['query'].usercontribs[0] !== undefined) {
 			maxdate = new Date(usercontribs['query'].usercontribs[0].timestamp);
 		}
-		const _params: ApiQueryLogEventsParams = {
-			action: 'query',
-			formatversion: '2',
-			list: 'logevents',
-			leuser: name,
-			lelimit: 1,
-			leprop: 'timestamp',
-		};
-		api.get(_params).then((logevents): void => {
+		try {
+			const logEventsParams: ApiQueryLogEventsParams = {
+				action: 'query',
+				formatversion: '2',
+				list: 'logevents',
+				leuser: name,
+				lelimit: 1,
+				leprop: 'timestamp',
+			};
+			const logevents = await api.get(logEventsParams);
 			if (logevents['query'].logevents[0] !== undefined) {
 				const date: Date = new Date(logevents['query'].logevents[0].timestamp);
 				if (maxdate === null) {
@@ -81,11 +83,11 @@ export const checkLastActive = (name: string, element: HTMLElement): void => {
 					maxdate = date;
 				}
 			}
-		});
-		const message: string =
-			maxdate === null
-				? `（${window.wgULS('从未有操作', '從未有動作')}）`
-				: `（${window.wgULS('最后操作于', '最後動作於')}${adjustTime(maxdate)}）`;
-		$(element).append(message);
-	});
+			const message: string =
+				maxdate === null
+					? `（${window.wgULS('从未有操作', '從未有動作')}）`
+					: `（${window.wgULS('最后操作于', '最後動作於')}${adjustTime(maxdate)}）`;
+			$(element).append(message);
+		} catch {}
+	} catch {}
 };
