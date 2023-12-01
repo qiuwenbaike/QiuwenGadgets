@@ -107,7 +107,8 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 					});
 					multititleText += '; 本文[[Help:字词转换处理|标题可能经过转换]]\n';
 					const multititle: string[] = [];
-					const titleConverted: string | undefined = variantText[mw.config.get('wgUserVariant') ?? ''];
+					const wgUserVariant = mw.config.get('wgUserVariant') ?? '';
+					const titleConverted: string | undefined = variantText[wgUserVariant];
 					for (const variant in variantText) {
 						if (Object.hasOwn(variantText, variant)) {
 							const text: string | null = Object.getOwnPropertyDescriptor(variantText, variant)?.value;
