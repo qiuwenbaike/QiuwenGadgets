@@ -29,7 +29,7 @@ import {
 	WG_WIKI_ID,
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
-import type {MessageKey, Setting, SettingGlobal} from './types';
+import type {MessageKey, Setting} from './types';
 
 /**
  * Changes category of multiple files
@@ -70,7 +70,7 @@ const catALot = (): void => {
 		static parentCats: string[] = [];
 		static subCats: string[] = [];
 
-		static settings: SettingGlobal = {};
+		static settings: NonNullable<typeof window.CatALotPrefs> = {};
 		static variantCache: Record<string, string[]> = {};
 
 		static $counter: JQuery = $();
@@ -204,7 +204,7 @@ const catALot = (): void => {
 		}
 
 		static initSettings(): void {
-			let catALotPrefs: SettingGlobal = window.CatALotPrefs ?? {};
+			let catALotPrefs: typeof CAL.settings = window.CatALotPrefs ?? {};
 			const typeOfCatALotPrefs = typeof catALotPrefs;
 			if ((typeOfCatALotPrefs === 'object' && !Array.isArray(catALotPrefs)) || typeOfCatALotPrefs !== 'object') {
 				catALotPrefs = {};

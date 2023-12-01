@@ -1,12 +1,7 @@
 import Toastify from 'toastify-js';
 
 if (!window.toastify) {
-	window.toastify = (
-		options: Toastify.Options,
-		type?: 'info' | 'success' | 'warning' | 'error'
-	): {
-		hideToast: () => void;
-	} => {
+	window.toastify = (options, type) => {
 		options ??= {};
 
 		let className = 'gadget-toastify';
@@ -43,3 +38,19 @@ if (!window.toastify) {
 		};
 	};
 }
+
+declare global {
+	const toastify: typeof window.toastify;
+	type ToastifyInstance = ReturnType<typeof toastify>;
+
+	interface Window {
+		toastify: (
+			options: Toastify.Options,
+			type?: 'info' | 'success' | 'warning' | 'error'
+		) => {
+			hideToast: () => void;
+		};
+	}
+}
+
+export default global;
