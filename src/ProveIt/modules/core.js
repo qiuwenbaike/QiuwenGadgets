@@ -203,7 +203,7 @@ export const ProveIt = {
 				rdlimit: 'max',
 				rdnamespace: 10,
 			};
-			api.get(queryRedirectsParams).then((query) => {
+			api.get(queryRedirectsParams).then(({query}) => {
 				$body.find('#proveit-logo-text').text('...'); // Still loading
 				// Map the redirects to the cannonical names
 				let redirects;
