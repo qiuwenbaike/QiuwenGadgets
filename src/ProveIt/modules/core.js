@@ -836,7 +836,8 @@ export const ProveIt = {
 						break;
 					}
 				}
-				templateWikitext = wikitext.slice(templateStart, templateEnd);
+				// eslint-disable-next-line unicorn/prefer-string-slice
+				templateWikitext = wikitext.substring(templateStart, templateEnd);
 				template = new ProveIt.Template(templateWikitext);
 				templates.push(template);
 			}
@@ -874,11 +875,11 @@ export const ProveIt = {
 				}
 				break;
 			}
-			case '2017':
-				ve.init.target.saveFields.wpChangeTags = () => {
-					return tag;
-				};
-				break;
+			// case '2017':
+			// 	ve.init.target.saveFields.wpChangeTags = () => {
+			// 		return tag;
+			// 	};
+			// 	break;
 		}
 	},
 	/**
@@ -901,15 +902,15 @@ export const ProveIt = {
 				}
 				break;
 			}
-			case '2017':
-				$(document).on('focus', '.ve-ui-mwSaveDialog-summary textarea', function () {
-					const $summaryTextarea = $(this);
-					const currentSummary = $summaryTextarea.val();
-					if (!currentSummary) {
-						$summaryTextarea.val(proveitSummary);
-					}
-				});
-				break;
+			// case '2017':
+			// 	$(document).on('focus', '.ve-ui-mwSaveDialog-summary textarea', function () {
+			// 		const $summaryTextarea = $(this);
+			// 		const currentSummary = $summaryTextarea.val();
+			// 		if (!currentSummary) {
+			// 			$summaryTextarea.val(proveitSummary);
+			// 		}
+			// 	});
+			// 	break;
 		}
 	},
 	/**
@@ -1180,7 +1181,8 @@ export const ProveIt = {
 			// Remove the outer braces and split by pipe
 			// knowing that we may match pipes inside complex titles, wikilinks or subtemplates, like so:
 			// {{Cite book |title=Some|Title |author=[[Foo|Bar]] |year={{AD|123}} }}
-			const paramArray = this.wikitext.slice(2, -2).split('|');
+			// eslint-disable-next-line unicorn/prefer-string-slice
+			const paramArray = this.wikitext.substring(2, this.wikitext.length - 2).split('|');
 			// Drop the template name
 			paramArray.shift();
 			let paramString;
@@ -1268,8 +1270,7 @@ export const ProveIt = {
 			paramOrder = paramOrder.filter(
 				(
 					item,
-					// Remove duplicates
-					index
+					index // Remove duplicates
 				) => {
 					return paramOrder.indexOf(item) === index;
 				}
