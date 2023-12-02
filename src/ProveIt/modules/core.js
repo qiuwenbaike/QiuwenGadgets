@@ -135,7 +135,7 @@ export const ProveIt = {
 				minimized = false;
 				$body.find('#proveit-logo-text').text('ProveIt');
 				$body.find('#proveit-header button, #proveit-body, #proveit-footer').show();
-				if ($.isEmptyObject(ProveIt.templateData)) {
+				if (Object.keys(ProveIt.templateData).length === 0) {
 					ProveIt.realInit();
 				} else if ($body.find('#proveit-list').length > 0) {
 					ProveIt.buildList(); // Make sure the list is updated
@@ -151,7 +151,7 @@ export const ProveIt = {
 	/**
 	 * Get the template data, redirects and interface messages, then build the reference list
 	 */
-	realInit: async () => {
+	realInit: () => {
 		const $body = $('body');
 		$body.find('#proveit-logo-text').text('.'); // Start loading
 		// Get the list of template names and prepend the namespace
@@ -178,52 +178,54 @@ export const ProveIt = {
 			includeMissingTitles: true,
 			redirects: true,
 		};
-		const {pages} = await api.get(templateDataParams);
-		$body.find('#proveit-logo-text').text('..'); // Still loading
-		// Extract and set the template data
-		let templateData;
-		let templateTitle;
-		let templateName;
-		for (const id in pages) {
-			if (!Object.hasOwn(pages, id)) {
-				continue;
-			}
-			templateData = pages[id];
-			if ('missing' in templateData) {
-				continue;
-			}
-			templateTitle = templateData.title;
-			templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
-			ProveIt.templateData[templateName] = templateData;
-		}
-		// Get all the redirects to the citaton templates
-		const queryRedirectsParams = {
-			action: 'query',
-			format: 'json',
-			formatversion: 2,
-			prop: 'redirects',
-			titles: titles.join('|'),
-			rdlimit: 'max',
-			rdnamespace: 10,
-		};
-		const {query} = await api.get(queryRedirectsParams);
-		$body.find('#proveit-logo-text').text('...'); // Still loading
-		// Map the redirects to the cannonical names
-		let redirects;
-		let redirectTitle;
-		let redirectName;
-		for (const templateData_ of query.pages) {
-			templateTitle = templateData_.title;
-			templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
-			if (templateData_.redirects) {
-				({redirects} = templateData_);
-				for (const redirect of redirects) {
-					redirectTitle = redirect.title;
-					redirectName = redirectTitle.slice(Math.max(0, redirectTitle.indexOf(':') + 1)); // Remove the namespace
-					ProveIt.templateData[redirectName] = templateName;
+		api.get(templateDataParams).then(({pages}) => {
+			$body.find('#proveit-logo-text').text('..'); // Still loading
+			// Extract and set the template data
+			let templateData;
+			let templateTitle;
+			let templateName;
+			for (const id in pages) {
+				if (!Object.hasOwn(pages, id)) {
+					continue;
 				}
+				templateData = pages[id];
+				if ('missing' in templateData) {
+					continue;
+				}
+				templateTitle = templateData.title;
+				templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
+				ProveIt.templateData[templateName] = templateData;
 			}
-		}
+			// Get all the redirects to the citaton templates
+			const queryRedirectsParams = {
+				action: 'query',
+				format: 'json',
+				formatversion: 2,
+				prop: 'redirects',
+				titles: titles.join('|'),
+				rdlimit: 'max',
+				rdnamespace: 10,
+			};
+			api.get(queryRedirectsParams).then((query) => {
+				$body.find('#proveit-logo-text').text('...'); // Still loading
+				// Map the redirects to the cannonical names
+				let redirects;
+				let redirectTitle;
+				let redirectName;
+				for (const templateData_ of query.pages) {
+					templateTitle = templateData_.title;
+					templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
+					if (templateData_.redirects) {
+						({redirects} = templateData_);
+						for (const redirect of redirects) {
+							redirectTitle = redirect.title;
+							redirectName = redirectTitle.slice(Math.max(0, redirectTitle.indexOf(':') + 1)); // Remove the namespace
+							ProveIt.templateData[redirectName] = templateName;
+						}
+					}
+				}
+			});
+		});
 		// Get the latest English messages
 		$.get(
 			'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json',
@@ -246,7 +248,7 @@ export const ProveIt = {
 						delete translatedMessages['@metadata'];
 					}
 					// Merge and set the messages
-					const messages = {...englishMessages, ...translatedMessages};
+					const messages = $.extend({}, englishMessages, translatedMessages);
 					mw.messages.set(messages);
 					// Finally, build the list
 					ProveIt.buildList();
@@ -664,7 +666,7 @@ export const ProveIt = {
 				$input.attr('list', `${inputName}-list`);
 				const $list = $('<datalist>').attr('id', `${inputName}-list`);
 				$div.prepend($list);
-				$input.on('keyup', async function () {
+				$input.on('keyup', function () {
 					const search = $(this).val();
 					const api = new mw.Api({
 						ajax: {
@@ -681,13 +683,14 @@ export const ProveIt = {
 						redirects: 'resolve',
 						search,
 					};
-					const data = await api.get(params);
-					$list.empty();
-					const [, titles] = data;
-					for (const title of titles) {
-						const $option_ = $('<option>').Fval(title);
-						$list.append($option_);
-					}
+					api.get(params).then((data) => {
+						$list.empty();
+						const [, titles] = data;
+						for (const title of titles) {
+							const $option_ = $('<option>').Fval(title);
+							$list.append($option_);
+						}
+					});
 				});
 			}
 			// If the parameter is of the date type, add the Today button

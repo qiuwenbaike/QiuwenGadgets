@@ -163,7 +163,7 @@ const refToolbarBase = () => {
 					this.incrementables[g].setup = true;
 				}
 			}
-			if (needsetup || $.isEmptyObject(this.incrementables)) {
+			if (needsetup || Object.keys(this.incrementables).length === 0) {
 				for (const autofill of autofills) {
 					$(document).on('click', autofill, CiteTB.initAutofill);
 				}
