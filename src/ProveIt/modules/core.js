@@ -209,7 +209,7 @@ export const ProveIt = {
 				let redirects;
 				let redirectTitle;
 				let redirectName;
-				for (const [_id, template] of Object.entries(query.pages)) {
+				for (const template of query.pages) {
 					templateTitle = template.title;
 					templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
 					if (template.redirects) {
