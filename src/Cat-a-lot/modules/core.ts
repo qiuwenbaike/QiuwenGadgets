@@ -293,12 +293,10 @@ const catALot = (): void => {
 				return CAL.variantCache[category] as string[];
 			}
 			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
-				const result: string = $($.ajax({url: baseUrl + variant, async: false}).responseJSON.parse.text['*'])
-					.eq(0)
-					.text()
-					.trim();
-				if (!results.includes(result)) {
-					results.push(result);
+				const result = $.ajax({url: baseUrl + variant, async: false}).responseJSON.parse.text['*'];
+				const trimmedResult: string = $(result).eq(0).text().trim();
+				if (!results.includes(trimmedResult)) {
+					results.push(trimmedResult);
 				}
 			}
 			CAL.variantCache[category] = results;

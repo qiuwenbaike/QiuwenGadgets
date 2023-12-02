@@ -185,14 +185,14 @@ const markDisamOptions = () => {
 
 /* Check whether intentional links to disambiguation pages can be explicitly marked/* * as such in this wiki. If so, ensure that a "Foo (disambiguation)" page exists./* * Returns a jQuery promise */
 const ensureDABExists = () => {
-	const dfd = new $.Deferred();
+	const deferred = new $.Deferred();
 	const title = getTitle();
 	// That concept doesn't exist in this wiki.
 	if (!cfg.intentionalLinkOption) {
-		dfd.resolve(false);
+		deferred.resolve(false);
 		// "Foo (disambiguation)" exists: it's the current page.
 	} else if (new RegExp(cfg.disamRegExp).exec(title)) {
-		dfd.resolve(true);
+		deferred.resolve(true);
 	} else {
 		const disamTitle = cfg.disamFormat.replace('$1', title);
 		loadPage(disamTitle)
@@ -204,31 +204,31 @@ const ensureDABExists = () => {
 					const summary = txt.redirectSummary.replace('$1', title);
 					savePage(disamTitle, page, summary, false, true)
 						.done(() => {
-							dfd.resolve(true);
+							deferred.resolve(true);
 						})
 						.fail((description) => {
 							error(description);
-							dfd.resolve(false);
+							deferred.resolve(false);
 						});
 					// It does exist
 				} else {
-					dfd.resolve(true);
+					deferred.resolve(true);
 				}
 			})
 			.fail((description) => {
 				error(description);
-				dfd.resolve(false);
+				deferred.resolve(false);
 			});
 	}
-	return dfd.promise();
+	return deferred.promise();
 };
 
 /* Check whether the edit cooldown applies and sets editLimit accordingly./* * Returns a jQuery promise */
 const checkEditLimit = () => {
-	const dfd = new $.Deferred();
+	const deferred = new $.Deferred();
 	if (cfg.editCooldown <= 0) {
 		editLimit = false;
-		dfd.resolve();
+		deferred.resolve();
 	} else {
 		fetchRights()
 			.done((rights) => {
@@ -239,10 +239,10 @@ const checkEditLimit = () => {
 				editLimit = true;
 			})
 			.always(() => {
-				dfd.resolve();
+				deferred.resolve();
 			});
 	}
-	return dfd.promise();
+	return deferred.promise();
 };
 
 /* Find and ask the user to fix all the incoming links to the disambiguation ("target")/* * page from a single "origin" page */
@@ -848,7 +848,7 @@ const resolveRedirect = (pageTitle, possibleRedirects) => {
 
 /* Fetch the incoming links to a page. Returns a jQuery promise/* * (success - array of titles of pages that contain links to the target page and/* * array of "canonical titles" of possible destinations of the backlinks (either/* * the target page or redirects to the target page), failure - error description)/* * page: Target page */
 const getBacklinks = (page) => {
-	const dfd = new $.Deferred();
+	const deferred = new $.Deferred();
 	const params = {
 		action: 'query',
 		list: 'backlinks',
@@ -875,17 +875,17 @@ const getBacklinks = (page) => {
 					backlinks.push(title);
 				}
 			}
-			dfd.resolve(backlinks, linkTitles);
+			deferred.resolve(backlinks, linkTitles);
 		})
 		.fail((code) => {
-			dfd.reject(txt.getBacklinksError.replace('$1', code));
+			deferred.reject(txt.getBacklinksError.replace('$1', code));
 		});
-	return dfd.promise();
+	return deferred.promise();
 };
 
 /* Download a list of redirects for some pages. Returns a jQuery callback (success -/* * array of redirects ({from, to}), failure - error description )/* * pageTitles: Array of page titles */
 const fetchRedirects = (pageTitles) => {
-	const dfd = new $.Deferred();
+	const deferred = new $.Deferred();
 	const currentTitles = pageTitles.slice(0, cfg.queryTitleLimit);
 	const restTitles = pageTitles.slice(cfg.queryTitleLimit);
 	const params = {
@@ -899,24 +899,24 @@ const fetchRedirects = (pageTitles) => {
 			if (restTitles.length) {
 				fetchRedirects(restTitles)
 					.done((redirects) => {
-						dfd.resolve([...theseRedirects, ...redirects]);
+						deferred.resolve([...theseRedirects, ...redirects]);
 					})
 					.fail((description) => {
-						dfd.reject(description);
+						deferred.reject(description);
 					});
 			} else {
-				dfd.resolve(theseRedirects);
+				deferred.resolve(theseRedirects);
 			}
 		})
 		.fail((code) => {
-			dfd.reject(txt.fetchRedirectsError.replace('$1', code));
+			deferred.reject(txt.fetchRedirectsError.replace('$1', code));
 		});
-	return dfd.promise();
+	return deferred.promise();
 };
 
 /* Download the list of user rights for the current user. Returns a/* * jQuery promise (success - array of right names, error - error description) */
 const fetchRights = () => {
-	const dfd = $.Deferred();
+	const deferred = $.Deferred();
 	const params = {
 		action: 'query',
 		meta: 'userinfo',
@@ -924,17 +924,17 @@ const fetchRights = () => {
 	};
 	api.get(params)
 		.done(({query}) => {
-			dfd.resolve(query.userinfo.rights);
+			deferred.resolve(query.userinfo.rights);
 		})
 		.fail((code) => {
-			dfd.reject(txt.fetchRightsError.replace('$1', code));
+			deferred.reject(txt.fetchRightsError.replace('$1', code));
 		});
-	return dfd.promise();
+	return deferred.promise();
 };
 
 /* Load the raw page text for a given title. Returns a jQuery promise (success - page/* * content, failure - error description)/* * pageTitle: Title of the page */
 const loadPage = (pageTitle) => {
-	const dfd = new $.Deferred();
+	const deferred = new $.Deferred();
 	const params = {
 		action: 'query',
 		titles: pageTitle,
@@ -965,12 +965,12 @@ const loadPage = (pageTitle) => {
 			}
 			page.startTimeStamp = rawPage.starttimestamp;
 			page.editToken = query.tokens.csrftoken;
-			dfd.resolve(page);
+			deferred.resolve(page);
 		})
 		.fail((code) => {
-			dfd.reject(txt.loadPageError.replace('$1', pageTitle).replace('$2', code));
+			deferred.reject(txt.loadPageError.replace('$1', pageTitle).replace('$2', code));
 		});
-	return dfd.promise();
+	return deferred.promise();
 };
 
 /* Register changes to a page, to be saved later. Returns a jQuery promise/* * (success - no params, failure - error description). Takes the same parameters/* * as savePage */
@@ -1016,7 +1016,7 @@ const checkAndSave = function () {
 
 /* Save the changes made to a page. Returns a jQuery promise (success - no params,/* * failure - error description)/* * pageTitle: Title of the page/* * page: Page data/* * summary: Summary of the changes made to the page/* * minorEdit: Whether to mark the edit as 'minor'/* * botEdit: Whether to mark the edit as 'bot' */
 const savePage = (pageTitle, {editToken, content, baseTimeStamp, startTimeStamp}, summary, minorEdit, botEdit) => {
-	const dfd = new $.Deferred();
+	const deferred = new $.Deferred();
 	const params = {
 		action: 'edit',
 		title: pageTitle,
@@ -1031,10 +1031,10 @@ const savePage = (pageTitle, {editToken, content, baseTimeStamp, startTimeStamp}
 	};
 	api.post(params)
 		.done(() => {
-			dfd.resolve();
+			deferred.resolve();
 		})
 		.fail((code) => {
-			dfd.reject(txt.savePageError.replace('$1', pageTitle).replace('$2', code));
+			deferred.reject(txt.savePageError.replace('$1', pageTitle).replace('$2', code));
 		});
-	return dfd.promise();
+	return deferred.promise();
 };
