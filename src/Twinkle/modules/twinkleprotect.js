@@ -170,7 +170,7 @@
 		} catch {}
 	};
 	Twinkle.protect.callback.showLogAndCurrentProtectInfo = () => {
-		const currentlyProtected = !$.isEmptyObject(Twinkle.protect.currentProtectionLevels);
+		const currentlyProtected = Object.keys(Twinkle.protect.currentProtectionLevels).length !== 0;
 		if (Twinkle.protect.hasProtectLog || Twinkle.protect.hasStableLog) {
 			const $linkMarkup = $('<span>');
 			if (Twinkle.protect.hasProtectLog) {
@@ -1632,7 +1632,7 @@
 	};
 	Twinkle.protect.formatProtectionDescription = (protectionLevels) => {
 		const protectionNode = [];
-		if ($.isEmptyObject(protectionLevels)) {
+		if (Object.keys(protectionLevels).length === 0) {
 			protectionNode.push($(`<b>${wgULS('无保护', '無保護')}</b>`)[0]);
 		} else {
 			for (const [type, settings] of Object.entries(protectionLevels)) {
