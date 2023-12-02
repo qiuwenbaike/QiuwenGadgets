@@ -27,7 +27,6 @@ export const filterLists = {
 	},
 	load(): void {
 		const {msg, i18n} = filterLists;
-		$.extend(true, i18n);
 		// Define interface messages
 		mw.messages.set(i18n);
 		// Create portlet link

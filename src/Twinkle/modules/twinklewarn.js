@@ -776,11 +776,10 @@
 				createEntries(Twinkle.warn.messages[value], sub_group, true);
 				break;
 			case 'singlecombined': {
-				const unSortedSinglets = $.extend(
-					{},
-					Twinkle.warn.messages.singlenotice,
-					Twinkle.warn.messages.singlewarn
-				);
+				const unSortedSinglets = {
+					...Twinkle.warn.messages.singlenotice,
+					...Twinkle.warn.messages.singlewarn,
+				};
 				const sortedSingletMessages = {};
 				for (const key of Object.keys(unSortedSinglets).sort()) {
 					sortedSingletMessages[key] = unSortedSinglets[key];

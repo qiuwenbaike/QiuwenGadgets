@@ -559,7 +559,7 @@
 								id: `${id}_${i}_subgroup`,
 							});
 							for (const el of tmpgroup) {
-								const newEl = $.extend({}, el);
+								const newEl = {...el};
 								if (!newEl.type) {
 									newEl.type = data.type;
 								}
@@ -2350,20 +2350,17 @@
 			}
 			const queryString = _queryString.join('&').replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
 			// token should always be the last item in the query string (bug TW-B-0013)
-			const ajaxparams = $.extend(
-				{},
-				{
-					context: this,
-					type: this.query.action === 'query' ? 'GET' : 'POST',
-					url: mw.util.wikiScript('api'),
-					data: queryString,
-					dataType: this.query.format,
-					headers: {
-						'Api-User-Agent': morebitsWikiApiUserAgent,
-					},
+			const ajaxparams = {
+				context: this,
+				type: this.query.action === 'query' ? 'GET' : 'POST',
+				url: mw.util.wikiScript('api'),
+				data: queryString,
+				dataType: this.query.format,
+				headers: {
+					'Api-User-Agent': morebitsWikiApiUserAgent,
 				},
-				callerAjaxParameters
-			);
+				...callerAjaxParameters,
+			};
 			return $.ajax(ajaxparams).then(
 				function onAPIsuccess(response, statusText) {
 					this.statusText = statusText;
