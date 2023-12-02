@@ -1,5 +1,4 @@
 /* eslint-disable no-jquery/no-map-util */
-/* eslint-disable no-jquery/no-each-util */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - twinkleblock.js */
@@ -1498,7 +1497,7 @@
 			}
 		}
 		// supply sensible defaults
-		$.each(Twinkle.block.blockPresetsInfo, (preset, settings) => {
+		for (const [preset, settings] of Object.entries(Twinkle.block.blockPresetsInfo)) {
 			settings.summary ||= settings.reason;
 			settings.sig = settings.sig === undefined ? 'yes' : settings.sig;
 			settings.indefinite ||= Morebits.string.isInfinity(settings.expiry);
@@ -1508,7 +1507,7 @@
 				settings.expiry ||= '1 day';
 			}
 			Twinkle.block.blockPresetsInfo[preset] = settings;
-		});
+		}
 	};
 	// These are the groups of presets and defines the order in which they appear. For each list item:
 	//   label: <string, the description that will be visible in the dropdown>
