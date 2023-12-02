@@ -184,11 +184,8 @@ export const ProveIt = {
 			let templateData;
 			let templateTitle;
 			let templateName;
-			for (const id in pages) {
-				if (!Object.hasOwn(pages, id)) {
-					continue;
-				}
-				templateData = pages[id];
+			for (const _templateData of pages) {
+				templateData = _templateData;
 				if ('missing' in templateData) {
 					continue;
 				}
@@ -212,11 +209,11 @@ export const ProveIt = {
 				let redirects;
 				let redirectTitle;
 				let redirectName;
-				for (const templateData_ of query.pages) {
-					templateTitle = templateData_.title;
+				for (const template of query.pages) {
+					templateTitle = template.title;
 					templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
-					if (templateData_.redirects) {
-						({redirects} = templateData_);
+					if (template.redirects) {
+						({redirects} = template);
 						for (const redirect of redirects) {
 							redirectTitle = redirect.title;
 							redirectName = redirectTitle.slice(Math.max(0, redirectTitle.indexOf(':') + 1)); // Remove the namespace
