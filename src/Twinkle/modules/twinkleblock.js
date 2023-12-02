@@ -14,7 +14,7 @@
 	const $body = $('body');
 	let relevantUserName;
 	let blockedUserName;
-	const menuFormattedNamespaces = $.extend({}, mw.config.get('wgFormattedNamespaces'));
+	const menuFormattedNamespaces = {...mw.config.get('wgFormattedNamespaces')};
 	menuFormattedNamespaces[0] = wgULS('（条目）', '（條目）');
 	const blockActionText = {
 		block: wgULS('封禁', '封鎖'),
@@ -2316,14 +2316,15 @@
 		// Use wgRelevantUserName to ensure the block template goes to a single IP and not to the
 		// "talk page" of an IP range (which does not exist)
 		const userTalkPage = `User_talk:${mw.config.get('wgRelevantUserName')}`;
-		const params = $.extend(formData, {
+		const params = {
+			...formData,
 			messageData: Twinkle.block.blockPresetsInfo[formData.template],
 			usertalk_summary: Twinkle.block.blockPresetsInfo[formData.preset || formData.template].summary,
 			reason: Twinkle.block.field_template_options.block_reason,
 			disabletalk: Twinkle.block.field_template_options.notalk,
 			noemail: Twinkle.block.field_template_options.noemail_template,
 			nocreate: Twinkle.block.field_template_options.nocreate_template,
-		});
+		};
 		Morebits.wiki.actionCompleted.redirect = userTalkPage;
 		Morebits.wiki.actionCompleted.notice = wgULS(
 			'完成，将在几秒后加载用户讨论页',

@@ -246,7 +246,7 @@ export const ProveIt = {
 						delete translatedMessages['@metadata'];
 					}
 					// Merge and set the messages
-					const messages = $.extend({}, englishMessages, translatedMessages);
+					const messages = {...englishMessages, ...translatedMessages};
 					mw.messages.set(messages);
 					// Finally, build the list
 					ProveIt.buildList();

@@ -165,15 +165,11 @@
 				wgULS('在页面“', '在頁面「') + pageName + wgULS('”中取消链入', '」中取消連入')
 			);
 			qiuwen_page.setBotEdit(true); // unlink considered a floody operation
-			qiuwen_page.setCallbackParameters(
-				$.extend(
-					{
-						doBacklinks: input.backlinks.includes(pageName),
-						doImageusage: input.imageusage.includes(pageName),
-					},
-					params
-				)
-			);
+			qiuwen_page.setCallbackParameters({
+				doBacklinks: input.backlinks.includes(pageName),
+				doImageusage: input.imageusage.includes(pageName),
+				...params,
+			});
 			qiuwen_page.load(Twinkle.unlink.callbacks.unlinkBacklinks);
 		});
 	};

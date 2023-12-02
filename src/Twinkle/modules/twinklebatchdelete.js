@@ -804,7 +804,7 @@
 					pageName,
 					`正在取消 ${pageName}${wgULS(' 上的链入', ' 上的連入')}`
 				);
-				const params = $.extend({}, apiobj.params);
+				const params = {...apiobj.params};
 				params.title = pageName;
 				params.unlinker = unlinker;
 				qiuwen_page.setCallbackParameters(params);
@@ -861,7 +861,7 @@
 					pageName,
 					`取消 ${pageName}${wgULS(' 的文件使用', ' 的檔案使用')}`
 				);
-				const params = $.extend({}, apiobj.params);
+				const params = {...apiobj.params};
 				params.title = pageName;
 				params.unlinker = unlinker;
 				qiuwen_page.setCallbackParameters(params);

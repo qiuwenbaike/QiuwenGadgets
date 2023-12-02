@@ -608,7 +608,7 @@
 			e.stopPropagation();
 		};
 		return Array.prototype.map.call(list, (critElement) => {
-			const criterion = $.extend({}, critElement);
+			const criterion = {...critElement};
 			if (multiple) {
 				if (criterion.hideWhenMultiple) {
 					return null;
@@ -969,7 +969,7 @@
 							code += `|${parameters[i]}`;
 						}
 					}
-					$.extend(params.utparams, Twinkle.speedy.getUserTalkParameters(norm, parameters));
+					params.utparams = {...params.utparams, ...Twinkle.speedy.getUserTalkParameters(norm, parameters)};
 				}
 				code += '}}';
 			} else {

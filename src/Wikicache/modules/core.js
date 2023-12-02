@@ -4,7 +4,7 @@ import {messages} from './messages';
 
 let autoSaveId = null;
 
-const settings = {
+let settings = {
 	'autosave-interval': 60,
 };
 
@@ -44,7 +44,10 @@ const initEdit = () => {
 const loadSettings = () => {
 	const _settings = mw.storage.getObject('wikicache-settings');
 	if (_settings instanceof Object) {
-		$.extend(settings, _settings);
+		settings = {
+			...settings,
+			..._settings,
+		};
 	}
 	const $body = $('body');
 	$body.find('#editform').trigger('wikiCacheSettingsUpdate');

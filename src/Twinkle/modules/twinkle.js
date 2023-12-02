@@ -492,7 +492,7 @@
 				if (options) {
 					Twinkle.prefs = options.twinkle
 						? // Old preferences format
-						  $.extend(options.twinkle)
+						  {...options.twinkle}
 						: options;
 					// v2 established after unification of Twinkle objects
 					Twinkle.prefs.optionsVersion ||= 1;

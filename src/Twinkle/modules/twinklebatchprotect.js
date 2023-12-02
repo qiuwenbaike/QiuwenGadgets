@@ -307,13 +307,11 @@
 				null,
 				batchOperation.workerFailure
 			);
-			qiuwen_api.params = $.extend(
-				{
-					page: pageName,
-					batchOperation,
-				},
-				input
-			);
+			qiuwen_api.params = {
+				page: pageName,
+				batchOperation,
+				...input,
+			};
 			qiuwen_api.post();
 		});
 	};
