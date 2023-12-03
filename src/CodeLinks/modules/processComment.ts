@@ -3,7 +3,7 @@ import {REGEX_URL} from './constant';
 const processComment = (element: Element): void => {
 	const {firstChild} = element;
 	if (!(firstChild instanceof Text)) {
-		throw new TypeError('Expected Text object');
+		throw new TypeError('Expected Text interface');
 	}
 
 	const {textContent} = firstChild;
