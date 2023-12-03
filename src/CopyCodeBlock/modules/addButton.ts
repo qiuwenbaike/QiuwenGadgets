@@ -4,7 +4,7 @@ import {getMessage} from './i18n';
 
 const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 	// The following classes are used here:
-	// * see ./constant.ts
+	// * see constant.ts
 	// * for more information
 	const copyButton: OO.ui.ButtonWidget = new OO.ui.ButtonWidget({
 		classes: [CLASS_NAME_COPY_BUTTON],
@@ -16,7 +16,7 @@ const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 	$copyButton.attr('aria-label', getMessage('Copy'));
 
 	// The following classes are used here:
-	// * see ./constant.ts
+	// * see constant.ts
 	// * for more information
 	$pres.addClass(CLASS_NAME).append($copyButton);
 

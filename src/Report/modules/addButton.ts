@@ -13,7 +13,7 @@ const addButton = (): void => {
 
 	const $reportButton: JQuery<HTMLAnchorElement> = $<HTMLAnchorElement>('<a>')
 		// The following classes are used here:
-		// * see ./constant.ts
+		// * see constant.ts
 		// * for more information
 		.addClass(`${CLASS_NAME_BUTTON} noprint`)
 		.attr({

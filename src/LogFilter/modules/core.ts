@@ -21,7 +21,7 @@ export const filterLists = {
 	msg(key: string): string {
 		key = `filter-${key}`;
 		// Messages that can be used here:
-		// * see `i18n`
+		// * see above `i18n`
 		// * for more information
 		return mw.message(key).plain();
 	},

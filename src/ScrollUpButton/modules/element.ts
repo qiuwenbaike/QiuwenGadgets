@@ -5,7 +5,7 @@ import {scrollTop} from '../../util';
 const scrollButton = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E";
 
 // The following classes are used here:
-// * see ./constant.ts
+// * see constant.ts
 // * for more information
 const $scrollButton: JQuery<HTMLImageElement> = $<HTMLImageElement>('<img>').addClass(`${CLASS_NAME} noprint`).attr({
 	src: scrollButton,
@@ -16,7 +16,7 @@ const $scrollButton: JQuery<HTMLImageElement> = $<HTMLImageElement>('<img>').add
 
 const toBottom: string = getMessage('ToBottom');
 // The following classes are used here:
-// * see ./constant.ts
+// * see constant.ts
 // * for more information
 const $scrollDownButton: JQuery<HTMLImageElement> = $scrollButton
 	.clone()
@@ -31,7 +31,7 @@ const $scrollDownButton: JQuery<HTMLImageElement> = $scrollButton
 
 const toTop: string = getMessage('ToTop');
 // The following classes are used here:
-// * see ./constant.ts
+// * see constant.ts
 // * for more information
 const $scrollUpButton: JQuery<HTMLImageElement> = $scrollButton
 	.clone()
