@@ -2,7 +2,6 @@
 import type {Setting} from './types';
 
 const API_ENTRY_POINT: string = mw.util.wikiScript('api');
-const API_TAG = 'Cat-a-lot';
 
 const CLASS_NAME = 'gadget-cat_a_lot';
 const CLASS_NAME_CONTAINER = `${CLASS_NAME}-container`;
@@ -51,9 +50,6 @@ const DEFAULT_SETTING: Setting = {
 	},
 };
 
-const ENABLE_NAMESPACE = 14;
-const VERSION = '5.0';
-
 const WG_CANONICAL_SPECIAL_PAGE_NAME: string = mw.config.get('wgCanonicalSpecialPageName').toString();
 const WG_FORMATTED_NAMESPACES: Record<number, string> = mw.config.get('wgFormattedNamespaces');
 const WG_NAMESPACE_IDS: Record<string, number> = mw.config.get('wgNamespaceIds');
@@ -65,7 +61,6 @@ const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
 export {
 	API_ENTRY_POINT,
-	API_TAG,
 	CLASS_NAME,
 	CLASS_NAME_CONTAINER,
 	CLASS_NAME_CONTAINER_DATA,
@@ -84,8 +79,6 @@ export {
 	CLASS_NAME_LABEL_LAST_SELECTED,
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
-	ENABLE_NAMESPACE,
-	VERSION,
 	WG_CANONICAL_SPECIAL_PAGE_NAME,
 	WG_FORMATTED_NAMESPACES,
 	WG_NAMESPACE_IDS,

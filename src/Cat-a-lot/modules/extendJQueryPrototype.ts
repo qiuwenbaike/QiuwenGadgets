@@ -16,7 +16,7 @@ const extendJQueryPrototype = (): void => {
 			}
 
 			// Highlight last selected
-			$(document).find(`.${CLASS_NAME_LABEL_LAST_SELECTED}`).removeClass(CLASS_NAME_LABEL_LAST_SELECTED);
+			this.parents('body').find(`.${CLASS_NAME_LABEL_LAST_SELECTED}`).removeClass(CLASS_NAME_LABEL_LAST_SELECTED);
 
 			let $thisControl: JQuery = $(event.target);
 			if (!$thisControl.hasClass(CLASS_NAME_LABEL)) {
