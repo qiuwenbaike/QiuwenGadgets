@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
-import {alertTitle, portletText, portletTooltip} from './messages';
+import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
 export const shortURL = (): void => {
@@ -10,7 +10,13 @@ export const shortURL = (): void => {
 		const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 		let element: HTMLLIElement | null = document.querySelector('#t-shortlink');
 		if (!element) {
-			element = mw.util.addPortletLink(portletId, '#', portletText, 't-shortlink', portletTooltip);
+			element = mw.util.addPortletLink(
+				portletId,
+				'#',
+				getMessage('Short URL'),
+				't-shortlink',
+				getMessage('Show short URL')
+			);
 		}
 		if (element) {
 			((element.firstElementChild ?? element) as HTMLElement).onclick = (event: MouseEvent): void => {
@@ -21,7 +27,7 @@ export const shortURL = (): void => {
 						new mw.widgets.CopyTextLayout({align: 'top', copyText: `https://${domain}${link}`}).$element
 					);
 				}
-				OO.ui.alert($element, {title: alertTitle, size: 'medium'});
+				OO.ui.alert($element, {title: getMessage('Short URL copied to clipboard'), size: 'medium'});
 			};
 			if (isCitizen && !isInit) {
 				isInit = true;
@@ -37,15 +43,15 @@ export const shortURL = (): void => {
 					$('<a>')
 						.attr({
 							href: '#',
-							'aria-label': portletText,
+							'aria-label': getMessage('Short URL'),
 						})
-						.append($('<span>').addClass('shortlink-icon').text(portletText))
+						.append($('<span>').addClass('shortlink-icon').text(getMessage('Short URL')))
 				);
 			$headerElement.prependTo('.mw-indicators');
 			headerElement = $headerElement.find('a').get(0) as HTMLAnchorElement;
 			tippy(headerElement, {
 				arrow: true,
-				content: portletText,
+				content: getMessage('Short URL'),
 				placement: 'bottom',
 			});
 		}
@@ -54,7 +60,7 @@ export const shortURL = (): void => {
 			event.preventDefault();
 			mw.notify(
 				$('<span>')
-					.text(alertTitle)
+					.text(getMessage('Short URL copied to clipboard'))
 					.append(
 						$('<br>'),
 						$('<a>')
