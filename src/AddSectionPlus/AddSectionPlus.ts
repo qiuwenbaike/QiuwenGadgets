@@ -3,7 +3,7 @@ import {processElement} from './modules/processElement';
 
 $(function addSectionPlus(): void {
 	if (WG_SKIN === 'citizen') {
-		return; // style is already added by [[MediaWiki:Gadget-AddSectionPlus-pagestyles.css]]
+		return; //! style is already added by [[MediaWiki:Gadget-AddSectionPlus-pagestyles.css]]
 	}
 
 	const $body: JQuery<HTMLBodyElement> = $('body');

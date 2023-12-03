@@ -19,7 +19,7 @@ const makeCollapsible = ($collapsibles: JQuery): void => {
 
 		addToggler($collapsible, $toggler);
 
-		// 初始化隐藏所有元素，该过程没有动画
+		// 初始化隐藏所有元素，该过程没有动画。
 		if ($collapsible.hasClass('collapsed')) {
 			hideElement($collapsible, 0);
 		}
