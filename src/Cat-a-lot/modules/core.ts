@@ -41,7 +41,7 @@ const catALot = (): void => {
 
 		static readonly API_ENTRY_POINT: string = API_ENTRY_POINT;
 		static readonly API_TAG: string = OPTIONS.apiTag;
-		static readonly TARGET_NAMESPACE: number = Number(OPTIONS.targetNamespace);
+		static readonly TARGET_NAMESPACE: number = OPTIONS.targetNamespace;
 
 		static readonly CURRENT_CATEGROY: string = WG_TITLE;
 		static readonly CURRENT_NAMESPACE_NUMBER: number = WG_NAMESPACE_NUMBER;
