@@ -1,6 +1,5 @@
-import {editPage} from './editPage';
+import {addListener} from './addListener';
 import {getMessage} from './i18n';
-import {oouiConfirmWithStyle} from '../../util';
 
 const addPortletLink = (): void => {
 	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
@@ -9,18 +8,13 @@ const addPortletLink = (): void => {
 		return;
 	}
 
-	$(element)
-		.find('a')
-		.on('click', async (event: JQuery.ClickEvent): Promise<void> => {
-			event.preventDefault();
+	const $element: JQuery = $(element);
+	let $target: JQuery = $element.find('a');
+	if (!$target.length) {
+		$target = $element;
+	}
 
-			const isConfirm: boolean = await oouiConfirmWithStyle(getMessage('Confirm'));
-			if (!isConfirm) {
-				return;
-			}
-
-			editPage();
-		});
+	addListener($target);
 };
 
 export {addPortletLink};

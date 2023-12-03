@@ -1,7 +1,7 @@
 import {WG_SCRIPT} from '../constant';
 import {getMessage} from '../i18n';
 
-const refreshPage = (targetPage: string): void => {
+const refresh = (targetPage: string): void => {
 	toastify(
 		{
 			text: getMessage('Refreshing'),
@@ -17,4 +17,4 @@ const refreshPage = (targetPage: string): void => {
 	);
 };
 
-export {refreshPage};
+export {refresh};
