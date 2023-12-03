@@ -1,6 +1,6 @@
 const addLink = (element: Element, targetTitle: string): void => {
 	if (!(element instanceof Element)) {
-		throw new TypeError('Expected Element object');
+		throw new TypeError('Expected Element interface');
 	}
 
 	const link: HTMLAnchorElement = document.createElement('a');
@@ -8,7 +8,7 @@ const addLink = (element: Element, targetTitle: string): void => {
 
 	const {firstChild} = element;
 	if (!(firstChild instanceof Text)) {
-		throw new TypeError('Expected Text object');
+		throw new TypeError('Expected Text interface');
 	}
 
 	link.append(firstChild);

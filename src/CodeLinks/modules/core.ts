@@ -141,7 +141,9 @@ const codeLinks = (): void => {
 		}
 
 		const moduleName: string = elementFirstValue.slice(1, -1);
-		const targetTitle: string = /^(module|模[组組块])?:/i.test(moduleName) ? moduleName : `Help:Lua#${moduleName}`;
+		const targetTitle: string = /^(?:module|模[组組块])?:/i.test(moduleName)
+			? moduleName
+			: `Help:Lua#${moduleName}`;
 		addLink(element, targetTitle);
 	}
 };
