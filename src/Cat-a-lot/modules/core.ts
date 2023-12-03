@@ -1,7 +1,7 @@
 /* eslint-disable mediawiki/class-doc */
+import * as OPTIONS from '../options.json';
 import {
 	API_ENTRY_POINT,
-	API_TAG,
 	CLASS_NAME,
 	CLASS_NAME_CONTAINER,
 	CLASS_NAME_CONTAINER_DATA,
@@ -19,8 +19,6 @@ import {
 	CLASS_NAME_LABEL_DONE,
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
-	ENABLE_NAMESPACE,
-	VERSION,
 	WG_CANONICAL_SPECIAL_PAGE_NAME,
 	WG_FORMATTED_NAMESPACES,
 	WG_NAMESPACE_IDS,
@@ -39,11 +37,11 @@ const catALot = (): void => {
 	class CAL {
 		static readonly MESSAGES: Record<MessageKey, string> = DEFAULT_MESSAGES;
 		static readonly DEFAULT_SETTING: Setting = DEFAULT_SETTING;
-		static readonly VERSION: string = VERSION;
+		static readonly VERSION: string = OPTIONS.version;
 
 		static readonly API_ENTRY_POINT: string = API_ENTRY_POINT;
-		static readonly API_TAG: string = API_TAG;
-		static readonly ENABLE_NAMESPACE: number = ENABLE_NAMESPACE;
+		static readonly API_TAG: string = OPTIONS.apiTag;
+		static readonly TARGET_NAMESPACE: number = Number(OPTIONS.targetNamespace);
 
 		static readonly CURRENT_CATEGROY: string = WG_TITLE;
 		static readonly CURRENT_NAMESPACE_NUMBER: number = WG_NAMESPACE_NUMBER;
@@ -65,7 +63,7 @@ const catALot = (): void => {
 
 		static dialogHeight = 450;
 		static editToken = '';
-		static localCatName = WG_FORMATTED_NAMESPACES[ENABLE_NAMESPACE] as string;
+		static localCatName = WG_FORMATTED_NAMESPACES[CAL.TARGET_NAMESPACE] as string;
 
 		static parentCats: string[] = [];
 		static subCats: string[] = [];
@@ -132,7 +130,7 @@ const catALot = (): void => {
 			this.$link = $<HTMLAnchorElement>('<a>').text('Cat-a-lot').appendTo(this.$head);
 			// End of UI elements
 
-			const regexCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category')}:`, '');
+			const regexCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category')}:`, '');
 
 			this.$searchInput
 				.on('keypress', (event: JQuery.KeyPressEvent<HTMLInputElement>): void => {
@@ -162,7 +160,7 @@ const catALot = (): void => {
 						this.doAPICall(
 							{
 								action: 'opensearch',
-								namespace: CAL.ENABLE_NAMESPACE,
+								namespace: CAL.TARGET_NAMESPACE,
 								redirects: 'resolve',
 								search: request.term,
 							},
@@ -304,7 +302,7 @@ const catALot = (): void => {
 		}
 		static regexBuilder(category: string): RegExp {
 			// Build a regexp string for matching the given category:
-			const catName: string = CAL.localizedRegex(CAL.ENABLE_NAMESPACE, 'Category');
+			const catName: string = CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category');
 			// trim leading/trailing whitespace and underscores
 			category = category.replace(/^[\s_]+/, '').replace(/[\s_]+$/, '');
 			// Find all variants
@@ -843,7 +841,7 @@ const catALot = (): void => {
 
 	if (
 		(CAL.CURRENT_NAMESPACE_NUMBER === -1 && WG_CANONICAL_SPECIAL_PAGE_NAME === 'Search') ||
-		CAL.CURRENT_NAMESPACE_NUMBER === CAL.ENABLE_NAMESPACE
+		CAL.CURRENT_NAMESPACE_NUMBER === CAL.TARGET_NAMESPACE
 	) {
 		if (CAL.CURRENT_NAMESPACE_NUMBER === -1) {
 			CAL.isSearchMode = true;
