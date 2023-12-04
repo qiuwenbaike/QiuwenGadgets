@@ -1,7 +1,4 @@
-const refreshEventListener = (
-	$element: JQuery<HTMLAnchorElement>,
-	clickListener: (event: JQuery.ClickEvent<HTMLAnchorElement>) => void
-): void => {
+const refreshEventListener = ($element: JQuery, clickListener: (event: JQuery.ClickEvent) => void): void => {
 	const hoverListener = (): void => {
 		$element.off('click');
 		$element.on('click', clickListener);
