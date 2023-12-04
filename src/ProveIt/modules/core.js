@@ -234,8 +234,7 @@ export const ProveIt = {
 				// Get the latest English messages
 				$.getJSON(
 					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json'
-				).done((enJson) => {
-					const englishMessages = JSON.parse(enJson);
+				).done((englishMessages) => {
 					delete englishMessages['@metadata'];
 
 					// Get the latest translations to the preferred user language
@@ -251,7 +250,7 @@ export const ProveIt = {
 
 						let translatedMessages = {};
 						if (status === 'success') {
-							translatedMessages = JSON.parse(userLangJson);
+							translatedMessages = {...userLangJson};
 							delete translatedMessages['@metadata'];
 						}
 
@@ -756,38 +755,6 @@ export const ProveIt = {
 							$list.append($option_);
 						}
 					});
-				});
-			}
-			// If the parameter is of the URL type, add the Archive button
-			if (paramData.type === 'url') {
-				$button = $('<button>').text(ProveIt.getMessage('archive-button'));
-				$div.prepend($button);
-				$button.on('click', $input, function (event) {
-					const url = event.data.val().trim();
-					if (!url) {
-						return;
-					}
-					const $button_ = $(this);
-					$button_.text(ProveIt.getMessage('archive-fetching')).prop('disabled', true);
-					$.getJSON(`https://archive.org/wayback/available?url=${encodeURIComponent(url)}`)
-						.done((data) => {
-							if (data.archived_snapshots.closest) {
-								const snapshot = data.archived_snapshots.closest;
-								const archive = snapshot.url.replace(/^http:\/\//, 'https://');
-								OO.ui.alert(archive, {
-									size: 'large',
-									title: ProveIt.getMessage('archive-title').text(),
-								});
-							} else {
-								OO.ui.alert(ProveIt.getMessage('archive-no-url').text());
-							}
-						})
-						.fail(() => {
-							OO.ui.alert(ProveIt.getMessage('archive-error').text());
-						})
-						.always(() => {
-							$button_.text(ProveIt.getMessage('archive-button')).prop('disabled', false);
-						});
 				});
 			}
 
