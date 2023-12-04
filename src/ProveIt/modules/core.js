@@ -16,7 +16,7 @@ export const ProveIt = {
 	 * @return {string} Option value
 	 */
 	getOption: (key) => {
-		return ProveIt.getOption(''.concat(key));
+		return mw.config.get(`proveit-${key}`);
 	},
 	/**
 	 * Convenience method to get a ProveIt interface message
@@ -29,7 +29,7 @@ export const ProveIt = {
 		// Messages that can be used here:
 		// * see messages.js and <https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/>
 		// * for more information
-		return mw.msg('proveit-'.concat(key));
+		return mw.msg(`proveit-${key}`);
 	},
 	getEditor: () => {
 		if (window.ve && ve.init && ve.init.target && ve.init.target.active) {
