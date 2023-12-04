@@ -235,7 +235,7 @@ export const ProveIt = {
 				$.get(
 					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json'
 				).done((enJson) => {
-					const englishMessages = JSON.parse(ProveIt.decodeBase64(enJson));
+					const englishMessages = JSON.parse(enJson);
 					delete englishMessages['@metadata'];
 
 					// Get the latest translations to the preferred user language
@@ -251,7 +251,7 @@ export const ProveIt = {
 
 						let translatedMessages = {};
 						if (status === 'success') {
-							translatedMessages = JSON.parse(ProveIt.decodeBase64(userLangJson));
+							translatedMessages = JSON.parse(userLangJson);
 							delete translatedMessages['@metadata'];
 						}
 
@@ -1165,22 +1165,6 @@ export const ProveIt = {
 				})
 				.textSelection('replaceSelection', replace);
 		}
-	},
-
-	/**
-	 * Helper function to decode base64 strings
-	 *
-	 * @param {string} string Base64 encoded string
-	 * @return {string} Decoded string
-	 */
-	decodeBase64(string) {
-		return decodeURIComponent(
-			[...window.atob(string)]
-				.map((character) => {
-					return `%${`00${character.codePointAt(0).toString(16)}`.slice(-2)}`;
-				})
-				.join('')
-		);
 	},
 
 	/**
