@@ -769,7 +769,7 @@ const refToolbarConfig = () => {
 				if (!shorttag && refname) {
 					longrefs.push(value.refname);
 				}
-				if (shorttag && errors.inArray(refname) === -1 && !longrefs.includes(refname)) {
+				if (shorttag && errors.includes(refname) === -1 && !longrefs.includes(refname)) {
 					errors.push(refname);
 				}
 			}
