@@ -234,8 +234,7 @@ export const ProveIt = {
 				// Get the latest English messages
 				$.getJSON(
 					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json'
-				).done((enJson) => {
-					const englishMessages = JSON.parse(enJson);
+				).done((englishMessages) => {
 					delete englishMessages['@metadata'];
 
 					// Get the latest translations to the preferred user language
@@ -251,7 +250,7 @@ export const ProveIt = {
 
 						let translatedMessages = {};
 						if (status === 'success') {
-							translatedMessages = JSON.parse(userLangJson);
+							translatedMessages = {...userLangJson};
 							delete translatedMessages['@metadata'];
 						}
 
