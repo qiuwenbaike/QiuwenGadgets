@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
 import {WG_CONTENT_LANGUAGE, WG_USER_LANGUAGE, WG_USER_VARIANT} from './constant';
-import {I18nCandidates} from './types';
+import type {I18nCandidates} from './types';
 import {generateDefaultFallbackList} from './util/generateDefaultFallbackList';
 import {isValidKey} from '../../util';
 

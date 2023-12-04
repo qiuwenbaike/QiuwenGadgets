@@ -1,4 +1,4 @@
-import {GeoInfo} from './modules/types';
+import type {GeoInfo} from './modules/types';
 import {STORAGE_ITEM_NAME} from './modules/constant';
 
 const defaultGeoInfo: {
