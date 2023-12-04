@@ -727,8 +727,7 @@ const catALot = (): void => {
 						if (!Object.hasOwn(pages, id)) {
 							continue;
 						}
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						cats = pages[id]!.categories ?? [];
+						cats = pages[id].categories ?? [];
 					}
 					for (const cat of cats) {
 						CAL.parentCats.push(cat.title.replace(/^[^:]+:/, ''));
