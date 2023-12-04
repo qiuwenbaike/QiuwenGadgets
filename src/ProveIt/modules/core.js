@@ -177,15 +177,19 @@ export const ProveIt = {
 
 				// Get the latest English messages
 				$.get(
-					'//gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/gadgets/ProveIt/+/master/i18n/en.json?format=text',
+					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json',
 					(json) => {
 						const englishMessages = JSON.parse(ProveIt.decodeBase64(json));
 						delete englishMessages['@metadata'];
 
 						// Get the latest translations to the preferred user language
-						const userLanguage = mw.config.get('wgUserLanguage');
+						const userLanguage = ['zh-cn', 'zh-my', 'zh-sg'].includes(mw.config.get('wgUserLanguage'))
+							? 'zh-hans'
+							: ['zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))
+							  ? 'zh-hant'
+							  : mw.config.get('wgUserLanguage');
 						$.get(
-							`//gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/gadgets/ProveIt/+/master/i18n/${userLanguage}.json?format=text`
+							`https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/${userLanguage}.json`
 						).always((json_, status) => {
 							$body.find('#proveit-logo-text').text('ProveIt'); // Finish loading
 
@@ -196,7 +200,7 @@ export const ProveIt = {
 							}
 
 							// Merge and set the messages
-							const messages = $.extend({}, englishMessages, translatedMessages);
+							const messages = {...englishMessages, ...translatedMessages};
 							mw.messages.set(messages);
 
 							// Finally, build the list
