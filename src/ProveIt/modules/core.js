@@ -757,38 +757,6 @@ export const ProveIt = {
 					});
 				});
 			}
-			// If the parameter is of the URL type, add the Archive button
-			if (paramData.type === 'url') {
-				$button = $('<button>').text(ProveIt.getMessage('archive-button'));
-				$div.prepend($button);
-				$button.on('click', $input, function (event) {
-					const url = event.data.val().trim();
-					if (!url) {
-						return;
-					}
-					const $button_ = $(this);
-					$button_.text(ProveIt.getMessage('archive-fetching')).prop('disabled', true);
-					$.getJSON(`https://archive.org/wayback/available?url=${encodeURIComponent(url)}`)
-						.done((data) => {
-							if (data.archived_snapshots.closest) {
-								const snapshot = data.archived_snapshots.closest;
-								const archive = snapshot.url.replace(/^http:\/\//, 'https://');
-								OO.ui.alert(archive, {
-									size: 'large',
-									title: ProveIt.getMessage('archive-title').text(),
-								});
-							} else {
-								OO.ui.alert(ProveIt.getMessage('archive-no-url').text());
-							}
-						})
-						.fail(() => {
-							OO.ui.alert(ProveIt.getMessage('archive-error').text());
-						})
-						.always(() => {
-							$button_.text(ProveIt.getMessage('archive-button')).prop('disabled', false);
-						});
-				});
-			}
 
 			// If the parameter is of the date type, add the Today button
 			if (paramData.type === 'date') {
