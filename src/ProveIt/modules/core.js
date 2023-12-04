@@ -90,7 +90,7 @@ export const ProveIt = {
 				minimized = false;
 				$body.find('#proveit-logo-text').text('ProveIt');
 				$body.find('#proveit-header button, #proveit-body, #proveit-footer').show();
-				if ($.isEmptyObject(ProveIt.templateData)) {
+				if (Object.keys(ProveIt.templateData).length === 0) {
 					ProveIt.realInit();
 				} else if ($body.find('#proveit-list').length) {
 					ProveIt.buildList(); // Make sure the list is updated
@@ -107,7 +107,7 @@ export const ProveIt = {
 	/**
 	 * Get the template data, redirects and interface messages, then build the reference list
 	 */
-	realInit() {
+	realInit: async () => {
 		const $body = $('body');
 		$body.find('#proveit-logo-text').text('.'); // Start loading
 
@@ -117,29 +117,37 @@ export const ProveIt = {
 			// eslint-disable-next-line prefer-destructuring
 			templateNamespace = formattedNamespaces[10],
 			titles = [];
-		for (const templateName of templates) {
-			titles.push(`${templateNamespace}:${templateName}`);
+		for (const templateName_ of templates) {
+			titles.push(`${templateNamespace}:${templateName_}`);
 		}
 
 		// Get the template data
-		const api = new mw.Api();
-		api.get({
-			titles: titles.join('|'),
-			action: 'templatedata',
-			redirects: true,
-			includeMissingTitles: true,
-			format: 'json',
-			formatversion: 2,
-		}).done((data) => {
+		const api = new mw.Api({
+			ajax: {
+				headers: {
+					'Api-User-Agent': `Qiuwen/1.1 (ProveIt/2.0; ${mw.config.get('wgWikiID')})`,
+				},
+			},
+		});
+
+		try {
+			const {pages} = await api.get({
+				titles: titles.join('|'),
+				action: 'templatedata',
+				redirects: true,
+				includeMissingTitles: true,
+				format: 'json',
+				formatversion: 2,
+			});
 			$body.find('#proveit-logo-text').text('..'); // Still loading
 
 			// Extract and set the template data
 			let templateData, templateTitle, templateName;
-			for (const id in data.pages) {
-				if (!Object.hasOwn(data.pages, id)) {
+			for (const id in pages) {
+				if (!Object.hasOwn(pages, id)) {
 					continue;
 				}
-				templateData = data.pages[id];
+				templateData = pages[id];
 				if ('missing' in templateData) {
 					continue;
 				}
@@ -148,16 +156,17 @@ export const ProveIt = {
 				ProveIt.templateData[templateName] = templateData;
 			}
 
-			// Get all the redirects to the citaton templates
-			api.get({
-				titles: titles.join('|'),
-				action: 'query',
-				prop: 'redirects',
-				rdlimit: 'max',
-				rdnamespace: 10,
-				format: 'json',
-				formatversion: 2,
-			}).done(({query}) => {
+			try {
+				// Get all the redirects to the citaton templates
+				const {query} = await api.get({
+					titles: titles.join('|'),
+					action: 'query',
+					prop: 'redirects',
+					rdlimit: 'max',
+					rdnamespace: 10,
+					format: 'json',
+					formatversion: 2,
+				});
 				$body.find('#proveit-logo-text').text('...'); // Still loading
 
 				// Map the redirects to the cannonical names
@@ -175,41 +184,41 @@ export const ProveIt = {
 					}
 				}
 
-				// Get the latest English messages
-				$.get(
-					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json',
-					(json) => {
-						const englishMessages = JSON.parse(ProveIt.decodeBase64(json));
-						delete englishMessages['@metadata'];
+				try {
+					// Get the latest English messages
+					const enJson = await $.get(
+						'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json'
+					);
+					const englishMessages = JSON.parse(ProveIt.decodeBase64(enJson));
+					delete englishMessages['@metadata'];
 
-						// Get the latest translations to the preferred user language
-						const userLanguage = ['zh-cn', 'zh-my', 'zh-sg'].includes(mw.config.get('wgUserLanguage'))
-							? 'zh-hans'
-							: ['zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))
-							  ? 'zh-hant'
-							  : mw.config.get('wgUserLanguage');
-						$.get(
-							`https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/${userLanguage}.json`
-						).always((json_, status) => {
-							$body.find('#proveit-logo-text').text('ProveIt'); // Finish loading
+					// Get the latest translations to the preferred user language
+					const userLanguage = ['zh-cn', 'zh-my', 'zh-sg'].includes(mw.config.get('wgUserLanguage'))
+						? 'zh-hans'
+						: ['zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))
+						  ? 'zh-hant'
+						  : mw.config.get('wgUserLanguage');
+					$.get(
+						`https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/${userLanguage}.json`
+					).always((userLangJson, status) => {
+						$body.find('#proveit-logo-text').text('ProveIt'); // Finish loading
 
-							let translatedMessages = {};
-							if (status === 'success') {
-								translatedMessages = JSON.parse(ProveIt.decodeBase64(json_));
-								delete translatedMessages['@metadata'];
-							}
+						let translatedMessages = {};
+						if (status === 'success') {
+							translatedMessages = JSON.parse(ProveIt.decodeBase64(userLangJson));
+							delete translatedMessages['@metadata'];
+						}
 
-							// Merge and set the messages
-							const messages = {...englishMessages, ...translatedMessages};
-							mw.messages.set(messages);
+						// Merge and set the messages
+						const messages = {...englishMessages, ...translatedMessages};
+						mw.messages.set(messages);
 
-							// Finally, build the list
-							ProveIt.buildList();
-						});
-					}
-				);
-			});
-		});
+						// Finally, build the list
+						ProveIt.buildList();
+					});
+				} catch {}
+			} catch {}
+		} catch {}
 	},
 
 	/**
@@ -357,14 +366,14 @@ export const ProveIt = {
 		// Bind events
 		$addReferenceButton.on('click', () => {
 			const templateName = $.cookie('proveit-last-template'), // Remember the last choice
-				wikitext_ = templateName ? `<ref>{{${templateName}}}</ref>` : '<ref></ref>',
-				reference = new ProveIt.Reference(wikitext_);
+				wrappedWikitext = templateName ? `<ref>{{${templateName}}}</ref>` : '<ref></ref>',
+				reference = new ProveIt.Reference(wrappedWikitext);
 			ProveIt.buildForm(reference);
 		});
 		$addBibliographyButton.on('click', () => {
 			const templateName = $.cookie('proveit-last-template'), // Remember the last choice
-				wikitext_ = templateName ? `{{${templateName}}}` : '',
-				template = new ProveIt.Template(wikitext_);
+				wrappedWikitext = templateName ? `{{${templateName}}}` : '',
+				template = new ProveIt.Template(wrappedWikitext);
 			ProveIt.buildForm(template);
 		});
 	},
@@ -679,23 +688,28 @@ export const ProveIt = {
 				$div.prepend($list);
 				$input.on('keyup', function () {
 					const search = $(this).val();
-					new mw.Api()
-						.get({
-							action: 'opensearch',
-							search,
-							limit: 5,
-							redirects: 'resolve',
-							format: 'json',
-							formatversion: 2,
-						})
-						.done((data) => {
-							$list.empty();
-							const [, titles] = data;
-							for (const title of titles) {
-								const $option_ = $('<option>').val(title);
-								$list.append($option_);
-							}
-						});
+					const api = new mw.Api({
+						ajax: {
+							headers: {
+								'Api-User-Agent': `Qiuwen/1.1 (ProveIt/2.0; ${mw.config.get('wgWikiID')})`,
+							},
+						},
+					});
+					api.get({
+						action: 'opensearch',
+						search,
+						limit: 5,
+						redirects: 'resolve',
+						format: 'json',
+						formatversion: 2,
+					}).done((data) => {
+						$list.empty();
+						const [, titles] = data;
+						for (const title of titles) {
+							const $option_ = $('<option>').val(title);
+							$list.append($option_);
+						}
+					});
 				});
 			}
 			// If the parameter is of the URL type, add the Archive button
@@ -1192,15 +1206,15 @@ export const ProveIt = {
 			const $body = $('body');
 			const name = $body.find('#proveit-reference-name').val();
 			const group = $body.find('#proveit-reference-group').val();
-			let wikitext_ = '<ref';
+			let wrappedWikitext = '<ref';
 			if (name) {
-				wikitext_ += ` name="${name}"`;
+				wrappedWikitext += ` name="${name}"`;
 			}
 			if (group) {
-				wikitext_ += ` group="${group}"`;
+				wrappedWikitext += ` group="${group}"`;
 			}
-			wikitext_ += ' />';
-			return wikitext_;
+			wrappedWikitext += ' />';
+			return wrappedWikitext;
 		};
 
 		/**
@@ -1597,15 +1611,15 @@ export const ProveIt = {
 			const name = $body.find('#proveit-reference-name').val();
 			const group = $body.find('#proveit-reference-group').val();
 			const content = this.buildContent();
-			let wikitext_ = '<ref';
+			let wrappedWikitext = '<ref';
 			if (name) {
-				wikitext_ += ` name="${name}"`;
+				wrappedWikitext += ` name="${name}"`;
 			}
 			if (group) {
-				wikitext_ += ` group="${group}"`;
+				wrappedWikitext += ` group="${group}"`;
 			}
-			wikitext_ += `>${content}</ref>`;
-			return wikitext_;
+			wrappedWikitext += `>${content}</ref>`;
+			return wrappedWikitext;
 		};
 
 		/**
