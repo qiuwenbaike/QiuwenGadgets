@@ -1,29 +1,29 @@
 import * as OPTIONS from '../options.json';
 import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
-import {logout} from './logout';
 import {oouiConfirmWithStyle} from '../../util';
 import {refreshEventListener} from './util/refreshEventListener';
+import {tryLogout} from './tryLogout';
 
-const addListener = ($element: JQuery<HTMLAnchorElement>): void => {
-	const clickListener = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
-		event.preventDefault();
+const clickListener = async (event: JQuery.ClickEvent): Promise<void> => {
+	event.preventDefault();
 
-		const isConfirm: boolean = await oouiConfirmWithStyle(getMessage('Confirm'));
-		if (!isConfirm) {
-			return;
-		}
+	const isConfirm: boolean = await oouiConfirmWithStyle(getMessage('Confirm'));
+	if (!isConfirm) {
+		return;
+	}
 
-		const toastifyInstance: ToastifyInstance = toastify(
-			{
-				text: mw.message('logging-out-notify').toString(),
-				duration: -1,
-			},
-			'info'
-		);
-		logout(toastifyInstance);
-	};
+	const toastifyInstance: ToastifyInstance = toastify(
+		{
+			text: mw.message('logging-out-notify').toString(),
+			duration: -1,
+		},
+		'info'
+	);
+	tryLogout(toastifyInstance);
+};
 
+const addListener = ($element: JQuery): void => {
 	refreshEventListener($element, clickListener);
 
 	if (WG_SKIN !== 'vector-2022') {

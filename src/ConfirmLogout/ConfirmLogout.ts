@@ -9,7 +9,7 @@ $(function confirmLogout(): void {
 
 	const $body: JQuery<HTMLBodyElement> = $('body');
 
-	const $element: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>(OPTIONS.logoutElementSelector);
+	const $element: JQuery = $body.find(OPTIONS.logoutElementSelector);
 	if (!$element.length) {
 		return;
 	}

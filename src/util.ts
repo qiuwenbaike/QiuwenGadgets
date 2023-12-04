@@ -70,8 +70,8 @@ const delay = (ms: number): Promise<void> => {
 };
 
 const generateSvgDataUrl = (svg: string): string => {
-	/*!
-	 * svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
+	/**
+	 * @file svg-to-data-uri.js {@link https://github.com/heyallan/svg-to-data-uri/}
 	 *
 	 * @author Allan Moreno
 	 * @license MIT {@link https://github.com/heyallan/svg-to-data-uri/blob/master/LICENSE}
@@ -129,8 +129,8 @@ const isValidKey = (object: object, key: string | number | symbol): key is keyof
 	return key in object;
 };
 
-const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
-	return OO.ui.confirm(
+const oouiConfirmWithStyle = async (message: string): Promise<boolean> => {
+	const isConfirm: boolean = await OO.ui.confirm(
 		$('<div>')
 			.addClass('oo-ui-window-foot')
 			.css({
@@ -149,6 +149,8 @@ const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
 					.text(message)
 			)
 	);
+
+	return isConfirm;
 };
 
 const scrollTop = (
