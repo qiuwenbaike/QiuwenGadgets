@@ -232,7 +232,7 @@ export const ProveIt = {
 				}
 
 				// Get the latest English messages
-				$.get(
+				$.getJSON(
 					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json'
 				).done((enJson) => {
 					const englishMessages = JSON.parse(enJson);
@@ -244,7 +244,7 @@ export const ProveIt = {
 						: ['zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))
 						  ? 'zh-hant'
 						  : mw.config.get('wgUserLanguage');
-					$.get(
+					$.getJSON(
 						`https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/${userLanguage}.json`
 					).always((userLangJson, status) => {
 						$body.find('#proveit-logo-text').text('ProveIt'); // Finish loading
