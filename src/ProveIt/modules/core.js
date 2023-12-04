@@ -179,61 +179,62 @@ export const ProveIt = {
 			},
 		});
 
-		const {pages} = api.get({
+		api.get({
 			titles: titles.join('|'),
 			action: 'templatedata',
 			redirects: true,
 			includeMissingTitles: true,
 			format: 'json',
 			formatversion: 2,
-		});
-		$body.find('#proveit-logo-text').text('..'); // Still loading
+		}).done(({pages}) => {
+			$body.find('#proveit-logo-text').text('..'); // Still loading
 
-		// Extract and set the template data
-		let templateData, templateTitle, templateName;
-		for (const id in pages) {
-			if (!Object.hasOwn(pages, id)) {
-				continue;
-			}
-			templateData = pages[id];
-			if ('missing' in templateData) {
-				continue;
-			}
-			templateTitle = templateData.title;
-			templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
-			ProveIt.templateData[templateName] = templateData;
-		}
-
-		// Get all the redirects to the citaton templates
-		api.get({
-			titles: titles.join('|'),
-			action: 'query',
-			prop: 'redirects',
-			rdlimit: 'max',
-			rdnamespace: 10,
-			format: 'json',
-			formatversion: 2,
-		}).done(({query}) => {
-			$body.find('#proveit-logo-text').text('...'); // Still loading
-
-			// Map the redirects to the cannonical names
-			let redirects, redirectTitle, redirectName;
-			for (const templateData_ of query.pages) {
-				templateTitle = templateData_.title;
+			// Extract and set the template data
+			let templateData, templateTitle, templateName;
+			for (const id in pages) {
+				if (!Object.hasOwn(pages, id)) {
+					continue;
+				}
+				templateData = pages[id];
+				if ('missing' in templateData) {
+					continue;
+				}
+				templateTitle = templateData.title;
 				templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
-				if ('redirects' in templateData_) {
-					({redirects} = templateData_);
-					for (const redirect of redirects) {
-						redirectTitle = redirect.title;
-						redirectName = redirectTitle.slice(Math.max(0, redirectTitle.indexOf(':') + 1)); // Remove the namespace
-						ProveIt.templateData[redirectName] = templateName;
+				ProveIt.templateData[templateName] = templateData;
+			}
+
+			// Get all the redirects to the citaton templates
+			api.get({
+				titles: titles.join('|'),
+				action: 'query',
+				prop: 'redirects',
+				rdlimit: 'max',
+				rdnamespace: 10,
+				format: 'json',
+				formatversion: 2,
+			}).done(({query}) => {
+				$body.find('#proveit-logo-text').text('...'); // Still loading
+
+				// Map the redirects to the cannonical names
+				let redirects, redirectTitle, redirectName;
+				for (const templateData_ of query.pages) {
+					templateTitle = templateData_.title;
+					templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
+					if ('redirects' in templateData_) {
+						({redirects} = templateData_);
+						for (const redirect of redirects) {
+							redirectTitle = redirect.title;
+							redirectName = redirectTitle.slice(Math.max(0, redirectTitle.indexOf(':') + 1)); // Remove the namespace
+							ProveIt.templateData[redirectName] = templateName;
+						}
 					}
 				}
-			}
 
-			// Get the latest English messages
-			$.get('https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json').done(
-				(enJson) => {
+				// Get the latest English messages
+				$.get(
+					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json'
+				).done((enJson) => {
 					const englishMessages = JSON.parse(ProveIt.decodeBase64(enJson));
 					delete englishMessages['@metadata'];
 
@@ -261,8 +262,8 @@ export const ProveIt = {
 						// Finally, build the list
 						ProveIt.buildList();
 					});
-				}
-			);
+				});
+			});
 		});
 	},
 
