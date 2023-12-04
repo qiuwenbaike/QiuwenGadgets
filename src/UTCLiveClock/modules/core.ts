@@ -77,6 +77,7 @@ export const liveClock = (): void => {
 		event.preventDefault();
 		const api: mw.Api = initMwApi(`Qiuwen/1.1 (UTCLiveClock/1.1; ${mw.config.get('wgWikiID')})`);
 		try {
+			localStorage.removeItem(`MediaWikiModuleStore:${mw.config.get('wgWikiID')}`);
 			const params: ApiPurgeParams = {
 				action: 'purge',
 				titles: mw.config.get('wgPageName'),

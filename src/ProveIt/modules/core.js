@@ -191,14 +191,11 @@ export const ProveIt = {
 
 			// Extract and set the template data
 			let templateData, templateTitle, templateName;
-			for (const id in pages) {
-				if (!Object.hasOwn(pages, id)) {
+			for (const [, _templateData] of Object.entries(pages)) {
+				if ('missing' in _templateData) {
 					continue;
 				}
-				templateData = pages[id];
-				if ('missing' in templateData) {
-					continue;
-				}
+				templateData = _templateData;
 				templateTitle = templateData.title;
 				templateName = templateTitle.slice(Math.max(0, templateTitle.indexOf(':') + 1)); // Remove the namespace
 				ProveIt.templateData[templateName] = templateData;
@@ -233,35 +230,36 @@ export const ProveIt = {
 
 				// Get the latest English messages
 				$.getJSON(
-					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json'
-				).done((englishMessages) => {
-					delete englishMessages['@metadata'];
+					'https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/en.json',
+					(englishMessages) => {
+						delete englishMessages['@metadata'];
 
-					// Get the latest translations to the preferred user language
-					const userLanguage = ['zh-cn', 'zh-my', 'zh-sg'].includes(mw.config.get('wgUserLanguage'))
-						? 'zh-hans'
-						: ['zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))
-						  ? 'zh-hant'
-						  : mw.config.get('wgUserLanguage');
-					$.getJSON(
-						`https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/${userLanguage}.json`
-					).always((userLangJson, status) => {
-						$body.find('#proveit-logo-text').text('ProveIt'); // Finish loading
+						// Get the latest translations to the preferred user language
+						const userLanguage = ['zh-cn', 'zh-my', 'zh-sg'].includes(mw.config.get('wgUserLanguage'))
+							? 'zh-hans'
+							: ['zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))
+							  ? 'zh-hant'
+							  : mw.config.get('wgUserLanguage');
+						$.getJSON(
+							`https://gitcdn.qiuwen.net.cn/Mirror/mediawiki-gadgets-ProveIt/raw/branch/master/i18n/${userLanguage}.json`
+						).always((userLangJson, status) => {
+							$body.find('#proveit-logo-text').text('ProveIt'); // Finish loading
 
-						let translatedMessages = {};
-						if (status === 'success') {
-							translatedMessages = {...userLangJson};
-							delete translatedMessages['@metadata'];
-						}
+							let translatedMessages = {};
+							if (status === 'success') {
+								translatedMessages = {...userLangJson};
+								delete translatedMessages['@metadata'];
+							}
 
-						// Merge and set the messages
-						const messages = {...englishMessages, ...translatedMessages};
-						mw.messages.set(messages);
+							// Merge and set the messages
+							const messages = {...englishMessages, ...translatedMessages};
+							mw.messages.set(messages);
 
-						// Finally, build the list
-						ProveIt.buildList();
-					});
-				});
+							// Finally, build the list
+							ProveIt.buildList();
+						});
+					}
+				);
 			});
 		});
 	},
