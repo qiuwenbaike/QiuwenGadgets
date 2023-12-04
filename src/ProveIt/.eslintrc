@@ -1,6 +1,0 @@
-{
-	"globals": {
-		"ProveIt": "writable",
-		"ve": "readonly"
-	}
-}
