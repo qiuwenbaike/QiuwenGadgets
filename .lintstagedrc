@@ -1,6 +1,6 @@
 {
-	"*.{css,less}": ["prettier --cache --write", "stylelint --allow-empty-input --cache --fix"],
-	"*.{cjs,js,ts}": ["prettier --cache --write", "eslint --cache --fix"],
+	"*.{css,less}": ["prettier --write", "stylelint --fix"],
+	"*.{cjs,js,ts}": ["prettier --write", "eslint --fix"],
 	"*.svg": "svgo --config=svgo.config.cjs --quiet --input",
-	"*": "prettier --cache --ignore-unknown --write"
+	"*": "prettier --ignore-unknown --write"
 }
