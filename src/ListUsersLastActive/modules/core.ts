@@ -1,4 +1,4 @@
-import {initMwApi} from '../../util';
+import {initMwApi} from '~/util';
 
 const addLeadingZero = (number: number | string): string => {
 	const numberString: string =

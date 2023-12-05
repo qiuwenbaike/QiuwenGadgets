@@ -1,4 +1,4 @@
-import {initMwApi} from '../util';
+import {initMwApi} from '~/util';
 
 (async (): Promise<void> => {
 	if (!mw.user.options.get('gadget-Wikiplus')) {

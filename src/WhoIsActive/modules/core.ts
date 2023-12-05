@@ -1,5 +1,5 @@
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
+import {initMwApi} from '~/util';
 
 export const whoIsActive = (): void => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`);

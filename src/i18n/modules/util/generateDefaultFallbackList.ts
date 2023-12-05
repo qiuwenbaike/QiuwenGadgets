@@ -1,6 +1,6 @@
 import * as OPTIONS from '../../options.json';
 import {generateLanguageCodeSplitArray} from './generateLanguageCodeSplitArray';
-import {isValidKey} from '../../../util';
+import {isValidKey} from '~/util';
 
 const generateDefaultFallbackList = (): string[] => {
 	const documentLanguageSplitArray: string[] = generateLanguageCodeSplitArray(document.documentElement.lang);

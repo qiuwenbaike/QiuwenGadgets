@@ -1,6 +1,6 @@
 import {GADGET_NAME, SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, wgUserGroups, wgUserName, wgUserVariant} from './constant';
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
+import {initMwApi} from '~/util';
 
 const locationHref: string = location.href;
 const api: mw.Api = initMwApi(`Qiuwen/1.1 (NotifyConversion/2.0; ${mw.config.get('wgWikiID')})`);

@@ -1,5 +1,5 @@
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
+import {initMwApi} from '~/util';
 
 export const purgePageCache = (): void => {
 	const purgePageCacheMain = async (event: Event, title: string): Promise<void> => {

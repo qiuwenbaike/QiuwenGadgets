@@ -1,7 +1,7 @@
 import {IGNORE_LIST, WEBMASTER_LIST} from './modules/constant';
 import {GeoInfo} from '../Geo/modules/types';
 import {getMessage} from './modules/i18n';
-import {initMwApi} from '../util';
+import {initMwApi} from '~/util';
 
 (async function geoLocation(): Promise<void> {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (GeoLocation/2.0; ${mw.config.get('wgWikiID')})`);

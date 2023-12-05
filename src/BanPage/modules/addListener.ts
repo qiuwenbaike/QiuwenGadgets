@@ -1,6 +1,6 @@
 import {editPage} from './editPage';
 import {getMessage} from './i18n';
-import {oouiConfirmWithStyle} from '../../util';
+import {oouiConfirmWithStyle} from '~/util';
 
 const addListener = ($element: JQuery): void => {
 	const clickListener = async (event: JQuery.ClickEvent): Promise<void> => {

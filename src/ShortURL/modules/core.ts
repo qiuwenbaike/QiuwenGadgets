@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
+import {initMwApi} from '~/util';
 
 export const shortURL = (): void => {
 	let isInit: boolean = false;
