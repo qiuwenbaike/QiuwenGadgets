@@ -1,14 +1,9 @@
 import * as OPTIONS from './options.json';
 import {type RemoteNotices} from './modules/util/queryApi';
-import {WG_ACTION} from './modules/constant';
 import {loadRemoteNotices} from './modules/loadRemoteNotices';
 import {showNotices} from './modules/showNotice';
 
 $(async function advancedSiteNotices(): Promise<void> {
-	if (OPTIONS.disableActios.includes(WG_ACTION)) {
-		return;
-	}
-
 	const $body: JQuery<HTMLBodyElement> = $('body');
 	const $mountPoint: JQuery = $body.find(OPTIONS.mountPointSelector);
 	if (!$mountPoint.length) {
