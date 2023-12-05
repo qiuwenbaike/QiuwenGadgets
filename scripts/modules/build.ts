@@ -1,4 +1,4 @@
-import {buildFiles, generateDefinitionItem, generateFileNames, getLicense, setDefinition} from './utils/build-util';
+import {buildFiles, generateDefinitionItem, generateFileNames, getLicense, saveDefinition} from './utils/build-util';
 import type {SourceFiles} from './types';
 import chalk from 'chalk';
 
@@ -15,7 +15,7 @@ const build = async (sourceFiles: SourceFiles): Promise<string[]> => {
 	console.log(chalk.yellow('--- starting build ---'));
 
 	for (const [name, {definition, license, script, scripts, style, styles}] of Object.entries(sourceFiles)) {
-		let definitionItemFiles = '|';
+		let definitionItemFiles: string = '|';
 		const licenseText: string | undefined = getLicense(name, license);
 
 		if (script || scripts) {
@@ -52,7 +52,7 @@ const build = async (sourceFiles: SourceFiles): Promise<string[]> => {
 	}
 
 	await Promise.all(buildPromiseArray);
-	setDefinition(definitions);
+	saveDefinition(definitions);
 
 	console.log(chalk.yellow('--- end of build ---'));
 
