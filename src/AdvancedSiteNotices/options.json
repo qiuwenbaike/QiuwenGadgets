@@ -1,6 +1,5 @@
 {
 	"ajaxPageTitle": "Template:AdvancedSiteNotices/ajax",
-	"disableActios": ["edit", "submit"],
 	"mountPointSelector": "#siteNotice",
-	"version": "3.1"
+	"version": "3.2"
 }
