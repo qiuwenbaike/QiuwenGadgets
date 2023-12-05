@@ -3,6 +3,7 @@
 	"description": "<span id=\"Gadget-FloatTOC\"></span> 浮动目录",
 	"section": "browser",
 	"actions": ["view"],
+	"default": true,
 	"dependencies": [
 		"ext.gadget.i18n",
 		"mediawiki.notification",
