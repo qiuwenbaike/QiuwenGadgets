@@ -1,4 +1,4 @@
-import {scrollTop} from '../../util';
+import {scrollTop} from '~/util';
 
 export const smoothTOC = (): void => {
 	const checkA11yKey = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): boolean => {

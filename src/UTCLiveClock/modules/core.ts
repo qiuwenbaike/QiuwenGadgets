@@ -1,5 +1,5 @@
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
+import {initMwApi} from '~/util';
 
 const padWithZeroes = (number: number) => {
 	// Pad a number with zeroes. The number must be an integer where

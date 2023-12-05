@@ -1,5 +1,5 @@
 import {getMessage} from './i18n';
-import {initMwApi} from '../../util';
+import {initMwApi} from '~/util';
 
 const groups = {
 	// 全站管理型权限

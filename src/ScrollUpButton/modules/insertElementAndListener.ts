@@ -1,5 +1,5 @@
 import {$scrollDownButton, $scrollUpButton} from './element';
-import {changeOpacityWhenMouseEnterOrLeave} from '../../util';
+import {changeOpacityWhenMouseEnterOrLeave} from '~/util';
 
 const insertElementandListener = (): void => {
 	for (const $element of [$scrollDownButton, $scrollUpButton]) {

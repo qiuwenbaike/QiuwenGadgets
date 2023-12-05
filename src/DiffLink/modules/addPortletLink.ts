@@ -1,4 +1,4 @@
-import {addEventListenerWithRemover} from '../../util';
+import {addEventListenerWithRemover} from '~/util';
 import {getMessage} from './i18n';
 
 /**

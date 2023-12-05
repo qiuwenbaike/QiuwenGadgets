@@ -1,5 +1,5 @@
 import {CLASS_NAME_BUTTON, URL, WG_NAMESPACE_NUMBER} from './constant';
-import {changeOpacityWhenMouseEnterOrLeave} from '../../util';
+import {changeOpacityWhenMouseEnterOrLeave} from '~/util';
 import {getMessage} from './i18n';
 
 const addButton = (): void => {
