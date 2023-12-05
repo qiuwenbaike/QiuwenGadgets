@@ -22,7 +22,7 @@ const linkGadgetSource = (sourcePage: string) => {
 	return makeWikilink(`MediaWiki:Gadget-${sourcePage}`, sourcePage);
 };
 
-const gadgetNameRegex = /^(\s*)([\w_-]+)\s*/;
+const gadgetNameRegex: RegExp = /^(\s*)([\w_-]+)\s*/;
 
 export const getGadgetName = (innerHTML: string): string => {
 	const match: RegExpExecArray | null = gadgetNameRegex.exec(innerHTML);
@@ -60,11 +60,11 @@ export const processGadgetDefinition = (innerHTML: string) => {
 			 * are unfortunately no anchors for individual rights.
 			 */
 			.replace(/([a-z]+)\s*=\s*(.+?)(?=\s*[|\]])/g, (_wholeMatch: string, key: string, value: string) => {
-				let splitValue = value.split(/\s*,\s*/g);
+				let splitValue: string[] = value.split(/\s*,\s*/g);
 				switch (key) {
 					case 'dependencies':
 						splitValue = splitValue.map((dependency: string) => {
-							const gadgetName = /^ext\.gadget\.(.+)$/.exec(dependency);
+							const gadgetName: RegExpExecArray | null = /^ext\.gadget\.(.+)$/.exec(dependency);
 							if (gadgetName) {
 								const _gadgetName: string = gadgetName[1] ?? '';
 								return linkGadgetAnchor(_gadgetName, dependency);

@@ -1,1 +1,1 @@
-export const LIMIT = 250;
+export const LIMIT: number = 250;

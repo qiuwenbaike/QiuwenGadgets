@@ -2,8 +2,8 @@ import {getMessage} from './i18n';
 
 const collapseCaption: string = getMessage('Hide');
 const expandCaption: string = getMessage('Show');
-const navigationBarHide = `<span title="${collapseCaption}" class="oo-ui-indicatorElement-indicator oo-ui-indicator-up" role="button" tabindex="0"></span>`;
-const navigationBarShow = `<span title="${expandCaption}" class="oo-ui-indicatorElement-indicator oo-ui-indicator-down" role="button" tabindex="0"></span>`;
+const navigationBarHide: string = `<span title="${collapseCaption}" class="oo-ui-indicatorElement-indicator oo-ui-indicator-up" role="button" tabindex="0"></span>`;
+const navigationBarShow: string = `<span title="${expandCaption}" class="oo-ui-indicatorElement-indicator oo-ui-indicator-down" role="button" tabindex="0"></span>`;
 
 /**
  * Shows and hides content and picture (if available) of navigation bars.
@@ -65,7 +65,7 @@ const createNavigationBarToggleButton = ($content: JQuery): void => {
 				$(element).css('display', 'none');
 			});
 		}
-		let showNavigationBarHide = true;
+		let showNavigationBarHide: boolean = true;
 		$frame.find('> .NavPic, > .NavContent').each((_index: number, element: HTMLElement): false | void => {
 			if ($(element).css('display') === 'none') {
 				showNavigationBarHide = false;

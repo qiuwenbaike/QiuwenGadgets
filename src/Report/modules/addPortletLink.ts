@@ -7,7 +7,7 @@ const addPortletLink = (): void => {
 	}
 
 	const linkTilte: string = getMessage('Report');
-	const portletId = 'p-tb';
+	const portletId: string = 'p-tb';
 	mw.util.addPortletLink(portletId, URL, linkTilte, 't-report', linkTilte);
 };
 

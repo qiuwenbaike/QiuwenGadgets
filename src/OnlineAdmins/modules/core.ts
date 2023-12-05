@@ -55,7 +55,7 @@ export const onlineAdmins = (): void => {
 			// 用户名列表合并、去重、分割
 			users = [...new Set([...users, ...usersExt])];
 			const promises: (() => Promise<void>)[] = [];
-			for (let i = 0; i < (users.length + 50) / 50; i++) {
+			for (let i: number = 0; i < (users.length + 50) / 50; i++) {
 				promises.push(async (): Promise<void> => {
 					const params: ApiQueryUsersParams = {
 						action: 'query',
@@ -88,7 +88,7 @@ export const onlineAdmins = (): void => {
 				await promise();
 			}
 			const userlink = (user: string): string => {
-				const _user = user
+				const _user: string = user
 					.replace(/&/g, '&amp;')
 					.replace(/</g, '&lt;')
 					.replace(/>/g, '&lt;')

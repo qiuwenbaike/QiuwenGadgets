@@ -1,1 +1,1 @@
-export const RRD_PAGE = 'Qiuwen_talk:版本删除提报';
+export const RRD_PAGE: string = 'Qiuwen_talk:版本删除提报';

@@ -9,7 +9,7 @@ const disableTitle = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 
 	const noSectionTitlePages: string[] = ['Qiuwen_talk:侵权提报', 'Qiuwen_talk:存废讨论/关注度提报'];
-	const noSectionTitlePagesRegex = /^Qiuwen_talk:存废讨论/;
+	const noSectionTitlePagesRegex: RegExp = /^Qiuwen_talk:存废讨论/;
 	if (
 		(noSectionTitlePages.includes(WG_PAGE_NAME) || noSectionTitlePagesRegex.test(WG_PAGE_NAME)) &&
 		mw.util.getParamValue('section') === 'new'

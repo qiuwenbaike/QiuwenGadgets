@@ -1,7 +1,7 @@
 import {IS_WG_EDIT_OR_SUBMIT_ACTION} from './modules/constant';
 import {markBlockedUser} from './modules/core';
 
-let isInit = false;
+let isInit: boolean = false;
 
 mw.hook('wikipage.content').add(($content: JQuery): void => {
 	if (isInit) {

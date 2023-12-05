@@ -65,7 +65,7 @@ const splitAtIndexes = (str: string, indexes: number[]): string[] => {
 		str.length,
 	];
 
-	for (let i = 0; i < normalizedIndexes.length; i++) {
+	for (let i: number = 0; i < normalizedIndexes.length; i++) {
 		const slice: string = str.slice(normalizedIndexes[i - 1], normalizedIndexes[i]);
 		result.push(slice);
 	}

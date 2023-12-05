@@ -4,7 +4,7 @@ import {getCurrentRevisionId} from './getCurrentRevisionId';
 import {getMessage} from './i18n';
 
 const editConflict = async (): Promise<void> => {
-	let isContinue = true;
+	let isContinue: boolean = true;
 
 	const checkEditConflict = async (): Promise<void> => {
 		const pageRevisionId: number = await getCurrentRevisionId(WG_PAGE_NAME);

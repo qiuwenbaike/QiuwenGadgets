@@ -2,7 +2,7 @@ import {addPortletLink} from './addPortletLink';
 import {getMessage} from './i18n';
 
 const buildLink = (oldId: number, diffId: number): void => {
-	let link = 'Special:Diff/';
+	let link: string = 'Special:Diff/';
 	if (oldId) {
 		link += `${oldId}/`;
 	}

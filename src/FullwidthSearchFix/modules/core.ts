@@ -21,7 +21,7 @@ export const fullWidthSearchFix = (): void => {
 	}
 
 	// redirect
-	const url = `${mw.config.get('wgScript')}?search=${encodeURIComponent(`${nameSpace}:${pageName}`)}`;
+	const url: string = `${mw.config.get('wgScript')}?search=${encodeURIComponent(`${nameSpace}:${pageName}`)}`;
 	mw.notify(`${getMessage('Redirecting to')}${nameSpace}:${pageName}`, {
 		tag: 'fullWidthSearchFix',
 		type: 'success',

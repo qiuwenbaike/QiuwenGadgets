@@ -1,4 +1,4 @@
-const GADGET_NAME = 'ext.gadget.NotifyConversion';
+const GADGET_NAME: string = 'ext.gadget.NotifyConversion';
 
 const SYSTEM_SCRIPT_LIST: string[] = [
 	'滥用过滤器',

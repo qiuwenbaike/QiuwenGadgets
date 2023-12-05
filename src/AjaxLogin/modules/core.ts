@@ -21,7 +21,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 		pwdInput,
 	} = generateElements();
 
-	let loginToken = '';
+	let loginToken: string = '';
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
 		try {
 			if (!loginContinue) {

@@ -1,4 +1,4 @@
-const LOGIN_ELEMENT_SELECTOR = '#pt-login>a,.vector-user-menu-login>a,#user-tools>a[href*="Special"]';
+const LOGIN_ELEMENT_SELECTOR: string = '#pt-login>a,.vector-user-menu-login>a,#user-tools>a[href*="Special"]';
 
 const WG_ACTION: MediaWikiConfigMapWgAction = mw.config.get('wgAction');
 const WG_USER_NAME: string | null = mw.config.get('wgUserName');

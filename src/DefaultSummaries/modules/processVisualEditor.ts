@@ -1,6 +1,6 @@
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
-let isInit = false;
+let isInit: boolean = false;
 
 const processVisualEditor = (): void => {
 	if (isInit) {
