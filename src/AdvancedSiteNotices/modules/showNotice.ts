@@ -4,7 +4,7 @@ import {getMessage} from './i18n';
 import {insertArea} from './insertArea';
 import {matchCriteria} from './util/matchCriteria';
 
-let currentVersion = '0';
+let currentVersion: string = '0';
 const localVersion: string | null = mw.storage.get(STORAGE_KEY) as string | null;
 
 let timer: ReturnType<typeof setTimeout>;
@@ -49,7 +49,7 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 	const nextNoticeIndex: number = (index + 1) % noticesLength;
 	let $notice: JQuery = $();
 
-	let i = 0;
+	let i: number = 0;
 	while (i++ < noticesLength) {
 		$notice = $notices.eq(index);
 		if (!matchCriteria($notice)) {

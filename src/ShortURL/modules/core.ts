@@ -3,7 +3,7 @@ import {getMessage} from './i18n';
 import {initMwApi} from '../../util';
 
 export const shortURL = (): void => {
-	let isInit = false;
+	let isInit: boolean = false;
 	let clipboardInstance: ClipboardJS | undefined;
 	const doIns = (link: string): void => {
 		const isCitizen: boolean = mw.config.get('skin') === 'citizen';
@@ -55,7 +55,7 @@ export const shortURL = (): void => {
 				placement: 'bottom',
 			});
 		}
-		const shorturl = `https://qwbk.cc${link}`;
+		const shorturl: string = `https://qwbk.cc${link}`;
 		headerElement.onclick = (event: MouseEvent): void => {
 			event.preventDefault();
 			mw.notify(

@@ -45,7 +45,7 @@ export const fixSummary = (): void => {
 		if (!$body.find('#wpReason').length) {
 			return;
 		}
-		const autoSummaryRegExp = /(内容|page was empty|content before blanking was)/i;
+		const autoSummaryRegExp: RegExp = /(内容|page was empty|content before blanking was)/i;
 		if (autoSummaryRegExp.test(String($body.find('#wpReason').val()))) {
 			$body.find('#wpReason').val('');
 		}

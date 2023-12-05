@@ -95,7 +95,7 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 				if (!groupsGroup.includes(username)) {
 					continue;
 				}
-				const className = `gadgets-markrights__${group}`;
+				const className: string = `gadgets-markrights__${group}`;
 				if ($sups.find('sup').hasClass(className)) {
 					return;
 				}

@@ -8,8 +8,8 @@ type EditParams = {
 };
 
 const generateEditParams = (): EditParams => {
-	let targetPage = 'Qiuwen:首页';
-	let redirectTemplate = '';
+	let targetPage: string = 'Qiuwen:首页';
+	let redirectTemplate: string = '';
 	let summary: string = getMessage('Ban the $1');
 
 	switch (WG_NAMESPACE_NUMBER) {
@@ -28,7 +28,7 @@ const generateEditParams = (): EditParams => {
 			break;
 	}
 
-	const text = `#REDIRECT [[${targetPage}]]\n${redirectTemplate}`;
+	const text: string = `#REDIRECT [[${targetPage}]]\n${redirectTemplate}`;
 
 	return {
 		targetPage,

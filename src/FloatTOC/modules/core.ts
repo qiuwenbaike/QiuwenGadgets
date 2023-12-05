@@ -16,7 +16,7 @@ const floatTOC = (originToc: HTMLElement): void => {
 	const config: Config = getConfig(ID);
 	const mwNotifyStyle: HTMLStyleElement = setMwNotifyStyle();
 
-	let isShow = false;
+	let isShow: boolean = false;
 	const storeState = (target: keyof Config, state: State): void => {
 		config[target] = state;
 		mw.storage.setObject(ID, config);
@@ -142,7 +142,7 @@ const floatTOC = (originToc: HTMLElement): void => {
 			return;
 		}
 
-		const isCollapse = config.originTOC === 'close';
+		const isCollapse: boolean = config.originTOC === 'close';
 
 		const $originTocTitle: JQuery = $body.find('#toc .toctitle');
 		const $originTocItem: JQuery = $body.find('#toc ul');

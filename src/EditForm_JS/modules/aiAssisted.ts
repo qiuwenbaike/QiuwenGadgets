@@ -1,6 +1,6 @@
 import {getMessage} from './i18n';
 
-let isInit = false;
+let isInit: boolean = false;
 
 const aiAssisted = ({$body, $editForm}: {$body?: JQuery<HTMLBodyElement>; $editForm?: JQuery}): void => {
 	if (isInit) {
@@ -9,7 +9,7 @@ const aiAssisted = ({$body, $editForm}: {$body?: JQuery<HTMLBodyElement>; $editF
 
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
-	const isVeInit = !!ve.init;
+	const isVeInit: boolean = !!ve.init;
 
 	const $target: JQuery = isVeInit
 		? ($body as JQuery<HTMLBodyElement>).find('.ve-ui-mwSaveDialog-checkboxes')
@@ -24,14 +24,14 @@ const aiAssisted = ({$body, $editForm}: {$body?: JQuery<HTMLBodyElement>; $editF
 		selected: false,
 	});
 	checkbox.on('change', (): void => {
-		const changeTag = 'AI_assisted';
+		const changeTag: string = 'AI_assisted';
 		const generateChangeTags = (originChangeTags: string): string => {
 			return checkbox.isSelected()
 				? `${originChangeTags},${changeTag}`
 				: originChangeTags.replace(`,${changeTag}`, '');
 		};
 
-		let changeTags = '';
+		let changeTags: string = '';
 		if (isVeInit) {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore

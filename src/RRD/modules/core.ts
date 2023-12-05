@@ -11,7 +11,7 @@ const loadIDs = (): void => {
 	const boxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('input');
 	for (const box of boxes) {
 		if (box.type === 'checkbox' && box.checked) {
-			const idRegex = /ids\[(\d+)]/;
+			const idRegex: RegExp = /ids\[(\d+)]/;
 			const idArray: RegExpExecArray | null = idRegex.exec(box.name);
 			if (idArray && idArray[1] !== undefined) {
 				ids.push(idArray[1]);
@@ -123,7 +123,7 @@ const showDialog = (): void => {
 		mw.notify(message.err_no_revision_provided, {tag: 'RRD', type: 'error'});
 		return;
 	}
-	const html = `<div id="rrdConfig">${
+	const html: string = `<div id="rrdConfig">${
 		message.hide_items
 	}<br><div style="float: left; padding: 0 5px;"><input name="content" id="rrdHideContent" type="checkbox" value="content" checked>${`<label for="rrdHideContent" id="rrd-content">${
 		isLog ? message.hide_log : message.hide_content
@@ -159,7 +159,7 @@ const showDialog = (): void => {
 					if (Object.hasOwn(config.checkboxes, 'rrdHideSummary')) {
 						toHide.push(message.hide_summary);
 					}
-					let cont = true;
+					let cont: boolean = true;
 					if (!toHide.length) {
 						mw.notify(message.err_no_item_provided, {tag: 'RRD', type: 'error'});
 						return;

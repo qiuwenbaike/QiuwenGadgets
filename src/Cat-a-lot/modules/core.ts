@@ -130,7 +130,7 @@ const catALot = (): void => {
 			this.$link = $<HTMLAnchorElement>('<a>').text('Cat-a-lot').appendTo(this.$head);
 			// End of UI elements
 
-			const regexCat = new RegExp(`^\\s*${CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category')}:`, '');
+			const regexCat: RegExp = new RegExp(`^\\s*${CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category')}:`, '');
 
 			this.$searchInput
 				.on('keypress', (event: JQuery.KeyPressEvent<HTMLInputElement>): void => {
@@ -237,14 +237,15 @@ const catALot = (): void => {
 		}
 		static localizedRegex(namespaceNumber: number, fallback: string): string {
 			// Copied from HotCat, thanks Lupo.
-			const wikiTextBlank = '[\\t _\\xA0\\u1680\\u180E\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000]+';
-			const wikiTextBlankRE = new RegExp(wikiTextBlank, 'g');
+			const wikiTextBlank: string =
+				'[\\t _\\xA0\\u1680\\u180E\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000]+';
+			const wikiTextBlankRE: RegExp = new RegExp(wikiTextBlank, 'g');
 			const createRegexStr = (name: string | undefined): string => {
 				if (!name?.length) {
 					return '';
 				}
-				let regexName = '';
-				for (let i = 0; i < name.length; i++) {
+				let regexName: string = '';
+				for (let i: number = 0; i < name.length; i++) {
 					const initial: string = name.slice(i, i + 1);
 					const ll: string = initial.toLowerCase();
 					const ul: string = initial.toUpperCase();
@@ -254,7 +255,7 @@ const catALot = (): void => {
 			};
 			fallback = fallback.toLowerCase();
 			const canonical: string | undefined = CAL.WG_FORMATTED_NAMESPACES[namespaceNumber]?.toLowerCase();
-			let regexString = createRegexStr(canonical);
+			let regexString: string = createRegexStr(canonical);
 			if (fallback && canonical !== fallback) {
 				regexString += `|${createRegexStr(fallback)}`;
 			}
@@ -284,14 +285,14 @@ const catALot = (): void => {
 
 		static findAllVariants(category: string): string[] {
 			const results: string[] = [];
-			const baseUrl = `${CAL.API_ENTRY_POINT}?action=parse&text=${encodeURIComponent(
+			const baseUrl: string = `${CAL.API_ENTRY_POINT}?action=parse&text=${encodeURIComponent(
 				category
 			)}&title=temp&format=json&variant=`;
 			if (CAL.variantCache[category] !== undefined) {
 				return CAL.variantCache[category] as string[];
 			}
 			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
-				const result = $.ajax({url: baseUrl + variant, async: false}).responseJSON.parse.text['*'];
+				const result: string = $.ajax({url: baseUrl + variant, async: false}).responseJSON.parse.text['*'];
 				const trimmedResult: string = $(result).eq(0).text().trim();
 				if (!results.includes(trimmedResult)) {
 					results.push(trimmedResult);
@@ -337,7 +338,7 @@ const catALot = (): void => {
 			callback: (response: any, textStatus: JQuery.Ajax.SuccessTextStatus, jqXHR: JQuery.jqXHR) => void
 		) {
 			params['format'] = 'json';
-			let i = 0;
+			let i: number = 0;
 			const doCall = (): void => {
 				const handleError = (
 					jqXHR: JQuery.jqXHR,
@@ -451,9 +452,9 @@ const catALot = (): void => {
 				return;
 			}
 
-			let originText = '';
-			let starttimestamp = 0;
-			let timestamp = 0;
+			let originText: string = '';
+			let starttimestamp: number = 0;
+			let timestamp: number = 0;
 			CAL.editToken = result['query'].tokens.csrftoken;
 			const {pages} = result['query'];
 
@@ -811,7 +812,7 @@ const catALot = (): void => {
 					alsoResize: this.$resultList,
 					handles: 'n',
 					resize: (event: JQueryEventObject): void => {
-						const $currentTarget = $(event.currentTarget);
+						const $currentTarget: JQuery = $(event.currentTarget) as JQuery;
 						$currentTarget.css({
 							left: '',
 							top: '',

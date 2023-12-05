@@ -2,7 +2,7 @@ import {getMessage} from './i18n';
 
 export const addSubpageAndLog = (): void => {
 	/* 向侧边栏添加“子页面”菜单 */
-	const portletId = 'p-tb';
+	const portletId: string = 'p-tb';
 	const NSWithoutSubpages: number[] = [-1, 0, 14];
 	const prefixIndexURL: string = mw.util.getUrl(`Special:PrefixIndex/${mw.config.get('wgPageName')}`);
 	if (!NSWithoutSubpages.includes(mw.config.get('wgNamespaceNumber'))) {

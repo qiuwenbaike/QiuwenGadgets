@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-const CLASS_NAME = 'gadget-report';
-const CLASS_NAME_BUTTON = `${CLASS_NAME}-button`;
+const CLASS_NAME: string = 'gadget-report';
+const CLASS_NAME_BUTTON: string = `${CLASS_NAME}-button`;
 
 const URL: string = mw.util.getUrl('Special:Contact/Report', {
 	report_title: mw.config.get('wgPageName'),

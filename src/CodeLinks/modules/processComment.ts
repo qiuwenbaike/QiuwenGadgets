@@ -21,14 +21,14 @@ const processComment = (element: Element): void => {
 	const link: HTMLAnchorElement = document.createElement('a');
 	link.classList.add('code-link');
 
-	let linkText = '';
+	let linkText: string = '';
 	let start: number = (wikilinkMatch || templateMatch || urlMatch)?.index ?? 0;
 	if (urlMatch) {
 		const [url] = urlMatch;
 		linkText = url;
 		link.href = url;
 	} else {
-		let fullPageName = '';
+		let fullPageName: string = '';
 		if (wikilinkMatch) {
 			[linkText] = wikilinkMatch;
 			fullPageName = wikilinkMatch[1] as string;

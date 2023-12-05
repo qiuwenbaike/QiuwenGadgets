@@ -43,7 +43,7 @@ const showTime = ($target: JQuery): void => {
 			ss = now.getUTCSeconds();
 		}
 	}
-	const time = `${padWithZeroes(hh)}:${padWithZeroes(mm)}:${padWithZeroes(ss)}`;
+	const time: string = `${padWithZeroes(hh)}:${padWithZeroes(mm)}:${padWithZeroes(ss)}`;
 	$target.text(time);
 	// Schedule the next time change.
 	//

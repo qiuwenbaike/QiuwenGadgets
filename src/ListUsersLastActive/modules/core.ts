@@ -42,8 +42,8 @@ const adjustTime = (time: Date): string => {
 		time = new Date(time.getFullYear(), time.getMonth(), time.getDate());
 		date = `${year}年${addLeadingZero(month)}月${addLeadingZero(day)}日`;
 	}
-	const hourMinute = `${addLeadingZero(hour)}:${minute} `;
-	const returnDate = `${date}, ${hourMinute} (UTC${utcOffsetToString})`;
+	const hourMinute: string = `${addLeadingZero(hour)}:${minute} `;
+	const returnDate: string = `${date}, ${hourMinute} (UTC${utcOffsetToString})`;
 	return returnDate;
 };
 

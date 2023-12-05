@@ -31,7 +31,7 @@ const quickImport = async (): Promise<void> => {
 			'info'
 		);
 
-		let summary = '页面文字原许可：[[cc-by-sa:4.0|CC BY-SA 4.0]]；作者请参见来源页面历史';
+		let summary: string = '页面文字原许可：[[cc-by-sa:4.0|CC BY-SA 4.0]]；作者请参见来源页面历史';
 		if (mw.config.get('wgNamespaceNumber') === 6) {
 			summary += '；文件作者请参见此页面及来源页面记载';
 		}
@@ -57,7 +57,7 @@ const quickImport = async (): Promise<void> => {
 	};
 
 	const uploadFile = async (): Promise<void> => {
-		const url = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(pageName)}`;
+		const url: string = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(pageName)}`;
 		toastifyInstance.hideToast();
 		toastifyInstance = toastify(
 			{
@@ -78,7 +78,7 @@ const quickImport = async (): Promise<void> => {
 	};
 
 	if (mw.config.get('wgNamespaceNumber') === 6 && !document.querySelector('#mw-noarticletext')) {
-		let source = '';
+		let source: string = '';
 		source = document.querySelectorAll("#ca-view-foreign a[href*='zh.wikipedia.org']")[0] ? 'zhwiki' : 'commons';
 		await importPage(source);
 		const queryParams: ApiQueryParams = {
@@ -123,7 +123,7 @@ const quickImport = async (): Promise<void> => {
 	}
 };
 
-let label = '';
+let label: string = '';
 if (mw.config.get('wgNamespaceNumber') === 6 && !document.querySelector('#mw-noarticletext')) {
 	label = document.querySelectorAll("#ca-view-foreign a[href*='zh.wikipedia.org']")[0] ? 'zhwiki' : 'commons';
 } else {

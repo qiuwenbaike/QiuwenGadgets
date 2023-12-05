@@ -12,7 +12,7 @@ const queryLoginToken = async (
 		text: getMessage('Getting login token'),
 	});
 
-	const loginToken = await api.getToken('login');
+	const loginToken: string = await api.getToken('login');
 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify({

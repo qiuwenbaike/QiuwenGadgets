@@ -3,7 +3,7 @@ const switcherJS = (): void => {
 		let selected: unknown[] | Element | undefined;
 		let $radio: JQuery<Element> | undefined;
 		const switchers: Element[] = [];
-		const radioName = `switcher-${index}`;
+		const radioName: string = `switcher-${index}`;
 		for (const [, switcher] of [...container.children].entries()) {
 			const label: HTMLElement | null = switcher.querySelector('.switcher-label');
 			if (!label || label.childNodes.length === 0) {

@@ -17,11 +17,11 @@ export const pagePatroller = async (): Promise<void> => {
 		return;
 	}
 	try {
-		const params = {
+		const params: ApiQueryRevisionsParams & ApiQueryLogEventsParams = {
 			action: 'query',
 			format: 'json',
 			formatversion: '2',
-			prop: 'revisions',
+			prop: ['revisions'],
 			titles: mw.config.get('wgPageName'),
 			list: 'logevents',
 			letype: 'patrol',
@@ -34,8 +34,8 @@ export const pagePatroller = async (): Promise<void> => {
 			url: mw.util.wikiScript('api'),
 			data: params,
 		});
-		let cts = '';
-		let html = '';
+		let cts: string = '';
+		let html: string = '';
 		if (query && query.logevents && query.logevents.length) {
 			const [log]: [{user: string; timestamp: string; action: string}] = query.logevents;
 			const {action} = log;

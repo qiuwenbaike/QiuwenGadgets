@@ -21,7 +21,7 @@ export const getLocation = async (): Promise<void> => {
 	}
 	const ipGeoLocationDesc: string = getMessage('Location');
 	const appendIcon = (indicatorText: string, spanClass: string, icon: string, indicator?: boolean): void => {
-		const elementName =
+		const elementName: 'div' | 'li' | 'section' =
 			indicator === true
 				? 'div'
 				: mw.config.get('skin') === 'citizen'
@@ -83,12 +83,12 @@ export const getLocation = async (): Promise<void> => {
 			);
 			const countryOrAreaText: string = getCountryOrAreaName(country ?? countryOrArea) ?? getMessage('Unknown');
 			const regionText: string = (country ?? countryOrArea) === 'CN' ? getRegionName(region) ?? '' : '';
-			const indicatorText = `${countryOrAreaText}${regionText}`;
-			const spanClass = 'green';
+			const indicatorText: string = `${countryOrAreaText}${regionText}`;
+			const spanClass: string = 'green';
 			appendIcon(indicatorText, spanClass, 'globe');
 		} catch {
 			const indicatorText: string = getMessage('Unknown');
-			const spanClass = 'orange';
+			const spanClass: string = 'orange';
 			appendIcon(indicatorText, spanClass, 'helpNotice');
 		}
 	};

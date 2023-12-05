@@ -32,7 +32,7 @@ const openDialog = ($message: JQuery): void => {
 };
 
 const run = ($dialogMessage: JQuery, hash: string): void => {
-	let wikitext = '';
+	let wikitext: string = '';
 	const $dom: JQuery = $(`#noteTA-${hash}`);
 	const actualTitle: string = mw.config.get('wgPageName').replace(/_/g, ' ');
 	const parse = async (): Promise<void> => {
@@ -80,7 +80,7 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 				if ($multititle.length) {
 					const textVariant: Record<string, string> = {};
 					const variantText: Record<string, string> = {};
-					let multititleText = '';
+					let multititleText: string = '';
 					$multititle.children().each((_index: number, element: HTMLElement): void => {
 						const $li: JQuery = $(element);
 						const variant: string | undefined = $li.attr('data-noteta-multititle-variant');
@@ -107,7 +107,7 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 					});
 					multititleText += '; 本文[[Help:字词转换处理|标题可能经过转换]]\n';
 					const multititle: string[] = [];
-					const wgUserVariant = mw.config.get('wgUserVariant') ?? '';
+					const wgUserVariant: string = mw.config.get('wgUserVariant') ?? '';
 					const titleConverted: string | undefined = variantText[wgUserVariant];
 					for (const variant in variantText) {
 						if (Object.hasOwn(variantText, variant)) {

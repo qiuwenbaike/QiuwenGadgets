@@ -26,7 +26,7 @@ export const translateVariants = (): void => {
 	};
 	const result: Record<string, string> = {};
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (TranslateVariants/1.1; ${mw.config.get('wgWikiID')})`);
-	let basepagetext = '';
+	let basepagetext: string = '';
 	const $table: JQuery = $('<div>').attr('id', 'TranslateVariants').prependTo('#bodyContent');
 	const $submitAll: JQuery = $('<button>').text(window.wgULS('发布所有更改', '發佈所有變更'));
 	$submitAll.on('click', (): void => {
@@ -57,8 +57,11 @@ export const translateVariants = (): void => {
 			)
 		)
 		.appendTo($table);
-	const defaultlangs = 'zh,zh-hans,zh-cn,zh-my,zh-sg,zh-hant,zh-hk,zh-mo,zh-tw';
-	let runlangs = prompt(window.wgULS('转换以下语言（以逗号隔开）：', '轉換以下語言（以逗號隔開）：'), defaultlangs);
+	const defaultlangs: string = 'zh,zh-hans,zh-cn,zh-my,zh-sg,zh-hant,zh-hk,zh-mo,zh-tw';
+	let runlangs: string | null = prompt(
+		window.wgULS('转换以下语言（以逗号隔开）：', '轉換以下語言（以逗號隔開）：'),
+		defaultlangs
+	);
 	if (runlangs === null) {
 		runlangs = defaultlangs;
 	}
@@ -165,7 +168,7 @@ export const translateVariants = (): void => {
 								.appendTo($diffTable);
 							return;
 						}
-						const diff = page.revisions[0].diff.body;
+						const diff: string = page.revisions[0].diff.body;
 						if (diff === '') {
 							$('<span>').css('float', 'right').text(window.wgULS('无更改', '無變更')).appendTo($tool);
 						} else {
@@ -260,7 +263,7 @@ export const translateVariants = (): void => {
 			};
 		})
 		.then(({content}): void => {
-			let text = content;
+			let text: string = content;
 			Object.defineProperty(result, 'zh', {
 				value: text,
 				writable: true,

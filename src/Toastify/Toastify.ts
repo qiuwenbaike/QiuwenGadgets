@@ -4,7 +4,7 @@ if (!window.toastify) {
 	window.toastify = (options, type) => {
 		options ??= {};
 
-		let className = 'gadget-toastify';
+		let className: string = 'gadget-toastify';
 		if (type) {
 			switch (type) {
 				case 'error':

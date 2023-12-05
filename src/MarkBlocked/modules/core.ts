@@ -12,13 +12,13 @@ export const markBlockedUser = ($container: JQuery): void => {
 		}
 	}
 	// Let wikis that are importing this gadget specify the local alias of Special:Contributions
-	const specialContribs = 'Special:Contributions';
+	const specialContribs: string = 'Special:Contributions';
 	// RegExp for all titles that are  User:| User_talk: | Special:Contributions/ (for userscripts)
-	const userTitleRegex = new RegExp(`^(${userNamespace.join('|')}|${specialContribs}\\/)+([^\\/#]+)$`, 'i');
+	const userTitleRegex: RegExp = new RegExp(`^(${userNamespace.join('|')}|${specialContribs}\\/)+([^\\/#]+)$`, 'i');
 	// RegExp for links
 	// articleRegex also matches external links in order to support the noping template
-	const articleRegex = new RegExp(`${mw.config.get('wgArticlePath').replace('$1', '')}([^#]+)`);
-	const scriptRegex = new RegExp(`^${mw.config.get('wgScript')}\\?title=([^#&]+)`);
+	const articleRegex: RegExp = new RegExp(`${mw.config.get('wgArticlePath').replace('$1', '')}([^#]+)`);
+	const scriptRegex: RegExp = new RegExp(`^${mw.config.get('wgScript')}\\?title=([^#&]+)`);
 	const userLinks: Record<string, HTMLAnchorElement[]> = {};
 	let user: string;
 	let userExecArray: RegExpExecArray | null;
@@ -82,7 +82,7 @@ export const markBlockedUser = ($container: JQuery): void => {
 	}
 	// API request
 	let serverTime: number;
-	let apiRequests = 0;
+	let apiRequests: number = 0;
 	// --------AUX functions
 	// 20081226220605  or  2008-01-26T06:34:19Z   -> number
 	const parseTS = (string: string): number => {
@@ -101,7 +101,7 @@ export const markBlockedUser = ($container: JQuery): void => {
 		).getTime();
 	};
 	const zz = (v: number): string => {
-		let _v = String(v);
+		let _v: string = String(v);
 		if (v <= 9) {
 			_v = `0${v}`;
 		}
@@ -136,7 +136,7 @@ export const markBlockedUser = ($container: JQuery): void => {
 		let tip: string = markBlockedTooltip;
 		for (const block of response['query'].blocks) {
 			const isPartialBlcok: string = block.restrictions && !Array.isArray(block.restrictions); // Partial block
-			let cssClass = 'user-blocked-partial';
+			let cssClass: string = 'user-blocked-partial';
 			let blockTime: string;
 			if (block.expiry.startsWith('in')) {
 				if (!isPartialBlcok) {

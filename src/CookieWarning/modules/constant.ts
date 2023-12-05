@@ -1,6 +1,6 @@
-const CLASS_NAME = 'gadget-cookie_warning';
+const CLASS_NAME: string = 'gadget-cookie_warning';
 
-const STORAGE_KEY = 'ext.gadget.CookieWarning_cookieConsent';
+const STORAGE_KEY: string = 'ext.gadget.CookieWarning_cookieConsent';
 
 const LAST_STORAGE_VALUE: string | null = mw.storage.get(STORAGE_KEY) as string | null;
 

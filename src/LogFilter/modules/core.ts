@@ -144,10 +144,10 @@ export const filterLists = {
 			return;
 		}
 		// The regex used to grab the Special:Log/rights changes
-		const rightrx = /^.*?user:.*? from (.*?) to (.*?) \u200E.*?$/i;
+		const rightrx: RegExp = /^.*?user:.*? from (.*?) to (.*?) \u200E.*?$/i;
 		// Iterate
 		$listItems.each((_index: number, element: HTMLElement): void => {
-			let look = '';
+			let look: string = '';
 			let oldr: string;
 			let newr: string;
 			let oldrl: string[];
@@ -162,8 +162,8 @@ export const filterLists = {
 				newr = $element.text().replace(rightrx, '$2');
 				oldrl = oldr.split(', ');
 				newrl = newr.split(', ');
-				for (let j = 0; j < oldrl.length; j++) {
-					for (let k = 0; k < newrl.length; k++) {
+				for (let j: number = 0; j < oldrl.length; j++) {
+					for (let k: number = 0; k < newrl.length; k++) {
 						if (oldrl[j] === newrl[k]) {
 							oldrl[j] = '';
 							newrl[k] = '';

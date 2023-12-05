@@ -115,7 +115,7 @@ const showDialog = (): void => {
 
 		return new OO.ui.Process((): void => {
 			if (action === 'confirm') {
-				const URL_REGEX = /(\/\/[^/]+\/)([^/]+)(\/)/;
+				const URL_REGEX: RegExp = /(\/\/[^/]+\/)([^/]+)(\/)/;
 				const selectedItem: OO.ui.OptionWidget = buttonSelect.findSelectedItem() as OO.ui.OptionWidget;
 				const variant: string = selectedItem.getData() as string;
 				clearWindows(variant);

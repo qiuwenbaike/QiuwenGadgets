@@ -1,4 +1,5 @@
 import {IGNORE_LIST, WEBMASTER_LIST} from './modules/constant';
+import {GeoInfo} from '../Geo/modules/types';
 import {getMessage} from './modules/i18n';
 import {initMwApi} from '../util';
 
@@ -33,7 +34,7 @@ import {initMwApi} from '../util';
 				rvslots: 'main',
 			};
 			const {query} = await api.get(params);
-			const response = JSON.parse(query.pages[0].revisions[0].slots.main.content);
+			const response: GeoInfo = JSON.parse(query.pages[0].revisions[0].slots.main.content);
 			if (
 				(response.country ?? response.countryOrArea) === (country ?? countryOrArea) &&
 				(response.region === region || (response.region !== '' && region === '')) &&

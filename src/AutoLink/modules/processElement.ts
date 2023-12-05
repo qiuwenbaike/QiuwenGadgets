@@ -14,31 +14,31 @@ import {
 import type {TargetElements} from './util/getTargetElements';
 
 const processElement = ({color, $targetElementArray}: TargetElements): void => {
-	let isActivateHTML = false;
+	let isActivateHTML: boolean = false;
 	/* Regex (default for diffs) */
 	// Regex for diffs
-	let regexURLinWikicodeWithoutLabel =
+	let regexURLinWikicodeWithoutLabel: RegExp =
 		/((?:[^[]|^)\[\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?\s*)((?:https?|ftps?):\/\/[\w!#%&()+./:=?@\\~-]+)((?:<\/span>)?(?:<span class="diffchange">)?)([\w!#%&()+./:=?@\\~-]*)((?:<\/span>)?(?:<span class="diffchange">)?)([\w!#%&()+./:=?@\\~-]*)([^\n\]]*])/gm;
 	// External links (no wikicode)
-	let regexSubstinWikicodeWithoutLabel = `$1<a class="external autolink" style="color:${color}" href="$2$4$6">$2</a>$3<a class="external autolink" style="color:${color}" href="$2$4$6">$4</a>$5<a class="external autolink" style="color:${color}" href="$2$4$6">$6</a>$7`;
+	let regexSubstinWikicodeWithoutLabel: string = `$1<a class="external autolink" style="color:${color}" href="$2$4$6">$2</a>$3<a class="external autolink" style="color:${color}" href="$2$4$6">$4</a>$5<a class="external autolink" style="color:${color}" href="$2$4$6">$6</a>$7`;
 	// External links in diff pages, wikicode without label
 	let regexURLinWikicodeWithLabel: RegExp = regexURLinWikicodeWithoutLabel;
 	// External links in diff pages, wikicode with label
 	let regexSubstinWikicodeWithLabel: string = regexSubstinWikicodeWithoutLabel;
 	// Other pages included in diff pages
-	let regexOtherPages =
+	let regexOtherPages: RegExp =
 		/((?:[^{]|^){{2}\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?\s*(?:(?:[Ss][Uu][Bb][Ss][Tt]|[Mm][Ss][Gg]|[Mm][Ss][Gg][Nn][Ww])\s*:)?\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?\s*)((?:[Ss]peciale?|[Qq](?:iuwen|[Ww])|[Ww][Pp]|[Tt]emplate|[Uu]ser)?\s*(?: ?[Tt]alk)?\s*:[^\n:<>[\]{|}]+)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n:<>[\]{|}]*)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n:<>[\]{|}]*)(\||}{2})/gm;
-	let regexSubstinOtherPages = `$1<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$2</a>$3<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$4</a>$5<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$6</a>$7`;
+	let regexSubstinOtherPages: string = `$1<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$2</a>$3<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$4</a>$5<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$6</a>$7`;
 	// Templates in diff pages
-	let regexTemplate =
+	let regexTemplate: RegExp =
 		/((?:[^{]|^){{2}\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?\s*(?:(?:[Ss][Uu][Bb][Ss][Tt]|[Mm][Ss][Gg]|[Mm][Ss][Gg][Nn][Ww])\s*:)?\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?)([^\n:<>[\]{|}]+)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n:<>[\]{|}]*)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n:<>[\]{|}]*)(\||}{2}|:)/gm;
-	let regexSubstinTemplate = `$1<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$2</a>$3<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$4</a>$5<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$6</a>$7`;
+	let regexSubstinTemplate: string = `$1<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$2</a>$3<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$4</a>$5<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$6</a>$7`;
 	// Wikilinks in diff pages
-	let regexWikilink1 =
+	let regexWikilink1: RegExp =
 		/(\[{2}\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?\s*)([^\n<>[\]{|}]+)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n<>[\]{|}]*)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n<>[\]{|}]*)((?:[^\n\]]|][^\]])*]{2})/g;
-	let regexSubstinWikilink1 = `$1<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$2</a>$3<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$4</a>$5<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$6</a>$7`;
-	let regexWikilink2 = regexWikilink1;
-	let regexSubstinWikilink2 = regexSubstinWikilink1;
+	let regexSubstinWikilink1: string = `$1<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$2</a>$3<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$4</a>$5<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$6</a>$7`;
+	let regexWikilink2: RegExp = regexWikilink1;
+	let regexSubstinWikilink2: string = regexSubstinWikilink1;
 	// Regex for comments or code sections
 	if (!IS_DIFF_ACTION) {
 		// Activate some HTML (inline) and wikicode for bold and italic

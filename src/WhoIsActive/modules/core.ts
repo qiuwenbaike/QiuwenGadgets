@@ -14,7 +14,7 @@ export const whoIsActive = (): void => {
 		.each((_index: number, element: HTMLElement) => {
 			const link: JQuery = $(element);
 			const href: string = decodeURI(link.attr('href') ?? '');
-			const userRegex = new RegExp(`((User)|(${localizedUserNamespace})):(.*?)(?=&|$)`);
+			const userRegex: RegExp = new RegExp(`((User)|(${localizedUserNamespace})):(.*?)(?=&|$)`);
 			const username: RegExpMatchArray | null = href.match(userRegex);
 			if (username) {
 				const index: number = username[0].indexOf('/');
@@ -43,7 +43,7 @@ export const whoIsActive = (): void => {
 		} else {
 			timespan = 'ThisWeek';
 		}
-		const elementName =
+		const elementName: 'div' | 'li' | 'section' =
 			indicator === true
 				? 'div'
 				: mw.config.get('skin') === 'citizen'

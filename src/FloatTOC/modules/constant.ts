@@ -1,4 +1,4 @@
-const ID = 'floatTOC';
+const ID: string = 'floatTOC';
 
 const WG_SKIN: string = mw.config.get('skin');
 

@@ -10,7 +10,7 @@ const checkValid = (
 	toastifyInstance: ToastifyInstance;
 } => {
 	const isAgreeTos: boolean = agreeTosCheckbox.isSelected();
-	const isFill = ![nameInput.getValue(), pwdInput.getValue()].includes('');
+	const isFill: boolean = ![nameInput.getValue(), pwdInput.getValue()].includes('');
 
 	toastifyInstance.hideToast();
 

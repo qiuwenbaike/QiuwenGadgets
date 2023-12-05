@@ -53,11 +53,11 @@ const loadWithURL = (): void => {
 	 */
 	if (URL_USE) {
 		const wgUserName: string = mw.util.escapeRegExp(WG_USER_NAME ?? '');
-		const REGEX_FILE = new RegExp(
+		const REGEX_FILE: RegExp = new RegExp(
 			`^(?:MediaWiki:${wgUserName ? `|User:${wgUserName}/` : ''})[^&<>=%#]*\\.(js|css)$`
 		);
-		const REGEX_EXT = /^ext\.[^,]+$/;
-		const path = `${WG_SCRIPT}?action=raw&ctype=text/`;
+		const REGEX_EXT: RegExp = /^ext\.[^,]+$/;
+		const path: string = `${WG_SCRIPT}?action=raw&ctype=text/`;
 		for (const useFile of URL_USE.split('|')) {
 			const name: string = useFile.toString().trim();
 			const what: string[] = REGEX_FILE.exec(name) ?? ['', ''];
