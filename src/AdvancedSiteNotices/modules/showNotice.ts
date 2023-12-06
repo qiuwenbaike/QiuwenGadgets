@@ -4,6 +4,8 @@ import {getMessage} from './i18n';
 import {insertArea} from './insertArea';
 import {matchCriteria} from './util/matchCriteria';
 
+const broadcastChannel: BroadcastChannel = new BroadcastChannel(STORAGE_KEY);
+
 let currentVersion: string = '0';
 const localVersion: string | null = mw.storage.get(STORAGE_KEY) as string | null;
 
@@ -12,10 +14,20 @@ let timer: ReturnType<typeof setTimeout>;
 const $area: JQuery = insertArea();
 const $currentNotice: JQuery = $area.find(`.${CLASS_NAME_NOTICE_CONTENT}`);
 const $dismiss: JQuery<HTMLAnchorElement> = $area.find(`.${CLASS_NAME_DISMISS}`).find('a');
-$dismiss.on('click', (): void => {
+
+const closeNotices = (): void => {
+	// eslint-disable-next-line unicorn/require-post-message-target-origin
+	broadcastChannel.postMessage('close');
+	broadcastChannel.close();
 	clearTimeout(timer);
 	$area.remove();
 	mw.storage.set(STORAGE_KEY, currentVersion, 60 * 60 * 24 * 30 * 1000);
+};
+
+broadcastChannel.addEventListener('message', closeNotices);
+
+$dismiss.on('click', (): void => {
+	closeNotices();
 	const toastifyInstance: ToastifyInstance = toastify({
 		node: $('<span>').html(getMessage('DismissNotice')).get(0),
 		close: true,
