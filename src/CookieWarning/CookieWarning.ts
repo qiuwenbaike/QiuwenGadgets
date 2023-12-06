@@ -9,9 +9,18 @@ $(function cookieWarning(): void {
 	const $body: JQuery<HTMLBodyElement> = $('body');
 	const {$agreeButton, $consentNotice} = generateElements();
 
-	$agreeButton.on('click', (): void => {
+	const broadcastChannel: BroadcastChannel = new BroadcastChannel(STORAGE_KEY);
+
+	const closeWarning = (): void => {
+		// eslint-disable-next-line unicorn/require-post-message-target-origin
+		broadcastChannel.postMessage('close');
+		broadcastChannel.close();
+		$consentNotice.remove();
 		mw.storage.set(STORAGE_KEY, '1', 60 * 60 * 1000 * 24 * 30);
-		$consentNotice.fadeOut().remove();
-	});
+	};
+
+	broadcastChannel.addEventListener('message', closeWarning);
+	$agreeButton.on('click', closeWarning);
+
 	$consentNotice.appendTo($body);
 });
