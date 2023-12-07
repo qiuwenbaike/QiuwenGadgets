@@ -21,12 +21,12 @@ q {
 	/* 双引号：“”；单引号：‘’ */
 	quotes: '“' '”' '‘' '’';
 
-	body:lang(zh-hant) & {
+	html:lang(zh-hant) & {
 		/* 外引号：「」；内引号：『』 */
 		quotes: '「' '」' '『' '』';
 	}
 
-	body:lang(en) & {
+	html:lang(en) & {
 		/* 外引号：""；内引号：'' */
 		quotes: '"' '"' "'" "'";
 	}
@@ -56,7 +56,7 @@ body,
 input {
 	font-family: @sans-serif-zh-hans, sans-serif, @emoji-font;
 
-	body:lang(zh-hant) & {
+	html:lang(zh-hant) & {
 		font-family: @sans-serif-zh-hant, sans-serif, @emoji-font;
 	}
 }
@@ -71,7 +71,7 @@ input {
 	h6 {
 		font-family: @serif-zh-hans, serif, @emoji-font;
 
-		body:lang(zh-hant) & {
+		html:lang(zh-hant) & {
 			font-family: @serif-zh-hant, serif, @emoji-font;
 		}
 	}
