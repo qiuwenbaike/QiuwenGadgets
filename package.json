@@ -1,6 +1,6 @@
 {
 	"name": "awesome-gadgets",
-	"version": "2.30.1",
+	"version": "2.31.0",
 	"description": "Storage, management, compilation, and automatic deployment of MediaWiki gadgets.",
 	"private": true,
 	"type": "module",
@@ -47,6 +47,8 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.5",
+		"@babel/helper-compilation-targets": "^7.22.15",
+		"@babel/helper-plugin-utils": "^7.22.5",
 		"@babel/plugin-transform-async-generator-functions": "^7.23.4",
 		"@babel/plugin-transform-async-to-generator": "^7.23.3",
 		"@babel/plugin-transform-for-of": "^7.23.3",
@@ -61,13 +63,15 @@
 		"@babel/preset-env": "^7.23.5",
 		"@commitlint/cli": "^18.4.3",
 		"@commitlint/config-conventional": "^18.4.3",
+		"@juggle/resize-observer": "^3.4.0",
 		"@types/babel__core": "^7.20.5",
 		"@types/jqueryui": "^1.12.21",
-		"@types/node": "^20.10.3",
+		"@types/node": "^20.10.4",
 		"@types/oojs-ui": "^0.47.6",
 		"@types/prompts": "^2.4.9",
 		"@typescript-eslint/eslint-plugin": "^6.13.2",
 		"@typescript-eslint/parser": "^6.13.2",
+		"abortcontroller-polyfill": "^1.7.5",
 		"chalk": "^5.3.0",
 		"core-js": "^3.34.0",
 		"esbuild": "^0.19.8",
@@ -78,6 +82,7 @@
 		"eslint-plugin-unicorn": "^49.0.0",
 		"happy-dom": "^12.10.3",
 		"husky": "^8.0.3",
+		"intersection-observer": "^0.12.2",
 		"less-plugin-npm-import": "^2.1.0",
 		"less-plugin-preset-env": "latest",
 		"mwn": "^2.0.1",
@@ -86,12 +91,15 @@
 		"postcss-preset-env": "^9.3.0",
 		"prettier": "^3.1.0",
 		"prompts": "^2.4.2",
+		"proxy-polyfill": "^0.3.2",
 		"stylelint": "^15.11.0",
 		"stylelint-config-wikimedia": "latest",
 		"svgo": "3.0.5",
 		"tsx": "^4.6.2",
 		"types-mediawiki-renovate": "latest",
-		"typescript": "^5.3.3"
+		"typescript": "^5.3.3",
+		"unorm": "^1.6.0",
+		"whatwg-fetch": "^3.6.19"
 	},
 	"pnpm": {
 		"overrides": {
