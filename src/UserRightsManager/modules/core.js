@@ -1,16 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {pagePermissions, permissionNames, tagLine, templates} from './constant';
+import {initMwApi} from '~/util';
 
 const pageName = mw.config.get('wgPageName');
 const permission = pagePermissions[pageName];
-const api = new mw.Api({
-	ajax: {
-		headers: {
-			'Api-User-Agent': `Qiuwen/1.1 (UserRightsManager/1.1; ${mw.config.get('wgWikiID')})`,
-		},
-	},
-});
+const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
 
 let permaLink;
 let userName;
