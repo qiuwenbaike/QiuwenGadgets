@@ -39,7 +39,7 @@ const fixNamespace = (title) => {
 /**
  * Add new custom callback for finding new potential redirect titles.
  *
- * @param {Function} callback(pagename, $content, titles) => title list
+ * @param {Function} callback (pagename, $content, titles) => title list
  */
 window.toolsRedirect = {
 	SUFFIX_APPEND,
