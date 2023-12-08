@@ -7,39 +7,47 @@ import {type BrowserSupport, getSupport} from 'caniuse-api';
 import {declare} from '@babel/helper-plugin-utils';
 import {filterItems} from '@babel/helper-compilation-targets';
 
-type PolyfillFeatures =
-	| 'AbortController'
+type Features =
+	| 'AudioContext'
 	| 'BroadcastChannel'
-	| 'fetch'
-	| 'IntersectionObserver'
-	| 'normalize'
 	| 'Proxy'
-	| 'ResizeObserver'
-	| 'sendBeacon'
-	| 'TextDecoder'
-	| 'TextEncoder';
+	// String.prototype.normalize
+	| 'normalize';
 
-const getTargets = (feature: Exclude<PolyfillFeatures, 'normalize' | 'sendBeacon'>): Record<string, string> => {
+const getTargets = (feature: Exclude<Features, 'normalize'>): Record<string, string> => {
 	const browserSupport: BrowserSupport = getSupport(feature.toLowerCase());
 
 	const result: Record<string, string> = {};
 	for (const [browser, versions] of Object.entries(browserSupport)) {
-		const version: string = versions.y?.toString() ?? '';
-		if (!version) {
+		const target: string = versions.y?.toString() ?? '';
+		if (!target) {
 			continue;
 		}
 
-		result[browser] = versions.y?.toString() ?? '';
+		result[browser] = target;
 	}
 
 	return result;
 };
 
-const compatData: Record<PolyfillFeatures, ReturnType<typeof getTargets>> = {
-	AbortController: getTargets('AbortController'),
+const compatData: Record<Features, ReturnType<typeof getTargets>> = {
+	AudioContext: {
+		and_chr: '119',
+		and_ff: '119',
+		and_uc: '15.5',
+		android: '119',
+		chrome: '42',
+		edge: '14',
+		firefox: '40',
+		ios_saf: '9',
+		op_mob: '73',
+		opera: '29',
+		safari: '9',
+		samsung: '4',
+	},
 	BroadcastChannel: getTargets('BroadcastChannel'),
-	fetch: getTargets('fetch'),
-	IntersectionObserver: getTargets('IntersectionObserver'),
+	Proxy: getTargets('Proxy'),
+	// String.prototype.normalize
 	normalize: {
 		and_chr: '119',
 		and_ff: '119',
@@ -53,103 +61,37 @@ const compatData: Record<PolyfillFeatures, ReturnType<typeof getTargets>> = {
 		safari: '10',
 		samsung: '10',
 	},
-	Proxy: getTargets('Proxy'),
-	ResizeObserver: getTargets('ResizeObserver'),
-	sendBeacon: {
-		and_chr: '119',
-		and_ff: '119',
-		and_qq: '13.1',
-		and_uc: '15.5',
-		android: '119',
-		baidu: '13.18',
-		chrome: '39',
-		edge: '14',
-		firefox: '31',
-		ios_saf: '11.3',
-		kaios: '2.5',
-		op_mob: '73',
-		opera: '26',
-		safari: '4',
-		samsung: '10',
-	},
-	TextDecoder: getTargets('TextEncoder'),
-	TextEncoder: getTargets('TextEncoder'),
 };
 
 const polyfills: Record<
-	PolyfillFeatures,
+	Features,
 	{
-		defauls?: true;
-		entry?: string;
 		package: string;
 		type: 'CallExpression' | 'NewExpression';
 	}
 > = {
-	AbortController: {
-		package: 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only',
+	AudioContext: {
+		package: 'audio-context-polyfill',
 		type: 'NewExpression',
 	},
 	BroadcastChannel: {
 		package: 'broadcastchannel-polyfill',
 		type: 'NewExpression',
 	},
-	fetch: {
-		package: 'whatwg-fetch',
-		type: 'CallExpression',
-	},
-	IntersectionObserver: {
-		package: 'intersection-observer',
-		type: 'NewExpression',
-	},
-	normalize: {
-		package: 'unorm',
-		type: 'CallExpression',
-	},
 	Proxy: {
 		package: 'proxy-polyfill/proxy.min',
 		type: 'NewExpression',
 	},
-	ResizeObserver: {
-		entry: 'ResizeObserver',
-		package: '@juggle/resize-observer',
-		type: 'NewExpression',
-	},
-	sendBeacon: {
-		package: 'navigator.sendbeacon',
+	// String.prototype.normalize
+	normalize: {
+		package: 'unorm',
 		type: 'CallExpression',
-	},
-	TextDecoder: {
-		package: 'fast-text-encoding',
-		type: 'NewExpression',
-	},
-	TextEncoder: {
-		package: 'fast-text-encoding',
-		type: 'NewExpression',
 	},
 } as const;
 
-const addImport = (
-	path,
-	types,
-	{
-		defauls,
-		entry,
-		packageName,
-	}: {
-		defauls?: true;
-		entry?: string;
-		packageName: string;
-	}
-): void => {
+const addImport = (path, types, packageName: string): void => {
 	const stringLiteral = types.stringLiteral(packageName);
-	const importDeclaration = types.importDeclaration(
-		defauls
-			? [types.importDefaultSpecifier(types.identifier(entry))]
-			: entry
-			  ? [types.importSpecifier(types.identifier(entry), types.identifier(entry))]
-			  : [],
-		stringLiteral
-	);
+	const importDeclaration = types.importDeclaration([], stringLiteral);
 
 	path.findParent((parent) => {
 		return parent.isProgram();
@@ -167,23 +109,13 @@ export default declare((api) => {
 					node: {callee, arguments: args},
 				} = path;
 
-				for (const [name, {defauls, entry, package: packageName, type}] of Object.entries(polyfills)) {
+				for (const [name, {package: packageName, type}] of Object.entries(polyfills)) {
 					if (type !== 'CallExpression' || !needPolyfills.has(name)) {
 						continue;
 					}
 
 					switch (name) {
-						// polyfill call expressions in navigator object
-						case 'sendBeacon':
-							if (
-								!types.isMemberExpression(callee) ||
-								!types.isIdentifier(callee.object, {name: 'navigator'}) ||
-								!types.isIdentifier(callee.property, {name})
-							) {
-								continue;
-							}
-							break;
-						// polyfill call expressions in prototypes
+						// polyfill call expressions in `String.prototype`
 						case 'normalize':
 							if (
 								args.length !== 1 ||
@@ -201,27 +133,19 @@ export default declare((api) => {
 							}
 					}
 
-					addImport(path, types, {
-						defauls,
-						entry,
-						packageName,
-					});
+					addImport(path, types, packageName);
 				}
 			},
 
 			NewExpression(path) {
 				const {callee} = path.node;
 
-				for (const [name, {defauls, entry, package: packageName, type}] of Object.entries(polyfills)) {
+				for (const [name, {package: packageName, type}] of Object.entries(polyfills)) {
 					if (type !== 'NewExpression' || !needPolyfills.has(name) || !types.isIdentifier(callee, {name})) {
 						continue;
 					}
 
-					addImport(path, types, {
-						defauls,
-						entry,
-						packageName,
-					});
+					addImport(path, types, packageName);
 				}
 			},
 		},
