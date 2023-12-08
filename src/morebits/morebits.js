@@ -377,12 +377,12 @@
 	 * Renders the HTML output for the quickForm element.  This should be called
 	 * without parameters: `form.render()`.
 	 *
-	 * @param {number} internal_subgroup_id
+	 * @param {number} internalSubgroupId
 	 * @memberof Morebits.quickForm.element
 	 * @returns {HTMLElement}
 	 */
-	Morebits.quickForm.element.prototype.render = function (internal_subgroup_id) {
-		const currentNode = this.compute(this.data, internal_subgroup_id);
+	Morebits.quickForm.element.prototype.render = function (internalSubgroupId) {
+		const currentNode = this.compute(this.data, internalSubgroupId);
 		for (let i = 0; i < this.childs.length; ++i) {
 			// do not pass internal_subgroup_id to recursive calls
 			currentNode[1].appendChild(this.childs[i].render());
@@ -391,14 +391,14 @@
 	};
 	/**
 	 * @param {*} data
-	 * @param {number} in_id
+	 * @param {number} inId
 	 * @memberof Morebits.quickForm.element
 	 */
-	Morebits.quickForm.element.prototype.compute = function (data, in_id) {
+	Morebits.quickForm.element.prototype.compute = function (data, inId) {
 		let node;
 		let childContainer = null;
 		let label;
-		const id = `${in_id ? `${in_id}_` : ''}node_${Morebits.quickForm.element.id++}`;
+		const id = `${inId ? `${inId}_` : ''}node_${Morebits.quickForm.element.id++}`;
 		if (data.adminonly && !Morebits.userIsSysop) {
 			// hell hack alpha
 			data.type = 'hidden';
@@ -503,28 +503,28 @@
 				node = document.createElement('div');
 				if (data.list) {
 					for (i = 0; i < data.list.length; ++i) {
-						const cur_id = `${id}_${i}`;
+						const curId = `${id}_${i}`;
 						current = data.list[i];
-						let cur_div;
+						let curDiv;
 						if (current.type === 'header') {
 							// inline hack
-							cur_div = node.appendChild(document.createElement('h6'));
-							cur_div.appendChild(document.createTextNode(current.label));
+							curDiv = node.appendChild(document.createElement('h6'));
+							curDiv.appendChild(document.createTextNode(current.label));
 							if (current.tooltip) {
-								Morebits.quickForm.element.generateTooltip(cur_div, current);
+								Morebits.quickForm.element.generateTooltip(curDiv, current);
 							}
 							continue;
 						}
-						cur_div = node.appendChild(document.createElement('div'));
+						curDiv = node.appendChild(document.createElement('div'));
 						// Add hidden attr
 						if (current.hidden) {
-							cur_div.setAttribute('hidden', '');
+							curDiv.setAttribute('hidden', '');
 						}
-						subnode = cur_div.appendChild(document.createElement('input'));
+						subnode = curDiv.appendChild(document.createElement('input'));
 						subnode.values = current.value;
 						subnode.setAttribute('value', current.value);
 						subnode.setAttribute('type', data.type);
-						subnode.setAttribute('id', cur_id);
+						subnode.setAttribute('id', curId);
 						subnode.setAttribute('name', current.name || data.name);
 						// If name is provided on the individual checkbox, add a data-single
 						// attribute which indicates it isn't part of a list of checkboxes with
@@ -538,9 +538,9 @@
 						if (current.disabled) {
 							subnode.setAttribute('disabled', 'disabled');
 						}
-						label = cur_div.appendChild(document.createElement('label'));
+						label = curDiv.appendChild(document.createElement('label'));
 						label.appendChild(Morebits.createHtml(current.label));
-						label.setAttribute('for', cur_id);
+						label.setAttribute('for', curId);
 						if (current.tooltip) {
 							Morebits.quickForm.element.generateTooltip(label, current);
 						}
@@ -566,7 +566,7 @@
 								newEl.name = `${current.name || data.name}.${newEl.name}`;
 								subgroupRaw.append(newEl);
 							}
-							const subgroup = subgroupRaw.render(cur_id);
+							const subgroup = subgroupRaw.render(curId);
 							subgroup.className = 'quickformSubgroup';
 							subnode.subgroup = subgroup;
 							subnode.shown = false;
@@ -678,8 +678,8 @@
 					label: '更多',
 					disabled: min >= max,
 					event: (e) => {
-						const new_node = new Morebits.quickForm.element(e.target.sublist);
-						e.target.area.appendChild(new_node.render());
+						const newNode = new Morebits.quickForm.element(e.target.sublist);
+						e.target.area.appendChild(newNode.render());
 						if (++e.target.counter >= e.target.max) {
 							e.target.setAttribute('disabled', 'disabled');
 						}
@@ -1128,16 +1128,16 @@
 		if (!elements) {
 			return [];
 		}
-		const return_array = [];
+		const returnArray = [];
 		let i;
 		if (elements instanceof HTMLSelectElement) {
 			const {options} = elements;
 			for (i = 0; i < options.length; ++i) {
 				if (options[i].selected) {
 					if (options[i].values) {
-						return_array.push(options[i].values);
+						returnArray.push(options[i].values);
 					} else {
-						return_array.push(options[i].value);
+						returnArray.push(options[i].value);
 					}
 				}
 			}
@@ -1154,14 +1154,14 @@
 						continue;
 					}
 					if (elements[i].values) {
-						return_array.push(elements[i].values);
+						returnArray.push(elements[i].values);
 					} else {
-						return_array.push(elements[i].value);
+						returnArray.push(elements[i].value);
 					}
 				}
 			}
 		}
-		return return_array;
+		return returnArray;
 	};
 	/**
 	 * Does the same as {@link HTMLFormElement.getChecked|getChecked}, but with unchecked elements.
@@ -1180,16 +1180,16 @@
 		if (!elements) {
 			return [];
 		}
-		const return_array = [];
+		const returnArray = [];
 		let i;
 		if (elements instanceof HTMLSelectElement) {
 			const {options} = elements;
 			for (i = 0; i < options.length; ++i) {
 				if (!options[i].selected) {
 					if (options[i].values) {
-						return_array.push(options[i].values);
+						returnArray.push(options[i].values);
 					} else {
-						return_array.push(options[i].value);
+						returnArray.push(options[i].value);
 					}
 				}
 			}
@@ -1206,14 +1206,14 @@
 						continue;
 					}
 					if (elements[i].values) {
-						return_array.push(elements[i].values);
+						returnArray.push(elements[i].values);
 					} else {
-						return_array.push(elements[i].value);
+						returnArray.push(elements[i].value);
 					}
 				}
 			}
 		}
-		return return_array;
+		return returnArray;
 	};
 	/**
 	 * Utilities to help process IP addresses.
@@ -1330,8 +1330,8 @@
 				return false;
 			}
 			ipv6 = Morebits.ip.sanitizeIPv6(ipv6);
-			const ip_re = /^((?:[0-9A-F]{1,4}:){4})(?:[0-9A-F]{1,4}:){3}[0-9A-F]{1,4}(?:\/\d{1,3})?$/;
-			return ipv6.replace(ip_re, '$1'.concat('0:0:0:0/64'));
+			const ipRegex = /^((?:[0-9A-F]{1,4}:){4})(?:[0-9A-F]{1,4}:){3}[0-9A-F]{1,4}(?:\/\d{1,3})?$/;
+			return ipv6.replace(ipRegex, '$1'.concat('0:0:0:0/64'));
 		},
 	};
 	/**
@@ -4690,25 +4690,25 @@
 		/**
 		 * Removes links to `link_target` from the page text.
 		 *
-		 * @param {string} link_target
+		 * @param {string} linkTarget
 		 * @returns {Morebits.wikitext.page}
 		 */
-		removeLink(link_target) {
-			const mwTitle = mw.Title.newFromText(link_target);
+		removeLink(linkTarget) {
+			const mwTitle = mw.Title.newFromText(linkTarget);
 			const namespaceID = mwTitle.getNamespaceId();
 			const title = mwTitle.getMainText();
-			let link_regex_string = '';
+			let linkRegexString = '';
 			if (namespaceID !== 0) {
-				link_regex_string = `${Morebits.namespaceRegex(namespaceID)}:`;
+				linkRegexString = `${Morebits.namespaceRegex(namespaceID)}:`;
 			}
-			link_regex_string += Morebits.pageNameRegex(title);
+			linkRegexString += Morebits.pageNameRegex(title);
 			// For most namespaces, unlink both [[User:Test]] and [[:User:Test]]
 			// For files and categories, only unlink [[:Category:Test]]. Do not unlink [[Category:Test]]
 			const isFileOrCategory = [6, 14].includes(namespaceID);
 			const colon = isFileOrCategory ? ':' : ':?';
-			const simple_link_regex = new RegExp(`\\[\\[${colon}(${link_regex_string})\\]\\]`, 'g');
-			const piped_link_regex = new RegExp(`\\[\\[${colon}${link_regex_string}\\|(.+?)\\]\\]`, 'g');
-			this.text = this.text.replace(simple_link_regex, '$1').replace(piped_link_regex, '$1');
+			const simpleLinkRegex = new RegExp(`\\[\\[${colon}(${linkRegexString})\\]\\]`, 'g');
+			const pipedLinkRegex = new RegExp(`\\[\\[${colon}${linkRegexString}\\|(.+?)\\]\\]`, 'g');
+			this.text = this.text.replace(simpleLinkRegex, '$1').replace(pipedLinkRegex, '$1');
 			return this;
 		},
 		/**
@@ -4723,15 +4723,15 @@
 			const unbinder = new Morebits.unbinder(this.text);
 			unbinder.unbind('<!--', '-->');
 			reason = reason ? `${reason}: ` : '';
-			const image_re_string = Morebits.pageNameRegex(image);
+			const imageRegexString = Morebits.pageNameRegex(image);
 			// Check for normal image links, i.e. [[File:Foobar.png|...]]
 			// Will eat the whole link
-			const links_re = new RegExp(
-				`\\[\\[${Morebits.namespaceRegex(6)}:\\s*${image_re_string}\\s*[\\|(?:\\]\\])]`
+			const linksRegex = new RegExp(
+				`\\[\\[${Morebits.namespaceRegex(6)}:\\s*${imageRegexString}\\s*[\\|(?:\\]\\])]`
 			);
 			const allLinks = Morebits.string.splitWeightedByKeys(unbinder.content, '[[', ']]');
 			for (const allLink of allLinks) {
-				if (links_re.test(allLink)) {
+				if (linksRegex.test(allLink)) {
 					const replacement = `<!-- ${reason}${allLink} -->`;
 					unbinder.content = unbinder.content.replace(allLink, replacement);
 					// unbind the newly created comments
@@ -4741,20 +4741,20 @@
 			// Check for gallery images, i.e. instances that must start on a new line,
 			// eventually preceded with some space, and must include File: prefix
 			// Will eat the whole line.
-			const gallery_image_re = new RegExp(
-				`(^\\s*${Morebits.namespaceRegex(6)}:\\s*${image_re_string}\\s*(?:\\|.*?$|$))`,
+			const galleryImageRegex = new RegExp(
+				`(^\\s*${Morebits.namespaceRegex(6)}:\\s*${imageRegexString}\\s*(?:\\|.*?$|$))`,
 				'mg'
 			);
-			unbinder.content = unbinder.content.replace(gallery_image_re, `<!-- ${reason}$1 -->`);
+			unbinder.content = unbinder.content.replace(galleryImageRegex, `<!-- ${reason}$1 -->`);
 			// unbind the newly created comments
 			unbinder.unbind('<!--', '-->');
 			// Check free image usages, for example as template arguments, might have the File: prefix excluded, but must be preceded by an |
 			// Will only eat the image name and the preceding bar and an eventual named parameter
-			const free_image_re = new RegExp(
-				`(\\|\\s*(?:[\\w\\s]+\\=)?\\s*(?:${Morebits.namespaceRegex(6)}:\\s*)?${image_re_string})`,
+			const freeImageRegex = new RegExp(
+				`(\\|\\s*(?:[\\w\\s]+\\=)?\\s*(?:${Morebits.namespaceRegex(6)}:\\s*)?${imageRegexString})`,
 				'mg'
 			);
-			unbinder.content = unbinder.content.replace(free_image_re, `<!-- ${reason}$1 -->`);
+			unbinder.content = unbinder.content.replace(freeImageRegex, `<!-- ${reason}$1 -->`);
 			// Rebind the content now, we are done!
 			this.text = unbinder.rebind();
 			return this;
@@ -4767,21 +4767,21 @@
 		 * @returns {Morebits.wikitext.page}
 		 */
 		addToImageComment(image, data) {
-			const image_re_string = Morebits.pageNameRegex(image);
-			const links_re = new RegExp(
-				`\\[\\[${Morebits.namespaceRegex(6)}:\\s*${image_re_string}\\s*[\\|(?:\\]\\])]`
+			const imageRegexString = Morebits.pageNameRegex(image);
+			const linksRegex = new RegExp(
+				`\\[\\[${Morebits.namespaceRegex(6)}:\\s*${imageRegexString}\\s*[\\|(?:\\]\\])]`
 			);
 			const allLinks = Morebits.string.splitWeightedByKeys(this.text, '[[', ']]');
 			for (let replacement of allLinks) {
-				if (links_re.test(replacement)) {
+				if (linksRegex.test(replacement)) {
 					// just put it at the end?
 					replacement = replacement.replace(/\]\]$/, `|${data}]]`);
 					this.text = this.text.replace(replacement, replacement);
 				}
 			}
-			const gallery_re = new RegExp(`^(\\s*${image_re_string}.*?)\\|?(.*?)$`, 'mg');
+			const galleryRegex = new RegExp(`^(\\s*${imageRegexString}.*?)\\|?(.*?)$`, 'mg');
 			const newtext = `$1|$2 ${data}`;
-			this.text = this.text.replace(gallery_re, newtext);
+			this.text = this.text.replace(galleryRegex, newtext);
 			return this;
 		},
 		/**
@@ -4792,13 +4792,13 @@
 		 * @returns {Morebits.wikitext.page}
 		 */
 		removeTemplate(template) {
-			const template_re_string = Morebits.pageNameRegex(template);
-			const links_re = new RegExp(
-				`\\{\\{(?:${Morebits.namespaceRegex(10)}:)?\\s*${template_re_string}\\s*[\\|(?:\\}\\})]`
+			const templateRegexString = Morebits.pageNameRegex(template);
+			const linksRegex = new RegExp(
+				`\\{\\{(?:${Morebits.namespaceRegex(10)}:)?\\s*${templateRegexString}\\s*[\\|(?:\\}\\})]`
 			);
 			const allTemplates = Morebits.string.splitWeightedByKeys(this.text, '{{', '}}', ['{{{', '}}}']);
 			for (const allTemplate of allTemplates) {
-				if (links_re.test(allTemplate)) {
+				if (linksRegex.test(allTemplate)) {
 					this.text = this.text.replace(allTemplate, '');
 				}
 			}
