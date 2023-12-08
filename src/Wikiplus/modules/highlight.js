@@ -11,31 +11,7 @@
 	const newAddon = 0;
 
 	/** @type {typeof mw.storage} */
-	const storage =
-		typeof mw.storage === 'object' && typeof mw.storage.getObject === 'function'
-			? mw.storage
-			: {
-					/** @override */
-					getObject(key) {
-						const json = localStorage.getItem(key);
-						if (json === false) {
-							return false;
-						}
-						try {
-							return JSON.parse(json);
-						} catch (e) {
-							return null;
-						}
-					},
-					/** @override */
-					setObject(key, value) {
-						try {
-							return localStorage.setItem(key, JSON.stringify(value));
-						} catch (e) {
-							return false;
-						}
-					},
-			  };
+	const storage = mw.storage;
 
 	/**
 	 * 解析版本号
@@ -342,7 +318,6 @@
 			'zh-tw': 'zh-hant',
 			'zh-hk': 'zh-hant',
 			'zh-mo': 'zh-hant',
-			ka: 'ka',
 		};
 
 	const i18nLang = i18nLanguages[userLang] || 'en';
