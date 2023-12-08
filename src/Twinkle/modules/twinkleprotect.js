@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {initMwApi} from '~/util';
+
 /*! Twinkle.js - twinkleprotect.js */
 (function twinkleprotect($) {
 	const $body = $('body');
@@ -110,13 +112,7 @@
 	Twinkle.protect.currentProtectionLevels = {};
 	Twinkle.protect.previousProtectionLevels = {};
 	Twinkle.protect.fetchProtectionLevel = async () => {
-		const api = new mw.Api({
-			ajax: {
-				headers: {
-					'Api-User-Agent': `Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`,
-				},
-			},
-		});
+		const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
 		try {
 			const params = {
 				format: 'json',

@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {initMwApi} from '~/util';
+
 export const popups = () => {
 	// STARTFILE: main.js
 	// Fix later
@@ -6020,13 +6022,7 @@ export const popups = () => {
 	const getMwApi = () => {
 		if (!pg.api.client) {
 			pg.api.userAgent = `Navigation popups/1.0 (${mw.config.get('wgWikiID')})`;
-			pg.api.client = new mw.Api({
-				ajax: {
-					headers: {
-						'Api-User-Agent': pg.api.userAgent,
-					},
-				},
-			});
+			pg.api.client = initMwApi(pg.api.userAgent);
 		}
 		return pg.api.client;
 	};

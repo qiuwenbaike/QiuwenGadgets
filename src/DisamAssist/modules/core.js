@@ -1,15 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {cfg} from './config';
+import {initMwApi} from '~/util';
 import {txt} from './messages';
 
-const api = new mw.Api({
-	ajax: {
-		headers: {
-			'Api-User-Agent': `Qiuwen/1.1 (DisamAssist/1.1; ${mw.config.get('wgWikiID')})`,
-		},
-	},
-});
+const api = initMwApi(`Qiuwen/1.1 (DisamAssist/1.1; ${mw.config.get('wgWikiID')})`);
 
 let startLink;
 let ui;
