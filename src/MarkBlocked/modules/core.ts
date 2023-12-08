@@ -160,6 +160,10 @@ export const markBlockedUser = ($container: JQuery): void => {
 			if (links) {
 				for (const link of links) {
 					$link = $(link as HTMLAnchorElement);
+					// The following classes are used here:
+					// * user-blocked-partial
+					// * user-blocked-indef
+					// * user-blocked-temp
 					$link = $link.addClass(cssClass);
 					$link.attr('title', $link.attr('title') + tip);
 				}
