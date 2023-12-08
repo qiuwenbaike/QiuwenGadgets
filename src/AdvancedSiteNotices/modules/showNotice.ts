@@ -16,7 +16,6 @@ const $currentNotice: JQuery = $area.find(`.${CLASS_NAME_NOTICE_CONTENT}`);
 const $dismiss: JQuery<HTMLAnchorElement> = $area.find(`.${CLASS_NAME_DISMISS}`).find('a');
 
 const closeNotices = (): void => {
-	// eslint-disable-next-line unicorn/require-post-message-target-origin
 	broadcastChannel.postMessage('close');
 	broadcastChannel.close();
 	clearTimeout(timer);

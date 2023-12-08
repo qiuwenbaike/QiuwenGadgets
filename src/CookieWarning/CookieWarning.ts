@@ -12,7 +12,6 @@ $(function cookieWarning(): void {
 	const broadcastChannel: BroadcastChannel = new BroadcastChannel(STORAGE_KEY);
 
 	const closeWarning = (): void => {
-		// eslint-disable-next-line unicorn/require-post-message-target-origin
 		broadcastChannel.postMessage('close');
 		broadcastChannel.close();
 		$consentNotice.remove();
