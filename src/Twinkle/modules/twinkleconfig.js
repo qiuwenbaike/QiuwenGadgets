@@ -1156,6 +1156,7 @@
 			toctable.appendChild(tocul);
 			contentdiv.appendChild(toctable);
 			const contentform = document.createElement('form');
+			// eslint-disable-next-line no-script-url
 			contentform.setAttribute('action', 'javascript:void(0)'); // was #tw-save - changed to void(0) to work around Chrome issue
 			contentform.addEventListener('submit', Twinkle.config.save, true);
 			contentdiv.appendChild(contentform);

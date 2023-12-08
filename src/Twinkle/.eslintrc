@@ -13,7 +13,6 @@
 		"jsdoc/require-param-type": "off",
 		"mediawiki/class-doc": "off",
 		"new-cap": "off",
-		"no-script-url": "off",
 		"no-shadow": "off",
 		"unicorn/no-array-reduce": "off",
 		"unicorn/prefer-dom-node-append": "off",

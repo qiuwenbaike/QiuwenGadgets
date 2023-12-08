@@ -14,7 +14,6 @@
 		"new-cap": "off",
 		"no-new": "off",
 		"no-shadow": "off",
-		"no-script-url": "off",
 		"unicorn/prefer-dom-node-append": "off",
 		"unicorn/prefer-dom-node-dataset": "off",
 		"unicorn/prefer-dom-node-remove": "off"
