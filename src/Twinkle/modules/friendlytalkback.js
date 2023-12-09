@@ -176,11 +176,11 @@
 					name: 'noticeboard',
 					label: '通告板：',
 				});
-				for (const [value, data] of Object.entries(Twinkle.talkback.noticeboards)) {
+				for (const [nbname, data] of Object.entries(Twinkle.talkback.noticeboards)) {
 					noticeboard.append({
 						type: 'option',
 						label: data.label,
-						value,
+						value: nbname,
 						selected: !!data.defaultSelected,
 					});
 				}

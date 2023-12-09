@@ -138,17 +138,17 @@
 		$body.find('code.tw-arv-sockmaster').text('{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`));
 	};
 	Twinkle.arv.callback.changeCategory = (e) => {
-		const {value} = e.target;
-		const root = e.target.form;
-		const [old_area] = Morebits.quickForm.getElements(root, 'work_area');
+		const value_ = e.target.value;
+		const root_ = e.target.form;
+		const [old_area] = Morebits.quickForm.getElements(root_, 'work_area');
 		let work_area = null;
 		const previewlink = document.createElement('a');
 		previewlink.style.cursor = 'pointer';
 		previewlink.textContent = wgULS('预览', '預覽');
 		$(previewlink).on('click', () => {
-			Twinkle.arv.callback.preview(root);
+			Twinkle.arv.callback.preview(root_);
 		});
-		switch (value) {
+		switch (value_) {
 			case 'ewip':
 				work_area = new Morebits.quickForm.element({
 					type: 'field',
@@ -288,7 +288,7 @@
 					type: 'input',
 					name: 'sockmaster',
 					tooltip: wgULS('主账户的用户名（不含User:前缀）', '主帳號的使用者名稱（不含User:字首）'),
-					value: root.uid.value,
+					value: root_.uid.value,
 					event: Twinkle.arv.callback.sockmaster_changed,
 				});
 				work_area.append({
@@ -349,12 +349,12 @@
 					],
 				});
 				work_area = work_area.render();
-				$('input:text[name=sockpuppet]', work_area).first().val(root.uid.value);
+				$('input:text[name=sockpuppet]', work_area).first().val(root_.uid.value);
 				old_area.parentNode.replaceChild(work_area, old_area);
-				root.spinoticepreviewer = new Morebits.wiki.preview(
+				root_.spinoticepreviewer = new Morebits.wiki.preview(
 					$(work_area).find('#twinklearv-spinoticebox').last()[0]
 				);
-				Twinkle.arv.callback.set_sockmaster(root.uid.value);
+				Twinkle.arv.callback.set_sockmaster(root_.uid.value);
 				break;
 
 			/* case 'aiv': */
@@ -378,9 +378,9 @@
 					label: wgULS('相关页面：', '相關頁面：'),
 					tooltip: wgULS('如不希望让报告链接到页面，请留空', '如不希望讓報告連結到頁面，請留空'),
 					value: mw.util.getParamValue('vanarticle') || '',
-					event: (e) => {
-						const {value} = e.target;
-						const root = e.target.form;
+					event: (event) => {
+						const {value} = event.target;
+						const root = event.target.form;
 						if (value === '') {
 							root.badid.disabled = true;
 							root.goodid.disabled = true;
@@ -397,9 +397,9 @@
 					tooltip: wgULS('留空以略过差异', '留空以略過差異'),
 					value: mw.util.getParamValue('vanarticlerevid') || '',
 					disabled: !mw.util.getParamValue('vanarticle'),
-					event: (e) => {
-						const {value} = e.target;
-						const root = e.target.form;
+					event: (event) => {
+						const {value} = event.target;
+						const root = event.target.form;
 						root.goodid.disabled = value === '';
 					},
 				});
@@ -426,7 +426,7 @@
 						{
 							label: wgULS('显而易见的纯破坏用户', '顯而易見的純破壞使用者'),
 							value: 'vandalonly',
-							disabled: mw.util.isIPAddress(root.uid.value),
+							disabled: mw.util.isIPAddress(root_.uid.value),
 						},
 						{
 							label: wgULS('显而易见的spambot或失窃账户', '顯而易見的spambot或失竊帳號'),
@@ -435,7 +435,7 @@
 						{
 							label: wgULS('仅用来散发广告宣传的用户', '僅用來散發廣告宣傳的使用者'),
 							value: 'promoonly',
-							disabled: mw.util.isIPAddress(root.uid.value),
+							disabled: mw.util.isIPAddress(root_.uid.value),
 						},
 					],
 				});
@@ -474,7 +474,7 @@
 				old_area.parentNode.replaceChild(work_area, old_area);
 				break;
 		}
-		root.previewer = new Morebits.wiki.preview($(work_area).find('#twinklearv-previewbox').last()[0]);
+		root_.previewer = new Morebits.wiki.preview($(work_area).find('#twinklearv-previewbox').last()[0]);
 	};
 	Twinkle.arv.callback.preview = (form) => {
 		const reason = Twinkle.arv.callback.getReportWikitext(form);
@@ -515,9 +515,9 @@
 				});
 				return false;
 			}
-			let page;
+			let page_;
 			try {
-				page = new mw.Title(title);
+				page_ = new mw.Title(title);
 			} catch {
 				mw.notify(
 					`${
@@ -536,7 +536,7 @@
 				);
 				return false;
 			}
-			if (page.namespace === -1) {
+			if (page_.namespace === -1) {
 				mw.notify(
 					`${
 						wgULS('“', '「') +
@@ -554,7 +554,7 @@
 				);
 				return false;
 			}
-			return page;
+			return page_;
 		};
 		let page;
 		switch (input.category) {

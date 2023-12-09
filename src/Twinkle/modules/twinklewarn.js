@@ -239,9 +239,9 @@
 				).post();
 			}
 			// Confirm edit wasn't too old for a warning
-			const checkStale = (vantimestamp) => {
-				const revDate = new Morebits.date(vantimestamp);
-				if (vantimestamp && revDate.isValid() && revDate.add(24, 'hours').isBefore(new Date())) {
+			const checkStale = (vantimestamp_) => {
+				const revDate = new Morebits.date(vantimestamp_);
+				if (vantimestamp_ && revDate.isValid() && revDate.add(24, 'hours').isBefore(new Date())) {
 					message += wgULS(
 						'这笔编辑是在24小时前做出的，现在警告可能已过时。',
 						'這筆編輯是在24小時前做出的，現在警告可能已過時。'

@@ -272,12 +272,12 @@ import {initMwApi} from '~/util';
 						type: 'select',
 						name: 'editexpiry',
 						label: wgULS('终止时间：', '終止時間：'),
-						event: (e) => {
-							if (e.target.value === 'custom') {
-								Twinkle.protect.doCustomExpiry(e.target);
+						event: (event) => {
+							if (event.target.value === 'custom') {
+								Twinkle.protect.doCustomExpiry(event.target);
 							}
-							$('input[name=small]', $(e.target).closest('form'))[0].checked =
-								e.target.selectedIndex >= 4; // 1 month
+							$('input[name=small]', $(event.target).closest('form'))[0].checked =
+								event.target.selectedIndex >= 4; // 1 month
 						},
 
 						// default expiry selection (2 days) is conditionally set in Twinkle.protect.callback.changePreset
@@ -316,9 +316,9 @@ import {initMwApi} from '~/util';
 						type: 'select',
 						name: 'moveexpiry',
 						label: wgULS('终止时间：', '終止時間：'),
-						event: (e) => {
-							if (e.target.value === 'custom') {
-								Twinkle.protect.doCustomExpiry(e.target);
+						event: (event) => {
+							if (event.target.value === 'custom') {
+								Twinkle.protect.doCustomExpiry(event.target);
 							}
 						},
 						// default expiry selection (2 days) is conditionally set in Twinkle.protect.callback.changePreset
@@ -342,9 +342,9 @@ import {initMwApi} from '~/util';
 						type: 'select',
 						name: 'createexpiry',
 						label: wgULS('终止时间：', '終止時間：'),
-						event: (e) => {
-							if (e.target.value === 'custom') {
-								Twinkle.protect.doCustomExpiry(e.target);
+						event: (event) => {
+							if (event.target.value === 'custom') {
+								Twinkle.protect.doCustomExpiry(event.target);
 							}
 						},
 						// default expiry selection (indefinite) is conditionally set in Twinkle.protect.callback.changePreset

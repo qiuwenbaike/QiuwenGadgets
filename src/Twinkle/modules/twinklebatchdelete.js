@@ -218,12 +218,12 @@
 						style: isProtected ? 'color:red' : '',
 					};
 				});
-				const {form} = apiobj.params;
-				form.append({
+				const form_ = apiobj.params.form;
+				form_.append({
 					type: 'header',
 					label: wgULS('待删除页面', '待刪除頁面'),
 				});
-				form.append({
+				form_.append({
 					type: 'button',
 					label: wgULS('全选', '全選'),
 					event: () => {
@@ -236,7 +236,7 @@
 						$body.find('input[name="pages.subpages"]').prop('checked', true);
 					},
 				});
-				form.append({
+				form_.append({
 					type: 'button',
 					label: wgULS('全不选', '全不選'),
 					event: () => {
@@ -248,7 +248,7 @@
 					},
 				});
 
-				form.append({
+				form_.append({
 					type: 'checkbox',
 					name: 'pages',
 					id: 'tw-dbatch-pages',
@@ -257,10 +257,10 @@
 						return e;
 					}),
 				});
-				form.append({
+				form_.append({
 					type: 'submit',
 				});
-				const result = form.render();
+				const result = form_.render();
 				apiobj.params.Window.setContent(result);
 				for (const checkbox of Morebits.quickForm.getElements(result, 'pages')) {
 					generateArrowLinks(checkbox);
@@ -486,8 +486,8 @@
 								});
 							});
 							if (subpageList.length) {
-								const pageName = apiobj.query.pageNameFull;
-								Twinkle.batchdelete.pages[pageName].subgroup = {
+								const pageName_ = apiobj.query.pageNameFull;
+								Twinkle.batchdelete.pages[pageName_].subgroup = {
 									type: 'checkbox',
 									name: 'subpages',
 									className: 'dbatch-subpages',

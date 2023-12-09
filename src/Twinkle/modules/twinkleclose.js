@@ -253,8 +253,8 @@
 						name: 'talkpage',
 						tooltip: '删除时附带删除此页面的讨论页。',
 						checked: true,
-						event: (event) => {
-							event.stopPropagation();
+						event: (e) => {
+							e.stopPropagation();
 						},
 					},
 				],
@@ -269,8 +269,8 @@
 					name: 'redirects',
 					tooltip: '删除到此页的重定向。',
 					checked: true,
-					event: (event) => {
-						event.stopPropagation();
+					event: (e) => {
+						e.stopPropagation();
 					},
 				},
 			],
