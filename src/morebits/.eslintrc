@@ -13,7 +13,6 @@
 		"mediawiki/class-doc": "off",
 		"new-cap": "off",
 		"no-new": "off",
-		"no-shadow": "off",
 		"unicorn/prefer-dom-node-append": "off",
 		"unicorn/prefer-dom-node-dataset": "off",
 		"unicorn/prefer-dom-node-remove": "off"

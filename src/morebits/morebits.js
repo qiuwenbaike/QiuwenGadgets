@@ -191,14 +191,14 @@
 		const ub = new Morebits.unbinder(text);
 		// Don't convert wikilinks within code tags as they're used for displaying wiki-code
 		ub.unbind('<code>', '</code>');
-		ub.content = ub.content.replace(/\[\[:?(?:([^|\]]+?)\|)?([^\]|]+?)\]\]/g, (_, target, text) => {
+		ub.content = ub.content.replace(/\[\[:?(?:([^|\]]+?)\|)?([^\]|]+?)\]\]/g, (_, target, text_) => {
 			if (!target) {
-				target = text;
+				target = text_;
 			}
 			return `<a rel="noopener" target="_blank" href="${mw.util.getUrl(target)}" title="${target.replace(
 				/"/g,
 				'&#34;'
-			)}">${text}</a>`;
+			)}">${text_}</a>`;
 		});
 		return ub.rebind();
 	};
@@ -743,9 +743,9 @@
 						label: '移除',
 						event: (e) => {
 							const list = e.target.listnode;
-							const node = e.target.inputnode;
+							const node_ = e.target.inputnode;
 							const more = e.target.morebutton;
-							list.removeChild(node);
+							list.removeChild(node_);
 							--more.counter;
 							more.removeAttribute('disabled');
 							e.stopPropagation();

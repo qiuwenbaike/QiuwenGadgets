@@ -1350,18 +1350,18 @@
 							// add button to second column
 							cell = document.createElement('td');
 							cell.style.paddingRight = '1em';
-							const button = document.createElement('button');
-							button.setAttribute('id', pref.name);
-							button.setAttribute('name', pref.name);
-							button.setAttribute('type', 'button');
-							button.addEventListener('click', Twinkle.config.listDialog.display, false);
+							const customListButton = document.createElement('button');
+							customListButton.setAttribute('id', pref.name);
+							customListButton.setAttribute('name', pref.name);
+							customListButton.setAttribute('type', 'button');
+							customListButton.addEventListener('click', Twinkle.config.listDialog.display, false);
 							// use jQuery data on the button to store the current config value
-							$(button).data({
+							$(customListButton).data({
 								value: gotPref,
 								pref,
 							});
-							button.appendChild(document.createTextNode(wgULS('编辑项目', '編輯項目')));
-							cell.appendChild(button);
+							customListButton.appendChild(document.createTextNode(wgULS('编辑项目', '編輯項目')));
+							cell.appendChild(customListButton);
 							break;
 						}
 						default:
@@ -1409,11 +1409,11 @@
 			footerbox.setAttribute('id', 'twinkle-config-buttonpane');
 			footerbox.style.backgroundColor = '#BCCADF';
 			footerbox.style.padding = '0.5em';
-			const button = document.createElement('button');
-			button.setAttribute('id', 'twinkle-config-submit');
-			button.setAttribute('type', 'submit');
-			button.appendChild(document.createTextNode(wgULS('保存修改', '儲存修改')));
-			footerbox.appendChild(button);
+			const submitButton = document.createElement('button');
+			submitButton.setAttribute('id', 'twinkle-config-submit');
+			submitButton.setAttribute('type', 'submit');
+			submitButton.appendChild(document.createTextNode(wgULS('保存修改', '儲存修改')));
+			footerbox.appendChild(submitButton);
 			const footerspan = document.createElement('span');
 			footerspan.className = 'plainlinks';
 			footerspan.style.marginLeft = '2.4em';

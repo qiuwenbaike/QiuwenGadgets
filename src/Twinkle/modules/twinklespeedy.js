@@ -964,9 +964,9 @@
 						code += `|${norm.toUpperCase()}`;
 					}
 					parameters = params.templateParams[index] || [];
-					for (const i in parameters) {
-						if (typeof parameters[i] === 'string') {
-							code += `|${parameters[i]}`;
+					for (const i_ in parameters) {
+						if (typeof parameters[i_] === 'string') {
+							code += `|${parameters[i_]}`;
 						}
 					}
 					params.utparams = {...params.utparams, ...Twinkle.speedy.getUserTalkParameters(norm, parameters)};
@@ -1027,17 +1027,17 @@
 					Twinkle.speedy.callbacks.sysop.deletePage(reason, params);
 				} else {
 					const [code] = Twinkle.speedy.callbacks.getTemplateCodeAndParams(params);
-					Twinkle.speedy.callbacks.parseWikitext(mw.config.get('wgPageName'), code, (reason) => {
+					Twinkle.speedy.callbacks.parseWikitext(mw.config.get('wgPageName'), code, (deleteReason) => {
 						if (params.promptForSummary) {
-							reason = prompt(
+							deleteReason = prompt(
 								wgULS(
 									'输入删除理由，或单击确定以接受自动生成的：',
 									'輸入刪除理由，或點擊確定以接受自動生成的：'
 								),
-								reason
+								deleteReason
 							);
 						}
-						Twinkle.speedy.callbacks.sysop.deletePage(reason, params);
+						Twinkle.speedy.callbacks.sysop.deletePage(deleteReason, params);
 					});
 				}
 			},
@@ -1408,8 +1408,8 @@
 				const params = pageobj.getCallbackParameters();
 				// Notification to first contributor
 				if (params.usertalk) {
-					const callback = (pageobj) => {
-						let initialContrib = pageobj.getCreator();
+					const callback = (pageObj) => {
+						let initialContrib = pageObj.getCreator();
 						// disallow warning yourself
 						if (initialContrib === mw.config.get('wgUserName')) {
 							Morebits.status.warn(

@@ -325,10 +325,10 @@
 							if (e.classList[0] === 'box-问题条目') {
 								$(e)
 									.find('.ambox')
-									.each((_idx, e) => {
-										if (e.classList[0].indexOf('box-') === 0) {
-											const tag = e.classList[0].slice('box-'.length).replace(/_/g, ' ');
-											Twinkle.tag.alreadyPresentTags.push(tag);
+									.each((_index, element) => {
+										if (element.classList[0].indexOf('box-') === 0) {
+											const boxTag = element.classList[0].slice('box-'.length).replace(/_/g, ' ');
+											Twinkle.tag.alreadyPresentTags.push(boxTag);
 										}
 									});
 								return true; // continue
@@ -1630,8 +1630,8 @@
 								let removed = false;
 								$(page)
 									.find('lh')
-									.each((_idx, el) => {
-										const tag = $(el).attr('title').slice(9);
+									.each((_index, element) => {
+										const tag = $(element).attr('title').slice(9);
 										const tag_re = new RegExp(
 											`\\{\\{${Morebits.pageNameRegex(
 												tag
@@ -1903,8 +1903,8 @@
 								let found = false;
 								$(page)
 									.find('lh')
-									.each((_idx, el) => {
-										const tag = $(el).attr('title').slice(9);
+									.each((_index, element) => {
+										const tag = $(element).attr('title').slice(9);
 										const tag_re = new RegExp(
 											`(\\{\\{${Morebits.pageNameRegex(tag)}\\s*(\\|[^}]*)?\\}\\}\\n?)`
 										);
