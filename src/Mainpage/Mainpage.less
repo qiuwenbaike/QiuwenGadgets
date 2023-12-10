@@ -209,7 +209,7 @@
 		flex-flow: row wrap;
 		justify-content: space-between;
 		padding: 0;
-		margin-bottom: 1em;
+		margin-bottom: 0.5em;
 	}
 
 	&-header-box,
@@ -242,7 +242,7 @@
 		.mainpage-header-bio {
 			display: flex;
 			flex-flow: column wrap;
-			gap: 1em;
+			gap: 0.5em;
 
 			* {
 				margin: auto;
@@ -252,7 +252,6 @@
 
 		.mainpage-slogan {
 			margin: auto;
-			color: #484848;
 
 			img {
 				margin-bottom: 0.25em;
@@ -260,27 +259,31 @@
 		}
 
 		&-box {
-			padding: 1.5em 0.5em;
+			padding: 1em;
 		}
 
 		.mainpage-articlecount {
-			color: #666;
+			color: #484848;
 			font-size: 1.125em;
 			font-weight: normal;
 		}
 
 		.mainpage-search {
-			padding: 1em 0;
+			padding: 0.5em 0 0;
 
 			input {
-				max-width: 75vw;
+				margin: 0.25em;
+
+				&[name='search'] {
+					max-width: 50vw;
+				}
 			}
 		}
 	}
 
 	&-row {
 		flex: 1 1 100%;
-		gap: 1em;
+		gap: 0.5em;
 	}
 
 	&-link-button {
