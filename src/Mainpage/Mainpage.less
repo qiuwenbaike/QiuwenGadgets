@@ -209,6 +209,7 @@
 		text-align: center;
 	}
 
+	&-top-menu,
 	&-header,
 	&-row,
 	&-footer {
@@ -244,6 +245,15 @@
 	&-box > div,
 	&-footer-box > div {
 		margin: 0 1vw;
+	}
+
+	&-top-menu {
+		justify-content: end;
+
+		li {
+			display: flex;
+			align-items: center;
+		}
 	}
 
 	&-header {
@@ -296,13 +306,13 @@
 
 	&-link-button {
 		padding: 0.25em;
+		transition: background 0.1s ease-in-out;
 
 		a {
 			padding: 0.25em 0.5em;
 			border: 0;
 			border-radius: @border-radius--small;
 			cursor: pointer;
-			transition: background 0.1s ease-in-out;
 
 			&,
 			&.extiw,
