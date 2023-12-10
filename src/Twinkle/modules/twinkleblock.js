@@ -157,7 +157,7 @@ import {initMwApi} from '~/util';
 						tooltip: Morebits.ip.isRange(mw.config.get('wgRelevantUserName'))
 							? wgULS('将不会发送模板通知。', '將不會發送模板通知。')
 							: wgULS('任何模板将会发送给原始IP：', '任何模板將會發送給原始IP：') +
-							  mw.config.get('wgRelevantUserName'),
+								mw.config.get('wgRelevantUserName'),
 					},
 				],
 			});
@@ -606,7 +606,7 @@ import {initMwApi} from '~/util';
 						? wgULS(
 								'若使用部分封禁，不应选择此项，除非您也想要禁止编辑用户讨论页。',
 								'若使用部分封鎖，不應選擇此項，除非您也想要禁止編輯使用者討論頁。'
-						  )
+							)
 						: '',
 				},
 			];

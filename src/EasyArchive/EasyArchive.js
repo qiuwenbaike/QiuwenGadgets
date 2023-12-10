@@ -129,7 +129,7 @@ import {easy_archive_lang} from './modules/i18n';
 							if (this.readyState === 4) {
 								callback();
 							}
-					  }
+						}
 					: () => {}; // from now on, f is definable.
 			if (!token) {
 				token = takeToken();
@@ -150,7 +150,7 @@ import {easy_archive_lang} from './modules/i18n';
 							if (this.readyState === 4) {
 								callback();
 							}
-					  }
+						}
 					: () => {};
 			const query_param = 'action=edit&format=json&title=';
 			asyncPost(
@@ -511,12 +511,12 @@ import {easy_archive_lang} from './modules/i18n';
 						? ''
 						: `${pipe_html}<a href="javascript:window.easy_archive.delete_section(${actual}, ${nominal})">${message(
 								'delete'
-						  )}</a>`;
+							)}</a>`;
 					section_archive_interface_html = section_archive_interface_inhibit
 						? ''
 						: `${pipe_html}<a href="javascript:window.easy_archive.archive_section(${actual}, ${nominal})">${message(
 								'archive'
-						  )}</a>`;
+							)}</a>`;
 					ele.childNodes[child_node_number].insertAdjacentHTML(
 						'afterend',
 						section_delete_interface_html +

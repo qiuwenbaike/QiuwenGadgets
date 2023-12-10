@@ -110,7 +110,7 @@
 				mediawiki: EXPIRED ? DATA_MODULE : [],
 				htmlmixed: 'ext.CodeMirror.lib.mode.htmlmixed',
 				xml: [],
-		  }
+			}
 		: {
 				lib: `${CM_CDN}/lib/codemirror.js`,
 				css: `${CM_CDN}/mode/css/css.js`,
@@ -119,7 +119,7 @@
 				mediawiki: [],
 				htmlmixed: `${CM_CDN}/mode/htmlmixed/htmlmixed.js`,
 				xml: `${CM_CDN}/mode/xml/xml.js`,
-		  };
+			};
 
 	const ADDON_LIST = {
 		searchcursor: `${CM_CDN}/addon/search/searchcursor.js`,
@@ -360,7 +360,7 @@
 		urls.length > 0
 			? urls.forEach((url) => {
 					$.ajax(`${CDN}/${url}`, {dataType: 'script', cache: true});
-			  })
+				})
 			: Promise.resolve();
 
 	/**
@@ -741,11 +741,11 @@
 				mode === 'mediawiki'
 					? {
 							extraKeys: addons.has('escape') && extraKeys(CodeMirror),
-					  }
+						}
 					: {
 							indentUnit: addons.has('indentWithSpace') ? indent : defaultIndent,
 							indentWithTabs: !addons.has('indentWithSpace'),
-					  }
+						}
 			)
 		);
 		cm.setSize(null, height);
@@ -792,7 +792,7 @@
 								/** 按下Esc键退出编辑 */ Esc() {
 									$('#Wikiplus-Quickedit-Back').triggerHandler('click');
 								},
-						  }
+							}
 						: {}
 				)
 			);

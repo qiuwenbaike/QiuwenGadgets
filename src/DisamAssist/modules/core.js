@@ -620,7 +620,7 @@ const replaceLink = (text, title, link, extra) => {
 	let newContent;
 	isSamePage(title, link.description)
 		? // [[B|A]] should be replaced with [[A]] rather than [[A|A]]
-		  (newContent = link.description)
+			(newContent = link.description)
 		: (newContent = `${title}|${link.description}`);
 	const linkStart = text.slice(0, Math.max(0, link.start));
 	const linkEnd = text.slice(Math.max(0, link.end));

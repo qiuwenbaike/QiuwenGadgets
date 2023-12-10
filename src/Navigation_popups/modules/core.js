@@ -4239,10 +4239,10 @@ export const popups = () => {
 					col3url = pg.re.ipUser.test(user)
 						? `${
 								pg.wiki.titlebase + mw.config.get('wgFormattedNamespaces')[pg.nsSpecialId]
-						  }:Contributions&target=${new Title(user).urlString()}`
+							}:Contributions&target=${new Title(user).urlString()}`
 						: `${pg.wiki.titlebase + mw.config.get('wgFormattedNamespaces')[pg.nsUserId]}:${new Title(
 								user
-						  ).urlString()}`;
+							).urlString()}`;
 					col3txt = pg.escapeQuotesHTML(user);
 				}
 			}
@@ -7577,7 +7577,7 @@ export const popups = () => {
 			whatNext
 				? (d) => {
 						whatNext(processHistory(d));
-				  }
+					}
 				: processHistory
 		);
 	};

@@ -484,11 +484,11 @@ import {hotCatMessages} from './modules/messages';
 				interlanguageRE
 					? (match = interlanguageRE.exec(copiedtext))
 					: // Approximation without API: interlanguage links start with 2 to 3 lower case letters, optionally followed by
-					  // a sequence of groups consisting of a dash followed by one or more lower case letters. Exceptions are "simple"
-					  // and "tokipona".
-					  (match = /((^|\n\r?)(\[\[\s*(([a-z]{2,3}(-[a-z]+)*)|simple|tokipona)\s*:[^\]]+]]\s*))+$/.exec(
+						// a sequence of groups consisting of a dash followed by one or more lower case letters. Exceptions are "simple"
+						// and "tokipona".
+						(match = /((^|\n\r?)(\[\[\s*(([a-z]{2,3}(-[a-z]+)*)|simple|tokipona)\s*:[^\]]+]]\s*))+$/.exec(
 							copiedtext
-					  ));
+						));
 				if (match) {
 					({index} = match);
 				}

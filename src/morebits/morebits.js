@@ -2773,10 +2773,10 @@
 								ctx.pageName +
 								wgULS('”（到期：', '」（到期：') +
 								new Morebits.date(ctx.fullyProtected).calendar('utc')
-						  } (UTC)）。\n\n${wgULS(
+							} (UTC)）。\n\n${wgULS(
 								'单击确定以确定，或单击取消以取消操作。',
 								'點擊確定以確定，或點擊取消以取消操作。'
-						  )}`
+							)}`
 				)
 			) {
 				ctx.statusElement.error(wgULS('已取消对全保护页面的编辑。', '已取消對全保護頁面的編輯。'));
@@ -4108,7 +4108,7 @@
 							: `${
 									wgULS('”（到期：', '」（到期：') +
 									new Morebits.date(editprot.expiry).calendar('utc')
-							  } (UTC)）`) +
+								} (UTC)）`) +
 						wgULS('”进行“', '」進行「') +
 						action +
 						wgULS('”操作', '」操作') +
