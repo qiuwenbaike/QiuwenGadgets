@@ -324,12 +324,17 @@
 				&.external {
 					&,
 					&:visited {
+						&,
 						&:hover {
 							color: @const-color-white;
 							text-decoration: none;
 						}
 					}
 				}
+			}
+
+			img {
+				filter: invert(0);
 			}
 		}
 	}
