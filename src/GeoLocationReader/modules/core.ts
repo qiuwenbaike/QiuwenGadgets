@@ -25,10 +25,10 @@ export const getLocation = async (): Promise<void> => {
 			indicator === true
 				? 'div'
 				: mw.config.get('skin') === 'citizen'
-				  ? 'section'
-				  : ['vector', 'vector-2022', 'gongbi', 'write'].includes(mw.config.get('skin'))
-				    ? 'li'
-				    : 'div';
+					? 'section'
+					: ['vector', 'vector-2022', 'gongbi', 'write'].includes(mw.config.get('skin'))
+						? 'li'
+						: 'div';
 		// The following classes are used here:
 		// * mw-geolocation-green
 		// * mw-geolocation-blue

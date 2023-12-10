@@ -5,7 +5,7 @@
 		? define(['jquery'], n)
 		: /*"object"==typeof module&&module.exports?module.exports=function(e,t){return void 0===t&&(t="undefined"!=typeof window?require("jquery"):require("jquery")(e)),n(t),t}:*/ n(
 				jQuery
-		  );
+			);
 })(function (u) {
 	var e = (function () {
 			if (u && u.fn && u.fn.select2 && u.fn.select2.amd) var e = u.fn.select2.amd;
@@ -114,7 +114,7 @@
 															return l(e, t);
 														};
 													})(o)
-											  )
+												)
 											: l(e, o))
 								: ((i = (r = c((e = l(e, o))))[0]), (e = r[1]), i && (n = D(i))),
 							{f: i ? i + '!' + e : e, n: e, pr: i, p: n}
@@ -188,7 +188,7 @@
 										? o(h, e, t, n)
 										: setTimeout(function () {
 												o(h, e, t, n);
-										  }, 4),
+											}, 4),
 									s
 								);
 							}),
@@ -341,7 +341,7 @@
 								? e
 								: String(e).replace(/[&<>"'\/\\]/g, function (e) {
 										return t[e];
-								  });
+									});
 						}),
 						(i.appendMany = function (e, t) {
 							if ('1.7' === o.fn.jquery.substr(0, 3)) {
@@ -595,11 +595,11 @@
 										r
 											? (l.$results.scrollTop(0), e.preventDefault(), e.stopPropagation())
 											: i &&
-											  (l.$results.scrollTop(
+												(l.$results.scrollTop(
 													l.$results.get(0).scrollHeight - l.$results.height()
-											  ),
-											  e.preventDefault(),
-											  e.stopPropagation());
+												),
+												e.preventDefault(),
+												e.stopPropagation());
 									}),
 								this.$results.on('mouseup', '.select2-results__option[aria-selected]', function (e) {
 									var t = h(this),
@@ -607,8 +607,8 @@
 									'true' !== t.attr('aria-selected')
 										? l.trigger('select', {originalEvent: e, data: n})
 										: l.options.get('multiple')
-										  ? l.trigger('unselect', {originalEvent: e, data: n})
-										  : l.trigger('close', {});
+											? l.trigger('unselect', {originalEvent: e, data: n})
+											: l.trigger('close', {});
 								}),
 								this.$results.on('mouseenter', '.select2-results__option[aria-selected]', function (e) {
 									var t = f.GetData(this, 'data');
@@ -643,8 +643,8 @@
 							null == i
 								? (t.style.display = 'none')
 								: 'string' == typeof i
-								  ? (t.innerHTML = r(i))
-								  : h(t).append(i);
+									? (t.innerHTML = r(i))
+									: h(t).append(i);
 						}),
 						r
 					);
@@ -685,7 +685,7 @@
 								null != r.GetData(this.$element[0], 'old-tabindex')
 									? (this._tabindex = r.GetData(this.$element[0], 'old-tabindex'))
 									: null != this.$element.attr('tabindex') &&
-									  (this._tabindex = this.$element.attr('tabindex')),
+										(this._tabindex = this.$element.attr('tabindex')),
 								e.attr('title', this.$element.attr('title')),
 								e.attr('tabindex', this._tabindex),
 								e.attr('aria-disabled', 'false'),
@@ -2098,8 +2098,8 @@
 							e.children
 								? ((t = document.createElement('optgroup')).label = e.text)
 								: void 0 !== (t = document.createElement('option')).textContent
-								  ? (t.textContent = e.text)
-								  : (t.innerText = e.text),
+									? (t.textContent = e.text)
+									: (t.innerText = e.text),
 								void 0 !== e.id && (t.value = e.id),
 								e.disabled && (t.disabled = !0),
 								e.selected && (t.selected = !0),
@@ -2255,7 +2255,7 @@
 								'function' == typeof t.data && (t.data = t.data.call(this.$element, n)),
 								this.ajaxOptions.delay && null != n.term
 									? (this._queryTimeout && window.clearTimeout(this._queryTimeout),
-									  (this._queryTimeout = window.setTimeout(e, this.ajaxOptions.delay)))
+										(this._queryTimeout = window.setTimeout(e, this.ajaxOptions.delay)))
 									: e();
 						}),
 						n
@@ -2294,7 +2294,7 @@
 												l.attr('data-select2-tag', !0), d.addOptions([l]), d.insertTag(r, a);
 											}
 											(t.results = r), u(t);
-									  })
+										})
 									: e.call(this, c, u);
 						}),
 						(e.prototype.createTag = function (e, t) {
@@ -2381,7 +2381,7 @@
 									? this.trigger('results:message', {
 											message: 'inputTooShort',
 											args: {minimum: this.minimumInputLength, input: t.term, params: t},
-									  })
+										})
 									: e.call(this, t, n);
 						}),
 						e
@@ -2398,7 +2398,7 @@
 									? this.trigger('results:message', {
 											message: 'inputTooLong',
 											args: {maximum: this.maximumInputLength, input: t.term, params: t},
-									  })
+										})
 									: e.call(this, t, n);
 						}),
 						e
@@ -2430,7 +2430,7 @@
 									? r.trigger('results:message', {
 											message: 'maximumSelected',
 											args: {maximum: r.maximumSelectionLength},
-									  })
+										})
 									: n && n();
 							});
 						}),
@@ -2871,8 +2871,8 @@
 										(null != e.ajax
 											? (e.dataAdapter = w)
 											: null != e.data
-											  ? (e.dataAdapter = $)
-											  : (e.dataAdapter = _),
+												? (e.dataAdapter = $)
+												: (e.dataAdapter = _),
 										0 < e.minimumInputLength && (e.dataAdapter = y.Decorate(e.dataAdapter, x)),
 										0 < e.maximumInputLength && (e.dataAdapter = y.Decorate(e.dataAdapter, D)),
 										0 < e.maximumSelectionLength && (e.dataAdapter = y.Decorate(e.dataAdapter, S)),
@@ -3070,8 +3070,8 @@
 									(e.prop('dir')
 										? (this.options.dir = e.prop('dir'))
 										: e.closest('[dir]').prop('dir')
-										  ? (this.options.dir = e.closest('[dir]').prop('dir'))
-										  : (this.options.dir = 'ltr')),
+											? (this.options.dir = e.closest('[dir]').prop('dir'))
+											: (this.options.dir = 'ltr')),
 								e.prop('disabled', this.options.disabled),
 								e.prop('multiple', this.options.multiple),
 								p.GetData(e[0], 'select2Tags') &&
@@ -3177,8 +3177,8 @@
 								(null != e.attr('id')
 									? e.attr('id')
 									: null != e.attr('name')
-									  ? e.attr('name') + '-' + u.generateChars(2)
-									  : u.generateChars(4)
+										? e.attr('name') + '-' + u.generateChars(2)
+										: u.generateChars(4)
 								).replace(/(:|\.|\[|\]|,)/g, '')
 							);
 						}),
@@ -3231,16 +3231,16 @@
 							null != e
 								? ((this._observer = new e(function (e) {
 										i.each(e, t._syncA), i.each(e, t._syncS);
-								  })),
-								  this._observer.observe(this.$element[0], {
+									})),
+									this._observer.observe(this.$element[0], {
 										attributes: !0,
 										childList: !0,
 										subtree: !1,
-								  }))
+									}))
 								: this.$element[0].addEventListener &&
-								  (this.$element[0].addEventListener('DOMAttrModified', t._syncA, !1),
-								  this.$element[0].addEventListener('DOMNodeInserted', t._syncS, !1),
-								  this.$element[0].addEventListener('DOMNodeRemoved', t._syncS, !1));
+									(this.$element[0].addEventListener('DOMAttrModified', t._syncA, !1),
+									this.$element[0].addEventListener('DOMNodeInserted', t._syncS, !1),
+									this.$element[0].addEventListener('DOMNodeRemoved', t._syncS, !1));
 						}),
 						(d.prototype._registerDataEvents = function () {
 							var n = this;
@@ -3307,14 +3307,15 @@
 										? t === r.ESC || t === r.TAB || (t === r.UP && e.altKey)
 											? (n.close(), e.preventDefault())
 											: t === r.ENTER
-											  ? (n.trigger('results:select', {}), e.preventDefault())
-											  : t === r.SPACE && e.ctrlKey
-											    ? (n.trigger('results:toggle', {}), e.preventDefault())
-											    : t === r.UP
-											      ? (n.trigger('results:previous', {}), e.preventDefault())
-											      : t === r.DOWN && (n.trigger('results:next', {}), e.preventDefault())
+												? (n.trigger('results:select', {}), e.preventDefault())
+												: t === r.SPACE && e.ctrlKey
+													? (n.trigger('results:toggle', {}), e.preventDefault())
+													: t === r.UP
+														? (n.trigger('results:previous', {}), e.preventDefault())
+														: t === r.DOWN &&
+															(n.trigger('results:next', {}), e.preventDefault())
 										: (t === r.ENTER || t === r.SPACE || (t === r.DOWN && e.altKey)) &&
-										  (n.open(), e.preventDefault());
+											(n.open(), e.preventDefault());
 								});
 						}),
 						(d.prototype._syncAttributes = function () {
@@ -3427,9 +3428,9 @@
 								null != this._observer
 									? (this._observer.disconnect(), (this._observer = null))
 									: this.$element[0].removeEventListener &&
-									  (this.$element[0].removeEventListener('DOMAttrModified', this._syncA, !1),
-									  this.$element[0].removeEventListener('DOMNodeInserted', this._syncS, !1),
-									  this.$element[0].removeEventListener('DOMNodeRemoved', this._syncS, !1)),
+										(this.$element[0].removeEventListener('DOMAttrModified', this._syncA, !1),
+										this.$element[0].removeEventListener('DOMNodeInserted', this._syncS, !1),
+										this.$element[0].removeEventListener('DOMNodeRemoved', this._syncS, !1)),
 								(this._syncA = null),
 								(this._syncS = null),
 								this.$element.off('.select2'),

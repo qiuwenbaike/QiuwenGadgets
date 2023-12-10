@@ -81,8 +81,8 @@
 											? wgULS('无限期', '無限期')
 											: `${new Morebits.date($editprot.attr('expiry')).calendar(
 													'utc'
-											  )} (UTC)${wgULS('过期', '過期')}`
-								  }）`
+												)} (UTC)${wgULS('过期', '過期')}`
+									}）`
 								: ''),
 						value: title,
 						checked: true,

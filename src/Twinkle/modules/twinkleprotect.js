@@ -194,7 +194,7 @@ import {initMwApi} from '~/util';
 							)[0],
 							`被${Twinkle.protect.previousProtectionLog.user}${wgULS('保护', '保護')}：`,
 							...Twinkle.protect.formatProtectionDescription(Twinkle.protect.previousProtectionLevels),
-					  ],
+						],
 				$linkMarkup[0]
 			);
 		}
