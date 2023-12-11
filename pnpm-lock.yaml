@@ -72,8 +72,8 @@ devDependencies:
     specifier: ^7.23.3
     version: 7.23.3(@babel/core@7.23.5)
   '@babel/plugin-transform-for-of':
-    specifier: ^7.23.3
-    version: 7.23.3(@babel/core@7.23.5)
+    specifier: ^7.23.6
+    version: 7.23.6(@babel/core@7.23.5)
   '@babel/plugin-transform-logical-assignment-operators':
     specifier: ^7.23.4
     version: 7.23.4(@babel/core@7.23.5)
@@ -892,14 +892,15 @@ packages:
       '@babel/plugin-syntax-export-namespace-from': 7.8.3(@babel/core@7.23.5)
     dev: true
 
-  /@babel/plugin-transform-for-of@7.23.3(@babel/core@7.23.5):
-    resolution: {integrity: sha512-X8jSm8X1CMwxmK878qsUGJRmbysKNbdpTv/O1/v0LuY/ZkZrng5WYiekYSdg9m09OTmDDUWeEDsTE+17WYbAZw==}
+  /@babel/plugin-transform-for-of@7.23.6(@babel/core@7.23.5):
+    resolution: {integrity: sha512-aYH4ytZ0qSuBbpfhuofbg/e96oQ7U2w1Aw/UQmKT+1l39uEhUPoFS3fHevDc1G0OvewyDudfMKY1OulczHzWIw==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.23.5
       '@babel/helper-plugin-utils': 7.22.5
+      '@babel/helper-skip-transparent-expression-wrappers': 7.22.5
     dev: true
 
   /@babel/plugin-transform-function-name@7.23.3(@babel/core@7.23.5):
@@ -1301,7 +1302,7 @@ packages:
       '@babel/plugin-transform-dynamic-import': 7.23.4(@babel/core@7.23.5)
       '@babel/plugin-transform-exponentiation-operator': 7.23.3(@babel/core@7.23.5)
       '@babel/plugin-transform-export-namespace-from': 7.23.4(@babel/core@7.23.5)
-      '@babel/plugin-transform-for-of': 7.23.3(@babel/core@7.23.5)
+      '@babel/plugin-transform-for-of': 7.23.6(@babel/core@7.23.5)
       '@babel/plugin-transform-function-name': 7.23.3(@babel/core@7.23.5)
       '@babel/plugin-transform-json-strings': 7.23.4(@babel/core@7.23.5)
       '@babel/plugin-transform-literals': 7.23.3(@babel/core@7.23.5)
