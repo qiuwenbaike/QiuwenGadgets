@@ -130,11 +130,11 @@ const getI18nMessages = () => {
 			'zh-hans': '重置密码',
 			'zh-hant': '重新設定密碼',
 		}),
-		'Unknown API error': localize({
-			en: 'Unknown API error',
-			ja: '未定義のAPIエラー',
-			'zh-hans': '未定义的API错误',
-			'zh-hant': '未定義的API錯誤',
+		'Unknown API error:': localize({
+			en: 'Unknown API error: ',
+			ja: '未定義のAPIエラー：',
+			'zh-hans': '未定义的API错误：',
+			'zh-hant': '未定義的API錯誤：',
 		}),
 		Username: localize({
 			en: 'Username',
