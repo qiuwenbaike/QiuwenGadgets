@@ -14,11 +14,11 @@ const fillSpecialPage = (): void => {
 	const reportRevision: string = mw.util.getParamValue('report_revision') ?? '';
 	let reportTitle: string = mw.util.getParamValue('report_title') || '';
 	if (reportRevision !== '0') {
-		reportTitle += `${getMessage('(')}${getMessage('Revision')}${reportRevision}${getMessage(')')}`;
+		reportTitle += getMessage('(') + getMessage('Revision') + reportRevision + getMessage(')');
 	}
 
 	if ($('body').hasClass('page-Special_联系_Report') && !!reportTitle) {
-		$wpSubjectElement.val(`${linkTilte}${getMessage(':')}${reportTitle}`);
+		$wpSubjectElement.val(linkTilte + getMessage(':') + reportTitle);
 		$wpTitleElement.val(reportTitle);
 	} else {
 		$wpSubjectElement.val(linkTilte);

@@ -118,7 +118,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 				);
 				location.reload();
 			} else if (response['clientlogin']?.messagecode) {
-				const {messagecode} = response['clientlogin'];
+				const {messagecode}: {messagecode: string} = response['clientlogin'];
 				switch (messagecode) {
 					case 'login-throttled':
 						toastifyInstance = toastify(
@@ -172,7 +172,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 					default:
 						toastifyInstance = toastify(
 							{
-								text: `${getMessage('Unknown API error:')}${messagecode}`,
+								text: getMessage('Unknown API error:') + messagecode,
 								close: true,
 								duration: -1,
 							},
