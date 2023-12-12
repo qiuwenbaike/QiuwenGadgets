@@ -1,6 +1,6 @@
 {
 	"name": "awesome-gadgets",
-	"version": "2.33.0",
+	"version": "2.33.1",
 	"description": "Storage, management, compilation, and automatic deployment of MediaWiki gadgets.",
 	"private": true,
 	"type": "module",
@@ -88,7 +88,7 @@
 		"less-plugin-npm-import": "^2.1.0",
 		"less-plugin-preset-env": "latest",
 		"mwn": "^2.0.1",
-		"p-queue": "^7.4.1",
+		"p-queue": "^8.0.0",
 		"postcss-import": "^15.1.0",
 		"postcss-preset-env": "^9.3.0",
 		"prettier": "^3.1.1",
