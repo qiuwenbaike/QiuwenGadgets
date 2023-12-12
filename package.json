@@ -96,7 +96,7 @@
 		"proxy-polyfill": "^0.3.2",
 		"stylelint": "^15.11.0",
 		"stylelint-config-wikimedia": "latest",
-		"svgo": "3.0.5",
+		"svgo": "3.1.0",
 		"tsx": "^4.6.2",
 		"types-mediawiki-renovate": "latest",
 		"typescript": "^5.3.3",
