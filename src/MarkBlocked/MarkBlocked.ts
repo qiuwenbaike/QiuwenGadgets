@@ -3,7 +3,7 @@ import {markBlockedUser} from './modules/core';
 
 let isInit: boolean = false;
 
-mw.hook('wikipage.content').add(($content: JQuery): void => {
+mw.hook<JQuery[]>('wikipage.content').add(($content): void => {
 	if (isInit) {
 		return;
 	}
