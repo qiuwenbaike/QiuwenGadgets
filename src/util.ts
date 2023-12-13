@@ -115,12 +115,12 @@ const generateSvgDataUrl = (svg: string): string => {
 	return svg;
 };
 
-const getBody = async (): Promise<JQuery<HTMLBodyElement>> => {
-	await $.ready;
+const getBody = (): JQuery.Thenable<JQuery<HTMLBodyElement>> => {
+	return $.ready.then((): JQuery<HTMLBodyElement> => {
+		const $body: JQuery<HTMLBodyElement> = $('body');
 
-	const $body: JQuery<HTMLBodyElement> = $('body');
-
-	return $body;
+		return $body;
+	});
 };
 
 const initMwApi = (userAgent?: string): mw.Api => {
@@ -137,28 +137,30 @@ const isValidKey = (object: object, key: string | number | symbol): key is keyof
 	return key in object;
 };
 
-const oouiConfirmWithStyle = async (message: string): Promise<boolean> => {
-	const isConfirm: boolean = await OO.ui.confirm(
-		$('<div>')
-			.addClass('oo-ui-window-foot')
-			.css({
-				border: '.1rem solid #0645ad',
-				display: 'flex',
-				'justify-content': 'space-evenly',
-			})
-			.append(
-				$('<span>')
-					.css({
-						'font-size': '1.2rem',
-						'font-weight': '500',
-						'line-height': '1.8',
-						padding: '.4em 0',
-					})
-					.text(message)
-			)
-	);
-
-	return isConfirm;
+const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
+	return OO.ui
+		.confirm(
+			$('<div>')
+				.addClass('oo-ui-window-foot')
+				.css({
+					border: '.1rem solid #0645ad',
+					display: 'flex',
+					'justify-content': 'space-evenly',
+				})
+				.append(
+					$('<span>')
+						.css({
+							'font-size': '1.2rem',
+							'font-weight': '500',
+							'line-height': '1.8',
+							padding: '.4em 0',
+						})
+						.text(message)
+				)
+		)
+		.then((isConfirm: boolean): boolean => {
+			return isConfirm;
+		});
 };
 
 const scrollTop = (
