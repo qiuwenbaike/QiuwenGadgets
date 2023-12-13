@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-FoldRef\"></span> 当参考来源列表的高度大于0.9倍屏幕高度时，将列表折叠",
+	"description": "<span id=\"Gadget-FoldRef\"></span> 折叠超出浏览器窗口九成高度的参考来源列表",
 	"dependencies": ["ext.gadget.i18n"],
 	"peers": ["FoldRef-pagestyles"]
 }
