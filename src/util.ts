@@ -115,6 +115,14 @@ const generateSvgDataUrl = (svg: string): string => {
 	return svg;
 };
 
+const getBody = async (): Promise<JQuery<HTMLBodyElement>> => {
+	await $.ready;
+
+	const $body: JQuery<HTMLBodyElement> = $('body');
+
+	return $body;
+};
+
 const initMwApi = (userAgent?: string): mw.Api => {
 	return new mw.Api({
 		ajax: {
@@ -182,6 +190,7 @@ export {
 	checkA11yConfirmKey,
 	delay,
 	generateSvgDataUrl,
+	getBody,
 	initMwApi,
 	isValidKey,
 	oouiConfirmWithStyle,
