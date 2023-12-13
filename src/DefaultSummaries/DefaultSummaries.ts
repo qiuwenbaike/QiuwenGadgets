@@ -2,9 +2,9 @@ import {IS_WG_EDIT_OR_SUBMIT_ACTION} from './modules/constant';
 import {processVisualEditor} from './modules/processVisualEditor';
 import {processWikiEditor} from './modules/processWikiEditor';
 
-(async () => {
+(async function defaultSummaries(): Promise<void> {
 	if (IS_WG_EDIT_OR_SUBMIT_ACTION) {
-		$(processWikiEditor);
+		await processWikiEditor();
 	} else {
 		await mw.loader.using('ext.visualEditor.desktopArticleTarget.init');
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment

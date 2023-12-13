@@ -1,7 +1,8 @@
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
+import {getBody} from '~/util';
 
-const processWikiEditor = (): void => {
-	const $body: JQuery<HTMLBodyElement> = $('body');
+const processWikiEditor = async (): Promise<void> => {
+	const $body: JQuery<HTMLBodyElement> = await getBody();
 
 	const $editCheckboxes: JQuery = $body.find('.editCheckboxes');
 	if (!$editCheckboxes.length) {
