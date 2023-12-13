@@ -129,7 +129,7 @@ const showDialog = () => {
 	Dialog.prototype.getBodyHeight = () => {
 		return 255;
 	};
-	Dialog.prototype.initialize = function () {
+	Dialog.prototype.initialize = async function () {
 		Dialog.super.prototype.initialize.call(this);
 		this.editFieldset = new OO.ui.FieldsetLayout({
 			classes: ['container'],
@@ -162,17 +162,16 @@ const showDialog = () => {
 			letitle: `User:${userName}`,
 			list: 'logevents',
 		};
-		api.get(params).done(({query}) => {
-			const logs = query.logevents;
-			if (logs.length === 0) {
-				rightLogText.text('没有任何日志');
-			} else {
-				// eslint-disable-next-line new-cap
-				const timestamp = new Morebits.date(logs[0].timestamp).calendar();
-				const rights = logs[0].params.newgroups.join('、') || '（无）';
-				rightLogText.text(`${timestamp} ${logs[0].user}将用户组改为${rights}`);
-			}
-		});
+		const {query} = await api.get(params);
+		const logs = query.logevents;
+		if (logs.length === 0) {
+			rightLogText.text('没有任何日志');
+		} else {
+			// eslint-disable-next-line new-cap
+			const timestamp = new Morebits.date(logs[0].timestamp).calendar();
+			const rights = logs[0].params.newgroups.join('、') || '（无）';
+			rightLogText.text(`${timestamp} ${logs[0].user}将用户组改为${rights}`);
+		}
 		this.rightsChangeSummaryInput = new OO.ui.TextInputWidget({
 			value: '',
 			placeholder: '可留空',
@@ -268,7 +267,7 @@ const showDialog = () => {
 			items: [this.editPanel, this.submitPanel],
 			padded: true,
 		});
-		$body.append(this.stackLayout.$element);
+		this.$body.append(this.stackLayout.$element);
 	};
 	Dialog.prototype.onSubmit = function () {
 		const self = this;
