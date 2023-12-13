@@ -79,7 +79,8 @@ const printOptionsMain = {
 		};
 		if (!windowManager) {
 			windowManager = new OO.ui.WindowManager();
-			$('body').append(windowManager.$element);
+			const $body = $('body');
+			$body.append(windowManager.$element);
 		}
 		if (!printDialog) {
 			printDialog = new PrintDialog({
