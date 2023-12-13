@@ -1,39 +1,33 @@
-import {getMessage} from './i18n';
+import {processElement} from './util/processElement';
 
-export const foldRef = (): void => {
-	let $currentToFoldElement;
-	// create a div, place {{Reflist}}s inside
-	const foldRefMain = (element: JQuery<Element>): void => {
-		const newRefFolder: JQuery = $('<div>').addClass('foldref-folded');
-		newRefFolder.insertBefore(element);
-		element.appendTo(newRefFolder);
-		// add an expand button at the bottom
-		newRefFolder.after($('<div>').addClass('foldref-expand-button').text(getMessage('Expand')));
-	};
-	const viewPortHeight: number = window.innerHeight;
+const foldRef = ($body: JQuery<HTMLBodyElement>): void => {
 	// for articles using <references />, {{Reflist}}s or similar templates
-	const $body: JQuery<HTMLBodyElement> = $('body');
-	const toFold: JQuery = $body.find('.refbegin, .mw-references-wrap');
-	for (const element of toFold) {
-		$currentToFoldElement = $(element);
+	const $foldRef: JQuery = $body.find('.mw-references-wrap,.refbegin');
+	for (const element of $foldRef) {
+		const $element = $(element);
 		if (
-			$currentToFoldElement.parent('div').parent('div').hasClass('foldref-folded') ||
-			$currentToFoldElement.parent('div').hasClass('foldref-folded')
+			$element.parent('div').parent('div').hasClass('foldref-folded') ||
+			$element.parent('div').hasClass('foldref-folded')
 		) {
 			continue;
 		}
-		const currentToFoldElementHeight: number | undefined = $currentToFoldElement.height();
-		if (
-			currentToFoldElementHeight !== undefined && // if greater than 90% of the viewport height, fold the references list
-			currentToFoldElementHeight > viewPortHeight * 0.9
-		) {
-			foldRefMain($currentToFoldElement);
+
+		const height: number | undefined = $element.height();
+		if (!height || height <= window.innerHeight * 0.9) {
+			continue;
 		}
+
+		// if greater than 90% of the viewport height, fold the references list
+		processElement($element);
 	}
+
 	// attach event listener to the expand buttons
-	$body.find('.foldref-expand-button').on('click', function (): void {
-		const $this: JQuery = $(this);
-		$this.prev('.foldref-folded').removeClass('foldref-folded');
-		$this.remove();
+	$body.find('.foldref-expand-button').on('click', (event: JQuery.ClickEvent<HTMLElement>): void => {
+		const $element: JQuery = $(event.currentTarget);
+
+		$element.prev('.foldref-folded').removeClass('foldref-folded');
+		$element.remove();
 	});
 };
+
+export {foldRef};
