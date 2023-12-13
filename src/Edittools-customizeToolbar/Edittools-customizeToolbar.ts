@@ -1,4 +1,4 @@
-import {CustomizeToolbar} from './modules/types';
+import type {CustomizeToolbar} from './modules/types';
 import {getBody} from '~/util';
 
 const customizeToolbar: CustomizeToolbar = (customizer) => {
