@@ -35,5 +35,5 @@ import {refToolbarMesages} from './modules/RefToolbarMessages';
 	refToolbarMesages();
 	// Load main functions
 	refToolbarBase();
-	$(refToolbar2);
+	refToolbar2();
 })();

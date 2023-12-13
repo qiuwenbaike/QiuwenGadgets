@@ -7,8 +7,9 @@ import {getConfig} from './getConfig';
 import {getMessage} from './i18n';
 import {setMwNotifyStyle} from './setMwNotifyStyle';
 
-const floatTOC = (originToc: HTMLElement): void => {
-	const $body: JQuery<HTMLBodyElement> = $('body');
+const floatTOC = ($originToc: JQuery): void => {
+	const originToc: HTMLElement = $originToc.get(0) as HTMLElement;
+	const $body: JQuery<HTMLBodyElement> = $originToc.parents('body');
 
 	const {$floatToc, $floatTocOpener} = generateElements(originToc);
 	$floatTocOpener.hide().appendTo($body);

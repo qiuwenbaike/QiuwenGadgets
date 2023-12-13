@@ -1,14 +1,14 @@
-const edittoolsCustomizeToolbar = (customizer: () => void): void => {
+import {CustomizeToolbar} from './modules/types';
+import {getBody} from '~/util';
+
+const customizeToolbar: CustomizeToolbar = (customizer) => {
 	if (!mw.user.options.get('usebetatoolbar')) {
 		return;
 	}
 
-	$(function callCustomizer(): void {
-		const $body: JQuery<HTMLBodyElement> = $('body');
-
+	getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		customizer.call($body.find('#wpTextbox1'));
 	});
 };
 
-(window as unknown as {customizeToolbar: typeof edittoolsCustomizeToolbar}).customizeToolbar =
-	edittoolsCustomizeToolbar;
+window.customizeToolbar = customizeToolbar;

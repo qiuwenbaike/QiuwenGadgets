@@ -1,8 +1,9 @@
 import {WG_SKIN} from './constant';
+import {getBody} from '~/util';
 import {getMessage} from './i18n';
 
-const edit0 = (): void => {
-	const $body: JQuery<HTMLBodyElement> = $('body');
+const edit0 = async (): Promise<void> => {
+	const $body: JQuery<HTMLBodyElement> = await getBody();
 
 	const $content: JQuery = $body.find('#content, #mw_content').first();
 	const $span1: JQuery = $content.find('span.mw-editsection:not(.plainlinks)').first();

@@ -2,5 +2,5 @@ import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_CUR_REVISION_ID} from './modules/constan
 import {editConflict} from './modules/core';
 
 if (IS_WG_EDIT_OR_SUBMIT_ACTION && WG_CUR_REVISION_ID) {
-	$(editConflict);
+	editConflict();
 }

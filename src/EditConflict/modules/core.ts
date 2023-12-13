@@ -1,10 +1,16 @@
 import {WG_CUR_REVISION_ID, WG_PAGE_NAME} from './constant';
-import {delay} from '~/util';
+import {delay, getBody} from '~/util';
 import {getCurrentRevisionId} from './getCurrentRevisionId';
 import {getMessage} from './i18n';
 
 const editConflict = async (): Promise<void> => {
 	let isContinue: boolean = true;
+
+	getBody().then(($body: JQuery<HTMLBodyElement>): void => {
+		$body.find('#wpSave').on('click', (): void => {
+			isContinue = false;
+		});
+	});
 
 	const checkEditConflict = async (): Promise<void> => {
 		const pageRevisionId: number = await getCurrentRevisionId(WG_PAGE_NAME);
@@ -25,18 +31,13 @@ const editConflict = async (): Promise<void> => {
 
 	while (true) {
 		await checkEditConflict();
+
 		if (!isContinue) {
 			break;
 		}
 
 		await delay(3 * 1000);
 	}
-
-	$('body')
-		.find('#wpSave')
-		.on('click', (): void => {
-			isContinue = false;
-		});
 };
 
 export {editConflict};
