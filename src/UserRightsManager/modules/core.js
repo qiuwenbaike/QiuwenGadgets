@@ -6,6 +6,7 @@ import {initMwApi} from '~/util';
 const pageName = mw.config.get('wgPageName');
 const permission = pagePermissions[pageName];
 const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
+const $body = $('body');
 
 let permaLink;
 let userName;
@@ -172,13 +173,12 @@ const showDialog = () => {
 				rightLogText.text(`${timestamp} ${logs[0].user}将用户组改为${rights}`);
 			}
 		});
-		this.$body = $('body');
 		this.rightsChangeSummaryInput = new OO.ui.TextInputWidget({
 			value: '',
 			placeholder: '可留空',
 		});
 		this.expiryInput = new mw.widgets.ExpiryWidget({
-			$overlay: this.$body.find('.oo-ui-window'),
+			$overlay: $body.find('.oo-ui-window'),
 			RelativeInputClass: mw.widgets.SelectWithInputWidget,
 			relativeInput: {
 				or: true,
@@ -268,7 +268,7 @@ const showDialog = () => {
 			items: [this.editPanel, this.submitPanel],
 			padded: true,
 		});
-		this.$body.append(this.stackLayout.$element);
+		$body.append(this.stackLayout.$element);
 	};
 	Dialog.prototype.onSubmit = function () {
 		const self = this;
@@ -353,13 +353,12 @@ const showDialog = () => {
 		size: 'medium',
 	});
 	const windowManager = new OO.ui.WindowManager();
-	$('body').append(windowManager.$element);
+	$body.append(windowManager.$element);
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 };
 
 export const initDialog = () => {
-	const $body = $('body');
 	$body.find('.perm-assign-permissions a').on('click', function (e) {
 		if (permission === 'AutoWikiBrowser') {
 			return true;
