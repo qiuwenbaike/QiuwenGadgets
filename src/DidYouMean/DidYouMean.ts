@@ -24,4 +24,4 @@ import {getMessage} from './modules/i18n';
 	);
 
 	location.href = href;
-});
+})();
