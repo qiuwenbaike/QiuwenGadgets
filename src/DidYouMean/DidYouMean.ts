@@ -1,16 +1,17 @@
 import * as OPTIONS from './options.json';
+import {getBody} from '~/util';
 import {getMessage} from './modules/i18n';
 
-$(function DidYouMean(): void {
-	const $body: JQuery<HTMLBodyElement> = $('body');
+(async function didYouMean(): Promise<void> {
+	const $body: JQuery<HTMLBodyElement> = await getBody();
 
 	const $element: JQuery = $body.find(OPTIONS.targetSelector);
 	if (!$element.length) {
 		return;
 	}
 
-	const linkHref: string = $element.attr('href') ?? '';
-	if (!linkHref) {
+	const href: string = $element.attr('href') ?? '';
+	if (!href) {
 		return;
 	}
 
@@ -22,5 +23,5 @@ $(function DidYouMean(): void {
 		'info'
 	);
 
-	location.href = linkHref;
+	location.href = href;
 });
