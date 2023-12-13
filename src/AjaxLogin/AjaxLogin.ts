@@ -1,16 +1,16 @@
 import * as OPTIONS from './options.json';
+import {checkA11yConfirmKey, getBody} from '../util';
 import {WG_USER_NAME} from './modules/constant';
 import {addListener} from './modules/addListener';
 import {ajaxLogin} from './modules/core';
-import {checkA11yConfirmKey} from '../util';
 import {initWindowManager} from './modules/initWindowManager';
 
-$(function initAutoLogin(): void {
+(async function initAutoLogin(): Promise<void> {
 	if (WG_USER_NAME) {
 		return;
 	}
 
-	const $body: JQuery<HTMLBodyElement> = $('body');
+	const $body: JQuery<HTMLBodyElement> = await getBody();
 
 	const $loginElement: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>(OPTIONS.loginElementSelector);
 	if (!$loginElement.length) {
@@ -33,4 +33,4 @@ $(function initAutoLogin(): void {
 		ajaxLogin(windowManager, fakeToastifyInstance);
 	};
 	addListener($loginElement, eventListener);
-});
+})();

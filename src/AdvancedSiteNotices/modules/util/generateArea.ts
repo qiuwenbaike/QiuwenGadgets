@@ -5,10 +5,10 @@ import {
 	CLASS_NAME_NOTICE,
 	CLASS_NAME_NOTICE_CONTENT,
 	CLASS_NAME_TITLE,
-} from './constant';
-import {getMessage} from './i18n';
+} from '../constant';
+import {getMessage} from '../i18n';
 
-const insertArea = (): JQuery => {
+const generateArea = (): JQuery => {
 	const $area: JQuery = $('<div>').addClass(`${CLASS_NAME} noprint`);
 	const $title: JQuery = $('<div>').addClass(CLASS_NAME_TITLE).text(getMessage('Title'));
 	const $noticeArea: JQuery = $('<div>').addClass(CLASS_NAME_NOTICE);
@@ -27,4 +27,4 @@ const insertArea = (): JQuery => {
 	return $area;
 };
 
-export {insertArea};
+export {generateArea};

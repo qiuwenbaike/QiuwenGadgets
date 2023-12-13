@@ -1,11 +1,14 @@
 import {IS_DIFF_ACTION, IS_TARGET_SPECIAL_PAGE, IS_WG_EDIT_OR_SUBMIT_ACTION, IS_WG_HISTORY_ACTION} from '../constant';
+import {getBody} from '~/util';
 
 interface TargetElements {
 	color: string;
 	$targetElementArray: JQuery[];
 }
 
-const getTargetElements = ($body: JQuery<HTMLBodyElement>): TargetElements => {
+const getTargetElements = async (): Promise<TargetElements> => {
+	const $body: JQuery<HTMLBodyElement> = await getBody();
+
 	const $targetElementArray: JQuery[] = [];
 	let color: string = ''; // links color (coloured links)
 
