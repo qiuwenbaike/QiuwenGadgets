@@ -17,7 +17,7 @@ $(function editForm(): void {
 	});
 });
 
-mw.hook('wikipage.editform').add(($editForm: JQuery): void => {
+mw.hook<JQuery[]>('wikipage.editform').add(($editForm): void => {
 	// AI辅助编辑特殊声明
 	aiAssisted({$editForm});
 	// 强制预览

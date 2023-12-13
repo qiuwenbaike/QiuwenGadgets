@@ -1,5 +1,6 @@
 import {type ClientLoginParams, api} from './api';
 import {type NeedToCheckElements, checkValid} from './util/checkValid';
+import {delay} from '~/util';
 import {generateElements} from './util/generateElements';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
@@ -118,7 +119,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 				);
 				location.reload();
 			} else if (response['clientlogin']?.messagecode) {
-				switch (response['clientlogin'].messagecode) {
+				const {messagecode}: {messagecode: string} = response['clientlogin'];
+				switch (messagecode) {
 					case 'login-throttled':
 						toastifyInstance = toastify(
 							{
@@ -169,14 +171,17 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 						ajaxLogin(windowManager, toastifyInstance);
 						break;
 					default:
-						toastifyInstance = toastify(
+						toastify(
 							{
-								text: getMessage('Unknown API error'),
+								text: getMessage('Unexpected API response').replace('$1', messagecode),
 								close: true,
 								duration: -1,
 							},
 							'error'
 						);
+						await windowManager.clearWindows();
+						await delay(3 * 1000);
+						location.href = '/wiki/Special:Userlogin';
 				}
 			}
 		} catch (error: unknown) {

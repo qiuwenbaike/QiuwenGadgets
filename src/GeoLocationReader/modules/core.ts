@@ -41,22 +41,18 @@ export const getLocation = async (): Promise<void> => {
 					.attr({
 						alt:
 							icon === 'globe'
-								? `${ipGeoLocationDesc}${getMessage(':')}${indicatorText}`
+								? ipGeoLocationDesc + getMessage(':') + indicatorText
 								: indicatorText ?? '',
 						title:
 							icon === 'globe'
-								? `${ipGeoLocationDesc}${getMessage(':')}${indicatorText}`
+								? ipGeoLocationDesc + getMessage(':') + indicatorText
 								: indicatorText ?? '',
 					})
 			)
 			.append(
 				$('<span>')
 					.addClass('mw-geolocation-text')
-					.text(
-						icon === 'globe'
-							? `${ipGeoLocationDesc}${getMessage(':')}${indicatorText}`
-							: indicatorText ?? ''
-					)
+					.text(icon === 'globe' ? ipGeoLocationDesc + getMessage(':') + indicatorText : indicatorText ?? '')
 			);
 		const $body: JQuery<HTMLBodyElement> = $('body');
 		if (indicator === true) {
@@ -83,7 +79,7 @@ export const getLocation = async (): Promise<void> => {
 			);
 			const countryOrAreaText: string = getCountryOrAreaName(country ?? countryOrArea) ?? getMessage('Unknown');
 			const regionText: string = (country ?? countryOrArea) === 'CN' ? getRegionName(region) ?? '' : '';
-			const indicatorText: string = `${countryOrAreaText}${regionText}`;
+			const indicatorText: string = countryOrAreaText + regionText;
 			const spanClass: string = 'green';
 			appendIcon(indicatorText, spanClass, 'globe');
 		} catch {

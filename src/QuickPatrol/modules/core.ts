@@ -33,7 +33,7 @@ export const QuickPatrol = (): void => {
 				},
 				success: (data): void => {
 					if (data.error) {
-						mw.notify(`${getMessage('API')}${data.error.info}`, {type: 'error', tag: 'QuickPatrol'});
+						mw.notify(getMessage('API') + data.error.info, {type: 'error', tag: 'QuickPatrol'});
 						$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 					} else {
 						$(`#gadget-quick_patrol__${btnid}`)

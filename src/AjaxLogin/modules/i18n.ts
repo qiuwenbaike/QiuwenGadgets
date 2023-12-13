@@ -130,12 +130,6 @@ const getI18nMessages = () => {
 			'zh-hans': '重置密码',
 			'zh-hant': '重新設定密碼',
 		}),
-		'Unknown API error': localize({
-			en: 'Unknown API error',
-			ja: '未定義のAPIエラー',
-			'zh-hans': '未定义的API错误',
-			'zh-hant': '未定義的API錯誤',
-		}),
 		Username: localize({
 			en: 'Username',
 			ja: '利用者名',
@@ -180,6 +174,12 @@ const getI18nMessages = () => {
 			'zh-cn': '用户登录过于频繁，请五分钟后再试',
 			'zh-hk': '用戶登入過於頻繁，請五分鐘後再試',
 			'zh-tw': '使用者登入过于频繁，请五分钟后再试',
+		}),
+		'Unexpected API response': localize({
+			en: 'Unexpected API response: $1. Redirecting...',
+			ja: '予期せぬAPIの応答：$1、リダイレクト中...',
+			'zh-hans': '意外的API响应：$1。重定向中……',
+			'zh-hant': '意外的API響應：$1。重新導向中……',
 		}),
 	};
 };

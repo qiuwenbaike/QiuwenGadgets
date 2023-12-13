@@ -308,20 +308,34 @@
 	}
 
 	&-link-button {
-		padding: 0.25em;
+		cursor: pointer;
+		border: 0;
+		border-radius: @border-radius--small;
+		padding: 0.25em 0.5em;
 		transition: background 0.1s ease-in-out;
 
 		&:hover {
 			background: @color--primary;
 			color: @const-color-white;
-			text-decoration: none;
-		}
 
-		a {
-			padding: 0.25em 0.5em;
-			border: 0;
-			border-radius: @border-radius--small;
-			cursor: pointer;
+			a {
+				&,
+				&.extiw,
+				&.external {
+					&,
+					&:visited {
+						&,
+						&:hover {
+							color: @const-color-white;
+							text-decoration: none;
+						}
+					}
+				}
+			}
+
+			img {
+				filter: invert(0);
+			}
 		}
 	}
 }

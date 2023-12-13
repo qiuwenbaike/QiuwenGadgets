@@ -189,8 +189,8 @@ const init = (hash: string): JQuery => {
 };
 
 export const noteTALoad = (): void => {
-	mw.hook('wikipage.content').add((): void => {
-		const $body: JQuery<HTMLBodyElement> = $('body');
+	mw.hook<JQuery[]>('wikipage.content').add(($content): void => {
+		const $body: JQuery<HTMLBodyElement> = $content.parents('body');
 		$body.find('.mw-indicator[id^=mw-indicator-noteTA-]').each((_index: number, element: HTMLElement): void => {
 			const $element: JQuery = $(element);
 			const $elementId: string | undefined = $element.attr('id');

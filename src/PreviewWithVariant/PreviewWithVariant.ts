@@ -3,12 +3,10 @@
  */
 mw.config.set('wgPreviewWithVariantInitialized', false);
 
-mw.hook('wikipage.editform').add((): void => {
+mw.hook<JQuery[]>('wikipage.editform').add(($editForm): void => {
 	if (mw.config.get('wgPreviewWithVariantInitialized')) {
 		return;
 	}
-	const $body: JQuery<HTMLBodyElement> = $('body');
-	const $editForm: JQuery = $body.find('#editform');
 	const $templateSandboxPreview: JQuery = $editForm.find('input[name="wpTemplateSandboxPreview"]');
 	// It is possible that a user want to preview a page with a non-wikitext module
 	// Do not return in this case
