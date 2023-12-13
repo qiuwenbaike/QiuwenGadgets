@@ -6,6 +6,7 @@ import {initMwApi} from '~/util';
 const pageName = mw.config.get('wgPageName');
 const permission = pagePermissions[pageName];
 const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
+const $body = $('body');
 
 let permaLink;
 let userName;
@@ -105,7 +106,6 @@ const issueTemplate = (watch) => {
 };
 
 const showDialog = () => {
-	const $body = $('body');
 	const Dialog = function (config) {
 		Dialog.super.call(this, config);
 	};
@@ -359,7 +359,6 @@ const showDialog = () => {
 };
 
 export const initDialog = () => {
-	const $body = $('body');
 	$body.find('.perm-assign-permissions a').on('click', function (e) {
 		if (permission === 'AutoWikiBrowser') {
 			return true;
