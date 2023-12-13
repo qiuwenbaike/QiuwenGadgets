@@ -1,3 +1,4 @@
+import {CLASS_NAME, CLASS_NAME_EXPAND_BUTTON} from './constant';
 import {processElement} from './util/processElement';
 
 const foldRef = ($body: JQuery<HTMLBodyElement>): void => {
@@ -5,10 +6,7 @@ const foldRef = ($body: JQuery<HTMLBodyElement>): void => {
 	const $foldRef: JQuery = $body.find('.mw-references-wrap,.refbegin');
 	for (const element of $foldRef) {
 		const $element = $(element);
-		if (
-			$element.parent('div').parent('div').hasClass('foldref-folded') ||
-			$element.parent('div').hasClass('foldref-folded')
-		) {
+		if ($element.parent('div').parent('div').hasClass(CLASS_NAME) || $element.parent('div').hasClass(CLASS_NAME)) {
 			continue;
 		}
 
@@ -22,10 +20,13 @@ const foldRef = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 
 	// attach event listener to the expand buttons
-	$body.find('.foldref-expand-button').on('click', (event: JQuery.ClickEvent<HTMLElement>): void => {
+	$body.find(`.${CLASS_NAME_EXPAND_BUTTON}`).on('click', (event: JQuery.ClickEvent<HTMLElement>): void => {
 		const $element: JQuery = $(event.currentTarget);
 
-		$element.prev('.foldref-folded').removeClass('foldref-folded');
+		// The following classes are used here:
+		// * see constant.ts
+		// * for more information
+		$element.prev(`.${CLASS_NAME}`).removeClass(CLASS_NAME);
 		$element.remove();
 	});
 };
