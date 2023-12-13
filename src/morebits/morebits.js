@@ -1800,21 +1800,21 @@
 				if (digitMatch) {
 					// ..... year ... month .. date ... hour .... minute ..... second
 					this._d = new Date(
-						Date.UTC(
+						Reflect.apply(Date.UTC, null, [
 							digitMatch[1],
 							digitMatch[2] - 1,
 							digitMatch[3],
 							digitMatch[4],
 							digitMatch[5],
-							digitMatch[6]
-						)
+							digitMatch[6],
+						])
 					);
 				}
 			} else if (typeof param === 'string') {
 				// Wikitext signature timestamp
 				const dateParts = Morebits.l10n.signatureTimestampFormat(param);
 				if (dateParts) {
-					this._d = new Date(Date.UTC(...dateParts));
+					this._d = new Date(Date.UTC.apply(null, dateParts));
 				}
 			}
 		}
@@ -2139,7 +2139,7 @@
 		// Exclude methods that collide with PageTriage's Date.js external, which clobbers native Date
 		if (!['add', 'getDayName', 'getMonthName'].includes(func)) {
 			Morebits.date.prototype[func] = function (...args) {
-				return this._d[func](...Array.prototype.slice.call(args));
+				return this._d[func](...args);
 			};
 		}
 	}
