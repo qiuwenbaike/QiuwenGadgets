@@ -1,11 +1,12 @@
 /* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
+import {getBody} from '~/util';
 import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
-const refToolbar2 = () => {
-	const $body = $('body');
+const refToolbar2 = async () => {
+	const $body = await getBody();
 
 	// Default options, these mainly exist so the script won't break if a new option is added
 	CiteTB.DefaultOptions = {

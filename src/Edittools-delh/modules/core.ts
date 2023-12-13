@@ -1,9 +1,7 @@
 import {getList} from './getList';
 
 const edittoolsDelh = (): void => {
-	(window as unknown as {customizeToolbar: typeof edittoolsCustomizeToolbar}).customizeToolbar(function (
-		this: JQuery
-	): void {
+	window.customizeToolbar(function (this: JQuery): void {
 		const self = this as JQuery & {wikiEditor: (method: string, options: Record<string, unknown>) => void};
 
 		self.wikiEditor('addToToolbar', {
