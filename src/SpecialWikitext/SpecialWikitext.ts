@@ -219,7 +219,9 @@ const previewTool = (): void => {
 		const $htmlObj: JQuery = $(parsedWikitext);
 		if ($elementExist('#mw-_addText-preview-loading')) {
 			const $body: JQuery<HTMLBodyElement> = $('body');
-			$body.find('#mw-_addText-preview-loading').html(parsedWikitext);
+			const $element: JQuery = $body.find('#mw-_addText-preview-loading');
+			$element.html(parsedWikitext);
+			mw.hook('wikipage.content').fire($element);
 		} else if ($elementExist('.diff-currentversion-title')) {
 			$htmlObj.insertAfter('.diff-currentversion-title');
 		} else if ($elementExist('.previewnote')) {
@@ -229,6 +231,7 @@ const previewTool = (): void => {
 		} else if ($elementExist('#mw-content-text')) {
 			$htmlObj.insertBefore('#mw-content-text');
 		}
+		mw.hook('wikipage.content').fire($htmlObj);
 	};
 
 	// 若网页对象存在，则改动其html内容
@@ -419,7 +422,7 @@ const previewTool = (): void => {
 		const $body: JQuery<HTMLBodyElement> = $('body');
 		const $testcaseList: JQuery = $body.find('.special-wikitext-preview-testcase');
 		// 若页面中没有Testcase，退出。
-		if ($testcaseList.length < 0) {
+		if ($testcaseList.length <= 0) {
 			return;
 		}
 		// 收集位于页面中的Testcase预览元素
@@ -527,10 +530,12 @@ const previewTool = (): void => {
 							const checkParseElement: JQuery<HTMLElement> = $parsedElement.find(
 								`.special-wikitext-preview-testcase-undefined > .special-wikitext-preview-testcase-${_i}`
 							);
-							if (checkParseElement) {
-								$(_testcaseItem.element as HTMLElement)
-									.find('#mw-_addText-preview-loading')
-									.html(checkParseElement.html());
+							if (checkParseElement.length) {
+								const $addTarget: JQuery = $(
+									_testcaseItem.element as NonNullable<typeof _testcaseItem.element>
+								).find('#mw-_addText-preview-loading');
+								$addTarget.html(checkParseElement.html());
+								mw.hook('wikipage.content').fire($addTarget);
 							}
 						}
 					}
