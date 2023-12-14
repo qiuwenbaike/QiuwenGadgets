@@ -142,7 +142,9 @@ const refToolbarBase = () => {
 				} else {
 					tr = $('<tr>');
 				}
-				const td1 = $('<td>').addClass('cite-form-td').attr({style});
+				const td1 = $('<td>').addClass('cite-form-td').attr({
+					style,
+				});
 				td1.append(label);
 				tr.append(td1);
 				const td2 = $('<td>').addClass('cite-form-td').css('width', '30%');

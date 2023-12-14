@@ -170,7 +170,14 @@
 	let /** @type {number} */ indent = storage.getObject('Wikiplus-highlight-indent') || defaultIndent;
 
 	/** @type {Record<string, string>} */
-	const entity = {'"': 'quot', "'": 'apos', '<': 'lt', '>': 'gt', '&': 'amp', ' ': 'nbsp'};
+	const entity = {
+		'"': 'quot',
+		"'": 'apos',
+		'<': 'lt',
+		'>': 'gt',
+		'&': 'amp',
+		' ': 'nbsp',
+	};
 
 	const /** @type {(func: (str: string) => string) => (doc: CodeMirror.Editor) => void} */
 		convert = (func) => (doc) => {
@@ -215,7 +222,11 @@
 			CM
 		) => {
 			const ctrl = isPc(CM) ? 'Ctrl' : 'Cmd';
-			return {[`${ctrl}-/`]: escapeHTML, [`${ctrl}-\\`]: escapeURI, [`Shift-${ctrl}-\\`]: escapeHash};
+			return {
+				[`${ctrl}-/`]: escapeHTML,
+				[`${ctrl}-\\`]: escapeURI,
+				[`Shift-${ctrl}-\\`]: escapeHash,
+			};
 		};
 
 	/**
@@ -249,7 +260,10 @@
 		const widget = getSysnonyms('widget');
 
 		$wrapper.contextmenu(({pageX, pageY}) => {
-			const pos = doc.coordsChar({left: pageX, top: pageY});
+			const pos = doc.coordsChar({
+				left: pageX,
+				top: pageY,
+			});
 			const {line, ch} = pos;
 			const curType = doc.getTokenTypeAt(pos);
 			if (!/\bmw-(?:template-name|parserfunction)\b/u.test(curType)) {
@@ -492,7 +506,10 @@
 	 * @param {mwConfig} config wikitext设置
 	 */
 	const updateCachedConfig = (config) => {
-		ALL_SETTINGS_CACHE[SITE_ID] = {config, time: Date.now()};
+		ALL_SETTINGS_CACHE[SITE_ID] = {
+			config,
+			time: Date.now(),
+		};
 		storage.setObject('InPageEditMwConfig', ALL_SETTINGS_CACHE);
 	};
 
@@ -879,7 +896,9 @@
 		} else {
 			await mw.loader.using(['oojs-ui-windows', 'oojs-ui.styles.icons-content']);
 			// eslint-disable-next-line require-atomic-updates
-			dialog = new OO.ui.MessageDialog({id: 'Wikiplus-highlight-dialog'});
+			dialog = new OO.ui.MessageDialog({
+				id: 'Wikiplus-highlight-dialog',
+			});
 			const windowManager = new OO.ui.WindowManager();
 			windowManager.$element.appendTo(body);
 			windowManager.addWindows([dialog]);
@@ -887,7 +906,10 @@
 				options: [
 					...options.map(({option, addon = option}) => {
 						const mainAddon = Array.isArray(addon) ? addon[0] : addon;
-						return {data: mainAddon, label: htmlMsg(`addon-${mainAddon.toLowerCase()}`)};
+						return {
+							data: mainAddon,
+							label: htmlMsg(`addon-${mainAddon.toLowerCase()}`),
+						};
 					}),
 					...['wikiEditor', 'escape', 'contextmenu', 'lint', 'indentWithSpace', 'otherEditors'].map(
 						(addon) => ({data: addon, label: htmlMsg(`addon-${addon.toLowerCase()}`)})
@@ -898,7 +920,10 @@
 			const {checkboxMultiselectWidget} = widget;
 			searchWidget = checkboxMultiselectWidget.findItemFromData('search');
 			wikiEditorWidget = checkboxMultiselectWidget.findItemFromData('wikiEditor');
-			indentWidget = new OO.ui.NumberInputWidget({min: 0, value: indent});
+			indentWidget = new OO.ui.NumberInputWidget({
+				min: 0,
+				value: indent,
+			});
 			field = new OO.ui.FieldLayout(widget, {
 				label: msg('addon-label'),
 				notices: [msg('addon-notice')],

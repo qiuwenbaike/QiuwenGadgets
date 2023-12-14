@@ -287,7 +287,9 @@ import {easy_archive_lang} from './modules/i18n';
 		}
 	};
 	const nominal_sections = ((count) => {
-		const arr = Array.from({length: count});
+		const arr = Array.from({
+			length: count,
+		});
 		for (let _i = 0; _i < count; _i++) {
 			arr[_i] = false;
 		}

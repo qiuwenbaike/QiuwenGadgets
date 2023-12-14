@@ -11,7 +11,10 @@ const switcherJS = (): void => {
 			}
 			switchers.push(switcher);
 			$radio = $('<input>')
-				.prop({type: 'radio', name: radioName})
+				.prop({
+					type: 'radio',
+					name: radioName,
+				})
 				// eslint-disable-next-line no-loop-func
 				.on('click', (): void => {
 					$(selected as NonNullable<typeof selected>).hide();
@@ -41,7 +44,10 @@ const switcherJS = (): void => {
 				.text(`${window.wgULS('显示', '顯示')}全部`)
 				.prepend(
 					$('<input>')
-						.prop({type: 'radio', name: radioName})
+						.prop({
+							type: 'radio',
+							name: radioName,
+						})
 						.on('click', (): void => {
 							$(switchers).show();
 							selected = switchers;

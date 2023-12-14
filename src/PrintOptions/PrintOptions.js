@@ -38,7 +38,10 @@ const printOptionsMain = {
 			let checkbox;
 			const fieldset = [];
 			PrintDialog.super.prototype.initialize.apply(this, args);
-			this.panel = new OO.ui.PanelLayout({padded: true, expanded: false});
+			this.panel = new OO.ui.PanelLayout({
+				padded: true,
+				expanded: false,
+			});
 			this.content = new OO.ui.FieldsetLayout();
 			for (const question of printOptionsMain.questions) {
 				if (question.type === 'checkbox') {

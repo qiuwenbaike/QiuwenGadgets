@@ -261,7 +261,10 @@ const hideNewUsersLog = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 	const $newUsersLog: JQuery = $body.find('input[name="wpfilters[]"][value=newusers]');
-	$newUsersLog.prop({checked: 0, disabled: 'disabled'});
+	$newUsersLog.prop({
+		checked: 0,
+		disabled: 'disabled',
+	});
 };
 
 const toggleLink = ($body: JQuery<HTMLBodyElement>): void => {
