@@ -14,7 +14,7 @@ const makeLink = (href: string, text: string | null) => {
 	return link.outerHTML;
 };
 
-const makeWikilink = (page: string, text?: string) => {
+const makeWikilink = (page: string, text: string) => {
 	return makeLink(mw.util.getUrl(page), text || page);
 };
 

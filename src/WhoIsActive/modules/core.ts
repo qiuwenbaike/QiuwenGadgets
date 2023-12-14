@@ -29,7 +29,7 @@ export const whoIsActive = (): void => {
 	if (filteredLinks.length === 0) {
 		return;
 	}
-	const getLastActiveMarker = (timestamp: string, indicator?: boolean) => {
+	const getLastActiveMarker = (timestamp: string, indicator: boolean) => {
 		const date: number = Date.parse(timestamp);
 		const now: number = Date.now();
 		const diff: number = Math.floor((now - date) / (1000 * 60 * 60 * 24));
