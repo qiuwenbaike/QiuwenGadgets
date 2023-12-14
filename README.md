@@ -21,7 +21,7 @@ Awesome Gadgets 是面向 MediaWiki 网站，用以统一存储、管理并编�
     -   `MediaWiki:Gadget-*.{js, css}`
 -   部署后将自动从网站内删除曾经部署过但现在不再需要的页面<br>After deployment, it automatically deletes pages from the website that have been deployed but are no longer needed
 
-## 用法
+## 用法 / Usage
 
 **对于小工具开发者：**<br>**For gadget developers:**
 
