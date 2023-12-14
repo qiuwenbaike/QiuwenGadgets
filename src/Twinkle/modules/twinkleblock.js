@@ -9,7 +9,9 @@ import {initMwApi} from '~/util';
 	const $body = $('body');
 	let relevantUserName;
 	let blockedUserName;
-	const menuFormattedNamespaces = {...mw.config.get('wgFormattedNamespaces')};
+	const menuFormattedNamespaces = {
+		...mw.config.get('wgFormattedNamespaces'),
+	};
 	menuFormattedNamespaces[0] = wgULS('（条目）', '（條目）');
 	const blockActionText = {
 		block: wgULS('封禁', '封鎖'),

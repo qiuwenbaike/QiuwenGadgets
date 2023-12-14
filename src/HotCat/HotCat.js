@@ -3208,7 +3208,9 @@ import {hotCatMessages} from './modules/messages';
 				cats = line.querySelectorAll('span');
 			}
 			// Copy cats, otherwise it'll also magically contain our added spans as it is a live collection!
-			const copyCats = Array.from({length: cats.length});
+			const copyCats = Array.from({
+				length: cats.length,
+			});
 			for (i = 0; i < cats.length; i++) {
 				copyCats[i] = cats[i];
 			}

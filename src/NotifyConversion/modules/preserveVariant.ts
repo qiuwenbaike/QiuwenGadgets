@@ -23,7 +23,11 @@ export const preserveVariant = (): void => {
 			if (originalHref.includes('/wiki/')) {
 				this.href = `/${wgUserVariant}${originalHref.slice(5)}`;
 			} else if (originalHref.includes('/index.php?')) {
-				this.href = uri.extend({variant: wgUserVariant}).getRelativePath();
+				this.href = uri
+					.extend({
+						variant: wgUserVariant,
+					})
+					.getRelativePath();
 			}
 		}
 	});

@@ -200,7 +200,9 @@
 						if ('string' != typeof e)
 							throw new Error('See almond README: incorrect module build, no module name');
 						t.splice || ((n = t), (t = [])), b(m, e) || b(v, e) || (v[e] = [e, t, n]);
-					}).amd = {jQuery: !0}),
+					}).amd = {
+						jQuery: !0,
+					}),
 					(e.requirejs = t),
 					(e.require = n),
 					(e.define = r)),
@@ -473,7 +475,10 @@
 						(r.prototype.option = function (e) {
 							var t = document.createElement('li');
 							t.className = 'select2-results__option';
-							var n = {role: 'option', 'aria-selected': 'false'},
+							var n = {
+									role: 'option',
+									'aria-selected': 'false',
+								},
 								r =
 									window.Element.prototype.matches ||
 									window.Element.prototype.msMatchesSelector ||
@@ -889,7 +894,14 @@
 					}
 					return (
 						(t.prototype.normalizePlaceholder = function (e, t) {
-							return 'string' == typeof t && (t = {id: '', text: t}), t;
+							return (
+								'string' == typeof t &&
+									(t = {
+										id: '',
+										text: t,
+									}),
+								t
+							);
 						}),
 						(t.prototype.createPlaceholder = function (e, t) {
 							var n = this.selectionContainer();
@@ -937,11 +949,19 @@
 									var r = a.GetData(n[0], 'data'),
 										i = this.$element.val();
 									this.$element.val(this.placeholder.id);
-									var o = {data: r};
+									var o = {
+										data: r,
+									};
 									if ((this.trigger('clear', o), o.prevented)) this.$element.val(i);
 									else {
 										for (var s = 0; s < r.length; s++)
-											if (((o = {data: r[s]}), this.trigger('unselect', o), o.prevented))
+											if (
+												((o = {
+													data: r[s],
+												}),
+												this.trigger('unselect', o),
+												o.prevented)
+											)
 												return void this.$element.val(i);
 										this.$element.trigger('change'), this.trigger('toggle', {});
 									}
@@ -2088,7 +2108,9 @@
 									null !== n && i.push(n);
 								}
 							}),
-								e({results: i});
+								e({
+									results: i,
+								});
 						}),
 						(n.prototype.addOptions = function (e) {
 							a.appendMany(this.$element, e);
@@ -2120,7 +2142,11 @@
 									title: e.prop('title'),
 								};
 							else if (e.is('optgroup')) {
-								t = {text: e.prop('label'), children: [], title: e.prop('title')};
+								t = {
+									text: e.prop('label'),
+									children: [],
+									title: e.prop('title'),
+								};
 								for (var n = e.children('option'), r = [], i = 0; i < n.length; i++) {
 									var o = l(n[i]),
 										s = this.item(o);
@@ -2131,7 +2157,11 @@
 							return ((t = this._normalizeItem(t)).element = e[0]), a.StoreData(e[0], 'data', t), t;
 						}),
 						(n.prototype._normalizeItem = function (e) {
-							e !== Object(e) && (e = {id: e, text: e});
+							e !== Object(e) &&
+								(e = {
+									id: e,
+									text: e,
+								});
 							return (
 								null != (e = l.extend({}, {text: ''}, e)).id && (e.id = e.id.toString()),
 								null != e.text && (e.text = e.text.toString()),
@@ -2229,7 +2259,12 @@
 							var i = this;
 							null != this._request &&
 								(o.isFunction(this._request.abort) && this._request.abort(), (this._request = null));
-							var t = o.extend({type: 'GET'}, this.ajaxOptions);
+							var t = o.extend(
+								{
+									type: 'GET',
+								},
+								this.ajaxOptions
+							);
 							function e() {
 								var e = t.transport(
 									t,
@@ -2283,7 +2318,14 @@
 									? e.call(this, c, function e(t, n) {
 											for (var r = t.results, i = 0; i < r.length; i++) {
 												var o = r[i],
-													s = null != o.children && !e({results: o.children}, !0);
+													s =
+														null != o.children &&
+														!e(
+															{
+																results: o.children,
+															},
+															!0
+														);
 												if ((o.text || '').toUpperCase() === (c.term || '').toUpperCase() || s)
 													return !n && ((t.data = r), void u(t));
 											}
@@ -2353,7 +2395,10 @@
 									a =
 										this.createTag ||
 										function (e) {
-											return {id: e.term, text: e.term};
+											return {
+												id: e.term,
+												text: e.term,
+											};
 										};
 								s < o.length;
 
@@ -2365,7 +2410,9 @@
 									null != u ? (r(u), (o = o.substr(s + 1) || ''), (s = 0)) : s++;
 								} else s++;
 							}
-							return {term: o};
+							return {
+								term: o,
+							};
 						}),
 						e
 					);
@@ -2530,7 +2577,14 @@
 							(t.results = this.removePlaceholder(t.results)), e.call(this, t);
 						}),
 						(e.prototype.normalizePlaceholder = function (e, t) {
-							return 'string' == typeof t && (t = {id: '', text: t}), t;
+							return (
+								'string' == typeof t &&
+									(t = {
+										id: '',
+										text: t,
+									}),
+								t
+							);
 						}),
 						(e.prototype.removePlaceholder = function (e, t) {
 							for (var n = t.slice(0), r = t.length - 1; 0 <= r; r--) {
@@ -2621,7 +2675,10 @@
 							t.attr('class', n.attr('class')),
 								t.removeClass('select2'),
 								t.addClass('select2-container--open'),
-								t.css({position: 'absolute', top: -999999}),
+								t.css({
+									position: 'absolute',
+									top: -999999,
+								}),
 								(this.$container = n);
 						}),
 						(e.prototype.render = function (e) {
@@ -2686,17 +2743,25 @@
 								r = null,
 								i = this.$container.offset();
 							i.bottom = i.top + this.$container.outerHeight(!1);
-							var o = {height: this.$container.outerHeight(!1)};
+							var o = {
+								height: this.$container.outerHeight(!1),
+							};
 							(o.top = i.top), (o.bottom = i.top + o.height);
 							var s = this.$dropdown.outerHeight(!1),
 								a = e.scrollTop(),
 								l = e.scrollTop() + e.height(),
 								c = a < i.top - s,
 								u = l > i.bottom + s,
-								d = {left: i.left, top: o.bottom},
+								d = {
+									left: i.left,
+									top: o.bottom,
+								},
 								p = this.$dropdownParent;
 							'static' === p.css('position') && (p = p.offsetParent());
-							var h = {top: 0, left: 0};
+							var h = {
+								top: 0,
+								left: 0,
+							};
 							(f.contains(document.body, p[0]) || p[0].isConnected) && (h = p.offset()),
 								(d.top -= h.top),
 								(d.left -= h.left),
@@ -2713,7 +2778,9 @@
 								this.$dropdownContainer.css(d);
 						}),
 						(e.prototype._resizeDropdown = function () {
-							var e = {width: this.$container.outerWidth(!1) + 'px'};
+							var e = {
+								width: this.$container.outerWidth(!1) + 'px',
+							};
 							this.options.get('dropdownAutoWidth') &&
 								((e.minWidth = e.width), (e.position = 'relative'), (e.width = 'auto')),
 								this.$dropdown.css(e);
@@ -3352,7 +3419,11 @@
 								};
 							if ((void 0 === t && (t = {}), e in r)) {
 								var i = r[e],
-									o = {prevented: !1, name: e, args: t};
+									o = {
+										prevented: !1,
+										name: e,
+										args: t,
+									};
 								if ((n.call(this, i, o), o.prevented)) return void (t.prevented = !0);
 							}
 							n.call(this, e, t);

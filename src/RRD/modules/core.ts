@@ -3,7 +3,10 @@ import {initMwApi} from '~/util';
 import {message} from './messages';
 
 export const isLog: boolean = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
-const config = {checkboxes: {}, others: {}};
+const config = {
+	checkboxes: {},
+	others: {},
+};
 let ids: string[] = [];
 let $dialog: JQuery;
 
