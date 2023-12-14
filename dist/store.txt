@@ -1300,17 +1300,6 @@ MediaWiki:Gadget-SkinVector2022/zh-mo
 MediaWiki:Gadget-SkinVector2022/zh-my
 MediaWiki:Gadget-SkinVector2022/zh-sg
 MediaWiki:Gadget-SkinVector2022/zh-tw
-MediaWiki:Gadget-SkinWrite
-MediaWiki:Gadget-SkinWrite.css
-MediaWiki:Gadget-SkinWrite/zh
-MediaWiki:Gadget-SkinWrite/zh-cn
-MediaWiki:Gadget-SkinWrite/zh-hans
-MediaWiki:Gadget-SkinWrite/zh-hant
-MediaWiki:Gadget-SkinWrite/zh-hk
-MediaWiki:Gadget-SkinWrite/zh-mo
-MediaWiki:Gadget-SkinWrite/zh-my
-MediaWiki:Gadget-SkinWrite/zh-sg
-MediaWiki:Gadget-SkinWrite/zh-tw
 MediaWiki:Gadget-SmoothTOC
 MediaWiki:Gadget-SmoothTOC.js
 MediaWiki:Gadget-SmoothTOC/zh
