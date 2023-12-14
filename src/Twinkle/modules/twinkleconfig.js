@@ -1469,7 +1469,7 @@
 				box.appendChild(link);
 				box.appendChild(document.createTextNode(wgULS('，或直接编辑本页。', '，或直接編輯本頁。')));
 				$(box).insertAfter($body.find('#contentSub'));
-			} else if (['vector', 'vector-2022', 'gongbi', 'citizen', 'write', 'common'].includes(scriptPageName)) {
+			} else if (['vector', 'vector-2022', 'gongbi', 'citizen', 'common'].includes(scriptPageName)) {
 				// place "Looking for Twinkle options?" notice
 				box.setAttribute('class', 'config-userskin-box');
 				box.appendChild(

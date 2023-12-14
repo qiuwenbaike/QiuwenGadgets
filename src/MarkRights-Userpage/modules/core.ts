@@ -11,7 +11,7 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 	const elementName: 'div' | 'li' | 'section' =
 		mw.config.get('skin') === 'citizen'
 			? 'section'
-			: ['vector', 'vector-2022', 'gongbi', 'write'].includes(mw.config.get('skin'))
+			: ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin'))
 				? 'li'
 				: 'div';
 	// The following classes are used here:

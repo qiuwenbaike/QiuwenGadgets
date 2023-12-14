@@ -14,7 +14,7 @@ import {processElement} from './modules/processElement';
 		return;
 	}
 
-	const $target: JQuery = WG_SKIN === 'write' ? $wrapper.find('a') : $wrapper.find('span');
+	const $target: JQuery = $wrapper.find('span');
 	if (!$target.length) {
 		return;
 	}

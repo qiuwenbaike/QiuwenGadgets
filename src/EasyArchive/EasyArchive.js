@@ -574,7 +574,7 @@ import {easy_archive_lang} from './modules/i18n';
 			});
 	}
 	if (
-		['vector', 'vector-2022', 'gongbi', 'write'].includes(mw.config.get('skin')) ||
+		['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
 		document.querySelector('ul#footer-info')
 	) {
 		const $body = $('body');

@@ -238,13 +238,6 @@
 			Twinkle.defaultConfig.portletType = 'nav';
 			Twinkle.defaultConfig.portletNext = 'p-tb';
 			break;
-		case 'write':
-			Twinkle.defaultConfig.portletArea = '#p-actions';
-			Twinkle.defaultConfig.portletId = 'p-twinkle';
-			Twinkle.defaultConfig.portletName = 'Twinkle';
-			Twinkle.defaultConfig.portletType = 'div';
-			Twinkle.defaultConfig.portletNext = null;
-			break;
 		default:
 			Twinkle.defaultConfig.portletArea = null;
 			Twinkle.defaultConfig.portletId = 'p-cactions';
@@ -330,7 +323,6 @@
 				innerDivClass = 'vector-menu-content vector-dropdown-content';
 				break;
 			case 'gongbi':
-			case 'write':
 				outerNavClass = 'mw-portlet';
 				innerDivClass = 'mw-portlet-body';
 				break;
