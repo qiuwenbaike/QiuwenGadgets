@@ -3,9 +3,10 @@ const getI18nMessages = () => {
 
 	return {
 		'Redirecting to': localize({
-			en: 'Redirecting to',
-			'zh-hans': '重定向至',
-			'zh-hant': '重新導向至',
+			en: 'Redirecting to $1',
+			ja: '「$1」にリダイレクト中',
+			'zh-hans': '正在重定向至“$1”',
+			'zh-hant': '正在重新導向至“$1”',
 		}),
 	};
 };
