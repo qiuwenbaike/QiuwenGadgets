@@ -297,7 +297,9 @@ export const popups = () => {
 		/* FIXME hack */
 		a.navpopup.hasPopupMenu = false;
 		a.navpopup.setInnerHTML(popupHTML(a));
-		fillEmptySpans({navpopup: a.navpopup});
+		fillEmptySpans({
+			navpopup: a.navpopup,
+		});
 		if (getValueOf('popupDraggable')) {
 			let dragHandle = getValueOf('popupDragHandle') || null;
 			if (dragHandle && dragHandle !== 'all') {
@@ -424,7 +426,11 @@ export const popups = () => {
 		const warnRedir = redirLink(target, navpop.article);
 		setPopupHTML(warnRedir, 'popupWarnRedir', navpop.idNumber);
 		navpop.article = target;
-		fillEmptySpans({redir: true, redirTarget: target, navpopup: navpop});
+		fillEmptySpans({
+			redir: true,
+			redirTarget: target,
+			navpopup: navpop,
+		});
 		return loadPreview(target, null, navpop);
 	};
 	const insertPreview = (download) => {
@@ -1075,7 +1081,10 @@ export const popups = () => {
 			return false;
 		}
 		const segment = unEscape(str.slice(0, Math.max(0, endSegment)), sep);
-		return {segment, remainder: str.slice(Math.max(0, endSegment + 1))};
+		return {
+			segment,
+			remainder: str.slice(Math.max(0, endSegment + 1)),
+		};
 	};
 	const skipToEnd = (str, _sep) => {
 		return {
@@ -2811,7 +2820,10 @@ export const popups = () => {
 				}
 			}
 		}
-		return {real: realStub, sect: sectStub};
+		return {
+			real: realStub,
+			sect: sectStub,
+		};
 	};
 	const isValidImageName = (str) => {
 		return !str.includes('{');
@@ -3331,7 +3343,8 @@ export const popups = () => {
 			}
 			switch (typeof structurefn) {
 				case 'function':
-					log(`running ${spans[i]}({article:${x.article}, hint:${x.hint}, oldid: ${x.oldid}})`);
+					log(`running ${spans[i]}({
+						article:${x.article}, hint:${x.hint}, oldid: ${x.oldid}})`);
 					setfn(structurefn(x), spans[i], args.navpopup.idNumber);
 					break;
 				case 'string':
@@ -3398,7 +3411,9 @@ export const popups = () => {
 		}
 		return simplePrintf('<%s id="%s" class="%s"></%s>', [tag, name + id, classname, tag]);
 	};
-	emptySpanHTML.classAliases = {popupSecondPreview: 'popupPreview'};
+	emptySpanHTML.classAliases = {
+		popupSecondPreview: 'popupPreview',
+	};
 	// generate html for popup image
 	// <a id="popupImageLinkn"><img id="popupImagen">
 	// where n=idNumber
@@ -5460,7 +5475,11 @@ export const popups = () => {
 				}
 				this.hookIds[hookId] = true;
 			}
-			this.hooks[key].push({hook, when, hookId});
+			this.hooks[key].push({
+				hook,
+				when,
+				hookId,
+			});
 		}
 		/**
 		 * Creates the main DIV element, which contains all the actual popup content.
@@ -5815,8 +5834,16 @@ export const popups = () => {
 		let i;
 		for (i in ns) {
 			if (ns[i].length === 1 && os[i] && os[i].length === 1) {
-				n[ns[i][0]] = {text: n[ns[i][0]], row: os[i][0], paired: true};
-				o[os[i][0]] = {text: o[os[i][0]], row: ns[i][0], paired: true};
+				n[ns[i][0]] = {
+					text: n[ns[i][0]],
+					row: os[i][0],
+					paired: true,
+				};
+				o[os[i][0]] = {
+					text: o[os[i][0]],
+					row: ns[i][0],
+					paired: true,
+				};
 			}
 		}
 		// pass 4: pair matching rows immediately following paired rows (not necessarily unique)
@@ -5828,8 +5855,16 @@ export const popups = () => {
 				!o[n[i].row + 1].paired &&
 				n[i + 1] === o[n[i].row + 1]
 			) {
-				n[i + 1] = {text: n[i + 1], row: n[i].row + 1, paired: true};
-				o[n[i].row + 1] = {text: o[n[i].row + 1], row: i + 1, paired: true};
+				n[i + 1] = {
+					text: n[i + 1],
+					row: n[i].row + 1,
+					paired: true,
+				};
+				o[n[i].row + 1] = {
+					text: o[n[i].row + 1],
+					row: i + 1,
+					paired: true,
+				};
 			}
 		}
 		// pass 5: pair matching rows immediately preceding paired rows (not necessarily unique)
@@ -5841,11 +5876,22 @@ export const popups = () => {
 				!o[n[i].row - 1].paired &&
 				n[i - 1] === o[n[i].row - 1]
 			) {
-				n[i - 1] = {text: n[i - 1], row: n[i].row - 1, paired: true};
-				o[n[i].row - 1] = {text: o[n[i].row - 1], row: i - 1, paired: true};
+				n[i - 1] = {
+					text: n[i - 1],
+					row: n[i].row - 1,
+					paired: true,
+				};
+				o[n[i].row - 1] = {
+					text: o[n[i].row - 1],
+					row: i - 1,
+					paired: true,
+				};
 			}
 		}
-		return {o, n};
+		return {
+			o,
+			n,
+		};
 	};
 	// ENDFILE: diff.js
 	// STARTFILE: init.js
@@ -6677,7 +6723,10 @@ export const popups = () => {
 	// STARTFILE: diffpreview.js
 	// lets jump through hoops to find the rev ids we need to retrieve
 	const loadDiff = (article, oldid, diff, navpop) => {
-		navpop.diffData = {oldRev: {}, newRev: {}};
+		navpop.diffData = {
+			oldRev: {},
+			newRev: {},
+		};
 		const api = getMwApi();
 		const params = {
 			action: 'compare',
@@ -6892,7 +6941,10 @@ export const popups = () => {
 				}
 			}
 		}
-		return {a: aaa, b: bbb};
+		return {
+			a: aaa,
+			b: bbb,
+		};
 	};
 	const stripOuterCommonLines = (a, b, context) => {
 		let i = 0;
@@ -7596,7 +7648,10 @@ export const popups = () => {
 			const {revisions} = anyChild(jsobj.query.pages);
 			const edits = [];
 			for (const revision of revisions) {
-				edits.push({oldid: revision.revid, editor: revision.user});
+				edits.push({
+					oldid: revision.revid,
+					editor: revision.user,
+				});
 			}
 			log(`processed ${edits.length} edits`);
 			return finishProcessHistory(edits, mw.config.get('wgUserName'));

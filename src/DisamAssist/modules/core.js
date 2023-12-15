@@ -456,7 +456,11 @@ const updateContext = () => {
 		if (numLines < cfg.numContextLines) {
 			// Add cfg.numContextLines - numLines + 1 line breaks, so that the total number
 			// of lines is cfg.numContextLines
-			ui.context.append(Array.from({length: cfg.numContextLines - numLines + 2}).join('<br>'));
+			ui.context.append(
+				Array.from({
+					length: cfg.numContextLines - numLines + 2,
+				}).join('<br>')
+			);
 		}
 		toggleFinishedMessage(false);
 		ui.undoButton.prop('disabled', !pageChanges.length);
@@ -800,7 +804,11 @@ const pad = (str, z, width) => {
 	if (str.length >= width) {
 		return str;
 	}
-	return Array.from({length: width - str.length + 1}).join(z) + str;
+	return (
+		Array.from({
+			length: width - str.length + 1,
+		}).join(z) + str
+	);
 };
 
 /* Create a new button

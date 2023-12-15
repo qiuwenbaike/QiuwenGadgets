@@ -14,13 +14,17 @@ import {getBody} from '~/util';
 
 	mw.hook('ve.saveDialog.stateChanged').add((): void => {
 		// AI辅助编辑特殊声明
-		aiAssisted({$body});
+		aiAssisted({
+			$body,
+		});
 	});
 })();
 
 mw.hook<JQuery[]>('wikipage.editform').add(($editForm): void => {
 	// AI辅助编辑特殊声明
-	aiAssisted({$editForm});
+	aiAssisted({
+		$editForm,
+	});
 	// 强制预览
 	// forcePreview($editForm);
 });

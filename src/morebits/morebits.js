@@ -560,7 +560,9 @@
 								id: `${id}_${i}_subgroup`,
 							});
 							for (const el of tmpgroup) {
-								const newEl = {...el};
+								const newEl = {
+									...el,
+								};
 								if (!newEl.type) {
 									newEl.type = data.type;
 								}
@@ -1597,7 +1599,9 @@
 			}
 
 			const numChunks = Math.ceil(arr.length / size);
-			const result = Array.from({length: numChunks});
+			const result = Array.from({
+				length: numChunks,
+			});
 			for (let i = 0; i < numChunks; i++) {
 				result[i] = arr.slice(i * size, (i + 1) * size);
 			}
@@ -2125,7 +2129,9 @@
 			// Default to 2, but allow for 0 or stringy numbers
 			level = Number.parseInt(level, 10);
 			level = Number.isNaN(level) ? 2 : level;
-			const header = Array.from({length: level + 1}).join('='); // String.prototype.repeat not supported in IE 11
+			const header = Array.from({
+				length: level + 1,
+			}).join('='); // String.prototype.repeat not supported in IE 11
 			const text = `${this.getUTCFullYear()}年${this.getUTCMonthName()}`;
 			if (header.length) {
 				// wikitext-formatted header

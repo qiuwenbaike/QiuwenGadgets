@@ -22,12 +22,30 @@ const getI18nMessages = () => {
 			'zh-hans': '出于阅读体验之考量，我们建议您可以选择所偏好的中文语言变体。给您带来不便，敬请谅解！',
 			'zh-hant': '出於閱讀體驗之考量，我們建議您可以選擇所偏好的中文語言變體。給您帶來不便，敬請諒解！',
 		}),
-		'variant-zh-cn': localize({en: 'Chinese Mainland (Simplified) (中国大陆简体)', zh: '中国大陆简体'}),
-		'variant-zh-hk': localize({en: 'Hong Kong, China (Traditional) (中國香港繁體)', zh: '中國香港繁體'}),
-		'variant-zh-mo': localize({en: 'Macau, China (Traditional) (中國澳門繁體)', zh: '中國澳門繁體'}),
-		'variant-zh-my': localize({en: 'Malaysia (Simplified) (马来西亚简体)', zh: '马来西亚简体'}),
-		'variant-zh-sg': localize({en: 'Singapore (Simplified) (马来西亚简体)', zh: '新加坡简体'}),
-		'variant-zh-tw': localize({en: 'Taiwan, Province of China (Traditional) (中國臺灣繁體)', zh: '中國臺灣繁體'}),
+		'variant-zh-cn': localize({
+			en: 'Chinese Mainland (Simplified) (中国大陆简体)',
+			zh: '中国大陆简体',
+		}),
+		'variant-zh-hk': localize({
+			en: 'Hong Kong, China (Traditional) (中國香港繁體)',
+			zh: '中國香港繁體',
+		}),
+		'variant-zh-mo': localize({
+			en: 'Macau, China (Traditional) (中國澳門繁體)',
+			zh: '中國澳門繁體',
+		}),
+		'variant-zh-my': localize({
+			en: 'Malaysia (Simplified) (马来西亚简体)',
+			zh: '马来西亚简体',
+		}),
+		'variant-zh-sg': localize({
+			en: 'Singapore (Simplified) (马来西亚简体)',
+			zh: '新加坡简体',
+		}),
+		'variant-zh-tw': localize({
+			en: 'Taiwan, Province of China (Traditional) (中國臺灣繁體)',
+			zh: '中國臺灣繁體',
+		}),
 		privacyNotice: localize({
 			en: 'Your choices will be only stored in your browser only. We will not track your choices.',
 			'zh-hans': '您的选择将仅存储在您的浏览器中，我们不会追踪您的选择。',

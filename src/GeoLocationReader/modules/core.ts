@@ -20,21 +20,19 @@ export const getLocation = async (): Promise<void> => {
 		return;
 	}
 	const ipGeoLocationDesc: string = getMessage('Location');
-	const appendIcon = (indicatorText: string, spanClass: string, icon: string, indicator?: boolean): void => {
+	const appendIcon = (indicatorText: string, spanClass: string, icon: string): void => {
 		const elementName: 'div' | 'li' | 'section' =
-			indicator === true
-				? 'div'
-				: mw.config.get('skin') === 'citizen'
-					? 'section'
-					: ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin'))
-						? 'li'
-						: 'div';
+			mw.config.get('skin') === 'citizen'
+				? 'section'
+				: ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin'))
+					? 'li'
+					: 'div';
 		// The following classes are used here:
 		// * mw-geolocation-green
 		// * mw-geolocation-blue
 		// * mw-geolocation-orange
 		const $indicator: JQuery = $(`<${elementName}>`)
-			.addClass(`${indicator === true ? 'mw-indicator ' : ''}mw-geolocation mw-geolocation-${spanClass}`)
+			.addClass(`mw-geolocation mw-geolocation-${spanClass}`)
 			.append(
 				$('<span>')
 					.addClass(`mw-geolocation-icon mw-geolocation-icon-${icon ?? 'globe'}`)
@@ -55,11 +53,7 @@ export const getLocation = async (): Promise<void> => {
 					.text(icon === 'globe' ? ipGeoLocationDesc + getMessage(':') + indicatorText : indicatorText ?? '')
 			);
 		const $body: JQuery<HTMLBodyElement> = $('body');
-		if (indicator === true) {
-			$indicator.appendTo($body.find('.mw-indicators'));
-		} else {
-			$indicator.prependTo($body.find('#footer-info, .page-info'));
-		}
+		$indicator.prependTo($body.find('#footer-info, .page-info'));
 	};
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (GeoLocationReader/1.0; ${mw.config.get('wgWikiID')})`);
 	const getUserGeoIP = async (): Promise<void> => {

@@ -608,7 +608,9 @@
 			e.stopPropagation();
 		};
 		return Array.prototype.map.call(list, (critElement) => {
-			const criterion = {...critElement};
+			const criterion = {
+				...critElement,
+			};
 			if (multiple) {
 				if (criterion.hideWhenMultiple) {
 					return null;
@@ -969,7 +971,10 @@
 							code += `|${parameters[i_]}`;
 						}
 					}
-					params.utparams = {...params.utparams, ...Twinkle.speedy.getUserTalkParameters(norm, parameters)};
+					params.utparams = {
+						...params.utparams,
+						...Twinkle.speedy.getUserTalkParameters(norm, parameters),
+					};
 				}
 				code += '}}';
 			} else {

@@ -37,7 +37,13 @@ export const pagePatroller = async (): Promise<void> => {
 		let cts: string = '';
 		let html: string = '';
 		if (query && query.logevents && query.logevents.length) {
-			const [log]: [{user: string; timestamp: string; action: string}] = query.logevents;
+			const [log]: [
+				{
+					user: string;
+					timestamp: string;
+					action: string;
+				},
+			] = query.logevents;
 			const {action} = log;
 			let {user, timestamp: ts} = log;
 			const date: Date = new Date(ts);

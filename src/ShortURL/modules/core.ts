@@ -24,7 +24,10 @@ export const shortURL = (): void => {
 				const $element: JQuery = $('<div>');
 				for (const domain of ['qwbk.cc', 'qwbk.org', 'bkwz.cn']) {
 					$element.append(
-						new mw.widgets.CopyTextLayout({align: 'top', copyText: `https://${domain}${link}`}).$element
+						new mw.widgets.CopyTextLayout({
+							align: 'top',
+							copyText: `https://${domain}${link}`,
+						}).$element
 					);
 				}
 				OO.ui.alert($element, {title: getMessage('Short URL copied to clipboard'), size: 'medium'});

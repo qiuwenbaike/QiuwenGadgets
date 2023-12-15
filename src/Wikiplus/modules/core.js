@@ -139,7 +139,10 @@
 							return !t && -1;
 						};
 					};
-				t.exports = {includes: a(!0), indexOf: a(!1)};
+				t.exports = {
+					includes: a(!0),
+					indexOf: a(!1),
+				};
 			},
 			2960: function (t, e, r) {
 				var n = r(4071),
@@ -217,7 +220,9 @@
 							var e = [];
 							return (
 								((e.constructor = {})[a] = function () {
-									return {foo: 1};
+									return {
+										foo: 1,
+									};
 								}),
 								1 !== e[t](Boolean).foo
 							);
@@ -525,7 +530,13 @@
 							});
 						};
 					};
-				t.exports = {toArray: l(0), forEach: l(1), every: l(2), some: l(3), find: l(4)};
+				t.exports = {
+					toArray: l(0),
+					forEach: l(1),
+					every: l(2),
+					some: l(3),
+					find: l(4),
+				};
 			},
 			3070: function (t, e, r) {
 				var n,
@@ -573,7 +584,9 @@
 					var i = 0,
 						a = {
 							next: function () {
-								return {done: !!i++};
+								return {
+									done: !!i++,
+								};
 							},
 							return: function () {
 								o = !0;
@@ -598,7 +611,9 @@
 						(i[n] = function () {
 							return {
 								next: function () {
-									return {done: (r = !0)};
+									return {
+										done: (r = !0),
+									};
 								},
 							};
 						}),
@@ -890,7 +905,14 @@
 					}
 					return (
 						(E[t] = S),
-						n({global: !0, constructor: !0, forced: S !== x}, E),
+						n(
+							{
+								global: !0,
+								constructor: !0,
+								forced: S !== x,
+							},
+							E
+						),
 						y(S, t),
 						b || r.setStrong(S, t, m),
 						S
@@ -932,7 +954,10 @@
 			},
 			7807: function (t) {
 				t.exports = function (t, e) {
-					return {value: t, done: e};
+					return {
+						value: t,
+						done: e,
+					};
 				};
 			},
 			5773: function (t, e, r) {
@@ -949,7 +974,12 @@
 			},
 			5684: function (t) {
 				t.exports = function (t, e) {
-					return {enumerable: !(1 & t), configurable: !(2 & t), writable: !(4 & t), value: e};
+					return {
+						enumerable: !(1 & t),
+						configurable: !(2 & t),
+						writable: !(4 & t),
+						value: e,
+					};
 				};
 			},
 			6522: function (t, e, r) {
@@ -1039,7 +1069,10 @@
 			2659: function (t) {
 				var e = 'object' == typeof document && document.all,
 					r = void 0 === e && void 0 !== e;
-				t.exports = {all: e, IS_HTMLDDA: r};
+				t.exports = {
+					all: e,
+					IS_HTMLDDA: r,
+				};
 			},
 			6420: function (t, e, r) {
 				var n = r(9037),
@@ -1372,7 +1405,11 @@
 					u = o(i, 'name'),
 					c = u && 'something' === function () {}.name,
 					s = u && (!n || (n && a(i, 'name').configurable));
-				t.exports = {EXISTS: u, PROPER: c, CONFIGURABLE: s};
+				t.exports = {
+					EXISTS: u,
+					PROPER: c,
+					CONFIGURABLE: s,
+				};
 			},
 			2743: function (t, e, r) {
 				var n = r(8844),
@@ -1413,7 +1450,11 @@
 			},
 			2302: function (t) {
 				t.exports = function (t) {
-					return {iterator: t, next: t.next, done: !1};
+					return {
+						iterator: t,
+						next: t.next,
+						done: !1,
+					};
 				};
 			},
 			1664: function (t, e, r) {
@@ -1656,7 +1697,14 @@
 											}
 										return n;
 									}),
-									n({target: 'Object', stat: !0, forced: !0}, {getOwnPropertyNames: f.f}));
+									n(
+										{
+											target: 'Object',
+											stat: !0,
+											forced: !0,
+										},
+										{getOwnPropertyNames: f.f}
+									));
 						},
 						fastKey: function (t, e) {
 							if (!a(t)) return 'symbol' == typeof t ? t : ('string' == typeof t ? 'S' : 'P') + t;
@@ -2112,9 +2160,24 @@
 									}))),
 						v)
 					)
-						if (((L = {values: I(S), keys: y ? C : I(k), entries: I(E)}), P))
+						if (
+							((L = {
+								values: I(S),
+								keys: y ? C : I(k),
+								entries: I(E),
+							}),
+							P)
+						)
 							for (_ in L) (w || R || !(_ in $)) && h($, _, L[_]);
-						else n({target: e, proto: !0, forced: w || R}, L);
+						else
+							n(
+								{
+									target: e,
+									proto: !0,
+									forced: w || R,
+								},
+								L
+							);
 					return (i && !P) || $[x] === C || h($, x, C, {name: v}), (d[e] = C), L;
 				};
 			},
@@ -2144,7 +2207,10 @@
 						l(n, v, function () {
 							return this;
 						}),
-					(t.exports = {IteratorPrototype: n, BUGGY_SAFARI_ITERATORS: d});
+					(t.exports = {
+						IteratorPrototype: n,
+						BUGGY_SAFARI_ITERATORS: d,
+					});
 			},
 			9478: function (t) {
 				t.exports = {};
@@ -2199,7 +2265,14 @@
 			3914: function (t, e, r) {
 				var n = r(8844),
 					o = Map.prototype;
-				t.exports = {Map: Map, set: n(o.set), get: n(o.get), has: n(o.has), remove: n(o.delete), proto: o};
+				t.exports = {
+					Map: Map,
+					set: n(o.set),
+					get: n(o.get),
+					has: n(o.has),
+					remove: n(o.delete),
+					proto: o,
+				};
 			},
 			613: function (t, e, r) {
 				var n = r(8844),
@@ -2212,9 +2285,15 @@
 					f = s(new a()).next;
 				t.exports = function (t, e, r) {
 					return r
-						? o({iterator: s(t), next: f}, function (t) {
-								return e(t[1], t[0]);
-							})
+						? o(
+								{
+									iterator: s(t),
+									next: f,
+								},
+								function (t) {
+									return e(t[1], t[0]);
+								}
+							)
 						: c(t, e);
 				};
 			},
@@ -2609,7 +2688,14 @@
 			9556: function (t, e) {
 				var r = {}.propertyIsEnumerable,
 					n = Object.getOwnPropertyDescriptor,
-					o = n && !r.call({1: 2}, 1);
+					o =
+						n &&
+						!r.call(
+							{
+								1: 2,
+							},
+							1
+						);
 				e.f = o
 					? function (t) {
 							var e = n(this, t);
@@ -2663,7 +2749,10 @@
 							return d;
 						};
 					};
-				t.exports = {entries: p(!0), values: p(!1)};
+				t.exports = {
+					entries: p(!0),
+					values: p(!1),
+				};
 			},
 			5073: function (t, e, r) {
 				var n = r(3043),
@@ -2745,7 +2834,10 @@
 						}
 					}
 					if (r) throw new i('Unterminated string at: ' + e);
-					return {value: n, end: e};
+					return {
+						value: n,
+						end: e,
+					};
 				};
 			},
 			496: function (t, e, r) {
@@ -2755,9 +2847,15 @@
 			9302: function (t) {
 				t.exports = function (t) {
 					try {
-						return {error: !1, value: t()};
+						return {
+							error: !1,
+							value: t(),
+						};
 					} catch (t) {
-						return {error: !0, value: t};
+						return {
+							error: !0,
+							value: t,
+						};
 					}
 				};
 			},
@@ -2795,7 +2893,11 @@
 						}
 						return !e && (s || f) && !y;
 					});
-				t.exports = {CONSTRUCTOR: g, REJECTION_EVENT: y, SUBCLASSING: d};
+				t.exports = {
+					CONSTRUCTOR: g,
+					REJECTION_EVENT: y,
+					SUBCLASSING: d,
+				};
 			},
 			7919: function (t, e, r) {
 				var n = r(9037);
@@ -2842,7 +2944,10 @@
 				};
 				(e.prototype = {
 					add: function (t) {
-						var e = {item: t, next: null},
+						var e = {
+								item: t,
+								next: null,
+							},
 							r = this.tail;
 						r ? (r.next = e) : (this.head = e), (this.tail = e);
 					},
@@ -2994,7 +3099,11 @@
 							var t = o('^r', 'gy');
 							return (t.lastIndex = 2), null !== t.exec('str');
 						});
-				t.exports = {BROKEN_CARET: u, MISSED_STICKY: a, UNSUPPORTED_Y: i};
+				t.exports = {
+					BROKEN_CARET: u,
+					MISSED_STICKY: a,
+					UNSUPPORTED_Y: i,
+				};
 			},
 			2100: function (t, e, r) {
 				var n = r(3689),
@@ -3123,7 +3232,10 @@
 										: f - 56320 + ((n - 55296) << 10) + 65536;
 						};
 					};
-				t.exports = {codeAt: f(!1), charAt: f(!0)};
+				t.exports = {
+					codeAt: f(!1),
+					charAt: f(!0),
+				};
 			},
 			6430: function (t, e, r) {
 				var n = r(8844),
@@ -3227,7 +3339,11 @@
 							return 1 & t && (r = u(r, c, '')), 2 & t && (r = u(r, s, '$1')), r;
 						};
 					};
-				t.exports = {start: f(1), end: f(2), trim: f(3)};
+				t.exports = {
+					start: f(1),
+					end: f(2),
+					trim: f(3),
+				};
 			},
 			146: function (t, e, r) {
 				var n = r(3615),
@@ -3356,7 +3472,10 @@
 												: function (t) {
 														setTimeout(I(t), 0);
 													})),
-					(t.exports = {set: b, clear: w});
+					(t.exports = {
+						set: b,
+						clear: w,
+					});
 			},
 			3648: function (t, e, r) {
 				var n = r(8844);
@@ -3786,7 +3905,15 @@
 						arity: 1,
 						forced:
 							r(3689)(function () {
-								return 4294967297 !== [].push.call({length: 4294967296}, 1);
+								return (
+									4294967297 !==
+									[].push.call(
+										{
+											length: 4294967296,
+										},
+										1
+									)
+								);
 							}) ||
 							!(function () {
 								try {
@@ -3868,13 +3995,31 @@
 					s = 7 !== new Error('e', {cause: 7}).cause,
 					f = function (t, e) {
 						var r = {};
-						(r[t] = a(t, e, s)), n({global: !0, constructor: !0, arity: 1, forced: s}, r);
+						(r[t] = a(t, e, s)),
+							n(
+								{
+									global: !0,
+									constructor: !0,
+									arity: 1,
+									forced: s,
+								},
+								r
+							);
 					},
 					l = function (t, e) {
 						if (c && c[t]) {
 							var r = {};
 							(r[t] = a(u + '.' + t, e, s)),
-								n({target: u, stat: !0, constructor: !0, arity: 1, forced: s}, r);
+								n(
+									{
+										target: u,
+										stat: !0,
+										constructor: !0,
+										arity: 1,
+										forced: s,
+									},
+									r
+								);
 						}
 					};
 				f('Error', function (t) {
@@ -3976,7 +4121,14 @@
 						!h ||
 						c(function () {
 							var t = o('Symbol')('stringify detection');
-							return '[null]' !== d([t]) || '{}' !== d({a: t}) || '{}' !== d(Object(t));
+							return (
+								'[null]' !== d([t]) ||
+								'{}' !==
+									d({
+										a: t,
+									}) ||
+								'{}' !== d(Object(t))
+							);
 						}),
 					O = c(function () {
 						return '"\\udf06\\ud834"' !== d('\udf06\ud834') || '"\\udead"' !== d('\udead');
@@ -4110,7 +4262,15 @@
 					};
 				(I.prototype = E),
 					_ && !o && (E.constructor = I),
-					n({global: !0, constructor: !0, wrap: !0, forced: _}, {Number: I});
+					n(
+						{
+							global: !0,
+							constructor: !0,
+							wrap: !0,
+							forced: _,
+						},
+						{Number: I}
+					);
 				var T = function (t, e) {
 					for (
 						var r,
@@ -4397,7 +4557,10 @@
 								(n.reason = r),
 								n.initEvent(t, !1, !0),
 								s.dispatchEvent(n))
-							: (n = {promise: e, reason: r}),
+							: (n = {
+									promise: e,
+									reason: r,
+								}),
 							!T && (o = s['on' + t]) ? o(n) : t === q && k('Unhandled promise rejection', r);
 					},
 					V = function (t) {
@@ -4441,7 +4604,9 @@
 								var n = Q(e);
 								n
 									? x(function () {
-											var r = {done: !1};
+											var r = {
+												done: !1,
+											};
 											try {
 												f(n, e, X(tt, r, t), X(Z, r, t));
 											} catch (e) {
@@ -4450,7 +4615,13 @@
 										})
 									: ((t.value = e), (t.state = 1), z(t, !1));
 							} catch (e) {
-								Z({done: !1}, e, t);
+								Z(
+									{
+										done: !1,
+									},
+									e,
+									t
+								);
 							}
 						}
 					};
@@ -4521,7 +4692,17 @@
 					} catch (t) {}
 					p && p(C, W);
 				}
-				a({global: !0, constructor: !0, wrap: !0, forced: I}, {Promise: A}), h(A, _, !1, !0), v(_);
+				a(
+					{
+						global: !0,
+						constructor: !0,
+						wrap: !0,
+						forced: I,
+					},
+					{Promise: A}
+				),
+					h(A, _, !1, !0),
+					v(_);
 			},
 			3964: function (t, e, r) {
 				r(6697), r(1692), r(5089), r(8829), r(2092), r(7905);
@@ -4639,7 +4820,13 @@
 				var n = r(9989),
 					o = r(9037),
 					i = r(5997);
-				n({global: !0}, {Reflect: {}}), i(o.Reflect, 'Reflect', !0);
+				n(
+					{
+						global: !0,
+					},
+					{Reflect: {}}
+				),
+					i(o.Reflect, 'Reflect', !0);
 			},
 			2003: function (t, e, r) {
 				var n = r(7697),
@@ -4808,7 +4995,14 @@
 			4043: function (t, e, r) {
 				var n = r(9989),
 					o = r(6308);
-				n({target: 'RegExp', proto: !0, forced: /./.exec !== o}, {exec: o});
+				n(
+					{
+						target: 'RegExp',
+						proto: !0,
+						forced: /./.exec !== o,
+					},
+					{exec: o}
+				);
 			},
 			3440: function (t, e, r) {
 				var n = r(7697),
@@ -4870,7 +5064,13 @@
 					s = 'toString',
 					f = RegExp.prototype[s],
 					l = u(function () {
-						return '/a/b' !== f.call({source: 'a', flags: 'b'});
+						return (
+							'/a/b' !==
+							f.call({
+								source: 'a',
+								flags: 'b',
+							})
+						);
 					}),
 					p = n && f.name !== s;
 				(l || p) &&
@@ -5034,7 +5234,12 @@
 						return (
 							(t.exec = function () {
 								var t = [];
-								return (t.groups = {a: '7'}), t;
+								return (
+									(t.groups = {
+										a: '7',
+									}),
+									t
+								);
 							}),
 							'7' !== ''.replace(t, '$<a>')
 						);
@@ -5242,7 +5447,16 @@
 							},
 						}),
 						u || j(Q, 'propertyIsEnumerable', lt, {unsafe: !0}))),
-					n({global: !0, constructor: !0, wrap: !0, forced: !s, sham: !s}, {Symbol: H}),
+					n(
+						{
+							global: !0,
+							constructor: !0,
+							wrap: !0,
+							forced: !s,
+							sham: !s,
+						},
+						{Symbol: H}
+					),
 					F(b(ot), function (t) {
 						C(t);
 					}),
@@ -5268,7 +5482,14 @@
 							getOwnPropertyDescriptor: pt,
 						}
 					),
-					n({target: 'Object', stat: !0, forced: !s}, {getOwnPropertyNames: ht}),
+					n(
+						{
+							target: 'Object',
+							stat: !0,
+							forced: !s,
+						},
+						{getOwnPropertyNames: ht}
+					),
 					A(),
 					W(H, M),
 					(T[U] = !0);
@@ -5310,7 +5531,14 @@
 							return '' === r ? void 0 : r;
 						},
 					}),
-						n({global: !0, constructor: !0, forced: !0}, {Symbol: y});
+						n(
+							{
+								global: !0,
+								constructor: !0,
+								forced: !0,
+							},
+							{Symbol: y}
+						);
 				}
 			},
 			3975: function (t, e, r) {
@@ -5481,7 +5709,14 @@
 				f(p, v) || c(p, v, 'Iterator'),
 					(!g && f(p, 'constructor') && p.constructor !== Object) || c(p, 'constructor', m),
 					(m.prototype = p),
-					n({global: !0, constructor: !0, forced: g}, {Iterator: m});
+					n(
+						{
+							global: !0,
+							constructor: !0,
+							forced: g,
+						},
+						{Iterator: m}
+					);
 			},
 			3476: function (t, e, r) {
 				var n = r(9989),
@@ -5761,7 +5996,16 @@
 													'" after the parsed data at: ' +
 													i
 											);
-										return s(e) ? $({'': o}, '', e, n) : o;
+										return s(e)
+											? $(
+													{
+														'': o,
+													},
+													'',
+													e,
+													n
+												)
+											: o;
 									})(t, e);
 						},
 					}
@@ -5867,7 +6111,10 @@
 								n = a(
 									e,
 									function (t, n) {
-										if (r(t, n, e)) return {key: n};
+										if (r(t, n, e))
+											return {
+												key: n,
+											};
 									},
 									!0
 								);
@@ -5890,7 +6137,10 @@
 								n = a(
 									e,
 									function (t, n) {
-										if (r(t, n, e)) return {value: t};
+										if (r(t, n, e))
+											return {
+												value: t,
+											};
 									},
 									!0
 								);
@@ -5933,7 +6183,10 @@
 							var e = i(
 								o(this),
 								function (e, r) {
-									if (e === t) return {key: r};
+									if (e === t)
+										return {
+											key: r,
+										};
 								},
 								!0
 							);
@@ -6219,7 +6472,14 @@
 						}
 					},
 					ut = /[!'()~]|%20/g,
-					ct = {'!': '%21', "'": '%27', '(': '%28', ')': '%29', '~': '%7E', '%20': '+'},
+					ct = {
+						'!': '%21',
+						"'": '%27',
+						'(': '%28',
+						')': '%29',
+						'~': '%7E',
+						'%20': '+',
+					},
 					st = function (t) {
 						return ct[t];
 					},
@@ -6416,7 +6676,14 @@
 							enumerable: !0,
 						}),
 					p(ht, R),
-					n({global: !0, constructor: !0, forced: !c}, {URLSearchParams: ht}),
+					n(
+						{
+							global: !0,
+							constructor: !0,
+							forced: !c,
+						},
+						{URLSearchParams: ht}
+					),
 					!c && y(M))
 				) {
 					var dt = a(G.has),
@@ -6452,10 +6719,21 @@
 						};
 						(D.constructor = mt),
 							(mt.prototype = D),
-							n({global: !0, constructor: !0, dontCallGetSet: !0, forced: !0}, {Request: mt});
+							n(
+								{
+									global: !0,
+									constructor: !0,
+									dontCallGetSet: !0,
+									forced: !0,
+								},
+								{Request: mt}
+							);
 					}
 				}
-				t.exports = {URLSearchParams: ht, getState: C};
+				t.exports = {
+					URLSearchParams: ht,
+					getState: C,
+				};
 			},
 			8858: function (t, e, r) {
 				var n = r(1880),
@@ -6638,7 +6916,14 @@
 						var r = g(t, 0);
 						return r > 32 && r < 127 && !h(e, t) ? t : encodeURIComponent(t);
 					},
-					pt = {ftp: 21, file: null, http: 80, https: 443, ws: 80, wss: 443},
+					pt = {
+						ftp: 21,
+						file: null,
+						http: 80,
+						https: 443,
+						ws: 80,
+						wss: 443,
+					},
 					ht = function (t, e) {
 						var r;
 						return 2 === t.length && N(Y, $(t, 0)) && (':' === (r = $(t, 1)) || (!e && '|' === r));
@@ -7356,7 +7641,16 @@
 						Dt = L.revokeObjectURL;
 					Mt && f(Bt, 'createObjectURL', c(Mt, L)), Dt && f(Bt, 'revokeObjectURL', c(Dt, L));
 				}
-				w(Bt, 'URL'), o({global: !0, constructor: !0, forced: !a, sham: !i}, {URL: Bt});
+				w(Bt, 'URL'),
+					o(
+						{
+							global: !0,
+							constructor: !0,
+							forced: !a,
+							sham: !i,
+						},
+						{URL: Bt}
+					);
 			},
 			8730: function (t, e, r) {
 				r(9391);
@@ -7366,7 +7660,9 @@
 	function r(n) {
 		var o = e[n];
 		if (void 0 !== o) return o.exports;
-		var i = (e[n] = {exports: {}});
+		var i = (e[n] = {
+			exports: {},
+		});
 		return t[n].call(i.exports, i, i.exports, r), i.exports;
 	}
 	(r.g = (function () {
@@ -7667,9 +7963,15 @@
 				}
 				function h(t, e, r) {
 					try {
-						return {type: 'normal', arg: t.call(e, r)};
+						return {
+							type: 'normal',
+							arg: t.call(e, r),
+						};
 					} catch (t) {
-						return {type: 'throw', arg: t};
+						return {
+							type: 'throw',
+							arg: t,
+						};
 					}
 				}
 				e.wrap = p;
@@ -7740,7 +8042,10 @@
 						if (o === y) throw new Error('Generator is already running');
 						if (o === g) {
 							if ('throw' === i) throw a;
-							return {value: t, done: !0};
+							return {
+								value: t,
+								done: !0,
+							};
 						}
 						for (n.method = i, n.arg = a; ; ) {
 							var u = n.delegate;
@@ -7760,7 +8065,10 @@
 							var s = h(e, r, n);
 							if ('normal' === s.type) {
 								if (((o = n.done ? g : d), s.arg === m)) continue;
-								return {value: s.arg, done: n.done};
+								return {
+									value: s.arg,
+									done: n.done,
+								};
 							}
 							'throw' === s.type && ((o = g), (n.method = 'throw'), (n.arg = s.arg));
 						}
@@ -7797,7 +8105,9 @@
 							m);
 				}
 				function I(t) {
-					var e = {tryLoc: t[0]};
+					var e = {
+						tryLoc: t[0],
+					};
 					1 in t && (e.catchLoc = t[1]),
 						2 in t && ((e.finallyLoc = t[2]), (e.afterLoc = t[3])),
 						this.tryEntries.push(e);
@@ -7845,7 +8155,9 @@
 						);
 					}),
 					(e.awrap = function (t) {
-						return {__await: t};
+						return {
+							__await: t,
+						};
 					}),
 					P(j.prototype),
 					l(j.prototype, c, function () {
@@ -7994,7 +8306,11 @@
 						},
 						delegateYield: function (e, r, n) {
 							return (
-								(this.delegate = {iterator: $(e), resultName: r, nextLoc: n}),
+								(this.delegate = {
+									iterator: $(e),
+									resultName: r,
+									nextLoc: n,
+								}),
 								'next' === this.method && (this.arg = t),
 								m
 							);
@@ -8241,9 +8557,15 @@
 				}
 				function l(t, e, r) {
 					try {
-						return {type: 'normal', arg: t.call(e, r)};
+						return {
+							type: 'normal',
+							arg: t.call(e, r),
+						};
 					} catch (t) {
-						return {type: 'throw', arg: t};
+						return {
+							type: 'throw',
+							arg: t,
+						};
 					}
 				}
 				e.wrap = f;
@@ -8314,7 +8636,10 @@
 						if (o === v) throw new Error('Generator is already running');
 						if (o === d) {
 							if ('throw' === i) throw a;
-							return {value: t, done: !0};
+							return {
+								value: t,
+								done: !0,
+							};
 						}
 						for (n.method = i, n.arg = a; ; ) {
 							var u = n.delegate;
@@ -8334,7 +8659,10 @@
 							var s = l(e, r, n);
 							if ('normal' === s.type) {
 								if (((o = n.done ? d : h), s.arg === y)) continue;
-								return {value: s.arg, done: n.done};
+								return {
+									value: s.arg,
+									done: n.done,
+								};
 							}
 							'throw' === s.type && ((o = d), (n.method = 'throw'), (n.arg = s.arg));
 						}
@@ -8371,7 +8699,9 @@
 							y);
 				}
 				function I(t) {
-					var e = {tryLoc: t[0]};
+					var e = {
+						tryLoc: t[0],
+					};
 					1 in t && (e.catchLoc = t[1]),
 						2 in t && ((e.finallyLoc = t[2]), (e.afterLoc = t[3])),
 						this.tryEntries.push(e);
@@ -8419,7 +8749,9 @@
 						);
 					}),
 					(e.awrap = function (t) {
-						return {__await: t};
+						return {
+							__await: t,
+						};
 					}),
 					P(j.prototype),
 					s(j.prototype, u, function () {
@@ -8568,7 +8900,11 @@
 						},
 						delegateYield: function (e, r, n) {
 							return (
-								(this.delegate = {iterator: $(e), resultName: r, nextLoc: n}),
+								(this.delegate = {
+									iterator: $(e),
+									resultName: r,
+									nextLoc: n,
+								}),
 								'next' === this.method && (this.arg = t),
 								y
 							);
@@ -9041,9 +9377,15 @@
 				}
 				function l(t, e, r) {
 					try {
-						return {type: 'normal', arg: t.call(e, r)};
+						return {
+							type: 'normal',
+							arg: t.call(e, r),
+						};
 					} catch (t) {
-						return {type: 'throw', arg: t};
+						return {
+							type: 'throw',
+							arg: t,
+						};
 					}
 				}
 				e.wrap = f;
@@ -9114,7 +9456,10 @@
 						if (o === v) throw new Error('Generator is already running');
 						if (o === d) {
 							if ('throw' === i) throw a;
-							return {value: t, done: !0};
+							return {
+								value: t,
+								done: !0,
+							};
 						}
 						for (n.method = i, n.arg = a; ; ) {
 							var u = n.delegate;
@@ -9134,7 +9479,10 @@
 							var s = l(e, r, n);
 							if ('normal' === s.type) {
 								if (((o = n.done ? d : h), s.arg === y)) continue;
-								return {value: s.arg, done: n.done};
+								return {
+									value: s.arg,
+									done: n.done,
+								};
 							}
 							'throw' === s.type && ((o = d), (n.method = 'throw'), (n.arg = s.arg));
 						}
@@ -9171,7 +9519,9 @@
 							y);
 				}
 				function L(t) {
-					var e = {tryLoc: t[0]};
+					var e = {
+						tryLoc: t[0],
+					};
 					1 in t && (e.catchLoc = t[1]),
 						2 in t && ((e.finallyLoc = t[2]), (e.afterLoc = t[3])),
 						this.tryEntries.push(e);
@@ -9219,7 +9569,9 @@
 						);
 					}),
 					(e.awrap = function (t) {
-						return {__await: t};
+						return {
+							__await: t,
+						};
 					}),
 					E(O.prototype),
 					s(O.prototype, u, function () {
@@ -9368,7 +9720,11 @@
 						},
 						delegateYield: function (e, r, n) {
 							return (
-								(this.delegate = {iterator: T(e), resultName: r, nextLoc: n}),
+								(this.delegate = {
+									iterator: T(e),
+									resultName: r,
+									nextLoc: n,
+								}),
 								'next' === this.method && (this.arg = t),
 								y
 							);
@@ -9455,7 +9811,11 @@
 														case 0:
 															return (
 																(t.next = 2),
-																m.get({action: 'query', meta: 'tokens', format: 'json'})
+																m.get({
+																	action: 'query',
+																	meta: 'tokens',
+																	format: 'json',
+																})
 															);
 														case 2:
 															if (
@@ -9799,7 +10159,12 @@
 													for (;;)
 														switch ((t.prev = t.next)) {
 															case 0:
-																return (t.next = 2), this.getPageInfo({title: e});
+																return (
+																	(t.next = 2),
+																	this.getPageInfo({
+																		title: e,
+																	})
+																);
 															case 2:
 																return (
 																	(r = t.sent),
@@ -9911,9 +10276,15 @@
 				}
 				function l(t, e, r) {
 					try {
-						return {type: 'normal', arg: t.call(e, r)};
+						return {
+							type: 'normal',
+							arg: t.call(e, r),
+						};
 					} catch (t) {
-						return {type: 'throw', arg: t};
+						return {
+							type: 'throw',
+							arg: t,
+						};
 					}
 				}
 				e.wrap = f;
@@ -9984,7 +10355,10 @@
 						if (o === v) throw new Error('Generator is already running');
 						if (o === d) {
 							if ('throw' === i) throw a;
-							return {value: t, done: !0};
+							return {
+								value: t,
+								done: !0,
+							};
 						}
 						for (n.method = i, n.arg = a; ; ) {
 							var u = n.delegate;
@@ -10004,7 +10378,10 @@
 							var s = l(e, r, n);
 							if ('normal' === s.type) {
 								if (((o = n.done ? d : h), s.arg === y)) continue;
-								return {value: s.arg, done: n.done};
+								return {
+									value: s.arg,
+									done: n.done,
+								};
 							}
 							'throw' === s.type && ((o = d), (n.method = 'throw'), (n.arg = s.arg));
 						}
@@ -10041,7 +10418,9 @@
 							y);
 				}
 				function L(t) {
-					var e = {tryLoc: t[0]};
+					var e = {
+						tryLoc: t[0],
+					};
 					1 in t && (e.catchLoc = t[1]),
 						2 in t && ((e.finallyLoc = t[2]), (e.afterLoc = t[3])),
 						this.tryEntries.push(e);
@@ -10089,7 +10468,9 @@
 						);
 					}),
 					(e.awrap = function (t) {
-						return {__await: t};
+						return {
+							__await: t,
+						};
 					}),
 					E(O.prototype),
 					s(O.prototype, u, function () {
@@ -10238,7 +10619,11 @@
 						},
 						delegateYield: function (e, r, n) {
 							return (
-								(this.delegate = {iterator: T(e), resultName: r, nextLoc: n}),
+								(this.delegate = {
+									iterator: T(e),
+									resultName: r,
+									nextLoc: n,
+								}),
 								'next' === this.method && (this.arg = t),
 								y
 							);
@@ -10750,11 +11135,17 @@
 								key: 'slideLeft',
 								value: function (t, e) {
 									t.css('position', 'relative'),
-										t.animate({left: '-200%'}, e || 150, function () {
-											$(this).fadeOut('fast', function () {
-												$(this).remove();
-											});
-										});
+										t.animate(
+											{
+												left: '-200%',
+											},
+											e || 150,
+											function () {
+												$(this).fadeOut('fast', function () {
+													$(this).remove();
+												});
+											}
+										);
 								},
 							},
 						]),
@@ -10826,9 +11217,15 @@
 				}
 				function l(t, e, r) {
 					try {
-						return {type: 'normal', arg: t.call(e, r)};
+						return {
+							type: 'normal',
+							arg: t.call(e, r),
+						};
 					} catch (t) {
-						return {type: 'throw', arg: t};
+						return {
+							type: 'throw',
+							arg: t,
+						};
 					}
 				}
 				e.wrap = f;
@@ -10899,7 +11296,10 @@
 						if (o === v) throw new Error('Generator is already running');
 						if (o === d) {
 							if ('throw' === i) throw a;
-							return {value: t, done: !0};
+							return {
+								value: t,
+								done: !0,
+							};
 						}
 						for (n.method = i, n.arg = a; ; ) {
 							var u = n.delegate;
@@ -10919,7 +11319,10 @@
 							var s = l(e, r, n);
 							if ('normal' === s.type) {
 								if (((o = n.done ? d : h), s.arg === y)) continue;
-								return {value: s.arg, done: n.done};
+								return {
+									value: s.arg,
+									done: n.done,
+								};
 							}
 							'throw' === s.type && ((o = d), (n.method = 'throw'), (n.arg = s.arg));
 						}
@@ -10956,7 +11359,9 @@
 							y);
 				}
 				function L(t) {
-					var e = {tryLoc: t[0]};
+					var e = {
+						tryLoc: t[0],
+					};
 					1 in t && (e.catchLoc = t[1]),
 						2 in t && ((e.finallyLoc = t[2]), (e.afterLoc = t[3])),
 						this.tryEntries.push(e);
@@ -11004,7 +11409,9 @@
 						);
 					}),
 					(e.awrap = function (t) {
-						return {__await: t};
+						return {
+							__await: t,
+						};
 					}),
 					E(O.prototype),
 					s(O.prototype, u, function () {
@@ -11153,7 +11560,11 @@
 						},
 						delegateYield: function (e, r, n) {
 							return (
-								(this.delegate = {iterator: T(e), resultName: r, nextLoc: n}),
+								(this.delegate = {
+									iterator: T(e),
+									resultName: r,
+									nextLoc: n,
+								}),
 								'next' === this.method && (this.arg = t),
 								y
 							);
@@ -11370,7 +11781,10 @@
 											.text(''.concat(P.translate('quickedit_topbtn')));
 									switch ((e.append(r), i.skin)) {
 										case 'minerva':
-											e.css({'align-items': 'center', display: 'flex'}),
+											e.css({
+												'align-items': 'center',
+												display: 'flex',
+											}),
 												e.find('span').addClass('page-actions-menu__list-item'),
 												e
 													.find('a')
@@ -11386,7 +11800,10 @@
 											e.append($('<span>').append(r));
 									}
 									$(e).on('click', function () {
-										t({sectionNumber: -1, targetPageName: i.currentPageName});
+										t({
+											sectionNumber: -1,
+											targetPageName: i.currentPageName,
+										});
 									}),
 										$('#ca-edit').length > 0 &&
 											0 === $('#Wikiplus-Edit-TopBtn').length &&
@@ -11433,7 +11850,11 @@
 											var c = u.text().trim(),
 												s = e.clone();
 											s.find('.Wikiplus-Edit-SectionBtn').on('click', function () {
-												t({sectionNumber: o, sectionName: c, targetPageName: a});
+												t({
+													sectionNumber: o,
+													sectionName: c,
+													targetPageName: a,
+												});
 											}),
 												'minerva' === i.skin
 													? $(this).append(s)
@@ -11547,7 +11968,10 @@
 													.attr('for', 'Wikiplus-Quickedit-MinorEdit')
 													.text(''.concat(P.translate('mark_minoredit'), '(Ctrl+Shift+S)'))
 											)
-											.css({margin: '5px 5px 5px -3px', display: 'inline'}),
+											.css({
+												margin: '5px 5px 5px -3px',
+												display: 'inline',
+											}),
 										O = $('<div>').append(g, m, w, b, x, $('<br>'), E, k, S);
 									this.createDialogBox(r, O, 1e3, function () {
 										$('#Wikiplus-Quickedit').val(o), $('#Wikiplus-Quickedit-Summary-Input').val(a);
@@ -11791,14 +12215,19 @@
 																		),
 																		(e.prev = 2),
 																		(e.next = 5),
-																		n({title: r, forceOverwrite: !1})
+																		n({
+																			title: r,
+																			forceOverwrite: !1,
+																		})
 																	);
 																case 5:
 																	$('.Wikiplus-Banner').text(
 																		P.translate('redirect_saved')
 																	),
 																		t.hideSimpleRedirectPanel(l),
-																		i({title: r}),
+																		i({
+																			title: r,
+																		}),
 																		(e.next = 15);
 																	break;
 																case 10:
@@ -11972,7 +12401,9 @@
 																			)),
 																		(o = $('#Wikiplus-Setting-Input').val()),
 																		(e.prev = 2),
-																		r({settings: o}),
+																		r({
+																			settings: o,
+																		}),
 																		$('.Wikiplus-InterBox-Content')
 																			.html('')
 																			.append(n),
@@ -12023,7 +12454,10 @@
 										.find('a')
 										.each(function (e) {
 											$(this).on('mouseover', function () {
-												$(this).off('mouseover'), t({sectionNumber: e + 1});
+												$(this).off('mouseover'),
+													t({
+														sectionNumber: e + 1,
+													});
 											});
 										});
 								},
@@ -12229,9 +12663,15 @@
 				}
 				function l(t, e, r) {
 					try {
-						return {type: 'normal', arg: t.call(e, r)};
+						return {
+							type: 'normal',
+							arg: t.call(e, r),
+						};
 					} catch (t) {
-						return {type: 'throw', arg: t};
+						return {
+							type: 'throw',
+							arg: t,
+						};
 					}
 				}
 				e.wrap = f;
@@ -12302,7 +12742,10 @@
 						if (o === v) throw new Error('Generator is already running');
 						if (o === d) {
 							if ('throw' === i) throw a;
-							return {value: t, done: !0};
+							return {
+								value: t,
+								done: !0,
+							};
 						}
 						for (n.method = i, n.arg = a; ; ) {
 							var u = n.delegate;
@@ -12322,7 +12765,10 @@
 							var s = l(e, r, n);
 							if ('normal' === s.type) {
 								if (((o = n.done ? d : h), s.arg === y)) continue;
-								return {value: s.arg, done: n.done};
+								return {
+									value: s.arg,
+									done: n.done,
+								};
 							}
 							'throw' === s.type && ((o = d), (n.method = 'throw'), (n.arg = s.arg));
 						}
@@ -12359,7 +12805,9 @@
 							y);
 				}
 				function L(t) {
-					var e = {tryLoc: t[0]};
+					var e = {
+						tryLoc: t[0],
+					};
 					1 in t && (e.catchLoc = t[1]),
 						2 in t && ((e.finallyLoc = t[2]), (e.afterLoc = t[3])),
 						this.tryEntries.push(e);
@@ -12407,7 +12855,9 @@
 						);
 					}),
 					(e.awrap = function (t) {
-						return {__await: t};
+						return {
+							__await: t,
+						};
 					}),
 					E(O.prototype),
 					s(O.prototype, u, function () {
@@ -12556,7 +13006,11 @@
 						},
 						delegateYield: function (e, r, n) {
 							return (
-								(this.delegate = {iterator: T(e), resultName: r, nextLoc: n}),
+								(this.delegate = {
+									iterator: T(e),
+									resultName: r,
+									nextLoc: n,
+								}),
 								'next' === this.method && (this.arg = t),
 								y
 							);
@@ -12618,7 +13072,10 @@
 																		return t.abrupt('return', e[n]);
 																	case 3:
 																		return (
-																			(i = new st({revisionId: n, title: o})),
+																			(i = new st({
+																				revisionId: n,
+																				title: o,
+																			})),
 																			(t.next = 6),
 																			i.init()
 																		);
@@ -12667,7 +13124,10 @@
 											(o = i.currentPageName),
 											(a = i.revisionId),
 											(t.next = 19),
-											n({revisionId: a, title: o})
+											n({
+												revisionId: a,
+												title: o,
+											})
 										);
 									case 19:
 										(u = t.sent),
@@ -12733,7 +13193,10 @@
 																		return (
 																			(f = t.t0),
 																			(t.next = 15),
-																			n({revisionId: f, title: c})
+																			n({
+																				revisionId: f,
+																				title: c,
+																			})
 																		);
 																	case 15:
 																		return (
@@ -12760,7 +13223,9 @@
 																				vt.success(P.translate('loading'));
 																			}, 200)),
 																			(t.next = 21),
-																			l.getWikiText({section: a})
+																			l.getWikiText({
+																				section: a,
+																			})
 																		);
 																	case 21:
 																		(d = t.sent),
@@ -13032,7 +13497,9 @@
 																		return (
 																			(r = e.sectionNumber),
 																			(t.next = 3),
-																			u.getWikiText({section: r})
+																			u.getWikiText({
+																				section: r,
+																			})
 																		);
 																	case 3:
 																	case 'end':
