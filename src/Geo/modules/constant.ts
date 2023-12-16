@@ -1,1 +1,3 @@
-export const STORAGE_ITEM_NAME: string = 'GeoIP';
+const STORAGE_KEY: string = 'GeoIP';
+
+export {STORAGE_KEY};
