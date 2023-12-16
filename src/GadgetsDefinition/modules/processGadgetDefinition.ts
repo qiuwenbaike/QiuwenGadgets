@@ -1,52 +1,24 @@
-/**
- * @description Adds links to gadget definitions in [[MediaWiki:Gadgets-definition]] and
- * prettifies them by adding whitespace.
- * Adds anchors to gadget definitions as well as CSS to highlight them when we
- * click a link to them.
- */
-// Technique gleaned from [[enwiki:fr:Utilisateur:Od1n/AddLinksGadgetsDefinition.js]].
-// This anchor element is used to generate links and is not attached to the document.
-const link: HTMLAnchorElement = document.createElement('a');
-
-const makeLink = (href: string, text: string | null) => {
-	link.href = href;
-	link.textContent = text;
-	return link.outerHTML;
-};
-
-const makeWikilink = (page: string, text: string) => {
-	return makeLink(mw.util.getUrl(page), text || page);
-};
+import {makeLink, makeWikilink} from './util/makeLink';
+import {REXEX_GADGET_NAME} from './constant';
+import {generateGadgetId} from './util/generateGadgetId';
 
 const linkGadgetSource = (sourcePage: string) => {
 	return makeWikilink(`MediaWiki:Gadget-${sourcePage}`, sourcePage);
 };
 
-const gadgetNameRegex: RegExp = /^(\s*)([\w_-]+)\s*/;
-
-export const getGadgetName = (innerHTML: string): string => {
-	const match: RegExpExecArray | null = gadgetNameRegex.exec(innerHTML);
-	return (match ? match[2] : null) ?? '';
-};
-
-export const makeGadgetId = (gadgetName: string) => {
-	return `Gadget-${gadgetName}`;
-};
-
 const linkGadgetAnchor = (gadgetName: string, text?: string) => {
-	return makeLink(`#${makeGadgetId(gadgetName)}`, text || gadgetName);
+	return makeLink(`#${generateGadgetId(gadgetName)}`, text || gadgetName);
 };
 
-export const processGadgetDefinition = (innerHTML: string) => {
+const processGadgetDefinition = (innerHTML: string): string => {
 	return (
 		innerHTML
 			// link gadget name to system message page and add space after it
-			.replace(gadgetNameRegex, (_wholeMatch: string, whitespace: string, gadgetName: string) => {
+			.replace(REXEX_GADGET_NAME, (_wholeMatch: string, whitespace: string, gadgetName: string): string => {
 				return `${whitespace + linkGadgetSource(gadgetName)} `;
 			})
 			.replace(/([\w_\-.]+\.(?:css|js(?:on)?))/g, linkGadgetSource) // link script names
 			.replace(/\s*\|\s*/g, ' | ') // spaces around pipes
-
 			/**
 			 * process options
 			 *
@@ -87,3 +59,5 @@ export const processGadgetDefinition = (innerHTML: string) => {
 			})
 	);
 };
+
+export {processGadgetDefinition};
