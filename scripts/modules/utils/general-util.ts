@@ -1,4 +1,18 @@
 import prompts, {type Answers, type PromptType} from 'prompts';
+import chalk from 'chalk';
+import {exit} from 'node:process';
+import {resolve} from 'node:path';
+
+/**
+ * Get the root directory of the project
+ *
+ * @return {string} The root directory of the project
+ */
+const getRootDir = (): string => {
+	const rootDir: string = resolve();
+
+	return rootDir;
+};
 
 /**
  * Easy to use CLI prompts to enquire users for information
@@ -18,7 +32,26 @@ const prompt = async (message: string, type: PromptType = 'text', initial: strin
 		type,
 	});
 
-	return answers[name];
+	const answer: string | undefined = answers[name];
+	if (answer === undefined) {
+		// User pressed [ctrl + C]
+		console.log(chalk.red('Input cancelled, program terminated.'));
+		exit(1);
+	}
+
+	return answer;
 };
 
-export {prompt};
+/**
+ * Trim and generate a string ending with a newline character
+ *
+ * @param {string|undefined} string
+ * @return {string}
+ */
+const trim = (string: string | undefined): string => {
+	const stringTrim: string = (string ?? '').trim();
+
+	return stringTrim ? `${stringTrim}\n` : '';
+};
+
+export {getRootDir, prompt, trim};

@@ -1,14 +1,19 @@
 import type {ApiQueue, Credentials, CredentialsOnlyPassword, DeploymentTargets} from '../types';
 import {CONVERT_VARIANT, DEFINITION_SECTION_MAP} from '../../constant';
-import fs, {type PathOrFileDescriptor} from 'node:fs';
+import {closeSync, fdatasyncSync, open, readFileSync, writeFileSync} from 'node:fs';
+import {getRootDir, prompt} from './general-util';
 import {type ApiEditResponse} from 'mwn';
+import {MwnError} from 'mwn/build/error';
 import {Window} from 'happy-dom';
 import chalk from 'chalk';
 import {execSync} from 'node:child_process';
-import path from 'node:path';
-import {prompt} from './general-util';
+import {join} from 'node:path';
 import {setTimeout} from 'node:timers/promises';
-const __dirname: string = path.resolve();
+
+/**
+ * @private
+ */
+const rootDir: string = getRootDir();
 
 /**
  * @private
@@ -29,7 +34,7 @@ const generateTargets = (definitions: string[]): DeploymentTargets => {
 			/^\*\s(\S+?)\[\S+?]\|(\S+?)☀\S*?☀(.+?)$/
 		) as RegExpMatchArray;
 
-		targets[name] = {} as DeploymentTargets[''];
+		targets[name] = {} as DeploymentTargets[keyof DeploymentTargets];
 		targets[name].files = files
 			.split('|')
 			.filter((file: string): boolean => {
@@ -79,8 +84,8 @@ const checkConfig = async (
 const loadConfig = (): Partial<Credentials> => {
 	let credentialsJsonText: string = '{}';
 	try {
-		const credentialsFilePath: string = path.join(__dirname, 'scripts/credentials.json');
-		const fileBuffer: Buffer = fs.readFileSync(credentialsFilePath);
+		const credentialsFilePath: string = join(rootDir, 'scripts/credentials.json');
+		const fileBuffer: Buffer = readFileSync(credentialsFilePath);
 		credentialsJsonText = fileBuffer.toString();
 	} catch {
 		console.log(chalk.red(`${chalk.italic('credentials.json')} is missing, a empty object will be used.`));
@@ -109,7 +114,7 @@ const makeEditSummary = async (): Promise<string> => {
 	await prompt('> Press [Enter] to continue deploying or quickly press [ctrl + C] twice to cancel');
 
 	console.log(chalk.yellow('--- deployment will continue in three seconds ---'));
-	await setTimeout(3000);
+	await setTimeout(3 * 1000);
 
 	return editSummary;
 };
@@ -120,8 +125,8 @@ const makeEditSummary = async (): Promise<string> => {
  * @return {string} Gadget definitions (in the format of MediaWiki:Gadgets-definition item)
  */
 const readDefinition = (): string => {
-	const definitionPath: string = path.join(__dirname, 'dist/definition.txt');
-	const fileBuffer: Buffer = fs.readFileSync(definitionPath);
+	const definitionPath: string = join(rootDir, 'dist/definition.txt');
+	const fileBuffer: Buffer = readFileSync(definitionPath);
 
 	return fileBuffer.toString();
 };
@@ -134,8 +139,8 @@ const readDefinition = (): string => {
  * @return {string} The file content
  */
 const readFileText = (name: string, file: string): string => {
-	const filePath: string = path.join(__dirname, `dist/${name}/${file}`);
-	const fileBuffer: Buffer = fs.readFileSync(filePath);
+	const filePath: string = join(rootDir, `dist/${name}/${file}`);
+	const fileBuffer: Buffer = readFileSync(filePath);
 
 	return fileBuffer.toString();
 };
@@ -358,21 +363,26 @@ const saveFiles = (name: string, file: string, fileContent: string, {api, editSu
  * @param {ApiQueue} object The api instance, the editing summary used by this api instance and the delete page queue
  */
 const deleteUnusedPages = async ({api, editSummary, queue}: ApiQueue): Promise<void> => {
-	const storeFilePath: string = path.join(__dirname, 'dist/store.txt');
+	const storeFilePath: string = join(rootDir, 'dist/store.txt');
 
 	let lastDeployPages: string[] = [];
 	try {
-		const fileBuffer: Buffer = fs.readFileSync(storeFilePath);
+		const fileBuffer: Buffer = readFileSync(storeFilePath);
 		const fileContent: string = fileBuffer.toString();
 		lastDeployPages = fileContent.split('\n').filter((lineConent: string): boolean => {
 			return !!lineConent;
 		});
 	} catch {}
 
-	const fileDescriptor: PathOrFileDescriptor = fs.openSync(storeFilePath, 'w');
-	fs.writeFileSync(fileDescriptor, deployPages.sort().join('\n'));
-	fs.fdatasyncSync(fileDescriptor);
-	fs.closeSync(fileDescriptor);
+	open(storeFilePath, 'w', (err: NodeJS.ErrnoException | null, fd: number): void => {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		writeFileSync(fd, deployPages.sort().join('\n'));
+		fdatasyncSync(fd);
+		closeSync(fd);
+	});
 
 	if (!lastDeployPages.length) {
 		console.log(chalk.yellow('━ No deployment log found'));
@@ -390,29 +400,30 @@ const deleteUnusedPages = async ({api, editSummary, queue}: ApiQueue): Promise<v
 
 	process.stdout.write(`The following pages will be deleted:\n${needToDeletePages.join('\n')}\n`);
 	await prompt('> Press [Enter] to continue deleting or quickly press [ctrl + C] twice to cancel');
-	await setTimeout(1000);
+	await setTimeout(1 * 1000);
 
 	console.log(chalk.yellow('--- deleting will continue in three seconds ---'));
-	await setTimeout(3000);
+	await setTimeout(3 * 1000);
 
 	const deletePage = async (pageTitle: string): Promise<void> => {
 		try {
 			await api.delete(pageTitle, editSummary);
 			console.log(chalk.green(`✔ Successfully deleted ${chalk.bold(pageTitle)}`));
 		} catch (error: unknown) {
-			console.log(chalk.red(`✘ Failed to delete ${chalk.bold(pageTitle)}`));
-			console.error(error);
+			if (error instanceof MwnError && error.code === 'missingtitle') {
+				console.log(chalk.yellow(`━ Page ${chalk.bold(pageTitle)} no need to delete`));
+			} else {
+				console.log(chalk.red(`✘ Failed to delete ${chalk.bold(pageTitle)}`));
+				console.error(error);
+			}
 		}
 	};
 
-	const taskQueue: (() => Promise<void>)[] = [];
 	for (const page of needToDeletePages) {
-		taskQueue.push((): Promise<void> => {
-			return deletePage(page);
+		queue.add(async (): Promise<void> => {
+			await deletePage(page);
 		});
 	}
-
-	queue.addAll(taskQueue);
 };
 
 export {
