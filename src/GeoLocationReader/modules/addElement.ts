@@ -16,13 +16,17 @@ const addElement = async (): Promise<void> => {
 
 	try {
 		const {
-			query: [{groups}],
+			query: {
+				users: [{groups}],
+			},
 		}: {
-			query: [
-				{
-					groups: string[];
-				},
-			];
+			query: {
+				users: [
+					{
+						groups: string[];
+					},
+				];
+			};
 		} = (await api.get(queryUserGroupsParams)) as never;
 
 		const $body: JQuery<HTMLBodyElement> = await getBody();
