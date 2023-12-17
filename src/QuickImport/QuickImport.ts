@@ -56,6 +56,21 @@ const quickImport = async (): Promise<void> => {
 		);
 	};
 
+	const detectIfFileRedirect = async (callback: () => void): Promise<void> => {
+		const params: ApiQueryParams = {
+			action: 'query',
+			prop: 'info',
+			titles: pageName,
+		};
+		const result = await api.get(params);
+		for (const [, info] of Object.entries(result['query'].pages)) {
+			if ((info as Record<string, never>)['redirect'] === '') {
+				continue;
+			}
+			callback();
+		}
+	};
+
 	const uploadFile = async (): Promise<void> => {
 		const url: string = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(pageName)}`;
 		toastifyInstance.hideToast();
@@ -90,31 +105,9 @@ const quickImport = async (): Promise<void> => {
 		for (const [, pageinfo] of Object.entries(data['query'].pages)) {
 			if ((pageinfo as Record<string, never>)['missing'] === '') {
 				await importPage(pageName);
-				const params: ApiQueryParams = {
-					action: 'query',
-					prop: 'info',
-					titles: pageName,
-				};
-				const result = await api.get(params);
-				for (const [, info] of Object.entries(result['query'].pages)) {
-					if ((info as Record<string, never>)['redirect'] === '') {
-						continue;
-					}
-					uploadFile();
-				}
+				detectIfFileRedirect(uploadFile);
 			} else {
-				const params: ApiQueryParams = {
-					action: 'query',
-					prop: 'info',
-					titles: pageName,
-				};
-				const result = await api.get(params);
-				for (const [, info] of Object.entries(result['query'].pages)) {
-					if ((info as Record<string, never>)['redirect'] === '') {
-						continue;
-					}
-					uploadFile();
-				}
+				detectIfFileRedirect(uploadFile);
 			}
 		}
 	} else {
