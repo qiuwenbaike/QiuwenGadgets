@@ -1,4 +1,6 @@
+const USER_WEBMASTER_LIST: string[] = ['QiuWen', 'QiuWen for Accounts', 'QiuwenSocialMedia'];
 const USER_IGNORE_LIST: string[] = [
+	...USER_WEBMASTER_LIST,
 	'滥用过滤器',
 	'求闻编者',
 	'求闻百科社区',
@@ -9,11 +11,10 @@ const USER_IGNORE_LIST: string[] = [
 	'MediaWiki message delivery',
 	'New user page',
 ];
-const USER_WEBMASTER_LIST: string[] = ['QiuWen', 'QiuWen for Accounts', 'QiuwenSocialMedia'];
 
 const WG_SCRIPT: string = mw.config.get('wgScript');
 const WG_USER_GROUPS: string[] = mw.config.get('wgUserGroups') ?? ['*'];
 const WG_USER_NAME: string = mw.config.get('wgUserName') ?? '';
 const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
-export {USER_IGNORE_LIST, USER_WEBMASTER_LIST, WG_SCRIPT, WG_USER_GROUPS, WG_USER_NAME, WG_WIKI_ID};
+export {USER_IGNORE_LIST, WG_SCRIPT, WG_USER_GROUPS, WG_USER_NAME, WG_WIKI_ID};
