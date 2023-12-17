@@ -1,5 +1,4 @@
 type GeoInfo = {
-	country?: string;
 	countryOrArea: string;
 	region: string;
 	city: string;

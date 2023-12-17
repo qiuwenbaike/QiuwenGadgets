@@ -1,5 +1,7 @@
-const getCountryOrAreaName = (): Record<string, string> => {
-	if (['zh-hant', 'zh-hk', 'zh-mo'].includes(mw.config.get('wgUserLanguage'))) {
+import {WG_USER_LANGUAGE} from '../constant';
+
+const getCountryOrAreaNameList = () => {
+	if (['zh-hant', 'zh-hk', 'zh-mo'].includes(WG_USER_LANGUAGE)) {
 		return {
 			AF: '阿富汗',
 			AX: '奧蘭',
@@ -251,7 +253,7 @@ const getCountryOrAreaName = (): Record<string, string> => {
 			ZM: '贊比亞',
 			ZW: '津巴布韋',
 		};
-	} else if (['zh-tw'].includes(mw.config.get('wgUserLanguage'))) {
+	} else if (['zh-tw'].includes(WG_USER_LANGUAGE)) {
 		return {
 			AF: '阿富汗',
 			AX: '奧蘭',
@@ -503,7 +505,7 @@ const getCountryOrAreaName = (): Record<string, string> => {
 			ZM: '尚比亞',
 			ZW: '辛巴威',
 		};
-	} else if (['zh-my', 'zh-sg'].includes(mw.config.get('wgUserLanguage'))) {
+	} else if (['zh-my', 'zh-sg'].includes(WG_USER_LANGUAGE)) {
 		return {
 			AF: '阿富汗',
 			AX: '奥兰',
@@ -756,6 +758,7 @@ const getCountryOrAreaName = (): Record<string, string> => {
 			ZW: '津巴布韦',
 		};
 	}
+
 	return {
 		AF: '阿富汗',
 		AX: '奥兰',
@@ -1009,8 +1012,8 @@ const getCountryOrAreaName = (): Record<string, string> => {
 	};
 };
 
-const getRegionName = (): Record<string, string> => {
-	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))) {
+const getRegionNameList = () => {
+	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(WG_USER_LANGUAGE)) {
 		return {
 			AH: '安徽',
 			BJ: '北京',
@@ -1045,6 +1048,7 @@ const getRegionName = (): Record<string, string> => {
 			ZJ: '浙江',
 		};
 	}
+
 	return {
 		AH: '安徽',
 		BJ: '北京',
@@ -1080,12 +1084,4 @@ const getRegionName = (): Record<string, string> => {
 	};
 };
 
-const geoCountryOrAreaName = (): Record<string, string> => {
-	return getCountryOrAreaName();
-};
-
-const geoRegionName = (): Record<string, string> => {
-	return getRegionName();
-};
-
-export {geoCountryOrAreaName, geoRegionName};
+export {getCountryOrAreaNameList, getRegionNameList};

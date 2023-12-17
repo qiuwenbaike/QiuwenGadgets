@@ -1,23 +1,24 @@
 import * as OPTIONS from '../options.json';
 import type {GeoInfo} from '../modules/types';
 import {STORAGE_KEY} from '../modules/constant';
-import {parseStorageValue} from './util/parseStorageValue';
 
-/**
- * Request geo data and store it in the local storage
- *
- * @return {Promise<GeoInfo>}
- */
 const getGeoInfo = async (): Promise<GeoInfo> => {
+	const storeGeoInfo: GeoInfo | null = mw.storage.getObject(STORAGE_KEY);
+	if (storeGeoInfo) {
+		return storeGeoInfo;
+	}
+
 	try {
-		const data: GeoInfo = await $.getJSON('/rest.php/geo');
-		const parts: string[] = [data.country ?? data.countryOrArea, data.region, data.city];
+		const response: Partial<GeoInfo> & {country?: string} = await $.getJSON('/rest.php/geo');
+		const geoInfo: GeoInfo = {
+			countryOrArea: response.country ?? response.countryOrArea ?? '',
+			region: response.region ?? '',
+			city: response.city ?? '',
+		};
 
-		const storageValue: string = parts.join('-');
-		mw.storage.set(STORAGE_KEY, storageValue, 3600); // 1 hour
+		mw.storage.setObject(STORAGE_KEY, geoInfo, 60 * 60 * 1000);
 
-		// Return Geo object
-		return parseStorageValue(storageValue);
+		return geoInfo;
 	} catch {
 		return OPTIONS.defaultGeoInfo;
 	}
