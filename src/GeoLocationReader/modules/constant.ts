@@ -1,14 +1,30 @@
-const SYSTEM_SCRIPT_LIST: string[] = [
-	'滥用过滤器',
-	'求闻编者',
-	'求闻百科社区',
-	'Example',
-	'External contributors',
-	'Maintenance script',
-	'MediaWiki default',
-	'MediaWiki message delivery',
-	'New user page',
-];
-const WEBMASTER_LIST: string[] = ['QiuWen', 'QiuWen for Accounts', 'QiuwenSocialMedia'];
+import * as OPTIONS from '../options.json';
 
-export {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST};
+const CLASS_NAME: string = 'gadget-geo_location_reader';
+const CLASS_NAME_ICON: string = `${CLASS_NAME}__icon`;
+const CLASS_NAME_TEXT: string = `${CLASS_NAME}__text`;
+
+const IS_USER_PAGE: boolean = mw.config.get('wgNamespaceNumber') === OPTIONS.userNameSpaceNumber;
+const IS_VIEW_ACTION: boolean = mw.config.get('wgAction') === 'view';
+
+const WG_PAGE_NAME: string = mw.config.get('wgPageName');
+const WG_RELEVANT_USER_NAME: string = mw.config.get('wgRelevantUserName') ?? '';
+const WG_SCRIPT: string = mw.config.get('wgScript');
+const WG_SKIN: string = mw.config.get('skin');
+const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
+const WG_WIKI_ID: string = mw.config.get('wgWikiID');
+
+export {USER_SCRIPT_LIST, USER_WEBMASTER_LIST} from '~/GeoLocation/modules/constant';
+export {
+	CLASS_NAME,
+	CLASS_NAME_ICON,
+	CLASS_NAME_TEXT,
+	IS_USER_PAGE,
+	IS_VIEW_ACTION,
+	WG_PAGE_NAME,
+	WG_RELEVANT_USER_NAME,
+	WG_SCRIPT,
+	WG_SKIN,
+	WG_USER_LANGUAGE,
+	WG_WIKI_ID,
+};
