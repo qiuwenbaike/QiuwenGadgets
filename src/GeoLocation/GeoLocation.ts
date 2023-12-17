@@ -1,8 +1,8 @@
-import {USER_IGNORE_LIST, USER_WEBMASTER_LIST, WG_USER_GROUPS, WG_USER_NAME} from './modules/constant';
+import {USER_IGNORE_LIST, WG_USER_GROUPS, WG_USER_NAME} from './modules/constant';
 import {storeLocation} from './modules/storeLocation';
 
 (async function geoLocation(): Promise<void> {
-	if (USER_IGNORE_LIST.includes(WG_USER_NAME) || USER_WEBMASTER_LIST.includes(WG_USER_NAME) || !WG_USER_NAME) {
+	if (USER_IGNORE_LIST.includes(WG_USER_NAME) || !WG_USER_NAME) {
 		return;
 	}
 
