@@ -1,4 +1,4 @@
-import {addSubpageAndLog} from './modules/addSubpageAndLog';
+import {addLog, addSubpage} from './modules/addSubpageAndLog';
 import {editIntro} from './modules/smartEditIntro';
 import {fixSummary} from './modules/fixSummary';
 import {linkSearchEditButton} from './modules/linkSearchEditButton';
@@ -20,7 +20,8 @@ import {smartNewSection} from './modules/smartNewSection';
 	/* 在[[Special:LinkSearch]]显示“编辑”按钮 */
 	$(linkSearchEditButton);
 	/* 向侧边栏添加“子页面”“日志”菜单 */
-	$(addSubpageAndLog);
+	$(addSubpage);
+	$(addLog);
 	/* 智能讨论页编辑（新建） */
 	$(smartNewSection);
 })();
