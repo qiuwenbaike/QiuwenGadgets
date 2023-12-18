@@ -4,8 +4,7 @@ const usingEditFormJS = (): void => {
 	mw.loader.using(['ext.gadget.EditForm', 'ext.gadget.EditForm_JS']);
 };
 
-export const loadEditFormJS = async (): Promise<void> => {
-	/* 加载编辑界面脚本 */
+const loadGadgetEditForm = async (): Promise<void> => {
 	if (IS_WG_EDIT_OR_SUBMIT_ACTION) {
 		usingEditFormJS();
 	} else {
@@ -17,3 +16,5 @@ export const loadEditFormJS = async (): Promise<void> => {
 		});
 	}
 };
+
+export {loadGadgetEditForm};

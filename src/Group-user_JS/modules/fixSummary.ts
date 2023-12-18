@@ -1,16 +1,16 @@
-export const fixSummary = (): void => {
-	const $body: JQuery<HTMLBodyElement> = $('body');
-	switch (mw.config.get('wgCanonicalSpecialPageName')) {
-		case 'MassEditRegex':
-			// MassEditRegex
-			$body.find('#wpSummaryLabel').html(
-				$body
-					.find('#wpSummaryLabel')
-					.text()
-					.replace(/\[\[#\.\|(.+?)]]/g, '$1')
-			);
+import {WG_ACTION, WG_CANONICAL_SPECIAL_PAGE_NAME} from './constant';
+
+const fixSummary = ($body: JQuery<HTMLBodyElement>): void => {
+	switch (WG_CANONICAL_SPECIAL_PAGE_NAME) {
+		case 'FileImporter-SpecialPage':
+			$body
+				.find('input[name=intendedRevisionSummary]')
+				.val(
+					`导入自[[commons:File:${$body
+						.find('h2.mw-importfile-header-title')
+						.html()}|此处]]［页面文字原许可：[[cc-by-sa:4.0|CC BY-SA 4.0]]；文件许可请参见页面描述］`
+				);
 			break;
-		// Import
 		case 'Import':
 			$body.find('input[name=usernamePrefix]').val('zhwiki');
 			$body
@@ -22,32 +22,35 @@ export const fixSummary = (): void => {
 			$body.find('input[name=assignKnownUsers]').prop('checked', true);
 			$body
 				.find('input[name=interwikiHistory], input[name=interwikiTemplates], input[name=assignKnownUsers]')
-				.attr('disabled', 'disabled');
+				.prop('disabled', true);
 			break;
-		// ImportFile
-		case 'FileImporter-SpecialPage':
-			$body
-				.find('input[name=intendedRevisionSummary]')
-				.val(
-					`导入自[[commons:File:${$body
-						.find('h2.mw-importfile-header-title')
-						.html()}|此处]]［页面文字原许可：[[cc-by-sa:4.0|CC BY-SA 4.0]]；文件许可请参见页面描述］`
-				);
+		case 'MassEditRegex':
+			$body.find('#wpSummaryLabel').html(
+				$body
+					.find('#wpSummaryLabel')
+					.text()
+					.replace(/\[\[#\.\|(.+?)]]/g, '$1')
+			);
 			break;
-		// ReplaceText
 		case 'ReplaceText':
-			$body.find('input[name=doAnnounce]').removeAttr('checked').attr('disabled', 'disabled');
+			$body.find('input[name=doAnnounce]').prop({
+				checked: false,
+				disabled: true,
+			});
 			break;
 	}
 
-	// Delete screen
-	if (mw.config.get('wgAction') === 'delete') {
-		if (!$body.find('#wpReason').length) {
+	if (WG_ACTION === 'delete') {
+		const $wpReason: JQuery = $body.find('#wpReason');
+		if (!$wpReason.length) {
 			return;
 		}
+
 		const autoSummaryRegExp: RegExp = /(内容|page was empty|content before blanking was)/i;
-		if (autoSummaryRegExp.test(String($body.find('#wpReason').val()))) {
-			$body.find('#wpReason').val('');
+		if (autoSummaryRegExp.test(String($wpReason.val()))) {
+			$wpReason.val('');
 		}
 	}
 };
+
+export {fixSummary};

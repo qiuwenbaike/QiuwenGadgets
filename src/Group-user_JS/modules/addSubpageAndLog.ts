@@ -1,26 +1,33 @@
-import {NS_WITHOUT_SUBPAGES, NS_WITH_LOG} from './constant';
+import {WG_NAMESPACE_NUMBER, WG_PAGE_NAME} from './constant';
 import {getMessage} from './i18n';
 
+const addLog = (): void => {
+	if ([-1, 2, 3].includes(WG_NAMESPACE_NUMBER)) {
+		return;
+	}
+
+	mw.util.addPortletLink(
+		'p-tb',
+		mw.util.getUrl('Special:Logs', {
+			page: WG_PAGE_NAME,
+		}),
+		getMessage('Log'),
+		't-log'
+	);
+};
+
 /* 向侧边栏添加“子页面”菜单 */
-export const addSubpage = (): void => {
-	const portletId: string = 'p-tb';
-
-	const prefixIndexURL: string = mw.util.getUrl(`Special:PrefixIndex/${mw.config.get('wgPageName')}`);
-
-	if (!NS_WITHOUT_SUBPAGES.includes(mw.config.get('wgNamespaceNumber'))) {
-		mw.util.addPortletLink(portletId, prefixIndexURL, getMessage('Subpages'), 't-subpage');
+const addSubpage = (): void => {
+	if ([-1, 0, 14].includes(WG_NAMESPACE_NUMBER)) {
+		return;
 	}
+
+	mw.util.addPortletLink(
+		'p-tb',
+		mw.util.getUrl(`Special:PrefixIndex/${WG_PAGE_NAME}`),
+		getMessage('Subpages'),
+		't-subpage'
+	);
 };
 
-/* 向侧边栏添加“日志”菜单 */
-export const addLog = (): void => {
-	const portletId: string = 'p-tb';
-
-	const logURL: string = mw.util.getUrl('Special:Logs', {
-		page: mw.config.get('wgPageName'),
-	});
-
-	if (!NS_WITH_LOG.includes(mw.config.get('wgNamespaceNumber'))) {
-		mw.util.addPortletLink(portletId, logURL, getMessage('Log'), 't-log');
-	}
-};
+export {addLog, addSubpage};

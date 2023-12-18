@@ -4,17 +4,19 @@ const getI18nMessages = () => {
 	return {
 		Edit: localize({
 			en: 'Edit',
+			ja: '編集',
 			'zh-hans': '编辑',
 			'zh-hant': '編輯',
 		}),
 		Log: localize({
 			en: 'Log',
-			ja: '折り畳み',
+			ja: 'ログ',
 			'zh-hans': '日志',
 			'zh-hant': '日誌',
 		}),
 		Subpages: localize({
 			en: 'Subpage',
+			ja: '子ページ',
 			'zh-hans': '子页面',
 			'zh-hant': '子頁面',
 		}),
