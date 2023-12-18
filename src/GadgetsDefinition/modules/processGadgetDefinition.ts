@@ -42,7 +42,7 @@ const processGadgetDefinition = (innerHTML: string): string => {
 								return linkGadgetAnchor(_gadgetName, dependency);
 							}
 							return makeWikilink(
-								`Special:GoToInterwiki/mw:ResourceLoader/Core modules#${dependency}`,
+								`Special:GoToInterwiki/mw:ResourceLoader/Core_modules#${dependency}`,
 								dependency
 							);
 						});
