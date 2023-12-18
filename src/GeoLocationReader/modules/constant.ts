@@ -5,7 +5,7 @@ const CLASS_NAME_ICON: string = `${CLASS_NAME}__icon`;
 const CLASS_NAME_TEXT: string = `${CLASS_NAME}__text`;
 
 const IS_USER_PAGE: boolean = mw.config.get('wgNamespaceNumber') === OPTIONS.userNameSpaceNumber;
-const IS_VIEW_ACTION: boolean = mw.config.get('wgAction') === 'view';
+const IS_WG_ACTION_VIEW: boolean = mw.config.get('wgAction') === 'view';
 
 const WG_PAGE_NAME: string = mw.config.get('wgPageName');
 const WG_RELEVANT_USER_NAME: string = mw.config.get('wgRelevantUserName') ?? '';
@@ -20,7 +20,7 @@ export {
 	CLASS_NAME_ICON,
 	CLASS_NAME_TEXT,
 	IS_USER_PAGE,
-	IS_VIEW_ACTION,
+	IS_WG_ACTION_VIEW,
 	WG_PAGE_NAME,
 	WG_RELEVANT_USER_NAME,
 	WG_SCRIPT,
