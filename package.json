@@ -72,7 +72,7 @@
 		"@types/node": "^20.10.4",
 		"@types/oojs-ui": "^0.47.6",
 		"@types/prompts": "^2.4.9",
-		"@typescript-eslint/eslint-plugin": "^6.14.0",
+		"@typescript-eslint/eslint-plugin": "^6.15.0",
 		"@typescript-eslint/parser": "^6.15.0",
 		"broadcastchannel-polyfill": "^1.0.1",
 		"caniuse-api": "^3.0.0",
