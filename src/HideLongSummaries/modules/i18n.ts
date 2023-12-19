@@ -14,8 +14,6 @@ const getI18nMessages = () => {
 			'zh-hans': '展开',
 			'zh-hant': '展開',
 		}),
-		'[': '[',
-		']': ']',
 	};
 };
 
