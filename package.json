@@ -99,7 +99,7 @@
 		"stylelint": "^15.11.0",
 		"stylelint-config-wikimedia": "latest",
 		"svgo": "3.1.0",
-		"tsx": "^4.6.2",
+		"tsx": "^4.7.0",
 		"types-mediawiki-renovate": "latest",
 		"typescript": "^5.3.3",
 		"unorm": "^1.6.0"
