@@ -1,27 +1,27 @@
 /* eslint-disable camelcase */
 import {WG_USER_GROUPS, WG_USER_LANGUAGE} from '../constant';
 
+const in_group = (group: string): boolean => {
+	const wgUserGroups: string[] | null = WG_USER_GROUPS;
+	return wgUserGroups?.includes(group) ?? false;
+};
+
+const only_for = (userLanguage: string): boolean => {
+	return userLanguage === WG_USER_LANGUAGE;
+};
+
 const matchCriteria = ($notice: JQuery): boolean => {
 	const cache: boolean | undefined = $notice.data('asn-cache');
 	if (cache !== undefined) {
 		return cache;
 	}
 
-	const in_group = (group: string): boolean => {
-		const wgUserGroups: string[] | null = WG_USER_GROUPS;
-		return wgUserGroups?.includes(group) ?? false;
-	};
-
-	const only_for = (userLanguage: string): boolean => {
-		return userLanguage === WG_USER_LANGUAGE;
-	};
-
 	const testCriteria = (criteria: string): boolean => {
 		// FIXME: This shouldn't be using eval on data entered in wikitext.
 		// If that data is malformed it will throw an exception e.g. criteria = "(false))"
 		try {
-			// eslint-disable-next-line no-eval, security/detect-eval-with-expression
-			return eval(criteria);
+			// eslint-disable-next-line no-eval
+			return window.eval(criteria);
 		} catch {
 			return false;
 		}
