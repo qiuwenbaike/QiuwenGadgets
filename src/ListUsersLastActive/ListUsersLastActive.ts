@@ -1,15 +1,16 @@
 /**
  * 于[[Special:Listusers]]显示使用者最后编辑时间
  */
-import {checkLastActive} from './modules/core';
+import {WG_CANONICAL_SPECIAL_PAGE_NAME} from './modules/constant';
+import {checkLastActive} from './modules/checkLastActive';
+import {getBody} from '~/util';
 
-const ListUsersLastActiveLoad = (): void => {
-	if (mw.config.get('wgCanonicalSpecialPageName') === 'Listusers') {
-		const $body: JQuery<HTMLBodyElement> = $('body');
-		$body.find('#mw-content-text>ul>li').each((_index: number, element: HTMLElement): void => {
-			checkLastActive($(element).find('.mw-userlink>bdi').text(), element);
-		});
+getBody().then(($body: JQuery<HTMLBodyElement>): void => {
+	if (WG_CANONICAL_SPECIAL_PAGE_NAME !== 'Listusers') {
+		return;
 	}
-};
 
-$(ListUsersLastActiveLoad);
+	for (const element of $body.find('#mw-content-text>ul>li')) {
+		checkLastActive($(element));
+	}
+});
