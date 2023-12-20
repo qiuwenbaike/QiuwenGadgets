@@ -2,8 +2,7 @@
 import {WG_USER_GROUPS, WG_USER_LANGUAGE} from '../constant';
 
 const in_group = (group: string): boolean => {
-	const wgUserGroups: string[] | null = WG_USER_GROUPS;
-	return wgUserGroups?.includes(group) ?? false;
+	return WG_USER_GROUPS.includes(group);
 };
 
 const only_for = (userLanguage: string): boolean => {
@@ -27,15 +26,15 @@ const matchCriteria = ($notice: JQuery): boolean => {
 		}
 	};
 
-	const criteriaData: string | undefined = $notice.attr('data-asn-criteria');
-	let result: boolean;
+	let result: boolean = false;
 
+	const criteriaData: string = ($notice.attr('data-asn-criteria') || '').trim();
 	if (criteriaData) {
-		let criteria: string | undefined = mw.Uri.decode(criteriaData);
-		criteria = criteria.trim() || 'true';
+		const criteria: string = mw.Uri.decode(criteriaData) || 'true';
 		result = testCriteria(criteria);
-	} else {
-		let criteria: string | boolean | undefined = !$notice.attr('class');
+	} else if ($notice.attr('class')) {
+		let criteria: boolean = false;
+
 		if ($notice.hasClass('only_sysop')) {
 			criteria ||= in_group('sysop') || in_group('steward') || in_group('qiuwen');
 		}
@@ -63,6 +62,7 @@ const matchCriteria = ($notice: JQuery): boolean => {
 		if ($notice.hasClass('only_zh_tw')) {
 			criteria ||= only_for('zh-tw');
 		}
+
 		result = criteria;
 	}
 
