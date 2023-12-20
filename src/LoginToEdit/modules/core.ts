@@ -64,6 +64,7 @@ export const loginToEdit = (): void => {
 			.attr('id', 'ca-edit')
 			.find('a')
 			.attr('title', getMessage('Edit'))
+			.attr('aria-label', getMessage('DialogMessage'))
 			.html(editIcon + getMessage('Edit'));
 		$body.find('#ca-edit a').on('click', (event: JQuery.ClickEvent) => {
 			event.preventDefault();
