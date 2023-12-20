@@ -12,7 +12,7 @@ const USER_SCRIPT_LIST: string[] = [
 const USER_WEBMASTER_LIST: string[] = ['QiuWen', 'QiuWen for Accounts', 'QiuwenSocialMedia'];
 
 const WG_SCRIPT: string = mw.config.get('wgScript');
-const WG_USER_GROUPS: string[] = mw.config.get('wgUserGroups') ?? ['*'];
+const WG_USER_GROUPS: string[] = mw.config.get('wgUserGroups') ?? [];
 const WG_USER_NAME: string = mw.config.get('wgUserName') ?? '';
 const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 

@@ -9,7 +9,7 @@ const forcePreview = ($editForm: JQuery): void => {
 	const noNeedPreviewGroups: string[] = ['autoconfirmed', 'confirmed'];
 	const checkPermittedGroups = (): boolean => {
 		return noNeedPreviewGroups.some((group: string): boolean => {
-			return WG_USER_GROUPS?.includes(group) ?? false;
+			return WG_USER_GROUPS.includes(group);
 		});
 	};
 	if (!IS_WG_EDIT_OR_SUBMIT_ACTION || checkPermittedGroups()) {
