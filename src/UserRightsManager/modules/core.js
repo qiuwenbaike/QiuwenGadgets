@@ -364,9 +364,9 @@ export const initDialog = () => {
 		}
 		e.preventDefault();
 		const $this = $(this);
-		userName = `User:${mw.util.getParamValue('user', $this.attr('href'))}`;
+		userName = mw.util.getParamValue('user', $this.attr('href'));
 		const sectionId = $this.parents('dl').prev('h4').find('.mw-headline').attr('id');
-		index = sectionId === userName ? '' : sectionId.replace('User:', '').replace(userName, '');
+		index = sectionId === `User:${userName}` ? '' : sectionId.replace('User:', '').replace(userName, '');
 		showDialog();
 	});
 };
