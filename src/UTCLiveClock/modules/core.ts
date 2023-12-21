@@ -10,7 +10,7 @@ const padWithZeroes = (number: number) => {
 const showTime = ($target: JQuery): void => {
 	const now: Date = new Date();
 	const windowUTCLiveClockTimeZone: typeof window.UTCLiveClockTimeZone = window.UTCLiveClockTimeZone;
-	let timezone: string = (windowUTCLiveClockTimeZone ? windowUTCLiveClockTimeZone.toString() : '') || 'Asia/Shanghai';
+	let timezone: string = (windowUTCLiveClockTimeZone ? String(windowUTCLiveClockTimeZone) : '') || 'Asia/Shanghai';
 	// Set the time.
 	let hh: number;
 	let mm: number;

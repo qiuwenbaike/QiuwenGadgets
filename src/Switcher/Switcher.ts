@@ -25,7 +25,7 @@ const switcherJS = (): void => {
 				// Mark the first one as selected
 				selected = switcher;
 				$radio.prop('checked', true);
-			} else if ((label as HTMLElement).dataset['switcherDefault'] === null) {
+			} else if (label.dataset['switcherDefault'] === null) {
 				// Hide non-default
 				$(switcher).hide();
 			} else {

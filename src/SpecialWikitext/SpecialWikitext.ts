@@ -26,21 +26,21 @@ const luaAddText = (inputStr: string, newStr: string, _escape?: boolean): string
 };
 
 // 读取wikitext字符串，并忽略注释尾部
-const luaGetString = (str: string) => {
+const luaGetString = (str: string): string => {
 	const testStrArray: RegExpExecArray | null = /[^\n]*\*\//.exec(str);
-	let testStr;
+	let testStr: string;
 	if (testStrArray) {
 		testStr = testStrArray[0] || '';
 		testStr = testStr.slice(0, Math.max(0, testStr.length - 2));
 	} else {
 		testStr = str;
 	}
-	const trimCheck: string = testStr?.trim();
+	const trimCheck: string = testStr.trim();
 	const firstChar: string = trimCheck.charAt(0);
 	if (firstChar === trimCheck.at(-1) && (firstChar === "'" || firstChar === '"')) {
 		return trimCheck.slice(1, 1 + trimCheck.length - 2);
 	}
-	return testStrArray;
+	return testStr;
 };
 
 // 读取CSS之`＿addText  { content："XXX" }`模式的字符串
@@ -187,10 +187,9 @@ const previewTool = (): void => {
 	const $elementExist = (selectors: string | string[]) => {
 		const selectorArray: string[] = Array.isArray(selectors) ? selectors : selectors ? [selectors] : [];
 		let eleCount: number = 0;
-		for (const index in selectorArray) {
-			if (Object.hasOwn(selectorArray, index)) {
-				eleCount += ($(selectorArray[index] as string) || []).length;
-			}
+		for (const selector of selectorArray) {
+			const $selector: JQuery = $(selector);
+			eleCount += $selector.length;
 		}
 		return eleCount > 0;
 	};
@@ -198,10 +197,10 @@ const previewTool = (): void => {
 	// 检查MediaWiki的设置
 	const checkMwConfig = (checkTarget: string, mwConfigs: string | string[]) => {
 		let mwConfigData = mw.config.get(checkTarget);
-		if (!mwConfigData || mwConfigData.toString().trim() === '') {
+		if (!mwConfigData || String(mwConfigData).trim() === '') {
 			return false;
 		}
-		mwConfigData = mwConfigData.toString().toLowerCase();
+		mwConfigData = String(mwConfigData).toLowerCase();
 		const mwConfigArray: string[] = Array.isArray(mwConfigs) ? mwConfigs : mwConfigs ? [mwConfigs] : [];
 		return mwConfigArray.includes(mwConfigData as string);
 	};
@@ -462,14 +461,7 @@ const previewTool = (): void => {
 
 		// 整理页面中的Testcase预览元素，并放置“[载入中]”消息
 		let packageWikitext: string = '';
-		for (i in testcaseDataList) {
-			if (!Object.hasOwn(testcaseDataList, i)) {
-				continue;
-			}
-			const testcaseItem = testcaseDataList[i];
-			if (!testcaseItem) {
-				continue;
-			}
+		for (const [_key, testcaseItem] of Object.entries(testcaseDataList)) {
 			if (testcaseItem.code.trim() === '') {
 				continue;
 			}
@@ -518,21 +510,17 @@ const previewTool = (): void => {
 				const parsedWiki = (data['parse'].text['*'] || '').toString().trim();
 				if (parsedWiki !== '') {
 					const $parsedElement: JQuery = $(parsedWiki);
-					for (const _i in testcaseDataList) {
-						if (!Object.hasOwn(testcaseDataList, _i)) {
-							continue;
-						}
-						const _testcaseItem = testcaseDataList[_i];
+					for (const [key, testcaseItem] of Object.entries(testcaseDataList)) {
 						if (
-							_testcaseItem &&
-							['javascript', 'js', 'text', 'css', 'json'].includes(_testcaseItem.lang.toLowerCase())
+							testcaseItem &&
+							['javascript', 'js', 'text', 'css', 'json'].includes(testcaseItem.lang.toLowerCase())
 						) {
 							const checkParseElement: JQuery<HTMLElement> = $parsedElement.find(
-								`.special-wikitext-preview-testcase-undefined > .special-wikitext-preview-testcase-${_i}`
+								`.special-wikitext-preview-testcase-undefined > .special-wikitext-preview-testcase-${key}`
 							);
 							if (checkParseElement.length) {
 								const $addTarget: JQuery = $(
-									_testcaseItem.element as NonNullable<typeof _testcaseItem.element>
+									testcaseItem.element as NonNullable<typeof testcaseItem.element>
 								).find('#mw-_addText-preview-loading');
 								$addTarget.html(checkParseElement.html());
 								mw.hook('wikipage.content').fire($addTarget);
