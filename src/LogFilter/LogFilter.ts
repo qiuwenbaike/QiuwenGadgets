@@ -11,33 +11,25 @@
  * mw.util.getUrl( mw.config.get( 'wgPageName' ) ) + '?' +
  * 'withJS=MediaWiki:Gadget-LogFilter.js&lifilter=1&lifilterexpr=TEST&lifiltercase&lifilterhilight&lifilterinv'
  */
-import {filterLists} from './modules/core';
+import {REGEX_TARGET_PAGE, URL_LIFILTER, WG_ACTION, WG_CANONICAL_SPECIAL_PAGE_NAME} from './modules/constant';
+import {LogFilter} from './modules/core';
+import {getBody} from '~/util';
 
-const filterListsLoad = (): void => {
-	// Set guard
-	mw.config.set('wgLogFilterInstalled', true);
-
+(function logFilter(): void {
 	// When to enable all this
-	if (
-		mw.config.get('wgAction') === 'history' ||
-		mw.util.getParamValue('lifilter') ||
-		(mw.config.get('wgCanonicalSpecialPageName') &&
-			/^(activeusers|checkuser|contributions|ipblocklist|linksearch|log|search|(uncategoriz|unus|want)ed(categori|templat)es|wantedfiles|(short|long|ancient|uncategorized|unwatched|wanted|protected|deadend|lonely|new)pages|fewestrevisions|withoutinterwiki|(double|broken)redirects|protectedtitles|crossnamespacelinks|recentchanges|categories|disambiguations|listredirects|globalusers|globalblocklist|listusers|watchlist|most(linked|revisions|categories)|nuke|whatlinkshere)$/i.test(
-				mw.config.get('wgCanonicalSpecialPageName') || ''
-			))
-	) {
-		filterLists.load();
+	if (WG_ACTION !== 'history' && !URL_LIFILTER && !REGEX_TARGET_PAGE.test(WG_CANONICAL_SPECIAL_PAGE_NAME)) {
+		return;
 	}
-};
 
-const logFilterLoad = (): void => {
 	// Guard against double inclusions
 	if (mw.config.get('wgLogFilterInstalled')) {
 		return;
 	}
+	// Set guard
+	mw.config.set('wgLogFilterInstalled', true);
 
-	filterListsLoad();
-};
-
-// Load
-$(logFilterLoad);
+	getBody().then(($body: JQuery<HTMLBodyElement>): void => {
+		// Load
+		new LogFilter($body).addPortletLink();
+	});
+})();
