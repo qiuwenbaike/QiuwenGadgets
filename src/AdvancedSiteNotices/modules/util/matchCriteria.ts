@@ -20,7 +20,7 @@ const matchCriteria = ($notice: JQuery): boolean => {
 		// If that data is malformed it will throw an exception e.g. criteria = "(false))"
 		try {
 			// eslint-disable-next-line no-eval
-			return window.eval(criteria);
+			return window.eval(criteria) as boolean;
 		} catch {
 			return false;
 		}

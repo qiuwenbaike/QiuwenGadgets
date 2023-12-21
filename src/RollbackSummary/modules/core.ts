@@ -8,7 +8,7 @@ const updateLinks = ($content: JQuery): void => {
 	$mwRollbackLinkA.off('click');
 	$mwRollbackLinkA.on('click', function (event: JQuery.ClickEvent): void {
 		event.preventDefault();
-		let {href} = this as HTMLAnchorElement;
+		let {href} = this;
 		let summary: string | null = prompt(getMessage('Prompt'));
 		if (summary === null) {
 			/* empty */

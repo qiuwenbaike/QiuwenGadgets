@@ -26,7 +26,6 @@ const refToolbarBase = () => {
 			this.incrementables = {};
 
 			// Add it to the list
-			// eslint-disable-next-line @typescript-eslint/no-this-alias
 			CiteTB.Templates[this.templatename] = this;
 		}
 		makeFormInner(fields, incrsetup) {
@@ -298,7 +297,6 @@ const refToolbarBase = () => {
 		constructor(obj) {
 			this.obj = obj;
 
-			// eslint-disable-next-line @typescript-eslint/no-this-alias
 			CiteTB.ErrorChecks[this.obj.testname] = this;
 		}
 		run() {

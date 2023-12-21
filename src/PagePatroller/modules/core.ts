@@ -80,7 +80,7 @@ export const pagePatroller = async (): Promise<void> => {
 			$patroller.html(html);
 		}
 	} catch (error: unknown) {
-		console.error(`[PagePatroller]: ${error}`);
+		console.error('[PagePatroller]:', error);
 		$patroller.text(window.wgULS('查找巡查者时出现错误。', '查找巡查者時出現錯誤。'));
 	}
 };

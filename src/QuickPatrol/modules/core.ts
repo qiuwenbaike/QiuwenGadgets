@@ -46,7 +46,7 @@ export const QuickPatrol = (): void => {
 				},
 				error: (error): void => {
 					mw.notify(getMessage('AJAX'), {type: 'error', tag: 'QuickPatrol'});
-					console.error(`[QuickPatrol] Ajax error: ${error}`);
+					console.error('[QuickPatrol] Ajax error:', error);
 					$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 				},
 			});
