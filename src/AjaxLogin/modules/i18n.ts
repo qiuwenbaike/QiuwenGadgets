@@ -100,12 +100,6 @@ const getI18nMessages = () => {
 			'zh-hans': '获取登录令牌成功',
 			'zh-hant': '獲取登入權杖成功',
 		}),
-		'Network error': localize({
-			en: 'Network error',
-			ja: 'ネットワークエラー',
-			'zh-hans': '网络异常',
-			'zh-hant': '網路異常',
-		}),
 		'New password': localize({
 			en: 'New password',
 			ja: '新しいパスワード',
@@ -161,6 +155,12 @@ const getI18nMessages = () => {
 			'zh-cn': '用户名或密码不能为空',
 			'zh-hk': '用戶名稱或密碼不能爲空',
 			'zh-tw': '使用者名稱或密碼不能爲空',
+		}),
+		'Network error': localize({
+			en: 'Network error. Redirecting...',
+			ja: 'ネットワークエラー、リダイレクト中...',
+			'zh-hans': '网络异常。重定向中……',
+			'zh-hant': '網路異常。重新導向中……',
 		}),
 		SelectedOrNot: localize({
 			en: 'If selected, the login status will be kept for 6 months. If not selected, it will be kept for 1 month.',

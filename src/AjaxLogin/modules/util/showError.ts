@@ -1,9 +1,9 @@
 import {getMessage} from '../i18n';
 
-const showError = (error: unknown, toastifyInstance: ToastifyInstance): ToastifyInstance => {
+const showError = (error: unknown, toastifyInstance: ToastifyInstance): void => {
 	console.error('[AjaxLogin] Ajax error:', error);
 	toastifyInstance.hideToast();
-	toastifyInstance = toastify(
+	toastify(
 		{
 			text: getMessage('Network error'),
 			close: true,
@@ -11,8 +11,6 @@ const showError = (error: unknown, toastifyInstance: ToastifyInstance): Toastify
 		},
 		'error'
 	);
-
-	return toastifyInstance;
 };
 
 export {showError};
