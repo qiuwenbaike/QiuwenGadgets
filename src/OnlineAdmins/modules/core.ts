@@ -93,7 +93,11 @@ export const onlineAdmins = (): void => {
 					.replace(/</g, '&lt;')
 					.replace(/>/g, '&lt;')
 					.replace(/"/g, '&quot;');
-				return `<li><a href="/wiki/User:${_user}" rel="noopener" target="_blank">${_user}</a>&nbsp;<span style="font-size: 90%">（<a href="/wiki/User talk:${_user}" rel="noopener" target="_blank">留言</a>）</span></li>`;
+				return `<li><a href="${mw.util.getUrl(
+					`User:${_user}`
+				)}" rel="noopener" target="_blank">${_user}</a>&nbsp;<span style="font-size: 90%">（<a href="${mw.util.getUrl(
+					`User talk:${_user}`
+				)}" rel="noopener" target="_blank">留言</a>）</span></li>`;
 			};
 			if (stewards.length + admins.length + patrollers.length > 0) {
 				const adminsstring: string[] = [`<p>${getMessage('OnlineWithin30Minutes')}</p>`];

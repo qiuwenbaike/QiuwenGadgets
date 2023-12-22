@@ -32,8 +32,7 @@ const refToolbarMesages = (): void => {
 			'cite-errorcheck-heading': '檢查下列錯誤：',
 			'cite-error-unclosed': '未關閉<tt>&lt;ref&gt;</tt>標記',
 			'cite-error-samecontent': '有相同內容的參考文獻',
-			'cite-error-templates':
-				'參考文獻未使用<a href="//www.qiuwenbaike.cn/wiki/Category:%E5%BC%95%E7%94%A8%E6%A8%A1%E6%9D%BF">引用模板</a>',
+			'cite-error-templates': `參考文獻未使用<a href="${mw.util.getUrl('Category:引用模板')}">引用模板</a>`,
 			'cite-error-repeated': '多個參考文獻有相同名稱',
 			'cite-error-undef': '有未定義的同名參考文獻在使用',
 			'cite-error-samecontent-msg': '多個文獻含有相同內容: $1',
@@ -164,8 +163,7 @@ const refToolbarMesages = (): void => {
 			'cite-errorcheck-heading': '检查下列错误：',
 			'cite-error-unclosed': '未关闭<tt>&lt;ref&gt;</tt>标记',
 			'cite-error-samecontent': '有相同内容的参考文献',
-			'cite-error-templates':
-				'参考文献未使用<a href="//www.qiuwenbaike.cn/wiki/Category:%E5%BC%95%E7%94%A8%E6%A8%A1%E6%9D%BF">引用模板</a>',
+			'cite-error-templates': `参考文献未使用<a href="${mw.util.getUrl('Category:引用模板')}">引用模板</a>`,
 			'cite-error-repeated': '多个参考文献有相同名称',
 			'cite-error-undef': '有未定义的同名参考文献在使用',
 			'cite-error-samecontent-msg': '多个文献含有相同内容: $1',
