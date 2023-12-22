@@ -6,7 +6,7 @@ import {getMessage} from './i18n';
 const editConflict = async (): Promise<void> => {
 	let isContinue: boolean = true;
 
-	getBody().then(($body: JQuery<HTMLBodyElement>): void => {
+	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		$body.find('#wpSave').on('click', (): void => {
 			isContinue = false;
 		});

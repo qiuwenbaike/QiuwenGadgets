@@ -11,7 +11,7 @@ import {getBody} from '~/util';
 import {matchGadgetName} from './modules/util/matchGadgetName';
 import {processGadgetDefinition} from './modules/processGadgetDefinition';
 
-getBody().then(function gadgetsDefinition($body: JQuery<HTMLBodyElement>): void {
+void getBody().then(function gadgetsDefinition($body: JQuery<HTMLBodyElement>): void {
 	const $parserOutput: JQuery = $body.find('.mw-parser-output');
 
 	// Only operate on [[MediaWiki:Gadgets-definition]] when the text is visible.

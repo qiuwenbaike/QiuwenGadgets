@@ -44,7 +44,7 @@ const addElement = async (): Promise<void> => {
 				spanClass: 'blue',
 			});
 		} else {
-			appendGeoIcon($body);
+			void appendGeoIcon($body);
 		}
 	} catch (error: unknown) {
 		console.error('[GeoLocationReader] Ajax error in `addElement` method:', error);

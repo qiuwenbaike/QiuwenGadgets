@@ -19,7 +19,7 @@ const addListener = (
 
 		messageDialog = new OO.ui.MessageDialog();
 		windowManager.addWindows([messageDialog]);
-		windowManager.openWindow(messageDialog, messageDialogProperty);
+		void windowManager.openWindow(messageDialog, messageDialogProperty);
 	});
 };
 

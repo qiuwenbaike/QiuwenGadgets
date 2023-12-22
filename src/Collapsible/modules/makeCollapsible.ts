@@ -11,8 +11,8 @@ const makeCollapsible = ($collapsibles: JQuery): void => {
 			continue;
 		}
 
-		const hideText: string = $collapsible.data('collapsetext') ?? getMessage('Collapse');
-		const showText: string = $collapsible.data('expandtext') ?? getMessage('Expand');
+		const hideText: string = ($collapsible.data('collapsetext') as string) || getMessage('Collapse');
+		const showText: string = ($collapsible.data('expandtext') as string) || getMessage('Expand');
 
 		const $toggler: JQuery = generateTogglerElement($collapsible, hideText, showText);
 		const $togglerLink: JQuery = $toggler.find('a');

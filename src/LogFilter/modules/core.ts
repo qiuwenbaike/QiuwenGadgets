@@ -130,7 +130,7 @@ class LogFilter {
 			type = this.$body.find('#rfSelect').attr('selectedIndex');
 		}
 
-		const invert: boolean = this.$body.find('#rfInvert').prop('checked');
+		const invert = this.$body.find('#rfInvert').prop('checked') as boolean;
 		const search: string = this.$body.find('#rfRegex').val()?.toString() ?? '';
 		const flags: string = this.$body.find('#rfCase').prop('checked') ? 'ig' : 'g';
 		let regexRf: RegExp | undefined;

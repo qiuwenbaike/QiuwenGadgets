@@ -20,11 +20,13 @@ const clickListener = async (event: JQuery.ClickEvent): Promise<void> => {
 		},
 		'info'
 	);
-	tryLogout(toastifyInstance);
+	void tryLogout(toastifyInstance);
 };
 
 const addListener = ($element: JQuery): void => {
-	refreshEventListener($element, clickListener);
+	refreshEventListener($element, (event: JQuery.ClickEvent): void => {
+		void clickListener(event);
+	});
 
 	if (WG_SKIN !== 'vector-2022') {
 		return;
@@ -46,7 +48,9 @@ const addListener = ($element: JQuery): void => {
 		const elementClone: Node = element.cloneNode(true);
 		element.replaceWith(elementClone);
 
-		refreshEventListener($body.find<HTMLAnchorElement>(SELECTOR), clickListener);
+		refreshEventListener($body.find(SELECTOR), (event: JQuery.ClickEvent): void => {
+			void clickListener(event);
+		});
 		observer.disconnect();
 	};
 	const mutationObserver: MutationObserver = new MutationObserver(observerCallback);

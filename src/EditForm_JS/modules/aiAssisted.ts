@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import {getMessage} from './i18n';
 
 let isInit: boolean = false;
@@ -7,8 +8,7 @@ const aiAssisted = ({$body, $editForm}: {$body?: JQuery<HTMLBodyElement>; $editF
 		return;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
+	// @ts-expect-error TS2304
 	const isVeInit: boolean = !!ve.init;
 
 	const $target: JQuery = isVeInit
@@ -33,11 +33,9 @@ const aiAssisted = ({$body, $editForm}: {$body?: JQuery<HTMLBodyElement>; $editF
 
 		let changeTags: string = '';
 		if (isVeInit) {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
+			// @ts-expect-error TS2304
 			changeTags = generateChangeTags(ve.init.target.saveFields.wpChangeTags?.() ?? '');
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
+			// @ts-expect-error TS2304
 			ve.init.target.saveFields.wpChangeTags = (): string => {
 				return changeTags;
 			};

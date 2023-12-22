@@ -5,12 +5,12 @@ import {WG_CANONICAL_SPECIAL_PAGE_NAME} from './modules/constant';
 import {checkLastActive} from './modules/checkLastActive';
 import {getBody} from '~/util';
 
-getBody().then(($body: JQuery<HTMLBodyElement>): void => {
+void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	if (WG_CANONICAL_SPECIAL_PAGE_NAME !== 'Listusers') {
 		return;
 	}
 
 	for (const element of $body.find('#mw-content-text>ul>li')) {
-		checkLastActive($(element));
+		void checkLastActive($(element));
 	}
 });

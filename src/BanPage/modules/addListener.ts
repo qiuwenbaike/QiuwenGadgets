@@ -11,10 +11,12 @@ const addListener = ($element: JQuery): void => {
 			return;
 		}
 
-		editPage();
+		void editPage();
 	};
 
-	$element.on('click', clickListener);
+	$element.on('click', (event: JQuery.ClickEvent): void => {
+		void clickListener(event);
+	});
 };
 
 export {addListener};

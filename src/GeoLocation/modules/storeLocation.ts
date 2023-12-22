@@ -8,14 +8,14 @@ const storeLocation = async ({countryOrArea, region}: StoreGeoInfo): Promise<voi
 	const storePageTitle: string = `User:${WG_USER_NAME}/GeoIP.json`;
 
 	try {
-		const response: Partial<StoreGeoInfo> = await $.getJSON(
+		const response = (await $.getJSON(
 			new mw.Uri(WG_SCRIPT)
 				.extend({
 					action: 'raw',
 					title: storePageTitle,
 				})
 				.toString()
-		);
+		)) as Partial<StoreGeoInfo>;
 		if (response.countryOrArea === countryOrArea && (response.region === region || (!response.region && !region))) {
 			return;
 		}

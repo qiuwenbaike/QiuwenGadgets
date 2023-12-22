@@ -59,7 +59,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 						},
 						'info'
 					);
-					windowManager.clearWindows();
+					void windowManager.clearWindows();
 
 					return;
 				} else if (value === '') {
@@ -71,7 +71,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 							},
 							'warning'
 						);
-						login({
+						void login({
 							retypePassword: true,
 						});
 					} else {
@@ -82,7 +82,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 							},
 							'warning'
 						);
-						login({
+						void login({
 							loginContinue: true,
 						});
 					}
@@ -106,7 +106,12 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 				'info'
 			);
 
-			const response = await api.post(params);
+			const response = (await api.post(params)) as {
+				clientlogin: {
+					status?: string;
+					messagecode?: string;
+				};
+			};
 
 			toastifyInstance.hideToast();
 
@@ -119,7 +124,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 				);
 				location.reload();
 			} else if (response['clientlogin']?.messagecode) {
-				const {messagecode}: {messagecode: string} = response['clientlogin'];
+				const {messagecode} = response['clientlogin'];
 				switch (messagecode) {
 					case 'login-throttled':
 						toastifyInstance = toastify(
@@ -131,7 +136,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 						);
 						break;
 					case 'oathauth-auth-ui':
-						login({
+						void login({
 							loginContinue: true,
 						});
 						break;
@@ -143,7 +148,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 							},
 							'warning'
 						);
-						login({
+						void login({
 							loginContinue: true,
 						});
 						break;
@@ -155,7 +160,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 							},
 							'warning'
 						);
-						login({
+						void login({
 							retypePassword: true,
 						});
 						break;
@@ -194,7 +199,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 		const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(needToCheckElements, toastifyInstance);
 		toastifyInstance = lastToastifyInstance;
 		if (isValid) {
-			login();
+			void login();
 		}
 	});
 	messageDialog.getActionProcess = (action): OO.ui.Process => {
@@ -206,17 +211,17 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 				);
 				toastifyInstance = lastToastifyInstance;
 				if (isValid) {
-					login();
+					void login();
 				}
 			} else {
 				toastifyInstance.hideToast();
-				windowManager.clearWindows();
+				void windowManager.clearWindows();
 			}
 		});
 	};
 
 	windowManager.addWindows([messageDialog]);
-	windowManager.openWindow(messageDialog, {
+	void windowManager.openWindow(messageDialog, {
 		actions: [
 			{
 				action: 'login',

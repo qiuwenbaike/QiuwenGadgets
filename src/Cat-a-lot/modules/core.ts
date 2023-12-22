@@ -1,4 +1,4 @@
-/* eslint-disable mediawiki/class-doc */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, mediawiki/class-doc */
 import * as OPTIONS from '../options.json';
 import {
 	API_ENTRY_POINT,
@@ -135,18 +135,20 @@ const catALot = (): void => {
 			const regexCat: RegExp = new RegExp(`^\\s*${CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category')}:`, '');
 
 			this.$searchInput
-				.on('keypress', (event: JQuery.KeyPressEvent<HTMLInputElement>): void => {
+				.on('keypress', (event: JQuery.KeyPressEvent): void => {
+					const $element = $(event.currentTarget) as JQuery<HTMLInputElement>;
 					if (event.which === 13) {
-						this.updateCats($(event.currentTarget).val().trim());
+						this.updateCats($element.val()?.trim() ?? '');
 					}
 				})
 				.on(
 					'input keyup',
 					(event: JQuery.TriggeredEvent<HTMLInputElement> | JQuery.KeyUpEvent<HTMLInputElement>): void => {
-						const oldVal: string = event.currentTarget.value;
+						const currentTarget = event.currentTarget as HTMLInputElement;
+						const oldVal: string = currentTarget.value;
 						const newVal: string = oldVal.replace(regexCat, '');
 						if (newVal !== oldVal) {
-							event.currentTarget.value = newVal;
+							currentTarget.value = newVal;
 						}
 					}
 				);
@@ -355,11 +357,11 @@ const catALot = (): void => {
 						setTimeout(doCall, 300);
 						i++;
 					} else if (params['title']) {
-						CAL.connectionError.push(params['title']);
+						CAL.connectionError.push(params['title'] as string);
 						this.updateCounter();
 					}
 				};
-				$.ajax({
+				void $.ajax({
 					headers: {
 						'Api-User-Agent': `Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`,
 					},
@@ -615,7 +617,7 @@ const catALot = (): void => {
 		private doSomething(targetCategory: string, mode: 'add' | 'copy' | 'move'): void {
 			const markedLabels: ReturnType<typeof this.getMarkedLabels> = this.getMarkedLabels();
 			if (!markedLabels.length) {
-				mw.notify(CAL.msg('none-selected'), {
+				void mw.notify(CAL.msg('none-selected'), {
 					tag: 'catALot',
 				});
 				return;
@@ -645,10 +647,11 @@ const catALot = (): void => {
 				const $tr: JQuery = $('<tr>').data('category', category);
 				$tr.append($('<td>').text(symbol)).append(
 					$('<td>').append(
-						$<HTMLAnchorElement>('<a>')
+						$('<a>')
 							.text(category)
-							.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
-								this.updateCats($(event.currentTarget).closest('tr').data('category'));
+							.on('click', (event: JQuery.ClickEvent): void => {
+								const $element = $(event.currentTarget) as JQuery;
+								this.updateCats($element.closest('tr').data('category') as string);
 							})
 					)
 				);
@@ -656,30 +659,33 @@ const catALot = (): void => {
 				if (category !== CAL.CURRENT_CATEGROY && CAL.isSearchMode) {
 					$tr.append(
 						$('<td>').append(
-							$<HTMLAnchorElement>('<a>')
+							$('<a>')
 								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
 								.text(CAL.msg('add'))
-								.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
-									this.addHere($(event.currentTarget).closest('tr').data('category'));
+								.on('click', (event: JQuery.ClickEvent): void => {
+									const $element = $(event.currentTarget) as JQuery;
+									this.addHere($element.closest('tr').data('category') as string);
 								})
 						)
 					);
 				} else if (category !== CAL.CURRENT_CATEGROY && !CAL.isSearchMode) {
 					$tr.append(
 						$('<td>').append(
-							$<HTMLAnchorElement>('<a>')
+							$('<a>')
 								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
 								.text(CAL.msg('copy'))
-								.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
-									this.copyHere($(event.currentTarget).closest('tr').data('category'));
+								.on('click', (event: JQuery.ClickEvent): void => {
+									const $element = $(event.currentTarget) as JQuery;
+									this.copyHere($element.closest('tr').data('category') as string);
 								})
 						),
 						$('<td>').append(
-							$<HTMLAnchorElement>('<a>')
+							$('<a>')
 								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
 								.text(CAL.msg('move'))
-								.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
-									this.moveHere($(event.currentTarget).closest('tr').data('category'));
+								.on('click', (event: JQuery.ClickEvent): void => {
+									const $element = $(event.currentTarget) as JQuery;
+									this.moveHere($element.closest('tr').data('category') as string);
 								})
 						)
 					);
@@ -800,10 +806,10 @@ const catALot = (): void => {
 		}
 		private makeClickable(): void {
 			this.findAllLabels();
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 			CAL.$labels
 				.addClass(CLASS_NAME_LABEL)
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
+				// @ts-expect-error TS2339
 				.onCatALotShiftClick((): void => {
 					this.updateSelectionCounter();
 				});
@@ -853,7 +859,7 @@ const catALot = (): void => {
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
 		setMessages();
-		getBody().then(($body: JQuery<HTMLBodyElement>): void => {
+		void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 			new CAL($body).buildElements();
 		});
 	}

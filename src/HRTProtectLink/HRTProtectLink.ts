@@ -2,7 +2,7 @@ import {WG_NAMESPACE_NUMBER, WG_PAGE_NAME} from './modules/constant';
 import {getBody} from '~/util';
 import {getMessage} from './modules/i18n';
 
-getBody().then(function HRTProtectLink($body: JQuery<HTMLBodyElement>): void {
+void getBody().then(function HRTProtectLink($body: JQuery<HTMLBodyElement>): void {
 	if (![10, 828].includes(WG_NAMESPACE_NUMBER)) {
 		return;
 	}

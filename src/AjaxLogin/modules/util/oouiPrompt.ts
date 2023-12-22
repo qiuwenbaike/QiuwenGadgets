@@ -23,7 +23,7 @@ const oouiPrompt = async (windowManager: OO.ui.WindowManager, retypePassword: bo
 
 	removeWindowResizeHandler(windowManager);
 
-	instance.opened.then((): void => {
+	void instance.opened.then((): void => {
 		codeInput.on('enter', (): void => {
 			(windowManager.getCurrentWindow() as OO.ui.Window).close({
 				action: 'accept',

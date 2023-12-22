@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {adjustTime} from './util/adjustTime';
 import {api} from './api';
 
@@ -28,12 +29,12 @@ const checkLastActive = async ($element: JQuery): Promise<void> => {
 	try {
 		const userContribs = await api.get(userContribsParams);
 		if (userContribs['query'].usercontribs[0]) {
-			maxDate = new Date(userContribs['query'].usercontribs[0].timestamp);
+			maxDate = new Date(userContribs['query'].usercontribs[0].timestamp as number);
 		}
 
 		const logEvents = await api.get(logEventsParams);
 		if (logEvents['query'].logevents[0]) {
-			const date: Date = new Date(logEvents['query'].logevents[0].timestamp);
+			const date: Date = new Date(logEvents['query'].logevents[0].timestamp as number);
 			if (!maxDate || date > maxDate) {
 				maxDate = date;
 			}

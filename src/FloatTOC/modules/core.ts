@@ -48,7 +48,7 @@ const floatTOC = ($originToc: JQuery): void => {
 			return;
 		}
 
-		const {target} = event;
+		const target = event.target as HTMLElement;
 		const $target: JQuery = $(target).parent();
 		const href: string | undefined = $target.attr('href');
 		if (!href) {
@@ -103,7 +103,7 @@ const floatTOC = ($originToc: JQuery): void => {
 				if (!checkA11yConfirmKey(event)) {
 					return;
 				}
-				const {target}: {target: HTMLElement} = event;
+				const target = event.target as HTMLElement;
 				if (target.id === 'close') {
 					closeNotification(preNotification as NonNullable<typeof preNotification>);
 				} else {

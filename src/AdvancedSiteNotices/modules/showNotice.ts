@@ -71,19 +71,19 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 	}
 
 	if (typeof $notice.data('asn-html') === 'string') {
-		$notice.data('asn-html-raw', mw.Uri.decode($notice.data('asn-html')));
+		$notice.data('asn-html-raw', mw.Uri.decode($notice.data('asn-html') as string));
 		$notice.data('asn-html', null);
 	}
 	if (typeof $notice.data('asn-style') === 'string') {
 		$notice.data('asn-style-id', noticeStyles.length);
-		const style: HTMLStyleElement = mw.loader.addStyleTag(mw.Uri.decode($notice.data('asn-style')));
+		const style: HTMLStyleElement = mw.loader.addStyleTag(mw.Uri.decode($notice.data('asn-style') as string));
 		style.disabled = true;
 		noticeStyles.push(style);
 		$notice.data('asn-style', null);
 	}
 
-	const noticeHtml: string = $notice.data('asn-html-raw') || $notice.html();
-	const noticeStyleId: number = $notice.data('asn-style-id');
+	const noticeHtml: string = ($notice.data('asn-html-raw') as string) || $notice.html();
+	const noticeStyleId: number = $notice.data('asn-style-id') as number;
 	const currentNoticeHtml: string = $currentNotice.html();
 	if (currentNoticeHtml && currentNoticeHtml !== noticeHtml) {
 		$currentNotice.stop().fadeOut((): void => {

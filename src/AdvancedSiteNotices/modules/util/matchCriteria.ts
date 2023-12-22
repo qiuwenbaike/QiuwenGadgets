@@ -10,7 +10,7 @@ const only_for = (userLanguage: string): boolean => {
 };
 
 const matchCriteria = ($notice: JQuery): boolean => {
-	const cache: boolean | undefined = $notice.data('asn-cache');
+	const cache = $notice.data('asn-cache') as boolean | undefined;
 	if (cache !== undefined) {
 		return cache;
 	}

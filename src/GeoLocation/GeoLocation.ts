@@ -19,7 +19,7 @@ import {storeLocation} from './modules/storeLocation';
 		return;
 	}
 
-	storeLocation({
+	void storeLocation({
 		countryOrArea,
 		region,
 	});

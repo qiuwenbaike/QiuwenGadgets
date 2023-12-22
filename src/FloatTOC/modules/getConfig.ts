@@ -1,7 +1,7 @@
 import type {Config} from './types';
 
 const getConfig = (id: string): Config => {
-	let config: ReturnType<typeof getConfig> = mw.storage.getObject(id);
+	let config = mw.storage.getObject(id) as ReturnType<typeof getConfig>;
 	if (!config) {
 		config = {
 			floatTOC: window.outerHeight < window.outerWidth ? 'open' : 'close',
