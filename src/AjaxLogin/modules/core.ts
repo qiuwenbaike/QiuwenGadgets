@@ -1,10 +1,10 @@
 import {type ClientLoginParams, api} from './api';
 import {type NeedToCheckElements, checkValid} from './util/checkValid';
-import {delay} from '~/util';
 import {generateElements} from './util/generateElements';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
 import {queryLoginToken} from './util/queryLoginToken';
+import {redirectOriginLoginPage} from './util/redirectOriginLoginPage';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 import {showError} from './util/showError';
 
@@ -179,16 +179,12 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 							},
 							'error'
 						);
-						await windowManager.clearWindows();
-						await delay(3 * 1000);
-						location.href = '/wiki/Special:Userlogin';
+						void redirectOriginLoginPage(windowManager);
 				}
 			}
 		} catch (error: unknown) {
-			toastifyInstance = showError(error, toastifyInstance);
-			await windowManager.clearWindows();
-			await delay(3 * 1000);
-			location.href = '/wiki/Special:Userlogin';
+			showError(error, toastifyInstance);
+			void redirectOriginLoginPage(windowManager);
 		}
 	};
 
