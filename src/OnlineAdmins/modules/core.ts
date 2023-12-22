@@ -138,20 +138,24 @@ export const onlineAdmins = (): void => {
 					}
 					adminsstring.push('</ul></div>');
 				}
-				mw.notify($(adminsstring.join('')), {tag: 'onlineAdmins'});
+				void mw.notify($(adminsstring.join('')), {tag: 'onlineAdmins'});
 			} else {
-				mw.notify(getMessage('NoOnline'), {
+				void mw.notify(getMessage('NoOnline'), {
 					tag: 'onlineAdmins',
 					type: 'warn',
 				});
 			}
 		} catch {
-			mw.notify(getMessage('Network error'), {tag: 'onlineAdmins', type: 'error'});
+			void mw.notify(getMessage('Network error'), {tag: 'onlineAdmins', type: 'error'});
 		}
 	};
 	// Bind click listener
 	if (!portletLinkOnline) {
 		return;
 	}
-	$(portletLinkOnline).find('a').on('click', doClick);
+	$(portletLinkOnline)
+		.find('a')
+		.on('click', (event) => {
+			void doClick(event);
+		});
 };

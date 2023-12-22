@@ -46,5 +46,5 @@ import {deprecatedFunctions} from './modules/deprecatedFunctions';
 	deprecatedFunctions();
 
 	// Tippy-related codes
-	tippyForExtension();
+	void tippyForExtension();
 })();

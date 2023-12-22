@@ -105,9 +105,13 @@ const quickImport = async (): Promise<void> => {
 		for (const [, pageinfo] of Object.entries(data['query'].pages)) {
 			if ((pageinfo as Record<string, never>)['missing'] === '') {
 				await importPage(pageName);
-				detectIfFileRedirect(uploadFile);
+				void detectIfFileRedirect(() => {
+					void uploadFile();
+				});
 			} else {
-				detectIfFileRedirect(uploadFile);
+				void detectIfFileRedirect(() => {
+					void uploadFile();
+				});
 			}
 		}
 	} else {
@@ -133,5 +137,7 @@ const element: HTMLLIElement | null = mw.util.addPortletLink(
 );
 
 if (element) {
-	$(element).on('click', quickImport);
+	$(element).on('click', () => {
+		void quickImport();
+	});
 }

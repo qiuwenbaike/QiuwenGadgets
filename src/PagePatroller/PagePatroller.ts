@@ -5,5 +5,7 @@ if (
 	mw.config.get('wgPageName') !== 'Qiuwen:首页' &&
 	!document.querySelectorAll('.noarticletext').length
 ) {
-	$(pagePatroller);
+	$(() => {
+		void pagePatroller();
+	});
 }

@@ -82,7 +82,7 @@ export const whoIsActive = (): void => {
 			uclimit: 1,
 			ucuser: username,
 		};
-		api.get(params).then((result): void => {
+		void api.get(params).then((result): void => {
 			if (result['query'].usercontribs.length > 0) {
 				const [{timestamp}] = result['query'].usercontribs;
 				getLastActiveMarker(timestamp, true).insertAfter(element);
@@ -100,7 +100,7 @@ export const whoIsActive = (): void => {
 				uclimit: 1,
 				ucuser: wgRelevantUserName,
 			};
-			api.get(params).then((result): void => {
+			void api.get(params).then((result): void => {
 				if (result['query'].usercontribs.length > 0) {
 					const [{timestamp}] = result['query'].usercontribs;
 					getLastActiveMarker(timestamp, false).prependTo($body.find('#footer-info, .page-info'));

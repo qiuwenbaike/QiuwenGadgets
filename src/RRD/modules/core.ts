@@ -52,7 +52,7 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 			[{content}] = query.pages[0].revisions;
 		}
 		if (content === undefined) {
-			mw.notify(`Error when loading page ${RRD_PAGE}: missing`, {tag: 'RRD', type: 'error'});
+			void mw.notify(`Error when loading page ${RRD_PAGE}: missing`, {tag: 'RRD', type: 'error'});
 			return;
 		}
 		try {
@@ -68,21 +68,21 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 			if (result['edit']?.result === 'Success') {
 				location.replace(mw.util.getUrl(RRD_PAGE));
 			} else if (result['error']?.code) {
-				mw.notify(`Some errors occured while saving page: ${result['error'].code}`, {
+				void mw.notify(`Some errors occured while saving page: ${result['error'].code}`, {
 					tag: 'RRD',
 					type: 'error',
 				});
 			} else {
-				mw.notify('Some errors occured while saving page: unknown', {
+				void mw.notify('Some errors occured while saving page: unknown', {
 					tag: 'RRD',
 					type: 'error',
 				});
 			}
 		} catch {
-			mw.notify(`Error when editing page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
+			void mw.notify(`Error when editing page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
 		}
 	} catch {
-		mw.notify(`Error when loading page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
+		void mw.notify(`Error when loading page ${RRD_PAGE}`, {tag: 'RRD', type: 'error'});
 	}
 };
 
@@ -123,7 +123,7 @@ const loadConfig = (): void => {
 const showDialog = (): void => {
 	loadIDs();
 	if (!ids.length) {
-		mw.notify(message.err_no_revision_provided, {tag: 'RRD', type: 'error'});
+		void mw.notify(message.err_no_revision_provided, {tag: 'RRD', type: 'error'});
 		return;
 	}
 	const html: string = `<div id="rrdConfig">${
@@ -164,14 +164,14 @@ const showDialog = (): void => {
 					}
 					let cont: boolean = true;
 					if (!toHide.length) {
-						mw.notify(message.err_no_item_provided, {tag: 'RRD', type: 'error'});
+						void mw.notify(message.err_no_item_provided, {tag: 'RRD', type: 'error'});
 						return;
 					}
 					if (!reason && !otherReasons) {
 						cont = confirm(message.warn_no_reason_provided);
 					}
 					if (cont) {
-						submit(toHide.join('、'), reason, otherReasons);
+						void submit(toHide.join('、'), reason, otherReasons);
 					}
 				},
 			},

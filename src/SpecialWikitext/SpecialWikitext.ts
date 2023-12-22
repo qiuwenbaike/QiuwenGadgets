@@ -381,7 +381,7 @@ const previewTool = (): void => {
 			if (pageContent.toString().trim() === '') {
 				removeLoadingNotice();
 			} else {
-				mwAddWikiText(pageContent, currentPageName, true);
+				void mwAddWikiText(pageContent, currentPageName, true);
 			}
 		} catch {
 			removeLoadingNotice();
@@ -474,7 +474,7 @@ const previewTool = (): void => {
 					packageWikitext += `<div class="special-wikitext-preview-testcase-${i}">\n${addWiki}\n</div>`;
 				}
 			} else if (['lua', 'scribunto'].includes(testcaseItem.lang.toLowerCase())) {
-				mwAddLuaText(
+				void mwAddLuaText(
 					testcaseItem.code,
 					mw.config.get('wgPageName'),
 					isPreview,
@@ -559,7 +559,7 @@ const previewTool = (): void => {
 				if (addWiki.trim()) {
 					// 若解析结果非空才放置预览
 					addLoadingNotice(); // 放置提示，提示使用者等待AJAX
-					mwAddWikiText(addWiki, currentPageName, true); // 若取得 _addText 则显示预览
+					void mwAddWikiText(addWiki, currentPageName, true); // 若取得 _addText 则显示预览
 				}
 			} else if (!$elementExist('.mw-_addText-content') && checkMwConfig('wgAction', 'view')) {
 				// 模式2：不支持显示的特殊页面
@@ -574,7 +574,7 @@ const previewTool = (): void => {
 				if (!$elementExist('#wpTextbox1')) {
 					// 非编辑模式才执行 (预览使用上方的if区块)
 					addLoadingNotice(); // 放置提示，提示使用者等待AJAX
-					mwApplyRevision(mw.config.get('wgRevisionId'), currentPageName); // 为了让历史版本正常显示，使用wgRevisionId取得内容
+					void mwApplyRevision(mw.config.get('wgRevisionId'), currentPageName); // 为了让历史版本正常显示，使用wgRevisionId取得内容
 				}
 			} else if ($elementExist('#mw-revision-info') && checkMwConfig('wgAction', 'view')) {
 				// 模式3：页面历史版本检视：如需复查的项目为页面历史版本，本工具提供页面历史版本内容显示支持
@@ -582,7 +582,7 @@ const previewTool = (): void => {
 				if (!$elementExist('#wpTextbox1')) {
 					// 非编辑模式才执行 (预览使用上方的if区块)
 					$body.find('#mw-clearyourcache').html($noticeLoading); // 差异模式(含检阅修订版本删除)的插入点不同
-					mwApplyRevision(mw.config.get('wgRevisionId'), currentPageName); // 为了让特定版本正常显示，使用wgRevisionId取得内容
+					void mwApplyRevision(mw.config.get('wgRevisionId'), currentPageName); // 为了让特定版本正常显示，使用wgRevisionId取得内容
 				}
 			} else {
 				removeLoadingNotice();
@@ -599,7 +599,7 @@ const previewTool = (): void => {
 				!checkMwConfig('wgAction', 'view')
 			) {
 				$($noticeLoading).insertAfter('#wikiDiff');
-				mwAddLuaText(($body.find('#wpTextbox1').val() || '').toString(), currentPageName, true);
+				void mwAddLuaText(($body.find('#wpTextbox1').val() || '').toString(), currentPageName, true);
 			}
 		} else if ($elementExist('.mw-undelete-revision')) {
 			// 模式4：已删页面预览
@@ -617,7 +617,7 @@ const previewTool = (): void => {
 				if (tryAddWiki.trim() !== '') {
 					// 若取得 _addText 则显示预览
 					addLoadingNotice();
-					mwAddWikiText(tryAddWiki, mw.config.get('wgRelevantPageName'), true);
+					void mwAddWikiText(tryAddWiki, mw.config.get('wgRelevantPageName'), true);
 				} else if (/module[ _]wikitext.*_addtext/i.test($body.find('.mw-parser-output').text())) {
 					// 尝试Lua解析
 					// 本功能目前测试正常运作
@@ -631,7 +631,7 @@ const previewTool = (): void => {
 			const pageSubName: string = mw.config.get('wgPageName').replace(/special:[^/]+/i, '');
 			if (pagename !== false && pagename !== null && pagename.toString().trim() !== '') {
 				const fullpagename: string = `${mw.config.get('wgCanonicalNamespace')}:${pagename}`;
-				mwApplyNotice(fullpagename, pageSubName);
+				void mwApplyNotice(fullpagename, pageSubName);
 			}
 		} else {
 			removeLoadingNotice(); // 都不是的情况则不显示预览
@@ -646,7 +646,7 @@ const previewTool = (): void => {
 		// 执行预览
 		mwAddPreview();
 		// 检查测试样例
-		wikitextPreviewTestcase(true);
+		void wikitextPreviewTestcase(true);
 	}
 };
 

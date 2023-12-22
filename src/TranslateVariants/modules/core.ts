@@ -33,14 +33,14 @@ export const translateVariants = (): void => {
 		const $body: JQuery<HTMLBodyElement> = $('body');
 		const $buttons: JQuery = $body.find('.TranslateVariants-publish-changes');
 		if ($buttons.length === 0) {
-			mw.notify(window.wgULS('没有任何可以发布的更改', '沒有任何變更可發佈'), {
+			void mw.notify(window.wgULS('没有任何可以发布的更改', '沒有任何變更可發佈'), {
 				tag: 'TranslateVariants',
 				type: 'error',
 			});
 			return;
 		}
 		if (!confirm(`${window.wgULS('更改', '發佈')}${$buttons.length}${window.wgULS('个更改', '個變更')}？`)) {
-			mw.notify(window.wgULS('已取消更改', '已取消發佈'), {tag: 'TranslateVariants', type: 'warn'});
+			void mw.notify(window.wgULS('已取消更改', '已取消發佈'), {tag: 'TranslateVariants', type: 'warn'});
 			return;
 		}
 		$buttons.each((_index, element) => {
@@ -86,10 +86,11 @@ export const translateVariants = (): void => {
 		if (!lang) {
 			return;
 		}
-		api.parse(`{{NoteTA|G1=IT|G2=MediaWiki}}<div id="TVcontent">${basepagetext}</div>`, {
-			uselang: lang,
-			prop: 'text',
-		})
+		void api
+			.parse(`{{NoteTA|G1=IT|G2=MediaWiki}}<div id="TVcontent">${basepagetext}</div>`, {
+				uselang: lang,
+				prop: 'text',
+			})
 			.then(
 				(data) => {
 					newtext = $('<div>').html(data).find('#TVcontent').text();
@@ -103,7 +104,7 @@ export const translateVariants = (): void => {
 					return api.post(_params);
 				},
 				(error) => {
-					mw.notify(`解析${lang}${window.wgULS('时发生错误：', '時發生錯誤：')}${error}`, {
+					void mw.notify(`解析${lang}${window.wgULS('时发生错误：', '時發生錯誤：')}${error}`, {
 						type: 'error',
 						tag: 'TranslateVariant',
 					});
@@ -140,13 +141,13 @@ export const translateVariants = (): void => {
 									newtext
 								).then(
 									(): void => {
-										mw.notify(window.wgULS('已编辑 ', '已編輯 ') + targetTitle, {
+										void mw.notify(window.wgULS('已编辑 ', '已編輯 ') + targetTitle, {
 											type: 'success',
 											tag: 'TranslateVariant',
 										});
 									},
 									(error): void => {
-										mw.notify(
+										void mw.notify(
 											window.wgULS('编辑', '編輯 ') +
 												targetTitle +
 												window.wgULS(' 发生错误：', ' 發生錯誤：') +
@@ -190,13 +191,13 @@ export const translateVariants = (): void => {
 									};
 								}).then(
 									(): void => {
-										mw.notify(window.wgULS('已编辑', '已編輯 ') + targetTitle, {
+										void mw.notify(window.wgULS('已编辑', '已編輯 ') + targetTitle, {
 											type: 'success',
 											tag: 'TranslateVariant',
 										});
 									},
 									(error) => {
-										mw.notify(
+										void mw.notify(
 											window.wgULS('编辑', '編輯 ') +
 												targetTitle +
 												window.wgULS(' 发生错误：', ' 發生錯誤：') +
@@ -220,7 +221,7 @@ export const translateVariants = (): void => {
 					}
 				},
 				(error): void => {
-					mw.notify(
+					void mw.notify(
 						window.wgULS('获取', '取得') +
 							lang +
 							window.wgULS('差异时发生错误：', '差異時發生錯誤：') +
@@ -245,7 +246,8 @@ export const translateVariants = (): void => {
 		curtimestamp: true,
 		rvprop: ['content', 'timestamp'],
 	};
-	api.get(params)
+	void api
+		.get(params)
 		.then((data) => {
 			if (!data['query'] || !data['query'].pages) {
 				return $.Deferred().reject('unknown');

@@ -22,7 +22,7 @@ export const QuickPatrol = (): void => {
 			});
 		$patrolBtn.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
 			const {btnid, revid} = event.currentTarget.dataset;
-			$.ajax({
+			void $.ajax({
 				type: 'POST',
 				url: `${mw.config.get('wgScriptPath')}/api.php`,
 				data: {
@@ -33,7 +33,7 @@ export const QuickPatrol = (): void => {
 				},
 				success: (data): void => {
 					if (data.error) {
-						mw.notify(getMessage('API') + data.error.info, {type: 'error', tag: 'QuickPatrol'});
+						void mw.notify(getMessage('API') + data.error.info, {type: 'error', tag: 'QuickPatrol'});
 						$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 					} else {
 						$(`#gadget-quick_patrol__${btnid}`)
@@ -45,7 +45,7 @@ export const QuickPatrol = (): void => {
 					}
 				},
 				error: (error): void => {
-					mw.notify(getMessage('AJAX'), {type: 'error', tag: 'QuickPatrol'});
+					void mw.notify(getMessage('AJAX'), {type: 'error', tag: 'QuickPatrol'});
 					console.error('[QuickPatrol] Ajax error:', error);
 					$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 				},

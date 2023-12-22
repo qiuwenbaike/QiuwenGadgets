@@ -47,14 +47,14 @@ export const loginToEdit = (): void => {
 					location.href = registerURL;
 				}
 				return new OO.ui.Process((): void => {
-					windowManager.closeWindow(messageDialog);
+					void windowManager.closeWindow(messageDialog);
 				});
 			};
 			windowManager = new OO.ui.WindowManager();
 			windowManager.$element.appendTo($('body'));
 			windowManager.addWindows([messageDialog]);
 		}
-		windowManager.openWindow(messageDialog, windowOpeningData);
+		void windowManager.openWindow(messageDialog, windowOpeningData);
 	};
 	const $body: JQuery<HTMLBodyElement> = $('body');
 	const $caViewsource: JQuery = $body.find('#ca-viewsource');

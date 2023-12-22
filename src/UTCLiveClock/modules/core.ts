@@ -73,21 +73,22 @@ export const liveClock = (): void => {
 	const $element: JQuery<HTMLLIElement> = $(element);
 	// Purge the page when the clock is clicked. We have to do this through the
 	// API, as purge URLs now make people click through a confirmation screen.
-	$element.on('click', async (event: JQuery.ClickEvent<HTMLLIElement>): Promise<void> => {
+	$element.on('click', (event: JQuery.ClickEvent<HTMLLIElement>): void => {
 		event.preventDefault();
 		const api: mw.Api = initMwApi(`Qiuwen/1.1 (UTCLiveClock/1.1; ${mw.config.get('wgWikiID')})`);
-		try {
-			localStorage.removeItem(`MediaWikiModuleStore:${mw.config.get('wgWikiID')}`);
-			const params: ApiPurgeParams = {
-				action: 'purge',
-				titles: mw.config.get('wgPageName'),
-			};
-			await api.post(params);
-			mw.notify(getMessage('Success'), {tag: 'UTCLiveClock', type: 'success'});
-			location.reload();
-		} catch {
-			mw.notify(getMessage('Failed'), {tag: 'UTCLiveClock', type: 'error'});
-		}
+		localStorage.removeItem(`MediaWikiModuleStore:${mw.config.get('wgWikiID')}`);
+		const params: ApiPurgeParams = {
+			action: 'purge',
+			titles: mw.config.get('wgPageName'),
+		};
+		api.post(params)
+			.then(() => {
+				void mw.notify(getMessage('Success'), {tag: 'UTCLiveClock', type: 'success'});
+				location.reload();
+			})
+			.catch(() => {
+				void mw.notify(getMessage('Failed'), {tag: 'UTCLiveClock', type: 'error'});
+			});
 	});
 	// Show the clock.
 	showTime($element.find('a:first'));

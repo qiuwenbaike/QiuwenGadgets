@@ -46,7 +46,7 @@ export const purgePageCache = (): void => {
 		getMessage('PurgeFromServer')
 	);
 	element?.querySelector('a')?.addEventListener('click', (event: MouseEvent): void => {
-		purgePageCacheMain(event, mw.config.get('wgPageName'));
+		void purgePageCacheMain(event, mw.config.get('wgPageName'));
 	});
 
 	Array.prototype.forEach.call(
@@ -54,7 +54,7 @@ export const purgePageCache = (): void => {
 		(_element: HTMLAnchorElement): void => {
 			const title: string = mw.util.getParamValue('title', _element.href) ?? mw.config.get('wgPageName');
 			_element.addEventListener('click', (event: MouseEvent): void => {
-				purgePageCacheMain(event, title);
+				void purgePageCacheMain(event, title);
 			});
 		}
 	);
