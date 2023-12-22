@@ -186,6 +186,9 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 			}
 		} catch (error: unknown) {
 			toastifyInstance = showError(error, toastifyInstance);
+			await windowManager.clearWindows();
+			await delay(3 * 1000);
+			location.href = '/wiki/Special:Userlogin';
 		}
 	};
 
