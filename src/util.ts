@@ -137,30 +137,27 @@ const isValidKey = (object: object, key: string | number | symbol): key is keyof
 	return key in object;
 };
 
-const oouiConfirmWithStyle = (message: string): JQuery.Promise<boolean> => {
-	return OO.ui
-		.confirm(
-			$('<div>')
-				.addClass('oo-ui-window-foot')
-				.css({
-					border: '.1rem solid #0645ad',
-					display: 'flex',
-					'justify-content': 'space-evenly',
-				})
-				.append(
-					$('<span>')
-						.css({
-							'font-size': '1.2rem',
-							'font-weight': '500',
-							'line-height': '1.8',
-							padding: '.4em 0',
-						})
-						.text(message)
-				)
-		)
-		.then((isConfirm: boolean): boolean => {
-			return isConfirm;
-		});
+const oouiConfirmWithStyle = async (message: string): Promise<boolean> => {
+	const isConfirm = await OO.ui.confirm(
+		$('<div>')
+			.addClass('oo-ui-window-foot')
+			.css({
+				border: '.1rem solid #0645ad',
+				display: 'flex',
+				'justify-content': 'space-evenly',
+			})
+			.append(
+				$('<span>')
+					.css({
+						'font-size': '1.2rem',
+						'font-weight': '500',
+						'line-height': '1.8',
+						padding: '.4em 0',
+					})
+					.text(message)
+			)
+	);
+	return isConfirm;
 };
 
 const scrollTop = (
