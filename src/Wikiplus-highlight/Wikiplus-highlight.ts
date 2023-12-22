@@ -13,5 +13,5 @@ import {initMwApi} from '~/util';
 		change: 'gadget-Wikiplus=1',
 	});
 
-	mw.loader.using(['ext.gadget.Wikiplus']);
+	void mw.loader.using(['ext.gadget.Wikiplus']);
 })();
