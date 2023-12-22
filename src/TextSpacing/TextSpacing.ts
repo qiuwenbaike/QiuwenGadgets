@@ -25,19 +25,16 @@ const mutationObserver: MutationObserver = new MutationObserver((records: Mutati
 			continue;
 		}
 
-		// Optimization: prevent forced reflows
-		requestAnimationFrame((): void => {
-			for (const node of addedNodes) {
-				if (node instanceof HTMLElement) {
-					run(node);
-				} else if (node instanceof Text) {
-					const {parentElement} = node;
-					if (parentElement) {
-						run(parentElement);
-					}
+		for (const node of addedNodes) {
+			if (node instanceof HTMLElement) {
+				run(node);
+			} else if (node instanceof Text) {
+				const {parentElement} = node;
+				if (parentElement) {
+					run(parentElement);
 				}
 			}
-		});
+		}
 	}
 });
 
