@@ -232,7 +232,10 @@ const adjustSpacing = (element: HTMLElement): void => {
 				});
 			replacement.push(fragments.at(-1) as string);
 
-			node.replaceWith(...replacement);
+			// Optimization: prevent forced reflows
+			requestAnimationFrame(() => {
+				node.replaceWith(...replacement);
+			});
 		}
 	});
 };
