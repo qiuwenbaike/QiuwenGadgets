@@ -7,6 +7,7 @@
 		"ext.gadget.i18n",
 		"ext.gadget.Toastify",
 		"mediawiki.api",
+		"mediawiki.util",
 		"oojs-ui-core",
 		"oojs-ui-windows",
 		"oojs-ui.styles.icons-interactions",

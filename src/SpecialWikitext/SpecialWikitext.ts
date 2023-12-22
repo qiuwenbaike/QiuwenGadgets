@@ -546,8 +546,8 @@ const previewTool = (): void => {
 				const $previewSelector: JQuery = $body.find('.previewnote .warningbox > p > b a');
 				if ($previewSelector.length > 0) {
 					const pathPath: string = decodeURI(
-						$previewSelector.attr('href') || `/wiki/${currentPageName}`
-					).replace(/^\/?wiki\//, '');
+						$previewSelector.attr('href') || mw.util.getUrl(currentPageName)
+					).replace(new RegExp(`^\\/?${mw.util.getUrl('').match(/[a-z]+/)?.[0] ?? ''}\\/`), '');
 
 					// 若预览的页面并非本身，则不显示预览
 					if (pathPath !== currentPageName) {

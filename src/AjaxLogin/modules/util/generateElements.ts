@@ -40,7 +40,7 @@ const generateElements = () => {
 		.append(
 			$('<a>')
 				.attr({
-					href: '/wiki/Special:PasswordReset',
+					href: mw.util.getUrl('Special:PasswordReset'),
 					title: getMessage('Reset password'),
 				})
 				.text(getMessage('Forgot password?'))
