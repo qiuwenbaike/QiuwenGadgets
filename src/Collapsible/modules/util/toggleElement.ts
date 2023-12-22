@@ -3,7 +3,7 @@ import {showElement} from './showElement';
 
 const toggleElement = ($collapsible: JQuery): void => {
 	const collapsed: boolean = $collapsible.hasClass('collapsed');
-	const duration: number = Number.parseInt($collapsible.data('collapse-duration'), 10) ?? 200;
+	const duration: number = Number.parseInt($collapsible.data('collapse-duration') as string, 10) || 200;
 
 	if (collapsed) {
 		showElement($collapsible, duration);

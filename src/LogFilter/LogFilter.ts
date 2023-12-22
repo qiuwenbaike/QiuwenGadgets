@@ -28,7 +28,7 @@ import {getBody} from '~/util';
 	// Set guard
 	mw.config.set('wgLogFilterInstalled', true);
 
-	getBody().then(($body: JQuery<HTMLBodyElement>): void => {
+	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		// Load
 		new LogFilter($body).addPortletLink();
 	});

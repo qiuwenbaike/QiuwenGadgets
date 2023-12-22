@@ -3,8 +3,7 @@ import {CLASS_NAME_LABEL, CLASS_NAME_LABEL_LAST_SELECTED, CLASS_NAME_LABEL_SELEC
 
 const extendJQueryPrototype = (): void => {
 	/*! jQuery checkboxShiftClick | GPL-2.0 <qwbk.cc/H:GPL> */
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
+	// @ts-expect-error TS2339
 	$.fn.onCatALotShiftClick = function (callback: (...args: unknown[]) => unknown): JQuery {
 		let prevCheckbox: JQuery | undefined;
 
@@ -18,7 +17,7 @@ const extendJQueryPrototype = (): void => {
 			// Highlight last selected
 			this.parents('body').find(`.${CLASS_NAME_LABEL_LAST_SELECTED}`).removeClass(CLASS_NAME_LABEL_LAST_SELECTED);
 
-			let $thisControl: JQuery = $(event.target);
+			let $thisControl = $(event.target) as JQuery;
 			if (!$thisControl.hasClass(CLASS_NAME_LABEL)) {
 				$thisControl = $thisControl.parents(`.${CLASS_NAME_LABEL}`);
 			}

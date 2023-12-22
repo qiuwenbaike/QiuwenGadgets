@@ -7,9 +7,8 @@ import {processWikiEditor} from './modules/processWikiEditor';
 		await processWikiEditor();
 	} else {
 		await mw.loader.using('ext.visualEditor.desktopArticleTarget.init');
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		/* @ts-ignore */
-		mw.libs.ve.addPlugin((): void => {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+		mw.libs['ve'].addPlugin((): void => {
 			mw.hook('ve.saveDialog.stateChanged').add(processVisualEditor);
 		});
 	}

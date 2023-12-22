@@ -21,7 +21,7 @@ const foldRef = ($body: JQuery<HTMLBodyElement>): void => {
 
 	// attach event listener to the expand buttons
 	$body.find(`.${CLASS_NAME_EXPAND_BUTTON}`).on('click', (event: JQuery.ClickEvent<HTMLElement>): void => {
-		const $element: JQuery = $(event.currentTarget);
+		const $element = $(event.currentTarget) as JQuery;
 
 		// The following classes are used here:
 		// * see constant.ts

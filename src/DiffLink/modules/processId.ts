@@ -10,7 +10,7 @@ const processId = (
 	if (diffId) {
 		buildLink(oldId, diffId);
 		if (oldId) {
-			compareWithRemoteDiffId(diffId);
+			void compareWithRemoteDiffId(diffId);
 		}
 	} else if (revisionId && isRevisionPage) {
 		addPortletLink({

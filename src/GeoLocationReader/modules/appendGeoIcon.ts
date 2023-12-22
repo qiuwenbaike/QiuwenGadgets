@@ -41,14 +41,16 @@ const appendGeoIcon = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 	const storePageTitle: string = `User:${WG_RELEVANT_USER_NAME}/GeoIP.json`;
 
 	try {
-		const {country, countryOrArea, region}: StoreGeoInfo & {country?: string} = await $.getJSON(
+		const {country, countryOrArea, region} = (await $.getJSON(
 			new mw.Uri(WG_SCRIPT)
 				.extend({
 					action: 'raw',
 					title: storePageTitle,
 				})
 				.toString()
-		);
+		)) as StoreGeoInfo & {
+			country?: string;
+		};
 		const location: StoreGeoInfo['countryOrArea'] = country ?? countryOrArea ?? '';
 
 		const countryOrAreaName: string =

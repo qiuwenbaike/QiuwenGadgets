@@ -1027,7 +1027,7 @@ const refToolbar2 = async () => {
 	};
 
 	// Load configuration for site
-	$(refToolbarConfig);
+	refToolbarConfig();
 
 	// End of code loaded only on edit
 };

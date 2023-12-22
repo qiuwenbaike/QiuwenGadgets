@@ -1,7 +1,7 @@
 import {IS_WG_EDIT_OR_SUBMIT_ACTION} from './constant';
 
 const usingEditFormJS = (): void => {
-	mw.loader.using(['ext.gadget.EditForm', 'ext.gadget.EditForm_JS']);
+	void mw.loader.using(['ext.gadget.EditForm', 'ext.gadget.EditForm_JS']);
 };
 
 const loadGadgetEditForm = async (): Promise<void> => {
@@ -9,9 +9,8 @@ const loadGadgetEditForm = async (): Promise<void> => {
 		usingEditFormJS();
 	} else {
 		await mw.loader.using('ext.visualEditor.desktopArticleTarget.init');
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		/* @ts-ignore */
-		mw.libs.ve.addPlugin((): void => {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+		mw.libs['ve'].addPlugin((): void => {
 			usingEditFormJS();
 		});
 	}

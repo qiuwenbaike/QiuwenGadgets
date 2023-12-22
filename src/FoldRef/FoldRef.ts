@@ -3,5 +3,5 @@ import {foldRef} from './modules/core';
 import {getBody} from '~/util';
 
 if (WG_NAMESPACE_NUMBER === 0) {
-	getBody().then(foldRef);
+	void getBody().then(foldRef);
 }

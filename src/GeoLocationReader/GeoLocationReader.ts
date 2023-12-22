@@ -13,5 +13,5 @@ import {addElement} from './modules/addElement';
 		return;
 	}
 
-	addElement();
+	void addElement();
 })();

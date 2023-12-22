@@ -13,9 +13,9 @@ import {smartNewSection} from './modules/smartNewSection';
 	mw.config.set('wgUserJSInstalled', true);
 
 	/* 加载编辑界面脚本 */
-	loadGadgetEditForm();
+	void loadGadgetEditForm();
 
-	getBody().then(($body: JQuery<HTMLBodyElement>): void => {
+	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		/* 向侧边栏添加“日志”菜单 */
 		addLog();
 		/* 向侧边栏添加“子页面”菜单 */

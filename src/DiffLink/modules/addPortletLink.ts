@@ -53,13 +53,15 @@ const addPortletLink = ({
 			`[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`,
 		]) {
 			$element.append(
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 				new mw.widgets.CopyTextLayout({
 					align: 'top',
 					copyText: value,
-				}).$element
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				}).$element as JQuery
 			);
 		}
-		OO.ui.alert($element, {
+		void OO.ui.alert($element, {
 			size: 'medium',
 		});
 	};

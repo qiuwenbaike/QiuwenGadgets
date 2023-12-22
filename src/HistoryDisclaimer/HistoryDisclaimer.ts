@@ -1,7 +1,7 @@
 import {CLASS_NAME, WG_CUR_REVISION_ID, WG_REVISION_ID} from './modules/constant';
 import {getBody} from '~/util';
 
-getBody().then(function historyDisclaimer($body: JQuery<HTMLBodyElement>): void {
+void getBody().then(function historyDisclaimer($body: JQuery<HTMLBodyElement>): void {
 	if (!WG_CUR_REVISION_ID || !WG_REVISION_ID || WG_CUR_REVISION_ID <= WG_REVISION_ID) {
 		return;
 	}

@@ -4,7 +4,7 @@ import {CLASS_NAME_LONG, CLASS_NAME_SHORT, CLASS_NAME_SWITCH} from './modules/co
 import {getBody} from '~/util';
 import {getMessage} from './modules/i18n';
 
-getBody().then(function hideLongSummaries($body: JQuery<HTMLBodyElement>): void {
+void getBody().then(function hideLongSummaries($body: JQuery<HTMLBodyElement>): void {
 	const $switches: JQuery[] = [];
 
 	for (const element of $body.find('.comment')) {
@@ -31,11 +31,7 @@ getBody().then(function hideLongSummaries($body: JQuery<HTMLBodyElement>): void 
 
 	for (const $switch of $switches) {
 		$switch.on('click', (event: JQuery.ClickEvent): void => {
-			const {
-				parentElement,
-			}: {
-				parentElement: HTMLElement;
-			} = event.currentTarget;
+			const parentElement = (event.currentTarget as HTMLElement).parentElement as HTMLElement;
 
 			const $parentElement: JQuery = $(parentElement);
 			const $long: JQuery = $parentElement.find(`.${CLASS_NAME_LONG}`);

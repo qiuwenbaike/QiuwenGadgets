@@ -50,7 +50,7 @@ const addEventListenerWithRemover = <
 };
 
 const changeOpacityWhenMouseEnterOrLeave = (event: MouseEvent | JQuery.TriggeredEvent, opacity = 0.7): void => {
-	event.currentTarget.style.opacity = event.type === 'mouseenter' ? '1' : opacity.toString();
+	(event.currentTarget as HTMLElement).style.opacity = event.type === 'mouseenter' ? '1' : opacity.toString();
 };
 
 const checkA11yConfirmKey = (event: KeyboardEvent | MouseEvent | JQuery.ClickEvent | JQuery.KeyDownEvent): boolean => {

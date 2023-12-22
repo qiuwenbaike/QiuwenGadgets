@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
 let isInit: boolean = false;
@@ -8,15 +9,14 @@ const processVisualEditor = (): void => {
 	}
 	isInit = true;
 
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
+	// @ts-expect-error TS2304
 	const {target} = ve.init;
-	const {$saveOptions} = target.saveDialog;
+	const $saveOptions = target.saveDialog as JQuery;
 	if (!$saveOptions.length) {
 		return;
 	}
 
-	const $dropdown: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input);
+	const $dropdown: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
 
 	$saveOptions.before($dropdown);
 };
