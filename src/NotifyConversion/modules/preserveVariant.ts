@@ -9,7 +9,8 @@ export const preserveVariant = (): void => {
 		return;
 	}
 	$(document).on('keydown mousedown touchstart', 'a', function (): void {
-		const originalHref: string | undefined = $(this).attr('href');
+		const self = this as HTMLAnchorElement;
+		const originalHref: string | undefined = $(self).attr('href');
 		if (!originalHref) {
 			return;
 		}
@@ -21,9 +22,9 @@ export const preserveVariant = (): void => {
 		}
 		if (!('variant' in uri.query)) {
 			if (originalHref.includes('/wiki/')) {
-				this.href = `/${wgUserVariant}${originalHref.slice(5)}`;
+				self.href = `/${wgUserVariant}${originalHref.slice(5)}`;
 			} else if (originalHref.includes('/index.php?')) {
-				this.href = uri
+				self.href = uri
 					.extend({
 						variant: wgUserVariant,
 					})
