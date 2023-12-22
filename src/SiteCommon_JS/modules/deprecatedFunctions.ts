@@ -56,7 +56,7 @@ const deprecatedFunctions = (): void => {
 		window,
 		'importScriptCallback',
 		(title: string, ready: never): void => {
-			mw.loader
+			void mw.loader
 				.getScript(
 					mw.util.getUrl(title, {
 						action: 'raw',
@@ -73,7 +73,7 @@ const deprecatedFunctions = (): void => {
 		window,
 		'importScriptURICallback',
 		(url: string, ready: never): void => {
-			mw.loader.getScript(url).then(ready);
+			void mw.loader.getScript(url).then(ready);
 		},
 		'Use mw.loader.getScript() instead'
 	);

@@ -179,7 +179,7 @@ export const markBlockedUser = ($container: JQuery): void => {
 	$container.addClass('markblocked-loading');
 	while (users.length > 0) {
 		apiRequests++;
-		$.post(
+		void $.post(
 			`${mw.util.wikiScript('api')}?action=query&format=json&formatversion=2`,
 			{
 				list: 'blocks',

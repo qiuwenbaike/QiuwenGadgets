@@ -30,7 +30,7 @@ export const shortURL = (): void => {
 						}).$element
 					);
 				}
-				OO.ui.alert($element, {title: getMessage('Short URL copied to clipboard'), size: 'medium'});
+				void OO.ui.alert($element, {title: getMessage('Short URL copied to clipboard'), size: 'medium'});
 			};
 			if (isCitizen && !isInit) {
 				isInit = true;
@@ -61,7 +61,7 @@ export const shortURL = (): void => {
 		const shorturl: string = `https://qwbk.cc${link}`;
 		headerElement.onclick = (event: MouseEvent): void => {
 			event.preventDefault();
-			mw.notify(
+			void mw.notify(
 				$('<span>')
 					.text(getMessage('Short URL copied to clipboard'))
 					.append(
@@ -139,7 +139,7 @@ export const shortURL = (): void => {
 		if ($content.attr('id') !== 'mw-content-text') {
 			return;
 		}
-		init({
+		void init({
 			articleId: mw.config.get('wgArticleId'),
 			diffId: mw.config.get('wgDiffNewId'),
 			oldId: mw.config.get('wgDiffOldId'),

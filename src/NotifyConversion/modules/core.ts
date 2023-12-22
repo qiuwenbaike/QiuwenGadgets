@@ -105,12 +105,12 @@ const showDialog = (): void => {
 	};
 
 	windowManager.addWindows([messageDialog]);
-	windowManager.openWindow(messageDialog, messageDialogProperty);
+	void windowManager.openWindow(messageDialog, messageDialogProperty);
 
 	messageDialog.getActionProcess = (action): OO.ui.Process => {
 		const clearWindows = (variant?: string) => {
 			mw.storage.set(GADGET_NAME, variant || 'hide');
-			windowManager.clearWindows();
+			void windowManager.clearWindows();
 		};
 
 		return new OO.ui.Process((): void => {
@@ -120,14 +120,14 @@ const showDialog = (): void => {
 				const variant: string = selectedItem.getData() as string;
 				clearWindows(variant);
 				if (mw.config.get('wgUserName')) {
-					api.saveOption('variant', variant).then((): void => {
+					void api.saveOption('variant', variant).then((): void => {
 						location.href = locationHref.replace(URL_REGEX, '$1wiki$3');
 					});
 				} else {
 					location.href = locationHref.replace(URL_REGEX, `$1${variant}$3`);
 				}
 			} else {
-				OO.ui.confirm(getMessage('Are you sure?')).then((confirmed: boolean): void => {
+				void OO.ui.confirm(getMessage('Are you sure?')).then((confirmed: boolean): void => {
 					if (confirmed) {
 						clearWindows();
 					}

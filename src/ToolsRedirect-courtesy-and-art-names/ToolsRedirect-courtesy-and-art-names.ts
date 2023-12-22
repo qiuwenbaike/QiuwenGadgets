@@ -1,7 +1,7 @@
 import {initMwApi} from '~/util';
 
 if (!mw.user.options.get('gadget-ToolsRedirect')) {
-	initMwApi(
+	void initMwApi(
 		`Qiuwen/1.1 (ToolsRedirect-courtesy-and-art-names/2.0; ${mw.config.get('wgWikiID')})`
 	).postWithEditToken({
 		action: 'options',

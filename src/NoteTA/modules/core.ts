@@ -10,14 +10,14 @@ const openDialog = ($message: JQuery): void => {
 		messageDialog = new OO.ui.MessageDialog();
 		messageDialog.getActionProcess = (): OO.ui.Process => {
 			return new OO.ui.Process((): void => {
-				windowManager.closeWindow(messageDialog);
+				void windowManager.closeWindow(messageDialog);
 			});
 		};
 		windowManager = new OO.ui.WindowManager();
 		windowManager.$element.appendTo($('body'));
 		windowManager.addWindows([messageDialog]);
 	}
-	windowManager.openWindow(messageDialog, {
+	void windowManager.openWindow(messageDialog, {
 		title: window.wgULS('字词转换', '字詞轉換'),
 		message: $('<div>').addClass('noteTA-dialog-message').append($message),
 		actions: [
@@ -50,7 +50,7 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 			const results = await api.post(params);
 			$dialogMessage.html(results['parse'].text['*']);
 		} catch {
-			parse();
+			void parse();
 		}
 	};
 	let maybeTitle = parse;
@@ -136,9 +136,9 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 					multititleText += `\n* 实际标题为：-{R|${actualTitle}}-；当前显示为：-{R|${titleConverted}}-\n`;
 					wikitext = multititleText + wikitext;
 				}
-				parse();
+				void parse();
 			} catch {
-				maybeTitle();
+				void maybeTitle();
 			}
 		};
 	}
@@ -178,7 +178,7 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 		});
 	}
 	wikitext += '{{noteTA/footer}}\n';
-	maybeTitle();
+	void maybeTitle();
 };
 
 const init = (hash: string): JQuery => {
