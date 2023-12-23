@@ -29,10 +29,7 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 
 		title = title.replace(/\s*?\[.+?]$/, '');
 
-		$element.attr({
-			'aria-label': title,
-			title: '',
-		});
+		$element.attr('aria-label', title);
 		tippy($element.get(0) as HTMLElement, {
 			arrow: true,
 			content: title,
