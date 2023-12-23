@@ -5,6 +5,19 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
+	const getContent = (reference: Element): string => {
+		return reference.getAttribute('aria-label') as string;
+	};
+
+	const onCreateCallback = (instance: ReturnType<typeof tippy>[0]): void => {
+		instance.reference.removeAttribute('title');
+	};
+
+	const onShowCallback = (instance: ReturnType<typeof tippy>[0]): void => {
+		onCreateCallback(instance);
+		instance.setContent(getContent(instance.reference));
+	};
+
 	for (const element of $body.find(
 		'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a,.page-actions>nav>ul>li a,.page-actions__button'
 	)) {
@@ -24,6 +37,8 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 			arrow: true,
 			content: title,
 			placement: 'bottom',
+			onCreate: onCreateCallback,
+			onShow: onShowCallback,
 		});
 	}
 };
