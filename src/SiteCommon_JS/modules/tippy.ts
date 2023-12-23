@@ -1,5 +1,18 @@
 import {WG_SKIN} from './constant';
 
+const getContent = (reference: Element): string => {
+	return reference.getAttribute('alt') as string;
+};
+
+const onCreateCallback = (instance: ReturnType<typeof tippy>[0]): void => {
+	instance.reference.removeAttribute('title');
+};
+
+const onShowCallback = (instance: ReturnType<typeof tippy>[0]): void => {
+	onCreateCallback(instance);
+	instance.setContent(getContent(instance.reference));
+};
+
 const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 	if (WG_SKIN !== 'citizen') {
 		return;
@@ -24,22 +37,13 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 			arrow: true,
 			content: title,
 			placement: 'bottom',
+			onCreate: onCreateCallback,
+			onShow: onShowCallback,
 		});
 	}
 };
 
 const tippyForExtension = async (): Promise<void> => {
-	const getContent = (reference: Element): string => {
-		return reference.getAttribute('alt') as string;
-	};
-	const onCreateCallback = (instance: ReturnType<typeof tippy>[0]): void => {
-		instance.reference.removeAttribute('title');
-	};
-	const onShowCallback = (instance: ReturnType<typeof tippy>[0]): void => {
-		onCreateCallback(instance);
-		instance.setContent(getContent(instance.reference));
-	};
-
 	await mw.loader.using('ext.CollapsibleSidebar.js');
 	tippy('#sidebarButton', {
 		arrow: true,
