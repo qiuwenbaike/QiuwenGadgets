@@ -1,22 +1,27 @@
 import {WG_SKIN} from './constant';
 
+const getContent = (reference: Element): string => {
+	const label: string | null = reference.getAttribute('aria-label');
+	const title: string | null = reference.getAttribute('alt') ?? reference.getAttribute('title');
+
+	return (label === title ? label : title) ?? (reference.textContent as string);
+};
+
+const onCreateCallback = (instance: ReturnType<typeof tippy>[0]): void => {
+	const {reference} = instance;
+	reference.setAttribute('aria-label', getContent(reference));
+	reference.removeAttribute('title');
+};
+
+const onShowCallback = (instance: ReturnType<typeof tippy>[0]): void => {
+	onCreateCallback(instance);
+	instance.setContent(getContent(instance.reference));
+};
+
 const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 	if (WG_SKIN !== 'citizen') {
 		return;
 	}
-
-	const getContent = (reference: Element): string => {
-		return reference.getAttribute('aria-label') as string;
-	};
-
-	const onCreateCallback = (instance: ReturnType<typeof tippy>[0]): void => {
-		instance.reference.removeAttribute('title');
-	};
-
-	const onShowCallback = (instance: ReturnType<typeof tippy>[0]): void => {
-		onCreateCallback(instance);
-		instance.setContent(getContent(instance.reference));
-	};
 
 	for (const element of $body.find(
 		'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a,.page-actions>nav>ul>li a,.page-actions__button'
@@ -29,35 +34,29 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 
 		title = title.replace(/\s*?\[.+?]$/, '');
 
-		$element.attr('aria-label', title);
+		$element.attr({
+			'aria-label': title,
+			title: '',
+		});
 		tippy($element.get(0) as HTMLElement, {
 			arrow: true,
 			content: title,
 			placement: 'bottom',
 			onCreate: onCreateCallback,
+			onHidden: onCreateCallback,
 			onShow: onShowCallback,
 		});
 	}
 };
 
 const tippyForExtension = async (): Promise<void> => {
-	const getContent = (reference: Element): string => {
-		return reference.getAttribute('alt') as string;
-	};
-	const onCreateCallback = (instance: ReturnType<typeof tippy>[0]): void => {
-		instance.reference.removeAttribute('title');
-	};
-	const onShowCallback = (instance: ReturnType<typeof tippy>[0]): void => {
-		onCreateCallback(instance);
-		instance.setContent(getContent(instance.reference));
-	};
-
 	await mw.loader.using('ext.CollapsibleSidebar.js');
 	tippy('#sidebarButton', {
 		arrow: true,
 		content: getContent,
 		placement: 'left',
 		onCreate: onCreateCallback,
+		onHidden: onCreateCallback,
 		onShow: onShowCallback,
 	});
 
@@ -68,6 +67,7 @@ const tippyForExtension = async (): Promise<void> => {
 			content: getContent,
 			placement: 'right',
 			onCreate: onCreateCallback,
+			onHidden: onCreateCallback,
 			onShow: onShowCallback,
 		});
 	}
@@ -78,6 +78,7 @@ const tippyForExtension = async (): Promise<void> => {
 		content: getContent,
 		placement: 'left',
 		onCreate: onCreateCallback,
+		onHidden: onCreateCallback,
 		onShow: onShowCallback,
 	});
 };
