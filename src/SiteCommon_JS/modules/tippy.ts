@@ -4,7 +4,7 @@ const getContent = (reference: Element): string => {
 	const label: string | null = reference.getAttribute('aria-label');
 	const title: string | null = reference.getAttribute('alt') ?? reference.getAttribute('title');
 
-	return (label === title ? label : title) ?? (reference.textContent as string);
+	return (label && label === title ? label : title) ?? (reference.textContent as string);
 };
 
 const onCreateCallback = (instance: ReturnType<typeof tippy>[0]): void => {
@@ -34,10 +34,9 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 
 		title = title.replace(/\s*?\[.+?]$/, '');
 
-		$element.attr({
-			'aria-label': title,
-			title: '',
-		});
+		$element.attr('aria-label', title);
+		$element.attr('title', '');
+
 		tippy($element.get(0) as HTMLElement, {
 			arrow: true,
 			content: title,
