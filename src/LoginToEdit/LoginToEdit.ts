@@ -1,6 +1,11 @@
 import {WG_USER_NAME} from './modules/constant';
-import {loginToEdit} from './modules/core';
+import {getBody} from '~/util';
+import {initDialog} from './modules/initDialog';
 
-if (!WG_USER_NAME) {
-	$(loginToEdit);
-}
+void getBody().then(function loginToEdit($body: JQuery<HTMLBodyElement>): void {
+	if (WG_USER_NAME) {
+		return;
+	}
+
+	initDialog($body);
+});
