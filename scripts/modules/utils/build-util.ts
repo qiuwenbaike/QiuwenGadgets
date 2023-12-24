@@ -94,7 +94,7 @@ const bundle = async (inputFilePath: string, code: string): Promise<string> => {
 		target: GLOBAL_REQUIRES_ES6 ? 'esnext' : 'es5',
 	});
 
-	return getBuildResult(buildResult);
+	return getBuildResult(buildResult).replace(/_require_\((.+?)\)/g, 'require($1)');
 };
 
 /**
@@ -271,6 +271,17 @@ const findSourceFile = (currentPath: string = 'src'): SourceFiles => {
 			}
 
 			const [_rootDir, gadgetName, fileName] = pathSplitArray as [string, string, string];
+			if (!/^[A-Za-z][A-Za-z0-9\-_.]*$/.test(gadgetName)) {
+				/**
+				 * @see {@link https://www.mediawiki.org/wiki/Extension:Gadgets#Definition_format}
+				 * @see {@link https://www.w3.org/TR/html4/types.html#type-id}
+				 */
+				console.log(
+					chalk.yellow(`The folder name ${chalk.bold(gadgetName)} contains illegal characters, skip it.`)
+				);
+				continue;
+			}
+
 			sourceFiles[gadgetName] ??= {} as SourceFiles[keyof SourceFiles];
 
 			switch (fileName) {

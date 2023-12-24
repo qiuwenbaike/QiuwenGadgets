@@ -1,6 +1,6 @@
 {
 	"name": "awesome-gadgets",
-	"version": "2.35.2",
+	"version": "2.36.1",
 	"description": "Storage, management, compilation, and automatic deployment of MediaWiki gadgets.",
 	"private": true,
 	"type": "module",
@@ -81,6 +81,7 @@
 		"esbuild": "^0.19.10",
 		"esbuild-plugin-less": "^1.3.1",
 		"esbuild-postcss": "^0.0.4",
+		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-config-wikimedia": "latest",
 		"eslint-plugin-unicorn": "latest",
