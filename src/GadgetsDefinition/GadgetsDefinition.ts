@@ -31,7 +31,7 @@ void getBody().then(function gadgetsDefinition($body: JQuery<HTMLBodyElement>): 
 	}
 
 	// Process gadget definitions in pre tags.
-	for (const element of $parserOutput.find('li')) {
+	for (const element of $parserOutput.find('pre')) {
 		element.innerHTML = element.innerHTML.replace(/[^\n]+/g, processGadgetDefinition);
 	}
 });
