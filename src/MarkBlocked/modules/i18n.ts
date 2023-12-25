@@ -7,14 +7,14 @@ const getI18nMessages = () => {
 			'zh-hans': '无限期',
 			'zh-hant': '無限期',
 		}),
-		partial: localize({
-			en: 'partial ',
-			zh: '部分',
-		}),
 		Blocked: localize({
 			en: '; $5blocked ($1) by $2: $3 ($4 ago)',
 			'zh-hans': '；由$2$5封禁$1：$3（$4前）',
 			'zh-hant': '；由$2$5封鎖$1：$3（$4前）',
+		}),
+		partial: localize({
+			en: 'partial ',
+			zh: '部分',
 		}),
 		d: localize({
 			en: 'day',
