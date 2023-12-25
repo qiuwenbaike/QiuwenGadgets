@@ -314,6 +314,13 @@
 		padding: 0.25em 0.5em;
 		transition: background 0.1s ease-in-out;
 
+		img {
+			.client-darkmode & {
+				box-shadow: none;
+				filter: invert(0) !important;
+			}
+		}
+
 		&:hover {
 			background: @color--primary;
 			color: @const-color-white;
@@ -334,7 +341,12 @@
 			}
 
 			img {
+				box-shadow: none;
 				filter: invert(1) hue-rotate(180deg);
+
+				.client-darkmode & {
+					filter: invert(0);
+				}
 			}
 		}
 	}
