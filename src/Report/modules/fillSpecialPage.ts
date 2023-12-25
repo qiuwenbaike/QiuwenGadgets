@@ -8,6 +8,11 @@ const fillSpecialPage = (): void => {
 		return;
 	}
 
+	const $bodyHasClass = $body.hasClass('page-Special_联系_Report') || $body.hasClass('page-Special_联系_report');
+	if (!$bodyHasClass) {
+		return;
+	}
+
 	const $wpTitleElement: JQuery<HTMLInputElement> = $body.find<HTMLInputElement>('input[name="wpTitle"]');
 
 	const linkTilte: string = getMessage('Report');
@@ -17,7 +22,7 @@ const fillSpecialPage = (): void => {
 		reportTitle += getMessage('(') + getMessage('Revision') + reportRevision + getMessage(')');
 	}
 
-	if ($('body').hasClass('page-Special_联系_Report') && !!reportTitle) {
+	if (reportTitle) {
 		$wpSubjectElement.val(linkTilte + getMessage(':') + reportTitle);
 		$wpTitleElement.val(reportTitle);
 	} else {
