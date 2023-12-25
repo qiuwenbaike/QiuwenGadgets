@@ -24,10 +24,12 @@ export const shortURL = (): void => {
 				const $element: JQuery = $('<div>');
 				for (const domain of ['qwbk.cc', 'qwbk.org', 'bkwz.cn']) {
 					$element.append(
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 						new mw.widgets.CopyTextLayout({
 							align: 'top',
 							copyText: `https://${domain}${link}`,
-						}).$element
+							// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+						}).$element as JQuery
 					);
 				}
 				void OO.ui.alert($element, {title: getMessage('Short URL copied to clipboard'), size: 'medium'});
@@ -48,7 +50,7 @@ export const shortURL = (): void => {
 							href: '#',
 							'aria-label': getMessage('Short URL'),
 						})
-						.append($('<span>').addClass('shortlink-icon').text(getMessage('Short URL')))
+						.append($('<span>').addClass('gadget-short-link__icon').text(getMessage('Short URL')))
 				);
 			$headerElement.prependTo('.mw-indicators');
 			headerElement = $headerElement.find('a').get(0) as HTMLAnchorElement;
@@ -119,6 +121,7 @@ export const shortURL = (): void => {
 					const {compare} = await api.get(params);
 					if (
 						diffId === mw.config.get('wgDiffNewId') &&
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 						compare?.fromrevid === mw.config.get('wgDiffOldId')
 					) {
 						buildLink(false);
