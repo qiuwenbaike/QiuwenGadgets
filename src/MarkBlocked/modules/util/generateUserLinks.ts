@@ -36,8 +36,18 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 		if (mw.util.isIPv6Address(href.replace(/^(?:https?:\/\/)/i, ''))) {
 			continue;
 		}
-		if (new mw.Uri(href).host !== location.host) {
-			continue;
+		try {
+			if (new mw.Uri(href).host !== location.host) {
+				continue;
+			}
+		} catch {
+			try {
+				if (new mw.Uri(location.href + href).host !== location.host) {
+					continue;
+				}
+			} catch {
+				continue;
+			}
 		}
 
 		let pageTitle: string | undefined;
