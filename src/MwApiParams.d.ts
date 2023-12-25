@@ -5,6 +5,7 @@ import type {
 	ApiImportParams as _ApiImportParams,
 	ApiParseParams as _ApiParseParams,
 	ApiPurgeParams as _ApiPurgeParams,
+	ApiQueryBlocksParams as _ApiQueryBlocksParams,
 	ApiQueryLogEventsParams as _ApiQueryLogEventsParams,
 	ApiQueryParams as _ApiQueryParams,
 	ApiQueryRecentChangesParams as _ApiQueryRecentChangesParams,
@@ -22,6 +23,7 @@ declare global {
 	type ApiImportParams = _ApiImportParams;
 	type ApiParseParams = _ApiParseParams;
 	type ApiPurgeParams = _ApiPurgeParams;
+	type ApiQueryBlocksParams = _ApiQueryBlocksParams;
 	type ApiQueryLogEventsParams = _ApiQueryLogEventsParams;
 	type ApiQueryParams = _ApiQueryParams;
 	type ApiQueryRecentChangesParams = _ApiQueryRecentChangesParams;

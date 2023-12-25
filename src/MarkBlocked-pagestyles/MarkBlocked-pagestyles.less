@@ -1,30 +1,24 @@
-.markblocked-loading .userlink {
-	opacity: 0.85;
-}
-
-a {
-	.user-blocked {
-		&-temp {
-			text-decoration: line-through;
-			opacity: 0.7;
+.gadget-mark_blocked {
+	&--loading {
+		.gadget-mark_blocked-userlink {
+			opacity: 0.85;
 		}
+	}
 
-		&-indef {
+	&-userlink {
+		&--indef {
 			text-decoration: line-through;
 			font-style: italic;
 			opacity: 0.4;
 		}
 
-		&-partial {
+		&--partial {
 			text-decoration: underline dotted;
 		}
-	}
-}
 
-.user-blocked-tipbox {
-	padding: 0 0.3em;
-	border: 1px solid #fea;
-	background: #fffff0;
-	color: #aaa;
-	font-size: smaller;
+		&--temp {
+			text-decoration: line-through;
+			opacity: 0.7;
+		}
+	}
 }
