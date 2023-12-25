@@ -589,7 +589,7 @@ import {initMwApi} from '~/util';
 			const blockoptions = [
 				{
 					checked: Twinkle.block.field_block_options.nocreate,
-					label: wgULS('禁止创建账户', '禁止建立帳號'),
+					label: wgULS('禁止创建账号', '禁止建立賬號'),
 					name: 'nocreate',
 					value: '1',
 				},
@@ -817,12 +817,12 @@ import {initMwApi} from '~/util';
 							),
 						},
 						{
-							label: wgULS('不能创建账户', '不能建立帳號'),
+							label: wgULS('不能创建账号', '不能建立賬號'),
 							name: 'nocreate_template',
 							checked: Twinkle.block.field_template_options.nocreate_template,
 							tooltip: wgULS(
-								'用此在封禁模板中指明该用户创建账户的权限已被移除',
-								'用此在封鎖模板中指明該使用者建立帳號的權限已被移除'
+								'用此在封禁模板中指明该用户创建账号的权限已被移除',
+								'用此在封鎖模板中指明該使用者建立賬號的權限已被移除'
 							),
 						},
 					],
@@ -862,13 +862,13 @@ import {initMwApi} from '~/util';
 						value: 'Blocked user',
 					},
 					{
-						label: `{{Sockpuppet}}：${wgULS('傀儡账户', '傀儡帳號')}`,
+						label: `{{Sockpuppet}}：${wgULS('傀儡账号', '傀儡賬號')}`,
 						value: 'Sockpuppet',
 						subgroup: [
 							{
 								name: 'sppUsername',
 								type: 'input',
-								label: wgULS('主账户用户名：', '主帳號使用者名稱：'),
+								label: wgULS('主账号用户名：', '主賬號使用者名稱：'),
 							},
 							{
 								name: 'sppType',
@@ -905,7 +905,7 @@ import {initMwApi} from '~/util';
 						],
 					},
 					{
-						label: `{{Sockpuppeteer|blocked}}：${wgULS('傀儡主账户', '傀儡主帳號')}`,
+						label: `{{Sockpuppeteer|blocked}}：${wgULS('傀儡主账号', '傀儡主賬號')}`,
 						value: 'Sockpuppeteer',
 						subgroup: [
 							{
@@ -1282,8 +1282,8 @@ import {initMwApi} from '~/util';
 			expiry: '1 week',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: wgULS('滥用[[QW:SOCK|多个账户]]', '濫用[[QW:SOCK|多個帳號]]'),
-			summary: wgULS('封禁通知：滥用[[QW:SOCK|多个账户]]', '封鎖通知：濫用[[QW:SOCK|多個帳號]]'),
+			reason: wgULS('滥用[[QW:SOCK|多个账号]]', '濫用[[QW:SOCK|多個賬號]]'),
+			summary: wgULS('封禁通知：滥用[[QW:SOCK|多个账号]]', '封鎖通知：濫用[[QW:SOCK|多個賬號]]'),
 			templateName: 'uw-block',
 		},
 		// uw-u-prefixed
@@ -1532,7 +1532,7 @@ import {initMwApi} from '~/util';
 					label: wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
 					value: 'uw-illegalblock',
 				},
-				{label: wgULS('滥用多个账户', '濫用多個帳號'), value: 'uw-sockblock'},
+				{label: wgULS('滥用多个账号', '濫用多個賬號'), value: 'uw-sockblock'},
 				// other block reasons
 				{label: wgULS('违反生者传记方针', '違反生者傳記方針'), value: 'bioblock'},
 				{label: wgULS('屡次增加没有可靠来源的资料', '屢次增加沒有可靠來源的資料'), value: 'ucblock'},
@@ -1965,13 +1965,13 @@ import {initMwApi} from '~/util';
 			if (
 				checkIncompatible(
 					['Sockpuppet', 'Sockpuppeteer'],
-					wgULS('请从主账户和分身账户中选择一个。', '請從主帳號和分身帳號中選擇一個。')
+					wgULS('请从主账号和分身账号中选择一个。', '請從主賬號和分身賬號中選擇一個。')
 				)
 			) {
 				return;
 			}
 			if (params.tag.includes('Sockpuppet') && params.sppUsername.trim() === '') {
-				mw.notify(wgULS('请提供傀儡账户的主账户用户名！', '請提供傀儡帳號的主帳號使用者名稱！'), {
+				mw.notify(wgULS('请提供傀儡账号的主账号用户名！', '請提供傀儡賬號的主賬號使用者名稱！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1998,8 +1998,8 @@ import {initMwApi} from '~/util';
 						// Blank entries technically allowed
 						mw.notify(
 							wgULS(
-								'没有选择页面或命名空间，也没有停用电子邮件或禁止创建账户；请选择至少一个选项以应用部分封禁！',
-								'沒有選擇頁面或命名空間，也沒有停用電子郵件或禁止建立帳號；請選擇至少一個選項以應用部分封鎖！'
+								'没有选择页面或命名空间，也没有停用电子邮件或禁止创建账号；请选择至少一个选项以应用部分封禁！',
+								'沒有選擇頁面或命名空間，也沒有停用電子郵件或禁止建立賬號；請選擇至少一個選項以應用部分封鎖！'
 							),
 							{
 								type: 'warn',
