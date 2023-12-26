@@ -1,16 +1,19 @@
-import {type PageInfo, queryPageInfo} from './util/queryPageInfo';
+import {queryPageInfo} from './util/queryPageInfo';
 
 const getCurrentRevisionId = async (title: string): Promise<number> => {
-	const pageInfo: PageInfo = await queryPageInfo(title);
+	const pageInfo: Awaited<ReturnType<typeof queryPageInfo>> = await queryPageInfo(title);
 
-	if (!pageInfo.query) {
-		return 0;
-	}
-	if (pageInfo.query.pages[0].missing) {
+	const {query} = pageInfo;
+	if (!query) {
 		return 0;
 	}
 
-	return pageInfo.query.pages[0].revisions[0].revid;
+	const [page] = query.pages;
+	if (!page || page.missing) {
+		return 0;
+	}
+
+	return page.revisions[0]!.revid;
 };
 
 export {getCurrentRevisionId};
