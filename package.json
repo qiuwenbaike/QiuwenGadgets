@@ -1,6 +1,6 @@
 {
 	"name": "awesome-gadgets",
-	"version": "2.36.1",
+	"version": "2.36.3",
 	"description": "Storage, management, compilation, and automatic deployment of MediaWiki gadgets.",
 	"private": true,
 	"type": "module",
@@ -107,7 +107,7 @@
 	},
 	"pnpm": {
 		"overrides": {
-			"@typescript-eslint/utils": "^6.15.0",
+			"@typescript-eslint/utils": "^6.16.0",
 			"ansi-regex@<6": "^5.0.1",
 			"arrify@<3": "^2.0.1",
 			"balanced-match@<3": "^2.0.0",
@@ -135,7 +135,7 @@
 			"resolve@<2": "^1.22.8",
 			"source-map": "latest",
 			"stylelint-config-wikimedia": "$stylelint-config-wikimedia",
-			"types-mediawiki": "$types-mediawiki-renovate"
+			"types-mediawiki": "npm:types-mediawiki-renovate"
 		},
 		"patchedDependencies": {
 			"eslint-plugin-no-jquery@2.7.0": "patches/eslint-plugin-no-jquery@2.7.0.patch"
