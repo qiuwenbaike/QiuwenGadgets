@@ -1,9 +1,10 @@
+import {type rrdConfig, type rrdConfigCheckBoxes, type rrdConfigOthers} from './types';
 import {RRD_PAGE} from './constant';
 import {initMwApi} from '~/util';
 import {message} from './messages';
 
 export const isLog: boolean = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
-const config = {
+const config: rrdConfig = {
 	checkboxes: {},
 	others: {},
 };
@@ -88,34 +89,31 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 
 const updateConfig = (): void => {
 	const $body: JQuery<HTMLBodyElement> = $('body');
-	const checkBoxes = {};
+	const checkBoxes: rrdConfigCheckBoxes = {};
 	if ($body.find('#rrdHideContent').prop('checked')) {
-		Object.defineProperty(checkBoxes, 'rrdHideContent', {value: 1});
+		checkBoxes.rrdHideContent = true;
 	}
 	if ($body.find('#rrdHideUsername').prop('checked')) {
-		Object.defineProperty(checkBoxes, 'rrdHideUsername', {value: 1});
+		checkBoxes.rrdHideUsername = true;
 	}
 	if ($body.find('#rrdHideSummary').prop('checked')) {
-		Object.defineProperty(checkBoxes, 'rrdHideSummary', {value: 1});
+		checkBoxes.rrdHideSummary = true;
 	}
-	Object.defineProperty(config, 'checkboxes', {value: checkBoxes});
-	const others = {};
-	Object.defineProperties(others, {
-		rrdReason: {value: $body.find('#rrdReason').val()},
-		rrdOtherReasons: {value: $body.find('#rrdOtherReasons').val()},
-	});
-	Object.defineProperty(config, 'others', {value: others});
+	config.checkboxes = checkBoxes;
+	const others: rrdConfigOthers = {
+		rrdReason: $body.find('#rrdReason').val()?.toString(),
+		rrdOtherReasons: $body.find('#rrdOtherReasons').val()?.toString(),
+	};
+	config.others = others;
 };
 
 const loadConfig = (): void => {
-	for (const key in config.others) {
-		if (Object.hasOwn(config.others, key)) {
-			$(`#${key}`).val(Object.getOwnPropertyDescriptor(config.others, key)?.value);
-		}
+	for (const [key, val] of Object.entries(config.others)) {
+		$(`#${key}`).val(val as string);
 	}
-	for (const key in config.checkboxes) {
-		if (Object.hasOwn(config.others, key)) {
-			$(`#${key}`).prop('checked', Object.hasOwn(config.checkboxes, key));
+	for (const [key, val] of Object.entries(config.checkboxes)) {
+		if (val === true) {
+			$(`#${key}`).prop('checked', true);
 		}
 	}
 };
@@ -146,20 +144,19 @@ const showDialog = (): void => {
 				text: message.dialog_button_submit,
 				click(): void {
 					$(this).dialog('close');
-					const reason: string = Object.getOwnPropertyDescriptor(config.others, 'rrdReason')?.value ?? '';
-					let otherReasons: string =
-						Object.getOwnPropertyDescriptor(config.others, 'rrdOtherReasons')?.value ?? '';
+					const reason: string | undefined = config.others.rrdReason;
+					let otherReasons: string | undefined = config.others.rrdOtherReasons;
 					if (otherReasons && reason) {
 						otherReasons = `，${otherReasons}`;
 					}
 					const toHide: string[] = [];
-					if (Object.hasOwn(config.checkboxes, 'rrdHideContent')) {
+					if (config.checkboxes.rrdHideContent) {
 						toHide.push(isLog ? message.hide_log : message.hide_content);
 					}
-					if (Object.hasOwn(config.checkboxes, 'rrdHideUsername')) {
+					if (config.checkboxes.rrdHideUsername) {
 						toHide.push(message.hide_username);
 					}
-					if (Object.hasOwn(config.checkboxes, 'rrdHideSummary')) {
+					if (config.checkboxes.rrdHideSummary) {
 						toHide.push(message.hide_summary);
 					}
 					let cont: boolean = true;
@@ -171,7 +168,7 @@ const showDialog = (): void => {
 						cont = confirm(message.warn_no_reason_provided);
 					}
 					if (cont) {
-						void submit(toHide.join('、'), reason, otherReasons);
+						void submit(toHide.join('、'), reason ?? '', otherReasons ?? '');
 					}
 				},
 			},
