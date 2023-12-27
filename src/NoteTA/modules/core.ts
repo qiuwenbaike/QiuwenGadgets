@@ -90,9 +90,8 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 								value: text,
 								writable: true,
 							});
-							if (Object.getOwnPropertyDescriptor(textVariant, text)) {
-								const textVariantText: string[] = Object.getOwnPropertyDescriptor(textVariant, text)
-									?.value;
+							if (Object.hasOwn(textVariant, text)) {
+								const textVariantText: string[] = (textVariant[text] as string[] | undefined) ?? [];
 								textVariantText.push(variant);
 								Object.defineProperty(textVariant, text, {
 									value: textVariantText,
@@ -111,11 +110,14 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 					const titleConverted: string | undefined = variantText[wgUserVariant];
 					for (const variant in variantText) {
 						if (Object.hasOwn(variantText, variant)) {
-							const text: string | null = Object.getOwnPropertyDescriptor(variantText, variant)?.value;
-							if (text === null) {
+							const text: string | undefined = variantText[variant];
+							if (text === undefined) {
 								continue;
 							}
-							const variants: string[] = Object.getOwnPropertyDescriptor(textVariant, text)?.value;
+							const variants = textVariant[text] as string[] | undefined;
+							if (variants === undefined) {
+								continue;
+							}
 							for (const variant_ of variants) {
 								Object.defineProperty(variantText, variant_, {
 									value: null,
