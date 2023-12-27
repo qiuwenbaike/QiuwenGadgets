@@ -87,14 +87,15 @@ const notice = (msg, more) => {
 				let first = true;
 				element.appendTo(_notice);
 				for (const message in more) {
-					if (Object.hasOwn(more, message)) {
-						if (first) {
-							first = false;
-						} else {
-							element.append('&nbsp;|&nbsp;');
-						}
-						element.append($('<a>').attr('href', '#').html(message).on('click', more[message]));
+					if (!Object.hasOwn(more, message)) {
+						continue;
 					}
+					if (first) {
+						first = false;
+					} else {
+						element.append('&nbsp;|&nbsp;');
+					}
+					element.append($('<a>').attr('href', '#').html(message).on('click', more[message]));
 				}
 				element.append(messages['bracket-right']);
 			})
