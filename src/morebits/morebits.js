@@ -1753,9 +1753,10 @@
 		rebind() {
 			let {content} = this;
 			for (const current in this.history) {
-				if (Object.hasOwn(this.history, current)) {
-					content = content.replace(current, this.history[current]);
+				if (!Object.hasOwn(this.history, current)) {
+					continue;
 				}
+				content = content.replace(current, this.history[current]);
 			}
 			return content;
 		},

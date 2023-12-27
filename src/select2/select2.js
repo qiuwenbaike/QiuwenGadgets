@@ -93,7 +93,7 @@
 					(v = {}),
 					(y = {}),
 					(_ = {}),
-					(i = Object.prototype.hasOwnProperty),
+					(i = Object.hasOwn),
 					(a = [].slice),
 					(w = /\.js$/),
 					(f = function (e, t) {

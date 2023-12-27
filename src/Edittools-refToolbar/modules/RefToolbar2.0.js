@@ -47,83 +47,84 @@ const refToolbar2 = async () => {
 		const $target = $body.find('#wpTextbox1');
 		const temlist = {};
 		for (const t in CiteTB.Templates) {
-			if (Object.hasOwn(CiteTB.Templates, t)) {
-				const tem = CiteTB.Templates[t];
-				const sform = CiteTB.escStr(tem.shortform);
-				const actionobj = {
-					type: 'dialog',
-					module: `cite-dialog-${sform}`,
-				};
-				const dialogobj = {};
-				dialogobj[`cite-dialog-${sform}`] = {
-					resizeme: false,
-					titleMsg: `cite-dialog-${sform}`,
-					id: `citetoolbar-${sform}`,
-					init: () => {},
-					html: tem.getInitial(),
-					dialog: {
-						width: Math.round($(window).width() ?? 0 * 0.8),
-						open() {
-							$(this).html(CiteTB.getOpenTemplate().getForm());
-							/** @param {jQuery.Event} e */
-							$body.find('.cite-prev-parse').on('click', (e) => {
-								e.preventDefault();
-								CiteTB.prevParseClick();
-							});
-						},
-						buttons: {
-							'cite-form-submit'() {
-								const ref = CiteTB.getRef(false, true);
-								$(this).dialog('close');
-								$.wikiEditor.modules.toolbar.fn.doAction(
-									$(this).data('context'),
-									{
-										type: 'encapsulate',
-										options: {
-											post: ref,
-										},
+			if (!Object.hasOwn(CiteTB.Templates, t)) {
+				continue;
+			}
+			const tem = CiteTB.Templates[t];
+			const sform = CiteTB.escStr(tem.shortform);
+			const actionobj = {
+				type: 'dialog',
+				module: `cite-dialog-${sform}`,
+			};
+			const dialogobj = {};
+			dialogobj[`cite-dialog-${sform}`] = {
+				resizeme: false,
+				titleMsg: `cite-dialog-${sform}`,
+				id: `citetoolbar-${sform}`,
+				init: () => {},
+				html: tem.getInitial(),
+				dialog: {
+					width: Math.round($(window).width() ?? 0 * 0.8),
+					open() {
+						$(this).html(CiteTB.getOpenTemplate().getForm());
+						/** @param {jQuery.Event} e */
+						$body.find('.cite-prev-parse').on('click', (e) => {
+							e.preventDefault();
+							CiteTB.prevParseClick();
+						});
+					},
+					buttons: {
+						'cite-form-submit'() {
+							const ref = CiteTB.getRef(false, true);
+							$(this).dialog('close');
+							$.wikiEditor.modules.toolbar.fn.doAction(
+								$(this).data('context'),
+								{
+									type: 'encapsulate',
+									options: {
+										post: ref,
 									},
-									$(this)
-								);
-							},
-							'cite-form-showhide': CiteTB.showHideExtra,
-							'cite-refpreview'() {
-								const ref = CiteTB.getRef(false, false);
-								const template = CiteTB.getOpenTemplate();
-								const div = $(`#citetoolbar-${CiteTB.escStr(template.shortform)}`);
-								div.find('.cite-preview-label').show();
-								div.find('.cite-ref-preview').text(ref).show();
-								if (CiteTB.getOption('autoparse')) {
-									CiteTB.prevParseClick();
-								} else {
-									div.find('.cite-prev-parse').show();
-									div.find('.cite-prev-parsed-label').hide();
-									div.find('.cite-preview-parsed').html('');
-								}
-							},
-							'wikieditor-toolbar-tool-link-cancel'() {
-								$(this).dialog('close');
-							},
-							'cite-form-reset'() {
-								CiteTB.resetForm();
-							},
+								},
+								$(this)
+							);
+						},
+						'cite-form-showhide': CiteTB.showHideExtra,
+						'cite-refpreview'() {
+							const ref = CiteTB.getRef(false, false);
+							const template = CiteTB.getOpenTemplate();
+							const div = $(`#citetoolbar-${CiteTB.escStr(template.shortform)}`);
+							div.find('.cite-preview-label').show();
+							div.find('.cite-ref-preview').text(ref).show();
+							if (CiteTB.getOption('autoparse')) {
+								CiteTB.prevParseClick();
+							} else {
+								div.find('.cite-prev-parse').show();
+								div.find('.cite-prev-parsed-label').hide();
+								div.find('.cite-preview-parsed').html('');
+							}
+						},
+						'wikieditor-toolbar-tool-link-cancel'() {
+							$(this).dialog('close');
+						},
+						'cite-form-reset'() {
+							CiteTB.resetForm();
 						},
 					},
-				};
-				try {
-					$target.wikiEditor('addDialog', dialogobj);
-				} catch {
-					/* empty */
-				}
-				// // TypeError: range is null
-				// if (!CiteTB.getOption('modal')) {
-				//     $body.find('#citetoolbar-'+sform).dialog('option', 'modal', false);
-				// }
-				temlist[sform] = {
-					label: tem.templatename,
-					action: actionobj,
-				};
+				},
+			};
+			try {
+				$target.wikiEditor('addDialog', dialogobj);
+			} catch {
+				/* empty */
 			}
+			// /* TypeError: range is null */
+			// if (!CiteTB.getOption('modal')) {
+			//     $body.find('#citetoolbar-'+sform).dialog('option', 'modal', false);
+			// }
+			temlist[sform] = {
+				label: tem.templatename,
+				action: actionobj,
+			};
 		}
 
 		const refsection = {
@@ -300,17 +301,18 @@ const refToolbar2 = async () => {
 		}
 		let content = `{{${templatename}`;
 		for (g in template.incrementables) {
-			if (Object.hasOwn(template.incrementables, g)) {
-				group = template.incrementables[g];
-				for (i = 1; i <= group.val; i++) {
-					for (j = 0; j < group.fields.length; j++) {
-						const fieldname = group.fields[j].field;
-						const fieldid = fieldname.replace('<N>', i.toString());
-						const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldid}`).val();
-						if (field) {
-							content += ` |${fieldid}=`;
-							content += String(field).trim();
-						}
+			if (!Object.hasOwn(template.incrementables, g)) {
+				continue;
+			}
+			group = template.incrementables[g];
+			for (i = 1; i <= group.val; i++) {
+				for (j = 0; j < group.fields.length; j++) {
+					const fieldname = group.fields[j].field;
+					const fieldid = fieldname.replace('<N>', i.toString());
+					const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldid}`).val();
+					if (field) {
+						content += ` |${fieldid}=`;
+						content += String(field).trim();
 					}
 				}
 			}
@@ -813,10 +815,11 @@ const refToolbar2 = async () => {
 		const ul = $('<ul>').attr('id', 'cite-errcheck-list');
 		let test;
 		for (const t in CiteTB.ErrorChecks) {
-			if (Object.hasOwn(CiteTB.ErrorChecks, t)) {
-				test = CiteTB.ErrorChecks[t];
-				ul.append(test.getRow());
+			if (!Object.hasOwn(CiteTB.ErrorChecks, t)) {
+				continue;
 			}
+			test = CiteTB.ErrorChecks[t];
+			ul.append(test.getRow());
 		}
 		form.append(ul);
 		$body.find('#citetoolbar-errorcheck').html(form.html());
@@ -1003,26 +1006,27 @@ const refToolbar2 = async () => {
 			return;
 		}
 		for (const error in errors) {
-			if (Object.hasOwn(errors, error)) {
-				const err = errors[error];
-				tr = $('<tr>').css('width', '100%');
-				const td1 = $('<td>')
-					.css({
-						border: '1px solid #000',
-						margin: '1.5px',
-						width: '60%',
-					})
-					.html(err.err);
-				const td2 = $('<td>')
-					.css({
-						border: '1px solid #000',
-						margin: '1.5px',
-						width: '40%',
-					})
-					.html(getMessage(err.msg));
-				tr.append(td1).append(td2);
-				table.append(tr);
+			if (!Object.hasOwn(errors, error)) {
+				continue;
 			}
+			const err = errors[error];
+			tr = $('<tr>').css('width', '100%');
+			const td1 = $('<td>')
+				.css({
+					border: '1px solid #000',
+					margin: '1.5px',
+					width: '60%',
+				})
+				.html(err.err);
+			const td2 = $('<td>')
+				.css({
+					border: '1px solid #000',
+					margin: '1.5px',
+					width: '40%',
+				})
+				.html(getMessage(err.msg));
+			tr.append(td1).append(td2);
+			table.append(tr);
 		}
 	};
 

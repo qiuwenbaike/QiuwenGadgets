@@ -128,11 +128,12 @@ const luaGetJSONwikitext = (inputStr: string): string => {
 			// 若是数组对象会多包一层
 			if (typeof v !== typeof '') {
 				for (const prop in v) {
-					if (Object.hasOwn(v, prop)) {
-						const testArrV = v[prop];
-						if (new RegExp(wikiTextKey).test(prop) && typeof testArrV === typeof '') {
-							wikitext = luaAddText(wikitext, testArrV);
-						}
+					if (!Object.hasOwn(v, prop)) {
+						continue;
+					}
+					const testArrV = v[prop];
+					if (new RegExp(wikiTextKey).test(prop) && typeof testArrV === typeof '') {
+						wikitext = luaAddText(wikitext, testArrV);
 					}
 				}
 			}

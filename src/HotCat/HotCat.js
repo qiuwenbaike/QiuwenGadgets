@@ -1073,9 +1073,10 @@ import {hotCatMessages} from './modules/messages';
 			return;
 		}
 		for (const p in params.query.pages) {
-			if (Object.hasOwn(params.query.pages, p)) {
-				resolveOne(params.query.pages[p], toResolve);
+			if (!Object.hasOwn(params.query.pages, p)) {
+				continue;
 			}
+			resolveOne(params.query.pages[p], toResolve);
 		}
 	};
 	const resolveMulti = (toResolve, callback) => {
@@ -1302,17 +1303,18 @@ import {hotCatMessages} from './modules/messages';
 				if (queryResult && queryResult.query && queryResult.query.pages && !queryResult.query.pages[-1]) {
 					// Should have exactly 1
 					for (const p in queryResult.query.pages) {
-						if (Object.hasOwn(queryResult.query.pages, p)) {
-							let _title = queryResult.query.pages[p].title;
-							_title = _title.slice(Math.max(0, _title.indexOf(':') + 1));
-							const titles = [_title];
-							titles.exists = true;
-							if (queryKey !== _title) {
-								titles.normalized = _title;
-							}
-							// NFC
-							return titles;
+						if (!Object.hasOwn(queryResult.query.pages, p)) {
+							continue;
 						}
+						let _title = queryResult.query.pages[p].title;
+						_title = _title.slice(Math.max(0, _title.indexOf(':') + 1));
+						const titles = [_title];
+						titles.exists = true;
+						if (queryKey !== _title) {
+							titles.normalized = _title;
+						}
+						// NFC
+						return titles;
 					}
 				}
 				return null;
