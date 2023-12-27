@@ -90,9 +90,8 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 								value: text,
 								writable: true,
 							});
-							if (Object.getOwnPropertyDescriptor(textVariant, text)) {
-								const textVariantText: string[] = Object.getOwnPropertyDescriptor(textVariant, text)
-									?.value;
+							if (Object.hasOwn(textVariant, text)) {
+								const textVariantText: string[] = (textVariant[text] as string[] | undefined) ?? [];
 								textVariantText.push(variant);
 								Object.defineProperty(textVariant, text, {
 									value: textVariantText,
@@ -110,18 +109,26 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 					const wgUserVariant: string = mw.config.get('wgUserVariant') ?? '';
 					const titleConverted: string | undefined = variantText[wgUserVariant];
 					for (const variant in variantText) {
-						if (!Object.hasOwn(variantText, variant)) {
-							continue;
-						}
-						const text: string | null = Object.getOwnPropertyDescriptor(variantText, variant)?.value;
-						if (text === null) {
-							continue;
-						}
-						const variants: string[] = Object.getOwnPropertyDescriptor(textVariant, text)?.value;
-						for (const variant_ of variants) {
-							Object.defineProperty(variantText, variant_, {
-								value: null,
-							});
+						if (Object.hasOwn(variantText, variant)) {
+							const text: string | undefined = variantText[variant];
+							if (text === undefined) {
+								continue;
+							}
+							const variants = textVariant[text] as string[] | undefined;
+							if (variants === undefined) {
+								continue;
+							}
+							for (const variant_ of variants) {
+								Object.defineProperty(variantText, variant_, {
+									value: null,
+								});
+							}
+							const variantsName: string = variants
+								.map((variantName: string): string => {
+									return `-{R|{{MediaWiki:Variantname-${variantName}}}}-`;
+								})
+								.join('、');
+							multititle.push(`${variantsName}：-{R|${text}}-`);
 						}
 						const variantsName: string = variants
 							.map((variantName: string): string => {

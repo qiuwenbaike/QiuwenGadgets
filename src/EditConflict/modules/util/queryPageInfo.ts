@@ -2,16 +2,12 @@ import {api} from '../api';
 
 interface PageInfo {
 	query?: {
-		pages: {
-			0: {
-				missing?: boolean;
-				revisions: {
-					0: {
-						revid: number;
-					};
-				};
-			};
-		};
+		pages: Array<{
+			missing?: boolean;
+			revisions: Array<{
+				revid: number;
+			}>;
+		}>;
 	};
 }
 
@@ -35,4 +31,4 @@ const queryPageInfo = async (title: string): Promise<PageInfo> => {
 	}
 };
 
-export {type PageInfo, queryPageInfo};
+export {queryPageInfo};
