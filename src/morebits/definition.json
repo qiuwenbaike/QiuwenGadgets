@@ -2,6 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-morebits\"></span> morebits.js",
 	"section": "compatibility",
-	"dependencies": ["jquery.ui", "mediawiki.Title", "mediawiki.user", "mediawiki.util"],
+	"dependencies": ["jquery.ui", "mediawiki.Title", "mediawiki.user", "mediawiki.util", "ext.gadget.select2"],
 	"hidden": true
 }
