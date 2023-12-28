@@ -507,9 +507,7 @@ const refToolbar2 = async () => {
 		if (!res) {
 			return false;
 		}
-		const [, tem] = res;
-		const [, , field] = res;
-		const [, , , autotype] = res;
+		const [, tem, field, autotype] = res;
 		let id = $(`#cite-${tem}-${field}`).val();
 		if (!id) {
 			return false;

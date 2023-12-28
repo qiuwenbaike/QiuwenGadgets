@@ -22,9 +22,7 @@ import {easy_archive_lang} from './modules/i18n';
 				/[#%@][Ss][Ee][Tt]/.test(pare_string.slice(0, 4)) &&
 				!config.includes('ignore-set')
 			) {
-				[, , , , this.left] = pare_string;
-				[, , , , , this.delim] = pare_string;
-				[, , , , , , this.right] = pare_string;
+				[, , , , this.left, this.delim, this.right] = pare_string;
 				if (this.left === this.right || this.left === this.delim || this.right === this.delim) {
 					throw new SyntaxError("Pound set statement has repetitive characters. E.g. '#set|:|' is illegal.");
 				}
