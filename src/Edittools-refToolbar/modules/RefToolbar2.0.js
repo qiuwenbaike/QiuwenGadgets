@@ -1,11 +1,12 @@
 /* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {getBody} from '~/util';
+import {getBody, initMwApi} from '~/util';
 import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
 const refToolbar2 = async () => {
+	const api = initMwApi();
 	const $body = await getBody();
 
 	// Default options, these mainly exist so the script won't break if a new option is added
@@ -421,44 +422,34 @@ const refToolbar2 = async () => {
 
 	// AJAX FUNCTIONS
 	// Parse some wikitext and hand it off to a callback function
-	CiteTB.parse = (text, callback) => {
-		$.post(
-			mw.util.wikiScript('api'),
-			{
-				action: 'parse',
-				title: mw.config.get('wgPageName'),
-				text,
-				prop: 'text',
-				format: 'json',
-			},
-			({parse}) => {
-				const html = parse.text['*'];
-				callback(html);
-			},
-			'json'
-		);
+	CiteTB.parse = async (text, callback) => {
+		const {parse} = await api.post({
+			action: 'parse',
+			title: mw.config.get('wgPageName'),
+			text,
+			prop: 'text',
+			format: 'json',
+			formatversion: 2,
+		});
+		const html = parse.text;
+		callback(html);
 	};
 
 	// Use the API to expand templates on some text
-	CiteTB.expandtemplates = (text, callback) => {
-		$.post(
-			mw.util.wikiScript('api'),
-			{
-				action: 'expandtemplates',
-				title: mw.config.get('wgPageName'),
-				text,
-				format: 'json',
-			},
-			({expandtemplates}) => {
-				const restext = expandtemplates['*'];
-				callback(restext);
-			},
-			'json'
-		);
+	CiteTB.expandtemplates = async (text, callback) => {
+		const {expandtemplates} = await api.post({
+			action: 'expandtemplates',
+			title: mw.config.get('wgPageName'),
+			text,
+			format: 'json',
+			formatversion: 2,
+		});
+		const restext = expandtemplates.wikitext;
+		callback(restext);
 	};
 
 	// Function to get the page text
-	CiteTB.getPageText = (callback) => {
+	CiteTB.getPageText = async (callback) => {
 		const section = $body.find('input[name=wpSection]').val();
 		if (section === '') {
 			if (CiteTB.getOption('expandtemplates')) {
@@ -473,19 +464,14 @@ const refToolbar2 = async () => {
 				rvprop: 'content',
 				pageids: mw.config.get('wgArticleId'),
 				format: 'json',
+				formatversion: 2,
 			};
 			if (CiteTB.getOption('expandtemplates')) {
 				postdata.rvexpandtemplates = '1';
 			}
-			$.get(
-				mw.util.wikiScript('api'),
-				postdata,
-				({query}) => {
-					const pagetext = query.pages[mw.config.get('wgArticleId').toString()].revisions[0]['*'];
-					callback(pagetext);
-				},
-				'json'
-			);
+			const {query} = await api.get(postdata);
+			const pagetext = query.pages[0].revisions[0].content;
+			callback(pagetext);
 		}
 	};
 
