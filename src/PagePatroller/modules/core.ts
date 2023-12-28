@@ -1,4 +1,7 @@
+import {initMwApi} from '~/util';
+
 export const pagePatroller = async (): Promise<void> => {
+	const api = initMwApi(`Qiuwen/1.1 (PagePatroller/2.0; ${mw.config.get('wgWikiID')})`);
 	const weekdays: string[] = ['日', '一', '二', '三', '四', '五', '六'];
 	const loading: string = window.wgULS('正在加载此页面的巡查者……', '正在加載此頁面的巡查者……');
 	let $patroller: JQuery;
@@ -30,10 +33,7 @@ export const pagePatroller = async (): Promise<void> => {
 			rvlimit: 1,
 			rvdir: 'newer',
 		};
-		const {query} = await $.ajax({
-			url: mw.util.wikiScript('api'),
-			data: params,
-		});
+		const {query} = await api.get(params);
 		let cts: string = '';
 		let html: string = '';
 		if (query && query.logevents && query.logevents.length) {
