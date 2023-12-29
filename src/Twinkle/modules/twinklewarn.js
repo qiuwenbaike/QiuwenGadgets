@@ -1171,10 +1171,8 @@
 			const statelem = pageobj.getStatusElement();
 			const params = pageobj.getCallbackParameters();
 			let {messageData} = params;
-			// JS somehow didn't get destructured assignment until ES6 so of course IE doesn't support it
 			const warningHistory = Twinkle.warn.callbacks.dateProcessing(text);
-			const [latest] = warningHistory;
-			const [, history] = warningHistory;
+			const [latest, history] = warningHistory;
 			const now = new Morebits.date(pageobj.getLoadTime());
 			Twinkle.warn.talkpageObj = pageobj; // Update talkpageObj, just in case
 			if (params.main_group === 'autolevel') {
