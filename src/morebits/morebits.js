@@ -2130,9 +2130,7 @@
 			// Default to 2, but allow for 0 or stringy numbers
 			level = Number.parseInt(level, 10);
 			level = Number.isNaN(level) ? 2 : level;
-			const header = Array.from({
-				length: level + 1,
-			}).join('='); // String.prototype.repeat not supported in IE 11
+			const header = '='.repeat(level);
 			const text = `${this.getUTCFullYear()}年${this.getUTCMonthName()}`;
 			if (header.length) {
 				// wikitext-formatted header

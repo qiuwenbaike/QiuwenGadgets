@@ -1,17 +1,16 @@
-/* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
+/* global CiteTB */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {getMessage} from './util/getMessage';
 
 const refToolbarBase = () => {
-	if (!window.CiteTB) {
-		window.CiteTB = {
-			Templates: {}, // All templates
-			Options: {}, // Global options
-			UserOptions: {}, // User options
-			DefaultOptions: {}, // Script defaults
-			ErrorChecks: {}, // Error check functions
-		};
-	}
+	window.CiteTB ||= {
+		Templates: {}, // All templates
+		Options: {}, // Global options
+		UserOptions: {}, // User options
+		DefaultOptions: {}, // Script defaults
+		ErrorChecks: {}, // Error check functions
+	};
 
 	// Class for cite templates
 	window.CiteTemplate = class CiteTemplate {
@@ -70,7 +69,7 @@ const refToolbarBase = () => {
 				if (autodateFields.includes(field)) {
 					im = $('<img>').attr(
 						'src',
-						'https://tu.zhongwen.wiki/images/qiuwen/thumb/7/7b/Nuvola_apps_date.svg/20px-Nuvola_apps_date.svg.png'
+						'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/7/7b/Nuvola_apps_date.svg/20px-Nuvola_apps_date.svg.png'
 					);
 					im.attr('alt', getMessage('cite-insert-date')).attr('title', getMessage('cite-insert-date'));
 					ad = $('<a>').attr('href', '#');
@@ -86,7 +85,7 @@ const refToolbarBase = () => {
 					const autotype = fieldobj.autofillid;
 					im = $('<img>').attr(
 						'src',
-						'https://tu.zhongwen.wiki/images/qiuwen/thumb/1/17/System-search.svg/20px-System-search.svg.png'
+						'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/1/17/System-search.svg/20px-System-search.svg.png'
 					);
 					im.attr('alt', getMessage('cite-autofill-alt')).attr('title', getMessage('cite-autofill-alt'));
 					ad = $('<a>').attr('href', '#');
@@ -98,7 +97,7 @@ const refToolbarBase = () => {
 					const incrtype = fieldobj.increment_group;
 					im = $('<img>').attr(
 						'src',
-						'https://tu.zhongwen.wiki/images/qiuwen/thumb/b/b9/Nuvola_action_edit_add.svg/20px-Nuvola_action_edit_add.svg.png'
+						'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/b/b9/Nuvola_action_edit_add.svg/20px-Nuvola_action_edit_add.svg.png'
 					);
 					im.attr('alt', getMessage('cite-increment-alt')).attr('title', getMessage('cite-increment-alt'));
 					ad = $('<a>').attr('href', '#');

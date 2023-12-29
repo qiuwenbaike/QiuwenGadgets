@@ -1,4 +1,5 @@
-/* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
+/* global CiteTB */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {getBody, initMwApi} from '~/util';
 import {WG_WIKI_ID} from './constant';
@@ -30,7 +31,7 @@ const refToolbar2 = async () => {
 		return CiteTB.DefaultOptions[opt];
 	};
 
-	CiteTB.init = function () {
+	CiteTB.init = () => {
 		/* Main stuff, build the actual toolbar structure
 		 * 1. get the template list, make the dropdown list and set up the template dialog boxes
 		 * 2. actually build the toolbar:
@@ -41,10 +42,6 @@ const refToolbar2 = async () => {
 		 * 3. add the whole thing to the main toolbar
 		 */
 
-		if ($body.find('div[rel=cites]')[0] !== undefined) {
-			// Mystery IE bug workaround
-			return;
-		}
 		$(document).find('head').trigger('reftoolbarbase');
 		const $target = $body.find('#wpTextbox1');
 		const temlist = {};
@@ -115,9 +112,8 @@ const refToolbar2 = async () => {
 				try {
 					$target.wikiEditor('addDialog', dialogobj);
 				} catch {
-					/* empty */
+					/* TypeError: range is null */
 				}
-				// // TypeError: range is null
 				// if (!CiteTB.getOption('modal')) {
 				//     $body.find('#citetoolbar-'+sform).dialog('option', 'modal', false);
 				// }
@@ -152,7 +148,7 @@ const refToolbar2 = async () => {
 										type: 'dialog',
 										module: 'cite-toolbar-namedrefs',
 									},
-									icon: 'https://tu.zhongwen.wiki/images/qiuwen/thumb/b/be/Nuvola_clipboard_lined.svg/22px-Nuvola_clipboard_lined.svg.png',
+									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/b/be/Nuvola_clipboard_lined.svg/22px-Nuvola_clipboard_lined.svg.png',
 									section: 'cites',
 									group: 'namedrefs',
 									labelMsg: 'cite-named-refs-button',
@@ -168,7 +164,7 @@ const refToolbar2 = async () => {
 										type: 'dialog',
 										module: 'cite-toolbar-errorcheck',
 									},
-									icon: 'https://tu.zhongwen.wiki/images/qiuwen/thumb/a/a3/Nuvola_apps_korganizer-NO.png/22px-Nuvola_apps_korganizer-NO.png',
+									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/a/a3/Nuvola_apps_korganizer-NO.png/22px-Nuvola_apps_korganizer-NO.png',
 									section: 'cites',
 									group: 'errorcheck',
 									labelMsg: 'cite-errorcheck-button',
@@ -186,7 +182,7 @@ const refToolbar2 = async () => {
 				id: 'citetoolbar-errorcheck',
 				resizeme: false,
 				init: () => {},
-				html: `<div id="cite-namedref-loading"><img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" />&nbsp;${getMessage(
+				html: `<div id="cite-namedref-loading"><img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" />&nbsp;${getMessage(
 					'cite-loading'
 				)}</div>`,
 				dialog: {
@@ -199,7 +195,7 @@ const refToolbar2 = async () => {
 							const errorchecks = $body.find("input[name='cite-err-test']:checked");
 							let errors = [];
 							for (const errorcheck of errorchecks) {
-								errors = [...errors, ...CiteTB.ErrorChecks[$(errorcheck).val()].run()];
+								errors = [...errors, CiteTB.ErrorChecks[$(errorcheck).val()].run()];
 							}
 							CiteTB.displayErrors(errors);
 							$(this).dialog('close');
@@ -214,7 +210,7 @@ const refToolbar2 = async () => {
 				titleMsg: 'cite-named-refs-title',
 				resizeme: false,
 				id: 'citetoolbar-namedrefs',
-				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" /> &nbsp;${getMessage(
+				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" /> &nbsp;${getMessage(
 					'cite-loading'
 				)}</div>`,
 				init: () => {},
@@ -274,10 +270,7 @@ const refToolbar2 = async () => {
 	// REF FUNCTIONS
 	// Actually assemble a ref from user input
 	CiteTB.getRef = (inneronly, forinsert) => {
-		let i;
-		let j;
-		let g;
-		let group;
+		let i, j, g, group;
 		const template = CiteTB.getOpenTemplate();
 		const {templatename} = template;
 		let res = '';
@@ -754,7 +747,7 @@ const refToolbar2 = async () => {
 			}
 		}
 		const stuff = $('<div>');
-		$body.find('#citetoolbar-namedrefs').html(stuff.html());
+		$body.find('#citetoolbar-namedrefs').html(stuff);
 		if (names.length === 0) {
 			stuff.html(getMessage('cite-no-namedrefs'));
 		} else {
@@ -942,7 +935,6 @@ const refToolbar2 = async () => {
 	};
 
 	// MISC FUNCTIONS
-
 	// Determine which template form is open, and get the template object for it
 	CiteTB.getOpenTemplate = () => {
 		const dialogs = $body.find('.ui-dialog-content.ui-widget-content:visible');
@@ -967,7 +959,7 @@ const refToolbar2 = async () => {
 		const th2 = $('<th>').css('width', '40%').css('text-align', 'right;');
 		const im = $('<img>').attr(
 			'src',
-			'https://tu.zhongwen.wiki/images/qiuwen/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png'
+			'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png'
 		);
 		im.attr('alt', getMessage('cite-err-report-close')).attr('title', getMessage('cite-err-report-close'));
 		const ad = $('<a>').attr({
