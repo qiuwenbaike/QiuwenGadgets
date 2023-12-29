@@ -67,13 +67,13 @@ import {initMwApi} from '~/util';
 			asyncPost(param, callback);
 		};
 		const pickPageContent = (data) => {
-			if (data.query && data.query.pages && data.query.pages[0]) {
+			if (data.query && data.query.pages && data.query.pages[0] && data.query.pages[0].revisions[0]) {
 				return data.query.pages[0].revisions[0].content;
 			}
 			return false;
 		};
 		const tellPageExist = (data) => {
-			if (typeof data !== 'object' || !data.query || !data.query.pages || data.query.pages[-1]) {
+			if (typeof data !== 'object' || !data.query || !data.query.pages || data.query.pages[0].missing) {
 				return false;
 			}
 			return true;
@@ -100,16 +100,16 @@ import {initMwApi} from '~/util';
 		};
 		const archive_section = (title, section, targetTitle, callback, summary) => {
 			getPageSection(title, section, (data) => {
-				editAppend(targetTitle, `\n\n${pickPageContent(data)}`, summary, callback);
+				editAppend(targetTitle, `\n\n${pickPageContent(data)}`, summary);
 				edit(title, section.toString(), '', summary, callback);
 			});
 		};
-		const delete_section = (title, section, callback, summary) => {
+		const deleteDection = (title, section, callback, summary) => {
 			edit(title, section.toString(), '', summary, callback);
 		};
 		return {
 			archive_section,
-			delete_section,
+			delete_section: deleteDection,
 		};
 	})();
 	// default settings:
@@ -163,18 +163,8 @@ import {initMwApi} from '~/util';
 	window.easy_archive.on_article = mw.config.get('wgNamespaceNumber') === 0;
 	window.easy_archive.on_hist_version = mw.config.get('wgCurRevisionId') - mw.config.get('wgRevisionId') !== 0;
 	easy_archive_lang();
-	const looker_upper = (object, namelist) => {
-		for (const element of namelist) {
-			if (element in object) {
-				object = object[element];
-			} else {
-				return null;
-			}
-		}
-		return object;
-	};
-	const arc_sum = looker_upper(window, ['easy_archive.user_custom_archive_summary']);
-	const del_sum = looker_upper(window, ['easy_archive.user_custom_delete_summary']);
+	const arc_sum = window['easy_archive.user_custom_archive_summary'] ?? null;
+	const del_sum = window['easy_archive.user_custom_delete_summary'] ?? null;
 	const sanitize_html = (string) => {
 		return string
 			.replace(/&/g, '&amp;')
