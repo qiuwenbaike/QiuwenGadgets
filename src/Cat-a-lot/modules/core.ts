@@ -350,6 +350,7 @@ const catALot = (): void => {
 			callback: (response: any, textStatus: JQuery.Ajax.SuccessTextStatus, jqXHR: JQuery.jqXHR) => void
 		) {
 			params['format'] = 'json';
+			params['formatversion'] = '2';
 			let i: number = 0;
 			const doCall = (): void => {
 				const handleError = (
@@ -562,8 +563,6 @@ const catALot = (): void => {
 					titles: markedLabel[0],
 					prop: 'revisions',
 					rvprop: 'content|timestamp',
-					format: 'json',
-					formatversion: '2',
 				},
 				(result): void => {
 					this.editCategories(result, markedLabel, targetCategory, mode);
