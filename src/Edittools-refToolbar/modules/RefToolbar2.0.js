@@ -5,9 +5,8 @@ import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
-const refToolbar2 = async () => {
-	const api = initMwApi();
-	const $body = await getBody();
+const refToolbar2 = getBody().then(($body) => {
+	const api = initMwApi(`Qiuwen/1.1 (RefToolbar/2.0; ${WG_WIKI_ID})`);
 
 	// Default options, these mainly exist so the script won't break if a new option is added
 	CiteTB.DefaultOptions = {
@@ -48,84 +47,83 @@ const refToolbar2 = async () => {
 		const $target = $body.find('#wpTextbox1');
 		const temlist = {};
 		for (const t in CiteTB.Templates) {
-			if (!Object.hasOwn(CiteTB.Templates, t)) {
-				continue;
-			}
-			const tem = CiteTB.Templates[t];
-			const sform = CiteTB.escStr(tem.shortform);
-			const actionobj = {
-				type: 'dialog',
-				module: `cite-dialog-${sform}`,
-			};
-			const dialogobj = {};
-			dialogobj[`cite-dialog-${sform}`] = {
-				resizeme: false,
-				titleMsg: `cite-dialog-${sform}`,
-				id: `citetoolbar-${sform}`,
-				init: () => {},
-				html: tem.getInitial(),
-				dialog: {
-					width: Math.round($(window).width() ?? 0 * 0.8),
-					open() {
-						$(this).html(CiteTB.getOpenTemplate().getForm());
-						/** @param {jQuery.Event} e */
-						$body.find('.cite-prev-parse').on('click', (e) => {
-							e.preventDefault();
-							CiteTB.prevParseClick();
-						});
-					},
-					buttons: {
-						'cite-form-submit'() {
-							const ref = CiteTB.getRef(false, true);
-							$(this).dialog('close');
-							$.wikiEditor.modules.toolbar.fn.doAction(
-								$(this).data('context'),
-								{
-									type: 'encapsulate',
-									options: {
-										post: ref,
-									},
-								},
-								$(this)
-							);
-						},
-						'cite-form-showhide': CiteTB.showHideExtra,
-						'cite-refpreview'() {
-							const ref = CiteTB.getRef(false, false);
-							const template = CiteTB.getOpenTemplate();
-							const div = $(`#citetoolbar-${CiteTB.escStr(template.shortform)}`);
-							div.find('.cite-preview-label').show();
-							div.find('.cite-ref-preview').text(ref).show();
-							if (CiteTB.getOption('autoparse')) {
+			if (Object.hasOwn(CiteTB.Templates, t)) {
+				const tem = CiteTB.Templates[t];
+				const sform = CiteTB.escStr(tem.shortform);
+				const actionobj = {
+					type: 'dialog',
+					module: `cite-dialog-${sform}`,
+				};
+				const dialogobj = {};
+				dialogobj[`cite-dialog-${sform}`] = {
+					resizeme: false,
+					titleMsg: `cite-dialog-${sform}`,
+					id: `citetoolbar-${sform}`,
+					init: () => {},
+					html: tem.getInitial(),
+					dialog: {
+						width: Math.round($(window).width() ?? 0 * 0.8),
+						open() {
+							$(this).html(CiteTB.getOpenTemplate().getForm());
+							/** @param {jQuery.Event} e */
+							$body.find('.cite-prev-parse').on('click', (e) => {
+								e.preventDefault();
 								CiteTB.prevParseClick();
-							} else {
-								div.find('.cite-prev-parse').show();
-								div.find('.cite-prev-parsed-label').hide();
-								div.find('.cite-preview-parsed').html('');
-							}
+							});
 						},
-						'wikieditor-toolbar-tool-link-cancel'() {
-							$(this).dialog('close');
-						},
-						'cite-form-reset'() {
-							CiteTB.resetForm();
+						buttons: {
+							'cite-form-submit'() {
+								const ref = CiteTB.getRef(false, true);
+								$(this).dialog('close');
+								$.wikiEditor.modules.toolbar.fn.doAction(
+									$(this).data('context'),
+									{
+										type: 'encapsulate',
+										options: {
+											post: ref,
+										},
+									},
+									$(this)
+								);
+							},
+							'cite-form-showhide': CiteTB.showHideExtra,
+							'cite-refpreview'() {
+								const ref = CiteTB.getRef(false, false);
+								const template = CiteTB.getOpenTemplate();
+								const div = $(`#citetoolbar-${CiteTB.escStr(template.shortform)}`);
+								div.find('.cite-preview-label').show();
+								div.find('.cite-ref-preview').text(ref).show();
+								if (CiteTB.getOption('autoparse')) {
+									CiteTB.prevParseClick();
+								} else {
+									div.find('.cite-prev-parse').show();
+									div.find('.cite-prev-parsed-label').hide();
+									div.find('.cite-preview-parsed').html('');
+								}
+							},
+							'wikieditor-toolbar-tool-link-cancel'() {
+								$(this).dialog('close');
+							},
+							'cite-form-reset'() {
+								CiteTB.resetForm();
+							},
 						},
 					},
-				},
-			};
-			try {
-				$target.wikiEditor('addDialog', dialogobj);
-			} catch {
-				/* empty */
+				};
+				try {
+					$target.wikiEditor('addDialog', dialogobj);
+				} catch {
+					/* empty */
+				}
+				// // TypeError: range is null
+				// if (!CiteTB.getOption('modal')) {
+				//     $body.find('#citetoolbar-'+sform).dialog('option', 'modal', false);
+				// }
+				temlist[sform] = {
+					label: tem.templatename,
+					action: actionobj,
+				};
 			}
-			// /* TypeError: range is null */
-			// if (!CiteTB.getOption('modal')) {
-			//     $body.find('#citetoolbar-'+sform).dialog('option', 'modal', false);
-			// }
-			temlist[sform] = {
-				label: tem.templatename,
-				action: actionobj,
-			};
 		}
 
 		const refsection = {
@@ -302,18 +300,17 @@ const refToolbar2 = async () => {
 		}
 		let content = `{{${templatename}`;
 		for (g in template.incrementables) {
-			if (!Object.hasOwn(template.incrementables, g)) {
-				continue;
-			}
-			group = template.incrementables[g];
-			for (i = 1; i <= group.val; i++) {
-				for (j = 0; j < group.fields.length; j++) {
-					const fieldname = group.fields[j].field;
-					const fieldid = fieldname.replace('<N>', i.toString());
-					const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldid}`).val();
-					if (field) {
-						content += ` |${fieldid}=`;
-						content += String(field).trim();
+			if (Object.hasOwn(template.incrementables, g)) {
+				group = template.incrementables[g];
+				for (i = 1; i <= group.val; i++) {
+					for (j = 0; j < group.fields.length; j++) {
+						const fieldname = group.fields[j].field;
+						const fieldid = fieldname.replace('<N>', i.toString());
+						const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldid}`).val();
+						if (field) {
+							content += ` |${fieldid}=`;
+							content += String(field).trim();
+						}
 					}
 				}
 			}
@@ -422,34 +419,38 @@ const refToolbar2 = async () => {
 
 	// AJAX FUNCTIONS
 	// Parse some wikitext and hand it off to a callback function
-	CiteTB.parse = async (text, callback) => {
-		const {parse} = await api.post({
+	CiteTB.parse = (text, callback) => {
+		const postdata = {
 			action: 'parse',
 			title: mw.config.get('wgPageName'),
 			text,
 			prop: 'text',
 			format: 'json',
-			formatversion: 2,
+			formatversion: '2',
+		};
+		api.post(postdata).then(({parse}) => {
+			const html = parse.text;
+			callback(html);
 		});
-		const html = parse.text;
-		callback(html);
 	};
 
 	// Use the API to expand templates on some text
-	CiteTB.expandtemplates = async (text, callback) => {
-		const {expandtemplates} = await api.post({
+	CiteTB.expandtemplates = (text, callback) => {
+		const postdata = {
 			action: 'expandtemplates',
 			title: mw.config.get('wgPageName'),
 			text,
 			format: 'json',
-			formatversion: 2,
+			formatversion: '2',
+		};
+		api.post(postdata).then(({expandtemplates}) => {
+			const restext = expandtemplates.wikitext;
+			callback(restext);
 		});
-		const restext = expandtemplates.wikitext;
-		callback(restext);
 	};
 
 	// Function to get the page text
-	CiteTB.getPageText = async (callback) => {
+	CiteTB.getPageText = (callback) => {
 		const section = $body.find('input[name=wpSection]').val();
 		if (section === '') {
 			if (CiteTB.getOption('expandtemplates')) {
@@ -464,14 +465,15 @@ const refToolbar2 = async () => {
 				rvprop: 'content',
 				pageids: mw.config.get('wgArticleId'),
 				format: 'json',
-				formatversion: 2,
+				formatversion: '2',
 			};
 			if (CiteTB.getOption('expandtemplates')) {
 				postdata.rvexpandtemplates = '1';
 			}
-			const {query} = await api.get(postdata);
-			const pagetext = query.pages[0].revisions[0].content;
-			callback(pagetext);
+			api.get(postdata).then(({query}) => {
+				const pagetext = query.pages[0].revisions[0].content;
+				callback(pagetext);
+			});
 		}
 	};
 
@@ -799,11 +801,10 @@ const refToolbar2 = async () => {
 		const ul = $('<ul>').attr('id', 'cite-errcheck-list');
 		let test;
 		for (const t in CiteTB.ErrorChecks) {
-			if (!Object.hasOwn(CiteTB.ErrorChecks, t)) {
-				continue;
+			if (Object.hasOwn(CiteTB.ErrorChecks, t)) {
+				test = CiteTB.ErrorChecks[t];
+				ul.append(test.getRow());
 			}
-			test = CiteTB.ErrorChecks[t];
-			ul.append(test.getRow());
 		}
 		form.append(ul);
 		$body.find('#citetoolbar-errorcheck').html(form.html());
@@ -990,27 +991,26 @@ const refToolbar2 = async () => {
 			return;
 		}
 		for (const error in errors) {
-			if (!Object.hasOwn(errors, error)) {
-				continue;
+			if (Object.hasOwn(errors, error)) {
+				const err = errors[error];
+				tr = $('<tr>').css('width', '100%');
+				const td1 = $('<td>')
+					.css({
+						border: '1px solid #000',
+						margin: '1.5px',
+						width: '60%',
+					})
+					.html(err.err);
+				const td2 = $('<td>')
+					.css({
+						border: '1px solid #000',
+						margin: '1.5px',
+						width: '40%',
+					})
+					.html(getMessage(err.msg));
+				tr.append(td1).append(td2);
+				table.append(tr);
 			}
-			const err = errors[error];
-			tr = $('<tr>').css('width', '100%');
-			const td1 = $('<td>')
-				.css({
-					border: '1px solid #000',
-					margin: '1.5px',
-					width: '60%',
-				})
-				.html(err.err);
-			const td2 = $('<td>')
-				.css({
-					border: '1px solid #000',
-					margin: '1.5px',
-					width: '40%',
-				})
-				.html(getMessage(err.msg));
-			tr.append(td1).append(td2);
-			table.append(tr);
 		}
 	};
 
@@ -1018,6 +1018,6 @@ const refToolbar2 = async () => {
 	refToolbarConfig();
 
 	// End of code loaded only on edit
-};
+});
 
 export {refToolbar2};
