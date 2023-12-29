@@ -677,9 +677,16 @@ import {hotCatMessages} from './modules/messages';
 	let pageTextRevId = null;
 	let conflictingUser = null;
 	let newDOM = false;
-	const CategoryEditor = function (...args) {
-		this.initialize(...args);
-	};
+	class CategoryEditor {
+		constructor(...args) {
+			this.initialize(...args);
+		}
+		UNCHANGED = 0;
+		OPEN = 1; // Open, but no input yet
+		CHANGE_PENDING = 2; // Open, some input made
+		CHANGED = 3;
+		DELETED = 4;
+	}
 	const setPage = (json) => {
 		let startTime = null;
 		if (json && json.query) {
@@ -689,7 +696,7 @@ import {hotCatMessages} from './modules/messages';
 					if (page.revisions && page.revisions.length > 0) {
 						// Revisions are sorted by revision ID, hence [ 0 ] is the one we asked for, and possibly there's a [ 1 ] if we're
 						// not on the latest revision (edit conflicts and such).
-						pageText = page.revisions[0]['*'];
+						pageText = page.revisions[0].content;
 						if (page.revisions[0].timestamp) {
 							pageTime = page.revisions[0].timestamp.replace(/\D/g, '');
 						}
@@ -766,7 +773,9 @@ import {hotCatMessages} from './modules/messages';
 		};
 		// Must use Ajax here to get the user options and the edit token.
 		$.getJSON(
-			`${conf.wgScriptPath}/api.php?format=json&action=query&rawcontinue=&titles=${encodeURIComponent(
+			`${
+				conf.wgScriptPath
+			}/api.php?format=json&formatversion=2&action=query&rawcontinue=&titles=${encodeURIComponent(
 				conf.wgPageName
 			)}&prop=info%7Crevisions%7Clanglinks&inprop=watched&rvprop=content%7Ctimestamp%7Cids%7Cuser&lllimit=500&rvlimit=2&rvdir=newer&rvstartid=${
 				conf.wgCurRevisionId
@@ -1397,11 +1406,6 @@ import {hotCatMessages} from './modules/messages';
 			noCompletion: true,
 		},
 	};
-	CategoryEditor.UNCHANGED = 0;
-	CategoryEditor.OPEN = 1; // Open, but no input yet
-	CategoryEditor.CHANGE_PENDING = 2; // Open, some input made
-	CategoryEditor.CHANGED = 3;
-	CategoryEditor.DELETED = 4;
 	// IE6 sometimes forgets to redraw the list when editors are opened or closed.
 	// Adding/removing a dummy element helps, at least when opening editors.
 	const dummyElement = make('\u00A0', true);
@@ -3280,7 +3284,7 @@ import {hotCatMessages} from './modules/messages';
 		if (conf.wgArticleId) {
 			const url = `${
 				conf.wgScriptPath
-			}/api.php?format=json&callback=HotCat.start&action=query&rawcontinue=&titles=${encodeURIComponent(
+			}/api.php?format=json&formatversion=2&callback=HotCat.start&action=query&rawcontinue=&titles=${encodeURIComponent(
 				conf.wgPageName
 			)}&prop=info%7Crevisions&rvprop=content%7Ctimestamp%7Cids&meta=siteinfo&rvlimit=1&rvstartid=${
 				conf.wgCurRevisionId
