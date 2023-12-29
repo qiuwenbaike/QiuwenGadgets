@@ -98,18 +98,18 @@ import {initMwApi} from '~/util';
 				edit(page, null, String(original_content) + added_content, summary, callback);
 			});
 		};
-		const archive_section = (title, section, targetTitle, callback, summary) => {
+		const archiveSection = (title, section, targetTitle, callback, summary) => {
 			getPageSection(title, section, (data) => {
 				editAppend(targetTitle, `\n\n${pickPageContent(data)}`, summary);
 				edit(title, section.toString(), '', summary, callback);
 			});
 		};
-		const deleteDection = (title, section, callback, summary) => {
+		const deleteSection = (title, section, callback, summary) => {
 			edit(title, section.toString(), '', summary, callback);
 		};
 		return {
-			archive_section,
-			delete_section: deleteDection,
+			archive_section: archiveSection,
+			delete_section: deleteSection,
 		};
 	})();
 	// default settings:
