@@ -1397,16 +1397,6 @@ import {hotCatMessages} from './modules/messages';
 			noCompletion: true,
 		},
 	};
-	// IE6 sometimes forgets to redraw the list when editors are opened or closed.
-	// Adding/removing a dummy element helps, at least when opening editors.
-	const dummyElement = make('\u00A0', true);
-	const forceRedraw = () => {
-		if (dummyElement.parentNode) {
-			dummyElement.remove();
-		} else {
-			document.querySelector('body').append(dummyElement);
-		}
-	};
 	// Event keyCodes that we handle in the text input field/suggestion list.
 	const BS = 8;
 	const TAB = 9;
@@ -1848,7 +1838,6 @@ import {hotCatMessages} from './modules/messages';
 			this.text.readOnly = !!readOnly;
 			this.engine = engine;
 			this.textchange(false, true); // do autocompletion, force display of suggestions
-			forceRedraw();
 			return result;
 		}
 		open(event) {
@@ -1892,7 +1881,6 @@ import {hotCatMessages} from './modules/messages';
 				}
 			}
 			checkMultiInput();
-			forceRedraw();
 		}
 		removeEditor() {
 			if (!newDOM) {
@@ -2058,7 +2046,6 @@ import {hotCatMessages} from './modules/messages';
 			this.linkSpan.style.display = '';
 			this.state = CHANGED;
 			checkMultiInput();
-			forceRedraw();
 		}
 		commit() {
 			// Check again to catch problem cases after redirect resolution
