@@ -45,8 +45,9 @@ const writeFile = (
 	let fileContent: string = '';
 	switch (contentType) {
 		case 'application/javascript': {
-			const strictMode: string = '"use strict";';
+			const strictMode = '"use strict";' satisfies string;
 			fileContent = `${trim(licenseText)}${trim(HEADER)}/* <nowiki> */\n\n${
+				// Always invoke strict mode after esbuild bundling, but Bebel may have added it
 				sourceCode.includes(strictMode) ? '' : `${strictMode}\n\n`
 			}${trim(sourceCode)}\n/* </nowiki> */\n`;
 			break;
@@ -138,7 +139,7 @@ const bundle = async (inputFilePath: string, code: string, dependencies: Depende
  * @param {boolean} isPackage
  * @return {TransformOptions}
  */
-const generateTransformOptions = (isPackage: boolean): TransformOptions => {
+const generateTransformOptions = (isPackage: boolean): typeof options => {
 	const options = {
 		presets: [
 			[
@@ -146,9 +147,10 @@ const generateTransformOptions = (isPackage: boolean): TransformOptions => {
 				{
 					bugfixes: true, // FIXME: Remove when updating to Babel 8
 					corejs: {
-						version: PACKAGE.devDependencies['core-js'].match(/\d+(?:.\d+){0,2}/)?.[0] ?? '3.34',
+						version: PACKAGE.devDependencies['core-js'].match(/\d+(?:.\d+){0,2}/)?.[0] ?? '3.35',
 					},
 					exclude: ['web.dom-collections.for-each', 'web.dom-collections.iterator'],
+					include: [] as string[],
 					modules: isPackage ? 'commonjs' : false,
 					useBuiltIns: 'usage',
 				},
@@ -160,39 +162,38 @@ const generateTransformOptions = (isPackage: boolean): TransformOptions => {
 			join(rootDir, 'scripts/modules/plugins/babel-plugin-convert-comments.ts'),
 			join(rootDir, 'scripts/modules/plugins/babel-plugin-import-polyfills.ts'),
 		],
-	} satisfies TransformOptions;
+	} as const satisfies TransformOptions;
 
 	if (GLOBAL_REQUIRES_ES6) {
-		options.presets[0]![1].exclude.push('es.array.push');
 		// 以下关键字和运算符无法被 MediaWiki（>= 1.39）的 JavaScript 压缩器良好支持，即使设置了 requiresES6 标识
 		// The following keywords and operators are not well supported by MediaWiki's (>= 1.39) JavaScript minifier, even if the `requiresES6` flag is true
-		options.plugins.push(
+		options.presets[0]![1].include.push(
 			// keywords
 			// ES2015
-			'@babel/plugin-transform-for-of', // transform for-of loops
-			'@babel/plugin-transform-template-literals', // `foo${bar}` -> 'foo'.concat(bar)
+			'transform-for-of', // transform for-of loops
+			'transform-template-literals', // `foo${bar}` -> 'foo'.concat(bar)
 			// ES2017
-			'@babel/plugin-transform-async-to-generator', // transform async/await to generator
+			'transform-async-to-generator', // transform async/await to generator
 			// ES2018
-			'@babel/plugin-transform-async-generator-functions', // transform async generator to normal generator
+			'transform-async-generator-functions', // transform async generator to normal generator
 			// ES2020
-			'@babel/plugin-transform-optional-chaining', // foo?.bar
+			'transform-optional-chaining', // foo?.bar
 			// operators
 			// ES2020
-			'@babel/plugin-transform-nullish-coalescing-operator', // foo ?? bar
+			'transform-nullish-coalescing-operator', // foo ?? bar
 			// ES2021
-			'@babel/plugin-transform-logical-assignment-operators', // foo ??= bar
-			'@babel/plugin-transform-numeric-separator' // 1_000 -> 1000
+			'transform-logical-assignment-operators', // foo ??= bar
+			'transform-numeric-separator' // 1_000 -> 1000
 		);
 	} else {
 		// 以下关键字无法被旧版本的 MediaWiki（< 1.39）的 JavaScript 压缩器良好支持
 		// The following keywords are not well supported by the JavaScript minifier in older versions of MediaWiki (< 1.39)
-		options.plugins.push(
+		options.presets[0]![1].include.push(
 			// keywords
 			// ES3
-			'@babel/plugin-transform-member-expression-literals', // obj.const -> obj['const']
-			'@babel/plugin-transform-property-literals', // {const: 1} -> {'const': 1}
-			'@babel/plugin-transform-reserved-words' // const abstract = 1 -> const _abstract = 1
+			'transform-member-expression-literals', // obj.const -> obj['const']
+			'transform-property-literals', // {const: 1} -> {'const': 1}
+			'transform-reserved-words' // const abstract = 1 -> const _abstract = 1
 		);
 	}
 
@@ -207,7 +208,7 @@ const generateTransformOptions = (isPackage: boolean): TransformOptions => {
  * @return {Promise<string>}
  */
 const transform = async (inputFilePath: string, code: string, isPackage: boolean): Promise<string> => {
-	const transformOptions: TransformOptions = generateTransformOptions(isPackage);
+	const transformOptions = generateTransformOptions(isPackage);
 
 	const babelFileResult: BabelFileResult = (await transformAsync(code, {
 		...transformOptions,
@@ -223,7 +224,7 @@ const transform = async (inputFilePath: string, code: string, isPackage: boolean
  * @private
  * @param {string} name The gadget name
  * @param {string} script The script file name of this gadget
- * @param {{dependencies?:Dependencies; isPackage:boolean; licenseText:string|undefined}} object
+ * @param {{dependencies:Dependencies; isPackage:boolean; licenseText:string|undefined}} object
  */
 const buildScript = async (
 	name: string,
@@ -277,7 +278,7 @@ const buildStyle = async (name: string, style: string, licenseText: string | und
 /**
  * @param {string} name The gadget name
  * @param {'script'|'style'} type The type of target files
- * @param {{dependencies?:Dependencies; files:string[]; isPackage:boolean; licenseText:string|undefined; queue:PQueue}} object The dependencies of this gadget, the array of file name for this gadget, the flag of packaged gadget, the license file content of this gadget and the build queue
+ * @param {{dependencies?:Dependencies; files:string[]; isPackage?:boolean; licenseText:string|undefined; queue:PQueue}} object The dependencies of this gadget, the array of file name for this gadget, the flag of packaged gadget, the license file content of this gadget and the build queue
  */
 function buildFiles(
 	name: string,
@@ -416,7 +417,7 @@ const findSourceFile = (): SourceFiles => {
 						chalk.yellow(
 							`${chalk.italic('definition.json')} of ${chalk.bold(
 								gadgetName
-							)} is damaged, the default definition will be used.`
+							)} is broken, the default definition will be used.`
 						)
 					);
 				}
@@ -427,28 +428,50 @@ const findSourceFile = (): SourceFiles => {
 				};
 				break;
 			}
-			// After the loop is completed, `*.{less,ts}` will eventually overwrite `*.{css,js}` according to alphabetical order,
-			// so further judgment is unnecessary
-			case 'index.js':
-			case 'index.ts':
-				targetGadget.script = fileName;
-				break;
-			case `${gadgetName}.js`:
-			case `${gadgetName}.ts`: {
-				const scriptFileName: string | undefined = targetGadget.script;
-				if ((scriptFileName && !/^index\.[jt]s$/.test(scriptFileName)) || !scriptFileName) {
+			case 'index.js': {
+				const {script} = targetGadget;
+				if (!script || script !== 'index.ts') {
 					targetGadget.script = fileName;
 				}
 				break;
 			}
-			case 'index.css':
+			case 'index.ts':
+				targetGadget.script = fileName;
+				break;
+			case `${gadgetName}.js`: {
+				const {script} = targetGadget;
+				if (!script) {
+					targetGadget.script = fileName;
+				}
+				break;
+			}
+			case `${gadgetName}.ts`: {
+				const {script} = targetGadget;
+				if (!script || !/^index\.[jt]s$/.test(script)) {
+					targetGadget.script = fileName;
+				}
+				break;
+			}
+			case 'index.css': {
+				const {style} = targetGadget;
+				if (!style || style !== 'index.less') {
+					targetGadget.script = fileName;
+				}
+				break;
+			}
 			case 'index.less':
 				targetGadget.style = fileName;
 				break;
-			case `${gadgetName}.css`:
+			case `${gadgetName}.css`: {
+				const {style} = targetGadget;
+				if (!style) {
+					targetGadget.style = fileName;
+				}
+				break;
+			}
 			case `${gadgetName}.less`: {
-				const styleFileName: string | undefined = targetGadget.style;
-				if ((styleFileName && !/^index\.(?:css|less)/.test(styleFileName)) || !styleFileName) {
+				const {style} = targetGadget;
+				if (!style || !/^index\.(?:css|less)/.test(style)) {
 					targetGadget.style = fileName;
 				}
 				break;
@@ -538,11 +561,20 @@ const generateDefinitionItem = (
 				break;
 			case 'object':
 				if (isArray) {
-					definitionText += `${key}=${(value as []).join(',')}|`;
+					const valueFiltered: string = (value as [])
+						.filter((item: string): boolean => {
+							return ['boolean', 'number', 'string'].includes(typeof item) && !!item.toString();
+						})
+						.join(',');
+					if (valueFiltered) {
+						definitionText += `${key}=${valueFiltered}|`;
+					}
 				}
 				break;
 			case 'string':
-				definitionText += `${key}=${value}|`;
+				if (value) {
+					definitionText += `${key}=${value}|`;
+				}
 				break;
 		}
 	}
@@ -610,8 +642,9 @@ const getLicense = (name: string, license: string | undefined): string | undefin
 
 	const licenseFilePath: string = join(rootDir, `src/${name}/${license}`);
 	const fileBuffer: Buffer = readFileSync(licenseFilePath);
+	const fileContent: string = fileBuffer.toString();
 
-	return fileBuffer.toString().trim() ? `${fileBuffer.toString()}\n` : undefined;
+	return fileContent.trim() ? `${fileContent}\n` : undefined;
 };
 
 /**
