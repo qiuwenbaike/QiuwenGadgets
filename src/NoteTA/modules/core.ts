@@ -39,6 +39,8 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 		try {
 			const params: ApiParseParams = {
 				action: 'parse',
+				format: 'json',
+				formatversion: '2',
 				prop: 'text',
 				title: 'Template:CGroup/-',
 				text: wikitext,
@@ -48,7 +50,9 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 				params.variant = wgUserVariant;
 			}
 			const results = await api.post(params);
-			$dialogMessage.html(results['parse'].text['*']);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+			const message = results['parse'].text;
+			$dialogMessage.html(message as string);
 		} catch {
 			void parse();
 		}
@@ -70,50 +74,46 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 			try {
 				const params: ApiParseParams = {
 					action: 'parse',
+					format: 'json',
+					formatversion: '2',
 					prop: 'text',
 					title: actualTitle,
 					text: `{{noteTA/multititle|${actualTitle}}}`,
 					variant: 'zh',
 				};
 				const results = await api.post(params);
-				const $multititle: JQuery = $(results['parse'].text['*']).find('.noteTA-multititle');
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+				const message = results['parse'].text;
+				const $multititle: JQuery = $(message as string).find('.noteTA-multititle');
 				if ($multititle.length) {
-					const textVariant: Record<string, string> = {};
-					const variantText: Record<string, string> = {};
+					const textVariant: Record<string, string | string[]> = {};
+					const variantText: Record<string, string | null | undefined> = {};
 					let multititleText: string = '';
 					$multititle.children().each((_index: number, element: HTMLElement): void => {
 						const $li: JQuery = $(element);
 						const variant: string | undefined = $li.attr('data-noteta-multititle-variant');
 						const text: string = $li.text();
 						if (variant !== undefined) {
-							Object.defineProperty(variantText, variant, {
-								value: text,
-								writable: true,
-							});
+							variantText[variant] = text;
 							if (Object.hasOwn(textVariant, text)) {
 								const textVariantText: string[] = (textVariant[text] as string[] | undefined) ?? [];
 								textVariantText.push(variant);
-								Object.defineProperty(textVariant, text, {
-									value: textVariantText,
-								});
+								textVariant[text] = textVariantText;
 							} else {
-								Object.defineProperty(textVariant, text, {
-									value: [variant],
-									writable: true,
-								});
+								textVariant[text] = [variant];
 							}
 						}
 					});
 					multititleText += '; 本文[[Help:字词转换处理|标题可能经过转换]]\n';
 					const multititle: string[] = [];
 					const wgUserVariant: string = mw.config.get('wgUserVariant') ?? '';
-					const titleConverted: string | undefined = variantText[wgUserVariant];
+					const titleConverted: string | null | undefined = variantText[wgUserVariant];
 					for (const variant in variantText) {
 						if (!Object.hasOwn(variantText, variant)) {
 							continue;
 						}
-						const text: string | undefined = variantText[variant];
-						if (text === undefined) {
+						const text: string | null | undefined = variantText[variant];
+						if (text === undefined || text === null) {
 							continue;
 						}
 						const variants = textVariant[text] as string[] | undefined;
@@ -121,9 +121,7 @@ const run = ($dialogMessage: JQuery, hash: string): void => {
 							continue;
 						}
 						for (const variant_ of variants) {
-							Object.defineProperty(variantText, variant_, {
-								value: null,
-							});
+							variantText[variant_] = null;
 						}
 						const variantsName: string = variants
 							.map((variantName: string): string => {

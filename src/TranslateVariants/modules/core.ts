@@ -266,10 +266,7 @@ export const translateVariants = (): void => {
 		})
 		.then(({content}): void => {
 			let text: string = content;
-			Object.defineProperty(result, 'zh', {
-				value: text,
-				writable: true,
-			});
+			result['zh'] = text;
 			text = text.replace(/[\s#&'*:<>[\]_{|}]/gim, (string: string) => {
 				return `&#${string.codePointAt(0)};`;
 			});
