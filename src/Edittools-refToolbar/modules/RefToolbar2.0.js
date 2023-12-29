@@ -1,6 +1,7 @@
 /* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {getBody, initMwApi} from '~/util';
+import {WG_WIKI_ID} from './constant';
 import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
