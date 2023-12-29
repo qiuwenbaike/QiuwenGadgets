@@ -41,7 +41,7 @@ import {initMwApi} from '~/util';
 	const expose = (() => {
 		const asyncPost = (param, callback) => {
 			const api = initMwApi(`Qiuwen/1.1 (EasyAchive/3.0; ${mw.config.get('wgWikiID')})`);
-			api.postWithToken(param).then(callback);
+			api.postWithToken('csrf', param).then(callback);
 		};
 		const getPage = (title, callback) => {
 			const param = {
