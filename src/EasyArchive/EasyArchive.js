@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {easy_archive_lang} from './modules/i18n';
+import {initMwApi} from '~/util';
 
 (function easyArchive() {
 	if (mw.config.get('wgNamespaceNumber') < 0 || mw.config.get('wgPageName') === 'Qiuwen:首页') {
@@ -38,160 +39,77 @@ import {easy_archive_lang} from './modules/i18n';
 	}
 	// common repo.
 	const expose = (() => {
-		const global = {
-			api: `${mw.config.get('wgScriptPath')}/api.php`,
-			page_name: mw.config.get('wgPageName'),
-			user_name: mw.config.get('wgUserName'),
-			user_page: `User:${mw.config.get('wgUserName')}`,
-			user_talk: `User_talk:${mw.config.get('wgUserName')}`,
-			csrfToken: undefined,
+		const asyncPost = (param, callback) => {
+			const api = initMwApi(`Qiuwen/1.1 (EasyAchive/3.0; ${mw.config.get('wgWikiID')})`);
+			api.postWithToken('csrf', param).then(callback);
 		};
-		const asyncPost = (url, body, callback) => {
-			const ajax = new XMLHttpRequest();
-			ajax.addEventListener('readystatechange', callback);
-			ajax.open('POST', url, true);
-			ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			ajax.send(body);
-		};
-		const loadTokenSilently = () => {
-			const callback = function () {
-				if (this.readyState === 4) {
-					global.csrfToken = JSON.parse(this.responseText).query.tokens.csrftoken;
-				}
+		const getPage = (title, callback) => {
+			const param = {
+				action: 'query',
+				prop: ['revisions'],
+				rvprop: 'ids|flags|timestamp|user|userid|size|comment|tags|content',
+				format: 'json',
+				formatversion: '2',
+				titles: title,
 			};
-			const queryParam = 'action=query&meta=tokens&format=json';
-			asyncPost(global.api, queryParam, callback);
-			setTimeout(loadTokenSilently, 18e5);
+			asyncPost(param, callback);
 		};
-		loadTokenSilently();
-		const takeToken = () => {
-			if (global.csrfToken) {
-				return global.csrfToken;
+		const getPageSection = (title, section, callback) => {
+			const param = {
+				action: 'query',
+				prop: ['revisions'],
+				rvprop: 'content',
+				format: 'json',
+				formatversion: '2',
+				titles: title,
+				rvsection: section,
+			};
+			asyncPost(param, callback);
+		};
+		const pickPageContent = (data) => {
+			if (data.query && data.query.pages && data.query.pages[0] && data.query.pages[0].revisions[0]) {
+				return data.query.pages[0].revisions[0].content;
 			}
-			loadTokenSilently();
 			return false;
 		};
-		const getPage = (page_name, callback) => {
-			const z =
-				'action=query&prop=revisions&rvprop=ids|flags|timestamp|user|userid|size|comment|tags|content&format=json&titles=';
-			asyncPost(global.api, z + encodeURIComponent(page_name), callback);
-		};
-		const getPageSection = (page_name, section, callback) => {
-			const queryParam = 'action=query&prop=revisions&rvprop=content&format=json&titles=';
-			asyncPost(
-				global.api,
-				`${queryParam + encodeURIComponent(page_name)}&rvsection=${encodeURIComponent(section)}`,
-				callback
-			);
-		};
-		const pickPageContent = (response_text) => {
-			if (typeof response_text === 'string') {
-				const data = JSON.parse(response_text);
-				if (typeof data === 'object') {
-					for (const page in data.query.pages) {
-						if (!Object.hasOwn(data.query.pages, page)) {
-							continue;
-						}
-						const c = data.query.pages[page];
-						return c.revisions[0]['*'];
-					}
-				} else {
-					return false;
-				}
-			} else {
-				// from now on pick functions will only work with string inputs. DO NOT parse pages before passing them into pick functions.
-				return false;
-			}
-		};
-		const tellPageExist = (response_text) => {
-			let data;
-			try {
-				data = JSON.parse(response_text);
-			} catch {
-				return false;
-			}
-			if (
-				typeof data !== 'object' ||
-				!('query' in data) ||
-				!('pages' in data.query) ||
-				(-1) in data.query.pages
-			) {
+		const tellPageExist = (data) => {
+			if (typeof data !== 'object' || !data.query || !data.query.pages || data.query.pages[0].missing) {
 				return false;
 			}
 			return true;
 		};
-		const edit = (page_name, text, summary, token, callback) => {
-			const _callback =
-				typeof callback === 'function'
-					? function () {
-							if (this.readyState === 4) {
-								callback();
-							}
-						}
-					: () => {}; // from now on, f is definable.
-			if (!token) {
-				token = takeToken();
-			}
-			const query_param = 'action=edit&format=json&title=';
-			asyncPost(
-				global.api,
-				`${query_param + encodeURIComponent(page_name)}&text=${encodeURIComponent(
-					text
-				)}&summary=${encodeURIComponent(summary)}&token=${encodeURIComponent(token)}`,
-				_callback
-			);
-		};
-		const editPro = (page_name, section, text, summary, token, callback) => {
-			const _callback =
-				typeof callback === 'function'
-					? function () {
-							if (this.readyState === 4) {
-								callback();
-							}
-						}
-					: () => {};
-			const query_param = 'action=edit&format=json&title=';
-			asyncPost(
-				global.api,
-				`${query_param + encodeURIComponent(page_name)}&section=${encodeURIComponent(
-					section
-				)}&text=${encodeURIComponent(text)}&summary=${encodeURIComponent(summary)}&token=${encodeURIComponent(
-					token
-				)}`,
-				_callback
-			);
-		};
-		const editAppend = (a, b, c, d, fn) => {
-			const f = function () {
-				if (this.readyState === 4) {
-					const original_content =
-						tellPageExist(this.responseText) === false ? '' : pickPageContent(this.responseText);
-					edit(a, String(original_content) + b, c, d, fn);
-				}
+		const edit = (title, section, text, summary, callback) => {
+			const param = {
+				action: 'edit',
+				format: 'json',
+				formatversion: '2',
+				title,
+				summary,
+				text,
 			};
-			getPage(a, f);
+			if (section) {
+				param.section = section;
+			}
+			asyncPost(param, callback);
 		};
-		const archive_section = (page_name, section, to, callback, summary) => {
-			getPageSection(page_name, section, function () {
-				let doneness = 0;
-				const done = () => {
-					doneness++;
-					if (doneness === 2) {
-						callback();
-					}
-				};
-				if (this.readyState === 4) {
-					editAppend(to, `\n\n${pickPageContent(this.responseText)}`, summary, takeToken(), done);
-					editPro(page_name, section.toString(), '', summary, takeToken(), done);
-				}
+		const editAppend = (page, added_content, summary, callback) => {
+			getPage(page, (data) => {
+				const original_content = tellPageExist(data) === false ? '' : pickPageContent(data);
+				edit(page, null, String(original_content) + added_content, summary, callback);
 			});
 		};
-		const delete_section = (page_name, section, callback, summary) => {
-			editPro(page_name, section.toString(), '', summary, takeToken(), callback);
+		const archiveSection = (title, section, targetTitle, callback, summary) => {
+			getPageSection(title, section, (data) => {
+				editAppend(targetTitle, `\n\n${pickPageContent(data)}`, summary);
+				edit(title, section.toString(), '', summary, callback);
+			});
+		};
+		const deleteSection = (title, section, callback, summary) => {
+			edit(title, section.toString(), '', summary, callback);
 		};
 		return {
-			archive_section,
-			delete_section,
+			archive_section: archiveSection,
+			delete_section: deleteSection,
 		};
 	})();
 	// default settings:
@@ -245,18 +163,8 @@ import {easy_archive_lang} from './modules/i18n';
 	window.easy_archive.on_article = mw.config.get('wgNamespaceNumber') === 0;
 	window.easy_archive.on_hist_version = mw.config.get('wgCurRevisionId') - mw.config.get('wgRevisionId') !== 0;
 	easy_archive_lang();
-	const looker_upper = (object, namelist) => {
-		for (const element of namelist) {
-			if (element in object) {
-				object = object[element];
-			} else {
-				return null;
-			}
-		}
-		return object;
-	};
-	const arc_sum = looker_upper(window, ['easy_archive.user_custom_archive_summary']);
-	const del_sum = looker_upper(window, ['easy_archive.user_custom_delete_summary']);
+	const arc_sum = window['easy_archive.user_custom_archive_summary'] ?? null;
+	const del_sum = window['easy_archive.user_custom_delete_summary'] ?? null;
 	const sanitize_html = (string) => {
 		return string
 			.replace(/&/g, '&amp;')
