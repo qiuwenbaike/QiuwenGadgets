@@ -39,101 +39,73 @@ import {initMwApi} from '~/util';
 	}
 	// common repo.
 	const expose = (() => {
-		const newAsyncPost = (param, callback) => {
+		const asyncPost = (param, callback) => {
 			const api = initMwApi(`Qiuwen/1.1 (EasyAchive/3.0; ${mw.config.get('wgWikiID')})`);
 			api.postWithToken(param).then(callback);
 		};
-		const getPage = (page_name, callback) => {
+		const getPage = (title, callback) => {
 			const param = {
 				action: 'query',
 				prop: ['revisions'],
 				rvprop: 'ids|flags|timestamp|user|userid|size|comment|tags|content',
 				format: 'json',
 				formatversion: '2',
-				titles: page_name,
+				titles: title,
 			};
-			newAsyncPost(param, callback);
+			asyncPost(param, callback);
 		};
-		const getPageSection = (page_name, section, callback) => {
+		const getPageSection = (title, section, callback) => {
 			const param = {
 				action: 'query',
 				prop: ['revisions'],
 				rvprop: 'content',
 				format: 'json',
 				formatversion: '2',
-				titles: page_name,
+				titles: title,
 				rvsection: section,
 			};
-			newAsyncPost(param, callback);
+			asyncPost(param, callback);
 		};
-		const pickPageContent = (response_text) => {
-			if (typeof response_text === 'string') {
-				const data = JSON.parse(response_text);
-				if (typeof data === 'object') {
-					if (data.query && data.query.pages && data.query.pages[0]) {
-						return data.query.pages[0].revisions[0].content;
-					}
-					return false;
-				}
-				return false;
+		const pickPageContent = (data) => {
+			if (data.query && data.query.pages && data.query.pages[0]) {
+				return data.query.pages[0].revisions[0].content;
 			}
-			// from now on pick functions will only work with string inputs. DO NOT parse pages before passing them into pick functions.
 			return false;
 		};
-		const tellPageExist = (response_text) => {
-			let data;
-			try {
-				data = JSON.parse(response_text);
-			} catch {
-				return false;
-			}
-			if (
-				typeof data !== 'object' ||
-				!('query' in data) ||
-				!('pages' in data.query) ||
-				(-1) in data.query.pages
-			) {
+		const tellPageExist = (data) => {
+			if (typeof data !== 'object' || !data.query || !data.query.pages || data.query.pages[-1]) {
 				return false;
 			}
 			return true;
 		};
-		const edit = (page_name, text, summary, callback) => {
+		const edit = (title, section, text, summary, callback) => {
 			const param = {
 				action: 'edit',
 				format: 'json',
 				formatversion: '2',
-				title: page_name,
+				title,
 				summary,
 				text,
 			};
-			newAsyncPost(param, callback);
+			if (section) {
+				param.section = section;
+			}
+			asyncPost(param, callback);
 		};
-		const editPro = (page_name, section, text, summary, callback) => {
-			const param = {
-				action: 'edit',
-				format: 'json',
-				formatversion: '2',
-				title: page_name,
-				section,
-				summary,
-				text,
-			};
-			newAsyncPost(param, callback);
-		};
-		const editAppend = (page_name, added_content, summary, callback) => {
-			getPage(page_name, (data) => {
+		const editAppend = (page, added_content, summary, callback) => {
+			getPage(page, (data) => {
 				const original_content = tellPageExist(data) === false ? '' : pickPageContent(data);
-				edit(page_name, String(original_content) + added_content, summary, callback);
+				edit(page, null, String(original_content) + added_content, summary, callback);
 			});
 		};
-		const archive_section = (page_name, section, to, callback, summary) => {
-			getPageSection(page_name, section, function () {
-				editAppend(to, `\n\n${pickPageContent(this.responseText)}`, summary, callback);
-				editPro(page_name, section.toString(), '', summary, callback);
+		const archive_section = (title, section, targetTitle, callback, summary) => {
+			getPageSection(title, section, (data) => {
+				editAppend(targetTitle, `\n\n${pickPageContent(data)}`, summary, callback);
+				edit(title, section.toString(), '', summary, callback);
 			});
 		};
-		const delete_section = (page_name, section, callback, summary) => {
-			editPro(page_name, section.toString(), '', summary, callback);
+		const delete_section = (title, section, callback, summary) => {
+			edit(title, section.toString(), '', summary, callback);
 		};
 		return {
 			archive_section,
