@@ -271,6 +271,8 @@ const previewTool = (): void => {
 			const params: ApiParseParams = {
 				action: 'parse',
 				prop: 'text',
+				format: 'json',
+				formatversion: '2',
 				// 避免内容重复
 				title: pagename,
 				contentmodel: 'wikitext',
@@ -284,10 +286,10 @@ const previewTool = (): void => {
 			}
 			try {
 				const data = await api.post(params);
-				if (!data || !data['parse'] || !data['parse'].text || !data['parse'].text['*']) {
+				if (!data || !data['parse'] || !data['parse'].text) {
 					return;
 				}
-				const parsedWiki = (data['parse'].text['*'] || '').toString().trim();
+				const parsedWiki = (data['parse'].text || '').toString().trim();
 				if (parsedWiki === '') {
 					removeLoadingNotice();
 				} else {
@@ -322,6 +324,8 @@ const previewTool = (): void => {
 				const params: ApiParseParams = {
 					action: 'parse',
 					prop: 'text',
+					format: 'json',
+					formatversion: '2',
 					title: pagename,
 					contentmodel: 'wikitext',
 					templatesandboxtitle: moduleCall.pagename + tempModuleName,
@@ -338,10 +342,10 @@ const previewTool = (): void => {
 					params.disableeditsection = true;
 				}
 				const data = await api.post(params);
-				if (!data || !data['parse'] || !data['parse'].text || !data['parse'].text['*']) {
+				if (!data || !data['parse'] || !data['parse'].text) {
 					return;
 				}
-				const parsedWiki = (data['parse'].text['*'] || '').toString().trim();
+				const parsedWiki = (data['parse'].text || '').toString().trim();
 				if (parsedWiki === '') {
 					removeLoadingNotice();
 					// 若出错在这个临时模块中则取消
@@ -367,14 +371,16 @@ const previewTool = (): void => {
 				// 本请求URL不太可能有长度超长的风险
 				action: 'parse',
 				prop: 'wikitext',
+				format: 'json',
+				formatversion: '2',
 				// get the original wikitext content of a page
 				oldid: mw.config.get('wgRevisionId'),
 			};
 			const data = await api.get(params); // 若取得 _addText 则显示预览
-			if (!data || !data['parse'] || !data['parse'].wikitext || !data['parse'].wikitext['*']) {
+			if (!data || !data['parse'] || !data['parse'].wikitext) {
 				return;
 			}
-			let pageContent: string = luaCheck((data['parse'].wikitext['*'] || '').toString().trim()) || '';
+			let pageContent: string = luaCheck((data['parse'].wikitext || '').toString().trim()) || '';
 			pageContent =
 				($elementExist('#mw-clearyourcache')
 					? '{{#invoke:Special wikitext/Template|int|clearyourcache}}'
@@ -395,6 +401,8 @@ const previewTool = (): void => {
 			const params: ApiParseParams = {
 				action: 'parse',
 				prop: 'text',
+				format: 'json',
+				formatversion: '2',
 				// get the original wikitext content of a page
 				title: currentPageName + pageSubName,
 				text: `{{#invoke:Special wikitext/Template|getNotices|${currentPageName}|${pageSubName}}}`,
@@ -402,10 +410,10 @@ const previewTool = (): void => {
 				useskin: mw.config.get('skin'),
 			};
 			const data = await api.post(params);
-			if (!data || !data['parse'] || !data['parse'].text || !data['parse'].text['*']) {
+			if (!data || !data['parse'] || !data['parse'].text) {
 				return;
 			}
-			const html: string = data['parse'].text['*'];
+			const html: string = data['parse'].text;
 			if ($(html.toString()).text().trim() !== '') {
 				addParsedWikitext(html);
 			}
@@ -499,16 +507,18 @@ const previewTool = (): void => {
 					prop: 'text',
 					contentmodel: 'wikitext',
 					text: packageWikitext,
+					format: 'json',
+					formatversion: '2',
 				};
 				if (isPreview) {
 					params.preview = true;
 					params.disableeditsection = true;
 				}
 				const data = await api.post(params);
-				if (!data || !data['parse'] || !data['parse'].text || !data['parse'].text['*']) {
+				if (!data || !data['parse'] || !data['parse'].text) {
 					return;
 				}
-				const parsedWiki = (data['parse'].text['*'] || '').toString().trim();
+				const parsedWiki = (data['parse'].text || '').toString().trim();
 				if (parsedWiki !== '') {
 					const $parsedElement: JQuery = $(parsedWiki);
 					for (const [key, testcaseItem] of Object.entries(testcaseDataList)) {
