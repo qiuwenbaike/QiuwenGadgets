@@ -5,7 +5,8 @@ import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
-const refToolbar2 = getBody().then(($body) => {
+const refToolbar2 = async () => {
+	const $body = await getBody();
 	const api = initMwApi(`Qiuwen/1.1 (RefToolbar/2.0; ${WG_WIKI_ID})`);
 
 	// Default options, these mainly exist so the script won't break if a new option is added
@@ -1018,6 +1019,6 @@ const refToolbar2 = getBody().then(($body) => {
 	refToolbarConfig();
 
 	// End of code loaded only on edit
-});
+};
 
 export {refToolbar2};
