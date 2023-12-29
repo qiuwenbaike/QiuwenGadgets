@@ -1,17 +1,16 @@
-/* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
+/* global CiteTB */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {getMessage} from './util/getMessage';
 
 const refToolbarBase = () => {
-	if (!window.CiteTB) {
-		window.CiteTB = {
-			Templates: {}, // All templates
-			Options: {}, // Global options
-			UserOptions: {}, // User options
-			DefaultOptions: {}, // Script defaults
-			ErrorChecks: {}, // Error check functions
-		};
-	}
+	window.CiteTB ||= {
+		Templates: {}, // All templates
+		Options: {}, // Global options
+		UserOptions: {}, // User options
+		DefaultOptions: {}, // Script defaults
+		ErrorChecks: {}, // Error check functions
+	};
 
 	// Class for cite templates
 	window.CiteTemplate = class CiteTemplate {
