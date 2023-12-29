@@ -677,16 +677,11 @@ import {hotCatMessages} from './modules/messages';
 	let pageTextRevId = null;
 	let conflictingUser = null;
 	let newDOM = false;
-	class CategoryEditor {
-		constructor(...args) {
-			this.initialize(...args);
-		}
-		UNCHANGED = 0;
-		OPEN = 1; // Open, but no input yet
-		CHANGE_PENDING = 2; // Open, some input made
-		CHANGED = 3;
-		DELETED = 4;
-	}
+	const UNCHANGED = 0;
+	const OPEN = 1; // Open, but no input yet
+	const CHANGE_PENDING = 2; // Open, some input made
+	const CHANGED = 3;
+	const DELETED = 4;
 	const setPage = (json) => {
 		let startTime = null;
 		if (json && json.query) {
@@ -869,7 +864,7 @@ import {hotCatMessages} from './modules/messages';
 		let changes = 0;
 		for (i = 0; i < toEdit.length; i++) {
 			edit = toEdit[i];
-			if (edit.state === CategoryEditor.CHANGED) {
+			if (edit.state === CHANGED) {
 				result = change_category(
 					result.text,
 					edit.originalCategory,
@@ -890,11 +885,7 @@ import {hotCatMessages} from './modules/messages';
 				} else if (error === null) {
 					({error} = result);
 				}
-			} else if (
-				edit.state === CategoryEditor.DELETED &&
-				edit.originalCategory &&
-				edit.originalCategory.length > 0
-			) {
+			} else if (edit.state === DELETED && edit.originalCategory && edit.originalCategory.length > 0) {
 				result = change_category(result.text, edit.originalCategory, null, null, false);
 				if (!result.error) {
 					changes++;
@@ -1179,7 +1170,7 @@ import {hotCatMessages} from './modules/messages';
 	const multiSubmit = () => {
 		const toResolve = [];
 		for (const editor of editors) {
-			if (editor.state === CategoryEditor.CHANGE_PENDING || editor.state === CategoryEditor.OPEN) {
+			if (editor.state === CHANGE_PENDING || editor.state === OPEN) {
 				toResolve.push(editor);
 			}
 		}
@@ -1246,7 +1237,7 @@ import {hotCatMessages} from './modules/messages';
 		}
 		let hasChanges = false;
 		for (const editor of editors) {
-			if (editor.state !== CategoryEditor.UNCHANGED) {
+			if (editor.state !== UNCHANGED) {
 				hasChanges = true;
 				break;
 			}
@@ -1428,7 +1419,10 @@ import {hotCatMessages} from './modules/messages';
 	const DOWN = 40;
 	const DEL = 46;
 	const IME = 229;
-	CategoryEditor.prototype = {
+	class CategoryEditor {
+		constructor(...args) {
+			this.initialize(...args);
+		}
 		initialize(line, span, after, key, is_hidden) {
 			// If a span is given, 'after' is the category title, otherwise it may be an element after which to
 			// insert the new span. 'key' is likewise overloaded; if a span is given, it is the category key (if
@@ -1501,8 +1495,8 @@ import {hotCatMessages} from './modules/messages';
 			this.currentExists = this.originalExists;
 			this.currentHidden = this.originalHidden;
 			this.currentKey = this.originalKey;
-			this.state = CategoryEditor.UNCHANGED;
-			this.lastSavedState = CategoryEditor.UNCHANGED;
+			this.state = UNCHANGED;
+			this.lastSavedState = UNCHANGED;
 			this.lastSavedCategory = this.originalCategory;
 			this.lastSavedKey = this.originalKey;
 			this.lastSavedExists = this.originalExists;
@@ -1511,7 +1505,7 @@ import {hotCatMessages} from './modules/messages';
 				this.catLink.title = this.currentKey;
 			}
 			editors[editors.length] = this;
-		},
+		}
 		makeLinkSpan() {
 			this.normalLinks = make('span');
 			let link = null;
@@ -1565,7 +1559,7 @@ import {hotCatMessages} from './modules/messages';
 			this.undelLink.append(make(' ', true));
 			this.undelLink.append(link);
 			this.linkSpan.append(this.undelLink);
-		},
+		}
 		invokeSuggestions(dont_autocomplete) {
 			if (
 				this.engine &&
@@ -1575,12 +1569,12 @@ import {hotCatMessages} from './modules/messages';
 			) {
 				this.engine = HC.suggestions;
 			} // Reset to a search upon input
-			this.state = CategoryEditor.CHANGE_PENDING;
+			this.state = CHANGE_PENDING;
 			const self = this;
 			setTimeout(() => {
 				self.textchange(dont_autocomplete);
 			}, HC.suggest_delay);
-		},
+		}
 		makeForm() {
 			const form = make('form');
 			form.method = 'POST';
@@ -1794,14 +1788,14 @@ import {hotCatMessages} from './modules/messages';
 			form.append(span);
 			form.style.display = 'none';
 			this.span.append(form);
-		},
+		}
 		display(event) {
 			if (this.isAddCategory && !onUpload && this.line) {
 				new CategoryEditor(this.line, null, this.span, true); // Create a new one
 			}
 			if (!commitButton && !onUpload) {
 				for (const editor of editors) {
-					if (editor.state !== CategoryEditor.UNCHANGED) {
+					if (editor.state !== UNCHANGED) {
 						setMultiInput();
 						break;
 					}
@@ -1825,7 +1819,7 @@ import {hotCatMessages} from './modules/messages';
 			this.originalState = this.state;
 			this.lastInput = this.currentCategory;
 			this.inputExists = this.currentExists;
-			this.state = this.state === CategoryEditor.UNCHANGED ? CategoryEditor.OPEN : CategoryEditor.CHANGE_PENDING;
+			this.state = this.state === UNCHANGED ? OPEN : CHANGE_PENDING;
 			this.lastSelection = {
 				start: this.currentCategory.length,
 				end: this.currentCategory.length,
@@ -1844,7 +1838,7 @@ import {hotCatMessages} from './modules/messages';
 			this.text.readOnly = false;
 			checkMultiInput();
 			return result;
-		},
+		}
 		show(event, engine, readOnly) {
 			const result = this.display(event);
 			const v = this.lastSavedCategory;
@@ -1856,16 +1850,16 @@ import {hotCatMessages} from './modules/messages';
 			this.textchange(false, true); // do autocompletion, force display of suggestions
 			forceRedraw();
 			return result;
-		},
+		}
 		open(event) {
 			return this.show(event, this.engine && suggestionConfigs[this.engine].temp ? HC.suggestions : this.engine);
-		},
+		}
 		down(event) {
 			return this.show(event, 'subcat', true);
-		},
+		}
 		up(event) {
 			return this.show(event, 'parentcat');
-		},
+		}
 		cancel() {
 			if (this.isAddCategory && !onUpload) {
 				this.removeEditor(); // We added a new adder when opening
@@ -1886,7 +1880,7 @@ import {hotCatMessages} from './modules/messages';
 			if (this.catLink) {
 				this.catLink.title = this.currentKey && this.currentKey.length > 0 ? this.currentKey : '';
 			}
-			if (this.state === CategoryEditor.UNCHANGED) {
+			if (this.state === UNCHANGED) {
 				if (this.catLink) {
 					this.catLink.style.backgroundColor = 'transparent';
 				}
@@ -1899,7 +1893,7 @@ import {hotCatMessages} from './modules/messages';
 			}
 			checkMultiInput();
 			forceRedraw();
-		},
+		}
 		removeEditor() {
 			if (!newDOM) {
 				const next = this.span.nextSibling;
@@ -1917,7 +1911,7 @@ import {hotCatMessages} from './modules/messages';
 				}
 			}
 			checkMultiInput();
-		},
+		}
 		rollback(event) {
 			this.undoLink.remove();
 			this.undoLink = null;
@@ -1929,7 +1923,7 @@ import {hotCatMessages} from './modules/messages';
 			this.lastSavedKey = this.originalKey;
 			this.lastSavedExists = this.originalExists;
 			this.lastSavedHidden = this.originalHidden;
-			this.state = CategoryEditor.UNCHANGED;
+			this.state = UNCHANGED;
 			if (!this.currentCategory || this.currentCategory.length === 0) {
 				// It was a newly added category. Remove the whole editor.
 				this.removeEditor();
@@ -1947,7 +1941,7 @@ import {hotCatMessages} from './modules/messages';
 				checkMultiInput();
 			}
 			return evtKill(event);
-		},
+		}
 		inactivate() {
 			if (this.list) {
 				this.list.style.display = 'none';
@@ -1956,7 +1950,7 @@ import {hotCatMessages} from './modules/messages';
 				this.engineSelector.style.display = 'none';
 			}
 			this.is_active = false;
-		},
+		}
 		acceptCheck(dontCheck) {
 			this.sanitizeInput();
 			const value = this.text.value.split('|');
@@ -1985,7 +1979,7 @@ import {hotCatMessages} from './modules/messages';
 			this.currentKey = key;
 			this.currentExists = this.inputExists;
 			return true;
-		},
+		}
 		accept(event) {
 			// (evtKeys(event) & 1) !== 0
 			// 当且仅当evtKeys(event)为1时，整个判别式才为true
@@ -2007,7 +2001,7 @@ import {hotCatMessages} from './modules/messages';
 				});
 			}
 			return result;
-		},
+		}
 		close() {
 			if (!this.catLink) {
 				// Create a catLink
@@ -2062,10 +2056,10 @@ import {hotCatMessages} from './modules/messages';
 				this.upDownLinks.style.display = this.lastSavedExists ? '' : 'none';
 			}
 			this.linkSpan.style.display = '';
-			this.state = CategoryEditor.CHANGED;
+			this.state = CHANGED;
 			checkMultiInput();
 			forceRedraw();
-		},
+		}
 		commit() {
 			// Check again to catch problem cases after redirect resolution
 			if (
@@ -2090,13 +2084,13 @@ import {hotCatMessages} from './modules/messages';
 					}
 				);
 			}
-		},
+		}
 		remove(event) {
 			// (evtKeys(event) & 1)
 			// 当且仅当evtKeys(event)为1时，整个判别式才为1，否则都是0
 			this.doRemove(evtKeys(event) === 1);
 			return evtKill(event);
-		},
+		}
 		doRemove(noCommit) {
 			if (this.isAddCategory) {
 				// Empty input on adding a new category
@@ -2105,7 +2099,7 @@ import {hotCatMessages} from './modules/messages';
 			}
 			if (!commitButton && !onUpload) {
 				for (const editor of editors) {
-					if (editor.state !== CategoryEditor.UNCHANGED) {
+					if (editor.state !== UNCHANGED) {
 						setMultiInput();
 						break;
 					}
@@ -2120,7 +2114,7 @@ import {hotCatMessages} from './modules/messages';
 					/* empty */
 				}
 				this.originalState = this.state;
-				this.state = CategoryEditor.DELETED;
+				this.state = DELETED;
 				this.normalLinks.style.display = 'none';
 				this.undelLink.style.display = '';
 				checkMultiInput();
@@ -2129,7 +2123,7 @@ import {hotCatMessages} from './modules/messages';
 				this.removeEditor();
 			} else {
 				this.originalState = this.state;
-				this.state = CategoryEditor.DELETED;
+				this.state = DELETED;
 				this.noCommit = noCommit || HC.del_needs_diff;
 				const self = this;
 				initiateEdit(
@@ -2142,13 +2136,13 @@ import {hotCatMessages} from './modules/messages';
 					}
 				);
 			}
-		},
+		}
 		restore(event) {
 			// Can occur only if we do have a commit button and are not on the upload form
 			this.catLink.title = this.currentKey || '';
 			this.catLink.style.textDecoration = '';
 			this.state = this.originalState;
-			if (this.state === CategoryEditor.UNCHANGED) {
+			if (this.state === UNCHANGED) {
 				this.catLink.style.backgroundColor = 'transparent';
 			} else {
 				try {
@@ -2161,7 +2155,7 @@ import {hotCatMessages} from './modules/messages';
 			this.undelLink.style.display = 'none';
 			checkMultiInput();
 			return evtKill(event);
-		},
+		}
 		// Internal operations
 		selectEngine(engineName) {
 			if (!this.engineSelector) {
@@ -2170,7 +2164,7 @@ import {hotCatMessages} from './modules/messages';
 			for (let i = 0; i < this.engineSelector.options.length; i++) {
 				this.engineSelector.options[i].selected = this.engineSelector.options[i].value === engineName;
 			}
-		},
+		}
 		sanitizeInput() {
 			let v = this.text.value || '';
 			v = v.replace(/^(\s|_)+/, ''); // Trim leading blanks and underscores
@@ -2187,7 +2181,7 @@ import {hotCatMessages} from './modules/messages';
 			if (this.text.value !== null && this.text.value !== v) {
 				this.text.value = v;
 			}
-		},
+		}
 		makeCall(url, callbackObj, engine, queryKey, cleanKey) {
 			let cb = callbackObj;
 			const e = engine;
@@ -2238,8 +2232,8 @@ import {hotCatMessages} from './modules/messages';
 				cb.dontCache = true;
 				done();
 			});
-		},
-		callbackObj: null,
+		}
+		callbackObj = null;
 		textchange(dont_autocomplete, force) {
 			// Hide all other lists
 			makeActive(this);
@@ -2306,14 +2300,14 @@ import {hotCatMessages} from './modules/messages';
 				engineName,
 			};
 			this.makeCalls(engines, this.callbackObj, v, cleanKey);
-		},
+		}
 		makeCalls(engines, cb, v, cleanKey) {
 			for (const engine_ of engines) {
 				const engine = suggestionEngines[engine_];
 				const url = conf.wgScriptPath + engine.uri.replace(/\$1/g, encodeURIComponent(cleanKey));
 				this.makeCall(url, cb, engine, v, cleanKey);
 			}
-		},
+		}
 		showSuggestions(titles, dontAutocomplete, queryKey, engineName) {
 			this.text.readOnly = false;
 			this.dab = null;
@@ -2465,7 +2459,7 @@ import {hotCatMessages} from './modules/messages';
 				this.list.append(opt);
 			}
 			this.displayList();
-		},
+		}
 		displayList() {
 			this.showsList = true;
 			if (!this.is_active) {
@@ -2630,7 +2624,7 @@ import {hotCatMessages} from './modules/messages';
 					this.list.style[anchor] = `${nl + relative_offset}px`;
 				}
 			}
-		},
+		}
 		autoComplete(newVal, actVal, normalizedActVal, key, dontModify) {
 			if (newVal === actVal) {
 				return true;
@@ -2656,14 +2650,14 @@ import {hotCatMessages} from './modules/messages';
 			this.text.value = newVal + key;
 			this.setSelection(actVal.length, newVal.length);
 			return true;
-		},
+		}
 		canSelect() {
 			return (
 				this.text.setSelectionRange ||
 				this.text.createTextRange ||
 				(this.text.selectionStart !== undefined && this.text.selectionEnd !== undefined)
 			);
-		},
+		}
 		setSelection(from, to) {
 			// this.text must be focused (at least on IE)
 			if (!this.text.value) {
@@ -2687,7 +2681,7 @@ import {hotCatMessages} from './modules/messages';
 				new_selection.moveEnd('character', to - from);
 				new_selection.select();
 			}
-		},
+		}
 		getSelection() {
 			let from = 0;
 			// this.text must be focused (at least on IE)
@@ -2720,10 +2714,10 @@ import {hotCatMessages} from './modules/messages';
 				start: from,
 				end: to,
 			};
-		},
+		}
 		saveView() {
 			this.lastSelection = this.getSelection();
-		},
+		}
 		processKey(event) {
 			let dir = 0;
 			switch (this.lastKey) {
@@ -2759,7 +2753,7 @@ import {hotCatMessages} from './modules/messages';
 				}
 			}
 			return true;
-		},
+		}
 		highlightSuggestion(dir) {
 			if (noSuggestions || !this.list || this.list.style.display === 'none') {
 				return false;
@@ -2798,10 +2792,10 @@ import {hotCatMessages} from './modules/messages';
 				if (this.icon) {
 					this.icon.src = HC.existsYes;
 				}
-				this.state = CategoryEditor.CHANGE_PENDING;
+				this.state = CHANGE_PENDING;
 			}
 			return true;
-		},
+		}
 		resetKeySelection() {
 			if (noSuggestions || !this.list || this.list.style.display === 'none') {
 				return false;
@@ -2823,8 +2817,8 @@ import {hotCatMessages} from './modules/messages';
 				return result;
 			}
 			return false;
-		},
-	}; // end CategoryEditor.prototype
+		}
+	}
 	const initialize = () => {
 		// User configurations: Do this here, called from the onload handler, so that users can
 		// override it easily in their own user script files by just declaring variables.
@@ -3009,9 +3003,9 @@ import {hotCatMessages} from './modules/messages';
 	const closeForm = function () {
 		// Close all open editors without redirect resolution and other asynchronous stuff.
 		for (const edit of editors) {
-			if (edit.state === CategoryEditor.OPEN) {
+			if (edit.state === OPEN) {
 				edit.cancel();
-			} else if (edit.state === CategoryEditor.CHANGE_PENDING) {
+			} else if (edit.state === CHANGE_PENDING) {
 				edit.sanitizeInput();
 				const value = edit.text.value.split('|');
 				let key = null;
