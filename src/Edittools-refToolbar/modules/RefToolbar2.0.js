@@ -1,14 +1,12 @@
 /* eslint-disable no-undef, @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {getBody, initMwApi} from '~/util';
-import {WG_WIKI_ID} from './constant';
+import {getBody} from '~/util';
 import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
 const refToolbar2 = async () => {
 	const $body = await getBody();
-	const api = initMwApi(`Qiuwen/1.1 (RefToolbar/2.0; ${WG_WIKI_ID})`);
 
 	// Default options, these mainly exist so the script won't break if a new option is added
 	CiteTB.DefaultOptions = {
@@ -152,7 +150,7 @@ const refToolbar2 = async () => {
 										type: 'dialog',
 										module: 'cite-toolbar-namedrefs',
 									},
-									icon: 'https://tu.zhongwen.wiki/images/qiuwen/thumb/b/be/Nuvola_clipboard_lined.svg/22px-Nuvola_clipboard_lined.svg.png',
+									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/b/be/Nuvola_clipboard_lined.svg/22px-Nuvola_clipboard_lined.svg.png',
 									section: 'cites',
 									group: 'namedrefs',
 									labelMsg: 'cite-named-refs-button',
@@ -168,7 +166,7 @@ const refToolbar2 = async () => {
 										type: 'dialog',
 										module: 'cite-toolbar-errorcheck',
 									},
-									icon: 'https://tu.zhongwen.wiki/images/qiuwen/thumb/a/a3/Nuvola_apps_korganizer-NO.png/22px-Nuvola_apps_korganizer-NO.png',
+									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/a/a3/Nuvola_apps_korganizer-NO.png/22px-Nuvola_apps_korganizer-NO.png',
 									section: 'cites',
 									group: 'errorcheck',
 									labelMsg: 'cite-errorcheck-button',
@@ -186,7 +184,7 @@ const refToolbar2 = async () => {
 				id: 'citetoolbar-errorcheck',
 				resizeme: false,
 				init: () => {},
-				html: `<div id="cite-namedref-loading"><img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" />&nbsp;${getMessage(
+				html: `<div id="cite-namedref-loading"><img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" />&nbsp;${getMessage(
 					'cite-loading'
 				)}</div>`,
 				dialog: {
@@ -214,7 +212,7 @@ const refToolbar2 = async () => {
 				titleMsg: 'cite-named-refs-title',
 				resizeme: false,
 				id: 'citetoolbar-namedrefs',
-				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwen/d/de/Ajax-loader.gif" /> &nbsp;${getMessage(
+				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" /> &nbsp;${getMessage(
 					'cite-loading'
 				)}</div>`,
 				init: () => {},
@@ -422,33 +420,41 @@ const refToolbar2 = async () => {
 	// AJAX FUNCTIONS
 	// Parse some wikitext and hand it off to a callback function
 	CiteTB.parse = (text, callback) => {
-		const postdata = {
-			action: 'parse',
-			title: mw.config.get('wgPageName'),
-			text,
-			prop: 'text',
-			format: 'json',
-			formatversion: '2',
-		};
-		api.post(postdata).then(({parse}) => {
-			const html = parse.text;
-			callback(html);
-		});
+		$.post(
+			mw.util.wikiScript('api'),
+			{
+				action: 'parse',
+				title: mw.config.get('wgPageName'),
+				text,
+				prop: 'text',
+				format: 'json',
+				formatversion: '2',
+			},
+			({parse}) => {
+				const html = parse.text;
+				callback(html);
+			},
+			'json'
+		);
 	};
 
 	// Use the API to expand templates on some text
 	CiteTB.expandtemplates = (text, callback) => {
-		const postdata = {
-			action: 'expandtemplates',
-			title: mw.config.get('wgPageName'),
-			text,
-			format: 'json',
-			formatversion: '2',
-		};
-		api.post(postdata).then(({expandtemplates}) => {
-			const restext = expandtemplates.wikitext;
-			callback(restext);
-		});
+		$.post(
+			mw.util.wikiScript('api'),
+			{
+				action: 'expandtemplates',
+				title: mw.config.get('wgPageName'),
+				text,
+				format: 'json',
+				formatversion: '2',
+			},
+			({expandtemplates}) => {
+				const restext = expandtemplates.wikitext;
+				callback(restext);
+			},
+			'json'
+		);
 	};
 
 	// Function to get the page text
@@ -472,10 +478,15 @@ const refToolbar2 = async () => {
 			if (CiteTB.getOption('expandtemplates')) {
 				postdata.rvexpandtemplates = '1';
 			}
-			api.get(postdata).then(({query}) => {
-				const pagetext = query.pages[0].revisions[0].content;
-				callback(pagetext);
-			});
+			$.get(
+				mw.util.wikiScript('api'),
+				postdata,
+				({query}) => {
+					const pagetext = query.pages[0].revisions[0].content;
+					callback(pagetext);
+				},
+				'json'
+			);
 		}
 	};
 
@@ -967,7 +978,7 @@ const refToolbar2 = async () => {
 		const th2 = $('<th>').css('width', '40%').css('text-align', 'right;');
 		const im = $('<img>').attr(
 			'src',
-			'https://tu.zhongwen.wiki/images/qiuwen/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png'
+			'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png'
 		);
 		im.attr('alt', getMessage('cite-err-report-close')).attr('title', getMessage('cite-err-report-close'));
 		const ad = $('<a>').attr({
