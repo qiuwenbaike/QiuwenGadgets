@@ -940,6 +940,8 @@ const loadPage = (pageTitle) => {
 	const deferred = new $.Deferred();
 	const params = {
 		action: 'query',
+		format: 'json',
+		formatversion: '2',
 		titles: pageTitle,
 		prop: 'revisions',
 		rvprop: 'timestamp|content',
@@ -948,19 +950,12 @@ const loadPage = (pageTitle) => {
 	};
 	api.get(params)
 		.done(({query}) => {
-			const {pages} = query;
-			let key;
-			for (key in pages) {
-				if (Object.hasOwn(pages, key)) {
-					break;
-				}
-			}
-			const rawPage = query.pages[key];
+			const [rawPage] = query.pages;
 			const page = {};
 			page.redirect = rawPage.redirect !== undefined;
 			page.missing = rawPage.missing !== undefined;
 			if (rawPage.revisions) {
-				page.content = rawPage.revisions[0]['*'];
+				page.content = rawPage.revisions[0].content;
 				page.baseTimeStamp = rawPage.revisions[0].timestamp;
 			} else {
 				page.content = '';
