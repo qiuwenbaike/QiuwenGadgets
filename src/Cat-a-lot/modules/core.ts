@@ -28,7 +28,7 @@ import {
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
-import {getBody} from '~/util';
+import {getBody, initMwApi} from '~/util';
 
 /**
  * Changes category of multiple files
@@ -289,21 +289,26 @@ const catALot = (): void => {
 
 		private static findAllVariants(category: string): string[] {
 			const results: string[] = [];
-			const baseUrl: string = `${CAL.API_ENTRY_POINT}?action=parse&text=${encodeURIComponent(
-				category
-			)}&title=temp&format=json&variant=`;
+			const params: ApiParseParams = {
+				action: 'parse',
+				text: category,
+				title: 'temp',
+				format: 'json',
+				formatversion: '2',
+			};
 			if (CAL.variantCache[category] !== undefined) {
 				return CAL.variantCache[category] as string[];
 			}
 			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
-				const result: string = $.ajax({
-					url: baseUrl + variant,
-					async: false,
-				}).responseJSON.parse.text['*'];
-				const trimmedResult: string = $(result).eq(0).text().trim();
-				if (!results.includes(trimmedResult)) {
-					results.push(trimmedResult);
-				}
+				const api = initMwApi(`Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`);
+				params.variant = variant;
+				void api.get(params).then((query) => {
+					const result = query['parse'].text;
+					const trimmedResult: string = $(result).eq(0).text().trim();
+					if (!results.includes(trimmedResult)) {
+						results.push(trimmedResult);
+					}
+				});
 			}
 			CAL.variantCache[category] = results;
 			return results;
@@ -465,15 +470,10 @@ const catALot = (): void => {
 			CAL.editToken = result['query'].tokens.csrftoken;
 			const {pages} = result['query'];
 
-			// there should be only one, but we don't know its ID
-			for (const id in pages) {
-				if (!Object.hasOwn(pages, id)) {
-					continue;
-				}
-				originText = pages[id].revisions[0]['*'];
-				({starttimestamp} = pages[id]);
-				[{timestamp}] = pages[id].revisions;
-			}
+			const [page] = pages;
+			originText = page.revisions[0].content;
+			({starttimestamp} = page);
+			[{timestamp}] = page.revisions;
 
 			const sourcecat: string = CAL.CURRENT_CATEGROY;
 			// Check if that file is already in that category
@@ -562,6 +562,8 @@ const catALot = (): void => {
 					titles: markedLabel[0],
 					prop: 'revisions',
 					rvprop: 'content|timestamp',
+					format: 'json',
+					formatversion: '2',
 				},
 				(result): void => {
 					this.editCategories(result, markedLabel, targetCategory, mode);
@@ -722,7 +724,6 @@ const catALot = (): void => {
 						return;
 					}
 					CAL.parentCats = [];
-					let cats: {title: string}[] = [];
 					const {pages} = result.query;
 					if (pages[-1]?.missing === '') {
 						this.$body.css('cursor', '');
@@ -734,14 +735,9 @@ const catALot = (): void => {
 						this.createCatLinks('→', [CAL.currentCategory]);
 						return;
 					}
-					// there should be only one, but we don't know its ID
-					for (const id in pages) {
-						if (!Object.hasOwn(pages, id)) {
-							continue;
-						}
-						cats = pages[id].categories ?? [];
-					}
-					for (const cat of cats) {
+					let categories: {title: string}[] = [];
+					[{categories}] = pages;
+					for (const cat of categories) {
 						CAL.parentCats.push(cat.title.replace(/^[^:]+:/, ''));
 					}
 					CAL.counterCat++;
