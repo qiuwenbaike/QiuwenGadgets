@@ -6,10 +6,18 @@
 	align-items: center;
 	padding: 0 0.5em;
 	border: 1px solid @const-color-gray;
-	background: @const-color-gray--lighter;
+	box-shadow:
+		0 1px 2px @background-color-primary,
+		0 -1px 2px @background-color-primary;
+	background-color: @background-color-light;
 	line-height: 1;
 	overflow-y: hidden;
 	text-align: center;
+
+	.client-darkmode & {
+		background: @const-color-gray--dark;
+		color: @const-color-black;
+	}
 
 	&__dismiss {
 		min-width: 2em;
