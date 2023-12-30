@@ -1,6 +1,6 @@
-const getI18nMessages = () => {
-	const {localize} = i18n;
+import {localize} from 'ext.gadget.i18n';
 
+const getI18nMessages = () => {
 	return {
 		'6-digit number': localize({
 			en: '6-digit number',

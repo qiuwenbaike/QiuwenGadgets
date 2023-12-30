@@ -1,6 +1,6 @@
-const getI18nMessages = () => {
-	const {localize} = i18n;
+import {localize} from 'ext.gadget.i18n';
 
+const getI18nMessages = () => {
 	return {
 		Notice: localize({
 			en: '<span>This page has been changed by someone else after you started editing. Copy your changes, refresh and start over to avoid edit conflicts.<a href="#" onclick="location.reload();return false;">Refresh</a></span>',

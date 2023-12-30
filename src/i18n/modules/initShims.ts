@@ -1,4 +1,4 @@
-const initShims = (i18nMethods: typeof i18n): void => {
+const initShims = (i18nMethods: typeof import('ext.gadget.i18n')): void => {
 	const wgUXS = (
 		hans: unknown,
 		hant: unknown,

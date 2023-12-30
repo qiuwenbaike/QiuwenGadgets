@@ -32,12 +32,6 @@ declare global {
 		<K extends keyof T>(key: K): K | NonNullable<T[K]>;
 	}
 
-	namespace i18n {
-		function content(candidates: I18nCandidates): string;
-		function localize(candidates: I18nCandidates): string;
-		function vary(candidates: I18nCandidates): string;
-	}
-
 	interface Window {
 		wgUCS: WgUXS;
 		wgULS: WgUXS;

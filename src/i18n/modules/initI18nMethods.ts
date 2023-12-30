@@ -4,7 +4,7 @@ import type {I18nCandidates} from './types';
 import {generateDefaultFallbackList} from './util/generateDefaultFallbackList';
 import {isValidKey} from '~/util';
 
-const initI18nMethods = (): typeof i18n => {
+const initI18nMethods = (): typeof i18nMethods => {
 	const defaultFallbackList: string[] = generateDefaultFallbackList();
 
 	const elect = (candidates: I18nCandidates, locale: string): string => {
@@ -25,7 +25,7 @@ const initI18nMethods = (): typeof i18n => {
 		return '';
 	};
 
-	const i18nMethods: typeof i18n = {
+	const i18nMethods: typeof import('ext.gadget.i18n') = {
 		content: (candidates) => {
 			return elect(candidates, WG_CONTENT_LANGUAGE);
 		},
@@ -36,7 +36,6 @@ const initI18nMethods = (): typeof i18n => {
 			return elect(candidates, WG_USER_VARIANT ?? WG_CONTENT_LANGUAGE);
 		},
 	};
-	window.i18n = i18nMethods;
 
 	return i18nMethods;
 };
