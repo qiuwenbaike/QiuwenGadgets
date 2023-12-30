@@ -1,3 +1,1 @@
-import {getGeoInfo} from './modules/getGeoInfo';
-
-window.geo = getGeoInfo;
+export {getGeoInfo as geo} from './modules/getGeoInfo';
