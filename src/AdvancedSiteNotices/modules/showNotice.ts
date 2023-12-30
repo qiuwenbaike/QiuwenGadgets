@@ -3,6 +3,8 @@ import {type RemoteNotices} from './util/queryApi';
 import {generateArea} from './util/generateArea';
 import {getMessage} from './i18n';
 import {matchCriteria} from './util/matchCriteria';
+import {tippy} from 'ext.gadget.Tippy';
+import {toastify} from 'ext.gadget.Toastify';
 
 const broadcastChannel: BroadcastChannel = new BroadcastChannel(STORAGE_KEY);
 

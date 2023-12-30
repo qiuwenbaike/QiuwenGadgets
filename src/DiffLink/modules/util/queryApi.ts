@@ -1,5 +1,6 @@
 import {api} from '../api';
 import {getMessage} from '../i18n';
+import {toastify} from 'ext.gadget.Toastify';
 
 type CompareResponse = {
 	compare?: {

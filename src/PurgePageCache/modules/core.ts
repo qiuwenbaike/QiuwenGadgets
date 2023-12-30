@@ -1,5 +1,6 @@
 import {getMessage} from './i18n';
 import {initMwApi} from '~/util';
+import {toastify} from 'ext.gadget.Toastify';
 
 export const purgePageCache = (): void => {
 	const purgePageCacheMain = async (event: Event, title: string): Promise<void> => {

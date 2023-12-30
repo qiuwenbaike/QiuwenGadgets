@@ -1,4 +1,5 @@
 import {WG_SKIN} from './constant';
+import {tippy} from 'ext.gadget.Tippy';
 
 const getContent = (reference: Element): string => {
 	const label: string | null = reference.getAttribute('aria-label');

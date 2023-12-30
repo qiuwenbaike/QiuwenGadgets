@@ -2,6 +2,7 @@
 import {Clipboard} from 'ext.gadget.Clipboard';
 import {getMessage} from './i18n';
 import {initMwApi} from '~/util';
+import {tippy} from 'ext.gadget.Tippy';
 
 export const shortURL = (): void => {
 	let isInit: boolean = false;

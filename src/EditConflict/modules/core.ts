@@ -2,6 +2,7 @@ import {WG_CUR_REVISION_ID, WG_PAGE_NAME} from './constant';
 import {delay, getBody} from '~/util';
 import {getCurrentRevisionId} from './getCurrentRevisionId';
 import {getMessage} from './i18n';
+import {toastify} from 'ext.gadget.Toastify';
 
 const editConflict = async (): Promise<void> => {
 	let isContinue: boolean = true;

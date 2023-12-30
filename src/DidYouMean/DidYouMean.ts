@@ -1,6 +1,7 @@
 import * as OPTIONS from './options.json';
 import {getBody} from '~/util';
 import {getMessage} from './modules/i18n';
+import {toastify} from 'ext.gadget.Toastify';
 
 (async function didYouMean(): Promise<void> {
 	const $body: JQuery<HTMLBodyElement> = await getBody();

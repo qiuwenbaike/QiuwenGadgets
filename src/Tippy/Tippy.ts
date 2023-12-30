@@ -1,5 +1,5 @@
-import tippy from 'tippy.js';
+import tippyJS from 'tippy.js';
 
-if (!window.tippy) {
-	window.tippy = tippy;
-}
+const tippy = tippyJS;
+
+export {tippy};

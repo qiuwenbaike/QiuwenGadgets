@@ -1,5 +1,6 @@
 import {WG_SCRIPT} from './constant';
 import {getMessage} from './i18n';
+import {toastify} from 'ext.gadget.Toastify';
 
 const redirect = (nameSpace: string, pageName: string): void => {
 	toastify(

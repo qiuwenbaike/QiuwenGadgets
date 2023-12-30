@@ -1,6 +1,7 @@
 import {CLASS_NAME, CLASS_NAME_COPY_BUTTON} from './constant';
 import {addCopyListener} from './addCopyListener';
 import {getMessage} from './i18n';
+import {tippy} from 'ext.gadget.Tippy';
 
 const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 	// The following classes are used here:

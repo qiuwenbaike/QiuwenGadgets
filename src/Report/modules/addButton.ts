@@ -1,6 +1,7 @@
 import {CLASS_NAME_BUTTON, URL, WG_NAMESPACE_NUMBER} from './constant';
 import {changeOpacityWhenMouseEnterOrLeave} from '~/util';
 import {getMessage} from './i18n';
+import {tippy} from 'ext.gadget.Tippy';
 
 const addButton = (): void => {
 	if (WG_NAMESPACE_NUMBER < 0) {
