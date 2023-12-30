@@ -1,4 +1,5 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
+import ClipboardJS from 'ext.gadget.Clipboard';
 import {getMessage} from './i18n';
 import {initMwApi} from '~/util';
 

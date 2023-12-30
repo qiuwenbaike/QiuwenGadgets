@@ -1,5 +1,1 @@
-import ClipboardJS from 'clipboard';
-
-if (!window.ClipboardJS) {
-	window.ClipboardJS = ClipboardJS;
-}
+export {default} from 'clipboard';
