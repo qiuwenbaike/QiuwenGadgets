@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {localize} from 'ext.gadget.i18n';
+
 export const easy_archive_lang = () => {
-	const {localize} = window.i18n;
 	window.easy_archive.lang = {
 		delete: localize({
 			en: 'delete',
