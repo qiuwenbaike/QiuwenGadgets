@@ -2,6 +2,7 @@
 // @ts-nocheck
 import {easy_archive_lang} from './modules/i18n';
 import {initMwApi} from '~/util';
+import {toastify} from 'ext.gadget.Toastify';
 
 (function easyArchive() {
 	if (mw.config.get('wgNamespaceNumber') < 0 || mw.config.get('wgPageName') === 'Qiuwen:首页') {
@@ -240,7 +241,7 @@ import {initMwApi} from '~/util';
 		}
 		const actions = {
 			ding: () => {
-				window.toastify(
+				toastify(
 					{
 						text: message(tag_ding, [section_number.toString(), to]),
 						close: !ding_autohide,
@@ -326,7 +327,7 @@ import {initMwApi} from '~/util';
 		const notice_set = notice_tag_dictionary[notice_tag_name] || false;
 		if (notice_set !== false) {
 			const [ntag, ntype, nttl, npersist, nsubst] = notice_set;
-			const toastifyInstance = window.toastify(
+			const toastifyInstance = toastify(
 				{
 					node: $('<span>').append(message(ntag, nsubst)).get(0),
 					close: nttl === 'long',

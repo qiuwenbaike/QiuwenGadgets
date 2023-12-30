@@ -1,6 +1,7 @@
 import {CLASS_NAME_COPY_BUTTON} from './constant';
 import {Clipboard} from 'ext.gadget.Clipboard';
 import {getMessage} from './i18n';
+import {toastify} from 'ext.gadget.Toastify';
 
 const addCopyListener = ($pres: JQuery<HTMLPreElement>): void => {
 	for (const pre of $pres) {

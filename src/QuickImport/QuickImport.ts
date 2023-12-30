@@ -1,4 +1,5 @@
 import {initMwApi} from '~/util';
+import {toastify} from 'ext.gadget.Toastify';
 
 const quickImport = async (): Promise<void> => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (QuickImport/1.0; ${mw.config.get('wgWikiID')})`);

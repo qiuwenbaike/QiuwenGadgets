@@ -1,5 +1,6 @@
 import {$scrollDownButton, $scrollUpButton} from './element';
 import {changeOpacityWhenMouseEnterOrLeave} from '~/util';
+import {tippy} from 'ext.gadget.Tippy';
 
 const insertElementandListener = (): void => {
 	for (const $element of [$scrollDownButton, $scrollUpButton]) {

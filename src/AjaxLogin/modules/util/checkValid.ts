@@ -1,4 +1,5 @@
 import {getMessage} from '../i18n';
+import {toastify} from 'ext.gadget.Toastify';
 
 type NeedToCheckElements = [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget];
 

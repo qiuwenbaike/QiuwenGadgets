@@ -7,6 +7,7 @@ import {queryLoginToken} from './util/queryLoginToken';
 import {redirectOriginLoginPage} from './util/redirectOriginLoginPage';
 import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 import {showError} from './util/showError';
+import {toastify} from 'ext.gadget.Toastify';
 
 const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ToastifyInstance): void => {
 	const {

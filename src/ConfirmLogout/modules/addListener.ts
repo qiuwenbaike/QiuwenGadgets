@@ -3,6 +3,7 @@ import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 import {oouiConfirmWithStyle} from '~/util';
 import {refreshEventListener} from './util/refreshEventListener';
+import {toastify} from 'ext.gadget.Toastify';
 import {tryLogout} from './tryLogout';
 
 const clickListener = async (event: JQuery.ClickEvent): Promise<void> => {

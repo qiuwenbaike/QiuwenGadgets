@@ -1,17 +1,15 @@
 import type Toastify from 'toastify-js';
 
-declare global {
-	const toastify: typeof window.toastify;
-	type ToastifyInstance = ReturnType<typeof toastify>;
+type ToastifyWithHideToast = (
+	options: Toastify.Options,
+	type?: 'info' | 'success' | 'warning' | 'error'
+) => {
+	hideToast: () => void;
+};
 
-	interface Window {
-		toastify: (
-			options: Toastify.Options,
-			type?: 'info' | 'success' | 'warning' | 'error'
-		) => {
-			hideToast: () => void;
-		};
-	}
+declare global {
+	type ToastifyInstance = ReturnType<ToastifyWithHideToast>;
 }
 
 export default global;
+export {ToastifyWithHideToast};
