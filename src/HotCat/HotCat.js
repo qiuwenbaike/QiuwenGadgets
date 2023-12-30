@@ -3,6 +3,7 @@
 import './modules/check';
 import {hotCatLocalDefaults} from './modules/localDefaults';
 import {hotCatMessages} from './modules/messages';
+import {initMwApi} from '~/util';
 
 /**
  * @description Ajax-based simple Category manager. Allows adding/removing/changing categories on a page view.
@@ -21,6 +22,8 @@ import {hotCatMessages} from './modules/messages';
 	if ((window.HotCat && !window.HotCat.nodeName) || conf.wgAction === 'edit') {
 		return; // Not on edit mode
 	}
+	// Initialize MediaWiki API
+	const api = initMwApi(`Qiuwen/1.1 (HotCat/3.0; ${mw.config.get('wgWikiID')})`);
 	// Configuration stuff.
 	window.HotCat = {
 		// Localize these messages to the main language of your wiki.
@@ -682,14 +685,14 @@ import {hotCatMessages} from './modules/messages';
 	const CHANGE_PENDING = 2; // Open, some input made
 	const CHANGED = 3;
 	const DELETED = 4;
-	const setPage = (json) => {
+	const setPage = (data) => {
 		let startTime = null;
-		if (json && json.query) {
-			if (json.query.pages) {
-				const page = json.query.pages[conf.wgArticleId ? String(conf.wgArticleId) : '-1'];
+		if (data && data.query) {
+			if (data.query.pages) {
+				const page = data.query.pages[conf.wgArticleId ? String(conf.wgArticleId) : '-1'];
 				if (page) {
 					if (page.revisions && page.revisions.length > 0) {
-						// Revisions are sorted by revision ID, hence [ 0 ] is the one we asked for, and possibly there's a [ 1 ] if we're
+						// Revisions are sorted by revision ID, hence [0] is the one we asked for, and possibly there's a [1] if we're
 						// not on the latest revision (edit conflicts and such).
 						pageText = page.revisions[0].content;
 						if (page.revisions[0].timestamp) {
@@ -709,10 +712,10 @@ import {hotCatMessages} from './modules/messages';
 						startTime = page.starttimestamp.replace(/\D/g, '');
 					}
 					pageWatched = typeof page.watched === 'string';
-					if (json.query.tokens) {
-						editToken = json.query.tokens.csrftoken;
+					if (data.query.tokens) {
+						editToken = data.query.tokens.csrftoken;
 					}
-					if (page.langlinks && (!json['query-continue'] || !json['query-continue'].langlinks)) {
+					if (page.langlinks && (!data['query-continue'] || !data['query-continue'].langlinks)) {
 						// We have interlanguage links, and we got them all.
 						let re = '';
 						for (let i = 0; i < page.langlinks.length; i++) {
@@ -725,21 +728,21 @@ import {hotCatMessages} from './modules/messages';
 				}
 			}
 			// Siteinfo
-			if (json.query.general) {
-				if (json.query.general.time && !startTime) {
-					startTime = json.query.general.time.replace(/\D/g, '');
+			if (data.query.general) {
+				if (data.query.general.time && !startTime) {
+					startTime = data.query.general.time.replace(/\D/g, '');
 				}
 				if (HC.capitalizePageNames === null) {
 					// ResourceLoader's JSParser doesn't like .case, so override eslint.
-					HC.capitalizePageNames = json.query.general.case === 'first-letter';
+					HC.capitalizePageNames = data.query.general.case === 'first-letter';
 				}
 			}
 			serverTime = startTime;
 			// Userinfo
-			if (json.query.userinfo && json.query.userinfo.options) {
-				watchCreate = !HC.dont_add_to_watchlist && json.query.userinfo.options.watchcreations === '1';
-				watchEdit = !HC.dont_add_to_watchlist && json.query.userinfo.options.watchdefault === '1';
-				minorEdits = json.query.userinfo.options.minordefault === 1;
+			if (data.query.userinfo && data.query.userinfo.options) {
+				watchCreate = !HC.dont_add_to_watchlist && data.query.userinfo.options.watchcreations === '1';
+				watchEdit = !HC.dont_add_to_watchlist && data.query.userinfo.options.watchdefault === '1';
+				minorEdits = data.query.userinfo.options.minordefault === 1;
 				// If the user has the "All edits are minor" preference enabled, we should honor that
 				// for single category changes, no matter what the site configuration is.
 				if (minorEdits) {
@@ -767,21 +770,31 @@ import {hotCatMessages} from './modules/messages';
 			failure.apply(this, args);
 		};
 		// Must use Ajax here to get the user options and the edit token.
-		$.getJSON(
-			`${
-				conf.wgScriptPath
-			}/api.php?format=json&formatversion=2&action=query&rawcontinue=&titles=${encodeURIComponent(
-				conf.wgPageName
-			)}&prop=info%7Crevisions%7Clanglinks&inprop=watched&rvprop=content%7Ctimestamp%7Cids%7Cuser&lllimit=500&rvlimit=2&rvdir=newer&rvstartid=${
-				conf.wgCurRevisionId
-			}&meta=siteinfo%7Cuserinfo%7Ctokens&type=csrf&uiprop=options`,
-			(json) => {
-				setPage(json);
+		const params = {
+			action: 'query',
+			format: 'json',
+			formatversion: '2',
+			rawcontinue: '',
+			titles: conf.wgPageName,
+			prop: ['info', 'revisions', 'langlinks'],
+			inprop: 'watched',
+			rvprop: ['content', 'timestamp', 'ids', 'user'],
+			lllimit: '500',
+			rvlimit: '2',
+			rvdir: 'newer',
+			rvstartid: conf.wgCurRevisionId,
+			meta: ['siteinfo', 'userinfo', 'tokens'],
+			type: 'csrf',
+			uiprop: ['options'],
+		};
+		api.get(params)
+			.done((data) => {
+				setPage(data);
 				doEdit(fail);
-			}
-		).fail(({status, statusText}) => {
-			fail(`${status} ${statusText}`);
-		});
+			})
+			.fail(({status, statusText}) => {
+				fail(`${status} ${statusText}`);
+			});
 	};
 	const multiChangeMsg = (count) => {
 		let msg = HC.messages.multi_change;
@@ -3263,20 +3276,25 @@ import {hotCatMessages} from './modules/messages';
 	const getPage = () => {
 		// We know we have an article here.
 		if (conf.wgArticleId) {
-			const url = `${
-				conf.wgScriptPath
-			}/api.php?format=json&formatversion=2&callback=HotCat.start&action=query&rawcontinue=&titles=${encodeURIComponent(
-				conf.wgPageName
-			)}&prop=info%7Crevisions&rvprop=content%7Ctimestamp%7Cids&meta=siteinfo&rvlimit=1&rvstartid=${
-				conf.wgCurRevisionId
-			}`;
-			const s = make('script');
-			s.src = url;
-			HC.start = (json) => {
-				setPage(json);
+			const params = {
+				action: 'query',
+				format: 'json',
+				formatversion: '2',
+				rawcontinue: '',
+				titles: conf.wgPageName,
+				prop: ['info', 'revisions'],
+				rvprop: ['content', 'timestamp', 'ids'],
+				rvlimit: '1',
+				rvstartid: conf.wgCurRevisionId,
+				meta: ['siteinfo'],
+			};
+			HC.start = (data) => {
+				setPage(data);
 				setup(createCommitForm);
 			};
-			document.querySelectorAll('head')[0].append(s);
+			api.get(params).then((data) => {
+				HC.start(data);
+			});
 			setupTimeout = setTimeout(() => {
 				setup(createCommitForm);
 			}, 4000); // 4 sec, just in case getting the wikitext takes longer.
