@@ -1,4 +1,5 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
+import {Clipboard} from 'ext.gadget.Clipboard';
 import {getMessage} from './i18n';
 import {initMwApi} from '~/util';
 
@@ -80,7 +81,7 @@ export const shortURL = (): void => {
 			);
 		};
 		clipboardInstance?.destroy();
-		clipboardInstance = new ClipboardJS(headerElement, {
+		clipboardInstance = new Clipboard(headerElement, {
 			text: (): string => {
 				return shorturl;
 			},

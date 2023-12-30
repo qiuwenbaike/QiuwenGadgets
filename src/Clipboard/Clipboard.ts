@@ -1,5 +1,5 @@
 import ClipboardJS from 'clipboard';
 
-if (!window.ClipboardJS) {
-	window.ClipboardJS = ClipboardJS;
-}
+const Clipboard = ClipboardJS;
+
+export {Clipboard};
