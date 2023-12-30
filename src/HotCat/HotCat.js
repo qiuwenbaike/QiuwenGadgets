@@ -3291,6 +3291,7 @@ import {initMwApi} from '~/util';
 				rvprop: ['content', 'timestamp', 'ids'],
 				rvlimit: '1',
 				rvstartid: conf.wgCurRevisionId,
+				rvslots: '*',
 				meta: ['siteinfo'],
 			};
 			HC.start = (data) => {
