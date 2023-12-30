@@ -49,7 +49,7 @@ const writeFile = (
 			fileContent = `${trim(licenseText)}${trim(HEADER)}/* <nowiki> */\n\n${
 				// Always invoke strict mode after esbuild bundling
 				sourceCode.trim().startsWith(strictMode) ?? sourceCode.includes(strictMode) ? '' : `${strictMode}\n\n`
-			}${trim(sourceCode)}\n/* </nowiki> */\n`;
+			}${GLOBAL_REQUIRES_ES6 ? '(() => {' : '(function () {'}\n\n${trim(sourceCode)}\n})();\n\n/* </nowiki> */\n`;
 			break;
 		}
 		case 'text/css':
@@ -262,7 +262,7 @@ const buildStyle = async (name: string, style: string, licenseText: string | und
 /**
  * @param {string} name The gadget name
  * @param {'script'|'style'} type The type of target files
- * @param {{dependencies?:Dependencies; files:string[]; licenseText:string|undefined; queue:PQueue}} object The dependencies of this gadget, the array of file name for this gadget, the flag of packaged gadget, the license file content of this gadget and the build queue
+ * @param {{dependencies?:Dependencies; files:string[]; licenseText:string|undefined; queue:PQueue}} object The dependencies of this gadget, the array of file name for this gadget, the license file content of this gadget and the build queue
  */
 function buildFiles(
 	name: string,
