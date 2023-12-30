@@ -163,8 +163,8 @@ import {initMwApi} from '~/util';
 	window.easy_archive.on_article = mw.config.get('wgNamespaceNumber') === 0;
 	window.easy_archive.on_hist_version = mw.config.get('wgCurRevisionId') - mw.config.get('wgRevisionId') !== 0;
 	easy_archive_lang();
-	const arc_sum = window['easy_archive.user_custom_archive_summary'] ?? null;
-	const del_sum = window['easy_archive.user_custom_delete_summary'] ?? null;
+	const arc_sum = window.easy_archive.user_custom_archive_summary ?? null;
+	const del_sum = window.easy_archive.user_custom_delete_summary ?? null;
 	const sanitize_html = (string) => {
 		return string
 			.replace(/&/g, '&amp;')
