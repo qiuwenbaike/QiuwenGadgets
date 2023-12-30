@@ -2,6 +2,5 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-Clipboard\"></span> [https://clipboardjs.com/ clipboard.js]",
 	"section": "compatibility",
-	"hidden": true,
-	"package": true
+	"hidden": true
 }
