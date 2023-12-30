@@ -170,7 +170,7 @@ import {initMwApi} from '~/util';
 		del_needs_diff: false,
 		// Time, in milliseconds, that HotCat waits after a keystroke before making a request to the
 		// server to get suggestions.
-		suggest_delay: 100,
+		suggest_delay: 1000,
 		// Default width, in characters, of the text input field.
 		editbox_width: 40,
 		// One of the engine_names above, to be used as the default suggestion engine.
@@ -689,12 +689,12 @@ import {initMwApi} from '~/util';
 		let startTime = null;
 		if (data && data.query) {
 			if (data.query.pages) {
-				const page = data.query.pages[conf.wgArticleId ? String(conf.wgArticleId) : '-1'];
+				const [page] = data.query.pages;
 				if (page) {
 					if (page.revisions && page.revisions.length > 0) {
 						// Revisions are sorted by revision ID, hence [0] is the one we asked for, and possibly there's a [1] if we're
 						// not on the latest revision (edit conflicts and such).
-						pageText = page.revisions[0].content;
+						pageText = page.revisions[0].slots['main'].content;
 						if (page.revisions[0].timestamp) {
 							pageTime = page.revisions[0].timestamp.replace(/\D/g, '');
 						}
@@ -779,10 +779,11 @@ import {initMwApi} from '~/util';
 			prop: ['info', 'revisions', 'langlinks'],
 			inprop: 'watched',
 			rvprop: ['content', 'timestamp', 'ids', 'user'],
-			lllimit: '500',
+			rvslots: '*',
 			rvlimit: '2',
 			rvdir: 'newer',
 			rvstartid: conf.wgCurRevisionId,
+			lllimit: '500',
 			meta: ['siteinfo', 'userinfo', 'tokens'],
 			type: 'csrf',
 			uiprop: ['options'],
@@ -1102,29 +1103,33 @@ import {initMwApi} from '~/util';
 			callback(toResolve);
 			return;
 		}
-		// Use %7C instead of |, otherwise Konqueror insists on re-encoding the arguments, resulting in doubly encoded
-		// category names. (That is a bug in Konqueror. Other browsers don't have this problem.)
-		let args = `action=query&prop=info%7Clinks%7Ccategories%7Ccategoryinfo&plnamespace=14&pllimit=${
-			toResolve.length * 10
-		}&cllimit=${toResolve.length * 10}&format=json&titles=`;
+		const params = {
+			action: 'query',
+			format: 'json',
+			prop: 'info|links|categories|categoryinfo',
+			plnamespace: '14',
+			pllimit: toResolve.length * 10,
+			cllimit: toResolve.length * 10,
+		};
+		const titles = [];
 		for (i = 0; i < toResolve.length; i++) {
 			let v = toResolve[i].dabInput;
 			v = replaceShortcuts(v, HC.shortcuts);
 			toResolve[i].dabInputCleaned = v;
-			args += encodeURIComponent(`Category:${v}`);
-			if (i + 1 < toResolve.length) {
-				args += '%7C';
-			}
+			titles.push(`Category:${v}`);
 		}
-		$.getJSON(`${conf.wgScriptPath}/api.php?${args}`, (json) => {
-			resolveRedirects(toResolve, json);
-			callback(toResolve);
-		}).fail((req) => {
-			if (!req) {
-				noSuggestions = true;
-			}
-			callback(toResolve);
-		});
+		params.titles = titles.join('|');
+		api.get(params)
+			.done((json) => {
+				resolveRedirects(toResolve, json);
+				callback(toResolve);
+			})
+			.fail((req) => {
+				if (!req) {
+					noSuggestions = true;
+				}
+				callback(toResolve);
+			});
 	};
 	const makeActive = (which) => {
 		if (which.is_active) {
