@@ -18,7 +18,6 @@ const SUFFIX_SETDEFAULT = 2;
 for (const [text, nsid] of Object.entries(mw.config.get('wgNamespaceIds'))) {
 	if (nsid === mw.config.get('wgNamespaceNumber') && !!text) {
 		nsPrefixes.push(text);
-		break;
 	}
 }
 
@@ -32,15 +31,17 @@ if (WG_NAMESPACE_NUMBER === 0) {
 }
 
 const fixNamespace = (title) => {
+	// Example: <span class="mw-page-title-namespace">求闻百科</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">沙盒</span> → 求闻百科:沙盒
+	const purifiedTitle = $(title).text();
 	if (WG_NAMESPACE_NUMBER === 0) {
 		// do nothing if it's articles
-		return title;
-	} else if (nsPrefixPattern.test(title)) {
+		return purifiedTitle;
+	} else if (nsPrefixPattern.test(purifiedTitle)) {
 		// canonize the namespace
-		return title.replace(nsPrefixPattern, nsCanonPrefix);
+		return purifiedTitle.replace(nsPrefixPattern, nsCanonPrefix);
 	}
 	// don't have a namespace
-	return nsCanonPrefix + title;
+	return nsCanonPrefix + purifiedTitle;
 };
 
 /**
