@@ -1331,8 +1331,8 @@
 								}
 							} else {
 								// add check boxes according to the order it gets fed to us (probably strict alphabetical)
-								for (const [itemkey] of Object.entries(pref.setValues)) {
-									worker(itemkey);
+								for (const [itemkey, itemvalue] of Object.entries(pref.setValues)) {
+									worker(itemkey, itemvalue);
 								}
 							}
 							cell.appendChild(checkdiv);
