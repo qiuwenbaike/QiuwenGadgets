@@ -14,8 +14,11 @@
 		&.external {
 			&,
 			&:hover,
-			&:visited:hover {
-				color: #c33 !important;
+			&:visited {
+				&,
+				&:hover {
+					color: #c33 !important;
+				}
 			}
 		}
 	}
@@ -86,12 +89,28 @@
 				}
 			}
 		}
+
+		a {
+			&,
+			&.extiw,
+			&.external {
+				&,
+				&:visited {
+					&,
+					&:hover {
+						color: @const-color-white !important;
+						text-decoration: none;
+					}
+				}
+			}
+		}
 	}
 }
 
 /* === Other elements === */
 #darkmode-button,
 #sidebarButton,
+.skin-citizen .mw-portlet-personal li a:hover,
 .skin-citizen #pt-login a,
 .citizen-header__button,
 .citizen-drawer__menu a:hover,
@@ -113,8 +132,11 @@
 			}
 
 			&:hover,
-			&:visited:hover {
-				color: #f33 !important;
+			&:visited {
+				&,
+				&:hover {
+					color: #f33 !important;
+				}
 			}
 		}
 	}
@@ -147,5 +169,5 @@ html {
 
 /* For Vector skin */
 .mw-wiki-logo {
-	background-image: data-uri('./images/square.svg');
+	filter: hue-rotate(141deg);
 }
