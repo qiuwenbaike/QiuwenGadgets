@@ -5934,7 +5934,7 @@ export const popups = () => {
 		const params = {
 			action: 'query',
 			format: 'json',
-			formatversion: 2,
+			formatversion: '2',
 			maxage: 3600,
 			meta: 'siteinfo',
 			siprop: 'specialpagealiases',
@@ -6800,7 +6800,7 @@ export const popups = () => {
 		const params = {
 			action: 'query',
 			format: 'json',
-			formatversion: 2,
+			formatversion: '2',
 			prop: ['info', 'flagged'],
 			revids: navpop.diffData.oldRev.revid,
 		};
@@ -7262,7 +7262,7 @@ export const popups = () => {
 	pg.fn.modifyWatchlist = async (title, action) => {
 		const reqData = {
 			action: 'watch',
-			formatversion: 2,
+			formatversion: '2',
 			titles: title,
 			uselang: mw.config.get('wgUserLanguage'),
 		};

@@ -31,17 +31,15 @@ if (WG_NAMESPACE_NUMBER === 0) {
 }
 
 const fixNamespace = (title) => {
-	// Example: <span class="mw-page-title-namespace">求闻百科</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">沙盒</span> → 求闻百科:沙盒
-	const purifiedTitle = $(title).text();
 	if (WG_NAMESPACE_NUMBER === 0) {
 		// do nothing if it's articles
-		return purifiedTitle;
-	} else if (nsPrefixPattern.test(purifiedTitle)) {
+		return title;
+	} else if (nsPrefixPattern.test(title)) {
 		// canonize the namespace
-		return purifiedTitle.replace(nsPrefixPattern, nsCanonPrefix);
+		return title.replace(nsPrefixPattern, nsCanonPrefix);
 	}
 	// don't have a namespace
-	return nsCanonPrefix + purifiedTitle;
+	return nsCanonPrefix + title;
 };
 
 /**
@@ -211,25 +209,26 @@ export const ToolsRedirect = {
 	},
 	bulkEdit(titles, text, summary) {
 		const self = this;
-		titles = titles
-			.filter((v, i, arr) => {
-				return arr.indexOf(v) === i;
-			})
-			.join('|');
+		titles = titles.filter((v, i, arr) => {
+			return arr.indexOf(v) === i;
+		});
+		titles = titles.join('|');
 		return api
 			.post({
 				action: 'query',
 				format: 'json',
+				formatversion: '2',
 				prop: 'info',
 				titles,
 			})
 			.then(({query}) => {
 				const deferreds = [];
-				for (const [, {title}] of Object.entries(query.pages)) {
+				for (const {title} of query.pages) {
 					deferreds.push(
 						api.postWithToken('csrf', {
 							action: 'edit',
 							format: 'json',
+							formatversion: '2',
 							title,
 							text: self.addRedirectTextSuffix(title, text),
 							summary,
@@ -241,28 +240,30 @@ export const ToolsRedirect = {
 			});
 	},
 	bulkEditByRegex(titles, regex, text, summary) {
-		titles = titles
-			.filter((v, i, arr) => {
-				return arr.indexOf(v) === i;
-			})
-			.join('|');
+		titles = titles.filter((v, i, arr) => {
+			return arr.indexOf(v) === i;
+		});
+		titles = titles.join('|');
 		return api
-			.postWithToken('csrf', {
+			.post({
 				action: 'query',
 				format: 'json',
+				formatversion: '2',
 				prop: 'revisions',
 				rvprop: 'content',
+				rvslots: '*',
 				titles,
 			})
-			.then((data) => {
+			.then(({query}) => {
 				const deferreds = [];
-				for (const [, page] of Object.entries(data.query.pages)) {
-					const content = page.revisions[0]['*'];
+				for (const page of query.pages) {
+					const {content} = page.revisions[0].slots['main'];
 					const newContent = content.replace(regex, text);
 					deferreds.push(
 						api.postWithToken('csrf', {
 							action: 'edit',
 							format: 'json',
+							formatversion: '2',
 							title: page.title,
 							text: newContent,
 							tags: 'ToolsRedirect',
@@ -432,6 +433,7 @@ export const ToolsRedirect = {
 		api.post({
 			action: 'query',
 			format: 'json',
+			formatversion: '2',
 			prop: 'redirects',
 			titles: pagename,
 			rdlimit: 'max',
@@ -440,10 +442,10 @@ export const ToolsRedirect = {
 			let has_redirect = false;
 			const desc = $('p.desc', self.tabs.view.cont);
 			const maximumRedirectDepth = mw.config.get('toolsRedirectMaximumRedirectDepth', 10);
-			for (const [, page] of Object.entries(query.pages)) {
-				if ('redirects' in page) {
+			for (const page of query.pages) {
+				if (page.redirects) {
 					const {redirects} = page;
-					for (const [, {title}] of Object.entries(redirects)) {
+					for (const {title} of redirects) {
 						const rdtitle = title;
 						const ultitle = rdtitle.replace(/ /g, '_');
 						const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
@@ -536,12 +538,18 @@ export const ToolsRedirect = {
 				.post({
 					action: 'parse',
 					format: 'json',
+					formatversion: '2',
 					page: pagename,
 					prop: 'displaytitle',
 					variant,
 				})
 				.then(({parse}) => {
-					const title = fixNamespace(parse.displaytitle);
+					const {displaytitle} = parse;
+					// Example:
+					// - Before: <span class="mw-page-title-namespace">求闻百科</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">沙盒</span>
+					// - After: 求闻百科:沙盒
+					let title = $(displaytitle).text();
+					title = fixNamespace(title);
 					if (variant in simpAndTrad) {
 						window.toolsRedirect.setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
 					}
@@ -551,11 +559,13 @@ export const ToolsRedirect = {
 				xhr = xhr.then((origTitle) => {
 					api.post({
 						action: 'parse',
+						format: 'json',
+						formatversion: '2',
 						text: pagename,
 						prop: 'text',
 						variant,
-					}).then((data) => {
-						const tmpTitle = $(data.parse.text['*'])
+					}).then(({parse}) => {
+						const tmpTitle = $(parse.text)
 							.text()
 							.replace(/(^\s*|\s*$)/g, '');
 						// should not create redirect categories
@@ -602,6 +612,7 @@ export const ToolsRedirect = {
 				api.post({
 					action: 'parse',
 					format: 'json',
+					formatversion: '2',
 					text: titles,
 					prop: 'text',
 					variant,
@@ -609,10 +620,10 @@ export const ToolsRedirect = {
 			);
 		}
 		return $.when(...deferreds).then((...args) => {
-			for (const arg of args) {
+			for (const [{parse}] of args) {
 				alltitles = [
 					...alltitles,
-					...$(arg[0].parse.text['*'])
+					...$(parse.text)
 						.text()
 						.replace(/(^\s*|\s*$)/g, '')
 						.split('|'),
@@ -626,14 +637,15 @@ export const ToolsRedirect = {
 				.post({
 					action: 'query',
 					format: 'json',
+					formatversion: '2',
 					prop: 'info',
 					titles: alltitles,
 				})
 				.then(({query}) => {
 					titles = [];
-					for (const [pageid, page] of Object.entries(query.pages)) {
+					for (const page of query.pages) {
 						const {title} = page;
-						if (pageid < 0 && !excludes.has(title)) {
+						if (page.missing && !excludes.has(title)) {
 							if (title in redirectExcludes) {
 								// exclude special titles
 								return;
