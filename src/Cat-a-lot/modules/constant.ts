@@ -1,8 +1,6 @@
 /* eslint-disable camelcase */
 import type {Setting} from './types';
 
-const API_ENTRY_POINT: string = mw.util.wikiScript('api');
-
 const CLASS_NAME: string = 'gadget-cat_a_lot';
 const CLASS_NAME_CONTAINER: string = `${CLASS_NAME}-container`;
 const CLASS_NAME_CONTAINER_DATA: string = `${CLASS_NAME_CONTAINER}__data`;
@@ -60,7 +58,6 @@ const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
 const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
 export {
-	API_ENTRY_POINT,
 	CLASS_NAME,
 	CLASS_NAME_CONTAINER,
 	CLASS_NAME_CONTAINER_DATA,
