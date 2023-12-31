@@ -5,15 +5,9 @@
 .skin-vector.page-Qiuwen_首页.action-view .mw-body,
 .skin-gongbi.page-Qiuwen_首页.action-view #mw-content {
 	background: rgba(204, 51, 51, 0.075);
-
-	.client-darkmode & {
-		background: transparent;
-	}
 }
 
 .mainpage {
-	background: transparent;
-
 	a {
 		&,
 		&.extiw,
@@ -129,10 +123,6 @@
 /* === Skin-specific rules === */
 
 /* For Citizen skin */
-.mw-logo-icon {
-	content: data-uri('./images/logo.svg');
-}
-
 html {
 	&.citizen-loading::after {
 		background:
@@ -151,7 +141,7 @@ html {
 #sliderCollapseLogo,
 .wordmark {
 	img {
-		content: data-uri('./images/wordmark.svg');
+		filter: hue-rotate(141deg);
 	}
 }
 
