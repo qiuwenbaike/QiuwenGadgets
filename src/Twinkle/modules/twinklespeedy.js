@@ -1215,6 +1215,7 @@
 						.attr({
 							href: mw.util.getUrl(title, query),
 							target: '_blank',
+							rel: 'noopener noreferrer',
 						})
 						.css({
 							'font-size': '125%',
