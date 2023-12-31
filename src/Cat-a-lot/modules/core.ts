@@ -51,6 +51,8 @@ const catALot = (): void => {
 
 		private static isAutoCompleteInit = false;
 
+		private static api = initMwApi(`Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`);
+
 		private static alreadyThere: string[] = [];
 		private static connectionError: string[] = [];
 		private static notFound: string[] = [];
@@ -298,9 +300,8 @@ const catALot = (): void => {
 				return CAL.variantCache[category] as string[];
 			}
 			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
-				const api = initMwApi(`Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`);
 				params.variant = variant;
-				void api.get(params).then((query) => {
+				void CAL.api.get(params).then((query) => {
 					const result = query['parse'].text;
 					const trimmedResult: string = $(result).eq(0).text().trim();
 					if (!results.includes(trimmedResult)) {
@@ -361,8 +362,7 @@ const catALot = (): void => {
 						this.updateCounter();
 					}
 				};
-				const api = initMwApi(`Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`);
-				void api.post(params).done(callback).fail(handleError);
+				void CAL.api.post(params).done(callback).fail(handleError);
 			};
 			doCall();
 		}
