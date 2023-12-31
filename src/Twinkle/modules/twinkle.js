@@ -455,46 +455,14 @@
 		ctype: 'text/javascript',
 		happy: 'yes',
 	});
-	// Retrieve the user's Twinkle preferences
-	$.ajax({
-		url: scripturl,
-		dataType: 'text',
-	})
+	// Retrieve the user's Twinkle preferences (window.Twinkle.prefs)
+	mw.loader
+		.getScript(scripturl)
 		.fail(() => {
 			mw.notify(wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
 				type: 'error',
 				tag: 'twinkle',
 			});
-		})
-		.done((optionsText) => {
-			// Quick pass if user has no options
-			if (optionsText === '' || optionsText === ' ') {
-				return;
-			}
-			// Twinkle options are basically a JSON object with some comments. Strip those:
-			const optionsText_nowiki = optionsText.replace(/^\s+|^\n$|\/(\*|\/)\s+?<\/?nowiki>\s+?(\*\/)?\n?/g, '');
-			const optionsText_nocomment = optionsText_nowiki.replace(
-				/^(?:\/\/[^\n]*\n)*\n*|(?:\/\/[^\n]*(?:\n|$))*$/g,
-				''
-			);
-			// First version of options had some boilerplate code to make it eval-able -- strip that too. This part may become obsolete down the line.
-			const optionsText_nowindow = optionsText_nocomment.replace(/^window.Twinkle.prefs = |;\n*$/g, '');
-			try {
-				const options = JSON.parse(optionsText_nowindow);
-				if (options) {
-					Twinkle.prefs = options.twinkle
-						? // Old preferences format
-							{...options.twinkle}
-						: options;
-					// v2 established after unification of Twinkle objects
-					Twinkle.prefs.optionsVersion ||= 1;
-				}
-			} catch {
-				mw.notify(wgULS('未能解析您的Twinkle参数设置', '未能解析您的Twinkle偏好設定'), {
-					type: 'error',
-					tag: 'twinkle',
-				});
-			}
 		})
 		.always(() => {
 			$(Twinkle.load);
@@ -524,7 +492,8 @@
 			return;
 		}
 		// Set custom Api-User-Agent header, for server-side logging purposes
-		Morebits.wiki.api.setApiUserAgent(`Twinkle/1.1; ${mw.config.get('wgWikiID')}`);
+		Twinkle.userAgent = `Twinkle/1.1; ${mw.config.get('wgWikiID')}`;
+		Morebits.wiki.api.setApiUserAgent(Twinkle.userAgent);
 		Twinkle.disabledModules = [...Twinkle.getPref('disabledModules'), ...Twinkle.getPref('disabledSysopModules')];
 		// Redefine addInitCallback so that any modules being loaded now on are directly
 		// initialised rather than added to initCallbacks array

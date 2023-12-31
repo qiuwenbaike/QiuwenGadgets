@@ -1201,11 +1201,11 @@
 				const user = pageobj.getCreator();
 				const params = pageobj.getCallbackParameters();
 				const query = {
-					title: `User talk:${user}`,
 					action: 'edit',
 					preview: 'yes',
 					vanarticle: Morebits.pageNameNorm,
 				};
+				const title = `User talk:${user}`;
 				if (
 					params.normalized === 'db' ||
 					Twinkle.getPref('promptForSpeedyDeletionSummary').includes(params.normalized)
@@ -1213,7 +1213,7 @@
 					// provide a link to the user talk page
 					const $link = $('<a>')
 						.attr({
-							href: `${mw.util.wikiScript('index')}?${$.param(query)}`,
+							href: mw.util.getUrl(title, query),
 							target: '_blank',
 						})
 						.css({
@@ -1236,11 +1236,11 @@
 					);
 					switch (Twinkle.getPref('userTalkPageMode')) {
 						case 'tab':
-							window.open(`${mw.util.wikiScript('index')}?${$.param(query)}`, '_blank');
+							window.open(mw.util.getUrl(title, query), '_blank');
 							break;
 						case 'blank':
 							window.open(
-								`${mw.util.wikiScript('index')}?${$.param(query)}`,
+								mw.util.getUrl(title, query),
 								'_blank',
 								'location=no,toolbar=no,status=no,directories=no,scrollbars=yes,width=1200,height=800'
 							);
@@ -1249,7 +1249,7 @@
 						/* falls through */
 						default:
 							window.open(
-								`${mw.util.wikiScript('index')}?${$.param(query)}`,
+								mw.util.getUrl(title, query),
 								window.name === 'twinklewarnwindow' ? '_blank' : 'twinklewarnwindow',
 								'location=no,toolbar=no,status=no,directories=no,scrollbars=yes,width=1200,height=800'
 							);
