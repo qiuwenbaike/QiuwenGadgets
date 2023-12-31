@@ -20,8 +20,11 @@
 		&.external {
 			&,
 			&:hover,
-			&:visited:hover {
-				color: #c33 !important;
+			&:visited {
+				&,
+				&:hover {
+					color: #c33 !important;
+				}
 			}
 		}
 	}
@@ -75,19 +78,18 @@
 	&-link-button {
 		&:hover {
 			background: #c33 !important;
-			color: @const-color-white !important;
+		}
 
-			a {
+		a {
+			&,
+			&.extiw,
+			&.external {
 				&,
-				&.extiw,
-				&.external {
+				&:visited {
 					&,
-					&:visited {
-						&,
-						&:hover {
-							color: @const-color-white !important;
-							text-decoration: none;
-						}
+					&:hover {
+						color: @const-color-white !important;
+						text-decoration: none;
 					}
 				}
 			}
@@ -98,6 +100,7 @@
 /* === Other elements === */
 #darkmode-button,
 #sidebarButton,
+.skin-citizen .mw-portlet-personal li a:hover,
 .skin-citizen #pt-login a,
 .citizen-header__button,
 .citizen-drawer__menu a:hover,
@@ -119,8 +122,11 @@
 			}
 
 			&:hover,
-			&:visited:hover {
-				color: #f33 !important;
+			&:visited {
+				&,
+				&:hover {
+					color: #f33 !important;
+				}
 			}
 		}
 	}
@@ -134,11 +140,13 @@
 }
 
 html {
-	&.citizen-loading::after {
-		background:
-			linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
-			transparent;
-		filter: drop-shadow(0 0 16px #c33);
+	&.citizen-loading {
+		&::after {
+			background:
+				linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
+				transparent;
+			filter: drop-shadow(0 0 16px #c33);
+		}
 	}
 }
 
