@@ -1,5 +1,7 @@
-export const toolsRedirectMessages = () => {
-	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(mw.config.get('wgUserLanguage'))) {
+import {WG_USER_LANGUAGE} from './constant';
+
+export const toolsRedirectMessages = (): void => {
+	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(WG_USER_LANGUAGE)) {
 		mw.messages.set({
 			'toolsredirect-btntitle': '重新導向',
 			'toolsredirect-btndesc': '創建和管理此頁面的重新導向',
