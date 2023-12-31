@@ -74,7 +74,7 @@ const findRedirectBySelector = function (selector) {
 	/* A shortcut to add CSS selectors as rule to find new potential redirect titles. */
 	findRedirectCallbacks.push(() => {
 		return $(selector).map((_index, element) => {
-			const title = $(element).text();
+			const title = $(element).eq(0).text().trim();
 			return title || null;
 		});
 	});
@@ -181,10 +181,10 @@ export const ToolsRedirect = {
 	},
 	fix(pagenames) {
 		const self = this;
-		$('p.desc', this.tabs.view.cont).text(getMessage('fixloading'));
-		$('p[class!=desc]', this.tabs.view.cont).remove();
-		this.loading(this.tabs.view.cont);
-		this.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary')).done(() => {
+		$('p.desc', self.tabs.view.cont).text(getMessage('fixloading'));
+		$('p[class!=desc]', self.tabs.view.cont).remove();
+		self.loading(self.tabs.view.cont);
+		self.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary')).then(() => {
 			// delay load before the asynchronous tasks on server finished
 			setTimeout(() => {
 				self.loaded(self.tabs.view.cont);
@@ -194,14 +194,14 @@ export const ToolsRedirect = {
 	},
 	create(pagenames) {
 		const self = this;
-		$('p.desc', this.tabs.create.cont).text(getMessage('createloading'));
-		$('p[class!=desc]', this.tabs.create.cont).remove();
-		this.loading(this.tabs.create.cont);
-		this.bulkEdit(
+		$('p.desc', self.tabs.create.cont).text(getMessage('createloading'));
+		$('p[class!=desc]', self.tabs.create.cont).remove();
+		self.loading(self.tabs.create.cont);
+		self.bulkEdit(
 			pagenames,
 			getMessage('createtext').replace('$1', WG_PAGE_NAME),
 			getMessage('createsummary').replace('$1', WG_PAGE_NAME)
-		).done(() => {
+		).then(() => {
 			// delay load before the asynchronous tasks on server finished
 			setTimeout(() => {
 				self.loaded(self.tabs.create.cont);
@@ -286,7 +286,7 @@ export const ToolsRedirect = {
 	},
 	loadTabCont(tabname, callback, reload) {
 		const self = this;
-		const tab = this.tabs[tabname];
+		const tab = self.tabs[tabname];
 		if (reload) {
 			tab.loaded = false;
 		}
@@ -299,7 +299,7 @@ export const ToolsRedirect = {
 				.appendTo(tab.cont);
 			const $text = $desc.find('> .desc-text');
 			callback
-				.apply(this)
+				.apply(self)
 				.done(() => {
 					// Messages that can be used here:
 					// * see messages.js
@@ -428,16 +428,16 @@ export const ToolsRedirect = {
 	loadRedirect(pagename, container, deep, loaded) {
 		this.loading(container);
 		const self = this;
-		const deferObj = $.Deferred();
+		const deferred = $.Deferred();
 		const top = deep ? $('<dl>').appendTo(container) : container;
 		if (!loaded) {
 			loaded = {};
 			loaded[pagename] = true;
 		}
-		const onClickFix = function (event) {
+		const onClickFix = (event) => {
 			const entry = $(this).parents('dd, p').first();
 			event.preventDefault();
-			self.clickAction(entry, self.fix);
+			self.clickAction(entry, this.fix);
 		};
 		api.post({
 			action: 'query',
@@ -446,7 +446,7 @@ export const ToolsRedirect = {
 			prop: 'redirects',
 			titles: pagename,
 			rdlimit: 'max',
-		}).done(({query}) => {
+		}).then(({query}) => {
 			self.loaded(container);
 			let has_redirect = false;
 			const desc = $('p.desc', self.tabs.view.cont);
@@ -487,7 +487,7 @@ export const ToolsRedirect = {
 						if (isCycleRedirect) {
 							$container.append(`<span class="error">${getMessage('errcycleredirect')}</span>`);
 						} else if (deep < maximumRedirectDepth) {
-							deferObj.done(() => {
+							deferred.then(() => {
 								return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
 							});
 						}
@@ -526,12 +526,12 @@ export const ToolsRedirect = {
 				]);
 			}
 			if (has_redirect) {
-				deferObj.resolveWith(self);
+				deferred.resolveWith(self);
 			} else {
-				deferObj.rejectWith(self);
+				deferred.rejectWith(self);
 			}
 		});
-		return deferObj.promise();
+		return deferred.promise();
 	},
 	findVariants(pagename, titles) {
 		const self = this;
@@ -542,7 +542,7 @@ export const ToolsRedirect = {
 			'zh-hans': true,
 			'zh-hant': true,
 		};
-		for (const [, variant] of Object.entries(this.variants)) {
+		for (const variant of Object.keys(self.variants)) {
 			let xhr = api
 				.post({
 					action: 'parse',
@@ -557,7 +557,7 @@ export const ToolsRedirect = {
 					// Example:
 					// - Before: <span class="mw-page-title-namespace">求闻百科</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">沙盒</span>
 					// - After: 求闻百科:沙盒
-					let title = $(displaytitle).text();
+					let title = $(displaytitle).eq(0).text().trim();
 					title = fixNamespace(title);
 					if (variant in simpAndTrad) {
 						setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
@@ -575,7 +575,9 @@ export const ToolsRedirect = {
 						variant,
 					}).then(({parse}) => {
 						const tmpTitle = $(parse.text)
+							.eq(0)
 							.text()
+							.trim()
 							.replace(/(^\s*|\s*$)/g, '');
 						// should not create redirect categories
 						// if the conversion is already in global table,
@@ -630,7 +632,9 @@ export const ToolsRedirect = {
 				alltitles = [
 					...alltitles,
 					...$(parse.text)
+						.eq(0)
 						.text()
+						.trim()
 						.replace(/(^\s*|\s*$)/g, '')
 						.split('|'),
 				];
@@ -672,12 +676,12 @@ export const ToolsRedirect = {
 	findRedirect(pagename) {
 		const self = this;
 		const frcDeferreds = [];
-		const container = this.tabs.create.cont;
+		const container = self.tabs.create.cont;
 		const $body = $('body');
 		const $content = $body.find('#mw-content-text > div.mw-parser-output');
-		const deferObj = $.Deferred();
+		const deferred = $.Deferred();
 		let titles = [];
-		this.loading(container);
+		self.loading(container);
 		for (const callback of findRedirectCallbacks) {
 			const ret = callback(pagename, $content, titles);
 			if (typeof ret === 'string') {
@@ -710,7 +714,7 @@ export const ToolsRedirect = {
 				}
 				return self.findVariants(pagename, titles);
 			})
-			.done((fvtitles) => {
+			.then((fvtitles) => {
 				// build HTML
 				self.loaded(container);
 				for (const title of fvtitles) {
@@ -761,11 +765,11 @@ export const ToolsRedirect = {
 							},
 						},
 					]);
-					deferObj.resolveWith(self, [fvtitles]);
+					deferred.resolveWith(self, [fvtitles]);
 				} else {
-					deferObj.rejectWith(self, [fvtitles]);
+					deferred.rejectWith(self, [fvtitles]);
 				}
 			});
-		return deferObj.promise();
+		return deferred.promise();
 	},
 };
