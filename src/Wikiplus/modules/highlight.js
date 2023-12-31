@@ -581,7 +581,7 @@
 		} = await new mw.Api().get({
 			meta: 'siteinfo',
 			siprop: `general|magicwords${config && !isIPE ? '' : '|extensiontags|functionhooks|variables'}`,
-			formatversion: 2,
+			formatversion: '2',
 		});
 		const otherMagicwords = new Set(['msg', 'raw', 'msgnw', 'subst', 'safesubst']);
 
