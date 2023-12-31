@@ -76,6 +76,21 @@
 		&:hover {
 			background: #c33 !important;
 			color: @const-color-white !important;
+
+			a {
+				&,
+				&.extiw,
+				&.external {
+					&,
+					&:visited {
+						&,
+						&:hover {
+							color: @const-color-white !important;
+							text-decoration: none;
+						}
+					}
+				}
+			}
 		}
 	}
 }
