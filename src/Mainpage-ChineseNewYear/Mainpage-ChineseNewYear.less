@@ -64,26 +64,33 @@
 		}
 	}
 
-	&-header .mainpage-slogan img {
-		content: data-uri('./images/mainpage-slogan.svg');
+	&-header {
+		.mainpage-slogan {
+			img {
+				content: data-uri('./images/mainpage-slogan.svg');
+			}
+		}
 	}
 
 	&-link-button {
 		&:hover {
 			background: #c33 !important;
-			color: @const-color-white;
+			color: @const-color-white !important;
 		}
 	}
 }
 
 /* === Other elements === */
-#sidebarButton,
 #darkmode-button,
+#sidebarButton,
+.skin-citizen #pt-login a,
+.citizen-header__button,
+.citizen-drawer__menu a:hover,
+.gadget-advanced_site_notices,
 .gadget-cookie_warning,
-.gadget-report-button img,
-.gadget-scroll_up_button,
-.gadget-advanced_site_notices__notice {
-	filter: hue-rotate(140deg);
+.gadget-report-button,
+.gadget-scroll_up_button {
+	filter: hue-rotate(141deg);
 }
 
 .mw-footer {
@@ -111,11 +118,13 @@
 	content: data-uri('./images/logo.svg');
 }
 
-html.citizen-loading::after {
-	background:
-		linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
-		transparent;
-	filter: drop-shadow(0 0 16px #c33);
+html {
+	&.citizen-loading::after {
+		background:
+			linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
+			transparent;
+		filter: drop-shadow(0 0 16px #c33);
+	}
 }
 
 /* For Gongbi skin */
@@ -125,8 +134,10 @@ html.citizen-loading::after {
 
 /* For Gongbi and Vector skins */
 #sliderCollapseLogo,
-.wordmark img {
-	content: data-uri('./images/wordmark.svg');
+.wordmark {
+	img {
+		content: data-uri('./images/wordmark.svg');
+	}
 }
 
 /* For Vector skin */
