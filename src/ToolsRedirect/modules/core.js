@@ -208,62 +208,70 @@ export const ToolsRedirect = {
 		}
 		return text;
 	},
-	async bulkEdit(titles, text, summary) {
+	bulkEdit(titles, text, summary) {
 		const self = this;
-		titles = titles.filter((v, i, arr) => {
-			return arr.indexOf(v) === i;
-		});
-		titles = titles.join('|');
-		const {query} = await api.post({
-			action: 'query',
-			format: 'json',
-			prop: 'info',
-			titles,
-		});
-		const deferreds = [];
-		for (const [, {title}] of Object.entries(query.pages)) {
-			deferreds.push(
-				api.postWithToken('csrf', {
-					action: 'edit',
-					format: 'json',
-					title,
-					text: self.addRedirectTextSuffix(title, text),
-					summary,
-					tags: 'ToolsRedirect',
-				})
-			);
-		}
-		return await $.when(...deferreds);
+		titles = titles
+			.filter((v, i, arr) => {
+				return arr.indexOf(v) === i;
+			})
+			.join('|');
+		return api
+			.post({
+				action: 'query',
+				format: 'json',
+				prop: 'info',
+				titles,
+			})
+			.then(({query}) => {
+				const deferreds = [];
+				for (const [, {title}] of Object.entries(query.pages)) {
+					deferreds.push(
+						api.postWithToken('csrf', {
+							action: 'edit',
+							format: 'json',
+							title,
+							text: self.addRedirectTextSuffix(title, text),
+							summary,
+							tags: 'ToolsRedirect',
+						})
+					);
+				}
+				return $.when(...deferreds);
+			});
 	},
-	async bulkEditByRegex(titles, regex, text, summary) {
-		titles = titles.filter((v, i, arr) => {
-			return arr.indexOf(v) === i;
-		});
-		titles = titles.join('|');
-		const data = await api.post({
-			action: 'query',
-			format: 'json',
-			prop: 'revisions',
-			rvprop: 'content',
-			titles,
-		});
-		const deferreds = [];
-		for (const [, page] of Object.entries(data.query.pages)) {
-			const content = page.revisions[0]['*'];
-			const newContent = content.replace(regex, text);
-			deferreds.push(
-				api.postWithToken('csrf', {
-					action: 'edit',
-					format: 'json',
-					title: page.title,
-					text: newContent,
-					tags: 'ToolsRedirect',
-					basetimestamp: page.revisions[0].timestamp,
-					summary,
-				})
-			);
-		}
-		return await $.when(...deferreds);
+	bulkEditByRegex(titles, regex, text, summary) {
+		titles = titles
+			.filter((v, i, arr) => {
+				return arr.indexOf(v) === i;
+			})
+			.join('|');
+		return api
+			.postWithToken('csrf', {
+				action: 'query',
+				format: 'json',
+				prop: 'revisions',
+				rvprop: 'content',
+				titles,
+			})
+			.then((data) => {
+				const deferreds = [];
+				for (const [, page] of Object.entries(data.query.pages)) {
+					const content = page.revisions[0]['*'];
+					const newContent = content.replace(regex, text);
+					deferreds.push(
+						api.postWithToken('csrf', {
+							action: 'edit',
+							format: 'json',
+							title: page.title,
+							text: newContent,
+							tags: 'ToolsRedirect',
+							basetimestamp: page.revisions[0].timestamp,
+							summary,
+						})
+					);
+				}
+				return $.when(...deferreds);
+			});
 	},
 	loadTabCont(tabname, callback, reload) {
 		const self = this;
@@ -513,7 +521,7 @@ export const ToolsRedirect = {
 		});
 		return deferObj.promise();
 	},
-	async findVariants(pagename, titles) {
+	findVariants(pagename, titles) {
 		const self = this;
 		const suffixReg = /^.+?((（|[ _]\().+?([)）]))$/;
 		const retTitles = [];
@@ -559,31 +567,31 @@ export const ToolsRedirect = {
 			}
 			deferreds.push(xhr);
 		}
-		const args = await $.when(...deferreds);
-		const suffixes = [];
-		for (const arg of args) {
-			let suffix;
-			// find title suffix,
-			// for example " (济南市)" to "市中区 (济南市)"
-			suffix = suffixReg.exec(arg);
-			suffix = suffix && suffix.length === 2 ? suffix[1] : '';
-			retTitles.push(arg);
-			suffixes.push(suffix);
-		}
-		// append suffixes
-		const suffixesDedup = [...new Set(suffixes)];
-		for (const suffix of suffixesDedup) {
-			$.merge(
-				retTitles,
-				titles.map((title) => {
-					title = fixNamespace(title);
-					return suffixReg.test(title) ? title : title + suffix;
-				})
-			);
-		}
-		return await self.findNotExists([...new Set(retTitles)]);
+		return $.when(...deferreds).then((...args) => {
+			const suffixes = [];
+			for (const arg of args) {
+				// find title suffix,
+				// for example " (济南市)" to "市中区 (济南市)"
+				const suffixArr = suffixReg.exec(arg);
+				const suffix = suffixArr && suffixArr.length === 2 ? suffixArr[1] : '';
+				retTitles.push(arg);
+				suffixes.push(suffix);
+			}
+			// append suffixes
+			const suffixesDedup = [...new Set(suffixes)];
+			for (const suffix of suffixesDedup) {
+				$.merge(
+					retTitles,
+					titles.map((title) => {
+						title = fixNamespace(title);
+						return suffixReg.test(title) ? title : title + suffix;
+					})
+				);
+			}
+			return self.findNotExists([...new Set(retTitles)]);
+		});
 	},
-	async findNotExists(titles) {
+	findNotExists(titles) {
 		const deferreds = [];
 		const excludes = new Set(['用字模式']);
 		let alltitles = [];
@@ -599,44 +607,51 @@ export const ToolsRedirect = {
 				})
 			);
 		}
-		const args = await $.when(...deferreds);
-		for (const arg of args) {
-			alltitles = [
-				...alltitles,
-				...$(arg[0].parse.text['*'])
-					.text()
-					.replace(/(^\s*|\s*$)/g, '')
-					.split('|'),
-			];
-		}
-		alltitles = alltitles.filter((v, i, arr) => {
-			return arr.indexOf(v) === i;
-		});
-		alltitles = alltitles.join('|');
-		const {query} = await api.post({
-			action: 'query',
-			format: 'json',
-			prop: 'info',
-			titles: alltitles,
-		});
-		titles = [];
-		for (const [pageid, page] of Object.entries(query.pages)) {
-			const {title} = page;
-			if (pageid < 0 && !excludes.has(title)) {
-				if (title in redirectExcludes) {
-					// exclude special titles
-					return;
-				}
-				titles.push(title);
-				if (IS_CATEGORY) {
-					const target = WG_PAGE_NAME.replace(/^Category:/, '');
-					window.toolsRedirect.setRedirectTextSuffix(title, '\n{{分类重定向|$1}}'.replace('$1', target));
-				}
-				// only set default suffix
-				window.toolsRedirect.setRedirectTextSuffix(title, '\n{{别名重定向}}', SUFFIX_SETDEFAULT);
+		return $.when(...deferreds).then((...args) => {
+			for (const arg of args) {
+				alltitles = [
+					...alltitles,
+					...$(arg[0].parse.text['*'])
+						.text()
+						.replace(/(^\s*|\s*$)/g, '')
+						.split('|'),
+				];
 			}
-		}
-		return titles;
+			alltitles = alltitles.filter((v, i, arr) => {
+				return arr.indexOf(v) === i;
+			});
+			alltitles = alltitles.join('|');
+			return api
+				.post({
+					action: 'query',
+					format: 'json',
+					prop: 'info',
+					titles: alltitles,
+				})
+				.then(({query}) => {
+					titles = [];
+					for (const [pageid, page] of Object.entries(query.pages)) {
+						const {title} = page;
+						if (pageid < 0 && !excludes.has(title)) {
+							if (title in redirectExcludes) {
+								// exclude special titles
+								return;
+							}
+							titles.push(title);
+							if (IS_CATEGORY) {
+								const target = WG_PAGE_NAME.replace(/^Category:/, '');
+								window.toolsRedirect.setRedirectTextSuffix(
+									title,
+									'\n{{分类重定向|$1}}'.replace('$1', target)
+								);
+							}
+							// only set default suffix
+							window.toolsRedirect.setRedirectTextSuffix(title, '\n{{别名重定向}}', SUFFIX_SETDEFAULT);
+						}
+					}
+					return titles;
+				});
+		});
 	},
 	findRedirect(pagename) {
 		const self = this;
