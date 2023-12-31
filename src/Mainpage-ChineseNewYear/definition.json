@@ -1,5 +1,5 @@
 {
 	"enable": true,
 	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 春节专用首页样式",
-	"hidden": true
+	"default": true
 }
