@@ -20,13 +20,13 @@ export const hotCatMessages = (): void => {
 			'hotcat-messages-multi_change': '$1個分類',
 			// Any category in this category is deemed a disambiguation category; i.e., a category that should not contain
 			// any items, but that contains links to other categories where stuff should be categorized. If you don't have
-			// that concept on your wiki, set it to null. Use blanks, not underscores.
-			'hotcat-disambig_category': undefined,
+			// that concept on your wiki, set it to blank string. Use blanks, not underscores.
+			'hotcat-disambig_category': '',
 			// Any category in this category is deemed a (soft) redirect to some other category defined by a link
 			// to another non-blacklisted category. If your wiki doesn't have soft category redirects, set this to null.
 			// If a soft-redirected category contains more than one link to another non-blacklisted category, it's considered
 			// a disambiguation category instead.
-			'hotcat-redir_category': '已重定向的分類',
+			'hotcat-redir_category': '已重定向的分类',
 			'hotcat-messages-separator': '; ',
 			// $1 is replaced by a number. If your language has several plural forms (c.f. [[:enwiki:Dual (grammatical form)]]),
 			// you can set this to an array of strings suitable for passing to mw.language.configPlural().
@@ -35,7 +35,7 @@ export const hotCatMessages = (): void => {
 			// Defaults to '[[' + category_canonical + ':$1]]'. Can be overridden if in the short edit summaries
 			// not the standard category name should be used but, say, a shorter namespace alias. $1 is replaced
 			// by a category name.
-			'hotcat-messages-short_catchange': undefined,
+			'hotcat-messages-short_catchange': '$1',
 			// Button text. Localize to wgContentLanguage here; localize to wgUserLanguage in a subpage,
 			// see localization hook below.
 			'hotcat-messages-commit': '儲存',
@@ -87,8 +87,8 @@ export const hotCatMessages = (): void => {
 			'hotcat-messages-multi_change': '$1个分类',
 			// Any category in this category is deemed a disambiguation category; i.e., a category that should not contain
 			// any items, but that contains links to other categories where stuff should be categorized. If you don't have
-			// that concept on your wiki, set it to null. Use blanks, not underscores.
-			'hotcat-disambig_category': undefined,
+			// that concept on your wiki, set it to blank string. Use blanks, not underscores.
+			'hotcat-disambig_category': '',
 			// Any category in this category is deemed a (soft) redirect to some other category defined by a link
 			// to another non-blacklisted category. If your wiki doesn't have soft category redirects, set this to null.
 			// If a soft-redirected category contains more than one link to another non-blacklisted category, it's considered
@@ -101,7 +101,7 @@ export const hotCatMessages = (): void => {
 			// Defaults to '[[' + category_canonical + ':$1]]'. Can be overridden if in the short edit summaries
 			// not the standard category name should be used but, say, a shorter namespace alias. $1 is replaced
 			// by a category name.
-			'hotcat-messages-short_catchange': undefined,
+			'hotcat-messages-short_catchange': '$1',
 			// Button text. Localize to wgContentLanguage here; localize to wgUserLanguage in a subpage,
 			// see localization hook below.
 			'hotcat-messages-commit': '保存',

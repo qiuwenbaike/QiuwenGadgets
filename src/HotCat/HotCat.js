@@ -826,23 +826,19 @@ hotCatMessages();
 				const shortSummary = [];
 				// Deleted
 				for (i = 0; i < deleted.length; i++) {
-					summary.push(`−${substitute(getMessage('hotcat-messages-short_catchange'), [null, deleted[i]])}`);
+					summary.push(`−${getMessage('hotcat-messages-short_catchange', deleted[i])}`);
 				}
 				if (deleted.length === 1) {
-					shortSummary.push(
-						`−${substitute(getMessage('hotcat-messages-short_catchange'), [null, deleted[0]])}`
-					);
+					shortSummary.push(`−${getMessage('hotcat-messages-short_catchange', deleted[0])}`);
 				} else if (deleted.length > 0) {
 					shortSummary.push(`− ${multiChangeMsg(deleted.length)}`);
 				}
 				// Added
 				for (i = 0; i < added.length; i++) {
-					summary.push(`+${substitute(getMessage('hotcat-messages-short_catchange'), [null, added[i]])}`);
+					summary.push(`+${getMessage('hotcat-messages-short_catchange', added[i])}`);
 				}
 				if (added.length === 1) {
-					shortSummary.push(
-						`+${substitute(getMessage('hotcat-messages-short_catchange'), [null, added[0]])}`
-					);
+					shortSummary.push(`+${getMessage('hotcat-messages-short_catchange', added[0])}`);
 				} else if (added.length > 0) {
 					shortSummary.push(`+ ${multiChangeMsg(added.length)}`);
 				}
@@ -850,35 +846,25 @@ hotCatMessages();
 				const arrow = is_rtl ? '\u2190' : '\u2192'; // left and right arrows. Don't use ← and → in the code.
 				for (i = 0; i < changed.length; i++) {
 					if (changed[i].from === changed[i].to) {
-						summary.push(
-							`±${substitute(getMessage('hotcat-messages-short_catchange'), [null, changed[i].from])}`
-						);
+						summary.push(`±${getMessage('hotcat-messages-short_catchange', changed[i].from)}`);
 					} else {
 						summary.push(
-							`±${substitute(getMessage('hotcat-messages-short_catchange'), [
-								null,
-								changed[i].from,
-							])}${arrow}${substitute(getMessage('hotcat-messages-short_catchange'), [
-								null,
-								changed[i].to,
-							])}`
+							`±${getMessage('hotcat-messages-short_catchange', changed[i].from)}${arrow}${getMessage(
+								'hotcat-messages-short_catchange',
+								changed[i].to
+							)}`
 						);
 					}
 				}
 				if (changed.length === 1) {
 					if (changed[0].from === changed[0].to) {
-						shortSummary.push(
-							`±${substitute(getMessage('hotcat-messages-short_catchange'), [null, changed[0].from])}`
-						);
+						shortSummary.push(`±${getMessage('hotcat-messages-short_catchange', changed[0].from)}`);
 					} else {
 						shortSummary.push(
-							`±${substitute(getMessage('hotcat-messages-short_catchange'), [
-								null,
-								changed[0].from,
-							])}${arrow}${substitute(getMessage('hotcat-messages-short_catchange'), [
-								null,
-								changed[0].to,
-							])}`
+							`±${getMessage('hotcat-messages-short_catchange', changed[0].from)}${arrow}${getMessage(
+								'hotcat-messages-short_catchange',
+								changed[0].to
+							)}`
 						);
 					}
 				} else if (changed.length > 0) {
