@@ -306,7 +306,6 @@ hotCatMessages();
 			});
 		};
 	};
-	const substitute = substituteFactory();
 	const replaceShortcuts = (() => {
 		const replaceHash = substituteFactory({
 			indicator: '#',
@@ -510,7 +509,7 @@ hotCatMessages();
 				if (k.length > 0) {
 					k = k.slice(1);
 				}
-				summary.push(substitute(getMessage('hotcat-messages-cat_keychange'), [null, toAdd, k]));
+				summary.push(getMessage('hotcat-messages-cat_keychange', toAdd, k));
 			} else {
 				summary.push(getMessage('hotcat-messages-cat_added', toAdd));
 			}
@@ -690,11 +689,7 @@ hotCatMessages();
 			});
 	};
 	const multiChangeMsg = (count) => {
-		let msg = getMessage('hotcat-messages-multi_change');
-		if (typeof msg !== 'string' && msg.length > 0) {
-			msg = mw.language?.convertPlural ? mw.language.convertPlural(count, msg) : msg.at(-1);
-		}
-		return substitute(msg, [null, String(count)]);
+		return getMessage('hotcat-messages-multi_change', String(count));
 	};
 	const currentTimestamp = () => {
 		const now = new Date();
