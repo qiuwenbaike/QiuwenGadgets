@@ -1,5 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {WG_WIKI_ID} from './constant';
+import {initMwApi} from '~/util';
+
 /**
  * CheckCategories HotCat Extension –
  * removes the template when categorizing (prompts before) with HotCat and
@@ -16,6 +19,7 @@
 	) {
 		return;
 	}
+	const api = initMwApi(`Qiuwen/1.1 (hotCatCheck/2.0; ${WG_WIKI_ID})`);
 	const checkCategoriesRegExp = /{{[Cc]heck[ _]categories[^{}]*}}/g;
 	const selfName = '([[MediaWiki:Gadget-HotCat-check.js|Script]]): ';
 	const storageItemName = 'checkCat';
@@ -88,7 +92,6 @@
 				title: `User:${mw.config.get('wgUserName')}/common.js`,
 				summary: `${selfName}Saving HotCat configuration.`,
 				appendtext: $el.data('addText'),
-				token: mw.user.tokens.get('csrfToken'),
 			};
 			const editDone = (editStat) => {
 				if (!editStat) {
@@ -105,7 +108,7 @@
 					$permaSaveHint.fadeOut();
 				}
 			};
-			$.post(mw.util.wikiScript('api'), params, editDone);
+			api.postWithToken('csrf', params).then(editDone);
 		};
 		/**
 		 * On Wikimedia Commons there were people who said:
@@ -234,7 +237,6 @@
 				title: mw.config.get('wgPageName'),
 				summary: `${selfName}Categories are checked and OK. You can help [[Category:Media needing category review|reviewing]]!`,
 				nocreate: true,
-				token: mw.user.tokens.get('csrfToken'),
 				text,
 			};
 			const editDone = (editStat) => {
@@ -254,7 +256,7 @@
 				$body.find('.checkcategories').fadeOut();
 			};
 			$el.text('Doing..');
-			$.post(mw.util.wikiScript('api'), params, editDone);
+			api.postWithToken('csrf', params).then(editDone);
 		};
 		$el.text('Doing');
 		$.ajax({
