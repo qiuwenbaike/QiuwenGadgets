@@ -7,6 +7,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/module/core.js}
  * @author Eridanus Sora (妹空酱)
  */
+
 /**
  * SPDX-License-Identifier: GPL-3.0
  * _addText: '{{Gadget Header|title=Wikiplus-highlight|license=GPL-3.0}}'
@@ -17,6 +18,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/module/highlight.js}
  * @author Bhsd <https://github.com/bhsd-harry>, 机智的小鱼君 <https://github.com/Dragon-Fish>
  */
+
 /**
  * settings Icon (ltr) from OOjs UI
  *

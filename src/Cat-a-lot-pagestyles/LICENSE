@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title=Cat-a-lot.css|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot-pagestyles}}'
+ * _addText: '{{Gadget Header|title=Cat-a-lot.css|license=CC-BY-SA-4.0}}'
  *
  * Cat-a-lot.css
  *
@@ -8,6 +8,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot-pagestyles}
  * @author Magnus Manske, Ilmari Karonen, DieBuche, 安忆 <i@anyi.in>
  */
+
 /**
  * check Icon from OOjs UI (constructive; green color)
  *

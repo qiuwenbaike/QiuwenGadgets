@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EasyArchive}}'
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
  *
  * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-easy-archive.js}
  * @base {@link https://meta.wikimedia.org/w/index.php?oldid=18915644}

@@ -1,9 +1,10 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear}}'
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
  *
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear}
  */
+
 /**
  * Qiuwen Baike Logo (With site name and slogan; Red version)
  *
@@ -11,6 +12,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license CC-BY-SA-4.0
  */
+
 /**
  * fullScreen Icon from OOjs UI
  *
@@ -18,6 +20,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
+
 /**
  * exitFullscreen Icon from OOjs UI
  *
@@ -25,6 +28,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
+
 /**
  * Dark mode icon
  *
@@ -33,6 +37,7 @@
  * @author WaitSpring
  * @license CC-BY-SA-4.0
  */
+
 /**
  * Up Arrow (with blue color and white background)
  *
@@ -41,6 +46,7 @@
  * @author WaitSpring
  * @license CC-BY-SA-4.0
  */
+
 /**
  * close Icon from OOjs UI (Red color)
  *
@@ -48,6 +54,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
+
 /**
  * Qiuwen Baike Logo (Red version)
  *
@@ -55,6 +62,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license CC-BY-SA-4.0
  */
+
 /**
  * Qiuwen Baike wordmark (Red version)
  *
@@ -62,6 +70,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage-ChineseNewYear/images}
  * @license CC-BY-SA-4.0
  */
+
 /**
  * Qiuwen Baike wordmark (Square; red version)
  *
