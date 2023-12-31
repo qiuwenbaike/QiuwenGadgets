@@ -76,39 +76,13 @@
 }
 
 /* === Other elements === */
-
-#sidebarButton {
-	content: data-uri('./images/sidebarButton-collapse.svg');
-
-	html.client-collapsedsidebar & {
-		content: data-uri('./images/sidebarButton-expand.svg');
-	}
-}
-
-#darkmode-button {
-	content: data-uri('./images/darkmode-button.svg');
-}
-
-.gadget-scroll_up_button {
-	&__down,
-	&__up {
-		content: data-uri('./images/scroll-button.svg');
-	}
-}
-
-.gadget-advanced_site_notices {
-	&__area a {
-		color: #c33;
-	}
-
-	&__title {
-		background: #c33;
-		color: @const-color-white;
-	}
-
-	&__dismiss a:hover {
-		background-image: data-uri('./images/close.svg');
-	}
+#sidebarButton,
+#darkmode-button,
+.gadget-cookie_warning,
+.gadget-report-button img,
+.gadget-scroll_up_button,
+.gadget-advanced_site_notices__notice a {
+	filter: hue-rotate(140deg);
 }
 
 .mw-footer {
