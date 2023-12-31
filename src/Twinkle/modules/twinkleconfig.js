@@ -1163,7 +1163,7 @@
 			const container = document.createElement('table');
 			container.style.width = '100%';
 			contentform.appendChild(container);
-			$(Twinkle.config.sections).each((_sectionkey, section) => {
+			$(Twinkle.config.sections).each((sectionkey, section) => {
 				if (section.hidden || (section.adminOnly && !Morebits.userIsSysop)) {
 					return true; // i.e. "continue" in this context
 				}
@@ -1188,7 +1188,7 @@
 				container.appendChild(row);
 				let rowcount = 1; // for row banding
 				// add each of the preferences to the form
-				$(section.preferences).each((_prefkey, pref) => {
+				$(section.preferences).each((prefkey, pref) => {
 					if (pref.adminOnly && !Morebits.userIsSysop) {
 						return true; // i.e. "continue" in this context
 					}
@@ -1427,10 +1427,10 @@
 			footerbox.appendChild(footerspan);
 			contentform.appendChild(footerbox);
 			// since all the section headers exist now, we can try going to the requested anchor
-			if (location.hash) {
-				const loc = location.hash;
-				location.hash = '';
-				location.hash = loc;
+			if (window.location.hash) {
+				const loc = window.location.hash;
+				window.location.hash = '';
+				window.location.hash = loc;
 			}
 		} else if (
 			mw.config.get('wgNamespaceNumber') === mw.config.get('wgNamespaceIds').user &&
@@ -1650,7 +1650,7 @@
 		let current = {};
 		$(tbody)
 			.find('input[type="text"]')
-			.each((_inputkey, input) => {
+			.each((inputkey, input) => {
 				if ($(input).hasClass('twinkle-config-customlist-value')) {
 					current = {
 						value: input.value,
@@ -1669,13 +1669,13 @@
 	Twinkle.config.resetPrefLink = (e) => {
 		const wantedpref = e.target.id.slice(21); // "twinkle-config-reset-" prefix is stripped
 		// search tactics
-		$(Twinkle.config.sections).each((_sectionkey, section) => {
+		$(Twinkle.config.sections).each((sectionkey, section) => {
 			if (section.hidden || (section.adminOnly && !Morebits.userIsSysop)) {
 				return true; // continue: skip impossibilities
 			}
 
 			let foundit = false;
-			$(section.preferences).each((_prefkey, pref) => {
+			$(section.preferences).each((prefkey, pref) => {
 				if (pref.name !== wantedpref) {
 					return true; // continue
 				}
@@ -1701,7 +1701,7 @@
 			case 'string':
 			case 'integer':
 			case 'enum':
-				document.gquerySelector(`#${pref.name}`).value = Twinkle.defaultConfig[pref.name];
+				document.querySelector(`#${pref.name}`).value = Twinkle.defaultConfig[pref.name];
 				break;
 			case 'set':
 				for (const [itemkey] of Object.entries(pref.setValues)) {
@@ -1724,12 +1724,12 @@
 	};
 	Twinkle.config.resetAllPrefs = () => {
 		// no confirmation message - the user can just refresh/close the page to abort
-		$(Twinkle.config.sections).each((_sectionkey, section) => {
+		$(Twinkle.config.sections).each((sectionkey, section) => {
 			if (section.hidden || (section.adminOnly && !Morebits.userIsSysop)) {
 				return true; // continue: skip impossibilities
 			}
 
-			$(section.preferences).each((_prefkey, pref) => {
+			$(section.preferences).each((prefkey, pref) => {
 				if (!pref.adminOnly || Morebits.userIsSysop) {
 					Twinkle.config.resetPref(pref);
 				}
@@ -1780,12 +1780,12 @@
 			}
 			return a === b;
 		};
-		$(Twinkle.config.sections).each((_sectionkey, section) => {
+		$(Twinkle.config.sections).each((sectionkey, section) => {
 			if (section.adminOnly && !Morebits.userIsSysop) {
 				return; // i.e. "continue" in this context
 			}
 			// reach each of the preferences from the form
-			$(section.preferences).each((_prefkey, pref) => {
+			$(section.preferences).each((prefkey, pref) => {
 				let userValue; // = undefined
 				// only read form values for those prefs that have them
 				if (!pref.adminOnly || Morebits.userIsSysop) {
@@ -1857,9 +1857,11 @@
 		});
 		const nowiki = 'nowiki';
 		let text = `// <${nowiki}>\n${wgULS(
-			`// twinkleoptions.js：用户Twinkle参数设置文件\n//\n// 注：修改您的参数设置最简单的办法是使用\n// Twinkle参数设置面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 这个文件是自动生成的，您所做的任何修改（除了\n// 以一种合法的JavaScript的方式来修改这些属性值）会\n// 在下一次您点击“保存”时被覆盖。\n// 修改此文件时，请记得使用合法的JavaScript。\n\nwindow.Twinkle = window.Twinkle || {};\nwindow.Twinkle.prefs = window.Twinkle.prefs || {};\nwindow.Twinkle.prefs = `,
-			`// twinkleoptions.js：使用者Twinkle參數設定檔案\n//\n// 註：修改您的參數設定最簡單的辦法是使用\n// Twinkle參數設定面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 這個檔案是自動產生的，您所做的任何修改（除了\n// 以一種合法的JavaScript的方式來修改這些屬性值）會\n// 在下一次您點擊「儲存」時被覆蓋。\n// 修改此檔案時，請記得使用合法的JavaScript。\n\nwindow.Twinkle = window.Twinkle || {};\nwindow.Twinkle.prefs = window.Twinkle.prefs || {};\nwindow.Twinkle.prefs = `
+			`// twinkleoptions.js：用户Twinkle参数设置文件\n//\n// 注：修改您的参数设置最简单的办法是使用\n// Twinkle参数设置面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 这个文件是自动生成的，您所做的任何修改（除了\n// 以一种合法的JavaScript的方式来修改这些属性值）会\n// 在下一次您点击“保存”时被覆盖。\n// 修改此文件时，请记得使用合法的JavaScript。\n`,
+			`// twinkleoptions.js：使用者Twinkle參數設定檔案\n//\n// 註：修改您的參數設定最簡單的辦法是使用\n// Twinkle參數設定面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 這個檔案是自動產生的，您所做的任何修改（除了\n// 以一種合法的JavaScript的方式來修改這些屬性值）會\n// 在下一次您點擊「儲存」時被覆蓋。\n// 修改此檔案時，請記得使用合法的JavaScript。\n`
 		)}`;
+		text +=
+			'\nwindow.Twinkle = window.Twinkle || {};\nwindow.Twinkle.prefs = window.Twinkle.prefs || {};\nwindow.Twinkle.prefs = ';
 		text += JSON.stringify(newConfig, null, 2);
 		text += `;\n\n${wgULS('// twinkleoptions.js到此为止\n', '// twinkleoptions.js到此為止\n')}// </${nowiki}>`;
 		pageobj.setPageText(text);
