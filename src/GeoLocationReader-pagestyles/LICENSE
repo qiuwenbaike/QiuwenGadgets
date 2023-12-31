@@ -1,10 +1,11 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|titile=GeoLocationReader.less|license=CC-BY-SA-4.0|url=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/GeoLocationReader.less}}'
+ * _addText: '{{Gadget Header|titile=GeoLocationReader.less|license=CC-BY-SA-4.0}}'
  *
  * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/GeoLocationReader.less}
  */
+
 /**
  * globe Icon from OOjs UI
  *
@@ -12,6 +13,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
+
 /**
  * helpNotice Icon (ltr) from OOjs UI
  *
@@ -19,6 +21,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
+
 /**
  * settings Icon (ltr) from OOjs UI
  *
@@ -26,6 +29,7 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader/images}
  * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
  */
+
 /**
  * userAvatar Icon (ltr) from OOjs UI
  *

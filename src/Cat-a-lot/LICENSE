@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title1=Cat-a-lot.js|license=CC-BY-SA-4.0|url1=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/core.ts}}'
+ * _addText: '{{Gadget Header|title1=Cat-a-lot.js|license=CC-BY-SA-4.0}}'
  *
  * Cat-a-lot
  *
@@ -9,9 +9,10 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/core.ts}
  * @author Magnus Manske, Ilmari Karonen, DieBuche, 安忆 <i@anyi.in>
  */
+
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title2=Cat-a-lot Messages|license2=CC-BY-SA-4.0|url2=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/messages.ts}}'
+ * _addText: '{{Gadget Header|title2=Cat-a-lot Messages|license2=CC-BY-SA-4.0}}'
  *
  * Cat-a-lot messages
  *
@@ -19,9 +20,10 @@
  * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js/zh-hant}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/messages.ts}
  */
+
 /**
  * SPDX-License-Identifier: GPLv2
- * _addText: '{{Gadget Header|title3=jQuery checkboxShiftClick|license3=GPLv2|url3=https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/extendJQueryPrototype.ts}}'
+ * _addText: '{{Gadget Header|title3=jQuery checkboxShiftClick|license3=GPLv2}}'
  *
  * jQuery checkboxShiftClick
  *
