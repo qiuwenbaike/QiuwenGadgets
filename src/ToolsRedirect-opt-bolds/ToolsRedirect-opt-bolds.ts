@@ -1,9 +1,18 @@
+import {WG_WIKI_ID} from './modules/constant';
 import {initMwApi} from '~/util';
 
-if (!mw.user.options.get('gadget-ToolsRedirect')) {
-	void initMwApi(`Qiuwen/1.1 (ToolsRedirect-opt-bolds-names/2.0; ${mw.config.get('wgWikiID')})`).postWithEditToken({
+((): void => {
+	if (mw.user.options.get('gadget-ToolsRedirect')) {
+		return;
+	}
+
+	const api = initMwApi(`Qiuwen/1.1 (ToolsRedirect-opt-bolds-names/2.0; ${WG_WIKI_ID})`);
+
+	void api.postWithEditToken({
 		action: 'options',
 		format: 'json',
 		change: 'gadget-ToolsRedirect=1',
 	});
-}
+
+	void mw.loader.using(['ext.gadget.ToolsRedirect']);
+})();
