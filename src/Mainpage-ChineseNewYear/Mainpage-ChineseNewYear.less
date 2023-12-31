@@ -5,15 +5,9 @@
 .skin-vector.page-Qiuwen_首页.action-view .mw-body,
 .skin-gongbi.page-Qiuwen_首页.action-view #mw-content {
 	background: rgba(204, 51, 51, 0.075);
-
-	.client-darkmode & {
-		background: transparent;
-	}
 }
 
 .mainpage {
-	background: transparent;
-
 	a {
 		&,
 		&.extiw,
@@ -78,6 +72,22 @@
 	&-link-button {
 		&:hover {
 			background: #c33 !important;
+			color: @const-color-white !important;
+
+			a {
+				&,
+				&.extiw,
+				&.external {
+					&,
+					&:visited {
+						&,
+						&:hover {
+							color: @const-color-white !important;
+							text-decoration: none;
+						}
+					}
+				}
+			}
 		}
 
 		a {
@@ -135,18 +145,12 @@
 /* === Skin-specific rules === */
 
 /* For Citizen skin */
-.mw-logo-icon {
-	content: data-uri('./images/logo.svg');
-}
-
 html {
-	&.citizen-loading {
-		&::after {
-			background:
-				linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
-				transparent;
-			filter: drop-shadow(0 0 16px #c33);
-		}
+	&.citizen-loading::after {
+		background:
+			linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
+			transparent;
+		filter: drop-shadow(0 0 16px #c33);
 	}
 }
 
@@ -159,11 +163,11 @@ html {
 #sliderCollapseLogo,
 .wordmark {
 	img {
-		content: data-uri('./images/wordmark.svg');
+		filter: hue-rotate(141deg);
 	}
 }
 
 /* For Vector skin */
 .mw-wiki-logo {
-	background-image: data-uri('./images/square.svg');
+	filter: hue-rotate(141deg);
 }
