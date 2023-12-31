@@ -3,9 +3,8 @@
 export const toolsRedirect_bio_latin_names = () => {
 	const prefixRegex = /[学學]名\s*：?\s*$/;
 	const colonRegex = /^\s*[:：]?\s*$/;
-	const {toolsRedirect} = window;
-	toolsRedirect.findRedirectCallback((_pagename, $content) => {
-		const titles = [];
+	window.toolsRedirect.findRedirectCallback((_pagename, $content) => {
+		const titles: string[] = [];
 		$content.find('> p > [lang="la"], > p > i').each((_index, element) => {
 			let title;
 			let previousNode = element.previousSibling;
@@ -15,7 +14,7 @@ export const toolsRedirect_bio_latin_names = () => {
 			if (previousNode && prefixRegex.test(previousNode.textContent)) {
 				title = $(element).text().trim();
 				titles.push(title);
-				toolsRedirect.setRedirectTextSuffix(title, '\n{{学名重定向}}');
+				window.toolsRedirect.setRedirectTextSuffix(title, '\n{{学名重定向}}');
 			}
 		});
 		return [...new Set(titles)];

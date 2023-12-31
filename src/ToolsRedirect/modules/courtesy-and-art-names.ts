@@ -1,8 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-export const toolsRedirect_courtesy_and_art_names = () => {
+export const toolsRedirect_courtesy_and_art_names = (): void => {
 	const prefixRegex = /[号字號]\s*$/;
-	const {findRedirectCallback} = window.toolsRedirect;
 	const compSurnames = [
 		'欧阳',
 		'歐陽',
@@ -71,15 +70,15 @@ export const toolsRedirect_courtesy_and_art_names = () => {
 		'田丘',
 	];
 	const compSurnameRegex = new RegExp(`^(${compSurnames.join('|')}).`);
-	const findSurname = (pagename) => {
+	const findSurname = (pagename: string) => {
 		if (compSurnameRegex.test(pagename)) {
 			return compSurnameRegex.exec(pagename)[1];
 		}
 		return pagename[0];
 	};
-	findRedirectCallback((pagename, $content) => {
+	window.toolsRedirect.findRedirectCallback((pagename, $content) => {
 		let surname;
-		const titles = [];
+		const titles: string[] = [];
 		$content.find('> p > b').each((_index, element) => {
 			const previousNode = element.previousSibling;
 			if (previousNode && prefixRegex.test(previousNode.textContent)) {

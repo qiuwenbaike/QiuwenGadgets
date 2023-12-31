@@ -1,6 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {IS_CATEGORY, WG_NAMESPACE_NUMBER, WG_PAGE_NAME, WG_WIKI_ID} from './constant';
+import {
+	IS_CATEGORY,
+	SUFFIX_APPEND,
+	SUFFIX_REPLACE,
+	SUFFIX_SETDEFAULT,
+	WG_NAMESPACE_IDS,
+	WG_NAMESPACE_NUMBER,
+	WG_PAGE_NAME,
+	WG_WIKI_ID,
+} from './constant';
+import {getMessage} from './util/getMessages';
 import {initMwApi} from '~/util';
 
 const api = initMwApi(`Qiuwen/1.1 (ToolsRedirect/2.0; ${WG_WIKI_ID})`);
@@ -11,12 +21,8 @@ const redirectExcludes = {};
 const nsPrefixes = [];
 let nsCanonPrefix, nsPrefixPattern;
 
-const SUFFIX_APPEND = 0;
-const SUFFIX_REPLACE = 1;
-const SUFFIX_SETDEFAULT = 2;
-
-for (const [text, nsid] of Object.entries(mw.config.get('wgNamespaceIds'))) {
-	if (nsid === mw.config.get('wgNamespaceNumber') && !!text) {
+for (const [text, nsid] of Object.entries(WG_NAMESPACE_IDS)) {
+	if (nsid === WG_NAMESPACE_NUMBER && !!text) {
 		nsPrefixes.push(text);
 	}
 }
@@ -46,60 +52,65 @@ const fixNamespace = (title) => {
  * Add new custom callback for finding new potential redirect titles.
  *
  * @param {Function} callback (pagename, $content, titles) => title list
+ * @param {...Function} args
+ * @return {Object}
  */
-window.toolsRedirect = {
-	SUFFIX_APPEND,
-	SUFFIX_REPLACE,
-	SUFFIX_SETDEFAULT,
-	findRedirectCallback(callback, ...args) {
-		if (callback) {
-			findRedirectCallbacks.push(callback);
-		} else {
-			$.merge(findRedirectCallbacks, [callback, ...args]);
-		}
-		return this;
-	},
-	findRedirectBySelector(selector) {
-		/* A shortcut to add CSS selectors as rule to find new potential redirect titles. */
-		findRedirectCallbacks.push(() => {
-			return $(selector).map((_index, element) => {
-				const title = $(element).text();
-				return title || null;
-			});
+const findRedirectCallback = function (callback, ...args) {
+	if (callback) {
+		findRedirectCallbacks.push(callback);
+	} else {
+		$.merge(findRedirectCallbacks, [callback, ...args]);
+	}
+	return this;
+};
+
+/**
+ * Find new potential redirect titles through selector(s)
+ *
+ * @param {string} selector
+ * @return {Object}
+ */
+const findRedirectBySelector = function (selector) {
+	/* A shortcut to add CSS selectors as rule to find new potential redirect titles. */
+	findRedirectCallbacks.push(() => {
+		return $(selector).map((_index, element) => {
+			const title = $(element).text();
+			return title || null;
 		});
-		return this;
-	},
-	setRedirectTextSuffix(title, suffix, flag) {
-		let flag_set = false;
-		let flag_append = false;
-		flag ||= SUFFIX_APPEND; // default append
-		flag_set = flag === SUFFIX_REPLACE;
-		title = fixNamespace(title);
-		if (title in pageWithRedirectTextSuffix) {
-			flag_append = flag === SUFFIX_APPEND;
-		} else {
-			// if not exist, every flag can set
-			flag_set = true;
-		}
-		if (flag_set) {
-			pageWithRedirectTextSuffix[title] = suffix;
-		} else if (flag_append) {
-			pageWithRedirectTextSuffix[title] += suffix;
-		}
-	},
+	});
+	return this;
+};
+
+const setRedirectTextSuffix = (title, suffix, flag) => {
+	let flag_set = false;
+	let flag_append = false;
+	flag ||= SUFFIX_APPEND; // default append
+	flag_set = flag === SUFFIX_REPLACE;
+	title = fixNamespace(title);
+	if (title in pageWithRedirectTextSuffix) {
+		flag_append = flag === SUFFIX_APPEND;
+	} else {
+		// if not exist, every flag can set
+		flag_set = true;
+	}
+	if (flag_set) {
+		pageWithRedirectTextSuffix[title] = suffix;
+	} else if (flag_append) {
+		pageWithRedirectTextSuffix[title] += suffix;
+	}
+};
+
+/* export global object */
+window.toolsRedirect = {
+	findRedirectCallback,
+	findRedirectBySelector,
+	setRedirectTextSuffix,
 };
 
 export const ToolsRedirect = {
 	tabselem: null,
 	tagselem: null,
 	variants: ['zh-hans', 'zh-hant', 'zh-cn', 'zh-hk', 'zh-mo', 'zh-sg', 'zh-tw'],
-	msg(key, ...args) {
-		// Messages that can be used here:
-		// * see messages.js
-		// * for more information
-		key = `toolsredirect-${key}`;
-		return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
-	},
 	init() {
 		const self = this;
 		const $body = $('body');
@@ -107,7 +118,7 @@ export const ToolsRedirect = {
 			.addClass('mw-list-item collapsible')
 			.attr('id', 'ca-redirect')
 			.css('cursor', 'pointer')
-			.append($('<a>').attr('title', ToolsRedirect.msg('btndesc')).text(ToolsRedirect.msg('btntitle')));
+			.append($('<a>').attr('title', getMessage('btndesc')).text(getMessage('btntitle')));
 		button.on('click', (event) => {
 			event.preventDefault();
 			self.dialog();
@@ -115,8 +126,8 @@ export const ToolsRedirect = {
 		$body.find('li#ca-history').after(button);
 	},
 	dialog() {
-		const dlg = $('<div>')
-			.attr('title', ToolsRedirect.msg('dlgtitle'))
+		const dialog = $('<div>')
+			.attr('title', getMessage('dlgtitle'))
 			.addClass('dialog-redirect')
 			.dialog({
 				bgiframe: true,
@@ -125,8 +136,8 @@ export const ToolsRedirect = {
 				width: Math.round($(window).width() * 0.8),
 				position: 'center',
 			});
-		dlg.css('max-height', `${Math.round($(window).height() * 0.8)}px`);
-		this.tabselem = $('<div>').addClass('tab-redirect').appendTo(dlg);
+		dialog.css('max-height', `${Math.round($(window).height() * 0.8)}px`);
+		this.tabselem = $('<div>').addClass('tab-redirect').appendTo(dialog);
 		this.tagselem = $('<ul>').appendTo(this.tabselem);
 		this.addTabs();
 		this.tabselem.tabs();
@@ -159,10 +170,10 @@ export const ToolsRedirect = {
 		};
 	},
 	_initTabView() {
-		return this.createTab('view', ToolsRedirect.msg('tabviewtitle'), this.loadView);
+		return this.createTab('view', getMessage('tabviewtitle'), this.loadView);
 	},
 	_initTabCreate() {
-		return this.createTab('create', ToolsRedirect.msg('tabcreatetitle'), this.loadCreate);
+		return this.createTab('create', getMessage('tabcreatetitle'), this.loadCreate);
 	},
 	tabs: {
 		view: null,
@@ -170,28 +181,26 @@ export const ToolsRedirect = {
 	},
 	fix(pagenames) {
 		const self = this;
-		$('p.desc', this.tabs.view.cont).text(ToolsRedirect.msg('fixloading'));
+		$('p.desc', this.tabs.view.cont).text(getMessage('fixloading'));
 		$('p[class!=desc]', this.tabs.view.cont).remove();
 		this.loading(this.tabs.view.cont);
-		this.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, ToolsRedirect.msg('fixsummary')).done(
-			() => {
-				// delay load before the asynchronous tasks on server finished
-				setTimeout(() => {
-					self.loaded(self.tabs.view.cont);
-					self.loadView(true);
-				}, 3000);
-			}
-		);
+		this.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary')).done(() => {
+			// delay load before the asynchronous tasks on server finished
+			setTimeout(() => {
+				self.loaded(self.tabs.view.cont);
+				self.loadView(true);
+			}, 3000);
+		});
 	},
 	create(pagenames) {
 		const self = this;
-		$('p.desc', this.tabs.create.cont).text(ToolsRedirect.msg('createloading'));
+		$('p.desc', this.tabs.create.cont).text(getMessage('createloading'));
 		$('p[class!=desc]', this.tabs.create.cont).remove();
 		this.loading(this.tabs.create.cont);
 		this.bulkEdit(
 			pagenames,
-			ToolsRedirect.msg('createtext').replace('$1', WG_PAGE_NAME),
-			ToolsRedirect.msg('createsummary').replace('$1', WG_PAGE_NAME)
+			getMessage('createtext').replace('$1', WG_PAGE_NAME),
+			getMessage('createsummary').replace('$1', WG_PAGE_NAME)
 		).done(() => {
 			// delay load before the asynchronous tasks on server finished
 			setTimeout(() => {
@@ -286,7 +295,7 @@ export const ToolsRedirect = {
 			//
 			const $desc = $('<p>')
 				.addClass('desc')
-				.append($('<span>').addClass('desc-text').text(ToolsRedirect.msg('rediloading')))
+				.append($('<span>').addClass('desc-text').text(getMessage('rediloading')))
 				.appendTo(tab.cont);
 			const $text = $desc.find('> .desc-text');
 			callback
@@ -295,19 +304,19 @@ export const ToolsRedirect = {
 					// Messages that can be used here:
 					// * see messages.js
 					// * for more information
-					$text.text(ToolsRedirect.msg(`tab${tabname}desc`));
+					$text.text(getMessage(`tab${tabname}desc`));
 				})
 				.fail(() => {
 					// Messages that can be used here:
 					// * see messages.js
 					// * for more information
-					$text.text(ToolsRedirect.msg(`tab${tabname}notfound`));
+					$text.text(getMessage(`tab${tabname}notfound`));
 				})
 				.always(() => {
 					self.addMethods($desc, [
 						{
 							href: '#refresh',
-							title: ToolsRedirect.msg('refresh'),
+							title: getMessage('refresh'),
 							click(event) {
 								event.preventDefault();
 								self.loadTabCont(tabname, callback, true);
@@ -441,7 +450,7 @@ export const ToolsRedirect = {
 			self.loaded(container);
 			let has_redirect = false;
 			const desc = $('p.desc', self.tabs.view.cont);
-			const maximumRedirectDepth = mw.config.get('toolsRedirectMaximumRedirectDepth', 10);
+			const maximumRedirectDepth = 10;
 			for (const page of query.pages) {
 				if (page.redirects) {
 					const {redirects} = page;
@@ -452,7 +461,7 @@ export const ToolsRedirect = {
 						const methods = [
 							{
 								href: mw.util.getUrl(ultitle, {action: 'edit'}),
-								title: ToolsRedirect.msg('rediedit'),
+								title: getMessage('rediedit'),
 							},
 						];
 						const isCycleRedirect = rdtitle in loaded;
@@ -460,7 +469,7 @@ export const ToolsRedirect = {
 						if (!isCycleRedirect && deep) {
 							methods.push({
 								href: '#fix-redirect',
-								title: ToolsRedirect.msg('tabviewfix'),
+								title: getMessage('tabviewfix'),
 								click: onClickFix,
 							});
 						}
@@ -476,7 +485,7 @@ export const ToolsRedirect = {
 							)
 							.appendTo(entry);
 						if (isCycleRedirect) {
-							$container.append(`<span class="error">${ToolsRedirect.msg('errcycleredirect')}</span>`);
+							$container.append(`<span class="error">${getMessage('errcycleredirect')}</span>`);
 						} else if (deep < maximumRedirectDepth) {
 							deferObj.done(() => {
 								return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
@@ -492,7 +501,7 @@ export const ToolsRedirect = {
 				self.addMethods(desc, [
 					{
 						href: '#select-all',
-						title: ToolsRedirect.msg('selectall'),
+						title: getMessage('selectall'),
 						click(event) {
 							event.preventDefault();
 							self.selectAll(self.tabs.view.cont);
@@ -500,7 +509,7 @@ export const ToolsRedirect = {
 					},
 					{
 						href: '#select-inverse',
-						title: ToolsRedirect.msg('selectinverse'),
+						title: getMessage('selectinverse'),
 						click(event) {
 							event.preventDefault();
 							self.selectInverse(self.tabs.view.cont);
@@ -508,7 +517,7 @@ export const ToolsRedirect = {
 					},
 					{
 						href: '#fix-selected',
-						title: ToolsRedirect.msg('tabviewfix'),
+						title: getMessage('tabviewfix'),
 						click(event) {
 							event.preventDefault();
 							self.selectAction(self.tabs.view.cont, self.fix);
@@ -551,7 +560,7 @@ export const ToolsRedirect = {
 					let title = $(displaytitle).text();
 					title = fixNamespace(title);
 					if (variant in simpAndTrad) {
-						window.toolsRedirect.setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
+						setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
 					}
 					return title;
 				});
@@ -653,13 +662,10 @@ export const ToolsRedirect = {
 							titles.push(title);
 							if (IS_CATEGORY) {
 								const target = WG_PAGE_NAME.replace(/^Category:/, '');
-								window.toolsRedirect.setRedirectTextSuffix(
-									title,
-									'\n{{分类重定向|$1}}'.replace('$1', target)
-								);
+								setRedirectTextSuffix(title, '\n{{分类重定向|$1}}'.replace('$1', target));
 							}
 							// only set default suffix
-							window.toolsRedirect.setRedirectTextSuffix(title, '\n{{别名重定向}}', SUFFIX_SETDEFAULT);
+							setRedirectTextSuffix(title, '\n{{别名重定向}}', SUFFIX_SETDEFAULT);
 						}
 					}
 					return titles;
@@ -722,7 +728,7 @@ export const ToolsRedirect = {
 						[
 							{
 								href: '#create-redirect',
-								title: ToolsRedirect.msg('tabcreatetitle'),
+								title: getMessage('tabcreatetitle'),
 								click: onClickCreate,
 							},
 						],
@@ -735,7 +741,7 @@ export const ToolsRedirect = {
 					self.addMethods(desc, [
 						{
 							href: '#select-all',
-							title: ToolsRedirect.msg('selectall'),
+							title: getMessage('selectall'),
 							click(event) {
 								event.preventDefault();
 								self.selectAll(container);
@@ -743,7 +749,7 @@ export const ToolsRedirect = {
 						},
 						{
 							href: '#select-inverse',
-							title: ToolsRedirect.msg('selectinverse'),
+							title: getMessage('selectinverse'),
 							click(event) {
 								event.preventDefault();
 								self.selectInverse(container);
@@ -751,7 +757,7 @@ export const ToolsRedirect = {
 						},
 						{
 							href: '#create-selected',
-							title: ToolsRedirect.msg('tabcreatetitle'),
+							title: getMessage('tabcreatetitle'),
 							click(event) {
 								event.preventDefault();
 								self.selectAction(container, self.create);
