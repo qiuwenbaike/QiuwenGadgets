@@ -64,51 +64,33 @@
 		}
 	}
 
-	&-header .mainpage-slogan img {
-		content: data-uri('./images/mainpage-slogan.svg');
+	&-header {
+		.mainpage-slogan {
+			img {
+				content: data-uri('./images/mainpage-slogan.svg');
+			}
+		}
 	}
 
 	&-link-button {
 		&:hover {
 			background: #c33 !important;
+			color: @const-color-white !important;
 		}
 	}
 }
 
 /* === Other elements === */
-
-#sidebarButton {
-	content: data-uri('./images/sidebarButton-collapse.svg');
-
-	html.client-collapsedsidebar & {
-		content: data-uri('./images/sidebarButton-expand.svg');
-	}
-}
-
-#darkmode-button {
-	content: data-uri('./images/darkmode-button.svg');
-}
-
+#darkmode-button,
+#sidebarButton,
+.skin-citizen #pt-login a,
+.citizen-header__button,
+.citizen-drawer__menu a:hover,
+.gadget-advanced_site_notices,
+.gadget-cookie_warning,
+.gadget-report-button,
 .gadget-scroll_up_button {
-	&__down,
-	&__up {
-		content: data-uri('./images/scroll-button.svg');
-	}
-}
-
-.gadget-advanced_site_notices {
-	&__area a {
-		color: #c33;
-	}
-
-	&__title {
-		background: #c33;
-		color: @const-color-white;
-	}
-
-	&__dismiss a:hover {
-		background-image: data-uri('./images/close.svg');
-	}
+	filter: hue-rotate(141deg);
 }
 
 .mw-footer {
@@ -136,11 +118,13 @@
 	content: data-uri('./images/logo.svg');
 }
 
-html.citizen-loading::after {
-	background:
-		linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
-		transparent;
-	filter: drop-shadow(0 0 16px #c33);
+html {
+	&.citizen-loading::after {
+		background:
+			linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
+			transparent;
+		filter: drop-shadow(0 0 16px #c33);
+	}
 }
 
 /* For Gongbi skin */
@@ -150,8 +134,10 @@ html.citizen-loading::after {
 
 /* For Gongbi and Vector skins */
 #sliderCollapseLogo,
-.wordmark img {
-	content: data-uri('./images/wordmark.svg');
+.wordmark {
+	img {
+		content: data-uri('./images/wordmark.svg');
+	}
 }
 
 /* For Vector skin */
