@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, mediawiki/class-doc */
 import * as OPTIONS from '../options.json';
 import {
-	API_ENTRY_POINT,
 	CLASS_NAME,
 	CLASS_NAME_CONTAINER,
 	CLASS_NAME_CONTAINER_DATA,
@@ -42,7 +41,6 @@ const catALot = (): void => {
 		private static readonly DEFAULT_SETTING: Setting = DEFAULT_SETTING;
 		private static readonly VERSION: string = OPTIONS.version;
 
-		private static readonly API_ENTRY_POINT: string = API_ENTRY_POINT;
 		private static readonly API_TAG: string = OPTIONS.apiTag;
 		private static readonly TARGET_NAMESPACE: number = OPTIONS.targetNamespace;
 
@@ -347,18 +345,14 @@ const catALot = (): void => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			params: Record<string, any>,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			callback: (response: any, textStatus: JQuery.Ajax.SuccessTextStatus, jqXHR: JQuery.jqXHR) => void
+			callback: (data: any) => void
 		) {
 			params['format'] = 'json';
 			params['formatversion'] = '2';
 			let i: number = 0;
 			const doCall = (): void => {
-				const handleError = (
-					jqXHR: JQuery.jqXHR,
-					textStatus: JQuery.Ajax.ErrorTextStatus,
-					errorThrown: string
-				): void => {
-					mw.log.error('[Cat-a-lot] Ajax error:', jqXHR, textStatus, errorThrown);
+				const handleError = (error: string): void => {
+					mw.log.error('[Cat-a-lot] Ajax error:', error);
 					if (i < 4) {
 						setTimeout(doCall, 300);
 						i++;
@@ -367,18 +361,8 @@ const catALot = (): void => {
 						this.updateCounter();
 					}
 				};
-				void $.ajax({
-					headers: {
-						'Api-User-Agent': `Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`,
-					},
-					url: CAL.API_ENTRY_POINT,
-					cache: false,
-					dataType: 'json',
-					data: params,
-					type: 'POST',
-					success: callback,
-					error: handleError,
-				});
+				const api = initMwApi(`Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`);
+				void api.post(params).done(callback).fail(handleError);
 			};
 			doCall();
 		}
