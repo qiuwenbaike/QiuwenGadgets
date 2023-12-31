@@ -1,4 +1,6 @@
+import {WG_WIKI_ID} from './constant';
 import {getMessage} from './i18n';
+import {initMwApi} from '~/util';
 
 export const QuickPatrol = (): void => {
 	const $body: JQuery<HTMLBodyElement> = $('body');
@@ -21,19 +23,17 @@ export const QuickPatrol = (): void => {
 				'data-revid': revId,
 			});
 		$patrolBtn.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
+			const api = initMwApi(`Qiuwen/1.1 (QuickPatrol/2.0; ${WG_WIKI_ID})`);
 			const {btnid, revid} = event.currentTarget.dataset;
-			void $.ajax({
-				type: 'POST',
-				url: `${mw.config.get('wgScriptPath')}/api.php`,
-				data: {
+			void api
+				.postWithToken('patrol', {
 					action: 'patrol',
 					format: 'json',
-					token: mw.user.tokens.get('patrolToken'),
-					revid,
-				},
-				success: (data): void => {
-					if (data.error) {
-						void mw.notify(getMessage('API') + data.error.info, {type: 'error', tag: 'QuickPatrol'});
+					revid: revid as string,
+				})
+				.done(({error}): void => {
+					if (error) {
+						void mw.notify(getMessage('API') + error['info'], {type: 'error', tag: 'QuickPatrol'});
 						$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 					} else {
 						$(`#gadget-quick_patrol__${btnid}`)
@@ -43,13 +43,12 @@ export const QuickPatrol = (): void => {
 							})
 							.text(getMessage('Patrolled'));
 					}
-				},
-				error: (error): void => {
+				})
+				.fail((error): void => {
 					void mw.notify(getMessage('AJAX'), {type: 'error', tag: 'QuickPatrol'});
 					console.error('[QuickPatrol] Ajax error:', error);
 					$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
-				},
-			});
+				});
 		});
 		$patrolBtn.appendTo(element);
 	});
