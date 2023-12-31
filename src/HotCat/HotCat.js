@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import './modules/check';
-import {hotCatLocalDefaults} from './modules/localDefaults';
+import {WG_WIKI_ID} from './modules/constant';
+import {getMessage} from './modules/getMessage';
 import {hotCatMessages} from './modules/messages';
 import {initMwApi} from '~/util';
 
@@ -14,6 +15,10 @@ import {initMwApi} from '~/util';
  * @see {@link https://commons.wikimedia.org/wiki/Help:Gadget-HotCat}
  * @author authors <https://commons.wikimedia.org/wiki/Help:Gadget-HotCat/Version_history>
  */
+// Load translations locally
+hotCatMessages();
+
+// Main body
 (function hotCat() {
 	// Don't use mw.config.get() as that takes a copy of the config, and so doesn't
 	// account for values changing, e.g. wgCurRevisionId after a VE edit
@@ -23,60 +28,9 @@ import {initMwApi} from '~/util';
 		return; // Not on edit mode
 	}
 	// Initialize MediaWiki API
-	const api = initMwApi(`Qiuwen/1.1 (HotCat/3.0; ${mw.config.get('wgWikiID')})`);
+	const api = initMwApi(`Qiuwen/1.1 (HotCat/3.0; ${WG_WIKI_ID})`);
 	// Configuration stuff.
 	window.HotCat = {
-		// Localize these messages to the main language of your wiki.
-		messages: {
-			cat_removed: 'removed [[Category:$1]]',
-			template_removed: 'removed {{[[Category:$1]]}}',
-			cat_added: 'added [[Category:$1]]',
-			cat_keychange: 'new key for [[Category:$1]]: "$2"',
-			// $2 is the new key
-			cat_notFound: 'Category "$1" not found',
-			cat_exists: 'Category "$1" already exists; not added.',
-			cat_resolved: ' (redirect [[Category:$1]] resolved)',
-			uncat_removed: 'removed {{uncategorized}}',
-			separator: '; ',
-			// Some text to prefix to the edit summary.
-			prefix: '',
-			// Some text to append to the edit summary. Named 'using' for historical reasons. If you prefer
-			// to have a marker at the front, use prefix and set this to the empty string.
-			using: ' using [[Help:Gadget-HotCat|HotCat]]',
-			// $1 is replaced by a number. If your language has several plural forms (c.f. [[:enwiki:Dual (grammatical form)]]),
-			// you can set this to an array of strings suitable for passing to mw.language.configPlural().
-			// If that function doesn't exist, HotCat will simply fall back to using the last
-			// entry in the array.
-			multi_change: '$1 categories',
-			// Button text. Localize to wgContentLanguage here; localize to wgUserLanguage in a subpage,
-			// see localization hook below.
-			commit: 'Save',
-			// Button text. Localize to wgContentLanguage here; localize to wgUserLanguage in a subpage,
-			// see localization hook below.
-			ok: 'OK',
-			// Button text. Localize to wgContentLanguage here; localize to wgUserLanguage in a subpage,
-			// see localization hook below.
-			cancel: 'Cancel',
-			// Localize to wgContentLanguage here; localize to wgUserLanguage in a subpage,
-			// see localization hook below.
-			multi_error:
-				'Could not retrieve the page text from the server. Therefore, your category changes cannot be saved. We apologize for the inconvenience.',
-			// Defaults to '[[' + category_canonical + ':$1]]'. Can be overridden if in the short edit summaries
-			// not the standard category name should be used but, say, a shorter namespace alias. $1 is replaced
-			// by a category name.
-			short_catchange: null,
-		},
-		// Plural of category_canonical.
-		categories: 'Categories',
-		// Any category in this category is deemed a disambiguation category; i.e., a category that should not contain
-		// any items, but that contains links to other categories where stuff should be categorized. If you don't have
-		// that concept on your wiki, set it to null. Use blanks, not underscores.
-		disambig_category: 'Disambiguation',
-		// Any category in this category is deemed a (soft) redirect to some other category defined by a link
-		// to another non-blacklisted category. If your wiki doesn't have soft category redirects, set this to null.
-		// If a soft-redirected category contains more than one link to another non-blacklisted category, it's considered
-		// a disambiguation category instead.
-		redir_category: 'Category redirects',
 		// The little modification links displayed after category names. U+2212 is a minus sign; U+2193 and U+2191 are
 		// downward and upward pointing arrows. Do not use ↓ and ↑ in the code!
 		links: {
@@ -89,20 +43,8 @@ import {initMwApi} from '~/util';
 			up: '(\u2191)',
 		},
 		changeTag: 'HotCat',
-		// The tooltips for the above links
-		tooltips: {
-			change: 'Modify',
-			remove: 'Remove',
-			add: 'Add a new category',
-			restore: 'Undo changes',
-			undo: 'Undo changes',
-			down: 'Open for modifying and display subcategories',
-			up: 'Open for modifying and display parent categories',
-		},
 		// The HTML content of the "enter multi-mode" link at the front.
 		addmulti: '<span>+<sup>+</sup></span>',
-		// Tooltip for the "enter multi-mode" link
-		multi_tooltip: 'Modify several categories',
 		// Return true to disable HotCat.
 		disable: () => {
 			const ns = conf.wgNamespaceNumber;
@@ -134,14 +76,6 @@ import {initMwApi} from '~/util';
 		// value: A regexp matching the template name, again without namespace
 		// If you don't have this at your wiki, or don't want this, set it to an empty object {}.
 		template_categories: {},
-		// Names for the search engines
-		engine_names: {
-			searchindex: 'Search index',
-			pagelist: 'Page list',
-			combined: 'Combined search',
-			subcat: 'Subcategories',
-			parentcat: 'Parent categories',
-		},
 		// Override the decision of whether HotCat should help users by automatically
 		// capitalising the title in the user input text if the wiki has case-sensitive page names.
 		// Basically, this will make an API query to check the MediaWiki configuration and HotCat then sets
@@ -218,48 +152,6 @@ import {initMwApi} from '~/util';
 	const is_webkit = /applewebkit\/\d+/.test(ua) && !ua.includes('spoofer');
 	let cat_prefix = null;
 	let noSuggestions = false;
-	class LoadTrigger {
-		constructor(needed) {
-			// Define methods in a closure so that self reference is available,
-			// also allows method calls to be detached.
-			const self = this;
-			self.queue = [];
-			self.needed = needed;
-			self.register = (callback) => {
-				if (self.needed <= 0) {
-					callback(); // Execute directly
-				} else {
-					self.queue.push(callback);
-				}
-			};
-			self.loaded = () => {
-				self.needed--;
-				if (self.needed === 0) {
-					// Run queued callbacks once
-					for (let i = 0; i < self.queue.length; i++) {
-						self.queue[i]();
-					}
-					self.queue = [];
-				}
-			};
-		}
-	}
-	// Used to delay running the HotCat setup until local-defaults and localizations have been loaded.
-	const loadTrigger = new LoadTrigger(2);
-	// Load local configurations, overriding the pre-set default values in the HotCat object above. This is always loaded
-	// from the wiki where this script is executing, even if this script itself is hotlinked from Commons. This can
-	// be used to change the default settings, or to provide localized interface texts for edit summaries and so on.
-	hotCatLocalDefaults();
-	loadTrigger.loaded();
-	// Load localized UI texts. These are the texts that HotCat displays on the page itself. Texts shown in edit summaries
-	// should be localized in local-defaults above.
-	if (conf.wgUserLanguage === 'en') {
-		loadTrigger.loaded();
-	} else {
-		// Load translations locally
-		hotCatMessages();
-		loadTrigger.loaded();
-	}
 	// No further changes should be necessary here.
 	// The following regular expression strings are used when searching for categories in wikitext.
 	const wikiTextBlank = '[\\t _\\xA0\\u1680\\u180E\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000]+';
@@ -414,7 +306,6 @@ import {initMwApi} from '~/util';
 			});
 		};
 	};
-	const substitute = substituteFactory();
 	const replaceShortcuts = (() => {
 		const replaceHash = substituteFactory({
 			indicator: '#',
@@ -521,7 +412,7 @@ import {initMwApi} from '~/util';
 				return {
 					text: wikitext,
 					summary,
-					error: HC.messages.cat_notFound.replace(/\$1/g, toRemove),
+					error: getMessage('hotcat-messages-cat_notFound', toRemove),
 				};
 			}
 			let before = wikitext.slice(0, Math.max(0, matches[0].match.index));
@@ -573,9 +464,9 @@ import {initMwApi} from '~/util';
 			wikitext = before + after;
 			if (!keyChange) {
 				if (HC.template_categories[toRemove]) {
-					summary.push(HC.messages.template_removed.replace(/\$1/g, toRemove));
+					summary.push(getMessage('hotcat-messages-template_removed', toRemove));
 				} else {
-					summary.push(HC.messages.cat_removed.replace(/\$1/g, toRemove));
+					summary.push(getMessage('hotcat-messages-cat_removed', toRemove));
 				}
 			}
 		}
@@ -587,7 +478,7 @@ import {initMwApi} from '~/util';
 				return {
 					text: wikitext,
 					summary,
-					error: HC.messages.cat_exists.replace(/\$1/g, toAdd),
+					error: getMessage('hotcat-messages-cat_exists', toAdd),
 				};
 			}
 			let onCat = false;
@@ -618,15 +509,15 @@ import {initMwApi} from '~/util';
 				if (k.length > 0) {
 					k = k.slice(1);
 				}
-				summary.push(substitute(HC.messages.cat_keychange, [null, toAdd, k]));
+				summary.push(getMessage('hotcat-messages-cat_keychange', toAdd, k));
 			} else {
-				summary.push(HC.messages.cat_added.replace(/\$1/g, toAdd));
+				summary.push(getMessage('hotcat-messages-cat_added', toAdd));
 			}
 			if (HC.uncat_regexp && !is_hidden) {
 				const txt = wikitext.replace(HC.uncat_regexp, ''); // Remove "uncat" templates
 				if (txt.length !== wikitext.length) {
 					wikitext = txt;
-					summary.push(HC.messages.uncat_removed);
+					summary.push(getMessage('hotcat-messages-uncat_removed'));
 				}
 			}
 		}
@@ -798,11 +689,7 @@ import {initMwApi} from '~/util';
 			});
 	};
 	const multiChangeMsg = (count) => {
-		let msg = HC.messages.multi_change;
-		if (typeof msg !== 'string' && msg.length > 0) {
-			msg = mw.language?.convertPlural ? mw.language.convertPlural(count, msg) : msg.at(-1);
-		}
-		return substitute(msg, [null, String(count)]);
+		return getMessage('hotcat-messages-multi_change', String(count));
 	};
 	const currentTimestamp = () => {
 		const now = new Date();
@@ -820,16 +707,8 @@ import {initMwApi} from '~/util';
 	};
 	const performChanges = (failure, singleEditor) => {
 		if (pageText === null) {
-			failure(HC.messages.multi_error);
+			failure(getMessage('hotcat-messages-multi_error'));
 			return;
-		}
-		// Backwards compatibility after message change (added $2 to cat_keychange)
-		if (!HC.messages.cat_keychange.includes('$2')) {
-			HC.messages.cat_keychange += '"$2"';
-		}
-		// More backwards-compatibility with earlier HotCat versions:
-		if (!HC.messages.short_catchange) {
-			HC.messages.short_catchange = `[[${HC.category_canonical}:$1]]`;
 		}
 		// Create a form and submit it. We don't use the edit API (api.php?action=edit) because
 		// (a) sensibly reporting back errors like edit conflicts is always a hassle, and
@@ -925,8 +804,6 @@ import {initMwApi} from '~/util';
 			if (action && action.value === 'wpSave') {
 				if (HC.changeTag) {
 					commitForm.wpChangeTags.value = HC.changeTag;
-					HC.messages.using = '';
-					HC.messages.prefix = '';
 				}
 			} else {
 				commitForm.wpAutoSummary.value = HC.changeTag;
@@ -934,7 +811,9 @@ import {initMwApi} from '~/util';
 			if (changes === 1) {
 				if (result.summary && result.summary.length > 0) {
 					commitForm.wpSummary.value =
-						HC.messages.prefix + result.summary.join(HC.messages.separator) + HC.messages.using;
+						(HC.changeTag ? '' : getMessage('hotcat-messages-prefix')) +
+						result.summary.join(getMessage('hotcat-messages-separator')) +
+						(HC.changeTag ? '' : getMessage('hotcat-messages-using'));
 				}
 				commitForm.wpMinoredit.checked = HC.single_minor || minorEdits;
 			} else if (changes) {
@@ -942,19 +821,19 @@ import {initMwApi} from '~/util';
 				const shortSummary = [];
 				// Deleted
 				for (i = 0; i < deleted.length; i++) {
-					summary.push(`−${substitute(HC.messages.short_catchange, [null, deleted[i]])}`);
+					summary.push(`−${getMessage('hotcat-messages-short_catchange', deleted[i])}`);
 				}
 				if (deleted.length === 1) {
-					shortSummary.push(`−${substitute(HC.messages.short_catchange, [null, deleted[0]])}`);
+					shortSummary.push(`−${getMessage('hotcat-messages-short_catchange', deleted[0])}`);
 				} else if (deleted.length > 0) {
 					shortSummary.push(`− ${multiChangeMsg(deleted.length)}`);
 				}
 				// Added
 				for (i = 0; i < added.length; i++) {
-					summary.push(`+${substitute(HC.messages.short_catchange, [null, added[i]])}`);
+					summary.push(`+${getMessage('hotcat-messages-short_catchange', added[i])}`);
 				}
 				if (added.length === 1) {
-					shortSummary.push(`+${substitute(HC.messages.short_catchange, [null, added[0]])}`);
+					shortSummary.push(`+${getMessage('hotcat-messages-short_catchange', added[0])}`);
 				} else if (added.length > 0) {
 					shortSummary.push(`+ ${multiChangeMsg(added.length)}`);
 				}
@@ -962,24 +841,24 @@ import {initMwApi} from '~/util';
 				const arrow = is_rtl ? '\u2190' : '\u2192'; // left and right arrows. Don't use ← and → in the code.
 				for (i = 0; i < changed.length; i++) {
 					if (changed[i].from === changed[i].to) {
-						summary.push(`±${substitute(HC.messages.short_catchange, [null, changed[i].from])}`);
+						summary.push(`±${getMessage('hotcat-messages-short_catchange', changed[i].from)}`);
 					} else {
 						summary.push(
-							`±${substitute(HC.messages.short_catchange, [null, changed[i].from])}${arrow}${substitute(
-								HC.messages.short_catchange,
-								[null, changed[i].to]
+							`±${getMessage('hotcat-messages-short_catchange', changed[i].from)}${arrow}${getMessage(
+								'hotcat-messages-short_catchange',
+								changed[i].to
 							)}`
 						);
 					}
 				}
 				if (changed.length === 1) {
 					if (changed[0].from === changed[0].to) {
-						shortSummary.push(`±${substitute(HC.messages.short_catchange, [null, changed[0].from])}`);
+						shortSummary.push(`±${getMessage('hotcat-messages-short_catchange', changed[0].from)}`);
 					} else {
 						shortSummary.push(
-							`±${substitute(HC.messages.short_catchange, [null, changed[0].from])}${arrow}${substitute(
-								HC.messages.short_catchange,
-								[null, changed[0].to]
+							`±${getMessage('hotcat-messages-short_catchange', changed[0].from)}${arrow}${getMessage(
+								'hotcat-messages-short_catchange',
+								changed[0].to
 							)}`
 						);
 					}
@@ -987,11 +866,19 @@ import {initMwApi} from '~/util';
 					shortSummary.push(`± ${multiChangeMsg(changed.length)}`);
 				}
 				if (summary.length > 0) {
-					summary = summary.join(HC.messages.separator);
-					if (summary.length > 200 - HC.messages.prefix.length - HC.messages.using.length) {
-						summary = shortSummary.join(HC.messages.separator);
+					summary = summary.join(getMessage('hotcat-messages-separator'));
+					if (
+						summary.length >
+						200 -
+							(HC.changeTag ? '' : getMessage('hotcat-messages-prefix')).length -
+							(HC.changeTag ? '' : getMessage('hotcat-messages-using')).length
+					) {
+						summary = shortSummary.join(getMessage('hotcat-messages-separator'));
 					}
-					commitForm.wpSummary.value = HC.messages.prefix + summary + HC.messages.using;
+					commitForm.wpSummary.value =
+						(HC.changeTag ? '' : getMessage('hotcat-messages-prefix')) +
+						summary +
+						(HC.changeTag ? '' : getMessage('hotcat-messages-using'));
 				}
 			}
 		}
@@ -1025,16 +912,16 @@ import {initMwApi} from '~/util';
 		if (is_missing) {
 			return;
 		}
-		if (!is_redir && cats && (HC.disambig_category || HC.redir_category)) {
+		if (!is_redir && cats && (getMessage('hotcat-disambig_category') || getMessage('hotcat-redir_category'))) {
 			for (const cat_ of cats) {
 				let cat = cat_.title;
 				// Strip namespace prefix
 				if (cat) {
 					cat = cat.slice(Math.max(0, cat.indexOf(':') + 1)).replace(/_/g, ' ');
-					if (cat === HC.disambig_category) {
+					if (cat === getMessage('hotcat-disambig_category')) {
 						is_dab = true;
 						break;
-					} else if (cat === HC.redir_category) {
+					} else if (cat === getMessage('hotcat-redir_category')) {
 						is_redir = true;
 						break;
 					}
@@ -1241,7 +1128,7 @@ import {initMwApi} from '~/util';
 		}
 		commitButton = make('input');
 		commitButton.type = 'button';
-		commitButton.value = HC.messages.commit;
+		commitButton.value = getMessage('hotcat-messages-commit');
 		commitButton.addEventListener('click', multiSubmit);
 		if (multiSpan) {
 			multiSpan.parentNode.replaceChild(commitButton, multiSpan);
@@ -1478,7 +1365,7 @@ import {initMwApi} from '~/util';
 				link.href = '#catlinks';
 				link.addEventListener('click', this.open.bind(this));
 				link.append(make(HC.links.add, true));
-				link.title = HC.tooltips.add;
+				link.title = getMessage('hotcat-tooltips-add');
 				this.linkSpan.append(link);
 				span = make(newDOM ? 'li' : 'span');
 				span.className = 'noprint';
@@ -1522,7 +1409,7 @@ import {initMwApi} from '~/util';
 				link.href = '#catlinks';
 				link.addEventListener('click', this.remove.bind(this));
 				link.append(make(HC.links.remove, true));
-				link.title = HC.tooltips.remove;
+				link.title = getMessage('hotcat-tooltips-remove');
 				this.normalLinks.append(make(' ', true));
 				this.normalLinks.append(link);
 			}
@@ -1531,7 +1418,7 @@ import {initMwApi} from '~/util';
 				link.href = '#catlinks';
 				link.addEventListener('click', this.open.bind(this));
 				link.append(make(HC.links.change, true));
-				link.title = HC.tooltips.change;
+				link.title = getMessage('hotcat-tooltips-change');
 				this.normalLinks.append(make(' ', true));
 				this.normalLinks.append(link);
 				if (!noSuggestions && HC.use_up_down) {
@@ -1540,14 +1427,14 @@ import {initMwApi} from '~/util';
 					link.href = '#catlinks';
 					link.addEventListener('click', this.down.bind(this));
 					link.append(make(HC.links.down, true));
-					link.title = HC.tooltips.down;
+					link.title = getMessage('hotcat-tooltips-down');
 					this.upDownLinks.append(make(' ', true));
 					this.upDownLinks.append(link);
 					link = make('a');
 					link.href = '#catlinks';
 					link.addEventListener('click', this.up.bind(this));
 					link.append(make(HC.links.up, true));
-					link.title = HC.tooltips.up;
+					link.title = getMessage('hotcat-tooltips-up');
 					this.upDownLinks.append(make(' ', true));
 					this.upDownLinks.append(link);
 					this.normalLinks.append(this.upDownLinks);
@@ -1563,7 +1450,7 @@ import {initMwApi} from '~/util';
 			link.href = '#catlinks';
 			link.addEventListener('click', this.restore.bind(this));
 			link.append(make(HC.links.restore, true));
-			link.title = HC.tooltips.restore;
+			link.title = getMessage('hotcat-tooltips-restore');
 			this.undelLink.append(make(' ', true));
 			this.undelLink.append(link);
 			this.linkSpan.append(this.undelLink);
@@ -1765,12 +1652,12 @@ import {initMwApi} from '~/util';
 			// Do not use type 'submit'; we cannot detect modifier keys if we do
 			const OK = make('input');
 			OK.type = 'button';
-			OK.value = button_label('wpOkUploadLbl', HC.messages.ok);
+			OK.value = button_label('wpOkUploadLbl', getMessage('hotcat-messages-ok'));
 			OK.addEventListener('click', this.accept.bind(this));
 			this.ok = OK;
 			const cancel = make('input');
 			cancel.type = 'button';
-			cancel.value = button_label('wpCancelUploadLbl', HC.messages.cancel);
+			cancel.value = button_label('wpCancelUploadLbl', getMessage('hotcat-messages-cancel'));
 			cancel.addEventListener('click', this.cancel.bind(this));
 			this.cancelButton = cancel;
 			const span = make('span');
@@ -2001,7 +1888,7 @@ import {initMwApi} from '~/util';
 						resolved[0].commit(
 							resolved[0].currentCategory === original
 								? null
-								: HC.messages.cat_resolved.replace(/\$1/g, original)
+								: getMessage('hotcat-messages-cat_resolved', original)
 						);
 					}
 				});
@@ -2045,7 +1932,7 @@ import {initMwApi} from '~/util';
 				link.href = '#catlinks';
 				link.addEventListener('click', this.rollback.bind(this));
 				link.append(make(HC.links.undo, true));
-				link.title = HC.tooltips.undo;
+				link.title = getMessage('hotcat-tooltips-undo');
 				span.append(make(' ', true));
 				span.append(link);
 				this.normalLinks.append(span);
@@ -2949,7 +2836,10 @@ import {initMwApi} from '~/util';
 					const $body = $('body');
 					$body.find('#wpSave').one('click', () => {
 						if ($ct.val()) {
-							sum.value = sum.value.replace(HC.messages.using || HC.messages.prefix, '');
+							sum.value = sum.value.replace(
+								getMessage('hotcat-messages-using') || getMessage('hotcat-messages-prefix'),
+								''
+							);
 						}
 					});
 					const removeChangeTag = () => {
@@ -2976,11 +2866,13 @@ import {initMwApi} from '~/util';
 		}
 		HC.listSize = Math.min(HC.listSize, 30); // Max size
 		// Localize search engine names
-		if (HC.engine_names) {
-			for (const key in HC.engine_names) {
-				if (suggestionConfigs[key] && HC.engine_names[key]) {
-					suggestionConfigs[key].name = HC.engine_names[key];
+		for (const [key, suggestionConfig] of Object.entries(suggestionConfigs)) {
+			try {
+				if (key && getMessage(`hotcat-engine_names-${key}`)) {
+					suggestionConfig.name = getMessage(`hotcat-engine_names-${key}`);
 				}
+			} catch {
+				continue;
 			}
 		}
 		// Catch both native RTL and "faked" RTL through [[MediaWiki:Rtl.js]]
@@ -3066,7 +2958,7 @@ import {initMwApi} from '~/util';
 			labelCell.append(label);
 		} else {
 			labelCell.id = 'hotcatLabel';
-			labelCell.append(make(HC.categories, true));
+			labelCell.append(make(getMessage('hotcat-categories'), true));
 		}
 		labelCell.className = 'mw-label';
 		labelCell.style.textAlign = 'right';
@@ -3180,8 +3072,8 @@ import {initMwApi} from '~/util';
 			// Add a label
 			const label = make('a');
 			label.href = conf.wgArticlePath.replace('$1', 'Special:Categories');
-			label.title = HC.categories;
-			label.append(make(HC.categories, true));
+			label.title = getMessage('hotcat-categories');
+			label.append(make(getMessage('hotcat-categories'), true));
 			catLine.append(label);
 			catLine.append(make(':', true));
 			// Insert the new category line
@@ -3254,7 +3146,7 @@ import {initMwApi} from '~/util';
 				checkMultiInput();
 				return evtKill(event);
 			});
-			link.title = HC.multi_tooltip;
+			link.title = getMessage('hotcat-multi_tooltip');
 			link.style.cursor = 'pointer';
 		}
 		cleanedText = null;
@@ -3412,7 +3304,7 @@ import {initMwApi} from '~/util';
 			return;
 		}
 		HC.started = true;
-		loadTrigger.register(really_run);
+		really_run();
 	};
 	// Export legacy functions
 	window.hotcat_get_state = () => {

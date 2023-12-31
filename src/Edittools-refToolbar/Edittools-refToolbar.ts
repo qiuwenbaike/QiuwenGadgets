@@ -1,7 +1,7 @@
 import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_PAGE_CONTENT_MODEL} from './modules/constant';
 import {refToolbar2} from './modules/RefToolbar2.0';
 import {refToolbarBase} from './modules/RefToolbarBase';
-import {refToolbarMesages} from './modules/RefToolbarMessages';
+import {refToolbarMesages} from './modules/messages';
 
 /**
  * RefToolbar
