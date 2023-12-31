@@ -8,7 +8,7 @@
 		return;
 	}
 	const Twinkle = {};
-	window.Twinkle = Twinkle; // allow global access
+	window.Twinkle ||= Twinkle; // allow global access
 	/**
 	 * Twinkle-specific data shared by multiple modules
 	 * Likely customized per installation
@@ -456,6 +456,7 @@
 		happy: 'yes',
 	});
 	// Retrieve the user's Twinkle preferences (window.Twinkle.prefs)
+	Twinkle.prefs ||= {};
 	mw.loader
 		.getScript(scripturl)
 		.fail(() => {
