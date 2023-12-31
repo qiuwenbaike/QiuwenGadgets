@@ -1,6 +1,6 @@
 import {WG_USER_LANGUAGE} from './constant';
 
-export const hotcatMessages = (): void => {
+export const hotCatMessages = (): void => {
 	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(WG_USER_LANGUAGE)) {
 		mw.messages.set({
 			'hotcat-messages-cat_removed': '已移除[[Category:$1]]',
