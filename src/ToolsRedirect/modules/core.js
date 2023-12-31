@@ -59,7 +59,9 @@ const findRedirectCallback = function (callback, ...args) {
 	if (callback) {
 		findRedirectCallbacks.push(callback);
 	} else {
-		$.merge(findRedirectCallbacks, [callback, ...args]);
+		for (const arg of [callback, ...args]) {
+			findRedirectCallbacks.push(arg);
+		}
 	}
 	return this;
 };
@@ -600,13 +602,13 @@ export const ToolsRedirect = {
 			// append suffixes
 			const suffixesDedup = [...new Set(suffixes)];
 			for (const suffix of suffixesDedup) {
-				$.merge(
-					retTitles,
-					titles.map((title) => {
-						title = fixNamespace(title);
-						return suffixReg.test(title) ? title : title + suffix;
-					})
-				);
+				const titleSuffixArr = titles.map((title) => {
+					title = fixNamespace(title);
+					return suffixReg.test(title) ? title : title + suffix;
+				});
+				for (const arg of titleSuffixArr) {
+					retTitles.push(arg);
+				}
 			}
 			return self.findNotExists([...new Set(retTitles)]);
 		});
