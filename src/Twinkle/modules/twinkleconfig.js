@@ -540,17 +540,6 @@
 			],
 		},
 		{
-			title: wgULS('共享IP标记', '共享IP標記'),
-			module: 'shared',
-			preferences: [
-				{
-					name: 'markSharedIPAsMinor',
-					label: wgULS('将共享IP标记标记为小修改', '將共享IP標記標記為小修改'),
-					type: 'boolean',
-				},
-			],
-		},
-		{
 			title: wgULS('快速删除', '快速刪除'),
 			module: 'speedy',
 			preferences: [
