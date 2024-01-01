@@ -5,12 +5,10 @@ import {addListener} from './modules/addListener';
 import {ajaxLogin} from './modules/core';
 import {initWindowManager} from './modules/initWindowManager';
 
-(async function initAutoLogin(): Promise<void> {
+void getBody().then(function initAutoLogin($body: JQuery<HTMLBodyElement>): void {
 	if (WG_USER_NAME) {
 		return;
 	}
-
-	const $body: JQuery<HTMLBodyElement> = await getBody();
 
 	const $loginElement: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>(OPTIONS.loginElementSelector);
 	if (!$loginElement.length) {
@@ -33,4 +31,4 @@ import {initWindowManager} from './modules/initWindowManager';
 		ajaxLogin(windowManager, fakeToastifyInstance);
 	};
 	addListener($loginElement, eventListener);
-})();
+});
