@@ -64,7 +64,11 @@
 	&-header {
 		.mainpage-slogan {
 			img {
-				filter: invert(1) hue-rotate(320deg);
+				filter: hue-rotate(141deg);
+
+				.client-darkmode & {
+					filter: invert(1) hue-rotate(320deg);
+				}
 			}
 		}
 	}
