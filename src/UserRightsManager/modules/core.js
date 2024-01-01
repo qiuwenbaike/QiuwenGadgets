@@ -1,10 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {pagePermissions, permissionNames, tagLine, templates} from './constant';
+import {PAGE_PERM, PERM_NAME, PERM_TEMPLATE, TAGLINE, WG_PAGE_NAME} from './constant';
 import {initMwApi} from '~/util';
 
-const pageName = mw.config.get('wgPageName');
-const permission = pagePermissions[pageName];
+const permission = PAGE_PERM[WG_PAGE_NAME];
 const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
 const $body = $('body');
 
@@ -15,11 +14,11 @@ let index;
 
 const assignPermission = (summary, revId, expiry) => {
 	permaLink = `[[Special:PermaLink/${revId}#User:${userName}|权限申请]]`;
-	let fullSummary = `+${permissionNames[permission]}；${permaLink}`;
+	let fullSummary = `+${PERM_NAME[permission]}；${permaLink}`;
 	if (summary !== '') {
 		fullSummary += `；${summary}`;
 	}
-	fullSummary += tagLine;
+	fullSummary += TAGLINE;
 	const params = {
 		action: 'userrights',
 		user: userName.replace(/ /g, '_'),
@@ -49,7 +48,7 @@ const markAsDone = (closingRemarks) => {
 		format: 'json',
 		formatversion: '2',
 		prop: 'revisions',
-		titles: [pageName],
+		titles: [WG_PAGE_NAME],
 		curtimestamp: true,
 		rvprop: ['content', 'timestamp'],
 		rvsection: sectionNumber,
@@ -80,12 +79,12 @@ const markAsDone = (closingRemarks) => {
 				action: 'edit',
 				format: 'json',
 				formatversion: '2',
-				title: pageName,
+				title: WG_PAGE_NAME,
 				assert: mw.config.get('wgUserName') ? 'user' : undefined,
 				nocreate: true,
 				section: sectionNumber,
 				starttimestamp: curtimestamp,
-				summary: `/* User:${userName} */ 完成${tagLine}`,
+				summary: `/* User:${userName} */ 完成${TAGLINE}`,
 				text: content,
 				basetimestamp,
 			};
@@ -98,8 +97,8 @@ const issueTemplate = (watch) => {
 	const params = {
 		action: 'edit',
 		title: talkPage,
-		appendtext: '\n\n{{'.concat('subst:', templates[permission], '}}}'),
-		summary: `根据${permaLink}授予${permissionNames[permission]}${tagLine}`,
+		appendtext: '\n\n{{'.concat('subst:', PERM_TEMPLATE[permission], '}}}'),
+		summary: `根据${permaLink}授予${PERM_NAME[permission]}${TAGLINE}`,
 		watchlist: watch ? 'watch' : 'unwatch',
 	};
 	return api.postWithEditToken(params);
@@ -111,7 +110,7 @@ const showDialog = () => {
 	};
 	OO.inheritClass(Dialog, OO.ui.ProcessDialog);
 	Dialog.static.name = 'user-rights-manager';
-	Dialog.static.title = `授予${permissionNames[permission]}${window.wgULS('给', '給')}${userName}`;
+	Dialog.static.title = `授予${PERM_NAME[permission]}${window.wgULS('给', '給')}${userName}`;
 	Dialog.static.actions = [
 		{
 			action: 'submit',
@@ -241,7 +240,7 @@ const showDialog = () => {
 				label: window.wgULS('关闭请求留言', '關閉請求留言'),
 			}),
 		];
-		if (templates[permission]) {
+		if (PERM_TEMPLATE[permission]) {
 			formElements.push(
 				new OO.ui.FieldLayout(this.watchTalkPageCheckbox, {
 					label: window.wgULS('监视用户讨论页', '監視用戶討論頁'),
@@ -271,7 +270,7 @@ const showDialog = () => {
 	};
 	Dialog.prototype.onSubmit = function () {
 		const self = this;
-		let promiseCount = templates[permission] ? 3 : 2;
+		let promiseCount = PERM_TEMPLATE[permission] ? 3 : 2;
 		self.actions.setAbilities({
 			submit: false,
 		});
@@ -315,7 +314,7 @@ const showDialog = () => {
 		self.submitFieldset.addItems([self.markAsDoneProgressField]);
 		self.changeRightsProgressField.setLabel('授予权限...');
 		self.submitFieldset.addItems([self.changeRightsProgressField]);
-		if (templates[permission]) {
+		if (PERM_TEMPLATE[permission]) {
 			self.issueTemplateProgressField.setLabel('发送通知...');
 			self.submitFieldset.addItems([self.issueTemplateProgressField]);
 		}
@@ -329,7 +328,7 @@ const showDialog = () => {
 						this.expiryInput.getValue()
 					)
 				).then(() => {
-					if (templates[permission]) {
+					if (PERM_TEMPLATE[permission]) {
 						addPromise(
 							self.issueTemplateProgressField,
 							issueTemplate(this.watchTalkPageCheckbox.isSelected())
