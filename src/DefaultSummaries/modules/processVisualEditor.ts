@@ -11,13 +11,15 @@ const processVisualEditor = (): void => {
 
 	// @ts-expect-error TS2304
 	const {target} = ve.init;
-	const $saveOptions = target.saveDialog as JQuery;
+	// @ts-expect-error OOUI
+	const {$saveOptions} = target.saveDialog as JQuery;
 	if (!$saveOptions.length) {
 		return;
 	}
 
 	const $dropdown: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 	$saveOptions.before($dropdown);
 };
 
