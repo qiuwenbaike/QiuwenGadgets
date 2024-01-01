@@ -192,10 +192,10 @@ const refToolbar2 = async () => {
 					},
 					buttons: {
 						'cite-errorcheck-submit'() {
-							const errorchecks = $body.find("input[name='cite-err-test']:checked");
+							const errorchecks = $body.find('input[name=cite-err-test]:checked');
 							let errors = [];
 							for (const errorcheck of errorchecks) {
-								errors = [...errors, CiteTB.ErrorChecks[$(errorcheck).val()].run()];
+								errors = [...errors, ...CiteTB.ErrorChecks[$(errorcheck).val()].run()];
 							}
 							CiteTB.displayErrors(errors);
 							$(this).dialog('close');
