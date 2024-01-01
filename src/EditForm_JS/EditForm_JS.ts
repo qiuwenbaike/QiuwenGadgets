@@ -1,11 +1,9 @@
 import {aiAssisted} from './modules/aiAssisted';
 import {clearUndoSummary} from './modules/clearUndoSummary';
 import {disableTitle} from './modules/disableTitle';
-import {getBody} from '~/util';
-// import {forcePreview} from './modules/forcePreview';
 
-(async function editForm(): Promise<void> {
-	const $body: JQuery<HTMLBodyElement> = await getBody();
+$(function editForm(): void {
+	const $body: JQuery<HTMLBodyElement> = $('body');
 
 	// 删除回退时自动生成的编辑摘要
 	clearUndoSummary($body);
@@ -18,13 +16,11 @@ import {getBody} from '~/util';
 			$body,
 		});
 	});
-})();
 
-mw.hook<JQuery[]>('wikipage.editform').add(($editForm): void => {
-	// AI辅助编辑特殊声明
-	aiAssisted({
-		$editForm,
+	mw.hook<JQuery[]>('wikipage.editform').add(($editForm): void => {
+		// AI辅助编辑特殊声明
+		aiAssisted({
+			$editForm,
+		});
 	});
-	// 强制预览
-	// forcePreview($editForm);
 });
