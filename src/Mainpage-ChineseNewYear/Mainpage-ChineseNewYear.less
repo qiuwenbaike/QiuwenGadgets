@@ -75,8 +75,12 @@
 			color: @const-color-white !important;
 
 			a {
-				color: @const-color-white !important;
-				text-decoration: none;
+				&,
+				&:hover,
+				&:visited:hover {
+					color: @const-color-white !important;
+					text-decoration: none;
+				}
 			}
 		}
 	}
@@ -92,7 +96,8 @@
 .gadget-advanced_site_notices,
 .gadget-cookie_warning,
 .gadget-report-button,
-.gadget-scroll_up_button {
+.gadget-scroll_up_button,
+.skin-gongbi.page-Qiuwen_首页.action-view .bodySearch .mw-ui-button {
 	filter: hue-rotate(141deg) !important;
 }
 
