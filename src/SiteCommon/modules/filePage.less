@@ -70,25 +70,29 @@ body:not(.ns-0, .ns-2) .gallerybox .thumb {
 			background-color: #def;
 			font-weight: bold;
 			text-align: right;
+
+			.client-darkmode & {
+				filter: invert(1) hue-rotate(180deg);
+			}
 		}
 	}
 
 	tbody {
 		> tr {
 			&:first-child > td:first-child {
-				border-radius: 0.5em 0 0;
+				border-radius: 0.25em 0 0;
 			}
 
 			&:first-child > td:last-child {
-				border-radius: 0 0.5em 0 0;
+				border-radius: 0 0.25em 0 0;
 			}
 
 			&:last-child > td:first-child {
-				border-radius: 0 0 0 0.5em;
+				border-radius: 0 0 0 0.25em;
 			}
 
 			&:last-child > td:last-child {
-				border-radius: 0 0 0.5em;
+				border-radius: 0 0 0.25em;
 			}
 		}
 	}
@@ -111,7 +115,7 @@ body:not(.ns-0, .ns-2) .gallerybox .thumb {
 
 			> tr {
 				&:first-child > td:first-child {
-					border-radius: 0.5em 0.5em 0 0;
+					border-radius: 0.25em 0.25em 0 0;
 				}
 
 				&:first-child > td:last-child {
@@ -123,7 +127,7 @@ body:not(.ns-0, .ns-2) .gallerybox .thumb {
 				}
 
 				&:last-child > td:last-child {
-					border-radius: 0 0 0.5em;
+					border-radius: 0 0 0.25em 0.25em;
 				}
 			}
 		}
