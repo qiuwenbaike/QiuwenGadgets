@@ -64,7 +64,7 @@
 	&-header {
 		.mainpage-slogan {
 			img {
-				content: data-uri('./images/mainpage-slogan.svg');
+				filter: hue-rotate(141deg);
 			}
 		}
 	}
@@ -89,15 +89,10 @@
 /* === Other elements === */
 #darkmode-button,
 #sidebarButton,
-.skin-citizen .mw-portlet-personal li a:hover,
-.skin-citizen #pt-login a,
-.citizen-header__button,
-.citizen-drawer__menu a:hover,
 .gadget-advanced_site_notices,
 .gadget-cookie_warning,
-.gadget-report-button,
-.gadget-scroll_up_button,
-.skin-gongbi.page-Qiuwen_首页.action-view .bodySearch .mw-ui-button {
+.gadget-report-button img,
+.gadget-scroll_up_button {
 	filter: hue-rotate(141deg) !important;
 }
 
@@ -136,6 +131,10 @@ html {
 	border-color: #c33;
 }
 
+.skin-gongbi.page-Qiuwen_首页.action-view .bodySearch .mw-ui-button {
+	filter: hue-rotate(141deg) !important;
+}
+
 /* For Gongbi and Vector skins */
 #sliderCollapseLogo,
 .wordmark {
@@ -147,4 +146,13 @@ html {
 /* For Vector skin */
 .mw-wiki-logo {
 	filter: hue-rotate(141deg);
+}
+
+/* For Citizen skin */
+.skin-citizen .mw-portlet-personal li a:hover,
+.skin-citizen #pt-login a,
+.citizen-header__button,
+.citizen-drawer__menu a:hover,
+.citizen-drawer__header img {
+	filter: hue-rotate(141deg) !important;
 }
