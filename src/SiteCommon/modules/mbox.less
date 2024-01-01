@@ -9,10 +9,11 @@
 	flex-direction: column;
 	place-content: center center;
 	align-items: center;
-	border-width: 0 0 0 0.5em;
+	border-width: 1px 1px 1px 0.5em;
 	border-style: solid;
 	border-radius: @border-radius--small;
-	border-left-color: @color--primary;
+	border-color: @color--primary;
+	padding: 0.5em 0.5em 0.5em 0;
 	margin: 0.5em auto;
 	background: #def;
 	border-collapse: inherit;
@@ -81,26 +82,26 @@
 
 	/* Styles per type */
 	&-notice {
-		border-left-color: @color--primary;
+		border-color: @color--primary;
 		background: #def;
 	}
 
 	&-speedy,
 	&.alert,
 	&.red {
-		border-left-color: #b22; /* Red */
+		border-color: #b22; /* Red */
 		background: #fee; /* Pink */
 	}
 
 	&-delete,
 	&.tawny {
-		border-left-color: #a97; /* tawny */
+		border-color: #a97; /* tawny */
 		background: #f0f0d8; /* light tawny */
 	}
 
 	&-content,
 	&.orange {
-		border-left-color: #f28500; /* Orange */
+		border-color: #f28500; /* Orange */
 		background: #fed; /* Light Orange */
 	}
 
@@ -108,14 +109,14 @@
 	&-rule,
 	&.rule,
 	&.yellow {
-		border-left-color: #fc3; /* Yellow */
+		border-color: #fc3; /* Yellow */
 		background: #ffc; /* Light yellow */
 	}
 
 	&-move,
 	&.violet,
 	&.purple {
-		border-left-color: #93c; /* Purple */
+		border-color: #93c; /* Purple */
 		background: #fef; /* Light purple */
 	}
 
@@ -123,25 +124,25 @@
 	&-draft,
 	&.gray,
 	&.grey {
-		border-left-color: #606060; /* Dark gray */
+		border-color: #606060; /* Dark gray */
 		background: #eee; /* Light gray */
 	}
 
 	&-featured,
 	&.brown {
-		border-left-color: #cba135; /* Brown-gold */
+		border-color: #cba135; /* Brown-gold */
 		background: #fec; /* light brown */
 	}
 
 	&-policy,
 	&.green {
-		border-left-color: #181; /* Green */
+		border-color: #181; /* Green */
 		background: #cfc; /* Light green */
 	}
 
 	&-guideline,
 	&.blue {
-		border-left-color: #36c;
+		border-color: #36c;
 		background: #def;
 	}
 
@@ -193,7 +194,6 @@
 	/* Disambig and set index box styles */
 	&-disambig,
 	&-setindex {
-		border-width: 1px 1px 1px 5px !important;
 		border-color: #ccc;
 		background: #fefefe;
 	}
@@ -308,21 +308,21 @@
    tmbox etc classes. "body.mediawiki" is so. */
 body.mediawiki .mbox-small {
 	max-width: 320px;
-	margin: 4px 0 4px 1em !important;
+	margin: 0.25em 0 0.25em 1em !important;
 
 	/* For the "small=yes" option. */
 	clear: both;
 	float: right;
-	font-size: 88%;
+	font-size: 90%;
 	line-height: 1.25em;
 
 	&-left {
 		width: 240px;
 
 		/* For the "small=left" option. */
-		margin: 4px 1em 4px 0 !important;
+		margin: 0.25em 1em 0.25em 0 !important;
 		border-collapse: collapse;
-		font-size: 88%;
+		font-size: 90%;
 		line-height: 1.25em;
 	}
 }
@@ -332,11 +332,10 @@ body.mediawiki .mbox-small {
 	.mbox {
 		&,
 		&-small {
-			width: 99.5%;
-			width: calc(100% - 0.5em);
-			max-width: 99.5%;
-			max-width: calc(100% - 0.5em);
-			font-size: 0.9em;
+			width: 95%;
+			width: calc(100% - 1em);
+			max-width: 95%;
+			max-width: calc(100% - 1em);
 		}
 
 		&-image,
