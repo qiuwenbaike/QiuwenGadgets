@@ -3,9 +3,7 @@ import {getBody} from '~/util';
 import {getMessage} from './modules/i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
-(async function didYouMean(): Promise<void> {
-	const $body: JQuery<HTMLBodyElement> = await getBody();
-
+void getBody().then(function didYouMean($body: JQuery<HTMLBodyElement>): void {
 	const $element: JQuery = $body.find(OPTIONS.targetSelector);
 	if (!$element.length) {
 		return;
@@ -25,4 +23,4 @@ import {toastify} from 'ext.gadget.Toastify';
 	);
 
 	location.href = href;
-})();
+});

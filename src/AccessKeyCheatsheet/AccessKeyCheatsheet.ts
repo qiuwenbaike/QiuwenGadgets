@@ -7,9 +7,7 @@ import {initWindowManager} from './modules/initWindowManager';
 /**
  * Adds alt+shift+? as an access key to show a list of all default access keys
  */
-(async function accessKeyCheatsheet(): Promise<void> {
-	const $body: JQuery<HTMLBodyElement> = await getBody();
-
+void getBody().then(function accessKeyCheatsheet($body: JQuery<HTMLBodyElement>): void {
 	const {$table, $opener} = generateElements($body);
 	$opener.hide().appendTo($body);
 
@@ -19,4 +17,4 @@ import {initWindowManager} from './modules/initWindowManager';
 	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData = generateMessageDialogProperty($table);
 
 	addListener($opener, windowManager, messageDialogProperty);
-})();
+});

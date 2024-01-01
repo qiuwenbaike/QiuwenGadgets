@@ -2,9 +2,7 @@ import {addLink} from './modules/addLink';
 import {getBody} from '~/util';
 import {processComment} from './modules/processComment';
 
-(async function codeLinks(): Promise<void> {
-	const $body: JQuery<HTMLBodyElement> = await getBody();
-
+void getBody().then(function codeLinks($body: JQuery<HTMLBodyElement>): void {
 	for (const codeBlock of $body.find('.mw-highlight')) {
 		for (const commentClass of ['c', 'c1', 'cm']) {
 			for (const comment of codeBlock.querySelectorAll(`.${commentClass}`)) {
@@ -146,4 +144,4 @@ import {processComment} from './modules/processComment';
 			: `Help:Lua#${moduleName}`;
 		addLink(element, targetTitle);
 	}
-})();
+});
