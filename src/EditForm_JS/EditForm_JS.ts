@@ -1,10 +1,9 @@
 import {aiAssisted} from './modules/aiAssisted';
 import {clearUndoSummary} from './modules/clearUndoSummary';
 import {disableTitle} from './modules/disableTitle';
+import {getBody} from '~/util';
 
-$(function editForm(): void {
-	const $body: JQuery<HTMLBodyElement> = $('body');
-
+void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	// 删除回退时自动生成的编辑摘要
 	clearUndoSummary($body);
 	// 在提交新段落时，让主题栏在特定情况下失效
