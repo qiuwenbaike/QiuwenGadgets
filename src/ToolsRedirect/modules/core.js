@@ -439,7 +439,7 @@ export const ToolsRedirect = {
 		const onClickFix = (event) => {
 			const entry = $(this).parents('dd, p').first();
 			event.preventDefault();
-			self.clickAction(entry, self.fix);
+			self.clickAction(entry, this.fix);
 		};
 		api.post({
 			action: 'query',
