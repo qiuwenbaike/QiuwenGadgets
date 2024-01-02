@@ -64,6 +64,8 @@ const matchCriteria = ($notice: JQuery): boolean => {
 		}
 
 		result = criteria;
+	} else {
+		result = true;
 	}
 
 	$notice.data('asn-cache', result);
