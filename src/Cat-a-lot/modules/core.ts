@@ -299,17 +299,21 @@ const catALot = (): void => {
 			if (CAL.variantCache[category] !== undefined) {
 				return CAL.variantCache[category] as string[];
 			}
+			const deferreds = [];
 			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
-				params.variant = variant;
-				void CAL.api.get(params).then((query) => {
-					const result = query['parse'].text;
-					const trimmedResult: string = $(result).eq(0).text().trim();
-					if (!results.includes(trimmedResult)) {
+				deferreds.push(CAL.api.get({...params, variant}));
+			}
+			void $.when(...deferreds)
+				.then((...args) => {
+					for (const {query} of args) {
+						const result = query['parse'].text;
+						const trimmedResult: string = $(result).eq(0).text().trim();
 						results.push(trimmedResult);
 					}
+				})
+				.then(() => {
+					CAL.variantCache[category] = [...new Set(results)]; // De-duplicate
 				});
-			}
-			CAL.variantCache[category] = results;
 			return results;
 		}
 		private static regexBuilder(category: string): RegExp {
@@ -348,8 +352,11 @@ const catALot = (): void => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			callback: (data: any) => void
 		) {
-			params['format'] = 'json';
-			params['formatversion'] = '2';
+			params = {
+				...params,
+				format: 'json',
+				formatversion: '2',
+			};
 			let i: number = 0;
 			const doCall = (): void => {
 				const handleError = (error: string): void => {
@@ -362,7 +369,7 @@ const catALot = (): void => {
 						this.updateCounter();
 					}
 				};
-				void CAL.api.post(params).done(callback).fail(handleError);
+				CAL.api.post(params).then(callback).catch(handleError);
 			};
 			doCall();
 		}
