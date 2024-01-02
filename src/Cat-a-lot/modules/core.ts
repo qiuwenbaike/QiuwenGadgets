@@ -18,6 +18,7 @@ import {
 	CLASS_NAME_LABEL_DONE,
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
+	VARIANTS,
 	WG_CANONICAL_SPECIAL_PAGE_NAME,
 	WG_FORMATTED_NAMESPACES,
 	WG_NAMESPACE_IDS,
@@ -287,7 +288,10 @@ const catALot = (): void => {
 			this.updateSelectionCounter();
 		}
 
-		private static findAllVariants(category: string): string[] {
+		private static async findAllVariants(category: string): Promise<string[]> {
+			if (CAL.variantCache[category] !== undefined) {
+				return CAL.variantCache[category] as string[];
+			}
 			const results: string[] = [];
 			const params: ApiParseParams = {
 				action: 'parse',
@@ -296,28 +300,25 @@ const catALot = (): void => {
 				format: 'json',
 				formatversion: '2',
 			};
-			const promise: (() => Promise<void>)[] = [];
 			for (const variant of VARIANTS) {
-				promise.push(async () => {
-					params.variant = variant;
-					const {parse} = await CAL.api.post(params);
-					const {text} = parse;
-					results.push($(text).eq(0).text().trim());
-				});
+				const {parse} = await CAL.api.post({...params, variant});
+				const {text} = parse;
+				results.push($(text).eq(0).text().trim());
 			}
-			await Promise.all(promise);
-			CAL.variantCache[category] = [...new Set(results)]; // De-duplicate
+			// De-duplicate
+			CAL.variantCache[category] = [...new Set(results)];
 			return results;
 		}
-		private static regexBuilder(category: string): RegExp {
+
+		private static async regexBuilder(category: string): Promise<RegExp> {
 			// Build a regexp string for matching the given category:
 			const catName: string = CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category');
 			// trim leading/trailing whitespace and underscores
 			category = category.replace(/^[\s_]+/, '').replace(/[\s_]+$/, '');
 			// Find all variants
-			const variants: string[] = CAL.findAllVariants(category);
+			const variants: string[] = await CAL.findAllVariants(category);
 			// escape regexp metacharacters (= any ASCII punctuation except _)
-			const variantArray: string[] = [];
+			const variantRegExps: string[] = [];
 			for (let variant of variants) {
 				variant = mw.util.escapeRegExp(variant);
 				// any sequence of spaces and underscores should match any other
@@ -327,12 +328,12 @@ const catALot = (): void => {
 				if (first.toUpperCase() !== first.toLowerCase()) {
 					variant = `[${first.toUpperCase()}${first.toLowerCase()}]${variant.slice(1)}`;
 				}
-				variantArray.push(variant);
+				variantRegExps.push(variant);
 			}
 			// Compile it into a RegExp that matches MediaWiki category syntax (yeah, it looks ugly):
 			// XXX: the first capturing parens are assumed to match the sortkey, if present, including the | but excluding the ]]
 			return new RegExp(
-				`\\[\\[[\\s_]*${catName}[\\s_]*:[\\s_]*(?:${variantArray.join(
+				`\\[\\[[\\s_]*${catName}[\\s_]*:[\\s_]*(?:${variantRegExps.join(
 					'|'
 				)})[\\s_]*(\\|[^\\]]*(?:\\][^\\]]+)*)?\\]\\]`,
 				'g'
@@ -359,7 +360,7 @@ const catALot = (): void => {
 						this.updateCounter();
 					}
 				};
-				void CAL.api.post(params).done(callback).fail(handleError);
+				CAL.api.post(params).then(callback).catch(handleError);
 			};
 			doCall();
 		}
@@ -431,13 +432,13 @@ const catALot = (): void => {
 				CAL.$counter.text(CAL.counterCurrent);
 			}
 		}
-		private editCategories(
+		private async editCategories(
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			result: Record<string, any>,
 			markedLabel: ReturnType<typeof this.getMarkedLabels>[0],
 			targetCategory: string,
 			mode: 'add' | 'copy' | 'move' | 'remove'
-		): void {
+		): Promise<void> {
 			const [markedLabelTitle, $markedLabel] = markedLabel;
 
 			if (!result?.['query']) {
@@ -459,20 +460,17 @@ const catALot = (): void => {
 
 			const sourcecat: string = CAL.CURRENT_CATEGROY;
 			// Check if that file is already in that category
-			if (mode !== 'remove' && CAL.regexBuilder(targetCategory).test(originText)) {
-				// If the new cat is already there, just remove the old one
-				if (mode === 'move') {
-					mode = 'remove';
-				} else {
-					CAL.alreadyThere.push(markedLabelTitle);
-					this.updateCounter();
-					return;
-				}
+			const targeRegExp = await CAL.regexBuilder(targetCategory);
+			if (mode !== 'remove' && targeRegExp.test(originText) && mode !== 'move') {
+				CAL.alreadyThere.push(markedLabelTitle);
+				this.updateCounter();
+				return;
 			}
 
 			// Fix text
 			let text: string = originText;
 			let summary: string;
+			const sourceCatRegExp = await CAL.regexBuilder(sourcecat);
 			switch (mode) {
 				case 'add':
 					text += `\n[[${CAL.localCatName}:${targetCategory}]]\n`;
@@ -480,7 +478,7 @@ const catALot = (): void => {
 					break;
 				case 'copy':
 					text = text.replace(
-						CAL.regexBuilder(sourcecat),
+						sourceCatRegExp,
 						`[[${CAL.localCatName}:${sourcecat}$1]]\n[[${CAL.localCatName}:${targetCategory}$1]]`
 					);
 					summary = CAL.msg('summary-copy').replace('$1', sourcecat).replace('$2', targetCategory);
@@ -490,11 +488,11 @@ const catALot = (): void => {
 					}
 					break;
 				case 'move':
-					text = text.replace(CAL.regexBuilder(sourcecat), `[[${CAL.localCatName}:${targetCategory}$1]]`);
+					text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`);
 					summary = CAL.msg('summary-move').replace('$1', sourcecat).replace('$2', targetCategory);
 					break;
 				case 'remove':
-					text = text.replace(CAL.regexBuilder(sourcecat), '');
+					text = text.replace(sourceCatRegExp, '');
 					summary = CAL.msg('summary-remove').replace('$1', sourcecat);
 					break;
 			}
@@ -546,7 +544,7 @@ const catALot = (): void => {
 					rvprop: 'content|timestamp',
 				},
 				(result): void => {
-					this.editCategories(result, markedLabel, targetCategory, mode);
+					void this.editCategories(result, markedLabel, targetCategory, mode);
 				}
 			);
 		}
@@ -705,7 +703,7 @@ const catALot = (): void => {
 					}
 					CAL.parentCats = [];
 					const {pages} = result.query;
-					if (pages[-1]?.missing === '') {
+					if (pages[0]?.missing) {
 						this.$body.css('cursor', '');
 						this.$resultList.html(
 							`<span class="${CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND}">${CAL.msg(

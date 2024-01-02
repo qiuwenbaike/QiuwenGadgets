@@ -10,11 +10,17 @@ const SUFFIX_APPEND = 0;
 const SUFFIX_REPLACE = 1;
 const SUFFIX_SETDEFAULT = 2;
 
+const EDIT_TAG = 'ToolsRedirect';
+
+const VARIANTS = ['zh-hans', 'zh-hant', 'zh-cn', 'zh-hk', 'zh-mo', 'zh-sg', 'zh-tw'];
+
 export {
+	EDIT_TAG,
 	IS_CATEGORY,
 	SUFFIX_APPEND,
 	SUFFIX_REPLACE,
 	SUFFIX_SETDEFAULT,
+	VARIANTS,
 	WG_NAMESPACE_IDS,
 	WG_NAMESPACE_NUMBER,
 	WG_PAGE_NAME,
