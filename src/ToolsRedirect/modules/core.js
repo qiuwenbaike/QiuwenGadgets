@@ -184,7 +184,7 @@ export const ToolsRedirect = {
 		$('p.desc', this.tabs.view.cont).text(getMessage('fixloading'));
 		$('p[class!=desc]', this.tabs.view.cont).remove();
 		this.loading(this.tabs.view.cont);
-		this.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary')).done(() => {
+		this.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary')).then(() => {
 			// delay load before the asynchronous tasks on server finished
 			setTimeout(() => {
 				self.loaded(self.tabs.view.cont);
@@ -201,7 +201,7 @@ export const ToolsRedirect = {
 			pagenames,
 			getMessage('createtext').replace('$1', WG_PAGE_NAME),
 			getMessage('createsummary').replace('$1', WG_PAGE_NAME)
-		).done(() => {
+		).then(() => {
 			// delay load before the asynchronous tasks on server finished
 			setTimeout(() => {
 				self.loaded(self.tabs.create.cont);
@@ -434,8 +434,8 @@ export const ToolsRedirect = {
 			loaded = {};
 			loaded[pagename] = true;
 		}
-		const onClickFix = function (event) {
-			const entry = $(this).parents('dd, p').first();
+		const onClickFix = (event) => {
+			const entry = $(self).parents('dd, p').first();
 			event.preventDefault();
 			self.clickAction(entry, self.fix);
 		};
@@ -446,7 +446,7 @@ export const ToolsRedirect = {
 			prop: 'redirects',
 			titles: pagename,
 			rdlimit: 'max',
-		}).done(({query}) => {
+		}).then(({query}) => {
 			self.loaded(container);
 			let has_redirect = false;
 			const desc = $('p.desc', self.tabs.view.cont);
@@ -487,7 +487,7 @@ export const ToolsRedirect = {
 						if (isCycleRedirect) {
 							$container.append(`<span class="error">${getMessage('errcycleredirect')}</span>`);
 						} else if (deep < maximumRedirectDepth) {
-							deferObj.done(() => {
+							deferObj.then(() => {
 								return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
 							});
 						}
@@ -542,7 +542,7 @@ export const ToolsRedirect = {
 			'zh-hans': true,
 			'zh-hant': true,
 		};
-		for (const [, variant] of Object.entries(this.variants)) {
+		for (const [, variant] of Object.entries(self.variants)) {
 			let xhr = api
 				.post({
 					action: 'parse',
@@ -710,7 +710,7 @@ export const ToolsRedirect = {
 				}
 				return self.findVariants(pagename, titles);
 			})
-			.done((fvtitles) => {
+			.then((fvtitles) => {
 				// build HTML
 				self.loaded(container);
 				for (const title of fvtitles) {
