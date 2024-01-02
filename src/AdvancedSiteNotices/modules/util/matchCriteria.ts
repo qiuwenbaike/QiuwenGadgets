@@ -33,7 +33,7 @@ const matchCriteria = ($notice: JQuery): boolean => {
 		const criteria: string = mw.Uri.decode(criteriaData) || 'true';
 		result = testCriteria(criteria);
 	} else if ($notice.attr('class')) {
-		let criteria: boolean = false;
+		let criteria: boolean | undefined;
 
 		if ($notice.hasClass('only_sysop')) {
 			criteria ||= in_group('sysop') || in_group('steward') || in_group('qiuwen');
@@ -63,7 +63,13 @@ const matchCriteria = ($notice: JQuery): boolean => {
 			criteria ||= only_for('zh-tw');
 		}
 
+		if (criteria === undefined) {
+			criteria = true;
+		}
+
 		result = criteria;
+	} else {
+		result = true;
 	}
 
 	$notice.data('asn-cache', result);
