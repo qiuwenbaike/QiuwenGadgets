@@ -1,6 +1,11 @@
 import {getMessage} from '../i18n';
 
-const generateElements = ($body: JQuery) => {
+const generateElements = (
+	$body: JQuery<HTMLBodyElement>
+): {
+	$table: JQuery;
+	$opener: JQuery;
+} => {
 	const $tableItems: JQuery[] = $body
 		.find('[accesskey]')
 		.map((_index: number, element: HTMLElement): JQuery => {
@@ -13,7 +18,9 @@ const generateElements = ($body: JQuery) => {
 						element.textContent ||
 						(element as HTMLInputElement).value ||
 						$body.find(`label[for="${element.id}"]`).text()
-					).replace(/\s*?\[.+?]$/, '')
+					)
+						.replace(/\s*?\[.+?]$/, '')
+						.trim()
 				)
 			);
 		})
