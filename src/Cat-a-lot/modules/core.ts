@@ -301,23 +301,24 @@ const catALot = (): void => {
 			};
 			const promise = [];
 			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
-				promise.push(async () => {
-					const {parse} = await CAL.api.post({...params, variant});
-					const {text} = parse;
-					results.push($(text).eq(0).text().trim());
+				promise.push(() => {
+					void CAL.api.post({...params, variant}).done(({parse}) => {
+						const {text} = parse;
+						results.push($(text).eq(0).text().trim());
+					});
 				});
 			}
 			await Promise.all(promise);
 			CAL.variantCache[category] = [...new Set(results)]; // De-duplicate
 			return results;
 		}
-		private static regexBuilder(category: string): RegExp {
+		private static async regexBuilder(category: string): Promise<RegExp> {
 			// Build a regexp string for matching the given category:
 			const catName: string = CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category');
 			// trim leading/trailing whitespace and underscores
 			category = category.replace(/^[\s_]+/, '').replace(/[\s_]+$/, '');
 			// Find all variants
-			const variants: string[] = CAL.findAllVariants(category);
+			const variants: string[] = await CAL.findAllVariants(category);
 			// escape regexp metacharacters (= any ASCII punctuation except _)
 			const variantArray: string[] = [];
 			for (let variant of variants) {
@@ -436,13 +437,13 @@ const catALot = (): void => {
 				CAL.$counter.text(CAL.counterCurrent);
 			}
 		}
-		private editCategories(
+		private async editCategories(
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			result: Record<string, any>,
 			markedLabel: ReturnType<typeof this.getMarkedLabels>[0],
 			targetCategory: string,
 			mode: 'add' | 'copy' | 'move' | 'remove'
-		): void {
+		): Promise<void> {
 			const [markedLabelTitle, $markedLabel] = markedLabel;
 
 			if (!result?.['query']) {
@@ -464,7 +465,8 @@ const catALot = (): void => {
 
 			const sourcecat: string = CAL.CURRENT_CATEGROY;
 			// Check if that file is already in that category
-			if (mode !== 'remove' && CAL.regexBuilder(targetCategory).test(originText)) {
+			const targeRegExp = await CAL.regexBuilder(targetCategory);
+			if (mode !== 'remove' && targeRegExp.test(originText)) {
 				// If the new cat is already there, just remove the old one
 				if (mode === 'move') {
 					mode = 'remove';
@@ -478,6 +480,7 @@ const catALot = (): void => {
 			// Fix text
 			let text: string = originText;
 			let summary: string;
+			const sourceCatRegExp = await CAL.regexBuilder(sourcecat);
 			switch (mode) {
 				case 'add':
 					text += `\n[[${CAL.localCatName}:${targetCategory}]]\n`;
@@ -485,7 +488,7 @@ const catALot = (): void => {
 					break;
 				case 'copy':
 					text = text.replace(
-						CAL.regexBuilder(sourcecat),
+						sourceCatRegExp,
 						`[[${CAL.localCatName}:${sourcecat}$1]]\n[[${CAL.localCatName}:${targetCategory}$1]]`
 					);
 					summary = CAL.msg('summary-copy').replace('$1', sourcecat).replace('$2', targetCategory);
@@ -495,11 +498,11 @@ const catALot = (): void => {
 					}
 					break;
 				case 'move':
-					text = text.replace(CAL.regexBuilder(sourcecat), `[[${CAL.localCatName}:${targetCategory}$1]]`);
+					text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`);
 					summary = CAL.msg('summary-move').replace('$1', sourcecat).replace('$2', targetCategory);
 					break;
 				case 'remove':
-					text = text.replace(CAL.regexBuilder(sourcecat), '');
+					text = text.replace(sourceCatRegExp, '');
 					summary = CAL.msg('summary-remove').replace('$1', sourcecat);
 					break;
 			}
@@ -551,7 +554,7 @@ const catALot = (): void => {
 					rvprop: 'content|timestamp',
 				},
 				(result): void => {
-					this.editCategories(result, markedLabel, targetCategory, mode);
+					void this.editCategories(result, markedLabel, targetCategory, mode);
 				}
 			);
 		}
