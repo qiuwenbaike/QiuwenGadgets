@@ -1,5 +1,5 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 春节专用首页样式",
-	"default": true
+	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 逢公历元旦、农历春节等节庆启用的首页样式",
+	"default": false
 }
