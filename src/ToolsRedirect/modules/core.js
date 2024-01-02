@@ -74,7 +74,7 @@ const findRedirectBySelector = function (selector) {
 	/* A shortcut to add CSS selectors as rule to find new potential redirect titles. */
 	findRedirectCallbacks.push(() => {
 		return $(selector).map((_index, element) => {
-			const title = $(element).text();
+			const title = $(element).eq(0).text().trim();
 			return title || null;
 		});
 	});
@@ -542,7 +542,7 @@ export const ToolsRedirect = {
 			'zh-hans': true,
 			'zh-hant': true,
 		};
-		for (const [, variant] of Object.entries(self.variants)) {
+		for (const variant of Object.keys(self.variants)) {
 			let xhr = api
 				.post({
 					action: 'parse',
@@ -557,7 +557,7 @@ export const ToolsRedirect = {
 					// Example:
 					// - Before: <span class="mw-page-title-namespace">求闻百科</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">沙盒</span>
 					// - After: 求闻百科:沙盒
-					let title = $(displaytitle).text();
+					let title = $(displaytitle).eq(0).text().trim();
 					title = fixNamespace(title);
 					if (variant in simpAndTrad) {
 						setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
@@ -575,7 +575,9 @@ export const ToolsRedirect = {
 						variant,
 					}).then(({parse}) => {
 						const tmpTitle = $(parse.text)
+							.eq(0)
 							.text()
+							.trim()
 							.replace(/(^\s*|\s*$)/g, '');
 						// should not create redirect categories
 						// if the conversion is already in global table,
@@ -630,7 +632,9 @@ export const ToolsRedirect = {
 				alltitles = [
 					...alltitles,
 					...$(parse.text)
+						.eq(0)
 						.text()
+						.trim()
 						.replace(/(^\s*|\s*$)/g, '')
 						.split('|'),
 				];
