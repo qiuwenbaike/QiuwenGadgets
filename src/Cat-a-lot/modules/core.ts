@@ -18,6 +18,7 @@ import {
 	CLASS_NAME_LABEL_DONE,
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
+	VARIANTS,
 	WG_CANONICAL_SPECIAL_PAGE_NAME,
 	WG_FORMATTED_NAMESPACES,
 	WG_NAMESPACE_IDS,
@@ -48,6 +49,8 @@ const catALot = (): void => {
 
 		private static readonly WG_FORMATTED_NAMESPACES: Record<number, string> = WG_FORMATTED_NAMESPACES;
 		private static readonly WG_NAMESPACE_IDS: Record<string, number> = WG_NAMESPACE_IDS;
+
+		private static readonly VARIANTS: string[] = VARIANTS;
 
 		private static isAutoCompleteInit = false;
 
@@ -300,7 +303,7 @@ const catALot = (): void => {
 				formatversion: '2',
 			};
 			const promise = [];
-			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
+			for (const variant of this.VARIANTS) {
 				promise.push(() => {
 					void CAL.api.post({...params, variant}).done(({parse}) => {
 						const {text} = parse;

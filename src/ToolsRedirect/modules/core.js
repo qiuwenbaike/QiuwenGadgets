@@ -1,10 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {
+	EDIT_TAG,
 	IS_CATEGORY,
 	SUFFIX_APPEND,
 	SUFFIX_REPLACE,
 	SUFFIX_SETDEFAULT,
+	VARIANTS,
 	WG_NAMESPACE_IDS,
 	WG_NAMESPACE_NUMBER,
 	WG_PAGE_NAME,
@@ -110,7 +112,7 @@ window.toolsRedirect = {
 export const ToolsRedirect = {
 	tabselem: null,
 	tagselem: null,
-	variants: ['zh-hans', 'zh-hant', 'zh-cn', 'zh-hk', 'zh-mo', 'zh-sg', 'zh-tw'],
+	variants: VARIANTS,
 	init() {
 		const self = this;
 		const $body = $('body');
@@ -241,7 +243,7 @@ export const ToolsRedirect = {
 							title,
 							text: self.addRedirectTextSuffix(title, text),
 							summary,
-							tags: 'ToolsRedirect',
+							tags: EDIT_TAG,
 						})
 					);
 				}
@@ -275,7 +277,7 @@ export const ToolsRedirect = {
 							formatversion: '2',
 							title: page.title,
 							text: newContent,
-							tags: 'ToolsRedirect',
+							tags: EDIT_TAG,
 							basetimestamp: page.revisions[0].timestamp,
 							summary,
 						})
@@ -542,7 +544,7 @@ export const ToolsRedirect = {
 			'zh-hans': true,
 			'zh-hant': true,
 		};
-		for (const variant of Object.keys(self.variants)) {
+		for (const variant of self.variants) {
 			let xhr = api
 				.post({
 					action: 'parse',
