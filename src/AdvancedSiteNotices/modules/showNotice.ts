@@ -80,7 +80,7 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 		$notice.data('asn-style-id', noticeStyles.length);
 		const style: HTMLStyleElement = mw.loader.addStyleTag(mw.Uri.decode($notice.data('asn-style') as string));
 		style.disabled = true;
-		noticeStyles.push(style);
+		noticeStyles[noticeStyles.length] = style; // Replace `noticeStyles.push()` to avoid polyfilling core-js
 		$notice.data('asn-style', null);
 	}
 
