@@ -435,7 +435,7 @@ export const ToolsRedirect = {
 			loaded[pagename] = true;
 		}
 		const onClickFix = (event) => {
-			const entry = $(self).parents('dd, p').first();
+			const entry = $(this).parents('dd, p').first();
 			event.preventDefault();
 			self.clickAction(entry, self.fix);
 		};
