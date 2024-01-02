@@ -287,7 +287,10 @@ const catALot = (): void => {
 			this.updateSelectionCounter();
 		}
 
-		private static findAllVariants(category: string): string[] {
+		private static async findAllVariants(category: string): Promise<string[]> {
+			if (CAL.variantCache[category] !== undefined) {
+				return CAL.variantCache[category] as string[];
+			}
 			const results: string[] = [];
 			const params: ApiParseParams = {
 				action: 'parse',
@@ -296,24 +299,16 @@ const catALot = (): void => {
 				format: 'json',
 				formatversion: '2',
 			};
-			if (CAL.variantCache[category] !== undefined) {
-				return CAL.variantCache[category] as string[];
-			}
-			const deferreds = [];
+			const promise = [];
 			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
-				deferreds.push(CAL.api.get({...params, variant}));
-			}
-			void $.when(...deferreds)
-				.then((...args) => {
-					for (const {query} of args) {
-						const result = query['parse'].text;
-						const trimmedResult: string = $(result).eq(0).text().trim();
-						results.push(trimmedResult);
-					}
-				})
-				.then(() => {
-					CAL.variantCache[category] = [...new Set(results)]; // De-duplicate
+				promise.push(async () => {
+					const {parse} = await CAL.api.post({...params, variant});
+					const {text} = parse;
+					results.push($(text).eq(0).text().trim());
 				});
+			}
+			await Promise.all(promise);
+			CAL.variantCache[category] = [...new Set(results)]; // De-duplicate
 			return results;
 		}
 		private static regexBuilder(category: string): RegExp {
