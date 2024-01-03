@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 export const popups = () => {
 	// STARTFILE: main.js

@@ -1,7 +1,7 @@
 /* eslint-disable no-jquery/no-map-util */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkleblock.js */
 (function twinkleblock($) {

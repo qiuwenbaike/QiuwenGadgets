@@ -1,6 +1,6 @@
 import type {Config, State} from './types';
 import {ID, WG_SKIN} from './constant';
-import {checkA11yConfirmKey, scrollTop} from '~/util';
+import {checkA11yConfirmKey, scrollTop} from 'ext.gadget.Util';
 import {generateElements} from './util/generateElements';
 import {generateTogglerElement} from './util/generateTogglerElement';
 import {getConfig} from './getConfig';

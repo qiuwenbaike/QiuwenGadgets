@@ -1,4 +1,4 @@
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 /* 跟[[Module:Special wikitext]]保持一致的段落。 */
 const wikiTextKey: string = '_addText';

@@ -5,6 +5,7 @@
 	"dependencies": [
 		"ext.gadget.i18n",
 		"ext.gadget.morebits",
+		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.widgets.SelectWithInputWidget",
 		"mediawiki.widgets.expiry",

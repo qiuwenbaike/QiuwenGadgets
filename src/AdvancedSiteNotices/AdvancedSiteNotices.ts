@@ -1,6 +1,6 @@
 import * as OPTIONS from './options.json';
 import {type RemoteNotices} from './modules/util/queryApi';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {loadRemoteNotices} from './modules/loadRemoteNotices';
 import {showNotices} from './modules/showNotice';
 

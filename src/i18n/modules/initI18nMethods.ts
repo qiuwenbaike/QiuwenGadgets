@@ -2,7 +2,7 @@ import * as OPTIONS from '../options.json';
 import {WG_CONTENT_LANGUAGE, WG_USER_LANGUAGE, WG_USER_VARIANT} from './constant';
 import type {I18nCandidates} from './types';
 import {generateDefaultFallbackList} from './util/generateDefaultFallbackList';
-import {isValidKey} from '~/util';
+import {isValidKey} from 'ext.gadget.Util';
 
 const initI18nMethods = (): typeof i18nMethods => {
 	const defaultFallbackList: string[] = generateDefaultFallbackList();

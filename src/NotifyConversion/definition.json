@@ -4,6 +4,7 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.i18n",
+		"ext.gadget.Util",
 		"oojs-ui-core",
 		"oojs-ui-windows",
 		"oojs-ui-widgets",

@@ -1,5 +1,5 @@
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 
 const processWikiEditor = async (): Promise<void> => {
 	const $body: JQuery<HTMLBodyElement> = await getBody();

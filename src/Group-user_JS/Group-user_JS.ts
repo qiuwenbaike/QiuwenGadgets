@@ -1,6 +1,6 @@
 import {addLog, addSubpage} from './modules/addSubpageAndLog';
 import {fixSummary} from './modules/fixSummary';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {linkSearchEditButton} from './modules/linkSearchEditButton';
 import {loadGadgetEditForm} from './modules/loadGadgetEditForm';
 import {smartEditIntro} from './modules/smartEditIntro';

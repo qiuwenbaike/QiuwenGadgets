@@ -6,6 +6,7 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.i18n",
+		"ext.gadget.Util",
 		"mediawiki.notification",
 		"mediawiki.storage",
 		"oojs-ui.styles.icons-editing-citation",

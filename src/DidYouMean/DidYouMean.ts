@@ -1,5 +1,5 @@
 import * as OPTIONS from './options.json';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './modules/i18n';
 import {toastify} from 'ext.gadget.Toastify';
 

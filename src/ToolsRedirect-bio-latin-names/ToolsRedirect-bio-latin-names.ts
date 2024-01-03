@@ -1,5 +1,5 @@
 import {WG_WIKI_ID} from './modules/constant';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 ((): void => {
 	if (mw.user.options.get('gadget-ToolsRedirect')) {

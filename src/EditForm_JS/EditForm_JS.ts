@@ -1,7 +1,7 @@
 import {aiAssisted} from './modules/aiAssisted';
 import {clearUndoSummary} from './modules/clearUndoSummary';
 import {disableTitle} from './modules/disableTitle';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 
 void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	// 删除回退时自动生成的编辑摘要

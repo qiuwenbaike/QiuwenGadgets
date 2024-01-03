@@ -4,7 +4,7 @@ import './modules/check';
 import {WG_WIKI_ID} from './modules/constant';
 import {getMessage} from './modules/getMessage';
 import {hotCatMessages} from './modules/messages';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 /**
  * @description Ajax-based simple Category manager. Allows adding/removing/changing categories on a page view.

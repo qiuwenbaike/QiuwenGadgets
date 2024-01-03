@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {WG_WIKI_ID} from './constant';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 /**
  * CheckCategories HotCat Extension –

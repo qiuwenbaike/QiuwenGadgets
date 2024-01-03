@@ -1,5 +1,5 @@
 import {TRANSLATE_VARIANTS_SUMMARY} from './constant';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 export const translateVariants = (): void => {
 	const langs: Set<string> = new Set([

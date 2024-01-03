@@ -1,4 +1,4 @@
-import {checkA11yConfirmKey} from '~/util';
+import {checkA11yConfirmKey} from 'ext.gadget.Util';
 import {toggleElement} from './util/toggleElement';
 
 const addListener = ($collapsible: JQuery, $togglerLink: JQuery, hideText: string, showText: string): void => {

@@ -1,6 +1,6 @@
 import {type rrdConfig, type rrdConfigCheckBoxes, type rrdConfigOthers} from './types';
 import {RRD_PAGE} from './constant';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 import {message} from './messages';
 
 export const isLog: boolean = mw.config.get('wgCanonicalSpecialPageName') === 'Log';

@@ -1,5 +1,5 @@
 import {WG_SKIN} from './modules/constant';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {processElement} from './modules/processElement';
 
 void getBody().then(function addSectionPlus($body: JQuery<HTMLBodyElement>): void {

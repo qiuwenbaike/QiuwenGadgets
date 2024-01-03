@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
 import {WG_WIKI_ID} from './constant';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 type ClientLoginParams = ApiClientLoginParams & {
 	logincontinue?: boolean;

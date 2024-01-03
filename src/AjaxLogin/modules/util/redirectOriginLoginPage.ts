@@ -1,4 +1,4 @@
-import {delay} from '~/util';
+import {delay} from 'ext.gadget.Util';
 
 const redirectOriginLoginPage = async (windowManager: OO.ui.WindowManager): Promise<void> => {
 	await windowManager.clearWindows();

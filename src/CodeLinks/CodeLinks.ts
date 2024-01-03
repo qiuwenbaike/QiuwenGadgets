@@ -1,5 +1,5 @@
 import {addLink} from './modules/addLink';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {processComment} from './modules/processComment';
 
 void getBody().then(function codeLinks($body: JQuery<HTMLBodyElement>): void {

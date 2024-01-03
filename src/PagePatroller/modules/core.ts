@@ -1,4 +1,4 @@
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 export const pagePatroller = async (): Promise<void> => {
 	const api = initMwApi(`Qiuwen/1.1 (PagePatroller/2.0; ${mw.config.get('wgWikiID')})`);

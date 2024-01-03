@@ -3,5 +3,5 @@
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-DidYouMean\"></span> 提示“页面不存在”时，自动跳转到最可能的页面 <small>{{tl|Did you mean box}}模板配套脚本</small>",
 	"section": "browser",
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify"]
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify", "ext.gadget.Util"]
 }

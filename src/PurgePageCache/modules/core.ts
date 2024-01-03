@@ -1,5 +1,5 @@
 import {getMessage} from './i18n';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
 export const purgePageCache = (): void => {

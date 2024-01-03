@@ -1,7 +1,7 @@
 import {addListener} from './modules/addListener';
 import {generateElements} from './modules/util/generateElements';
 import {generateMessageDialogProperty} from './modules/util/generateMessageDialogProperty';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {initWindowManager} from './modules/initWindowManager';
 
 /**

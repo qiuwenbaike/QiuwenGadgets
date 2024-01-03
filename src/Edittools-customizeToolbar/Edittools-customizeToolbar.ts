@@ -1,5 +1,5 @@
 import type {CustomizeToolbar} from './modules/types';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 
 const customizeToolbar: CustomizeToolbar = (customizer) => {
 	if (!mw.user.options.get('usebetatoolbar')) {

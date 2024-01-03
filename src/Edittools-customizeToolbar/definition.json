@@ -4,5 +4,5 @@
 	"section": "edit",
 	"hidden": true,
 	"actions": ["edit", "submit"],
-	"dependencies": ["ext.wikiEditor", "user.options"]
+	"dependencies": ["ext.gadget.Util", "ext.wikiEditor", "user.options"]
 }

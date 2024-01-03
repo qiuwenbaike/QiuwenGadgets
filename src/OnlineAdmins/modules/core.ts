@@ -1,6 +1,6 @@
 import {BLACK_LIST} from './constant';
 import {getMessage} from './i18n';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 export const onlineAdmins = (): void => {
 	// Create portlet link

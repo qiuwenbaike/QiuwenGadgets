@@ -1,7 +1,7 @@
 /* eslint-disable mediawiki/class-doc */
 import * as OPTIONS from './options.json';
 import {CLASS_NAME_LONG, CLASS_NAME_SHORT, CLASS_NAME_SWITCH} from './modules/constant';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './modules/i18n';
 
 void getBody().then(function hideLongSummaries($body: JQuery<HTMLBodyElement>): void {
