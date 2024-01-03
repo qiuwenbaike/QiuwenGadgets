@@ -1,6 +1,7 @@
 import type {Config, State} from './types';
 import {ID, WG_SKIN} from './constant';
 import {checkA11yConfirmKey, scrollTop} from 'ext.gadget.Util';
+import {filterAlteredClicks} from 'ext.gadget.FilterAlteredClicks';
 import {generateElements} from './util/generateElements';
 import {generateTogglerElement} from './util/generateTogglerElement';
 import {getConfig} from './getConfig';
@@ -110,7 +111,12 @@ const floatTOC = ($originToc: JQuery): void => {
 					smoothScroll(event);
 				}
 			};
-			preNotification.$notification.on('click', notificationListener);
+			preNotification.$notification.on(
+				'click',
+				filterAlteredClicks((event: JQuery.ClickEvent): void => {
+					void notificationListener(event);
+				})
+			);
 			preNotification.$notification.on('keydown', notificationListener);
 		}
 
