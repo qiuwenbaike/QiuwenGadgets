@@ -50,6 +50,9 @@ dependencies:
   clipboard:
     specifier: ^2.0.11
     version: 2.0.11
+  filter-altered-clicks:
+    specifier: ^2.0.1
+    version: 2.0.1
   tippy.js:
     specifier: ^6.3.7
     version: 6.3.7
@@ -3793,6 +3796,10 @@ packages:
     dependencies:
       to-regex-range: 5.0.1
     dev: true
+
+  /filter-altered-clicks@2.0.1:
+    resolution: {integrity: sha512-/eguM/WumjpUls1kgLNk8T5JAdqTvI9hc8q7mOXsxIZAvxRLwttigaiJrfIuNXhREL8VrQZQKBiwFApJSbE7qA==}
+    dev: false
 
   /find-up@5.0.0:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}

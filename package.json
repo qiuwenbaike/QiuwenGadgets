@@ -42,6 +42,7 @@
 	"dependencies": {
 		"@types/toastify-js": "^1.12.3",
 		"clipboard": "^2.0.11",
+		"filter-altered-clicks": "^2.0.1",
 		"tippy.js": "^6.3.7",
 		"toastify-js": "^1.12.0"
 	},
