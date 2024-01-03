@@ -6,11 +6,11 @@
 	}
 
 	const wikiplusLoad = () => {
-		/*! Wikiplus - 4.0.11 | Eridanus Sora (妹空酱) | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
+		/*! Wikiplus - 4.0.11 | Eridanus Sora (妹空酱) | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 		import('./modules/core');
 
 		if (!('ontouchstart' in document) && mw.user.options.get('gadget-Wikiplus-highlight')) {
-			/*! Wikiplus-highlight | Bhsd, 机智的小鱼君 | GPL-3.0 <qwbk.cc/H:GPL-3.0> */
+			/*! Wikiplus-highlight | Bhsd, 机智的小鱼君 | GPL-3.0 <https://qwbk.cc/H:GPL-3.0> */
 			import('./modules/highlight');
 		}
 	};

@@ -845,7 +845,7 @@ hotCatMessages();
 					} else {
 						summary.push(
 							`±${getMessage('messages-short_catchange', changed[i].from)}${arrow}${getMessage(
-								'hotcat-messages-short_catchange',
+								'messages-short_catchange',
 								changed[i].to
 							)}`
 						);
@@ -857,7 +857,7 @@ hotCatMessages();
 					} else {
 						shortSummary.push(
 							`±${getMessage('messages-short_catchange', changed[0].from)}${arrow}${getMessage(
-								'hotcat-messages-short_catchange',
+								'messages-short_catchange',
 								changed[0].to
 							)}`
 						);

@@ -2,7 +2,7 @@
 import {CLASS_NAME_LABEL, CLASS_NAME_LABEL_LAST_SELECTED, CLASS_NAME_LABEL_SELECTED} from './constant';
 
 const extendJQueryPrototype = (): void => {
-	/*! jQuery checkboxShiftClick | GPL-2.0 <qwbk.cc/H:GPL> */
+	/*! jQuery checkboxShiftClick | GPL-2.0 <https://qwbk.cc/H:GPL> */
 	// @ts-expect-error TS2339
 	$.fn.onCatALotShiftClick = function (callback: (...args: unknown[]) => unknown): JQuery {
 		let prevCheckbox: JQuery | undefined;
