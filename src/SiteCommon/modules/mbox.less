@@ -9,12 +9,13 @@
 	flex-direction: column;
 	place-content: center center;
 	align-items: center;
-	border-width: 1px 1px 1px 0.5em;
+	border-width: 2px;
+	border-left-width: 0.375em;
 	border-style: solid;
 	border-radius: @border-radius--small;
 	border-color: @color--primary;
 	padding: 0.5em 0.5em 0.5em 0;
-	margin: 0.5em auto;
+	margin: 0.25em auto;
 	background: #def;
 	border-collapse: inherit;
 
@@ -194,7 +195,7 @@
 	/* Disambig and set index box styles */
 	&-disambig,
 	&-setindex {
-		border-color: #ccc;
+		border-color: #999;
 		background: #fefefe;
 	}
 }
@@ -268,13 +269,15 @@
 
 /* Footer and header message box styles */
 .fmbox {
-	border: 1px solid #a2a9b1;
-	margin: 0.2em 0;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #a2a9b1;
+	margin: 0.25em 0;
 	background: #f8f9fa; /* Default "system" gray */
 	clear: both;
 
 	&-warning {
-		border: 1px solid #bb7070; /* Dark pink */
+		border-color: #bb7070; /* Dark pink */
 		background: #ffdbdb; /* Pink */
 	}
 
@@ -285,7 +288,7 @@
 	/* Div based "system" style fmbox messages. */
 	&-system {
 		padding: 0.25em 0;
-		border: 1px solid #a2a9b1;
+		border-color: #a2a9b1;
 		margin: 0.2em 0;
 		background: #f8f9fa;
 		clear: both;
@@ -309,6 +312,7 @@
 body.mediawiki .mbox-small {
 	max-width: 320px;
 	margin: 0.25em 0 0.25em 1em !important;
+	padding: 0.25em;
 
 	/* For the "small=yes" option. */
 	clear: both;
@@ -374,7 +378,7 @@ body.mediawiki .mbox-small {
 @media screen and (max-width: 480px) {
 	.mbox-small {
 		width: 100%;
-		margin: 4px auto !important;
+		margin: 0.25em auto !important;
 		float: none;
 	}
 }
