@@ -5,6 +5,7 @@
 	"actions": ["view"],
 	"default": true,
 	"dependencies": [
+		"ext.gadget.FilterAlteredClicks",
 		"ext.gadget.i18n",
 		"ext.gadget.Util",
 		"mediawiki.notification",
