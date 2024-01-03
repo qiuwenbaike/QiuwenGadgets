@@ -51,7 +51,7 @@ const DEFAULT_MESSAGES: Record<MessageKey, string> = {
 };
 
 const setMessages = (): void => {
-	/*! Cat-a-lot messages | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
+	/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 	if (WG_USER_LANGUAGE === 'en') {
 		return;
 	}

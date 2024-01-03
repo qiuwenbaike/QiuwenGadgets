@@ -33,7 +33,7 @@ import {getBody, initMwApi} from '~/util';
  * Changes category of multiple files
  */
 const catALot = (): void => {
-	/*! Cat-a-lot | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
+	/*! Cat-a-lot | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 	class CAL {
 		public static isSearchMode = false;
 
@@ -296,20 +296,17 @@ const catALot = (): void => {
 				format: 'json',
 				formatversion: '2',
 			};
-			if (CAL.variantCache[category] !== undefined) {
-				return CAL.variantCache[category] as string[];
-			}
-			for (const variant of ['zh-hans', 'zh-hant', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hk', 'zh-mo', 'zh-tw']) {
-				params.variant = variant;
-				void CAL.api.get(params).then((query) => {
-					const result = query['parse'].text;
-					const trimmedResult: string = $(result).eq(0).text().trim();
-					if (!results.includes(trimmedResult)) {
-						results.push(trimmedResult);
-					}
+			const promise: (() => Promise<void>)[] = [];
+			for (const variant of VARIANTS) {
+				promise.push(async () => {
+					params.variant = variant;
+					const {parse} = await CAL.api.post(params);
+					const {text} = parse;
+					results.push($(text).eq(0).text().trim());
 				});
 			}
-			CAL.variantCache[category] = results;
+			await Promise.all(promise);
+			CAL.variantCache[category] = [...new Set(results)]; // De-duplicate
 			return results;
 		}
 		private static regexBuilder(category: string): RegExp {
@@ -836,7 +833,7 @@ const catALot = (): void => {
 		if (WG_NAMESPACE_NUMBER === -1) {
 			CAL.isSearchMode = true;
 		}
-		/*! Cat-a-lot messages | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
+		/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 		setMessages();
 		void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 			new CAL($body).buildElements();
