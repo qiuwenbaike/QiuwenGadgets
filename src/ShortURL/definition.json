@@ -7,6 +7,7 @@
 		"ext.gadget.Clipboard",
 		"ext.gadget.i18n",
 		"ext.gadget.Tippy",
+		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.util",
 		"mediawiki.widgets",

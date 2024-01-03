@@ -13,7 +13,7 @@ import {
 	WG_WIKI_ID,
 } from './constant';
 import {getMessage} from './util/getMessages';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 const api = initMwApi(`Qiuwen/1.1 (ToolsRedirect/2.0; ${WG_WIKI_ID})`);
 

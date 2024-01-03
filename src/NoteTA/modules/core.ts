@@ -1,4 +1,4 @@
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 const api: mw.Api = initMwApi(`Qiuwen/1.1 (NoteTA/1.1; ${mw.config.get('wgWikiID')})`);
 

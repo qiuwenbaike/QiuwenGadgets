@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {easy_archive_lang} from './modules/i18n';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
 (function easyArchive() {

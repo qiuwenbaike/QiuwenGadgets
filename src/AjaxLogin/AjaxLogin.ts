@@ -1,5 +1,5 @@
 import * as OPTIONS from './options.json';
-import {checkA11yConfirmKey, getBody} from '../util';
+import {checkA11yConfirmKey, getBody} from 'ext.gadget.Util';
 import {WG_USER_NAME} from './modules/constant';
 import {addListener} from './modules/addListener';
 import {ajaxLogin} from './modules/core';

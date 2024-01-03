@@ -1,7 +1,7 @@
 import * as OPTIONS from '../options.json';
 import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
-import {oouiConfirmWithStyle} from '~/util';
+import {oouiConfirmWithStyle} from 'ext.gadget.Util';
 import {refreshEventListener} from './util/refreshEventListener';
 import {toastify} from 'ext.gadget.Toastify';
 import {tryLogout} from './tryLogout';

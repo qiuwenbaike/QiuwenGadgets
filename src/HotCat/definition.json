@@ -5,6 +5,7 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.i18n",
+		"ext.gadget.Util",
 		"jquery.ui",
 		"mediawiki.storage",
 		"mediawiki.jqueryMsg",

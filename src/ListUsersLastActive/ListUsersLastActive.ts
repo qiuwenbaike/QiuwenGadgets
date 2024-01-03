@@ -3,7 +3,7 @@
  */
 import {WG_CANONICAL_SPECIAL_PAGE_NAME} from './modules/constant';
 import {checkLastActive} from './modules/checkLastActive';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	if (WG_CANONICAL_SPECIAL_PAGE_NAME !== 'Listusers') {

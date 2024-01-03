@@ -1,7 +1,7 @@
 /* global CiteTB */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {getBody, initMwApi} from '~/util';
+import {getBody, initMwApi} from 'ext.gadget.Util';
 import {WG_WIKI_ID} from './constant';
 import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';

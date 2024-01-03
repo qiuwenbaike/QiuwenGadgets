@@ -1,7 +1,7 @@
 import {USER_SCRIPT_LIST, USER_WEBMASTER_LIST, WG_RELEVANT_USER_NAME} from './constant';
 import {appendGeoIcon, appendIcon} from './appendGeoIcon';
 import {api} from './api';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './i18n';
 
 const addElement = async (): Promise<void> => {

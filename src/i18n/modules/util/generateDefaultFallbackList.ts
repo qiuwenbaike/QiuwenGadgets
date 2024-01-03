@@ -1,6 +1,6 @@
 import * as OPTIONS from '../../options.json';
 import {generateLanguageCodeSplitArray} from './generateLanguageCodeSplitArray';
-import {isValidKey} from '~/util';
+import {isValidKey} from 'ext.gadget.Util';
 
 const generateDefaultFallbackList = (): string[] => {
 	const documentLanguageSplitArray: string[] = generateLanguageCodeSplitArray(document.documentElement.lang);

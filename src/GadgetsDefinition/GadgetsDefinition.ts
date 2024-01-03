@@ -7,7 +7,7 @@
 // Technique gleaned from [[enwiki:fr:Utilisateur:Od1n/AddLinksGadgetsDefinition.js]].
 import {IS_DEFINITION_PAGE} from './modules/constant';
 import {generateGadgetId} from './modules/util/generateGadgetId';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {matchGadgetName} from './modules/util/matchGadgetName';
 import {processGadgetDefinition} from './modules/processGadgetDefinition';
 

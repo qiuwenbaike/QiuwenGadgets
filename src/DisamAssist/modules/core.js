@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {cfg} from './config';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 import {txt} from './messages';
 
 const api = initMwApi(`Qiuwen/1.1 (DisamAssist/1.1; ${mw.config.get('wgWikiID')})`);

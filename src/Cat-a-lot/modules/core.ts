@@ -28,7 +28,7 @@ import {
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
-import {getBody, initMwApi} from '~/util';
+import {getBody, initMwApi} from 'ext.gadget.Util';
 
 /**
  * Changes category of multiple files

@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {PAGE_PERM, PERM_NAME, PERM_TEMPLATE, TAGLINE, WG_PAGE_NAME} from './constant';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 const permission = PAGE_PERM[WG_PAGE_NAME];
 const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);

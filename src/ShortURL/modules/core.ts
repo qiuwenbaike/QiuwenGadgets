@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
 import {Clipboard} from 'ext.gadget.Clipboard';
 import {getMessage} from './i18n';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 import {tippy} from 'ext.gadget.Tippy';
 
 export const shortURL = (): void => {

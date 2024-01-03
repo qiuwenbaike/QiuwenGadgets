@@ -1,5 +1,5 @@
 import {CLASS_NAME_BUTTON, URL, WG_NAMESPACE_NUMBER} from './constant';
-import {changeOpacityWhenMouseEnterOrLeave} from '~/util';
+import {changeOpacityWhenMouseEnterOrLeave} from 'ext.gadget.Util';
 import {getMessage} from './i18n';
 import {tippy} from 'ext.gadget.Tippy';
 

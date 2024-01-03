@@ -13,7 +13,7 @@
  */
 import {REGEX_TARGET_PAGE, URL_LIFILTER, WG_ACTION, WG_CANONICAL_SPECIAL_PAGE_NAME} from './modules/constant';
 import {LogFilter} from './modules/core';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 
 (function logFilter(): void {
 	// When to enable all this

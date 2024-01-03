@@ -1,5 +1,5 @@
 import {WG_NAMESPACE_NUMBER, WG_PAGE_NAME} from './modules/constant';
-import {getBody} from '~/util';
+import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './modules/i18n';
 
 void getBody().then(function HRTProtectLink($body: JQuery<HTMLBodyElement>): void {

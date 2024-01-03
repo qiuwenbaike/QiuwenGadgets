@@ -1,6 +1,6 @@
 import {WG_WIKI_ID} from './constant';
 import {getMessage} from './i18n';
-import {initMwApi} from '~/util';
+import {initMwApi} from 'ext.gadget.Util';
 
 export const QuickPatrol = (): void => {
 	const $body: JQuery<HTMLBodyElement> = $('body');

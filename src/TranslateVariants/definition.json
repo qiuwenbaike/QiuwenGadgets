@@ -2,6 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-TranslateVariants\"></span> TranslateVariants <small>面向界面管理员的界面文字繁简自动转换工具</small>",
 	"section": "sysop",
-	"dependencies": ["ext.gadget.i18n", "mediawiki.api", "mediawiki.diff.styles", "mediawiki.util"],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.api", "mediawiki.diff.styles", "mediawiki.util"],
 	"rights": ["editinterface"]
 }

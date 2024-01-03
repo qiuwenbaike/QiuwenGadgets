@@ -4,6 +4,7 @@
 	"section": "edit",
 	"dependencies": [
 		"ext.gadget.i18n",
+		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.jqueryMsg",
 		"mediawiki.user",
