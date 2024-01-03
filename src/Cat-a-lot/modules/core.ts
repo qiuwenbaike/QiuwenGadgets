@@ -34,7 +34,7 @@ import {getBody, initMwApi} from '~/util';
  * Changes category of multiple files
  */
 const catALot = (): void => {
-	/*! Cat-a-lot | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
+	/*! Cat-a-lot | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 	class CAL {
 		public static isSearchMode = false;
 
@@ -49,8 +49,6 @@ const catALot = (): void => {
 
 		private static readonly WG_FORMATTED_NAMESPACES: Record<number, string> = WG_FORMATTED_NAMESPACES;
 		private static readonly WG_NAMESPACE_IDS: Record<string, number> = WG_NAMESPACE_IDS;
-
-		private static readonly VARIANTS: string[] = VARIANTS;
 
 		private static isAutoCompleteInit = false;
 
@@ -302,13 +300,13 @@ const catALot = (): void => {
 				format: 'json',
 				formatversion: '2',
 			};
-			const promise = [];
-			for (const variant of this.VARIANTS) {
-				promise.push(() => {
-					void CAL.api.post({...params, variant}).done(({parse}) => {
-						const {text} = parse;
-						results.push($(text).eq(0).text().trim());
-					});
+			const promise: (() => Promise<void>)[] = [];
+			for (const variant of VARIANTS) {
+				promise.push(async () => {
+					params.variant = variant;
+					const {parse} = await CAL.api.post(params);
+					const {text} = parse;
+					results.push($(text).eq(0).text().trim());
 				});
 			}
 			await Promise.all(promise);
@@ -351,11 +349,8 @@ const catALot = (): void => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			callback: (data: any) => void
 		) {
-			params = {
-				...params,
-				format: 'json',
-				formatversion: '2',
-			};
+			params['format'] = 'json';
+			params['formatversion'] = '2';
 			let i: number = 0;
 			const doCall = (): void => {
 				const handleError = (error: string): void => {
@@ -844,7 +839,7 @@ const catALot = (): void => {
 		if (WG_NAMESPACE_NUMBER === -1) {
 			CAL.isSearchMode = true;
 		}
-		/*! Cat-a-lot messages | CC-BY-SA-4.0 <qwbk.cc/H:CC-BY-SA-4.0> */
+		/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 		setMessages();
 		void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 			new CAL($body).buildElements();
