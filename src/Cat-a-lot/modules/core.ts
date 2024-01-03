@@ -300,19 +300,16 @@ const catALot = (): void => {
 				format: 'json',
 				formatversion: '2',
 			};
-			const promise: (() => Promise<void>)[] = [];
 			for (const variant of VARIANTS) {
-				promise.push(async () => {
-					params.variant = variant;
-					const {parse} = await CAL.api.post(params);
-					const {text} = parse;
-					results.push($(text).eq(0).text().trim());
-				});
+				const {parse} = await CAL.api.post({...params, variant});
+				const {text} = parse;
+				results.push($(text).eq(0).text().trim());
 			}
-			await Promise.all(promise);
-			CAL.variantCache[category] = [...new Set(results)]; // De-duplicate
+			// De-duplicate
+			CAL.variantCache[category] = [...new Set(results)];
 			return results;
 		}
+
 		private static async regexBuilder(category: string): Promise<RegExp> {
 			// Build a regexp string for matching the given category:
 			const catName: string = CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category');
@@ -321,7 +318,7 @@ const catALot = (): void => {
 			// Find all variants
 			const variants: string[] = await CAL.findAllVariants(category);
 			// escape regexp metacharacters (= any ASCII punctuation except _)
-			const variantArray: string[] = [];
+			const variantRegExps: string[] = [];
 			for (let variant of variants) {
 				variant = mw.util.escapeRegExp(variant);
 				// any sequence of spaces and underscores should match any other
@@ -331,12 +328,12 @@ const catALot = (): void => {
 				if (first.toUpperCase() !== first.toLowerCase()) {
 					variant = `[${first.toUpperCase()}${first.toLowerCase()}]${variant.slice(1)}`;
 				}
-				variantArray.push(variant);
+				variantRegExps.push(variant);
 			}
 			// Compile it into a RegExp that matches MediaWiki category syntax (yeah, it looks ugly):
 			// XXX: the first capturing parens are assumed to match the sortkey, if present, including the | but excluding the ]]
 			return new RegExp(
-				`\\[\\[[\\s_]*${catName}[\\s_]*:[\\s_]*(?:${variantArray.join(
+				`\\[\\[[\\s_]*${catName}[\\s_]*:[\\s_]*(?:${variantRegExps.join(
 					'|'
 				)})[\\s_]*(\\|[^\\]]*(?:\\][^\\]]+)*)?\\]\\]`,
 				'g'
@@ -464,15 +461,10 @@ const catALot = (): void => {
 			const sourcecat: string = CAL.CURRENT_CATEGROY;
 			// Check if that file is already in that category
 			const targeRegExp = await CAL.regexBuilder(targetCategory);
-			if (mode !== 'remove' && targeRegExp.test(originText)) {
-				// If the new cat is already there, just remove the old one
-				if (mode === 'move') {
-					mode = 'remove';
-				} else {
-					CAL.alreadyThere.push(markedLabelTitle);
-					this.updateCounter();
-					return;
-				}
+			if (mode !== 'remove' && targeRegExp.test(originText) && mode !== 'move') {
+				CAL.alreadyThere.push(markedLabelTitle);
+				this.updateCounter();
+				return;
 			}
 
 			// Fix text
@@ -711,7 +703,8 @@ const catALot = (): void => {
 					}
 					CAL.parentCats = [];
 					const {pages} = result.query;
-					if (pages[-1]?.missing === '') {
+					const [page] = pages;
+					if (page?.missing === '') {
 						this.$body.css('cursor', '');
 						this.$resultList.html(
 							`<span class="${CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND}">${CAL.msg(
