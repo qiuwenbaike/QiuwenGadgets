@@ -28,10 +28,13 @@ const matchCriteria = ($notice: JQuery): boolean => {
 
 	let result: boolean = false;
 
-	const criteriaData: string = ($notice.attr('data-asn-criteria') || '').trim();
+	const criteriaData: string = ($notice.attr('data-asn-criteria') ?? '').trim();
 	if (criteriaData) {
-		const criteria: string = mw.Uri.decode(criteriaData) || 'true';
-		result = testCriteria(criteria);
+		try {
+			result = testCriteria(mw.Uri.decode(criteriaData));
+		} catch {
+			result = true;
+		}
 	} else if ($notice.attr('class')) {
 		let criteria: boolean = false;
 

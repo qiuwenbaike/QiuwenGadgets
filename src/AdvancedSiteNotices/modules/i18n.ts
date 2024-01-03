@@ -3,7 +3,7 @@ import {localize} from 'ext.gadget.i18n';
 const getI18nMessages = () => {
 	return {
 		Dismiss: localize({
-			en: 'turn off this notice',
+			en: 'Turn off this notice',
 			ja: 'ASNをオフにする',
 			'zh-hans': '关闭公告',
 			'zh-hant': '關閉公告',
@@ -17,7 +17,7 @@ const getI18nMessages = () => {
 				'您已選擇在接下來30日內關閉「高級站點通告」。<br>若接下來30日內全站公告未有更新，則不再顯示；但是，若全站公告內容更新，則將重新顯示。',
 		}),
 		Title: localize({
-			en: 'announcement',
+			en: 'Announcement',
 			ja: '通知',
 			zh: '公告',
 		}),
