@@ -9,7 +9,7 @@
 	flex-direction: column;
 	place-content: center center;
 	align-items: center;
-	border-width: 2px;
+	border-width: 1.25px;
 	border-left-width: 0.375em;
 	border-style: solid;
 	border-radius: @border-radius--small;
@@ -33,18 +33,18 @@
 	}
 
 	&-above {
-		padding: 0.5em 0.9em 0;
+		padding: 0.5em 0.5em 0;
 	}
 
 	&-below {
-		padding: 0 0.9em 0.5em;
+		padding: 0 0.5em 0.5em;
 	}
 
 	/* Cell sizes for tmbox/fmbox message boxes */
 	&-text {
 		width: 95%; /* Make all mboxes the same width regardless of text length */
 		flex: 1 1 95%;
-		padding: 0.25em 0.9em; /* 0.9em left/right */
+		padding: 0.5em; /* 0.5em left/right */
 
 		/* The message body cell(s) */
 		border: 0;
@@ -52,8 +52,10 @@
 
 	&-image,
 	&-imageright {
-		flex: 1 0 40px;
 		border: 0;
+		flex: 1 0;
+		margin: auto;
+		padding: 1px 0.75em;
 		text-align: center;
 
 		img {
@@ -61,16 +63,6 @@
 			height: auto;
 			text-align: center;
 		}
-	}
-
-	&-image {
-		/* The left image cell */
-		padding: 2px 0 2px 0.9em; /* 0.9em left, 0px right */
-	}
-
-	&-imageright {
-		/* The right image cell */
-		padding: 2px 0.9em 2px 0; /* 0px left, 0.9em right */
 	}
 
 	&-empty-cell {
@@ -177,6 +169,13 @@
 		background: #f8f9fa; /* Very light gray */
 	}
 
+	/* Disambig and set index box styles */
+	&-disambig,
+	&-setindex {
+		border-color: #999;
+		background: #fefefe;
+	}
+
 	.mbox .mbox-text & {
 		/* For mboxes inside mbox-text cells. */
 		border-radius: 0;
@@ -189,14 +188,7 @@
 
 	.mbox-inside & {
 		/* For mboxes inside other templates. */
-		margin: 4px;
-	}
-
-	/* Disambig and set index box styles */
-	&-disambig,
-	&-setindex {
-		border-color: #999;
-		background: #fefefe;
+		margin: 0.25em;
 	}
 }
 
@@ -269,7 +261,7 @@
 
 /* Footer and header message box styles */
 .fmbox {
-	border-width: 2px;
+	border-width: 1.25px;
 	border-style: solid;
 	border-color: #a2a9b1;
 	margin: 0.25em 0;
@@ -300,7 +292,7 @@
 .mw-lag-warn-high,
 .mw-cascadeprotectedwarning,
 #mw-protect-cascadeon {
-	padding: 0.25em 0.9em;
+	padding: 0.5em;
 	border: 1px solid #bb7070;
 	margin: 0.2em 0;
 	background: #ffdbdb;
@@ -311,7 +303,7 @@
    tmbox etc classes. "body.mediawiki" is so. */
 body.mediawiki .mbox-small {
 	max-width: 320px;
-	margin: 0.25em 0 0.25em 1em !important;
+	margin: 0.25em 0 0.25em 0.5em !important;
 	padding: 0.25em;
 
 	/* For the "small=yes" option. */
@@ -324,10 +316,21 @@ body.mediawiki .mbox-small {
 		width: 240px;
 
 		/* For the "small=left" option. */
-		margin: 0.25em 1em 0.25em 0 !important;
+		margin: 0.25em 0.5em 0.25em 0 !important;
 		border-collapse: collapse;
 		font-size: 92.5%;
 		line-height: 1.25em;
+	}
+
+	&-image,
+	&-imageright {
+		padding: 1px 0.5em;
+
+		img {
+			max-width: 45px;
+			height: auto;
+			text-align: center;
+		}
 	}
 }
 
@@ -344,8 +347,6 @@ body.mediawiki .mbox-small {
 
 		&-image,
 		&-imageright {
-			flex: 1 0 6vw;
-
 			img {
 				max-width: 6vw;
 			}
