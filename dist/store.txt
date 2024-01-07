@@ -1,3 +1,5 @@
+MediaWiki:Citizen.js
+MediaWiki:Common.js
 MediaWiki:Gadget-AccessKeyCheatsheet
 MediaWiki:Gadget-AccessKeyCheatsheet.js
 MediaWiki:Gadget-AccessKeyCheatsheet/zh
@@ -1699,3 +1701,20 @@ MediaWiki:Gadget-select2/zh-my
 MediaWiki:Gadget-select2/zh-sg
 MediaWiki:Gadget-select2/zh-tw
 MediaWiki:Gadgets-definition
+MediaWiki:Gongbi.js
+MediaWiki:Group-autoconfirmed.js
+MediaWiki:Group-autoreviewer.js
+MediaWiki:Group-confirmed.js
+MediaWiki:Group-eventsponsor.js
+MediaWiki:Group-interface-admin.js
+MediaWiki:Group-massmessage-sender.js
+MediaWiki:Group-patroller.js
+MediaWiki:Group-qiuwen.js
+MediaWiki:Group-senioreditor.js
+MediaWiki:Group-steward.js
+MediaWiki:Group-sysop.js
+MediaWiki:Group-templateeditor.js
+MediaWiki:Group-transwiki.js
+MediaWiki:Group-user.js
+MediaWiki:Vector-2022.js
+MediaWiki:Vector.js
