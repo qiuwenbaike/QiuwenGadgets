@@ -17,13 +17,15 @@
 /* 页面内容宽度 */
 @media (min-width: 1440px) {
 	.ns-0 .mw-body-content .mw-parser-output {
-		& > * {
+		& > *:not(figure, .mw-halign-left) {
 			margin-right: 0;
 		}
 
 		& > div.tleft,
 		& > div.floatleft,
-		& > table.floatleft {
+		& > table.floatleft,
+		& > div.mw-halign-left,
+		& > table.mw-halign-left {
 			margin-right: 1.25rem !important;
 		}
 
