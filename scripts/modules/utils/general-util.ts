@@ -6,15 +6,19 @@ import {exit} from 'node:process';
 import {resolve} from 'node:path';
 
 /**
- * Get the root directory of the project
- *
- * @return {string} The root directory of the project
+ * @private
+ * @return {string}
  */
 const getRootDir = (): string => {
 	const rootDir: string = resolve();
 
 	return rootDir;
 };
+
+/**
+ * The root directory of the project
+ */
+const __rootDir: string = getRootDir();
 
 /**
  * Easy to use CLI prompts to enquire users for information
@@ -42,8 +46,13 @@ async function prompt(
 	});
 
 	const answer = answers[name] as boolean | string | undefined;
-	if (answer === undefined || (type === 'confirm' && (!answer as boolean))) {
-		// User pressed [ctrl + C] or not confirmed
+	if (type === 'confirm' && (!answer as boolean)) {
+		// Not confirmed
+		console.log(chalk.red('User cancelled process, Program terminated.'));
+		exit(0);
+	}
+	if (answer === undefined) {
+		// User pressed [ctrl + C]
 		console.log(chalk.red('Input cancelled, program terminated.'));
 		exit(1);
 	}
@@ -126,4 +135,4 @@ const processSourceCode = (
 	return sourceCode;
 };
 
-export {getRootDir, prompt, trim, processSourceCode};
+export {__rootDir, prompt, trim, processSourceCode};
