@@ -12,3 +12,16 @@
 span[data-mw-comment-start] {
 	top: 0 !important;
 }
+
+/* 修复DiscussionTools移动界面 */
+@media screen and (max-width: 768px) {
+	.ext-discussiontools-ui-replyWidget {
+		border: 1px solid #000;
+		padding: 1em;
+		z-index: 1;
+		background-color: #fff;
+		position: absolute;
+		left: 0;
+		right: 0;
+	}
+}
