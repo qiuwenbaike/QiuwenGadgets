@@ -1,5 +1,5 @@
 import {USER_SCRIPT_LIST, USER_WEBMASTER_LIST, WG_USER_GROUPS, WG_USER_NAME} from './modules/constant';
-import {geo} from 'ext.gadget.Geo';
+import {getGeoInfo} from 'ext.gadget.Geo';
 import {storeLocation} from './modules/storeLocation';
 
 (async function geoLocation(): Promise<void> {
@@ -15,7 +15,7 @@ import {storeLocation} from './modules/storeLocation';
 		return;
 	}
 
-	const {countryOrArea, region} = await geo();
+	const {countryOrArea, region} = await getGeoInfo();
 	if (!countryOrArea) {
 		return;
 	}
