@@ -1,5 +1,1 @@
-import filterAlteredClicksJS from 'filter-altered-clicks';
-
-const filterAlteredClicks = filterAlteredClicksJS;
-
-export {filterAlteredClicks};
+export {default as filterAlteredClicks} from 'filter-altered-clicks';
