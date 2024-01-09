@@ -1,5 +1,3 @@
-import type Toastify from 'toastify-js';
-
 type ToastifyWithHideToast = (
 	options: Toastify.Options,
 	type?: 'info' | 'success' | 'warning' | 'error'
