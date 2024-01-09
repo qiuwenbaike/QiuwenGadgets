@@ -1610,8 +1610,8 @@
 		},
 	};
 	/**
-	 * Utilities to enhance select2 menus. See twinklewarn, twinklexfd,
-	 * twinkleblock for sample usages.
+	 * Utilities to enhance select2 menus. See twinklewarn, twinkleblock
+	 * for sample usages.
 	 *
 	 * @see {@link https://select2.org/}
 	 *
