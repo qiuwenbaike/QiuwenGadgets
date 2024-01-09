@@ -1,5 +1,1 @@
-import ClipboardJS from 'clipboard';
-
-const Clipboard = ClipboardJS;
-
-export {Clipboard};
+export {default as Clipboard} from 'clipboard';
