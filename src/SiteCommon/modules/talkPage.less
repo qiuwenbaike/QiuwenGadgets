@@ -1,3 +1,5 @@
+@import '../../../variables.less';
+
 /* [[Qiuwen_talk:茶馆]]隐藏项目Tab */
 .rootpage-Qiuwen_talk_茶馆 #ca-nstab-project {
 	display: none;
@@ -13,15 +15,24 @@ span[data-mw-comment-start] {
 	top: 0 !important;
 }
 
-/* 修复DiscussionTools移动界面 */
-@media screen and (max-width: 768px) {
-	.ext-discussiontools-ui-replyWidget {
-		border: 1px solid #000;
-		padding: 1em;
-		z-index: 1;
-		background-color: #fff;
-		position: absolute;
-		left: 0;
-		right: 0;
+/* 修复DiscussionTools溢出的问题，让该界面成为浮窗 */
+.ext-discussiontools-ui-replyWidget {
+	font-size: 1rem !important;
+	border: 1px solid @const-color-gray;
+	border-radius: @border-radius--medium;
+	margin: 0 1em;
+	padding: 1em;
+	z-index: 1;
+	background-color: #fff;
+	position: absolute !important;
+	left: 0;
+	right: 0;
+	max-height: 75vh;
+	max-width: calc(100vw - 2em);
+	overflow-y: auto;
+
+	@media screen and (min-width: 800px) {
+		max-width: 800px;
+		margin: 0 auto;
 	}
 }
