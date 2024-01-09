@@ -56,6 +56,9 @@ dependencies:
   filter-altered-clicks:
     specifier: ^2.0.1
     version: 2.0.1
+  select2:
+    specifier: ^4.0.13
+    version: 4.0.13
   tippy.js:
     specifier: ^6.3.7
     version: 6.3.7
@@ -5801,6 +5804,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /select2@4.0.13:
+    resolution: {integrity: sha512-1JeB87s6oN/TDxQQYCvS5EFoQyvV6eYMZZ0AeA4tdFDYWN3BAGZ8npr17UBFddU0lgAt3H0yjX3X6/ekOj1yjw==}
+    dev: false
 
   /select@1.1.2:
     resolution: {integrity: sha512-OwpTSOfy6xSs1+pwcNrv0RBMOzI39Lp3qQKUTPVVPRjCdNa5JH/oPRiqsesIskK8TVgmRiHwO4KXlV2Li9dANA==}
