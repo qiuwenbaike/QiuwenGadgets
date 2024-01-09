@@ -47,6 +47,12 @@ patchedDependencies:
     path: patches/eslint-plugin-no-jquery@2.7.0.patch
 
 dependencies:
+  '@types/jquery':
+    specifier: ^3.5.29
+    version: 3.5.29
+  '@types/select2':
+    specifier: ^4.0.2
+    version: 4.0.63
   '@types/toastify-js':
     specifier: ^1.12.3
     version: 1.12.3
@@ -56,6 +62,12 @@ dependencies:
   filter-altered-clicks:
     specifier: ^2.0.1
     version: 2.0.1
+  jquery:
+    specifier: ^3.7.1
+    version: 3.7.1
+  select2:
+    specifier: ^4.0.2
+    version: 4.0.13
   tippy.js:
     specifier: ^6.3.7
     version: 6.3.7
@@ -2372,7 +2384,6 @@ packages:
     resolution: {integrity: sha512-oXQQC9X9MOPRrMhPHHOsXqeQDnWeCDT3PelUIg/Oy8FAbzSZtFHRjc7IpbfFVmpLtJ+UOoywpRsuO5Jxjybyeg==}
     dependencies:
       '@types/sizzle': 2.3.8
-    dev: true
 
   /@types/jqueryui@1.12.21:
     resolution: {integrity: sha512-hsTOaWPg963smNdoHbEN2anu4vVWj9k2xuaZMIajWERPikaBRG49RmaDA/tb2HldX9/a0qHvQYKipXHSLhM3qA==}
@@ -2440,13 +2451,18 @@ packages:
       kleur: 3.0.3
     dev: true
 
+  /@types/select2@4.0.63:
+    resolution: {integrity: sha512-/DXUfPSj3iVTGlRYRYPCFKKSogAGP/j+Z0fIMXbBiBtmmZj0WH7vnfNuckafq9C43KnqPPQW2TI/Rj/vTSGnQQ==}
+    dependencies:
+      '@types/jquery': 3.5.29
+    dev: false
+
   /@types/semver@7.5.6:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
     dev: true
 
   /@types/sizzle@2.3.8:
     resolution: {integrity: sha512-0vWLNK2D5MT9dg0iOo8GlKguPAU02QjmZitPEsXRuJXU/OGIOt9vT9Fc26wtYuavLxtO45v9PGleoL9Z0k1LHg==}
-    dev: true
 
   /@types/toastify-js@1.12.3:
     resolution: {integrity: sha512-9RjLlbAHMSaae/KZNHGv19VG4gcLIm3YjvacCXBtfMfYn26h76YP5oxXI8k26q4iKXCB9LNfv18lsoS0JnFPTg==}
@@ -4341,6 +4357,10 @@ packages:
     hasBin: true
     dev: true
 
+  /jquery@3.7.1:
+    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
+    dev: false
+
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
     dev: true
@@ -5801,6 +5821,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /select2@4.0.13:
+    resolution: {integrity: sha512-1JeB87s6oN/TDxQQYCvS5EFoQyvV6eYMZZ0AeA4tdFDYWN3BAGZ8npr17UBFddU0lgAt3H0yjX3X6/ekOj1yjw==}
+    dev: false
 
   /select@1.1.2:
     resolution: {integrity: sha512-OwpTSOfy6xSs1+pwcNrv0RBMOzI39Lp3qQKUTPVVPRjCdNa5JH/oPRiqsesIskK8TVgmRiHwO4KXlV2Li9dANA==}
