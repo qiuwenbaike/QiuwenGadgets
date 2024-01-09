@@ -14,7 +14,7 @@ span[data-mw-comment-start] {
 }
 
 /* 修复DiscussionTools溢出的问题，让该界面成为浮窗 */
-.ext-discussiontools-ui-replyWidget {
+body .ext-discussiontools-ui-replyWidget {
 	font-size: 1rem !important;
 	border: 1px solid @const-color-gray;
 	border-radius: @border-radius--medium;
@@ -22,7 +22,7 @@ span[data-mw-comment-start] {
 	padding: 1em;
 	z-index: 1;
 	background-color: #fff;
-	position: absolute !important;
+	position: absolute;
 	left: 0;
 	right: 0;
 	max-height: 75vh;
@@ -33,4 +33,13 @@ span[data-mw-comment-start] {
 		max-width: 800px;
 		margin: 0 auto;
 	}
+}
+
+.ext-discussiontools-ui-newTopic .ext-discussiontools-ui-replyWidget {
+	position: relative;
+	border: 0;
+	max-width: 100%;
+	padding: 0;
+	inset: unset;
+	margin: 0;
 }
