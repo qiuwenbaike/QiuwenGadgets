@@ -1,3 +1,5 @@
+import 'toastify-js/src/toastify.css';
+import './style-modules/style.less';
 import Toastify from 'toastify-js';
 import type {ToastifyWithHideToast} from './modules/types';
 
