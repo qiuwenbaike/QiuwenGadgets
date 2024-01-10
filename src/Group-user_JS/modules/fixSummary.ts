@@ -20,9 +20,6 @@ const fixSummary = ($body: JQuery<HTMLBodyElement>): void => {
 				.find('#mw-import-interwiki-form input[name=log-comment]')
 				.val('［页面文字原许可：[[cc-by-sa:4.0|CC BY-SA 4.0]]；作者请参见来源页面历史］');
 			$body.find('input[name=assignKnownUsers]').prop('checked', true);
-			$body
-				.find('input[name=interwikiHistory], input[name=interwikiTemplates], input[name=assignKnownUsers]')
-				.prop('disabled', true);
 			break;
 		case 'MassEditRegex':
 			$body.find('#wpSummaryLabel').html(
