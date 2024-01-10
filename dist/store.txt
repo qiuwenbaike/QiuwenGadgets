@@ -1148,6 +1148,17 @@ MediaWiki:Gadget-RRD/zh-mo
 MediaWiki:Gadget-RRD/zh-my
 MediaWiki:Gadget-RRD/zh-sg
 MediaWiki:Gadget-RRD/zh-tw
+MediaWiki:Gadget-React
+MediaWiki:Gadget-React.js
+MediaWiki:Gadget-React/zh
+MediaWiki:Gadget-React/zh-cn
+MediaWiki:Gadget-React/zh-hans
+MediaWiki:Gadget-React/zh-hant
+MediaWiki:Gadget-React/zh-hk
+MediaWiki:Gadget-React/zh-mo
+MediaWiki:Gadget-React/zh-my
+MediaWiki:Gadget-React/zh-sg
+MediaWiki:Gadget-React/zh-tw
 MediaWiki:Gadget-Report
 MediaWiki:Gadget-Report-pagestyles
 MediaWiki:Gadget-Report-pagestyles.css

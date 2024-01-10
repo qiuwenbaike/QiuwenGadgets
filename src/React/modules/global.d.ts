@@ -5,5 +5,5 @@ declare module 'ext.gadget.React' {
 	// export * from 'react-dom';
 	// export * from 'react-dom/client';
 	// 如果使用 jsx-dom，则取消注释以下行 / To Use jsx-dom, uncomment the following line
-	// export * from 'jsx-dom';
+	export * from 'jsx-dom';
 }
