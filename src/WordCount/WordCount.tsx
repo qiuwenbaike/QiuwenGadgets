@@ -53,15 +53,17 @@ void getBody().then(function wordCount($body: JQuery<HTMLBodyElement>) {
 		if (mw.config.get('wgAction') !== 'view') {
 			return;
 		}
+
+		let events;
 		if ('ontouchstart' in document) {
-			$(document).on('touchstart touchend', () => {
-				wordCountCore($body);
-			});
+			events = 'touchstart touchend';
 		} else {
-			$(document).on('mouseup keyup', () => {
-				wordCountCore($body);
-			});
+			events = 'mouseup keyup';
 		}
+
+		$(document).on(events, () => {
+			wordCountCore($body);
+		});
 	};
 
 	$(wordCountLoad);

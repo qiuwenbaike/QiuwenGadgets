@@ -1596,6 +1596,7 @@ MediaWiki:Gadget-Wikiplus/zh-my
 MediaWiki:Gadget-Wikiplus/zh-sg
 MediaWiki:Gadget-Wikiplus/zh-tw
 MediaWiki:Gadget-WordCount
+MediaWiki:Gadget-WordCount.css
 MediaWiki:Gadget-WordCount.js
 MediaWiki:Gadget-WordCount/zh
 MediaWiki:Gadget-WordCount/zh-cn
