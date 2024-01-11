@@ -17,8 +17,8 @@ const getI18nMessages = () => {
 		}),
 		CJK: localize({
 			en: ' CJK',
-			'zh-hans': 'CJK字符',
-			'zh-hant': 'CJK字元',
+			'zh-hans': '个CJK字符',
+			'zh-hant': '个CJK字元',
 		}),
 		'byte(s) in UTF-8 encoding': localize({
 			en: 'byte(s) in UTF-8 encoding',
