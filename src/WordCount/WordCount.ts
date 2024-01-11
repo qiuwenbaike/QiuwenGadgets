@@ -1,3 +1,4 @@
-import {wordCountLoad} from './modules/core';
+import {addListener} from './modules/addListener';
+import {getBody} from 'ext.gadget.Util';
 
-$(wordCountLoad);
+void getBody().then(addListener);
