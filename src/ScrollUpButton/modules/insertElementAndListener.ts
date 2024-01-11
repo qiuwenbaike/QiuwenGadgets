@@ -1,14 +1,17 @@
-import {$scrollDownButton, $scrollUpButton} from './element';
+import {scrollDownButton, scrollUpButton} from '../components/scrollButton';
 import {changeOpacityWhenMouseEnterOrLeave} from 'ext.gadget.Util';
 import {tippy} from 'ext.gadget.Tippy';
 
 const insertElementandListener = (): void => {
-	for (const $element of [$scrollDownButton, $scrollUpButton]) {
-		$element
-			.on('mouseenter mouseleave', (event: JQuery.TriggeredEvent<HTMLImageElement>): void => {
-				changeOpacityWhenMouseEnterOrLeave(event);
-			})
-			.appendTo($('body'));
+	const $body = $('body');
+	const onMouseEnterMouseLeave = (event: JQuery.TriggeredEvent): void => {
+		changeOpacityWhenMouseEnterOrLeave(event);
+	};
+
+	for (const element of [scrollDownButton, scrollUpButton]) {
+		const $element = $(element);
+		$element.on('mouseenter mouseleave', onMouseEnterMouseLeave);
+		$body.append($element);
 
 		tippy($element.get(0) as HTMLImageElement, {
 			arrow: true,
@@ -18,17 +21,22 @@ const insertElementandListener = (): void => {
 	}
 
 	const scrollListener = (): void => {
+		const $scrollDownButton = $(scrollDownButton);
+		const $scrollUpButton = $(scrollUpButton);
+		let downButtonButtom, upButtonButtom;
 		if (
 			document.querySelector('#proveit') ||
 			document.querySelector('.gadget-cat_a_lot-container') ||
 			document.querySelector('.wordcount')
 		) {
-			$scrollDownButton.css('bottom', '78px');
-			$scrollUpButton.css('bottom', '120px');
+			downButtonButtom = '78px';
+			upButtonButtom = '120px';
 		} else {
-			$scrollDownButton.css('bottom', '36px');
-			$scrollUpButton.css('bottom', '78px');
+			downButtonButtom = '36px';
+			upButtonButtom = '78px';
 		}
+		$scrollDownButton.css('bottom', downButtonButtom);
+		$scrollUpButton.css('bottom', upButtonButtom);
 	};
 	const scrollListenerWithThrottle: typeof scrollListener = mw.util.throttle(scrollListener, 200);
 	$(window).on('scroll selectionchange', scrollListenerWithThrottle);
