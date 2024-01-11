@@ -1,5 +1,5 @@
 declare module 'ext.gadget.React' {
-	/* 如果使用 React，则取消注释以下四行 / To Use React, uncomment the following six lines */
+	/* 如果使用 React，则取消注释以下四行 / To Use React, uncomment the following four lines */
 	// export * from 'react';
 	// export {default} from 'react';
 	// export * from 'react-dom';
