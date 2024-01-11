@@ -1,4 +1,4 @@
-import {addButton} from './modules/addButton';
+import {addButton} from './components/button';
 import {addPortletLink} from './modules/addPortletLink';
 import {fillSpecialPage} from './modules/fillSpecialPage';
 
