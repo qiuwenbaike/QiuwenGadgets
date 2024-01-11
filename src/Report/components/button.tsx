@@ -6,16 +6,21 @@ const LINK_TITLE: string = getMessage('Report');
 const IMAGE_URI: string =
 	"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E";
 
-const reportButton = () => (
-	<a
+const onClick = () => {
+	window.open(URL, '_blank', 'noopener, noreferrer');
+};
+
+const reportButton = (
+	<img
 		className={[CLASS_NAME_BUTTON, 'noprint']}
-		href={URL}
-		rel="noopener noreferrer"
-		target="_blank"
+		src={IMAGE_URI}
+		width="32"
+		height="32"
+		draggable={false}
+		alt={LINK_TITLE}
 		aria-label={LINK_TITLE}
-	>
-		<img src={IMAGE_URI} draggable={false} alt={LINK_TITLE} width="32" height="32" />
-	</a>
+		onClick={onClick}
+	/>
 );
 
 export {reportButton};

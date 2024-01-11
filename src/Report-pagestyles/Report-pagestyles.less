@@ -1,19 +1,16 @@
 .gadget-report {
 	&-button {
+		content: data-uri('./images/report-button.svg');
 		position: fixed;
 		right: 8px;
 		bottom: 204px;
 		opacity: 0.7;
+		width: 32px;
+		height: 32px;
+		user-select: none;
 
-		img {
-			content: data-uri('./images/report-button.svg');
-			width: 32px;
-			height: 32px;
-			user-select: none;
-
-			.client-darkmode & {
-				transition: none 0s ease 0s;
-			}
+		.client-darkmode & {
+			transition: none 0s ease 0s;
 		}
 	}
 }
