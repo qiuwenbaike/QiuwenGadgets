@@ -35,10 +35,7 @@ const wordCountCore = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 
 	const rootElement = () => (
-		<div
-			className={[CLASS_NAME, 'noprint ui-state-highlight ui-corner-all']}
-			content={getCountByTextLength(text)}
-		/>
+		<div className={[CLASS_NAME, 'noprint ui-state-highlight ui-corner-all']}>{getCountByTextLength(text)}</div>
 	);
 
 	$body.append(rootElement());
