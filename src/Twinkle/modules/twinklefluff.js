@@ -847,13 +847,13 @@
 					};
 					switch (Twinkle.getPref('userTalkPageMode')) {
 						case 'tab':
-							window.open(mw.util.getUrl('', windowQuery), '_blank');
+							window.open(mw.util.getUrl('', windowQuery), '_blank', 'noopener,noreferrer');
 							break;
 						case 'blank':
 							window.open(
 								mw.util.getUrl('', windowQuery),
 								'_blank',
-								'location=no,toolbar=no,status=no,directories=no,scrollbars=yes,width=1200,height=800'
+								'noopener,noreferrer,location=no,toolbar=no,status=no,directories=no,scrollbars=yes,width=1200,height=800'
 							);
 							break;
 						/* case 'window': */
@@ -862,7 +862,10 @@
 							window.open(
 								mw.util.getUrl('', windowQuery),
 								window.name === 'twinklewarnwindow' ? '_blank' : 'twinklewarnwindow',
-								'location=no,toolbar=no,status=no,directories=no,scrollbars=yes,width=1200,height=800'
+								window.name === 'twinklewarnwindow'
+									? 'noopener,noreferrer,'
+									: '' +
+											'location=no,toolbar=no,status=no,directories=no,scrollbars=yes,width=1200,height=800'
 							);
 							break;
 					}
