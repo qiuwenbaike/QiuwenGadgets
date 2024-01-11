@@ -1,5 +1,10 @@
 type OouiConfirmWithStyle = (message: string) => JQuery.Promise<boolean>;
 
+/**
+ * @requires oojs-ui-windows
+ * @param {string} [message]
+ * @return {JQuery.Promise<boolean>}
+ */
 const oouiConfirmWithStyle: OouiConfirmWithStyle = (message) => {
 	return OO.ui
 		.confirm(
