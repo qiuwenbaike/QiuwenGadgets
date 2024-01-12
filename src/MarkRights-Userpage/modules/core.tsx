@@ -1,6 +1,7 @@
-import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
+import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
+import {jsx} from 'ext.gadget.React';
 
 export const wgRelevantUserName: string | null = mw.config.get('wgRelevantUserName');
 
@@ -8,49 +9,14 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 	if (spanClass === 'unknown') {
 		return;
 	}
-	const elementName: 'div' | 'li' | 'section' =
-		mw.config.get('skin') === 'citizen'
-			? 'section'
-			: ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin'))
-				? 'li'
-				: 'div';
-	// The following classes are used here:
-	// * gadget-markrights_userpage__qiuwen
-	// * gadget-markrights_userpage__steward
-	// * gadget-markrights_userpage__checkuser
-	// * gadget-markrights_userpage__suppress
-	// * gadget-markrights_userpage__sysop
-	// * gadget-markrights_userpage__interface-admin
-	// * gadget-markrights_userpage__templateeditor
-	// * gadget-markrights_userpage__transwiki
-	// * gadget-markrights_userpage__patroller
-	// * gadget-markrights_userpage__autoreviewer
-	// * gadget-markrights_userpage__senioreditor
-	// * gadget-markrights_userpage__eventsponsor
-	// * gadget-markrights_userpage__massmessage-sender
-	// * gadget-markrights_userpage__confirmed
-	// * gadget-markrights_userpage__autoconfirmed
-	// * gadget-markrights_userpage__bot
-	// * gadget-markrights_userpage__flood
-	// * gadget-markrights_userpage__ipblock-exempt
-	// * gadget-markrights_userpage__rnrsverify-exempt
-	const $indicator: JQuery = $(`<${elementName}>`)
-		.addClass(`gadget-markrights_userpage gadget-markrights_userpage__${spanClass}`)
-		.append(
-			$('<span>')
-				.addClass(`gadget-markrights_userpage__icon gadget-markrights_userpage__icon__${spanClass}`)
-				.attr({
-					alt: indicatorText,
-					title: indicatorText,
-				})
-		)
-		.append(
-			$('<span>')
-				.addClass('gadget-markrights_userpage__text')
-				.text(indicatorText ?? '')
-		);
+	const tagName: 'div' | 'li' | 'section' =
+		WG_SKIN === 'citizen' ? 'section' : ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) ? 'li' : 'div';
+	const indicator = jsx(`<${tagName} class={[gadget-markrights_userpage gadget-markrights_userpage__${spanClass}]}>
+		<span class={[gadget-markrights_userpage__icon, gadget-markrights_userpage__icon__${spanClass}]} alt=${indicatorText} title=${indicatorText} />
+		<span class=gadget-markrights_userpage__text>${indicatorText ?? ''}</span>
+		</${tagName}>`);
 	const $body: JQuery<HTMLBodyElement> = $('body');
-	$indicator.prependTo($body.find('#footer-info, .page-info'));
+	$(indicator).prependTo($body.find('#footer-info, .page-info'));
 };
 
 export const getPermissions = async (): Promise<void> => {

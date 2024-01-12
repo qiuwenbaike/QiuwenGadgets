@@ -14,6 +14,8 @@ import {
 	WG_SCRIPT,
 	WG_USER_NAME,
 } from './constant';
+import React from 'ext.gadget.React';
+import {getMessage} from './i18n';
 
 const loadWithURL = (): void => {
 	/**
@@ -211,9 +213,7 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	const $firstHeading: JQuery = $body.find('.firstHeading');
 	const documentTitle: string = document.title;
 	const pageTitle: string = $firstHeading.text();
-	const replaceTitle = (title: string): string => {
-		return title.replace(pageTitle, fullPageName);
-	};
+	const replaceTitle = (title: string): string => title.replace(pageTitle, fullPageName);
 	document.title = replaceTitle(documentTitle);
 	$firstHeading.text(replaceTitle(pageTitle));
 };
@@ -235,8 +235,8 @@ const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
 		}
 		void mw.loader.using('oojs-ui-core').then((): void => {
 			const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
-				$content: $('<p>').text(title),
-				label: window.wgULS('注释：', '注釋：'),
+				$content: $((<p>{title}</p>) as HTMLElement),
+				label: getMessage('Note'),
 				anchor: true,
 				head: true,
 				padded: true,
