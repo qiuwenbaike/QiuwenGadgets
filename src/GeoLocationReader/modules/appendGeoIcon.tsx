@@ -1,9 +1,9 @@
-/* eslint-disable mediawiki/class-doc */
 import * as OPTIONS from '../options.json';
 import {CLASS_NAME, CLASS_NAME_ICON, CLASS_NAME_TEXT, WG_RELEVANT_USER_NAME, WG_SCRIPT, WG_SKIN} from './constant';
 import {type CountryOrAreaNameList, type RegionNameList, getCountryOrAreaName, getRegionName} from './util/getName';
 import type {StoreGeoInfo} from './types';
 import {getMessage} from './i18n';
+import {jsx} from 'ext.gadget.React';
 
 const ipLocationDesc: string = getMessage('Location') + getMessage(':');
 const tagName: 'div' | 'li' | 'section' =
@@ -23,18 +23,14 @@ const appendIcon = (
 ): void => {
 	const text: string = icon === 'globe' ? ipLocationDesc + indicatorText : indicatorText ?? '';
 
-	const $icon: JQuery = $('<span>').addClass(`${CLASS_NAME_ICON} ${CLASS_NAME_ICON}-${icon}`).attr({
-		alt: text,
-		'aria-label': text,
-	});
-	const $text: JQuery = $('<span>').addClass(CLASS_NAME_TEXT).text(text);
-
-	const $indicator: JQuery = $(`<${tagName}>`)
-		.addClass(`${CLASS_NAME} ${CLASS_NAME}-${spanClass}`)
-		.append($icon, $text);
+	const indicator = () =>
+		jsx(`<${tagName}>
+		<span class={[${CLASS_NAME_ICON}, ${CLASS_NAME}-${spanClass}]} aria-label=${text}>${text}</span>
+		<span class=${CLASS_NAME_TEXT}>${text}</span>
+		</${tagName}>`);
 
 	const $target: JQuery = $body.find(OPTIONS.mountPointSelector);
-	$indicator.prependTo($target);
+	$(indicator).prependTo($target);
 };
 
 const appendGeoIcon = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
