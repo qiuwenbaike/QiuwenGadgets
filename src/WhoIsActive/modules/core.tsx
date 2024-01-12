@@ -53,15 +53,14 @@ export const whoIsActive = (): void => {
 					: ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN)
 						? 'li'
 						: 'div';
-		const icon = jsx(
-			`<${tagName} class={[gadget-whoisactive__span, gadget-whoisactive__${timespan}]}>
-				<span class={[gadget-whoisactive__icon, gadget-whoisactive__icon__${timespan}]}
-				alt=${getMessage(timespan)} title=${getMessage(timespan)} />
-				<span class={[gadget-whoisactive__text${indicator === true ? ', gadget-whoisactive__notext' : ''}]}>${
-					getMessage(timespan) ?? ''
-				}</span>
-			</${tagName}>`
-		);
+		const icon = jsx(`<${tagName} class={[gadget-whoisactive__span, gadget-whoisactive__${timespan}]}>
+			<span class={[gadget-whoisactive__icon, gadget-whoisactive__icon__${timespan}]} alt=${getMessage(
+				timespan
+			)} title=${getMessage(timespan)} />
+			<span class={[gadget-whoisactive__text${indicator === true ? ', gadget-whoisactive__notext' : ''}]}>${
+				getMessage(timespan) ?? ''
+			}</span>
+		</${tagName}>`);
 		return $(icon);
 	};
 	for (const item of filteredLinks) {

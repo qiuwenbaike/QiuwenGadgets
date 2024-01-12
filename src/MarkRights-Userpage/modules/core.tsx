@@ -11,13 +11,10 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 	}
 	const tagName: 'div' | 'li' | 'section' =
 		WG_SKIN === 'citizen' ? 'section' : ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) ? 'li' : 'div';
-	const indicator = jsx(
-		`<${tagName} class={[gadget-markrights_userpage gadget-markrights_userpage__${spanClass}]}>
-			<span class={[gadget-markrights_userpage__icon, gadget-markrights_userpage__icon__${spanClass}]}
-			alt=${indicatorText} title=${indicatorText} />
-			<span class=gadget-markrights_userpage__text>${indicatorText ?? ''}</span>
-		</${tagName}>`
-	);
+	const indicator = jsx(`<${tagName} class={[gadget-markrights_userpage gadget-markrights_userpage__${spanClass}]}>
+		<span class={[gadget-markrights_userpage__icon, gadget-markrights_userpage__icon__${spanClass}]} alt=${indicatorText} title=${indicatorText} />
+		<span class=gadget-markrights_userpage__text>${indicatorText ?? ''}</span>
+		</${tagName}>`);
 	const $body: JQuery<HTMLBodyElement> = $('body');
 	$(indicator).prependTo($body.find('#footer-info, .page-info'));
 };
