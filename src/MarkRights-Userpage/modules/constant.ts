@@ -10,5 +10,6 @@ const SYSTEM_SCRIPT_LIST: string[] = [
 	'New user page',
 ];
 const WEBMASTER_LIST: string[] = ['QiuWen', 'QiuWen for Accounts', 'QiuwenSocialMedia'];
+const WG_SKIN = mw.config.get('skin');
 
-export {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST};
+export {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_SKIN};

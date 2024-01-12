@@ -1,5 +1,7 @@
+import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
+import {jsx} from 'ext.gadget.React';
 
 export const whoIsActive = (): void => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`);
@@ -43,35 +45,24 @@ export const whoIsActive = (): void => {
 		} else {
 			timespan = 'ThisWeek';
 		}
-		const elementName: 'div' | 'li' | 'section' =
+		const tagName: 'div' | 'li' | 'section' =
 			indicator === true
 				? 'div'
-				: mw.config.get('skin') === 'citizen'
+				: WG_SKIN === 'citizen'
 					? 'section'
-					: ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin'))
+					: ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN)
 						? 'li'
 						: 'div';
-		// The following classes are used here:
-		// * gadget-whoisactive__OverAYear
-		// * gadget-whoisactive__ThisYear
-		// * gadget-whoisactive__ThisMonth
-		// * gadget-whoisactive__ThisWeek
-		const $icon: JQuery = $(`<${elementName}>`)
-			.addClass(`gadget-whoisactive__span gadget-whoisactive__${timespan}`)
-			.append(
-				$('<span>')
-					.addClass(`gadget-whoisactive__icon gadget-whoisactive__icon__${timespan}`)
-					.attr({
-						alt: getMessage(timespan),
-						title: getMessage(timespan),
-					})
-			)
-			.append(
-				$('<span>')
-					.addClass(`gadget-whoisactive__text${indicator === true ? '  gadget-whoisactive__notext' : ''}`)
-					.text(getMessage(timespan))
-			);
-		return $icon;
+		const icon = jsx(
+			`<${tagName} class={[gadget-whoisactive__span, gadget-whoisactive__${timespan}]}>
+				<span class={[gadget-whoisactive__icon, gadget-whoisactive__icon__${timespan}]}
+				alt=${getMessage(timespan)} title=${getMessage(timespan)} />
+				<span class={[gadget-whoisactive__text${indicator === true ? ', gadget-whoisactive__notext' : ''}]}>${
+					getMessage(timespan) ?? ''
+				}</span>
+			</${tagName}>`
+		);
+		return $(icon);
 	};
 	for (const item of filteredLinks) {
 		const {username} = item;
