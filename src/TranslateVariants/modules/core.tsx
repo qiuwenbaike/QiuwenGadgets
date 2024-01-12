@@ -1,3 +1,4 @@
+import React from 'ext.gadget.React';
 import {TRANSLATE_VARIANTS_SUMMARY} from './constant';
 import {initMwApi} from 'ext.gadget.Util';
 
@@ -27,8 +28,8 @@ export const translateVariants = (): void => {
 	const result: Record<string, string> = {};
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (TranslateVariants/1.1; ${mw.config.get('wgWikiID')})`);
 	let basepagetext: string = '';
-	const $table: JQuery = $('<div>').attr('id', 'TranslateVariants').prependTo('#bodyContent');
-	const $submitAll: JQuery = $('<button>').text(window.wgULS('发布所有更改', '發佈所有變更'));
+	const $table: JQuery = $((<div id="TranslateVariants" />) as HTMLElement).prependTo('#bodyContent');
+	const $submitAll: JQuery = $((<button>{window.wgULS('发布所有更改', '發佈所有變更')}</button>) as HTMLElement);
 	$submitAll.on('click', (): void => {
 		const $body: JQuery<HTMLBodyElement> = $('body');
 		const $buttons: JQuery = $body.find('.TranslateVariants-publish-changes');
@@ -47,16 +48,17 @@ export const translateVariants = (): void => {
 			$(element).trigger('click');
 		});
 	});
-	$table.append($('<div>').css('text-align', 'right').append($submitAll));
-	$('<div>')
-		.css('color', '#f00')
-		.text(
-			window.wgULS(
-				'提醒：TranslateVariants工具使用IT及MediaWiki转换组进行自动转换，请确认转换结果是否正确！',
-				'提醒：TranslateVariants工具使用IT及MediaWiki轉換組進行自動轉換，請確認轉換結果是否正確！'
-			)
+	$table.append(
+		$(<div style="text-align: right">{$submitAll}</div>),
+		$(
+			<div style="color: #f00">
+				{window.wgULS(
+					'提醒：TranslateVariants工具使用IT及MediaWiki转换组进行自动转换，请确认转换结果是否正确！',
+					'提醒：TranslateVariants工具使用IT及MediaWiki轉換組進行自動轉換，請確認轉換結果是否正確！'
+				)}
+			</div>
 		)
-		.appendTo($table);
+	);
 	const defaultlangs: string = 'zh,zh-hans,zh-cn,zh-my,zh-sg,zh-hant,zh-hk,zh-mo,zh-tw';
 	let runlangs: string | null = prompt(
 		window.wgULS('转换以下语言（以逗号隔开）：', '轉換以下語言（以逗號隔開）：'),
@@ -67,19 +69,15 @@ export const translateVariants = (): void => {
 	}
 	const langqueue: string[] = runlangs
 		.split(',')
-		.map((lang: string): string => {
-			return lang.trim();
-		})
-		.filter((lang: string): boolean => {
-			return langs.has(lang);
-		});
+		.map((lang: string): string => lang.trim())
+		.filter((lang: string): boolean => langs.has(lang));
 	const process = (): void => {
 		if (langqueue.length === 0) {
 			return;
 		}
 		const lang: string | undefined = langqueue.shift();
-		const $diffTable: JQuery = $('<div>').attr('id', `TranslateVariants-diff-${lang}`).appendTo($table);
-		$('<hr>').appendTo($table);
+		const $diffTable: JQuery = $((<div id={`TranslateVariants-diff-${lang}`}></div>) as HTMLElement);
+		$table.append($diffTable, $(<hr />));
 		const basename: string = mw.config.get('wgPageName').replace(/\/zh$/, '');
 		const targetTitle: string = lang === 'zh' ? basename : `${basename}/${lang}`;
 		let newtext: string;
@@ -93,7 +91,9 @@ export const translateVariants = (): void => {
 			})
 			.then(
 				(data) => {
-					newtext = $('<div>').html(data).find('#TVcontent').text();
+					newtext = $(<div>{data}</div>)
+						.find('#TVcontent')
+						.text();
 					const _params: ApiQueryRevisionsParams = {
 						action: 'query',
 						prop: 'revisions',
@@ -123,11 +123,13 @@ export const translateVariants = (): void => {
 						).appendTo($diffTable);
 						const [page] = data['query'].pages;
 						if (page.missing) {
-							const $submit: JQuery = $('<button>')
-								.addClass('TranslateVariants-publish-changes')
-								.css('float', 'right')
-								.text(window.wgULS('发布页面', '發佈頁面'))
-								.appendTo($tool);
+							const $submit: JQuery = $(
+								(
+									<button className={['TranslateVariants-publish-changes']} style="float: right;">
+										{window.wgULS('发布页面', '發佈頁面')}
+									</button>
+								) as HTMLElement
+							).appendTo($tool);
 							$submit.on('click', function () {
 								this.remove();
 								api.create(
@@ -160,36 +162,35 @@ export const translateVariants = (): void => {
 									}
 								);
 							});
-							$('<pre>')
-								.html(
-									newtext.replace(/[&<>]/gim, (s: string): string => {
-										return `&#${s.codePointAt(0)};`;
-									})
-								)
-								.appendTo($diffTable);
+							$(
+								<pre>
+									{newtext.replace(/[&<>]/gim, (s: string): string => `&#${s.codePointAt(0)};`)}
+								</pre>
+							).appendTo($diffTable);
 							return;
 						}
 						const diff: string = page.revisions[0].diff.body;
 						if (diff === '') {
-							$('<span>').css('float', 'right').text(window.wgULS('无更改', '無變更')).appendTo($tool);
+							$(<span style="float: right">{window.wgULS('无更改', '無變更')}</span>).appendTo($tool);
 						} else {
-							const $submit: JQuery = $('<button>')
-								.addClass('TranslateVariants-publish-changes')
-								.css('float', 'right')
-								.text(window.wgULS('发布更改', '發佈變更'))
-								.appendTo($tool);
+							const $submit = $(
+								<button class="TranslateVariants-publish-changes" style="float: right;">
+									{window.wgULS('发布更改', '發佈變更')}
+								</button>
+							).appendTo($tool);
 							$submit.on('click', function () {
 								this.remove();
-								api.edit(targetTitle, (): ApiEditPageParams => {
-									return {
+								api.edit(
+									targetTitle,
+									(): ApiEditPageParams => ({
 										text: newtext,
 										summary: TRANSLATE_VARIANTS_SUMMARY.replace(
 											/\$1/g,
 											mw.config.get('wgPageName')
 										),
 										nocreate: false,
-									};
-								}).then(
+									})
+								).then(
 									(): void => {
 										void mw.notify(window.wgULS('已编辑', '已編輯 ') + targetTitle, {
 											type: 'success',
@@ -210,13 +211,17 @@ export const translateVariants = (): void => {
 									}
 								);
 							});
-							$('<table>')
-								.addClass('diff')
-								.html(diff)
-								.prepend(
-									'<colgroup><col class="diff-marker"><col class="diff-content"><col class="diff-marker"><col class="diff-content"></colgroup>'
-								)
-								.appendTo($diffTable);
+							$(
+								<table class="diff">
+									<colgroup>
+										<col class="diff-marker" />
+										<col class="diff-content" />
+										<col class="diff-marker" />
+										<col class="diff-content" />
+									</colgroup>
+									{diff}
+								</table>
+							).appendTo($diffTable);
 						}
 					}
 				},
@@ -267,9 +272,7 @@ export const translateVariants = (): void => {
 		.then(({content}): void => {
 			let text: string = content;
 			result['zh'] = text;
-			text = text.replace(/[\s#&'*:<>[\]_{|}]/gim, (string: string) => {
-				return `&#${string.codePointAt(0)};`;
-			});
+			text = text.replace(/[\s#&'*:<>[\]_{|}]/gim, (string: string) => `&#${string.codePointAt(0)};`);
 			text = text.replace(
 				/(&#91;&#91;)((?:(?!&#124;)(?!&#93;).)+?)(&#124;(?:(?!&#93;).)+?&#93;&#93;)/g,
 				'$1-{$2}-$3'
