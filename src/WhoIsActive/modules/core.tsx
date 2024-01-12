@@ -1,7 +1,7 @@
+import React from 'ext.gadget.React';
 import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
-import {jsx} from 'ext.gadget.React';
 
 export const whoIsActive = (): void => {
 	const api: mw.Api = initMwApi(`Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`);
@@ -45,23 +45,28 @@ export const whoIsActive = (): void => {
 		} else {
 			timespan = 'ThisWeek';
 		}
-		const tagName: 'div' | 'li' | 'section' =
-			indicator === true
-				? 'div'
-				: WG_SKIN === 'citizen'
-					? 'section'
-					: ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN)
-						? 'li'
-						: 'div';
-		const icon = jsx(`<${tagName} class={[gadget-whoisactive__span, gadget-whoisactive__${timespan}]}>
-			<span class={[gadget-whoisactive__icon, gadget-whoisactive__icon__${timespan}]} alt=${getMessage(
-				timespan
-			)} title=${getMessage(timespan)} />
-			<span class={[gadget-whoisactive__text${indicator === true ? ', gadget-whoisactive__notext' : ''}]}>${
-				getMessage(timespan) ?? ''
-			}</span>
-		</${tagName}>`);
-		return $(icon);
+		const tag =
+			WG_SKIN === 'citizen' ? (
+				<section className={['gadget-whoisactive__span', `gadget-whoisactive__${timespan}`]} />
+			) : ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) ? (
+				<li className={['gadget-whoisactive__span', `gadget-whoisactive__${timespan}`]} />
+			) : (
+				<div className={['gadget-whoisactive__span', `gadget-whoisactive__${timespan}`]} />
+			);
+		const tagInner = (
+			<>
+				<span
+					className={['gadget-whoisactive__icon', `gadget-whoisactive__icon__${timespan}`]}
+					title={getMessage(timespan)}
+				/>
+				<span
+					className={['gadget-whoisactive__text', indicator === true ? ', gadget-whoisactive__notext' : '']}
+				>
+					{getMessage(timespan) ?? ''}
+				</span>
+			</>
+		);
+		return $(tag).append(tagInner);
 	};
 	for (const item of filteredLinks) {
 		const {username} = item;

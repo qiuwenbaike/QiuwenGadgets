@@ -49,9 +49,21 @@ export const translateVariants = (): void => {
 		});
 	});
 	$table.append(
-		$(<div style="text-align: right">{$submitAll}</div>),
 		$(
-			<div style="color: #f00">
+			<div
+				style={{
+					textAlign: 'right',
+				}}
+			>
+				{$submitAll}
+			</div>
+		),
+		$(
+			<div
+				style={{
+					color: '#f00',
+				}}
+			>
 				{window.wgULS(
 					'提醒：TranslateVariants工具使用IT及MediaWiki转换组进行自动转换，请确认转换结果是否正确！',
 					'提醒：TranslateVariants工具使用IT及MediaWiki轉換組進行自動轉換，請確認轉換結果是否正確！'
@@ -125,7 +137,12 @@ export const translateVariants = (): void => {
 						if (page.missing) {
 							const $submit: JQuery = $(
 								(
-									<button className={['TranslateVariants-publish-changes']} style="float: right;">
+									<button
+										className={['TranslateVariants-publish-changes']}
+										style={{
+											float: 'right',
+										}}
+									>
 										{window.wgULS('发布页面', '發佈頁面')}
 									</button>
 								) as HTMLElement
@@ -171,10 +188,23 @@ export const translateVariants = (): void => {
 						}
 						const diff: string = page.revisions[0].diff.body;
 						if (diff === '') {
-							$(<span style="float: right">{window.wgULS('无更改', '無變更')}</span>).appendTo($tool);
+							$(
+								<span
+									style={{
+										float: 'right',
+									}}
+								>
+									{window.wgULS('无更改', '無變更')}
+								</span>
+							).appendTo($tool);
 						} else {
 							const $submit = $(
-								<button class="TranslateVariants-publish-changes" style="float: right;">
+								<button
+									className="TranslateVariants-publish-changes"
+									style={{
+										float: 'right',
+									}}
+								>
 									{window.wgULS('发布更改', '發佈變更')}
 								</button>
 							).appendTo($tool);
@@ -212,12 +242,12 @@ export const translateVariants = (): void => {
 								);
 							});
 							$(
-								<table class="diff">
+								<table className="diff">
 									<colgroup>
-										<col class="diff-marker" />
-										<col class="diff-content" />
-										<col class="diff-marker" />
-										<col class="diff-content" />
+										<col className="diff-marker" />
+										<col className="diff-content" />
+										<col className="diff-marker" />
+										<col className="diff-content" />
 									</colgroup>
 									{diff}
 								</table>
