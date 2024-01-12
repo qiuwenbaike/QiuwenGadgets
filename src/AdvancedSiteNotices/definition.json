@@ -5,6 +5,7 @@
 	"actions": ["view"],
 	"default": true,
 	"dependencies": [
+		"ext.gadget.React",
 		"ext.gadget.i18n",
 		"ext.gadget.Tippy",
 		"ext.gadget.Toastify",
