@@ -1,7 +1,7 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_SKIN} from './constant';
+import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
-import {jsx} from 'ext.gadget.React';
 
 export const wgRelevantUserName: string | null = mw.config.get('wgRelevantUserName');
 
@@ -9,14 +9,25 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 	if (spanClass === 'unknown') {
 		return;
 	}
-	const tagName: 'div' | 'li' | 'section' =
-		WG_SKIN === 'citizen' ? 'section' : ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) ? 'li' : 'div';
-	const indicator = jsx(`<${tagName} class={[gadget-markrights_userpage gadget-markrights_userpage__${spanClass}]}>
-		<span class={[gadget-markrights_userpage__icon, gadget-markrights_userpage__icon__${spanClass}]} alt=${indicatorText} title=${indicatorText} />
-		<span class=gadget-markrights_userpage__text>${indicatorText ?? ''}</span>
-		</${tagName}>`);
+	const tag =
+		WG_SKIN === 'citizen' ? (
+			<section className={['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`]} />
+		) : ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) ? (
+			<li className={['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`]} />
+		) : (
+			<div className={['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`]} />
+		);
+	const indicator = (
+		<>
+			<span
+				className={['gadget-markrights_userpage__icon', `gadget-markrights_userpage__icon__${spanClass}`]}
+				title={indicatorText}
+			/>
+			<span className="gadget-markrights_userpage__text">{indicatorText ?? ''}</span>
+		</>
+	);
 	const $body: JQuery<HTMLBodyElement> = $('body');
-	$(indicator).prependTo($body.find('#footer-info, .page-info'));
+	$(tag).append(indicator).prependTo($body.find('#footer-info, .page-info'));
 };
 
 export const getPermissions = async (): Promise<void> => {
