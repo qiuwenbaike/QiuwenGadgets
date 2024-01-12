@@ -23,8 +23,7 @@ const appendIcon = (
 ): void => {
 	const text: string = icon === 'globe' ? ipLocationDesc + indicatorText : indicatorText ?? '';
 
-	const indicator = () =>
-		jsx(`<${tagName}>
+	const indicator = jsx(`<${tagName}>
 		<span class={[${CLASS_NAME_ICON}, ${CLASS_NAME}-${spanClass}]} aria-label=${text}>${text}</span>
 		<span class=${CLASS_NAME_TEXT}>${text}</span>
 		</${tagName}>`);
