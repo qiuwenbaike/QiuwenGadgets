@@ -1,0 +1,63 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/CookieWarning-pagestyles}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/CookieWarning-pagestyles/CookieWarning-pagestyles.less */
+.gadget-cookie_warning {
+  position: fixed;
+  z-index: 101;
+  bottom: 1em;
+  right: 0;
+  left: 0;
+  max-width: 92.5%;
+  padding: 0.75em;
+  border: 1px solid #e6e6e6;
+  border-radius: 0.5em;
+  margin: 0.75em;
+  background-color: #fff;
+  color: #191919;
+  font-size: 0.9em;
+  line-height: 1.25;
+  opacity: 1;
+  pointer-events: auto;
+}
+.gadget-cookie_warning p {
+  margin: 0 auto 0.5rem;
+}
+.gadget-cookie_warning .mw-ui-button {
+  display: block;
+  width: 100%;
+  padding: 0.5em 0;
+  border-color: #36c;
+  border-radius: 0.25em;
+  margin: 0 auto;
+  background-color: #36c;
+  color: #fff;
+  line-height: 1;
+  text-align: center;
+}
+@media screen and (min-width: 768px) {
+  .gadget-cookie_warning {
+    width: 20em;
+    left: 0;
+    right: auto;
+  }
+}
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0Nvb2tpZVdhcm5pbmctcGFnZXN0eWxlcy9Db29raWVXYXJuaW5nLXBhZ2VzdHlsZXMubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLmdhZGdldC1jb29raWVfd2FybmluZyB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgei1pbmRleDogMTAxO1xuICBib3R0b206IDFlbTtcbiAgcmlnaHQ6IDA7XG4gIGxlZnQ6IDA7XG4gIG1heC13aWR0aDogOTIuNSU7XG4gIHBhZGRpbmc6IDAuNzVlbTtcbiAgYm9yZGVyOiAxcHggc29saWQgI2U2ZTZlNjtcbiAgYm9yZGVyLXJhZGl1czogMC41ZW07XG4gIG1hcmdpbjogMC43NWVtO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmZmO1xuICBjb2xvcjogIzE5MTkxOTtcbiAgZm9udC1zaXplOiAwLjllbTtcbiAgbGluZS1oZWlnaHQ6IDEuMjU7XG4gIG9wYWNpdHk6IDE7XG4gIHBvaW50ZXItZXZlbnRzOiBhdXRvO1xufVxuLmdhZGdldC1jb29raWVfd2FybmluZyBwIHtcbiAgbWFyZ2luOiAwIGF1dG8gMC41cmVtO1xufVxuLmdhZGdldC1jb29raWVfd2FybmluZyAubXctdWktYnV0dG9uIHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIHdpZHRoOiAxMDAlO1xuICBwYWRkaW5nOiAwLjVlbSAwO1xuICBib3JkZXItY29sb3I6ICMzNmM7XG4gIGJvcmRlci1yYWRpdXM6IDAuMjVlbTtcbiAgbWFyZ2luOiAwIGF1dG87XG4gIGJhY2tncm91bmQtY29sb3I6ICMzNmM7XG4gIGNvbG9yOiAjZmZmO1xuICBsaW5lLWhlaWdodDogMTtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuQG1lZGlhIHNjcmVlbiBhbmQgKG1pbi13aWR0aDogNzY4cHgpIHtcbiAgLmdhZGdldC1jb29raWVfd2FybmluZyB7XG4gICAgd2lkdGg6IDIwZW07XG4gICAgbGVmdDogMDtcbiAgICByaWdodDogYXV0bztcbiAgfVxufVxuIl0sCiAgIm1hcHBpbmdzIjogIjtBQUFBLENBQUM7QUFDQyxZQUFVO0FBQ1YsV0FBUztBQUNULFVBQVE7QUFDUixTQUFPO0FBQ1AsUUFBTTtBQUNOLGFBQVc7QUFDWCxXQUFTO0FBQ1QsVUFBUSxJQUFJLE1BQU07QUFDbEIsaUJBQWU7QUFDZixVQUFRO0FBQ1Isb0JBQWtCO0FBQ2xCLFNBQU87QUFDUCxhQUFXO0FBQ1gsZUFBYTtBQUNiLFdBQVM7QUFDVCxrQkFBZ0I7QUFDbEI7QUFDQSxDQWxCQyxzQkFrQnNCO0FBQ3JCLFVBQVEsRUFBRSxLQUFLO0FBQ2pCO0FBQ0EsQ0FyQkMsc0JBcUJzQixDQUFDO0FBQ3RCLFdBQVM7QUFDVCxTQUFPO0FBQ1AsV0FBUyxNQUFNO0FBQ2YsZ0JBQWM7QUFDZCxpQkFBZTtBQUNmLFVBQVEsRUFBRTtBQUNWLG9CQUFrQjtBQUNsQixTQUFPO0FBQ1AsZUFBYTtBQUNiLGNBQVk7QUFDZDtBQUNBLE9BQU8sT0FBTyxJQUFJLENBQUMsU0FBUyxFQUFFO0FBQzVCLEdBbENEO0FBbUNHLFdBQU87QUFDUCxVQUFNO0FBQ04sV0FBTztBQUNUO0FBQ0Y7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+
+/* </nowiki> */

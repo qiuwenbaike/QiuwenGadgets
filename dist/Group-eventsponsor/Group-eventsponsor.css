@@ -1,0 +1,43 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Group-eventsponsor}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/Group-eventsponsor/Group-eventsponsor.less */
+div.eventsponsor-show,
+p.eventsponsor-show {
+  display: block !important;
+}
+span.eventsponsor-show,
+small.eventsponsor-show {
+  display: inline !important;
+}
+table.eventsponsor-show {
+  display: table !important;
+}
+tr.eventsponsor-show {
+  display: table-row !important;
+}
+td.eventsponsor-show {
+  display: table-cell !important;
+}
+li.eventsponsor-show {
+  display: list-item !important;
+}
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0dyb3VwLWV2ZW50c3BvbnNvci9Hcm91cC1ldmVudHNwb25zb3IubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiZGl2LmV2ZW50c3BvbnNvci1zaG93LFxucC5ldmVudHNwb25zb3Itc2hvdyB7XG4gIGRpc3BsYXk6IGJsb2NrICFpbXBvcnRhbnQ7XG59XG5zcGFuLmV2ZW50c3BvbnNvci1zaG93LFxuc21hbGwuZXZlbnRzcG9uc29yLXNob3cge1xuICBkaXNwbGF5OiBpbmxpbmUgIWltcG9ydGFudDtcbn1cbnRhYmxlLmV2ZW50c3BvbnNvci1zaG93IHtcbiAgZGlzcGxheTogdGFibGUgIWltcG9ydGFudDtcbn1cbnRyLmV2ZW50c3BvbnNvci1zaG93IHtcbiAgZGlzcGxheTogdGFibGUtcm93ICFpbXBvcnRhbnQ7XG59XG50ZC5ldmVudHNwb25zb3Itc2hvdyB7XG4gIGRpc3BsYXk6IHRhYmxlLWNlbGwgIWltcG9ydGFudDtcbn1cbmxpLmV2ZW50c3BvbnNvci1zaG93IHtcbiAgZGlzcGxheTogbGlzdC1pdGVtICFpbXBvcnRhbnQ7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiO0FBQUEsR0FBRyxDQUFDO0FBQ0osQ0FBQyxDQURHO0FBRUYsV0FBUztBQUNYO0FBQ0EsSUFBSSxDQUpBO0FBS0osS0FBSyxDQUxEO0FBTUYsV0FBUztBQUNYO0FBQ0EsS0FBSyxDQVJEO0FBU0YsV0FBUztBQUNYO0FBQ0EsRUFBRSxDQVhFO0FBWUYsV0FBUztBQUNYO0FBQ0EsRUFBRSxDQWRFO0FBZUYsV0FBUztBQUNYO0FBQ0EsRUFBRSxDQWpCRTtBQWtCRixXQUFTO0FBQ1g7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+
+/* </nowiki> */

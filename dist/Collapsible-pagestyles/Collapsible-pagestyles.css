@@ -1,0 +1,43 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://rs.miraheze.org/wiki/MediaWiki:Gadget-collapsible.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Collapsible-pagestyles}
+ * @author SolidBlock
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/Collapsible-pagestyles/Collapsible-pagestyles.less */
+.gadget-collapsible-toggler {
+  font-weight: normal;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.mw-content-ltr .gadget-collapsible-toggler {
+  margin-right: 0;
+  margin-left: 0.5em;
+  float: right;
+  text-align: right;
+}
+.mw-content-rtl .gadget-collapsible-toggler {
+  margin-right: 0.5em;
+  margin-left: 0;
+  float: left;
+  text-align: left;
+}
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0NvbGxhcHNpYmxlLXBhZ2VzdHlsZXMvQ29sbGFwc2libGUtcGFnZXN0eWxlcy5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIuZ2FkZ2V0LWNvbGxhcHNpYmxlLXRvZ2dsZXIge1xuICBmb250LXdlaWdodDogbm9ybWFsO1xuICAtd2Via2l0LXVzZXItc2VsZWN0OiBub25lO1xuICAgICAtbW96LXVzZXItc2VsZWN0OiBub25lO1xuICAgICAgICAgIHVzZXItc2VsZWN0OiBub25lO1xufVxuLm13LWNvbnRlbnQtbHRyIC5nYWRnZXQtY29sbGFwc2libGUtdG9nZ2xlciB7XG4gIG1hcmdpbi1yaWdodDogMDtcbiAgbWFyZ2luLWxlZnQ6IDAuNWVtO1xuICBmbG9hdDogcmlnaHQ7XG4gIHRleHQtYWxpZ246IHJpZ2h0O1xufVxuLm13LWNvbnRlbnQtcnRsIC5nYWRnZXQtY29sbGFwc2libGUtdG9nZ2xlciB7XG4gIG1hcmdpbi1yaWdodDogMC41ZW07XG4gIG1hcmdpbi1sZWZ0OiAwO1xuICBmbG9hdDogbGVmdDtcbiAgdGV4dC1hbGlnbjogbGVmdDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7QUFBQSxDQUFDO0FBQ0MsZUFBYTtBQUNiLHVCQUFxQjtBQUNsQixvQkFBa0I7QUFDYixlQUFhO0FBQ3ZCO0FBQ0EsQ0FBQyxlQUFlLENBTmY7QUFPQyxnQkFBYztBQUNkLGVBQWE7QUFDYixTQUFPO0FBQ1AsY0FBWTtBQUNkO0FBQ0EsQ0FBQyxlQUFlLENBWmY7QUFhQyxnQkFBYztBQUNkLGVBQWE7QUFDYixTQUFPO0FBQ1AsY0FBWTtBQUNkOyIsCiAgIm5hbWVzIjogW10KfQo= */
+
+/* </nowiki> */

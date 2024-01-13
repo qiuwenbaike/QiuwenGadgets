@@ -1,0 +1,52 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://zh.wikipedia.org/w/index.php?oldid=65190708}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikicache-pagestyles}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/Wikicache-pagestyles/Wikicache-pagestyles.less */
+.gadget-wikicache__dialog,
+.gadget-wikicache__notice {
+  font-size: 1em;
+}
+.gadget-wikicache__dialog a,
+.gadget-wikicache__notice a {
+  color: #0645ad;
+}
+.gadget-wikicache__dialog a:visited,
+.gadget-wikicache__notice a:visited {
+  color: #0b0080;
+}
+.gadget-wikicache__notice {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  display: none;
+  height: 1.6em;
+  border-right: 1px solid #a7d7f9;
+  border-bottom: 1px solid #a7d7f9;
+  white-space: nowrap;
+  font-size: 0.8em;
+  line-height: 1.6em;
+}
+.gadget-wikicache__notice .ui-dialog-titlebar-close {
+  display: inline-block;
+}
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL1dpa2ljYWNoZS1wYWdlc3R5bGVzL1dpa2ljYWNoZS1wYWdlc3R5bGVzLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5nYWRnZXQtd2lraWNhY2hlX19kaWFsb2csXG4uZ2FkZ2V0LXdpa2ljYWNoZV9fbm90aWNlIHtcbiAgZm9udC1zaXplOiAxZW07XG59XG4uZ2FkZ2V0LXdpa2ljYWNoZV9fZGlhbG9nIGEsXG4uZ2FkZ2V0LXdpa2ljYWNoZV9fbm90aWNlIGEge1xuICBjb2xvcjogIzA2NDVhZDtcbn1cbi5nYWRnZXQtd2lraWNhY2hlX19kaWFsb2cgYTp2aXNpdGVkLFxuLmdhZGdldC13aWtpY2FjaGVfX25vdGljZSBhOnZpc2l0ZWQge1xuICBjb2xvcjogIzBiMDA4MDtcbn1cbi5nYWRnZXQtd2lraWNhY2hlX19ub3RpY2Uge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGJvdHRvbTogMDtcbiAgbGVmdDogMDtcbiAgei1pbmRleDogOTk7XG4gIGRpc3BsYXk6IG5vbmU7XG4gIGhlaWdodDogMS42ZW07XG4gIGJvcmRlci1yaWdodDogMXB4IHNvbGlkICNhN2Q3Zjk7XG4gIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjYTdkN2Y5O1xuICB3aGl0ZS1zcGFjZTogbm93cmFwO1xuICBmb250LXNpemU6IDAuOGVtO1xuICBsaW5lLWhlaWdodDogMS42ZW07XG59XG4uZ2FkZ2V0LXdpa2ljYWNoZV9fbm90aWNlIC51aS1kaWFsb2ctdGl0bGViYXItY2xvc2Uge1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiO0FBQUEsQ0FBQztBQUNELENBQUM7QUFDQyxhQUFXO0FBQ2I7QUFDQSxDQUpDLHlCQUl5QjtBQUMxQixDQUpDLHlCQUl5QjtBQUN4QixTQUFPO0FBQ1Q7QUFDQSxDQVJDLHlCQVF5QixDQUFDO0FBQzNCLENBUkMseUJBUXlCLENBQUM7QUFDekIsU0FBTztBQUNUO0FBQ0EsQ0FYQztBQVlDLFlBQVU7QUFDVixVQUFRO0FBQ1IsUUFBTTtBQUNOLFdBQVM7QUFDVCxXQUFTO0FBQ1QsVUFBUTtBQUNSLGdCQUFjLElBQUksTUFBTTtBQUN4QixpQkFBZSxJQUFJLE1BQU07QUFDekIsZUFBYTtBQUNiLGFBQVc7QUFDWCxlQUFhO0FBQ2Y7QUFDQSxDQXhCQyx5QkF3QnlCLENBQUM7QUFDekIsV0FBUztBQUNYOyIsCiAgIm5hbWVzIjogW10KfQo= */
+
+/* </nowiki> */

@@ -1,0 +1,28 @@
+/**
+ * SPDX-License-Identifier: GPL-3.0
+ * _addText: '{{Gadget Header|license=GPL-3.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/AddSectionPlus-pagestyles}
+ * @author 安忆 <i@anyi.in>
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/AddSectionPlus-pagestyles/AddSectionPlus-pagestyles.less */
+.skin-citizen #ca-addsection a {
+  font-size: 0;
+  gap: 0;
+}
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0FkZFNlY3Rpb25QbHVzLXBhZ2VzdHlsZXMvQWRkU2VjdGlvblBsdXMtcGFnZXN0eWxlcy5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIuc2tpbi1jaXRpemVuICNjYS1hZGRzZWN0aW9uIGEge1xuICBmb250LXNpemU6IDA7XG4gIGdhcDogMDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7QUFBQSxDQUFDLGFBQWEsQ0FBQyxjQUFjO0FBQzNCLGFBQVc7QUFDWCxPQUFLO0FBQ1A7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+
+/* </nowiki> */

@@ -1,0 +1,47 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Group-senioreditor}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/Group-senioreditor/Group-senioreditor.less */
+div.senioreditor-show,
+p.senioreditor-show {
+  display: block !important;
+}
+span.senioreditor-show,
+small.senioreditor-show {
+  display: inline !important;
+}
+table.senioreditor-show {
+  display: table !important;
+}
+tr.senioreditor-show {
+  display: table-row !important;
+}
+td.senioreditor-show {
+  display: table-cell !important;
+}
+li.senioreditor-show {
+  display: list-item !important;
+}
+.mw-history-editchangetags-button,
+.mw-log-editchangetags-button {
+  display: block;
+}
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0dyb3VwLXNlbmlvcmVkaXRvci9Hcm91cC1zZW5pb3JlZGl0b3IubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiZGl2LnNlbmlvcmVkaXRvci1zaG93LFxucC5zZW5pb3JlZGl0b3Itc2hvdyB7XG4gIGRpc3BsYXk6IGJsb2NrICFpbXBvcnRhbnQ7XG59XG5zcGFuLnNlbmlvcmVkaXRvci1zaG93LFxuc21hbGwuc2VuaW9yZWRpdG9yLXNob3cge1xuICBkaXNwbGF5OiBpbmxpbmUgIWltcG9ydGFudDtcbn1cbnRhYmxlLnNlbmlvcmVkaXRvci1zaG93IHtcbiAgZGlzcGxheTogdGFibGUgIWltcG9ydGFudDtcbn1cbnRyLnNlbmlvcmVkaXRvci1zaG93IHtcbiAgZGlzcGxheTogdGFibGUtcm93ICFpbXBvcnRhbnQ7XG59XG50ZC5zZW5pb3JlZGl0b3Itc2hvdyB7XG4gIGRpc3BsYXk6IHRhYmxlLWNlbGwgIWltcG9ydGFudDtcbn1cbmxpLnNlbmlvcmVkaXRvci1zaG93IHtcbiAgZGlzcGxheTogbGlzdC1pdGVtICFpbXBvcnRhbnQ7XG59XG4vKiDmmL7npLrigJznvJbovpHpgInlrprkv67orqLniYjmnKznmoTmoIfnrb7igJ0gKi9cbi5tdy1oaXN0b3J5LWVkaXRjaGFuZ2V0YWdzLWJ1dHRvbixcbi5tdy1sb2ctZWRpdGNoYW5nZXRhZ3MtYnV0dG9uIHtcbiAgZGlzcGxheTogYmxvY2s7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiO0FBQUEsR0FBRyxDQUFDO0FBQ0osQ0FBQyxDQURHO0FBRUYsV0FBUztBQUNYO0FBQ0EsSUFBSSxDQUpBO0FBS0osS0FBSyxDQUxEO0FBTUYsV0FBUztBQUNYO0FBQ0EsS0FBSyxDQVJEO0FBU0YsV0FBUztBQUNYO0FBQ0EsRUFBRSxDQVhFO0FBWUYsV0FBUztBQUNYO0FBQ0EsRUFBRSxDQWRFO0FBZUYsV0FBUztBQUNYO0FBQ0EsRUFBRSxDQWpCRTtBQWtCRixXQUFTO0FBQ1g7QUFFQSxDQUFDO0FBQ0QsQ0FBQztBQUNDLFdBQVM7QUFDWDsiLAogICJuYW1lcyI6IFtdCn0K */
+
+/* </nowiki> */
