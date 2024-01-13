@@ -1,5 +1,5 @@
 {
-	"*.{css,less}": ["prettier --write", "stylelint --fix"],
+	"*.{css,less}": ["prettier --write", "stylelint --allow-empty-input --fix"],
 	"*.{cjs,js,ts}": ["prettier --write", "eslint --fix"],
 	"*.svg": "svgo --config=svgo.config.cjs --quiet --input",
 	"*": "prettier --ignore-unknown --write"
