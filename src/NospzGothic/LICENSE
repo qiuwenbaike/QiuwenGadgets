@@ -1,16 +1,16 @@
 /**
  * SPDX-License-Identifier: OFL-1.1
  * _addText: '{{Gadget Header|license=OFL-1.1}}'
- * _addText: '<pre>'
- * _addText: 'Copyright 2018-2021 NospzGothicMoe (https://zh.moegirl.org.cn/index.php?curid=365556), with Reserved Font Name "NospzGothicMoe". "萌娘百科" is a registered trademark.'
- * _addText: 'Copyright 2020-2021 Plangothic project (https://github.com/Fitzgerald-Porthmouth-Koenigsegg/Plangothic, https://jq.qq.com/?_wv=1027&k=xRTzFAfD), with Reserved Font Names "Plangothic", "Tanshic", "遍黑" and "唐什".'
- * _addText: 'Copyright 2019-2021 Tamcy (https://github.com/chiron-fonts/chiron-sans-hk), with Reserved Font Name "Chiron" and "昭源".'
- * _addText: 'Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name "Source". Source is a trademark of Adobe in the United States and/or other countries.'
- * _addText: 'This Font Software is licensed under the SIL Open Font License, Version 1.1.'
- * _addText: '<http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web>'
- * _addText: '</pre>'
  *
  * @base {@link https://zh.moegirl.org.cn/index.php?curid=365946}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NospzGothic}
  * @license {@link https://git.qiuwen.net.cn/InterfaceAdmin/NospzGothicMoe/raw/commit/b608e29d1ecf4029dca01c090d000f38daf6b262/LICENSE}
+ */
+/**
+ * Copyright 2018-2021 NospzGothicMoe (https://zh.moegirl.org.cn/index.php?curid=365556), with Reserved Font Name "NospzGothicMoe". "萌娘百科" is a registered trademark.
+ * Copyright 2020-2021 Plangothic project (https://github.com/Fitzgerald-Porthmouth-Koenigsegg/Plangothic, https://jq.qq.com/?_wv=1027&k=xRTzFAfD), with Reserved Font Names "Plangothic", "Tanshic", "遍黑" and "唐什".
+ * Copyright 2019-2021 Tamcy (https://github.com/chiron-fonts/chiron-sans-hk), with Reserved Font Name "Chiron" and "昭源".
+ * Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name "Source". Source is a trademark of Adobe in the United States and/or other countries.
+ * This Font Software is licensed under the SIL Open Font License, Version 1.1.
+ * <http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web>
  */
