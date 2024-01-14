@@ -49,7 +49,9 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 		};
 		const {query} = await api.get(params);
 		let content: string | undefined;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		if (query.pages) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 			[{content}] = query.pages[0].revisions;
 		}
 		if (content === undefined) {
@@ -66,9 +68,12 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 				summary: message.edit_summary,
 			};
 			const result = await api.postWithEditToken(_params);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			if (result['edit']?.result === 'Success') {
 				location.replace(mw.util.getUrl(RRD_PAGE));
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			} else if (result['error']?.code) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				void mw.notify(`Some errors occured while saving page: ${result['error'].code}`, {
 					tag: 'RRD',
 					type: 'error',
