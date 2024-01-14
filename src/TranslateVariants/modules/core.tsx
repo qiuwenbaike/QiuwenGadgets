@@ -54,23 +54,21 @@ export const translateVariants = (): void => {
 				style={{
 					textAlign: 'right',
 				}}
-			>
-				{$submitAll}
-			</div>
-		),
-		$(
-			<div
-				style={{
-					color: '#f00',
-				}}
-			>
-				{window.wgULS(
-					'提醒：TranslateVariants工具使用IT及MediaWiki转换组进行自动转换，请确认转换结果是否正确！',
-					'提醒：TranslateVariants工具使用IT及MediaWiki轉換組進行自動轉換，請確認轉換結果是否正確！'
-				)}
-			</div>
-		)
+			/>
+		).append($submitAll)
 	);
+	$(
+		<div
+			style={{
+				color: '#f00',
+			}}
+		>
+			{window.wgULS(
+				'提醒：TranslateVariants工具使用IT及MediaWiki转换组进行自动转换，请确认转换结果是否正确！',
+				'提醒：TranslateVariants工具使用IT及MediaWiki轉換組進行自動轉換，請確認轉換結果是否正確！'
+			)}
+		</div>
+	).appendTo($table);
 	const defaultlangs: string = 'zh,zh-hans,zh-cn,zh-my,zh-sg,zh-hant,zh-hk,zh-mo,zh-tw';
 	let runlangs: string | null = prompt(
 		window.wgULS('转换以下语言（以逗号隔开）：', '轉換以下語言（以逗號隔開）：'),
@@ -88,8 +86,8 @@ export const translateVariants = (): void => {
 			return;
 		}
 		const lang: string | undefined = langqueue.shift();
-		const $diffTable: JQuery = $((<div id={`TranslateVariants-diff-${lang}`}></div>) as HTMLElement);
-		$table.append($diffTable, $(<hr />));
+		const $diffTable: JQuery = $((<div id={`TranslateVariants-diff-${lang}`} />) as HTMLElement).appendTo($table);
+		$(<hr />).appendTo($table);
 		const basename: string = mw.config.get('wgPageName').replace(/\/zh$/, '');
 		const targetTitle: string = lang === 'zh' ? basename : `${basename}/${lang}`;
 		let newtext: string;
@@ -103,9 +101,7 @@ export const translateVariants = (): void => {
 			})
 			.then(
 				(data) => {
-					newtext = $(<div>{data}</div>)
-						.find('#TVcontent')
-						.text();
+					newtext = $('<div>').html(data).find('#TVcontent').text();
 					const _params: ApiQueryRevisionsParams = {
 						action: 'query',
 						prop: 'revisions',
@@ -179,11 +175,9 @@ export const translateVariants = (): void => {
 									}
 								);
 							});
-							$(
-								<pre>
-									{newtext.replace(/[&<>]/gim, (s: string): string => `&#${s.codePointAt(0)};`)}
-								</pre>
-							).appendTo($diffTable);
+							$('<pre>')
+								.html(newtext.replace(/[&<>]/gim, (s: string): string => `&#${s.codePointAt(0)};`))
+								.appendTo($diffTable);
 							return;
 						}
 						const diff: string = page.revisions[0].diff.body;
@@ -198,15 +192,17 @@ export const translateVariants = (): void => {
 								</span>
 							).appendTo($tool);
 						} else {
-							const $submit = $(
-								<button
-									className="TranslateVariants-publish-changes"
-									style={{
-										float: 'right',
-									}}
-								>
-									{window.wgULS('发布更改', '發佈變更')}
-								</button>
+							const $submit: JQuery = $(
+								(
+									<button
+										className="TranslateVariants-publish-changes"
+										style={{
+											float: 'right',
+										}}
+									>
+										{window.wgULS('发布更改', '發佈變更')}
+									</button>
+								) as HTMLElement
 							).appendTo($tool);
 							$submit.on('click', function () {
 								this.remove();
@@ -241,17 +237,18 @@ export const translateVariants = (): void => {
 									}
 								);
 							});
-							$(
-								<table className="diff">
+							$('<table>')
+								.addClass('diff')
+								.html(diff)
+								.prepend(
 									<colgroup>
 										<col className="diff-marker" />
 										<col className="diff-content" />
 										<col className="diff-marker" />
 										<col className="diff-content" />
 									</colgroup>
-									{diff}
-								</table>
-							).appendTo($diffTable);
+								)
+								.appendTo($diffTable);
 						}
 					}
 				},

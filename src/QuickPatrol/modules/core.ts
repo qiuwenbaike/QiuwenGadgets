@@ -24,7 +24,7 @@ export const QuickPatrol = (): void => {
 			});
 		$patrolBtn.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
 			const api = initMwApi(`Qiuwen/1.1 (QuickPatrol/2.0; ${WG_WIKI_ID})`);
-			const {btnid, revid} = event.currentTarget.dataset;
+			const {btnid, revid} = (event.currentTarget as HTMLElement).dataset;
 			void api
 				.postWithToken('patrol', {
 					action: 'patrol',
@@ -33,6 +33,7 @@ export const QuickPatrol = (): void => {
 				})
 				.done(({error}): void => {
 					if (error) {
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 						void mw.notify(getMessage('API') + error['info'], {type: 'error', tag: 'QuickPatrol'});
 						$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 					} else {
