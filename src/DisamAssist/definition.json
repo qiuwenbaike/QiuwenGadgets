@@ -4,5 +4,6 @@
 	"section": "edit",
 	"dependencies": ["ext.gadget.Util", "mediawiki.api", "mediawiki.Title"],
 	"rights": ["skipcaptcha"],
-	"peers": ["DisamAssist-pagestyles"]
+	"peers": ["DisamAssist-pagestyles"],
+	"excludeSites": ["licencewiki"]
 }

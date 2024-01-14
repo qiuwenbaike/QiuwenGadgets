@@ -13,5 +13,6 @@
 		"mediawiki.Uri",
 		"mediawiki.util"
 	],
-	"peers": ["NotifyConversion-pagestyles"]
+	"peers": ["NotifyConversion-pagestyles"],
+	"excludeSites": ["testwiki"]
 }

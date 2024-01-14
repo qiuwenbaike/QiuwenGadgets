@@ -138,7 +138,7 @@ const showDialog = (): void => {
 };
 
 const preferredVariant: string | null =
-	(mw.config.get('wgUserName') ? mw.user.options.get('variant') : mw.config.get('wgUserVariant')) ?? null;
+	((mw.config.get('wgUserName') ? mw.user.options.get('variant') : mw.config.get('wgUserVariant')) as string) ?? null;
 
 export const notifyConversion = (): void => {
 	if (!wgUserVariant) {
