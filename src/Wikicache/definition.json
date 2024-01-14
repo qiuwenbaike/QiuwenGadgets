@@ -5,6 +5,6 @@
 	"actions": ["edit", "submit"],
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "jquery.ui", "mediawiki.storage", "mediawiki.util"],
-	"rights": ["edit"],
-	"peers": ["Wikicache-pagestyles"]
+	"peers": ["Wikicache-pagestyles"],
+	"rights": ["edit"]
 }

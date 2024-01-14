@@ -4,9 +4,9 @@
 	"section": "browser",
 	"default": true,
 	"dependencies": [
-		"ext.gadget.i18n",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
+		"ext.gadget.i18n",
 		"mediawiki.api",
 		"mediawiki.util",
 		"mediawiki.widgets",

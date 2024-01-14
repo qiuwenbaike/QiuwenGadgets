@@ -1,24 +1,16 @@
 {
-	"zhqiuwenbaike": {
-		"Common.js": {
-			"enable": true,
-			"sourceCode": "mw.loader.using(['ext.gadget.SiteCommon', 'ext.gadget.SiteCommon_JS']);"
-		},
+	"testwiki": {
 		"Citizen.js": {
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.SkinCitizen']);"
 		},
+		"Common.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SiteCommon', 'ext.gadget.SiteCommon_JS']);"
+		},
 		"Gongbi.js": {
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.SkinGongbi']);"
-		},
-		"Vector.js": {
-			"enable": true,
-			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector']);"
-		},
-		"Vector-2022.js": {
-			"enable": true,
-			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector2022']);"
 		},
 		"Group-autoconfirmed.js": {
 			"enable": true,
@@ -75,28 +67,28 @@
 		"Group-user.js": {
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.Group-user', 'ext.gadget.Group-user_JS']);"
+		},
+		"Vector-2022.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector2022']);"
+		},
+		"Vector.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector']);"
 		}
 	},
-	"testwiki": {
-		"Common.js": {
-			"enable": true,
-			"sourceCode": "mw.loader.using(['ext.gadget.SiteCommon', 'ext.gadget.SiteCommon_JS']);"
-		},
+	"zhqiuwenbaike": {
 		"Citizen.js": {
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.SkinCitizen']);"
 		},
+		"Common.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SiteCommon', 'ext.gadget.SiteCommon_JS']);"
+		},
 		"Gongbi.js": {
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.SkinGongbi']);"
-		},
-		"Vector.js": {
-			"enable": true,
-			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector']);"
-		},
-		"Vector-2022.js": {
-			"enable": true,
-			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector2022']);"
 		},
 		"Group-autoconfirmed.js": {
 			"enable": true,
@@ -153,6 +145,14 @@
 		"Group-user.js": {
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.Group-user', 'ext.gadget.Group-user_JS']);"
+		},
+		"Vector-2022.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector2022']);"
+		},
+		"Vector.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector']);"
 		}
 	}
 }

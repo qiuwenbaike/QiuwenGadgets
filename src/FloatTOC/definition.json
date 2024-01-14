@@ -6,8 +6,8 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.FilterAlteredClicks",
-		"ext.gadget.i18n",
 		"ext.gadget.Util",
+		"ext.gadget.i18n",
 		"mediawiki.notification",
 		"mediawiki.storage",
 		"oojs-ui.styles.icons-editing-citation",

@@ -4,6 +4,6 @@
 	"section": "edit",
 	"actions": ["view"],
 	"dependencies": ["ext.gadget.Util", "jquery.ui", "mediawiki.jqueryMsg", "mediawiki.util"],
-	"rights": ["skipcaptcha"],
-	"peers": ["Cat-a-lot-pagestyles"]
+	"peers": ["Cat-a-lot-pagestyles"],
+	"rights": ["skipcaptcha"]
 }

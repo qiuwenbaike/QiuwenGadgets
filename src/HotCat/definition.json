@@ -4,14 +4,14 @@
 	"section": "edit",
 	"default": true,
 	"dependencies": [
-		"ext.gadget.i18n",
 		"ext.gadget.Util",
+		"ext.gadget.i18n",
 		"jquery.ui",
-		"mediawiki.storage",
 		"mediawiki.jqueryMsg",
-		"mediawiki.util",
-		"mediawiki.user"
+		"mediawiki.storage",
+		"mediawiki.user",
+		"mediawiki.util"
 	],
-	"rights": ["skipcaptcha"],
-	"peers": ["HotCat-pagestyles"]
+	"peers": ["HotCat-pagestyles"],
+	"rights": ["skipcaptcha"]
 }

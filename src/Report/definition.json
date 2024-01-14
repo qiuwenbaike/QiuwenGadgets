@@ -3,6 +3,6 @@
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Report\"></span> 报告不良信息",
 	"section": "sysop",
 	"default": true,
-	"dependencies": ["ext.gadget.React", "ext.gadget.i18n", "ext.gadget.Tippy", "ext.gadget.Util", "mediawiki.util"],
+	"dependencies": ["ext.gadget.React", "ext.gadget.Tippy", "ext.gadget.Util", "ext.gadget.i18n", "mediawiki.util"],
 	"peers": ["Report-pagestyles"]
 }

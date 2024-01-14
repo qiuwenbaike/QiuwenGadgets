@@ -2,6 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-MarkRights\"></span> 在编辑记录中标示用户权限",
 	"section": "sysop",
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.api", "mediawiki.util"],
+	"dependencies": ["ext.gadget.Util", "ext.gadget.i18n", "mediawiki.api", "mediawiki.util"],
 	"peers": ["MarkRights-pagestyles"]
 }

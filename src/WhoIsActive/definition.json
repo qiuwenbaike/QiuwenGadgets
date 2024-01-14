@@ -4,10 +4,10 @@
 	"section": "sysop",
 	"dependencies": [
 		"ext.gadget.React",
-		"ext.gadget.i18n",
 		"ext.gadget.Util",
-		"mediawiki.api",
+		"ext.gadget.i18n",
 		"mediawiki.Title",
+		"mediawiki.api",
 		"mediawiki.util"
 	],
 	"peers": ["WhoIsActive-pagestyles"]

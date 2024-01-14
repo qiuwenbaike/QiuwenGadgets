@@ -6,13 +6,13 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.React",
-		"ext.gadget.i18n",
 		"ext.gadget.Tippy",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
+		"ext.gadget.i18n",
+		"mediawiki.Uri",
 		"mediawiki.api",
-		"mediawiki.storage",
-		"mediawiki.Uri"
+		"mediawiki.storage"
 	],
 	"peers": ["AdvancedSiteNotices-pagestyles"]
 }

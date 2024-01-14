@@ -1,16 +1,16 @@
 {
 	"enable": true,
+	"excludeSites": ["licencewiki", "testwiki"],
 	"description": "<span id=\"Gadget-UserRightsManager\"></span> 用户权限管理器 <small>用于[[Qiuwen:权限申请|权限申请]]页面</small>",
 	"section": "sysop",
 	"dependencies": [
+		"ext.gadget.Util",
 		"ext.gadget.i18n",
 		"ext.gadget.morebits",
-		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.widgets.SelectWithInputWidget",
 		"mediawiki.widgets.expiry",
 		"oojs"
 	],
-	"rights": ["protect"],
-	"excludeSites": ["testwiki", "licencewiki"]
+	"rights": ["protect"]
 }
