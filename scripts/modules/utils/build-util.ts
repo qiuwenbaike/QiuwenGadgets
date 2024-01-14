@@ -551,11 +551,11 @@ const findSourceFile = (): SourceFiles => {
 	}
 
 	// After completing the loop, if `targetGadget.definition` is undefined, utilize the default definition
-	// NOTE: No need for assignment, this is object reference
+	// Note: No need for assignment, this is object reference
 	fallbackDefinition(sourceFiles);
 
 	// Filter out invalid dependencies, only allow non-empty string
-	// NOTE: No need for assignment, this is object reference
+	// Note: No need for assignment, this is object reference
 	filterOutInvalidDependencies(sourceFiles);
 
 	const sourceFilesSorted: SourceFiles = {};
@@ -638,8 +638,9 @@ const generateDefinitionItem = (
 
 	definitionText = definitionText.replace(/\|$/, '');
 
-	const sectionText: string = definition.section
-		? `☀${trim(definition.section.replace(/☀/g, ''), {
+	const {section} = definition;
+	const sectionText: string = section
+		? `☀${trim(section.replace(/☀/g, ''), {
 				addNewline: false,
 			})}`
 		: '☀appear';

@@ -106,6 +106,9 @@ devDependencies:
   '@types/jqueryui':
     specifier: ^1.12.21
     version: 1.12.21
+  '@types/minimist':
+    specifier: ^1.2.5
+    version: 1.2.5
   '@types/node':
     specifier: ^20.11.0
     version: 20.11.0
@@ -184,6 +187,9 @@ devDependencies:
   lightningcss:
     specifier: ^1.22.1
     version: 1.22.1
+  minimist:
+    specifier: ^1.2.8
+    version: 1.2.8
   mwn:
     specifier: ^2.0.2
     version: 2.0.2
@@ -200,8 +206,8 @@ devDependencies:
     specifier: ^9.3.0
     version: 9.3.0(postcss@8.4.33)
   prettier:
-    specifier: ^3.2.1
-    version: 3.2.1
+    specifier: ^3.2.2
+    version: 3.2.2
   prompts:
     specifier: ^2.4.2
     version: 2.4.2
@@ -6044,8 +6050,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier@3.2.1:
-    resolution: {integrity: sha512-qSUWshj1IobVbKc226Gw2pync27t0Kf0EdufZa9j7uBSJay1CC+B3K5lAAZoqgX3ASiKuWsk6OmzKRetXNObWg==}
+  /prettier@3.2.2:
+    resolution: {integrity: sha512-HTByuKZzw7utPiDO523Tt2pLtEyK7OibUD9suEJQrPUCYQqrHr74GGX6VidMrovbf/I50mPqr8j/II6oBAuc5A==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
