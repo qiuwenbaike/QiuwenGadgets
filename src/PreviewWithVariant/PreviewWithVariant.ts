@@ -103,7 +103,7 @@ mw.hook<JQuery[]>('wikipage.editform').add(($editForm): void => {
 		}
 	};
 	const manipulateVariantConfig = (): void => {
-		mw.config.set('wgUserVariant', getSelectedVariant() || mw.user.options.get('variant'));
+		mw.config.set('wgUserVariant', getSelectedVariant() || (mw.user.options.get('variant') as string));
 	};
 	$editForm
 		.find('#wpPreview')

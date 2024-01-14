@@ -10,5 +10,6 @@
 		"mediawiki.api",
 		"mediawiki.language"
 	],
-	"rights": ["skipcaptcha"]
+	"rights": ["skipcaptcha"],
+	"excludeSites": ["licencewiki"]
 }

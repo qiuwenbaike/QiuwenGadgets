@@ -11,5 +11,6 @@
 		"mediawiki.widgets.expiry",
 		"oojs"
 	],
-	"rights": ["protect"]
+	"rights": ["protect"],
+	"excludeSites": ["testwiki", "licencewiki"]
 }

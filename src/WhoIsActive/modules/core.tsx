@@ -80,7 +80,7 @@ export const whoIsActive = (): void => {
 		void api.get(params).then((result): void => {
 			if (result['query'].usercontribs.length > 0) {
 				const [{timestamp}] = result['query'].usercontribs;
-				getLastActiveMarker(timestamp, true).insertAfter(element);
+				getLastActiveMarker(timestamp as string, true).insertAfter(element);
 			}
 		});
 	}
@@ -98,7 +98,7 @@ export const whoIsActive = (): void => {
 			void api.get(params).then((result): void => {
 				if (result['query'].usercontribs.length > 0) {
 					const [{timestamp}] = result['query'].usercontribs;
-					getLastActiveMarker(timestamp, false).prependTo($body.find('#footer-info, .page-info'));
+					getLastActiveMarker(timestamp as string, false).prependTo($body.find('#footer-info, .page-info'));
 				}
 			});
 		}
