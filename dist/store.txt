@@ -1,5 +1,5 @@
 {
-	"zhqiuwenbaike": [
+	"testwiki": [
 		"MediaWiki:Citizen.js",
 		"MediaWiki:Common.js",
 		"MediaWiki:Gadget-AccessKeyCheatsheet",
@@ -1733,7 +1733,7 @@
 		"MediaWiki:Vector-2022.js",
 		"MediaWiki:Vector.js"
 	],
-	"testwiki": [
+	"zhqiuwenbaike": [
 		"MediaWiki:Citizen.js",
 		"MediaWiki:Common.js",
 		"MediaWiki:Gadget-AccessKeyCheatsheet",
