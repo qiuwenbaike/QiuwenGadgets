@@ -3,5 +3,6 @@
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage\"></span> 首页样式",
 	"default": true,
 	"hidden": true,
-	"namespaces": [10, 4]
+	"namespaces": [10, 4],
+	"excludeSites": ["licencewiki", "testwiki"]
 }
