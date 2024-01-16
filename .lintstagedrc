@@ -1,6 +1,7 @@
 {
 	"*.{css,less}": ["prettier --write", "stylelint --allow-empty-input --fix"],
 	"*.{cjs,mjs,js,jsx,ts,tsx}": ["prettier --write", "eslint --fix"],
+	"*.json": "tsx --no-deprecation scripts/run.ts --sort - ",
 	"*.svg": "svgo --config=svgo.config.cjs --quiet --input",
-	"!*.{css,less,cjs,mjs,js,jsx,ts,tsx,svg}": "prettier --ignore-unknown --write"
+	"!*.{css,less,cjs,mjs,js,jsx,ts,tsx,json,svg}": "prettier --ignore-unknown --write"
 }
