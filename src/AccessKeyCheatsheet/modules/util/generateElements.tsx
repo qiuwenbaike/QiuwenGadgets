@@ -7,12 +7,17 @@ const generateElements = (
 	$table: JQuery;
 	$opener: JQuery;
 } => {
-	const $tableItems: JQuery[] = $body
-		.find('[accesskey]')
-		.map(
-			(_index: number, element: HTMLElement): JQuery =>
-				$(
-					(
+	const $table = $(
+		<table
+			className="wikitable"
+			style={{
+				width: '100%',
+			}}
+		>
+			{[...$body.find('[accesskey]')].reduce(
+				(accumulator, element) => [
+					...accumulator,
+					<>
 						<tr>
 							<th>{element.accessKey.toUpperCase()}</th>
 							<td>
@@ -27,14 +32,13 @@ const generateElements = (
 									.trim()}
 							</td>
 						</tr>
-					) as HTMLElement
-				)
-		)
-		.get();
-
-	const $table: JQuery = $('<table>').addClass('wikitable').css('width', '100%').append($tableItems);
-
-	const $opener = $((<a accessKey="?">{getMessage('Text')}</a>) as HTMLElement);
+					</>,
+				],
+				[] as React.ReactElement[]
+			)}
+		</table>
+	) as JQuery;
+	const $opener = $(<a accessKey="?">{getMessage('Text')}</a>) as JQuery;
 
 	return {
 		$table,
