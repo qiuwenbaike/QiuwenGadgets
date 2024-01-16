@@ -1,14 +1,32 @@
 import type {DefaultDefinition, GlobalSourceFiles} from './types';
 import {type Options, format, resolveConfig, resolveConfigFile} from 'prettier';
-import {type Path, globSync} from 'glob';
 import {__rootDir, readFileContent, sortObject, writeFileContent} from './utils/general-util';
-import {join} from 'node:path';
+import {basename, join} from 'node:path';
+import {execSync} from 'node:child_process';
+import {globSync} from 'glob';
 
-const sortConfig = async (): Promise<void> => {
-	const files: Path[] = globSync(['*/definition.json', 'global.json'], {
-		cwd: join(__rootDir, 'src'),
-		withFileTypes: true,
-	});
+const formatJSON = async (paths: string[]): Promise<void> => {
+	let files: {
+		name: string;
+		fullpath(): string;
+	}[] = [];
+
+	if (paths.length) {
+		for (const path of paths) {
+			files.push({
+				name: basename(path),
+				fullpath(): string {
+					return path;
+				},
+			});
+		}
+	} else {
+		files = globSync(['*/definition.json', 'global.json'], {
+			cwd: join(__rootDir, 'src'),
+			withFileTypes: true,
+		});
+	}
+
 	if (!files.length) {
 		return;
 	}
@@ -31,6 +49,7 @@ const sortConfig = async (): Promise<void> => {
 			continue;
 		}
 
+		let isExceptFile: boolean = true;
 		switch (file.name) {
 			case 'global.json':
 				object = sortObject(object);
@@ -79,16 +98,22 @@ const sortConfig = async (): Promise<void> => {
 				object = definitionSorted;
 				break;
 			}
+			default:
+				isExceptFile = false;
 		}
 
-		writeFileContent(
-			filePath,
-			await format(JSON.stringify(object, null, '\t'), {
-				...prettierConfig,
-				parser: 'json',
-			})
-		);
+		if (isExceptFile) {
+			writeFileContent(
+				filePath,
+				await format(JSON.stringify(object, null, '\t'), {
+					...prettierConfig,
+					parser: 'json',
+				})
+			);
+		} else {
+			execSync(`prettier --write ${filePath}`);
+		}
 	}
 };
 
-export {sortConfig};
+export {formatJSON};
