@@ -1,4 +1,4 @@
-export const cfg = {
+const cfg = {
 	/* Categories where disambiguation pages are added (usually by a template like {{Disambiguation}} */
 	disamCategories: ['全部消歧义页面'],
 	/* "Canonical names" of the templates that may appear after ambiguous links and which should be removed when fixing those links */
@@ -42,3 +42,5 @@ export const cfg = {
 	/* Specify how the watchlist is affected by DisamAssist edits. Possible values: "watch", "unwatch", "preferences", "nochange" */
 	watch: 'nochange',
 };
+
+export {cfg};

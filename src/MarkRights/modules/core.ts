@@ -1,3 +1,4 @@
+import {WG_WIKI_ID} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 
@@ -131,7 +132,7 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 			$element.after($sups);
 		});
 	};
-	const api: mw.Api = initMwApi(`Qiuwen/1.1 (MarkRights/1.1; ${mw.config.get('wgWikiID')})`);
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (MarkRights/1.1; ${WG_WIKI_ID})`);
 	for (const ususers of queue) {
 		const params: ApiQueryUsersParams = {
 			action: 'query',

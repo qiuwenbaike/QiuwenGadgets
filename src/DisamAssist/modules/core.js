@@ -1,10 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {WG_ACTION, WG_WIKI_ID} from './constant';
 import {cfg} from './config';
 import {initMwApi} from 'ext.gadget.Util';
 import {txt} from './messages';
 
-const api = initMwApi(`Qiuwen/1.1 (DisamAssist/1.1; ${mw.config.get('wgWikiID')})`);
+const api = initMwApi(`Qiuwen/1.1 (DisamAssist/1.1; ${WG_WIKI_ID})`);
 
 let startLink;
 let ui;
@@ -29,7 +30,7 @@ let runningSaves = false;
 
 /* Entry point. Check whether we are in a disambiguation page. If so, add a link to start the tool */
 export const install = () => {
-	if (mw.config.get('wgAction') !== 'view' || !isDisam()) {
+	if (WG_ACTION !== 'view' || !isDisam()) {
 		return;
 	}
 	$(() => {
