@@ -1,3 +1,4 @@
+import {WG_WIKI_ID} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 
@@ -75,8 +76,8 @@ export const liveClock = (): void => {
 	// API, as purge URLs now make people click through a confirmation screen.
 	$element.on('click', (event: JQuery.ClickEvent<HTMLLIElement>): void => {
 		event.preventDefault();
-		const api: mw.Api = initMwApi(`Qiuwen/1.1 (UTCLiveClock/1.1; ${mw.config.get('wgWikiID')})`);
-		localStorage.removeItem(`MediaWikiModuleStore:${mw.config.get('wgWikiID')}`);
+		const api: mw.Api = initMwApi(`Qiuwen/1.1 (UTCLiveClock/1.1; ${WG_WIKI_ID})`);
+		localStorage.removeItem(`MediaWikiModuleStore:${WG_WIKI_ID}`);
 		const params: ApiPurgeParams = {
 			action: 'purge',
 			titles: mw.config.get('wgPageName'),
