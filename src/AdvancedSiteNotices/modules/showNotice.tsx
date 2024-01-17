@@ -1,4 +1,5 @@
 import {CLASS_NAME_DISMISS, CLASS_NAME_NOTICE_CONTENT, STORAGE_KEY} from './constant';
+import React from 'ext.gadget.React';
 import {type RemoteNotices} from './util/queryApi';
 import {generateArea} from './util/generateArea';
 import {getMessage} from './i18n';
@@ -30,12 +31,12 @@ broadcastChannel.addEventListener('message', closeNotices);
 $dismiss.on('click', (): void => {
 	closeNotices();
 	const toastifyInstance: ToastifyInstance = toastify({
-		node: $('<span>').html(getMessage('DismissNotice')).get(0),
+		node: <span innerHTML={getMessage('DismissNotice')} />,
 		close: true,
 		duration: 10 * 1000,
 		gravity: 'top',
 		position: 'right',
-		onClick: (): void => {
+		onClick(): void {
 			toastifyInstance.hideToast();
 		},
 	});

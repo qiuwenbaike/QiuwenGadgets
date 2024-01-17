@@ -28,7 +28,7 @@ const matchCriteria = ($notice: JQuery): boolean => {
 
 	let result: boolean = false;
 
-	const criteriaData: string = ($notice.attr('data-asn-criteria') ?? '').trim();
+	const criteriaData: string = (($notice.data('asn-criteria') as string | undefined) ?? '').trim();
 	if (criteriaData) {
 		try {
 			result = testCriteria(mw.Uri.decode(criteriaData));
