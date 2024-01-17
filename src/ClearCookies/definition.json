@@ -1,8 +1,0 @@
-{
-	"enable": true,
-	"description": "<span id=\"Gadget-ClearCookies\"></span> 清除Cookies",
-	"section": "compatibility",
-	"default": true,
-	"dependencies": ["ext.gadget.psl", "jquery.cookie"],
-	"hidden": true
-}
