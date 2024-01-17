@@ -47,6 +47,12 @@ patchedDependencies:
     path: patches/eslint-plugin-no-jquery@2.7.0.patch
 
 dependencies:
+  '@types/jquery.cookie':
+    specifier: ^1.4.35
+    version: 1.4.35
+  '@types/psl':
+    specifier: ^1.1.3
+    version: 1.1.3
   '@types/toastify-js':
     specifier: ^1.12.3
     version: 1.12.3
@@ -59,6 +65,9 @@ dependencies:
   jsx-dom:
     specifier: ^8.1.2
     version: 8.1.2
+  psl:
+    specifier: ^1.9.0
+    version: 1.9.0
   select2:
     specifier: ^4.0.13
     version: 4.0.13
@@ -2382,11 +2391,16 @@ packages:
     resolution: {integrity: sha512-yMGwHJaqwIEXc3x7EyY3CeS73QG9WeC00w2nZ0/inoRv9DiLIhfvrY6vmXMSKlpRLFxrLcAWJh3JTwYNPl3ihg==}
     dev: true
 
+  /@types/jquery.cookie@1.4.35:
+    resolution: {integrity: sha512-chaHxzUOnN3MxSt5PNDtGLa74Z7DGsYnnBhg2NihAY9awJ01q903T07DVHkDnY9J7LkCcxuZyHnsVvmLmdFsAg==}
+    dependencies:
+      '@types/jquery': 3.5.29
+    dev: false
+
   /@types/jquery@3.5.29:
     resolution: {integrity: sha512-oXQQC9X9MOPRrMhPHHOsXqeQDnWeCDT3PelUIg/Oy8FAbzSZtFHRjc7IpbfFVmpLtJ+UOoywpRsuO5Jxjybyeg==}
     dependencies:
       '@types/sizzle': 2.3.8
-    dev: true
 
   /@types/jqueryui@1.12.21:
     resolution: {integrity: sha512-hsTOaWPg963smNdoHbEN2anu4vVWj9k2xuaZMIajWERPikaBRG49RmaDA/tb2HldX9/a0qHvQYKipXHSLhM3qA==}
@@ -2454,13 +2468,16 @@ packages:
       kleur: 3.0.3
     dev: true
 
+  /@types/psl@1.1.3:
+    resolution: {integrity: sha512-Iu174JHfLd7i/XkXY6VDrqSlPvTDQOtQI7wNAXKKOAADJ9TduRLkNdMgjGiMxSttUIZnomv81JAbAbC0DhggxA==}
+    dev: false
+
   /@types/semver@7.5.6:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
     dev: true
 
   /@types/sizzle@2.3.8:
     resolution: {integrity: sha512-0vWLNK2D5MT9dg0iOo8GlKguPAU02QjmZitPEsXRuJXU/OGIOt9vT9Fc26wtYuavLxtO45v9PGleoL9Z0k1LHg==}
-    dev: true
 
   /@types/toastify-js@1.12.3:
     resolution: {integrity: sha512-9RjLlbAHMSaae/KZNHGv19VG4gcLIm3YjvacCXBtfMfYn26h76YP5oxXI8k26q4iKXCB9LNfv18lsoS0JnFPTg==}
@@ -6100,7 +6117,6 @@ packages:
 
   /psl@1.9.0:
     resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
-    dev: true
 
   /punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}

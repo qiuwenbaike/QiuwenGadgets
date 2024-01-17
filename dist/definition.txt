@@ -53,6 +53,7 @@
 * AccessKeyCheatsheet[ResourceLoader|default|dependencies=ext.gadget.React,ext.gadget.Util,ext.gadget.i18n,oojs-ui-windows|requiresES6]|AccessKeyCheatsheet.js
 * AdvancedSiteNotices[ResourceLoader|actions=view|default|dependencies=ext.gadget.React,ext.gadget.Tippy,ext.gadget.Toastify,ext.gadget.Util,ext.gadget.i18n,mediawiki.Uri,mediawiki.api,mediawiki.storage|peers=AdvancedSiteNotices-pagestyles|requiresES6]|AdvancedSiteNotices.js
 * AdvancedSiteNotices-pagestyles[ResourceLoader|hidden|requiresES6]|AdvancedSiteNotices-pagestyles.css
+* ClearCookies[ResourceLoader|default|dependencies=jquery.cookie,ext.gadget.psl|hidden|requiresES6]|ClearCookies.js
 * Clipboard[ResourceLoader|hidden|requiresES6]|Clipboard.js
 * Collapsible[ResourceLoader|default|dependencies=ext.gadget.Util,ext.gadget.i18n|hidden|peers=Collapsible-pagestyles|requiresES6]|Collapsible.js
 * Collapsible-pagestyles[ResourceLoader|hidden|requiresES6]|Collapsible-pagestyles.css
@@ -82,6 +83,7 @@
 * Util[ResourceLoader|hidden|requiresES6]|Util.js
 * i18n[ResourceLoader|dependencies=ext.gadget.Util|hidden|requiresES6]|i18n.js
 * morebits[ResourceLoader|dependencies=ext.gadget.select2,jquery.ui,mediawiki.Title,mediawiki.user,mediawiki.util|hidden|requiresES6]|morebits.js|morebits.css
+* psl[ResourceLoader|hidden|requiresES6]|psl.js
 * select2[ResourceLoader|dependencies=jquery|hidden|requiresES6]|select2.js|select2.css
 
 == edit ==
