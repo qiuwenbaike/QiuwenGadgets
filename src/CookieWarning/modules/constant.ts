@@ -12,6 +12,8 @@ const URL_CONSENT_READ: string | null = mw.util.getParamValue('consentRead');
 
 const WG_USER_NAME: string | null = mw.config.get('wgUserName');
 
+const WG_WIKI_ID: string = mw.config.get('wgWikiID');
+
 export {
 	CLASS_NAME,
 	COOKIE_CLEARED_KEY,
@@ -20,4 +22,5 @@ export {
 	STORAGE_KEY,
 	URL_CONSENT_READ,
 	WG_USER_NAME,
+	WG_WIKI_ID,
 };
