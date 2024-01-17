@@ -1,4 +1,5 @@
 import {type RemoteNotices, queryApi} from './util/queryApi';
+import React from 'ext.gadget.React';
 
 type ApiResponse = {
 	parse: {
@@ -14,9 +15,12 @@ const loadRemoteNotices = async (): Promise<RemoteNotices> => {
 		return {};
 	}
 
-	const $remoteNotices: NonNullable<RemoteNotices['$notices']> = $('<div>')
-		.html(responseParse.text)
-		.find('ul.sitents');
+	const remoteNotice = (<div innerHTML={responseParse.text} />).querySelector('ul.sitents');
+	if (!remoteNotice) {
+		return {};
+	}
+
+	const $remoteNotices: NonNullable<RemoteNotices['$notices']> = $(remoteNotice) as JQuery;
 
 	const $notices: JQuery = $remoteNotices.find('li');
 	const remoteNoticesVersion: NonNullable<RemoteNotices['version']> = (
