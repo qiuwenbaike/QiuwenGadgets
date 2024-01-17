@@ -11,5 +11,6 @@ const SYSTEM_SCRIPT_LIST: string[] = [
 ];
 const WEBMASTER_LIST: string[] = ['QiuWen', 'QiuWen for Accounts', 'QiuwenSocialMedia'];
 const WG_SKIN = mw.config.get('skin');
+const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
-export {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_SKIN};
+export {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_SKIN, WG_WIKI_ID};

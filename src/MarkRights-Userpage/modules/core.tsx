@@ -1,4 +1,4 @@
-import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_SKIN} from './constant';
+import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_SKIN, WG_WIKI_ID} from './constant';
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
@@ -34,7 +34,7 @@ export const getPermissions = async (): Promise<void> => {
 	if (!wgRelevantUserName) {
 		return;
 	}
-	const api: mw.Api = initMwApi(`Qiuwen/1.1 (MarkRights-Userpage/1.0; ${mw.config.get('wgWikiID')})`);
+	const api: mw.Api = initMwApi(`Qiuwen/1.1 (MarkRights-Userpage/1.0; ${WG_WIKI_ID})`);
 	try {
 		const listUsersParams: ApiQueryUsersParams = {
 			action: 'query',
