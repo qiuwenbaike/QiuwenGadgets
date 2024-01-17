@@ -1,11 +1,29 @@
-import {CLASS_NAME, LAST_STORAGE_VALUE, STORAGE_KEY, URL_CONSENT_READ, WG_USER_NAME} from './modules/constant';
+import {
+	CLASS_NAME,
+	COOKIE_CLEARED_KEY,
+	LAST_COOKIE_CLEARED_VALUE,
+	LAST_STORAGE_VALUE,
+	STORAGE_KEY,
+	URL_CONSENT_READ,
+	WG_USER_NAME,
+} from './modules/constant';
 import AgreeButton from './components/AgreeButton';
 import ConsentNotice from './components/ConsentNotice';
 import React from 'ext.gadget.React';
 import {getBody} from 'ext.gadget.Util';
 
 void getBody().then(function cookieWarning($body: JQuery<HTMLBodyElement>): void {
-	if (WG_USER_NAME || LAST_STORAGE_VALUE === '1' || URL_CONSENT_READ) {
+	if (WG_USER_NAME) {
+		return;
+	}
+
+	// Temporary: clear old session cookies under `${lang}`.qiuwenbaike.cn
+	if (LAST_COOKIE_CLEARED_VALUE !== '1') {
+		document.cookie = '';
+		mw.storage.set(COOKIE_CLEARED_KEY, '1');
+	}
+
+	if (LAST_STORAGE_VALUE === '1' || URL_CONSENT_READ) {
 		return;
 	}
 
