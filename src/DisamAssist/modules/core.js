@@ -1,11 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {WG_ACTION, WG_WIKI_ID} from './constant';
+import {WG_ACTION} from './constant';
 import {cfg} from './config';
 import {initMwApi} from 'ext.gadget.Util';
 import {txt} from './messages';
 
-const api = initMwApi(`Qiuwen/1.1 (DisamAssist/1.1; ${WG_WIKI_ID})`);
+const api = initMwApi('DisamAssist/1.1');
 
 let startLink;
 let ui;

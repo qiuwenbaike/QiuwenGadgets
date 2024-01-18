@@ -1,7 +1,7 @@
 import {initMwApi} from 'ext.gadget.Util';
 
 export const pagePatroller = async (): Promise<void> => {
-	const api = initMwApi(`Qiuwen/1.1 (PagePatroller/2.0; ${mw.config.get('wgWikiID')})`);
+	const api = initMwApi('PagePatroller/2.0');
 	const weekdays: string[] = ['日', '一', '二', '三', '四', '五', '六'];
 	const loading: string = window.wgULS('正在加载此页面的巡查者……', '正在加載此頁面的巡查者……');
 	let $patroller: JQuery;
@@ -36,6 +36,7 @@ export const pagePatroller = async (): Promise<void> => {
 		const {query} = await api.get(params);
 		let cts: string = '';
 		let html: string = '';
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		if (query && query.logevents && query.logevents.length) {
 			const [log]: [
 				{
@@ -43,17 +44,30 @@ export const pagePatroller = async (): Promise<void> => {
 					timestamp: string;
 					action: string;
 				},
-			] = query.logevents;
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			] = query.logevents as [
+				{
+					user: string;
+					timestamp: string;
+					action: string;
+				},
+			];
 			const {action} = log;
 			let {user, timestamp: ts} = log;
 			const date: Date = new Date(ts);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			if (query.pages) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				for (const id in query.pages) {
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 					if (!Object.hasOwn(query.pages, id)) {
 						continue;
 					}
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 					const page = query.pages[id];
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 					if (page && page.revisions && page.revisions.length) {
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 						cts = page.revisions[0].timestamp;
 						break;
 					}

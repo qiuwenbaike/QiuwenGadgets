@@ -1,4 +1,3 @@
-import {WG_WIKI_ID} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 
@@ -23,7 +22,7 @@ export const QuickPatrol = (): void => {
 				'data-revid': revId,
 			});
 		$patrolBtn.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
-			const api = initMwApi(`Qiuwen/1.1 (QuickPatrol/2.0; ${WG_WIKI_ID})`);
+			const api = initMwApi('QuickPatrol/2.0');
 			const {btnid, revid} = (event.currentTarget as HTMLElement).dataset;
 			void api
 				.postWithToken('patrol', {

@@ -10,12 +10,11 @@ import {
 	WG_NAMESPACE_IDS,
 	WG_NAMESPACE_NUMBER,
 	WG_PAGE_NAME,
-	WG_WIKI_ID,
 } from './constant';
 import {getMessage} from './util/getMessages';
 import {initMwApi} from 'ext.gadget.Util';
 
-const api = initMwApi(`Qiuwen/1.1 (ToolsRedirect/2.0; ${WG_WIKI_ID})`);
+const api = initMwApi('ToolsRedirect/2.0');
 
 const findRedirectCallbacks = [];
 const pageWithRedirectTextSuffix = {};

@@ -11,7 +11,7 @@ export const onlineAdmins = (): void => {
 		getMessage('Online'),
 		't-onlineadmin'
 	);
-	const api: mw.Api = initMwApi(`Qiuwen/1.1 (OnlineAdmins/1.1; ${mw.config.get('wgWikiID')})`);
+	const api: mw.Api = initMwApi('OnlineAdmins/1.1');
 	const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 		event.preventDefault();
 		let users: string[] = [];
@@ -36,7 +36,8 @@ export const onlineAdmins = (): void => {
 				rcend,
 			};
 			const recentchanges = await api.get(recentchangesParams);
-			for (const {user} of recentchanges['query'].recentchanges) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			for (const {user} of recentchanges['query'].recentchanges as {user: string}[]) {
 				users.push(user);
 			}
 			const logeventsParams: ApiQueryLogEventsParams = {
@@ -49,7 +50,8 @@ export const onlineAdmins = (): void => {
 				leend: rcend,
 			};
 			const logevents = await api.get(logeventsParams);
-			for (const {user} of logevents['query'].logevents) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			for (const {user} of logevents['query'].logevents as {user: string}[]) {
 				usersExt.push(user);
 			}
 			// 用户名列表合并、去重、分割
@@ -66,7 +68,8 @@ export const onlineAdmins = (): void => {
 						usprop: 'groups',
 					};
 					const response = await api.get(params);
-					for (const {groups, name} of response['query'].users) {
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+					for (const {groups, name} of response['query'].users as {groups: string[]; name: string}[]) {
 						// 找到管理人员，去除机器人，消除name的空值
 						if (groups.includes('bot') || BLACK_LIST.includes(name) || !name) {
 							continue;

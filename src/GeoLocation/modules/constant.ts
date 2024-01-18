@@ -14,6 +14,5 @@ const USER_WEBMASTER_LIST: string[] = ['QiuWen', 'QiuWen for Accounts', 'QiuwenS
 const WG_SCRIPT: string = mw.config.get('wgScript');
 const WG_USER_GROUPS: string[] = mw.config.get('wgUserGroups') ?? [];
 const WG_USER_NAME: string = mw.config.get('wgUserName') ?? '';
-const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
-export {USER_SCRIPT_LIST, USER_WEBMASTER_LIST, WG_SCRIPT, WG_USER_GROUPS, WG_USER_NAME, WG_WIKI_ID};
+export {USER_SCRIPT_LIST, USER_WEBMASTER_LIST, WG_SCRIPT, WG_USER_GROUPS, WG_USER_NAME};

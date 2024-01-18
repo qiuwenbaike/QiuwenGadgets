@@ -37,7 +37,7 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 		rrdArr.push(`|id${index + 1} = ${id}`);
 	}
 	rrdArr.push('}}\n--~~'.concat('~~'));
-	const api: mw.Api = initMwApi(`Qiuwen/1.1 (RRD/2.0; ${mw.config.get('wgWikiID')})`);
+	const api: mw.Api = initMwApi('RRD/2.0');
 	try {
 		const params: ApiQueryRevisionsParams = {
 			action: 'query',

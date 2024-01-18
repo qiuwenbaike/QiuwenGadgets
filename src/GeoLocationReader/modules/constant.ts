@@ -12,7 +12,6 @@ const WG_RELEVANT_USER_NAME: string = mw.config.get('wgRelevantUserName') ?? '';
 const WG_SCRIPT: string = mw.config.get('wgScript');
 const WG_SKIN: string = mw.config.get('skin');
 const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
-const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
 export {USER_SCRIPT_LIST, USER_WEBMASTER_LIST} from '~/GeoLocation/modules/constant';
 export {
@@ -26,5 +25,4 @@ export {
 	WG_SCRIPT,
 	WG_SKIN,
 	WG_USER_LANGUAGE,
-	WG_WIKI_ID,
 };

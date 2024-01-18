@@ -110,7 +110,7 @@ export const shortURL = (): void => {
 			};
 			buildLink(oldId);
 			if (oldId) {
-				const api: mw.Api = initMwApi(`Qiuwen/1.1 (ShortURL/1.1; ${mw.config.get('wgWikiID')})`);
+				const api: mw.Api = initMwApi('ShortURL/1.1');
 				try {
 					const params: ApiComparePagesParams = {
 						action: 'compare',

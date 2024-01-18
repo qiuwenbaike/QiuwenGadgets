@@ -1,3 +1,4 @@
+import {WG_WIKI_ID} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
@@ -12,7 +13,7 @@ export const purgePageCache = (): void => {
 			},
 			'info'
 		);
-		const api: mw.Api = initMwApi(`Qiuwen/1.1 (PurgePageCache/1.1; ${mw.config.get('wgWikiID')})`);
+		const api: mw.Api = initMwApi('PurgePageCache/1.1');
 		try {
 			const params: ApiPurgeParams = {
 				action: 'purge',
@@ -22,7 +23,7 @@ export const purgePageCache = (): void => {
 				forcelinkupdate: true,
 			};
 			await api.post(params);
-			localStorage.removeItem(`MediaWikiModuleStore:${mw.config.get('wgWikiID')}`);
+			localStorage.removeItem(`MediaWikiModuleStore:${WG_WIKI_ID}`);
 			location.reload();
 		} catch (error: unknown) {
 			console.error('[PurgePageCache] Ajax error:', error);
@@ -39,22 +40,22 @@ export const purgePageCache = (): void => {
 	};
 
 	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
-	const element: HTMLLIElement | null = mw.util.addPortletLink(
+	const portletElement: HTMLLIElement | null = mw.util.addPortletLink(
 		portletId,
 		'#',
 		getMessage('Purge'),
 		'ca-purge',
 		getMessage('PurgeFromServer')
 	);
-	element?.querySelector('a')?.addEventListener('click', (event: MouseEvent): void => {
+	portletElement?.querySelector('a')?.addEventListener('click', (event: MouseEvent): void => {
 		void purgePageCacheMain(event, mw.config.get('wgPageName'));
 	});
 
 	Array.prototype.forEach.call(
 		document.querySelectorAll('a[href*="action=purge"]'),
-		(_element: HTMLAnchorElement): void => {
-			const title: string = mw.util.getParamValue('title', _element.href) ?? mw.config.get('wgPageName');
-			_element.addEventListener('click', (event: MouseEvent): void => {
+		(element: HTMLAnchorElement): void => {
+			const title: string = mw.util.getParamValue('title', element.href) ?? mw.config.get('wgPageName');
+			element.addEventListener('click', (event: MouseEvent): void => {
 				void purgePageCacheMain(event, title);
 			});
 		}

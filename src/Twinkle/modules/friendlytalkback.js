@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - friendlytalkback.js */
-(function friendlytalkback($) {
+void getBody().then(function friendlytalkback($body) {
 	/**
 	 * friendlytalkback.js: Talkback module
 	 * Mode of invocation: Tab ("TB")
@@ -118,7 +120,6 @@
 			const reason = mw.util.getParamValue('reason', url);
 			Twinkle.talkback.optout += reason ? `：${Morebits.string.appendPunctuation(reason)}` : '。';
 		}
-		const $body = $('body');
 		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
 	};
 	let prev_page = '';
@@ -290,7 +291,6 @@
 		if (root.message) {
 			root.message.value = prev_message;
 		}
-		const $body = $('body');
 		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
 	};
 	Twinkle.talkback.noticeboards = {
@@ -448,4 +448,4 @@
 		return [text, title, content];
 	};
 	Twinkle.addInitCallback(Twinkle.talkback, 'talkback');
-})(jQuery);
+});

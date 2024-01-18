@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {WG_WIKI_ID} from './modules/constant';
 import {easy_archive_lang} from './modules/i18n';
 import {initMwApi} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
@@ -42,7 +41,7 @@ import {toastify} from 'ext.gadget.Toastify';
 	// common repo.
 	const expose = (() => {
 		const asyncPost = (param, callback) => {
-			const api = initMwApi(`Qiuwen/1.1 (EasyAchive/3.0; ${WG_WIKI_ID})`);
+			const api = initMwApi('EasyAchive/3.0');
 			api.postWithToken('csrf', param).then(callback);
 		};
 		const getPage = (title, callback) => {

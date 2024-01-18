@@ -1,4 +1,3 @@
-import {WG_WIKI_ID} from './modules/constant';
 import {initMwApi} from 'ext.gadget.Util';
 
 ((): void => {
@@ -6,7 +5,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		return;
 	}
 
-	const api = initMwApi(`Qiuwen/1.1 (ToolsRedirect-courtesy-and-art-names/2.0; ${WG_WIKI_ID})`);
+	const api = initMwApi('ToolsRedirect-courtesy-and-art-names/2.0');
 
 	void api.postWithEditToken({
 		action: 'options',

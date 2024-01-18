@@ -1,6 +1,6 @@
 import {initMwApi} from 'ext.gadget.Util';
 
-const api: mw.Api = initMwApi(`Qiuwen/1.1 (NoteTA/1.1; ${mw.config.get('wgWikiID')})`);
+const api: mw.Api = initMwApi('NoteTA/1.1');
 
 let messageDialog: OO.ui.MessageDialog;
 let windowManager: OO.ui.WindowManager;

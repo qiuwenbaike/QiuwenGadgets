@@ -3,11 +3,10 @@ import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 
-export const whoIsActive = (): void => {
-	const api: mw.Api = initMwApi(`Qiuwen/1.1 (WhoIsActive/1.1; ${mw.config.get('wgWikiID')})`);
+export const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
+	const api: mw.Api = initMwApi('WhoIsActive/1.1');
 	const filteredLinks: {username: string; element: JQuery}[] = [];
 	const {2: localizedUserNamespace} = mw.config.get('wgFormattedNamespaces');
-	const $body: JQuery<HTMLBodyElement> = $('body');
 	$body
 		.find('.mw-body-content')
 		.find(

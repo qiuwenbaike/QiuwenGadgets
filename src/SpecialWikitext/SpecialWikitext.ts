@@ -170,7 +170,7 @@ const luaCheck = (inputStr?: string, contentModel?: string): string => {
 /* 程序主要部分 */
 const previewTool = (): void => {
 	// 各类提示文字
-	const api: mw.Api = initMwApi(`Qiuwen/1.1 (SpecialWikitext/1.1; ${mw.config.get('wgWikiID')})`);
+	const api: mw.Api = initMwApi('SpecialWikitext/1.1');
 	const $noticeAddText: string = '{{Special_wikitext/notice}}';
 	// {{Quote box |quote  = -{zh-hans:预览加载中;zh-hant:預覽載入中;}-... |width  = 50% |align  = center}}
 	const $noticeLoading: string = `<div id="mw-_addText-preview-loading"><div class="quotebox" style="margin:auto;padding:6px;width:50%;border:1px solid #aaa;background:#f9f9f9;font-size:88%"><div id="mw-_addText-preview-loading-content" style="background:#f9f9f9;color:#000;text-align:center;font-size:larger"><img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" decoding="async" data-file-width="32" data-file-height="32" width="32" height="32"> ${window.wgULS(

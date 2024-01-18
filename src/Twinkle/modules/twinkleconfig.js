@@ -1,8 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinkleconfig.js */
-(function twinkleconfig($) {
-	const $body = $('body');
+void getBody().then(function twinkleconfig($body) {
 	/**
 	 * twinkleconfig.js: Preferences module
 	 * Mode of invocation: Adds configuration form to Help:Twinkle/参数设置,
@@ -1885,4 +1886,4 @@
 		Morebits.status.root.appendChild(noticeclear);
 	};
 	Twinkle.addInitCallback(Twinkle.config.init);
-})(jQuery);
+});

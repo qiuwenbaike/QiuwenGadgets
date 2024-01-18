@@ -1,8 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinklewarn.js */
-(function twinklewarn($) {
-	const $body = $('body');
+void getBody().then(function twinklewarn($body) {
 	/**
 	 * twinklewarn.js: Warn module
 	 * Mode of invocation: Tab ("Warn")
@@ -1381,4 +1382,4 @@
 		qiuwen_page.load(Twinkle.warn.callbacks.main);
 	};
 	Twinkle.addInitCallback(Twinkle.warn, 'warn');
-})(jQuery);
+});

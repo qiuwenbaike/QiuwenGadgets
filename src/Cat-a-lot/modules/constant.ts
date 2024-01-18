@@ -57,7 +57,6 @@ const WG_NAMESPACE_NUMBER: number = mw.config.get('wgNamespaceNumber');
 const WG_SCRIPT: string = mw.config.get('wgScript');
 const WG_TITLE: string = mw.config.get('wgTitle');
 const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
-const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
 export {
 	CLASS_NAME,
@@ -86,5 +85,4 @@ export {
 	WG_SCRIPT,
 	WG_TITLE,
 	WG_USER_LANGUAGE,
-	WG_WIKI_ID,
 };

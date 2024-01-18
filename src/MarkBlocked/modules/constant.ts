@@ -10,7 +10,6 @@ const WG_ARTICLE_PATH: string = mw.config.get('wgArticlePath');
 const WG_NAMESPACE_IDS: Record<string, number> = mw.config.get('wgNamespaceIds');
 const WG_NAMESPACE_NUMBER: number = mw.config.get('wgNamespaceNumber');
 const WG_SCRIPT: string = mw.config.get('wgScript');
-const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
 const IS_WG_EDIT_OR_SUBMIT_ACTION: boolean = ['edit', 'submit'].includes(WG_ACTION);
 
@@ -25,6 +24,5 @@ export {
 	WG_NAMESPACE_IDS,
 	WG_NAMESPACE_NUMBER,
 	WG_SCRIPT,
-	WG_WIKI_ID,
 	IS_WG_EDIT_OR_SUBMIT_ACTION,
 };

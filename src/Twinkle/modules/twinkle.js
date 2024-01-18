@@ -1,7 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {WG_WIKI_ID} from './constant';
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinkle.js */
-(function twinkle($) {
+void getBody().then(function twinkle($body) {
 	// Wrap with anonymous function
 	// Check if account is experienced enough to use Twinkle
 	if (!Morebits.userIsInGroup('autoconfirmed') && !Morebits.userIsInGroup('confirmed')) {
@@ -218,8 +221,7 @@
 			Twinkle.defaultConfig.portletType = 'menu';
 			Twinkle.defaultConfig.portletNext = 'p-search';
 			break;
-		case 'gongbi': {
-			const $body = $('body');
+		case 'gongbi':
 			Twinkle.defaultConfig.portletArea =
 				$body.find('#page-tools .sidebar-inner').length > 0
 					? '#page-tools .sidebar-inner'
@@ -230,7 +232,6 @@
 			Twinkle.defaultConfig.portletNext =
 				$body.find('#page-tools .sidebar-inner').length > 0 ? 'page-more' : null;
 			break;
-		}
 		case 'citizen':
 			Twinkle.defaultConfig.portletArea = '#page-actions-more__card';
 			Twinkle.defaultConfig.portletId = 'p-twinkle';
@@ -432,7 +433,6 @@
 			id,
 			tooltip
 		);
-		const $body = $('body');
 		$body.find('.client-js .skin-vector #p-cactions').css('margin-right', 'initial');
 		if (typeof task === 'function') {
 			$(link)
@@ -493,7 +493,7 @@
 			return;
 		}
 		// Set custom Api-User-Agent header, for server-side logging purposes
-		Twinkle.userAgent = `Twinkle/1.1; ${mw.config.get('wgWikiID')}`;
+		Twinkle.userAgent = `Twinkle/1.1; ${WG_WIKI_ID}`;
 		Morebits.wiki.api.setApiUserAgent(Twinkle.userAgent);
 		Twinkle.disabledModules = [...Twinkle.getPref('disabledModules'), ...Twinkle.getPref('disabledSysopModules')];
 		// Redefine addInitCallback so that any modules being loaded now on are directly
@@ -515,7 +515,6 @@
 		}
 		// Hide the lingering space if the TW menu is empty
 		const isVector = ['vector', 'vector-2022'].includes(mw.config.get('skin'));
-		const $body = $('body');
 		if (isVector && Twinkle.getPref('portletType') === 'menu' && $body.find('#p-twinkle').length === 0) {
 			$body.find('#p-cactions').css('margin-right', 'initial');
 		}
@@ -541,4 +540,4 @@
 		link.setAttribute('rel', 'noopener noreferrer');
 		$checkbox.next().prepend([link, ' ']);
 	};
-})(jQuery);
+});

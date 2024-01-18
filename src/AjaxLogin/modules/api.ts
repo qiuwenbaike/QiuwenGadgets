@@ -1,5 +1,4 @@
 import * as OPTIONS from '../options.json';
-import {WG_WIKI_ID} from './constant';
 import {initMwApi} from 'ext.gadget.Util';
 
 type ClientLoginParams = ApiClientLoginParams & {
@@ -13,6 +12,6 @@ type ClientLoginParams = ApiClientLoginParams & {
 	OATHToken?: string;
 };
 
-const api: mw.Api = initMwApi(`Qiuwen/1.1 (AjaxLogin/${OPTIONS.version}; ${WG_WIKI_ID})`);
+const api: mw.Api = initMwApi(`AjaxLogin/${OPTIONS.version}`);
 
 export {type ClientLoginParams, api};
