@@ -5,9 +5,9 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.Clipboard",
+		"ext.gadget.i18n",
 		"ext.gadget.Tippy",
 		"ext.gadget.Util",
-		"ext.gadget.i18n",
 		"mediawiki.api",
 		"mediawiki.util",
 		"mediawiki.widgets",

@@ -4,8 +4,8 @@
 	"section": "edit",
 	"default": true,
 	"dependencies": [
-		"ext.gadget.Util",
 		"ext.gadget.i18n",
+		"ext.gadget.Util",
 		"jquery.ui",
 		"mediawiki.jqueryMsg",
 		"mediawiki.storage",

@@ -5,14 +5,14 @@
 	"actions": ["view"],
 	"default": true,
 	"dependencies": [
+		"ext.gadget.i18n",
 		"ext.gadget.React",
 		"ext.gadget.Tippy",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
-		"ext.gadget.i18n",
-		"mediawiki.Uri",
 		"mediawiki.api",
-		"mediawiki.storage"
+		"mediawiki.storage",
+		"mediawiki.Uri"
 	],
 	"peers": ["AdvancedSiteNotices-pagestyles"]
 }

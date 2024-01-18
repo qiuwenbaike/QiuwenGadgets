@@ -4,12 +4,12 @@
 	"section": "compatibility",
 	"default": true,
 	"dependencies": [
+		"ext.gadget.i18n",
 		"ext.gadget.React",
 		"ext.gadget.Util",
-		"ext.gadget.i18n",
+		"mediawiki.api",
 		"mediawiki.Title",
-		"mediawiki.Uri",
-		"mediawiki.api"
+		"mediawiki.Uri"
 	],
 	"hidden": true,
 	"namespaces": [2],

@@ -4,5 +4,5 @@
 	"default": true,
 	"dependencies": ["ext.gadget.Util"],
 	"hidden": true,
-	"namespaces": [10, 4]
+	"namespaces": [4, 10]
 }
