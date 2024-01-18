@@ -1,10 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {initMwApi} from 'ext.gadget.Util';
+import {getBody, initMwApi} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkleprotect.js */
-(function twinkleprotect($) {
-	const $body = $('body');
+void getBody().then(function twinkleblock($body) {
 	/**
 	 * twinkleprotect.js: Protect/RPP module
 	 * Mode of invocation: Tab ("PP"/"RPP")
@@ -112,7 +111,7 @@ import {initMwApi} from 'ext.gadget.Util';
 	Twinkle.protect.currentProtectionLevels = {};
 	Twinkle.protect.previousProtectionLevels = {};
 	Twinkle.protect.fetchProtectionLevel = async () => {
-		const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
+		const api = initMwApi('morebits.js; Twinkle/1.1');
 		try {
 			const params = {
 				format: 'json',
@@ -1687,4 +1686,4 @@ import {initMwApi} from 'ext.gadget.Util';
 		return protectionNode;
 	};
 	Twinkle.addInitCallback(Twinkle.protect, 'protect');
-})(jQuery);
+});

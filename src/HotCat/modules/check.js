@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {WG_WIKI_ID} from './constant';
 import {initMwApi} from 'ext.gadget.Util';
 
 /**
@@ -19,7 +18,7 @@ import {initMwApi} from 'ext.gadget.Util';
 	) {
 		return;
 	}
-	const api = initMwApi(`Qiuwen/1.1 (hotCatCheck/2.0; ${WG_WIKI_ID})`);
+	const api = initMwApi('hotCatCheck/2.0');
 	const checkCategoriesRegExp = /{{[Cc]heck[ _]categories[^{}]*}}/g;
 	const selfName = '([[MediaWiki:Gadget-HotCat-check.js|Script]]): ';
 	const storageItemName = 'checkCat';

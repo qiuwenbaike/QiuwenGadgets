@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - friendlytag.js */
-(function friendlytag($) {
+void getBody().then(function friendlytag($body) {
 	/**
 	 * friendlytag.js: Tag module
 	 * Mode of invocation: Tab ("Tag")
@@ -303,7 +305,6 @@
 		});
 		if (Twinkle.tag.modeEn === 'article') {
 			Twinkle.tag.alreadyPresentTags = [];
-			const $body = $('body');
 			if (Twinkle.tag.canRemove) {
 				// Look for existing maintenance tags in the lead section and put them in array
 				// All tags are HTML table elements that are direct children of .mw-parser-output,
@@ -741,7 +742,6 @@
 		}
 		// tally tags added/removed, update statusNode text
 		const statusNode = document.querySelector('#tw-tag-status');
-		const $body = $('body');
 		$body.find('[name=tags], [name=existingTags]').on('click', function () {
 			if (this.name === 'tags') {
 				Twinkle.tag.status.numAdded += this.checked ? 1 : -1;
@@ -2259,4 +2259,4 @@
 		qiuwen_page.load(Twinkle.tag.callbacks[Twinkle.tag.modeEn]);
 	};
 	Twinkle.addInitCallback(Twinkle.tag, 'tag');
-})(jQuery);
+});

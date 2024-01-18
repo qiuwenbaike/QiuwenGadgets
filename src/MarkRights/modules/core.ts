@@ -1,4 +1,3 @@
-import {WG_WIKI_ID} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 
@@ -132,7 +131,7 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 			$element.after($sups);
 		});
 	};
-	const api: mw.Api = initMwApi(`Qiuwen/1.1 (MarkRights/1.1; ${WG_WIKI_ID})`);
+	const api: mw.Api = initMwApi('MarkRights/1.1');
 	for (const ususers of queue) {
 		const params: ApiQueryUsersParams = {
 			action: 'query',
@@ -146,7 +145,7 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 		const _users: {groups: string; name: string}[] = response['query']?.users ?? [];
 		for (const user of _users) {
-			if (!user.groups) {
+			if (!user || !user.groups) {
 				continue;
 			}
 			for (const group in groups) {

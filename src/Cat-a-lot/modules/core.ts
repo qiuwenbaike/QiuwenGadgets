@@ -24,7 +24,6 @@ import {
 	WG_NAMESPACE_IDS,
 	WG_NAMESPACE_NUMBER,
 	WG_TITLE,
-	WG_WIKI_ID,
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
@@ -52,7 +51,7 @@ const catALot = (): void => {
 
 		private static isAutoCompleteInit = false;
 
-		private static api = initMwApi(`Qiuwen/1.1 (Cat-a-lot/${CAL.VERSION}; ${WG_WIKI_ID})`);
+		private static api = initMwApi(`Cat-a-lot/${CAL.VERSION}`);
 
 		private static alreadyThere: string[] = [];
 		private static connectionError: string[] = [];

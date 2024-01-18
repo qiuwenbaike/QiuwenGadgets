@@ -1,12 +1,11 @@
 /* eslint-disable no-jquery/no-map-util */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {initMwApi} from 'ext.gadget.Util';
+import {getBody, initMwApi} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkleblock.js */
-(function twinkleblock($) {
-	const api = initMwApi(`Qiuwen/1.1 (morebits.js; Twinkle/1.1; ${mw.config.get('wgWikiID')})`);
-	const $body = $('body');
+void getBody().then(function twinkleblock($body) {
+	const api = initMwApi('morebits.js; Twinkle/1.1');
 	let relevantUserName;
 	let blockedUserName;
 	const menuFormattedNamespaces = {
@@ -2508,4 +2507,4 @@ import {initMwApi} from 'ext.gadget.Util';
 		pageobj.save();
 	};
 	Twinkle.addInitCallback(Twinkle.block, 'block');
-})(jQuery);
+});

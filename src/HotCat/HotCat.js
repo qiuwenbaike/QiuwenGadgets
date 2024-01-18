@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import './modules/check';
-import {WG_WIKI_ID} from './modules/constant';
 import {getMessage} from './modules/getMessage';
 import {hotCatMessages} from './modules/messages';
 import {initMwApi} from 'ext.gadget.Util';
@@ -28,7 +27,7 @@ hotCatMessages();
 		return; // Not on edit mode
 	}
 	// Initialize MediaWiki API
-	const api = initMwApi(`Qiuwen/1.1 (HotCat/3.0; ${WG_WIKI_ID})`);
+	const api = initMwApi('HotCat/3.0');
 	// Configuration stuff.
 	window.HotCat = {
 		// The little modification links displayed after category names. U+2212 is a minus sign; U+2193 and U+2191 are

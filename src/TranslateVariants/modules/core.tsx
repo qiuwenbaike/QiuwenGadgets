@@ -26,7 +26,7 @@ export const translateVariants = (): void => {
 		'zh-tw': '中國臺灣繁體',
 	};
 	const result: Record<string, string> = {};
-	const api: mw.Api = initMwApi(`Qiuwen/1.1 (TranslateVariants/1.1; ${mw.config.get('wgWikiID')})`);
+	const api: mw.Api = initMwApi('TranslateVariants/1.1');
 	let basepagetext: string = '';
 	const $table: JQuery = $((<div id="TranslateVariants" />) as HTMLElement).prependTo('#bodyContent');
 	const $submitAll: JQuery = $((<button>{window.wgULS('发布所有更改', '發佈所有變更')}</button>) as HTMLElement);

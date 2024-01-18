@@ -1,8 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinklefluff.js */
-(function twinklefluff($) {
-	const $body = $('body');
+void getBody().then(function twinklefluff($body) {
 	/**
 	 * twinklefluff.js: Revert/rollback module
 	 * Mode of invocation: Links on contributions,
@@ -906,4 +907,4 @@
 		return result;
 	};
 	Twinkle.addInitCallback(Twinkle.fluff, 'fluff');
-})(jQuery);
+});

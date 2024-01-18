@@ -8,7 +8,6 @@ const STORAGE_KEY: string = 'ext.gadget.AdvancedSiteNotices_dismissASN';
 
 const WG_USER_GROUPS: string[] = mw.config.get('wgUserGroups') ?? [];
 const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
-const WG_WIKI_ID: string = mw.config.get('wgWikiID');
 
 export {
 	CLASS_NAME,
@@ -19,5 +18,4 @@ export {
 	STORAGE_KEY,
 	WG_USER_GROUPS,
 	WG_USER_LANGUAGE,
-	WG_WIKI_ID,
 };

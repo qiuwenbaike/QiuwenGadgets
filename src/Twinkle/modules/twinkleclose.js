@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinkleclose.js */
-(function twinkleclose($) {
+void getBody().then(function twinkleclose($body) {
 	/**
 	 * twinkleclose.js: XFD closing module
 	 * Mode of invocation: Links after section heading
@@ -22,7 +24,6 @@
 		});
 	};
 	Twinkle.close.addLinks = () => {
-		const $body = $('body');
 		const spanTag = (color, content) => {
 			const span = document.createElement('span');
 			span.style.color = color;
@@ -653,4 +654,4 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.close, 'close');
-})(jQuery);
+});

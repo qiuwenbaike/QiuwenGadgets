@@ -2,14 +2,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {getBody, initMwApi} from 'ext.gadget.Util';
-import {WG_WIKI_ID} from './constant';
 import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
 const refToolbar2 = async () => {
 	const $body = await getBody();
-	const api = initMwApi(`Qiuwen/1.1 (RefToolbar/2.0; ${WG_WIKI_ID})`);
+	const api = initMwApi('RefToolbar/2.0');
 
 	// Default options, these mainly exist so the script won't break if a new option is added
 	CiteTB.DefaultOptions = {

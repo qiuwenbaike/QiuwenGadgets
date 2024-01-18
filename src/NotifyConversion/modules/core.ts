@@ -3,7 +3,7 @@ import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 
 const locationHref: string = location.href;
-const api: mw.Api = initMwApi(`Qiuwen/1.1 (NotifyConversion/2.0; ${mw.config.get('wgWikiID')})`);
+const api: mw.Api = initMwApi('NotifyConversion/2.0');
 
 const isExperiencedUser = (): boolean => {
 	if (!wgUserName || !wgUserGroups) {

@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinklebatchdelete.js */
-(function twinklebatchdelete($) {
+void getBody().then(function twinklebatchdelete($body) {
 	/**
 	 * twinklebatchdelete.js: Batch delete module (sysops only)
 	 * Mode of invocation: Tab ("D-batch")
@@ -26,7 +28,6 @@
 	// Has the subpages list been loaded?
 	let subpagesLoaded;
 	Twinkle.batchdelete.callback = () => {
-		const $body = $('body');
 		subpagesLoaded = false;
 		const Window = new Morebits.simpleWindow(600, 400);
 		Window.setTitle(wgULS('批量删除', '批次刪除'));
@@ -384,7 +385,6 @@
 		e.target.value = '';
 	};
 	Twinkle.batchdelete.callback.toggleSubpages = (e) => {
-		const $body = $('body');
 		const {form} = e.target;
 		let newPageList;
 		if (e.target.checked) {
@@ -911,4 +911,4 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchdelete, 'batchdelete');
-})(jQuery);
+});

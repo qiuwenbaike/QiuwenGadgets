@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getBody} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinklexfd.js */
-(function twinklexfd($) {
+void getBody().then(function twinklexfd($body) {
 	/**
 	 * twinklexfd.js: XFD module
 	 * Mode of invocation: Tab ("XFD")
@@ -108,11 +110,9 @@
 		let oldreason = oldreasontextbox ? oldreasontextbox.value : '';
 		const appendReasonBox = (xfd_cat) => {
 			switch (xfd_cat) {
-				case 'fwdcsd': {
-					const $body = $('body');
+				case 'fwdcsd':
 					oldreason = decodeURIComponent($body.find('#delete-reason').text()).replace(/\+/g, ' ');
 					break;
-				}
 				case 'fame':
 					oldreason = Twinkle.getPref('afdFameDefaultReason');
 					break;
@@ -269,8 +269,7 @@
 				e.target.form.fwdcsdreason.parentElement.setAttribute('hidden', '');
 				e.target.form.mergeinto.previousElementSibling.innerHTML = wgULS('合并到：', '合併到：');
 				break;
-			case 'fwdcsd': {
-				const $body = $('body');
+			case 'fwdcsd':
 				e.target.form.mergeinto.parentElement.removeAttribute('hidden');
 				e.target.form.fwdcsdreason.parentElement.removeAttribute('hidden');
 				e.target.form.mergeinto.previousElementSibling.innerHTML = '提交人：';
@@ -279,7 +278,6 @@
 					' '
 				);
 				break;
-			}
 			case 'fame':
 				e.target.form.mergeinto.parentElement.setAttribute('hidden', '');
 				e.target.form.fwdcsdreason.parentElement.setAttribute('hidden', '');
@@ -784,4 +782,4 @@
 		}
 	};
 	Twinkle.addInitCallback(Twinkle.xfd, 'xfd');
-})(jQuery);
+});
