@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinklewarn.js */
-void getBody().then(function twinklewarn($body) {
+(function twinklewarn($) {
+	const $body = $('body');
 	/**
 	 * twinklewarn.js: Warn module
 	 * Mode of invocation: Tab ("Warn")
@@ -167,7 +167,7 @@ void getBody().then(function twinklewarn($body) {
 		form.append({
 			type: 'div',
 			label: '',
-			style: 'color: red',
+			style: 'color: #f00',
 			id: 'twinkle-warn-warning-messages',
 		});
 		const more = form.append({
@@ -1382,4 +1382,4 @@ void getBody().then(function twinklewarn($body) {
 		qiuwen_page.load(Twinkle.warn.callbacks.main);
 	};
 	Twinkle.addInitCallback(Twinkle.warn, 'warn');
-});
+})(jQuery);

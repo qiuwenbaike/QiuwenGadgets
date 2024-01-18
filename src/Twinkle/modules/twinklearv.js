@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinklearv.js */
-void getBody().then(function twinklearv($body) {
+(function twinklearv($) {
+	const $body = $('body');
 	/**
 	 * twinklearv.js: ARV module
 	 * Mode of invocation: Tab ("ARV")
@@ -918,4 +918,4 @@ void getBody().then(function twinklearv($body) {
 		}
 	};
 	Twinkle.addInitCallback(Twinkle.arv, 'arv');
-});
+})(jQuery);

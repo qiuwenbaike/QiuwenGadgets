@@ -86,7 +86,7 @@
 								: ''),
 						value: title,
 						checked: true,
-						style: isProtected ? 'color:red' : '',
+						style: isProtected ? 'color: #f00' : '',
 					});
 				});
 				apiobj.params.form.append({

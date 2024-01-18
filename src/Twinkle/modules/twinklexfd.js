@@ -1,9 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
-
 /*! Twinkle.js - twinklexfd.js */
-void getBody().then(function twinklexfd($body) {
+(function twinklexfd() {
 	/**
 	 * twinklexfd.js: XFD module
 	 * Mode of invocation: Tab ("XFD")
@@ -111,7 +109,10 @@ void getBody().then(function twinklexfd($body) {
 		const appendReasonBox = (xfd_cat) => {
 			switch (xfd_cat) {
 				case 'fwdcsd':
-					oldreason = decodeURIComponent($body.find('#delete-reason').text()).replace(/\+/g, ' ');
+					oldreason = decodeURIComponent(document.querySelector('#delete-reason').textContent).replace(
+						/\+/g,
+						' '
+					);
 					break;
 				case 'fame':
 					oldreason = Twinkle.getPref('afdFameDefaultReason');
@@ -273,10 +274,9 @@ void getBody().then(function twinklexfd($body) {
 				e.target.form.mergeinto.parentElement.removeAttribute('hidden');
 				e.target.form.fwdcsdreason.parentElement.removeAttribute('hidden');
 				e.target.form.mergeinto.previousElementSibling.innerHTML = '提交人：';
-				e.target.form.xfdreason.value = decodeURIComponent($body.find('#delete-reason').text()).replace(
-					/\+/g,
-					' '
-				);
+				e.target.form.xfdreason.value = decodeURIComponent(
+					document.querySelector('#delete-reason').textContent
+				).replace(/\+/g, ' ');
 				break;
 			case 'fame':
 				e.target.form.mergeinto.parentElement.setAttribute('hidden', '');
@@ -782,4 +782,4 @@ void getBody().then(function twinklexfd($body) {
 		}
 	};
 	Twinkle.addInitCallback(Twinkle.xfd, 'xfd');
-});
+})();

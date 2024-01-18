@@ -1,9 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
-
 /*! Twinkle.js - twinklespeedy.js */
-void getBody().then(function twinklespeedy($body) {
+(function twinklespeedy($) {
+	const $body = $('body');
 	/**
 	 * twinklespeedy.js: CSD module
 	 * Mode of invocation: Tab ("CSD")
@@ -1769,4 +1768,4 @@ void getBody().then(function twinklespeedy($body) {
 		qiuwen_page.load(Twinkle.speedy.callbacks.user.main);
 	};
 	Twinkle.addInitCallback(Twinkle.speedy, 'speedy');
-});
+})(jQuery);

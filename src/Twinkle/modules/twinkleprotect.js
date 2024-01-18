@@ -1,9 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody, initMwApi} from 'ext.gadget.Util';
+import {initMwApi} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkleprotect.js */
-void getBody().then(function twinkleblock($body) {
+(function twinkleprotect($) {
+	const $body = $('body');
 	/**
 	 * twinkleprotect.js: Protect/RPP module
 	 * Mode of invocation: Tab ("PP"/"RPP")
@@ -1686,4 +1687,4 @@ void getBody().then(function twinkleblock($body) {
 		return protectionNode;
 	};
 	Twinkle.addInitCallback(Twinkle.protect, 'protect');
-});
+})(jQuery);

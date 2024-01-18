@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkleclose.js */
-void getBody().then(function twinkleclose($body) {
+(function twinkleclose($) {
+	const $body = $('body');
 	/**
 	 * twinkleclose.js: XFD closing module
 	 * Mode of invocation: Links after section heading
@@ -654,4 +654,4 @@ void getBody().then(function twinkleclose($body) {
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.close, 'close');
-});
+})(jQuery);

@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinklebatchdelete.js */
-void getBody().then(function twinklebatchdelete($body) {
+(function twinklebatchdelete($) {
+	const $body = $('body');
 	/**
 	 * twinklebatchdelete.js: Batch delete module (sysops only)
 	 * Mode of invocation: Tab ("D-batch")
@@ -216,7 +216,7 @@ void getBody().then(function twinklebatchdelete($body) {
 						label: title + (metadata.length ? `（${metadata.join('，')}）` : ''),
 						value: title,
 						checked: true,
-						style: isProtected ? 'color:red' : '',
+						style: isProtected ? 'color: #f00' : '',
 					};
 				});
 				const form_ = apiobj.params.form;
@@ -482,7 +482,7 @@ void getBody().then(function twinklebatchdelete($body) {
 									label: title + (metadata.length ? ` (${metadata.join('; ')})` : ''),
 									value: title,
 									checked: true,
-									style: isProtected ? 'color:red' : '',
+									style: isProtected ? 'color: #f00' : '',
 								});
 							});
 							if (subpageList.length) {
@@ -911,4 +911,4 @@ void getBody().then(function twinklebatchdelete($body) {
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchdelete, 'batchdelete');
-});
+})(jQuery);

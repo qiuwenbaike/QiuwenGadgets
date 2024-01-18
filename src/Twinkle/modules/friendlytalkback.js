@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
 
 /*! Twinkle.js - friendlytalkback.js */
-void getBody().then(function friendlytalkback($body) {
+(function friendlytalkback($) {
+	const $body = $('body');
 	/**
 	 * friendlytalkback.js: Talkback module
 	 * Mode of invocation: Tab ("TB")
@@ -448,4 +448,4 @@ void getBody().then(function friendlytalkback($body) {
 		return [text, title, content];
 	};
 	Twinkle.addInitCallback(Twinkle.talkback, 'talkback');
-});
+})(jQuery);
