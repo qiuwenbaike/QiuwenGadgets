@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {WG_WIKI_ID} from './constant';
-import {getBody} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkle.js */
-void getBody().then(function twinkle($body) {
+(function twinkle($) {
+	const $body = $('body');
 	// Wrap with anonymous function
 	// Check if account is experienced enough to use Twinkle
 	if (!Morebits.userIsInGroup('autoconfirmed') && !Morebits.userIsInGroup('confirmed')) {
@@ -540,4 +540,4 @@ void getBody().then(function twinkle($body) {
 		link.setAttribute('rel', 'noopener noreferrer');
 		$checkbox.next().prepend([link, ' ']);
 	};
-});
+})(jQuery);

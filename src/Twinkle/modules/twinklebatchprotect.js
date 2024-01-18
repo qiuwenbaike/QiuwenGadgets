@@ -1,9 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinklebatchprotect.js */
-void getBody().then(function twinklebatchprotect($body) {
+(function twinklebatchprotect($) {
 	/**
 	 * twinklebatchprotect.js: Batch protect module (sysops only)
 	 * Mode of invocation: Tab ("P-batch")
@@ -157,8 +156,10 @@ void getBody().then(function twinklebatchprotect($body) {
 			query.gcmlimit = Twinkle.getPref('batchMax');
 		} else if (mw.config.get('wgCanonicalSpecialPageName') === 'Prefixindex') {
 			query.generator = 'allpages';
-			query.gapnamespace = mw.util.getParamValue('namespace') || $body.find('select[name=namespace]').val();
-			query.gapprefix = mw.util.getParamValue('prefix') || $body.find('input[name=prefix]').val();
+			query.gapnamespace =
+				mw.util.getParamValue('namespace') || document.querySelectorAll('select[name=namespace]')[0].value;
+			query.gapprefix =
+				mw.util.getParamValue('prefix') || document.querySelectorAll('input[name=prefix]')[0].value;
 			query.gaplimit = Twinkle.getPref('batchMax');
 		} else {
 			query.generator = 'links';
@@ -351,4 +352,4 @@ void getBody().then(function twinklebatchprotect($body) {
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchprotect, 'batchprotect');
-});
+})(jQuery);

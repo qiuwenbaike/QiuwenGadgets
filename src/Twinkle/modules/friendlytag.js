@@ -1,9 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getBody} from 'ext.gadget.Util';
-
 /*! Twinkle.js - friendlytag.js */
-void getBody().then(function friendlytag($body) {
+(function friendlytag($) {
+	const $body = $('body');
 	/**
 	 * friendlytag.js: Tag module
 	 * Mode of invocation: Tab ("Tag")
@@ -2259,4 +2258,4 @@ void getBody().then(function friendlytag($body) {
 		qiuwen_page.load(Twinkle.tag.callbacks[Twinkle.tag.modeEn]);
 	};
 	Twinkle.addInitCallback(Twinkle.tag, 'tag');
-});
+})(jQuery);
