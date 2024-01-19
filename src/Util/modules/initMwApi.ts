@@ -5,7 +5,7 @@ type InitMwApi = (userAgent?: string) => mw.Api;
  * @param {string} [userAgent]
  * @return {mw.Api}
  */
-const initMwApi: InitMwApi = (userAgent: string | undefined): mw.Api => {
+const initMwApi: InitMwApi = (userAgent) => {
 	return new mw.Api({
 		ajax: {
 			headers: {
