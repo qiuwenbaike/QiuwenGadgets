@@ -1,3 +1,4 @@
+import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 
 const generateElements = () => {
@@ -29,21 +30,25 @@ const generateElements = () => {
 		label: getMessage('Keep me logged in'),
 	});
 
-	const $label: JQuery = $('<label>').addClass('oo-ui-labelWidget oo-ui-labelElement-label').css({
-		'font-size': '90%',
-		'text-align': 'justify',
-	});
+	const label = (
+		<label
+			className={['oo-ui-labelWidget', 'oo-ui-labelElement-label']}
+			style={{
+				fontSize: '90%',
+				textAlign: 'justify',
+			}}
+		/>
+	);
+	const $label = $(label) as JQuery;
+
 	const $agreeTos: JQuery = $label.clone().append(agreeTosLayout.$element);
 	const $forgotPassword: JQuery = $label
 		.clone()
 		.css('float', 'right')
 		.append(
-			$('<a>')
-				.attr({
-					href: mw.util.getUrl('Special:PasswordReset'),
-					title: getMessage('Reset password'),
-				})
-				.text(getMessage('Forgot password?'))
+			<a href={mw.util.getUrl('Special:PasswordReset')} title={getMessage('Reset password')}>
+				{getMessage('Forgot password?')}
+			</a>
 		);
 	const $inputBox: JQuery = $label
 		.clone()

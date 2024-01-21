@@ -1,5 +1,6 @@
 import {type ClientLoginParams, api} from './api';
 import {type NeedToCheckElements, checkValid} from './util/checkValid';
+import React from 'ext.gadget.React';
 import {generateElements} from './util/generateElements';
 import {getMessage} from './i18n';
 import {oouiPrompt} from './util/oouiPrompt';
@@ -203,8 +204,8 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 			void login();
 		}
 	});
-	messageDialog.getActionProcess = (action): OO.ui.Process => {
-		return new OO.ui.Process((): void => {
+	messageDialog.getActionProcess = (action): OO.ui.Process =>
+		new OO.ui.Process((): void => {
 			if (action === 'login') {
 				const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(
 					needToCheckElements,
@@ -219,7 +220,6 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 				void windowManager.clearWindows();
 			}
 		});
-	};
 
 	windowManager.addWindows([messageDialog]);
 	void windowManager.openWindow(messageDialog, {
@@ -227,18 +227,18 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 			{
 				action: 'login',
 				flags: ['primary', 'progressive'],
-				label: $('<b>').text(getMessage('Login')),
+				label: $(<b>{getMessage('Login')}</b>),
 			},
 			{
 				action: 'cancel',
 				flags: ['safe', 'close'],
-				label: $('<b>').text(getMessage('Cancel')),
+				label: $(<b>{getMessage('Cancel')}</b>),
 			},
 		],
-		message: $('<div>')
-			.addClass('oo-ui-window-foot')
-			.append($inputBox, $forgotPassword, $rememberMe, $agreeTos, $tosLabel),
-		title: $('<b>').addClass('oo-ui-window-head').text(getMessage('Login')),
+		message: $(
+			<div className="oo-ui-window-foot">{[$inputBox, $forgotPassword, $rememberMe, $agreeTos, $tosLabel]}</div>
+		),
+		title: $(<b className="oo-ui-window-head">{getMessage('Login')}</b>),
 		size: 'small',
 	});
 	removeWindowResizeHandler(windowManager);

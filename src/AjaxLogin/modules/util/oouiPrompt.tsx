@@ -1,3 +1,4 @@
+import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 import {removeWindowResizeHandler} from './removeWindowResizeHandler';
 
@@ -8,11 +9,14 @@ const oouiPrompt = async (windowManager: OO.ui.WindowManager, retypePassword: bo
 		placeholder: retypePassword ? getMessage('New password') : getMessage('6-digit number'),
 		validate: 'integer',
 	});
+
 	const codeLayout: OO.ui.FieldLayout<OO.ui.TextInputWidget> = new OO.ui.FieldLayout(codeInput, {
 		align: 'top',
-		label: $('<b>')
-			.addClass('oo-ui-messageDialog-title oo-ui-window-head')
-			.text(retypePassword ? getMessage('Enter password') : getMessage('Enter 2FA verification code')),
+		label: $(
+			<b className={['oo-ui-messageDialog-title', 'oo-ui-window-head']}>
+				{retypePassword ? getMessage('Enter password') : getMessage('Enter 2FA verification code')}
+			</b>
+		),
 	});
 
 	windowManager.addWindows([codeDialog]);
