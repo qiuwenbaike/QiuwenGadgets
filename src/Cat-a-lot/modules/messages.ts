@@ -1,7 +1,7 @@
 import type {MessageKey} from './types';
 import {WG_USER_LANGUAGE} from './constant';
 
-const DEFAULT_MESSAGES: Record<MessageKey, string> = {
+const DEFAULT_MESSAGES = {
 	// as in 17 files selected
 	'cat-a-lot-files-selected': '{{PLURAL:$1|One file|$1 files}} selected.',
 	// Actions
@@ -48,7 +48,7 @@ const DEFAULT_MESSAGES: Record<MessageKey, string> = {
 	'cat-a-lot-summary-copy': '[[Help:Cat-a-lot|Cat-a-lot]]: Copying from [[Category:$1]] to [[Category:$2]]',
 	'cat-a-lot-summary-move': '[[Help:Cat-a-lot|Cat-a-lot]]: Moving from [[Category:$1]] to [[Category:$2]]',
 	'cat-a-lot-summary-remove': '[[Help:Cat-a-lot|Cat-a-lot]]: Removing from [[Category:$1]]',
-};
+} satisfies Record<MessageKey, string>;
 
 const setMessages = (): void => {
 	/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
@@ -57,7 +57,7 @@ const setMessages = (): void => {
 	}
 
 	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(WG_USER_LANGUAGE)) {
-		mw.messages.set({
+		mw.messages.set<typeof DEFAULT_MESSAGES>({
 			// as in 17 files selected
 			'cat-a-lot-files-selected': '$1個文件已選擇',
 			// Actions
@@ -103,7 +103,7 @@ const setMessages = (): void => {
 			'cat-a-lot-summary-remove': '[[Help:Cat-a-lot|Cat-a-lot]]：從分類移除：[[Category:$1]]',
 		});
 	} else {
-		mw.messages.set({
+		mw.messages.set<typeof DEFAULT_MESSAGES>({
 			// as in 17 files selected
 			'cat-a-lot-files-selected': '已选择$1个页面或文件',
 			// Actions
