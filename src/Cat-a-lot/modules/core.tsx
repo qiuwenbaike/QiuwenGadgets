@@ -234,17 +234,17 @@ const catALot = (): void => {
 					// Messages that can be used here:
 					// * see messages.ts
 					// * for more information
-					setting.select[CAL.msg(messageKey)] = message;
+					setting.select[CAL.msg(messageKey as never)] = message;
 				}
 			}
 		}
 
-		private static msg(key: string, ...args: string[]): string {
-			key = `cat-a-lot-${key}`;
+		private static msg(key: MessageKey extends `cat-a-lot-${infer P}` ? P : never, ...args: string[]): string {
+			const fullKey: string = `cat-a-lot-${key}`;
 			// Messages that can be used here:
 			// * see messages.ts
 			// * for more information
-			return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
+			return args.length ? mw.message(fullKey, ...args).parse() : mw.message(fullKey).plain();
 		}
 		private static localizedRegex(namespaceNumber: number, fallback: string): string {
 			// Copied from HotCat, thanks Lupo.
