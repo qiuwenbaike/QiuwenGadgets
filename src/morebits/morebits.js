@@ -442,7 +442,7 @@
 					select.setAttribute('size', data.size);
 				}
 				if (data.disabled) {
-					select.setAttribute('disabled', 'disabled');
+					select.disabled = true;
 				}
 				select.setAttribute('name', data.name);
 				if (data.list) {
@@ -468,7 +468,7 @@
 					node.setAttribute('selected', 'selected');
 				}
 				if (data.disabled) {
-					node.setAttribute('disabled', 'disabled');
+					node.disabled = true;
 				}
 				// Add hidden attr
 				if (data.hidden) {
@@ -497,7 +497,7 @@
 					node.setAttribute('name', data.name);
 				}
 				if (data.disabled) {
-					node.setAttribute('disabled', 'disabled');
+					node.disabled = true;
 				}
 				break;
 			case 'checkbox':
@@ -535,10 +535,10 @@
 							subnode.setAttribute('data-single', 'data-single');
 						}
 						if (current.checked) {
-							subnode.setAttribute('checked', 'checked');
+							subnode.checked = true;
 						}
 						if (current.disabled) {
-							subnode.setAttribute('disabled', 'disabled');
+							subnode.disabled = true;
 						}
 						label = curDiv.appendChild(document.createElement('label'));
 						label.appendChild(Morebits.createHtml(current.label));
@@ -685,7 +685,7 @@
 						const newNode = new Morebits.quickForm.element(e.target.sublist);
 						e.target.area.appendChild(newNode.render());
 						if (++e.target.counter >= e.target.max) {
-							e.target.setAttribute('disabled', 'disabled');
+							e.target.disabled = true;
 						}
 						e.stopPropagation();
 					},
@@ -793,7 +793,7 @@
 				}
 				childContainer.setAttribute('name', data.name || 'submit');
 				if (data.disabled) {
-					childContainer.setAttribute('disabled', 'disabled');
+					childContainer.disabled = true;
 				}
 				break;
 			case 'button':
@@ -805,7 +805,7 @@
 				}
 				childContainer.setAttribute('name', data.name);
 				if (data.disabled) {
-					childContainer.setAttribute('disabled', 'disabled');
+					childContainer.disabled = true;
 				}
 				if (data.event) {
 					childContainer.addEventListener('click', data.event, false);
@@ -834,7 +834,7 @@
 					subnode.setAttribute('rows', data.rows);
 				}
 				if (data.disabled) {
-					subnode.setAttribute('disabled', 'disabled');
+					subnode.disabled = true;
 				}
 				if (data.required) {
 					subnode.setAttribute('required', 'required');

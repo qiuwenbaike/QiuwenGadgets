@@ -90,13 +90,13 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 
 const updateConfig = (): void => {
 	const checkBoxes: rrdConfigCheckBoxes = {};
-	if (document.querySelector('#rrdHideContent')?.hasAttribute('checked')) {
+	if ((document.querySelector('#rrdHideContent') as HTMLInputElement)?.checked) {
 		checkBoxes.rrdHideContent = true;
 	}
-	if (document.querySelector('#rrdHideUsername')?.hasAttribute('checked')) {
+	if ((document.querySelector('#rrdHideUsername') as HTMLInputElement)?.checked) {
 		checkBoxes.rrdHideUsername = true;
 	}
-	if (document.querySelector('#rrdHideSummary')?.hasAttribute('checked')) {
+	if ((document.querySelector('#rrdHideSummary') as HTMLInputElement)?.checked) {
 		checkBoxes.rrdHideSummary = true;
 	}
 	config.checkboxes = checkBoxes;
@@ -108,14 +108,14 @@ const updateConfig = (): void => {
 };
 
 const loadConfig = (): void => {
-	for (const [key, val] of Object.entries(config.others)) {
-		if (document.querySelector(`#${key}`) !== null) {
-			(document.querySelector(`#${key}`) as HTMLInputElement).value = val;
+	for (const [id, value] of Object.entries(config.others)) {
+		if (document.querySelector(`#${id}`) !== null) {
+			(document.querySelector(`#${id}`) as HTMLInputElement).value = value;
 		}
 	}
-	for (const [key, val] of Object.entries(config.checkboxes)) {
-		if (val === true && document.querySelector(`#${key}`) !== null) {
-			(document.querySelector(`#${key}`) as HTMLInputElement).setAttribute('checked', '');
+	for (const [id, value] of Object.entries(config.checkboxes)) {
+		if (value === true && document.querySelector(`#${id}`) !== null) {
+			(document.querySelector(`#${id}`) as HTMLInputElement).checked = true;
 		}
 	}
 };
