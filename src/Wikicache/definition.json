@@ -4,7 +4,7 @@
 	"section": "edit",
 	"actions": ["edit", "submit"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "jquery.ui", "mediawiki.storage", "mediawiki.util"],
+	"dependencies": ["mediawiki.storage"],
 	"peers": ["Wikicache-pagestyles"],
 	"rights": ["edit"]
 }
