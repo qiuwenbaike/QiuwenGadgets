@@ -2,34 +2,28 @@ import {IS_DIFF_ACTION, IS_TARGET_SPECIAL_PAGE, IS_WG_EDIT_OR_SUBMIT_ACTION, IS_
 
 interface TargetElements {
 	color: string;
-	$targetElementArray: JQuery[];
+	targetElements: HTMLElement[];
 }
 
 const getTargetElements = ($body: JQuery<HTMLBodyElement>): TargetElements => {
-	const $targetElementArray: JQuery[] = [];
 	let color: string = ''; // links color (coloured links)
+	let targetElements: HTMLElement[] = [];
 
 	if (IS_DIFF_ACTION) {
 		// in diff pages
 		color = 'inherit'; // not coloured links
-		$targetElementArray.push($body.find('.diff'), $body.find('.firstrevisionheader'));
+		targetElements = [...$body.find('.diff,.firstrevisionheader')];
 	} else if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_TARGET_SPECIAL_PAGE) {
 		// in comments
-		$targetElementArray.push($body.find('.comment'));
+		targetElements = [...$body.find('.comment')];
 	} else {
 		// in code sections
-		$targetElementArray.push(
-			$body.find('source'),
-			$body.find('.css'),
-			$body.find('.source-css'),
-			$body.find('.javascript'),
-			$body.find('.source-javascript')
-		);
+		targetElements = [...$body.find('source,.css,.source-css,.javascript,.source-javascript')];
 	}
 
 	return {
 		color,
-		$targetElementArray,
+		targetElements,
 	};
 };
 
