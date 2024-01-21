@@ -5,9 +5,9 @@ const generateElements = (
 	$body: JQuery<HTMLBodyElement>
 ): {
 	$table: JQuery;
-	$opener: JQuery;
+	$opener: JQuery<HTMLAnchorElement>;
 } => {
-	const $table = $(
+	const table = (
 		<table
 			className="wikitable"
 			style={{
@@ -37,8 +37,10 @@ const generateElements = (
 				[] as React.ReactElement[]
 			)}
 		</table>
-	) as JQuery;
-	const $opener = $(<a accessKey="?">{getMessage('Text')}</a>) as JQuery;
+	);
+	const $table = $(table) as JQuery;
+
+	const $opener = $(<a accessKey="?">{getMessage('Text')}</a>) as JQuery<HTMLAnchorElement>;
 
 	return {
 		$table,

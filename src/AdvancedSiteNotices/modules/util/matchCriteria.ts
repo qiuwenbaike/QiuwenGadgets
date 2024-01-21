@@ -1,10 +1,11 @@
-/* eslint-disable camelcase */
 import {WG_USER_GROUPS, WG_USER_LANGUAGE} from '../constant';
 
+// eslint-disable-next-line camelcase
 const in_group = (group: string): boolean => {
 	return WG_USER_GROUPS.includes(group);
 };
 
+// eslint-disable-next-line camelcase
 const only_for = (userLanguage: string): boolean => {
 	return userLanguage === WG_USER_LANGUAGE;
 };
