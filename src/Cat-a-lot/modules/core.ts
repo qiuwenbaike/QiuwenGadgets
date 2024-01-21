@@ -302,7 +302,7 @@ const catALot = (): void => {
 			for (const variant of VARIANTS) {
 				const {parse} = await CAL.api.post({...params, variant});
 				const {text} = parse;
-				results.push($(text).eq(0).text().trim());
+				results[results.length] = $(text).eq(0).text().trim();
 			}
 			// De-duplicate
 			CAL.variantCache[category] = [...new Set(results)];
@@ -327,7 +327,7 @@ const catALot = (): void => {
 				if (first.toUpperCase() !== first.toLowerCase()) {
 					variant = `[${first.toUpperCase()}${first.toLowerCase()}]${variant.slice(1)}`;
 				}
-				variantRegExps.push(variant);
+				variantRegExps[variantRegExps.length] = variant;
 			}
 			// Compile it into a RegExp that matches MediaWiki category syntax (yeah, it looks ugly):
 			// XXX: the first capturing parens are assumed to match the sortkey, if present, including the | but excluding the ]]
@@ -355,7 +355,7 @@ const catALot = (): void => {
 						setTimeout(doCall, 300);
 						i++;
 					} else if (params['title']) {
-						CAL.connectionError.push(params['title'] as string);
+						CAL.connectionError[CAL.connectionError.length] = params['title'] as string;
 						this.updateCounter();
 					}
 				};
@@ -441,7 +441,7 @@ const catALot = (): void => {
 			const [markedLabelTitle, $markedLabel] = markedLabel;
 
 			if (!result?.['query']) {
-				CAL.connectionError.push(markedLabelTitle);
+				CAL.connectionError[CAL.connectionError.length] = markedLabelTitle;
 				this.updateCounter();
 				return;
 			}
@@ -461,7 +461,7 @@ const catALot = (): void => {
 			// Check if that file is already in that category
 			const targeRegExp = await CAL.regexBuilder(targetCategory);
 			if (mode !== 'remove' && targeRegExp.test(originText) && mode !== 'move') {
-				CAL.alreadyThere.push(markedLabelTitle);
+				CAL.alreadyThere[CAL.alreadyThere.length] = markedLabelTitle;
 				this.updateCounter();
 				return;
 			}
@@ -497,7 +497,7 @@ const catALot = (): void => {
 			}
 
 			if (text === originText) {
-				CAL.notFound.push(markedLabelTitle);
+				CAL.notFound[CAL.notFound.length] = markedLabelTitle;
 				this.updateCounter();
 				return;
 			}
@@ -564,7 +564,7 @@ const catALot = (): void => {
 					$labelLink.attr('title') ||
 					CAL.getTitleFromLink($labelLink.attr('href')) ||
 					CAL.getTitleFromLink($label.find('a').attr('href'));
-				markedLabels.push([title, $label]);
+				markedLabels[markedLabels.length] = [title, $label];
 			});
 			return markedLabels;
 		}
@@ -715,7 +715,7 @@ const catALot = (): void => {
 					let categories: {title: string}[] = [];
 					[{categories}] = pages;
 					for (const cat of categories) {
-						CAL.parentCats.push(cat.title.replace(/^[^:]+:/, ''));
+						CAL.parentCats[CAL.parentCats.length] = cat.title.replace(/^[^:]+:/, '');
 					}
 					CAL.counterCat++;
 					if (CAL.counterCat === 2) {
@@ -737,7 +737,7 @@ const catALot = (): void => {
 					const cats: {title: string}[] = result?.query?.categorymembers || [];
 					CAL.subCats = [];
 					for (const cat of cats) {
-						CAL.subCats.push(cat.title.replace(/^[^:]+:/, ''));
+						CAL.subCats[CAL.subCats.length] = cat.title.replace(/^[^:]+:/, '');
 					}
 					CAL.counterCat++;
 					if (CAL.counterCat === 2) {
