@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, mediawiki/class-doc */
+/* eslint-disable mediawiki/class-doc */
 import * as OPTIONS from '../options.json';
 import {
 	CLASS_NAME,
@@ -10,6 +10,10 @@ import {
 	CLASS_NAME_CONTAINER_DATA_MARK_COUNTER,
 	CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT,
 	CLASS_NAME_CONTAINER_DATA_SELECTIONS,
+	CLASS_NAME_CONTAINER_DATA_SELECTIONS_ALL,
+	CLASS_NAME_CONTAINER_DATA_SELECTIONS_NONE,
+	CLASS_NAME_CONTAINER_HEAD,
+	CLASS_NAME_CONTAINER_HEAD_LINK,
 	CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED,
 	CLASS_NAME_CURRENT_COUNTER,
 	CLASS_NAME_FEEDBACK,
@@ -28,6 +32,7 @@ import {
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
 import {getBody, initMwApi} from 'ext.gadget.Util';
+import React from 'ext.gadget.React';
 
 /**
  * Changes category of multiple files
@@ -82,11 +87,7 @@ const catALot = (): void => {
 		private readonly $dataContainer: JQuery;
 		private readonly $markCounter: JQuery;
 		private readonly $resultList: JQuery;
-		private readonly $searchInputContainer: JQuery;
 		private readonly $searchInput: JQuery<HTMLInputElement>;
-		private readonly $selections: JQuery;
-		private readonly $selectAll: JQuery<HTMLAnchorElement>;
-		private readonly $selectNone: JQuery<HTMLAnchorElement>;
 		private readonly $head: JQuery;
 		private readonly $link: JQuery<HTMLAnchorElement>;
 
@@ -98,60 +99,77 @@ const catALot = (): void => {
 			this.$body = $body;
 			CAL.initSettings();
 
-			// The order here will directly affect the position of elements in the interface
-			this.$container = $('<div>').addClass(`${CLASS_NAME} ${CLASS_NAME_CONTAINER} noprint`).appendTo(this.$body);
+			const container = (
+				<div className={[CLASS_NAME, CLASS_NAME_CONTAINER, 'noprint']}>
+					<div className={CLASS_NAME_CONTAINER_DATA}>
+						<div className={CLASS_NAME_CONTAINER_DATA_MARK_COUNTER} />
+						<div className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST} />
+						<div>
+							<input
+								className={CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT}
+								placeholder={CAL.msg('enter-name')}
+								type="text"
+								value={CAL.isSearchMode ? mw.util.getParamValue('search') ?? '' : ''}
+								onKeyDown={(event): void => {
+									const $element = $(event.currentTarget) as JQuery<HTMLInputElement>;
+									if (event.key === 'Enter') {
+										this.updateCats($element.val()?.trim() ?? '');
+									}
+								}}
+							/>
+						</div>
+						<div className={CLASS_NAME_CONTAINER_DATA_SELECTIONS}>
+							{[CAL.msg('select'), ' ']}
+							<a
+								className={CLASS_NAME_CONTAINER_DATA_SELECTIONS_ALL}
+								onClick={() => {
+									this.toggleAll(true);
+								}}
+							>
+								{CAL.msg('all')}
+							</a>
+							{' • '}
+							<a
+								className={CLASS_NAME_CONTAINER_DATA_SELECTIONS_NONE}
+								onClick={() => {
+									this.toggleAll(false);
+								}}
+							>
+								{CAL.msg('none')}
+							</a>
+						</div>
+					</div>
+					<div className={CLASS_NAME_CONTAINER_HEAD}>
+						<a className={CLASS_NAME_CONTAINER_HEAD_LINK}>{'Cat-a-lot'}</a>
+					</div>
+				</div>
+			);
 
-			this.$dataContainer = $('<div>').addClass(CLASS_NAME_CONTAINER_DATA).appendTo(this.$container);
-			this.$markCounter = $('<div>')
-				.addClass(CLASS_NAME_CONTAINER_DATA_MARK_COUNTER)
-				.appendTo(this.$dataContainer);
-			this.$resultList = $('<div>')
-				.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST)
-				.appendTo(this.$dataContainer);
+			this.$container = $(container) as JQuery;
+			this.$container.appendTo(this.$body);
 
-			this.$searchInputContainer = $('<div>').appendTo(this.$dataContainer);
-			this.$searchInput = $<HTMLInputElement>('<input>')
-				.addClass(CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT)
-				.attr({
-					placeholder: CAL.msg('enter-name'),
-					type: 'text',
-				})
-				.appendTo(this.$searchInputContainer);
+			this.$dataContainer = this.$container.find(`.${CLASS_NAME_CONTAINER_DATA}`);
+			this.$markCounter = this.$dataContainer.find(`.${CLASS_NAME_CONTAINER_DATA_MARK_COUNTER}`);
+			this.$resultList = this.$dataContainer.find(`.${CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST}`);
+			this.$searchInput = this.$dataContainer.find<HTMLInputElement>(
+				`.${CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT}`
+			);
 
-			this.$selections = $('<div>')
-				.addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS)
-				.text(CAL.msg('select'))
-				.appendTo(this.$dataContainer);
-			this.$selectAll = $<HTMLAnchorElement>('<a>').text(CAL.msg('all')).appendTo(this.$selections.append(' '));
-			this.$selectNone = $<HTMLAnchorElement>('<a>')
-				.text(CAL.msg('none'))
-				.appendTo(this.$selections.append(' • '));
-
-			this.$head = $('<div>').appendTo(this.$container);
-			this.$link = $<HTMLAnchorElement>('<a>').text('Cat-a-lot').appendTo(this.$head);
+			this.$head = this.$container.find(`.${CLASS_NAME_CONTAINER_HEAD}`);
+			this.$link = this.$head.find<HTMLAnchorElement>(`.${CLASS_NAME_CONTAINER_HEAD_LINK}`);
 		}
 
 		public buildElements(): void {
 			const regexCat: RegExp = new RegExp(`^\\s*${CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category')}:`, '');
 
-			this.$searchInput
-				.on('keypress', (event: JQuery.KeyPressEvent): void => {
-					const $element = $(event.currentTarget) as JQuery<HTMLInputElement>;
-					if (event.which === 13) {
-						this.updateCats($element.val()?.trim() ?? '');
-					}
-				})
-				.on(
-					'input keyup',
-					(event: JQuery.TriggeredEvent<HTMLInputElement> | JQuery.KeyUpEvent<HTMLInputElement>): void => {
-						const currentTarget = event.currentTarget as HTMLInputElement;
-						const oldVal: string = currentTarget.value;
-						const newVal: string = oldVal.replace(regexCat, '');
-						if (newVal !== oldVal) {
-							currentTarget.value = newVal;
-						}
-					}
-				);
+			this.$searchInput.on('input keyup', (event: JQuery.TriggeredEvent | JQuery.KeyUpEvent): void => {
+				const currentTarget = event.currentTarget as HTMLInputElement;
+				const oldVal: string = currentTarget.value;
+				const newVal: string = oldVal.replace(regexCat, '');
+				if (newVal !== oldVal) {
+					currentTarget.value = newVal;
+				}
+			});
 
 			const initAutocomplete = (): void => {
 				if (CAL.isAutoCompleteInit) {
@@ -171,9 +189,9 @@ const catALot = (): void => {
 							(result): void => {
 								if (result[1]) {
 									response(
-										$(result[1]).map((_index: number, item: string): string => {
-											return item.replace(regexCat, '');
-										})
+										$(result[1]).map((_index: number, item: string): string =>
+											item.replace(regexCat, '')
+										)
 									);
 								}
 							}
@@ -187,22 +205,11 @@ const catALot = (): void => {
 					appendTo: `.${CLASS_NAME_CONTAINER}`,
 				});
 			};
-			this.$link.on('click', (event: JQuery.ClickEvent<HTMLAnchorElement>): void => {
+			this.$link.on('click', (event: JQuery.ClickEvent): void => {
 				$(event.currentTarget).toggleClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED);
 				initAutocomplete();
 				this.run();
 			});
-
-			this.$selectAll.on('click', (): void => {
-				this.toggleAll(true);
-			});
-			this.$selectNone.on('click', (): void => {
-				this.toggleAll(false);
-			});
-
-			if (CAL.isSearchMode) {
-				this.$searchInput.val(mw.util.getParamValue('search') ?? '');
-			}
 		}
 
 		private static initSettings(): void {
@@ -281,7 +288,7 @@ const catALot = (): void => {
 		}
 		private toggleAll(select: boolean): void {
 			// The following classes are used here:
-			// * see ./constant.ts
+			// * see constant.ts
 			// * for more information
 			CAL.$labels.toggleClass(CLASS_NAME_LABEL_SELECTED, select);
 			this.updateSelectionCounter();
@@ -373,16 +380,36 @@ const catALot = (): void => {
 
 			switch (mode) {
 				case 'add':
-					$markedLabel.append(`<br>${CAL.msg('added-cat', targetCategory)}`);
+					$markedLabel.append(
+						<>
+							<br />
+							{CAL.msg('added-cat', targetCategory)}
+						</>
+					);
 					break;
 				case 'copy':
-					$markedLabel.append(`<br>${CAL.msg('copied-cat', targetCategory)}`);
+					$markedLabel.append(
+						<>
+							<br />
+							{CAL.msg('copied-cat', targetCategory)}
+						</>
+					);
 					break;
 				case 'move':
-					$markedLabel.append(`<br>${CAL.msg('moved-cat', targetCategory)}`);
+					$markedLabel.append(
+						<>
+							<br />
+							{CAL.msg('moved-cat', targetCategory)}
+						</>
+					);
 					break;
 				case 'remove':
-					$markedLabel.append(`<br>${CAL.msg('removed-cat')}`);
+					$markedLabel.append(
+						<>
+							<br />
+							{CAL.msg('removed-cat', targetCategory)}
+						</>
+					);
 					break;
 			}
 		}
@@ -400,27 +427,62 @@ const catALot = (): void => {
 			this.$body.find(`.${CLASS_NAME_FEEDBACK}`).addClass(CLASS_NAME_FEEDBACK_DONE);
 
 			const $parent: JQuery = CAL.$counter.parent();
-			$parent.html(`<h3>${CAL.msg('done')}</h3>`);
-			$parent.append(`${CAL.msg('all-done')}<br>`);
+			$parent.html(<h3>{CAL.msg('done')}</h3>);
+			$parent.append(
+				<>
+					{CAL.msg('all-done')}
+					<br />
+				</>
+			);
 
-			const $close: JQuery = $('<a>').text(CAL.msg('return-to-page'));
-			$close.on('click', (): void => {
-				CAL.$progressDialog.remove();
-				this.toggleAll(false);
-			});
-			$parent.append($close);
+			$parent.append(
+				<a
+					onClick={(): void => {
+						CAL.$progressDialog.remove();
+						this.toggleAll(false);
+					}}
+				>
+					{CAL.msg('return-to-page')}
+				</a>
+			);
 
 			if (CAL.alreadyThere.length) {
-				$parent.append(`<h5>${CAL.msg('skipped-already', CAL.alreadyThere.length.toString())}</h5>`);
-				$parent.append(CAL.alreadyThere.join('<br>'));
+				$parent.append(
+					<>
+						<h5>{CAL.msg('skipped-already', CAL.alreadyThere.length.toString())}</h5>
+						{CAL.alreadyThere.reduce(
+							(pre, cur, index) =>
+								index < CAL.alreadyThere.length - 1 ? [...pre, cur, <br key={index} />] : [...pre, cur],
+							[] as (string | React.ReactElement)[]
+						)}
+					</>
+				);
 			}
 			if (CAL.notFound.length) {
-				$parent.append(`<h5>${CAL.msg('skipped-not-found', CAL.notFound.length.toString())}</h5>`);
-				$parent.append(CAL.notFound.join('<br>'));
+				$parent.append(
+					<>
+						<h5>{CAL.msg('skipped-not-found', CAL.notFound.length.toString())}</h5>
+						{CAL.notFound.reduce(
+							(pre, cur, index) =>
+								index < CAL.notFound.length - 1 ? [...pre, cur, <br key={index} />] : [...pre, cur],
+							[] as (string | React.ReactElement)[]
+						)}
+					</>
+				);
 			}
 			if (CAL.connectionError.length) {
-				$parent.append(`<h5>${CAL.msg('skipped-server', CAL.connectionError.length.toString())}</h5>`);
-				$parent.append(CAL.connectionError.join('<br>'));
+				$parent.append(
+					<>
+						<h5>{CAL.msg('skipped-server', CAL.connectionError.length.toString())}</h5>
+						{CAL.connectionError.reduce(
+							(pre, cur, index) =>
+								index < CAL.connectionError.length - 1
+									? [...pre, cur, <br key={index} />]
+									: [...pre, cur],
+							[] as (string | React.ReactElement)[]
+						)}
+					</>
+				);
 			}
 		}
 		private updateCounter(): void {
@@ -543,6 +605,7 @@ const catALot = (): void => {
 					rvprop: 'content|timestamp',
 				},
 				(result): void => {
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 					void this.editCategories(result, markedLabel, targetCategory, mode);
 				}
 			);
@@ -573,22 +636,22 @@ const catALot = (): void => {
 				cursor: 'wait',
 				overflow: 'hidden',
 			});
-			CAL.$progressDialog = $('<div>')
-				.html(
-					` ${CAL.msg('editing')}<span class="${CLASS_NAME_CURRENT_COUNTER}">${
-						CAL.counterCurrent
-					}</span>${CAL.msg('of')}${CAL.counterNeeded}`
-				)
-				.dialog({
-					dialogClass: CLASS_NAME_FEEDBACK,
-					minHeight: 90,
-					height: 90,
-					width: 450,
-					modal: true,
-					closeOnEscape: false,
-					draggable: false,
-					resizable: false,
-				});
+			CAL.$progressDialog = $(
+				<div>
+					{CAL.msg('editing')}
+					<span className={CLASS_NAME_CURRENT_COUNTER}>{CAL.counterCurrent}</span>
+					{[CAL.msg('of'), CAL.counterNeeded]}
+				</div>
+			).dialog({
+				dialogClass: CLASS_NAME_FEEDBACK,
+				minHeight: 90,
+				height: 90,
+				width: 450,
+				modal: true,
+				closeOnEscape: false,
+				draggable: false,
+				resizable: false,
+			});
 			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-titlebar`).hide();
 			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-content`).height('auto');
 			CAL.$counter = this.$body.find(`.${CLASS_NAME_CURRENT_COUNTER}`);
@@ -623,50 +686,62 @@ const catALot = (): void => {
 		private createCatLinks(symbol: string, categories: string[]): void {
 			categories.sort();
 			for (const category of categories) {
-				const $tr: JQuery = $('<tr>').data('category', category);
-				$tr.append($('<td>').text(symbol)).append(
-					$('<td>').append(
-						$('<a>')
-							.text(category)
-							.on('click', (event: JQuery.ClickEvent): void => {
-								const $element = $(event.currentTarget) as JQuery;
-								this.updateCats($element.closest('tr').data('category') as string);
-							})
-					)
+				const $tr = $(
+					<tr dataset={{category}}>
+						<td>{symbol}</td>
+						<td>
+							<a
+								onClick={(event): void => {
+									const $element = $(event.currentTarget);
+									this.updateCats($element.closest('tr').data('category') as string);
+								}}
+							>
+								{category}
+							</a>
+						</td>
+					</tr>
 				);
 				// Can't move to source category
 				if (category !== CAL.CURRENT_CATEGROY && CAL.isSearchMode) {
 					$tr.append(
-						$('<td>').append(
-							$('<a>')
-								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
-								.text(CAL.msg('add'))
-								.on('click', (event: JQuery.ClickEvent): void => {
-									const $element = $(event.currentTarget) as JQuery;
+						<td>
+							<a
+								className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
+								onClick={(event): void => {
+									const $element = $(event.currentTarget);
 									this.addHere($element.closest('tr').data('category') as string);
-								})
-						)
+								}}
+							>
+								{CAL.msg('add')}
+							</a>
+						</td>
 					);
 				} else if (category !== CAL.CURRENT_CATEGROY && !CAL.isSearchMode) {
 					$tr.append(
-						$('<td>').append(
-							$('<a>')
-								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
-								.text(CAL.msg('copy'))
-								.on('click', (event: JQuery.ClickEvent): void => {
-									const $element = $(event.currentTarget) as JQuery;
-									this.copyHere($element.closest('tr').data('category') as string);
-								})
-						),
-						$('<td>').append(
-							$('<a>')
-								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
-								.text(CAL.msg('move'))
-								.on('click', (event: JQuery.ClickEvent): void => {
-									const $element = $(event.currentTarget) as JQuery;
-									this.moveHere($element.closest('tr').data('category') as string);
-								})
-						)
+						<>
+							<td>
+								<a
+									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
+									onClick={(event): void => {
+										const $element = $(event.currentTarget);
+										this.copyHere($element.closest('tr').data('category') as string);
+									}}
+								>
+									{CAL.msg('copy')}
+								</a>
+							</td>
+							<td>
+								<a
+									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
+									onClick={(event): void => {
+										const $element = $(event.currentTarget);
+										this.moveHere($element.closest('tr').data('category') as string);
+									}}
+								>
+									{CAL.msg('move')}
+								</a>
+							</td>
+						</>
 					);
 				}
 				this.$resultList.find('table').append($tr);
@@ -676,7 +751,7 @@ const catALot = (): void => {
 			this.$body.css('cursor', '');
 			const currentCategories: string[] = [CAL.currentCategory];
 			this.$resultList.empty();
-			this.$resultList.append($('<table>'));
+			this.$resultList.append(<table />);
 			this.createCatLinks('↑', CAL.parentCats);
 			this.createCatLinks('→', currentCategories);
 			this.createCatLinks('↓', CAL.subCats);
@@ -705,9 +780,9 @@ const catALot = (): void => {
 					if (pages[0]?.missing) {
 						this.$body.css('cursor', '');
 						this.$resultList.html(
-							`<span class="${CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND}">${CAL.msg(
-								'cat-not-found'
-							)}</span>`
+							<span className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND}>
+								{CAL.msg('cat-not-found')}
+							</span>
 						);
 						this.createCatLinks('→', [CAL.currentCategory]);
 						return;
@@ -754,7 +829,7 @@ const catALot = (): void => {
 		private updateCats(cat: string): void {
 			this.$body.css('cursor', 'wait');
 			CAL.currentCategory = cat;
-			this.$resultList.html(`<div>${CAL.msg('loading')}</div>`);
+			this.$resultList.html(<div>{CAL.msg('loading')}</div>);
 			this.getCategoryList();
 		}
 
@@ -796,7 +871,7 @@ const catALot = (): void => {
 					alsoResize: this.$resultList,
 					handles: 'n',
 					resize: (event: JQueryEventObject): void => {
-						const $currentTarget: JQuery = $(event.currentTarget) as JQuery;
+						const $currentTarget = $(event.currentTarget) as JQuery;
 						$currentTarget.css({
 							left: '',
 							top: '',
