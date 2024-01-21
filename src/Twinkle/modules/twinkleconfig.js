@@ -1222,7 +1222,7 @@
 							input.setAttribute('id', pref.name);
 							input.setAttribute('name', pref.name);
 							if (gotPref === true) {
-								input.setAttribute('checked', 'checked');
+								input.checked = true;
 							}
 							label.appendChild(input);
 							label.appendChild(document.createTextNode(pref.label));
@@ -1319,7 +1319,7 @@
 								check.setAttribute('id', `${pref.name}_${itemkey}`);
 								check.setAttribute('name', `${pref.name}_${itemkey}`);
 								if (gotPref && gotPref.includes(itemkey)) {
-									check.setAttribute('checked', 'checked');
+									check.checked = true;
 								}
 								// cater for legacy integer array values for unlinkNamespaces (this can be removed a few years down the track...)
 								if (
@@ -1327,7 +1327,7 @@
 									gotPref &&
 									gotPref.includes(Number.parseInt(itemkey, 10))
 								) {
-									check.setAttribute('checked', 'checked');
+									check.checked = true;
 								}
 								checklabel.appendChild(check);
 								checklabel.appendChild(document.createTextNode(itemvalue));

@@ -403,7 +403,7 @@ export const ToolsRedirect = {
 		this.addMethods(cont, metd);
 		sele.data('page-title', mt);
 		if (dsab) {
-			sele.attr('disabled', 'disabled');
+			sele.prop('disabled', 'disabled');
 		}
 		return cont;
 	},
