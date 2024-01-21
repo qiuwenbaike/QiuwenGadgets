@@ -16,8 +16,8 @@
 		}
 		const isIP = mw.util.isIPAddress(username);
 		const title = isIP
-			? wgULS('报告IP给管理员', '報告IP給管理員')
-			: wgULS('报告用户给管理人员', '報告使用者給管理人員');
+			? window.wgULS('报告IP给管理员', '報告IP給管理員')
+			: window.wgULS('报告用户给管理人员', '報告使用者給管理人員');
 		Twinkle.addPortletLink(
 			() => {
 				Twinkle.arv.callback(username, isIP);
@@ -44,28 +44,28 @@
 		const categories = form.append({
 			type: 'select',
 			name: 'category',
-			label: wgULS('选择报告类型：', '選擇報告類別：'),
+			label: window.wgULS('选择报告类型：', '選擇報告類別：'),
 			event: Twinkle.arv.callback.changeCategory,
 		});
 		categories.append({
 			type: 'option',
-			label: wgULS('破坏（QW:VIP）', '破壞（QW:VIP）'),
+			label: window.wgULS('破坏（QW:VIP）', '破壞（QW:VIP）'),
 			value: 'aiv',
 		});
 		categories.append({
 			type: 'option',
-			label: wgULS('编辑争议（QW:EWIP）', '編輯爭議（QW:EWIP）'),
+			label: window.wgULS('编辑争议（QW:EWIP）', '編輯爭議（QW:EWIP）'),
 			value: 'ewip',
 		});
 		categories.append({
 			type: 'option',
-			label: wgULS('用户名（QW:UAA）', '使用者名稱（QW:UAA）'),
+			label: window.wgULS('用户名（QW:UAA）', '使用者名稱（QW:UAA）'),
 			value: 'username',
 			disabled: mw.util.isIPAddress(uid),
 		});
 		categories.append({
 			type: 'option',
-			label: wgULS('傀儡调查（QW:SPI）', '傀儡調查（QW:SPI）'),
+			label: window.wgULS('傀儡调查（QW:SPI）', '傀儡調查（QW:SPI）'),
 			value: 'spi',
 			disabled: mw.util.isIPAddress(uid),
 		});
@@ -109,11 +109,11 @@
 			if (blocklist.length) {
 				const [block] = blocklist;
 				let message =
-					(isIP ? wgULS('此IP地址', '此IP位址') : wgULS('此账号', '此賬號')) +
+					(isIP ? window.wgULS('此IP地址', '此IP位址') : window.wgULS('此账号', '此賬號')) +
 					wgULS('已经被', '已經被') +
 					(block.partial ? '部分' : '');
 				// Start and end differ, range blocked
-				message += block.rangestart === (block.rangeend ? '段' : '') + wgULS('封禁。', '封鎖。');
+				message += block.rangestart === (block.rangeend ? '段' : '') + window.wgULS('封禁。', '封鎖。');
 				if (block.partial) {
 					$body.find('#twinkle-arv-blockwarning').css('color', 'black'); // Less severe
 				}
@@ -128,7 +128,7 @@
 	Twinkle.arv.lta_list = [
 		{
 			value: '',
-			label: wgULS('请选择', '請選擇'),
+			label: window.wgULS('请选择', '請選擇'),
 		},
 	];
 	Twinkle.arv.callback.sockmaster_changed = (e) => {
@@ -144,7 +144,7 @@
 		let work_area = null;
 		const previewlink = document.createElement('a');
 		previewlink.style.cursor = 'pointer';
-		previewlink.textContent = wgULS('预览', '預覽');
+		previewlink.textContent = window.wgULS('预览', '預覽');
 		$(previewlink).on('click', () => {
 			Twinkle.arv.callback.preview(root_);
 		});
@@ -152,22 +152,22 @@
 			case 'ewip':
 				work_area = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('报告编辑争议', '報告編輯爭議'),
+					label: window.wgULS('报告编辑争议', '報告編輯爭議'),
 					name: 'work_area',
 				});
 				work_area.append({
 					type: 'dyninput',
 					name: 'page',
-					label: wgULS('相关页面：', '相關頁面：'),
-					sublabel: wgULS('页面：', '頁面：'),
-					tooltip: wgULS('如不希望让报告链接到页面，请留空', '如不希望讓報告連結到頁面，請留空'),
+					label: window.wgULS('相关页面：', '相關頁面：'),
+					sublabel: window.wgULS('页面：', '頁面：'),
+					tooltip: window.wgULS('如不希望让报告链接到页面，请留空', '如不希望讓報告連結到頁面，請留空'),
 					min: 1,
 					max: 10,
 				});
 				work_area.append({
 					type: 'textarea',
 					name: 'reason',
-					label: wgULS('评论：', '評論：'),
+					label: window.wgULS('评论：', '評論：'),
 				});
 				work_area.append({
 					type: 'div',
@@ -185,13 +185,13 @@
 			case 'username':
 				work_area = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('报告不当用户名', '報告不當使用者名稱'),
+					label: window.wgULS('报告不当用户名', '報告不當使用者名稱'),
 					name: 'work_area',
 				});
 				work_area.append({
 					type: 'header',
-					label: wgULS('不当用户名类型', '不當使用者名稱類別'),
-					tooltip: wgULS(
+					label: window.wgULS('不当用户名类型', '不當使用者名稱類別'),
+					tooltip: window.wgULS(
 						'求闻百科不允许使用带有误导性、宣传性、侮辱性或破坏性的用户名。此外，使用域名及邮箱地址的用户名亦被禁止。这些准则俱应应用至用户名及签名。在其他语言中不当的用户名或通过错拼、替代、暗示、拆字或任何间接方法达成的非妥当用户名同样视为违规。',
 						'求聞百科不允許使用帶有誤導性、宣傳性、侮辱性或破壞性的使用者名稱。此外，使用域名及電子信箱位址的使用者名稱亦被禁止。這些準則俱應應用至使用者名稱及簽名。在其他語言中不當的使用者名稱或通過錯拼、替代、暗示、拆字或任何間接方法達成的非妥當使用者名稱同樣視為違規。'
 					),
@@ -201,41 +201,41 @@
 					name: 'arvtype',
 					list: [
 						{
-							label: wgULS('误导性用户名', '誤導性使用者名稱'),
-							value: wgULS('误导性', '誤導性'),
-							tooltip: wgULS(
+							label: window.wgULS('误导性用户名', '誤導性使用者名稱'),
+							value: window.wgULS('误导性', '誤導性'),
+							tooltip: window.wgULS(
 								'误导性用户名隐含着与贡献者相关或误导他人的事情。例如︰不实观点、暗示账号拥有特定权限或暗示该账号并非由一人拥有而是由一个组群、一个项目或一个集体运作。',
 								'誤導性使用者名稱隱含著與貢獻者相關或誤導他人的事情。例如︰不實觀點、暗示賬號擁有特定權限或暗示該賬號並非由一人擁有而是由一個群組、一個計畫或一個集體運作。'
 							),
 						},
 						{
-							label: wgULS('宣传性用户名', '宣傳性使用者名稱'),
-							value: wgULS('宣传性', '宣傳性'),
-							tooltip: wgULS(
+							label: window.wgULS('宣传性用户名', '宣傳性使用者名稱'),
+							value: window.wgULS('宣传性', '宣傳性'),
+							tooltip: window.wgULS(
 								'宣传性用户名会于求闻百科上起推销一个组群或一间公司的作用。',
 								'宣傳性使用者名稱會於求聞百科上起推銷一個群組或一間公司的作用。'
 							),
 						},
 						{
-							label: wgULS('暗示并非由一人拥有', '暗示並非由一人擁有'),
+							label: window.wgULS('暗示并非由一人拥有', '暗示並非由一人擁有'),
 							value: 'shared',
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'每个账号只可以代表个人（容许一些例外情况），所有与他人分享账号的行为（包括分享账号密码）均被禁止。',
 								'每個賬號只可以代表個人（容許一些例外情況），所有與他人分享賬號的行為（包括分享賬號密碼）均被禁止。'
 							),
 						},
 						{
-							label: wgULS('侮辱性用户名', '侮辱性使用者名稱'),
+							label: window.wgULS('侮辱性用户名', '侮辱性使用者名稱'),
 							value: '侮辱性',
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'侮辱性用户名令协调编辑变得困难，甚至无可能。',
 								'侮辱性使用者名稱令協調編輯變得困難，甚至無可能。'
 							),
 						},
 						{
-							label: wgULS('破坏性用户名', '破壞性使用者名稱'),
-							value: wgULS('破坏性', '破壞性'),
-							tooltip: wgULS(
+							label: window.wgULS('破坏性用户名', '破壞性使用者名稱'),
+							value: window.wgULS('破坏性', '破壞性'),
+							tooltip: window.wgULS(
 								'破坏性用户名包括人身攻击、伪冒他人或其他一切有着清晰可见的破坏求闻百科意图的用户名。',
 								'破壞性使用者名稱包括人身攻擊、偽冒他人或其他一切有著清晰可見的破壞求聞百科意圖的使用者名稱。'
 							),
@@ -246,11 +246,11 @@
 					type: 'checkbox',
 					list: [
 						{
-							label: wgULS(
+							label: window.wgULS(
 								'在页面上隐藏用户名（需监督的用户名请勿于站内报告，勾选此项并不构成能在站内报告的理由）',
 								'在頁面上隱藏使用者名稱（需監督的使用者名稱請勿於站內報告，勾選此項並不構成能在站內報告的理由）'
 							),
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'若用户名不当请勾选此项，注意：请考虑私下联系管理员处理。',
 								'若使用者名稱不當請勾選此項，注意：請考慮私下聯絡管理員處理。'
 							),
@@ -263,7 +263,7 @@
 				work_area.append({
 					type: 'textarea',
 					name: 'reason',
-					label: wgULS('评论：', '評論：'),
+					label: window.wgULS('评论：', '評論：'),
 				});
 				work_area.append({
 					type: 'div',
@@ -281,13 +281,13 @@
 			case 'spi':
 				work_area = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('发起傀儡调查', '發起傀儡調查'),
+					label: window.wgULS('发起傀儡调查', '發起傀儡調查'),
 					name: 'work_area',
 				});
 				work_area.append({
 					type: 'input',
 					name: 'sockmaster',
-					tooltip: wgULS('主账号的用户名（不含User:前缀）', '主賬號的使用者名稱（不含User:字首）'),
+					tooltip: window.wgULS('主账号的用户名（不含User:前缀）', '主賬號的使用者名稱（不含User:字首）'),
 					value: root_.uid.value,
 					event: Twinkle.arv.callback.sockmaster_changed,
 				});
@@ -301,15 +301,15 @@
 					name: 'sockpuppet',
 					label: '傀儡',
 					sublabel: '傀儡：',
-					tooltip: wgULS('傀儡的用户名（不含User:前缀）', '傀儡的使用者名稱（不含User:字首）'),
+					tooltip: window.wgULS('傀儡的用户名（不含User:前缀）', '傀儡的使用者名稱（不含User:字首）'),
 					min: 2,
 					max: 9,
 				});
 				work_area.append({
 					type: 'textarea',
-					label: wgULS('证据：', '證據：'),
+					label: window.wgULS('证据：', '證據：'),
 					name: 'reason',
-					tooltip: wgULS(
+					tooltip: window.wgULS(
 						'输入能够用来体现这些用户可能滥用多重账号的证据，这通常包括茶馆发言、页面历史或其他有关的信息。请避免在此处提供非与傀儡或滥用多重账号相关的其他讨论。',
 						'輸入能夠用來體現這些使用者可能濫用多重賬號的證據，這通常包括茶館發言、頁面歷史或其他有關的資訊。請避免在此處提供非與傀儡或濫用多重賬號相關的其他討論。'
 					),
@@ -318,9 +318,9 @@
 					type: 'checkbox',
 					list: [
 						{
-							label: wgULS('请求用户查核', '請求使用者查核'),
+							label: window.wgULS('请求用户查核', '請求使用者查核'),
 							name: 'checkuser',
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'用户查核是一种用于获取傀儡指控相关技术证据的工具，若没有正当理由则不会使用，您必须在证据字段充分解释为什么需要使用该工具。用户查核不会用于公开连接用户账号使用的IP地址。',
 								'使用者查核是一種用於獲取傀儡指控相關技術證據的工具，若沒有正當理由則不會使用，您必須在證據欄位充分解釋為什麼需要使用該工具。使用者查核不會用於公開連接使用者賬號使用的IP位址。'
 							),
@@ -362,12 +362,12 @@
 			default:
 				work_area = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('报告用户破坏', '報告使用者破壞'),
+					label: window.wgULS('报告用户破坏', '報告使用者破壞'),
 					name: 'work_area',
 				});
 				work_area.append({
 					type: 'div',
-					label: wgULS(
+					label: window.wgULS(
 						'提报傀儡应优先发送至傀儡调查，除非相关的账号有高频率、涉及多个页面等紧急严重的破坏行为。',
 						'提報傀儡應優先發送至傀儡調查，除非相關的賬號有高頻率、涉及多個頁面等緊急嚴重的破壞行為。'
 					),
@@ -375,8 +375,8 @@
 				work_area.append({
 					type: 'input',
 					name: 'page',
-					label: wgULS('相关页面：', '相關頁面：'),
-					tooltip: wgULS('如不希望让报告链接到页面，请留空', '如不希望讓報告連結到頁面，請留空'),
+					label: window.wgULS('相关页面：', '相關頁面：'),
+					tooltip: window.wgULS('如不希望让报告链接到页面，请留空', '如不希望讓報告連結到頁面，請留空'),
 					value: mw.util.getParamValue('vanarticle') || '',
 					event: (event) => {
 						const {value} = event.target;
@@ -393,8 +393,8 @@
 				work_area.append({
 					type: 'input',
 					name: 'badid',
-					label: wgULS('受到破坏的修订版本：', '受到破壞的修訂版本：'),
-					tooltip: wgULS('留空以略过差异', '留空以略過差異'),
+					label: window.wgULS('受到破坏的修订版本：', '受到破壞的修訂版本：'),
+					tooltip: window.wgULS('留空以略过差异', '留空以略過差異'),
 					value: mw.util.getParamValue('vanarticlerevid') || '',
 					disabled: !mw.util.getParamValue('vanarticle'),
 					event: (event) => {
@@ -406,8 +406,8 @@
 				work_area.append({
 					type: 'input',
 					name: 'goodid',
-					label: wgULS('破坏前的修订版本：', '破壞前的修訂版本：'),
-					tooltip: wgULS('留空以略过差异的较早版本', '留空以略過差異的較早版本'),
+					label: window.wgULS('破坏前的修订版本：', '破壞前的修訂版本：'),
+					tooltip: window.wgULS('留空以略过差异的较早版本', '留空以略過差異的較早版本'),
 					value: mw.util.getParamValue('vanarticlegoodrevid') || '',
 					disabled: !mw.util.getParamValue('vanarticle') || mw.util.getParamValue('vanarticlerevid'),
 				});
@@ -416,24 +416,24 @@
 					name: 'arvtype',
 					list: [
 						{
-							label: wgULS('已发出最后警告', '已發出最後警告'),
+							label: window.wgULS('已发出最后警告', '已發出最後警告'),
 							value: 'final',
 						},
 						{
-							label: wgULS('封禁过期后随即破坏', '封鎖過期後隨即破壞'),
+							label: window.wgULS('封禁过期后随即破坏', '封鎖過期後隨即破壞'),
 							value: 'postblock',
 						},
 						{
-							label: wgULS('显而易见的纯破坏用户', '顯而易見的純破壞使用者'),
+							label: window.wgULS('显而易见的纯破坏用户', '顯而易見的純破壞使用者'),
 							value: 'vandalonly',
 							disabled: mw.util.isIPAddress(root_.uid.value),
 						},
 						{
-							label: wgULS('显而易见的spambot或失窃账号', '顯而易見的spambot或失竊賬號'),
+							label: window.wgULS('显而易见的spambot或失窃账号', '顯而易見的spambot或失竊賬號'),
 							value: 'spambot',
 						},
 						{
-							label: wgULS('仅用来散发广告宣传的用户', '僅用來散發廣告宣傳的使用者'),
+							label: window.wgULS('仅用来散发广告宣传的用户', '僅用來散發廣告宣傳的使用者'),
 							value: 'promoonly',
 							disabled: mw.util.isIPAddress(root_.uid.value),
 						},
@@ -444,8 +444,8 @@
 						type: 'checkbox',
 						list: [
 							{
-								label: wgULS('在页面上及编辑摘要隐藏用户名', '在頁面上及編輯摘要隱藏使用者名稱'),
-								tooltip: wgULS(
+								label: window.wgULS('在页面上及编辑摘要隐藏用户名', '在頁面上及編輯摘要隱藏使用者名稱'),
+								tooltip: window.wgULS(
 									'若用户名不当请勾选此项，注意：请考虑私下联系管理员处理。',
 									'若使用者名稱不當請勾選此項，注意：請考慮私下聯絡管理員處理。'
 								),
@@ -458,7 +458,7 @@
 				work_area.append({
 					type: 'textarea',
 					name: 'reason',
-					label: wgULS('评论：', '評論：'),
+					label: window.wgULS('评论：', '評論：'),
 				});
 				work_area.append({
 					type: 'div',
@@ -527,7 +527,7 @@
 							'”不是一个有效的页面名称，如要使用差异链接请放在“评论”',
 							'」不是一個有效的頁面名稱，如要使用差異連結請放在「評論」'
 						) +
-						(revid ? wgULS('，或正确输入“修订版本”', '，或正確輸入「修訂版本」') : '')
+						(revid ? window.wgULS('，或正确输入“修订版本”', '，或正確輸入「修訂版本」') : '')
 					}。`,
 					{
 						type: 'warn',
@@ -545,7 +545,7 @@
 							'”属于特殊页面，如要使用差异链接请放在“评论”',
 							'」屬於特殊頁面，如要使用差異連結請放在「評論」'
 						) +
-						(revid ? wgULS('，或正确输入“修订版本”', '，或正確輸入「修訂版本」') : '')
+						(revid ? window.wgULS('，或正确输入“修订版本”', '，或正確輸入「修訂版本」') : '')
 					}。`,
 					{
 						type: 'warn',
@@ -618,13 +618,13 @@
 				}
 				comment += '}} &ndash; ';
 				if (types.length) {
-					comment += types + wgULS('用户名', '使用者名稱');
+					comment += types + window.wgULS('用户名', '使用者名稱');
 				}
 				if (types.length && hasShared) {
 					comment += '，';
 				}
 				if (hasShared) {
-					comment += wgULS('暗示该账号并非由一人拥有', '暗示該賬號並非由一人擁有');
+					comment += window.wgULS('暗示该账号并非由一人拥有', '暗示該賬號並非由一人擁有');
 				}
 				if (types.length || hasShared) {
 					comment += '。';
@@ -636,7 +636,7 @@
 				comment += '--~~'.concat('~~');
 				comment = comment.replace(/\r?\n/g, '\n*:'); // indent newlines
 				reason = `== 不当用户名报告（${
-					input.hidename ? wgULS('已隐藏用户名', '已隱藏使用者名稱') : uid
+					input.hidename ? window.wgULS('已隐藏用户名', '已隱藏使用者名稱') : uid
 				}） ==\n`;
 				reason += comment;
 				break;
@@ -695,7 +695,7 @@
 					});
 					return;
 				}
-				reason += `== ${input.hidename ? wgULS('已隐藏用户名', '已隱藏使用者名稱') : uid} ==\n`;
+				reason += `== ${input.hidename ? window.wgULS('已隐藏用户名', '已隱藏使用者名稱') : uid} ==\n`;
 				reason += `* '''{{vandal|${/[=]/.test(uid) ? '1=' : ''}${uid}`;
 				if (input.hidename) {
 					reason += '|hidename=1';
@@ -765,7 +765,7 @@
 				Morebits.simpleWindow.setButtonsEnabled(false);
 				Morebits.status.init(form);
 				Morebits.wiki.actionCompleted.redirect = 'Qiuwen_talk:管理员告示板';
-				Morebits.wiki.actionCompleted.notice = wgULS('报告完成', '報告完成');
+				Morebits.wiki.actionCompleted.notice = window.wgULS('报告完成', '報告完成');
 				const ewipPage = new Morebits.wiki.page(
 					'Qiuwen_talk:管理员告示板',
 					wgULS('处理EWIP请求', '處理EWIP請求')
@@ -811,8 +811,11 @@
 				Morebits.simpleWindow.setButtonsEnabled(false);
 				Morebits.status.init(form);
 				Morebits.wiki.actionCompleted.redirect = 'Qiuwen_talk:管理员告示板';
-				Morebits.wiki.actionCompleted.notice = wgULS('报告完成', '報告完成');
-				const uaaPage = new Morebits.wiki.page('Qiuwen_talk:管理员告示板', wgULS('处理UAA请求', '處理UAA請求'));
+				Morebits.wiki.actionCompleted.notice = window.wgULS('报告完成', '報告完成');
+				const uaaPage = new Morebits.wiki.page(
+					'Qiuwen_talk:管理员告示板',
+					window.wgULS('处理UAA请求', '處理UAA請求')
+				);
 				uaaPage.setFollowRedirect(true);
 				uaaPage.load(() => {
 					const text = uaaPage.getPageText();
@@ -852,8 +855,8 @@
 				Morebits.status.init(form);
 				const reportpage = 'Qiuwen_talk:管理员告示板';
 				Morebits.wiki.actionCompleted.redirect = reportpage;
-				Morebits.wiki.actionCompleted.notice = wgULS('报告完成', '報告完成');
-				const spiPage = new Morebits.wiki.page(reportpage, wgULS('抓取讨论页面', '抓取討論頁面'));
+				Morebits.wiki.actionCompleted.notice = window.wgULS('报告完成', '報告完成');
+				const spiPage = new Morebits.wiki.page(reportpage, window.wgULS('抓取讨论页面', '抓取討論頁面'));
 				spiPage.setFollowRedirect(true);
 				spiPage.setEditSummary(wgULS('加入新提报', '加入新提報'));
 				spiPage.setChangeTags(Twinkle.changeTags);
@@ -873,13 +876,16 @@
 				}
 				summary = `${wgULS('报告', '報告')}[[Special:Contribs/${uid}|${uid}]]`;
 				if (input.hidename) {
-					summary = wgULS('报告一名用户', '報告一名使用者');
+					summary = window.wgULS('报告一名用户', '報告一名使用者');
 				}
 				Morebits.simpleWindow.setButtonsEnabled(false);
 				Morebits.status.init(form);
 				Morebits.wiki.actionCompleted.redirect = 'Qiuwen_talk:报告当前破坏';
-				Morebits.wiki.actionCompleted.notice = wgULS('报告完成', '報告完成');
-				const aivPage = new Morebits.wiki.page('Qiuwen_talk:报告当前破坏', wgULS('处理VIP请求', '處理VIP請求'));
+				Morebits.wiki.actionCompleted.notice = window.wgULS('报告完成', '報告完成');
+				const aivPage = new Morebits.wiki.page(
+					'Qiuwen_talk:报告当前破坏',
+					window.wgULS('处理VIP请求', '處理VIP請求')
+				);
 				aivPage.setFollowRedirect(true);
 				aivPage.load(() => {
 					const text = aivPage.getPageText();

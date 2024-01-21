@@ -30,8 +30,13 @@
 				mw.config.get('wgCurRevisionId')) ||
 			Morebits.pageNameNorm === Twinkle.getPref('sandboxPage')
 		) {
-			Twinkle.stub.mode = wgULS('条目', '條目');
-			Twinkle.addPortletLink(Twinkle.stub.callback, '小作品', 'friendly-tag', wgULS('标记小作品', '標記小作品'));
+			Twinkle.stub.mode = window.wgULS('条目', '條目');
+			Twinkle.addPortletLink(
+				Twinkle.stub.callback,
+				'小作品',
+				'friendly-tag',
+				window.wgULS('标记小作品', '標記小作品')
+			);
 		}
 	};
 	Twinkle.stub.callback = () => {
@@ -46,7 +51,7 @@
 				type: 'checkbox',
 				list: [
 					{
-						label: wgULS('标记页面为已巡查', '標記頁面為已巡查'),
+						label: window.wgULS('标记页面为已巡查', '標記頁面為已巡查'),
 						value: 'patrolPage',
 						name: 'patrolPage',
 						checked: Twinkle.getPref('markStubbedPagesAsPatrolled'),
@@ -61,8 +66,8 @@
 				form.append({
 					type: 'select',
 					name: 'sortorder',
-					label: wgULS('查看列表：', '檢視列表：'),
-					tooltip: wgULS(
+					label: window.wgULS('查看列表：', '檢視列表：'),
+					tooltip: window.wgULS(
 						'您可以在Twinkle参数设置（H:TW/PREF）中更改此项。',
 						'您可以在Twinkle偏好設定（H:TW/PREF）中更改此項。'
 					),
@@ -71,7 +76,7 @@
 						{
 							type: 'option',
 							value: 'cat',
-							label: wgULS('按类型', '按類別'),
+							label: window.wgULS('按类型', '按類別'),
 							selected: Twinkle.getPref('stubArticleSortOrder') === 'cat',
 						},
 						{
@@ -132,7 +137,7 @@
 		if (Twinkle.getPref('customStubList').length) {
 			container.append({
 				type: 'header',
-				label: wgULS('自定义模板', '自訂模板'),
+				label: window.wgULS('自定义模板', '自訂模板'),
 			});
 			const customcheckboxes = [];
 			for (const item of Twinkle.getPref('customStubList')) {
@@ -338,7 +343,7 @@
 			for (const tag of tags) {
 				addTag(tag);
 			}
-			summaryText += wgULS('标记到', '標記到') + Twinkle.stub.mode;
+			summaryText += window.wgULS('标记到', '標記到') + Twinkle.stub.mode;
 			pageobj.setPageText(pageText);
 			pageobj.setEditSummary(summaryText);
 			pageobj.setChangeTags(Twinkle.changeTags);
@@ -380,7 +385,7 @@
 		Morebits.simpleWindow.setButtonsEnabled(false);
 		Morebits.status.init(form);
 		Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
-		Morebits.wiki.actionCompleted.notice = wgULS(
+		Morebits.wiki.actionCompleted.notice = window.wgULS(
 			'标记完成，将在几秒内刷新页面',
 			'標記完成，將在幾秒內重新整理頁面'
 		);

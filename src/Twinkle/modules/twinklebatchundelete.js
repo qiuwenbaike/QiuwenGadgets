@@ -33,7 +33,7 @@
 			type: 'checkbox',
 			list: [
 				{
-					label: wgULS('若存在已删除的讨论页，也恢复', '若存在已刪除的討論頁，也恢復'),
+					label: window.wgULS('若存在已删除的讨论页，也恢复', '若存在已刪除的討論頁，也恢復'),
 					name: 'undel_talk',
 					value: 'undel_talk',
 					checked: true,
@@ -78,7 +78,7 @@
 							(isProtected
 								? `（${wgULS('全保护，', '全保護，')}${
 										$editprot.attr('expiry') === 'infinity'
-											? wgULS('无限期', '無限期')
+											? window.wgULS('无限期', '無限期')
 											: `${new Morebits.date($editprot.attr('expiry')).calendar(
 													'utc'
 												)} (UTC)${wgULS('过期', '過期')}`
@@ -91,18 +91,18 @@
 				});
 				apiobj.params.form.append({
 					type: 'header',
-					label: wgULS('待恢复页面', '待恢復頁面'),
+					label: window.wgULS('待恢复页面', '待恢復頁面'),
 				});
 				apiobj.params.form.append({
 					type: 'button',
-					label: wgULS('全选', '全選'),
+					label: window.wgULS('全选', '全選'),
 					event: (e) => {
 						$(Morebits.quickForm.getElements(e.target.form, 'pages')).prop('checked', true);
 					},
 				});
 				apiobj.params.form.append({
 					type: 'button',
-					label: wgULS('全不选', '全不選'),
+					label: window.wgULS('全不选', '全不選'),
 					event: (e) => {
 						$(Morebits.quickForm.getElements(e.target.form, 'pages')).prop('checked', false);
 					},
@@ -128,7 +128,7 @@
 		qiuwen_api.post();
 	};
 	Twinkle.batchundelete.callback.evaluate = (event) => {
-		Morebits.wiki.actionCompleted.notice = wgULS('反删除已完成', '反刪除已完成');
+		Morebits.wiki.actionCompleted.notice = window.wgULS('反删除已完成', '反刪除已完成');
 		const numProtected = $(Morebits.quickForm.getElements(event.target, 'pages')).filter((_index, element) => {
 			return element.checked && element.nextElementSibling.style.color === 'red';
 		}).length;
@@ -172,7 +172,7 @@
 				reason,
 				pageUndeleter,
 			};
-			const qiuwen_page = new Morebits.wiki.page(pageName, wgULS('反删除页面', '反刪除頁面') + pageName);
+			const qiuwen_page = new Morebits.wiki.page(pageName, window.wgULS('反删除页面', '反刪除頁面') + pageName);
 			qiuwen_page.setCallbackParameters(params);
 			qiuwen_page.setEditSummary(`${reason} (批量)`);
 			qiuwen_page.setChangeTags(Twinkle.changeTags);
@@ -224,7 +224,7 @@
 			}
 			const page = new Morebits.wiki.page(
 				apiobj.params.talkPage,
-				wgULS('正在反删除', '正在反刪除') + apiobj.params.page + wgULS('的讨论页', '的討論頁')
+				wgULS('正在反删除', '正在反刪除') + apiobj.params.page + window.wgULS('的讨论页', '的討論頁')
 			);
 			page.setEditSummary(
 				wgULS('反删除“', '反刪除「') +

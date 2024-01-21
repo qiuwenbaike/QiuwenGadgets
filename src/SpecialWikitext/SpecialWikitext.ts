@@ -101,8 +101,8 @@ const luaGetCSSwikitext = (inputStr: string): string => {
 // 分析JavaScript中符合条件的wikitext
 const luaGetJSwikitext = (inputStr: string): string => {
 	let wikitext: string = '';
-	const $body: JQuery<HTMLBodyElement> = $('body');
-	const jsText: string = inputStr || $body.find('#wpTextbox1').val()?.toString() || '';
+	const jsText: string =
+		inputStr || (document.querySelector('#wpTextbox1') as HTMLInputElement)?.value?.toString() || '';
 	if (!jsText.trim()) {
 		return '';
 	}
@@ -289,7 +289,7 @@ const previewTool = (): void => {
 				if (!data || !data['parse'] || !data['parse'].text) {
 					return;
 				}
-				const parsedWiki = (data['parse'].text || '').toString().trim();
+				const parsedWiki = ((data['parse'].text as string | null) || '').toString().trim();
 				if (parsedWiki === '') {
 					removeLoadingNotice();
 				} else {
@@ -345,7 +345,7 @@ const previewTool = (): void => {
 				if (!data || !data['parse'] || !data['parse'].text) {
 					return;
 				}
-				const parsedWiki = (data['parse'].text || '').toString().trim();
+				const parsedWiki = ((data['parse'].text as string | null) || '').toString().trim();
 				if (parsedWiki === '') {
 					removeLoadingNotice();
 					// 若出错在这个临时模块中则取消
@@ -380,7 +380,8 @@ const previewTool = (): void => {
 			if (!data || !data['parse'] || !data['parse'].wikitext) {
 				return;
 			}
-			let pageContent: string = luaCheck((data['parse'].wikitext || '').toString().trim()) || '';
+			let pageContent: string =
+				luaCheck(((data['parse'].wikitext as string | null) || '').toString().trim()) || '';
 			pageContent =
 				($elementExist('#mw-clearyourcache')
 					? '{{#invoke:Special wikitext/Template|int|clearyourcache}}'
@@ -518,7 +519,7 @@ const previewTool = (): void => {
 				if (!data || !data['parse'] || !data['parse'].text) {
 					return;
 				}
-				const parsedWiki = (data['parse'].text || '').toString().trim();
+				const parsedWiki = ((data['parse'].text as string | null) || '').toString().trim();
 				if (parsedWiki !== '') {
 					const $parsedElement: JQuery = $(parsedWiki);
 					for (const [key, testcaseItem] of Object.entries(testcaseDataList)) {

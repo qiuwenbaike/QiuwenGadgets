@@ -38,7 +38,7 @@
 			type: 'checkbox',
 			list: [
 				{
-					label: wgULS('删除页面', '刪除頁面'),
+					label: window.wgULS('删除页面', '刪除頁面'),
 					name: 'delete_page',
 					value: 'delete',
 					checked: true,
@@ -46,7 +46,7 @@
 						type: 'checkbox',
 						list: [
 							{
-								label: wgULS(
+								label: window.wgULS(
 									'删除关联的讨论页（用户讨论页除外）',
 									'刪除關聯的討論頁（使用者討論頁除外）'
 								),
@@ -55,13 +55,13 @@
 								checked: true,
 							},
 							{
-								label: wgULS('删除到已删页面的重定向页', '刪除到已刪頁面的重新導向頁面'),
+								label: window.wgULS('删除到已删页面的重定向页', '刪除到已刪頁面的重新導向頁面'),
 								name: 'delete_redirects',
 								value: 'delete_redirects',
 								checked: true,
 							},
 							{
-								label: wgULS('删除已删页面的子页面', '刪除已刪頁面的子頁面'),
+								label: window.wgULS('删除已删页面的子页面', '刪除已刪頁面的子頁面'),
 								name: 'delete_subpages',
 								value: 'delete_subpages',
 								checked: false,
@@ -70,12 +70,12 @@
 									type: 'checkbox',
 									list: [
 										{
-											label: wgULS('删除已删子页面的讨论页', '刪除已刪子頁面的討論頁'),
+											label: window.wgULS('删除已删子页面的讨论页', '刪除已刪子頁面的討論頁'),
 											name: 'delete_subpage_talks',
 											value: 'delete_subpage_talks',
 										},
 										{
-											label: wgULS(
+											label: window.wgULS(
 												'删除到已删子页面的重定向页',
 												'刪除到已刪子頁面的重新導向頁面'
 											),
@@ -83,7 +83,7 @@
 											value: 'delete_subpage_redirects',
 										},
 										{
-											label: wgULS(
+											label: window.wgULS(
 												'取消所有已删页面的链入（仅处理条目命名空间）',
 												'取消所有已刪頁面的連入（僅處理條目命名空間）'
 											),
@@ -97,13 +97,13 @@
 					},
 				},
 				{
-					label: wgULS('取消链入（仅处理条目命名空间）', '取消連入（僅處理條目命名空間）'),
+					label: window.wgULS('取消链入（仅处理条目命名空间）', '取消連入（僅處理條目命名空間）'),
 					name: 'unlink_page',
 					value: 'unlink',
 					checked: false,
 				},
 				{
-					label: wgULS('移除文件使用（所有命名空间）', '移除檔案使用（所有命名空間）'),
+					label: window.wgULS('移除文件使用（所有命名空间）', '移除檔案使用（所有命名空間）'),
 					name: 'unlink_file',
 					value: 'unlink_file',
 					checked: true,
@@ -198,7 +198,7 @@
 						metadata.push(
 							wgULS('全保护，', '全保護，') +
 								($editprot.attr('expiry') === 'infinity'
-									? wgULS('无限期', '無限期')
+									? window.wgULS('无限期', '無限期')
 									: `${new Morebits.date($editprot.attr('expiry')).calendar('utc')} (UTC)`) +
 								wgULS('过期', '過期')
 						);
@@ -210,7 +210,7 @@
 							wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user')
 						);
 					} else {
-						metadata.push(mw.language.convertNumber(size) + wgULS('字节', '位元組'));
+						metadata.push(mw.language.convertNumber(size) + window.wgULS('字节', '位元組'));
 					}
 					Twinkle.batchdelete.pages[title] = {
 						label: title + (metadata.length ? `（${metadata.join('，')}）` : ''),
@@ -222,11 +222,11 @@
 				const form_ = apiobj.params.form;
 				form_.append({
 					type: 'header',
-					label: wgULS('待删除页面', '待刪除頁面'),
+					label: window.wgULS('待删除页面', '待刪除頁面'),
 				});
 				form_.append({
 					type: 'button',
-					label: wgULS('全选', '全選'),
+					label: window.wgULS('全选', '全選'),
 					event: () => {
 						$(result)
 							.find('input[name=pages]:not(:checked)')
@@ -239,7 +239,7 @@
 				});
 				form_.append({
 					type: 'button',
-					label: wgULS('全不选', '全不選'),
+					label: window.wgULS('全不选', '全不選'),
 					event: () => {
 						$(result)
 							.find('input[name=pages]:checked')
@@ -307,74 +307,77 @@
 	};
 	Twinkle.batchdelete.deletereasonlist = [
 		{
-			label: wgULS('请选择', '請選擇'),
+			label: window.wgULS('请选择', '請選擇'),
 			value: '',
 		},
 		{
-			label: wgULS(
+			label: window.wgULS(
 				'G6：原作者提请删除或清空页面，且页面原作者仅有一人',
 				'G6：原作者提請刪除或清空頁面，且頁面原作者僅有一人'
 			),
-			value: wgULS(
+			value: window.wgULS(
 				'[[QW:CSD#G6|G6]]：原作者提请删除或清空页面，且页面原作者仅有一人',
 				'[[QW:CSD#G6|G6]]：原作者提請刪除或清空頁面，且頁面原作者僅有一人'
 			),
 		},
 		{
-			label: wgULS(
+			label: window.wgULS(
 				'G9：孤立页面，比如没有主页面的讨论页、指向空页面的重定向等',
 				'G9：孤立頁面，比如沒有主頁面的討論頁、指向空頁面的重新導向等'
 			),
-			value: wgULS('[[QW:CSD#G9|G9]]：孤立页面', '[[QW:CSD#G9|G9]]：孤立頁面'),
+			value: window.wgULS('[[QW:CSD#G9|G9]]：孤立页面', '[[QW:CSD#G9|G9]]：孤立頁面'),
 		},
 		{
-			label: wgULS('R1：不能发挥实际作用的重定向。', 'R1：不能發揮實際作用的重定向。'),
-			value: wgULS(
+			label: window.wgULS('R1：不能发挥实际作用的重定向。', 'R1：不能發揮實際作用的重定向。'),
+			value: window.wgULS(
 				'[[QW:CSD#R1|R1]]：不能发挥实际作用的重定向。',
 				'[[QW:CSD#R1|R1]]：不能發揮實際作用的重定向。'
 			),
 		},
 		{
-			label: wgULS(
+			label: window.wgULS(
 				'R2：名称与导向目标代表事物不一致或不完全一致的重定向。',
 				'R2：名稱與導向目標代表事物不一致或不完全一致的重定向。'
 			),
-			value: wgULS(
+			value: window.wgULS(
 				'[[QW:CSD#R2|R2]]：名称与导向目标代表事物不一致或不完全一致的重定向。',
 				'[[QW:CSD#R2|R2]]：名稱與導向目標代表事物不一致或不完全一致的重定向。'
 			),
 		},
 		{
-			label: wgULS('F4：可被替代的合理使用文件', 'F4：可被替代的合理使用檔案'),
-			value: wgULS('[[QW:CSD#F4|F4]]：可被替代的合理使用文件', '[[QW:CSD#F4|F4]]：可被替代的合理使用檔案'),
+			label: window.wgULS('F4：可被替代的合理使用文件', 'F4：可被替代的合理使用檔案'),
+			value: window.wgULS('[[QW:CSD#F4|F4]]：可被替代的合理使用文件', '[[QW:CSD#F4|F4]]：可被替代的合理使用檔案'),
 		},
 		{
-			label: wgULS(
+			label: window.wgULS(
 				'F5：没有被条目使用的非自由著作权文件、没有填写任何合理使用依据的非自由著作权文件',
 				'F5：沒有被條目使用的非自由版權檔案、沒有填寫任何合理使用依據的非自由版權檔案'
 			),
-			value: wgULS(
+			value: window.wgULS(
 				'[[QW:CSD#F5|F5]]：没有被条目使用的非自由著作权文件、没有填写任何合理使用依据的非自由著作权文件',
 				'[[QW:CSD#F5|F5]]：沒有被條目使用的非自由版權檔案、沒有填寫任何合理使用依據的非自由版權檔案'
 			),
 		},
 		{
-			label: wgULS('O1：用户请求删除自己的用户页或其子页面', 'O1：使用者請求刪除自己的使用者頁面或其子頁面'),
-			value: wgULS(
+			label: window.wgULS(
+				'O1：用户请求删除自己的用户页或其子页面',
+				'O1：使用者請求刪除自己的使用者頁面或其子頁面'
+			),
+			value: window.wgULS(
 				'[[QW:CSD#O1|O1]]：用户请求删除自己的[[Help:用户页|用户页]]或其子页面。',
 				'[[QW:CSD#O1|O1]]：使用者請求刪除自己的[[Help:用户页|使用者頁面]]或其子頁面。'
 			),
 		},
 		{
-			label: wgULS('O2：空的分类（没有条目也没有子分类）', 'O2：空的分類（沒有條目也沒有子分類）'),
-			value: wgULS(
+			label: window.wgULS('O2：空的分类（没有条目也没有子分类）', 'O2：空的分類（沒有條目也沒有子分類）'),
+			value: window.wgULS(
 				'[[QW:CSD#O2|O2]]：空的分类（没有条目也没有子分类）。',
 				'[[QW:CSD#O2|O2]]：空的分類（沒有條目也沒有子分類）。'
 			),
 		},
 		{
-			label: wgULS('O3：废弃草稿', 'O3：廢棄草稿'),
-			value: wgULS('[[QW:CSD#O3|O3]]：废弃草稿。', '[[QW:CSD#O3|O3]]：廢棄草稿。'),
+			label: window.wgULS('O3：废弃草稿', 'O3：廢棄草稿'),
+			value: window.wgULS('[[QW:CSD#O3|O3]]：废弃草稿。', '[[QW:CSD#O3|O3]]：廢棄草稿。'),
 		},
 	];
 	Twinkle.batchdelete.callback.change_common_reason = (e) => {
@@ -430,7 +433,7 @@
 						return;
 					}
 					const qiuwen_api = new Morebits.wiki.api(
-						wgULS('正在获取 ', '正在取得 ') + pageName + wgULS(' 的子页面', ' 的子頁面'),
+						wgULS('正在获取 ', '正在取得 ') + pageName + window.wgULS(' 的子页面', ' 的子頁面'),
 						{
 							action: 'query',
 							prop: 'revisions|info|imageinfo',
@@ -462,7 +465,7 @@
 									metadata.push(
 										wgULS('全保护，', '全保護，') +
 											($editprot.attr('expiry') === 'infinity'
-												? wgULS('无限期', '無限期')
+												? window.wgULS('无限期', '無限期')
 												: `${new Morebits.date($editprot.attr('expiry')).calendar(
 														'utc'
 													)} (UTC)`) +
@@ -476,7 +479,7 @@
 										wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user')
 									);
 								} else {
-									metadata.push(mw.language.convertNumber(size) + wgULS('字节', '位元組'));
+									metadata.push(mw.language.convertNumber(size) + window.wgULS('字节', '位元組'));
 								}
 								subpageList.push({
 									label: title + (metadata.length ? ` (${metadata.join('; ')})` : ''),
@@ -537,7 +540,7 @@
 		}
 	};
 	Twinkle.batchdelete.callback.evaluate = (event) => {
-		Morebits.wiki.actionCompleted.notice = wgULS('批量删除已完成', '批次刪除已完成');
+		Morebits.wiki.actionCompleted.notice = window.wgULS('批量删除已完成', '批次刪除已完成');
 		const form = event.target;
 		const numProtected = $(Morebits.quickForm.getElements(form, 'pages')).filter((_index, element) => {
 			return element.checked && element.nextElementSibling.style.color === 'red';
@@ -584,11 +587,16 @@
 		Morebits.simpleWindow.setButtonsEnabled(false);
 		Morebits.status.init(form);
 		if (!pages) {
-			Morebits.status.error(wgULS('错误', '錯誤'), wgULS('没有要删除的内容，中止', '沒有要刪除的內容，中止'));
+			Morebits.status.error(
+				wgULS('错误', '錯誤'),
+				window.wgULS('没有要删除的内容，中止', '沒有要刪除的內容，中止')
+			);
 			return;
 		}
 		const pageDeleter = new Morebits.batchOperation(
-			delete_page ? wgULS('正在删除页面', '正在刪除頁面') : wgULS('正在启动要求的任务', '正在啟動要求的任務')
+			delete_page
+				? window.wgULS('正在删除页面', '正在刪除頁面')
+				: window.wgULS('正在启动要求的任务', '正在啟動要求的任務')
 		);
 		pageDeleter.setOption('chunkSize', Twinkle.getPref('batchChunks'));
 		// we only need the initial status lines if we're deleting the pages in the pages array
@@ -747,12 +755,12 @@
 				return;
 			}
 			const redirectDeleter = new Morebits.batchOperation(
-				wgULS('正在删除到 ', '正在刪除到 ') + apiobj.params.page + wgULS(' 的重定向', ' 的重新導向')
+				wgULS('正在删除到 ', '正在刪除到 ') + apiobj.params.page + window.wgULS(' 的重定向', ' 的重新導向')
 			);
 			redirectDeleter.setOption('chunkSize', Twinkle.getPref('batchChunks'));
 			redirectDeleter.setPageList(pages);
 			redirectDeleter.run((pageName) => {
-				const qiuwen_page = new Morebits.wiki.page(pageName, wgULS('正在删除 ', '正在刪除 ') + pageName);
+				const qiuwen_page = new Morebits.wiki.page(pageName, window.wgULS('正在删除 ', '正在刪除 ') + pageName);
 				qiuwen_page.setEditSummary(
 					`[[QW:CSD#G9|G9]]: ${wgULS('指向已删页面“', '指向已刪頁面「')}${apiobj.params.page}${wgULS(
 						'”的重定向',
@@ -772,7 +780,7 @@
 			}
 			const page = new Morebits.wiki.page(
 				apiobj.params.talkPage,
-				wgULS('正在删除页面 ', '正在刪除頁面 ') + apiobj.params.page + wgULS(' 的讨论页', ' 的討論頁')
+				wgULS('正在删除页面 ', '正在刪除頁面 ') + apiobj.params.page + window.wgULS(' 的讨论页', ' 的討論頁')
 			);
 			page.setEditSummary(
 				`[[QW:CSD#G9|G9]]: ${wgULS('已删页面“', '已刪頁面「')}${apiobj.params.page}${wgULS(
@@ -835,7 +843,9 @@
 				params.unlinker.workerSuccess(pageobj);
 				return;
 			}
-			pageobj.setEditSummary(wgULS('取消到已删页面', '取消到已刪頁面') + params.page + wgULS('的链入', '的連入'));
+			pageobj.setEditSummary(
+				wgULS('取消到已删页面', '取消到已刪頁面') + params.page + window.wgULS('的链入', '的連入')
+			);
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.setPageText(text);
 			pageobj.setCreateOption('nocreate');
@@ -888,7 +898,9 @@
 			}
 			const old_text = text;
 			const qiuwen_page = new Morebits.wikitext.page(text);
-			text = qiuwen_page.commentOutImage(image, wgULS('因文件已删，故注解', '因檔案已刪，故註解')).getText();
+			text = qiuwen_page
+				.commentOutImage(image, window.wgULS('因文件已删，故注解', '因檔案已刪，故註解'))
+				.getText();
 			Twinkle.batchdelete.unlinkCache[params.title] = text;
 			if (text === old_text) {
 				pageobj

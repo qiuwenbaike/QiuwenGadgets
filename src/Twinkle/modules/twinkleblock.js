@@ -12,11 +12,11 @@ import {initMwApi} from 'ext.gadget.Util';
 	const menuFormattedNamespaces = {
 		...mw.config.get('wgFormattedNamespaces'),
 	};
-	menuFormattedNamespaces[0] = wgULS('（条目）', '（條目）');
+	menuFormattedNamespaces[0] = window.wgULS('（条目）', '（條目）');
 	const blockActionText = {
-		block: wgULS('封禁', '封鎖'),
-		reblock: wgULS('重新封禁', '重新封鎖'),
-		unblock: wgULS('解除封禁', '解除封鎖'),
+		block: window.wgULS('封禁', '封鎖'),
+		reblock: window.wgULS('重新封禁', '重新封鎖'),
+		unblock: window.wgULS('解除封禁', '解除封鎖'),
 	};
 	/**
 	 * twinkleblock.js: Block module
@@ -55,7 +55,9 @@ import {initMwApi} from 'ext.gadget.Util';
 		Twinkle.block.field_template_options = {};
 		const Window = new Morebits.simpleWindow(650, 530);
 		// need to be verbose about who we're blocking
-		Window.setTitle(wgULS('封禁或向', '封鎖或向') + relevantUserName + wgULS('发出封禁模板', '發出封鎖模板'));
+		Window.setTitle(
+			wgULS('封禁或向', '封鎖或向') + relevantUserName + window.wgULS('发出封禁模板', '發出封鎖模板')
+		);
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(wgULS('封禁方针', '封鎖方針'), 'QW:BLOCK');
 		Window.addFooterLink(wgULS('封禁设置', '封鎖設定'), 'H:TW/PREF#block');
@@ -63,7 +65,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		const form = new Morebits.quickForm(Twinkle.block.callback.evaluate);
 		const actionfield = form.append({
 			type: 'field',
-			label: wgULS('操作类型', '操作類別'),
+			label: window.wgULS('操作类型', '操作類別'),
 		});
 		actionfield.append({
 			type: 'checkbox',
@@ -71,9 +73,9 @@ import {initMwApi} from 'ext.gadget.Util';
 			event: Twinkle.block.callback.change_action,
 			list: [
 				{
-					label: wgULS('封禁用户', '封鎖使用者'),
+					label: window.wgULS('封禁用户', '封鎖使用者'),
 					value: 'block',
-					tooltip: wgULS(
+					tooltip: window.wgULS(
 						'用选择的选项全站封禁相关用户，若未勾选部分封禁则为全站封禁。',
 						'用選擇的選項全站封鎖相關使用者，若未勾選部分封鎖則為全站封鎖。'
 					),
@@ -81,16 +83,16 @@ import {initMwApi} from 'ext.gadget.Util';
 					checked: Morebits.userIsSysop,
 				},
 				{
-					label: wgULS('部分封禁', '部分封鎖'),
+					label: window.wgULS('部分封禁', '部分封鎖'),
 					value: 'partial',
-					tooltip: wgULS('启用部分封禁及部分封禁模板。', '啟用部分封鎖及部分封鎖模板。'),
+					tooltip: window.wgULS('启用部分封禁及部分封禁模板。', '啟用部分封鎖及部分封鎖模板。'),
 					hidden: !Morebits.userIsSysop,
 					checked: Twinkle.getPref('defaultToPartialBlocks'), // Overridden if already blocked
 				},
 				{
-					label: wgULS('加入封禁模板到用户讨论页', '加入封鎖模板到使用者討論頁'),
+					label: window.wgULS('加入封禁模板到用户讨论页', '加入封鎖模板到使用者討論頁'),
 					value: 'template',
-					tooltip: wgULS(
+					tooltip: window.wgULS(
 						'若执行封禁的管理员忘记发出封禁模板，或你封禁了用户而没有给其发出模板，则你可以用此来发出合适的模板。勾选部分封禁以使用部分封禁模板。',
 						'若執行封鎖的管理員忘記發出封鎖模板，或你封鎖了使用者而沒有給其發出模板，則你可以用此來發出合適的模板。勾選部分封鎖以使用部分封鎖模板。'
 					),
@@ -100,9 +102,9 @@ import {initMwApi} from 'ext.gadget.Util';
 					disabled: Morebits.ip.isRange(relevantUserName),
 				},
 				{
-					label: wgULS('标记用户页', '標記使用者頁面'),
+					label: window.wgULS('标记用户页', '標記使用者頁面'),
 					value: 'tag',
-					tooltip: wgULS(
+					tooltip: window.wgULS(
 						'将用户页替换成相关的标记模板，仅限永久封禁使用。',
 						'將使用者頁面替換成相關的標記模板，僅限永久封鎖使用。'
 					),
@@ -110,15 +112,15 @@ import {initMwApi} from 'ext.gadget.Util';
 					checked: !Morebits.userIsSysop,
 				},
 				{
-					label: wgULS('保护用户页', '保護使用者頁面'),
+					label: window.wgULS('保护用户页', '保護使用者頁面'),
 					value: 'protect',
-					tooltip: wgULS('全保护用户页，仅限永久封禁使用。', '全保護使用者頁面，僅限永久封鎖使用。'),
+					tooltip: window.wgULS('全保护用户页，仅限永久封禁使用。', '全保護使用者頁面，僅限永久封鎖使用。'),
 					hidden: true,
 				},
 				{
-					label: wgULS('解除封禁用户', '解除封鎖使用者'),
+					label: window.wgULS('解除封禁用户', '解除封鎖使用者'),
 					value: 'unblock',
-					tooltip: wgULS('解除封禁相关用户。', '解除封鎖相關使用者。'),
+					tooltip: window.wgULS('解除封禁相关用户。', '解除封鎖相關使用者。'),
 					hidden: !Morebits.userIsSysop,
 				},
 			],
@@ -139,7 +141,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (sixtyFour && sixtyFour !== mw.config.get('wgRelevantUserName')) {
 			const block64field = form.append({
 				type: 'field',
-				label: wgULS('转换为/64段封禁', '轉換為/64段封鎖'),
+				label: window.wgULS('转换为/64段封禁', '轉換為/64段封鎖'),
 				name: 'field_64',
 			});
 			block64field.append({
@@ -154,11 +156,11 @@ import {initMwApi} from 'ext.gadget.Util';
 				list: [
 					{
 						checked: Twinkle.getPref('defaultToBlock64'),
-						label: wgULS('改成封禁/64', '改成封鎖/64'),
+						label: window.wgULS('改成封禁/64', '改成封鎖/64'),
 						value: 'block64',
 						tooltip: Morebits.ip.isRange(mw.config.get('wgRelevantUserName'))
-							? wgULS('将不会发送模板通知。', '將不會發送模板通知。')
-							: wgULS('任何模板将会发送给原始IP：', '任何模板將會發送給原始IP：') +
+							? window.wgULS('将不会发送模板通知。', '將不會發送模板通知。')
+							: window.wgULS('任何模板将会发送给原始IP：', '任何模板將會發送給原始IP：') +
 								mw.config.get('wgRelevantUserName'),
 					},
 				],
@@ -166,27 +168,27 @@ import {initMwApi} from 'ext.gadget.Util';
 		}
 		form.append({
 			type: 'field',
-			label: wgULS('默认', '預設'),
+			label: window.wgULS('默认', '預設'),
 			name: 'field_preset',
 		});
 		form.append({
 			type: 'field',
-			label: wgULS('模板选项', '模板選項'),
+			label: window.wgULS('模板选项', '模板選項'),
 			name: 'field_template_options',
 		});
 		form.append({
 			type: 'field',
-			label: wgULS('封禁选项', '封鎖選項'),
+			label: window.wgULS('封禁选项', '封鎖選項'),
 			name: 'field_block_options',
 		});
 		form.append({
 			type: 'field',
-			label: wgULS('标记用户页', '標記使用者頁面'),
+			label: window.wgULS('标记用户页', '標記使用者頁面'),
 			name: 'field_tag_options',
 		});
 		form.append({
 			type: 'field',
-			label: wgULS('解除封禁选项', '解除封鎖選項'),
+			label: window.wgULS('解除封禁选项', '解除封鎖選項'),
 			name: 'field_unblock_options',
 		});
 		form.append({
@@ -400,14 +402,14 @@ import {initMwApi} from 'ext.gadget.Util';
 		$partial.prop('disabled', !blockBox && !templateBox);
 		// Add current block parameters as default preset
 		const prior = {
-			label: wgULS('当前封禁', '目前封鎖'),
+			label: window.wgULS('当前封禁', '目前封鎖'),
 		};
 		if (blockedUserName === relevantUserName) {
 			Twinkle.block.blockPresetsInfo.prior = Twinkle.block.currentBlockInfo;
 			// value not a valid template selection, chosen below by setting templateName
 			prior.list = [
 				{
-					label: wgULS('当前封禁设置', '目前封鎖設定'),
+					label: window.wgULS('当前封禁设置', '目前封鎖設定'),
 					value: 'prior',
 					selected: true,
 				},
@@ -449,19 +451,19 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (blockBox) {
 			field_preset = new Morebits.quickForm.element({
 				type: 'field',
-				label: wgULS('默认', '預設'),
+				label: window.wgULS('默认', '預設'),
 				name: 'field_preset',
 			});
 			field_preset.append({
 				type: 'select',
 				name: 'preset',
-				label: wgULS('选择默认：', '選擇預設：'),
+				label: window.wgULS('选择默认：', '選擇預設：'),
 				event: Twinkle.block.callback.change_preset,
 				list: Twinkle.block.callback.filtered_block_groups(blockGroup),
 			});
 			field_block_options = new Morebits.quickForm.element({
 				type: 'field',
-				label: wgULS('封禁选项', '封鎖選項'),
+				label: window.wgULS('封禁选项', '封鎖選項'),
 				name: 'field_block_options',
 			});
 			field_block_options.append({
@@ -477,24 +479,24 @@ import {initMwApi} from 'ext.gadget.Util';
 			field_block_options.append({
 				type: 'select',
 				name: 'expiry_preset',
-				label: wgULS('过期时间：', '過期時間：'),
+				label: window.wgULS('过期时间：', '過期時間：'),
 				event: Twinkle.block.callback.change_expiry,
 				list: [
 					{
-						label: wgULS('自定义', '自訂'),
+						label: window.wgULS('自定义', '自訂'),
 						value: 'custom',
 						selected: true,
 					},
 					{
-						label: wgULS('无限期', '無限期'),
+						label: window.wgULS('无限期', '無限期'),
 						value: 'infinity',
 					},
 					{
-						label: wgULS('3小时', '3小時'),
+						label: window.wgULS('3小时', '3小時'),
 						value: '3 hours',
 					},
 					{
-						label: wgULS('12小时', '12小時'),
+						label: window.wgULS('12小时', '12小時'),
 						value: '12 hours',
 					},
 					{
@@ -502,7 +504,7 @@ import {initMwApi} from 'ext.gadget.Util';
 						value: '1 day',
 					},
 					{
-						label: wgULS('31小时', '31小時'),
+						label: window.wgULS('31小时', '31小時'),
 						value: '31 hours',
 					},
 					{
@@ -514,23 +516,23 @@ import {initMwApi} from 'ext.gadget.Util';
 						value: '3 days',
 					},
 					{
-						label: wgULS('1周', '1週'),
+						label: window.wgULS('1周', '1週'),
 						value: '1 week',
 					},
 					{
-						label: wgULS('2周', '2週'),
+						label: window.wgULS('2周', '2週'),
 						value: '2 weeks',
 					},
 					{
-						label: wgULS('1个月', '1個月'),
+						label: window.wgULS('1个月', '1個月'),
 						value: '1 month',
 					},
 					{
-						label: wgULS('3个月', '3個月'),
+						label: window.wgULS('3个月', '3個月'),
 						value: '3 months',
 					},
 					{
-						label: wgULS('6个月', '6個月'),
+						label: window.wgULS('6个月', '6個月'),
 						value: '6 months',
 					},
 					{
@@ -550,8 +552,8 @@ import {initMwApi} from 'ext.gadget.Util';
 			field_block_options.append({
 				type: 'input',
 				name: 'expiry',
-				label: wgULS('自定义过期时间', '自訂過期時間'),
-				tooltip: wgULS(
+				label: window.wgULS('自定义过期时间', '自訂過期時間'),
+				tooltip: window.wgULS(
 					'您可以使用相对时间，如“1 minute”或“19 days”；或绝对时间，“yyyymmddhhmm”（如“200602011405”是2006年2月1日14:05 UTC。）',
 					'您可以使用相對時間，如「1 minute」或「19 days」；或絕對時間，「yyyymmddhhmm」（如「200602011405」是2006年2月1日14:05 UTC。）'
 				),
@@ -563,17 +565,17 @@ import {initMwApi} from 'ext.gadget.Util';
 					type: 'select',
 					multiple: true,
 					name: 'pagerestrictions',
-					label: wgULS('页面封禁', '頁面封鎖'),
+					label: window.wgULS('页面封禁', '頁面封鎖'),
 					value: '',
-					tooltip: wgULS('最多10个页面。', '最多10個頁面。'),
+					tooltip: window.wgULS('最多10个页面。', '最多10個頁面。'),
 				});
 				const ns = field_block_options.append({
 					type: 'select',
 					multiple: true,
 					name: 'namespacerestrictions',
-					label: wgULS('命名空间封禁', '命名空間封鎖'),
+					label: window.wgULS('命名空间封禁', '命名空間封鎖'),
 					value: '',
-					tooltip: wgULS('指定封禁的命名空间。', '指定封鎖的命名空間。'),
+					tooltip: window.wgULS('指定封禁的命名空间。', '指定封鎖的命名空間。'),
 				});
 				for (const [number, name] of Object.entries(menuFormattedNamespaces)) {
 					// Ignore -1: Special; -2: Media; and 2300-2303: Gadget (talk) and Gadget definition (talk)
@@ -589,23 +591,23 @@ import {initMwApi} from 'ext.gadget.Util';
 			const blockoptions = [
 				{
 					checked: Twinkle.block.field_block_options.nocreate,
-					label: wgULS('禁止创建账号', '禁止建立賬號'),
+					label: window.wgULS('禁止创建账号', '禁止建立賬號'),
 					name: 'nocreate',
 					value: '1',
 				},
 				{
 					checked: Twinkle.block.field_block_options.noemail,
-					label: wgULS('电子邮件停用', '電子郵件停用'),
+					label: window.wgULS('电子邮件停用', '電子郵件停用'),
 					name: 'noemail',
 					value: '1',
 				},
 				{
 					checked: Twinkle.block.field_block_options.disabletalk,
-					label: wgULS('不能编辑自己的讨论页', '不能編輯自己的討論頁'),
+					label: window.wgULS('不能编辑自己的讨论页', '不能編輯自己的討論頁'),
 					name: 'disabletalk',
 					value: '1',
 					tooltip: partialBox
-						? wgULS(
+						? window.wgULS(
 								'若使用部分封禁，不应选择此项，除非您也想要禁止编辑用户讨论页。',
 								'若使用部分封鎖，不應選擇此項，除非您也想要禁止編輯使用者討論頁。'
 							)
@@ -615,14 +617,14 @@ import {initMwApi} from 'ext.gadget.Util';
 			if (Twinkle.block.isRegistered) {
 				blockoptions.push({
 					checked: Twinkle.block.field_block_options.autoblock,
-					label: wgULS('自动封禁', '自動封鎖'),
+					label: window.wgULS('自动封禁', '自動封鎖'),
 					name: 'autoblock',
 					value: '1',
 				});
 			} else {
 				blockoptions.push({
 					checked: Twinkle.block.field_block_options.hardblock,
-					label: wgULS('阻止登录用户使用该IP地址编辑', '阻止登入使用者使用該IP位址編輯'),
+					label: window.wgULS('阻止登录用户使用该IP地址编辑', '阻止登入使用者使用該IP位址編輯'),
 					name: 'hardblock',
 					value: '1',
 				});
@@ -630,13 +632,13 @@ import {initMwApi} from 'ext.gadget.Util';
 			blockoptions.push(
 				{
 					checked: Twinkle.block.field_block_options.watchuser,
-					label: wgULS('监视该用户的用户页和讨论页', '監視該使用者的使用者頁面和討論頁'),
+					label: window.wgULS('监视该用户的用户页和讨论页', '監視該使用者的使用者頁面和討論頁'),
 					name: 'watchuser',
 					value: '1',
 				},
 				{
 					checked: true,
-					label: wgULS('标记当前的破坏中的请求', '標記當前的破壞中的請求'),
+					label: window.wgULS('标记当前的破坏中的请求', '標記當前的破壞中的請求'),
 					name: 'closevip',
 					value: '1',
 				}
@@ -648,17 +650,20 @@ import {initMwApi} from 'ext.gadget.Util';
 			});
 			field_block_options.append({
 				type: 'textarea',
-				label: wgULS('理由（用于封禁日志）：', '理由（用於封鎖日誌）：'),
+				label: window.wgULS('理由（用于封禁日志）：', '理由（用於封鎖日誌）：'),
 				name: 'reason',
-				tooltip: wgULS('请考虑在默认的消息中加入有用的详细信息。', '請考慮在預設的訊息中加入有用的詳細資訊。'),
+				tooltip: window.wgULS(
+					'请考虑在默认的消息中加入有用的详细信息。',
+					'請考慮在預設的訊息中加入有用的詳細資訊。'
+				),
 				value: Twinkle.block.field_block_options.reason,
 			});
 			field_block_options.append({
 				type: 'div',
 				name: 'filerlog_label',
-				label: wgULS('参见：', '參見：'),
+				label: window.wgULS('参见：', '參見：'),
 				style: 'display:inline-block;font-style:normal !important',
-				tooltip: wgULS(
+				tooltip: window.wgULS(
 					'在封禁理由中标清特殊情况以供其他管理员参考',
 					'在封鎖理由中標清特殊情況以供其他管理員參考'
 				),
@@ -670,9 +675,9 @@ import {initMwApi} from 'ext.gadget.Util';
 				style: 'display:inline-block; margin-right:5px',
 				list: [
 					{
-						label: wgULS('过滤器日志', '過濾器日誌'),
+						label: window.wgULS('过滤器日志', '過濾器日誌'),
 						checked: false,
-						value: wgULS('过滤器日志', '過濾器日誌'),
+						value: window.wgULS('过滤器日志', '過濾器日誌'),
 					},
 				],
 			});
@@ -683,9 +688,9 @@ import {initMwApi} from 'ext.gadget.Util';
 				style: 'display:inline-block; margin-right:5px',
 				list: [
 					{
-						label: wgULS('已删除的编辑', '已刪除的編輯'),
+						label: window.wgULS('已删除的编辑', '已刪除的編輯'),
 						checked: false,
-						value: wgULS('已删除的编辑', '已刪除的編輯'),
+						value: window.wgULS('已删除的编辑', '已刪除的編輯'),
 					},
 				],
 			});
@@ -696,9 +701,9 @@ import {initMwApi} from 'ext.gadget.Util';
 				style: 'display:inline-block; margin-right:5px',
 				list: [
 					{
-						label: wgULS('用户讨论页', '使用者討論頁'),
+						label: window.wgULS('用户讨论页', '使用者討論頁'),
 						checked: false,
-						value: wgULS('用户讨论页', '使用者討論頁'),
+						value: window.wgULS('用户讨论页', '使用者討論頁'),
 					},
 				],
 			});
@@ -709,9 +714,9 @@ import {initMwApi} from 'ext.gadget.Util';
 				style: 'display:inline-block; margin-right:5px',
 				list: [
 					{
-						label: wgULS('过去的封禁记录', '過去的封鎖記錄'),
+						label: window.wgULS('过去的封禁记录', '過去的封鎖記錄'),
 						checked: false,
-						value: wgULS('过去的封禁记录', '過去的封鎖記錄'),
+						value: window.wgULS('过去的封禁记录', '過去的封鎖記錄'),
 					},
 				],
 			});
@@ -727,13 +732,13 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (templateBox) {
 			field_template_options = new Morebits.quickForm.element({
 				type: 'field',
-				label: wgULS('模板选项', '模板選項'),
+				label: window.wgULS('模板选项', '模板選項'),
 				name: 'field_template_options',
 			});
 			field_template_options.append({
 				type: 'select',
 				name: 'template',
-				label: wgULS('选择讨论页模板：', '選擇討論頁模板：'),
+				label: window.wgULS('选择讨论页模板：', '選擇討論頁模板：'),
 				event: Twinkle.block.callback.change_template,
 				list: Twinkle.block.callback.filtered_block_groups(blockGroup, true),
 				value: Twinkle.block.field_template_options.template,
@@ -741,9 +746,9 @@ import {initMwApi} from 'ext.gadget.Util';
 			field_template_options.append({
 				type: 'input',
 				name: 'article',
-				label: wgULS('链接页面', '連結頁面'),
+				label: window.wgULS('链接页面', '連結頁面'),
 				value: '',
-				tooltip: wgULS(
+				tooltip: window.wgULS(
 					'可以随通知链接页面，例如破坏的目标。没有条目需要链接则请留空。',
 					'可以隨通知連結頁面，例如破壞的目標。沒有條目需要連結則請留空。'
 				),
@@ -752,9 +757,9 @@ import {initMwApi} from 'ext.gadget.Util';
 			field_template_options.append({
 				type: 'input',
 				name: 'area',
-				label: wgULS('封禁范围', '封鎖範圍'),
+				label: window.wgULS('封禁范围', '封鎖範圍'),
 				value: '',
-				tooltip: wgULS(
+				tooltip: window.wgULS(
 					'阻止用户编辑的页面或命名空间的可选说明。',
 					'阻止使用者編輯的頁面或命名空間的可選說明。'
 				),
@@ -765,14 +770,14 @@ import {initMwApi} from 'ext.gadget.Util';
 					name: 'template_expiry',
 					label: '封禁期限：',
 					value: '',
-					tooltip: wgULS('封禁时长，如24小时、2周、无限期等。', '封鎖時長，如24小時、2週、無限期等。'),
+					tooltip: window.wgULS('封禁时长，如24小时、2周、无限期等。', '封鎖時長，如24小時、2週、無限期等。'),
 				});
 			}
 			field_template_options.append({
 				type: 'input',
 				name: 'block_reason',
-				label: wgULS('“由于……您已被封禁”', '「由於……您已被封鎖」'),
-				tooltip: wgULS(
+				label: window.wgULS('“由于……您已被封禁”', '「由於……您已被封鎖」'),
+				tooltip: window.wgULS(
 					'可选的理由，用于替换默认理由。只在常规封禁模板中有效。',
 					'可選的理由，用於替換預設理由。只在常規封鎖模板中有效。'
 				),
@@ -785,9 +790,9 @@ import {initMwApi} from 'ext.gadget.Util';
 					name: 'blank_duration',
 					list: [
 						{
-							label: wgULS('不在模板中包含封禁期限', '不在模板中包含封鎖期限'),
+							label: window.wgULS('不在模板中包含封禁期限', '不在模板中包含封鎖期限'),
 							checked: Twinkle.block.field_template_options.blank_duration,
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'模板将会显示“一段时间”而不是具体时长',
 								'模板將會顯示「一段時間」而不是具體時長'
 							),
@@ -799,28 +804,28 @@ import {initMwApi} from 'ext.gadget.Util';
 					type: 'checkbox',
 					list: [
 						{
-							label: wgULS('不能编辑自己的讨论页', '不能編輯自己的討論頁'),
+							label: window.wgULS('不能编辑自己的讨论页', '不能編輯自己的討論頁'),
 							name: 'notalk',
 							checked: Twinkle.block.field_template_options.notalk,
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'用此在封禁模板中指明该用户编辑讨论页的权限已被移除',
 								'用此在封鎖模板中指明該使用者編輯討論頁的權限已被移除'
 							),
 						},
 						{
-							label: wgULS('不能发送电子邮件', '不能傳送電子郵件'),
+							label: window.wgULS('不能发送电子邮件', '不能傳送電子郵件'),
 							name: 'noemail_template',
 							checked: Twinkle.block.field_template_options.noemail_template,
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'用此在封禁模板中指明该用户发送电子邮件的权限已被移除',
 								'用此在封鎖模板中指明該使用者傳送電子郵件的權限已被移除'
 							),
 						},
 						{
-							label: wgULS('不能创建账号', '不能建立賬號'),
+							label: window.wgULS('不能创建账号', '不能建立賬號'),
 							name: 'nocreate_template',
 							checked: Twinkle.block.field_template_options.nocreate_template,
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'用此在封禁模板中指明该用户创建账号的权限已被移除',
 								'用此在封鎖模板中指明該使用者建立賬號的權限已被移除'
 							),
@@ -849,13 +854,13 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (tagBox) {
 			field_tag_options = new Morebits.quickForm.element({
 				type: 'field',
-				label: wgULS('标记用户页', '標記使用者頁面'),
+				label: window.wgULS('标记用户页', '標記使用者頁面'),
 				name: 'field_tag_options',
 			});
 			field_tag_options.append({
 				type: 'checkbox',
 				name: 'tag',
-				label: wgULS('选择用户页模板：', '選擇使用者頁面模板：'),
+				label: window.wgULS('选择用户页模板：', '選擇使用者頁面模板：'),
 				list: [
 					{
 						label: `{{Blocked user}}：${wgULS('一般永久封禁', '一般永久封鎖')}`,
@@ -868,12 +873,12 @@ import {initMwApi} from 'ext.gadget.Util';
 							{
 								name: 'sppUsername',
 								type: 'input',
-								label: wgULS('主账号用户名：', '主賬號使用者名稱：'),
+								label: window.wgULS('主账号用户名：', '主賬號使用者名稱：'),
 							},
 							{
 								name: 'sppType',
 								type: 'select',
-								label: wgULS('状态：', '狀態：'),
+								label: window.wgULS('状态：', '狀態：'),
 								list: [
 									{
 										type: 'option',
@@ -896,8 +901,8 @@ import {initMwApi} from 'ext.gadget.Util';
 							{
 								name: 'sppEvidence',
 								type: 'input',
-								label: wgULS('根据……确定：', '根據……確定：'),
-								tooltip: wgULS(
+								label: window.wgULS('根据……确定：', '根據……確定：'),
+								tooltip: window.wgULS(
 									'纯文字或是带[[]]的链接，例如：[[Special:固定链接/xxxxxxxx|用户查核]]',
 									'純文字或是帶[[]]的連結，例如：[[Special:固定链接/xxxxxxxx|用戶查核]]'
 								),
@@ -914,14 +919,14 @@ import {initMwApi} from 'ext.gadget.Util';
 									{
 										name: 'spmChecked',
 										value: 'spmChecked',
-										label: wgULS('经用户查核确认', '經使用者查核確認'),
+										label: window.wgULS('经用户查核确认', '經使用者查核確認'),
 									},
 								],
 							},
 							{
 								name: 'spmEvidence',
 								type: 'input',
-								label: wgULS('额外理由：', '額外理由：'),
+								label: window.wgULS('额外理由：', '額外理由：'),
 							},
 						],
 					},
@@ -931,12 +936,12 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (unblockBox) {
 			field_unblock_options = new Morebits.quickForm.element({
 				type: 'field',
-				label: wgULS('解除封禁选项', '解除封鎖選項'),
+				label: window.wgULS('解除封禁选项', '解除封鎖選項'),
 				name: 'field_unblock_options',
 			});
 			field_unblock_options.append({
 				type: 'textarea',
-				label: wgULS('理由（用于封禁日志）：', '理由（用於封鎖日誌）：'),
+				label: window.wgULS('理由（用于封禁日志）：', '理由（用於封鎖日誌）：'),
 				name: 'reason',
 				value: Twinkle.block.field_unblock_options.reason,
 			});
@@ -954,10 +959,10 @@ import {initMwApi} from 'ext.gadget.Util';
 			$form.find('fieldset[name="field_64"]').show();
 			$form.find('[name=pagerestrictions]').select2({
 				width: '100%',
-				placeholder: wgULS('输入要阻止用户编辑的页面', '輸入要阻止使用者編輯的頁面'),
+				placeholder: window.wgULS('输入要阻止用户编辑的页面', '輸入要阻止使用者編輯的頁面'),
 				language: {
 					errorLoading: () => {
-						return wgULS('搜索词汇不完整或无效', '搜尋詞彙不完整或無效');
+						return window.wgULS('搜索词汇不完整或无效', '搜尋詞彙不完整或無效');
 					},
 				},
 				maximumSelectionLength: 10,
@@ -1009,7 +1014,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					searching: Morebits.select2.queryInterceptor,
 				},
 				templateResult: Morebits.select2.highlightSearchMatches,
-				placeholder: wgULS('选择要禁止用户编辑的命名空间', '選擇要禁止使用者編輯的命名空間'),
+				placeholder: window.wgULS('选择要禁止用户编辑的命名空间', '選擇要禁止使用者編輯的命名空間'),
 			});
 			mw.util.addCSS(
 				/* Reduce padding;
@@ -1055,13 +1060,13 @@ import {initMwApi} from 'ext.gadget.Util';
 			Morebits.status.init($body.find('div[name="currentblock"] span').last()[0]);
 			let statusStr = `${relevantUserName}已被${
 				Twinkle.block.currentBlockInfo.partial === ''
-					? wgULS('部分封禁', '部分封鎖')
-					: wgULS('全站封禁', '全站封鎖')
+					? window.wgULS('部分封禁', '部分封鎖')
+					: window.wgULS('全站封禁', '全站封鎖')
 			}`;
 			// Range blocked
 			if (Twinkle.block.currentBlockInfo.rangestart !== Twinkle.block.currentBlockInfo.rangeend) {
 				if (sameUser) {
-					statusStr += wgULS('（段封禁）', '（段封鎖）');
+					statusStr += window.wgULS('（段封禁）', '（段封鎖）');
 				} else {
 					// Change order
 					// Link to the full range
@@ -1077,28 +1082,33 @@ import {initMwApi} from 'ext.gadget.Util';
 						)
 					);
 					statusStr +=
-						wgULS('（位于', '（位於') + $rangeblockloglink.html() + wgULS('段封禁内）', '段封鎖內）');
+						wgULS('（位于', '（位於') +
+						$rangeblockloglink.html() +
+						window.wgULS('段封禁内）', '段封鎖內）');
 				}
 			}
 			if (Twinkle.block.currentBlockInfo.expiry === 'infinity') {
-				statusStr += wgULS('（无限期）', '（無限期）');
+				statusStr += window.wgULS('（无限期）', '（無限期）');
 			} else if (new Morebits.date(Twinkle.block.currentBlockInfo.expiry).isValid()) {
 				statusStr += `${
 					wgULS('（终止于', '（終止於') +
 					new Morebits.date(Twinkle.block.currentBlockInfo.expiry).calendar('utc')
 				}）`;
 			}
-			let infoStr = wgULS('此表单将', '此表單將');
+			let infoStr = window.wgULS('此表单将', '此表單將');
 			if (sameUser) {
-				infoStr += wgULS('更改封禁', '變更封鎖');
+				infoStr += window.wgULS('更改封禁', '變更封鎖');
 				if (Twinkle.block.currentBlockInfo.partial === undefined && partialBox) {
-					infoStr += wgULS('为部分封禁', '為部分封鎖');
+					infoStr += window.wgULS('为部分封禁', '為部分封鎖');
 				} else if (Twinkle.block.currentBlockInfo.partial === '' && !partialBox) {
-					infoStr += wgULS('为全站封禁', '為全站封鎖');
+					infoStr += window.wgULS('为全站封禁', '為全站封鎖');
 				}
 				infoStr += '。';
 			} else {
-				infoStr += wgULS('加上额外的', '加上額外的') + (partialBox ? '部分' : '') + wgULS('封禁。', '封鎖。');
+				infoStr +=
+					window.wgULS('加上额外的', '加上額外的') +
+					(partialBox ? '部分' : '') +
+					window.wgULS('封禁。', '封鎖。');
 			}
 			Morebits.status.warn(statusStr, infoStr);
 			// Default to the current block conditions on intial form generation
@@ -1126,7 +1136,9 @@ import {initMwApi} from 'ext.gadget.Util';
 				const blockAction = lastBlockAction.action === 'unblock' ? Twinkle.block.blockLog[1] : lastBlockAction;
 				blockloginfo.push(
 					`此${
-						Morebits.ip.isRange(relevantUserName) ? wgULS('IP范围', 'IP範圍') : wgULS('用户', '使用者')
+						Morebits.ip.isRange(relevantUserName)
+							? window.wgULS('IP范围', 'IP範圍')
+							: window.wgULS('用户', '使用者')
 					}曾在`,
 					$(`<b>${new Morebits.date(blockAction.timestamp).calendar('utc')}</b>`)[0],
 					`被${blockAction.user}${wgULS('封禁', '封鎖')}`,
@@ -1190,7 +1202,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			nocreate: true,
 			pageParam: true,
 			reasonParam: true,
-			summary: wgULS('封禁通知', '封鎖通知'),
+			summary: window.wgULS('封禁通知', '封鎖通知'),
 			suppressArticleInSummary: true,
 		},
 		'uw-blockindef': {
@@ -1200,14 +1212,14 @@ import {initMwApi} from 'ext.gadget.Util';
 			nocreate: true,
 			pageParam: true,
 			reasonParam: true,
-			summary: wgULS('封禁通知', '封鎖通知'),
+			summary: window.wgULS('封禁通知', '封鎖通知'),
 			suppressArticleInSummary: true,
 		},
 		'uw-blocknotalk': {
 			disabletalk: true,
 			pageParam: true,
 			reasonParam: true,
-			summary: wgULS('封禁通知：禁止编辑讨论页', '封鎖通知：禁止編輯討論頁'),
+			summary: window.wgULS('封禁通知：禁止编辑讨论页', '封鎖通知：禁止編輯討論頁'),
 			suppressArticleInSummary: true,
 		},
 		'uw-3block': {
@@ -1215,22 +1227,28 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('违反[[QW:3RR|回退不过三原则]]', '違反[[QW:3RR|回退不過三原則]]'),
-			summary: wgULS('封禁通知：违反[[QW:3RR|回退不过三原则]]', '封鎖通知：違反[[QW:3RR|回退不過三原則]]'),
+			reason: window.wgULS('违反[[QW:3RR|回退不过三原则]]', '違反[[QW:3RR|回退不過三原則]]'),
+			summary: window.wgULS('封禁通知：违反[[QW:3RR|回退不过三原则]]', '封鎖通知：違反[[QW:3RR|回退不過三原則]]'),
 		},
 		'uw-adblock': {
 			autoblock: true,
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('散发[[QW:SOAP|散发广告或宣传]]', '散發[[QW:SOAP|散發廣告或宣傳]]'),
-			summary: wgULS('封禁通知：散发[[QW:SOAP|散发广告或宣传]]', '封鎖通知：散發[[QW:SOAP|散發廣告或宣傳]]'),
+			reason: window.wgULS('散发[[QW:SOAP|散发广告或宣传]]', '散發[[QW:SOAP|散發廣告或宣傳]]'),
+			summary: window.wgULS(
+				'封禁通知：散发[[QW:SOAP|散发广告或宣传]]',
+				'封鎖通知：散發[[QW:SOAP|散發廣告或宣傳]]'
+			),
 		},
 		'uw-attackblock': {
 			autoblock: true,
 			expiry: '1 day',
 			nocreate: true,
-			reason: wgULS('[[QW:CIV|行为无礼]]或[[QW:NPA|人身攻击]]', '[[QW:CIV|行為無禮]]或[[QW:NPA|人身攻擊]]'),
-			summary: wgULS(
+			reason: window.wgULS(
+				'[[QW:CIV|行为无礼]]或[[QW:NPA|人身攻击]]',
+				'[[QW:CIV|行為無禮]]或[[QW:NPA|人身攻擊]]'
+			),
+			summary: window.wgULS(
 				'封禁通知：[[QW:CIV|行为无礼]]或[[QW:NPA|人身攻击]]',
 				'封鎖通知：[[QW:CIV|行為無禮]]或[[QW:NPA|人身攻擊]]'
 			),
@@ -1240,39 +1258,39 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: 'infinity',
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('持续[[QW:COPYVIO|侵犯著作权]]', '持續[[QW:COPYVIO|侵犯著作權]]'),
-			summary: wgULS('封禁通知：持续[[QW:COPYVIO|侵犯著作权]]', '封鎖通知：持續[[QW:COPYVIO|侵犯著作權]]'),
+			reason: window.wgULS('持续[[QW:COPYVIO|侵犯著作权]]', '持續[[QW:COPYVIO|侵犯著作權]]'),
+			summary: window.wgULS('封禁通知：持续[[QW:COPYVIO|侵犯著作权]]', '封鎖通知：持續[[QW:COPYVIO|侵犯著作權]]'),
 			templateName: 'uw-blockindef',
 		},
 		'uw-dblock': {
 			autoblock: true,
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('持续[[QW:VAN|删除内容]]', '持續[[QW:VAN|刪除內容]]'),
-			summary: wgULS('封禁通知：持续[[QW:VAN|删除内容]]', '封鎖通知：持續[[QW:VAN|刪除內容]]'),
+			reason: window.wgULS('持续[[QW:VAN|删除内容]]', '持續[[QW:VAN|刪除內容]]'),
+			summary: window.wgULS('封禁通知：持续[[QW:VAN|删除内容]]', '封鎖通知：持續[[QW:VAN|刪除內容]]'),
 		},
 		'uw-hblock': {
 			autoblock: true,
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('[[QW:骚扰|骚扰]]其他用户', '[[QW:騷擾|騷擾]]其他使用者'),
-			summary: wgULS('封禁通知：[[QW:骚扰|骚扰]]其他用户', '封鎖通知：[[QW:騷擾|騷擾]]其他使用者'),
+			reason: window.wgULS('[[QW:骚扰|骚扰]]其他用户', '[[QW:騷擾|騷擾]]其他使用者'),
+			summary: window.wgULS('封禁通知：[[QW:骚扰|骚扰]]其他用户', '封鎖通知：[[QW:騷擾|騷擾]]其他使用者'),
 		},
 		'uw-vblock': {
 			autoblock: true,
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('[[QW:VAN|破坏]]', '[[QW:VAN|破壞]]'),
-			summary: wgULS('封禁通知：[[QW:VAN|破坏]]', '封鎖通知：[[QW:VAN|破壞]]'),
+			reason: window.wgULS('[[QW:VAN|破坏]]', '[[QW:VAN|破壞]]'),
+			summary: window.wgULS('封禁通知：[[QW:VAN|破坏]]', '封鎖通知：[[QW:VAN|破壞]]'),
 		},
 		'uw-illegalblock': {
 			autoblock: true,
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
-			summary: wgULS(
+			reason: window.wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
+			summary: window.wgULS(
 				'封禁通知：持续加入不符合中国价值观的非法内容',
 				'封鎖通知：持續加入不符合中國價值觀的非法內容'
 			),
@@ -1282,8 +1300,8 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: '1 week',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: wgULS('滥用[[QW:SOCK|多个账号]]', '濫用[[QW:SOCK|多個賬號]]'),
-			summary: wgULS('封禁通知：滥用[[QW:SOCK|多个账号]]', '封鎖通知：濫用[[QW:SOCK|多個賬號]]'),
+			reason: window.wgULS('滥用[[QW:SOCK|多个账号]]', '濫用[[QW:SOCK|多個賬號]]'),
+			summary: window.wgULS('封禁通知：滥用[[QW:SOCK|多个账号]]', '封鎖通知：濫用[[QW:SOCK|多個賬號]]'),
 			templateName: 'uw-block',
 		},
 		// uw-u-prefixed
@@ -1291,7 +1309,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			reason: `{{uw-ublock}}<!-- ${wgULS('不当用户名、软封禁', '不當使用者名稱')} -->`,
-			summary: wgULS(
+			summary: window.wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
 			),
@@ -1302,7 +1320,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			forRegisteredOnly: true,
 			nocreate: true,
 			reason: `{{uw-ublock-illegal}}<!-- ${wgULS('不合规的用户名', '不合規的使用者名稱')} -->`,
-			summary: wgULS(
+			summary: window.wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
 			),
@@ -1313,7 +1331,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			forRegisteredOnly: true,
 			nocreate: true,
 			reason: `{{uw-ublock-suggestive}}<!-- ${wgULS('误导、混淆性用户名', '誤導、混淆性使用者名稱')} -->`,
-			summary: wgULS(
+			summary: window.wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
 			),
@@ -1324,7 +1342,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			forRegisteredOnly: true,
 			nocreate: true,
 			reason: `{{uw-ublock-spam}}<!-- ${wgULS('宣传性用户名或宣传性编辑', '宣傳性使用者名稱或宣傳性編輯')} -->`,
-			summary: wgULS(
+			summary: window.wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
 			),
@@ -1375,8 +1393,8 @@ import {initMwApi} from 'ext.gadget.Util';
 		'Bot block message': {
 			expiry: 'infinity',
 			forRegisteredOnly: true,
-			reason: wgULS('机器人故障', '機器人故障'),
-			summary: wgULS('封禁通知：机器人故障', '封鎖通知：機器人故障'),
+			reason: window.wgULS('机器人故障', '機器人故障'),
+			summary: window.wgULS('封禁通知：机器人故障', '封鎖通知：機器人故障'),
 			sig: '~~'.concat('~~'),
 		},
 		// other block reasons
@@ -1385,8 +1403,8 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('违反生者传记方针', '違反生者傳記方針'),
-			summary: wgULS('封禁通知：违反生者传记方针', '封鎖通知：違反生者傳記方針'),
+			reason: window.wgULS('违反生者传记方针', '違反生者傳記方針'),
+			summary: window.wgULS('封禁通知：违反生者传记方针', '封鎖通知：違反生者傳記方針'),
 			templateName: 'uw-vblock',
 		},
 		ucblock: {
@@ -1394,8 +1412,8 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('屡次增加没有[[QW:RS|可靠来源]]的资料', '屢次增加沒有[[QW:RS|可靠來源]]的資料'),
-			summary: wgULS(
+			reason: window.wgULS('屡次增加没有[[QW:RS|可靠来源]]的资料', '屢次增加沒有[[QW:RS|可靠來源]]的資料'),
+			summary: window.wgULS(
 				'封禁通知：屡次增加没有[[QW:RS|可靠来源]]的资料',
 				'封鎖通知：屢次增加沒有[[QW:RS|可靠來源]]的資料'
 			),
@@ -1406,8 +1424,8 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: wgULS('在条目中增加无意义文字', '在條目中增加無意義文字'),
-			summary: wgULS('封禁通知：在条目中增加无意义文字', '封鎖通知：在條目中增加無意義文字'),
+			reason: window.wgULS('在条目中增加无意义文字', '在條目中增加無意義文字'),
+			summary: window.wgULS('封禁通知：在条目中增加无意义文字', '封鎖通知：在條目中增加無意義文字'),
 			templateName: 'uw-vblock',
 		},
 		'point-block': {
@@ -1416,8 +1434,8 @@ import {initMwApi} from 'ext.gadget.Util';
 			nocreate: true,
 			pageParam: true,
 			reasonParam: true,
-			reason: wgULS('持续打制度擦边球', '持續打制度擦邊球'),
-			summary: wgULS('封禁通知：持续打制度擦边球', '封鎖通知：持續打制度擦邊球'),
+			reason: window.wgULS('持续打制度擦边球', '持續打制度擦邊球'),
+			summary: window.wgULS('封禁通知：持续打制度擦边球', '封鎖通知：持續打制度擦邊球'),
 			templateName: 'uw-block',
 		},
 		'sock-contribs': {
@@ -1426,11 +1444,14 @@ import {initMwApi} from 'ext.gadget.Util';
 			forRegisteredOnly: true,
 			nocreate: true,
 			reasonParam: true,
-			reason: wgULS(
+			reason: window.wgULS(
 				'确认为[[QW:SOCK|傀儡]]或真人傀儡 - 根据用户贡献确定',
 				'確認為[[QW:SOCK|傀儡]]或真人傀儡 - 根據使用者貢獻確定'
 			),
-			summary: wgULS('封禁通知：确认为[[QW:SOCK|傀儡]]或真人傀儡', '封鎖通知：確認為[[QW:SOCK|傀儡]]或真人傀儡'),
+			summary: window.wgULS(
+				'封禁通知：确认为[[QW:SOCK|傀儡]]或真人傀儡',
+				'封鎖通知：確認為[[QW:SOCK|傀儡]]或真人傀儡'
+			),
 			templateName: 'uw-blockindef',
 		},
 		'sock-cu': {
@@ -1439,11 +1460,14 @@ import {initMwApi} from 'ext.gadget.Util';
 			forRegisteredOnly: true,
 			nocreate: true,
 			reasonParam: true,
-			reason: wgULS(
+			reason: window.wgULS(
 				'确认为[[QW:SOCK|傀儡]]或真人傀儡 - 用户查核确认',
 				'確認為[[QW:SOCK|傀儡]]或真人傀儡 - 使用者查核確認'
 			),
-			summary: wgULS('封禁通知：确认为[[QW:SOCK|傀儡]]或真人傀儡', '封鎖通知：確認為[[QW:SOCK|傀儡]]或真人傀儡'),
+			summary: window.wgULS(
+				'封禁通知：确认为[[QW:SOCK|傀儡]]或真人傀儡',
+				'封鎖通知：確認為[[QW:SOCK|傀儡]]或真人傀儡'
+			),
 			templateName: 'uw-blockindef',
 		},
 		'uw-ublock-attack': {
@@ -1452,7 +1476,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			forRegisteredOnly: true,
 			nocreate: true,
 			reason: `{{uw-ublock-attack}}<!-- ${wgULS('攻击性用户名', '攻擊性使用者名稱')} -->`,
-			summary: wgULS('封禁通知：攻击性用户名', '封鎖通知：攻擊性使用者名稱'),
+			summary: window.wgULS('封禁通知：攻击性用户名', '封鎖通知：攻擊性使用者名稱'),
 		},
 		// Begin partial block templates, accessed in Twinkle.block.blockGroupsPartial
 		'uw-pblock': {
@@ -1461,7 +1485,10 @@ import {initMwApi} from 'ext.gadget.Util';
 			nocreate: false,
 			pageParam: false,
 			reasonParam: true,
-			summary: wgULS('封禁通知：您已被禁止编辑求闻百科的部分区域', '封鎖通知：您已被禁止編輯求聞百科的部分區域'),
+			summary: window.wgULS(
+				'封禁通知：您已被禁止编辑求闻百科的部分区域',
+				'封鎖通知：您已被禁止編輯求聞百科的部分區域'
+			),
 		},
 		'uw-pblockindef': {
 			autoblock: true,
@@ -1469,7 +1496,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			nocreate: false,
 			pageParam: false,
 			reasonParam: true,
-			summary: wgULS(
+			summary: window.wgULS(
 				'封禁通知：您已被永久禁止编辑求闻百科的部分区域',
 				'封鎖通知：您已被永久禁止編輯求聞百科的部分區域'
 			),
@@ -1513,60 +1540,69 @@ import {initMwApi} from 'ext.gadget.Util';
 	//   meta: <boolean, show in templates only>
 	Twinkle.block.blockGroups = [
 		{
-			label: wgULS('普通封禁', '普通封鎖'),
+			label: window.wgULS('普通封禁', '普通封鎖'),
 			list: [
-				{label: wgULS('通用封禁（自定义理由）', '通用封鎖（自訂理由）'), value: 'uw-block'},
+				{label: window.wgULS('通用封禁（自定义理由）', '通用封鎖（自訂理由）'), value: 'uw-block'},
 				{
-					label: wgULS('无限期封禁（自定义理由）', '無限期封鎖（自訂理由）'),
+					label: window.wgULS('无限期封禁（自定义理由）', '無限期封鎖（自訂理由）'),
 					value: 'uw-blockindef',
 				},
-				{label: wgULS('禁止编辑讨论页', '禁止編輯討論頁'), value: 'uw-blocknotalk', meta: true},
-				{label: wgULS('违反回退不过三原则', '違反回退不過三原則'), value: 'uw-3block'},
-				{label: wgULS('散发广告或宣传', '散發廣告或宣傳'), value: 'uw-adblock'},
-				{label: wgULS('行为无礼或人身攻击', '行為無禮或人身攻擊'), value: 'uw-attackblock'},
-				{label: wgULS('多次加入侵犯著作权的内容', '多次加入侵犯著作權的內容'), value: 'uw-copyrightblock'},
-				{label: wgULS('无故删除内容', '無故刪除內容'), value: 'uw-dblock'},
-				{label: wgULS('骚扰用户', '騷擾使用者'), value: 'uw-hblock'},
-				{label: wgULS('破坏', '破壞'), value: 'uw-vblock', selected: true},
+				{label: window.wgULS('禁止编辑讨论页', '禁止編輯討論頁'), value: 'uw-blocknotalk', meta: true},
+				{label: window.wgULS('违反回退不过三原则', '違反回退不過三原則'), value: 'uw-3block'},
+				{label: window.wgULS('散发广告或宣传', '散發廣告或宣傳'), value: 'uw-adblock'},
+				{label: window.wgULS('行为无礼或人身攻击', '行為無禮或人身攻擊'), value: 'uw-attackblock'},
 				{
-					label: wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
+					label: window.wgULS('多次加入侵犯著作权的内容', '多次加入侵犯著作權的內容'),
+					value: 'uw-copyrightblock',
+				},
+				{label: window.wgULS('无故删除内容', '無故刪除內容'), value: 'uw-dblock'},
+				{label: window.wgULS('骚扰用户', '騷擾使用者'), value: 'uw-hblock'},
+				{label: window.wgULS('破坏', '破壞'), value: 'uw-vblock', selected: true},
+				{
+					label: window.wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
 					value: 'uw-illegalblock',
 				},
-				{label: wgULS('滥用多个账号', '濫用多個賬號'), value: 'uw-sockblock'},
+				{label: window.wgULS('滥用多个账号', '濫用多個賬號'), value: 'uw-sockblock'},
 				// other block reasons
-				{label: wgULS('违反生者传记方针', '違反生者傳記方針'), value: 'bioblock'},
-				{label: wgULS('屡次增加没有可靠来源的资料', '屢次增加沒有可靠來源的資料'), value: 'ucblock'},
-				{label: wgULS('在条目中增加无意义文字', '在條目中增加無意義文字'), value: 'npblock'},
-				{label: wgULS('持续打制度擦边球', '持續打制度擦邊球'), value: 'point-block'},
+				{label: window.wgULS('违反生者传记方针', '違反生者傳記方針'), value: 'bioblock'},
+				{label: window.wgULS('屡次增加没有可靠来源的资料', '屢次增加沒有可靠來源的資料'), value: 'ucblock'},
+				{label: window.wgULS('在条目中增加无意义文字', '在條目中增加無意義文字'), value: 'npblock'},
+				{label: window.wgULS('持续打制度擦边球', '持續打制度擦邊球'), value: 'point-block'},
 				{
-					label: wgULS(
+					label: window.wgULS(
 						'确认为傀儡或真人傀儡（根据用户贡献确定）',
 						'確認為傀儡或真人傀儡（根據使用者貢獻確定）'
 					),
 					value: 'sock-contribs',
 				},
 				{
-					label: wgULS('确认为傀儡或真人傀儡（用户查核确认）', '確認為傀儡或真人傀儡（使用者查核確認）'),
+					label: window.wgULS(
+						'确认为傀儡或真人傀儡（用户查核确认）',
+						'確認為傀儡或真人傀儡（使用者查核確認）'
+					),
 					value: 'sock-cu',
 				},
 				{
-					label: wgULS('机器人发生故障并必须紧急停止', '機器人發生故障並必須緊急停止'),
+					label: window.wgULS('机器人发生故障并必须紧急停止', '機器人發生故障並必須緊急停止'),
 					value: 'Bot block message',
 				},
 			],
 		},
 		{
 			custom: true,
-			label: wgULS('自定义封禁理由', '自訂封鎖理由'),
+			label: window.wgULS('自定义封禁理由', '自訂封鎖理由'),
 		},
 		{
-			label: wgULS('用户名封禁', '使用者名稱封鎖'),
+			label: window.wgULS('用户名封禁', '使用者名稱封鎖'),
 			list: [
-				{label: wgULS('违反用户名方针', '違反使用者名稱方針'), value: 'uw-ublock'},
-				{label: wgULS('不合规的用户名', '不合規的使用者名稱'), value: 'uw-ublock-illegal'},
-				{label: wgULS('宣传性用户名', '宣傳性使用者名稱'), value: 'uw-ublock-spam'},
-				{label: wgULS('攻击性用户名', '攻擊性使用者名稱'), value: 'uw-ublock-attack'},
-				{label: wgULS('混淆性或误导性用户名', '混淆性或誤導性使用者名稱'), value: 'uw-ublock-suggestive'},
+				{label: window.wgULS('违反用户名方针', '違反使用者名稱方針'), value: 'uw-ublock'},
+				{label: window.wgULS('不合规的用户名', '不合規的使用者名稱'), value: 'uw-ublock-illegal'},
+				{label: window.wgULS('宣传性用户名', '宣傳性使用者名稱'), value: 'uw-ublock-spam'},
+				{label: window.wgULS('攻击性用户名', '攻擊性使用者名稱'), value: 'uw-ublock-attack'},
+				{
+					label: window.wgULS('混淆性或误导性用户名', '混淆性或誤導性使用者名稱'),
+					value: 'uw-ublock-suggestive',
+				},
 			],
 		},
 		{
@@ -1576,12 +1612,12 @@ import {initMwApi} from 'ext.gadget.Util';
 				{label: 'school block', value: 'school block', forAnonOnly: true},
 				{label: 'blocked proxy', value: 'blocked proxy', forAnonOnly: true},
 				{
-					label: wgULS('用户查核封禁（主用户）', '使用者查核封鎖（主使用者）'),
+					label: window.wgULS('用户查核封禁（主用户）', '使用者查核封鎖（主使用者）'),
 					value: 'checkuserblock',
 					forAnonOnly: true,
 				},
 				{
-					label: wgULS('用户查核封禁（子用户）', '使用者查核封鎖（子使用者）'),
+					label: window.wgULS('用户查核封禁（子用户）', '使用者查核封鎖（子使用者）'),
 					value: 'checkuserblock-account',
 					forRegisteredOnly: true,
 				},
@@ -1590,15 +1626,15 @@ import {initMwApi} from 'ext.gadget.Util';
 	];
 	Twinkle.block.blockGroupsPartial = [
 		{
-			label: wgULS('常见部分封禁理由', '常見部分封鎖理由'),
+			label: window.wgULS('常见部分封禁理由', '常見部分封鎖理由'),
 			list: [
 				{
-					label: wgULS('通用部分封禁（自定义理由）', '通用部分封鎖（自訂理由）'),
+					label: window.wgULS('通用部分封禁（自定义理由）', '通用部分封鎖（自訂理由）'),
 					value: 'uw-pblock',
 					selected: true,
 				},
 				{
-					label: wgULS('无限期部分封禁（自定义理由）', '無限期部分封鎖（自訂理由）'),
+					label: window.wgULS('无限期部分封禁（自定义理由）', '無限期部分封鎖（自訂理由）'),
 					value: 'uw-pblockindef',
 				},
 			],
@@ -1617,7 +1653,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					templates = Morebits.array.uniq(templates);
 					blockGroup.list = $.map(templates, (template) => {
 						return {
-							label: wgULS('自定义模板', '自訂模板'),
+							label: window.wgULS('自定义模板', '自訂模板'),
 							value: template,
 						};
 					});
@@ -2105,20 +2141,20 @@ import {initMwApi} from 'ext.gadget.Util';
 				const user = data.query.users ? data.query.users[0] : null;
 				const logid = data.query.logevents.length ? logevents.logid : false;
 				if (logid !== Twinkle.block.blockLogId || !!block !== !!Twinkle.block.currentBlockInfo) {
-					let message = blockoptions.user + wgULS('的封禁状态已被修改。', '的封鎖狀態已被修改。');
+					let message = blockoptions.user + window.wgULS('的封禁状态已被修改。', '的封鎖狀態已被修改。');
 					if (block) {
-						message += wgULS('新状态：', '新狀態：');
+						message += window.wgULS('新状态：', '新狀態：');
 					} else {
-						message += wgULS('最新日志：', '最新日誌：');
+						message += window.wgULS('最新日志：', '最新日誌：');
 					}
 					let logExpiry = '';
 					if (logevents.params.duration) {
 						if (logevents.params.duration === 'infinity') {
-							logExpiry = wgULS('无限期', '無限期');
+							logExpiry = window.wgULS('无限期', '無限期');
 						} else {
 							const expiryDate = new Morebits.date(logevents.params.expiry);
 							logExpiry +=
-								(expiryDate.isBefore(new Date()) ? wgULS('过期于', '過期於') : '直到') +
+								(expiryDate.isBefore(new Date()) ? window.wgULS('过期于', '過期於') : '直到') +
 								expiryDate.calendar();
 						}
 					} else {
@@ -2129,7 +2165,10 @@ import {initMwApi} from 'ext.gadget.Util';
 						blockActionText[logevents.action]
 					}${logExpiry}${wgULS('，你想要以你的设置更改封禁吗？', '，你想要以你的設定變更封鎖嗎？')}`;
 					if (!confirm(message)) {
-						Morebits.status.info(wgULS('执行封禁', '執行封鎖'), wgULS('用户取消操作', '使用者取消操作'));
+						Morebits.status.info(
+							wgULS('执行封禁', '執行封鎖'),
+							window.wgULS('用户取消操作', '使用者取消操作')
+						);
 						return;
 					}
 					blockoptions.reblock = 1; // Writing over a block will fail otherwise
@@ -2179,7 +2218,7 @@ import {initMwApi} from 'ext.gadget.Util';
 								action: 'userrights',
 								user: blockoptions.user,
 								remove: groupsToBeRemoved.join('|'),
-								reason: wgULS('用户已被无限期封禁', '使用者已被無限期封鎖'),
+								reason: window.wgULS('用户已被无限期封禁', '使用者已被無限期封鎖'),
 								token: data.query.tokens.userrightstoken,
 								tags: Twinkle.changeTags,
 							};
@@ -2203,7 +2242,10 @@ import {initMwApi} from 'ext.gadget.Util';
 			Morebits.simpleWindow.setButtonsEnabled(false);
 			Morebits.status.init(e.target);
 			const userPage = `User:${mw.config.get('wgRelevantUserName')}`;
-			const qiuwen_page = new Morebits.wiki.page(userPage, wgULS('标记或保护用户页', '標記或保護使用者頁面'));
+			const qiuwen_page = new Morebits.wiki.page(
+				userPage,
+				window.wgULS('标记或保护用户页', '標記或保護使用者頁面')
+			);
 			qiuwen_page.setCallbackParameters(params);
 			qiuwen_page.load(Twinkle.block.callback.taguserpage);
 		}
@@ -2301,7 +2343,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			pageobj.protect(() => {
 				Morebits.status.info(
 					wgULS('保护用户页', '保護使用者頁面'),
-					pageobj.exists() ? wgULS('已全保护', '已全保護') : wgULS('已白纸保护', '已白紙保護')
+					pageobj.exists() ? window.wgULS('已全保护', '已全保護') : window.wgULS('已白纸保护', '已白紙保護')
 				);
 				statelem.info('全部完成');
 			});
@@ -2323,11 +2365,11 @@ import {initMwApi} from 'ext.gadget.Util';
 			nocreate: Twinkle.block.field_template_options.nocreate_template,
 		};
 		Morebits.wiki.actionCompleted.redirect = userTalkPage;
-		Morebits.wiki.actionCompleted.notice = wgULS(
+		Morebits.wiki.actionCompleted.notice = window.wgULS(
 			'完成，将在几秒后加载用户讨论页',
 			'完成，將在幾秒後載入使用者討論頁'
 		);
-		const qiuwen_page = new Morebits.wiki.page(userTalkPage, wgULS('用户讨论页修改', '使用者討論頁修改'));
+		const qiuwen_page = new Morebits.wiki.page(userTalkPage, window.wgULS('用户讨论页修改', '使用者討論頁修改'));
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.load(Twinkle.block.callback.main);
 	};
@@ -2370,13 +2412,13 @@ import {initMwApi} from 'ext.gadget.Util';
 		text = requestList.join('');
 		let summary;
 		if (hidename) {
-			summary = wgULS('标记为已处理', '標記為已處理');
+			summary = window.wgULS('标记为已处理', '標記為已處理');
 		} else {
 			summary = `/* ${userName} */ `;
 			if (Morebits.string.isInfinity(params.expiry)) {
-				summary += wgULS('不限期封禁', '不限期封鎖');
+				summary += window.wgULS('不限期封禁', '不限期封鎖');
 			} else {
-				summary += wgULS('封禁', '封鎖') + expiryText;
+				summary += window.wgULS('封禁', '封鎖') + expiryText;
 			}
 		}
 		vipPage.setEditSummary(summary);
