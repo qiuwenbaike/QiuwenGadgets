@@ -5,6 +5,5 @@
 	"actions": ["edit", "submit"],
 	"default": true,
 	"dependencies": ["mediawiki.storage"],
-	"peers": ["Wikicache-pagestyles"],
 	"rights": ["edit"]
 }
