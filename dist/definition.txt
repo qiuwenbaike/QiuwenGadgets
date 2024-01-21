@@ -82,7 +82,7 @@
 * Switcher[ResourceLoader|default|hidden|requiresES6]|Switcher.js
 * Tippy[ResourceLoader|hidden|requiresES6]|Tippy.js|Tippy.css
 * Toastify[ResourceLoader|hidden|requiresES6]|Toastify.js|Toastify.css
-* Util[ResourceLoader|hidden|requiresES6]|Util.js
+* Util[ResourceLoader|dependencies=ext.gadget.React|hidden|requiresES6]|Util.js
 
 == edit ==
 * Cat-a-lot[ResourceLoader|actions=view|dependencies=ext.gadget.Util,jquery.ui,mediawiki.jqueryMsg,mediawiki.util|peers=Cat-a-lot-pagestyles|rights=skipcaptcha|requiresES6]|Cat-a-lot.js
