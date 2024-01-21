@@ -1,5 +1,6 @@
 import {type rrdConfig, type rrdConfigCheckBoxes, type rrdConfigOthers} from './types';
 import {RRD_PAGE} from './constant';
+import React from 'ext.gadget.React';
 import {initMwApi} from 'ext.gadget.Util';
 import {message} from './messages';
 
@@ -49,9 +50,7 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 		};
 		const {query} = await api.get(params);
 		let content: string | undefined;
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		if (query.pages) {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 			[{content}] = query.pages[0].revisions;
 		}
 		if (content === undefined) {
@@ -68,12 +67,9 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 				summary: message.edit_summary,
 			};
 			const result = await api.postWithEditToken(_params);
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			if (result['edit']?.result === 'Success') {
 				location.replace(mw.util.getUrl(RRD_PAGE));
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			} else if (result['error']?.code) {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				void mw.notify(`Some errors occured while saving page: ${result['error'].code}`, {
 					tag: 'RRD',
 					type: 'error',
@@ -93,32 +89,33 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 };
 
 const updateConfig = (): void => {
-	const $body: JQuery<HTMLBodyElement> = $('body');
 	const checkBoxes: rrdConfigCheckBoxes = {};
-	if ($body.find('#rrdHideContent').prop('checked')) {
+	if (document.querySelector('#rrdHideContent')?.hasAttribute('checked')) {
 		checkBoxes.rrdHideContent = true;
 	}
-	if ($body.find('#rrdHideUsername').prop('checked')) {
+	if (document.querySelector('#rrdHideUsername')?.hasAttribute('checked')) {
 		checkBoxes.rrdHideUsername = true;
 	}
-	if ($body.find('#rrdHideSummary').prop('checked')) {
+	if (document.querySelector('#rrdHideSummary')?.hasAttribute('checked')) {
 		checkBoxes.rrdHideSummary = true;
 	}
 	config.checkboxes = checkBoxes;
 	const others: rrdConfigOthers = {
-		rrdReason: $body.find('#rrdReason').val()?.toString(),
-		rrdOtherReasons: $body.find('#rrdOtherReasons').val()?.toString(),
+		rrdReason: (document.querySelector('#rrdReason') as HTMLInputElement)?.value,
+		rrdOtherReasons: (document.querySelector('#rrdOtherReasons') as HTMLInputElement)?.value,
 	};
 	config.others = others;
 };
 
 const loadConfig = (): void => {
 	for (const [key, val] of Object.entries(config.others)) {
-		$(`#${key}`).val(val as string);
+		if (document.querySelector(`#${key}`) !== null) {
+			(document.querySelector(`#${key}`) as HTMLInputElement).value = val;
+		}
 	}
 	for (const [key, val] of Object.entries(config.checkboxes)) {
-		if (val === true) {
-			$(`#${key}`).prop('checked', true);
+		if (val === true && document.querySelector(`#${key}`) !== null) {
+			(document.querySelector(`#${key}`) as HTMLInputElement).setAttribute('checked', '');
 		}
 	}
 };
@@ -129,11 +126,47 @@ const showDialog = (): void => {
 		void mw.notify(message.err_no_revision_provided, {tag: 'RRD', type: 'error'});
 		return;
 	}
-	const html: string = `<div id="rrdConfig">${
-		message.hide_items
-	}<br><div style="float: left; padding: 0 5px;"><input name="content" id="rrdHideContent" type="checkbox" value="content" checked>${`<label for="rrdHideContent" id="rrd-content">${
-		isLog ? message.hide_log : message.hide_content
-	}</label>`}</div><div style="float: left; padding: 0 5px;"><input name="username" id="rrdHideUsername" type="checkbox" value="username">${`<label for="rrdHideUsername" id="rrd-username">${message.hide_username}</label>`}</div><div style="float: left; padding: 0 5px;"><input name="summary" id="rrdHideSummary" type="checkbox" value="summary">${`<label for="rrdHideSummary" id="rrd-summary">${message.hide_summary}</label>`}${`</div><br><br>${message.hide_reason}<br>`}<select name="rrdReason" id="rrdReason">${`<option value="${message.hide_reason_rd1}">`}${`RD1：${message.hide_reason_rd1}</option>`}${`<option value="${message.hide_reason_rd2}">`}${`RD2：${message.hide_reason_rd2}</option>`}${`<option value="${message.hide_reason_rd3}">`}${`RD3：${message.hide_reason_rd3}</option>`}${`<option value="${message.hide_reason_rd4}">`}${`RD4：${message.hide_reason_rd4}</option>`}${`<option value="${message.hide_reason_rd5}">`}${`RD5：${message.hide_reason_rd5}</option>`}${`<option value="">${message.hide_reason_other}</option>`}</select>${`<br><br>${message.other_reasons}<br>`}<textarea name="otherReasons" id="rrdOtherReasons" rows="4"></textarea></div>`;
+	const html = (
+		<div id="rrdConfig">
+			{message.hide_items}
+			<br />
+			<div style="float: left; padding: 0 5px;">
+				<input name="content" id="rrdHideContent" type="checkbox" value="content" checked />
+				<label htmlFor="rrdHideContent" id="rrd-content">
+					{isLog ? message.hide_log : message.hide_content}
+				</label>
+			</div>
+			<div style="float: left; padding: 0 5px;">
+				<input name="username" id="rrdHideUsername" type="checkbox" value="username" />
+				<label htmlFor="rrdHideUsername" id="rrd-username">
+					{message.hide_username}
+				</label>
+			</div>
+			<div style="float: left; padding: 0 5px;">
+				<input name="summary" id="rrdHideSummary" type="checkbox" value="summary" />
+				<label htmlFor="rrdHideSummary" id="rrd-summary">
+					{message.hide_summary}
+				</label>
+			</div>
+			<br />
+			<br />
+			{message.hide_reason}
+			<br />
+			<select name="rrdReason" id="rrdReason">
+				<option value={message.hide_reason_rd1}>RD1：{message.hide_reason_rd1}</option>
+				<option value={message.hide_reason_rd2}>RD2：{message.hide_reason_rd2}</option>
+				<option value={message.hide_reason_rd3}>RD3：{message.hide_reason_rd3}</option>
+				<option value={message.hide_reason_rd4}>RD4：{message.hide_reason_rd4}</option>
+				<option value={message.hide_reason_rd5}>RD5：{message.hide_reason_rd5}</option>
+				<option value="">{message.hide_reason_other}</option>
+			</select>
+			<br />
+			<br />
+			{message.other_reasons}
+			<br />
+			<textarea name="otherReasons" id="rrdOtherReasons" rows={4}></textarea>
+		</div>
+	);
 	if ($dialog) {
 		$dialog.html(html).dialog('open');
 		loadConfig();
@@ -188,20 +221,21 @@ const showDialog = (): void => {
 };
 
 export const main = (): void => {
-	const $report: JQuery = $('<button>')
-		.addClass('historysubmit mw-history-rrd mw-ui-button')
-		.attr({
-			name: 'reportRRD',
-			type: 'button',
-			title: message.report_button_title + RRD_PAGE,
-		})
-		.text(isLog ? message.report_button_log_text : message.report_button_text);
-	$report.on('click', showDialog);
-	const $body: JQuery<HTMLBodyElement> = $('body');
+	const reportButton = (
+		<button
+			className={['historysubmit', 'mw-history-rrd', 'cdx-button']}
+			name={'reportRRD'}
+			type={'button'}
+			title={message.report_button_title + RRD_PAGE}
+			onClick={showDialog}
+		>
+			{isLog ? message.report_button_log_text : message.report_button_text}
+		</button>
+	);
 	// For action=history and Special:Log
-	$body
-		.find(
-			'.historysubmit.mw-history-compareselectedversions-button, .editchangetags-log-submit.mw-log-editchangetags-button'
-		)
-		.after($report);
+	for (const element of document.querySelectorAll(
+		'.historysubmit.mw-history-compareselectedversions-button, .editchangetags-log-submit.mw-log-editchangetags-button'
+	)) {
+		element.after(reportButton);
+	}
 };
