@@ -43,7 +43,7 @@
 		const delNode = document.createElement('strong');
 		const delLink = document.createElement('a');
 		delLink.appendChild(spanTag('Black', '['));
-		delLink.appendChild(spanTag('Red', wgULS('关闭讨论', '關閉討論')));
+		delLink.appendChild(spanTag('Red', window.wgULS('关闭讨论', '關閉討論')));
 		delLink.appendChild(spanTag('Black', ']'));
 		delNode.appendChild(delLink);
 		for (const current of titles) {
@@ -79,22 +79,22 @@
 	// Keep this synchronized with {{delh}}
 	Twinkle.close.codes = [
 		{
-			key: wgULS('请求无效', '請求無效'),
+			key: window.wgULS('请求无效', '請求無效'),
 			value: {
 				ir: {
-					label: wgULS('请求无效', '請求無效'),
+					label: window.wgULS('请求无效', '請求無效'),
 					action: 'keep',
 				},
 				rep: {
-					label: wgULS('重复提出，无效', '重複提出，無效'),
+					label: window.wgULS('重复提出，无效', '重複提出，無效'),
 					action: 'keep',
 				},
 				ne: {
-					label: wgULS('目标页面或文件不存在，无效', '目標頁面或檔案不存在，無效'),
+					label: window.wgULS('目标页面或文件不存在，无效', '目標頁面或檔案不存在，無效'),
 					action: 'keep',
 				},
 				nq: {
-					label: wgULS('提删者未获取提删资格，无效', '提刪者未取得提刪資格，無效'),
+					label: window.wgULS('提删者未获取提删资格，无效', '提刪者未取得提刪資格，無效'),
 					action: 'keep',
 				},
 			},
@@ -112,65 +112,65 @@
 					action: 'keep',
 				},
 				tk: {
-					label: wgULS('暂时保留，改挂维护模板（关注度等）', '暫時保留，改掛維護模板（關注度等）'),
-					value: wgULS('暂时保留', '暫時保留'),
+					label: window.wgULS('暂时保留，改挂维护模板（关注度等）', '暫時保留，改掛維護模板（關注度等）'),
+					value: window.wgULS('暂时保留', '暫時保留'),
 					action: 'keep',
 				},
 				rr: {
-					label: wgULS('请求理由消失', '請求理由消失'),
+					label: window.wgULS('请求理由消失', '請求理由消失'),
 					action: 'keep',
 					selected: Twinkle.getPref('XfdClose') === 'nonadminonly',
 				},
 				dan: {
-					label: wgULS('删后重建', '刪後重建'),
+					label: window.wgULS('删后重建', '刪後重建'),
 					action: 'keep',
 					adminonly: true,
 				},
 			},
 		},
 		{
-			key: wgULS('删除', '刪除'),
+			key: window.wgULS('删除', '刪除'),
 			value: {
 				d: {
-					label: wgULS('删除', '刪除'),
+					label: window.wgULS('删除', '刪除'),
 					action: 'del',
 					adminonly: true,
 					selected: Twinkle.getPref('XfdClose') === 'all',
 				},
 				ic: {
-					label: wgULS('图像因侵权被删', '圖像因侵權被刪'),
+					label: window.wgULS('图像因侵权被删', '圖像因侵權被刪'),
 					action: 'del',
 					adminonly: true,
 				},
 			},
 		},
 		{
-			key: wgULS('快速删除', '快速刪除'),
+			key: window.wgULS('快速删除', '快速刪除'),
 			value: {
 				sd: {
-					label: wgULS('快速删除', '快速刪除'),
+					label: window.wgULS('快速删除', '快速刪除'),
 					action: 'del',
 				},
 				lssd: {
-					label: wgULS('无来源或著作权信息，快速删除', '無來源或版權資訊，快速刪除'),
+					label: window.wgULS('无来源或著作权信息，快速删除', '無來源或版權資訊，快速刪除'),
 					action: 'del',
 				},
 				svg: {
-					label: wgULS('已改用SVG图形，快速删除', '已改用SVG圖形，快速刪除'),
+					label: window.wgULS('已改用SVG图形，快速删除', '已改用SVG圖形，快速刪除'),
 					action: 'del',
 				},
 				drep: {
-					label: wgULS('多次被删除，条目锁定', '多次被刪除，條目鎖定'),
+					label: window.wgULS('多次被删除，条目锁定', '多次被刪除，條目鎖定'),
 					action: 'del',
 					adminonly: true,
 				},
 			},
 		},
 		{
-			key: wgULS('其他处理方法', '其他處理方法'),
+			key: window.wgULS('其他处理方法', '其他處理方法'),
 			value: {
 				c: {
-					label: wgULS('转交侵权', '轉交侵權'),
+					label: window.wgULS('转交侵权', '轉交侵權'),
 					action: 'noop',
 				},
 				r: {
@@ -179,28 +179,28 @@
 					adminonly: true,
 				},
 				cr: {
-					label: wgULS('分类重定向', '分類重定向'),
+					label: window.wgULS('分类重定向', '分類重定向'),
 					action: 'keep',
 					adminonly: true,
 				},
 				m: {
-					label: wgULS('移动', '移動'),
+					label: window.wgULS('移动', '移動'),
 					action: 'keep',
 					adminonly: true,
 				},
 				merge: {
-					label: wgULS('并入', '併入'),
+					label: window.wgULS('并入', '併入'),
 					action: 'keep',
 					adminonly: true,
 				},
 				mergeapproved: {
-					label: wgULS('允许并入', '允許併入'),
+					label: window.wgULS('允许并入', '允許併入'),
 					action: 'keep',
 					adminonly: true,
 				},
 				nc: {
-					label: wgULS('无共识暂时保留', '無共識暫時保留'),
-					value: wgULS('无共识', '無共識'),
+					label: window.wgULS('无共识暂时保留', '無共識暫時保留'),
+					value: window.wgULS('无共识', '無共識'),
 					action: 'keep',
 				},
 			},
@@ -500,12 +500,12 @@
 				return;
 			}
 			const redirectDeleter = new Morebits.batchOperation(
-				wgULS('正在删除到 ', '正在刪除到 ') + apiobj.params.title + wgULS(' 的重定向', ' 的重新導向')
+				wgULS('正在删除到 ', '正在刪除到 ') + apiobj.params.title + window.wgULS(' 的重定向', ' 的重新導向')
 			);
 			redirectDeleter.setOption('chunkSize', Twinkle.getPref('batchdeleteChunks'));
 			redirectDeleter.setPageList(pages);
 			redirectDeleter.run((pageName) => {
-				const qiuwen_page = new Morebits.wiki.page(pageName, wgULS('正在删除 ', '正在刪除 ') + pageName);
+				const qiuwen_page = new Morebits.wiki.page(pageName, window.wgULS('正在删除 ', '正在刪除 ') + pageName);
 				qiuwen_page.setEditSummary(
 					`[[QW:CSD#G5|G5]]：${wgULS('指向已删页面“', '指向已刪頁面「')}${apiobj.params.title}${wgULS(
 						'”的重定向',
@@ -525,7 +525,7 @@
 			}
 			const page = new Morebits.wiki.page(
 				apiobj.params.talkPage,
-				wgULS('正在删除页面 ', '正在刪除頁面 ') + apiobj.params.title + wgULS(' 的讨论页', ' 的討論頁')
+				wgULS('正在删除页面 ', '正在刪除頁面 ') + apiobj.params.title + window.wgULS(' 的讨论页', ' 的討論頁')
 			);
 			page.setEditSummary(
 				`[[QW:CSD#G5|G5]]：${wgULS('已删页面“', '已刪頁面「')}${apiobj.params.title}${wgULS(
@@ -547,7 +547,10 @@
 			const pagetitle = mw.Title.newFromText(params.title);
 			if (pagetitle.getNamespaceId() % 2 === 0) {
 				const talkpagetitle = new mw.Title(pagetitle.getMainText(), pagetitle.getNamespaceId() + 1);
-				const talkpage = new Morebits.wiki.page(talkpagetitle.toString(), wgULS('标记讨论页', '標記討論頁'));
+				const talkpage = new Morebits.wiki.page(
+					talkpagetitle.toString(),
+					window.wgULS('标记讨论页', '標記討論頁')
+				);
 				const reason = params.messageData.value || params.messageData.label;
 				const vfdkept = `{{Old vfd multi|${mw.config
 					.get('wgPageName')

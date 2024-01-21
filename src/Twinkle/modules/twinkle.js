@@ -208,8 +208,8 @@ import {WG_WIKI_ID} from './constant';
 		markTalkbackAsMinor: true,
 		insertTalkbackSignature: true,
 		// always sign talkback templates
-		talkbackHeading: wgULS('回复通告', '回覆通告'),
-		mailHeading: wgULS('您有新邮件！', '您有新郵件！'),
+		talkbackHeading: window.wgULS('回复通告', '回覆通告'),
+		mailHeading: window.wgULS('您有新邮件！', '您有新郵件！'),
 	};
 	// now some skin dependent config.
 	switch (mw.config.get('skin')) {

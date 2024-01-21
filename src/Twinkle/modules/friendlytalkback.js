@@ -14,7 +14,12 @@
 		if (!mw.config.get('wgRelevantUserName')) {
 			return;
 		}
-		Twinkle.addPortletLink(Twinkle.talkback.callback, '通告', 'friendly-talkback', wgULS('回复通告', '回覆通告'));
+		Twinkle.addPortletLink(
+			Twinkle.talkback.callback,
+			'通告',
+			'friendly-talkback',
+			window.wgULS('回复通告', '回覆通告')
+		);
 	};
 	Twinkle.talkback.callback = () => {
 		if (
@@ -35,20 +40,20 @@
 			name: 'tbtarget',
 			list: [
 				{
-					label: wgULS('回复：我的讨论页', '回覆：我的討論頁'),
+					label: window.wgULS('回复：我的讨论页', '回覆：我的討論頁'),
 					value: 'mytalk',
 					checked: 'true',
 				},
 				{
-					label: wgULS('回复：其他用户的讨论页', '回覆：其他使用者的討論頁'),
+					label: window.wgULS('回复：其他用户的讨论页', '回覆：其他使用者的討論頁'),
 					value: 'usertalk',
 				},
 				{
-					label: wgULS('回复：其它页面', '回覆：其它頁面'),
+					label: window.wgULS('回复：其它页面', '回覆：其它頁面'),
 					value: 'other',
 				},
 				{
-					label: wgULS('邀请讨论', '邀請討論'),
+					label: window.wgULS('邀请讨论', '邀請討論'),
 					value: 'see',
 				},
 				{
@@ -56,7 +61,7 @@
 					value: 'notice',
 				},
 				{
-					label: wgULS('“有新邮件”', '「有新郵件」'),
+					label: window.wgULS('“有新邮件”', '「有新郵件」'),
 					value: 'mail',
 				},
 			],
@@ -73,7 +78,7 @@
 		});
 
 		previewlink.style.cursor = 'pointer';
-		previewlink.textContent = wgULS('预览', '預覽');
+		previewlink.textContent = window.wgULS('预览', '預覽');
 		form.append({
 			type: 'div',
 			id: 'talkbackpreview',
@@ -115,7 +120,7 @@
 		const $el = $(apiobj.getXML()).find('el');
 		if ($el.length) {
 			Twinkle.talkback.optout =
-				mw.config.get('wgRelevantUserName') + wgULS('不希望收到回复通告', '不希望收到回覆通告');
+				mw.config.get('wgRelevantUserName') + window.wgULS('不希望收到回复通告', '不希望收到回覆通告');
 			const url = $el.text();
 			const reason = mw.util.getParamValue('reason', url);
 			Twinkle.talkback.optout += reason ? `：${Morebits.string.appendPunctuation(reason)}` : '。';
@@ -140,7 +145,7 @@
 		}
 		let work_area = new Morebits.quickForm.element({
 			type: 'field',
-			label: wgULS('回复通告信息', '回覆通告資訊'),
+			label: window.wgULS('回复通告信息', '回覆通告資訊'),
 			name: 'work_area',
 		});
 		root.previewer.closePreview();
@@ -155,16 +160,16 @@
 				work_area.append({
 					type: 'input',
 					name: 'page',
-					label: wgULS('用户（必填）', '使用者（必填）'),
-					tooltip: wgULS('您留言页面的用户名，必填。', '您留言頁面的使用者名稱，必填。'),
+					label: window.wgULS('用户（必填）', '使用者（必填）'),
+					tooltip: window.wgULS('您留言页面的用户名，必填。', '您留言頁面的使用者名稱，必填。'),
 					value: prev_page,
 					required: true,
 				});
 				work_area.append({
 					type: 'input',
 					name: 'section',
-					label: wgULS('章节（可选）', '章節（可選）'),
-					tooltip: wgULS(
+					label: window.wgULS('章节（可选）', '章節（可選）'),
+					tooltip: window.wgULS(
 						'您留言的章节标题，留空则不会产生章节链接。',
 						'您留言的章節標題，留空則不會產生章節連結。'
 					),
@@ -188,8 +193,8 @@
 				work_area.append({
 					type: 'input',
 					name: 'section',
-					label: wgULS('章节（可选）', '章節（可選）'),
-					tooltip: wgULS('章节标题，留空则不会产生章节链接。', '章節標題，留空則不會產生章節連結。'),
+					label: window.wgULS('章节（可选）', '章節（可選）'),
+					tooltip: window.wgULS('章节标题，留空则不会产生章节链接。', '章節標題，留空則不會產生章節連結。'),
 					value: prev_section,
 				});
 				break;
@@ -204,8 +209,8 @@
 				work_area.append({
 					type: 'input',
 					name: 'page',
-					label: wgULS('完整页面名', '完整頁面名'),
-					tooltip: wgULS(
+					label: window.wgULS('完整页面名', '完整頁面名'),
+					tooltip: window.wgULS(
 						'您留下消息的完整页面名，例如“Qiuwen_talk:首页”。',
 						'您留下訊息的完整頁面名，例如「Qiuwen_talk:首頁」。'
 					),
@@ -215,8 +220,8 @@
 				work_area.append({
 					type: 'input',
 					name: 'section',
-					label: wgULS('章节（可选）', '章節（可選）'),
-					tooltip: wgULS(
+					label: window.wgULS('章节（可选）', '章節（可選）'),
+					tooltip: window.wgULS(
 						'您留言的章节标题，留空则不会产生章节链接。',
 						'您留言的章節標題，留空則不會產生章節連結。'
 					),
@@ -227,16 +232,16 @@
 				work_area.append({
 					type: 'input',
 					name: 'section',
-					label: wgULS('电子邮件主题（可选）', '電子郵件主題（可選）'),
-					tooltip: wgULS('您发出的电子邮件的主题。', '您發出的電子郵件的主題。'),
+					label: window.wgULS('电子邮件主题（可选）', '電子郵件主題（可選）'),
+					tooltip: window.wgULS('您发出的电子邮件的主题。', '您發出的電子郵件的主題。'),
 				});
 				break;
 			case 'see':
 				work_area.append({
 					type: 'input',
 					name: 'page',
-					label: wgULS('完整页面名', '完整頁面名'),
-					tooltip: wgULS(
+					label: window.wgULS('完整页面名', '完整頁面名'),
+					tooltip: window.wgULS(
 						'您留下消息的完整页面名，例如“Qiuwen_talk:首页”。',
 						'您留下訊息的完整頁面名，例如「Qiuwen_talk:首頁」。'
 					),
@@ -246,8 +251,8 @@
 				work_area.append({
 					type: 'input',
 					name: 'section',
-					label: wgULS('章节（可选）', '章節（可選）'),
-					tooltip: wgULS(
+					label: window.wgULS('章节（可选）', '章節（可選）'),
+					tooltip: window.wgULS(
 						'您留言的章节标题，留空则不会产生章节链接。',
 						'您留言的章節標題，留空則不會產生章節連結。'
 					),
@@ -266,8 +271,8 @@
 				work_area.append({
 					type: 'input',
 					name: 'section',
-					label: wgULS('章节（可选）', '章節（可選）'),
-					tooltip: wgULS(
+					label: window.wgULS('章节（可选）', '章節（可選）'),
+					tooltip: window.wgULS(
 						'您留言的章节标题，留空则不会产生章节链接。',
 						'您留言的章節標題，留空則不會產生章節連結。'
 					),
@@ -278,9 +283,9 @@
 		if (value !== 'notice') {
 			work_area.append({
 				type: 'textarea',
-				label: wgULS('附加信息（可选）：', '附加資訊（可選）：'),
+				label: window.wgULS('附加信息（可选）：', '附加資訊（可選）：'),
 				name: 'message',
-				tooltip: wgULS(
+				tooltip: window.wgULS(
 					'会在回复通告模板下出现的消息，您的签名会被加在最后。',
 					'會在回覆通告模板下出現的訊息，您的簽名會被加在最後。'
 				),
@@ -296,12 +301,12 @@
 	Twinkle.talkback.noticeboards = {
 		affp: {
 			label: `QW:AF/FP（${wgULS('过滤器处理/报告', '過濾器處理/報告')}）`,
-			title: wgULS('过滤器错误报告有新回应', '過濾器錯誤報告有新回應'),
+			title: window.wgULS('过滤器错误报告有新回应', '過濾器錯誤報告有新回應'),
 			content: `${wgULS(
 				'您的[[Qiuwen_talk:过滤器处理/报告|过滤器错误报告]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:过滤器处理/报告|過濾器錯誤報告]]已有回應，請前往查看。'
 			)}--~~`.concat('~~'),
-			editSummary: wgULS(
+			editSummary: window.wgULS(
 				'有关[[Qiuwen_talk:过滤器处理/报告|过滤器错误报告]]的通知',
 				'有關[[Qiuwen_talk:过滤器处理/报告|過濾器錯誤報告]]的通知'
 			),
@@ -309,24 +314,24 @@
 		},
 		sbl: {
 			label: 'Spam-blacklist',
-			title: wgULS('垃圾链接黑名单请求有新回应', '垃圾連結黑名單請求有新回應'),
+			title: window.wgULS('垃圾链接黑名单请求有新回应', '垃圾連結黑名單請求有新回應'),
 			content: `${wgULS(
 				'您的[[Qiuwen_talk:管理员告示板|垃圾链接黑名单请求]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:管理员告示板|垃圾連結黑名單請求]]已有回應，請前往查看。'
 			)}--~~`.concat('~~'),
-			editSummary: wgULS(
+			editSummary: window.wgULS(
 				'有关[[Qiuwen_talk:管理员告示板|垃圾链接黑名单请求]]的通知',
 				'有關[[Qiuwen_talk:管理员告示板|垃圾連結黑名單請求]]的通知'
 			),
 		},
 		shl: {
 			label: 'Spam-whitelist',
-			title: wgULS('垃圾链接白名单请求有新回应', '垃圾連結白名單請求有新回應'),
+			title: window.wgULS('垃圾链接白名单请求有新回应', '垃圾連結白名單請求有新回應'),
 			content: `${wgULS(
 				'您的[[Qiuwen_talk:管理员告示板|垃圾链接白名单请求]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:管理员告示板|垃圾連結白名單請求]]已有回應，請前往查看。'
 			)}--~~`.concat('~~'),
-			editSummary: wgULS(
+			editSummary: window.wgULS(
 				'有关[[Qiuwen_talk:管理员告示板|垃圾链接白名单请求]]的通知',
 				'有關[[Qiuwen_talk:管理员告示板|垃圾連結白名單請求]]的通知'
 			),
@@ -349,7 +354,7 @@
 				message = form.message.value.trim();
 			}
 			if (tbtarget === 'mail') {
-				editSummary = wgULS('通知：有新邮件', '通知：有新郵件');
+				editSummary = window.wgULS('通知：有新邮件', '通知：有新郵件');
 			} else if (tbtarget === 'see') {
 				editSummary = `${wgULS('请看看', '請看看')}[[:${page}${section ? `#${section}` : ''}]]${wgULS(
 					'上的讨论',
@@ -370,12 +375,12 @@
 			mw.config.get('wgFormattedNamespaces')[mw.config.get('wgNamespaceIds').user_talk]
 		}:${mw.config.get('wgRelevantUserName')}`;
 		Morebits.wiki.actionCompleted.redirect = fullUserTalkPageName;
-		Morebits.wiki.actionCompleted.notice = wgULS(
+		Morebits.wiki.actionCompleted.notice = window.wgULS(
 			'回复通告完成，将在几秒内刷新页面',
 			'回覆通告完成，將在幾秒內重新整理頁面'
 		);
 		const text = `\n\n${Twinkle.talkback.getNoticeWikitext(tbtarget, page, section, message)[0]}`;
-		const talkpage = new Morebits.wiki.page(fullUserTalkPageName, wgULS('加入回复通告', '加入回覆通告'));
+		const talkpage = new Morebits.wiki.page(fullUserTalkPageName, window.wgULS('加入回复通告', '加入回覆通告'));
 		talkpage.setEditSummary(editSummary);
 		talkpage.setChangeTags(Twinkle.changeTags);
 		talkpage.setAppendText(text);
@@ -411,7 +416,7 @@
 			content = Morebits.string.safeReplace(Twinkle.talkback.noticeboards[page].content, '$SECTION', section);
 			text = `== ${title} ==\n${content}`;
 		} else if (tbtarget === 'see') {
-			title = page + wgULS('的相关讨论', '的相關討論');
+			title = page + window.wgULS('的相关讨论', '的相關討論');
 			content = '{{'.concat(
 				'subst:',
 				`Please see|location=${page}${section ? `#${section}` : ''}|more=${message.trim()}}}`

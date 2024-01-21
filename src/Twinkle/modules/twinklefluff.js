@@ -64,7 +64,7 @@
 	Twinkle.fluff.skipTalk = null;
 	Twinkle.fluff.rollbackInPlace = null;
 	// String to insert when a username is hidden
-	Twinkle.fluff.hiddenName = wgULS('已隐藏的用户', '已隱藏的使用者');
+	Twinkle.fluff.hiddenName = window.wgULS('已隐藏的用户', '已隱藏的使用者');
 	// Consolidated construction of fluff links
 	Twinkle.fluff.linkBuilder = {
 		spanTag: (color, content) => {
@@ -103,7 +103,7 @@
 			const normNode = document.createElement('strong');
 			const vandNode = document.createElement('strong');
 			const normLink = Twinkle.fluff.linkBuilder.buildLink('SteelBlue', '回退');
-			const vandLink = Twinkle.fluff.linkBuilder.buildLink('Red', wgULS('破坏', '破壞'));
+			const vandLink = Twinkle.fluff.linkBuilder.buildLink('Red', window.wgULS('破坏', '破壞'));
 			$(normLink).on('click', (e) => {
 				e.preventDefault();
 				Twinkle.fluff.revert('norm', vandal, rev, page);
@@ -272,7 +272,7 @@
 					});
 					revertsummary.append({
 						type: 'option',
-						label: wgULS('选择回退理由', '選擇回退理由'),
+						label: window.wgULS('选择回退理由', '選擇回退理由'),
 						value: '',
 					});
 					$(Twinkle.getPref('customRevertSummary')).each((_, e) => {
@@ -705,7 +705,7 @@
 							wgULS(' 次编辑，是否要全部回退？', ' 次編輯，是否要全部回退？')
 					)
 				) {
-					Morebits.status.info('提示', wgULS('用户取消操作', '使用者取消操作'));
+					Morebits.status.info('提示', window.wgULS('用户取消操作', '使用者取消操作'));
 					return;
 				}
 				userHasAlreadyConfirmedAction = true;

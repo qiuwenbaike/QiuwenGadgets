@@ -41,26 +41,26 @@
 		const form = new Morebits.quickForm(Twinkle.copyvio.callback.evaluate);
 		form.append({
 			type: 'textarea',
-			label: wgULS('侵权来源：', '侵權來源：'),
+			label: window.wgULS('侵权来源：', '侵權來源：'),
 			name: 'source',
 		});
 		form.append({
 			type: 'checkbox',
 			list: [
 				{
-					label: wgULS(
+					label: window.wgULS(
 						'CSD G4: 曾经根据侵权审核删除后又重新创建的内容',
 						'CSD G4: 曾經根據侵權審核刪除後又重新建立的內容'
 					),
 					value: 'g4',
 					name: 'g4',
-					tooltip: wgULS('同时以G4准则提报快速删除', '同時以G4準則提報快速刪除'),
+					tooltip: window.wgULS('同时以G4准则提报快速删除', '同時以G4準則提報快速刪除'),
 					subgroup: [
 						{
 							name: 'g4_pagename',
 							type: 'input',
-							label: wgULS('前次删除的页面名称', '前次刪除的頁面名稱'),
-							tooltip: wgULS(
+							label: window.wgULS('前次删除的页面名称', '前次刪除的頁面名稱'),
+							tooltip: window.wgULS(
 								'选填，若前次删除的页面名称不同，请提供',
 								'選填，若前次刪除的頁面名稱不同，請提供'
 							),
@@ -68,10 +68,13 @@
 					],
 				},
 				{
-					label: wgULS('通知页面创建者', '通知頁面建立者'),
+					label: window.wgULS('通知页面创建者', '通知頁面建立者'),
 					value: 'notify',
 					name: 'notify',
-					tooltip: wgULS('在页面创建者讨论页上放置一通知模板。', '在頁面建立者討論頁上放置一通知模板。'),
+					tooltip: window.wgULS(
+						'在页面创建者讨论页上放置一通知模板。',
+						'在頁面建立者討論頁上放置一通知模板。'
+					),
 					checked: true,
 				},
 			],
@@ -105,7 +108,10 @@
 			const params = pageobj.getCallbackParameters();
 			const initialContrib = pageobj.getCreator();
 			// Adding discussion
-			const qiuwen_page = new Morebits.wiki.page(params.logpage, wgULS('加入侵权记录项', '加入侵權記錄項'));
+			const qiuwen_page = new Morebits.wiki.page(
+				params.logpage,
+				window.wgULS('加入侵权记录项', '加入侵權記錄項')
+			);
 			qiuwen_page.setFollowRedirect(true);
 			qiuwen_page.setCallbackParameters(params);
 			qiuwen_page.load(Twinkle.copyvio.callbacks.copyvioList);
@@ -209,7 +215,7 @@
 		Morebits.wiki.addCheckpoint();
 		// Updating data for the action completed event
 		Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
-		Morebits.wiki.actionCompleted.notice = wgULS(
+		Morebits.wiki.actionCompleted.notice = window.wgULS(
 			'提报完成，将在几秒内刷新页面',
 			'提報完成，將在幾秒內重新整理頁面'
 		);

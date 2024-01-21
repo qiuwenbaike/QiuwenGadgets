@@ -25,7 +25,7 @@
 			Twinkle.speedy.callback,
 			wgULS('速删', '速刪'),
 			'tw-csd',
-			Morebits.userIsSysop ? wgULS('快速删除', '快速刪除') : wgULS('请求快速删除', '請求快速刪除')
+			Morebits.userIsSysop ? window.wgULS('快速删除', '快速刪除') : window.wgULS('请求快速删除', '請求快速刪除')
 		);
 	};
 	// This function is run when the CSD tab/header link is clicked
@@ -109,10 +109,10 @@
 				type: 'checkbox',
 				list: [
 					{
-						label: wgULS('只标记，不删除', '只標記，不刪除'),
+						label: window.wgULS('只标记，不删除', '只標記，不刪除'),
 						value: 'tag_only',
 						name: 'tag_only',
-						tooltip: wgULS('若您只想标记此页面而不是将其删除', '若您只想標記此頁面而不是將其刪除'),
+						tooltip: window.wgULS('若您只想标记此页面而不是将其删除', '若您只想標記此頁面而不是將其刪除'),
 						checked: !(Twinkle.speedy.hasCSD || Twinkle.getPref('deleteSysopDefaultToDelete')),
 						event: (event) => {
 							const cForm = event.target.form;
@@ -151,7 +151,7 @@
 			});
 			deleteOptions.append({
 				type: 'header',
-				label: wgULS('删除相关选项', '刪除相關選項'),
+				label: window.wgULS('删除相关选项', '刪除相關選項'),
 			});
 			if (mw.config.get('wgNamespaceNumber') % 2 === 0 && mw.config.get('wgNamespaceNumber') !== 2) {
 				// hide option for user pages, to avoid accidentally deleting user talk page
@@ -159,10 +159,10 @@
 					type: 'checkbox',
 					list: [
 						{
-							label: wgULS('删除讨论页', '刪除討論頁'),
+							label: window.wgULS('删除讨论页', '刪除討論頁'),
 							value: 'talkpage',
 							name: 'talkpage',
-							tooltip: wgULS('删除时附带删除此页面的讨论页。', '刪除時附帶刪除此頁面的討論頁。'),
+							tooltip: window.wgULS('删除时附带删除此页面的讨论页。', '刪除時附帶刪除此頁面的討論頁。'),
 							checked: Twinkle.getPref('deleteTalkPageOnDelete'),
 							event: (event) => {
 								event.stopPropagation();
@@ -175,10 +175,10 @@
 				type: 'checkbox',
 				list: [
 					{
-						label: wgULS('删除重定向', '刪除重新導向'),
+						label: window.wgULS('删除重定向', '刪除重新導向'),
 						value: 'redirects',
 						name: 'redirects',
-						tooltip: wgULS('删除到此页的重定向。', '刪除到此頁的重新導向。'),
+						tooltip: window.wgULS('删除到此页的重定向。', '刪除到此頁的重新導向。'),
 						checked: Twinkle.getPref('deleteRedirectsOnDelete'),
 						event: (event) => {
 							event.stopPropagation();
@@ -190,10 +190,10 @@
 				type: 'checkbox',
 				list: [
 					{
-						label: wgULS('应用多个理由删除', '應用多個理由刪除'),
+						label: window.wgULS('应用多个理由删除', '應用多個理由刪除'),
 						value: 'delmultiple',
 						name: 'delmultiple',
-						tooltip: wgULS('您可选择应用于该页的多个理由。', '您可選擇應用於該頁的多個理由。'),
+						tooltip: window.wgULS('您可选择应用于该页的多个理由。', '您可選擇應用於該頁的多個理由。'),
 						event: (event) => {
 							Twinkle.speedy.callback.modeChanged(event.target.form);
 							event.stopPropagation();
@@ -205,10 +205,10 @@
 				type: 'checkbox',
 				list: [
 					{
-						label: wgULS('开启用户讨论页', '開啟使用者討論頁'),
+						label: window.wgULS('开启用户讨论页', '開啟使用者討論頁'),
 						value: 'openusertalk',
 						name: 'openusertalk',
-						tooltip: wgULS(
+						tooltip: window.wgULS(
 							'此项的默认值为您的开启讨论页设置。在您选择应用多条理由删除时此项将保持不变。',
 							'此項的預設值為您的開啟討論頁設定。在您選擇應用多條理由刪除時此項將保持不變。'
 						),
@@ -224,17 +224,17 @@
 		if (Morebits.userIsSysop) {
 			tagOptions.append({
 				type: 'header',
-				label: wgULS('标记相关选项', '標記相關選項'),
+				label: window.wgULS('标记相关选项', '標記相關選項'),
 			});
 		}
 		tagOptions.append({
 			type: 'checkbox',
 			list: [
 				{
-					label: wgULS('如可能，通知创建者', '如可能，通知建立者'),
+					label: window.wgULS('如可能，通知创建者', '如可能，通知建立者'),
 					value: 'notify',
 					name: 'notify',
-					tooltip: wgULS(
+					tooltip: window.wgULS(
 						'一个通知模板将会被加入创建者的讨论页，若您启用了该理据的通知。',
 						'一個通知模板將會被加入建立者的討論頁，若您啟用了該理據的通知。'
 					),
@@ -246,28 +246,28 @@
 					},
 				},
 				{
-					label: wgULS('清空页面', '清空頁面'),
+					label: window.wgULS('清空页面', '清空頁面'),
 					value: 'blank',
 					name: 'blank',
-					tooltip: wgULS(
+					tooltip: window.wgULS(
 						'在标记模板前，先清空页面，适用于严重破坏或负面生者传记等。',
 						'在標記模板前，先清空頁面，適用於嚴重破壞或負面生者傳記等。'
 					),
 				},
 				{
-					label: wgULS('同时标记以请求白纸保护', '同時標記以請求白紙保護'),
+					label: window.wgULS('同时标记以请求白纸保护', '同時標記以請求白紙保護'),
 					value: 'salting',
 					name: 'salting',
-					tooltip: wgULS(
+					tooltip: window.wgULS(
 						'选取后，快速删除模板后将附带 {{salt}} 标签，以请求执行删除的管理员进行白纸保护，仅在页面创建3次以上才选择此项。',
 						'選取後，快速刪除模板後將附帶 {{salt}} 標籤，以請求執行刪除的管理員進行白紙保護，僅在頁面建立3次以上才選擇此項。'
 					),
 				},
 				{
-					label: wgULS('应用多个理由', '應用多個理由'),
+					label: window.wgULS('应用多个理由', '應用多個理由'),
 					value: 'multiple',
 					name: 'multiple',
-					tooltip: wgULS('您可选择应用于该页的多个理由。', '您可選擇應用於該頁的多個理由。'),
+					tooltip: window.wgULS('您可选择应用于该页的多个理由。', '您可選擇應用於該頁的多個理由。'),
 					event: (event) => {
 						Twinkle.speedy.callback.modeChanged(event.target.form);
 						event.stopPropagation();
@@ -282,7 +282,7 @@
 		form.append({
 			type: 'div',
 			name: 'work_area',
-			label: wgULS(
+			label: window.wgULS(
 				'初始化CSD模块失败，请重试，或将这报告给Twinkle开发者。',
 				'初始化CSD模組失敗，請重試，或將這報告給Twinkle開發者。'
 			),
@@ -344,12 +344,12 @@
 			const evaluateType = Twinkle.speedy.mode.isSysop(mode) ? 'evaluateSysop' : 'evaluateUser';
 			work_area.append({
 				type: 'div',
-				label: wgULS('当选择完成后，单击：', '當選擇完成後，點擊：'),
+				label: window.wgULS('当选择完成后，单击：', '當選擇完成後，點擊：'),
 			});
 			work_area.append({
 				type: 'button',
 				name: 'submit-multiple',
-				label: isSysopMode ? wgULS('删除页面', '刪除頁面') : wgULS('标记页面', '標記頁面'),
+				label: isSysopMode ? window.wgULS('删除页面', '刪除頁面') : window.wgULS('标记页面', '標記頁面'),
 				event: (event) => {
 					Twinkle.speedy.callback[evaluateType](event);
 					event.stopPropagation();
@@ -360,7 +360,7 @@
 		if (isSysopMode && !Twinkle.speedy.mode.isMultiple(mode)) {
 			work_area.append({
 				type: 'header',
-				label: wgULS('自定义理由', '自訂理由'),
+				label: window.wgULS('自定义理由', '自訂理由'),
 			});
 			work_area.append({
 				type: radioOrCheckbox,
@@ -373,7 +373,7 @@
 				// article and pseudo namespace
 				work_area.append({
 					type: 'header',
-					label: wgULS('条目', '條目'),
+					label: window.wgULS('条目', '條目'),
 				});
 				work_area.append({
 					type: radioOrCheckbox,
@@ -385,7 +385,7 @@
 				// user
 				work_area.append({
 					type: 'header',
-					label: wgULS('用户页', '使用者頁面'),
+					label: window.wgULS('用户页', '使用者頁面'),
 				});
 				work_area.append({
 					type: radioOrCheckbox,
@@ -398,7 +398,7 @@
 				if (mw.util.isIPAddress(mw.config.get('wgRelevantUserName'))) {
 					work_area.append({
 						type: 'header',
-						label: wgULS('用户讨论页', '使用者討論頁'),
+						label: window.wgULS('用户讨论页', '使用者討論頁'),
 					});
 					work_area.append({
 						type: radioOrCheckbox,
@@ -411,7 +411,7 @@
 				// file
 				work_area.append({
 					type: 'header',
-					label: wgULS('文件', '檔案'),
+					label: window.wgULS('文件', '檔案'),
 				});
 				work_area.append({
 					type: radioOrCheckbox,
@@ -421,7 +421,7 @@
 				if (!Twinkle.speedy.mode.isSysop(mode)) {
 					work_area.append({
 						type: 'div',
-						label: wgULS(
+						label: window.wgULS(
 							'标记CSD F1、F3、F5，请使用Twinkle的“图权”功能。',
 							'標記CSD F1、F3、F5，請使用Twinkle的「圖權」功能。'
 						),
@@ -432,7 +432,7 @@
 				// category
 				work_area.append({
 					type: 'header',
-					label: wgULS('分类', '分類'),
+					label: window.wgULS('分类', '分類'),
 				});
 				work_area.append({
 					type: radioOrCheckbox,
@@ -456,7 +456,7 @@
 				// show db-talk on talk pages, but not user talk pages
 				work_area.append({
 					type: 'header',
-					label: wgULS('讨论页', '討論頁'),
+					label: window.wgULS('讨论页', '討論頁'),
 				});
 				work_area.append({
 					type: radioOrCheckbox,
@@ -477,7 +477,7 @@
 		}
 		work_area.append({
 			type: 'header',
-			label: wgULS('常规', '常規'),
+			label: window.wgULS('常规', '常規'),
 		});
 		work_area.append({
 			type: radioOrCheckbox,
@@ -487,7 +487,7 @@
 		if (!Twinkle.speedy.mode.isSysop(mode)) {
 			work_area.append({
 				type: 'div',
-				label: wgULS(
+				label: window.wgULS(
 					'提报侵权页面，请使用Twinkle的“侵权”功能。',
 					'提報侵權頁面，請使用Twinkle的「侵權」功能。'
 				),
@@ -566,9 +566,9 @@
 			const response = apiobj.getResponse();
 			const delCount = response.query.logevents.length;
 			if (delCount) {
-				let message = wgULS('被删除', '被刪除');
+				let message = window.wgULS('被删除', '被刪除');
 				if (response.continue) {
-					message += wgULS('超过', '超過');
+					message += window.wgULS('超过', '超過');
 				}
 				message += `${delCount}次`;
 				// 3+ seems problematic
@@ -576,7 +576,7 @@
 					$body.find('#prior-deletion-count').css('color', '#ff0000');
 				}
 				// Provide a link to page logs (CSD templates have one for sysops)
-				const link = Morebits.htmlNode('a', wgULS('（日志）', '（日誌）'));
+				const link = Morebits.htmlNode('a', window.wgULS('（日志）', '（日誌）'));
 				link.setAttribute(
 					'href',
 					mw.util.getUrl('Special:Log', {
@@ -660,7 +660,9 @@
 					criterion.subgroup.push({
 						type: 'button',
 						name: 'submit',
-						label: isSysopMode ? wgULS('删除页面', '刪除頁面') : wgULS('标记页面', '標記頁面'),
+						label: isSysopMode
+							? window.wgULS('删除页面', '刪除頁面')
+							: window.wgULS('标记页面', '標記頁面'),
 						event: submitSubgroupHandler,
 					});
 				} else {
@@ -669,7 +671,9 @@
 						{
 							type: 'button',
 							name: 'submit',
-							label: isSysopMode ? wgULS('删除页面', '刪除頁面') : wgULS('标记页面', '標記頁面'),
+							label: isSysopMode
+								? window.wgULS('删除页面', '刪除頁面')
+								: window.wgULS('标记页面', '標記頁面'),
 							event: submitSubgroupHandler,
 						},
 					];
@@ -1047,7 +1051,10 @@
 				}
 			},
 			deletePage: (reason, params) => {
-				const thispage = new Morebits.wiki.page(mw.config.get('wgPageName'), wgULS('删除页面', '刪除頁面'));
+				const thispage = new Morebits.wiki.page(
+					mw.config.get('wgPageName'),
+					window.wgULS('删除页面', '刪除頁面')
+				);
 				if (reason === null) {
 					return Morebits.status.error(
 						wgULS('询问理由', '詢問理由'),
@@ -1232,7 +1239,7 @@
 				} else {
 					// open the initial contributor's talk page
 					const statusIndicator = new Morebits.status(
-						wgULS('打开用户', '打開使用者') + user + wgULS('的讨论页编辑窗口', '的討論頁編輯視窗'),
+						wgULS('打开用户', '打開使用者') + user + window.wgULS('的讨论页编辑窗口', '的討論頁編輯視窗'),
 						wgULS('打开中…', '打開中…')
 					);
 					switch (Twinkle.getPref('userTalkPageMode')) {
@@ -1382,7 +1389,7 @@
 				// Generate edit summary for edit
 				let editsummary;
 				if (params.normalizeds.length > 1) {
-					editsummary = wgULS('请求快速删除（', '請求快速刪除（');
+					editsummary = window.wgULS('请求快速删除（', '請求快速刪除（');
 					for (const norm of params.normalizeds) {
 						if (norm !== 'db') {
 							editsummary += `[[QW:CSD#${norm.toUpperCase()}|CSD ${norm.toUpperCase()}]]、`;
@@ -1511,7 +1518,7 @@
 					appendText += `[[QW:CSD#${params.normalizeds[0].toUpperCase()}|CSD ${params.normalizeds[0].toUpperCase()}]]`;
 				}
 				if (params.requestsalt) {
-					appendText += wgULS('；请求白纸保护', '；請求白紙保護');
+					appendText += window.wgULS('；请求白纸保护', '；請求白紙保護');
 				}
 				if (initialContrib) {
 					appendText += `；通知{{user|${initialContrib}}}`;
@@ -1762,8 +1769,8 @@
 		Morebits.simpleWindow.setButtonsEnabled(false);
 		Morebits.status.init(form);
 		Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
-		Morebits.wiki.actionCompleted.notice = wgULS('标记完成', '標記完成');
-		const qiuwen_page = new Morebits.wiki.page(mw.config.get('wgPageName'), wgULS('标记页面', '標記頁面'));
+		Morebits.wiki.actionCompleted.notice = window.wgULS('标记完成', '標記完成');
+		const qiuwen_page = new Morebits.wiki.page(mw.config.get('wgPageName'), window.wgULS('标记页面', '標記頁面'));
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.load(Twinkle.speedy.callbacks.user.main);
 	};

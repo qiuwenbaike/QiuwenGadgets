@@ -1508,22 +1508,22 @@
 				return `${m[1]}分`;
 			}
 			if ((m = time.match(/^\s*(\d+)\s*hours?\s*$/)) !== null) {
-				return m[1] + wgULS('小时', '小時');
+				return m[1] + window.wgULS('小时', '小時');
 			}
 			if ((m = time.match(/^\s*(\d+)\s*days?\s*$/)) !== null) {
 				return `${m[1]}天`;
 			}
 			if ((m = time.match(/^\s*(\d+)\s*weeks?\s*$/)) !== null) {
-				return m[1] + wgULS('周', '週');
+				return m[1] + window.wgULS('周', '週');
 			}
 			if ((m = time.match(/^\s*(\d+)\s*months?\s*$/)) !== null) {
-				return m[1] + wgULS('个月', '個月');
+				return m[1] + window.wgULS('个月', '個月');
 			}
 			if ((m = time.match(/^\s*(\d+)\s*years?\s*$/)) !== null) {
 				return `${m[1]}年`;
 			}
 			if (Morebits.string.isInfinity(time.trim())) {
-				return wgULS('无限期', '無限期');
+				return window.wgULS('无限期', '無限期');
 			}
 			return time;
 		},
@@ -2569,7 +2569,7 @@
 	 */
 	Morebits.wiki.page = function (pageName, status) {
 		if (!status) {
-			status = wgULS('打开页面“', '打開頁面「') + pageName + wgULS('”', '」');
+			status = window.wgULS('打开页面“', '打開頁面「') + pageName + window.wgULS('”', '」');
 		}
 		/**
 		 * Private context variables.
@@ -2768,7 +2768,7 @@
 				!ctx.suppressProtectWarning &&
 				!confirm(
 					ctx.fullyProtected === 'infinity'
-						? wgULS('您即将编辑全保护页面“', '您即將編輯全保護頁面「') +
+						? window.wgULS('您即将编辑全保护页面“', '您即將編輯全保護頁面「') +
 								ctx.pageName +
 								wgULS(
 									'”（无限期）。\n\n单击确定以确定，或单击取消以取消操作。',
@@ -3731,7 +3731,7 @@
 				if (!ctx.revertUser) {
 					if (rev && rev.userhidden) {
 						// username was RevDel'd or oversighted
-						ctx.revertUser = wgULS('<用户名已隐藏>', '<使用者名稱已隱藏>');
+						ctx.revertUser = window.wgULS('<用户名已隐藏>', '<使用者名稱已隱藏>');
 					} else {
 						ctx.statusElement.error(wgULS('未能获取此修订版本的编辑者。', '未能取得此修訂版本的編輯者。'));
 						ctx.onLoadFailure(this);
@@ -3779,7 +3779,7 @@
 					// only notify user for redirects, not normalization
 					new Morebits.status(
 						wgULS('信息', '資訊'),
-						wgULS('从 ', '從 ') + ctx.pageName + wgULS(' 重定向到 ', ' 重新導向到 ') + resolvedName
+						wgULS('从 ', '從 ') + ctx.pageName + window.wgULS(' 重定向到 ', ' 重新導向到 ') + resolvedName
 					);
 				}
 				ctx.pageName = resolvedName; // update to redirect target or normalized name
@@ -3972,7 +3972,7 @@
 			const rev = response.pages[0].revisions && response.pages[0].revisions[0];
 			if (!rev) {
 				ctx.statusElement.error(
-					wgULS('无法找到', '無法找到') + ctx.pageName + wgULS('的任何修订版本', '的任何修訂版本')
+					wgULS('无法找到', '無法找到') + ctx.pageName + window.wgULS('的任何修订版本', '的任何修訂版本')
 				);
 				ctx.onLookupCreationFailure(this);
 				return;
@@ -4081,7 +4081,7 @@
 						wgULS('无法对页面进行“', '無法對頁面進行「') +
 						action +
 						wgULS('”操作，因为页面', '」操作，因為頁面') +
-						(missing ? '已不' : wgULS('已经', '已經'))
+						(missing ? '已不' : window.wgULS('已经', '已經'))
 					}存在`
 				);
 				onFailure(this);
@@ -4110,7 +4110,7 @@
 					wgULS('您即将对全保护页面“', '您即將對全保護頁面「') +
 						ctx.pageName +
 						(editprot.expiry === 'infinity'
-							? wgULS('”（永久）', '」（永久）')
+							? window.wgULS('”（永久）', '」（永久）')
 							: `${
 									wgULS('”（到期：', '」（到期：') +
 									new Morebits.date(editprot.expiry).calendar('utc')
@@ -5260,7 +5260,7 @@
 				preserveIndividualStatusLines: false,
 			},
 			// internal counters, etc.
-			statusElement: new Morebits.status(currentAction || wgULS('执行批量操作', '執行批次操作')),
+			statusElement: new Morebits.status(currentAction || window.wgULS('执行批量操作', '執行批次操作')),
 			worker: null,
 			// function that executes for each item in pageList
 			postFinish: null,

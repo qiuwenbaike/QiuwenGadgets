@@ -12,7 +12,7 @@
 	Twinkle.tag = () => {
 		// redirect tagging
 		if (Morebits.isPageRedirect()) {
-			Twinkle.tag.mode = wgULS('重定向', '重新導向');
+			Twinkle.tag.mode = window.wgULS('重定向', '重新導向');
 			Twinkle.tag.modeEn = 'redirect';
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
@@ -26,7 +26,7 @@
 			!document.querySelector('#mw-sharedupload') &&
 			document.querySelector('#mw-imagepage-section-filehistory')
 		) {
-			Twinkle.tag.mode = wgULS('文件', '檔案');
+			Twinkle.tag.mode = window.wgULS('文件', '檔案');
 			Twinkle.tag.modeEn = 'file';
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
@@ -39,7 +39,7 @@
 			([0, 118].includes(mw.config.get('wgNamespaceNumber')) && mw.config.get('wgCurRevisionId')) ||
 			Morebits.pageNameNorm === Twinkle.getPref('sandboxPage')
 		) {
-			Twinkle.tag.mode = wgULS('条目', '條目');
+			Twinkle.tag.mode = window.wgULS('条目', '條目');
 			Twinkle.tag.modeEn = 'article';
 			// Can't remove tags when not viewing current version
 			Twinkle.tag.canRemove =
@@ -64,7 +64,7 @@
 		const form = new Morebits.quickForm(Twinkle.tag.callback.evaluate);
 		form.append({
 			type: 'input',
-			label: wgULS('筛选标记列表：', '篩選標記列表：'),
+			label: window.wgULS('筛选标记列表：', '篩選標記列表：'),
 			name: 'quickfilter',
 			size: '30',
 			event: function event() {
@@ -129,8 +129,8 @@
 				form.append({
 					type: 'select',
 					name: 'sortorder',
-					label: wgULS('查看列表：', '檢視列表：'),
-					tooltip: wgULS(
+					label: window.wgULS('查看列表：', '檢視列表：'),
+					tooltip: window.wgULS(
 						'您可以在Twinkle参数设置（H:TW/PREF）中更改此项。',
 						'您可以在Twinkle偏好設定（H:TW/PREF）中更改此項。'
 					),
@@ -139,7 +139,7 @@
 						{
 							type: 'option',
 							value: 'cat',
-							label: wgULS('按类型', '按類別'),
+							label: window.wgULS('按类型', '按類別'),
 							selected: Twinkle.getPref('tagArticleSortOrder') === 'cat',
 						},
 						{
@@ -152,7 +152,7 @@
 				});
 				if (!Twinkle.tag.canRemove) {
 					const divElement = document.createElement('div');
-					divElement.innerHTML = wgULS(
+					divElement.innerHTML = window.wgULS(
 						'要移除现有维护标记，请从当前条目版本中打开“标记”菜单',
 						'要移除現有維護標記，請從目前條目版本中打開「標記」選單'
 					);
@@ -172,10 +172,13 @@
 					type: 'checkbox',
 					list: [
 						{
-							label: wgULS('如可能，合并入{{multiple issues}}', '如可能，合併入{{multiple issues}}'),
+							label: window.wgULS(
+								'如可能，合并入{{multiple issues}}',
+								'如可能，合併入{{multiple issues}}'
+							),
 							value: 'group',
 							name: 'group',
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'若加入{{multiple issues}}支持的三个以上的模板，所有支持的模板都会被合并入{{multiple issues}}模板中。',
 								'若加入{{multiple issues}}支援的三個以上的模板，所有支援的模板都會被合併入{{multiple issues}}模板中。'
 							),
@@ -187,7 +190,7 @@
 					type: 'input',
 					label: '理由：',
 					name: 'reason',
-					tooltip: wgULS(
+					tooltip: window.wgULS(
 						'附加于编辑摘要的可选理由，例如指出条目内容的哪些部分有问题或移除模板的理由，但若理由很长则应该发表在讨论页。',
 						'附加於編輯摘要的可選理由，例如指出條目內容的哪些部分有問題或移除模板的理由，但若理由很長則應該發表在討論頁。'
 					),
@@ -201,8 +204,11 @@
 						for (const el of group.value) {
 							el.subgroup = {
 								type: 'input',
-								label: wgULS('替换的文件：', '替換的檔案：'),
-								tooltip: wgULS('输入替换此文件的文件名称（必填）', '輸入替換此檔案的檔案名稱（必填）'),
+								label: window.wgULS('替换的文件：', '替換的檔案：'),
+								tooltip: window.wgULS(
+									'输入替换此文件的文件名称（必填）',
+									'輸入替換此檔案的檔案名稱（必填）'
+								),
 								name: `${el.value.replace(/ /g, '_')}File`,
 							};
 						}
@@ -220,7 +226,7 @@
 				if (Twinkle.getPref('customFileTagList').length) {
 					form.append({
 						type: 'header',
-						label: wgULS('自定义模板', '自訂模板'),
+						label: window.wgULS('自定义模板', '自訂模板'),
 					});
 					form.append({
 						type: 'checkbox',
@@ -253,7 +259,7 @@
 				if (Twinkle.getPref('customRedirectTagList').length) {
 					form.append({
 						type: 'header',
-						label: wgULS('自定义模板', '自訂模板'),
+						label: window.wgULS('自定义模板', '自訂模板'),
 					});
 					form.append({
 						type: 'checkbox',
@@ -275,7 +281,7 @@
 				type: 'checkbox',
 				list: [
 					{
-						label: wgULS('标记页面为已巡查', '標記頁面為已巡查'),
+						label: window.wgULS('标记页面为已巡查', '標記頁面為已巡查'),
 						value: 'patrol',
 						name: 'patrol',
 						checked: Twinkle.getPref('markTaggedPagesAsPatrolled'),
@@ -394,8 +400,8 @@
 						{
 							name: 'expert',
 							type: 'input',
-							label: wgULS('哪个领域的专家（必填）：', '哪個領域的專家（必填）：'),
-							tooltip: wgULS(
+							label: window.wgULS('哪个领域的专家（必填）：', '哪個領域的專家（必填）：'),
+							tooltip: window.wgULS(
 								'必填，可参考 Category:需要专业人士关注的页面 使用现存的分类。',
 								'必填，可參考 Category:需要專業人士關注的頁面 使用現存的分類。'
 							),
@@ -403,8 +409,8 @@
 						{
 							name: 'expert2',
 							type: 'input',
-							label: wgULS('哪个领域的专家：', '哪個領域的專家：'),
-							tooltip: wgULS(
+							label: window.wgULS('哪个领域的专家：', '哪個領域的專家：'),
+							tooltip: window.wgULS(
 								'可选，可参考 Category:需要专业人士关注的页面 使用现存的分类。',
 								'可選，可參考 Category:需要專業人士關注的頁面 使用現存的分類。'
 							),
@@ -412,8 +418,8 @@
 						{
 							name: 'expert3',
 							type: 'input',
-							label: wgULS('哪个领域的专家：', '哪個領域的專家：'),
-							tooltip: wgULS(
+							label: window.wgULS('哪个领域的专家：', '哪個領域的專家：'),
+							tooltip: window.wgULS(
 								'可选，可参考 Category:需要专业人士关注的页面 使用现存的分类。',
 								'可選，可參考 Category:需要專業人士關注的頁面 使用現存的分類。'
 							),
@@ -438,8 +444,8 @@
 						{
 							name: 'mergeTarget',
 							type: 'input',
-							label: wgULS('其他条目：', '其他條目：'),
-							tooltip: wgULS(
+							label: window.wgULS('其他条目：', '其他條目：'),
+							tooltip: window.wgULS(
 								'如指定多个条目，请用管道符分隔：条目甲|条目乙',
 								'如指定多個條目，請用管道符分隔：條目甲|條目乙'
 							),
@@ -451,7 +457,10 @@
 									name: 'mergeTagOther',
 									label: `用{{${otherTagName}${wgULS('}}标记其他条目', '}}標記其他條目')}`,
 									checked: true,
-									tooltip: wgULS('仅在只输入了一个条目名时可用', '僅在只輸入了一個條目名時可用'),
+									tooltip: window.wgULS(
+										'仅在只输入了一个条目名时可用',
+										'僅在只輸入了一個條目名時可用'
+									),
 								},
 							],
 						},
@@ -460,11 +469,11 @@
 						checkbox.subgroup.push({
 							name: 'mergeReason',
 							type: 'textarea',
-							label: wgULS(
+							label: window.wgULS(
 								`合并理由（会被贴上${tag === 'Merge to' ? '其他' : '这'}条目的讨论页）：`,
 								`合併理由（會被貼上${tag === 'Merge to' ? '其他' : '這'}條目的討論頁）：`
 							),
-							tooltip: wgULS(
+							tooltip: window.wgULS(
 								'可选，但强烈推荐。如不需要请留空。仅在只输入了一个条目名时可用。',
 								'可選，但強烈推薦。如不需要請留空。僅在只輸入了一個條目名時可用。'
 							),
@@ -476,8 +485,8 @@
 					checkbox.subgroup = {
 						name: 'missingInformation',
 						type: 'input',
-						label: wgULS('缺少的内容（必填）：', '缺少的內容（必填）：'),
-						tooltip: wgULS('必填，显示为“缺少有关……的信息。”', '必填，顯示為「缺少有關……的資訊。」'),
+						label: window.wgULS('缺少的内容（必填）：', '缺少的內容（必填）：'),
+						tooltip: window.wgULS('必填，显示为“缺少有关……的信息。”', '必填，顯示為「缺少有關……的資訊。」'),
 					};
 					break;
 				case 'Notability':
@@ -553,16 +562,19 @@
 						{
 							name: 'moveTarget',
 							type: 'input',
-							label: wgULS('新名称：', '新名稱：'),
+							label: window.wgULS('新名称：', '新名稱：'),
 						},
 						{
 							name: 'moveReason',
 							type: 'textarea',
-							label: wgULS(
+							label: window.wgULS(
 								'移动理由（会被粘贴该条目的讨论页）：',
 								'移動理由（會被貼上該條目的討論頁）：'
 							),
-							tooltip: wgULS('可选，但强烈推荐。如不需要请留空。', '可選，但強烈推薦。如不需要請留空。'),
+							tooltip: window.wgULS(
+								'可选，但强烈推荐。如不需要请留空。',
+								'可選，但強烈推薦。如不需要請留空。'
+							),
 						},
 					];
 					break;
@@ -571,20 +583,20 @@
 						{
 							name: 'target1',
 							type: 'input',
-							label: wgULS('页面名1：', '頁面名1：'),
-							tooltip: wgULS('可选。', '可選。'),
+							label: window.wgULS('页面名1：', '頁面名1：'),
+							tooltip: window.wgULS('可选。', '可選。'),
 						},
 						{
 							name: 'target2',
 							type: 'input',
-							label: wgULS('页面名2：', '頁面名2：'),
-							tooltip: wgULS('可选。', '可選。'),
+							label: window.wgULS('页面名2：', '頁面名2：'),
+							tooltip: window.wgULS('可选。', '可選。'),
 						},
 						{
 							name: 'target3',
 							type: 'input',
-							label: wgULS('页面名3：', '頁面名3：'),
-							tooltip: wgULS('可选。', '可選。'),
+							label: window.wgULS('页面名3：', '頁面名3：'),
+							tooltip: window.wgULS('可选。', '可選。'),
 						},
 					];
 					break;
@@ -594,7 +606,10 @@
 							name: 'cleanupReason',
 							type: 'input',
 							label: '需要清理的理由',
-							tooltip: wgULS('可选，但强烈推荐。如不需要请留空。', '可選，但強烈推薦。如不需要請留空。'),
+							tooltip: window.wgULS(
+								'可选，但强烈推荐。如不需要请留空。',
+								'可選，但強烈推薦。如不需要請留空。'
+							),
 						},
 					];
 					break;
@@ -607,7 +622,7 @@
 			container.append({
 				type: 'header',
 				id: 'tagHeader0',
-				label: wgULS('已放置的维护标记', '已放置的維護標記'),
+				label: window.wgULS('已放置的维护标记', '已放置的維護標記'),
 			});
 			const subdiv = container.append({
 				type: 'div',
@@ -683,7 +698,7 @@
 				container.append({
 					type: 'header',
 					id: 'tagHeader1',
-					label: wgULS('可用的维护标记', '可用的維護標記'),
+					label: window.wgULS('可用的维护标记', '可用的維護標記'),
 				});
 			}
 			// Avoid repeatedly resorting
@@ -704,7 +719,7 @@
 		if (Twinkle.getPref('customTagList').length) {
 			container.append({
 				type: 'header',
-				label: wgULS('自定义模板', '自訂模板'),
+				label: window.wgULS('自定义模板', '自訂模板'),
 			});
 			container.append({
 				type: 'checkbox',
@@ -782,35 +797,35 @@
 	// Add new categories with discretion - the list is long enough as is!
 	Twinkle.tag.article.tagList = [
 		{
-			key: wgULS('清理和维护模板', '清理和維護模板'),
+			key: window.wgULS('清理和维护模板', '清理和維護模板'),
 			value: [
 				{
-					key: wgULS('常规清理', '常規清理'),
+					key: window.wgULS('常规清理', '常規清理'),
 					value: [
 						{
 							tag: 'Cleanup',
-							description: wgULS(
+							description: window.wgULS(
 								'可能需要进行清理，以符合求闻百科的质量标准',
 								'可能需要進行清理，以符合求聞百科的質量標準'
 							),
 						},
 						{
 							tag: 'Cleanup rewrite',
-							description: wgULS(
+							description: window.wgULS(
 								'不符合求闻百科的质量标准，需要完全重写',
 								'不符合求聞百科的質量標準，需要完全重寫'
 							),
 						},
 						{
 							tag: 'Cleanup-jargon',
-							description: wgULS(
+							description: window.wgULS(
 								'包含过多行话或专业术语，可能需要简化或提出进一步解释',
 								'包含過多行話或專業術語，可能需要簡化或提出進一步解釋'
 							),
 						},
 						{
 							tag: 'Copy edit',
-							description: wgULS(
+							description: window.wgULS(
 								'需要编修，以确保文法、用词、语气、格式、标点等使用恰当',
 								'需要編修，以確保文法、用詞、語氣、格式、標點等使用恰當'
 							),
@@ -818,22 +833,25 @@
 					],
 				},
 				{
-					key: wgULS('可能多余的内容', '可能多餘的內容'),
+					key: window.wgULS('可能多余的内容', '可能多餘的內容'),
 					value: [
 						{
 							tag: 'Copypaste',
-							description: wgULS('内容可能是从某个来源处拷贝后粘贴', '內容可能是從某個來源處拷貝後貼上'),
+							description: window.wgULS(
+								'内容可能是从某个来源处拷贝后粘贴',
+								'內容可能是從某個來源處拷貝後貼上'
+							),
 						},
 						{
 							tag: 'External links',
-							description: wgULS(
+							description: window.wgULS(
 								'使用外部链接的方式可能不符合求闻百科的方针',
 								'使用外部連結的方式可能不符合求聞百科的方針'
 							),
 						},
 						{
 							tag: 'Non-free',
-							description: wgULS(
+							description: window.wgULS(
 								'可能过多或不当地使用了受著作权保护的文字、图像或多媒体文件',
 								'可能過多或不當地使用了受版權保護的文字、圖像或多媒體檔案'
 							),
@@ -841,54 +859,54 @@
 					],
 				},
 				{
-					key: wgULS('结构和导言', '結構和導言'),
+					key: window.wgULS('结构和导言', '結構和導言'),
 					value: [
 						{
 							tag: 'Lead too long',
-							description: wgULS('导言部分也许过于冗长', '導言部分也許過於冗長'),
+							description: window.wgULS('导言部分也许过于冗长', '導言部分也許過於冗長'),
 						},
 						{
 							tag: 'Lead too short',
-							description: wgULS('导言部分也许不足以概括其内容', '導言部分也許不足以概括其內容'),
+							description: window.wgULS('导言部分也许不足以概括其内容', '導言部分也許不足以概括其內容'),
 						},
 						{
 							tag: 'Very long',
-							description: wgULS('可能过于冗长', '可能過於冗長'),
+							description: window.wgULS('可能过于冗长', '可能過於冗長'),
 						},
 					],
 				},
 				{
-					key: wgULS('虚构作品相关清理', '虛構作品相關清理'),
+					key: window.wgULS('虚构作品相关清理', '虛構作品相關清理'),
 					value: [
 						{
 							tag: 'In-universe',
-							description: wgULS(
+							description: window.wgULS(
 								'使用小说故事内的观点描述一个虚构事物',
 								'使用小說故事內的觀點描述一個虛構事物'
 							),
 						},
 						{
 							tag: 'Long plot',
-							description: wgULS('可能包含过于详细的剧情摘要', '可能包含過於詳細的劇情摘要'),
+							description: window.wgULS('可能包含过于详细的剧情摘要', '可能包含過於詳細的劇情摘要'),
 						},
 					],
 				},
 			],
 		},
 		{
-			key: wgULS('常规条目问题', '常規條目問題'),
+			key: window.wgULS('常规条目问题', '常規條目問題'),
 			value: [
 				{
 					key: '重要性和知名度',
 					value: [
 						{
 							tag: 'Notability',
-							description: wgULS('可能不符合通用关注度指引', '可能不符合通用關注度指引'),
+							description: window.wgULS('可能不符合通用关注度指引', '可能不符合通用關注度指引'),
 							excludeMI: true,
 						},
 						{
 							tag: 'Notability Unreferenced',
-							description: wgULS(
+							description: window.wgULS(
 								'可能具备关注度，但需要来源加以彰显',
 								'可能具備關注度，但需要來源加以彰顯'
 							),
@@ -896,45 +914,48 @@
 					],
 				},
 				{
-					key: wgULS('写作风格', '寫作風格'),
+					key: window.wgULS('写作风格', '寫作風格'),
 					value: [
 						{
 							tag: 'Advert',
-							description: wgULS('类似广告或宣传性内容', '類似廣告或宣傳性內容'),
+							description: window.wgULS('类似广告或宣传性内容', '類似廣告或宣傳性內容'),
 						},
 						{
 							tag: 'Fanpov',
-							description: wgULS('类似爱好者网页', '類似愛好者網頁'),
+							description: window.wgULS('类似爱好者网页', '類似愛好者網頁'),
 						},
 						{
 							tag: 'How-to',
-							description: wgULS('包含指南或教学内容', '包含指南或教學內容'),
+							description: window.wgULS('包含指南或教学内容', '包含指南或教學內容'),
 						},
 						{
 							tag: 'Inappropriate person',
-							description: wgULS('使用不适当的第一人称和第二人称', '使用不適當的第一人稱和第二人稱'),
+							description: window.wgULS(
+								'使用不适当的第一人称和第二人称',
+								'使用不適當的第一人稱和第二人稱'
+							),
 						},
 						{
 							tag: 'Newsrelease',
-							description: wgULS(
+							description: window.wgULS(
 								'阅读起来像是新闻稿及包含过度的宣传性语调',
 								'閱讀起來像是新聞稿及包含過度的宣傳性語調'
 							),
 						},
 						{
 							tag: 'Prose',
-							description: wgULS(
+							description: window.wgULS(
 								'使用了日期或时间列表式记述，需要改写为连贯的叙述性文字',
 								'使用了日期或時間列表式記述，需要改寫為連貫的敘述性文字'
 							),
 						},
 						{
 							tag: 'Review',
-							description: wgULS('阅读起来类似评论，需要清理', '閱讀起來類似評論，需要清理'),
+							description: window.wgULS('阅读起来类似评论，需要清理', '閱讀起來類似評論，需要清理'),
 						},
 						{
 							tag: 'Tone',
-							description: wgULS(
+							description: window.wgULS(
 								'语调或风格可能不适合百科全书的写作方式',
 								'語調或風格可能不適合百科全書的寫作方式'
 							),
@@ -942,93 +963,96 @@
 					],
 				},
 				{
-					key: wgULS('内容', '內容'),
+					key: window.wgULS('内容', '內容'),
 					value: [
 						{tag: 'Missing information', description: '缺少必要的信息'}, // these three have a subgroup with several options
-						{tag: 'Substub', description: wgULS('过于短小', '過於短小'), excludeMI: true},
+						{tag: 'Substub', description: window.wgULS('过于短小', '過於短小'), excludeMI: true},
 						{
 							tag: 'Unencyclopedic',
-							description: wgULS('可能不适合写入百科全书', '可能不適合寫入百科全書'),
+							description: window.wgULS('可能不适合写入百科全书', '可能不適合寫入百科全書'),
 						},
 					],
 				},
 				{
-					key: wgULS('信息和细节', '資訊和細節'),
+					key: window.wgULS('信息和细节', '資訊和細節'),
 					value: [
 						{
 							tag: 'Expert needed',
-							description: wgULS(
+							description: window.wgULS(
 								'需要精通或熟悉本主题的专业人士（专家）参与及协助编辑',
 								'需要精通或熟悉本主題的專業人士（專家）參與及協助編輯'
 							),
 						},
 						{
 							tag: 'Overly detailed',
-							description: wgULS('包含太多过度细节内容', '包含太多過度細節內容'),
+							description: window.wgULS('包含太多过度细节内容', '包含太多過度細節內容'),
 						},
 						{
 							tag: 'Trivia',
-							description: wgULS('应避免有陈列杂项、琐碎资料的部分', '應避免有陳列雜項、瑣碎資料的部分'),
+							description: window.wgULS(
+								'应避免有陈列杂项、琐碎资料的部分',
+								'應避免有陳列雜項、瑣碎資料的部分'
+							),
 						},
 					],
 				},
 				{
-					key: wgULS('时间性', '時間性'),
+					key: window.wgULS('时间性', '時間性'),
 					value: [
 						{
 							tag: 'Current',
-							description: wgULS('记述新闻动态', '記述新聞動態'),
+							description: window.wgULS('记述新闻动态', '記述新聞動態'),
 							excludeMI: true,
 						},
 						{
 							tag: 'Update',
-							description: wgULS('当前条目或章节需要更新', '當前條目或章節需要更新'),
+							description: window.wgULS('当前条目或章节需要更新', '當前條目或章節需要更新'),
 						},
 					],
 				},
 				{
-					key: wgULS('客观性和事实准确性', '客觀性和事實準確性'),
+					key: window.wgULS('客观性和事实准确性', '客觀性和事實準確性'),
 					value: [
 						{
 							tag: 'Autobiography',
-							description: wgULS(
+							description: window.wgULS(
 								'类似一篇自传，或内容主要由条目描述的当事人或组织撰写、编辑',
 								'類似一篇自傳，或內容主要由條目描述的當事人或組織撰寫、編輯'
 							),
 						},
 						{
 							tag: 'COI',
-							description: wgULS(
+							description: window.wgULS(
 								'主要贡献者与本条目所宣扬的内容可能存在利益冲突',
 								'主要貢獻者與本條目所宣揚的內容可能存在利益衝突'
 							),
 						},
 						{
 							tag: 'Disputed',
-							description: wgULS('内容疑欠准确，有待查证', '內容疑欠準確，有待查證'),
+							description: window.wgULS('内容疑欠准确，有待查证', '內容疑欠準確，有待查證'),
 						},
 						{
 							tag: 'Globalize',
-							description: wgULS('仅具有一部分地区的信息或观点', '僅具有一部分地區的資訊或觀點'),
+							description: window.wgULS('仅具有一部分地区的信息或观点', '僅具有一部分地區的資訊或觀點'),
 						},
 						{
 							tag: 'Hoax',
-							description: wgULS('真实性被质疑', '真實性被質疑'),
+							description: window.wgULS('真实性被质疑', '真實性被質疑'),
 						},
 						{
 							tag: 'POV',
-							description: wgULS(
+							description: window.wgULS(
 								'客观性有争议。内容、语调可能带有明显的个人观点或地方色彩',
 								'客觀性有爭議。內容、語調可能帶有明顯的個人觀點或地方色彩'
 							),
 						},
 						{
 							tag: 'Self-contradictory',
-							description: wgULS('内容自相矛盾', '內容自相矛盾'),
+							description: window.wgULS('内容自相矛盾', '內容自相矛盾'),
 						},
 						{
 							tag: 'Weasel',
-							description: wgULS(
+							description: window.wgULS(
 								'语义模棱两可而损及其客观性或准确性',
 								'語意模棱兩可而損及其客觀性或準確性'
 							),
@@ -1036,109 +1060,121 @@
 					],
 				},
 				{
-					key: wgULS('可供查证和来源', '可供查證和來源'),
+					key: window.wgULS('可供查证和来源', '可供查證和來源'),
 					value: [
 						{
 							tag: 'BLPdispute',
-							description: wgULS(
+							description: window.wgULS(
 								'可能违反了求闻百科关于生者传记的方针',
 								'可能違反了求聞百科關於生者傳記的方針'
 							),
 						},
 						{
 							tag: 'BLPsources',
-							description: wgULS(
+							description: window.wgULS(
 								'生者传记需要补充更多可供查证的来源',
 								'生者傳記需要補充更多可供查證的來源'
 							),
 						},
 						{
 							tag: 'BLP unsourced',
-							description: wgULS('生者传记没有列出任何参考或来源', '生者傳記沒有列出任何參考或來源'),
+							description: window.wgULS(
+								'生者传记没有列出任何参考或来源',
+								'生者傳記沒有列出任何參考或來源'
+							),
 						},
 						{
 							tag: 'Citecheck',
-							description: wgULS(
+							description: window.wgULS(
 								'可能包含不适用或被曲解的引用资料，部分内容的准确性无法被证实',
 								'可能包含不適用或被曲解的引用資料，部分內容的準確性無法被證實'
 							),
 						},
 						{
 							tag: 'More footnotes needed',
-							description: wgULS(
+							description: window.wgULS(
 								'因为文内引用不足，部分字句的来源仍然不明',
 								'因為文內引用不足，部分字句的來源仍然不明'
 							),
 						},
 						{
 							tag: 'No footnotes',
-							description: wgULS('因为没有内文引用而来源仍然不明', '因為沒有內文引用而來源仍然不明'),
+							description: window.wgULS(
+								'因为没有内文引用而来源仍然不明',
+								'因為沒有內文引用而來源仍然不明'
+							),
 						},
 						{
 							tag: 'Onesource',
-							description: wgULS('极大或完全地依赖于某个单一的来源', '極大或完全地依賴於某個單一的來源'),
+							description: window.wgULS(
+								'极大或完全地依赖于某个单一的来源',
+								'極大或完全地依賴於某個單一的來源'
+							),
 						},
 						{
 							tag: 'Original research',
-							description: wgULS('可能包含原创研究或未查证内容', '可能包含原創研究或未查證內容'),
+							description: window.wgULS('可能包含原创研究或未查证内容', '可能包含原創研究或未查證內容'),
 						},
 						{
 							tag: 'Primarysources',
-							description: wgULS('依赖第一手来源', '依賴第一手來源'),
+							description: window.wgULS('依赖第一手来源', '依賴第一手來源'),
 						},
 						{
 							tag: 'Refimprove',
-							description: wgULS('需要补充更多来源', '需要補充更多來源'),
+							description: window.wgULS('需要补充更多来源', '需要補充更多來源'),
 						},
 						{
 							tag: 'Unreferenced',
-							description: wgULS('没有列出任何参考或来源', '沒有列出任何參考或來源'),
+							description: window.wgULS('没有列出任何参考或来源', '沒有列出任何參考或來源'),
 						},
 					],
 				},
 			],
 		},
 		{
-			key: wgULS('具体内容问题', '具體內容問題'),
+			key: window.wgULS('具体内容问题', '具體內容問題'),
 			value: [
 				{
-					key: wgULS('语言', '語言'),
+					key: window.wgULS('语言', '語言'),
 					value: [
 						{
 							tag: 'NotMandarin',
-							description: wgULS('包含过多不是现代标准汉语的内容', '包含過多不是現代標準漢語的內容'),
+							description: window.wgULS(
+								'包含过多不是现代标准汉语的内容',
+								'包含過多不是現代標準漢語的內容'
+							),
 							excludeMI: true,
 						},
 						{
 							tag: 'Rough translation',
-							description: wgULS('翻译品质不佳', '翻譯品質不佳'),
+							description: window.wgULS('翻译品质不佳', '翻譯品質不佳'),
 						},
 					],
 				},
 				{
-					key: wgULS('链接', '連結'),
+					key: window.wgULS('链接', '連結'),
 					value: [
 						{
 							tag: 'Dead end',
-							description: wgULS(
+							description: window.wgULS(
 								'需要加上内部链接以构筑百科全书的链接网络',
 								'需要加上內部連結以構築百科全書的連結網絡'
 							),
 						},
 						{
 							tag: 'Orphan',
-							description: wgULS('没有或只有很少链入页面', '沒有或只有很少連入頁面'),
+							description: window.wgULS('没有或只有很少链入页面', '沒有或只有很少連入頁面'),
 						},
 						{
 							tag: 'Overlinked',
-							description: wgULS(
+							description: window.wgULS(
 								'含有过多、重复、或不必要的内部链接',
 								'含有過多、重複、或不必要的內部連結'
 							),
 						},
 						{
 							tag: 'Underlinked',
-							description: wgULS(
+							description: window.wgULS(
 								'需要更多内部链接以构筑百科全书的链接网络',
 								'需要更多內部連結以構築百科全書的連結網絡'
 							),
@@ -1146,25 +1182,25 @@
 					],
 				},
 				{
-					key: wgULS('参考技术', '參考技術'),
+					key: window.wgULS('参考技术', '參考技術'),
 					value: [
 						{
 							tag: 'Citation style',
-							description: wgULS('引用需要进行清理', '引用需要進行清理'),
+							description: window.wgULS('引用需要进行清理', '引用需要進行清理'),
 						},
 					],
 				},
 				{
-					key: wgULS('分类', '分類'),
+					key: window.wgULS('分类', '分類'),
 					value: [
 						{
 							tag: 'Improve categories',
-							description: wgULS('需要更多页面分类', '需要更多頁面分類'),
+							description: window.wgULS('需要更多页面分类', '需要更多頁面分類'),
 							excludeMI: true,
 						},
 						{
 							tag: 'Uncategorized',
-							description: wgULS('缺少页面分类', '缺少頁面分類'),
+							description: window.wgULS('缺少页面分类', '缺少頁面分類'),
 							excludeMI: true,
 						},
 					],
@@ -1172,31 +1208,31 @@
 			],
 		},
 		{
-			key: wgULS('合并、拆分、移动', '合併、拆分、移動'),
+			key: window.wgULS('合并、拆分、移动', '合併、拆分、移動'),
 			value: [
 				{
 					tag: 'Merge from',
-					description: wgULS('建议将页面并入此页面', '建議將頁面併入此頁面'),
+					description: window.wgULS('建议将页面并入此页面', '建議將頁面併入此頁面'),
 					excludeMI: true,
 				},
 				{
 					tag: 'Merge to',
-					description: wgULS('建议将此页面并入页面', '建議將此頁面併入頁面'),
+					description: window.wgULS('建议将此页面并入页面', '建議將此頁面併入頁面'),
 					excludeMI: true,
 				},
 				{
 					tag: 'Merge',
-					description: wgULS('建议此页面与页面合并', '建議此頁面與頁面合併'),
+					description: window.wgULS('建议此页面与页面合并', '建議此頁面與頁面合併'),
 					excludeMI: true,
 				},
 				{
 					tag: 'Requested move',
-					description: wgULS('建议将此页面移动到新名称', '建議將此頁面移動到新名稱'),
+					description: window.wgULS('建议将此页面移动到新名称', '建議將此頁面移動到新名稱'),
 					excludeMI: true,
 				},
 				{
 					tag: 'Split',
-					description: wgULS('建议将此页面分割为多个页面', '建議將此頁面分割為多個頁面'),
+					description: window.wgULS('建议将此页面分割为多个页面', '建議將此頁面分割為多個頁面'),
 					excludeMI: true,
 				},
 			],
@@ -1210,58 +1246,67 @@
 			key: '常用模板',
 			value: [
 				{
-					tag: wgULS('合并重定向', '合併重定向'),
-					description: wgULS(
+					tag: window.wgULS('合并重定向', '合併重定向'),
+					description: window.wgULS(
 						'保持页面题名至相应主条目，令页面内容在合并后仍能保存其编辑历史',
 						'保持頁面題名至相應主條目，令頁面內容在合併後仍能儲存其編輯歷史'
 					),
 				},
 				{
-					tag: wgULS('简繁重定向', '簡繁重定向'),
-					description: wgULS('引导简体至繁体，或繁体至简体', '引導簡體至繁體，或繁體至簡體'),
+					tag: window.wgULS('简繁重定向', '簡繁重定向'),
+					description: window.wgULS('引导简体至繁体，或繁体至简体', '引導簡體至繁體，或繁體至簡體'),
 				},
 				{
-					tag: wgULS('关注度重定向', '關注度重定向'),
-					description: wgULS(
+					tag: window.wgULS('关注度重定向', '關注度重定向'),
+					description: window.wgULS(
 						'缺乏关注度的子主题向有关注度的母主题的重定向',
 						'缺乏關注度的子主題向有關注度的母主題的重定向'
 					),
 				},
 				{
 					tag: '模板重定向',
-					description: wgULS('指向模板的重定向页面', '指向模板的重定向頁面'),
+					description: window.wgULS('指向模板的重定向页面', '指向模板的重定向頁面'),
 				},
 				{
-					tag: wgULS('别名重定向', '別名重定向'),
-					description: wgULS('标题的其他名称、笔名、绰号、同义字等', '標題的其他名稱、筆名、綽號、同義字等'),
+					tag: window.wgULS('别名重定向', '別名重定向'),
+					description: window.wgULS(
+						'标题的其他名称、笔名、绰号、同义字等',
+						'標題的其他名稱、筆名、綽號、同義字等'
+					),
 				},
 				{
-					tag: wgULS('译名重定向', '譯名重定向'),
-					description: wgULS('人物、作品等各项事物的其他翻译名称', '人物、作品等各項事物的其他翻譯名稱'),
+					tag: window.wgULS('译名重定向', '譯名重定向'),
+					description: window.wgULS(
+						'人物、作品等各项事物的其他翻译名称',
+						'人物、作品等各項事物的其他翻譯名稱'
+					),
 				},
 				{
-					tag: wgULS('缩写重定向', '縮寫重定向'),
-					description: wgULS('标题缩写', '標題縮寫'),
+					tag: window.wgULS('缩写重定向', '縮寫重定向'),
+					description: window.wgULS('标题缩写', '標題縮寫'),
 				},
 				{
-					tag: wgULS('拼写重定向', '拼寫重定向'),
-					description: wgULS('标题的其他不同拼写', '標題的其他不同拼寫'),
+					tag: window.wgULS('拼写重定向', '拼寫重定向'),
+					description: window.wgULS('标题的其他不同拼写', '標題的其他不同拼寫'),
 				},
 				{
-					tag: wgULS('错字重定向', '錯字重定向'),
-					description: wgULS('纠正标题的常见错误拼写或误植', '糾正標題的常見錯誤拼寫或誤植'),
+					tag: window.wgULS('错字重定向', '錯字重定向'),
+					description: window.wgULS('纠正标题的常见错误拼写或误植', '糾正標題的常見錯誤拼寫或誤植'),
 				},
 				{
-					tag: wgULS('旧名重定向', '舊名重定向'),
-					description: wgULS('将事物早前的名称引导至更改后的主题', '將事物早前的名稱引導至更改後的主題'),
+					tag: window.wgULS('旧名重定向', '舊名重定向'),
+					description: window.wgULS(
+						'将事物早前的名称引导至更改后的主题',
+						'將事物早前的名稱引導至更改後的主題'
+					),
 				},
 				{
 					tag: '全名重定向',
-					description: wgULS('标题的完整或更完整名称', '標題的完整或更完整名稱'),
+					description: window.wgULS('标题的完整或更完整名称', '標題的完整或更完整名稱'),
 				},
 				{
 					tag: '短名重定向',
-					description: wgULS(
+					description: window.wgULS(
 						'完整标题名称或人物全名的部分、不完整的名称或简称',
 						'完整標題名稱或人物全名的部分、不完整的名稱或簡稱'
 					),
@@ -1280,7 +1325,7 @@
 				},
 				{
 					tag: '非中文重定向',
-					description: wgULS('非中文标题', '非中文標題'),
+					description: window.wgULS('非中文标题', '非中文標題'),
 					subgroup: [
 						{
 							name: 'altLangFrom',
@@ -1293,7 +1338,7 @@
 				},
 				{
 					tag: '日文重定向',
-					description: wgULS('日语名称', '日語名稱'),
+					description: window.wgULS('日语名称', '日語名稱'),
 				},
 			],
 		},
@@ -1302,27 +1347,30 @@
 			value: [
 				{
 					tag: '角色重定向',
-					description: wgULS('电视剧、电影、书籍等作品的角色', '電視劇、電影、書籍等作品的角色'),
+					description: window.wgULS('电视剧、电影、书籍等作品的角色', '電視劇、電影、書籍等作品的角色'),
 				},
 				{
-					tag: wgULS('章节重定向', '章節重定向'),
-					description: wgULS('导向至较高密度组织的页面', '導向至較高密度組織的頁面'),
+					tag: window.wgULS('章节重定向', '章節重定向'),
+					description: window.wgULS('导向至较高密度组织的页面', '導向至較高密度組織的頁面'),
 				},
 				{
 					tag: '列表重定向',
-					description: wgULS('导向至低密度的列表', '導向至低密度的列表'),
+					description: window.wgULS('导向至低密度的列表', '導向至低密度的列表'),
 				},
 				{
 					tag: '可能性重定向',
-					description: wgULS('导向至当前提供内容更为详尽的目标页面', '導向至當前提供內容更為詳盡的目標頁面'),
+					description: window.wgULS(
+						'导向至当前提供内容更为详尽的目标页面',
+						'導向至當前提供內容更為詳盡的目標頁面'
+					),
 				},
 				{
-					tag: wgULS('关联字重定向', '關聯字重定向'),
-					description: wgULS('标题名称关联字', '標題名稱關聯字'),
+					tag: window.wgULS('关联字重定向', '關聯字重定向'),
+					description: window.wgULS('标题名称关联字', '標題名稱關聯字'),
 				},
 				{
-					tag: wgULS('条目请求重定向', '條目請求重定向'),
-					description: wgULS('需要独立条目的页面', '需要獨立條目的頁面'),
+					tag: window.wgULS('条目请求重定向', '條目請求重定向'),
+					description: window.wgULS('需要独立条目的页面', '需要獨立條目的頁面'),
 					subgroup: [
 						{
 							name: 'reqArticleLang',
@@ -1339,44 +1387,44 @@
 					],
 				},
 				{
-					tag: wgULS('快捷方式重定向', '捷徑重定向'),
-					description: wgULS('求闻百科快捷方式', '求聞百科快捷方式'),
+					tag: window.wgULS('快捷方式重定向', '捷徑重定向'),
+					description: window.wgULS('求闻百科快捷方式', '求聞百科快捷方式'),
 				},
 			],
 		},
 		{
-			key: wgULS('鲜用模板', '鮮用模板'),
+			key: window.wgULS('鲜用模板', '鮮用模板'),
 			value: [
 				{
-					tag: wgULS('词组重定向', '詞組重定向'),
-					description: wgULS(
+					tag: window.wgULS('词组重定向', '詞組重定向'),
+					description: window.wgULS(
 						'将词组/词组/成语指向切题的条目及恰当章节',
 						'將詞組/詞組/成語指向切題的條目及恰當章節'
 					),
 				},
 				{
-					tag: wgULS('消歧义页重定向', '消歧義頁重定向'),
-					description: wgULS('指向消歧义页', '指向消歧義頁'),
+					tag: window.wgULS('消歧义页重定向', '消歧義頁重定向'),
+					description: window.wgULS('指向消歧义页', '指向消歧義頁'),
 				},
 				{
 					tag: '域名重定向',
-					description: wgULS('域名', '網域名稱'),
+					description: window.wgULS('域名', '網域名稱'),
 				},
 				{
 					tag: '年代重定向',
-					description: wgULS('于年份条目导向至年代条目', '於年份條目導向至年代條目'),
+					description: window.wgULS('于年份条目导向至年代条目', '於年份條目導向至年代條目'),
 				},
 				{
-					tag: wgULS('用户框模板重定向', '用戶框模板重定向'),
-					description: wgULS('用户框模板', '用戶框模板'),
+					tag: window.wgULS('用户框模板重定向', '用戶框模板重定向'),
+					description: window.wgULS('用户框模板', '用戶框模板'),
 				},
 				{
 					tag: '重定向模板用重定向',
-					description: wgULS('导向至重定向模板', '導向至重定向模板'),
+					description: window.wgULS('导向至重定向模板', '導向至重定向模板'),
 				},
 				{
 					tag: 'EXIF重定向',
-					description: wgULS('JPEG图像文件包含EXIF信息', 'JPEG圖檔包含EXIF資訊'),
+					description: window.wgULS('JPEG图像文件包含EXIF信息', 'JPEG圖檔包含EXIF資訊'),
 				},
 			],
 		},
@@ -1384,7 +1432,7 @@
 	// maintenance tags for FILES start here
 	Twinkle.tag.fileList = [
 		{
-			key: wgULS('著作权和来源问题标签', '著作權和來源問題標籤'),
+			key: window.wgULS('著作权和来源问题标签', '著作權和來源問題標籤'),
 			value: [
 				{
 					label: `{{Non-free reduce}}：${wgULS(
@@ -1396,7 +1444,7 @@
 			],
 		},
 		{
-			key: wgULS('清理标签', '清理標籤'),
+			key: window.wgULS('清理标签', '清理標籤'),
 			value: [
 				{
 					label: `{{Watermark}}：${wgULS('图像包含了水印', '圖像包含了浮水印')}`,
@@ -1412,14 +1460,14 @@
 						{
 							type: 'input',
 							name: 'renamemediaNewname',
-							label: wgULS('新名称：', '新名稱：'),
-							tooltip: wgULS('输入图像的新名称（可选）', '輸入圖像的新名稱（可選）'),
+							label: window.wgULS('新名称：', '新名稱：'),
+							tooltip: window.wgULS('输入图像的新名称（可选）', '輸入圖像的新名稱（可選）'),
 						},
 						{
 							type: 'input',
 							name: 'renamemediaReason',
 							label: '原因：',
-							tooltip: wgULS('输入重命名的原因（可选）', '輸入重新命名的原因（可選）'),
+							tooltip: window.wgULS('输入重命名的原因（可选）', '輸入重新命名的原因（可選）'),
 						},
 					],
 				},
@@ -1433,7 +1481,7 @@
 			],
 		},
 		{
-			key: wgULS('文件取代标签', '檔案取代標籤'),
+			key: window.wgULS('文件取代标签', '檔案取代標籤'),
 			value: [
 				{
 					label: `{{Obsolete}}：${wgULS('有新版本可用的过时文件', '有新版本可用的過時檔案')}`,
@@ -1503,7 +1551,7 @@
 				} else {
 					summaryText = `移除${makeSentence(removedTags)}`;
 				}
-				summaryText += wgULS('标记', '標記');
+				summaryText += window.wgULS('标记', '標記');
 				if (params.reason) {
 					summaryText += `：${params.reason}`;
 				}
@@ -1815,7 +1863,7 @@
 				} else {
 					Morebits.status.warn(
 						wgULS('信息', '資訊'),
-						wgULS('在页面上找到{{', '在頁面上找到{{') + tag + wgULS('}}……跳过', '}}……跳過')
+						wgULS('在页面上找到{{', '在頁面上找到{{') + tag + window.wgULS('}}……跳过', '}}……跳過')
 					);
 					// don't do anything else with merge tags
 					if (['Merge', 'Merge to'].includes(tag)) {
@@ -1955,7 +2003,9 @@
 				if (tagRe.exec(pageText)) {
 					Morebits.status.warn(
 						wgULS('信息', '資訊'),
-						wgULS('在重定向上找到{{', '在重新導向上找到{{') + params.tags[i] + wgULS('}}……跳过', '}}……跳過')
+						wgULS('在重定向上找到{{', '在重新導向上找到{{') +
+							params.tags[i] +
+							window.wgULS('}}……跳过', '}}……跳過')
 					);
 				} else {
 					tags.push(params.tags[i]);
@@ -1987,7 +2037,7 @@
 				summaryText += `{{[[:${tagName.includes(':') ? tagName : `Template:${tagName}|${tagName}`}]]}}`;
 			};
 			if (!tags.length) {
-				Morebits.status.warn(wgULS('信息', '資訊'), wgULS('没有标签可供标记', '沒有標籤可供標記'));
+				Morebits.status.warn(wgULS('信息', '資訊'), window.wgULS('没有标签可供标记', '沒有標籤可供標記'));
 			}
 			tags.sort();
 			for (const tag of tags) {
@@ -2013,7 +2063,7 @@
 				pageText += `\n{{Redirect category shell|${tagText}${oldPageTags}\n}}`;
 			}
 			summaryText +=
-				(tags.length > 0 ? wgULS('标记', '標記') : '{{Redirect category shell}}') +
+				(tags.length > 0 ? window.wgULS('标记', '標記') : '{{Redirect category shell}}') +
 				wgULS('到重定向', '到重新導向');
 			// avoid truncated summaries
 			if (summaryText.length > 499) {
@@ -2199,17 +2249,23 @@
 						return;
 					}
 				}
-				if (checkParameter('Missing information', 'missingInformation', wgULS('缺少的内容', '缺少的內容'))) {
+				if (
+					checkParameter(
+						'Missing information',
+						'missingInformation',
+						window.wgULS('缺少的内容', '缺少的內容')
+					)
+				) {
 					return;
 				}
-				if (checkParameter('Expert needed', 'expert', wgULS('专家领域', '專家領域'))) {
+				if (checkParameter('Expert needed', 'expert', window.wgULS('专家领域', '專家領域'))) {
 					return;
 				}
 				break;
 			case 'file':
 				// Silly to provide the same string to each of these
 				if (
-					checkParameter('Obsolete', 'ObsoleteFile', wgULS('替换的文件名称', '替換的檔案名稱')) ||
+					checkParameter('Obsolete', 'ObsoleteFile', window.wgULS('替换的文件名称', '替換的檔案名稱')) ||
 					checkParameter(
 						'Vector version available',
 						'Vector_version_availableFile',
@@ -2243,7 +2299,7 @@
 		Morebits.simpleWindow.setButtonsEnabled(false);
 		Morebits.status.init(form);
 		Morebits.wiki.actionCompleted.redirect = Morebits.pageNameNorm;
-		Morebits.wiki.actionCompleted.notice = wgULS(
+		Morebits.wiki.actionCompleted.notice = window.wgULS(
 			'标记完成，将在几秒内刷新页面',
 			'標記完成，將在幾秒內重新整理頁面'
 		);

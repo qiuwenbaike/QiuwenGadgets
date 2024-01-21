@@ -19,15 +19,15 @@ import {initMwApi} from 'ext.gadget.Util';
 			Twinkle.protect.callback,
 			wgULS('保护', '保護'),
 			'tw-rpp',
-			Morebits.userIsSysop ? wgULS('保护页面', '保護頁面') : wgULS('请求保护页面', '請求保護頁面')
+			Morebits.userIsSysop ? window.wgULS('保护页面', '保護頁面') : window.wgULS('请求保护页面', '請求保護頁面')
 		);
 	};
 	Twinkle.protect.callback = () => {
 		const Window = new Morebits.simpleWindow(620, 530);
 		Window.setTitle(
 			Morebits.userIsSysop
-				? wgULS('施行或请求保护页面', '施行或請求保護頁面')
-				: wgULS('请求保护页面', '請求保護頁面')
+				? window.wgULS('施行或请求保护页面', '施行或請求保護頁面')
+				: window.wgULS('请求保护页面', '請求保護頁面')
 		);
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(wgULS('保护方针', '保護方針'), 'QW:PROT');
@@ -36,7 +36,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		const form = new Morebits.quickForm(Twinkle.protect.callback.evaluate);
 		const actionfield = form.append({
 			type: 'field',
-			label: wgULS('操作类型', '操作類別'),
+			label: window.wgULS('操作类型', '操作類別'),
 		});
 		if (Morebits.userIsSysop) {
 			actionfield.append({
@@ -45,7 +45,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				event: Twinkle.protect.callback.changeAction,
 				list: [
 					{
-						label: wgULS('保护页面', '保護頁面'),
+						label: window.wgULS('保护页面', '保護頁面'),
 						value: 'protect',
 						checked: true,
 					},
@@ -58,7 +58,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			event: Twinkle.protect.callback.changeAction,
 			list: [
 				{
-					label: wgULS('请求保护页面', '請求保護頁面'),
+					label: window.wgULS('请求保护页面', '請求保護頁面'),
 					value: 'request',
 					tooltip:
 						wgULS('若您想在QW:RFPP请求保护此页', '若您想在QW:RFPP請求保護此頁') +
@@ -66,16 +66,16 @@ import {initMwApi} from 'ext.gadget.Util';
 					checked: !Morebits.userIsSysop,
 				},
 				{
-					label: wgULS('用保护模板标记此页', '用保護模板標記此頁'),
+					label: window.wgULS('用保护模板标记此页', '用保護模板標記此頁'),
 					value: 'tag',
-					tooltip: wgULS('可以用此为页面加上合适的保护模板。', '可以用此為頁面加上合適的保護模板。'),
+					tooltip: window.wgULS('可以用此为页面加上合适的保护模板。', '可以用此為頁面加上合適的保護模板。'),
 					disabled: mw.config.get('wgArticleId') === 0 || mw.config.get('wgPageContentModel') === 'Scribunto',
 				},
 			],
 		});
 		form.append({
 			type: 'field',
-			label: wgULS('默认', '預設'),
+			label: window.wgULS('默认', '預設'),
 			name: 'field_preset',
 		});
 		form.append({
@@ -184,7 +184,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			Morebits.status.init($body.find('div[name="hasprotectlog"] span')[0]);
 			Morebits.status.warn(
 				currentlyProtected
-					? wgULS('先前保护', '先前保護')
+					? window.wgULS('先前保护', '先前保護')
 					: [
 							wgULS('此页面曾在', '此頁面曾在'),
 							$(
@@ -215,13 +215,13 @@ import {initMwApi} from 'ext.gadget.Util';
 			case 'protect':
 				field_preset = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('默认', '預設'),
+					label: window.wgULS('默认', '預設'),
 					name: 'field_preset',
 				});
 				field_preset.append({
 					type: 'select',
 					name: 'category',
-					label: wgULS('选择默认：', '選擇預設：'),
+					label: window.wgULS('选择默认：', '選擇預設：'),
 					event: Twinkle.protect.callback.changePreset,
 					list: mw.config.get('wgArticleId')
 						? Twinkle.protect.protectionTypesAdmin
@@ -229,7 +229,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				});
 				field2 = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('保护选项', '保護選項'),
+					label: window.wgULS('保护选项', '保護選項'),
 					name: 'field2',
 				});
 				field2.append({
@@ -249,9 +249,12 @@ import {initMwApi} from 'ext.gadget.Util';
 						event: Twinkle.protect.formevents.editmodify,
 						list: [
 							{
-								label: wgULS('修改编辑权限', '修改編輯權限'),
+								label: window.wgULS('修改编辑权限', '修改編輯權限'),
 								name: 'editmodify',
-								tooltip: wgULS('若此项关闭，编辑权限将不会修改。', '若此項關閉，編輯權限將不會修改。'),
+								tooltip: window.wgULS(
+									'若此项关闭，编辑权限将不会修改。',
+									'若此項關閉，編輯權限將不會修改。'
+								),
 								checked: true,
 							},
 						],
@@ -259,7 +262,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					field2.append({
 						type: 'select',
 						name: 'editlevel',
-						label: wgULS('编辑权限：', '編輯權限：'),
+						label: window.wgULS('编辑权限：', '編輯權限：'),
 						event: Twinkle.protect.formevents.editlevel,
 						list: Twinkle.protect.protectionLevels.filter(
 							// Filter TE outside of templates and modules
@@ -271,7 +274,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					field2.append({
 						type: 'select',
 						name: 'editexpiry',
-						label: wgULS('终止时间：', '終止時間：'),
+						label: window.wgULS('终止时间：', '終止時間：'),
 						event: (event) => {
 							if (event.target.value === 'custom') {
 								Twinkle.protect.doCustomExpiry(event.target);
@@ -288,9 +291,9 @@ import {initMwApi} from 'ext.gadget.Util';
 						event: Twinkle.protect.formevents.movemodify,
 						list: [
 							{
-								label: wgULS('修改移动权限', '修改移動權限'),
+								label: window.wgULS('修改移动权限', '修改移動權限'),
 								name: 'movemodify',
-								tooltip: wgULS(
+								tooltip: window.wgULS(
 									'若此项被关闭，移动权限将不被修改。',
 									'若此項被關閉，移動權限將不被修改。'
 								),
@@ -301,7 +304,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					field2.append({
 						type: 'select',
 						name: 'movelevel',
-						label: wgULS('移动权限：', '移動權限：'),
+						label: window.wgULS('移动权限：', '移動權限：'),
 						event: Twinkle.protect.formevents.movelevel,
 						list: Twinkle.protect.protectionLevels.filter(
 							// Autoconfirmed is required for a move, redundant
@@ -315,7 +318,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					field2.append({
 						type: 'select',
 						name: 'moveexpiry',
-						label: wgULS('终止时间：', '終止時間：'),
+						label: window.wgULS('终止时间：', '終止時間：'),
 						event: (event) => {
 							if (event.target.value === 'custom') {
 								Twinkle.protect.doCustomExpiry(event.target);
@@ -329,7 +332,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					field2.append({
 						type: 'select',
 						name: 'createlevel',
-						label: wgULS('创建权限：', '建立權限：'),
+						label: window.wgULS('创建权限：', '建立權限：'),
 						event: Twinkle.protect.formevents.createlevel,
 						list: Twinkle.protect.protectionLevels.filter(
 							// Filter TE always, and autoconfirmed in mainspace
@@ -341,7 +344,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					field2.append({
 						type: 'select',
 						name: 'createexpiry',
-						label: wgULS('终止时间：', '終止時間：'),
+						label: window.wgULS('终止时间：', '終止時間：'),
 						event: (event) => {
 							if (event.target.value === 'custom') {
 								Twinkle.protect.doCustomExpiry(event.target);
@@ -356,7 +359,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					list: [
 						{
 							name: 'close',
-							label: wgULS('标记请求保护页面中的请求', '標記請求保護頁面中的請求'),
+							label: window.wgULS('标记请求保护页面中的请求', '標記請求保護頁面中的請求'),
 							checked: true,
 						},
 					],
@@ -364,7 +367,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				field2.append({
 					type: 'textarea',
 					name: 'protectReason',
-					label: wgULS('理由（保护日志）：', '理由（保護日誌）：'),
+					label: window.wgULS('理由（保护日志）：', '理由（保護日誌）：'),
 				});
 				if (!mw.config.get('wgArticleId') || mw.config.get('wgPageContentModel') === 'Scribunto') {
 					// tagging isn't relevant for non-existing or module pages
@@ -374,7 +377,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			case 'tag':
 				field1 = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('标记选项', '標記選項'),
+					label: window.wgULS('标记选项', '標記選項'),
 					name: 'field1',
 				});
 				field1.append({
@@ -390,7 +393,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				field1.append({
 					type: 'select',
 					name: 'tagtype',
-					label: wgULS('选择保护模板：', '選擇保護模板：'),
+					label: window.wgULS('选择保护模板：', '選擇保護模板：'),
 					list: Twinkle.protect.protectionTags,
 					event: Twinkle.protect.formevents.tagtype,
 				});
@@ -399,16 +402,16 @@ import {initMwApi} from 'ext.gadget.Util';
 					list: [
 						{
 							name: 'small',
-							label: wgULS('使用图标（small=yes）', '使用圖示（small=yes）'),
-							tooltip: wgULS(
+							label: window.wgULS('使用图标（small=yes）', '使用圖示（small=yes）'),
+							tooltip: window.wgULS(
 								'将给模板加上|small=yes参数，显示成右上角的一把挂锁。',
 								'將給模板加上|small=yes參數，顯示成右上角的一把掛鎖。'
 							),
 						},
 						{
 							name: 'noinclude',
-							label: wgULS('用&lt;noinclude&gt;包裹保护模板', '用&lt;noinclude&gt;包裹保護模板'),
-							tooltip: wgULS(
+							label: window.wgULS('用&lt;noinclude&gt;包裹保护模板', '用&lt;noinclude&gt;包裹保護模板'),
+							tooltip: window.wgULS(
 								'将保护模板包裹在&lt;noinclude&gt;中',
 								'將保護模板包裹在&lt;noinclude&gt;中'
 							),
@@ -416,8 +419,8 @@ import {initMwApi} from 'ext.gadget.Util';
 						},
 						{
 							name: 'showexpiry',
-							label: wgULS('在模板显示到期时间', '在模板顯示到期時間'),
-							tooltip: wgULS('将给模板加上|expiry参数', '將給模板加上|expiry參數'),
+							label: window.wgULS('在模板显示到期时间', '在模板顯示到期時間'),
+							tooltip: window.wgULS('将给模板加上|expiry参数', '將給模板加上|expiry參數'),
 							checked: true,
 							hidden: e.target.values === 'tag',
 						},
@@ -427,13 +430,13 @@ import {initMwApi} from 'ext.gadget.Util';
 			case 'request':
 				field_preset = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('保护类型', '保護類別'),
+					label: window.wgULS('保护类型', '保護類別'),
 					name: 'field_preset',
 				});
 				field_preset.append({
 					type: 'select',
 					name: 'category',
-					label: wgULS('类型和理由：', '類別和理由：'),
+					label: window.wgULS('类型和理由：', '類別和理由：'),
 					event: Twinkle.protect.callback.changePreset,
 					list: mw.config.get('wgArticleId')
 						? Twinkle.protect.protectionTypes
@@ -441,7 +444,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				});
 				field1 = new Morebits.quickForm.element({
 					type: 'field',
-					label: wgULS('选项', '選項'),
+					label: window.wgULS('选项', '選項'),
 					name: 'field1',
 				});
 				field1.append({
@@ -457,7 +460,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				field1.append({
 					type: 'select',
 					name: 'expiry',
-					label: wgULS('时长：', '時長：'),
+					label: window.wgULS('时长：', '時長：'),
 					list: [
 						{
 							label: '',
@@ -465,7 +468,7 @@ import {initMwApi} from 'ext.gadget.Util';
 							value: '',
 						},
 						{
-							label: wgULS('临时', '臨時'),
+							label: window.wgULS('临时', '臨時'),
 							value: 'temporary',
 						},
 						{
@@ -582,24 +585,24 @@ import {initMwApi} from 'ext.gadget.Util';
 			value: 'all',
 		},
 		{
-			label: wgULS('仅允许自动确认用户', '僅允許自動確認使用者'),
+			label: window.wgULS('仅允许自动确认用户', '僅允許自動確認使用者'),
 			value: 'autoconfirmed',
 		},
 		{
-			label: wgULS('仅模板编辑员和管理员', '僅模板編輯員和管理員'),
+			label: window.wgULS('仅模板编辑员和管理员', '僅模板編輯員和管理員'),
 			value: 'templateeditor',
 		},
 		{
-			label: wgULS('仅管理员', '僅管理員'),
+			label: window.wgULS('仅管理员', '僅管理員'),
 			value: 'sysop',
 			selected: true,
 		},
 		{
-			label: wgULS('仅允许资深用户', '僅允許資深用戶'),
+			label: window.wgULS('仅允许资深用户', '僅允許資深用戶'),
 			value: 'revisionprotected',
 		},
 		{
-			label: wgULS('仅允许裁决委员', '僅允許裁決委員'),
+			label: window.wgULS('仅允许裁决委员', '僅允許裁決委員'),
 			value: 'officialprotected',
 		},
 	];
@@ -615,23 +618,23 @@ import {initMwApi} from 'ext.gadget.Util';
 			value: '3 days',
 		},
 		{
-			label: wgULS('1周', '1週'),
+			label: window.wgULS('1周', '1週'),
 			value: '1 week',
 		},
 		{
-			label: wgULS('2周', '2週'),
+			label: window.wgULS('2周', '2週'),
 			value: '2 weeks',
 		},
 		{
-			label: wgULS('1个月', '1個月'),
+			label: window.wgULS('1个月', '1個月'),
 			value: '1 month',
 		},
 		{
-			label: wgULS('3个月', '3個月'),
+			label: window.wgULS('3个月', '3個月'),
 			value: '3 months',
 		},
 		{
-			label: wgULS('6个月', '6個月'),
+			label: window.wgULS('6个月', '6個月'),
 			value: '6 months',
 		},
 		{
@@ -639,87 +642,87 @@ import {initMwApi} from 'ext.gadget.Util';
 			value: '1 year',
 		},
 		{
-			label: wgULS('无限期', '無限期'),
+			label: window.wgULS('无限期', '無限期'),
 			value: 'infinity',
 		},
 		{
-			label: wgULS('自定义……', '自訂……'),
+			label: window.wgULS('自定义……', '自訂……'),
 			value: 'custom',
 		},
 	];
 	Twinkle.protect.protectionTypesAdmin = [
 		{
-			label: wgULS('解除保护', '解除保護'),
+			label: window.wgULS('解除保护', '解除保護'),
 			value: 'unprotect',
 		},
 		{
-			label: wgULS('全保护', '全保護'),
+			label: window.wgULS('全保护', '全保護'),
 			list: [
 				{
-					label: wgULS('常规（全）', '常規（全）'),
+					label: window.wgULS('常规（全）', '常規（全）'),
 					value: 'pp-protected',
 				},
 				{
-					label: wgULS('争议、编辑战（全）', '爭議、編輯戰（全）'),
+					label: window.wgULS('争议、编辑战（全）', '爭議、編輯戰（全）'),
 					value: 'pp-dispute',
 				},
 			],
 		},
 		{
-			label: wgULS('模板保护', '模板保護'),
+			label: window.wgULS('模板保护', '模板保護'),
 			list: [
 				{
-					label: wgULS('高风险模板（模板）', '高風險模板（模板）'),
+					label: window.wgULS('高风险模板（模板）', '高風險模板（模板）'),
 					value: 'pp-template',
 				},
 			],
 		},
 		{
-			label: wgULS('半保护', '半保護'),
+			label: window.wgULS('半保护', '半保護'),
 			list: [
 				{
-					label: wgULS('常规（半）', '常規（半）'),
+					label: window.wgULS('常规（半）', '常規（半）'),
 					value: 'pp-semi-protected',
 				},
 				{
-					label: wgULS('持续破坏（半）', '持續破壞（半）'),
+					label: window.wgULS('持续破坏（半）', '持續破壞（半）'),
 					value: 'pp-semi-vandalism',
 				},
 				{
-					label: wgULS('违反生者传记方针（半）', '違反生者傳記方針（半）'),
+					label: window.wgULS('违反生者传记方针（半）', '違反生者傳記方針（半）'),
 					value: 'pp-semi-blp',
 				},
 				{
-					label: wgULS('傀儡破坏（半）', '傀儡破壞（半）'),
+					label: window.wgULS('傀儡破坏（半）', '傀儡破壞（半）'),
 					value: 'pp-semi-sock',
 				},
 				{
-					label: wgULS('高风险模板（半）', '高風險模板（半）'),
+					label: window.wgULS('高风险模板（半）', '高風險模板（半）'),
 					value: 'pp-semi-template',
 				},
 				{
-					label: wgULS('被封禁用户滥用讨论页（半）', '被封禁使用者濫用討論頁（半）'),
+					label: window.wgULS('被封禁用户滥用讨论页（半）', '被封禁使用者濫用討論頁（半）'),
 					value: 'pp-semi-usertalk',
 				},
 			],
 		},
 		{
-			label: wgULS('移动保护', '移動保護'),
+			label: window.wgULS('移动保护', '移動保護'),
 			list: [
 				{
-					label: wgULS('常规（移动）', '常規（移動）'),
+					label: window.wgULS('常规（移动）', '常規（移動）'),
 					value: 'pp-move',
 				},
 				{
-					label: wgULS('争议、移动战（移动）', '爭議、移動戰（移動）'),
+					label: window.wgULS('争议、移动战（移动）', '爭議、移動戰（移動）'),
 					value: 'pp-move-dispute',
 				},
 				{
-					label: wgULS('移动破坏（移动）', '移動破壞（移動）'),
+					label: window.wgULS('移动破坏（移动）', '移動破壞（移動）'),
 					value: 'pp-move-vandalism',
 				},
 				{
-					label: wgULS('高风险页面（移动）', '高風險頁面（移動）'),
+					label: window.wgULS('高风险页面（移动）', '高風險頁面（移動）'),
 					value: 'pp-move-indef',
 				},
 			],
@@ -734,22 +737,22 @@ import {initMwApi} from 'ext.gadget.Util';
 	);
 	Twinkle.protect.protectionTypesCreateOnly = [
 		{
-			label: wgULS('白纸保护', '白紙保護'),
+			label: window.wgULS('白纸保护', '白紙保護'),
 			list: [
 				{
-					label: wgULS('常规（白纸）', '常規（白紙）'),
+					label: window.wgULS('常规（白纸）', '常規（白紙）'),
 					value: 'pp-create',
 				},
 				{
-					label: wgULS('多次重复创建（白纸）', '多次重複建立（白紙）'),
+					label: window.wgULS('多次重复创建（白纸）', '多次重複建立（白紙）'),
 					value: 'pp-create-repeat',
 				},
 				{
-					label: wgULS('持续破坏（白纸）', '持續破壞（白紙）'),
+					label: window.wgULS('持续破坏（白纸）', '持續破壞（白紙）'),
 					value: 'pp-create-vandalism',
 				},
 				{
-					label: wgULS('已封禁用户的用户页（白纸）', '已封禁使用者的使用者頁（白紙）'),
+					label: window.wgULS('已封禁用户的用户页（白纸）', '已封禁使用者的使用者頁（白紙）'),
 					value: 'pp-create-userpage',
 				},
 			],
@@ -777,48 +780,48 @@ import {initMwApi} from 'ext.gadget.Util';
 		'pp-dispute': {
 			edit: 'sysop',
 			move: 'sysop',
-			reason: wgULS('编辑战', '編輯戰'),
+			reason: window.wgULS('编辑战', '編輯戰'),
 		},
 		'pp-template': {
 			edit: 'templateeditor',
 			move: 'templateeditor',
 			expiry: 'infinity',
-			reason: wgULS('[[QW:HRT|高风险模板]]', '[[QW:HRT|高風險模板]]'),
+			reason: window.wgULS('[[QW:HRT|高风险模板]]', '[[QW:HRT|高風險模板]]'),
 			template: 'noop',
 		},
 		'pp-vandalism': {
 			edit: 'sysop',
 			move: 'sysop',
-			reason: wgULS('被自动确认用户破坏', '被自動確認使用者破壞'),
+			reason: window.wgULS('被自动确认用户破坏', '被自動確認使用者破壞'),
 		},
 		'pp-sock': {
 			edit: 'sysop',
 			move: 'sysop',
-			reason: wgULS('持续的傀儡破坏', '持續的傀儡破壞'),
+			reason: window.wgULS('持续的傀儡破坏', '持續的傀儡破壞'),
 		},
 		'pp-semi-vandalism': {
 			edit: 'autoconfirmed',
-			reason: wgULS('被新用户破坏', '被新使用者破壞'),
+			reason: window.wgULS('被新用户破坏', '被新使用者破壞'),
 			template: 'pp-vandalism',
 		},
 		'pp-semi-blp': {
 			edit: 'autoconfirmed',
-			reason: wgULS('新用户违反生者传记方针', '新使用者違反生者傳記方針'),
+			reason: window.wgULS('新用户违反生者传记方针', '新使用者違反生者傳記方針'),
 		},
 		'pp-semi-usertalk': {
 			edit: 'autoconfirmed',
-			reason: wgULS('被封禁用户滥用其讨论页', '被封禁使用者濫用其討論頁'),
+			reason: window.wgULS('被封禁用户滥用其讨论页', '被封禁使用者濫用其討論頁'),
 		},
 		'pp-semi-template': {
 			// removed for now
 			edit: 'autoconfirmed',
 			expiry: 'infinity',
-			reason: wgULS('[[QW:HRT|高风险模板]]', '[[QW:HRT|高風險模板]]'),
+			reason: window.wgULS('[[QW:HRT|高风险模板]]', '[[QW:HRT|高風險模板]]'),
 			template: 'noop',
 		},
 		'pp-semi-sock': {
 			edit: 'autoconfirmed',
-			reason: wgULS('持续的傀儡破坏', '持續的傀儡破壞'),
+			reason: window.wgULS('持续的傀儡破坏', '持續的傀儡破壞'),
 			template: 'pp-sock',
 		},
 		'pp-semi-protected': {
@@ -832,16 +835,16 @@ import {initMwApi} from 'ext.gadget.Util';
 		},
 		'pp-move-dispute': {
 			move: 'sysop',
-			reason: wgULS('页面移动战', '頁面移動戰'),
+			reason: window.wgULS('页面移动战', '頁面移動戰'),
 		},
 		'pp-move-vandalism': {
 			move: 'sysop',
-			reason: wgULS('移动破坏', '移動破壞'),
+			reason: window.wgULS('移动破坏', '移動破壞'),
 		},
 		'pp-move-indef': {
 			move: 'sysop',
 			expiry: 'infinity',
-			reason: wgULS('高风险页面', '高風險頁面'),
+			reason: window.wgULS('高风险页面', '高風險頁面'),
 		},
 		unprotect: {
 			edit: 'all',
@@ -856,25 +859,25 @@ import {initMwApi} from 'ext.gadget.Util';
 		},
 		'pp-create-repeat': {
 			create: 'autoconfirmed',
-			reason: wgULS('多次重复创建', '多次重複建立'),
+			reason: window.wgULS('多次重复创建', '多次重複建立'),
 		},
 		'pp-create-vandalism': {
 			create: 'autoconfirmed',
-			reason: wgULS('被新用户破坏', '被新使用者破壞'),
+			reason: window.wgULS('被新用户破坏', '被新使用者破壞'),
 		},
 		'pp-create-userpage': {
 			create: 'sysop',
 			expiry: 'infinity',
-			reason: wgULS('被永久封禁的用户页', '被永久封禁的使用者頁面'),
+			reason: window.wgULS('被永久封禁的用户页', '被永久封禁的使用者頁面'),
 		},
 	};
 	Twinkle.protect.protectionTags = [
 		{
-			label: wgULS('无（移除现有模板）', '無（移除現有模板）'),
+			label: window.wgULS('无（移除现有模板）', '無（移除現有模板）'),
 			value: 'none',
 		},
 		{
-			label: wgULS('无（不移除现有模板）', '無（不移除現有模板）'),
+			label: window.wgULS('无（不移除现有模板）', '無（不移除現有模板）'),
 			value: 'noop',
 		},
 		{
@@ -904,7 +907,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			],
 		},
 		{
-			label: wgULS('半保护模板', '半保護模板'),
+			label: window.wgULS('半保护模板', '半保護模板'),
 			list: [
 				{
 					label: `{{pp-semi-usertalk}}: ${wgULS('封禁的用户', '封禁的使用者')}`,
@@ -921,7 +924,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			],
 		},
 		{
-			label: wgULS('移动保护模板', '移動保護模板'),
+			label: window.wgULS('移动保护模板', '移動保護模板'),
 			list: [
 				{
 					label: `{{pp-move-dispute}}: ${wgULS('争议', '爭議')}`,
@@ -1106,7 +1109,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			case 'protect': {
 				// protect the page
 				Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
-				Morebits.wiki.actionCompleted.notice = wgULS('保护完成', '保護完成');
+				Morebits.wiki.actionCompleted.notice = window.wgULS('保护完成', '保護完成');
 				let statusInited = false;
 				let thispage;
 				const allDone = () => {
@@ -1127,7 +1130,10 @@ import {initMwApi} from 'ext.gadget.Util';
 					}
 				};
 				const protectIt = (next) => {
-					thispage = new Morebits.wiki.page(mw.config.get('wgPageName'), wgULS('保护页面', '保護頁面'));
+					thispage = new Morebits.wiki.page(
+						mw.config.get('wgPageName'),
+						window.wgULS('保护页面', '保護頁面')
+					);
 					if (mw.config.get('wgArticleId')) {
 						if (input.editmodify) {
 							thispage.setEditProtection(input.editlevel, input.editexpiry);
@@ -1195,7 +1201,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				Morebits.status.init(form);
 				Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
 				Morebits.wiki.actionCompleted.followRedirect = false;
-				Morebits.wiki.actionCompleted.notice = wgULS('标记完成', '標記完成');
+				Morebits.wiki.actionCompleted.notice = window.wgULS('标记完成', '標記完成');
 				Twinkle.protect.callbacks.taggingPageInitial(tagparams);
 				break;
 			case 'request': {
@@ -1205,10 +1211,10 @@ import {initMwApi} from 'ext.gadget.Util';
 				switch (input.category) {
 					case 'pp-dispute':
 					case 'pp-protected':
-						typename = wgULS('全保护', '全保護');
+						typename = window.wgULS('全保护', '全保護');
 						break;
 					case 'pp-template':
-						typename = wgULS('模板保护', '模板保護');
+						typename = window.wgULS('模板保护', '模板保護');
 						break;
 					case 'pp-vandalism':
 					case 'pp-semi-disruptive':
@@ -1219,13 +1225,13 @@ import {initMwApi} from 'ext.gadget.Util';
 					case 'pp-semi-sock':
 					case 'pp-semi-blp':
 					case 'pp-semi-protected':
-						typename = wgULS('半保护', '半保護');
+						typename = window.wgULS('半保护', '半保護');
 						break;
 					case 'pp-move':
 					case 'pp-move-dispute':
 					case 'pp-move-indef':
 					case 'pp-move-vandalism':
-						typename = wgULS('移动保护', '移動保護');
+						typename = window.wgULS('移动保护', '移動保護');
 						break;
 					case 'pp-create':
 					case 'pp-create-offensive':
@@ -1234,51 +1240,51 @@ import {initMwApi} from 'ext.gadget.Util';
 					case 'pp-create-userpage':
 					case 'pp-create-repeat':
 					case 'pp-create-vandalism':
-						typename = wgULS('白纸保护', '白紙保護');
+						typename = window.wgULS('白纸保护', '白紙保護');
 						break;
 					/* case 'unprotect': */
 					/* falls through */
 					default:
-						typename = wgULS('解除保护', '解除保護');
+						typename = window.wgULS('解除保护', '解除保護');
 						break;
 				}
 				switch (input.category) {
 					case 'pp-dispute':
-						typereason = wgULS('争议、编辑战', '爭議、編輯戰');
+						typereason = window.wgULS('争议、编辑战', '爭議、編輯戰');
 						break;
 					case 'pp-vandalism':
 					case 'pp-semi-vandalism':
 					case 'pp-create-vandalism':
-						typereason = wgULS('持续破坏', '持續破壞');
+						typereason = window.wgULS('持续破坏', '持續破壞');
 						break;
 					case 'pp-template':
 					case 'pp-semi-template':
 						// removed for now
-						typereason = wgULS('高风险模板', '高風險模板');
+						typereason = window.wgULS('高风险模板', '高風險模板');
 						break;
 					case 'pp-create-userpage':
-						typereason = wgULS('被永久封禁的用户页', '被永久封鎖的使用者頁面');
+						typereason = window.wgULS('被永久封禁的用户页', '被永久封鎖的使用者頁面');
 						break;
 					case 'pp-semi-usertalk':
-						typereason = wgULS('已封禁用户的讨论页', '已封鎖使用者的討論頁');
+						typereason = window.wgULS('已封禁用户的讨论页', '已封鎖使用者的討論頁');
 						break;
 					case 'pp-semi-sock':
-						typereason = wgULS('傀儡破坏', '傀儡破壞');
+						typereason = window.wgULS('傀儡破坏', '傀儡破壞');
 						break;
 					case 'pp-semi-blp':
-						typereason = wgULS('违反生者传记方针', '違反生者傳記方針');
+						typereason = window.wgULS('违反生者传记方针', '違反生者傳記方針');
 						break;
 					case 'pp-move-dispute':
-						typereason = wgULS('争议、移动战', '爭議、移動戰');
+						typereason = window.wgULS('争议、移动战', '爭議、移動戰');
 						break;
 					case 'pp-move-vandalism':
-						typereason = wgULS('移动破坏', '移動破壞');
+						typereason = window.wgULS('移动破坏', '移動破壞');
 						break;
 					case 'pp-move-indef':
-						typereason = wgULS('高风险页面', '高風險頁面');
+						typereason = window.wgULS('高风险页面', '高風險頁面');
 						break;
 					case 'pp-create-repeat':
-						typereason = wgULS('多次重复创建', '多次重複建立');
+						typereason = window.wgULS('多次重复创建', '多次重複建立');
 						break;
 					default:
 						typereason = '';
@@ -1305,8 +1311,11 @@ import {initMwApi} from 'ext.gadget.Util';
 				const rppName = 'Qiuwen_talk:页面保护请求';
 				// Updating data for the action completed event
 				Morebits.wiki.actionCompleted.redirect = rppName;
-				Morebits.wiki.actionCompleted.notice = wgULS('提名完成，重定向到讨论页', '提名完成，重新導向到討論頁');
-				const rppPage = new Morebits.wiki.page(rppName, wgULS('请求保护页面', '請求保護頁面'));
+				Morebits.wiki.actionCompleted.notice = window.wgULS(
+					'提名完成，重定向到讨论页',
+					'提名完成，重新導向到討論頁'
+				);
+				const rppPage = new Morebits.wiki.page(rppName, window.wgULS('请求保护页面', '請求保護頁面'));
 				rppPage.setFollowRedirect(true);
 				rppPage.setCallbackParameters(rppparams);
 				rppPage.load(Twinkle.protect.callbacks.fileRequest);
@@ -1323,11 +1332,14 @@ import {initMwApi} from 'ext.gadget.Util';
 	Twinkle.protect.callbacks = {
 		taggingPageInitial: (tagparams) => {
 			if (tagparams.tag === 'noop') {
-				Morebits.status.info(wgULS('应用保护模板', '應用保護模板'), wgULS('没什么要做的', '沒什麼要做的'));
+				Morebits.status.info(
+					wgULS('应用保护模板', '應用保護模板'),
+					window.wgULS('没什么要做的', '沒什麼要做的')
+				);
 				return;
 			}
 			const pageName = mw.config.get('wgPageName');
-			const protectedPage = new Morebits.wiki.page(pageName, wgULS('标记页面', '標記頁面'));
+			const protectedPage = new Morebits.wiki.page(pageName, window.wgULS('标记页面', '標記頁面'));
 			protectedPage.setCallbackParameters(tagparams);
 			protectedPage.load(Twinkle.protect.callbacks.taggingPage);
 		},
@@ -1352,7 +1364,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				text = text.replace(oldtag_re, '');
 			}
 			if (params.tag === 'none') {
-				summary = wgULS('移除保护模板', '移除保護模板');
+				summary = window.wgULS('移除保护模板', '移除保護模板');
 			} else {
 				({tag} = params);
 				if (params.reason) {
@@ -1372,7 +1384,10 @@ import {initMwApi} from 'ext.gadget.Util';
 							/{{(?:Redirect[ _]category shell|Rcat[ _]shell|This[ _]is a redirect|多种类型重定向|多種類型重定向|多種類型重新導向|多种类型重新导向|R0|其他重定向|RCS|Redirect[ _]shell)/i
 						)
 					) {
-						Morebits.status.info('已存在Redirect category shell', wgULS('没什么可做的', '沒什麼可做的'));
+						Morebits.status.info(
+							'已存在Redirect category shell',
+							window.wgULS('没什么可做的', '沒什麼可做的')
+						);
 						return;
 					}
 					text = text.replace(
@@ -1446,7 +1461,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			let words;
 			switch (params.expiry) {
 				case 'temporary':
-					words = wgULS('临时', '臨時');
+					words = window.wgULS('临时', '臨時');
 					break;
 				case 'infinity':
 					words = '永久';
@@ -1585,31 +1600,31 @@ import {initMwApi} from 'ext.gadget.Util';
 			}
 			switch (params.type) {
 				case 'semi':
-					summary = wgULS('半保护', '半保護');
+					summary = window.wgULS('半保护', '半保護');
 					break;
 				case 'temp':
-					summary = wgULS('模板保护', '模板保護');
+					summary = window.wgULS('模板保护', '模板保護');
 					break;
 				case 'ecp':
-					summary = wgULS('延伸确认保护', '延伸確認保護');
+					summary = window.wgULS('延伸确认保护', '延伸確認保護');
 					break;
 				case 'full':
-					summary = wgULS('全保护', '全保護');
+					summary = window.wgULS('全保护', '全保護');
 					break;
 				case 'revisionprotected':
-					summary = wgULS('版本保护', '版本保護');
+					summary = window.wgULS('版本保护', '版本保護');
 					break;
 				case 'officialprotected':
-					summary = wgULS('裁委会保护', '裁委會保護');
+					summary = window.wgULS('裁委会保护', '裁委會保護');
 					break;
 				case 'move':
-					summary = wgULS('移动保护', '移動保護');
+					summary = window.wgULS('移动保护', '移動保護');
 					break;
 				case 'salt':
-					summary = wgULS('白纸保护', '白紙保護');
+					summary = window.wgULS('白纸保护', '白紙保護');
 					break;
 				case 'unprotect':
-					summary = wgULS('解除保护', '解除保護');
+					summary = window.wgULS('解除保护', '解除保護');
 					break;
 				default:
 					statusElement.warn(wgULS('未知保护类型', '未知保護類別'));
@@ -1635,16 +1650,16 @@ import {initMwApi} from 'ext.gadget.Util';
 				let label;
 				switch (type) {
 					case 'edit':
-						label = wgULS('编辑', '編輯');
+						label = window.wgULS('编辑', '編輯');
 						break;
 					case 'move':
-						label = wgULS('移动', '移動');
+						label = window.wgULS('移动', '移動');
 						break;
 					case 'create':
-						label = wgULS('创建', '建立');
+						label = window.wgULS('创建', '建立');
 						break;
 					case 'upload':
-						label = wgULS('上传', '上傳');
+						label = window.wgULS('上传', '上傳');
 						break;
 					default:
 						label = type;
@@ -1653,19 +1668,19 @@ import {initMwApi} from 'ext.gadget.Util';
 				let level;
 				switch (settings.level) {
 					case 'officialprotected':
-						level = wgULS('仅允许裁决委员', '僅允許裁決委員');
+						level = window.wgULS('仅允许裁决委员', '僅允許裁決委員');
 						break;
 					case 'revisionprotected':
-						level = wgULS('仅允许资深用户', '僅允許資深用戶');
+						level = window.wgULS('仅允许资深用户', '僅允許資深用戶');
 						break;
 					case 'autoconfirmed':
-						level = wgULS('仅允许自动确认用户', '僅允許自動確認使用者');
+						level = window.wgULS('仅允许自动确认用户', '僅允許自動確認使用者');
 						break;
 					case 'templateeditor':
-						level = wgULS('仅模板编辑员和管理员', '僅模板編輯員和管理員');
+						level = window.wgULS('仅模板编辑员和管理员', '僅模板編輯員和管理員');
 						break;
 					case 'sysop':
-						level = wgULS('仅管理员', '僅管理員');
+						level = window.wgULS('仅管理员', '僅管理員');
 						break;
 					default:
 						({level} = settings);

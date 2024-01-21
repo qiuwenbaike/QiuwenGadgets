@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {initMwApi} from 'ext.gadget.Util';
+import {popupStrings} from './string';
 
 export const popups = () => {
 	// STARTFILE: main.js
@@ -8099,7 +8100,7 @@ export const popups = () => {
 		autoedit_version: 'np20140416',
 	};
 	const popupString = (str) => {
-		if (typeof popupStrings !== 'undefined' && popupStrings && popupStrings[str]) {
+		if (popupStrings !== undefined && popupStrings && popupStrings[str]) {
 			return popupStrings[str];
 		}
 		if (pg.string[str]) {

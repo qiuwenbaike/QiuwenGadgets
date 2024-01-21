@@ -27,7 +27,7 @@
 		const fileSpace = mw.config.get('wgNamespaceNumber') === 6;
 		const Window = new Morebits.simpleWindow(600, 440);
 		Window.setTitle(
-			wgULS('取消链入', '取消連入') + (fileSpace ? wgULS('和模板、文件使用', '和模板、檔案使用') : '')
+			wgULS('取消链入', '取消連入') + (fileSpace ? window.wgULS('和模板、文件使用', '和模板、檔案使用') : '')
 		);
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(wgULS('链入设置', '連入設定'), 'H:TW/PREF#unlink');
@@ -39,7 +39,7 @@
 			'code',
 			`[[${fileSpace ? ':' : ''}${Morebits.pageNameNorm}${wgULS('|链接文字]]', '|連結文字]]')}`
 		);
-		const linkTextAfter = Morebits.htmlNode('code', wgULS('链接文字', '連結文字'));
+		const linkTextAfter = Morebits.htmlNode('code', window.wgULS('链接文字', '連結文字'));
 		const linkPlainBefore = Morebits.htmlNode('code', `[[${Morebits.pageNameNorm}]]`);
 		const linkTemplateBefore = Morebits.htmlNode('code', `{{${mw.config.get('wgTitle')}}}`);
 		let linkPlainAfter;
@@ -62,7 +62,7 @@
 						'這個工具可以取消所有指向該頁的連結（「連入」）'
 					) +
 					(fileSpace
-						? wgULS(
+						? window.wgULS(
 								'，或通过加入<!-- -->注释标记隐藏所有对此文件的使用',
 								'，或透過加入<!-- -->注釋標記隱藏所有對此檔案的使用'
 							)
@@ -149,8 +149,9 @@
 		const unlinker = new Morebits.batchOperation(
 			`取消${
 				input.backlinks.length
-					? wgULS('链入', '連入') + (input.imageusage.length ? wgULS('与文件使用', '與檔案使用') : '')
-					: wgULS('文件使用', '檔案使用')
+					? window.wgULS('链入', '連入') +
+						(input.imageusage.length ? window.wgULS('与文件使用', '與檔案使用') : '')
+					: window.wgULS('文件使用', '檔案使用')
 			}`
 		);
 		unlinker.setOption('preserveIndividualStatusLines', true);
@@ -162,7 +163,7 @@
 		unlinker.run((pageName) => {
 			const qiuwen_page = new Morebits.wiki.page(
 				pageName,
-				wgULS('在页面“', '在頁面「') + pageName + wgULS('”中取消链入', '」中取消連入')
+				wgULS('在页面“', '在頁面「') + pageName + window.wgULS('”中取消链入', '」中取消連入')
 			);
 			qiuwen_page.setBotEdit(true); // unlink considered a floody operation
 			qiuwen_page.setCallbackParameters({
@@ -195,18 +196,20 @@
 					if (list.length) {
 						apiobj.params.form.append({
 							type: 'header',
-							label: wgULS('文件使用', '檔案使用'),
+							label: window.wgULS('文件使用', '檔案使用'),
 						});
 						namespaces = [];
 						for (const v of Twinkle.getPref('unlinkNamespaces')) {
 							namespaces.push(
-								v === '0' ? wgULS('（条目）', '（條目）') : mw.config.get('wgFormattedNamespaces')[v]
+								v === '0'
+									? window.wgULS('（条目）', '（條目）')
+									: mw.config.get('wgFormattedNamespaces')[v]
 							);
 						}
 						apiobj.params.form.append({
 							type: 'div',
-							label: wgULS('已选择的命名空间：', '已選擇的命名空間：') + namespaces.join('、'),
-							tooltip: wgULS(
+							label: window.wgULS('已选择的命名空间：', '已選擇的命名空間：') + namespaces.join('、'),
+							tooltip: window.wgULS(
 								'您可在Twinkle参数设置中更改相关选项，请参见[[H:TW/PREF]]',
 								'您可在Twinkle偏好設定中更改相關選項，請參見[[H:TW/PREF]]'
 							),
@@ -222,14 +225,14 @@
 						}
 						apiobj.params.form.append({
 							type: 'button',
-							label: wgULS('全选', '全選'),
+							label: window.wgULS('全选', '全選'),
 							event: (e) => {
 								$(Morebits.quickForm.getElements(e.target.form, 'imageusage')).prop('checked', true);
 							},
 						});
 						apiobj.params.form.append({
 							type: 'button',
-							label: wgULS('全不选', '全不選'),
+							label: window.wgULS('全不选', '全不選'),
 							event: (e) => {
 								$(Morebits.quickForm.getElements(e.target.form, 'imageusage')).prop('checked', false);
 							},
@@ -244,7 +247,7 @@
 					} else {
 						apiobj.params.form.append({
 							type: 'div',
-							label: wgULS('未找到文件使用。', '未找到檔案使用。'),
+							label: window.wgULS('未找到文件使用。', '未找到檔案使用。'),
 						});
 					}
 				}
@@ -261,18 +264,18 @@
 					}
 					apiobj.params.form.append({
 						type: 'header',
-						label: wgULS('链入', '連入'),
+						label: window.wgULS('链入', '連入'),
 					});
 					namespaces = [];
 					for (const v of Twinkle.getPref('unlinkNamespaces')) {
 						namespaces.push(
-							v === '0' ? wgULS('（条目）', '（條目）') : mw.config.get('wgFormattedNamespaces')[v]
+							v === '0' ? window.wgULS('（条目）', '（條目）') : mw.config.get('wgFormattedNamespaces')[v]
 						);
 					}
 					apiobj.params.form.append({
 						type: 'div',
-						label: wgULS('已选择的命名空间：', '已選擇的命名空間：') + namespaces.join('、'),
-						tooltip: wgULS(
+						label: window.wgULS('已选择的命名空间：', '已選擇的命名空間：') + namespaces.join('、'),
+						tooltip: window.wgULS(
 							'您可在Twinkle参数设置中更改相关选项，请参见[[H:TW/PREF]]',
 							'您可在Twinkle偏好設定中更改相關選項，請參見[[H:TW/PREF]]'
 						),
@@ -288,14 +291,14 @@
 					}
 					apiobj.params.form.append({
 						type: 'button',
-						label: wgULS('全选', '全選'),
+						label: window.wgULS('全选', '全選'),
 						event: (e) => {
 							$(Morebits.quickForm.getElements(e.target.form, 'backlinks')).prop('checked', true);
 						},
 					});
 					apiobj.params.form.append({
 						type: 'button',
-						label: wgULS('全不选', '全不選'),
+						label: window.wgULS('全不选', '全不選'),
 						event: (e) => {
 							$(Morebits.quickForm.getElements(e.target.form, 'backlinks')).prop('checked', false);
 						},
@@ -310,7 +313,7 @@
 				} else {
 					apiobj.params.form.append({
 						type: 'div',
-						label: wgULS('未找到链入。', '未找到連入。'),
+						label: window.wgULS('未找到链入。', '未找到連入。'),
 					});
 				}
 				if (havecontent) {
@@ -337,12 +340,12 @@
 			let text;
 			// remove image usages
 			if (params.doImageusage) {
-				text = qiuwen_page.commentOutImage(mw.config.get('wgTitle'), wgULS('注释', '注釋')).getText();
+				text = qiuwen_page.commentOutImage(mw.config.get('wgTitle'), window.wgULS('注释', '注釋')).getText();
 				// did we actually make any changes?
 				if (text === oldtext) {
-					warningString = wgULS('文件使用', '檔案使用');
+					warningString = window.wgULS('文件使用', '檔案使用');
 				} else {
-					summaryText = wgULS('注释文件使用', '注釋檔案使用');
+					summaryText = window.wgULS('注释文件使用', '注釋檔案使用');
 					oldtext = text;
 				}
 			}
@@ -353,10 +356,10 @@
 				// did we actually make any changes?
 				if (text === oldtext) {
 					warningString = warningString
-						? wgULS('取消链入或文件使用', '取消連入或檔案使用')
-						: wgULS('取消链入', '取消連入');
+						? window.wgULS('取消链入或文件使用', '取消連入或檔案使用')
+						: window.wgULS('取消链入', '取消連入');
 				} else {
-					summaryText = (summaryText ? `${summaryText} / ` : '') + wgULS('取消链结到', '取消連結到');
+					summaryText = (summaryText ? `${summaryText} / ` : '') + window.wgULS('取消链结到', '取消連結到');
 					oldtext = text;
 				}
 			}
@@ -368,7 +371,11 @@
 			}
 			pageobj.setPageText(text);
 			pageobj.setEditSummary(
-				summaryText + wgULS('“', '「') + Morebits.pageNameNorm + wgULS('”：', '」：') + params.reason
+				summaryText +
+					window.wgULS('“', '「') +
+					Morebits.pageNameNorm +
+					window.wgULS('”：', '」：') +
+					params.reason
 			);
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.setCreateOption('nocreate');
