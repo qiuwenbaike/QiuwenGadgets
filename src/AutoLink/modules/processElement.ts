@@ -13,7 +13,7 @@ import {
 } from './constant';
 import type {TargetElements} from './util/getTargetElements';
 
-const processElement = ({color, $targetElementArray}: TargetElements): void => {
+const processElement = ({color, targetElements}: TargetElements): void => {
 	let isActivateHTML: boolean = false;
 	/* Regex (default for diffs) */
 	// Regex for diffs
@@ -65,81 +65,76 @@ const processElement = ({color, $targetElementArray}: TargetElements): void => {
 		regexSubstinWikilink2 = `<a class="autolink" style="color:${color}" href="/wiki/$1">$1</a>`;
 	}
 
-	for (const $element of $targetElementArray) {
-		for (const element of $element) {
-			const originHtml: string = element.innerHTML;
-			let html: string = originHtml;
+	for (const element of targetElements) {
+		const {innerHTML: originHtml} = element;
+		let html: string = originHtml;
 
-			html = html.replace(/&lt;/g, '&shy;<&shy;');
-			html = html.replace(/&gt;/g, '&shy;>&shy;');
-			// &amp;lt; to &amp;shy;<&amp;shy; and &amp;gt; to &amp;shy;>&amp;shy; (&amp;shy; is a marker)
-			html = html.replace(/&amp;/g, '&');
-			// &amp;amp; to &
-			/* --- */
+		html = html.replace(/&lt;/g, '&shy;<&shy;');
+		html = html.replace(/&gt;/g, '&shy;>&shy;');
+		// &amp;lt; to &amp;shy;<&amp;shy; and &amp;gt; to &amp;shy;>&amp;shy; (&amp;shy; is a marker)
+		html = html.replace(/&amp;/g, '&');
+		// &amp;amp; to &
+		/* --- */
+		html = html.replace(REGEX_TL, `$1<a class="autolink" style="color:${color}" href="/wiki/Template:$2">$2</a>`);
+		// For {{tl}}: make his argument into link
+		html = html.replace(REGEX_URL, `$1<a class="external autolink" style="color:${color}" href="$2">$2</a>`);
+		// Parse inactive external links (no wikicode)
+		html = html.replace(regexURLinWikicodeWithoutLabel, regexSubstinWikicodeWithoutLabel);
+		// Make external links in wikicode without label into links
+		html = html.replace(regexURLinWikicodeWithLabel, regexSubstinWikicodeWithLabel);
+		// Make external links in wikicode with label into links
+		html = html.replace(regexOtherPages, regexSubstinOtherPages);
+		// Make other pages included code into links
+		html = html.replace(regexTemplate, regexSubstinTemplate);
+		html = html.replace(/href="\/wiki\/Template:#/g, 'href="/wiki/Help:');
+		// Make template code into links
+		html = html.replace(regexWikilink1, regexSubstinWikilink1);
+		html = html.replace(regexWikilink2, regexSubstinWikilink2);
+		// Make wikilink code into links
+		html = html.replace(
+			REGEX_INTERNAL_URL,
+			`$1$2<a class="external autolink" style="color:${color}" href="$3">$3</a>$2`
+		);
+		// Parse inactive external links (no wikicode)
+		html = html.replace(
+			REGEX_IMPORT_SCRIPT,
+			`$1$2<a class="autolink" style="color:${color}" href="/wiki/$3">$3</a>$4`
+		);
+		// Parse ImportScript
+		html = html.replace(/&shy;<&shy;/g, '&lt;');
+		html = html.replace(/&shy;>&shy;/g, '&gt;');
+		// &amp;shy;<&amp;shy; to &amp;lt; and &amp;shy;>&amp;shy; to &amp;gt; (revert)
+		if (isActivateHTML) {
 			html = html.replace(
-				REGEX_TL,
-				`$1<a class="autolink" style="color:${color}" href="/wiki/Template:$2">$2</a>`
+				/&lt;(span|b|i|strong|small|tt|del|s|u|sub|sup)&gt;(.*?)&lt;\/(\1)&gt;/g,
+				'<$1>$2</$3>'
 			);
-			// For {{tl}}: make his argument into link
-			html = html.replace(REGEX_URL, `$1<a class="external autolink" style="color:${color}" href="$2">$2</a>`);
-			// Parse inactive external links (no wikicode)
-			html = html.replace(regexURLinWikicodeWithoutLabel, regexSubstinWikicodeWithoutLabel);
-			// Make external links in wikicode without label into links
-			html = html.replace(regexURLinWikicodeWithLabel, regexSubstinWikicodeWithLabel);
-			// Make external links in wikicode with label into links
-			html = html.replace(regexOtherPages, regexSubstinOtherPages);
-			// Make other pages included code into links
-			html = html.replace(regexTemplate, regexSubstinTemplate);
-			html = html.replace(/href="\/wiki\/Template:#/g, 'href="/wiki/Help:');
-			// Make template code into links
-			html = html.replace(regexWikilink1, regexSubstinWikilink1);
-			html = html.replace(regexWikilink2, regexSubstinWikilink2);
-			// Make wikilink code into links
-			html = html.replace(
-				REGEX_INTERNAL_URL,
-				`$1$2<a class="external autolink" style="color:${color}" href="$3">$3</a>$2`
-			);
-			// Parse inactive external links (no wikicode)
-			html = html.replace(
-				REGEX_IMPORT_SCRIPT,
-				`$1$2<a class="autolink" style="color:${color}" href="/wiki/$3">$3</a>$4`
-			);
-			// Parse ImportScript
-			html = html.replace(/&shy;<&shy;/g, '&lt;');
-			html = html.replace(/&shy;>&shy;/g, '&gt;');
-			// &amp;shy;<&amp;shy; to &amp;lt; and &amp;shy;>&amp;shy; to &amp;gt; (revert)
-			if (isActivateHTML) {
+			html = html.replace(/([^']|^)'{3}(.+?)'{3}([^']|$)/gm, '$1<b>$2</b>$3');
+			html = html.replace(/([^']|^)'{2}(.+?)'{2}([^']|$)/gm, '$1<i>$2</i>$3');
+			if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_TARGET_SPECIAL_PAGE) {
 				html = html.replace(
-					/&lt;(span|b|i|strong|small|tt|del|s|u|sub|sup)&gt;(.*?)&lt;\/(\1)&gt;/g,
-					'<$1>$2</$3>'
-				);
-				html = html.replace(/([^']|^)'{3}(.+?)'{3}([^']|$)/gm, '$1<b>$2</b>$3');
-				html = html.replace(/([^']|^)'{2}(.+?)'{2}([^']|$)/gm, '$1<i>$2</i>$3');
-				if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_TARGET_SPECIAL_PAGE) {
-					html = html.replace(
-						/<i>(.*?)<\/i>/g,
-						'<span title="italic" style="border:1px solid #c0c0c0;padding:2px">$1</span>'
-					);
-				}
-				// I'm in a comment field (italic)
-			}
-			if (IS_DIFF_ACTION) {
-				html = html.replace(/<a [^>]+><\/a>/g, ''); // Clean
-				html = html.replace(
-					/([^[]|^)\[\s*(<a [^>]+>)(?:https?|ftps?):\/\/[\w!#%&()+./:=?@\\~-]+(<\/a>)\s+([^\n\]]+)]/gm,
-					'$1$2$4$3'
-				);
-				html = html.replace(
-					/([^[]|^)\[\s*(<a [^>]+>)((?:https?|ftps?):\/\/[\w!#%&()+./:=?@\\~-]+)(<\/a>)\s*]/gm,
-					'$1$2$3$4'
+					/<i>(.*?)<\/i>/g,
+					'<span title="italic" style="border:1px solid #c0c0c0;padding:2px">$1</span>'
 				);
 			}
+			// I'm in a comment field (italic)
+		}
+		if (IS_DIFF_ACTION) {
+			html = html.replace(/<a [^>]+><\/a>/g, ''); // Clean
+			html = html.replace(
+				/([^[]|^)\[\s*(<a [^>]+>)(?:https?|ftps?):\/\/[\w!#%&()+./:=?@\\~-]+(<\/a>)\s+([^\n\]]+)]/gm,
+				'$1$2$4$3'
+			);
+			html = html.replace(
+				/([^[]|^)\[\s*(<a [^>]+>)((?:https?|ftps?):\/\/[\w!#%&()+./:=?@\\~-]+)(<\/a>)\s*]/gm,
+				'$1$2$3$4'
+			);
+		}
 
-			if (html !== originHtml) {
-				requestAnimationFrame((): void => {
-					element.innerHTML = html; // Write it back
-				});
-			}
+		if (html !== originHtml) {
+			requestAnimationFrame((): void => {
+				element.innerHTML = html; // Write it back
+			});
 		}
 	}
 };
