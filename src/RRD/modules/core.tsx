@@ -236,6 +236,6 @@ export const main = (): void => {
 	for (const element of document.querySelectorAll(
 		'.historysubmit.mw-history-compareselectedversions-button, .editchangetags-log-submit.mw-log-editchangetags-button'
 	)) {
-		element.after(reportButton.cloneNode());
+		element.after(reportButton.cloneNode(true));
 	}
 };
