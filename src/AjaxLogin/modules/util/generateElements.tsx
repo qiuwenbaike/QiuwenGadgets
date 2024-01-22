@@ -1,7 +1,7 @@
 import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 
-const generateElements = () => {
+const generateElements = (isAgreeTos: boolean) => {
 	const messageDialog: OO.ui.MessageDialog = new OO.ui.MessageDialog();
 
 	const nameInput: OO.ui.TextInputWidget = new OO.ui.TextInputWidget({
@@ -17,7 +17,9 @@ const generateElements = () => {
 		validate: 'non-empty',
 	});
 
-	const agreeTosCheckbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget();
+	const agreeTosCheckbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
+		selected: isAgreeTos,
+	});
 	const agreeTosLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(agreeTosCheckbox, {
 		align: 'inline',
 		label: getMessage('I agree with the relevant terms'),

@@ -10,7 +10,11 @@ import {removeWindowResizeHandler} from './util/removeWindowResizeHandler';
 import {showError} from './util/showError';
 import {toastify} from 'ext.gadget.Toastify';
 
-const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: ToastifyInstance): void => {
+const ajaxLogin = (
+	windowManager: OO.ui.WindowManager,
+	toastifyInstance: ToastifyInstance,
+	isAgreeTos: boolean = false
+): void => {
 	const {
 		$agreeTos,
 		$forgotPassword,
@@ -22,7 +26,7 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 		messageDialog,
 		nameInput,
 		pwdInput,
-	} = generateElements();
+	} = generateElements(isAgreeTos);
 
 	let loginToken: string = '';
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
@@ -196,25 +200,27 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 	};
 
 	const needToCheckElements: NeedToCheckElements = [agreeTosCheckbox, nameInput, pwdInput];
-
-	pwdInput.on('enter', (): void => {
-		const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(needToCheckElements, toastifyInstance);
+	const check = async (): Promise<void> => {
+		const {
+			isValid,
+			isAgreeTos: lastIsAgreeTos,
+			toastifyInstance: lastToastifyInstance,
+		} = await checkValid(needToCheckElements, windowManager, toastifyInstance);
 		toastifyInstance = lastToastifyInstance;
 		if (isValid) {
 			void login();
+		} else {
+			ajaxLogin(windowManager, toastifyInstance, lastIsAgreeTos);
 		}
+	};
+
+	pwdInput.on('enter', (): void => {
+		void check();
 	});
 	messageDialog.getActionProcess = (action): OO.ui.Process =>
 		new OO.ui.Process((): void => {
 			if (action === 'login') {
-				const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(
-					needToCheckElements,
-					toastifyInstance
-				);
-				toastifyInstance = lastToastifyInstance;
-				if (isValid) {
-					void login();
-				}
+				void check();
 			} else {
 				toastifyInstance.hideToast();
 				void windowManager.clearWindows();

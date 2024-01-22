@@ -13,11 +13,6 @@ const getI18nMessages = () => {
 			ja: 'キャンセル',
 			zh: '取消',
 		}),
-		'I agree': localize({
-			en: 'I agree',
-			ja: '同意する',
-			zh: '我同意',
-		}),
 		'Enter password': localize({
 			en: 'Enter password',
 			ja: 'パスワード',
@@ -49,6 +44,11 @@ const getI18nMessages = () => {
 				'登录时，即代表您已仔细阅读、充分了解并同意遵守本网站的《<a rel="noopener" target="_blank" href="/wiki/QW:TOS" title="用户协议">用户协议</a>》、《<a rel="noopener" target="_blank" href="/wiki/QW:PIPP" title="个人信息保护方针">个人信息保护方针</a>》及《<a rel="noopener" target="_blank" href="/wiki/QW:GTGL" title="共同綱領">共同綱領</a>》。',
 			'zh-hant':
 				'登錄時，即代表您已仔細閱讀、充分了解並同意遵守本網站的《<a rel="noopener" target="_blank" href="/wiki/QW:TOS" title="用戶協議">用戶協議</a>》、《<a rel="noopener" target="_blank" href="/wiki/QW:PIPP" title="個人信息保護方針">個人信息保護方針</a>》及《<a rel="noopener" target="_blank" href="/wiki/QW:GTGL" title="共同綱領">共同綱領</a>》。',
+		}),
+		'I agree': localize({
+			en: 'I agree',
+			ja: '同意する',
+			zh: '我同意',
 		}),
 		'I agree with the relevant terms': localize({
 			en: 'I agree with the relevant terms',
@@ -136,6 +136,12 @@ const getI18nMessages = () => {
 			'zh-hk': '用戶名稱',
 			'zh-tw': '使用者名稱',
 		}),
+		AgreedOrNot: localize({
+			en: 'Please read the relevant terms. If you agree, check the checkbox to confirm',
+			ja: '関連する規約をお読みいただき、同意される場合は、チェックボックスにチェックを入れて確認してください',
+			'zh-hans': '请阅读相关条款。若同意，勾选复选框以确认',
+			'zh-hant': '請閲讀相關條款。若同意，勾選複選框以確認',
+		}),
 		DoubleCheckAgreedOrNot: localize({
 			en: 'You have carefully read, fully understood and agreed to comply with our <a rel="noopener" target="_blank" href="/wiki/QW:TOS" title="Terms of Service">Terms of Service</a>, <a rel="noopener" target="_blank" href="/wiki/QW:PIPP" title="Personal Information Protection Policy">Personal Information Protection Policy</a> and <a rel="noopener" target="_blank" href="/wiki/QW:GTGL" title="Common Program">Common Program</a>.',
 			ja: 'あなたは本サイトの『<a rel="noopener" target="_blank" href="/wiki/QW:TOS" title="利用規約">利用規約</a>』『<a rel="noopener" target="_blank" href="/wiki/QW:PIPP" title="個人情報保護方針">個人情報保護方針</a>』『<a rel="noopener" target="_blank" href="/wiki/QW:GTGL" title="共同綱領">共同綱領</a>』を十分に理解し、同意したことになります。',
@@ -143,12 +149,6 @@ const getI18nMessages = () => {
 				'您已仔细阅读、充分了解并同意遵守本网站的《<a rel="noopener" target="_blank" href="/wiki/QW:TOS" title="用户协议">用户协议</a>》《<a rel="noopener" target="_blank" href="/wiki/QW:PIPP" title="个人信息保护方针">个人信息保护方针</a>》《<a rel="noopener" target="_blank" href="/wiki/QW:GTGL" title="共同纲领">共同纲领</a>》。',
 			'zh-hant':
 				'您已仔細閱讀、充分了解並同意遵守本網站的《<a rel="noopener" target="_blank" href="/wiki/QW:TOS" title="用戶協議">用戶協議</a>》《<a rel="noopener" target="_blank" href="/wiki/QW:PIPP" title="個人信息保護方針">個人信息保護方針</a>》《<a rel="noopener" target="_blank" href="/wiki/QW:GTGL" title="共同綱領">共同綱領</a>》。',
-		}),
-		AgreedOrNot: localize({
-			en: 'Please read the relevant terms. If you agree, check the checkbox to confirm',
-			ja: '関連する規約をお読みいただき、同意される場合は、チェックボックスにチェックを入れて確認してください',
-			'zh-hans': '请阅读相关条款。若同意，勾选复选框以确认',
-			'zh-hant': '請閲讀相關條款。若同意，勾選複選框以確認',
 		}),
 		Empty2FA: localize({
 			en: 'The 2FA verification code cannot be empty',
