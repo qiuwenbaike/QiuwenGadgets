@@ -235,7 +235,7 @@ const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
 		}
 		void mw.loader.using('oojs-ui-core').then((): void => {
 			const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
-				$content: $((<p>{title}</p>) as HTMLElement),
+				$content: $(<p>{title}</p>) as JQuery,
 				label: getMessage('Note'),
 				anchor: true,
 				head: true,
