@@ -1,3 +1,4 @@
+import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
@@ -10,19 +11,34 @@ const checkValid = (
 	isValid: boolean;
 	toastifyInstance: ToastifyInstance;
 } => {
-	const isAgreeTos: boolean = agreeTosCheckbox.isSelected();
+	let isAgreeTos: boolean = agreeTosCheckbox.isSelected();
 	const isFill: boolean = ![nameInput.getValue(), pwdInput.getValue()].includes('');
 
 	toastifyInstance.hideToast();
 
 	if (!isAgreeTos) {
-		toastifyInstance = toastify(
-			{
-				text: getMessage('AgreedOrNot'),
-				duration: -1,
-			},
-			'info'
-		);
+		void OO.ui
+			.confirm($((<span>{getMessage('DoubleCheckAgreedOrNot')}</span>) as HTMLElement), {
+				actions: [
+					{label: getMessage('Cancel'), action: 'cancel', flags: ['safe', 'close']},
+					{label: getMessage('I agree'), action: 'accept', flags: ['primary', 'progressive']},
+				],
+			})
+			.then((confirmed: boolean) => {
+				if (confirmed) {
+					isAgreeTos = true;
+					agreeTosCheckbox.setSelected(true);
+				} else {
+					isAgreeTos = false;
+					toastifyInstance = toastify(
+						{
+							text: getMessage('AgreedOrNot'),
+							duration: -1,
+						},
+						'info'
+					);
+				}
+			});
 	} else if (!isFill) {
 		toastifyInstance = toastify(
 			{
