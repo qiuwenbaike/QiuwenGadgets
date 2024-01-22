@@ -270,9 +270,8 @@ const catALot = (): void => {
 			if (fallback && canonical !== fallback) {
 				regexString += `|${createRegexStr(fallback)}`;
 			}
-			for (const catName in CAL.WG_NAMESPACE_IDS) {
+			for (const catName of Object.keys(CAL.WG_NAMESPACE_IDS)) {
 				if (
-					typeof catName === 'string' &&
 					catName.toLowerCase() !== canonical &&
 					catName.toLowerCase() !== fallback &&
 					CAL.WG_NAMESPACE_IDS[catName] === namespaceNumber
@@ -301,13 +300,16 @@ const catALot = (): void => {
 			const results: string[] = [];
 			const params: ApiParseParams = {
 				action: 'parse',
-				text: category,
-				title: 'temp',
 				format: 'json',
 				formatversion: '2',
+				text: category,
+				title: 'temp',
 			};
 			for (const variant of VARIANTS) {
-				const {parse} = await CAL.api.post({...params, variant});
+				const {parse} = await CAL.api.post({
+					...params,
+					variant,
+				});
 				const {text} = parse;
 				results[results.length] = $(text).eq(0).text().trim();
 			}
