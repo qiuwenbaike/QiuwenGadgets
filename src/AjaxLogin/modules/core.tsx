@@ -198,27 +198,36 @@ const ajaxLogin = (windowManager: OO.ui.WindowManager, toastifyInstance: Toastif
 	const needToCheckElements: NeedToCheckElements = [agreeTosCheckbox, nameInput, pwdInput];
 
 	pwdInput.on('enter', (): void => {
-		const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(needToCheckElements, toastifyInstance);
-		toastifyInstance = lastToastifyInstance;
-		if (isValid) {
-			void login();
-		}
+		(async (): Promise<void> => {
+			const {isValid, toastifyInstance: lastToastifyInstance} = await checkValid(
+				needToCheckElements,
+				windowManager,
+				toastifyInstance
+			);
+			toastifyInstance = lastToastifyInstance;
+			if (isValid) {
+				void login();
+			}
+		})();
 	});
 	messageDialog.getActionProcess = (action): OO.ui.Process =>
 		new OO.ui.Process((): void => {
-			if (action === 'login') {
-				const {isValid, toastifyInstance: lastToastifyInstance} = checkValid(
-					needToCheckElements,
-					toastifyInstance
-				);
-				toastifyInstance = lastToastifyInstance;
-				if (isValid) {
-					void login();
+			(async (): Promise<void> => {
+				if (action === 'login') {
+					const {isValid, toastifyInstance: lastToastifyInstance} = await checkValid(
+						needToCheckElements,
+						windowManager,
+						toastifyInstance
+					);
+					toastifyInstance = lastToastifyInstance;
+					if (isValid) {
+						void login();
+					}
+				} else {
+					toastifyInstance.hideToast();
+					void windowManager.clearWindows();
 				}
-			} else {
-				toastifyInstance.hideToast();
-				void windowManager.clearWindows();
-			}
+			})();
 		});
 
 	windowManager.addWindows([messageDialog]);
