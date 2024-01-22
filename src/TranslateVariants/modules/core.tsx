@@ -28,8 +28,8 @@ export const translateVariants = (): void => {
 	const result: Record<string, string> = {};
 	const api: mw.Api = initMwApi('TranslateVariants/1.1');
 	let basepagetext: string = '';
-	const $table: JQuery = $((<div id="TranslateVariants" />) as HTMLElement).prependTo('#bodyContent');
-	const $submitAll: JQuery = $((<button>{window.wgULS('发布所有更改', '發佈所有變更')}</button>) as HTMLElement);
+	const $table: JQuery = ($(<div id="TranslateVariants" />) as JQuery).prependTo('#bodyContent');
+	const $submitAll: JQuery = $(<button>{window.wgULS('发布所有更改', '發佈所有變更')}</button>) as JQuery;
 	$submitAll.on('click', (): void => {
 		const $body: JQuery<HTMLBodyElement> = $('body');
 		const $buttons: JQuery = $body.find('.TranslateVariants-publish-changes');
@@ -86,7 +86,7 @@ export const translateVariants = (): void => {
 			return;
 		}
 		const lang: string | undefined = langqueue.shift();
-		const $diffTable: JQuery = $((<div id={`TranslateVariants-diff-${lang}`} />) as HTMLElement).appendTo($table);
+		const $diffTable: JQuery = ($(<div id={`TranslateVariants-diff-${lang}`} />) as JQuery).appendTo($table);
 		$(<hr />).appendTo($table);
 		const basename: string = mw.config.get('wgPageName').replace(/\/zh$/, '');
 		const targetTitle: string = lang === 'zh' ? basename : `${basename}/${lang}`;
