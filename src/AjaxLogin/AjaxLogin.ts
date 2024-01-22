@@ -3,7 +3,7 @@ import {checkA11yConfirmKey, getBody} from 'ext.gadget.Util';
 import {WG_USER_NAME} from './modules/constant';
 import {addListener} from './modules/addListener';
 import {ajaxLogin} from './modules/core';
-import {initWindowManager} from './modules/initWindowManager';
+import {windowManager} from './modules/initWindowManager';
 
 void getBody().then(function initAutoLogin($body: JQuery<HTMLBodyElement>): void {
 	if (WG_USER_NAME) {
@@ -15,7 +15,6 @@ void getBody().then(function initAutoLogin($body: JQuery<HTMLBodyElement>): void
 		return;
 	}
 
-	const windowManager: OO.ui.WindowManager = initWindowManager();
 	windowManager.$element.appendTo($body);
 
 	const fakeToastifyInstance: ToastifyInstance = {
@@ -28,7 +27,7 @@ void getBody().then(function initAutoLogin($body: JQuery<HTMLBodyElement>): void
 		}
 
 		event.preventDefault();
-		ajaxLogin(windowManager, fakeToastifyInstance);
+		ajaxLogin(fakeToastifyInstance);
 	};
 	addListener($loginElement, eventListener);
 });

@@ -1,8 +1,9 @@
 import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 import {removeWindowResizeHandler} from './removeWindowResizeHandler';
+import {windowManager} from '../initWindowManager';
 
-const oouiPrompt = async (windowManager: OO.ui.WindowManager, retypePassword: boolean): Promise<string | null> => {
+const oouiPrompt = async (retypePassword: boolean): Promise<string | null> => {
 	const codeDialog: OO.ui.MessageDialog = new OO.ui.MessageDialog();
 	const codeInput: OO.ui.TextInputWidget = new OO.ui.TextInputWidget({
 		icon: 'key',
@@ -25,7 +26,7 @@ const oouiPrompt = async (windowManager: OO.ui.WindowManager, retypePassword: bo
 		message: codeLayout.$element,
 	});
 
-	removeWindowResizeHandler(windowManager);
+	removeWindowResizeHandler();
 
 	void instance.opened.then((): void => {
 		codeInput.on('enter', (): void => {
