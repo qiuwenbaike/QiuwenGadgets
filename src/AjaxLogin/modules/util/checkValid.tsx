@@ -2,12 +2,10 @@ import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 import {oouiConfirm} from './oouiConfirm';
 import {toastify} from 'ext.gadget.Toastify';
-
-type NeedToCheckElements = [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget];
+import {windowManager} from '../initWindowManager';
 
 const checkValid = async (
-	[agreeTosCheckbox, nameInput, pwdInput]: NeedToCheckElements,
-	windowManager: OO.ui.WindowManager,
+	[agreeTosCheckbox, nameInput, pwdInput]: [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget],
 	toastifyInstance: ToastifyInstance
 ): Promise<{
 	isAgreeTos: boolean;
@@ -21,7 +19,7 @@ const checkValid = async (
 	await windowManager.clearWindows();
 
 	if (!isAgreeTos) {
-		isAgreeTos = await oouiConfirm(windowManager, {
+		isAgreeTos = await oouiConfirm({
 			message: $(<span innerHTML={getMessage('DoubleCheckAgreedOrNot')} />) as JQuery,
 			actions: [
 				{
@@ -65,4 +63,4 @@ const checkValid = async (
 	};
 };
 
-export {type NeedToCheckElements, checkValid};
+export {checkValid};

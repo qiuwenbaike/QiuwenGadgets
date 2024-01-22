@@ -1,7 +1,7 @@
 const initWindowManager = (): OO.ui.WindowManager => {
-	const windowManager: OO.ui.WindowManager = new OO.ui.WindowManager();
-
-	return windowManager;
+	return new OO.ui.WindowManager();
 };
 
-export {initWindowManager};
+const windowManager: OO.ui.WindowManager = initWindowManager();
+
+export {windowManager};

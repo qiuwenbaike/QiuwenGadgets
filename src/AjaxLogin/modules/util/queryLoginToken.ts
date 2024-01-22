@@ -1,8 +1,8 @@
+import {api} from '../api';
 import {getMessage} from '../i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
 const queryLoginToken = async (
-	api: mw.Api,
 	toastifyInstance: ToastifyInstance
 ): Promise<{
 	loginToken: string;
