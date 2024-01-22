@@ -223,7 +223,7 @@ const showDialog = (): void => {
 export const main = (): void => {
 	const reportButton = (
 		<button
-			className={['historysubmit', 'mw-history-rrd', 'cdx-button']}
+			className={['historysubmit', 'mw-history-rrd', 'mw-ui-button', 'cdx-button']}
 			name={'reportRRD'}
 			type={'button'}
 			title={message.report_button_title + RRD_PAGE}
@@ -236,6 +236,6 @@ export const main = (): void => {
 	for (const element of document.querySelectorAll(
 		'.historysubmit.mw-history-compareselectedversions-button, .editchangetags-log-submit.mw-log-editchangetags-button'
 	)) {
-		element.after(reportButton);
+		element.after(reportButton.cloneNode());
 	}
 };
