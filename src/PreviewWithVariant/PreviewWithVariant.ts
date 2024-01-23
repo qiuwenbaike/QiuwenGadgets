@@ -3,7 +3,7 @@
  */
 mw.config.set('wgPreviewWithVariantInitialized', false);
 
-mw.hook<JQuery[]>('wikipage.editform').add(($editForm): void => {
+mw.hook('wikipage.editform').add(($editForm): void => {
 	if (mw.config.get('wgPreviewWithVariantInitialized')) {
 		return;
 	}

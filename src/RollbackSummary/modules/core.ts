@@ -33,7 +33,7 @@ const updateLinks = ($content: JQuery): void => {
 };
 
 export const rollbackSummary = (): void => {
-	mw.hook<JQuery[]>('wikipage.content').add(($content): void => {
+	mw.hook('wikipage.content').add(($content): void => {
 		updateLinks($content);
 	});
 };

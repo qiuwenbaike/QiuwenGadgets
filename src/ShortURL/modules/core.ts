@@ -140,7 +140,7 @@ export const shortURL = (): void => {
 			doIns(`/c/${articleId}`);
 		}
 	};
-	mw.hook<JQuery[]>('wikipage.content').add(($content): void => {
+	mw.hook('wikipage.content').add(($content): void => {
 		if ($content.attr('id') !== 'mw-content-text') {
 			return;
 		}

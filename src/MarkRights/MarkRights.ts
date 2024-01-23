@@ -4,7 +4,7 @@
 import {markUserRights} from './modules/core';
 
 $(function markRights(): void {
-	mw.hook<JQuery[]>('wikipage.content').add(($content): void => {
+	mw.hook('wikipage.content').add(($content): void => {
 		if ($content.attr('id') === 'mw-content-text' || $content.hasClass('mw-changeslist')) {
 			void markUserRights($content);
 		}
