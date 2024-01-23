@@ -16,7 +16,7 @@ const clickListener = async (event: JQuery.ClickEvent): Promise<void> => {
 
 	const toastifyInstance: ToastifyInstance = toastify(
 		{
-			text: mw.message('logging-out-notify').toString(),
+			text: mw.msg('logging-out-notify'),
 			duration: -1,
 		},
 		'info'

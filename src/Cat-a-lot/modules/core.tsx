@@ -92,7 +92,7 @@ const catALot = (): void => {
 		private readonly $link: JQuery<HTMLAnchorElement>;
 
 		public constructor($body: JQuery<HTMLBodyElement>) {
-			if (!mw.message('cat-a-lot-loading')) {
+			if (!mw.msg('cat-a-lot-loading')) {
 				mw.messages.set(CAL.MESSAGES);
 			}
 
