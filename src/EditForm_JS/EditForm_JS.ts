@@ -16,7 +16,7 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 		});
 	});
 
-	mw.hook<JQuery[]>('wikipage.editform').add(($editForm): void => {
+	mw.hook('wikipage.editform').add(($editForm): void => {
 		// AI辅助编辑特殊声明
 		aiAssisted({
 			$editForm,

@@ -4,7 +4,7 @@ import {markBlockedUser} from './markBlockedUser';
 const addHook = (): void => {
 	let isInit: boolean = false;
 
-	mw.hook<JQuery[]>('wikipage.content').add(function markBlocked($content): void {
+	mw.hook('wikipage.content').add(function markBlocked($content): void {
 		if (isInit) {
 			return;
 		}
