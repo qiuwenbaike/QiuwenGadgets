@@ -13,17 +13,12 @@ void getBody().then(function codeLinks($body: JQuery<HTMLBodyElement>): void {
 
 	// Link module names after `require` and `mw.loadData`, and tracking template
 	// names after `require("Module:debug").track`.
-	const classes: {
-		identifier: string;
-		functionName: string;
-		singleQuoteString: string;
-		doubleQuoteString: string;
-	} = {
+	const classes = {
 		identifier: 'n',
 		functionName: 'nb',
 		singleQuoteString: 's1',
 		doubleQuoteString: 's2',
-	};
+	} as const satisfies Record<string, string>;
 
 	const moduleNameElementArray: Element[] = [];
 	for (const functionNameElement of $body.find(`.${classes.functionName}`)) {
@@ -68,7 +63,7 @@ void getBody().then(function codeLinks($body: JQuery<HTMLBodyElement>): void {
 			continue;
 		}
 
-		moduleNameElementArray.push(element);
+		moduleNameElementArray[moduleNameElementArray.length] = element;
 	}
 
 	const dataModuleNameElementArray: Element[] = [];
@@ -127,7 +122,7 @@ void getBody().then(function codeLinks($body: JQuery<HTMLBodyElement>): void {
 			continue;
 		}
 
-		dataModuleNameElementArray.push(element);
+		dataModuleNameElementArray[dataModuleNameElementArray.length] = element;
 	}
 
 	// Link module names to module pages,

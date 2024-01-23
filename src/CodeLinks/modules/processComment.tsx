@@ -1,4 +1,5 @@
 import {REGEX_URL} from './constant';
+import React from 'ext.gadget.React';
 
 const processComment = (element: Element): void => {
 	const {firstChild} = element;
@@ -18,8 +19,7 @@ const processComment = (element: Element): void => {
 		return;
 	}
 
-	const link: HTMLAnchorElement = document.createElement('a');
-	link.classList.add('code-link');
+	const link = (<a className="code-link" />) as HTMLAnchorElement;
 
 	let linkText: string = '';
 	let start: number = (wikilinkMatch || templateMatch || urlMatch)?.index ?? 0;
