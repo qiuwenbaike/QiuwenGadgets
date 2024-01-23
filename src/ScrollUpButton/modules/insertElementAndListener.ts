@@ -29,11 +29,11 @@ const insertElementandListener = (): void => {
 			document.querySelector('.gadget-cat_a_lot-container') ||
 			document.querySelector('.wordcount')
 		) {
-			downButtonButtom = '78px';
-			upButtonButtom = '120px';
+			downButtonButtom = '85px';
+			upButtonButtom = '127px';
 		} else {
-			downButtonButtom = '36px';
-			upButtonButtom = '78px';
+			downButtonButtom = '45px';
+			upButtonButtom = '85px';
 		}
 		$scrollDownButton.css('bottom', downButtonButtom);
 		$scrollUpButton.css('bottom', upButtonButtom);
