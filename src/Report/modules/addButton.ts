@@ -30,9 +30,9 @@ const addButton = (): void => {
 			document.querySelector('.gadget-cat_a_lot-container') ||
 			document.querySelector('.wordcount')
 		) {
-			buttonBottom = '246px';
+			buttonBottom = '253px';
 		} else {
-			buttonBottom = '204px';
+			buttonBottom = '211px';
 		}
 		$element.css('bottom', buttonBottom);
 	};
