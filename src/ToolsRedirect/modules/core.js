@@ -116,7 +116,7 @@ export const ToolsRedirect = {
 		const self = this;
 		const $body = $('body');
 		const button = $('<li>')
-			.addClass('mw-list-item collapsible')
+			.addClass('mw-list-item collapsible vector-tab-noicon')
 			.attr('id', 'ca-redirect')
 			.css('cursor', 'pointer')
 			.append($('<a>').attr('title', getMessage('btndesc')).text(getMessage('btntitle')));
