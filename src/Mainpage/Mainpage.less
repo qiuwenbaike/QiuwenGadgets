@@ -112,7 +112,7 @@
 		padding: 0.5em;
 		border: 0;
 		border-radius: @border-radius--small;
-		margin: 0 auto 1em;
+		margin: 0 auto;
 		background: @color--primary;
 		color: @const-color-white;
 		font-size: 1.25em;
@@ -370,47 +370,45 @@
 	}
 
 	.guidelist {
-		.mainpage & {
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				margin: auto;
-				gap: 0.25em;
-			}
-
-			li {
-				font-size: 1.1em;
-				list-style-type: none;
-				text-align: center;
-
-				&::marker {
-					content: '';
-				}
-			}
-		}
-
-		#mainpage-sisterproject-box & {
-			display: flex;
-			flex-direction: column;
-			gap: 1em;
-
-			&-sisterproject-item {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: center;
-				gap: 1em;
-			}
-		}
-
-		#mainpage-sns-box & {
+		ul {
 			display: flex;
 			flex-wrap: wrap;
-			place-content: space-around space-evenly;
-			align-items: flex-end;
+			justify-content: center;
+			margin: auto;
+			gap: 0.25em;
+		}
+
+		li {
+			font-size: 1.1em;
+			list-style-type: none;
+			text-align: center;
+
+			&::marker {
+				content: '';
+			}
+		}
+	}
+
+	#mainpage-sisterproject-box .guidelist {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+
+		.mainpage-sisterproject-item {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
 			gap: 1em;
 		}
+	}
+
+	#mainpage-sns-box .guidelist {
+		display: flex;
+		flex-wrap: wrap;
+		place-content: space-around space-evenly;
+		align-items: flex-end;
+		gap: 1em;
 	}
 
 	@media screen and (max-width: 1024px) {
