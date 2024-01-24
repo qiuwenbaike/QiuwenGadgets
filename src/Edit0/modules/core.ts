@@ -22,12 +22,12 @@ const edit0 = ($body: JQuery<HTMLBodyElement>): void => {
 		element.title = getMessage('Edit0');
 
 		const {href} = element;
-		const urlSearch: {
-			summary: string;
-			section: string;
-		} = {
+		const urlSearch = {
 			summary: '/* top */ ',
 			section: '0',
+		} as const satisfies {
+			summary: string;
+			section: string;
 		};
 
 		if (!/&(?:ve)?section=T/.test(href)) {
