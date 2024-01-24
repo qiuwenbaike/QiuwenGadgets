@@ -500,14 +500,16 @@
 				return;
 			}
 			const redirectDeleter = new Morebits.batchOperation(
-				wgULS('正在删除到 ', '正在刪除到 ') + apiobj.params.title + window.wgULS(' 的重定向', ' 的重新導向')
+				window.wgULS('正在删除到 ', '正在刪除到 ') +
+					apiobj.params.title +
+					window.wgULS(' 的重定向', ' 的重新導向')
 			);
 			redirectDeleter.setOption('chunkSize', Twinkle.getPref('batchdeleteChunks'));
 			redirectDeleter.setPageList(pages);
 			redirectDeleter.run((pageName) => {
 				const qiuwen_page = new Morebits.wiki.page(pageName, window.wgULS('正在删除 ', '正在刪除 ') + pageName);
 				qiuwen_page.setEditSummary(
-					`[[QW:CSD#G5|G5]]：${wgULS('指向已删页面“', '指向已刪頁面「')}${apiobj.params.title}${wgULS(
+					`[[QW:CSD#G5|G5]]：${window.wgULS('指向已删页面“', '指向已刪頁面「')}${apiobj.params.title}${window.wgULS(
 						'”的重定向',
 						'」的重新導向'
 					)}`
@@ -525,10 +527,12 @@
 			}
 			const page = new Morebits.wiki.page(
 				apiobj.params.talkPage,
-				wgULS('正在删除页面 ', '正在刪除頁面 ') + apiobj.params.title + window.wgULS(' 的讨论页', ' 的討論頁')
+				window.wgULS('正在删除页面 ', '正在刪除頁面 ') +
+					apiobj.params.title +
+					window.wgULS(' 的讨论页', ' 的討論頁')
 			);
 			page.setEditSummary(
-				`[[QW:CSD#G5|G5]]：${wgULS('已删页面“', '已刪頁面「')}${apiobj.params.title}${wgULS(
+				`[[QW:CSD#G5|G5]]：${window.wgULS('已删页面“', '已刪頁面「')}${apiobj.params.title}${window.wgULS(
 					'”的[[Help:讨论页|讨论页]]',
 					'」的[[Help:討論頁|討論頁]]'
 				)}`

@@ -35,9 +35,9 @@ import {initMwApi} from 'ext.gadget.Util';
 		) {
 			Twinkle.addPortletLink(
 				Twinkle.block.callback,
-				wgULS('封禁', '封鎖'),
+				window.wgULS('封禁', '封鎖'),
 				'tw-block',
-				wgULS('封禁相关用户', '封鎖相關使用者')
+				window.wgULS('封禁相关用户', '封鎖相關使用者')
 			);
 		}
 	};
@@ -45,7 +45,10 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (
 			relevantUserName === mw.config.get('wgUserName') &&
 			!confirm(
-				wgULS('您即将对自己执行封禁相关操作！确认要继续吗？', '您即將對自己執行封鎖相關操作！確認要繼續嗎？')
+				window.wgULS(
+					'您即将对自己执行封禁相关操作！确认要继续吗？',
+					'您即將對自己執行封鎖相關操作！確認要繼續嗎？'
+				)
 			)
 		) {
 			return;
@@ -56,12 +59,12 @@ import {initMwApi} from 'ext.gadget.Util';
 		const Window = new Morebits.simpleWindow(650, 530);
 		// need to be verbose about who we're blocking
 		Window.setTitle(
-			wgULS('封禁或向', '封鎖或向') + relevantUserName + window.wgULS('发出封禁模板', '發出封鎖模板')
+			window.wgULS('封禁或向', '封鎖或向') + relevantUserName + window.wgULS('发出封禁模板', '發出封鎖模板')
 		);
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('封禁方针', '封鎖方針'), 'QW:BLOCK');
-		Window.addFooterLink(wgULS('封禁设置', '封鎖設定'), 'H:TW/PREF#block');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#block');
+		Window.addFooterLink(window.wgULS('封禁方针', '封鎖方針'), 'QW:BLOCK');
+		Window.addFooterLink(window.wgULS('封禁设置', '封鎖設定'), 'H:TW/PREF#block');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#block');
 		const form = new Morebits.quickForm(Twinkle.block.callback.evaluate);
 		const actionfield = form.append({
 			type: 'field',
@@ -305,7 +308,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			},
 			(error) => {
 				Morebits.status.init($body.find('div[name="currentblock"] span').last()[0]);
-				Morebits.status.warn(wgULS('抓取用户信息出错', '抓取使用者資訊出錯'), error);
+				Morebits.status.warn(window.wgULS('抓取用户信息出错', '抓取使用者資訊出錯'), error);
 			}
 		);
 	};
@@ -383,7 +386,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (e.target.value === 'unblock') {
 			if (!Twinkle.block.currentBlockInfo) {
 				$unblock.prop('checked', false);
-				mw.notify(wgULS('用户没有被封禁', '使用者沒有被封鎖'), {
+				mw.notify(window.wgULS('用户没有被封禁', '使用者沒有被封鎖'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -833,7 +836,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					],
 				});
 			}
-			const $previewlink = $(`<a id="twinkleblock-preview-link">${wgULS('预览', '預覽')}</a>`);
+			const $previewlink = $(`<a id="twinkleblock-preview-link">${window.wgULS('预览', '預覽')}</a>`);
 			$previewlink.off('click').on('click', () => {
 				Twinkle.block.callback.preview($form[0]);
 			});
@@ -863,11 +866,11 @@ import {initMwApi} from 'ext.gadget.Util';
 				label: window.wgULS('选择用户页模板：', '選擇使用者頁面模板：'),
 				list: [
 					{
-						label: `{{Blocked user}}：${wgULS('一般永久封禁', '一般永久封鎖')}`,
+						label: `{{Blocked user}}：${window.wgULS('一般永久封禁', '一般永久封鎖')}`,
 						value: 'Blocked user',
 					},
 					{
-						label: `{{Sockpuppet}}：${wgULS('傀儡账号', '傀儡賬號')}`,
+						label: `{{Sockpuppet}}：${window.wgULS('傀儡账号', '傀儡賬號')}`,
 						value: 'Sockpuppet',
 						subgroup: [
 							{
@@ -883,18 +886,18 @@ import {initMwApi} from 'ext.gadget.Util';
 									{
 										type: 'option',
 										value: 'blocked',
-										label: `blocked - ${wgULS('仅依行为证据认定', '僅依行為證據認定')}`,
+										label: `blocked - ${window.wgULS('仅依行为证据认定', '僅依行為證據認定')}`,
 										selected: true,
 									},
 									{
 										type: 'option',
 										value: 'proven',
-										label: `proven - ${wgULS('经傀儡调查确认', '經傀儡調查確認')}`,
+										label: `proven - ${window.wgULS('经傀儡调查确认', '經傀儡調查確認')}`,
 									},
 									{
 										type: 'option',
 										value: 'confirmed',
-										label: `confirmed - ${wgULS('经查核确认', '經查核確認')}`,
+										label: `confirmed - ${window.wgULS('经查核确认', '經查核確認')}`,
 									},
 								],
 							},
@@ -910,7 +913,7 @@ import {initMwApi} from 'ext.gadget.Util';
 						],
 					},
 					{
-						label: `{{Sockpuppeteer|blocked}}：${wgULS('傀儡主账号', '傀儡主賬號')}`,
+						label: `{{Sockpuppeteer|blocked}}：${window.wgULS('傀儡主账号', '傀儡主賬號')}`,
 						value: 'Sockpuppeteer',
 						subgroup: [
 							{
@@ -1082,7 +1085,7 @@ import {initMwApi} from 'ext.gadget.Util';
 						)
 					);
 					statusStr +=
-						wgULS('（位于', '（位於') +
+						window.wgULS('（位于', '（位於') +
 						$rangeblockloglink.html() +
 						window.wgULS('段封禁内）', '段封鎖內）');
 				}
@@ -1091,7 +1094,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				statusStr += window.wgULS('（无限期）', '（無限期）');
 			} else if (new Morebits.date(Twinkle.block.currentBlockInfo.expiry).isValid()) {
 				statusStr += `${
-					wgULS('（终止于', '（終止於') +
+					window.wgULS('（终止于', '（終止於') +
 					new Morebits.date(Twinkle.block.currentBlockInfo.expiry).calendar('utc')
 				}）`;
 			}
@@ -1126,11 +1129,11 @@ import {initMwApi} from 'ext.gadget.Util';
 						action: 'view',
 						page: relevantUserName,
 						type: 'block',
-					})}">${wgULS('封禁日志', '封鎖日誌')}</a>)`
+					})}">${window.wgULS('封禁日志', '封鎖日誌')}</a>)`
 				)
 			);
 			if (Twinkle.block.currentBlockInfo) {
-				blockloginfo.push(wgULS('封禁详情', '封鎖詳情'));
+				blockloginfo.push(window.wgULS('封禁详情', '封鎖詳情'));
 			} else {
 				const [lastBlockAction] = Twinkle.block.blockLog;
 				const blockAction = lastBlockAction.action === 'unblock' ? Twinkle.block.blockLog[1] : lastBlockAction;
@@ -1141,7 +1144,7 @@ import {initMwApi} from 'ext.gadget.Util';
 							: window.wgULS('用户', '使用者')
 					}曾在`,
 					$(`<b>${new Morebits.date(blockAction.timestamp).calendar('utc')}</b>`)[0],
-					`被${blockAction.user}${wgULS('封禁', '封鎖')}`,
+					`被${blockAction.user}${window.wgULS('封禁', '封鎖')}`,
 					$(`<b>${Morebits.string.formatTime(blockAction.params.duration)}</b>`)[0]
 				);
 				if (lastBlockAction.action === 'unblock') {
@@ -1149,7 +1152,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				} else {
 					// block or reblock
 					blockloginfo.push(
-						`，${new Morebits.date(blockAction.params.expiry).calendar('utc')}${wgULS('过期', '過期')}`
+						`，${new Morebits.date(blockAction.params.expiry).calendar('utc')}${window.wgULS('过期', '過期')}`
 					);
 				}
 			}
@@ -1308,7 +1311,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		'uw-ublock': {
 			expiry: 'infinity',
 			forRegisteredOnly: true,
-			reason: `{{uw-ublock}}<!-- ${wgULS('不当用户名、软封禁', '不當使用者名稱')} -->`,
+			reason: `{{uw-ublock}}<!-- ${window.wgULS('不当用户名、软封禁', '不當使用者名稱')} -->`,
 			summary: window.wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
@@ -1319,7 +1322,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: `{{uw-ublock-illegal}}<!-- ${wgULS('不合规的用户名', '不合規的使用者名稱')} -->`,
+			reason: `{{uw-ublock-illegal}}<!-- ${window.wgULS('不合规的用户名', '不合規的使用者名稱')} -->`,
 			summary: window.wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
@@ -1330,7 +1333,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: `{{uw-ublock-suggestive}}<!-- ${wgULS('误导、混淆性用户名', '誤導、混淆性使用者名稱')} -->`,
+			reason: `{{uw-ublock-suggestive}}<!-- ${window.wgULS('误导、混淆性用户名', '誤導、混淆性使用者名稱')} -->`,
 			summary: window.wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
@@ -1341,7 +1344,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: `{{uw-ublock-spam}}<!-- ${wgULS('宣传性用户名或宣传性编辑', '宣傳性使用者名稱或宣傳性編輯')} -->`,
+			reason: `{{uw-ublock-spam}}<!-- ${window.wgULS('宣传性用户名或宣传性编辑', '宣傳性使用者名稱或宣傳性編輯')} -->`,
 			summary: window.wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
@@ -1475,7 +1478,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: `{{uw-ublock-attack}}<!-- ${wgULS('攻击性用户名', '攻擊性使用者名稱')} -->`,
+			reason: `{{uw-ublock-attack}}<!-- ${window.wgULS('攻击性用户名', '攻擊性使用者名稱')} -->`,
 			summary: window.wgULS('封禁通知：攻击性用户名', '封鎖通知：攻擊性使用者名稱'),
 		},
 		// Begin partial block templates, accessed in Twinkle.block.blockGroupsPartial
@@ -1748,7 +1751,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		}
 		const seeAlsoMessage = Twinkle.block.seeAlsos.join('、');
 		if (Twinkle.block.seeAlsos.length) {
-			this.form.reason.value = `${reason}<!-- ${wgULS('参见', '參見')}${seeAlsoMessage} -->`;
+			this.form.reason.value = `${reason}<!-- ${window.wgULS('参见', '參見')}${seeAlsoMessage} -->`;
 		} else {
 			this.form.reason.value = reason;
 		}
@@ -1957,7 +1960,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				return (sum += params.tag.includes(tag));
 			}, 0);
 			if (count > 1) {
-				let message = `${wgULS('请在以下标签中择一使用', '請在以下標籤中擇一使用')}：{{${conflicts.join(
+				let message = `${window.wgULS('请在以下标签中择一使用', '請在以下標籤中擇一使用')}：{{${conflicts.join(
 					'}}、{{'
 				)}}}。`;
 				message += extra || '';
@@ -1970,7 +1973,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		};
 		if (toTag) {
 			if (params.tag.length === 0) {
-				mw.notify(wgULS('请至少选择一个用户页标记！', '請至少選擇一個使用者頁面標記！'), {
+				mw.notify(window.wgULS('请至少选择一个用户页标记！', '請至少選擇一個使用者頁面標記！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1979,7 +1982,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			if (
 				checkIncompatible(
 					['Blocked user', 'Sockpuppet'],
-					wgULS(
+					window.wgULS(
 						'{{Sockpuppet}}已涵盖{{Blocked user}}的功能。',
 						'{{Sockpuppet}}已涵蓋{{Blocked user}}的功能。'
 					)
@@ -1990,7 +1993,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			if (
 				checkIncompatible(
 					['Blocked user', 'Sockpuppeteer'],
-					wgULS(
+					window.wgULS(
 						'{{Sockpuppeteer}}已涵盖{{Blocked user}}的功能。',
 						'{{Sockpuppeteer}}已涵蓋{{Blocked user}}的功能。'
 					)
@@ -2001,13 +2004,13 @@ import {initMwApi} from 'ext.gadget.Util';
 			if (
 				checkIncompatible(
 					['Sockpuppet', 'Sockpuppeteer'],
-					wgULS('请从主账号和分身账号中选择一个。', '請從主賬號和分身賬號中選擇一個。')
+					window.wgULS('请从主账号和分身账号中选择一个。', '請從主賬號和分身賬號中選擇一個。')
 				)
 			) {
 				return;
 			}
 			if (params.tag.includes('Sockpuppet') && params.sppUsername.trim() === '') {
-				mw.notify(wgULS('请提供傀儡账号的主账号用户名！', '請提供傀儡賬號的主賬號使用者名稱！'), {
+				mw.notify(window.wgULS('请提供傀儡账号的主账号用户名！', '請提供傀儡賬號的主賬號使用者名稱！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -2018,7 +2021,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			if (blockoptions.partial) {
 				if (blockoptions.disabletalk && !blockoptions.namespacerestrictions.includes('3')) {
 					mw.notify(
-						wgULS(
+						window.wgULS(
 							'部分封禁无法阻止编辑自己的讨论页，除非也封禁了User talk命名空间！',
 							'部分封鎖無法阻止編輯自己的討論頁，除非也封鎖了User talk命名空間！'
 						),
@@ -2033,7 +2036,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					if (!blockoptions.noemail && !blockoptions.nocreate) {
 						// Blank entries technically allowed
 						mw.notify(
-							wgULS(
+							window.wgULS(
 								'没有选择页面或命名空间，也没有停用电子邮件或禁止创建账号；请选择至少一个选项以应用部分封禁！',
 								'沒有選擇頁面或命名空間，也沒有停用電子郵件或禁止建立賬號；請選擇至少一個選項以應用部分封鎖！'
 							),
@@ -2045,7 +2048,7 @@ import {initMwApi} from 'ext.gadget.Util';
 						return;
 					} else if (
 						!confirm(
-							wgULS(
+							window.wgULS(
 								'您将要进行封禁，但没有阻止任何页面或命名空间的编辑，确定要继续？',
 								'您將要進行封鎖，但沒有阻止任何頁面或命名空間的編輯，確定要繼續？'
 							)
@@ -2056,20 +2059,20 @@ import {initMwApi} from 'ext.gadget.Util';
 				}
 			}
 			if (!blockoptions.expiry) {
-				mw.notify(wgULS('请提供过期时间！', '請提供過期時間！'), {
+				mw.notify(window.wgULS('请提供过期时间！', '請提供過期時間！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
 				return;
 			} else if (Morebits.string.isInfinity(blockoptions.expiry) && !Twinkle.block.isRegistered) {
-				mw.notify(wgULS('禁止无限期封禁IP地址！', '禁止無限期封鎖IP位址！'), {
+				mw.notify(window.wgULS('禁止无限期封禁IP地址！', '禁止無限期封鎖IP位址！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
 				return;
 			}
 			if (!blockoptions.reason) {
-				mw.notify(wgULS('请提供封禁理由！', '請提供封鎖理由！'), {
+				mw.notify(window.wgULS('请提供封禁理由！', '請提供封鎖理由！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -2077,7 +2080,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			}
 			Morebits.simpleWindow.setButtonsEnabled(false);
 			Morebits.status.init(e.target);
-			const statusElement = new Morebits.status(wgULS('执行封禁', '執行封鎖'));
+			const statusElement = new Morebits.status(window.wgULS('执行封禁', '執行封鎖'));
 			blockoptions.action = 'block';
 			blockoptions.user = relevantUserName;
 			// boolean-flipped options
@@ -2161,12 +2164,12 @@ import {initMwApi} from 'ext.gadget.Util';
 						// no duration, action=unblock, just show timestamp
 						logExpiry = `於${new Morebits.date(logevents.timestamp).calendar()}`;
 					}
-					message += `由${logevents.user}${wgULS('以“', '以「')}${logevents.comment}${wgULS('”', '」')}${
+					message += `由${logevents.user}${window.wgULS('以“', '以「')}${logevents.comment}${window.wgULS('”', '」')}${
 						blockActionText[logevents.action]
-					}${logExpiry}${wgULS('，你想要以你的设置更改封禁吗？', '，你想要以你的設定變更封鎖嗎？')}`;
+					}${logExpiry}${window.wgULS('，你想要以你的设置更改封禁吗？', '，你想要以你的設定變更封鎖嗎？')}`;
 					if (!confirm(message)) {
 						Morebits.status.info(
-							wgULS('执行封禁', '執行封鎖'),
+							window.wgULS('执行封禁', '執行封鎖'),
 							window.wgULS('用户取消操作', '使用者取消操作')
 						);
 						return;
@@ -2191,7 +2194,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				// execute block
 				blockoptions.tags = Twinkle.changeTags;
 				blockoptions.token = mw.user.tokens.get('csrfToken');
-				const mbApi = new Morebits.wiki.api(wgULS('执行封禁', '執行封鎖'), blockoptions, () => {
+				const mbApi = new Morebits.wiki.api(window.wgULS('执行封禁', '執行封鎖'), blockoptions, () => {
 					statusElement.info('完成');
 					if (toWarn) {
 						Twinkle.block.callback.issue_template(templateoptions);
@@ -2199,19 +2202,19 @@ import {initMwApi} from 'ext.gadget.Util';
 					if (toClosevip) {
 						const vipPage = new Morebits.wiki.page(
 							'Qiuwen_talk:报告当前破坏',
-							wgULS('关闭请求', '關閉請求')
+							window.wgULS('关闭请求', '關閉請求')
 						);
 						vipPage.setFollowRedirect(true);
 						vipPage.setCallbackParameters(blockoptions);
 						vipPage.load(Twinkle.block.callback.closeRequest);
 					}
 					if (groupsToBeRemoved.length > 0) {
-						const rightStatusElement = new Morebits.status(wgULS('移除权限', '移除權限'));
+						const rightStatusElement = new Morebits.status(window.wgULS('移除权限', '移除權限'));
 						if (
 							confirm(
-								wgULS('该用户有以下权限：', '該使用者有以下權限：') +
+								window.wgULS('该用户有以下权限：', '該使用者有以下權限：') +
 									groupsToBeRemoved.join('、') +
-									wgULS('，您是否想要同时移除这些权限？', '，您是否想要同時移除這些權限？')
+									window.wgULS('，您是否想要同时移除这些权限？', '，您是否想要同時移除這些權限？')
 							)
 						) {
 							const revokeOptions = {
@@ -2222,12 +2225,16 @@ import {initMwApi} from 'ext.gadget.Util';
 								token: data.query.tokens.userrightstoken,
 								tags: Twinkle.changeTags,
 							};
-							const mrApi = new Morebits.wiki.api(wgULS('移除权限', '移除權限'), revokeOptions, () => {
-								rightStatusElement.info(`已移除${groupsToBeRemoved.join('、')}`);
-							});
+							const mrApi = new Morebits.wiki.api(
+								window.wgULS('移除权限', '移除權限'),
+								revokeOptions,
+								() => {
+									rightStatusElement.info(`已移除${groupsToBeRemoved.join('、')}`);
+								}
+							);
 							mrApi.post();
 						} else {
-							rightStatusElement.error(wgULS('用户取消操作。', '使用者取消操作。'));
+							rightStatusElement.error(window.wgULS('用户取消操作。', '使用者取消操作。'));
 						}
 					}
 				});
@@ -2251,7 +2258,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		}
 		if (toUnblock) {
 			if (!unblockoptions.reason) {
-				mw.notify(wgULS('请提供解除封禁理由！', '請提供解除封鎖理由！'), {
+				mw.notify(window.wgULS('请提供解除封禁理由！', '請提供解除封鎖理由！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -2259,19 +2266,23 @@ import {initMwApi} from 'ext.gadget.Util';
 			}
 			Morebits.simpleWindow.setButtonsEnabled(false);
 			Morebits.status.init(e.target);
-			const unblockStatusElement = new Morebits.status(wgULS('执行解除封禁', '執行解除封鎖'));
+			const unblockStatusElement = new Morebits.status(window.wgULS('执行解除封禁', '執行解除封鎖'));
 			unblockoptions.action = 'unblock';
 			unblockoptions.user = mw.config.get('wgRelevantUserName');
 			// execute unblock
 			unblockoptions.tags = Twinkle.changeTags;
 			unblockoptions.token = mw.user.tokens.get('csrfToken');
-			const unblockMbApi = new Morebits.wiki.api(wgULS('执行解除封禁', '執行解除封鎖'), unblockoptions, () => {
-				unblockStatusElement.info('完成');
-			});
+			const unblockMbApi = new Morebits.wiki.api(
+				window.wgULS('执行解除封禁', '執行解除封鎖'),
+				unblockoptions,
+				() => {
+					unblockStatusElement.info('完成');
+				}
+			);
 			unblockMbApi.post();
 		}
 		if (!toBlock && !toWarn && !toTag && !toProtect && !toUnblock) {
-			mw.notify(wgULS('请给Twinkle点事做！', '請給Twinkle點事做！'), {
+			mw.notify(window.wgULS('请给Twinkle点事做！', '請給Twinkle點事做！'), {
 				type: 'warn',
 				tag: 'twinkleblock',
 			});
@@ -2306,7 +2317,7 @@ import {initMwApi} from 'ext.gadget.Util';
 						tagtext += '\n';
 						break;
 					default:
-						mw.notify(wgULS('未知的用户页模板！', '未知的使用者頁面模板！'), {
+						mw.notify(window.wgULS('未知的用户页模板！', '未知的使用者頁面模板！'), {
 							type: 'warn',
 							tag: 'twinkleblock',
 						});
@@ -2317,11 +2328,11 @@ import {initMwApi} from 'ext.gadget.Util';
 			}
 			const text = tags.join('\n');
 			pageobj.setPageText(text);
-			pageobj.setEditSummary(wgULS('标记被永久封禁的用户页', '標記被永久封鎖的使用者頁面'));
+			pageobj.setEditSummary(window.wgULS('标记被永久封禁的用户页', '標記被永久封鎖的使用者頁面'));
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.save(() => {
-				Morebits.status.info(wgULS('标记用户页', '標記使用者頁面'), '完成');
-				statelem.status(wgULS('正在保护页面', '正在保護頁面'));
+				Morebits.status.info(window.wgULS('标记用户页', '標記使用者頁面'), '完成');
+				statelem.status(window.wgULS('正在保护页面', '正在保護頁面'));
 				pageobj.load(Twinkle.block.callback.protectuserpage);
 			});
 		} else {
@@ -2338,11 +2349,11 @@ import {initMwApi} from 'ext.gadget.Util';
 			} else {
 				pageobj.setCreateProtection('sysop', 'indefinite');
 			}
-			pageobj.setEditSummary(wgULS('被永久封禁的用户页', '被永久封鎖的使用者頁面'));
+			pageobj.setEditSummary(window.wgULS('被永久封禁的用户页', '被永久封鎖的使用者頁面'));
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.protect(() => {
 				Morebits.status.info(
-					wgULS('保护用户页', '保護使用者頁面'),
+					window.wgULS('保护用户页', '保護使用者頁面'),
 					pageobj.exists() ? window.wgULS('已全保护', '已全保護') : window.wgULS('已白纸保护', '已白紙保護')
 				);
 				statelem.info('全部完成');
@@ -2406,7 +2417,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			}
 		}
 		if (!found) {
-			statusElement.warn(wgULS('没有找到相关的请求', '沒有找到相關的請求'));
+			statusElement.warn(window.wgULS('没有找到相关的请求', '沒有找到相關的請求'));
 			return;
 		}
 		text = requestList.join('');
@@ -2480,7 +2491,7 @@ import {initMwApi} from 'ext.gadget.Util';
 							return menuFormattedNamespaces[id];
 						});
 						text += `${
-							wgULS('[[Help:命名空间|命名空间]]（', '[[Help:命名空間|命名空間]]（') +
+							window.wgULS('[[Help:命名空间|命名空间]]（', '[[Help:命名空間|命名空間]]（') +
 							makeSentence(namespaceNames)
 						}）`;
 					}
@@ -2509,8 +2520,11 @@ import {initMwApi} from 'ext.gadget.Util';
 		params.indefinite = Morebits.string.isInfinity(params.expiry);
 		if (Twinkle.getPref('blankTalkpageOnIndefBlock') && params.template !== 'uw-lblock' && params.indefinite) {
 			Morebits.status.info(
-				wgULS('信息', '資訊'),
-				wgULS('根据参数设置清空讨论页并为日期创建新2级标题', '根據偏好設定清空討論頁並為日期建立新2級標題')
+				window.wgULS('信息', '資訊'),
+				window.wgULS(
+					'根据参数设置清空讨论页并为日期创建新2级标题',
+					'根據偏好設定清空討論頁並為日期建立新2級標題'
+				)
 			);
 			text = `${date.monthHeader()}\n`;
 		} else {
@@ -2530,8 +2544,8 @@ import {initMwApi} from 'ext.gadget.Util';
 			}
 			if (!dateHeaderRegexResult || dateHeaderRegexResult.index !== lastHeaderIndex) {
 				Morebits.status.info(
-					wgULS('信息', '資訊'),
-					wgULS('未找到当月的二级标题，将创建新的', '未找到當月的二級標題，將建立新的')
+					window.wgULS('信息', '資訊'),
+					window.wgULS('未找到当月的二级标题，将创建新的', '未找到當月的二級標題，將建立新的')
 				);
 				text += `${date.monthHeader()}\n`;
 			}
@@ -2541,7 +2555,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		// build the edit summary
 		let summary = params.usertalk_summary;
 		if (messageData.suppressArticleInSummary !== true && params.article) {
-			summary += `${wgULS('，于', '，於')}[[:${params.article}]]`;
+			summary += `${window.wgULS('，于', '，於')}[[:${params.article}]]`;
 		}
 		pageobj.setPageText(text);
 		pageobj.setEditSummary(summary);

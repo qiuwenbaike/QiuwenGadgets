@@ -24,16 +24,16 @@
 	Twinkle.talkback.callback = () => {
 		if (
 			mw.config.get('wgRelevantUserName') === mw.config.get('wgUserName') &&
-			!confirm(wgULS('您寂寞到了要自己回复自己的程度么？', '您寂寞到了要自己回覆自己的程度麼？'))
+			!confirm(window.wgULS('您寂寞到了要自己回复自己的程度么？', '您寂寞到了要自己回覆自己的程度麼？'))
 		) {
 			return;
 		}
 		const Window = new Morebits.simpleWindow(600, 350);
-		Window.setTitle(wgULS('回复通告', '回覆通告'));
+		Window.setTitle(window.wgULS('回复通告', '回覆通告'));
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('关于{{talkback}}', '關於{{talkback}}'), 'Template:Talkback');
-		Window.addFooterLink(wgULS('通告设置', '通告設定'), 'H:TW/PREF#talkback');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#talkback');
+		Window.addFooterLink(window.wgULS('关于{{talkback}}', '關於{{talkback}}'), 'Template:Talkback');
+		Window.addFooterLink(window.wgULS('通告设置', '通告設定'), 'H:TW/PREF#talkback');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#talkback');
 		const form = new Morebits.quickForm(Twinkle.talkback.evaluate);
 		form.append({
 			type: 'radio',
@@ -109,7 +109,7 @@
 			ellimit: '1',
 		};
 		const qiuwen_api = new Morebits.wiki.api(
-			wgULS('抓取退出通告信息', '抓取退出通告資訊'),
+			window.wgULS('抓取退出通告信息', '抓取退出通告資訊'),
 			query,
 			Twinkle.talkback.callback.optoutStatus
 		);
@@ -300,9 +300,9 @@
 	};
 	Twinkle.talkback.noticeboards = {
 		affp: {
-			label: `QW:AF/FP（${wgULS('过滤器处理/报告', '過濾器處理/報告')}）`,
+			label: `QW:AF/FP（${window.wgULS('过滤器处理/报告', '過濾器處理/報告')}）`,
 			title: window.wgULS('过滤器错误报告有新回应', '過濾器錯誤報告有新回應'),
-			content: `${wgULS(
+			content: `${window.wgULS(
 				'您的[[Qiuwen_talk:过滤器处理/报告|过滤器错误报告]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:过滤器处理/报告|過濾器錯誤報告]]已有回應，請前往查看。'
 			)}--~~`.concat('~~'),
@@ -315,7 +315,7 @@
 		sbl: {
 			label: 'Spam-blacklist',
 			title: window.wgULS('垃圾链接黑名单请求有新回应', '垃圾連結黑名單請求有新回應'),
-			content: `${wgULS(
+			content: `${window.wgULS(
 				'您的[[Qiuwen_talk:管理员告示板|垃圾链接黑名单请求]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:管理员告示板|垃圾連結黑名單請求]]已有回應，請前往查看。'
 			)}--~~`.concat('~~'),
@@ -327,7 +327,7 @@
 		shl: {
 			label: 'Spam-whitelist',
 			title: window.wgULS('垃圾链接白名单请求有新回应', '垃圾連結白名單請求有新回應'),
-			content: `${wgULS(
+			content: `${window.wgULS(
 				'您的[[Qiuwen_talk:管理员告示板|垃圾链接白名单请求]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:管理员告示板|垃圾連結白名單請求]]已有回應，請前往查看。'
 			)}--~~`.concat('~~'),
@@ -356,13 +356,13 @@
 			if (tbtarget === 'mail') {
 				editSummary = window.wgULS('通知：有新邮件', '通知：有新郵件');
 			} else if (tbtarget === 'see') {
-				editSummary = `${wgULS('请看看', '請看看')}[[:${page}${section ? `#${section}` : ''}]]${wgULS(
+				editSummary = `${window.wgULS('请看看', '請看看')}[[:${page}${section ? `#${section}` : ''}]]${window.wgULS(
 					'上的讨论',
 					'上的討論'
 				)}`;
 			} else {
 				// tbtarget one of mytalk, usertalk, other
-				editSummary = `${wgULS('回复通告', '回覆通告')}（[[:`;
+				editSummary = `${window.wgULS('回复通告', '回覆通告')}（[[:`;
 				if (tbtarget !== 'other' && !new RegExp(`^\\s*${Morebits.namespaceRegex(3)}:`, 'i').test(page)) {
 					editSummary += 'User talk:';
 				}

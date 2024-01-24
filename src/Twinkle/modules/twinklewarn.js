@@ -17,7 +17,7 @@
 				Twinkle.warn.callback,
 				'警告',
 				'tw-warn',
-				wgULS('警告或提醒用户', '警告或提醒使用者')
+				window.wgULS('警告或提醒用户', '警告或提醒使用者')
 			);
 			if (
 				Twinkle.getPref('autoMenuAfterRollback') &&
@@ -52,7 +52,7 @@
 		$vandalTalkLink.wrapInner(
 			$('<span>').attr(
 				'title',
-				wgULS(
+				window.wgULS(
 					'如果合适，您可以用Twinkle在该用户讨论页上做出警告。',
 					'如果合適，您可以用Twinkle在該使用者討論頁上做出警告。'
 				)
@@ -71,16 +71,16 @@
 	Twinkle.warn.callback = () => {
 		if (
 			relevantUserName === mw.config.get('wgUserName') &&
-			!confirm(wgULS('您将要警告自己！您确定要继续吗？', '您將要警告自己！您確定要繼續嗎？'))
+			!confirm(window.wgULS('您将要警告自己！您确定要继续吗？', '您將要警告自己！您確定要繼續嗎？'))
 		) {
 			return;
 		}
 		Twinkle.warn.dialog = new Morebits.simpleWindow(600, 440);
 		const {dialog} = Twinkle.warn;
-		dialog.setTitle(wgULS('警告、提醒用户', '警告、提醒使用者'));
+		dialog.setTitle(window.wgULS('警告、提醒用户', '警告、提醒使用者'));
 		dialog.setScriptName('Twinkle');
-		dialog.addFooterLink(wgULS('警告设置', '警告設定'), 'H:TW/PREF#warn');
-		dialog.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#warn');
+		dialog.addFooterLink(window.wgULS('警告设置', '警告設定'), 'H:TW/PREF#warn');
+		dialog.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#warn');
 		const form = new Morebits.quickForm(Twinkle.warn.callback.evaluate);
 		const main_select = form.append({
 			type: 'field',
@@ -228,7 +228,7 @@
 					rvprop: 'user',
 				};
 				new Morebits.wiki.api(
-					wgULS('检查您是否成功回退该页面', '檢查您是否成功回退該頁面'),
+					window.wgULS('检查您是否成功回退该页面', '檢查您是否成功回退該頁面'),
 					query,
 					(apiobj) => {
 						const revertUser = $(apiobj.getResponse()).find('revisions rev')[1].getAttribute('user');
@@ -264,7 +264,7 @@
 					rvprop: 'timestamp',
 					revids: vanrevid,
 				};
-				new Morebits.wiki.api(wgULS('获取版本时间戳', '取得版本時間戳'), query, (apiobj) => {
+				new Morebits.wiki.api(window.wgULS('获取版本时间戳', '取得版本時間戳'), query, (apiobj) => {
 					vantimestamp = $(apiobj.getResponse()).find('revisions rev').attr('timestamp');
 					checkStale(vantimestamp);
 				}).post();
@@ -883,7 +883,7 @@
 				} else {
 					const usertalk_page = new Morebits.wiki.page(
 						`User_talk:${relevantUserName}`,
-						wgULS('加载上次警告', '載入上次警告')
+						window.wgULS('加载上次警告', '載入上次警告')
 					);
 					usertalk_page.setFollowRedirect(true, false);
 					usertalk_page.load(
@@ -899,7 +899,7 @@
 								.attr('id', 'twinkle-warn-autolevel-message')
 								.css('color', '#f00')
 								.text(
-									wgULS(
+									window.wgULS(
 										'无法加载用户讨论页，这可能是因为它是跨命名空间重定向，自动选择警告级别将不会运作。',
 										'無法載入使用者討論頁，這可能是因為它是跨命名空間重新導向，自動選擇警告級別將不會運作。'
 									)
@@ -914,7 +914,7 @@
 				break;
 			}
 			default:
-				mw.notify(wgULS('twinklewarn：未知的警告组', 'twinklewarn：未知的警告組'), {
+				mw.notify(window.wgULS('twinklewarn：未知的警告组', 'twinklewarn：未知的警告組'), {
 					type: 'warn',
 					tag: 'twinklewarn',
 				});
@@ -1027,7 +1027,7 @@
 				// Always get a new, updated talkpage for autolevel processing
 				const usertalk_page = new Morebits.wiki.page(
 					`User_talk:${relevantUserName}`,
-					wgULS('加载上次警告', '載入上次警告')
+					window.wgULS('加载上次警告', '載入上次警告')
 				);
 				usertalk_page.setFollowRedirect(true, false);
 				// Will fail silently if the talk page is a cross-ns redirect,
@@ -1149,7 +1149,7 @@
 						if (!statelem) {
 							const $link = $('<a>')
 								.attr('href', '#')
-								.text(wgULS('单击此处打开告状工具', '點擊此處打開告狀工具'))
+								.text(window.wgULS('单击此处打开告状工具', '點擊此處打開告狀工具'))
 								.css('font-weight', 'bold')
 								.on('click', () => {
 									Morebits.wiki.actionCompleted.redirect = null;
@@ -1163,9 +1163,9 @@
 								.css('color', '#f00')
 								.text(
 									relevantUserName +
-										wgULS('最后收到了一个层级2警告（', '最後收到了一個層級2警告（') +
+										window.wgULS('最后收到了一个层级2警告（', '最後收到了一個層級2警告（') +
 										latest.type +
-										wgULS(
+										window.wgULS(
 											'），所以将其报告给管理人员会比较好；',
 											'），所以將其報告給管理人員會比較好；'
 										)
@@ -1184,7 +1184,7 @@
 			}
 			$autolevelMessage.prepend(
 				$(
-					`<div>${wgULS('将发送', '將發送')}<span style="font-weight: bold;">${wgULS(
+					`<div>${window.wgULS('将发送', '將發送')}<span style="font-weight: bold;">${window.wgULS(
 						'层级',
 						'層級'
 					)}${level}</span>警告模板。</div>`
@@ -1225,12 +1225,12 @@
 				if (
 					params.sub_group !== templateAndLevel[0] &&
 					!confirm(
-						wgULS('将发送给用户{{', '將發送給使用者{{') +
+						window.wgULS('将发送给用户{{', '將發送給使用者{{') +
 							templateAndLevel[0] +
-							wgULS('}}模板，好吗？', '}}模板，好嗎？')
+							window.wgULS('}}模板，好吗？', '}}模板，好嗎？')
 					)
 				) {
-					statelem.error(wgULS('用户取消', '使用者取消'));
+					statelem.error(window.wgULS('用户取消', '使用者取消'));
 					return;
 				}
 				// Update params now that we've selected a warning
@@ -1240,24 +1240,24 @@
 				params.sub_group in history &&
 				new Morebits.date(history[params.sub_group]).add(1, 'day').isAfter(now) &&
 				!confirm(
-					wgULS('近24小时内一个同样的 ', '近24小時內一個同樣的 ') +
+					window.wgULS('近24小时内一个同样的 ', '近24小時內一個同樣的 ') +
 						params.sub_group +
-						wgULS(' 模板已被发出。\n是否继续？', ' 模板已被發出。\n是否繼續？')
+						window.wgULS(' 模板已被发出。\n是否继续？', ' 模板已被發出。\n是否繼續？')
 				)
 			) {
-				statelem.error(wgULS('用户取消', '使用者取消'));
+				statelem.error(window.wgULS('用户取消', '使用者取消'));
 				return;
 			}
 			latest.date.add(1, 'minute'); // after long debate, one minute is max
 			if (
 				latest.date.isAfter(now) &&
 				!confirm(
-					wgULS('近1分钟内 ', '近1分鐘內 ') +
+					window.wgULS('近1分钟内 ', '近1分鐘內 ') +
 						latest.type +
-						wgULS(' 模板已被发出。\n是否继续？', ' 模板已被發出。\n是否繼續？')
+						window.wgULS(' 模板已被发出。\n是否继续？', ' 模板已被發出。\n是否繼續？')
 				)
 			) {
-				statelem.error(wgULS('用户取消', '使用者取消'));
+				statelem.error(window.wgULS('用户取消', '使用者取消'));
 				return;
 			}
 			// build the edit summary
@@ -1304,12 +1304,12 @@
 				if (messageData.suppressArticleInSummary !== true && params.article) {
 					if (params.sub_group === 'uw-aiv') {
 						// these templates require a username
-						summary += `（${wgULS('对于', '對於')}[[User:${params.article}]]）`;
+						summary += `（${window.wgULS('对于', '對於')}[[User:${params.article}]]）`;
 					} else if (params.sub_group === 'uw-bite') {
 						// this template requires a username
-						summary += `，${wgULS('于', '於')}[[User talk:${params.article}]]`;
+						summary += `，${window.wgULS('于', '於')}[[User talk:${params.article}]]`;
 					} else {
-						summary += `${wgULS('，于[[', '，於[[') + params.article}]]`;
+						summary += `${window.wgULS('，于[[', '，於[[') + params.article}]]`;
 					}
 				}
 			}
@@ -1354,8 +1354,8 @@
 					pageobj.setNewSectionTitle(messageData.heading);
 				} else {
 					Morebits.status.info(
-						wgULS('信息', '資訊'),
-						wgULS('未找到当月的二级标题，将创建新的', '未找到當月的二級標題，將建立新的')
+						window.wgULS('信息', '資訊'),
+						window.wgULS('未找到当月的二级标题，将创建新的', '未找到當月的二級標題，將建立新的')
 					);
 					pageobj.setNewSectionTitle(now.monthHeader(0));
 				}
@@ -1370,7 +1370,7 @@
 		const params = Morebits.quickForm.getInputData(e.target);
 		if (params.article) {
 			if (/https?:\/\//.test(params.article)) {
-				mw.notify(wgULS('“页面链接”不能使用网址。', '「頁面連結」不能使用網址。'), {
+				mw.notify(window.wgULS('“页面链接”不能使用网址。', '「頁面連結」不能使用網址。'), {
 					type: 'warn',
 					tag: 'warn',
 				});
@@ -1384,7 +1384,7 @@
 				}
 			} catch {
 				alert(
-					wgULS(
+					window.wgULS(
 						'“页面链接”不合法，仅能输入一个页面名称，勿使用网址、[[ ]]，可使用Special:Diff。',
 						'「頁面連結」不合法，僅能輸入一個頁面名稱，勿使用網址、[[ ]]，可使用Special:Diff。'
 					)
@@ -1402,7 +1402,7 @@
 		const $selectedEl = $(e.target.sub_group).find(`option[value="${$(e.target.sub_group).val()}"]`);
 		params.messageData = $selectedEl.data('messageData');
 		if (params.messageData === undefined) {
-			mw.notify(wgULS('请选择警告模板。', '請選擇警告模板。'), {
+			mw.notify(window.wgULS('请选择警告模板。', '請選擇警告模板。'), {
 				type: 'warn',
 				tag: 'warn',
 			});

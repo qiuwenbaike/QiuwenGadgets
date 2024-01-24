@@ -17,9 +17,9 @@
 		}
 		Twinkle.addPortletLink(
 			Twinkle.unlink.callback,
-			wgULS('消链', '消連'),
+			window.wgULS('消链', '消連'),
 			'tw-unlink',
-			wgULS('取消到本页的链接', '取消到本頁的連結')
+			window.wgULS('取消到本页的链接', '取消到本頁的連結')
 		);
 	};
 	// the parameter is used when invoking unlink from admin speedy
@@ -27,17 +27,18 @@
 		const fileSpace = mw.config.get('wgNamespaceNumber') === 6;
 		const Window = new Morebits.simpleWindow(600, 440);
 		Window.setTitle(
-			wgULS('取消链入', '取消連入') + (fileSpace ? window.wgULS('和模板、文件使用', '和模板、檔案使用') : '')
+			window.wgULS('取消链入', '取消連入') +
+				(fileSpace ? window.wgULS('和模板、文件使用', '和模板、檔案使用') : '')
 		);
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('链入设置', '連入設定'), 'H:TW/PREF#unlink');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#unlink');
+		Window.addFooterLink(window.wgULS('链入设置', '連入設定'), 'H:TW/PREF#unlink');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#unlink');
 		const form = new Morebits.quickForm(Twinkle.unlink.callback.evaluate);
 		// prepend some documentation: files are commented out, while any
 		// display text is preserved for links (otherwise the link itself is used)
 		const linkTextBefore = Morebits.htmlNode(
 			'code',
-			`[[${fileSpace ? ':' : ''}${Morebits.pageNameNorm}${wgULS('|链接文字]]', '|連結文字]]')}`
+			`[[${fileSpace ? ':' : ''}${Morebits.pageNameNorm}${window.wgULS('|链接文字]]', '|連結文字]]')}`
 		);
 		const linkTextAfter = Morebits.htmlNode('code', window.wgULS('链接文字', '連結文字'));
 		const linkPlainBefore = Morebits.htmlNode('code', `[[${Morebits.pageNameNorm}]]`);
@@ -57,7 +58,7 @@
 			style: 'margin-bottom: 0.5em; font-style: normal',
 			label: [
 				`${
-					wgULS(
+					window.wgULS(
 						'这个工具可以取消所有指向该页的链接（“链入”）',
 						'這個工具可以取消所有指向該頁的連結（「連入」）'
 					) +
@@ -69,16 +70,16 @@
 						: '')
 				}。例如：`,
 				linkTextBefore,
-				wgULS('将会变成', '將會變成'),
+				window.wgULS('将会变成', '將會變成'),
 				linkTextAfter,
 				'，',
 				linkPlainBefore,
-				wgULS('将会变成', '將會變成'),
+				window.wgULS('将会变成', '將會變成'),
 				linkPlainAfter,
 				'，',
 				linkTemplateBefore,
-				wgULS('将会被移除', '將會被移除'),
-				wgULS('。请小心使用。', '。請小心使用。'),
+				window.wgULS('将会被移除', '將會被移除'),
+				window.wgULS('。请小心使用。', '。請小心使用。'),
 			],
 		});
 		form.append({
@@ -107,7 +108,7 @@
 			query.blfilterredir = 'nonredirects';
 		}
 		const qiuwen_api = new Morebits.wiki.api(
-			wgULS('抓取链入', '抓取連入'),
+			window.wgULS('抓取链入', '抓取連入'),
 			query,
 			Twinkle.unlink.callbacks.display.backlinks
 		);
@@ -120,7 +121,7 @@
 		const root = document.createElement('div');
 		root.style.padding = '15px'; // just so it doesn't look broken
 		Morebits.status.init(root);
-		qiuwen_api.statelem.status(wgULS('加载中……', '載入中……'));
+		qiuwen_api.statelem.status(window.wgULS('加载中……', '載入中……'));
 		Window.setContent(root);
 		Window.display();
 	};
@@ -128,7 +129,7 @@
 		const form = event.target;
 		const input = Morebits.quickForm.getInputData(form);
 		if (!input.reason) {
-			mw.notify(wgULS('您必须指定取消链入的理由。', '您必須指定取消連入的理由。'), {
+			mw.notify(window.wgULS('您必须指定取消链入的理由。', '您必須指定取消連入的理由。'), {
 				type: 'warn',
 				tag: 'twinkleunlink',
 			});
@@ -138,7 +139,7 @@
 		input.imageusage ||= [];
 		const pages = Morebits.array.uniq([...input.backlinks, ...input.imageusage]);
 		if (!pages.length) {
-			mw.notify(wgULS('您必须至少选择一个要取消链入的页面。', '您必須至少選擇一個要取消連入的頁面。'), {
+			mw.notify(window.wgULS('您必须至少选择一个要取消链入的页面。', '您必須至少選擇一個要取消連入的頁面。'), {
 				type: 'warn',
 				tag: 'twinkleunlink',
 			});
@@ -163,7 +164,7 @@
 		unlinker.run((pageName) => {
 			const qiuwen_page = new Morebits.wiki.page(
 				pageName,
-				wgULS('在页面“', '在頁面「') + pageName + window.wgULS('”中取消链入', '」中取消連入')
+				window.wgULS('在页面“', '在頁面「') + pageName + window.wgULS('”中取消链入', '」中取消連入')
 			);
 			qiuwen_page.setBotEdit(true); // unlink considered a floody operation
 			qiuwen_page.setCallbackParameters({
@@ -218,9 +219,9 @@
 							apiobj.params.form.append({
 								type: 'div',
 								label:
-									wgULS('显示前', '顯示前') +
+									window.wgULS('显示前', '顯示前') +
 									mw.language.convertNumber(list.length) +
-									wgULS('个文件使用。', '個檔案使用。'),
+									window.wgULS('个文件使用。', '個檔案使用。'),
 							});
 						}
 						apiobj.params.form.append({
@@ -284,9 +285,9 @@
 						apiobj.params.form.append({
 							type: 'div',
 							label:
-								wgULS('显示前', '顯示前') +
+								window.wgULS('显示前', '顯示前') +
 								mw.language.convertNumber(list.length) +
-								wgULS('个链入。', '個連入。'),
+								window.wgULS('个链入。', '個連入。'),
 						});
 					}
 					apiobj.params.form.append({
@@ -365,7 +366,9 @@
 			}
 			if (warningString) {
 				// nothing to do!
-				pageobj.getStatusElement().error(`${wgULS('未能在页面上找到', '未能在頁面上找到') + warningString}。`);
+				pageobj
+					.getStatusElement()
+					.error(`${window.wgULS('未能在页面上找到', '未能在頁面上找到') + warningString}。`);
 				params.unlinker.workerFailure(pageobj);
 				return;
 			}

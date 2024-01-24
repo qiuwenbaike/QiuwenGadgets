@@ -15,19 +15,19 @@
 		) {
 			Twinkle.addPortletLink(
 				Twinkle.image.callback,
-				wgULS('图权', '圖權'),
+				window.wgULS('图权', '圖權'),
 				'tw-di',
-				wgULS('提交文件快速删除', '提交檔案快速刪除')
+				window.wgULS('提交文件快速删除', '提交檔案快速刪除')
 			);
 		}
 	};
 	Twinkle.image.callback = () => {
 		const Window = new Morebits.simpleWindow(600, 330);
-		Window.setTitle(wgULS('文件快速删除候选', '檔案快速刪除候選'));
+		Window.setTitle(window.wgULS('文件快速删除候选', '檔案快速刪除候選'));
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('快速删除方针', '快速刪除方針'), 'QW:CSD');
-		Window.addFooterLink(wgULS('图权设置', '圖權設定'), 'H:TW/PREF#image');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#image');
+		Window.addFooterLink(window.wgULS('快速删除方针', '快速刪除方針'), 'QW:CSD');
+		Window.addFooterLink(window.wgULS('图权设置', '圖權設定'), 'H:TW/PREF#image');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#image');
 		const form = new Morebits.quickForm(Twinkle.image.callback.evaluate);
 		form.append({
 			type: 'checkbox',
@@ -231,7 +231,7 @@
 		if (csdcrit === 'f4') {
 			const f4_type = event.target['type.f4_type'].value;
 			if (!f4_type) {
-				mw.notify(wgULS('CSD F4：请选择适用类型。', 'CSD F4：請選擇適用類別。'), {
+				mw.notify(window.wgULS('CSD F4：请选择适用类型。', 'CSD F4：請選擇適用類別。'), {
 					type: 'warn',
 					tag: 'twinkleimage',
 				});
@@ -269,7 +269,7 @@
 				);
 				Morebits.status.info(
 					'提示',
-					wgULS(
+					window.wgULS(
 						['这些内容应贴进上传者对话页：', document.createElement('br'), noteData],
 						['這些內容應貼進上傳者討論頁：', document.createElement('br'), noteData]
 					)
@@ -290,7 +290,7 @@
 			if (params.type !== 'orphaned fair use') {
 				const qiuwen_page = new Morebits.wiki.page(
 					'Qiuwen_talk:存废讨论/文件快速删除提报',
-					wgULS('加入快速删除记录项', '加入快速刪除記錄項')
+					window.wgULS('加入快速删除记录项', '加入快速刪除記錄項')
 				);
 				qiuwen_page.setFollowRedirect(true);
 				qiuwen_page.setCallbackParameters(params);
@@ -324,7 +324,7 @@
 			);
 			if (
 				text !== textNoSd &&
-				confirm(wgULS('在页面上找到快速删除模板，要移除吗？', '在頁面上找到快速刪除模板，要移除嗎？'))
+				confirm(window.wgULS('在页面上找到快速删除模板，要移除吗？', '在頁面上找到快速刪除模板，要移除嗎？'))
 			) {
 				text = textNoSd;
 			}
@@ -345,12 +345,12 @@
 			if (initialContrib === mw.config.get('wgUserName')) {
 				pageobj
 					.getStatusElement()
-					.warn(`您（${initialContrib}）${wgULS('创建了该页，跳过通知', '建立了該頁，跳過通知')}`);
+					.warn(`您（${initialContrib}）${window.wgULS('创建了该页，跳过通知', '建立了該頁，跳過通知')}`);
 			} else {
 				const talkPageName = `User talk:${initialContrib}`;
 				const usertalkpage = new Morebits.wiki.page(
 					talkPageName,
-					`${wgULS('通知上传者', '通知上傳者')}（${initialContrib}）`
+					`${window.wgULS('通知上传者', '通知上傳者')}（${initialContrib}）`
 				);
 				const notifytext = '\n{{'.concat(
 					'subst:',
@@ -359,9 +359,9 @@
 				);
 				usertalkpage.setAppendText(notifytext);
 				usertalkpage.setEditSummary(
-					wgULS('通知：文件[[', '通知：檔案[[') +
+					window.wgULS('通知：文件[[', '通知：檔案[[') +
 						Morebits.pageNameNorm +
-						wgULS(']]快速删除提名', ']]快速刪除提名')
+						window.wgULS(']]快速删除提名', ']]快速刪除提名')
 				);
 				usertalkpage.setChangeTags(Twinkle.changeTags);
 				usertalkpage.setCreateOption('recreate');

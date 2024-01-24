@@ -42,9 +42,9 @@
 	Twinkle.stub.callback = () => {
 		const Window = new Morebits.simpleWindow(630, Twinkle.stub.mode === 'article' ? 450 : 400);
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('小作品說明', '小作品说明'), 'QW:小作品');
-		Window.addFooterLink(wgULS('小作品设置', '小作品設定'), 'H:TW/PREF#stub');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#stub');
+		Window.addFooterLink(window.wgULS('小作品說明', '小作品说明'), 'QW:小作品');
+		Window.addFooterLink(window.wgULS('小作品设置', '小作品設定'), 'H:TW/PREF#stub');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#stub');
 		const form = new Morebits.quickForm(Twinkle.stub.callback.evaluate);
 		if (document.querySelectorAll('.patrollink').length) {
 			form.append({
@@ -62,7 +62,7 @@
 		switch (Twinkle.stub.mode) {
 			case '條目':
 			case '条目':
-				Window.setTitle(wgULS('条目小作品标记', '條目小作品標記'));
+				Window.setTitle(window.wgULS('条目小作品标记', '條目小作品標記'));
 				form.append({
 					type: 'select',
 					name: 'sortorder',
@@ -317,8 +317,11 @@
 				tagRe = new RegExp(`(\\{\\{${params.tags[i]}(\\||\\}\\}))`, 'im');
 				if (tagRe.exec(pageText)) {
 					Morebits.status.info(
-						wgULS('信息', '資訊'),
-						wgULS(`在页面上找到{{${params.tags[i]}}}……跳过`, `在頁面上找到{{${params.tags[i]}}}……跳過`)
+						window.wgULS('信息', '資訊'),
+						window.wgULS(
+							`在页面上找到{{${params.tags[i]}}}……跳过`,
+							`在頁面上找到{{${params.tags[i]}}}……跳過`
+						)
 					);
 				} else {
 					tags = [...tags, ...(Array.isArray(params.tags[i]) ? params.tags[i] : [params.tags[i]])];
@@ -394,7 +397,7 @@
 		}
 		const qiuwen_page = new Morebits.wiki.page(
 			mw.config.get('wgPageName'),
-			wgULS('正在标记', '正在標記') + Twinkle.stub.mode
+			window.wgULS('正在标记', '正在標記') + Twinkle.stub.mode
 		);
 		qiuwen_page.setCallbackParameters(params);
 		switch (Twinkle.stub.mode) {

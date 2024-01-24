@@ -22,24 +22,24 @@
 			() => {
 				Twinkle.arv.callback(username, isIP);
 			},
-			wgULS('告状', '告狀'),
+			window.wgULS('告状', '告狀'),
 			'tw-arv',
 			title
 		);
 	};
 	Twinkle.arv.callback = (uid, isIP) => {
 		if (uid === mw.config.get('wgUserName')) {
-			mw.notify(wgULS('你不想报告你自己，对吧？', '你不想報告你自己，對吧？'), {
+			mw.notify(window.wgULS('你不想报告你自己，对吧？', '你不想報告你自己，對吧？'), {
 				type: 'warn',
 				tag: 'twinklearv',
 			});
 			return;
 		}
 		const Window = new Morebits.simpleWindow(600, 500);
-		Window.setTitle(wgULS('报告用户给管理人员', '報告使用者給管理人員'));
+		Window.setTitle(window.wgULS('报告用户给管理人员', '報告使用者給管理人員'));
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('告状设置', '告狀設定'), 'H:TW/PREF#arv');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW#告狀');
+		Window.addFooterLink(window.wgULS('告状设置', '告狀設定'), 'H:TW/PREF#arv');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW#告狀');
 		const form = new Morebits.quickForm(Twinkle.arv.callback.evaluate);
 		const categories = form.append({
 			type: 'select',
@@ -104,13 +104,13 @@
 		} else {
 			query.bkusers = uid;
 		}
-		new Morebits.wiki.api(wgULS('检查用户的封禁状态', '檢查使用者的封鎖狀態'), query, (apiobj) => {
+		new Morebits.wiki.api(window.wgULS('检查用户的封禁状态', '檢查使用者的封鎖狀態'), query, (apiobj) => {
 			const blocklist = apiobj.getResponse().query.blocks;
 			if (blocklist.length) {
 				const [block] = blocklist;
 				let message =
 					(isIP ? window.wgULS('此IP地址', '此IP位址') : window.wgULS('此账号', '此賬號')) +
-					wgULS('已经被', '已經被') +
+					window.wgULS('已经被', '已經被') +
 					(block.partial ? '部分' : '');
 				// Start and end differ, range blocked
 				message += block.rangestart === (block.rangeend ? '段' : '') + window.wgULS('封禁。', '封鎖。');
@@ -340,9 +340,9 @@
 				work_area.append({
 					type: 'div',
 					label: [
-						wgULS('请使用常识决定是否以', '請使用常識決定是否以'),
+						window.wgULS('请使用常识决定是否以', '請使用常識決定是否以'),
 						$('<code>').addClass('tw-arv-sockmaster').css('margin', '2px;')[0],
-						wgULS(
+						window.wgULS(
 							'通知用户。这不是必须的，对于涉及新用户的报告而言，通知他们能让报告显得更公平，但是许多情况下（如长期破坏者）通知更可能适得其反。',
 							'通知使用者。這不是必須的，對於涉及新使用者的報告而言，通知他們能讓報告顯得更公平，但是許多情況下（如長期破壞者）通知更可能適得其反。'
 						),
@@ -509,7 +509,7 @@
 		const {uid} = input;
 		const checkTitle = (title, revid) => {
 			if (/https?:\/\//.test(title)) {
-				mw.notify(wgULS('页面名称不能使用网址。', '頁面名稱不能使用網址。'), {
+				mw.notify(window.wgULS('页面名称不能使用网址。', '頁面名稱不能使用網址。'), {
 					type: 'warn',
 					tag: 'twinklearv',
 				});
@@ -521,9 +521,9 @@
 			} catch {
 				mw.notify(
 					`${
-						wgULS('“', '「') +
+						window.wgULS('“', '「') +
 						title +
-						wgULS(
+						window.wgULS(
 							'”不是一个有效的页面名称，如要使用差异链接请放在“评论”',
 							'」不是一個有效的頁面名稱，如要使用差異連結請放在「評論」'
 						) +
@@ -539,9 +539,9 @@
 			if (page_.namespace === -1) {
 				mw.notify(
 					`${
-						wgULS('“', '「') +
+						window.wgULS('“', '「') +
 						title +
-						wgULS(
+						window.wgULS(
 							'”属于特殊页面，如要使用差异链接请放在“评论”',
 							'」屬於特殊頁面，如要使用差異連結請放在「評論」'
 						) +
@@ -561,7 +561,7 @@
 			// Report 3RR
 			case 'ewip': {
 				if (input.reason === '') {
-					mw.notify(wgULS('您必须指定理由', '您必須指定理由'), {
+					mw.notify(window.wgULS('您必须指定理由', '您必須指定理由'), {
 						type: 'warn',
 						tag: 'twinklearv',
 					});
@@ -599,7 +599,7 @@
 				if (
 					types.includes('侮辱性') &&
 					!confirm(
-						wgULS(
+						window.wgULS(
 							'警告：严重的侮辱性用户名和针对特定个人的侮辱性用户名不应在公开页面报告，而是应当私下联系监督员处理。是否继续？',
 							'警告：嚴重的侮辱性使用者名稱和針對特定個人的侮辱性使用者名稱不應在公開頁面報告，而是應當私下聯絡監督員處理。是否繼續？'
 						)
@@ -644,7 +644,7 @@
 			// QW:SPI
 			case 'spi': {
 				if (!input.reason) {
-					mw.notify(wgULS('请输入证据。', '請輸入證據。'), {
+					mw.notify(window.wgULS('请输入证据。', '請輸入證據。'), {
 						type: 'warn',
 						tag: 'twinklearv',
 					});
@@ -656,7 +656,7 @@
 					})
 				);
 				if (!sockpuppets[0]) {
-					mw.notify(wgULS('您没有指定任何傀儡。', '您沒有指定任何傀儡。'), {
+					mw.notify(window.wgULS('您没有指定任何傀儡。', '您沒有指定任何傀儡。'), {
 						type: 'warn',
 						tag: 'twinklearv',
 					});
@@ -689,7 +689,7 @@
 			/* falls through */
 			default: {
 				if (!input.arvtype.length && input.reason === '') {
-					mw.notify(wgULS('您必须指定理由', '您必須指定理由'), {
+					mw.notify(window.wgULS('您必须指定理由', '您必須指定理由'), {
 						type: 'warn',
 						tag: 'twinklearv',
 					});
@@ -761,14 +761,14 @@
 				if (reason === undefined) {
 					return;
 				}
-				summary = `${wgULS('报告', '報告')}[[Special:Contribs/${uid}|${uid}]]`;
+				summary = `${window.wgULS('报告', '報告')}[[Special:Contribs/${uid}|${uid}]]`;
 				Morebits.simpleWindow.setButtonsEnabled(false);
 				Morebits.status.init(form);
 				Morebits.wiki.actionCompleted.redirect = 'Qiuwen_talk:管理员告示板';
 				Morebits.wiki.actionCompleted.notice = window.wgULS('报告完成', '報告完成');
 				const ewipPage = new Morebits.wiki.page(
 					'Qiuwen_talk:管理员告示板',
-					wgULS('处理EWIP请求', '處理EWIP請求')
+					window.wgULS('处理EWIP请求', '處理EWIP請求')
 				);
 				ewipPage.setFollowRedirect(true);
 				ewipPage.load(() => {
@@ -784,20 +784,20 @@
 					) {
 						ewipPage
 							.getStatusElement()
-							.error(wgULS('报告已存在，将不会加入新的', '報告已存在，將不會加入新的'));
+							.error(window.wgULS('报告已存在，将不会加入新的', '報告已存在，將不會加入新的'));
 						Morebits.status.printUserText(
 							reason[1],
-							wgULS(
+							window.wgULS(
 								'您输入的评论已在下方提供，您可以将其加入到',
 								'您輸入的評論已在下方提供，您可以將其加入到'
 							) +
 								$ewipLink +
-								wgULS('已存在的小节中：', '已存在的小節中：')
+								window.wgULS('已存在的小节中：', '已存在的小節中：')
 						);
 						return;
 					}
 					ewipPage.setPageSection(0);
-					ewipPage.getStatusElement().status(wgULS('加入新报告…', '加入新報告…'));
+					ewipPage.getStatusElement().status(window.wgULS('加入新报告…', '加入新報告…'));
 					ewipPage.setEditSummary(summary);
 					ewipPage.setChangeTags(Twinkle.changeTags);
 					ewipPage.setAppendText(`\n${reason[0]}`);
@@ -827,21 +827,21 @@
 							)}\\s*(\\||\\})`
 						).test(text)
 					) {
-						uaaPage.getStatusElement().error(wgULS('用户已被列入。', '使用者已被列入。'));
+						uaaPage.getStatusElement().error(window.wgULS('用户已被列入。', '使用者已被列入。'));
 						const $uaaLink = '<a rel="noopener" target="_blank" href="/wiki/QW:UAA">QW:UAA</a>';
 						Morebits.status.printUserText(
 							reason[1],
-							wgULS(
+							window.wgULS(
 								'您输入的评论已在下方提供，您可以将其手工加入',
 								'您輸入的評論已在下方提供，您可以將其手工加入'
 							) +
 								$uaaLink +
-								wgULS('上该用户的报告中：', '上該使用者的報告中：')
+								window.wgULS('上该用户的报告中：', '上該使用者的報告中：')
 						);
 						return;
 					}
-					uaaPage.getStatusElement().status(wgULS('加入新报告…', '加入新報告…'));
-					uaaPage.setEditSummary(wgULS('新提报', '新提報'));
+					uaaPage.getStatusElement().status(window.wgULS('加入新报告…', '加入新報告…'));
+					uaaPage.setEditSummary(window.wgULS('新提报', '新提報'));
 					uaaPage.setChangeTags(Twinkle.changeTags);
 					uaaPage.setAppendText(`\n\n${reason[0]}`);
 					uaaPage.append();
@@ -858,7 +858,7 @@
 				Morebits.wiki.actionCompleted.notice = window.wgULS('报告完成', '報告完成');
 				const spiPage = new Morebits.wiki.page(reportpage, window.wgULS('抓取讨论页面', '抓取討論頁面'));
 				spiPage.setFollowRedirect(true);
-				spiPage.setEditSummary(wgULS('加入新提报', '加入新提報'));
+				spiPage.setEditSummary(window.wgULS('加入新提报', '加入新提報'));
 				spiPage.setChangeTags(Twinkle.changeTags);
 				spiPage.setAppendText(reason[0]);
 				spiPage.setWatchlist(Twinkle.getPref('spiWatchReport'));
@@ -874,7 +874,7 @@
 				if (reason === undefined) {
 					return;
 				}
-				summary = `${wgULS('报告', '報告')}[[Special:Contribs/${uid}|${uid}]]`;
+				summary = `${window.wgULS('报告', '報告')}[[Special:Contribs/${uid}|${uid}]]`;
 				if (input.hidename) {
 					summary = window.wgULS('报告一名用户', '報告一名使用者');
 				}
@@ -900,20 +900,20 @@
 					) {
 						aivPage
 							.getStatusElement()
-							.error(wgULS('报告已存在，将不会加入新的', '報告已存在，將不會加入新的'));
+							.error(window.wgULS('报告已存在，将不会加入新的', '報告已存在，將不會加入新的'));
 						Morebits.status.printUserText(
 							reason[1],
-							wgULS(
+							window.wgULS(
 								'您输入的评论已在下方提供，您可以将其加入到',
 								'您輸入的評論已在下方提供，您可以將其加入到'
 							) +
 								$aivLink +
-								wgULS('已存在的小节中：', '已存在的小節中：')
+								window.wgULS('已存在的小节中：', '已存在的小節中：')
 						);
 						return;
 					}
 					aivPage.setPageSection(0);
-					aivPage.getStatusElement().status(wgULS('加入新报告…', '加入新報告…'));
+					aivPage.getStatusElement().status(window.wgULS('加入新报告…', '加入新報告…'));
 					aivPage.setEditSummary(summary);
 					aivPage.setChangeTags(Twinkle.changeTags);
 					aivPage.setAppendText(`\n${reason[0]}`);

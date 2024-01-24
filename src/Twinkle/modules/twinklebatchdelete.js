@@ -18,9 +18,9 @@
 		) {
 			Twinkle.addPortletLink(
 				Twinkle.batchdelete.callback,
-				wgULS('批删', '批刪'),
+				window.wgULS('批删', '批刪'),
 				'tw-batch',
-				wgULS('删除此分类或页面中的所有链接', '刪除此分類或頁面中的所有連結')
+				window.wgULS('删除此分类或页面中的所有链接', '刪除此分類或頁面中的所有連結')
 			);
 		}
 	};
@@ -30,9 +30,9 @@
 	Twinkle.batchdelete.callback = () => {
 		subpagesLoaded = false;
 		const Window = new Morebits.simpleWindow(600, 400);
-		Window.setTitle(wgULS('批量删除', '批次刪除'));
+		Window.setTitle(window.wgULS('批量删除', '批次刪除'));
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#batchdelete');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#batchdelete');
 		const form = new Morebits.quickForm(Twinkle.batchdelete.callback.evaluate);
 		form.append({
 			type: 'checkbox',
@@ -175,9 +175,9 @@
 		Morebits.status.init(statusdiv);
 		Window.display();
 		Twinkle.batchdelete.pages = {};
-		const statelem = new Morebits.status(wgULS('抓取页面列表', '抓取頁面列表'));
+		const statelem = new Morebits.status(window.wgULS('抓取页面列表', '抓取頁面列表'));
 		const qiuwen_api = new Morebits.wiki.api(
-			wgULS('加载中…', '載入中…'),
+			window.wgULS('加载中…', '載入中…'),
 			query,
 			(apiobj) => {
 				const xml = apiobj.responseXML;
@@ -192,22 +192,22 @@
 					const size = $page.find('rev').attr('size');
 					const metadata = [];
 					if (isRedir) {
-						metadata.push(wgULS('重定向', '重新導向'));
+						metadata.push(window.wgULS('重定向', '重新導向'));
 					}
 					if (isProtected) {
 						metadata.push(
-							wgULS('全保护，', '全保護，') +
+							window.wgULS('全保护，', '全保護，') +
 								($editprot.attr('expiry') === 'infinity'
 									? window.wgULS('无限期', '無限期')
 									: `${new Morebits.date($editprot.attr('expiry')).calendar('utc')} (UTC)`) +
-								wgULS('过期', '過期')
+								window.wgULS('过期', '過期')
 						);
 					}
 					if (ns === '6') {
 						// mimic what delimages used to show for files
 						metadata.push(
-							wgULS('上传者：', '上傳者：') + $page.find('ii').attr('user'),
-							wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user')
+							window.wgULS('上传者：', '上傳者：') + $page.find('ii').attr('user'),
+							window.wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user')
 						);
 					} else {
 						metadata.push(mw.language.convertNumber(size) + window.wgULS('字节', '位元組'));
@@ -414,7 +414,7 @@
 				return;
 			}
 			// Proceed with API calls to get list of subpages
-			const loadingText = `<strong id="dbatch-subpage-loading">${wgULS('加载中...', '載入中...')}</strong>`;
+			const loadingText = `<strong id="dbatch-subpage-loading">${window.wgULS('加载中...', '載入中...')}</strong>`;
 			$(e.target).after(loadingText);
 			const pages = $(form.pages)
 				.map((_i, el) => {
@@ -433,7 +433,7 @@
 						return;
 					}
 					const qiuwen_api = new Morebits.wiki.api(
-						wgULS('正在获取 ', '正在取得 ') + pageName + window.wgULS(' 的子页面', ' 的子頁面'),
+						window.wgULS('正在获取 ', '正在取得 ') + pageName + window.wgULS(' 的子页面', ' 的子頁面'),
 						{
 							action: 'query',
 							prop: 'revisions|info|imageinfo',
@@ -463,20 +463,20 @@
 								}
 								if (isProtected) {
 									metadata.push(
-										wgULS('全保护，', '全保護，') +
+										window.wgULS('全保护，', '全保護，') +
 											($editprot.attr('expiry') === 'infinity'
 												? window.wgULS('无限期', '無限期')
 												: `${new Morebits.date($editprot.attr('expiry')).calendar(
 														'utc'
 													)} (UTC)`) +
-											wgULS('过期', '過期')
+											window.wgULS('过期', '過期')
 									);
 								}
 								if (ns === '6') {
 									// mimic what delimages used to show for files
 									metadata.push(
-										wgULS('上传者：', '上傳者：') + $page.find('ii').attr('user'),
-										wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user')
+										window.wgULS('上传者：', '上傳者：') + $page.find('ii').attr('user'),
+										window.wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user')
 									);
 								} else {
 									metadata.push(mw.language.convertNumber(size) + window.wgULS('字节', '位元組'));
@@ -548,9 +548,9 @@
 		if (
 			numProtected > 0 &&
 			!confirm(
-				wgULS('您正要删除 ', '您正要刪除 ') +
+				window.wgULS('您正要删除 ', '您正要刪除 ') +
 					mw.language.convertNumber(numProtected) +
-					wgULS(' 个全保护页面，您确定吗？', ' 個全保護頁面，您確定嗎？')
+					window.wgULS(' 个全保护页面，您确定吗？', ' 個全保護頁面，您確定嗎？')
 			)
 		) {
 			return;
@@ -578,7 +578,7 @@
 		const unlink_page = form.unlink_page.checked;
 		const unlink_file = form.unlink_file.checked;
 		if (!reason) {
-			mw.notify(wgULS('您需要给出一个理由', '您需要給出一個理由'), {
+			mw.notify(window.wgULS('您需要给出一个理由', '您需要給出一個理由'), {
 				type: 'warn',
 				tag: 'twinklebatchdelete',
 			});
@@ -588,7 +588,7 @@
 		Morebits.status.init(form);
 		if (!pages) {
 			Morebits.status.error(
-				wgULS('错误', '錯誤'),
+				window.wgULS('错误', '錯誤'),
 				window.wgULS('没有要删除的内容，中止', '沒有要刪除的內容，中止')
 			);
 			return;
@@ -616,7 +616,7 @@
 				};
 				const qiuwen_page = new Morebits.wiki.page(
 					pageName,
-					wgULS('正在删除页面 ', '正在刪除頁面 ') + pageName
+					window.wgULS('正在删除页面 ', '正在刪除頁面 ') + pageName
 				);
 				qiuwen_page.setCallbackParameters(params);
 				if (delete_page) {
@@ -630,7 +630,9 @@
 			},
 			() => {
 				if (delete_subpages) {
-					const subpageDeleter = new Morebits.batchOperation(wgULS('正在删除子页面', '正在刪除子頁面'));
+					const subpageDeleter = new Morebits.batchOperation(
+						window.wgULS('正在删除子页面', '正在刪除子頁面')
+					);
 					subpageDeleter.setOption('chunkSize', Twinkle.getPref('batchChunks'));
 					subpageDeleter.setOption('preserveIndividualStatusLines', true);
 					subpageDeleter.setPageList(subpages);
@@ -647,7 +649,7 @@
 						};
 						const qiuwen_page = new Morebits.wiki.page(
 							pageName,
-							wgULS('正在删除子页面 ', '正在刪除子頁面 ') + pageName
+							window.wgULS('正在删除子页面 ', '正在刪除子頁面 ') + pageName
 						);
 						qiuwen_page.setCallbackParameters(params);
 						qiuwen_page.setEditSummary(`${reason}（批量）`);
@@ -683,7 +685,7 @@
 				};
 
 				qiuwen_api = new Morebits.wiki.api(
-					wgULS('正在获取链入', '正在取得連入'),
+					window.wgULS('正在获取链入', '正在取得連入'),
 					query,
 					Twinkle.batchdelete.callbacks.unlinkBacklinksMain
 				);
@@ -699,7 +701,7 @@
 				};
 
 				qiuwen_api = new Morebits.wiki.api(
-					wgULS('正在获取文件链入', '正在取得檔案連入'),
+					window.wgULS('正在获取文件链入', '正在取得檔案連入'),
 					query,
 					Twinkle.batchdelete.callbacks.unlinkImageInstancesMain
 				);
@@ -716,7 +718,7 @@
 					};
 
 					qiuwen_api = new Morebits.wiki.api(
-						wgULS('正在获取重定向', '正在取得重新導向'),
+						window.wgULS('正在获取重定向', '正在取得重新導向'),
 						query,
 						Twinkle.batchdelete.callbacks.deleteRedirectsMain
 					);
@@ -732,7 +734,7 @@
 							titles: pageTitle.toText(),
 						};
 						qiuwen_api = new Morebits.wiki.api(
-							wgULS('正在检查讨论页面是否存在', '正在檢查討論頁面是否存在'),
+							window.wgULS('正在检查讨论页面是否存在', '正在檢查討論頁面是否存在'),
 							query,
 							Twinkle.batchdelete.callbacks.deleteTalk
 						);
@@ -755,14 +757,16 @@
 				return;
 			}
 			const redirectDeleter = new Morebits.batchOperation(
-				wgULS('正在删除到 ', '正在刪除到 ') + apiobj.params.page + window.wgULS(' 的重定向', ' 的重新導向')
+				window.wgULS('正在删除到 ', '正在刪除到 ') +
+					apiobj.params.page +
+					window.wgULS(' 的重定向', ' 的重新導向')
 			);
 			redirectDeleter.setOption('chunkSize', Twinkle.getPref('batchChunks'));
 			redirectDeleter.setPageList(pages);
 			redirectDeleter.run((pageName) => {
 				const qiuwen_page = new Morebits.wiki.page(pageName, window.wgULS('正在删除 ', '正在刪除 ') + pageName);
 				qiuwen_page.setEditSummary(
-					`[[QW:CSD#G9|G9]]: ${wgULS('指向已删页面“', '指向已刪頁面「')}${apiobj.params.page}${wgULS(
+					`[[QW:CSD#G9|G9]]: ${window.wgULS('指向已删页面“', '指向已刪頁面「')}${apiobj.params.page}${window.wgULS(
 						'”的重定向',
 						'」的重新導向'
 					)}`
@@ -780,10 +784,12 @@
 			}
 			const page = new Morebits.wiki.page(
 				apiobj.params.talkPage,
-				wgULS('正在删除页面 ', '正在刪除頁面 ') + apiobj.params.page + window.wgULS(' 的讨论页', ' 的討論頁')
+				window.wgULS('正在删除页面 ', '正在刪除頁面 ') +
+					apiobj.params.page +
+					window.wgULS(' 的讨论页', ' 的討論頁')
 			);
 			page.setEditSummary(
-				`[[QW:CSD#G9|G9]]: ${wgULS('已删页面“', '已刪頁面「')}${apiobj.params.page}${wgULS(
+				`[[QW:CSD#G9|G9]]: ${window.wgULS('已删页面“', '已刪頁面「')}${apiobj.params.page}${window.wgULS(
 					'”的[[Help:讨论页|讨论页]]',
 					'」的[[Help:討論頁|討論頁]]'
 				)}`
@@ -803,14 +809,14 @@
 				return;
 			}
 			const unlinker = new Morebits.batchOperation(
-				`正在取消到 ${apiobj.params.page}${wgULS(' 的链入', ' 的連入')}`
+				`正在取消到 ${apiobj.params.page}${window.wgULS(' 的链入', ' 的連入')}`
 			);
 			unlinker.setOption('chunkSize', Twinkle.getPref('batchChunks'));
 			unlinker.setPageList(pages);
 			unlinker.run((pageName) => {
 				const qiuwen_page = new Morebits.wiki.page(
 					pageName,
-					`正在取消 ${pageName}${wgULS(' 上的链入', ' 上的連入')}`
+					`正在取消 ${pageName}${window.wgULS(' 上的链入', ' 上的連入')}`
 				);
 				const params = {
 					...apiobj.params,
@@ -844,7 +850,7 @@
 				return;
 			}
 			pageobj.setEditSummary(
-				wgULS('取消到已删页面', '取消到已刪頁面') + params.page + window.wgULS('的链入', '的連入')
+				window.wgULS('取消到已删页面', '取消到已刪頁面') + params.page + window.wgULS('的链入', '的連入')
 			);
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.setPageText(text);
@@ -864,14 +870,14 @@
 				return;
 			}
 			const unlinker = new Morebits.batchOperation(
-				`正在取消到 ${apiobj.params.page}${wgULS(' 的链入', ' 的連入')}`
+				`正在取消到 ${apiobj.params.page}${window.wgULS(' 的链入', ' 的連入')}`
 			);
 			unlinker.setOption('chunkSize', Twinkle.getPref('batchChunks'));
 			unlinker.setPageList(pages);
 			unlinker.run((pageName) => {
 				const qiuwen_page = new Morebits.wiki.page(
 					pageName,
-					`取消 ${pageName}${wgULS(' 的文件使用', ' 的檔案使用')}`
+					`取消 ${pageName}${window.wgULS(' 的文件使用', ' 的檔案使用')}`
 				);
 				const params = {
 					...apiobj.params,
@@ -905,14 +911,16 @@
 			if (text === old_text) {
 				pageobj
 					.getStatusElement()
-					.error(`在 ${pageobj.getPageName()} 上取消 ${image}${wgULS(' 的文件使用失败', ' 的檔案使用失敗')}`);
+					.error(
+						`在 ${pageobj.getPageName()} 上取消 ${image}${window.wgULS(' 的文件使用失败', ' 的檔案使用失敗')}`
+					);
 				params.unlinker.workerFailure(pageobj);
 				return;
 			}
 			pageobj.setEditSummary(
-				wgULS('取消使用已被删除文件', '取消使用已被刪除檔案') +
+				window.wgULS('取消使用已被删除文件', '取消使用已被刪除檔案') +
 					image +
-					wgULS('，因为：', '，因為：') +
+					window.wgULS('，因为：', '，因為：') +
 					params.reason
 			);
 			pageobj.setChangeTags(Twinkle.changeTags);

@@ -26,18 +26,18 @@
 		}
 		Twinkle.addPortletLink(
 			Twinkle.copyvio.callback,
-			wgULS('侵权', '侵權'),
+			window.wgULS('侵权', '侵權'),
 			'tw-copyvio',
-			wgULS('提报侵权页面', '提報侵權頁面'),
+			window.wgULS('提报侵权页面', '提報侵權頁面'),
 			''
 		);
 	};
 	Twinkle.copyvio.callback = () => {
 		const Window = new Morebits.simpleWindow(600, 350);
-		Window.setTitle(wgULS('提报侵权页面', '提報侵權頁面'));
+		Window.setTitle(window.wgULS('提报侵权页面', '提報侵權頁面'));
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('侵权设置', '侵權設定'), 'H:TW/PREF#copyvio');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#copyvio');
+		Window.addFooterLink(window.wgULS('侵权设置', '侵權設定'), 'H:TW/PREF#copyvio');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#copyvio');
 		const form = new Morebits.quickForm(Twinkle.copyvio.callback.evaluate);
 		form.append({
 			type: 'textarea',
@@ -92,8 +92,11 @@
 			const text = pageobj.getPageText();
 			if (text.includes('{{Copyvio|')) {
 				Morebits.status.error(
-					wgULS('错误', '錯誤'),
-					wgULS('页面已经标记侵权，请人工确认是否已经提报。', '頁面已經標記侵權，請人工確認是否已經提報。')
+					window.wgULS('错误', '錯誤'),
+					window.wgULS(
+						'页面已经标记侵权，请人工确认是否已经提报。',
+						'頁面已經標記侵權，請人工確認是否已經提報。'
+					)
 				);
 			} else {
 				Twinkle.copyvio.callbacks.taggingArticle(pageobj);
@@ -119,14 +122,14 @@
 			if (params.notify) {
 				const usertalkpage = new Morebits.wiki.page(
 					`User talk:${initialContrib}`,
-					`${wgULS('通知页面创建者（', '通知頁面建立者（') + initialContrib}）`
+					`${window.wgULS('通知页面创建者（', '通知頁面建立者（') + initialContrib}）`
 				);
 				const notifytext = '\n{{'.concat('subst:', `CopyvioNotice|${mw.config.get('wgPageName')}}}`);
 				usertalkpage.setAppendText(notifytext);
 				usertalkpage.setEditSummary(
-					wgULS('通知：页面[[', '通知：頁面[[') +
+					window.wgULS('通知：页面[[', '通知：頁面[[') +
 						mw.config.get('wgPageName') +
-						wgULS(']]疑似侵犯著作权', ']]疑似侵犯版權')
+						window.wgULS(']]疑似侵犯著作权', ']]疑似侵犯版權')
 				);
 				usertalkpage.setChangeTags(Twinkle.changeTags);
 				usertalkpage.setCreateOption('recreate');
@@ -152,7 +155,7 @@
 			if (
 				oldcsd &&
 				confirm(
-					wgULS(
+					window.wgULS(
 						'在页面上找到快速删除模板，要保留吗？\n\n当页面同时侵犯著作权又符合快速删除标准时，应该优先走快速删除程序。\n单击“确认”以保留快速删除模板，若您认为快速删除理由不合，单击“取消”以移除快速删除模板。',
 						'在頁面上找到快速刪除模板，要保留嗎？\n\n當頁面同時侵犯版權又符合快速刪除標準時，應該優先走快速刪除程序。\n點擊「確認」以保留快速刪除模板，若您認為快速刪除理由不合，點擊「取消」以移除快速刪除模板。'
 					)
@@ -172,7 +175,7 @@
 				tag = `${speedyTag}\n${tag}`;
 			}
 			pageobj.setPageText(tag);
-			pageobj.setEditSummary(wgULS('此页面疑似侵犯著作权', '此頁面疑似侵犯版權'));
+			pageobj.setEditSummary(window.wgULS('此页面疑似侵犯著作权', '此頁面疑似侵犯版權'));
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.setWatchlist(Twinkle.getPref('copyvioWatchPage'));
 			// pageobj.setCreateOption('recreate');
@@ -203,7 +206,7 @@
 	Twinkle.copyvio.callback.evaluate = (e) => {
 		const params = Morebits.quickForm.getInputData(e.target);
 		if (!params.source.trim()) {
-			mw.notify(wgULS('请指定侵权来源', '請指定侵權來源'), {
+			mw.notify(window.wgULS('请指定侵权来源', '請指定侵權來源'), {
 				type: 'warn',
 				tag: 'twinklecopyvio',
 			});
@@ -222,7 +225,7 @@
 		// Tagging file
 		const qiuwen_page = new Morebits.wiki.page(
 			mw.config.get('wgPageName'),
-			wgULS('加入侵权模板到页面', '加入侵權模板到頁面')
+			window.wgULS('加入侵权模板到页面', '加入侵權模板到頁面')
 		);
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.load(Twinkle.copyvio.callbacks.tryTagging);

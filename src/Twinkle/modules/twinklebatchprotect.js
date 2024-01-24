@@ -25,8 +25,8 @@
 		Window.setTitle('批保');
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink('保护方针', 'QW:PROT');
-		Window.addFooterLink(wgULS('帮助文档', '幫助文檔'), 'H:TW/DOC#保护');
-		Window.addFooterLink(wgULS('问题反馈', '問題反饋'), 'HT:TW');
+		Window.addFooterLink(window.wgULS('帮助文档', '幫助文檔'), 'H:TW/DOC#保护');
+		Window.addFooterLink(window.wgULS('问题反馈', '問題反饋'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.batchprotect.callback.evaluate);
 		form.append({
 			type: 'checkbox',

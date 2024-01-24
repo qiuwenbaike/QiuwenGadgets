@@ -16,9 +16,9 @@
 			Twinkle.tag.modeEn = 'redirect';
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
-				wgULS('标记', '標記'),
+				window.wgULS('标记', '標記'),
 				'friendly-tag',
-				wgULS('标记重定向', '標記重新導向')
+				window.wgULS('标记重定向', '標記重新導向')
 			);
 			// file tagging
 		} else if (
@@ -30,9 +30,9 @@
 			Twinkle.tag.modeEn = 'file';
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
-				wgULS('标记', '標記'),
+				window.wgULS('标记', '標記'),
 				'friendly-tag',
-				wgULS('标记文件', '標記檔案')
+				window.wgULS('标记文件', '標記檔案')
 			);
 			// article/draft tagging
 		} else if (
@@ -49,9 +49,9 @@
 				!mw.config.get('wgDiffNewId');
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
-				wgULS('标记', '標記'),
+				window.wgULS('标记', '標記'),
 				'friendly-tag',
-				wgULS('标记条目', '標記條目')
+				window.wgULS('标记条目', '標記條目')
 			);
 		}
 	};
@@ -59,8 +59,8 @@
 	Twinkle.tag.callback = () => {
 		const Window = new Morebits.simpleWindow(630, Twinkle.tag.modeEn === 'article' ? 500 : 400);
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('标记设置', '標記設定'), 'H:TW/PREF#tag');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#tag');
+		Window.addFooterLink(window.wgULS('标记设置', '標記設定'), 'H:TW/PREF#tag');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#tag');
 		const form = new Morebits.quickForm(Twinkle.tag.callback.evaluate);
 		form.append({
 			type: 'input',
@@ -104,7 +104,7 @@
 		});
 		switch (Twinkle.tag.modeEn) {
 			case 'article':
-				Window.setTitle(wgULS('条目维护标记', '條目維護標記'));
+				Window.setTitle(window.wgULS('条目维护标记', '條目維護標記'));
 				// Build sorting and lookup object flatObject, which is always
 				// needed but also used to generate the alphabetical list
 				// Would be infinitely better with Object.values
@@ -198,7 +198,7 @@
 				});
 				break;
 			case 'file':
-				Window.setTitle(wgULS('文件维护标记', '檔案維護標記'));
+				Window.setTitle(window.wgULS('文件维护标记', '檔案維護標記'));
 				for (const group of Twinkle.tag.fileList) {
 					if (group.buildFilename) {
 						for (const el of group.value) {
@@ -236,7 +236,7 @@
 				}
 				break;
 			case 'redirect': {
-				Window.setTitle(wgULS('重定向标记', '重新導向標記'));
+				Window.setTitle(window.wgULS('重定向标记', '重新導向標記'));
 				const i = 1;
 				for (const group of Twinkle.tag.redirectList) {
 					form.append({
@@ -455,7 +455,7 @@
 							list: [
 								{
 									name: 'mergeTagOther',
-									label: `用{{${otherTagName}${wgULS('}}标记其他条目', '}}標記其他條目')}`,
+									label: `用{{${otherTagName}${window.wgULS('}}标记其他条目', '}}標記其他條目')}`,
 									checked: true,
 									tooltip: window.wgULS(
 										'仅在只输入了一个条目名时可用',
@@ -495,55 +495,55 @@
 						type: 'select',
 						list: [
 							{
-								label: `{{Notability}}：${wgULS('通用的关注度指引', '通用的關注度指引')}`,
+								label: `{{Notability}}：${window.wgULS('通用的关注度指引', '通用的關注度指引')}`,
 								value: 'none',
 							},
 							{
-								label: `{{Notability|Astro}}：${wgULS('天体', '天體')}`,
+								label: `{{Notability|Astro}}：${window.wgULS('天体', '天體')}`,
 								value: 'Astro',
 							},
 							{
-								label: `{{Notability|Biographies}}：${wgULS('人物传记', '人物傳記')}`,
+								label: `{{Notability|Biographies}}：${window.wgULS('人物传记', '人物傳記')}`,
 								value: 'Biographies',
 							},
 							{
-								label: `{{Notability|Book}}：${wgULS('书籍', '書籍')}`,
+								label: `{{Notability|Book}}：${window.wgULS('书籍', '書籍')}`,
 								value: 'Book',
 							},
 							{
-								label: `{{Notability|Cyclone}}：${wgULS('气旋', '氣旋')}`,
+								label: `{{Notability|Cyclone}}：${window.wgULS('气旋', '氣旋')}`,
 								value: 'Cyclone',
 							},
 							{
-								label: `{{Notability|Fiction}}：${wgULS('虚构事物', '虛構事物')}`,
+								label: `{{Notability|Fiction}}：${window.wgULS('虚构事物', '虛構事物')}`,
 								value: 'Fiction',
 							},
 							{
-								label: `{{Notability|Geographic}}：${wgULS('地理特征', '地理特徵')}`,
+								label: `{{Notability|Geographic}}：${window.wgULS('地理特征', '地理特徵')}`,
 								value: 'Geographic',
 							},
 							{
-								label: `{{Notability|Geometry}}：${wgULS('几何图形', '幾何圖形')}`,
+								label: `{{Notability|Geometry}}：${window.wgULS('几何图形', '幾何圖形')}`,
 								value: 'Geometry',
 							},
 							{
-								label: `{{Notability|Invention}}：${wgULS('发明、研究', '發明、研究')}`,
+								label: `{{Notability|Invention}}：${window.wgULS('发明、研究', '發明、研究')}`,
 								value: 'Invention',
 							},
 							{
-								label: `{{Notability|Music}}：${wgULS('音乐', '音樂')}`,
+								label: `{{Notability|Music}}：${window.wgULS('音乐', '音樂')}`,
 								value: 'Music',
 							},
 							{
-								label: `{{Notability|Numbers}}：${wgULS('数字', '數字')}`,
+								label: `{{Notability|Numbers}}：${window.wgULS('数字', '數字')}`,
 								value: 'Numbers',
 							},
 							{
-								label: `{{Notability|Organizations}}：${wgULS('组织', '組織')}`,
+								label: `{{Notability|Organizations}}：${window.wgULS('组织', '組織')}`,
 								value: 'Organizations',
 							},
 							{
-								label: `{{Notability|Property}}：${wgULS('性质表', '性質表')}`,
+								label: `{{Notability|Property}}：${window.wgULS('性质表', '性質表')}`,
 								value: 'Property',
 							},
 							{
@@ -551,7 +551,7 @@
 								value: 'Traffic',
 							},
 							{
-								label: `{{Notability|Web}}：${wgULS('网站、网络内容', '網站、網路內容')}（非正式指引）`,
+								label: `{{Notability|Web}}：${window.wgULS('网站、网络内容', '網站、網路內容')}（非正式指引）`,
 								value: 'Web',
 							},
 						],
@@ -762,8 +762,8 @@
 			} else if (this.name === 'existingTags') {
 				Twinkle.tag.status.numRemoved += this.checked ? -1 : 1;
 			}
-			const firstPart = `加入${Twinkle.tag.status.numAdded}${wgULS('个标记', '個標記')}`;
-			const secondPart = `移除${Twinkle.tag.status.numRemoved}${wgULS('个标记', '個標記')}`;
+			const firstPart = `加入${Twinkle.tag.status.numAdded}${window.wgULS('个标记', '個標記')}`;
+			const secondPart = `移除${Twinkle.tag.status.numRemoved}${window.wgULS('个标记', '個標記')}`;
 			statusNode.textContent =
 				(Twinkle.tag.status.numAdded ? `  ${firstPart}` : '') +
 				(Twinkle.tag.status.numRemoved ? (Twinkle.tag.status.numAdded ? '；' : '  ') + secondPart : '');
@@ -1435,7 +1435,7 @@
 			key: window.wgULS('著作权和来源问题标签', '著作權和來源問題標籤'),
 			value: [
 				{
-					label: `{{Non-free reduce}}：${wgULS(
+					label: `{{Non-free reduce}}：${window.wgULS(
 						'非低分辨率的合理使用图像（或过长的音频剪辑等）',
 						'非低解析度的合理使用圖像（或過長的音頻剪輯等）'
 					)}`,
@@ -1447,11 +1447,11 @@
 			key: window.wgULS('清理标签', '清理標籤'),
 			value: [
 				{
-					label: `{{Watermark}}：${wgULS('图像包含了水印', '圖像包含了浮水印')}`,
+					label: `{{Watermark}}：${window.wgULS('图像包含了水印', '圖像包含了浮水印')}`,
 					value: 'Watermark',
 				},
 				{
-					label: `{{Rename media}}：${wgULS(
+					label: `{{Rename media}}：${window.wgULS(
 						'文件应该根据文件名称指引被重命名',
 						'檔案應該根據檔案名稱指引被重新命名'
 					)}`,
@@ -1472,7 +1472,7 @@
 					],
 				},
 				{
-					label: `{{Should be SVG}}：${wgULS(
+					label: `{{Should be SVG}}：${window.wgULS(
 						'PNG、GIF、JPEG文件应该重制成矢量图形',
 						'PNG、GIF、JPEG檔案應該重製成向量圖形'
 					)}`,
@@ -1484,11 +1484,11 @@
 			key: window.wgULS('文件取代标签', '檔案取代標籤'),
 			value: [
 				{
-					label: `{{Obsolete}}：${wgULS('有新版本可用的过时文件', '有新版本可用的過時檔案')}`,
+					label: `{{Obsolete}}：${window.wgULS('有新版本可用的过时文件', '有新版本可用的過時檔案')}`,
 					value: 'Obsolete',
 				},
 				{
-					label: `{{Vector version available}}：${wgULS(
+					label: `{{Vector version available}}：${window.wgULS(
 						'有矢量图形可用的非矢量图形文件',
 						'有向量圖形可用的非向量圖形檔案'
 					)}`,
@@ -1571,7 +1571,7 @@
 						// post the rationale on the talk page (only operates in main namespace)
 						const talkpage = new Morebits.wiki.page(
 							`Talk:${params.discussArticle}`,
-							wgULS('将理由贴进讨论页', '將理由貼進討論頁')
+							window.wgULS('将理由贴进讨论页', '將理由貼進討論頁')
 						);
 						talkpage.setNewSectionText(`${params.mergeReason.trim()} ~~`.concat('~~'));
 						talkpage.setNewSectionTitle(`请求与[[${params.nonDiscussArticle}]]合并`);
@@ -1599,7 +1599,7 @@
 						};
 						const otherpage = new Morebits.wiki.page(
 							params.mergeTarget,
-							`${wgULS('标记其他页面（', '標記其他頁面（') + params.mergeTarget}）`
+							`${window.wgULS('标记其他页面（', '標記其他頁面（') + params.mergeTarget}）`
 						);
 						otherpage.setCallbackParameters(newParams);
 						otherpage.load(Twinkle.tag.callbacks.article);
@@ -1614,11 +1614,12 @@
 						moveTalkpageText += '}}';
 						const moveTalkpage = new Morebits.wiki.page(
 							`Talk:${params.discussArticle}`,
-							wgULS('将理由贴进讨论页', '將理由貼進討論頁')
+							window.wgULS('将理由贴进讨论页', '將理由貼進討論頁')
 						);
 						moveTalkpage.setAppendText(moveTalkpageText);
 						moveTalkpage.setEditSummary(
-							wgULS('请求移动', '請求移動') + (params.moveTarget ? `至[[${params.moveTarget}]]` : '')
+							window.wgULS('请求移动', '請求移動') +
+								(params.moveTarget ? `至[[${params.moveTarget}]]` : '')
 						);
 						moveTalkpage.setChangeTags(Twinkle.changeTags);
 						moveTalkpage.setCreateOption('recreate');
@@ -1639,8 +1640,8 @@
 					return;
 				}
 				Morebits.status.info(
-					wgULS('信息', '資訊'),
-					wgULS('移除取消选择的已存在标记', '移除取消選擇的已存在標記')
+					window.wgULS('信息', '資訊'),
+					window.wgULS('移除取消选择的已存在标记', '移除取消選擇的已存在標記')
 				);
 				const getRedirectsFor = [];
 				// Remove the tags from the page text, if found in its proper name,
@@ -1660,7 +1661,7 @@
 				}
 				// Remove tags which appear in page text as redirects
 				const api = new Morebits.wiki.api(
-					wgULS('获取模板重定向', '取得模板重新導向'),
+					window.wgULS('获取模板重定向', '取得模板重新導向'),
 					{
 						action: 'query',
 						prop: 'linkshere',
@@ -1693,10 +1694,10 @@
 
 								if (!removed) {
 									Morebits.status.warn(
-										wgULS('信息', '資訊'),
-										wgULS('无法在页面上找到{{', '無法在頁面上找到{{') +
+										window.wgULS('信息', '資訊'),
+										window.wgULS('无法在页面上找到{{', '無法在頁面上找到{{') +
 											$(page).attr('title').slice(9) +
-											wgULS('}}……跳过', '}}……跳過')
+											window.wgULS('}}……跳过', '}}……跳過')
 									);
 								}
 							});
@@ -1759,9 +1760,9 @@
 										params.nonDiscussArticle =
 											tagName === 'Merge to' ? mw.config.get('wgTitle') : params.mergeTarget;
 										params.talkDiscussionTitle =
-											wgULS('请求与', '請求與') +
+											window.wgULS('请求与', '請求與') +
 											params.nonDiscussArticle +
-											wgULS('合并', '合併');
+											window.wgULS('合并', '合併');
 									}
 									currentTag += `|discuss=Talk:${params.discussArticle}#${params.talkDiscussionTitle}`;
 								}
@@ -1837,7 +1838,7 @@
 						tag === 'Notability' &&
 						(mw.config.get('wgNamespaceNumber') === 0 ||
 							confirm(
-								wgULS(
+								window.wgULS(
 									'该页面不是条目，您仍要提报到关注度提报吗？',
 									'該頁面不是條目，您仍要提報到關注度提報嗎？'
 								)
@@ -1845,7 +1846,7 @@
 					) {
 						const qiuwen_page = new Morebits.wiki.page(
 							'Qiuwen_talk:存废讨论/关注度提报',
-							wgULS('加入关注度记录项', '加入關注度記錄項')
+							window.wgULS('加入关注度记录项', '加入關注度記錄項')
 						);
 						qiuwen_page.setFollowRedirect(true);
 						qiuwen_page.setCallbackParameters(params);
@@ -1862,8 +1863,8 @@
 					tags.push(tag);
 				} else {
 					Morebits.status.warn(
-						wgULS('信息', '資訊'),
-						wgULS('在页面上找到{{', '在頁面上找到{{') + tag + window.wgULS('}}……跳过', '}}……跳過')
+						window.wgULS('信息', '資訊'),
+						window.wgULS('在页面上找到{{', '在頁面上找到{{') + tag + window.wgULS('}}……跳过', '}}……跳過')
 					);
 					// don't do anything else with merge tags
 					if (['Merge', 'Merge to'].includes(tag)) {
@@ -1886,8 +1887,11 @@
 				);
 			if (miTest && groupableTags.length > 0) {
 				Morebits.status.info(
-					wgULS('信息', '資訊'),
-					wgULS('加入支持的标记入已存在的{{multiple issues}}', '加入支援的標記入已存在的{{multiple issues}}')
+					window.wgULS('信息', '資訊'),
+					window.wgULS(
+						'加入支持的标记入已存在的{{multiple issues}}',
+						'加入支援的標記入已存在的{{multiple issues}}'
+					)
 				);
 				tagText = '';
 				for (const tag of groupableTags) {
@@ -1902,8 +1906,8 @@
 				addUngroupedTags();
 			} else if (params.group && !miTest && groupableExistingTags.length + groupableTags.length >= 2) {
 				Morebits.status.info(
-					wgULS('信息', '資訊'),
-					wgULS('加入支持的标记入{{multiple issues}}', '加入支援的標記入{{multiple issues}}')
+					window.wgULS('信息', '資訊'),
+					window.wgULS('加入支持的标记入{{multiple issues}}', '加入支援的標記入{{multiple issues}}')
 				);
 				tagText += '{{Multiple issues|\n';
 				/**
@@ -1933,7 +1937,7 @@
 					return;
 				}
 				const api = new Morebits.wiki.api(
-					wgULS('获取模板重定向', '取得模板重新導向'),
+					window.wgULS('获取模板重定向', '取得模板重新導向'),
 					{
 						action: 'query',
 						prop: 'linkshere',
@@ -1965,10 +1969,10 @@
 
 								if (!found) {
 									Morebits.status.warn(
-										wgULS('信息', '資訊'),
-										wgULS('无法在页面上找到{{', '無法在頁面上找到{{') +
+										window.wgULS('信息', '資訊'),
+										window.wgULS('无法在页面上找到{{', '無法在頁面上找到{{') +
 											$(page).attr('title').slice(9) +
-											wgULS('}}……跳过', '}}……跳過')
+											window.wgULS('}}……跳过', '}}……跳過')
 									);
 								}
 							});
@@ -2002,8 +2006,8 @@
 				tagRe = new RegExp(`(\\{\\{${params.tags[i]}(\\||\\}\\}))`, 'im');
 				if (tagRe.exec(pageText)) {
 					Morebits.status.warn(
-						wgULS('信息', '資訊'),
-						wgULS('在重定向上找到{{', '在重新導向上找到{{') +
+						window.wgULS('信息', '資訊'),
+						window.wgULS('在重定向上找到{{', '在重新導向上找到{{') +
 							params.tags[i] +
 							window.wgULS('}}……跳过', '}}……跳過')
 					);
@@ -2037,7 +2041,10 @@
 				summaryText += `{{[[:${tagName.includes(':') ? tagName : `Template:${tagName}|${tagName}`}]]}}`;
 			};
 			if (!tags.length) {
-				Morebits.status.warn(wgULS('信息', '資訊'), window.wgULS('没有标签可供标记', '沒有標籤可供標記'));
+				Morebits.status.warn(
+					window.wgULS('信息', '資訊'),
+					window.wgULS('没有标签可供标记', '沒有標籤可供標記')
+				);
 			}
 			tags.sort();
 			for (const tag of tags) {
@@ -2064,7 +2071,7 @@
 			}
 			summaryText +=
 				(tags.length > 0 ? window.wgULS('标记', '標記') : '{{Redirect category shell}}') +
-				wgULS('到重定向', '到重新導向');
+				window.wgULS('到重定向', '到重新導向');
 			// avoid truncated summaries
 			if (summaryText.length > 499) {
 				summaryText = summaryText.replace(/\[\[[^|]+\|([^\]]+)\]\]/g, '$1');
@@ -2149,7 +2156,7 @@
 				if (!tagtext) {
 					pageobj
 						.getStatusElement()
-						.warn(wgULS('用户取消操作，没什么要做的', '使用者取消操作，沒什麼要做的'));
+						.warn(window.wgULS('用户取消操作，没什么要做的', '使用者取消操作，沒什麼要做的'));
 					return;
 				}
 				text = tagtext + text;
@@ -2176,7 +2183,7 @@
 				return (sum += params.tags.includes(tag));
 			}, 0);
 			if (count > 1) {
-				let message = `${wgULS('请在以下标签中择一使用', '請在以下標籤中擇一使用')}：{{${conflicts.join(
+				let message = `${window.wgULS('请在以下标签中择一使用', '請在以下標籤中擇一使用')}：{{${conflicts.join(
 					'}}、{{'
 				)}}}。`;
 				message += extra || '';
@@ -2191,7 +2198,7 @@
 		// Maybe just sock this away in each function???
 		const checkParameter = (tag, parameter, description = '理由') => {
 			if (params.tags.includes(tag) && params[parameter].trim() === '') {
-				mw.notify(`${wgULS('您必须指定', '您必須指定')}{{${tag}}}的${description}。`, {
+				mw.notify(`${window.wgULS('您必须指定', '您必須指定')}{{${tag}}}的${description}。`, {
 					type: 'warn',
 					tag: 'friendlytag',
 				});
@@ -2214,7 +2221,7 @@
 					if (
 						checkIncompatible(
 							['Merge', 'Merge from', 'Merge to'],
-							wgULS(
+							window.wgULS(
 								'若需要多次合并，请使用{{Merge}}并用管道符分隔条目名（但在这种情形中Twinkle不能自动标记其他条目）。',
 								'若需要多次合併，請使用{{Merge}}並用管道符分隔條目名（但在這種情形中Twinkle不能自動標記其他條目）。'
 							)
@@ -2224,7 +2231,7 @@
 					}
 					if (!params.mergeTarget) {
 						mw.notify(
-							wgULS(
+							window.wgULS(
 								'请指定使用于merge模板中的另一个页面标题。',
 								'請指定使用於merge模板中的另一個頁面標題。'
 							),
@@ -2237,7 +2244,7 @@
 					}
 					if ((params.mergeTagOther || params.mergeReason) && params.mergeTarget.includes('|')) {
 						mw.notify(
-							wgULS(
+							window.wgULS(
 								'当前还不支持在一次合并中标记多个条目，与开启关于多个条目的讨论。请不要勾选“标记其他条目”并清空“理由”框后再提交。',
 								'目前還不支援在一次合併中標記多個條目，與開啟關於多個條目的討論。請不要勾選「標記其他條目」並清空「理由」框後再提交。'
 							),
@@ -2269,7 +2276,7 @@
 					checkParameter(
 						'Vector version available',
 						'Vector_version_availableFile',
-						wgULS('替换的文件名称', '替換的檔案名稱')
+						window.wgULS('替换的文件名称', '替換的檔案名稱')
 					)
 				) {
 					return;
@@ -2290,7 +2297,7 @@
 		// File/redirect: return if no tags selected
 		// Article: return if no tag is selected and no already present tag is deselected
 		if (params.tags.length === 0 && (Twinkle.tag.modeEn !== 'article' || params.tagsToRemove.length === 0)) {
-			mw.notify(wgULS('必须选择至少一个标记！', '必須選擇至少一個標記！'), {
+			mw.notify(window.wgULS('必须选择至少一个标记！', '必須選擇至少一個標記！'), {
 				type: 'warn',
 				tag: 'friendlytag',
 			});
@@ -2308,7 +2315,7 @@
 		}
 		const qiuwen_page = new Morebits.wiki.page(
 			Morebits.pageNameNorm,
-			wgULS('正在标记', '正在標記') + Twinkle.tag.mode
+			window.wgULS('正在标记', '正在標記') + Twinkle.tag.mode
 		);
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.load(Twinkle.tag.callbacks[Twinkle.tag.modeEn]);
