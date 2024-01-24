@@ -1,15 +1,13 @@
 const deprecatedFunctions = (): void => {
-	/**
+	/*!
 	 * maintenance: Some user scripts may be using the following deprecated functions.
-	 * These functions are no longer supported and should be updated to use mw.loader.getScript.
-	 *
-	 * @deprecated: User mw.loader.load() or mw.loader.getScript() instead.
+	 * These functions are no longer supported and should be updated.
 	 */
 	mw.log.deprecate(
 		window,
 		'importScript',
-		(title: string): void => {
-			mw.loader.load(
+		(title: string): HTMLScriptElement => {
+			return mw.loader.addScriptTag(
 				mw.util.getUrl(title, {
 					action: 'raw',
 					ctype: 'text/javascript',
@@ -18,13 +16,13 @@ const deprecatedFunctions = (): void => {
 				})
 			);
 		},
-		'Use mw.loader.load() or mw.loader.getScript() instead'
+		'Use mw.loader.addScriptTag() instead'
 	);
 	mw.log.deprecate(
 		window,
 		'importStylesheet',
-		(title: string): void => {
-			mw.loader.load(
+		(title: string): HTMLLinkElement => {
+			return mw.loader.addLinkTag(
 				mw.util.getUrl(title, {
 					action: 'raw',
 					ctype: 'text/css',
@@ -34,26 +32,27 @@ const deprecatedFunctions = (): void => {
 				'text/css'
 			);
 		},
-		'Use mw.loader.load() instead'
+		'Use mw.loader.addLinkTag() instead'
 	);
 	mw.log.deprecate(
 		window,
 		'importScriptURI',
-		(modules: string): void => {
-			mw.loader.load(mw.util.wikiUrlencode(modules));
+		(modules: string): HTMLScriptElement => {
+			return mw.loader.addScriptTag(mw.util.wikiUrlencode(modules));
 		},
-		'Use mw.loader.load() or mw.loader.getScript() instead'
+		'Use mw.loader.addScriptTag() or mw.loader.getScript() instead'
 	);
 	mw.log.deprecate(
 		window,
 		'importStylesheetURI',
-		(modules: string): void => {
-			mw.loader.load(mw.util.wikiUrlencode(modules), 'text/css');
+		(modules: string): HTMLLinkElement => {
+			return mw.loader.addLinkTag(mw.util.wikiUrlencode(modules), 'text/css');
 		},
-		'Use mw.loader.load() instead'
+		'Use mw.loader.addLinkTag() instead'
 	);
 	mw.log.deprecate(
 		window,
+		// @ts-expect-error TS2345
 		'importScriptCallback',
 		(title: string, ready: never): void => {
 			void mw.loader
@@ -67,10 +66,11 @@ const deprecatedFunctions = (): void => {
 				)
 				.then(ready);
 		},
-		'Use mw.loader.load() or mw.loader.getScript() instead'
+		'Use mw.loader.getScript() instead'
 	);
 	mw.log.deprecate(
 		window,
+		// @ts-expect-error TS2345
 		'importScriptURICallback',
 		(url: string, ready: never): void => {
 			void mw.loader.getScript(url).then(ready);
