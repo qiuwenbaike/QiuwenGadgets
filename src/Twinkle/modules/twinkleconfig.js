@@ -1369,7 +1369,7 @@
 								value: gotPref,
 								pref,
 							});
-							customListButton.appendChild(document.createTextNode(wgULS('编辑项目', '編輯項目')));
+							customListButton.appendChild(document.createTextNode(window.wgULS('编辑项目', '編輯項目')));
 							cell.appendChild(customListButton);
 							break;
 						}
@@ -1405,7 +1405,7 @@
 						resetlink.addEventListener('click', Twinkle.config.resetPrefLink, false);
 						resetlink.style.cssFloat = 'right';
 						resetlink.style.margin = '0 0.6em';
-						resetlink.appendChild(document.createTextNode(wgULS('复位', '復位')));
+						resetlink.appendChild(document.createTextNode(window.wgULS('复位', '復位')));
 						cell.appendChild(resetlink);
 					}
 					row.appendChild(cell);
@@ -1421,7 +1421,7 @@
 			const submitButton = document.createElement('button');
 			submitButton.setAttribute('id', 'twinkle-config-submit');
 			submitButton.setAttribute('type', 'submit');
-			submitButton.appendChild(document.createTextNode(wgULS('保存修改', '儲存修改')));
+			submitButton.appendChild(document.createTextNode(window.wgULS('保存修改', '儲存修改')));
 			footerbox.appendChild(submitButton);
 			const footerspan = document.createElement('span');
 			footerspan.className = 'plainlinks';
@@ -1431,7 +1431,7 @@
 			footera.setAttribute('href', '#tw-reset-all');
 			footera.setAttribute('id', 'twinkle-config-resetall');
 			footera.addEventListener('click', Twinkle.config.resetAllPrefs, false);
-			footera.appendChild(document.createTextNode(wgULS('恢复默认', '恢復預設')));
+			footera.appendChild(document.createTextNode(window.wgULS('恢复默认', '恢復預設')));
 			footerspan.appendChild(footera);
 			footerbox.appendChild(footerspan);
 			contentform.appendChild(footerbox);
@@ -1463,30 +1463,37 @@
 					// page exists
 					box.appendChild(
 						document.createTextNode(
-							wgULS('这页包含您的Twinkle参数设置，您可使用', '這頁包含您的Twinkle偏好設定，您可使用')
+							window.wgULS(
+								'这页包含您的Twinkle参数设置，您可使用',
+								'這頁包含您的Twinkle偏好設定，您可使用'
+							)
 						)
 					);
 				} else {
 					// page does not exist
 					box.appendChild(
-						document.createTextNode(wgULS('您可配置您的Twinkle，通过使用', '您可配置您的Twinkle，通過使用'))
+						document.createTextNode(
+							window.wgULS('您可配置您的Twinkle，通过使用', '您可配置您的Twinkle，通過使用')
+						)
 					);
 				}
 				link = document.createElement('a');
 				link.setAttribute('href', mw.util.getUrl(Twinkle.getPref('configPage')));
-				link.appendChild(document.createTextNode(wgULS('Twinkle参数设置面板', 'Twinkle偏好設定面板')));
+				link.appendChild(document.createTextNode(window.wgULS('Twinkle参数设置面板', 'Twinkle偏好設定面板')));
 				box.appendChild(link);
-				box.appendChild(document.createTextNode(wgULS('，或直接编辑本页。', '，或直接編輯本頁。')));
+				box.appendChild(document.createTextNode(window.wgULS('，或直接编辑本页。', '，或直接編輯本頁。')));
 				$(box).insertAfter($body.find('#contentSub'));
 			} else if (['vector', 'vector-2022', 'gongbi', 'citizen', 'common'].includes(scriptPageName)) {
 				// place "Looking for Twinkle options?" notice
 				box.setAttribute('class', 'config-userskin-box');
 				box.appendChild(
-					document.createTextNode(wgULS('若您想配置您的Twinkle，请使用', '若您想配置您的Twinkle，請使用'))
+					document.createTextNode(
+						window.wgULS('若您想配置您的Twinkle，请使用', '若您想配置您的Twinkle，請使用')
+					)
 				);
 				link = document.createElement('a');
 				link.setAttribute('href', mw.util.getUrl(Twinkle.getPref('configPage')));
-				link.appendChild(document.createTextNode(wgULS('Twinkle参数设置面板', 'Twinkle偏好設定面板')));
+				link.appendChild(document.createTextNode(window.wgULS('Twinkle参数设置面板', 'Twinkle偏好設定面板')));
 				box.appendChild(link);
 				box.appendChild(document.createTextNode('。'));
 				$(box).insertAfter($body.find('#contentSub'));
@@ -1541,7 +1548,7 @@
 		const curpref = $prefbutton.data('pref');
 		const dialog = new Morebits.simpleWindow(720, 400);
 		dialog.setTitle(curpref.label);
-		dialog.setScriptName(wgULS('Twinkle参数设置', 'Twinkle偏好設定'));
+		dialog.setScriptName(window.wgULS('Twinkle参数设置', 'Twinkle偏好設定'));
 		const dialogcontent = document.createElement('div');
 		const dlgtable = document.createElement('table');
 		dlgtable.className = 'wikitable';
@@ -1813,8 +1820,8 @@
 								userValue = Number.parseInt(form[pref.name].value, 10);
 								if (Number.isNaN(userValue)) {
 									Morebits.status.warn(
-										wgULS('保存', '儲存'),
-										`${wgULS('您为 ', '您為 ') + pref.name} 指定的值（${pref.value}${wgULS(
+										window.wgULS('保存', '儲存'),
+										`${window.wgULS('您为 ', '您為 ') + pref.name} 指定的值（${pref.value}${window.wgULS(
 											'）不合法，会继续保存操作，但此值将会跳过。',
 											'）不合法，會繼續儲存操作，但此值將會跳過。'
 										)}`
@@ -1865,19 +1872,19 @@
 			});
 		});
 		const nowiki = 'nowiki';
-		let text = `// <${nowiki}>\n${wgULS(
+		let text = `// <${nowiki}>\n${window.wgULS(
 			`// twinkleoptions.js：用户Twinkle参数设置文件\n//\n// 注：修改您的参数设置最简单的办法是使用\n// Twinkle参数设置面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 这个文件是自动生成的，您所做的任何修改（除了\n// 以一种合法的JavaScript的方式来修改这些属性值）会\n// 在下一次您点击“保存”时被覆盖。\n// 修改此文件时，请记得使用合法的JavaScript。\n`,
 			`// twinkleoptions.js：使用者Twinkle參數設定檔案\n//\n// 註：修改您的參數設定最簡單的辦法是使用\n// Twinkle參數設定面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 這個檔案是自動產生的，您所做的任何修改（除了\n// 以一種合法的JavaScript的方式來修改這些屬性值）會\n// 在下一次您點擊「儲存」時被覆蓋。\n// 修改此檔案時，請記得使用合法的JavaScript。\n`
 		)}`;
 		text +=
 			'\nwindow.Twinkle = window.Twinkle || {};\nwindow.Twinkle.prefs = window.Twinkle.prefs || {};\nwindow.Twinkle.prefs = ';
 		text += JSON.stringify(newConfig, null, 2);
-		text += `;\n\n${wgULS('// twinkleoptions.js到此为止\n', '// twinkleoptions.js到此為止\n')}// </${nowiki}>`;
+		text += `;\n\n${window.wgULS('// twinkleoptions.js到此为止\n', '// twinkleoptions.js到此為止\n')}// </${nowiki}>`;
 		pageobj.setPageText(text);
 		pageobj.setEditSummary(
-			wgULS('保存Twinkle参数设置：来自[[', '儲存Twinkle偏好設定：來自[[') +
+			window.wgULS('保存Twinkle参数设置：来自[[', '儲存Twinkle偏好設定：來自[[') +
 				Morebits.pageNameNorm +
-				wgULS(']]的自动编辑', ']]的自動編輯')
+				window.wgULS(']]的自动编辑', ']]的自動編輯')
 		);
 		pageobj.setChangeTags(Twinkle.changeTags);
 		pageobj.setCreateOption('recreate');
@@ -1889,12 +1896,12 @@
 		noticebox.className = 'mw-message-box mw-message-box-success';
 		noticebox.style.fontSize = '100%';
 		noticebox.style.marginTop = '2em';
-		noticebox.innerHTML = `<p><b>${wgULS(
+		noticebox.innerHTML = `<p><b>${window.wgULS(
 			'您的Twinkle参数设置已被保存。',
 			'您的Twinkle偏好設定已被儲存。'
-		)}</b></p><p>${wgULS('要看到这些更改，您可能需要', '要看到這些更改，您可能需要')}<a href="${mw.util.getUrl(
+		)}</b></p><p>${window.wgULS('要看到这些更改，您可能需要', '要看到這些更改，您可能需要')}<a href="${mw.util.getUrl(
 			'QW:BYPASS'
-		)}" title="QW:BYPASS"><b>${wgULS('绕过浏览器缓存', '繞過瀏覽器快取')}</b></a>。</p>`;
+		)}" title="QW:BYPASS"><b>${window.wgULS('绕过浏览器缓存', '繞過瀏覽器快取')}</b></a>。</p>`;
 		Morebits.status.root.appendChild(noticebox);
 		const noticeclear = document.createElement('br');
 		noticeclear.style.clear = 'both';

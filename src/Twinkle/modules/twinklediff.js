@@ -17,9 +17,9 @@
 				diff: 'cur',
 				oldid: 'prev',
 			}),
-			wgULS('最后', '最後'),
+			window.wgULS('最后', '最後'),
 			'tw-lastdiff',
-			wgULS('显示最后修改', '顯示最後修改')
+			window.wgULS('显示最后修改', '顯示最後修改')
 		);
 		// Show additional tabs only on diff pages
 		if (mw.config.get('wgDiffNewId')) {
@@ -29,7 +29,7 @@
 				},
 				'自上',
 				'tw-since',
-				wgULS('显示与上一修订版本间的差异', '顯示與上一修訂版本間的差異')
+				window.wgULS('显示与上一修订版本间的差异', '顯示與上一修訂版本間的差異')
 			);
 			Twinkle.addPortletLink(
 				() => {
@@ -37,16 +37,16 @@
 				},
 				'自我',
 				'tw-sincemine',
-				wgULS('显示与我做出的修订版本的差异', '顯示與我做出的修訂版本的差異')
+				window.wgULS('显示与我做出的修订版本的差异', '顯示與我做出的修訂版本的差異')
 			);
 			Twinkle.addPortletLink(
 				mw.util.getUrl(mw.config.get('wgPageName'), {
 					diff: 'cur',
 					oldid: mw.config.get('wgDiffNewId'),
 				}),
-				wgULS('当前', '目前'),
+				window.wgULS('当前', '目前'),
 				'tw-curdiff',
-				wgULS('显示与当前版本间的差异', '顯示與目前版本間的差異')
+				window.wgULS('显示与当前版本间的差异', '顯示與目前版本間的差異')
 			);
 		}
 	};
@@ -73,7 +73,7 @@
 		};
 		Morebits.status.init(document.querySelector('#mw-content-text'));
 		const qiuwen_api = new Morebits.wiki.api(
-			wgULS('抓取最初贡献者信息', '抓取最初貢獻者資訊'),
+			window.wgULS('抓取最初贡献者信息', '抓取最初貢獻者資訊'),
 			query,
 			Twinkle.diff.callbacks.main
 		);
@@ -88,9 +88,9 @@
 			const revid = $(xmlDoc).find('rev').attr('revid');
 			if (!revid) {
 				self.statelem.error(
-					wgULS('未找到合适的早期版本，或 ', '未找到合適的早期版本，或 ') +
+					window.wgULS('未找到合适的早期版本，或 ', '未找到合適的早期版本，或 ') +
 						self.params.user +
-						wgULS(' 是唯一贡献者。取消。', ' 是唯一貢獻者。取消。')
+						window.wgULS(' 是唯一贡献者。取消。', ' 是唯一貢獻者。取消。')
 				);
 				return;
 			}

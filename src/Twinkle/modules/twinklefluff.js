@@ -132,7 +132,7 @@
 			revertToRevisionNode.style.fontWeight = 'bold';
 			const revertToRevisionLink = Twinkle.fluff.linkBuilder.buildLink(
 				'SaddleBrown',
-				wgULS('恢复此版本', '恢復此版本')
+				window.wgULS('恢复此版本', '恢復此版本')
 			);
 			$(revertToRevisionLink).on('click', (e) => {
 				e.preventDefault();
@@ -378,7 +378,7 @@
 			type: 'csrf',
 		};
 		const qiuwen_api = new Morebits.wiki.api(
-			wgULS('抓取较早修订版本信息', '抓取較早修訂版本資訊'),
+			window.wgULS('抓取较早修订版本信息', '抓取較早修訂版本資訊'),
 			query,
 			Twinkle.fluff.callbacks.main
 		);
@@ -404,7 +404,7 @@
 			type: 'csrf',
 		};
 		const qiuwen_api = new Morebits.wiki.api(
-			wgULS('抓取较早修订版本信息', '抓取較早修訂版本資訊'),
+			window.wgULS('抓取较早修订版本信息', '抓取較早修訂版本資訊'),
 			query,
 			Twinkle.fluff.callbacks.toRevision
 		);
@@ -426,7 +426,7 @@
 			const revertToUserHidden = typeof $(xmlDoc).find('rev').attr('userhidden') === 'string';
 			if (revertToRevID !== apiobj.params.rev) {
 				apiobj.statelem.error(
-					wgULS(
+					window.wgULS(
 						'抓取到的修订版本与请求的修订版本不符，取消。',
 						'抓取到的修訂版本與請求的修訂版本不符，取消。'
 					)
@@ -434,15 +434,15 @@
 				return;
 			}
 			const optional_summary = prompt(
-				`${wgULS('请输入回退理由：', '請輸入回退理由：')}                                `,
+				`${window.wgULS('请输入回退理由：', '請輸入回退理由：')}                                `,
 				apiobj.params.summary
 			); // padded out to widen prompt in Firefox
 			if (optional_summary === null) {
-				apiobj.statelem.error(wgULS('由用户取消。', '由使用者取消。'));
+				apiobj.statelem.error(window.wgULS('由用户取消。', '由使用者取消。'));
 				return;
 			}
 			const summary = Twinkle.fluff.formatSummary(
-				wgULS('回退到由$USER做出的修订版本', '回退到由$USER做出的修訂版本') + revertToRevID,
+				window.wgULS('回退到由$USER做出的修订版本', '回退到由$USER做出的修訂版本') + revertToRevID,
 				revertToUserHidden ? null : revertToUser,
 				optional_summary
 			);
@@ -477,7 +477,7 @@
 			Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
 			Morebits.wiki.actionCompleted.notice = '回退完成';
 			const qiuwen_api = new Morebits.wiki.api(
-				wgULS('保存回退内容', '儲存回退內容'),
+				window.wgULS('保存回退内容', '儲存回退內容'),
 				query,
 				Twinkle.fluff.callbacks.complete,
 				apiobj.statelem
@@ -499,15 +499,15 @@
 			const {statelem} = apiobj;
 			const {params} = apiobj;
 			if (revs.length < 1) {
-				statelem.error(wgULS('没有其它修订版本，无法回退', '沒有其它修訂版本，無法回退'));
+				statelem.error(window.wgULS('没有其它修订版本，无法回退', '沒有其它修訂版本，無法回退'));
 				return;
 			}
 			const [top] = revs;
 			const lastuser = top.getAttribute('user');
 			if (lastrevid < params.revid) {
 				Morebits.status.error(
-					wgULS('错误', '錯誤'),
-					wgULS(
+					window.wgULS('错误', '錯誤'),
+					window.wgULS(
 						[
 							'从服务器获取的最新修订版本ID ',
 							Morebits.htmlNode('strong', lastrevid),
@@ -533,7 +533,7 @@
 			} else {
 				Morebits.status.warn(
 					'警告',
-					wgULS(
+					window.wgULS(
 						[
 							'最新修订版本 ',
 							Morebits.htmlNode('strong', lastrevid),
@@ -553,17 +553,20 @@
 				if (lastuser === params.user) {
 					switch (params.type) {
 						case 'vand':
-							Morebits.status.info(wgULS('信息', '資訊'), [
-								wgULS('最新修订版本由 ', '最新修訂版本由 '),
+							Morebits.status.info(window.wgULS('信息', '資訊'), [
+								window.wgULS('最新修订版本由 ', '最新修訂版本由 '),
 								Morebits.htmlNode('strong', userNorm),
-								wgULS(' 做出，因我们假定破坏，继续回退操作。', ' 做出，因我們假定破壞，繼續回退操作。'),
+								window.wgULS(
+									' 做出，因我们假定破坏，继续回退操作。',
+									' 做出，因我們假定破壞，繼續回退操作。'
+								),
 							]);
 							break;
 						default:
 							Morebits.status.warn('提示', [
-								wgULS('最新修订版本由 ', '最新修訂版本由 '),
+								window.wgULS('最新修订版本由 ', '最新修訂版本由 '),
 								Morebits.htmlNode('strong', userNorm),
-								wgULS(' 做出，但我们还是不回退了。', ' 做出，但我們還是不回退了。'),
+								window.wgULS(' 做出，但我们还是不回退了。', ' 做出，但我們還是不回退了。'),
 							]);
 							return;
 					}
@@ -575,8 +578,8 @@
 					revs[1].getAttribute('revid') === params.revid
 				) {
 					Morebits.status.info(
-						wgULS('信息', '資訊'),
-						wgULS(
+						window.wgULS('信息', '資訊'),
+						window.wgULS(
 							[
 								'最新修订版本由 ',
 								Morebits.htmlNode('strong', lastuser),
@@ -592,8 +595,8 @@
 					index = 2;
 				} else {
 					Morebits.status.error(
-						wgULS('错误', '錯誤'),
-						wgULS(
+						window.wgULS('错误', '錯誤'),
+						window.wgULS(
 							[
 								'最新修订版本由 ',
 								Morebits.htmlNode('strong', lastuser),
@@ -612,10 +615,10 @@
 			if (Twinkle.fluff.trustedBots.includes(params.user)) {
 				switch (params.type) {
 					case 'vand':
-						Morebits.status.info(wgULS('信息', '資訊'), [
-							wgULS('将对 ', '將對 '),
+						Morebits.status.info(window.wgULS('信息', '資訊'), [
+							window.wgULS('将对 ', '將對 '),
 							Morebits.htmlNode('strong', userNorm),
-							wgULS(
+							window.wgULS(
 								' 执行破坏回退，这是一个可信的机器人，我们假定您要回退前一个修订版本。',
 								' 執行破壞回退，這是一個可信的機器人，我們假定您要回退前一個修訂版本。'
 							),
@@ -628,21 +631,21 @@
 					/* falls through */
 					default: {
 						const cont = confirm(
-							wgULS(
+							window.wgULS(
 								'选择了常规回退，但最新修改是由一个可信的机器人（',
 								'選擇了常規回退，但最新修改是由一個可信的機器人（'
 							) +
 								userNorm +
-								wgULS(
+								window.wgULS(
 									'）做出的。确定以回退前一个修订版本，取消以回退机器人的修改',
 									'）做出的。確定以回退前一個修訂版本，取消以回退機器人的修改'
 								)
 						);
 						if (cont) {
-							Morebits.status.info(wgULS('信息', '資訊'), [
-								wgULS('将对 ', '將對 '),
+							Morebits.status.info(window.wgULS('信息', '資訊'), [
+								window.wgULS('将对 ', '將對 '),
 								Morebits.htmlNode('strong', userNorm),
-								wgULS(
+								window.wgULS(
 									' 执行常规回退，这是一个可信的机器人，基于确认，我们将回退前一个修订版本。',
 									' 執行常規回退，這是一個可信的機器人，基於確認，我們將回退前一個修訂版本。'
 								),
@@ -653,9 +656,9 @@
 							userNorm = params.user || Twinkle.fluff.hiddenName;
 						} else {
 							Morebits.status.warn('提示', [
-								wgULS('将对 ', '將對 '),
+								window.wgULS('将对 ', '將對 '),
 								Morebits.htmlNode('strong', userNorm),
-								wgULS(
+								window.wgULS(
 									' 执行常规回退，这是一个可信的机器人，基于确认，我们仍将回退这个修订版本。',
 									' 執行常規回退，這是一個可信的機器人，基於確認，我們仍將回退這個修訂版本。'
 								),
@@ -676,18 +679,21 @@
 			}
 			if (!found) {
 				statelem.error([
-					wgULS('未找到之前的修订版本，可能 ', '未找到之前的修訂版本，可能 '),
+					window.wgULS('未找到之前的修订版本，可能 ', '未找到之前的修訂版本，可能 '),
 					Morebits.htmlNode('strong', userNorm),
-					wgULS(' 是唯一贡献者，或这个用户连续做出了超过 ', ' 是唯一貢獻者，或這個用戶連續做出了超過 ') +
+					window.wgULS(
+						' 是唯一贡献者，或这个用户连续做出了超过 ',
+						' 是唯一貢獻者，或這個用戶連續做出了超過 '
+					) +
 						mw.language.convertNumber(Twinkle.getPref('revertMaxRevisions')) +
-						wgULS(' 次编辑。', ' 次編輯。'),
+						window.wgULS(' 次编辑。', ' 次編輯。'),
 				]);
 				return;
 			}
 			if (!count) {
 				Morebits.status.error(
-					wgULS('错误', '錯誤'),
-					wgULS(
+					window.wgULS('错误', '錯誤'),
+					window.wgULS(
 						'我们将要回退0个修订版本，这没有意义，所以取消回退操作。可能是因为这个修订版本已经被回退，但修订版本ID仍是一样的。',
 						'我們將要回退0個修訂版本，這沒有意義，所以取消回退操作。可能是因為這個修訂版本已經被回退，但修訂版本ID仍是一樣的。'
 					)
@@ -700,9 +706,9 @@
 				if (
 					!confirm(
 						userNorm +
-							wgULS(' 连续做出了 ', ' 連續做出了 ') +
+							window.wgULS(' 连续做出了 ', ' 連續做出了 ') +
 							mw.language.convertNumber(count) +
-							wgULS(' 次编辑，是否要全部回退？', ' 次編輯，是否要全部回退？')
+							window.wgULS(' 次编辑，是否要全部回退？', ' 次編輯，是否要全部回退？')
 					)
 				) {
 					Morebits.status.info('提示', window.wgULS('用户取消操作', '使用者取消操作'));
@@ -716,9 +722,9 @@
 			params.gooduserHidden = good_revision.getAttribute('userhidden') === '';
 			statelem.status([
 				Morebits.htmlNode('strong', mw.language.convertNumber(count)),
-				wgULS(' 个修订版本之前由 ', ' 個修訂版本之前由 '),
+				window.wgULS(' 个修订版本之前由 ', ' 個修訂版本之前由 '),
 				Morebits.htmlNode('strong', params.gooduserHidden ? Twinkle.fluff.hiddenName : params.gooduser),
-				wgULS(' 做出的修订版本 ', ' 做出的修訂版本 '),
+				window.wgULS(' 做出的修订版本 ', ' 做出的修訂版本 '),
 				Morebits.htmlNode('strong', params.goodid),
 			]);
 			let summary;
@@ -726,9 +732,9 @@
 			switch (params.type) {
 				case 'vand':
 					summary = Twinkle.fluff.formatSummary(
-						`回退$USER做出的${params.count}${wgULS('次编辑，到由', '次編輯，到由')}${
+						`回退$USER做出的${params.count}${window.wgULS('次编辑，到由', '次編輯，到由')}${
 							params.gooduserHidden ? Twinkle.fluff.hiddenName : params.gooduser
-						}${wgULS('做出的最后修订版本 ', '做出的最後修訂版本 ')}`,
+						}${window.wgULS('做出的最后修订版本 ', '做出的最後修訂版本 ')}`,
 						params.userHidden ? null : params.user
 					);
 					break;
@@ -737,17 +743,17 @@
 				default:
 					if (Twinkle.getPref('offerReasonOnNormalRevert')) {
 						extra_summary = prompt(
-							`${wgULS('可选的编辑摘要：', '可選的編輯摘要：')}                              `,
+							`${window.wgULS('可选的编辑摘要：', '可選的編輯摘要：')}                              `,
 							params.summary
 						); // padded out to widen prompt in Firefox
 						if (extra_summary === null) {
-							statelem.error(wgULS('用户取消操作。', '使用者取消操作。'));
+							statelem.error(window.wgULS('用户取消操作。', '使用者取消操作。'));
 							return;
 						}
 						userHasAlreadyConfirmedAction = true;
 					}
 					summary = Twinkle.fluff.formatSummary(
-						`回退$USER做出的${params.count}${wgULS('次编辑', '次編輯')}`,
+						`回退$USER做出的${params.count}${window.wgULS('次编辑', '次編輯')}`,
 						params.userHidden ? null : params.user,
 						extra_summary
 					);
@@ -756,9 +762,9 @@
 			if (
 				Twinkle.getPref('confirmOnFluff') &&
 				!userHasAlreadyConfirmedAction &&
-				!confirm(wgULS('回退页面：您确定吗？', '回退頁面：您確定嗎？'))
+				!confirm(window.wgULS('回退页面：您确定吗？', '回退頁面：您確定嗎？'))
 			) {
-				statelem.error(wgULS('用户取消操作。', '使用者取消操作。'));
+				statelem.error(window.wgULS('用户取消操作。', '使用者取消操作。'));
 				return;
 			}
 			// Decide whether to notify the user on success
@@ -805,7 +811,7 @@
 			}
 			Morebits.wiki.actionCompleted.notice = '回退完成';
 			const qiuwen_api = new Morebits.wiki.api(
-				wgULS('保存回退内容', '儲存回退內容'),
+				window.wgULS('保存回退内容', '儲存回退內容'),
 				query,
 				Twinkle.fluff.callbacks.complete,
 				statelem
@@ -819,21 +825,24 @@
 			const $edit = $(xml).find('edit');
 			if ($(xml).find('captcha').length > 0) {
 				apiobj.statelem.error(
-					wgULS('不能回退，因服务器要求您输入验证码。', '不能回退，因伺服器要求您輸入驗證碼。')
+					window.wgULS('不能回退，因服务器要求您输入验证码。', '不能回退，因伺服器要求您輸入驗證碼。')
 				);
 			} else if ($edit.attr('nochange') === '') {
 				apiobj.statelem.error(
-					wgULS('要回退到的版本与当前版本相同，没什么要做的', '要回退到的版本與目前版本相同，沒什麼要做的')
+					window.wgULS(
+						'要回退到的版本与当前版本相同，没什么要做的',
+						'要回退到的版本與目前版本相同，沒什麼要做的'
+					)
 				);
 			} else {
 				apiobj.statelem.info('完成');
 				const {params} = apiobj;
 				if (params.notifyUser && !params.userHidden) {
 					// notifyUser only from main, not from toRevision
-					Morebits.status.info(wgULS('信息', '資訊'), [
-						wgULS('开启用户 ', '開啟使用者 '),
+					Morebits.status.info(window.wgULS('信息', '資訊'), [
+						window.wgULS('开启用户 ', '開啟使用者 '),
 						Morebits.htmlNode('strong', params.user),
-						wgULS(' 的讨论页', ' 的討論頁'),
+						window.wgULS(' 的讨论页', ' 的討論頁'),
 					]);
 					const windowQuery = {
 						title: `User talk:${params.user}`,
@@ -891,7 +900,7 @@
 				const contribsLink = `[[Special:Contributions/${userName}|${userName}]]`;
 				const contribsLen = unescape(encodeURIComponent(contribsLink)).length;
 				if (resultLen + contribsLen <= 499) {
-					const talkLink = `（[[User talk:${userName}${wgULS('|讨论]]）', '|討論]]）')}`;
+					const talkLink = `（[[User talk:${userName}${window.wgULS('|讨论]]）', '|討論]]）')}`;
 					if (resultLen + contribsLen + unescape(encodeURIComponent(talkLink)).length <= 499) {
 						result = Morebits.string.safeReplace(result, '$USER', contribsLink + talkLink);
 					} else {

@@ -17,7 +17,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		}
 		Twinkle.addPortletLink(
 			Twinkle.protect.callback,
-			wgULS('保护', '保護'),
+			window.wgULS('保护', '保護'),
 			'tw-rpp',
 			Morebits.userIsSysop ? window.wgULS('保护页面', '保護頁面') : window.wgULS('请求保护页面', '請求保護頁面')
 		);
@@ -30,9 +30,9 @@ import {initMwApi} from 'ext.gadget.Util';
 				: window.wgULS('请求保护页面', '請求保護頁面')
 		);
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink(wgULS('保护方针', '保護方針'), 'QW:PROT');
-		Window.addFooterLink(wgULS('保护设置', '保護設定'), 'H:TW/PREF#protect');
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#protect');
+		Window.addFooterLink(window.wgULS('保护方针', '保護方針'), 'QW:PROT');
+		Window.addFooterLink(window.wgULS('保护设置', '保護設定'), 'H:TW/PREF#protect');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#protect');
 		const form = new Morebits.quickForm(Twinkle.protect.callback.evaluate);
 		const actionfield = form.append({
 			type: 'field',
@@ -61,7 +61,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					label: window.wgULS('请求保护页面', '請求保護頁面'),
 					value: 'request',
 					tooltip:
-						wgULS('若您想在QW:RFPP请求保护此页', '若您想在QW:RFPP請求保護此頁') +
+						window.wgULS('若您想在QW:RFPP请求保护此页', '若您想在QW:RFPP請求保護此頁') +
 						(Morebits.userIsSysop ? '而不是自行完成。' : '。'),
 					checked: !Morebits.userIsSysop,
 				},
@@ -176,7 +176,7 @@ import {initMwApi} from 'ext.gadget.Util';
 							action: 'view',
 							page: mw.config.get('wgPageName'),
 							type: 'protect',
-						})}">${wgULS('保护日志', '保護日誌')}</a>`
+						})}">${window.wgULS('保护日志', '保護日誌')}</a>`
 					),
 					Twinkle.protect.hasStableLog ? $('<span>').html(' &bull; ') : null
 				);
@@ -186,13 +186,13 @@ import {initMwApi} from 'ext.gadget.Util';
 				currentlyProtected
 					? window.wgULS('先前保护', '先前保護')
 					: [
-							wgULS('此页面曾在', '此頁面曾在'),
+							window.wgULS('此页面曾在', '此頁面曾在'),
 							$(
 								`<b>${new Morebits.date(Twinkle.protect.previousProtectionLog.timestamp).calendar(
 									'utc'
 								)}</b>`
 							)[0],
-							`被${Twinkle.protect.previousProtectionLog.user}${wgULS('保护', '保護')}：`,
+							`被${Twinkle.protect.previousProtectionLog.user}${window.wgULS('保护', '保護')}：`,
 							...Twinkle.protect.formatProtectionDescription(Twinkle.protect.previousProtectionLevels),
 						],
 				$linkMarkup[0]
@@ -205,7 +205,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (currentlyProtected) {
 			statusLevel = 'warn';
 		}
-		Morebits.status[statusLevel](wgULS('当前保护等级', '目前保護等級'), protectionNode);
+		Morebits.status[statusLevel](window.wgULS('当前保护等级', '目前保護等級'), protectionNode);
 	};
 	Twinkle.protect.callback.changeAction = (e) => {
 		let field_preset;
@@ -484,7 +484,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				});
 				break;
 			default:
-				mw.notify(wgULS('这玩意儿被海豚吃掉了！', '這玩意兒被海豚吃掉了！'), {
+				mw.notify(window.wgULS('这玩意儿被海豚吃掉了！', '這玩意兒被海豚吃掉了！'), {
 					type: 'warn',
 					tag: 'twinkleprotect',
 				});
@@ -562,7 +562,7 @@ import {initMwApi} from 'ext.gadget.Util';
 	};
 	Twinkle.protect.doCustomExpiry = (target) => {
 		const custom = prompt(
-			wgULS(
+			window.wgULS(
 				'输入自定义终止时间。\n您可以使用相对时间，如“1 minute”或“19 days”，或绝对时间“yyyymmddhhmm”（如“200602011405”是2006年02月01日14：05（UTC））',
 				'輸入自訂終止時間。\n您可以使用相對時間，如「1 minute」或「19 days」，或絕對時間「yyyymmddhhmm」（如「200602011405」是2006年02月01日14：05（UTC））'
 			),
@@ -884,11 +884,11 @@ import {initMwApi} from 'ext.gadget.Util';
 			label: '通用模板',
 			list: [
 				{
-					label: `{{pp-dispute}}: ${wgULS('争议', '爭議')}`,
+					label: `{{pp-dispute}}: ${window.wgULS('争议', '爭議')}`,
 					value: 'pp-dispute',
 				},
 				{
-					label: `{{pp-vandalism}}: ${wgULS('破坏', '破壞')}`,
+					label: `{{pp-vandalism}}: ${window.wgULS('破坏', '破壞')}`,
 					value: 'pp-vandalism',
 					selected: true,
 				},
@@ -897,11 +897,11 @@ import {initMwApi} from 'ext.gadget.Util';
 					value: 'pp-sock',
 				},
 				{
-					label: `{{pp-template}}: ${wgULS('高风险模板', '高風險模板')}`,
+					label: `{{pp-template}}: ${window.wgULS('高风险模板', '高風險模板')}`,
 					value: 'pp-template',
 				},
 				{
-					label: `{{pp-protected}}: ${wgULS('常规', '常規')}`,
+					label: `{{pp-protected}}: ${window.wgULS('常规', '常規')}`,
 					value: 'pp-protected',
 				},
 			],
@@ -910,15 +910,15 @@ import {initMwApi} from 'ext.gadget.Util';
 			label: window.wgULS('半保护模板', '半保護模板'),
 			list: [
 				{
-					label: `{{pp-semi-usertalk}}: ${wgULS('封禁的用户', '封禁的使用者')}`,
+					label: `{{pp-semi-usertalk}}: ${window.wgULS('封禁的用户', '封禁的使用者')}`,
 					value: 'pp-semi-usertalk',
 				},
 				{
-					label: `{{pp-semi-blp}}: ${wgULS('生者传记', '生者傳記')}`,
+					label: `{{pp-semi-blp}}: ${window.wgULS('生者传记', '生者傳記')}`,
 					value: 'pp-semi-blp',
 				},
 				{
-					label: `{{pp-semi-indef}}: ${wgULS('长期', '長期')}`,
+					label: `{{pp-semi-indef}}: ${window.wgULS('长期', '長期')}`,
 					value: 'pp-semi-indef',
 				},
 			],
@@ -927,19 +927,19 @@ import {initMwApi} from 'ext.gadget.Util';
 			label: window.wgULS('移动保护模板', '移動保護模板'),
 			list: [
 				{
-					label: `{{pp-move-dispute}}: ${wgULS('争议', '爭議')}`,
+					label: `{{pp-move-dispute}}: ${window.wgULS('争议', '爭議')}`,
 					value: 'pp-move-dispute',
 				},
 				{
-					label: `{{pp-move-vandalism}}: ${wgULS('破坏', '破壞')}`,
+					label: `{{pp-move-vandalism}}: ${window.wgULS('破坏', '破壞')}`,
 					value: 'pp-move-vandalism',
 				},
 				{
-					label: `{{pp-move-indef}}: ${wgULS('长期', '長期')}`,
+					label: `{{pp-move-indef}}: ${window.wgULS('长期', '長期')}`,
 					value: 'pp-move-indef',
 				},
 				{
-					label: `{{pp-move}}: ${wgULS('常规', '常規')}`,
+					label: `{{pp-move}}: ${window.wgULS('常规', '常規')}`,
 					value: 'pp-move',
 				},
 			],
@@ -1122,7 +1122,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					if (closeparams && closeparams.type) {
 						const rppPage = new Morebits.wiki.page(
 							'Qiuwen_talk:页面保护请求',
-							wgULS('关闭请求', '關閉請求')
+							window.wgULS('关闭请求', '關閉請求')
 						);
 						rppPage.setFollowRedirect(true);
 						rppPage.setCallbackParameters(closeparams);
@@ -1143,7 +1143,7 @@ import {initMwApi} from 'ext.gadget.Util';
 							if (input.movelevel) {
 								thispage.setMoveProtection(input.movelevel, input.moveexpiry);
 							} else {
-								mw.notify(wgULS('您需要选择保护层级！', '您需要選擇保護層級！'), {
+								mw.notify(window.wgULS('您需要选择保护层级！', '您需要選擇保護層級！'), {
 									type: 'warn',
 									tag: 'twinkleprotect',
 								});
@@ -1160,7 +1160,7 @@ import {initMwApi} from 'ext.gadget.Util';
 						thispage.setChangeTags(Twinkle.changeTags);
 					} else {
 						mw.notify(
-							wgULS(
+							window.wgULS(
 								'您必须输入保护理由，这将被记录在保护日志中。',
 								'您必須輸入保護理由，這將被記錄在保護日誌中。'
 							),
@@ -1183,7 +1183,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					protectIt(allDone);
 				} else {
 					mw.notify(
-						wgULS(
+						window.wgULS(
 							'请告诉Twinkle要做什么！\n若您只是想标记该页，请选择上面的“用保护模板标记此页”选项。',
 							'請告訴Twinkle要做什麼！\n若您只是想標記該頁，請選擇上面的「用保護模板標記此頁」選項。'
 						),
@@ -1333,7 +1333,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		taggingPageInitial: (tagparams) => {
 			if (tagparams.tag === 'noop') {
 				Morebits.status.info(
-					wgULS('应用保护模板', '應用保護模板'),
+					window.wgULS('应用保护模板', '應用保護模板'),
 					window.wgULS('没什么要做的', '沒什麼要做的')
 				);
 				return;
@@ -1353,9 +1353,9 @@ import {initMwApi} from 'ext.gadget.Util';
 				re_result &&
 				(params.tag === 'none' ||
 					confirm(
-						wgULS('在页面上找到{{', '在頁面上找到{{') +
+						window.wgULS('在页面上找到{{', '在頁面上找到{{') +
 							re_result[1] +
-							wgULS(
+							window.wgULS(
 								'}}\n单击确定以移除，或单击取消以取消操作。',
 								'}}\n點擊確定以移除，或點擊取消以取消操作。'
 							)
@@ -1446,7 +1446,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			if (tag) {
 				statusElement.error([
 					rppLink,
-					wgULS('已有对此页面的保护提名，取消操作。', '已有對此頁面的保護提名，取消操作。'),
+					window.wgULS('已有对此页面的保护提名，取消操作。', '已有對此頁面的保護提名，取消操作。'),
 				]);
 				return;
 			}
@@ -1454,7 +1454,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			if (new RegExp(`^${mw.util.escapeRegExp(newtag).replace(/\s+/g, '\\s*')}`, 'm').test(text)) {
 				statusElement.error([
 					rppLink,
-					wgULS('已有对此页面的保护提名，取消操作。', '已有對此頁面的保護提名，取消操作。'),
+					window.wgULS('已有对此页面的保护提名，取消操作。', '已有對此頁面的保護提名，取消操作。'),
 				]);
 				return;
 			}
@@ -1471,11 +1471,11 @@ import {initMwApi} from 'ext.gadget.Util';
 					break;
 			}
 			words += params.typename;
-			newtag += `* <span style="font-size: 90%">${wgULS('当前保护状态', '目前保護狀態')}：{{protection status|${
+			newtag += `* <span style="font-size: 90%">${window.wgULS('当前保护状态', '目前保護狀態')}：{{protection status|${
 				/[=]/.test(Morebits.pageNameNorm) ? '1=' : ''
 			}${Morebits.pageNameNorm}}}</span>\n`;
 			newtag += `${
-				wgULS('请求', '請求') +
+				window.wgULS('请求', '請求') +
 				Morebits.string.toUpperCaseFirstChar(words) +
 				(params.reason === '' ? '。' : `：${Morebits.string.formatReasonText(params.reason)}`)
 			}--~~`.concat('~~');
@@ -1490,9 +1490,9 @@ import {initMwApi} from 'ext.gadget.Util';
 			if (text.length === originalTextLength) {
 				const linknode = document.createElement('a');
 				linknode.setAttribute('href', mw.util.getUrl('Help:Twinkle/修复RFPP'));
-				linknode.appendChild(document.createTextNode(wgULS('如何修复RFPP', '如何修復RFPP')));
+				linknode.appendChild(document.createTextNode(window.wgULS('如何修复RFPP', '如何修復RFPP')));
 				statusElement.error([
-					wgULS(
+					window.wgULS(
 						'无法在QW:RFPP上找到相关定位点标记，要修复此问题，请参见',
 						'無法在QW:RFPP上找到相關定位點標記，要修復此問題，請參見'
 					),
@@ -1503,7 +1503,7 @@ import {initMwApi} from 'ext.gadget.Util';
 			}
 			statusElement.status('加入新提名…');
 			rppPage.setEditSummary(
-				`/* ${Morebits.pageNameNorm} */ ${wgULS('请求对', '請求對')}[[${Morebits.pageNameNorm}]]${
+				`/* ${Morebits.pageNameNorm} */ ${window.wgULS('请求对', '請求對')}[[${Morebits.pageNameNorm}]]${
 					params.typename
 				}`
 			);
@@ -1530,7 +1530,7 @@ import {initMwApi} from 'ext.gadget.Util';
 						watch_query.expiry = watchPref;
 					}
 					new Morebits.wiki.api(
-						wgULS('将请求保护的页面加入到监视列表', '將請求保護的頁面加入到監視清單'),
+						window.wgULS('将请求保护的页面加入到监视列表', '將請求保護的頁面加入到監視清單'),
 						watch_query
 					).post();
 				}
@@ -1546,7 +1546,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				linknode2.setAttribute('href', mw.util.getUrl('Help:Twinkle/修复RFPP'));
 				linknode2.appendChild(document.createTextNode('如何修复RFPP'));
 				statusElement.error([
-					wgULS(
+					window.wgULS(
 						'无法在QW:RFPP上找到相关定位点标记，要修复此问题，请参见',
 						'無法在QW:RFPP上找到相關定位點標記，要修復此問題，請參見'
 					),
@@ -1584,7 +1584,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				}
 			}
 			if (!found) {
-				statusElement.warn(wgULS('没有找到相关的请求', '沒有找到相關的請求'));
+				statusElement.warn(window.wgULS('没有找到相关的请求', '沒有找到相關的請求'));
 				return;
 			}
 			if (params.type === 'unprotect') {
@@ -1627,7 +1627,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					summary = window.wgULS('解除保护', '解除保護');
 					break;
 				default:
-					statusElement.warn(wgULS('未知保护类型', '未知保護類別'));
+					statusElement.warn(window.wgULS('未知保护类型', '未知保護類別'));
 					return;
 			}
 			if (Morebits.string.isInfinity(params.expiry)) {
@@ -1644,7 +1644,7 @@ import {initMwApi} from 'ext.gadget.Util';
 	Twinkle.protect.formatProtectionDescription = (protectionLevels) => {
 		const protectionNode = [];
 		if (Object.keys(protectionLevels).length === 0) {
-			protectionNode.push($(`<b>${wgULS('无保护', '無保護')}</b>`)[0]);
+			protectionNode.push($(`<b>${window.wgULS('无保护', '無保護')}</b>`)[0]);
 		} else {
 			for (const [type, settings] of Object.entries(protectionLevels)) {
 				let label;
@@ -1688,14 +1688,14 @@ import {initMwApi} from 'ext.gadget.Util';
 				}
 				protectionNode.push($(`<b>${label}：${level}</b>`)[0]);
 				if (Morebits.string.isInfinity(settings.expiry)) {
-					protectionNode.push(wgULS('（无限期）', '（無限期）'));
+					protectionNode.push(window.wgULS('（无限期）', '（無限期）'));
 				} else {
 					protectionNode.push(
-						`${wgULS('（过期：', '（過期：') + new Morebits.date(settings.expiry).calendar('utc')}）`
+						`${window.wgULS('（过期：', '（過期：') + new Morebits.date(settings.expiry).calendar('utc')}）`
 					);
 				}
 				if (settings.cascade) {
-					protectionNode.push(wgULS('（连锁）', '（連鎖）'));
+					protectionNode.push(window.wgULS('（连锁）', '（連鎖）'));
 				}
 			}
 		}

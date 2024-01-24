@@ -2407,16 +2407,16 @@
 					this.errorThrown = errorThrown; // frequently undefined
 					this.errorText =
 						statusText +
-						wgULS('在调用API时发生了错误“', '在呼叫API時發生了錯誤「') +
+						window.wgULS('在调用API时发生了错误“', '在呼叫API時發生了錯誤「') +
 						error.statusText +
-						wgULS('”。', '」。');
+						window.wgULS('”。', '」。');
 					return this.returnError();
 				}
 			);
 		},
 		returnError(callerAjaxParameters) {
 			if (this.errorCode === 'badtoken' && !this.badtokenRetry) {
-				this.statelem.warn(wgULS('无效令牌，获取新的令牌并重试……', '無效權杖，取得新的權杖並重試……'));
+				this.statelem.warn(window.wgULS('无效令牌，获取新的令牌并重试……', '無效權杖，取得新的權杖並重試……'));
 				this.badtokenRetry = true;
 				// Get a new CSRF token and retry. If the original action needs a different
 				// type of action than CSRF, we do one pointless retry before bailing out
@@ -2509,7 +2509,7 @@
 	 * @returns {string} MediaWiki CSRF token.
 	 */
 	Morebits.wiki.api.getToken = () => {
-		const tokenApi = new Morebits.wiki.api(wgULS('获取令牌', '取得權杖'), {
+		const tokenApi = new Morebits.wiki.api(window.wgULS('获取令牌', '取得權杖'), {
 			action: 'query',
 			meta: 'tokens',
 			type: 'csrf',
@@ -2718,7 +2718,7 @@
 				ctx.loadQuery.inprop += '|protection';
 			}
 			ctx.loadApi = new Morebits.wiki.api(
-				wgULS('抓取页面……', '抓取頁面……'),
+				window.wgULS('抓取页面……', '抓取頁面……'),
 				ctx.loadQuery,
 				fnLoadSuccess,
 				ctx.statusElement,
@@ -2770,22 +2770,22 @@
 					ctx.fullyProtected === 'infinity'
 						? window.wgULS('您即将编辑全保护页面“', '您即將編輯全保護頁面「') +
 								ctx.pageName +
-								wgULS(
+								window.wgULS(
 									'”（无限期）。\n\n单击确定以确定，或单击取消以取消操作。',
 									'」（無限期）。\n\n點擊確定以確定，或點擊取消以取消操作。'
 								)
 						: `${
-								wgULS('您即将编辑全保护页面“', '您即將編輯全保護頁面「') +
+								window.wgULS('您即将编辑全保护页面“', '您即將編輯全保護頁面「') +
 								ctx.pageName +
-								wgULS('”（到期：', '」（到期：') +
+								window.wgULS('”（到期：', '」（到期：') +
 								new Morebits.date(ctx.fullyProtected).calendar('utc')
-							} (UTC)）。\n\n${wgULS(
+							} (UTC)）。\n\n${window.wgULS(
 								'单击确定以确定，或单击取消以取消操作。',
 								'點擊確定以確定，或點擊取消以取消操作。'
 							)}`
 				)
 			) {
-				ctx.statusElement.error(wgULS('已取消对全保护页面的编辑。', '已取消對全保護頁面的編輯。'));
+				ctx.statusElement.error(window.wgULS('已取消对全保护页面的编辑。', '已取消對全保護頁面的編輯。'));
 				ctx.onSaveFailure(this);
 				return;
 			}
@@ -2871,7 +2871,7 @@
 				query.redirect = true;
 			}
 			ctx.saveApi = new Morebits.wiki.api(
-				wgULS('保存页面……', '儲存頁面……'),
+				window.wgULS('保存页面……', '儲存頁面……'),
 				query,
 				fnSaveSuccess,
 				ctx.statusElement,
@@ -3384,7 +3384,7 @@
 			}
 
 			ctx.lookupCreationApi = new Morebits.wiki.api(
-				wgULS('抓取页面创建者信息', '抓取頁面建立者資訊'),
+				window.wgULS('抓取页面创建者信息', '抓取頁面建立者資訊'),
 				query,
 				fnLookupCreationSuccess,
 				ctx.statusElement,
@@ -3433,7 +3433,7 @@
 			} else {
 				const query = fnNeedTokenInfoQuery('move');
 				ctx.moveApi = new Morebits.wiki.api(
-					wgULS('获取令牌……', '取得權杖……'),
+					window.wgULS('获取令牌……', '取得權杖……'),
 					query,
 					fnProcessMove,
 					ctx.statusElement,
@@ -3477,7 +3477,11 @@
 					rclimit: 1,
 					format: 'json',
 				};
-				ctx.patrolApi = new Morebits.wiki.api(wgULS('获取令牌……', '取得權杖……'), patrolQuery, fnProcessPatrol);
+				ctx.patrolApi = new Morebits.wiki.api(
+					window.wgULS('获取令牌……', '取得權杖……'),
+					patrolQuery,
+					fnProcessPatrol
+				);
 				ctx.patrolApi.setParent(this);
 				ctx.patrolApi.post();
 			}
@@ -3501,7 +3505,7 @@
 			} else {
 				const query = fnNeedTokenInfoQuery('delete');
 				ctx.deleteApi = new Morebits.wiki.api(
-					wgULS('获取令牌……', '取得權杖……'),
+					window.wgULS('获取令牌……', '取得權杖……'),
 					query,
 					fnProcessDelete,
 					ctx.statusElement,
@@ -3529,7 +3533,7 @@
 			} else {
 				const query = fnNeedTokenInfoQuery('undelete');
 				ctx.undeleteApi = new Morebits.wiki.api(
-					wgULS('获取令牌……', '取得權杖……'),
+					window.wgULS('获取令牌……', '取得權杖……'),
 					query,
 					fnProcessUndelete,
 					ctx.statusElement,
@@ -3564,7 +3568,7 @@
 			// protection levels from the server
 			const query = fnNeedTokenInfoQuery('protect');
 			ctx.protectApi = new Morebits.wiki.api(
-				wgULS('获取令牌……', '取得權杖……'),
+				window.wgULS('获取令牌……', '取得權杖……'),
 				query,
 				fnProcessProtect,
 				ctx.statusElement,
@@ -3686,13 +3690,13 @@
 
 			ctx.csrfToken = response.tokens.csrftoken;
 			if (!ctx.csrfToken) {
-				ctx.statusElement.error(wgULS('未能获取编辑令牌。', '未能取得編輯權杖。'));
+				ctx.statusElement.error(window.wgULS('未能获取编辑令牌。', '未能取得編輯權杖。'));
 				ctx.onLoadFailure(this);
 				return;
 			}
 			ctx.loadTime = ctx.loadApi.getResponse().curtimestamp;
 			if (!ctx.loadTime) {
-				ctx.statusElement.error(wgULS('未能获取当前时间戳。', '未能取得當前時間戳。'));
+				ctx.statusElement.error(window.wgULS('未能获取当前时间戳。', '未能取得當前時間戳。'));
 				ctx.onLoadFailure(this);
 				return;
 			}
@@ -3723,7 +3727,7 @@
 			if (ctx.editMode === 'revert') {
 				ctx.revertCurID = rev && rev.revid;
 				if (!ctx.revertCurID) {
-					ctx.statusElement.error(wgULS('未能获取当前修订版本ID。', '未能取得目前修訂版本ID。'));
+					ctx.statusElement.error(window.wgULS('未能获取当前修订版本ID。', '未能取得目前修訂版本ID。'));
 					ctx.onLoadFailure(this);
 					return;
 				}
@@ -3733,13 +3737,15 @@
 						// username was RevDel'd or oversighted
 						ctx.revertUser = window.wgULS('<用户名已隐藏>', '<使用者名稱已隱藏>');
 					} else {
-						ctx.statusElement.error(wgULS('未能获取此修订版本的编辑者。', '未能取得此修訂版本的編輯者。'));
+						ctx.statusElement.error(
+							window.wgULS('未能获取此修订版本的编辑者。', '未能取得此修訂版本的編輯者。')
+						);
 						ctx.onLoadFailure(this);
 						return;
 					}
 				}
 				// set revert edit summary
-				ctx.editSummary = `[[QW:UNDO|撤销]]由 ${ctx.revertUser} 所做出的${wgULS('修订 ', '修訂 ')}${
+				ctx.editSummary = `[[QW:UNDO|撤销]]由 ${ctx.revertUser} 所做出的${window.wgULS('修订 ', '修訂 ')}${
 					ctx.revertOldID
 				}：${ctx.editSummary}`;
 			}
@@ -3756,7 +3762,7 @@
 			if (page) {
 				// check for invalid titles
 				if (page.invalid) {
-					ctx.statusElement.error(wgULS('标题不合法：', `標題不合法：${ctx.pageName}`));
+					ctx.statusElement.error(window.wgULS('标题不合法：', `標題不合法：${ctx.pageName}`));
 					onFailure(this);
 					return false; // abort
 				}
@@ -3769,23 +3775,28 @@
 					if (origNs !== newNs && !ctx.followCrossNsRedirect) {
 						ctx.statusElement.error(
 							ctx.pageName +
-								wgULS('是跨命名空间重定向到', '是跨命名空間重新導向到') +
+								window.wgULS('是跨命名空间重定向到', '是跨命名空間重新導向到') +
 								resolvedName +
-								wgULS('，略过', '，略過')
+								window.wgULS('，略过', '，略過')
 						);
 						onFailure(this);
 						return false;
 					}
 					// only notify user for redirects, not normalization
 					new Morebits.status(
-						wgULS('信息', '資訊'),
-						wgULS('从 ', '從 ') + ctx.pageName + window.wgULS(' 重定向到 ', ' 重新導向到 ') + resolvedName
+						window.wgULS('信息', '資訊'),
+						window.wgULS('从 ', '從 ') +
+							ctx.pageName +
+							window.wgULS(' 重定向到 ', ' 重新導向到 ') +
+							resolvedName
 					);
 				}
 				ctx.pageName = resolvedName; // update to redirect target or normalized name
 			} else {
 				// could be a circular redirect or other problem
-				ctx.statusElement.error(wgULS('不能解析页面的重定向：', '不能解析頁面的重新導向：') + ctx.pageName);
+				ctx.statusElement.error(
+					window.wgULS('不能解析页面的重定向：', '不能解析頁面的重新導向：') + ctx.pageName
+				);
 				onFailure(this);
 				// force error to stay on the screen
 				++Morebits.wiki.numberOfActionsLeft;
@@ -3856,10 +3867,10 @@
 			// which as of 1.34.0-wmf.23 (Sept 2019) should only encompass captcha messages
 			if (response.edit.captcha) {
 				ctx.statusElement.error(
-					wgULS('不能保存页面，因服务器要求您输入验证码。', '不能儲存頁面，因伺服器要求您輸入驗證碼。')
+					window.wgULS('不能保存页面，因服务器要求您输入验证码。', '不能儲存頁面，因伺服器要求您輸入驗證碼。')
 				);
 			} else {
-				ctx.statusElement.error(wgULS('保存页面时由API得到未知错误', '儲存頁面時由API得到未知錯誤'));
+				ctx.statusElement.error(window.wgULS('保存页面时由API得到未知错误', '儲存頁面時由API得到未知錯誤'));
 			}
 			// force error to stay on the screen
 			++Morebits.wiki.numberOfActionsLeft;
@@ -3877,11 +3888,11 @@
 				};
 
 				const purgeApi = new Morebits.wiki.api(
-					wgULS('检测到编辑冲突，正在更新服务器缓存', '檢測到編輯衝突，正在更新伺服器快取'),
+					window.wgULS('检测到编辑冲突，正在更新服务器缓存', '檢測到編輯衝突，正在更新伺服器快取'),
 					purgeQuery,
 					() => {
 						--Morebits.wiki.numberOfActionsLeft; // allow for normal completion if retry succeeds
-						ctx.statusElement.info(wgULS('检测到编辑冲突，重试修改', '檢測到編輯衝突，重試修改'));
+						ctx.statusElement.info(window.wgULS('检测到编辑冲突，重试修改', '檢測到編輯衝突，重試修改'));
 						if (fnCanUseMwUserToken('edit')) {
 							ctx.saveApi.post(); // necessarily append, prepend, or newSection, so this should work as desired
 						} else {
@@ -3894,7 +3905,7 @@
 				// check for network or server error
 			} else if ((errorCode === null || errorCode === undefined) && ctx.retries++ < ctx.maxRetries) {
 				// the error might be transient, so try again
-				ctx.statusElement.info(wgULS('保存失败，在2秒后重试……', '儲存失敗，在2秒後重試……'));
+				ctx.statusElement.info(window.wgULS('保存失败，在2秒后重试……', '儲存失敗，在2秒後重試……'));
 				--Morebits.wiki.numberOfActionsLeft; // allow for normal completion if retry succeeds
 				// wait for sometime for client to regain connectivity
 				sleep(2000).then(() => {
@@ -3910,13 +3921,13 @@
 				switch (errorCode) {
 					case 'protectedpage':
 						// non-admin attempting to edit a protected page - this gives a friendlier message than the default
-						ctx.statusElement.error(wgULS('不能保存修改：页面被保护', '不能儲存修改：頁面被保護'));
+						ctx.statusElement.error(window.wgULS('不能保存修改：页面被保护', '不能儲存修改：頁面被保護'));
 						break;
 					case 'abusefilter-disallowed':
 						ctx.statusElement.error(
-							wgULS('编辑被防滥用过滤器规则“', '編輯被防濫用過濾器規則「') +
+							window.wgULS('编辑被防滥用过滤器规则“', '編輯被防濫用過濾器規則「') +
 								errorData.abusefilter.description +
-								wgULS(
+								window.wgULS(
 									'”阻止。若您认为您的该次编辑是有意义的，请至 Wikipedia:防滥用过滤器/错误报告 提报。',
 									'」阻止。若您認為您的該次編輯是有意義的，請至 Wikipedia:防濫用過濾器/錯誤報告 提報。'
 								)
@@ -3924,9 +3935,9 @@
 						break;
 					case 'abusefilter-warning':
 						ctx.statusElement.error([
-							wgULS('编辑被防滥用过滤器规则“', '編輯被防濫用過濾器規則「'),
+							window.wgULS('编辑被防滥用过滤器规则“', '編輯被防濫用過濾器規則「'),
 							errorData.abusefilter.description,
-							wgULS(
+							window.wgULS(
 								'”警告，若您仍希望做出该编辑，请尝试重新提交，根据过滤器的设置您可能可以作出此编辑。',
 								'」警告，若您仍希望做出該編輯，請嘗試重新提交，根據過濾器的設定您可能可以作出此編輯。'
 							),
@@ -3938,14 +3949,16 @@
 						// If multiple items are blacklisted, we only return the first
 						const [spam] = errorData.spamblacklist.matches;
 						ctx.statusElement.error(
-							wgULS('不能保存页面，因URL ', '不能儲存頁面，因URL ') +
+							window.wgULS('不能保存页面，因URL ', '不能儲存頁面，因URL ') +
 								spam +
-								wgULS(' 在垃圾链接黑名单中。', ' 在垃圾連結黑名單中。')
+								window.wgULS(' 在垃圾链接黑名单中。', ' 在垃圾連結黑名單中。')
 						);
 						break;
 					}
 					default:
-						ctx.statusElement.error(wgULS('不能保存修改：', '不能儲存修改：') + ctx.saveApi.getErrorText());
+						ctx.statusElement.error(
+							window.wgULS('不能保存修改：', '不能儲存修改：') + ctx.saveApi.getErrorText()
+						);
 				}
 				ctx.editMode = 'all'; // cancel append/prepend/newSection/revert modes
 				if (ctx.onSaveFailure) {
@@ -3972,7 +3985,9 @@
 			const rev = response.pages[0].revisions && response.pages[0].revisions[0];
 			if (!rev) {
 				ctx.statusElement.error(
-					wgULS('无法找到', '無法找到') + ctx.pageName + window.wgULS('的任何修订版本', '的任何修訂版本')
+					window.wgULS('无法找到', '無法找到') +
+						ctx.pageName +
+						window.wgULS('的任何修订版本', '的任何修訂版本')
 				);
 				ctx.onLookupCreationFailure(this);
 				return;
@@ -3980,23 +3995,23 @@
 			if (!ctx.lookupNonRedirectCreator || !isTextRedirect(rev.content)) {
 				ctx.creator = rev.user;
 				if (!ctx.creator) {
-					ctx.statusElement.error(wgULS('无法获取页面创建者的名字', '無法取得頁面建立者的名字'));
+					ctx.statusElement.error(window.wgULS('无法获取页面创建者的名字', '無法取得頁面建立者的名字'));
 					ctx.onLookupCreationFailure(this);
 					return;
 				}
 				ctx.timestamp = rev.timestamp;
 				if (!ctx.timestamp) {
-					ctx.statusElement.error(wgULS('无法获取页面创建时间', '無法取得頁面建立時間'));
+					ctx.statusElement.error(window.wgULS('无法获取页面创建时间', '無法取得頁面建立時間'));
 					ctx.onLookupCreationFailure(this);
 					return;
 				}
-				ctx.statusElement.info(wgULS('已获取页面创建信息', '已取得頁面建立資訊'));
+				ctx.statusElement.info(window.wgULS('已获取页面创建信息', '已取得頁面建立資訊'));
 				ctx.onLookupCreationSuccess(this);
 			} else {
 				ctx.lookupCreationApi.query.rvlimit = 50; // modify previous query to fetch more revisions
 				ctx.lookupCreationApi.query.titles = ctx.pageName; // update pageName if redirect resolution took place in earlier query
 				ctx.lookupCreationApi = new Morebits.wiki.api(
-					wgULS('获取页面创建信息', '取得頁面建立資訊'),
+					window.wgULS('获取页面创建信息', '取得頁面建立資訊'),
 					ctx.lookupCreationApi.query,
 					fnLookupNonRedirectCreator,
 					ctx.statusElement,
@@ -4021,17 +4036,17 @@
 				ctx.creator = revs[0].user;
 				ctx.timestamp = revs[0].timestamp;
 				if (!ctx.creator) {
-					ctx.statusElement.error(wgULS('无法获取页面创建者的名字', '無法取得頁面建立者的名字'));
+					ctx.statusElement.error(window.wgULS('无法获取页面创建者的名字', '無法取得頁面建立者的名字'));
 					ctx.onLookupCreationFailure(this);
 					return;
 				}
 			}
 			if (!ctx.timestamp) {
-				ctx.statusElement.error(wgULS('无法获取页面创建时间', '無法取得頁面建立時間'));
+				ctx.statusElement.error(window.wgULS('无法获取页面创建时间', '無法取得頁面建立時間'));
 				ctx.onLookupCreationFailure(this);
 				return;
 			}
-			ctx.statusElement.info(wgULS('已获取页面创建信息', '已取得頁面建立資訊'));
+			ctx.statusElement.info(window.wgULS('已获取页面创建信息', '已取得頁面建立資訊'));
 			ctx.onLookupCreationSuccess(this);
 		};
 		/**
@@ -4046,9 +4061,9 @@
 			// if a non-admin tries to do this, don't bother
 			if (!Morebits.userIsSysop && action !== 'move') {
 				ctx.statusElement.error(
-					wgULS('无法对页面进行“', '無法對頁面進行「') +
+					window.wgULS('无法对页面进行“', '無法對頁面進行「') +
 						action +
-						wgULS('”操作：只有管理员可以进行此操作', '」操作：只有管理員可以進行此操作')
+						window.wgULS('”操作：只有管理员可以进行此操作', '」操作：只有管理員可以進行此操作')
 				);
 				onFailure(this);
 				return false;
@@ -4078,9 +4093,9 @@
 			if (actionMissing || protectMissing || saltMissing) {
 				ctx.statusElement.error(
 					`${
-						wgULS('无法对页面进行“', '無法對頁面進行「') +
+						window.wgULS('无法对页面进行“', '無法對頁面進行「') +
 						action +
-						wgULS('”操作，因为页面', '」操作，因為頁面') +
+						window.wgULS('”操作，因为页面', '」操作，因為頁面') +
 						(missing ? '已不' : window.wgULS('已经', '已經'))
 					}存在`
 				);
@@ -4107,29 +4122,29 @@
 				editprot &&
 				!ctx.suppressProtectWarning &&
 				!confirm(
-					wgULS('您即将对全保护页面“', '您即將對全保護頁面「') +
+					window.wgULS('您即将对全保护页面“', '您即將對全保護頁面「') +
 						ctx.pageName +
 						(editprot.expiry === 'infinity'
 							? window.wgULS('”（永久）', '」（永久）')
 							: `${
-									wgULS('”（到期：', '」（到期：') +
+									window.wgULS('”（到期：', '」（到期：') +
 									new Morebits.date(editprot.expiry).calendar('utc')
 								} (UTC)）`) +
-						wgULS('”进行“', '」進行「') +
+						window.wgULS('”进行“', '」進行「') +
 						action +
-						wgULS('”操作', '」操作') +
-						wgULS(
+						window.wgULS('”操作', '」操作') +
+						window.wgULS(
 							'。\n\n单击确定以继续操作，或单击取消以取消操作。',
 							'。\n\n點擊確定以繼續操作，或點擊取消以取消操作。'
 						)
 				)
 			) {
-				ctx.statusElement.error(wgULS('已取消对全保护页面的操作。', '已取消對全保護頁面的操作。'));
+				ctx.statusElement.error(window.wgULS('已取消对全保护页面的操作。', '已取消對全保護頁面的操作。'));
 				onFailure(this);
 				return false;
 			}
 			if (!response.tokens.csrftoken) {
-				ctx.statusElement.error(wgULS('无法获取令牌。', '無法取得權杖。'));
+				ctx.statusElement.error(window.wgULS('无法获取令牌。', '無法取得權杖。'));
 				onFailure(this);
 				return false;
 			}
@@ -4178,7 +4193,7 @@
 				query.noredirect = 'true';
 			}
 			ctx.moveProcessApi = new Morebits.wiki.api(
-				wgULS('移动页面……', '移動頁面……'),
+				window.wgULS('移动页面……', '移動頁面……'),
 				query,
 				ctx.onMoveSuccess,
 				ctx.statusElement,
@@ -4216,8 +4231,13 @@
 			if (ctx.changeTags) {
 				query.tags = ctx.changeTags;
 			}
-			const patrolStat = new Morebits.status(wgULS('标记页面为已巡查', '標記頁面為已巡查'));
-			ctx.patrolProcessApi = new Morebits.wiki.api(wgULS('巡查页面……', '巡查頁面……'), query, null, patrolStat);
+			const patrolStat = new Morebits.status(window.wgULS('标记页面为已巡查', '標記頁面為已巡查'));
+			ctx.patrolProcessApi = new Morebits.wiki.api(
+				window.wgULS('巡查页面……', '巡查頁面……'),
+				query,
+				null,
+				patrolStat
+			);
 			ctx.patrolProcessApi.setParent(this);
 			ctx.patrolProcessApi.post();
 		};
@@ -4253,7 +4273,7 @@
 				query.watchlistexpiry = ctx.watchlistExpiry;
 			}
 			ctx.deleteProcessApi = new Morebits.wiki.api(
-				wgULS('删除页面……', '刪除頁面……'),
+				window.wgULS('删除页面……', '刪除頁面……'),
 				query,
 				ctx.onDeleteSuccess,
 				ctx.statusElement,
@@ -4267,18 +4287,18 @@
 			const errorCode = ctx.deleteProcessApi.getErrorCode();
 			// check for "Database query error"
 			if (errorCode === 'internal_api_error_DBQueryError' && ctx.retries++ < ctx.maxRetries) {
-				ctx.statusElement.info(wgULS('数据库查询错误，重试', '資料庫查詢錯誤，重試'));
+				ctx.statusElement.info(window.wgULS('数据库查询错误，重试', '資料庫查詢錯誤，重試'));
 				--Morebits.wiki.numberOfActionsLeft; // allow for normal completion if retry succeeds
 				ctx.deleteProcessApi.post(); // give it another go!
 			} else if (errorCode === 'missingtitle') {
-				ctx.statusElement.error(wgULS('不能删除页面，因其已不存在', '不能刪除頁面，因其已不存在'));
+				ctx.statusElement.error(window.wgULS('不能删除页面，因其已不存在', '不能刪除頁面，因其已不存在'));
 				if (ctx.onDeleteFailure) {
 					ctx.onDeleteFailure.call(this, ctx.deleteProcessApi); // invoke callback
 				}
 				// hard error, give up
 			} else {
 				ctx.statusElement.error(
-					wgULS('无法删除页面：', '無法刪除頁面：') + ctx.deleteProcessApi.getErrorText()
+					window.wgULS('无法删除页面：', '無法刪除頁面：') + ctx.deleteProcessApi.getErrorText()
 				);
 				if (ctx.onDeleteFailure) {
 					ctx.onDeleteFailure.call(this, ctx.deleteProcessApi); // invoke callback
@@ -4318,7 +4338,7 @@
 				query.watchlistexpiry = ctx.watchlistExpiry;
 			}
 			ctx.undeleteProcessApi = new Morebits.wiki.api(
-				wgULS('还原页面……', '還原頁面……'),
+				window.wgULS('还原页面……', '還原頁面……'),
 				query,
 				ctx.onUndeleteSuccess,
 				ctx.statusElement,
@@ -4333,12 +4353,15 @@
 			// check for "Database query error"
 			if (errorCode === 'internal_api_error_DBQueryError') {
 				if (ctx.retries++ < ctx.maxRetries) {
-					ctx.statusElement.info(wgULS('数据库查询错误，重试', '資料庫查詢錯誤，重試'));
+					ctx.statusElement.info(window.wgULS('数据库查询错误，重试', '資料庫查詢錯誤，重試'));
 					--Morebits.wiki.numberOfActionsLeft; // allow for normal completion if retry succeeds
 					ctx.undeleteProcessApi.post(); // give it another go!
 				} else {
 					ctx.statusElement.error(
-						wgULS('持续的数据库查询错误，重新加载页面并重试', '持續的資料庫查詢錯誤，重新載入頁面並重試')
+						window.wgULS(
+							'持续的数据库查询错误，重新加载页面并重试',
+							'持續的資料庫查詢錯誤，重新載入頁面並重試'
+						)
 					);
 					if (ctx.onUndeleteFailure) {
 						ctx.onUndeleteFailure.call(this, ctx.undeleteProcessApi); // invoke callback
@@ -4346,7 +4369,7 @@
 				}
 			} else if (errorCode === 'cantundelete') {
 				ctx.statusElement.error(
-					wgULS(
+					window.wgULS(
 						'无法还原删除页面，因没有版本供还原或已被还原',
 						'無法還原刪除頁面，因沒有版本供還原或已被還原'
 					)
@@ -4357,7 +4380,7 @@
 				// hard error, give up
 			} else {
 				ctx.statusElement.error(
-					wgULS('无法还原页面：', '無法還原頁面：') + ctx.undeleteProcessApi.getErrorText()
+					window.wgULS('无法还原页面：', '無法還原頁面：') + ctx.undeleteProcessApi.getErrorText()
 				);
 				if (ctx.onUndeleteFailure) {
 					ctx.onUndeleteFailure.call(this, ctx.undeleteProcessApi); // invoke callback
@@ -4426,17 +4449,20 @@
 						!ctx.protectMove ||
 						ctx.protectMove.level !== 'sysop') &&
 					!confirm(
-						wgULS('您已对“', '您已對「') +
+						window.wgULS('您已对“', '您已對「') +
 							ctx.pageName +
-							wgULS('”启用了连锁保护', '」啟用了連鎖保護') +
-							wgULS('，但没有设置仅管理员的保护级别。\n\n', '，但沒有設定僅管理員的保護級別。\n\n') +
-							wgULS(
+							window.wgULS('”启用了连锁保护', '」啟用了連鎖保護') +
+							window.wgULS(
+								'，但没有设置仅管理员的保护级别。\n\n',
+								'，但沒有設定僅管理員的保護級別。\n\n'
+							) +
+							window.wgULS(
 								'单击确认以自动调整并继续连锁全保护，单击取消以跳过此操作',
 								'點擊確認以自動調整並繼續連鎖全保護，點擊取消以跳過此操作'
 							)
 					)
 				) {
-					ctx.statusElement.error(wgULS('连锁保护已取消。', '連鎖保護已取消。'));
+					ctx.statusElement.error(window.wgULS('连锁保护已取消。', '連鎖保護已取消。'));
 					ctx.onProtectFailure(this);
 					return;
 				}
@@ -4479,7 +4505,7 @@
 				query.cascade = 'true';
 			}
 			ctx.protectProcessApi = new Morebits.wiki.api(
-				wgULS('保护页面……', '保護頁面……'),
+				window.wgULS('保护页面……', '保護頁面……'),
 				query,
 				ctx.onProtectSuccess,
 				ctx.statusElement,
@@ -4550,10 +4576,10 @@
 				query.sectiontitle = sectionTitle;
 			}
 			const renderApi = new Morebits.wiki.api(
-				wgULS('加载中……', '載入中……'),
+				window.wgULS('加载中……', '載入中……'),
 				query,
 				fnRenderSuccess,
-				new Morebits.status(wgULS('预览', '預覽'))
+				new Morebits.status(window.wgULS('预览', '預覽'))
 			);
 			renderApi.post();
 		};
@@ -4561,7 +4587,7 @@
 			const response = apiobj.getResponse();
 			const html = response.parse.text;
 			if (!html) {
-				apiobj.statelem.error(wgULS('加载预览失败，或模板为空', '載入預覽失敗，或模板為空'));
+				apiobj.statelem.error(window.wgULS('加载预览失败，或模板为空', '載入預覽失敗，或模板為空'));
 				return;
 			}
 			previewbox.innerHTML = html;
@@ -4921,7 +4947,7 @@
 			}
 			const page = new Morebits.wiki.page(
 				`User:${mw.config.get('wgUserName')}/${logPageName}`,
-				wgULS('将项目加入到用户空间日志', '將項目加入到使用者空間日誌')
+				window.wgULS('将项目加入到用户空间日志', '將項目加入到使用者空間日誌')
 			); // make this '... to ' + logPageName ?
 			page.load((pageobj) => {
 				// add blurb if log page doesn't exist or is blank
@@ -5310,7 +5336,7 @@
 		 */
 		this.run = (worker, postFinish) => {
 			if (ctx.running) {
-				ctx.statusElement.error(wgULS('批量操作已在运行', '批次操作已在執行'));
+				ctx.statusElement.error(window.wgULS('批量操作已在运行', '批次操作已在執行'));
 				return;
 			}
 			ctx.running = true;
@@ -5323,7 +5349,7 @@
 			ctx.pageChunks = [];
 			const total = ctx.pageList.length;
 			if (!total) {
-				ctx.statusElement.info(wgULS('没有指定页面', '沒有指定頁面'));
+				ctx.statusElement.info(window.wgULS('没有指定页面', '沒有指定頁面'));
 				ctx.running = false;
 				if (ctx.postFinish) {
 					ctx.postFinish();
@@ -5416,7 +5442,7 @@
 				// ctx.countFinished > total
 				// just for giggles! (well, serious debugging, actually)
 				ctx.statusElement.warn(
-					`${wgULS('完成（多执行了', '完成（多執行了') + (ctx.countFinished - total)}次）`
+					`${window.wgULS('完成（多执行了', '完成（多執行了') + (ctx.countFinished - total)}次）`
 				);
 				Morebits.wiki.removeCheckpoint();
 				ctx.running = false;

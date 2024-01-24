@@ -18,16 +18,16 @@
 		}
 		Twinkle.addPortletLink(
 			Twinkle.batchundelete.callback,
-			wgULS('批复', '批復'),
+			window.wgULS('批复', '批復'),
 			'tw-batch-undel',
-			wgULS('反删除页面', '反刪除頁面')
+			window.wgULS('反删除页面', '反刪除頁面')
 		);
 	};
 	Twinkle.batchundelete.callback = () => {
 		const Window = new Morebits.simpleWindow(600, 400);
 		Window.setScriptName('Twinkle');
-		Window.setTitle(wgULS('批量反删除', '批次反刪除'));
-		Window.addFooterLink(wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#batchundelete');
+		Window.setTitle(window.wgULS('批量反删除', '批次反刪除'));
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#batchundelete');
 		const form = new Morebits.quickForm(Twinkle.batchundelete.callback.evaluate);
 		form.append({
 			type: 'checkbox',
@@ -59,9 +59,9 @@
 			titles: mw.config.get('wgPageName'),
 			gpllimit: Twinkle.getPref('batchMax'),
 		};
-		const statelem = new Morebits.status(wgULS('抓取页面列表', '抓取頁面列表'));
+		const statelem = new Morebits.status(window.wgULS('抓取页面列表', '抓取頁面列表'));
 		const qiuwen_api = new Morebits.wiki.api(
-			wgULS('加载中…', '載入中…'),
+			window.wgULS('加载中…', '載入中…'),
 			query,
 			(apiobj) => {
 				const xml = apiobj.responseXML;
@@ -76,12 +76,12 @@
 						label:
 							title +
 							(isProtected
-								? `（${wgULS('全保护，', '全保護，')}${
+								? `（${window.wgULS('全保护，', '全保護，')}${
 										$editprot.attr('expiry') === 'infinity'
 											? window.wgULS('无限期', '無限期')
 											: `${new Morebits.date($editprot.attr('expiry')).calendar(
 													'utc'
-												)} (UTC)${wgULS('过期', '過期')}`
+												)} (UTC)${window.wgULS('过期', '過期')}`
 									}）`
 								: ''),
 						value: title,
@@ -135,9 +135,9 @@
 		if (
 			numProtected > 0 &&
 			!confirm(
-				wgULS('您正要反删除 ', '您正要反刪除 ') +
+				window.wgULS('您正要反删除 ', '您正要反刪除 ') +
 					numProtected +
-					wgULS(' 个全保护页面，您确定吗？', ' 個全保護頁面，您確定嗎？')
+					window.wgULS(' 个全保护页面，您确定吗？', ' 個全保護頁面，您確定嗎？')
 			)
 		) {
 			return;
@@ -156,12 +156,12 @@
 		Morebits.status.init(event.target);
 		if (!pages) {
 			Morebits.status.error(
-				wgULS('错误', '錯誤'),
-				wgULS('没什么要反删除的，取消操作', '沒什麼要反刪除的，取消操作')
+				window.wgULS('错误', '錯誤'),
+				window.wgULS('没什么要反删除的，取消操作', '沒什麼要反刪除的，取消操作')
 			);
 			return;
 		}
-		const pageUndeleter = new Morebits.batchOperation(wgULS('反删除页面', '反刪除頁面'));
+		const pageUndeleter = new Morebits.batchOperation(window.wgULS('反删除页面', '反刪除頁面'));
 		pageUndeleter.setOption('chunkSize', Twinkle.getPref('batchChunks'));
 		pageUndeleter.setOption('preserveIndividualStatusLines', true);
 		pageUndeleter.setPageList(pages);
@@ -204,7 +204,7 @@
 						titles: talkpagename,
 					};
 					qiuwen_api = new Morebits.wiki.api(
-						wgULS('检查讨论页的已删版本', '檢查討論頁的已刪版本'),
+						window.wgULS('检查讨论页的已删版本', '檢查討論頁的已刪版本'),
 						query,
 						Twinkle.batchundelete.callbacks.undeleteTalk
 					);
@@ -224,12 +224,12 @@
 			}
 			const page = new Morebits.wiki.page(
 				apiobj.params.talkPage,
-				wgULS('正在反删除', '正在反刪除') + apiobj.params.page + window.wgULS('的讨论页', '的討論頁')
+				window.wgULS('正在反删除', '正在反刪除') + apiobj.params.page + window.wgULS('的讨论页', '的討論頁')
 			);
 			page.setEditSummary(
-				wgULS('反删除“', '反刪除「') +
+				window.wgULS('反删除“', '反刪除「') +
 					apiobj.params.page +
-					wgULS('”的[[Help:讨论页|讨论页]]', '」的[[Help:討論頁|討論頁]]')
+					window.wgULS('”的[[Help:讨论页|讨论页]]', '」的[[Help:討論頁|討論頁]]')
 			);
 			page.setChangeTags(Twinkle.changeTags);
 			page.undeletePage();

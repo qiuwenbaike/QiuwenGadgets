@@ -460,7 +460,7 @@ import {WG_WIKI_ID} from './constant';
 	mw.loader
 		.getScript(scripturl)
 		.fail(() => {
-			mw.notify(wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
+			mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
 				type: 'error',
 				tag: 'twinkle',
 			});
