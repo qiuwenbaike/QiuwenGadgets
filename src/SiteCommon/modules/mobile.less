@@ -46,6 +46,27 @@
 			max-width: 92.5%;
 			height: auto;
 		}
+
+		figure {
+			max-width: 92.5%;
+			box-sizing: border-box;
+			border: 0;
+			margin: 0 auto;
+			background-color: transparent;
+
+			img {
+				max-width: 92.5%;
+				height: auto;
+			}
+
+			&[typeof~='mw:File/Thumb'] > a.mw-file-description::after {
+				display: none;
+			}
+		}
+
+		figcaption {
+			text-align: center;
+		}
 	}
 
 	#firstHeading .mw-editsection,
