@@ -78,7 +78,7 @@
 * select2[ResourceLoader|dependencies=jquery|hidden|requiresES6]|select2.js|select2.css
 * SiteCommon[ResourceLoader|default|hidden|requiresES6]|SiteCommon.css
 * SiteCommon_JS[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Tippy,mediawiki.Title,mediawiki.util|hidden|peers=SiteCommon|requiresES6]|SiteCommon_JS.js
-* SpecialWikitext[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|hidden|requiresES6]|SpecialWikitext.js
+* SpecialWikitext[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.api,mediawiki.util|hidden|requiresES6]|SpecialWikitext.js
 * Switcher[ResourceLoader|default|hidden|requiresES6]|Switcher.js
 * Tippy[ResourceLoader|hidden|requiresES6]|Tippy.js|Tippy.css
 * Toastify[ResourceLoader|hidden|requiresES6]|Toastify.js|Toastify.css

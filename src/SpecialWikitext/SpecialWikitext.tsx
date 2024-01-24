@@ -1,3 +1,4 @@
+import React from 'ext.gadget.React';
 import {initMwApi} from 'ext.gadget.Util';
 
 /* 跟[[Module:Special wikitext]]保持一致的段落。 */
@@ -86,15 +87,14 @@ const luaGetObjText = (str: string): string => {
 // 分析CSS中符合条件的wikitext
 const luaGetCSSwikitext = (inputStr: string): string => {
 	let wikitext: string = '';
-	const $body: JQuery<HTMLBodyElement> = $('body');
-	const cssText: string = inputStr || $body.find('#wpTextbox1').val()?.toString() || '';
+	const cssText: string = inputStr || (document.querySelector('#wpTextbox1') as HTMLTextAreaElement)?.value || '';
 	if (!cssText.trim()) {
 		return '';
 	}
 	// 匹配 ＿addText { content："XXX" } 模式
-	wikitext = luaAddText(wikitext, luaGetContentText(cssText.toString()), true);
+	wikitext = luaAddText(wikitext, luaGetContentText(cssText), true);
 	// 同时亦匹配 /* ＿addText：XXX */ 模式
-	wikitext = luaAddText(wikitext, luaGetObjText(cssText.toString()), true);
+	wikitext = luaAddText(wikitext, luaGetObjText(cssText), true);
 	return wikitext;
 };
 
@@ -113,27 +113,26 @@ const luaGetJSwikitext = (inputStr: string): string => {
 // 分析JSON中符合条件的wikitext
 const luaGetJSONwikitext = (inputStr: string): string => {
 	let wikitext: string = '';
-	const $body: JQuery<HTMLBodyElement> = $('body');
-	const JSONText: string = inputStr || $body.find('#wpTextbox1').val()?.toString() || '';
+	const JSONText: string = inputStr || (document.querySelector('#wpTextbox1') as HTMLTextAreaElement)?.value || '';
 	if (!JSONText.trim()) {
 		return '';
 	}
 	try {
 		const jsonData = JSON.parse(JSONText.toString());
-		for (const key of Object.keys(jsonData)) {
+		for (const key of Object.keys(jsonData as object)) {
 			const v = jsonData[key];
 			if (new RegExp(wikiTextKey).test(key) && typeof v === typeof '') {
-				wikitext = luaAddText(wikitext, v);
+				wikitext = luaAddText(wikitext, v as string);
 			}
 			// 若是数组对象会多包一层
 			if (typeof v !== typeof '') {
 				for (const prop in v) {
-					if (!Object.hasOwn(v, prop)) {
+					if (!Object.hasOwn(v as object, prop)) {
 						continue;
 					}
 					const testArrV = v[prop];
 					if (new RegExp(wikiTextKey).test(prop) && typeof testArrV === typeof '') {
-						wikitext = luaAddText(wikitext, testArrV);
+						wikitext = luaAddText(wikitext, testArrV as string);
 					}
 				}
 			}
@@ -147,22 +146,23 @@ const luaGetJSONwikitext = (inputStr: string): string => {
 // 判断是否为Lua
 const luaCheck = (inputStr?: string, contentModel?: string): string => {
 	// 使用页面内容模型来判断格式
-	const contentModelToLowerCase = (contentModel || mw.config.get('wgPageContentModel')).toString().toLowerCase();
-	const inputStr_: string = inputStr || '';
+	contentModel ||= mw.config.get('wgPageContentModel');
+	const contentModelToLowerCase = contentModel.toString().toLowerCase();
+	inputStr ||= '';
 	// 根据文档格式选用适当的解析模式
 	switch (contentModelToLowerCase) {
 		case 'json':
-			return luaGetJSONwikitext(inputStr_);
+			return luaGetJSONwikitext(inputStr);
 		case 'js':
 		case 'javascript':
 		case 'text':
-			return luaGetJSwikitext(inputStr_);
+			return luaGetJSwikitext(inputStr);
 		case 'css':
 		case 'sanitized-css':
-			return luaGetCSSwikitext(inputStr_);
+			return luaGetCSSwikitext(inputStr);
+		// 若不是json、js、css则返回空字符串
 		default:
 			return '';
-		// 若不是json、js、css则返回空字符串
 	}
 };
 // 本行以上的算法请跟[[Module:Special wikitext]]保持一致。
@@ -172,24 +172,53 @@ const previewTool = (): void => {
 	// 各类提示文字
 	const api: mw.Api = initMwApi('SpecialWikitext/1.1');
 	const $noticeAddText: string = '{{Special_wikitext/notice}}';
-	// {{Quote box |quote  = -{zh-hans:预览加载中;zh-hant:預覽載入中;}-... |width  = 50% |align  = center}}
-	const $noticeLoading: string = `<div id="mw-_addText-preview-loading"><div class="quotebox" style="margin:auto;padding:6px;width:50%;border:1px solid #aaa;background:#f9f9f9;font-size:88%"><div id="mw-_addText-preview-loading-content" style="background:#f9f9f9;color:#000;text-align:center;font-size:larger"><img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" decoding="async" data-file-width="32" data-file-height="32" width="32" height="32"> ${window.wgULS(
-		'预览加载中',
-		'預覽載入中'
-	)}...</div></div></div>`;
+	// {{Quote box |quote  = -{zh-hans:预览加载中;zh-hant:預覽載入中;}-…… |width  = 50% |align  = center}}
+	const noticeLoading = (
+		<div id="mw-_addText-preview-loading">
+			<div
+				class="quotebox"
+				style="margin:auto;padding:6px;width:50%;border:1px solid #aaa;background:#f9f9f9;font-size:88%"
+			>
+				<div
+					id="mw-_addText-preview-loading-content"
+					style="background:#f9f9f9;color:#000;text-align:center;font-size:larger"
+				>
+					<img
+						src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif"
+						decoding="async"
+						data-file-width="32"
+						data-file-height="32"
+						width="32"
+						height="32"
+					/>
+					{window.wgULS('预览加载中……', '預覽載入中……')}
+				</div>
+			</div>
+		</div>
+	);
 	// [[File:Gnome-dialog-warning2.svg|32px]]
 	// -{zh-hans:预览加载失败;zh-hant:預覽載入失败;}-
-	const $noticeFail: string = `<img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/8/8f/Alert_Mark_%28Orange%29.svg/48px-Alert_Mark_%28Orange%29.svg.png" decoding="async" data-file-width="48" data-file-height="48" width="32" height="32">${window.wgULS(
-		'预览加载失败',
-		'預覽載入失败'
-	)}`;
+	const noticeFail = (
+		<>
+			<img
+				src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/8/8f/Alert_Mark_%28Orange%29.svg/48px-Alert_Mark_%28Orange%29.svg.png"
+				decoding="async"
+				data-file-width="48"
+				data-file-height="48"
+				width="32"
+				height="32"
+			/>{' '}
+			{window.wgULS('预览加载失败', '預覽載入失败')}
+		</>
+	);
 
 	// 检查对应selector的网页对象是否存在
 	const $elementExist = (selectors: string | string[]) => {
 		const selectorArray: string[] = Array.isArray(selectors) ? selectors : selectors ? [selectors] : [];
 		let eleCount: number = 0;
+		const $body = $('body');
 		for (const selector of selectorArray) {
-			const $selector: JQuery = $(selector);
+			const $selector: JQuery = $body.find(selector);
 			eleCount += $selector.length;
 		}
 		return eleCount > 0;
@@ -215,42 +244,42 @@ const previewTool = (): void => {
 	};
 
 	// 将解析后的wikitext加入页面中
-	const addParsedWikitext = (parsedWikitext: string): void => {
-		const $htmlObj: JQuery = $(parsedWikitext);
+	const addParsedWikitext = (parsedWikitext: string | HTMLElement): void => {
+		const $htmlObj = $().html(parsedWikitext);
+		const $body = $('body');
 		if ($elementExist('#mw-_addText-preview-loading')) {
-			const $body: JQuery<HTMLBodyElement> = $('body');
 			const $element: JQuery = $body.find('#mw-_addText-preview-loading');
 			$element.html(parsedWikitext);
 			mw.hook('wikipage.content').fire($element);
 		} else if ($elementExist('.diff-currentversion-title')) {
-			$htmlObj.insertAfter('.diff-currentversion-title');
+			$body.find('.diff-currentversion-title').append($htmlObj);
 		} else if ($elementExist('.previewnote')) {
-			$htmlObj.insertAfter('.previewnote');
+			$body.find('.previewnote').append($htmlObj);
 		} else if ($elementExist('.mw-undelete-revision')) {
-			$htmlObj.insertAfter('.mw-undelete-revision');
+			$body.find('.mw-undelete-revision').append($htmlObj);
 		} else if ($elementExist('#mw-content-text')) {
-			$htmlObj.insertBefore('#mw-content-text');
+			$body.find('#mw-content-text').append($htmlObj);
 		}
 		mw.hook('wikipage.content').fire($htmlObj);
 	};
 
 	// 若网页对象存在，则改动其html内容
-	const setHtml = (selector: string, $htmlContent: string): void => {
+	const setHtml = (selector: string, htmlContent: string | HTMLElement): void => {
 		if ($elementExist(selector)) {
-			$(selector).html($htmlContent);
+			$(selector).html(htmlContent);
 		}
 	};
 
 	// 加入“[载入中]”的提示
 	const addLoadingNotice = (): void => {
-		if ($noticeAddText && $noticeLoading) {
-			addParsedWikitext($noticeLoading);
+		if ($noticeAddText && noticeLoading) {
+			addParsedWikitext(noticeLoading as HTMLElement);
 		}
 	};
 
 	// 载入错误的提示
 	const loadingFailNotice = (): void => {
-		setHtml('#mw-_addText-preview-loading-content', $noticeFail);
+		setHtml('#mw-_addText-preview-loading-content', noticeFail as HTMLElement);
 	};
 
 	// 移除“[载入中]”的提示
@@ -259,9 +288,7 @@ const previewTool = (): void => {
 	};
 
 	// 检查是否有预览的必要性
-	const needPreview = (): boolean => {
-		return document.documentElement.innerHTML.search('_addText') > -1;
-	};
+	const needPreview = (): boolean => document.documentElement.innerHTML.search('_addText') > -1;
 
 	// 加入预览内容
 	const mwAddWikiText = async (wikiText: string, pagename: string, isPreview: boolean) => {
@@ -428,10 +455,9 @@ const previewTool = (): void => {
 		if (!needPreview()) {
 			return;
 		}
-		const $body: JQuery<HTMLBodyElement> = $('body');
-		const $testcaseList: JQuery = $body.find('.special-wikitext-preview-testcase');
+		const testcaseList = document.querySelectorAll('.special-wikitext-preview-testcase');
 		// 若页面中没有Testcase，退出。
-		if ($testcaseList.length <= 0) {
+		if (testcaseList.length <= 0) {
 			return;
 		}
 		// 收集位于页面中的Testcase预览元素
@@ -441,12 +467,12 @@ const previewTool = (): void => {
 			code: string;
 		}[] = [];
 		let i;
-		for (i = 0; i < $testcaseList.length; ++i) {
-			const testcaseItem: HTMLElement | undefined = $testcaseList[i];
+		for (i = 0; i < testcaseList.length; ++i) {
+			const testcaseItem: Element | undefined = testcaseList[i];
 			if (!testcaseItem) {
 				continue;
 			}
-			const codeIt: JQuery = $(testcaseItem).find('.mw-highlight');
+			const codeIt: JQuery = $(testcaseItem as HTMLElement).find('.mw-highlight');
 			if (!codeIt.length) {
 				continue;
 			}
@@ -461,16 +487,16 @@ const previewTool = (): void => {
 
 			const [, codeId] = /mw-highlight-lang-(\S+)/.exec(codeItClass) || [];
 			const loadIndex: number = testcaseDataList.length;
-			$(testcaseItem).attr('preview-id', loadIndex);
+			$(testcaseItem as HTMLElement).attr('preview-id', loadIndex);
 			testcaseDataList.push({
-				element: testcaseItem,
+				element: testcaseItem as HTMLElement,
 				lang: codeId || '',
 				code: codeIt.text().toString(),
 			});
 		}
 
 		// 整理页面中的Testcase预览元素，并放置“[载入中]”消息
-		let packageWikitext: string = '';
+		let packageWikitext = '';
 		for (const [_key, testcaseItem] of Object.entries(testcaseDataList)) {
 			if (testcaseItem.code.trim() === '') {
 				continue;
@@ -480,7 +506,7 @@ const previewTool = (): void => {
 				const addWiki: string = luaCheck(testcaseItem.code, testcaseItem.lang);
 				if (addWiki.toString().trim() !== '' && itemElement) {
 					// 若解析结果非空才放置预览
-					$(itemElement).prepend($noticeLoading);
+					$(itemElement).prepend(noticeLoading);
 					packageWikitext += `<div class="special-wikitext-preview-testcase-${i}">\n${addWiki}\n</div>`;
 				}
 			} else if (['lua', 'scribunto'].includes(testcaseItem.lang.toLowerCase())) {
@@ -488,13 +514,14 @@ const previewTool = (): void => {
 					testcaseItem.code,
 					mw.config.get('wgPageName'),
 					isPreview,
-					(() => {
-						return (wikitext: string): void => {
+					(
+						() =>
+						(wikitext: string): void => {
 							if (itemElement) {
 								$(itemElement).prepend(wikitext);
 							}
-						};
-					})()
+						}
+					)()
 				);
 			}
 		}
@@ -548,23 +575,21 @@ const previewTool = (): void => {
 	// 给页面添加预览
 	const mwAddPreview = (): void => {
 		const currentPageName: string = mw.config.get('wgPageName');
-		const $body: JQuery<HTMLBodyElement> = $('body');
+		const $body = $('body');
 		// 预览模式只适用于以下页面内容模型
 		if (checkMwConfig('wgPageContentModel', ['javascript', 'js', 'json', 'text', 'css', 'sanitized-css'])) {
 			// 模式1：页面预览
 			if ($elementExist('.previewnote')) {
 				// 检查是否为预览模式
 				// 预览有可能是在预览其他条目
-				const $previewSelector: JQuery = $body.find('.previewnote .warningbox > p > b a');
-				if ($previewSelector.length > 0) {
-					const pathPath: string = decodeURI(
-						$previewSelector.attr('href') || mw.util.getUrl(currentPageName)
-					).replace(new RegExp(`^\\/?${mw.util.getUrl('').match(/[a-z]+/)?.[0] ?? ''}\\/`), '');
+				const pathPath: string = decodeURI(mw.util.getUrl(currentPageName)).replace(
+					new RegExp(`^\\/?${mw.util.getUrl('').match(/[a-z]+/)?.[0] ?? ''}\\/`),
+					''
+				);
 
-					// 若预览的页面并非本身，则不显示预览
-					if (pathPath !== currentPageName) {
-						return;
-					}
+				// 若预览的页面并非本身，则不显示预览
+				if (pathPath !== currentPageName) {
+					return;
 				}
 
 				const addWiki: string = luaCheck();
@@ -593,7 +618,7 @@ const previewTool = (): void => {
 				// 有嵌入'#mw-clearyourcache'的页面的历史版本会只能显示最新版的 _addText 因此执行修正
 				if (!$elementExist('#wpTextbox1')) {
 					// 非编辑模式才执行 (预览使用上方的if区块)
-					$body.find('#mw-clearyourcache').html($noticeLoading); // 差异模式(含检阅修订版本删除)的插入点不同
+					$body.find('#mw-clearyourcache').html(noticeLoading); // 差异模式（含检阅修订版本删除）的插入点不同
 					void mwApplyRevision(mw.config.get('wgRevisionId'), currentPageName); // 为了让特定版本正常显示，使用wgRevisionId取得内容
 				}
 			} else {
@@ -610,7 +635,7 @@ const previewTool = (): void => {
 				!$elementExist('.previewnote') &&
 				!checkMwConfig('wgAction', 'view')
 			) {
-				$($noticeLoading).insertAfter('#wikiDiff');
+				$(noticeLoading).insertAfter('#wikiDiff');
 				void mwAddLuaText(($body.find('#wpTextbox1').val() || '').toString(), currentPageName, true);
 			}
 		} else if ($elementExist('.mw-undelete-revision')) {
