@@ -11,7 +11,7 @@ const addOptionsToDropdown = (dropdownWidget: OO.ui.DropdownWidget, summaries: s
 	const menuOptionWidgets: OO.ui.MenuOptionWidget[] = [];
 
 	for (const summary of summaries) {
-		menuOptionWidgets.push(generateMenuOptionWidget(summary));
+		menuOptionWidgets[menuOptionWidgets.length] = generateMenuOptionWidget(summary); // Replace `menuOptionWidgets.push()` to avoid polyfilling core-js
 	}
 
 	dropdownWidget.getMenu().addItems(menuOptionWidgets);

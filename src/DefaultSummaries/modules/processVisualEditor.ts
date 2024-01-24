@@ -11,7 +11,7 @@ const processVisualEditor = (): void => {
 
 	// @ts-expect-error TS2304
 	const {target} = ve.init;
-	// @ts-expect-error OOUI
+	// @ts-expect-error TS2339
 	const {$saveOptions} = target.saveDialog as JQuery;
 	if (!$saveOptions.length) {
 		return;
