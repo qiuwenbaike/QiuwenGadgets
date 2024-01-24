@@ -1,6 +1,6 @@
 declare global {
 	interface Window {
-		readonly DiffLink?: unknown[];
+		readonly DiffLink?: unknown;
 	}
 }
 
