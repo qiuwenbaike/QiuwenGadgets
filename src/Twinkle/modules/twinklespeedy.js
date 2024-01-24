@@ -536,6 +536,7 @@
 				$('<a>')
 					.attr({
 						target: '_blank',
+						rel: 'noopener noreferrer',
 						href: mw.util.getUrl('QW:SPECIALSD'),
 					})
 					.text(window.wgULS('手动放置模板时的注意事项', '手動放置模板時的注意事項'))[0],
