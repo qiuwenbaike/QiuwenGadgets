@@ -152,16 +152,20 @@
 		line-height: 1.75;
 	}
 
-	div.thumbinner {
-		border: 0;
-		background: transparent;
+	figure {
+		&[typeof~='mw:File/Thumb'],
+		&[typeof~='mw:File/Frame'] {
+			border: 0;
+			background: transparent;
+		}
+
+		img {
+			border: 0;
+		}
 	}
 
-	.thumbimage {
-		border: 0;
-	}
-
-	.thumbcaption {
+	.thumbcaption,
+	figcaption {
 		text-align: center;
 	}
 
@@ -245,10 +249,15 @@
 		}
 	}
 
-	&-header-box > *,
-	&-box > div,
-	&-footer-box > div {
-		margin: 0 1vw;
+	&-header-box > div {
+		padding: 1em 1px;
+	}
+
+	&-box,
+	&-footer-box {
+		& > div {
+			padding: 1em 1px 0;
+		}
 	}
 
 	&-top-menu {
@@ -359,10 +368,52 @@
 			}
 		}
 	}
-}
 
-@media screen and (max-width: 1024px) {
-	.mainpage {
+	.guidelist {
+		.mainpage & {
+			ul {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				margin: auto;
+				gap: 0.25em;
+			}
+
+			li {
+				font-size: 1.1em;
+				list-style-type: none;
+				text-align: center;
+
+				&::marker {
+					content: '';
+				}
+			}
+		}
+
+		#mainpage-sisterproject-box & {
+			display: flex;
+			flex-direction: column;
+			gap: 1em;
+
+			&-sisterproject-item {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				gap: 1em;
+			}
+		}
+
+		#mainpage-sns-box & {
+			display: flex;
+			flex-wrap: wrap;
+			place-content: space-around space-evenly;
+			align-items: flex-end;
+			gap: 1em;
+		}
+	}
+
+	@media screen and (max-width: 1024px) {
 		&-header,
 		&-row,
 		&-footer {
@@ -390,74 +441,28 @@
 			}
 		}
 
-		div,
-		table {
-			&.floatleft,
-			&.floatright,
+		figure {
 			&.mw-halign-left,
-			&.mw-halign-right {
-				margin: 1em !important;
+			&.mw-halign-right,
+			&.mw-halign-center {
+				margin: auto;
 				text-align: center;
 			}
 		}
 	}
-}
 
-@media screen and (min-width: 1024px) {
-	.mainpage-header {
-		&-box {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-		}
+	@media screen and (min-width: 1024px) {
+		&-header {
+			&-box {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
 
-		.mainpage-header-bio {
-			width: 100%;
-			margin: 0 auto;
-		}
-	}
-}
-
-.guidelist {
-	.mainpage & {
-		ul {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-			margin: auto;
-			gap: 0.25em;
-		}
-
-		li {
-			font-size: 1.1em;
-			list-style-type: none;
-			text-align: center;
-
-			&::marker {
-				content: '';
+			.mainpage-header-bio {
+				width: 100%;
+				margin: 0 auto;
 			}
 		}
-	}
-
-	#mainpage-sisterproject-box & {
-		display: flex;
-		flex-direction: column;
-		gap: 1em;
-
-		&-sisterproject-item {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-content: center;
-			gap: 1em;
-		}
-	}
-
-	#mainpage-sns-box & {
-		display: flex;
-		flex-wrap: wrap;
-		place-content: space-around space-evenly;
-		align-items: flex-end;
-		gap: 1em;
 	}
 }
