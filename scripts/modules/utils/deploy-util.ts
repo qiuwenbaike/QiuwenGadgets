@@ -11,6 +11,7 @@ import {CONVERT_VARIANT, DEFINITION_SECTION_MAP} from '../../constant';
 import {type Path, globSync} from 'glob';
 import {
 	__rootDir,
+	exec,
 	generateDefinition,
 	processSourceCode,
 	prompt,
@@ -21,13 +22,12 @@ import {
 } from './general-util';
 import {basename, extname, join} from 'node:path';
 import {existsSync, open} from 'node:fs';
+import {exit, stdout} from 'node:process';
 import {MwnError} from 'mwn/build/error';
 import {Window} from 'happy-dom';
 import alphaSort from 'alpha-sort';
 import {apiQueue} from '../deploy';
 import chalk from 'chalk';
-import {execSync} from 'node:child_process';
-import {exit} from 'node:process';
 import {setTimeout} from 'node:timers/promises';
 
 /**
@@ -95,7 +95,7 @@ const generateTargets = (): DeploymentTargets => {
 			files: [],
 		};
 
-		const distFiles: Path[] = globSync([`${gadgetName}/*.{js,css}`], {
+		const distFiles: Path[] = globSync([`${gadgetName}/*.{css,js}`], {
 			cwd: join(__rootDir, 'dist'),
 			withFileTypes: true,
 		});
@@ -109,6 +109,11 @@ const generateTargets = (): DeploymentTargets => {
 				fileBaseName === gadgetName ? fileName : `${gadgetName}-${fileName}`,
 			]);
 		}
+	}
+
+	if (!Object.keys(targets).length) {
+		console.log(chalk.yellow('━ No gadget need to deploy'));
+		return {};
 	}
 
 	return targets;
@@ -147,7 +152,7 @@ const generateDirectTargets = (site: Api['site']): DeploymentDirectTargets => {
 
 	const currentSiteGlobalTargets = globalJsonObject[site] as GlobalJsonObject[keyof GlobalJsonObject];
 	for (const [file, {enable, sourceCode, licenseText}] of Object.entries(currentSiteGlobalTargets)) {
-		if (!enable) {
+		if (enable === false) {
 			continue;
 		}
 
@@ -278,25 +283,25 @@ async function makeEditSummary(): Promise<string>;
 async function makeEditSummary(filePath: string, fallbackEditSummary: string): Promise<string>;
 // eslint-disable-next-line func-style
 async function makeEditSummary(filePath?: string, fallbackEditSummary?: string): Promise<string> {
-	const execLog = (path: string): string => {
+	const execLog = async (path: string): Promise<string> => {
 		try {
-			const log: string = execSync(`git log --pretty=format:"%H %s" -1 -- ${path}`).toString('utf8').trim();
+			const {stdout: _log} = await exec(`git log --pretty=format:"%H %s" -1 -- ${path}`);
+			const log: string = _log.trim();
 			if (!log) {
 				return '';
 			}
 			const logSplit: string[] = log.split(' ');
-			return `Git commit ${execSync(`git rev-parse --short ${logSplit.shift()}`)
-				.toString('utf8')
-				.trim()}: ${logSplit.join(' ')}`;
+			const {stdout: _sha} = await exec(`git rev-parse --short ${logSplit.shift()}`);
+			return `Git commit ${_sha.trim()}: ${logSplit.join(' ')}`;
 		} catch {
 			return '';
 		}
 	};
-	const getLog = (path: string): string => {
+	const getLog = async (path: string): Promise<string> => {
 		if (!existsSync(path)) {
 			return '';
 		}
-		const log: string = execLog(path);
+		const log: string = await execLog(path);
 		if (!log) {
 			return '';
 		}
@@ -308,7 +313,7 @@ async function makeEditSummary(filePath?: string, fallbackEditSummary?: string):
 			return fallbackEditSummary;
 		}
 
-		const log: string = getLog(filePath);
+		const log: string = await getLog(filePath);
 		if (!log) {
 			return fallbackEditSummary;
 		}
@@ -319,8 +324,10 @@ async function makeEditSummary(filePath?: string, fallbackEditSummary?: string):
 	let sha: string = '';
 	let summary: string = '';
 	try {
-		sha = execSync('git rev-parse --short HEAD').toString('utf8').trim();
-		summary = execSync('git log --pretty=format:"%s" HEAD -1').toString('utf8').trim();
+		const {stdout: _sha} = await exec('git rev-parse --short HEAD');
+		sha = _sha.trim();
+		const {stdout: _summary} = await exec('git log --pretty=format:"%s" HEAD -1');
+		summary = _summary.trim();
 	} catch {}
 
 	const customSummary: string = await prompt('> Custom editing summary message (optional):');
@@ -699,7 +706,7 @@ const deleteUnusedPages = async (api: Api, editSummary: string): Promise<void> =
 		return;
 	}
 
-	process.stdout.write(`The following pages will be deleted:\n${needToDeletePages.join('\n')}\n`);
+	stdout.write(`The following pages will be deleted:\n${needToDeletePages.join('\n')}\n`);
 	await prompt('> Confirm to continue deleting?', 'confirm', true);
 
 	console.log(chalk.yellow(`--- [${chalk.bold(site)}] deleting will continue in three seconds ---`));

@@ -1,15 +1,16 @@
 import type {DefaultDefinition, GlobalSourceFiles} from './types';
 import {type Options, format, resolveConfig, resolveConfigFile} from 'prettier';
-import {__rootDir, readFileContent, sortObject, writeFileContent} from './utils/general-util';
+import {__rootDir, exec, readFileContent, sortObject, writeFileContent} from './utils/general-util';
 import {basename, join} from 'node:path';
-import {execSync} from 'node:child_process';
 import {globSync} from 'glob';
 
+type Files = {
+	name: string;
+	fullpath(): string;
+}[];
+
 const formatJSON = async (paths: string[]): Promise<void> => {
-	let files: {
-		name: string;
-		fullpath(): string;
-	}[] = [];
+	let files: Files = [];
 
 	if (paths.length) {
 		for (const path of paths) {
@@ -37,8 +38,8 @@ const formatJSON = async (paths: string[]): Promise<void> => {
 	for (const file of files) {
 		const filePath: string = file.fullpath();
 
-		const fileContent: string = readFileContent(filePath);
-		if (!fileContent) {
+		const fileContent: string = readFileContent(filePath).trim();
+		if (!fileContent || fileContent === '{}') {
 			continue;
 		}
 
@@ -111,7 +112,7 @@ const formatJSON = async (paths: string[]): Promise<void> => {
 				})
 			);
 		} else {
-			execSync(`prettier --write ${filePath}`);
+			await exec(`prettier --write ${filePath}`);
 		}
 	}
 };
