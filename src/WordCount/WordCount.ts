@@ -1,3 +1,4 @@
 import {addListener} from './modules/addListener';
+import {getBody} from 'ext.gadget.Util';
 
-addListener();
+void getBody().then(addListener);
