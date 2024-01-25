@@ -47,7 +47,7 @@
 * ShortURL-pagestyles[ResourceLoader|hidden|requiresES6]|ShortURL-pagestyles.css
 * SmoothTOC[ResourceLoader|default|dependencies=ext.gadget.Util|skins=gongbi,vector,vector-2022|requiresES6]|SmoothTOC.js
 * UTCLiveClock[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|UTCLiveClock.js|UTCLiveClock.css
-* WordCount[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util|requiresES6]|WordCount.js|WordCount.css
+* WordCount[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.React|requiresES6]|WordCount.js|WordCount.css
 
 == compatibility ==
 * AccessKeyCheatsheet[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,oojs-ui-windows|requiresES6]|AccessKeyCheatsheet.js
