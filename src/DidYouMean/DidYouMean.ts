@@ -1,15 +1,15 @@
 import * as OPTIONS from './options.json';
-import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './modules/i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
-void getBody().then(function didYouMean($body: JQuery<HTMLBodyElement>): void {
-	const $element: JQuery = $body.find(OPTIONS.targetSelector);
-	if (!$element.length) {
+(function didYouMean(): void {
+	const elements = document.querySelectorAll(OPTIONS.targetSelector);
+	if (!elements.length) {
 		return;
 	}
 
-	const href: string = $element.attr('href') ?? '';
+	const [element] = elements;
+	const href: string = (element as HTMLAnchorElement)?.href ?? '';
 	if (!href) {
 		return;
 	}
@@ -23,4 +23,4 @@ void getBody().then(function didYouMean($body: JQuery<HTMLBodyElement>): void {
 	);
 
 	location.href = href;
-});
+})();
