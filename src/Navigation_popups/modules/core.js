@@ -1317,7 +1317,7 @@ export const popups = () => {
 			}
 			return this.http.send(x);
 		}
-		/** Aborts the download, setting the <code>aborted</code> field to true.  */
+		/* Aborts the download, setting the <code>aborted</code> field to true. */
 		abort() {
 			if (!this.http) {
 				return null;
