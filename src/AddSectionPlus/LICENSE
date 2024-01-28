@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: GPL-3.0-or-later
- * _addText: '{{Gadget Header|license=GPL-3.0}}'
+ * _addText: '{{Gadget Header|license=GPL-3.0-or-later}}'
  *
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/AddSectionPlus}
  * @author 安忆 <i@anyi.in>

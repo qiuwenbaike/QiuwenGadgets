@@ -11,7 +11,7 @@
 
 /**
  * SPDX-License-Identifier: GPL-3.0-or-later
- * _addText: '{{Gadget Header|title=Wikiplus-highlight|license=GPL-3.0}}'
+ * _addText: '{{Gadget Header|title=Wikiplus-highlight|license=GPL-3.0-or-later}}'
  *
  * Wikiplus-highlight
  *
