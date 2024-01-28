@@ -48,7 +48,7 @@
 				"@typescript-eslint/no-unused-vars": [
 					"warn",
 					{
-						"varsIgnorePattern": "^_|^React$|^require$"
+						"varsIgnorePattern": "^_|^React$"
 					}
 				],
 				"react/no-unknown-property": "off"
