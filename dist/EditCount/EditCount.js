@@ -1,9 +1,10 @@
 /**
- * SPDX-License-Identifier: GPL-3.0
+ * SPDX-License-Identifier: GPL-3.0-or-later
  * _addText: '{{Gadget Header|license=GPL-3.0}}'
  *
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EditCount}
  * @author 安忆 <i@anyi.in>
+ * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
  */
 /**
  * +------------------------------------------------------------+

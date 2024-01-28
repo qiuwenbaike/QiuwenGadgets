@@ -4,6 +4,7 @@
  *
  * @source {@link https://meta.wikimedia.org/wiki/User:Xiplus/js/quick-patrol.js}
  * @base {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/QuickPatrol}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
  * +------------------------------------------------------------+

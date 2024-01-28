@@ -4,6 +4,7 @@
  *
  * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css}
  * @base {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
  * +------------------------------------------------------------+

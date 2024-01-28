@@ -5,6 +5,7 @@
  * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-easy-archive.js}
  * @base {@link https://meta.wikimedia.org/w/index.php?oldid=18915644}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EasyArchive}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
  * +------------------------------------------------------------+

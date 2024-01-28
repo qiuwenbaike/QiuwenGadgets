@@ -19,6 +19,7 @@
 
 /**
  * Warning: NavFrame is retained for compatibility. Use .mw-collapsible instead.
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
  * +------------------------------------------------------------+

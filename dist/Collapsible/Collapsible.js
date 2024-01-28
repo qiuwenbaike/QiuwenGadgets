@@ -5,6 +5,7 @@
  * @base {@link https://rs.miraheze.org/wiki/MediaWiki:Gadget-collapsible.js}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Collapsible}
  * @author SolidBlock
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
  * +------------------------------------------------------------+
