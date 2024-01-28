@@ -59,8 +59,8 @@ export const {content, localize, vary} = i18nMethods;
 	wgULS('求闻', '求聞'); // en: 求闻, ja: 求闻, zh: 求闻, zh-hans: 求闻, zh-hant: 求聞, zh-cn: 求闻, zh-hk: 求聞, zh-tw: 求聞
 	wgUVS('求闻', '求聞'); // en: 求闻, ja: 求闻, zh: 求闻, zh-hans: 求闻, zh-hant: 求聞, zh-cn: 求闻, zh-hk: 求聞, zh-tw: 求聞
 
-// 非MediaWiki命名空间的脚本可以通过mw.loader.using加载ext.gadget.i18n模块
+	// 非MediaWiki命名空间的脚本可以通过mw.loader.using加载ext.gadget.i18n模块
 	mw.loader.using('ext.gadget.i18n').then((require) => {
 		const {content, localize, vary} = require('ext.gadget.i18n');
 	});
-*/
+ */
