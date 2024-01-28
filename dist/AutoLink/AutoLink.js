@@ -5,6 +5,7 @@
  * @base {@link https://meta.wikimedia.org/wiki/MediaWiki:Gadget-autolink.js}
  * @base {@link https://en.wikipedia.org/wiki/Wikipedia:WikiProject_User_scripts/Scripts/Autolink}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/AutoLink}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
  * +------------------------------------------------------------+

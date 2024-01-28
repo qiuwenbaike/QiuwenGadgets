@@ -3,17 +3,19 @@
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
  *
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus-highlight}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 
 /**
- * SPDX-License-Identifier: GPL-3.0
- * _addText: '{{Gadget Header|title=Wikiplus-highlight|license=GPL-3.0}}'
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * _addText: '{{Gadget Header|title=Wikiplus-highlight|license=GPL-3.0-or-later}}'
  *
  * Wikiplus-highlight
  *
  * @base {@link https://github.com/bhsd-harry/Wikiplus-highlight/blob/main/styles.css}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/module/styles.css}
  * @author Bhsd <https://github.com/bhsd-harry>, 机智的小鱼君 <https://github.com/Dragon-Fish>
+ * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
  */
 /**
  * +------------------------------------------------------------+

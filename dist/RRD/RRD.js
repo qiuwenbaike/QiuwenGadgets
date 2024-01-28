@@ -4,6 +4,7 @@
  *
  * @base {@link https://zh.wikipedia.org/wiki/User:WhitePhosphorus/js/rrd.js}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/RRD}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
  * +------------------------------------------------------------+

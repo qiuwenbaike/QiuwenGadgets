@@ -5,6 +5,7 @@
  * @base {@link https://en.wiktionary.org/wiki/MediaWiki:Gadget-CodeLinks.js}
  * @base {@link https://zh.wiktionary.org/wiki/MediaWiki:Gadget-CodeLinks.js}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/CodeLinks}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
  * +------------------------------------------------------------+
