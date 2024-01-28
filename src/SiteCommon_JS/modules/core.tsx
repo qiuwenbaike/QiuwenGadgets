@@ -17,7 +17,7 @@ import {
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
 
-const loadWithURL = (): void => {
+const loadWithURL = async (): Promise<void> => {
 	/**
 	 * &withCSS= and &withJS= URL parameters
 	 * Allow to try custom scripts from MediaWiki space
@@ -36,6 +36,8 @@ const loadWithURL = (): void => {
 			);
 		}
 		if (URL_WITH_JS && /^MediaWiki:[^#%&<=>]*\.js$/.test(URL_WITH_JS)) {
+			// @ts-expect-error TS6133
+			const require = await mw.loader.using('mediawiki.util');
 			mw.loader.load(
 				mw.util.getUrl(URL_WITH_JS, {
 					action: 'raw',
@@ -46,6 +48,8 @@ const loadWithURL = (): void => {
 			);
 		}
 		if (URL_WITH_MODULE && /^ext\.[^,|]+$/.test(URL_WITH_MODULE)) {
+			// @ts-expect-error TS6133
+			const require = await mw.loader.using('mediawiki.util');
 			mw.loader.load(URL_WITH_MODULE);
 		}
 	}
@@ -64,14 +68,19 @@ const loadWithURL = (): void => {
 			const name: string = useFile.toString().trim();
 			const what: string[] = REGEX_FILE.exec(name) ?? ['', ''];
 			switch (what[1]) {
-				case 'js':
+				case 'js': {
+					// @ts-expect-error TS6133
+					const require = await mw.loader.using('mediawiki.util');
 					mw.loader.load(`${path}javascript&title=${encodeURIComponent(name)}`);
 					break;
+				}
 				case 'css':
 					mw.loader.load(`${path}css&title=${encodeURIComponent(name)}`);
 					break;
 				default:
 					if (REGEX_EXT.test(name)) {
+						// @ts-expect-error TS6133
+						const require = await mw.loader.using('mediawiki.util');
 						mw.loader.load(name);
 					}
 			}

@@ -21,7 +21,7 @@ import {deprecatedFunctions} from './modules/deprecatedFunctions';
 	mw.config.set('wgSiteCommonInstalled', true);
 
 	// Core modules
-	loadWithURL();
+	void loadWithURL();
 	noPermWarning();
 	fixLocationHash();
 
