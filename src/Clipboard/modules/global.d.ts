@@ -1,3 +1,3 @@
 declare module 'ext.gadget.Clipboard' {
-	export {default as Clipboard} from 'clipboard';
+	export const Clipboard: typeof ClipboardJS;
 }

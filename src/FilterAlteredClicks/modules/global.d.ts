@@ -1,3 +1,3 @@
 declare module 'ext.gadget.FilterAlteredClicks' {
-	export {default as filterAlteredClicks} from 'filter-altered-clicks';
+	export const filterAlteredClicks: typeof import('filter-altered-clicks').default;
 }
