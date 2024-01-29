@@ -104,49 +104,19 @@ const noPermWarning = (): void => {
 	}
 	switch (URL_NO_PERM) {
 		case '0':
-			void mw.notify(
-				window.wgULS(
-					'因技术原因，您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
-					'因技術原因，您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
-				),
-				{tag: 'noPerm', type: 'error'}
-			);
+			void mw.notify(getMessage('NoPermError0'), {tag: 'noPerm', type: 'error'});
 			break;
 		case '1':
-			void mw.notify(
-				window.wgULS(
-					'您没有权限访问相关页面。若您是资深编者，请与求闻百科技术团队联系，以获取权限。',
-					'您沒有權限訪問相關頁面。若您是資深編者，請與求聞百科技術團隊聯系，以獲取權限。'
-				),
-				{tag: 'noPerm', type: 'error'}
-			);
+			void mw.notify(getMessage('NoPermError1'), {tag: 'noPerm', type: 'error'});
 			break;
 		case '2':
-			void mw.notify(
-				window.wgULS(
-					'您的网络环境存在风险，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
-					'您的網路環境存在風險，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
-				),
-				{tag: 'noPerm', type: 'warn'}
-			);
+			void mw.notify(getMessage('NoPermError2'), {tag: 'noPerm', type: 'warn'});
 			break;
 		case '3':
-			void mw.notify(
-				window.wgULS(
-					'相关功能仅向注册用户开放，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
-					'相關功能僅向注冊用戶開放，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
-				),
-				{tag: 'noPerm', type: 'warn'}
-			);
+			void mw.notify(getMessage('NoPermError3'), {tag: 'noPerm', type: 'warn'});
 			break;
 		default:
-			void mw.notify(
-				window.wgULS(
-					'您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
-					'您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
-				),
-				{tag: 'noPerm', type: 'error'}
-			);
+			void mw.notify(getMessage('NoPermError4'), {tag: 'noPerm', type: 'error'});
 	}
 	const newUrl: string = location.href.replace(/[?&]noperm=[0-9]+/, '');
 	history.pushState({}, document.title, newUrl);

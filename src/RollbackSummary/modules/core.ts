@@ -1,9 +1,7 @@
 import {filterAlteredClicks} from 'ext.gadget.FilterAlteredClicks';
 import {getMessage} from './i18n';
-import {messages} from './messages';
 
 const updateLinks = ($content: JQuery): void => {
-	messages();
 	const $body: JQuery<HTMLBodyElement> = $content.parents('body');
 	const $mwRollbackLinkA: JQuery<HTMLAnchorElement> = $body.find<HTMLAnchorElement>('.mw-rollback-link a');
 	$mwRollbackLinkA.off('click');
@@ -20,9 +18,9 @@ const updateLinks = ($content: JQuery): void => {
 			} else {
 				const username: string | null = mw.util.getParamValue('from', href);
 				if (username) {
-					summary = mw.message('rollback-summary-custom', username).plain() + summary;
+					summary = getMessage('rollback-summary-custom').replace('$1', username) + summary;
 				} else {
-					summary = mw.message('rollback-summary-nouser').plain() + summary;
+					summary = getMessage('rollback-summary-nouser') + summary;
 				}
 				href += `&summary=${encodeURIComponent(summary)}`;
 				location.assign(href);
