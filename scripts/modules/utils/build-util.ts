@@ -75,7 +75,8 @@ const build = async (
 
 		builtFiles.push({
 			path,
-			text,
+			// See `generateBannerAndFooter()` comment for more details
+			text: text.replace(/^\/\*\*\n\s\*\n\s\*\/\n/, ''),
 		});
 	}
 
@@ -121,7 +122,8 @@ const bundle = async (
 
 	const {text} = outputFiles[0] as OutputFile;
 
-	return text;
+	// See `generateBannerAndFooter()` comment for more details
+	return text.replace(/^\/\*\*\n\s\*\n\s\*\/\n/, '');
 };
 
 /**
