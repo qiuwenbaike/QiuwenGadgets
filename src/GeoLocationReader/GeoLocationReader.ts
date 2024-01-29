@@ -1,9 +1,22 @@
 import * as OPTIONS from './options.json';
-import {IS_USER_PAGE, IS_WG_ACTION_VIEW, WG_PAGE_NAME, WG_RELEVANT_USER_NAME} from './modules/constant';
+import {
+	IS_USER_PAGE,
+	IS_WG_ACTION_VIEW,
+	SYSTEM_SCRIPT_LIST,
+	WEBMASTER_LIST,
+	WG_PAGE_NAME,
+	WG_RELEVANT_USER_NAME,
+} from './modules/constant';
 import {addElement} from './modules/addElement';
 
 (function geoLocationReader(): void {
-	if (!WG_RELEVANT_USER_NAME || !IS_USER_PAGE || !IS_WG_ACTION_VIEW) {
+	if (
+		SYSTEM_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME) ||
+		WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) ||
+		!WG_RELEVANT_USER_NAME ||
+		!IS_USER_PAGE ||
+		!IS_WG_ACTION_VIEW
+	) {
 		return;
 	}
 
