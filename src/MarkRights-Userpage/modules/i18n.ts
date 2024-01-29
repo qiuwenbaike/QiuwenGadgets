@@ -2,11 +2,11 @@ import {localize} from 'ext.gadget.i18n';
 
 const getI18nMessages = () => {
 	return {
-		// Webmaster: localize({
-		// 	en: 'Webmaster',
-		// 	'zh-hans': '站长',
-		// 	'zh-hant': '站長',
-		// }),
+		Webmaster: localize({
+			en: 'Webmaster',
+			'zh-hans': '站长',
+			'zh-hant': '站長',
+		}),
 		Steward: localize({
 			en: 'Steward',
 			'zh-hans': '裁决委员',
@@ -72,11 +72,11 @@ const getI18nMessages = () => {
 			'zh-hans': '确认用户',
 			'zh-hant': '確認用戶',
 		}),
-		// AutoConfirmed: localize({
-		// 	en: 'Auto-confirmed user',
-		// 	'zh-hans': '自动确认用户',
-		// 	'zh-hant': '自動確認用戶',
-		// }),
+		AutoConfirmed: localize({
+			en: 'Auto-confirmed user',
+			'zh-hans': '自动确认用户',
+			'zh-hant': '自動確認用戶',
+		}),
 		RNRSVerifyExempt: localize({
 			en: 'Exempted from real-name verification',
 			'zh-hans': '实名制验证豁免',
@@ -92,11 +92,11 @@ const getI18nMessages = () => {
 			'zh-hans': '机器用户',
 			'zh-hant': '機械用戶',
 		}),
-		// IPBlockExempt: localize({
-		// 	en: 'Exempted from IP blocks',
-		// 	'zh-hans': 'IP封禁豁免',
-		// 	'zh-hant': 'IP封鎖豁免',
-		// }),
+		IPBlockExempt: localize({
+			en: 'Exempted from IP blocks',
+			'zh-hans': 'IP封禁豁免',
+			'zh-hant': 'IP封鎖豁免',
+		}),
 	};
 };
 

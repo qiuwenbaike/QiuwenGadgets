@@ -12,9 +12,9 @@ const appendIcon = (
 		indicatorText,
 		spanClass,
 	}: {
-		icon: 'globe' | 'helpNotice' | 'settings' | 'userAvatar';
+		icon: 'globe' | 'helpNotice';
 		indicatorText: string;
-		spanClass: 'blue' | 'green' | 'orange';
+		spanClass: 'green' | 'orange';
 	}
 ): void => {
 	const ipLocationDesc: string = getMessage('Location') + getMessage(':');
