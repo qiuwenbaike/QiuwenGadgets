@@ -13,7 +13,7 @@ const WG_SCRIPT: string = mw.config.get('wgScript');
 const WG_SKIN: string = mw.config.get('skin');
 const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
 
-export {USER_SCRIPT_LIST, USER_WEBMASTER_LIST} from '~/GeoLocation/modules/constant';
+export {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from '~/GeoLocation/modules/constant';
 export {
 	CLASS_NAME,
 	CLASS_NAME_ICON,

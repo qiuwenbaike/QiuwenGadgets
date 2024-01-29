@@ -90,10 +90,7 @@ export const getPermissions = async (): Promise<void> => {
 		if (groups.includes('rnrsverify-exempt')) {
 			appendIcon(getMessage('RNRSVerifyExempt'), 'rnrsverify-exempt');
 		}
-		if (
-			groups.includes('bot') &&
-			!SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName) // Already shown in GeoLocationViewer
-		) {
+		if (SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName) || groups.includes('bot')) {
 			appendIcon(getMessage('Bot'), 'bot');
 		}
 		if (groups.includes('flood')) {

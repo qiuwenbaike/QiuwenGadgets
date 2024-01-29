@@ -1,9 +1,9 @@
-import {USER_SCRIPT_LIST, USER_WEBMASTER_LIST, WG_USER_GROUPS, WG_USER_NAME} from './modules/constant';
+import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_USER_GROUPS, WG_USER_NAME} from './modules/constant';
 import {getGeoInfo} from 'ext.gadget.Geo';
 import {storeLocation} from './modules/storeLocation';
 
 (async function geoLocation(): Promise<void> {
-	if (USER_SCRIPT_LIST.includes(WG_USER_NAME) || USER_WEBMASTER_LIST.includes(WG_USER_NAME) || !WG_USER_NAME) {
+	if ([...SYSTEM_SCRIPT_LIST, ...WEBMASTER_LIST].includes(WG_USER_NAME) || !WG_USER_NAME) {
 		return;
 	}
 

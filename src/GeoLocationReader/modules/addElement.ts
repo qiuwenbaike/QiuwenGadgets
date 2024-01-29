@@ -1,44 +1,10 @@
-import {USER_SCRIPT_LIST, USER_WEBMASTER_LIST, WG_RELEVANT_USER_NAME} from './constant';
-import {api} from './api';
 import {appendGeoIcon} from './appendGeoIcon';
 import {getBody} from 'ext.gadget.Util';
 
 const addElement = async (): Promise<void> => {
-	const queryUserGroupsParams: ApiQueryUsersParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		list: 'users',
-		ususers: WG_RELEVANT_USER_NAME,
-		usprop: 'groups',
-	};
-
 	try {
-		const {
-			query: {
-				users: [{groups}],
-			},
-		}: {
-			query: {
-				users: [
-					{
-						groups: string[];
-					},
-				];
-			};
-		} = (await api.get(queryUserGroupsParams)) as never;
-
 		const $body: JQuery<HTMLBodyElement> = await getBody();
-
-		if (USER_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('bot')) {
-			/* empty */
-			// Already shown in MarkRights-Userpage
-		} else if (USER_WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('qiuwen')) {
-			/* empty */
-			// Already shown in MarkRights-Userpage
-		} else {
-			void appendGeoIcon($body);
-		}
+		void appendGeoIcon($body);
 	} catch (error: unknown) {
 		console.error('[GeoLocationReader] Ajax error in `addElement` method:', error);
 	}
