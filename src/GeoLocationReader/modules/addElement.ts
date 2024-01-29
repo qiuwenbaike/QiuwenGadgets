@@ -1,4 +1,4 @@
-import {USER_SCRIPT_LIST, USER_WEBMASTER_LIST, WG_RELEVANT_USER_NAME} from './constant';
+import {WG_RELEVANT_USER_NAME} from './constant';
 import {api} from './api';
 import {appendGeoIcon} from './appendGeoIcon';
 import {getBody} from 'ext.gadget.Util';
@@ -30,10 +30,7 @@ const addElement = async (): Promise<void> => {
 
 		const $body: JQuery<HTMLBodyElement> = await getBody();
 
-		if (USER_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('bot')) {
-			/* empty */
-			// Already shown in MarkRights-Userpage
-		} else if (USER_WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('qiuwen')) {
+		if (groups.includes('bot') || groups.includes('qiuwen')) {
 			/* empty */
 			// Already shown in MarkRights-Userpage
 		} else {
