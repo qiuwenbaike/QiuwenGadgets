@@ -25,7 +25,7 @@ const groups = {
 	bot: [],
 	flood: [],
 	// 豁免
-	// 'ipblock-exempt': [],
+	'ipblock-exempt': [],
 	'rnrsverify-exempt': [],
 };
 

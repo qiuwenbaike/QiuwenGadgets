@@ -92,11 +92,11 @@ const getI18nMessages = () => {
 			'zh-hans': '实名制验证豁免',
 			'zh-hant': '實名制驗證豁免',
 		}),
-		// 'ipblock-exempt': localize({
-		// 	en: 'Exempted from IP blocks',
-		// 	'zh-hans': 'IP封禁豁免',
-		// 	'zh-hant': 'IP封鎖豁免',
-		// }),
+		'ipblock-exempt': localize({
+			en: 'Exempted from IP blocks',
+			'zh-hans': 'IP封禁豁免',
+			'zh-hant': 'IP封鎖豁免',
+		}),
 	};
 };
 
