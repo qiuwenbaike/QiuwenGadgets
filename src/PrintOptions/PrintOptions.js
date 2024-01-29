@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getMessage} from './modules/i18n';
+
 let windowManager;
 let printDialog;
 
@@ -29,9 +31,9 @@ const printOptionsMain = {
 		};
 		OO.inheritClass(PrintDialog, OO.ui.ProcessDialog);
 		PrintDialog.static.name = 'printdialog';
-		PrintDialog.static.title = `${window.wgULS('打', '列')}印此${window.wgULS('页', '頁')}面`;
+		PrintDialog.static.title = getMessage('Print this page');
 		PrintDialog.static.actions = [
-			{action: 'print', label: `${window.wgULS('打', '列')}印`, flags: ['primary', 'progressive']},
+			{action: 'print', label: getMessage('Print'), flags: ['primary', 'progressive']},
 			{label: '取消', flags: ['safe', 'close']},
 		];
 		PrintDialog.prototype.initialize = function (...args) {
