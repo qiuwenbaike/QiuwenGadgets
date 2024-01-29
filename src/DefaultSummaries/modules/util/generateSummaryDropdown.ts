@@ -1,4 +1,4 @@
-import {ARTICLE_SUMMARIES, COMMON_SUMMARIES, COMMON_SUMMARIES_LABEL, TALKPAGE_SUMMARIES} from '../messages';
+import {ARTICLE_SUMMARIES, COMMON_SUMMARIES, TALKPAGE_SUMMARIES} from '../messages';
 import {WG_NAMESPACE_NUMBER} from '../constant';
 
 const generateMenuOptionWidget = (label: string): OO.ui.MenuOptionWidget => {
@@ -26,7 +26,7 @@ const onSelectCallback = (optionWidget: OO.ui.OptionWidget, $wpSummary: JQuery):
 
 const generateSummaryDropdown = ($wpSummary: JQuery): JQuery => {
 	const dropdownWidget: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
-		label: COMMON_SUMMARIES_LABEL,
+		label: window.wgULS('常用编辑摘要', '常用編輯摘要'),
 	});
 
 	dropdownWidget.getMenu().on('select', (optionWidget: OO.ui.OptionWidget | OO.ui.OptionWidget[] | null): void => {

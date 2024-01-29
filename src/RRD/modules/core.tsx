@@ -1,8 +1,8 @@
 import {type rrdConfig, type rrdConfigCheckBoxes, type rrdConfigOthers} from './types';
 import {RRD_PAGE} from './constant';
 import React from 'ext.gadget.React';
-import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
+import {message} from './messages';
 
 export const isLog: boolean = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
 const config: rrdConfig = {
@@ -64,7 +64,7 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 				formatversion: '2',
 				title: RRD_PAGE,
 				text: `${content}\n\n${rrdArr.join('\n')}`,
-				summary: getMessage('editSummary'),
+				summary: message.edit_summary,
 			};
 			const result = await api.postWithEditToken(_params);
 			if (result['edit']?.result === 'Success') {
@@ -123,46 +123,46 @@ const loadConfig = (): void => {
 const showDialog = (): void => {
 	loadIDs();
 	if (!ids.length) {
-		void mw.notify(getMessage('errNoRevisionProvided'), {tag: 'RRD', type: 'error'});
+		void mw.notify(message.err_no_revision_provided, {tag: 'RRD', type: 'error'});
 		return;
 	}
 	const html = (
 		<div id="rrdConfig">
-			{getMessage('hideItems')}
+			{message.hide_items}
 			<br />
 			<div style="float: left; padding: 0 5px;">
 				<input name="content" id="rrdHideContent" type="checkbox" value="content" checked />
 				<label htmlFor="rrdHideContent" id="rrd-content">
-					{isLog ? getMessage('hideLog') : getMessage('hideContent')}
+					{isLog ? message.hide_log : message.hide_content}
 				</label>
 			</div>
 			<div style="float: left; padding: 0 5px;">
 				<input name="username" id="rrdHideUsername" type="checkbox" value="username" />
 				<label htmlFor="rrdHideUsername" id="rrd-username">
-					{getMessage('hideUsername')}
+					{message.hide_username}
 				</label>
 			</div>
 			<div style="float: left; padding: 0 5px;">
 				<input name="summary" id="rrdHideSummary" type="checkbox" value="summary" />
 				<label htmlFor="rrdHideSummary" id="rrd-summary">
-					{getMessage('hideSummary')}
+					{message.hide_summary}
 				</label>
 			</div>
 			<br />
 			<br />
-			{getMessage('hideReason')}
+			{message.hide_reason}
 			<br />
 			<select name="rrdReason" id="rrdReason">
-				<option value={getMessage('hideReasonRD1')}>{getMessage('hideReasonRD1')}</option>
-				<option value={getMessage('hideReasonRD2')}>{getMessage('hideReasonRD2')}</option>
-				<option value={getMessage('hideReasonRD3')}>{getMessage('hideReasonRD3')}</option>
-				<option value={getMessage('hideReasonRD4')}>{getMessage('hideReasonRD4')}</option>
-				<option value={getMessage('hideReasonRD5')}>{getMessage('hideReasonRD5')}</option>
-				<option value="">{getMessage('hideReasonOther')}</option>
+				<option value={message.hide_reason_rd1}>RD1：{message.hide_reason_rd1}</option>
+				<option value={message.hide_reason_rd2}>RD2：{message.hide_reason_rd2}</option>
+				<option value={message.hide_reason_rd3}>RD3：{message.hide_reason_rd3}</option>
+				<option value={message.hide_reason_rd4}>RD4：{message.hide_reason_rd4}</option>
+				<option value={message.hide_reason_rd5}>RD5：{message.hide_reason_rd5}</option>
+				<option value="">{message.hide_reason_other}</option>
 			</select>
 			<br />
 			<br />
-			{getMessage('otherReasons')}
+			{message.other_reasons}
 			<br />
 			<textarea name="otherReasons" id="rrdOtherReasons" rows={4}></textarea>
 		</div>
@@ -173,13 +173,13 @@ const showDialog = (): void => {
 		return;
 	}
 	$dialog = $(html).dialog({
-		title: getMessage('dialogTitle'),
+		title: message.dialog_title,
 		minWidth: 515,
 		minHeight: 150,
 		close: updateConfig,
 		buttons: [
 			{
-				text: getMessage('dialogButtonSubmit'),
+				text: message.dialog_button_submit,
 				click(): void {
 					$(this).dialog('close');
 					const reason: string | undefined = config.others.rrdReason;
@@ -189,21 +189,21 @@ const showDialog = (): void => {
 					}
 					const toHide: string[] = [];
 					if (config.checkboxes.rrdHideContent) {
-						toHide.push(isLog ? getMessage('hideLog') : getMessage('hideContent'));
+						toHide.push(isLog ? message.hide_log : message.hide_content);
 					}
 					if (config.checkboxes.rrdHideUsername) {
-						toHide.push(getMessage('hideUsername'));
+						toHide.push(message.hide_username);
 					}
 					if (config.checkboxes.rrdHideSummary) {
-						toHide.push(getMessage('hideSummary'));
+						toHide.push(message.hide_summary);
 					}
 					let cont: boolean = true;
 					if (!toHide.length) {
-						void mw.notify(getMessage('errNoItemProvided'), {tag: 'RRD', type: 'error'});
+						void mw.notify(message.err_no_item_provided, {tag: 'RRD', type: 'error'});
 						return;
 					}
 					if (!reason && !otherReasons) {
-						cont = confirm(getMessage('warnNoReasonProvided'));
+						cont = confirm(message.warn_no_reason_provided);
 					}
 					if (cont) {
 						void submit(toHide.join('、'), reason ?? '', otherReasons ?? '');
@@ -211,7 +211,7 @@ const showDialog = (): void => {
 				},
 			},
 			{
-				text: getMessage('dialogButtonCancel'),
+				text: message.dialog_button_cancel,
 				click(): void {
 					$(this).dialog('close');
 				},
@@ -226,10 +226,10 @@ export const main = (): void => {
 			className={['historysubmit', 'mw-history-rrd', 'mw-ui-button', 'cdx-button']}
 			name={'reportRRD'}
 			type={'button'}
-			title={getMessage('reportButtonTitle') + RRD_PAGE}
+			title={message.report_button_title + RRD_PAGE}
 			onClick={showDialog}
 		>
-			{isLog ? getMessage('reportButtonLogText') : getMessage('reportButtonText')}
+			{isLog ? message.report_button_log_text : message.report_button_text}
 		</button>
 	);
 	// For action=history and Special:Log
