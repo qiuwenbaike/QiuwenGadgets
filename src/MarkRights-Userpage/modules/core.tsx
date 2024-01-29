@@ -47,8 +47,7 @@ export const getPermissions = async (): Promise<void> => {
 		const {query} = await api.get(listUsersParams);
 		const [{groups}]: [{groups: string[]}] = query.users;
 		if (WEBMASTER_LIST.includes(wgRelevantUserName) || groups.includes('qiuwen')) {
-			/* appendIcon(message('Webmaster'), 'qiuwen'); */
-			return; // Already shown in GeoLocationViewer
+			appendIcon(getMessage('Webmaster'), 'qiuwen');
 		}
 		if (groups.includes('steward')) {
 			appendIcon(getMessage('Steward'), 'steward');
@@ -84,8 +83,7 @@ export const getPermissions = async (): Promise<void> => {
 			appendIcon(getMessage('MassMessageSender'), 'massmessage-sender');
 		}
 		if (groups.includes('autoconfirmed')) {
-			/* empty */
-			/* appendIcon(message('AutoConfirmed'), 'autoconfirmed'); */
+			appendIcon(getMessage('AutoConfirmed'), 'autoconfirmed');
 		} else if (groups.includes('confirmed')) {
 			appendIcon(getMessage('Confirmed'), 'confirmed');
 		}
@@ -96,14 +94,13 @@ export const getPermissions = async (): Promise<void> => {
 			groups.includes('bot') &&
 			!SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName) // Already shown in GeoLocationViewer
 		) {
-			/* appendIcon(message('Bot'), 'bot'); */
-			// Already shown in GeoLocationViewer
+			appendIcon(getMessage('Bot'), 'bot');
 		}
 		if (groups.includes('flood')) {
 			appendIcon(getMessage('Flood'), 'flood');
 		}
-		// if (groups.includes('ipblock-exempt')) {
-		//     appendIcon(message('IPBlockExempt'), 'ipblock-exempt');
-		// }
+		if (groups.includes('ipblock-exempt')) {
+			appendIcon(getMessage('IPBlockExempt'), 'ipblock-exempt');
+		}
 	} catch {}
 };

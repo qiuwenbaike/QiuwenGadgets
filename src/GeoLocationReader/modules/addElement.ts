@@ -1,8 +1,7 @@
 import {USER_SCRIPT_LIST, USER_WEBMASTER_LIST, WG_RELEVANT_USER_NAME} from './constant';
-import {appendGeoIcon, appendIcon} from './appendGeoIcon';
 import {api} from './api';
+import {appendGeoIcon} from './appendGeoIcon';
 import {getBody} from 'ext.gadget.Util';
-import {getMessage} from './i18n';
 
 const addElement = async (): Promise<void> => {
 	const queryUserGroupsParams: ApiQueryUsersParams = {
@@ -32,17 +31,11 @@ const addElement = async (): Promise<void> => {
 		const $body: JQuery<HTMLBodyElement> = await getBody();
 
 		if (USER_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('bot')) {
-			appendIcon($body, {
-				icon: 'settings',
-				indicatorText: getMessage('Bot'),
-				spanClass: 'blue',
-			});
+			/* empty */
+			// Already shown in MarkRights-Userpage
 		} else if (USER_WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('qiuwen')) {
-			appendIcon($body, {
-				icon: 'userAvatar',
-				indicatorText: getMessage('Webmaster'),
-				spanClass: 'blue',
-			});
+			/* empty */
+			// Already shown in MarkRights-Userpage
 		} else {
 			void appendGeoIcon($body);
 		}
