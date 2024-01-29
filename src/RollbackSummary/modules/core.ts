@@ -18,9 +18,9 @@ const updateLinks = ($content: JQuery): void => {
 			} else {
 				const username: string | null = mw.util.getParamValue('from', href);
 				if (username) {
-					summary = getMessage('rollback-summary-custom').replace('$1', username) + summary;
+					summary = getMessage('Rollback edits by').replace('$1', username) + summary;
 				} else {
-					summary = getMessage('rollback-summary-nouser') + summary;
+					summary = getMessage('Rollback edits by a hidden user') + summary;
 				}
 				href += `&summary=${encodeURIComponent(summary)}`;
 				location.assign(href);
