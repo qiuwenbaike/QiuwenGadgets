@@ -1061,7 +1061,7 @@
 						window.wgULS('询问理由', '詢問理由'),
 						window.wgULS('用户取消操作。', '使用者取消操作。')
 					);
-				} else if (!reason || !reason.replace(/^\s*/, '').replace(/\s*$/, '')) {
+				} else if (!reason || !reason.trim()) {
 					return Morebits.status.error(
 						window.wgULS('询问理由', '詢問理由'),
 						window.wgULS('你不给我理由…我就…不管了…', '你不給我理由…我就…不管了…')

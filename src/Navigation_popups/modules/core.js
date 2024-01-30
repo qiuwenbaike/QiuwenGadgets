@@ -4647,8 +4647,8 @@ export const popups = () => {
 		if (window.popupDebug) {
 			// popupDebug is set from .version
 			window.log = (x) => {
-				// if(gMsg!='')gMsg += '\n'; gMsg+=time() + ' ' + x; };
-				window.console.log(x);
+				// if (g Msg !== '') { gMsg += '\n'; gMsg+=time() + ' ' + x; }
+				console.log(x);
 			};
 			window.errlog = (x) => {
 				console.error(`[Popups] ${x}`);

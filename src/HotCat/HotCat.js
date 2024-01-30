@@ -135,8 +135,8 @@ hotCatMessages();
 				if (typeof v !== 'string') {
 					continue;
 				}
-				k = k.replace(/^\s+|\s+$/g, '');
-				v = v.replace(/^\s+|\s+$/g, '');
+				k = k.trim();
+				v = v.trim();
 				if (k.length === 0 || v.length === 0) {
 					continue;
 				}
@@ -1850,7 +1850,7 @@ hotCatMessages();
 			if (value.length > 1) {
 				[, key] = value;
 			}
-			let v = value[0].replace(/_/g, ' ').replace(/^\s+|\s+$/g, '');
+			let v = value[0].replace(/_/g, ' ').trim();
 			if (HC.capitalizePageNames) {
 				v = capitalize(v);
 			}
@@ -2168,7 +2168,7 @@ hotCatMessages();
 			}
 			let cleanKey = v.replace(/[\u200E\u200F\u202A-\u202E]/g, '').replace(wikiTextBlankRE, ' ');
 			cleanKey = replaceShortcuts(cleanKey, HC.shortcuts);
-			cleanKey = cleanKey.replace(/^\s+|\s+$/g, '');
+			cleanKey = cleanKey.trim();
 			if (cleanKey.length === 0) {
 				this.showSuggestions([]);
 				return;
@@ -2908,7 +2908,7 @@ hotCatMessages();
 				if (value.length > 1) {
 					[, key] = value;
 				}
-				const v = value[0].replace(/_/g, ' ').replace(/^\s+|\s+$/g, '');
+				const v = value[0].replace(/_/g, ' ').trim();
 				if (v.length === 0) {
 					edit.cancel();
 				} else {
