@@ -539,10 +539,6 @@ export const ToolsRedirect = {
 		const suffixReg = /^.+?((（|[ _]\().+?([)）]))$/;
 		const retTitles = [];
 		const deferreds = [];
-		const simpAndTrad = {
-			'zh-hans': true,
-			'zh-hant': true,
-		};
 		for (const variant of self.variants) {
 			let xhr = api
 				.post({
@@ -560,9 +556,7 @@ export const ToolsRedirect = {
 					// - After: 求闻百科:沙盒
 					let title = $(displaytitle).eq(0).text().trim();
 					title = fixNamespace(title);
-					if (variant in simpAndTrad) {
-						setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
-					}
+					setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
 					return title;
 				});
 			if (IS_CATEGORY) {
