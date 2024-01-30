@@ -144,10 +144,17 @@ export const shortURL = (): void => {
 		if ($content.attr('id') !== 'mw-content-text') {
 			return;
 		}
+
+		const diffId: number | null = mw.config.get('wgDiffNewId');
+		const oldId: number | null = mw.config.get('wgDiffOldId');
+		if (diffId === null || oldId === null) {
+			return;
+		}
+
 		void init({
+			diffId,
+			oldId,
 			articleId: mw.config.get('wgArticleId'),
-			diffId: mw.config.get('wgDiffNewId'),
-			oldId: mw.config.get('wgDiffOldId'),
 			revisionId: mw.config.get('wgRevisionId'),
 		});
 	});
