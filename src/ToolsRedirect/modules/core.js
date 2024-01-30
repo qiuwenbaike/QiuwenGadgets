@@ -75,8 +75,7 @@ const findRedirectBySelector = function (selector) {
 	/* A shortcut to add CSS selectors as rule to find new potential redirect titles. */
 	findRedirectCallbacks.push(() => {
 		return $(selector).map((_index, element) => {
-			const title = $(element).eq(0).text().trim();
-			return title || null;
+			return $(element).eq(0).text().trim() || null;
 		});
 	});
 	return this;
@@ -537,9 +536,9 @@ export const ToolsRedirect = {
 	findVariants(pagename, titles) {
 		const self = this;
 		const suffixReg = /^.+?((（|[ _]\().+?([)）]))$/;
-		const retTitles = [];
+		let retTitles = [];
 		const deferreds = [];
-		for (const variant of self.variants) {
+		for (const variant of VARIANTS) {
 			let xhr = api
 				.post({
 					action: 'parse',
@@ -547,6 +546,7 @@ export const ToolsRedirect = {
 					formatversion: '2',
 					page: pagename,
 					prop: 'displaytitle',
+					uselang: variant,
 					variant,
 				})
 				.then(({parse}) => {
@@ -554,7 +554,7 @@ export const ToolsRedirect = {
 					// Example:
 					// - Before: <span class="mw-page-title-namespace">求闻百科</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">沙盒</span>
 					// - After: 求闻百科:沙盒
-					let title = $(displaytitle).eq(0).text().trim();
+					let title = $('<span>').append(displaytitle).eq(0).text().trim();
 					title = fixNamespace(title);
 					setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
 					return title;
@@ -567,13 +567,12 @@ export const ToolsRedirect = {
 						formatversion: '2',
 						text: pagename,
 						prop: 'text',
+						title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
+						contentmodel: 'wikitext',
+						uselang: variant,
 						variant,
 					}).then(({parse}) => {
-						const tmpTitle = $(parse.text)
-							.eq(0)
-							.text()
-							.trim()
-							.replace(/(^\s*|\s*$)/g, '');
+						const tmpTitle = $(parse.text).text().trim();
 						// should not create redirect categories
 						// if the conversion is already in global table,
 						// or it will mess up a lot
@@ -586,21 +585,28 @@ export const ToolsRedirect = {
 		}
 		return $.when(...deferreds).then((...args) => {
 			const suffixes = [];
-			for (const arg of args) {
+			for (const title of args) {
+				let suffix;
 				// find title suffix,
 				// for example " (济南市)" to "市中区 (济南市)"
-				const suffixArr = suffixReg.exec(arg);
-				const suffix = suffixArr && suffixArr.length === 2 ? suffixArr[1] : '';
-				retTitles.push(arg);
+				const suffixArr = suffixReg.exec(title);
+				if (suffixArr && suffixArr.length === 2) {
+					[, suffix] = suffixArr;
+				} else {
+					suffix = '';
+				}
+				retTitles.push(title);
 				suffixes.push(suffix);
 			}
 			// append suffixes
-			const suffixesDedup = [...new Set(suffixes)];
-			for (const suffix of suffixesDedup) {
-				for (const title of titles) {
-					const modifiedTitle = fixNamespace(title);
-					retTitles.push(suffixReg.test(modifiedTitle) ? modifiedTitle : modifiedTitle + suffix);
-				}
+			for (const suffix of new Set(suffixes)) {
+				retTitles = [
+					...retTitles,
+					...titles.map((title) => {
+						const modifiedTitle = fixNamespace(title);
+						return suffixReg.test(modifiedTitle) ? modifiedTitle : modifiedTitle + suffix;
+					}),
+				];
 			}
 			return self.findNotExists([...new Set(retTitles)]);
 		});
@@ -610,7 +616,7 @@ export const ToolsRedirect = {
 		const excludes = new Set(['用字模式']);
 		let alltitles = [];
 		titles = titles.join('|');
-		for (const [variant, _index] of ['zh-hans', 'zh-hant'].entries()) {
+		for (const variant of VARIANTS) {
 			deferreds.push(
 				api.post({
 					action: 'parse',
@@ -618,21 +624,16 @@ export const ToolsRedirect = {
 					formatversion: '2',
 					text: titles,
 					prop: 'text',
+					title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
+					contentmodel: 'wikitext',
+					uselang: variant,
 					variant,
 				})
 			);
 		}
 		return $.when(...deferreds).then((...args) => {
 			for (const [{parse}] of args) {
-				alltitles = [
-					...alltitles,
-					...$(parse.text)
-						.eq(0)
-						.text()
-						.trim()
-						.replace(/(^\s*|\s*$)/g, '')
-						.split('|'),
-				];
+				alltitles = [...alltitles, ...$(parse.text).text().trim().split('|')];
 			}
 			alltitles = alltitles.filter((v, i, arr) => {
 				return arr.indexOf(v) === i;
@@ -762,7 +763,7 @@ export const ToolsRedirect = {
 					]);
 					deferred.resolveWith(self, [fvtitles]);
 				} else {
-					deferred.rejectWith(self, [fvtitles]);
+					void deferred.rejectWith(self, [fvtitles]);
 				}
 			});
 		return deferred.promise();
