@@ -184,31 +184,35 @@ export const ToolsRedirect = {
 		$('p.desc', self.tabs.view.cont).text(getMessage('fixloading'));
 		$('p[class!=desc]', self.tabs.view.cont).remove();
 		self.loading(self.tabs.view.cont);
-		self.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary')).then(() => {
-			// delay load before the asynchronous tasks on server finished
-			setTimeout(() => {
-				self.loaded(self.tabs.view.cont);
-				self.loadView(true);
-			}, 3000);
-		});
+		void self
+			.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary'))
+			.then(() => {
+				// delay load before the asynchronous tasks on server finished
+				setTimeout(() => {
+					self.loaded(self.tabs.view.cont);
+					self.loadView(true);
+				}, 3000);
+			});
 	},
 	create(pagenames) {
 		const self = this;
 		$('p.desc', self.tabs.create.cont).text(getMessage('createloading'));
 		$('p[class!=desc]', self.tabs.create.cont).remove();
 		self.loading(self.tabs.create.cont);
-		self.bulkEdit(
-			pagenames,
-			getMessage('createtext').replace('$1', WG_PAGE_NAME),
-			getMessage('createsummary').replace('$1', WG_PAGE_NAME)
-		).then(() => {
-			// delay load before the asynchronous tasks on server finished
-			setTimeout(() => {
-				self.loaded(self.tabs.create.cont);
-				self.tabs.view.loaded = false;
-				self.loadCreate(true);
-			}, 500);
-		});
+		void self
+			.bulkEdit(
+				pagenames,
+				getMessage('createtext').replace('$1', WG_PAGE_NAME),
+				getMessage('createsummary').replace('$1', WG_PAGE_NAME)
+			)
+			.then(() => {
+				// delay load before the asynchronous tasks on server finished
+				setTimeout(() => {
+					self.loaded(self.tabs.create.cont);
+					self.tabs.view.loaded = false;
+					self.loadCreate(true);
+				}, 500);
+			});
 	},
 	addRedirectTextSuffix(title, text) {
 		if (title in pageWithRedirectTextSuffix) {
@@ -439,98 +443,100 @@ export const ToolsRedirect = {
 			event.preventDefault();
 			self.clickAction(entry, this.fix);
 		};
-		api.post({
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			prop: 'redirects',
-			titles: pagename,
-			rdlimit: 'max',
-		}).then(({query}) => {
-			self.loaded(container);
-			let has_redirect = false;
-			const desc = $('p.desc', self.tabs.view.cont);
-			const maximumRedirectDepth = 10;
-			for (const page of query.pages) {
-				if (page.redirects) {
-					const {redirects} = page;
-					for (const {title} of redirects) {
-						const rdtitle = title;
-						const ultitle = rdtitle.replace(/ /g, '_');
-						const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
-						const methods = [
-							{
-								href: mw.util.getUrl(ultitle, {action: 'edit'}),
-								title: getMessage('rediedit'),
-							},
-						];
-						const isCycleRedirect = rdtitle in loaded;
-						loaded[rdtitle] = true;
-						if (!isCycleRedirect && deep) {
-							methods.push({
-								href: '#fix-redirect',
-								title: getMessage('tabviewfix'),
-								click: onClickFix,
-							});
-						}
-						const $container = self
-							.buildSelection(
+		void api
+			.post({
+				action: 'query',
+				format: 'json',
+				formatversion: '2',
+				prop: 'redirects',
+				titles: pagename,
+				rdlimit: 'max',
+			})
+			.then(({query}) => {
+				self.loaded(container);
+				let has_redirect = false;
+				const desc = $('p.desc', self.tabs.view.cont);
+				const maximumRedirectDepth = 10;
+				for (const page of query.pages) {
+					if (page.redirects) {
+						const {redirects} = page;
+						for (const {title} of redirects) {
+							const rdtitle = title;
+							const ultitle = rdtitle.replace(/ /g, '_');
+							const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
+							const methods = [
 								{
-									href: mw.util.getUrl(ultitle, {redirect: 'no'}),
-									title: rdtitle,
+									href: mw.util.getUrl(ultitle, {action: 'edit'}),
+									title: getMessage('rediedit'),
 								},
-								methods,
-								ultitle,
-								!deep
-							)
-							.appendTo(entry);
-						if (isCycleRedirect) {
-							$container.append(`<span class="error">${getMessage('errcycleredirect')}</span>`);
-						} else if (deep < maximumRedirectDepth) {
-							deferred.then(() => {
-								return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
-							});
+							];
+							const isCycleRedirect = rdtitle in loaded;
+							loaded[rdtitle] = true;
+							if (!isCycleRedirect && deep) {
+								methods.push({
+									href: '#fix-redirect',
+									title: getMessage('tabviewfix'),
+									click: onClickFix,
+								});
+							}
+							const $container = self
+								.buildSelection(
+									{
+										href: mw.util.getUrl(ultitle, {redirect: 'no'}),
+										title: rdtitle,
+									},
+									methods,
+									ultitle,
+									!deep
+								)
+								.appendTo(entry);
+							if (isCycleRedirect) {
+								$container.append(`<span class="error">${getMessage('errcycleredirect')}</span>`);
+							} else if (deep < maximumRedirectDepth) {
+								void deferred.then(() => {
+									return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
+								});
+							}
+							has_redirect = true;
 						}
-						has_redirect = true;
+					} else {
+						has_redirect = false;
 					}
-				} else {
-					has_redirect = false;
 				}
-			}
-			if (has_redirect && deep === 1) {
-				self.addMethods(desc, [
-					{
-						href: '#select-all',
-						title: getMessage('selectall'),
-						click(event) {
-							event.preventDefault();
-							self.selectAll(self.tabs.view.cont);
+				if (has_redirect && deep === 1) {
+					self.addMethods(desc, [
+						{
+							href: '#select-all',
+							title: getMessage('selectall'),
+							click(event) {
+								event.preventDefault();
+								self.selectAll(self.tabs.view.cont);
+							},
 						},
-					},
-					{
-						href: '#select-inverse',
-						title: getMessage('selectinverse'),
-						click(event) {
-							event.preventDefault();
-							self.selectInverse(self.tabs.view.cont);
+						{
+							href: '#select-inverse',
+							title: getMessage('selectinverse'),
+							click(event) {
+								event.preventDefault();
+								self.selectInverse(self.tabs.view.cont);
+							},
 						},
-					},
-					{
-						href: '#fix-selected',
-						title: getMessage('tabviewfix'),
-						click(event) {
-							event.preventDefault();
-							self.selectAction(self.tabs.view.cont, self.fix);
+						{
+							href: '#fix-selected',
+							title: getMessage('tabviewfix'),
+							click(event) {
+								event.preventDefault();
+								self.selectAction(self.tabs.view.cont, self.fix);
+							},
 						},
-					},
-				]);
-			}
-			if (has_redirect) {
-				deferred.resolveWith(self);
-			} else {
-				deferred.rejectWith(self);
-			}
-		});
+					]);
+				}
+				if (has_redirect) {
+					void deferred.resolveWith(self);
+				} else {
+					void deferred.rejectWith(self);
+				}
+			});
 		return deferred.promise();
 	},
 	findVariants(pagename, titles) {
@@ -561,24 +567,26 @@ export const ToolsRedirect = {
 				});
 			if (IS_CATEGORY) {
 				xhr = xhr.then((origTitle) => {
-					api.post({
-						action: 'parse',
-						format: 'json',
-						formatversion: '2',
-						text: pagename,
-						prop: 'text',
-						title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
-						contentmodel: 'wikitext',
-						uselang: variant,
-						variant,
-					}).then(({parse}) => {
-						const tmpTitle = $(parse.text).text().trim();
-						// should not create redirect categories
-						// if the conversion is already in global table,
-						// or it will mess up a lot
-						redirectExcludes[tmpTitle] = true;
-						return origTitle;
-					});
+					void api
+						.post({
+							action: 'parse',
+							format: 'json',
+							formatversion: '2',
+							text: pagename,
+							prop: 'text',
+							title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
+							contentmodel: 'wikitext',
+							uselang: variant,
+							variant,
+						})
+						.then(({parse}) => {
+							const tmpTitle = $(parse.text).text().trim();
+							// should not create redirect categories
+							// if the conversion is already in global table,
+							// or it will mess up a lot
+							redirectExcludes[tmpTitle] = true;
+							return origTitle;
+						});
 				});
 			}
 			deferreds.push(xhr);
@@ -699,7 +707,7 @@ export const ToolsRedirect = {
 			self.clickAction(entry, self.create);
 		};
 		// handles the deferred callbacks
-		$.when(...frcDeferreds)
+		void $.when(...frcDeferreds)
 			.then((...args) => {
 				for (const ret of args) {
 					if (typeof ret === 'string') {
@@ -761,7 +769,7 @@ export const ToolsRedirect = {
 							},
 						},
 					]);
-					deferred.resolveWith(self, [fvtitles]);
+					void deferred.resolveWith(self, [fvtitles]);
 				} else {
 					void deferred.rejectWith(self, [fvtitles]);
 				}
