@@ -1,7 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {WG_WIKI_ID} from './constant';
-
 /*! Twinkle.js - twinkle.js */
 (function twinkle($) {
 	const $body = $('body');
@@ -493,7 +491,7 @@ import {WG_WIKI_ID} from './constant';
 			return;
 		}
 		// Set custom Api-User-Agent header, for server-side logging purposes
-		Twinkle.userAgent = `Twinkle/1.1; ${WG_WIKI_ID}`;
+		Twinkle.userAgent = 'Twinkle/1.1';
 		Morebits.wiki.api.setApiUserAgent(Twinkle.userAgent);
 		Twinkle.disabledModules = [...Twinkle.getPref('disabledModules'), ...Twinkle.getPref('disabledSysopModules')];
 		// Redefine addInitCallback so that any modules being loaded now on are directly
