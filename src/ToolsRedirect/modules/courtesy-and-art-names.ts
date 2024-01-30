@@ -82,10 +82,7 @@ export const toolsRedirect_courtesy_and_art_names = (): void => {
 		$content.find('> p > b').each((_index, element) => {
 			const previousNode = element.previousSibling;
 			if (previousNode && prefixRegex.test(previousNode.textContent)) {
-				// trim() is not supported by IE<9
-				const name = $(element)
-					.text()
-					.replace(/^\s+|\s+$/g, '');
+				const name = $(element).text().trim();
 				if (!surname) {
 					surname = findSurname(pagename);
 				}
