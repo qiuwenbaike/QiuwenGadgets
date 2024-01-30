@@ -11,7 +11,7 @@ const SUFFIX_SETDEFAULT = 2;
 
 const EDIT_TAG = 'ToolsRedirect';
 
-const VARIANTS = ['zh-hans', 'zh-hant', 'zh-cn', 'zh-hk', 'zh-mo', 'zh-sg', 'zh-tw'];
+const VARIANTS = ['zh-hans', 'zh-hant', 'zh-cn', 'zh-hk', 'zh-mo', 'zh-sg', 'zh-my', 'zh-tw'];
 
 export {
 	EDIT_TAG,
