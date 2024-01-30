@@ -545,7 +545,7 @@ export const ToolsRedirect = {
 		let retTitles = [];
 		const deferreds = [];
 		for (const variant of VARIANTS) {
-			let xhr = api
+			const xhr = api
 				.post({
 					action: 'parse',
 					format: 'json',
@@ -565,30 +565,6 @@ export const ToolsRedirect = {
 					setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
 					return title;
 				});
-			if (IS_CATEGORY) {
-				xhr = xhr.then((origTitle) => {
-					void api
-						.post({
-							action: 'parse',
-							format: 'json',
-							formatversion: '2',
-							text: pagename,
-							prop: 'text',
-							title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
-							contentmodel: 'wikitext',
-							uselang: variant,
-							variant,
-						})
-						.then(({parse}) => {
-							const tmpTitle = $(parse.text).text().trim();
-							// should not create redirect categories
-							// if the conversion is already in global table,
-							// or it will mess up a lot
-							redirectExcludes[tmpTitle] = true;
-							return origTitle;
-						});
-				});
-			}
 			deferreds.push(xhr);
 		}
 		return $.when(...deferreds).then((...args) => {
