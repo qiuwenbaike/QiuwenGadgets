@@ -75,8 +75,7 @@ const findRedirectBySelector = function (selector) {
 	/* A shortcut to add CSS selectors as rule to find new potential redirect titles. */
 	findRedirectCallbacks.push(() => {
 		return $(selector).map((_index, element) => {
-			const title = $(element).eq(0).text().trim();
-			return title || null;
+			return $(element).eq(0).text().trim() || null;
 		});
 	});
 	return this;
@@ -185,31 +184,35 @@ export const ToolsRedirect = {
 		$('p.desc', self.tabs.view.cont).text(getMessage('fixloading'));
 		$('p[class!=desc]', self.tabs.view.cont).remove();
 		self.loading(self.tabs.view.cont);
-		self.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary')).then(() => {
-			// delay load before the asynchronous tasks on server finished
-			setTimeout(() => {
-				self.loaded(self.tabs.view.cont);
-				self.loadView(true);
-			}, 3000);
-		});
+		void self
+			.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary'))
+			.then(() => {
+				// delay load before the asynchronous tasks on server finished
+				setTimeout(() => {
+					self.loaded(self.tabs.view.cont);
+					self.loadView(true);
+				}, 3000);
+			});
 	},
 	create(pagenames) {
 		const self = this;
 		$('p.desc', self.tabs.create.cont).text(getMessage('createloading'));
 		$('p[class!=desc]', self.tabs.create.cont).remove();
 		self.loading(self.tabs.create.cont);
-		self.bulkEdit(
-			pagenames,
-			getMessage('createtext').replace('$1', WG_PAGE_NAME),
-			getMessage('createsummary').replace('$1', WG_PAGE_NAME)
-		).then(() => {
-			// delay load before the asynchronous tasks on server finished
-			setTimeout(() => {
-				self.loaded(self.tabs.create.cont);
-				self.tabs.view.loaded = false;
-				self.loadCreate(true);
-			}, 500);
-		});
+		void self
+			.bulkEdit(
+				pagenames,
+				getMessage('createtext').replace('$1', WG_PAGE_NAME),
+				getMessage('createsummary').replace('$1', WG_PAGE_NAME)
+			)
+			.then(() => {
+				// delay load before the asynchronous tasks on server finished
+				setTimeout(() => {
+					self.loaded(self.tabs.create.cont);
+					self.tabs.view.loaded = false;
+					self.loadCreate(true);
+				}, 500);
+			});
 	},
 	addRedirectTextSuffix(title, text) {
 		if (title in pageWithRedirectTextSuffix) {
@@ -440,106 +443,108 @@ export const ToolsRedirect = {
 			event.preventDefault();
 			self.clickAction(entry, this.fix);
 		};
-		api.post({
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			prop: 'redirects',
-			titles: pagename,
-			rdlimit: 'max',
-		}).then(({query}) => {
-			self.loaded(container);
-			let has_redirect = false;
-			const desc = $('p.desc', self.tabs.view.cont);
-			const maximumRedirectDepth = 10;
-			for (const page of query.pages) {
-				if (page.redirects) {
-					const {redirects} = page;
-					for (const {title} of redirects) {
-						const rdtitle = title;
-						const ultitle = rdtitle.replace(/ /g, '_');
-						const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
-						const methods = [
-							{
-								href: mw.util.getUrl(ultitle, {action: 'edit'}),
-								title: getMessage('rediedit'),
-							},
-						];
-						const isCycleRedirect = rdtitle in loaded;
-						loaded[rdtitle] = true;
-						if (!isCycleRedirect && deep) {
-							methods.push({
-								href: '#fix-redirect',
-								title: getMessage('tabviewfix'),
-								click: onClickFix,
-							});
-						}
-						const $container = self
-							.buildSelection(
+		void api
+			.post({
+				action: 'query',
+				format: 'json',
+				formatversion: '2',
+				prop: 'redirects',
+				titles: pagename,
+				rdlimit: 'max',
+			})
+			.then(({query}) => {
+				self.loaded(container);
+				let has_redirect = false;
+				const desc = $('p.desc', self.tabs.view.cont);
+				const maximumRedirectDepth = 10;
+				for (const page of query.pages) {
+					if (page.redirects) {
+						const {redirects} = page;
+						for (const {title} of redirects) {
+							const rdtitle = title;
+							const ultitle = rdtitle.replace(/ /g, '_');
+							const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
+							const methods = [
 								{
-									href: mw.util.getUrl(ultitle, {redirect: 'no'}),
-									title: rdtitle,
+									href: mw.util.getUrl(ultitle, {action: 'edit'}),
+									title: getMessage('rediedit'),
 								},
-								methods,
-								ultitle,
-								!deep
-							)
-							.appendTo(entry);
-						if (isCycleRedirect) {
-							$container.append(`<span class="error">${getMessage('errcycleredirect')}</span>`);
-						} else if (deep < maximumRedirectDepth) {
-							deferred.then(() => {
-								return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
-							});
+							];
+							const isCycleRedirect = rdtitle in loaded;
+							loaded[rdtitle] = true;
+							if (!isCycleRedirect && deep) {
+								methods.push({
+									href: '#fix-redirect',
+									title: getMessage('tabviewfix'),
+									click: onClickFix,
+								});
+							}
+							const $container = self
+								.buildSelection(
+									{
+										href: mw.util.getUrl(ultitle, {redirect: 'no'}),
+										title: rdtitle,
+									},
+									methods,
+									ultitle,
+									!deep
+								)
+								.appendTo(entry);
+							if (isCycleRedirect) {
+								$container.append(`<span class="error">${getMessage('errcycleredirect')}</span>`);
+							} else if (deep < maximumRedirectDepth) {
+								void deferred.then(() => {
+									return self.loadRedirect(rdtitle, entry, deep + 1, loaded);
+								});
+							}
+							has_redirect = true;
 						}
-						has_redirect = true;
+					} else {
+						has_redirect = false;
 					}
-				} else {
-					has_redirect = false;
 				}
-			}
-			if (has_redirect && deep === 1) {
-				self.addMethods(desc, [
-					{
-						href: '#select-all',
-						title: getMessage('selectall'),
-						click(event) {
-							event.preventDefault();
-							self.selectAll(self.tabs.view.cont);
+				if (has_redirect && deep === 1) {
+					self.addMethods(desc, [
+						{
+							href: '#select-all',
+							title: getMessage('selectall'),
+							click(event) {
+								event.preventDefault();
+								self.selectAll(self.tabs.view.cont);
+							},
 						},
-					},
-					{
-						href: '#select-inverse',
-						title: getMessage('selectinverse'),
-						click(event) {
-							event.preventDefault();
-							self.selectInverse(self.tabs.view.cont);
+						{
+							href: '#select-inverse',
+							title: getMessage('selectinverse'),
+							click(event) {
+								event.preventDefault();
+								self.selectInverse(self.tabs.view.cont);
+							},
 						},
-					},
-					{
-						href: '#fix-selected',
-						title: getMessage('tabviewfix'),
-						click(event) {
-							event.preventDefault();
-							self.selectAction(self.tabs.view.cont, self.fix);
+						{
+							href: '#fix-selected',
+							title: getMessage('tabviewfix'),
+							click(event) {
+								event.preventDefault();
+								self.selectAction(self.tabs.view.cont, self.fix);
+							},
 						},
-					},
-				]);
-			}
-			if (has_redirect) {
-				deferred.resolveWith(self);
-			} else {
-				deferred.rejectWith(self);
-			}
-		});
+					]);
+				}
+				if (has_redirect) {
+					void deferred.resolveWith(self);
+				} else {
+					void deferred.rejectWith(self);
+				}
+			});
 		return deferred.promise();
 	},
 	findVariants(pagename, titles) {
 		const self = this;
 		const suffixReg = /^.+?((（|[ _]\().+?([)）]))$/;
-		const retTitles = [];
+		let retTitles = [];
 		const deferreds = [];
-		for (const variant of self.variants) {
+		for (const variant of VARIANTS) {
 			let xhr = api
 				.post({
 					action: 'parse',
@@ -547,6 +552,7 @@ export const ToolsRedirect = {
 					formatversion: '2',
 					page: pagename,
 					prop: 'displaytitle',
+					uselang: variant,
 					variant,
 				})
 				.then(({parse}) => {
@@ -554,53 +560,61 @@ export const ToolsRedirect = {
 					// Example:
 					// - Before: <span class="mw-page-title-namespace">求闻百科</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">沙盒</span>
 					// - After: 求闻百科:沙盒
-					let title = $(displaytitle).eq(0).text().trim();
+					let title = $('<span>').append(displaytitle).eq(0).text().trim();
 					title = fixNamespace(title);
 					setRedirectTextSuffix(title, '\n{{简繁重定向}}', SUFFIX_APPEND);
 					return title;
 				});
 			if (IS_CATEGORY) {
 				xhr = xhr.then((origTitle) => {
-					api.post({
-						action: 'parse',
-						format: 'json',
-						formatversion: '2',
-						text: pagename,
-						prop: 'text',
-						variant,
-					}).then(({parse}) => {
-						const tmpTitle = $(parse.text)
-							.eq(0)
-							.text()
-							.trim()
-							.replace(/(^\s*|\s*$)/g, '');
-						// should not create redirect categories
-						// if the conversion is already in global table,
-						// or it will mess up a lot
-						redirectExcludes[tmpTitle] = true;
-						return origTitle;
-					});
+					void api
+						.post({
+							action: 'parse',
+							format: 'json',
+							formatversion: '2',
+							text: pagename,
+							prop: 'text',
+							title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
+							contentmodel: 'wikitext',
+							uselang: variant,
+							variant,
+						})
+						.then(({parse}) => {
+							const tmpTitle = $(parse.text).text().trim();
+							// should not create redirect categories
+							// if the conversion is already in global table,
+							// or it will mess up a lot
+							redirectExcludes[tmpTitle] = true;
+							return origTitle;
+						});
 				});
 			}
 			deferreds.push(xhr);
 		}
 		return $.when(...deferreds).then((...args) => {
 			const suffixes = [];
-			for (const arg of args) {
+			for (const title of args) {
+				let suffix;
 				// find title suffix,
 				// for example " (济南市)" to "市中区 (济南市)"
-				const suffixArr = suffixReg.exec(arg);
-				const suffix = suffixArr && suffixArr.length === 2 ? suffixArr[1] : '';
-				retTitles.push(arg);
+				const suffixArr = suffixReg.exec(title);
+				if (suffixArr && suffixArr.length === 2) {
+					[, suffix] = suffixArr;
+				} else {
+					suffix = '';
+				}
+				retTitles.push(title);
 				suffixes.push(suffix);
 			}
 			// append suffixes
-			const suffixesDedup = [...new Set(suffixes)];
-			for (const suffix of suffixesDedup) {
-				for (const title of titles) {
-					const modifiedTitle = fixNamespace(title);
-					retTitles.push(suffixReg.test(modifiedTitle) ? modifiedTitle : modifiedTitle + suffix);
-				}
+			for (const suffix of new Set(suffixes)) {
+				retTitles = [
+					...retTitles,
+					...titles.map((title) => {
+						const modifiedTitle = fixNamespace(title);
+						return suffixReg.test(modifiedTitle) ? modifiedTitle : modifiedTitle + suffix;
+					}),
+				];
 			}
 			return self.findNotExists([...new Set(retTitles)]);
 		});
@@ -610,7 +624,7 @@ export const ToolsRedirect = {
 		const excludes = new Set(['用字模式']);
 		let alltitles = [];
 		titles = titles.join('|');
-		for (const [variant, _index] of ['zh-hans', 'zh-hant'].entries()) {
+		for (const variant of VARIANTS) {
 			deferreds.push(
 				api.post({
 					action: 'parse',
@@ -618,21 +632,16 @@ export const ToolsRedirect = {
 					formatversion: '2',
 					text: titles,
 					prop: 'text',
+					title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
+					contentmodel: 'wikitext',
+					uselang: variant,
 					variant,
 				})
 			);
 		}
 		return $.when(...deferreds).then((...args) => {
 			for (const [{parse}] of args) {
-				alltitles = [
-					...alltitles,
-					...$(parse.text)
-						.eq(0)
-						.text()
-						.trim()
-						.replace(/(^\s*|\s*$)/g, '')
-						.split('|'),
-				];
+				alltitles = [...alltitles, ...$(parse.text).text().trim().split('|')];
 			}
 			alltitles = alltitles.filter((v, i, arr) => {
 				return arr.indexOf(v) === i;
@@ -698,7 +707,7 @@ export const ToolsRedirect = {
 			self.clickAction(entry, self.create);
 		};
 		// handles the deferred callbacks
-		$.when(...frcDeferreds)
+		void $.when(...frcDeferreds)
 			.then((...args) => {
 				for (const ret of args) {
 					if (typeof ret === 'string') {
@@ -760,9 +769,9 @@ export const ToolsRedirect = {
 							},
 						},
 					]);
-					deferred.resolveWith(self, [fvtitles]);
+					void deferred.resolveWith(self, [fvtitles]);
 				} else {
-					deferred.rejectWith(self, [fvtitles]);
+					void deferred.rejectWith(self, [fvtitles]);
 				}
 			});
 		return deferred.promise();
