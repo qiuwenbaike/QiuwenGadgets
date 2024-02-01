@@ -1,5 +1,5 @@
 import {type ApiParseResponse, type ApiResponse, parseWikitext} from './parseWikitext';
-import {WG_PAGE_NAME, WG_USER_VARIANT} from './constant';
+import {PORTLET_CLASS, WG_PAGE_NAME, WG_USER_VARIANT} from './constant';
 import {ApiRetryFailError} from './util/ApiRetryFailError';
 import React from 'ext.gadget.React';
 import {assert} from './util/assert';
@@ -253,12 +253,19 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 					})
 				)
 				.then((parsedHtml: ApiResponse): void => {
-					this.$realContent.empty().html(parsedHtml as ApiParseResponse);
+					// The following classes are used here:
+					// * see constant.ts
+					// * for more information
+					this.$realContent
+						.empty()
+						.html(parsedHtml as ApiParseResponse)
+						.addClass(`${PORTLET_CLASS}-output`);
+
 					(
 						this.$realContent.find('.mw-collapsible') as JQuery & {makeCollapsible: () => JQuery}
 					).makeCollapsible();
-					this.updateSize();
 
+					this.updateSize();
 					this.dataIsLoaded = true;
 				})
 				.catch((error: ApiRetryFailError | Error | string): void => {
