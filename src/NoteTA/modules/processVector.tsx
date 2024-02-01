@@ -7,20 +7,31 @@ const vectorInit = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
-	const noteTATab: HTMLElement | null = mw.util.addPortlet(PORTLET_ID);
-	if (!noteTATab) {
-		return;
-	}
-
-	$noteTATab = $(noteTATab);
-	$noteTATab.removeClass('mw-portlet-p-noteTA').addClass(['mw-portlet-noteTA', 'vector-menu-tabs']);
-	$noteTATab.find('ul').empty();
+	///////////////////
+	/**
+	 * @todo replace with `mw.util.addPortlet` after upgrade to MediaWiki 1.41+
+	 * @example
+	 * const noteTATab: HTMLElement | null = mw.util.addPortlet(PORTLET_ID);
+	 * if (!noteTATab) {
+	 *     return;
+	 * }
+	 * $noteTATab = $(noteTATab);
+	 * $noteTATab.removeClass(`mw-portlet-${PORTLET_ID}`).addClass([`mw-portlet-${PORTLET_ID.replace('p-', '')}`, 'vector-menu-tabs']);
+	 */
+	const noteTATab = (
+		<div className={['vector-menu', 'vector-menu-tabs']} id={PORTLET_ID}>
+			<div>
+				<ul />
+			</div>
+		</div>
+	);
+	///////////////////
 
 	if (WG_SKIN === 'vector-2022') {
-		$body.find('#p-associated-pages').after($noteTATab);
+		$body.find('#p-associated-pages').after(noteTATab);
 	} else {
-		$noteTATab.addClass('vector-menu-tabs-legacy');
-		$body.find('#p-variants').after($noteTATab);
+		noteTATab.classList.add('vector-menu-tabs-legacy');
+		$body.find('#p-variants').after(noteTATab);
 	}
 };
 
