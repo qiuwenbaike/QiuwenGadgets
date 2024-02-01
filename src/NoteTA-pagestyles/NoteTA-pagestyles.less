@@ -1,24 +1,7 @@
-@import (reference) '../variables.less';
-
-#noteTA-dialog a {
-	color: @color--primary;
+.skin-vector-2022 #p-noteTA [id^='ca-noteTA-'] {
+	max-height: 32px;
 }
 
-.noteTA {
-	/* HACK to workaround VE and badly written CGroups */
-	display: none;
-
-	&-dialog {
-		&-message {
-			height: 320px;
-		}
-
-		&-actualTitle {
-			float: right;
-		}
-	}
-}
-
-.mw-indicator[id^='mw-indicator-noteTA-'] {
-	cursor: pointer;
+.skin-vector-legacy #p-noteTA.vector-menu-tabs-legacy {
+	padding-left: 0;
 }

@@ -20,22 +20,13 @@
 /* <nowiki> */
 
 /* src/NoteTA-pagestyles/NoteTA-pagestyles.less */
-#noteTA-dialog a {
-  color: #36c;
+.skin-vector-2022 #p-noteTA [id^=ca-noteTA-] {
+  max-height: 32px;
 }
-.noteTA {
-  display: none;
-}
-.noteTA-dialog-message {
-  height: 320px;
-}
-.noteTA-dialog-actualTitle {
-  float: right;
-}
-.mw-indicator[id^=mw-indicator-noteTA-] {
-  cursor: pointer;
+.skin-vector-legacy #p-noteTA.vector-menu-tabs-legacy {
+  padding-left: 0;
 }
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL05vdGVUQS1wYWdlc3R5bGVzL05vdGVUQS1wYWdlc3R5bGVzLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIiNub3RlVEEtZGlhbG9nIGEge1xuICBjb2xvcjogIzM2Yztcbn1cbi5ub3RlVEEge1xuICAvKiBIQUNLIHRvIHdvcmthcm91bmQgVkUgYW5kIGJhZGx5IHdyaXR0ZW4gQ0dyb3VwcyAqL1xuICBkaXNwbGF5OiBub25lO1xufVxuLm5vdGVUQS1kaWFsb2ctbWVzc2FnZSB7XG4gIGhlaWdodDogMzIwcHg7XG59XG4ubm90ZVRBLWRpYWxvZy1hY3R1YWxUaXRsZSB7XG4gIGZsb2F0OiByaWdodDtcbn1cbi5tdy1pbmRpY2F0b3JbaWRePSdtdy1pbmRpY2F0b3Itbm90ZVRBLSddIHtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUMsY0FBYztBQUNiLFNBQU87QUFDVDtBQUNBLENBQUM7QUFFQyxXQUFTO0FBQ1g7QUFDQSxDQUFDO0FBQ0MsVUFBUTtBQUNWO0FBQ0EsQ0FBQztBQUNDLFNBQU87QUFDVDtBQUNBLENBQUMsWUFBWSxDQUFDO0FBQ1osVUFBUTtBQUNWOyIsCiAgIm5hbWVzIjogW10KfQo= */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL05vdGVUQS1wYWdlc3R5bGVzL05vdGVUQS1wYWdlc3R5bGVzLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5za2luLXZlY3Rvci0yMDIyICNwLW5vdGVUQSBbaWRePSdjYS1ub3RlVEEtJ10ge1xuICBtYXgtaGVpZ2h0OiAzMnB4O1xufVxuLnNraW4tdmVjdG9yLWxlZ2FjeSAjcC1ub3RlVEEudmVjdG9yLW1lbnUtdGFicy1sZWdhY3kge1xuICBwYWRkaW5nLWxlZnQ6IDA7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQyxpQkFBaUIsQ0FBQyxTQUFTLENBQUM7QUFDM0IsY0FBWTtBQUNkO0FBQ0EsQ0FBQyxtQkFBbUIsQ0FIRCxRQUdVLENBQUM7QUFDNUIsZ0JBQWM7QUFDaEI7IiwKICAibmFtZXMiOiBbXQp9Cg== */
