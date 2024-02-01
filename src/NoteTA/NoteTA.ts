@@ -1,7 +1,7 @@
 import {getViewer, resetAllViewer} from './modules/viewer';
 import {initGlobalMethods, portletId} from './modules/initGlobalMethods';
+import {checkA11yConfirmKey} from 'ext.gadget.Util';
 import {generatePortletLink} from './modules/util/generatePortletLink';
-
 import {windowManager} from './modules/initWindowManager';
 
 let isInit: boolean = false;
@@ -35,9 +35,14 @@ mw.hook('wikipage.content').add(($content): void => {
 			$element = $portletLink;
 		}
 
-		$element.on('click', (event: JQuery.ClickEvent): void => {
+		const openerListener = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
 			event.preventDefault();
+			if (!checkA11yConfirmKey(event)) {
+				return;
+			}
 			getViewer($body, hash).open();
-		});
+		};
+		$element.on('click', openerListener);
+		$element.on('keydown', openerListener);
 	}
 });
