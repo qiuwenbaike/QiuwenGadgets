@@ -1,7 +1,7 @@
 import {getViewer, resetAllViewer} from './modules/viewer';
-import {globalMethods, initGlobalMethods} from './modules/initGlobalMethods';
-import {filterAlteredClicks} from 'ext.gadget.FilterAlteredClicks';
+import {initGlobalMethods, portletId} from './modules/initGlobalMethods';
 import {generatePortletLink} from './modules/util/generatePortletLink';
+
 import {windowManager} from './modules/initWindowManager';
 
 let isInit: boolean = false;
@@ -16,7 +16,7 @@ mw.hook('wikipage.content').add(($content): void => {
 
 	resetAllViewer();
 
-	initGlobalMethods($body);
+	const globalMethods = initGlobalMethods($body);
 	globalMethods.deInit();
 	globalMethods.init();
 
@@ -24,17 +24,20 @@ mw.hook('wikipage.content').add(($content): void => {
 		const hash: string = element.id.replace(/^mw-indicator-noteTA-/, '');
 
 		let $element: JQuery = $(element);
-		if (globalMethods.portletId) {
+		if (portletId) {
 			$element.hide();
-			$element = generatePortletLink(hash) ?? $element;
+
+			const $portletLink: JQuery | undefined = generatePortletLink(hash);
+			if (!$portletLink) {
+				continue;
+			}
+
+			$element = $portletLink;
 		}
 
-		$element.on(
-			'click',
-			filterAlteredClicks((event: JQuery.ClickEvent): void => {
-				event.preventDefault();
-				getViewer($body, hash).open();
-			})
-		);
+		$element.on('click', (event: JQuery.ClickEvent): void => {
+			event.preventDefault();
+			getViewer($body, hash).open();
+		});
 	}
 });

@@ -1,9 +1,8 @@
 import {PORTLET_CLASS} from '../constant';
 import React from 'ext.gadget.React';
-import {globalMethods} from '../initGlobalMethods';
+import {portletId} from '../initGlobalMethods';
 
 const generatePortletLink = (hash: string): JQuery | undefined => {
-	const {portletId} = globalMethods;
 	if (!portletId) {
 		return;
 	}
@@ -13,10 +12,10 @@ const generatePortletLink = (hash: string): JQuery | undefined => {
 		return;
 	}
 
-	const style: React.CSSProperties = {
+	const style = {
 		height: '85%',
 		padding: '1px 3px',
-	};
+	} as const satisfies React.CSSProperties;
 
 	// The following classes are used here:
 	// * see constant.ts

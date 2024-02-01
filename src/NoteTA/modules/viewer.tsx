@@ -11,6 +11,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 	if (viewerMap.has(hash)) {
 		const storedViewer = viewerMap.get(hash);
 		assert(storedViewer, 'viewer');
+
 		return storedViewer;
 	}
 
@@ -43,7 +44,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			});
 		}
 
-		override initialize(): this {
+		public override initialize(): this {
 			super.initialize();
 
 			const panelLayout: OO.ui.PanelLayout = new OO.ui.PanelLayout({
@@ -57,15 +58,16 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			return this;
 		}
 
-		override getSetupProcess(data: OO.ui.Dialog.SetupDataMap): OO.ui.Process {
-			return super.getSetupProcess(data).next(() => {
+		public override getSetupProcess(data: OO.ui.Dialog.SetupDataMap): OO.ui.Process {
+			return super.getSetupProcess(data).next((): void => {
 				void this.doExecuteWrap();
 				void this.executeAction('main');
 			});
 		}
 
-		override getActionProcess(action?: string): OO.ui.Process {
+		public override getActionProcess(action?: string): OO.ui.Process {
 			const isMainAction: boolean = action === 'main';
+
 			return (
 				super
 					.getActionProcess(action)
@@ -84,11 +86,11 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			);
 		}
 
-		destroy(): void {
+		public destroy(): void {
 			this.mutationObserver.disconnect();
 		}
 
-		static getNoteTAParseText(): JQuery.Deferred<ApiResponse> {
+		private static getNoteTAParseText(): JQuery.Deferred<ApiResponse> {
 			if (NoteTAViewer.noteTAParseText) {
 				return $.Deferred<string>().resolve(NoteTAViewer.noteTAParseText);
 			}
@@ -121,7 +123,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 					title: actualTitle,
 					variant: 'zh',
 				})
-					.then((resultHtml): void => {
+					.then((resultHtml: ApiResponse): void => {
 						const $multiTitle: JQuery = $($.parseHTML(resultHtml as ApiParseResponse)).find(
 							'.noteTA-multititle'
 						);
@@ -148,7 +150,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 								}
 							}
 
-							const titleConverted = variantText[WG_USER_VARIANT as string];
+							const titleConverted: string | null | undefined = variantText[WG_USER_VARIANT as string];
 
 							const multiTitle: string[] = [];
 							for (const text of Object.values(variantText)) {
@@ -229,6 +231,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 					wikitext += '{{noteTA/footer}}\n';
 
 					NoteTAViewer.noteTAParseText = wikitext;
+
 					void deferred.resolve(wikitext);
 				})
 				.catch((error: ApiRetryFailError): void => {
@@ -238,7 +241,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			return deferred;
 		}
 
-		doExecute() {
+		private doExecute() {
 			if (this.dataIsLoaded) {
 				return $.Deferred<ApiResponse>().resolve();
 			}
@@ -281,7 +284,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 				});
 		}
 
-		doExecuteWrap() {
+		private doExecuteWrap() {
 			if (this.executePromise === undefined) {
 				this.executePromise = this.doExecute();
 				delete NoteTAViewer.lastError;
@@ -328,7 +331,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 	NoteTAViewer.static = {
 		...OO.ui.ProcessDialog.static,
 	};
-	NoteTAViewer.static.name = `NoteTALoader-${hash}`;
+	NoteTAViewer.static.name = `NoteTAViewer-${hash}`;
 	NoteTAViewer.static.title = getMessage('Title');
 	NoteTAViewer.static.actions = [
 		{
