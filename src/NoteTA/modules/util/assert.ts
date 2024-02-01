@@ -1,7 +1,7 @@
 // eslint-disable-next-line func-style
-function assert(value: string | OO.ui.ProcessDialog | undefined, valueName: string): asserts value {
+function assert<T>(value: T | undefined, valueName: string): asserts value {
 	if (!value) {
-		throw new Error(`Assert Fail, ${valueName} == null.`);
+		throw new Error(`Assert Fail, ${valueName} == false.`);
 	}
 }
 

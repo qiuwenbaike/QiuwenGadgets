@@ -7,7 +7,7 @@ import {getMessage} from './i18n';
 import {viewerMap} from './initViewMap';
 import {windowManager} from './initWindowManager';
 
-const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessDialog => {
+const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer => {
 	if (viewerMap.has(hash)) {
 		const storedViewer = viewerMap.get(hash);
 		assert(storedViewer, 'viewer');
@@ -22,6 +22,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 	class NoteTAViewer extends OO.ui.ProcessDialog {
 		private dataIsLoaded: boolean;
 		private executePromise?: ReturnType<typeof this.doExecute>;
+		private mutationObserver: MutationObserver;
 		private $realContent: JQuery;
 		private $body: JQuery | undefined;
 		private static lastError?: OO.ui.Error;
@@ -31,8 +32,15 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 			super({
 				size: 'larger',
 			});
+
 			this.dataIsLoaded = false;
 			this.$realContent = $(<div />) as JQuery;
+
+			this.mutationObserver = new MutationObserver(this.updateSize.bind(this));
+			this.mutationObserver.observe(this.$realContent.get(0) as HTMLElement, {
+				childList: true,
+				subtree: true,
+			});
 		}
 
 		override initialize(): this {
@@ -76,6 +84,10 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 			);
 		}
 
+		destroy(): void {
+			this.mutationObserver.disconnect();
+		}
+
 		static getNoteTAParseText(): JQuery.Deferred<ApiResponse> {
 			if (NoteTAViewer.noteTAParseText) {
 				return $.Deferred<string>().resolve(NoteTAViewer.noteTAParseText);
@@ -99,7 +111,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 				}
 
 				wikitext += `<span style="float:right">{{edit|${actualTitle}|section=0}}</span>\n`;
-				wikitext += '; 本文使用[[Help:中文维基百科的繁简、地区词处理#條目標題|标题手工转换]]\n';
+				wikitext += '; 本文使用[[Help:字词转换处理|标题手工转换]]\n';
 				wikitext += `* 转换标题为：-{D|${titleConv}}-${titleDesc}\n`;
 				wikitext += `* 实际标题为：-{R|${actualTitle}}-；当前显示为：-{|${titleConv}}-\n`;
 
@@ -136,6 +148,8 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 								}
 							}
 
+							const titleConverted = variantText[WG_USER_VARIANT as string];
+
 							const multiTitle: string[] = [];
 							for (const text of Object.values(variantText)) {
 								if (text === null) {
@@ -156,9 +170,8 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 									.join('、');
 								multiTitle[multiTitle.length] = `${variantsName}：-{R|${text}}-`;
 							}
-							wikitext += multiTitle.join('；');
 
-							const titleConverted = variantText[WG_USER_VARIANT as string];
+							wikitext += multiTitle.join('；');
 							wikitext += `\n* 实际标题为：-{R|${actualTitle}}-；当前显示为：-{R|${titleConverted}}-\n`;
 						}
 
@@ -240,14 +253,13 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 					})
 				)
 				.then((parsedHtml: ApiResponse): void => {
-					this.dataIsLoaded = true;
-
 					this.$realContent.empty().html(parsedHtml as ApiParseResponse);
 					(
 						this.$realContent.find('.mw-collapsible') as JQuery & {makeCollapsible: () => JQuery}
 					).makeCollapsible();
-
 					this.updateSize();
+
+					this.dataIsLoaded = true;
 				})
 				.catch((error: ApiRetryFailError | Error | string): void => {
 					if (error instanceof ApiRetryFailError) {
@@ -306,12 +318,9 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 		}
 	}
 
-	if (!NoteTAViewer.static || NoteTAViewer.static === OO.ui.ProcessDialog.static) {
-		NoteTAViewer.static = {
-			...OO.ui.ProcessDialog.static,
-		};
-	}
-
+	NoteTAViewer.static = {
+		...OO.ui.ProcessDialog.static,
+	};
 	NoteTAViewer.static.name = `NoteTALoader-${hash}`;
 	NoteTAViewer.static.title = getMessage('Title');
 	NoteTAViewer.static.actions = [
@@ -321,7 +330,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 		},
 	];
 
-	const viewer: OO.ui.ProcessDialog = new NoteTAViewer();
+	const viewer: NoteTAViewer = new NoteTAViewer();
 	windowManager.addWindows([viewer]);
 	viewerMap.set(hash, viewer);
 
@@ -329,6 +338,9 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): OO.ui.ProcessD
 };
 
 const resetAllViewer = (): void => {
+	for (const viewer of viewerMap.values()) {
+		viewer.destroy();
+	}
 	viewerMap.clear();
 	void windowManager.clearWindows();
 };
