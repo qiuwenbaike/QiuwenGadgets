@@ -178,7 +178,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 								multiTitle[multiTitle.length] = `${variantsName}：-{R|${text}}-`;
 							}
 
-							wikitext += multiTitle.join('；');
+							wikitext += `\n${multiTitle.join('\n** ')}`;
 							wikitext += `\n* 实际标题为：-{R|${actualTitle}}-；当前显示为：-{R|${titleConverted}}-\n`;
 						}
 
