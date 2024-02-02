@@ -5,7 +5,7 @@ import {getMessage} from './i18n';
 
 const processId = (
 	isRevisionPage: boolean,
-	{diffId, oldId, revisionId}: {diffId: number; oldId: number; revisionId: number}
+	{diffId, oldId, revisionId}: {diffId: number | null; oldId: number | null; revisionId: number | null}
 ): void => {
 	if (diffId) {
 		buildLink(oldId, diffId);
