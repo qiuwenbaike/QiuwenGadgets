@@ -13,15 +13,9 @@ mw.hook('wikipage.content').add(($content): void => {
 		return;
 	}
 
-	const diffId: number | null = mw.config.get('wgDiffNewId');
-	const oldId: number | null = mw.config.get('wgDiffOldId');
-	if (diffId === null || oldId === null) {
-		return;
-	}
-
 	processId(isRevisionPage, {
-		diffId,
-		oldId,
+		diffId: mw.config.get('wgDiffNewId'),
+		oldId: mw.config.get('wgDiffOldId'),
 		revisionId: mw.config.get('wgRevisionId'),
 	});
 });
