@@ -164,6 +164,10 @@
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.SiteCommon', 'ext.gadget.SiteCommon_JS']);"
 		},
+		"Filepage.css": {
+			"enable": true,
+			"sourceCode": "/* #REDIRECT */@import url(https://www.qiuwenbaike.cn/index.php?title=MediaWiki:Gadget-SiteCommon_Filepage.css&action=raw&ctype=text/css);"
+		},
 		"Gongbi.js": {
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.SkinGongbi']);"
