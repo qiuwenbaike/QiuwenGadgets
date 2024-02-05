@@ -16,9 +16,9 @@
 			display: none !important;
 		}
 
-		/* 隐藏页边 */
 		&.skin-citizen {
 			.citizen-body {
+				/* 隐藏页边 */
 				grid-area: unset;
 			}
 
@@ -32,6 +32,19 @@
 			.vector-page-toolbar {
 				/* 隐藏工具栏 */
 				display: none;
+			}
+		}
+
+		&.skin-citizen,
+		&.skin-gongbi,
+		&.skin-vector {
+			.mw-body {
+				/* 背景 */
+				background: @background-color-primary--lighter;
+
+				.client-darkmode & {
+					background: @const-color-gray--dark;
+				}
 			}
 		}
 	}
@@ -57,25 +70,6 @@
 }
 
 /* == 页面正文 == */
-
-/* stylelint-disable-next-line no-duplicate-selectors */
-.page-Qiuwen_首页 {
-	/* stylelint-disable-next-line no-duplicate-selectors */
-	&.action-view {
-		&.skin-citizen,
-		&.skin-gongbi,
-		&.skin-vector {
-			.mw-body {
-				background: @background-color-primary--lighter;
-
-				.client-darkmode & {
-					background: @const-color-gray--dark;
-				}
-			}
-		}
-	}
-}
-
 #mainpage {
 	padding: 1em;
 	border-radius: @border-radius--small;
