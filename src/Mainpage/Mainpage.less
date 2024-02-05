@@ -2,8 +2,8 @@
 
 /* == 非页面正文 == */
 
+/* 隐藏首页的页顶、页尾及其他无用要素 */
 .page-Qiuwen_首页 {
-	/* 隐藏首页的页顶、页尾及其他无用要素 */
 	&.action-view {
 		.mw-indicators,
 		#contentSub,
@@ -16,14 +16,14 @@
 			display: none !important;
 		}
 
+		/* 隐藏页边 */
 		&.skin-citizen {
-			/* 隐藏页边 */
 			.citizen-body {
 				grid-area: unset;
 			}
 
-			/* 隐藏页头 */
 			.mw-body-header {
+				/* 隐藏页头 */
 				display: none;
 			}
 		}
@@ -36,13 +36,13 @@
 		}
 	}
 
-	/* 隐藏首页下方的Catlink */
 	#catlinks {
+		/* 隐藏首页下方的Catlink */
 		display: none;
 	}
 
-	/* 隐藏首页下方的“最后编辑于” */
 	#footer-info-lastmod {
+		/* 隐藏首页下方的“最后编辑于” */
 		display: none;
 	}
 }
