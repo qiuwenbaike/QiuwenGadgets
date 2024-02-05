@@ -2,8 +2,8 @@
 
 /* == 非页面正文 == */
 
+/* 隐藏首页的页顶、页尾及其他无用要素 */
 .page-Qiuwen_首页 {
-	/* 隐藏首页的页顶、页尾及其他无用要素 */
 	&.action-view {
 		.mw-indicators,
 		#contentSub,
@@ -17,13 +17,13 @@
 		}
 
 		&.skin-citizen {
-			/* 隐藏页边 */
 			.citizen-body {
+				/* 隐藏页边 */
 				grid-area: unset;
 			}
 
-			/* 隐藏页头 */
 			.mw-body-header {
+				/* 隐藏页头 */
 				display: none;
 			}
 		}
@@ -34,15 +34,28 @@
 				display: none;
 			}
 		}
+
+		&.skin-citizen,
+		&.skin-gongbi,
+		&.skin-vector {
+			.mw-body {
+				/* 背景 */
+				background: @background-color-primary--lighter;
+
+				.client-darkmode & {
+					background: @const-color-gray--dark;
+				}
+			}
+		}
 	}
 
-	/* 隐藏首页下方的Catlink */
 	#catlinks {
+		/* 隐藏首页下方的Catlink */
 		display: none;
 	}
 
-	/* 隐藏首页下方的“最后编辑于” */
 	#footer-info-lastmod {
+		/* 隐藏首页下方的“最后编辑于” */
 		display: none;
 	}
 }
@@ -57,25 +70,6 @@
 }
 
 /* == 页面正文 == */
-
-/* stylelint-disable-next-line no-duplicate-selectors */
-.page-Qiuwen_首页 {
-	/* stylelint-disable-next-line no-duplicate-selectors */
-	&.action-view {
-		&.skin-citizen,
-		&.skin-gongbi,
-		&.skin-vector {
-			.mw-body {
-				background: @background-color-primary--lighter;
-
-				.client-darkmode & {
-					background: @const-color-gray--dark;
-				}
-			}
-		}
-	}
-}
-
 #mainpage {
 	padding: 1em;
 	border-radius: @border-radius--small;

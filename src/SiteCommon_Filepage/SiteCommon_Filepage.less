@@ -2,8 +2,8 @@
 
 /* 此处的CSS只会包含在文件名字空间的页面中 */
 .ns-6 {
-	/* Lots of crappy tables on Commons without classes etc */
 	table {
+		/* Lots of crappy tables on file pages without classes etc */
 		box-sizing: border-box !important;
 
 		/* 文件历史 */
@@ -17,8 +17,8 @@
 		display: none;
 	}
 
-	/* Hide unsupported variants */
 	#mw-imglangselector-line option[value^='zh-'] {
+		/* Hide unsupported SVG variants */
 		display: none;
 	}
 
@@ -26,6 +26,7 @@
 		&latitude,
 		&longitude,
 		&altitude {
+			/* Hide GPS */
 			display: none;
 		}
 	}
