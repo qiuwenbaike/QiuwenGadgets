@@ -3183,7 +3183,6 @@
 	"zhqiuwenbaike": [
 		"MediaWiki:Citizen.js",
 		"MediaWiki:Common.js",
-		"MediaWiki:Filepage.css",
 		"MediaWiki:Gadget-AccessKeyCheatsheet",
 		"MediaWiki:Gadget-AccessKeyCheatsheet.js",
 		"MediaWiki:Gadget-AccessKeyCheatsheet/zh",
