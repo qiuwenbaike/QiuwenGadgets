@@ -90,5 +90,9 @@ kbd,
 pre,
 samp,
 tt {
-	font-family: @monospace, monospace;
+	font-family: @monospace-zh-hans, monospace, @emoji-font;
+
+	html:lang(zh-hant) & {
+		font-family: @monospace-zh-hant, monospace, @emoji-font;
+	}
 }
