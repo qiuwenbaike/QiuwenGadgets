@@ -46,7 +46,7 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 			format: 'json',
 			formatversion: '2',
 			prop: 'revisions',
-			titles: 'Qiuwen_talk:版本删除提报',
+			titles: RRD_PAGE,
 			rvprop: 'content',
 		};
 		const {query} = await api.get(params);
