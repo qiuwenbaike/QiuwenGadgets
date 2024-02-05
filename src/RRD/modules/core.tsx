@@ -1,10 +1,11 @@
+import {IS_LOG, RRD_PAGE} from './constant';
 import {type rrdConfig, type rrdConfigCheckBoxes, type rrdConfigOthers} from './types';
-import {RRD_PAGE} from './constant';
+import DialogInner from '../components/DialogInner';
 import React from 'ext.gadget.React';
+import ReportButton from '../components/ReportButton';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 
-export const isLog: boolean = mw.config.get('wgCanonicalSpecialPageName') === 'Log';
 const config: rrdConfig = {
 	checkboxes: {},
 	others: {},
@@ -126,47 +127,7 @@ const showDialog = (): void => {
 		void mw.notify(getMessage('errNoRevisionProvided'), {tag: 'RRD', type: 'error'});
 		return;
 	}
-	const html = (
-		<div id="rrdConfig">
-			{getMessage('hideItems')}
-			<br />
-			<div style="float: left; padding: 0 5px;">
-				<input name="content" id="rrdHideContent" type="checkbox" value="content" checked />
-				<label htmlFor="rrdHideContent" id="rrd-content">
-					{isLog ? getMessage('hideLog') : getMessage('hideContent')}
-				</label>
-			</div>
-			<div style="float: left; padding: 0 5px;">
-				<input name="username" id="rrdHideUsername" type="checkbox" value="username" />
-				<label htmlFor="rrdHideUsername" id="rrd-username">
-					{getMessage('hideUsername')}
-				</label>
-			</div>
-			<div style="float: left; padding: 0 5px;">
-				<input name="summary" id="rrdHideSummary" type="checkbox" value="summary" />
-				<label htmlFor="rrdHideSummary" id="rrd-summary">
-					{getMessage('hideSummary')}
-				</label>
-			</div>
-			<br />
-			<br />
-			{getMessage('hideReason')}
-			<br />
-			<select name="rrdReason" id="rrdReason">
-				<option value={getMessage('hideReasonRD1')}>{getMessage('hideReasonRD1')}</option>
-				<option value={getMessage('hideReasonRD2')}>{getMessage('hideReasonRD2')}</option>
-				<option value={getMessage('hideReasonRD3')}>{getMessage('hideReasonRD3')}</option>
-				<option value={getMessage('hideReasonRD4')}>{getMessage('hideReasonRD4')}</option>
-				<option value={getMessage('hideReasonRD5')}>{getMessage('hideReasonRD5')}</option>
-				<option value="">{getMessage('hideReasonOther')}</option>
-			</select>
-			<br />
-			<br />
-			{getMessage('otherReasons')}
-			<br />
-			<textarea name="otherReasons" id="rrdOtherReasons" rows={4}></textarea>
-		</div>
-	);
+	const html = <DialogInner />;
 	if ($dialog) {
 		$dialog.html(html).dialog('open');
 		loadConfig();
@@ -189,7 +150,7 @@ const showDialog = (): void => {
 					}
 					const toHide: string[] = [];
 					if (config.checkboxes.rrdHideContent) {
-						toHide.push(isLog ? getMessage('hideLog') : getMessage('hideContent'));
+						toHide.push(IS_LOG ? getMessage('hideLog') : getMessage('hideContent'));
 					}
 					if (config.checkboxes.rrdHideUsername) {
 						toHide.push(getMessage('hideUsername'));
@@ -221,21 +182,11 @@ const showDialog = (): void => {
 };
 
 export const main = (): void => {
-	const reportButton = (
-		<button
-			className={['historysubmit', 'mw-history-rrd', 'mw-ui-button', 'cdx-button']}
-			name={'reportRRD'}
-			type={'button'}
-			title={getMessage('reportButtonTitle') + RRD_PAGE}
-			onClick={showDialog}
-		>
-			{isLog ? getMessage('reportButtonLogText') : getMessage('reportButtonText')}
-		</button>
-	);
 	// For action=history and Special:Log
 	for (const element of document.querySelectorAll(
 		'.historysubmit.mw-history-compareselectedversions-button, .editchangetags-log-submit.mw-log-editchangetags-button'
 	)) {
-		element.after(reportButton.cloneNode(true));
+		const reportButton = <ReportButton onClick={showDialog} />;
+		element.after(reportButton);
 	}
 };
