@@ -1,6 +1,10 @@
-import {IS_WG_EDIT_OR_SUBMIT_ACTION} from './constant';
+import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_WIKI_ID} from './constant';
 
 const introACH = (): void => {
+	if (WG_WIKI_ID !== 'zhqiuwenbaike') {
+		return;
+	}
+
 	/**
 	 * Remove "Edit" buttons
 	 */
