@@ -1,21 +1,18 @@
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
-import {getBody} from 'ext.gadget.Util';
 
-const processWikiEditor = async (): Promise<void> => {
-	const $body: JQuery<HTMLBodyElement> = await getBody();
-
+const processWikiEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	const $editCheckboxes: JQuery = $body.find('.editCheckboxes');
 	if (!$editCheckboxes.length) {
 		return;
 	}
 
-	const $dropdown: JQuery = generateSummaryDropdown($body.find('#wpSummary'));
+	const $dropdowns: JQuery = generateSummaryDropdown($body.find('#wpSummary'));
 
-	$dropdown.css({
+	$dropdowns.css({
 		'padding-bottom': '1em',
 		width: '48%',
 	});
-	$editCheckboxes.before($dropdown);
+	$editCheckboxes.before($dropdowns);
 };
 
 export {processWikiEditor};
