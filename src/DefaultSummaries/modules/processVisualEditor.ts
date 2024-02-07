@@ -17,10 +17,10 @@ const processVisualEditor = (): void => {
 		return;
 	}
 
-	const $dropdown: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
+	const $dropdowns: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-	$saveOptions.before($dropdown);
+	$saveOptions.before($dropdowns);
 };
 
 export {processVisualEditor};
