@@ -1,7 +1,13 @@
-import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_WIKI_ID} from './constant';
+import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_USER_GROUPS, WG_WIKI_ID} from './constant';
 
 const introACH = (): void => {
+	// Disabled for wikis other than zhqiuwenbaike
 	if (WG_WIKI_ID !== 'zhqiuwenbaike') {
+		return;
+	}
+
+	// Disabled for confirmed users
+	if (WG_USER_GROUPS.includes('confirmed') || WG_USER_GROUPS.includes('autoconfirmed')) {
 		return;
 	}
 
