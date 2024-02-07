@@ -14,16 +14,13 @@ void getBody().then(function didYouMean($body: JQuery<HTMLBodyElement>): void {
 	if (!href) {
 		return;
 	}
+	if (mw.config.get('wgNamespaceNumber') === 2 && WG_RELEVANT_USER_NAME) {
+		const relevantUserPageName: string = new mw.Title(WG_RELEVANT_USER_NAME, 2).toText();
+		const pageName: string = new mw.Title(mw.config.get('wgPageName')).toText();
 
-	const relevantUserPageName: string = new mw.Title(WG_RELEVANT_USER_NAME, 2).toText();
-	const pageName: string = new mw.Title(mw.config.get('wgPageName')).toText();
-	if (
-		WG_RELEVANT_USER_NAME &&
-		mw.config.get('wgNamespaceNumber') === 2 &&
-		mw.config.get('wgAction') === 'view' &&
-		relevantUserPageName === pageName
-	) {
-		return;
+		if (relevantUserPageName === pageName) {
+			return;
+		}
 	}
 
 	toastify(
