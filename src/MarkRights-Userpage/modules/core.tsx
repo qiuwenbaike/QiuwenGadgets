@@ -1,9 +1,7 @@
-import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_SKIN} from './constant';
+import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_RELEVANT_USER_NAME, WG_SKIN} from './constant';
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
-
-export const wgRelevantUserName: string | null = mw.config.get('wgRelevantUserName');
 
 const appendIcon = (indicatorText: string, spanClass: string): void => {
 	if (spanClass === 'unknown') {
@@ -31,7 +29,7 @@ const appendIcon = (indicatorText: string, spanClass: string): void => {
 };
 
 export const getPermissions = async (): Promise<void> => {
-	if (!wgRelevantUserName) {
+	if (!WG_RELEVANT_USER_NAME) {
 		return;
 	}
 	const api: mw.Api = initMwApi('MarkRights-Userpage/1.0');
@@ -41,12 +39,12 @@ export const getPermissions = async (): Promise<void> => {
 			format: 'json',
 			formatversion: '2',
 			list: 'users',
-			ususers: wgRelevantUserName,
+			ususers: WG_RELEVANT_USER_NAME,
 			usprop: 'groups',
 		};
 		const {query} = await api.get(listUsersParams);
 		const [{groups}]: [{groups: string[]}] = query.users;
-		if (WEBMASTER_LIST.includes(wgRelevantUserName) || groups.includes('qiuwen')) {
+		if (WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('qiuwen')) {
 			appendIcon(getMessage('Webmaster'), 'qiuwen');
 		}
 		if (groups.includes('steward')) {
@@ -92,7 +90,7 @@ export const getPermissions = async (): Promise<void> => {
 		}
 		if (
 			groups.includes('bot') &&
-			!SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName) // Already shown in GeoLocationViewer
+			!SYSTEM_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME) // Already shown in GeoLocationViewer
 		) {
 			appendIcon(getMessage('Bot'), 'bot');
 		}
