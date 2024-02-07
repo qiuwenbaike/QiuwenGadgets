@@ -14,6 +14,11 @@ const getI18nMessages = () => {
 			'zh-hans': '请先预览',
 			'zh-hant': '請先預覽',
 		}),
+		RevisionPreloaded: localize({
+			en: 'Content of revision $1 preloaded.',
+			'zh-hans': '已加载版本$1的内容。',
+			'zh-hant': '已載入版本$1的內容。',
+		}),
 	};
 };
 
