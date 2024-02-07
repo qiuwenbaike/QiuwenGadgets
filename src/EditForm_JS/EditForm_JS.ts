@@ -1,8 +1,9 @@
-import {IS_WG_EDIT_OR_SUBMIT_ACTION} from './modules/constant';
+import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_NAMESPACE_NUMBER} from './modules/constant';
 import {aiAssisted} from './modules/aiAssisted';
 import {clearUndoSummary} from './modules/clearUndoSummary';
 import {disableTitle} from './modules/disableTitle';
 import {getBody} from 'ext.gadget.Util';
+import {introACH} from './modules/introACH';
 import {preloadRevid} from './modules/preloadRevid';
 
 void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
@@ -16,6 +17,12 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	const revid = mw.util.getParamValue('preloadrevid');
 	if (revid && IS_WG_EDIT_OR_SUBMIT_ACTION) {
 		preloadRevid($body);
+	}
+
+	// 新用户引导至条目创建向导（[[QW:AFD]]）
+	const curid = mw.config.get('wgArticleId');
+	if (!curid && ![2, 3, 118].includes(WG_NAMESPACE_NUMBER)) {
+		introACH();
 	}
 
 	// AI辅助编辑特殊声明
