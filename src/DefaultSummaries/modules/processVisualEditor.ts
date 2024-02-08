@@ -1,13 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
-let isInit: boolean = false;
-
 const processVisualEditor = (): void => {
-	if (isInit) {
+	// Guard against double inclusions
+	if (mw.config.get('wgDefaultSummariesInstalled')) {
 		return;
 	}
-	isInit = true;
+
+	// Set guard
+	mw.config.set('wgDefaultSummariesInstalled', true);
 
 	// @ts-expect-error TS2304
 	const {target} = ve.init;
@@ -19,7 +20,6 @@ const processVisualEditor = (): void => {
 
 	const $dropdowns: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
 
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 	$saveOptions.before($dropdowns);
 };
 
