@@ -1,9 +1,8 @@
 /**
  * @description Add a "Preview with variant" option to the edit form.
  */
-mw.config.set('wgPreviewWithVariantInitialized', false);
-
 mw.hook('wikipage.editform').add(($editForm): void => {
+	// Guard against double inclusions
 	if (mw.config.get('wgPreviewWithVariantInitialized')) {
 		return;
 	}
@@ -17,6 +16,7 @@ mw.hook('wikipage.editform').add(($editForm): void => {
 	if (!$layout.length) {
 		return;
 	}
+	// Guard against double inclusions
 	mw.config.set('wgPreviewWithVariantInitialized', true);
 	const VARIANTS: {
 		data: string;
