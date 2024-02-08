@@ -15,9 +15,11 @@ import {tippyForCitizenHeader, tippyForExtension} from './modules/tippy';
 import {deprecatedFunctions} from './modules/deprecatedFunctions';
 
 (function siteCommon(): void {
+	// Guard against double inclusions
 	if (mw.config.get('wgSiteCommonInstalled')) {
 		return;
 	}
+	// Set guard
 	mw.config.set('wgSiteCommonInstalled', true);
 
 	// Core modules

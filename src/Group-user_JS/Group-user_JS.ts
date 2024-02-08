@@ -7,9 +7,11 @@ import {smartEditIntro} from './modules/smartEditIntro';
 import {smartNewSection} from './modules/smartNewSection';
 
 (function userJS(): void {
+	// Guard against double inclusions
 	if (mw.config.get('wgUserJSInstalled')) {
 		return;
 	}
+	// Set guard
 	mw.config.set('wgUserJSInstalled', true);
 
 	/* 加载编辑界面脚本 */

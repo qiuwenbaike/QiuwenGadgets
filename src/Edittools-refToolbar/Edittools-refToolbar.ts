@@ -13,9 +13,11 @@ import {refToolbarMesages} from './modules/messages';
  * @author Mr.Z-man, Kaldari
  */
 ((): void => {
+	// Guard against double inclusions
 	if (mw.config.get('wgRefToolbarInstalled')) {
 		return;
-	} // Set guard
+	}
+	// Set guard
 	mw.config.set('wgRefToolbarInstalled', true);
 
 	// Only execute when editing/previewing wikitext pages
