@@ -1,4 +1,4 @@
-import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_USER_GROUPS, WG_USER_NAME} from './modules/constant';
+import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_USER_EDIT_COUNT, WG_USER_GROUPS, WG_USER_NAME} from './modules/constant';
 import {getGeoInfo} from 'ext.gadget.Geo';
 import {storeLocation} from './modules/storeLocation';
 
@@ -7,11 +7,7 @@ import {storeLocation} from './modules/storeLocation';
 		return;
 	}
 
-	if (
-		WG_USER_GROUPS.includes('bot') ||
-		WG_USER_GROUPS.includes('qiuwen') ||
-		!(WG_USER_GROUPS.includes('autoconfirmed') || WG_USER_GROUPS.includes('confirmed'))
-	) {
+	if (WG_USER_GROUPS.includes('bot') || WG_USER_GROUPS.includes('qiuwen') || !WG_USER_EDIT_COUNT) {
 		return;
 	}
 

@@ -16,7 +16,7 @@ const storeLocation = async ({countryOrArea, region}: StoreGeoInfo): Promise<voi
 				})
 				.toString()
 		)) as Partial<StoreGeoInfo>;
-		if (response.countryOrArea === countryOrArea && (response.region === region || (!response.region && !region))) {
+		if (response.countryOrArea === countryOrArea && (response.region === region || (response.region && !region))) {
 			return;
 		}
 	} catch {}
