@@ -3,17 +3,7 @@
  * _addText: '{{Gadget Header|title=HotCat|license=CC-BY-SA-4.0}}'
  *
  * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-HotCat.js}
- * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-HotCat.js/zh-hans}
- * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-HotCat.js/local_defaults}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HotCat}
- */
-
-/**
- * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|title=CheckCategories HotCat Extension|license=CC-BY-SA-4.0}}'
- *
- * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Hotcatcheck.js}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HotCat/HotCat-check.js}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/HotCat-pagestyles}
  */
 /**
  * +------------------------------------------------------------+
@@ -37,4 +27,4 @@
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0hvdENhdC1wYWdlc3R5bGVzL0hvdENhdC1wYWdlc3R5bGVzLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5jYXRjaGVjay1pbmxpbmUtaWNvbiB7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICB0b3A6IDJweDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDO0FBQ0MsV0FBUztBQUNULFlBQVU7QUFDVixPQUFLO0FBQ1A7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0hvdENhdC1wYWdlc3R5bGVzL0hvdENhdC1wYWdlc3R5bGVzLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5jYXRjaGVjay1pbmxpbmUtaWNvbiB7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICB0b3A6IDJweDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxXQUFTO0FBQ1QsWUFBVTtBQUNWLE9BQUs7QUFDUDsiLAogICJuYW1lcyI6IFtdCn0K */
