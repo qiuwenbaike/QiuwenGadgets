@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import {initMwApi} from 'ext.gadget.Util';
 
 /**
@@ -29,10 +27,10 @@ import {initMwApi} from 'ext.gadget.Util';
 	 * @param {string} iconClass
 	 * @return {JQuery}
 	 */
-	const createjIcon = (iconClass) => {
+	const createjIcon = (iconClass: string): JQuery => {
 		return $('<span>').attr('class', `ui-icon ${iconClass} catcheck-inline-icon`).text(' ');
 	};
-	const createNotifyArea = (textNode, icon, state) => {
+	const createNotifyArea = (textNode: JQuery<JQuery.Node>, icon: string, state: string): JQuery<HTMLElement> => {
 		return $('<div>')
 			.addClass('ui-widget')
 			.append(
@@ -51,53 +49,62 @@ import {initMwApi} from 'ext.gadget.Util';
 		if (storageItem === 'disabled') {
 			return true;
 		}
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const self = this;
-		const newVal = self.wpTextbox1.value.replace(checkCategoriesRegExp, '');
-		const dlgButtons = {};
-		let $dialogCheckStorage;
-		let $permaSaveHint;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		const newVal = (self.wpTextbox1 as HTMLTextAreaElement).value?.replace(checkCategoriesRegExp, '');
+		const dlgButtons: {
+			'Yes, Remove'?: () => void;
+			'No, keep it'?: () => void;
+		} = {};
+		let $dialogCheckStorage: JQuery<HTMLElement>;
+		let $permaSaveHint: JQuery<HTMLElement>;
 		let $textHintNode;
 		let $dialog;
 		const doRemove = () => {
-			self.wpSummary.value = `Removing [[Template:Check categories|{${`{Check categories}}]] ${self.wpSummary.value}`}`;
-			self.wpTextbox1.value = newVal;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			(self.wpSummary as HTMLInputElement).value =
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				`Removing [[Template:Check categories|{${`{Check categories}}]] ${(self.wpSummary as HTMLInputElement).value}`}`;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			(self.wpTextbox1 as HTMLTextAreaElement).value = newVal;
 		};
-		const writeStorage = (val) => {
+		const writeStorage = (val: string) => {
 			mw.storage.set(storageItemName, val, 6048e2); // 7 days
 		};
 		dlgButtons['Yes, Remove'] = function () {
 			doRemove();
-			if ($dialogCheckStorage[0].checked) {
+			if (($dialogCheckStorage[0] as HTMLInputElement)?.checked) {
 				writeStorage('auto');
 			}
 			$(this).dialog('close');
 		};
 		dlgButtons['No, keep it'] = function () {
-			if ($dialogCheckStorage[0].checked) {
+			if (($dialogCheckStorage[0] as HTMLInputElement)?.checked) {
 				writeStorage('disabled');
 			}
 			$(this).dialog('close');
 		};
-		const _addToJS = function (_e) {
+		const _addToJS = function (this: HTMLElement, _e: JQuery.Event) {
 			_e.preventDefault();
 			if ($permaSaveHint.hasClass('ui-state-disabled')) {
 				return;
 			}
-			const $el = $(this);
+			const $el: JQuery<HTMLElement> = $(this);
 			$el.off('click').text('Please wait.');
 			$permaSaveHint.addClass('ui-state-disabled');
 			const params = {
 				action: 'edit',
 				title: `User:${mw.config.get('wgUserName')}/common.js`,
 				summary: `${selfName}Saving HotCat configuration.`,
-				appendtext: $el.data('addText'),
+				appendtext: $el.data('addText') as string,
 			};
-			const editDone = (editStat) => {
+			const editDone = (editStat?: {error?: {code?: string; info?: string}}) => {
 				if (!editStat) {
 					return;
 				}
 				if (editStat.error) {
-					mw.notify(
+					void mw.notify(
 						`Unable to save to your common.js using the API\n${editStat.error.code}\n${editStat.error.info}`,
 						{tag: 'hotCatCheck', type: 'error'}
 					);
@@ -107,7 +114,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					$permaSaveHint.fadeOut();
 				}
 			};
-			api.postWithToken('csrf', params).then(editDone);
+			void api.postWithToken('csrf', params).then(editDone);
 		};
 		/**
 		 * On Wikimedia Commons there were people who said:
@@ -121,7 +128,7 @@ import {initMwApi} from 'ext.gadget.Util';
 					id: 'hotCatAutoRemoveCheckCatStorage',
 				})
 				.on('change', function () {
-					if (this.checked) {
+					if ((this as HTMLInputElement).checked) {
 						$permaSaveHint.fadeIn();
 					} else {
 						$permaSaveHint.fadeOut();
@@ -199,7 +206,8 @@ import {initMwApi} from 'ext.gadget.Util';
 				},
 			});
 		};
-		if (newVal !== self.wpTextbox1.value) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		if (newVal !== (self.wpTextbox1 as HTMLTextAreaElement).value) {
 			if (window.HotCatAutoRemoveCheckCat || storageItem === 'auto') {
 				doRemove();
 				return true;
@@ -221,7 +229,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		e.preventDefault();
 		const $el = $(this);
 		$el.off('click');
-		const doEdit = (result) => {
+		const doEdit = (result: string) => {
 			if (!result) {
 				return;
 			}
@@ -238,14 +246,17 @@ import {initMwApi} from 'ext.gadget.Util';
 				nocreate: true,
 				text,
 			};
-			const editDone = (editStat) => {
+			const editDone = (editStat?: {error?: {code?: string; info?: string}}) => {
 				if (!editStat) {
 					return;
 				}
 				if (editStat.error) {
-					mw.notify(
+					void mw.notify(
 						`Unable to remove "Check categories" with the API\n${editStat.error.code}\n${editStat.error.info}`,
-						{tag: 'hotCatCheck', type: 'error'}
+						{
+							tag: 'hotCatCheck',
+							type: 'error',
+						}
 					);
 					$el.text('Edit-Error!');
 				} else {
@@ -255,10 +266,10 @@ import {initMwApi} from 'ext.gadget.Util';
 				$body.find('.checkcategories').fadeOut();
 			};
 			$el.text('Doing..');
-			api.postWithToken('csrf', params).then(editDone);
+			void api.postWithToken('csrf', params).then(editDone);
 		};
 		$el.text('Doing');
-		$.ajax({
+		void $.ajax({
 			url: mw.config.get('wgScript'),
 			data: {
 				action: 'raw',
