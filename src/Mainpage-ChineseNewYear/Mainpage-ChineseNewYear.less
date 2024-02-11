@@ -8,21 +8,6 @@
 }
 
 .mainpage {
-	a {
-		&,
-		&.extiw,
-		&.external {
-			&,
-			&:hover,
-			&:visited {
-				&,
-				&:hover {
-					color: #c33 !important;
-				}
-			}
-		}
-	}
-
 	h2 {
 		background: #c33;
 	}
@@ -72,22 +57,6 @@
 			}
 		}
 	}
-
-	&-link-button {
-		&:hover {
-			background: #c33 !important;
-			color: @const-color-white !important;
-
-			a {
-				&,
-				&:hover,
-				&:visited:hover {
-					color: @const-color-white !important;
-					text-decoration: none;
-				}
-			}
-		}
-	}
 }
 
 /* === Other elements === */
@@ -98,24 +67,6 @@
 .gadget-report-button,
 .gadget-scroll_up_button {
 	filter: hue-rotate(141deg) !important;
-}
-
-.mw-footer {
-	&,
-	.client-darkmode & {
-		a {
-			color: #c33 !important;
-
-			&:visited {
-				color: #a33 !important;
-			}
-
-			&:hover,
-			&:visited:hover {
-				color: #f33 !important;
-			}
-		}
-	}
 }
 
 /* === Skin-specific rules === */
