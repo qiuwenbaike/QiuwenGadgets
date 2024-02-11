@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+
 /**
- * Preload function for existing page
+ * @description Preload contents from Revision ID (oldid)
  */
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
