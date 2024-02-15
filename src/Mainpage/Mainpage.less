@@ -26,6 +26,10 @@
 				/* 隐藏页头 */
 				display: none;
 			}
+
+			.citizen-footer {
+				position: relative;
+			}
 		}
 
 		&.skin-vector-2022 {
@@ -70,35 +74,15 @@
 }
 
 /* == 页面正文 == */
-#mainpage {
-	padding: 1em;
+.mainpage {
 	border-radius: @border-radius--small;
 	line-height: 1.5;
-
-	&-copyright,
-	&-feedback {
-		padding: 0.5em 2.5em;
-		margin: 0 0 auto auto;
-		text-align: right;
-	}
-
-	&-copyright {
-		font-size: 0.5em;
-
-		&,
-		& a {
-			color: #aaa;
-		}
-	}
-
-	&-feedback {
-		font-size: 0.875em;
-	}
-}
-
-.mainpage {
-	background: transparent;
-	line-height: 1.5;
+	background: @background-color-primary;
+	box-shadow:
+		0 0 20px 20vh @background-color-primary--lighter,
+		0 0 20px 20vh @background-color-primary--lighter,
+		0 0 20px 20vh @background-color-primary--lighter,
+		0 0 20px 20vh @background-color-primary--lighter;
 
 	.client-darkmode & {
 		color: @const-color-black;
@@ -249,17 +233,16 @@
 		flex: 1 1 340px;
 		padding: 1em;
 		border-radius: @border-radius--small;
-		background-color: @background-color-light;
-		box-shadow:
-			0 1px 2px @background-color-primary,
-			0 -1px 2px @background-color-primary;
+		background: @background-color-light;
+		border: 3px solid @background-color-primary--lightest;
 		break-inside: avoid;
 
 		.client-darkmode & {
+			border: 0;
 			background: @background-color-primary--light;
 			box-shadow:
-				0 1px 2px @background-color-primary--darker,
-				0 -1px 2px @background-color-primary--darker;
+				0 1px 2px @background-color-primary--darkest,
+				0 -1px 2px @background-color-primary--darkest !important;
 		}
 	}
 
@@ -423,6 +406,13 @@
 		place-content: space-around space-evenly;
 		align-items: flex-end;
 		gap: 1em;
+	}
+
+	&-feedback {
+		padding: 0.5em 2.5em;
+		margin: 0 0 auto auto;
+		text-align: right;
+		font-size: 0.875em;
 	}
 
 	@media screen and (max-width: 1024px) {

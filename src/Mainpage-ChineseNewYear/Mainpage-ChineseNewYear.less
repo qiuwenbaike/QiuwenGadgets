@@ -1,32 +1,51 @@
 @import (reference) '../variables.less';
 
+// Overriding variables.less
+@color--primary: #c33;
+@background-color-primary: rgba(204, 51, 51, 0.25); // @color--primary with 25% opacity
+@background-color-primary--darkest: rgba(204, 51, 51, 0.75); // @color--primary with 75% opacity
+@background-color-primary--darker: rgba(204, 51, 51, 0.5); // @color--primary with 50% opacity
+@background-color-primary--light: rgba(204, 51, 51, 0.1); // @color--primary with 10% opacity
+@background-color-primary--lighter: rgba(204, 51, 51, 0.0625); // @color--primary with 6.25% opacity
+@background-color-primary--lightest: rgba(204, 51, 51, 0.0125); // @color--primary with 1.25% opacity
+
 /* 特殊时期，庆祝节日 */
 .skin-citizen.page-Qiuwen_首页.action-view .mw-body,
 .skin-vector.page-Qiuwen_首页.action-view .mw-body,
-.skin-gongbi.page-Qiuwen_首页.action-view #mw-content {
+.skin-gongbi.page-Qiuwen_首页.action-view #mw-content,
+.skin-citizen.page-许可百科_首页.action-view .mw-body,
+.skin-vector.page-许可百科_首页.action-view .mw-body,
+.skin-gongbi.page-许可百科_首页.action-view #mw-content {
 	background: rgba(204, 51, 51, 0.075);
 }
 
 .mainpage {
+	background: @background-color-primary;
+	box-shadow:
+		0 0 20px 20vh @background-color-primary--lighter,
+		0 0 20px 20vh @background-color-primary--lighter,
+		0 0 20px 20vh @background-color-primary--lighter,
+		0 0 20px 20vh @background-color-primary--lighter;
+
 	h2 {
-		background: #c33;
+		background: @color--primary;
 	}
 
 	.mw-ui {
 		&-progressive {
-			border-color: #c33;
-			background-color: #c33;
+			border-color: @color--primary;
+			background-color: @color--primary;
 		}
 
 		&-input:focus {
-			border-color: #c33;
-			box-shadow: inset 0 0 0 1px #c33;
+			border-color: @color--primary;
+			box-shadow: inset 0 0 0 1px @color--primary;
 		}
 
 		&-button:not(:disabled):focus {
-			border-color: #c33;
+			border-color: @color--primary;
 			box-shadow:
-				inset 0 0 0 1px #c33,
+				inset 0 0 0 1px @color--primary,
 				inset 0 0 0 2px @const-color-white;
 		}
 	}
@@ -34,15 +53,14 @@
 	&-header-box,
 	&-box,
 	&-footer-box {
-		box-shadow:
-			0 1px 2px rgba(204, 51, 51, 0.375),
-			0 -1px 2px rgba(204, 51, 51, 0.375) !important;
+		border: 3px solid @background-color-primary--lightest;
 
 		.client-darkmode .mainpage & {
-			background: rgba(204, 51, 51, 0.1);
+			border: 0;
+			background: @background-color-primary--light;
 			box-shadow:
-				0 1px 2px rgba(204, 51, 51, 0.75),
-				0 -1px 2px rgba(204, 51, 51, 0.75) !important;
+				0 1px 2px @background-color-primary--darkest,
+				0 -1px 2px @background-color-primary--darkest !important;
 		}
 	}
 
@@ -75,15 +93,15 @@
 html {
 	&.citizen-loading::after {
 		background:
-			linear-gradient(90deg, #c33 0%, #c33 100%) -10% 0 / 0 2px no-repeat,
+			linear-gradient(90deg, @color--primary 0%, @color--primary 100%) -10% 0 / 0 2px no-repeat,
 			transparent;
-		filter: drop-shadow(0 0 16px #c33);
+		filter: drop-shadow(0 0 16px @color--primary);
 	}
 }
 
 /* For Gongbi skin */
 #mw-header-container {
-	border-color: #c33;
+	border-color: @color--primary;
 }
 
 .skin-gongbi.page-Qiuwen_首页.action-view .bodySearch {
