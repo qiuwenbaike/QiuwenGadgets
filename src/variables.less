@@ -1,5 +1,6 @@
 @const-color-black: #000;
 @const-color-white: #fff;
+@color--primary: #36c;
 
 @const-color-primary: mix(@const-color-black, @const-color-white, 90%); // #191919
 @const-color-secondary: mix(@const-color-black, @const-color-white, 70%); // #4d4d4d
@@ -12,9 +13,10 @@
 @const-color-gray--lighter: mix(@const-color-black, @const-color-white, 1%); // #fcfcfc
 
 @background-color-primary: rgba(51, 102, 204, 0.25); // @color--primary with 25% opacity
+@background-color-primary--darkest: rgba(51, 102, 204, 0.75); // @color--primary with 75% opacity
 @background-color-primary--darker: rgba(51, 102, 204, 0.5); // @color--primary with 50% opacity
 @background-color-primary--light: rgba(51, 102, 204, 0.1); // @color--primary with 10% opacity
-@background-color-primary--lighter: rgba(51, 102, 204, 0.05); // @color--primary with 5% opacity
+@background-color-primary--lighter: rgba(51, 102, 204, 0.0625); // @color--primary with 6.25% opacity
 @background-color-primary--lightest: rgba(51, 102, 204, 0.0125); // @color--primary with 1.25% opacity
 @background-color-light: rgba(255, 255, 255, 0.75);
 
@@ -22,8 +24,6 @@
 @border-radius--medium: 0.5em;
 @border-radius--large: 0.75em;
 @border-radius--pill: 9999px;
-
-@color--primary: #36c;
 
 @color--error: #b32424;
 @color--info: #36c;
