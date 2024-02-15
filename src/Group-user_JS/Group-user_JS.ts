@@ -3,6 +3,7 @@ import {fixSummary} from './modules/fixSummary';
 import {getBody} from 'ext.gadget.Util';
 import {linkSearchEditButton} from './modules/linkSearchEditButton';
 import {loadGadgetEditForm} from './modules/loadGadgetEditForm';
+import {loadRNRSHashGlobally} from './modules/loadRNRSHashGlobally';
 import {smartEditIntro} from './modules/smartEditIntro';
 import {smartNewSection} from './modules/smartNewSection';
 
@@ -31,4 +32,6 @@ import {smartNewSection} from './modules/smartNewSection';
 		/* 智能讨论页编辑（新建） */
 		smartNewSection($body);
 	});
+
+	void loadRNRSHashGlobally();
 })();
