@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"excludeSites": ["testwiki", "zhqiuwenbaike"],
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage_licencewiki\"></span> 首页样式",
+	"default": true,
+	"hidden": true,
+	"namespaces": [4, 10]
+}
