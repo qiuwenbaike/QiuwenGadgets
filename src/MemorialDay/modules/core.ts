@@ -12,7 +12,15 @@ export const memorialDay = (): void => {
 			continue;
 		}
 		mw.loader.addStyleTag(
-			'.mw-body{-webkit-filter:grayscale(1)!important;-moz-filter:grayscale(1)!important;-ms-filter:grayscale(1)!important;-o-filter:grayscale(1)!important;filter:grayscale(1)!important}'
+			`.skin-citizen .mw-body,
+			.skin-vector .mw-body,
+			.skin-gongbi #mw-content {
+				-webkit-filter: grayscale(1) !important;
+				-moz-filter: grayscale(1) !important;
+				-ms-filter: grayscale(1) !important;
+				-o-filter: grayscale(1) !important;
+				filter: grayscale(1) !important;
+			}`
 		);
 	}
 };
