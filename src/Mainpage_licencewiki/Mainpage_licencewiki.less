@@ -48,16 +48,14 @@
 			}
 		}
 
-		&.skin-citizen,
-		&.skin-gongbi,
-		&.skin-vector {
-			.mw-body {
-				/* 背景 */
-				background: @background-color-primary--lighter;
+		&.skin-citizen .mw-body,
+		&.skin-gongbi #mw-content,
+		&.skin-vector .mw-body {
+			/* 背景 */
+			background: @background-color-primary--lighter;
 
-				.client-darkmode & {
-					background: @const-color-gray--dark;
-				}
+			.client-darkmode & {
+				background: @const-color-gray--dark;
 			}
 		}
 	}
