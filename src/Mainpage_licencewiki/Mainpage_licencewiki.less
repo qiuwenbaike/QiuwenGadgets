@@ -5,7 +5,7 @@
 @background-color-primary: rgba(17, 136, 17, 0.25); // @color--primary with 25% opacity
 @background-color-primary--darkest: rgba(17, 136, 17, 0.75); // @color--primary with 75% opacity
 @background-color-primary--darker: rgba(17, 136, 17, 0.5); // @color--primary with 50% opacity
-@background-color-primary--light: rgba(17, 136, 17, 0.1); // @color--primary with 10% opacity
+@background-color-primary--light: rgba(17, 136, 17, 0.125); // @color--primary with 12.5% opacity
 @background-color-primary--lighter: rgba(17, 136, 17, 0.0625); // @color--primary with 6.25% opacity
 @background-color-primary--lightest: rgba(17, 136, 17, 0.0125); // @color--primary with 1.25% opacity
 
@@ -86,12 +86,11 @@
 .mainpage {
 	border-radius: @border-radius--small;
 	line-height: 1.5;
-	background: @background-color-primary;
-	box-shadow:
-		0 0 20px 20vh @background-color-primary--lighter,
-		0 0 20px 20vh @background-color-primary--lighter,
-		0 0 20px 20vh @background-color-primary--lighter,
-		0 0 20px 20vh @background-color-primary--lighter;
+	background: transparent;
+
+	.skin-gongbi & {
+		padding: 1em;
+	}
 
 	.client-darkmode & {
 		color: @const-color-black;
@@ -243,7 +242,9 @@
 		padding: 1em;
 		border-radius: @border-radius--small;
 		background: @background-color-light;
-		border: 3px solid @background-color-primary--lightest;
+		box-shadow:
+			0 1px 2px @background-color-primary--light,
+			0 -1px 2px @background-color-primary--light;
 		break-inside: avoid;
 
 		.client-darkmode & {
