@@ -10,13 +10,13 @@
 @background-color-primary--lightest: rgba(204, 51, 51, 0.0125); // @color--primary with 1.25% opacity
 
 /* 特殊时期，庆祝节日 */
-.skin-citizen.page-Qiuwen_首页.action-view .mw-body,
-.skin-vector.page-Qiuwen_首页.action-view .mw-body,
-.skin-gongbi.page-Qiuwen_首页.action-view #mw-content,
-.skin-citizen.page-许可百科_首页.action-view .mw-body,
-.skin-vector.page-许可百科_首页.action-view .mw-body,
-.skin-gongbi.page-许可百科_首页.action-view #mw-content {
-	background: rgba(204, 51, 51, 0.075);
+.page-Qiuwen_首页.action-view,
+.page-许可百科_首页.action-view {
+	&.skin-citizen .mw-body,
+	&.skin-gongbi #mw-content,
+	&.skin-vector .mw-body {
+		background: rgba(204, 51, 51, 0.075);
+	}
 }
 
 .mainpage {
