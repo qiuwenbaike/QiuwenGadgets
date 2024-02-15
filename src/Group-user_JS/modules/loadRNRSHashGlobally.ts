@@ -15,6 +15,11 @@ const loadRNRSHashGlobally = async () => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 	const foreignOptions = foreignData['query'].userinfo.options;
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+	if (mw.config.get('wgUserName') !== foreignData['query'].userinfo.name) {
+		return;
+	}
+
 	// Update global preferences
 	for (const optionname of optionnames) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
