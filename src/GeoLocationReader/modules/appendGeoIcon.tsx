@@ -48,7 +48,7 @@ const appendGeoIcon = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 			action: 'query',
 			title: storePageTitle,
 			format: 'json',
-			formatversion: 2,
+			formatversion: '2',
 			prop: ['revisions'],
 			rvprop: ['content'],
 			rvslots: 'main',

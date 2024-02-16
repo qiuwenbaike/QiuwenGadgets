@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
-import {WG_SCRIPT, WG_USER_NAME} from './constant';
 import type {StoreGeoInfo} from './types';
+import {WG_USER_NAME} from './constant';
 import {api} from './api';
 import {getMessage} from './i18n';
 
@@ -8,14 +8,19 @@ const storeLocation = async ({countryOrArea, region}: StoreGeoInfo): Promise<voi
 	const storePageTitle: string = `User:${WG_USER_NAME}/GeoIP.json`;
 
 	try {
-		const response = (await $.getJSON(
-			new mw.Uri(WG_SCRIPT)
-				.extend({
-					action: 'raw',
-					title: storePageTitle,
-				})
-				.toString()
-		)) as Partial<StoreGeoInfo>;
+		const data = await api.post({
+			action: 'query',
+			title: storePageTitle,
+			format: 'json',
+			formatversion: '2',
+			prop: ['revisions'],
+			rvprop: ['content'],
+			rvslots: 'main',
+		});
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+		const response = JSON.parse(data['query'].pages[0].revisions[0].slots.main.content) as Partial<StoreGeoInfo>;
+
 		if (response.countryOrArea === countryOrArea && (response.region === region || (response.region && !region))) {
 			return;
 		}
