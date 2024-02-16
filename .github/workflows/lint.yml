@@ -36,5 +36,21 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
-      - name: Run lint
-        run: pnpm lint
+      - name: Run lint and build
+        run: pnpm build
+      - name: Push the changes
+        if: github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! git diff --exit-code --quiet; then
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@users.noreply.github.com"
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git add .
+            git commit -am "ci: lint and build code" -m "Check commit and GitHub actions for more details"
+            git pull --rebase
+            git push
+          else
+            echo "No changes to commit"
+          fi
