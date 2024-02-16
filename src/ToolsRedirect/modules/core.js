@@ -264,7 +264,7 @@ export const ToolsRedirect = {
 				formatversion: '2',
 				prop: 'revisions',
 				rvprop: 'content',
-				rvslots: '*',
+				rvslots: 'main',
 				titles,
 			})
 			.then(({query}) => {
