@@ -1,8 +1,9 @@
 import * as OPTIONS from '../options.json';
-import {CLASS_NAME, CLASS_NAME_ICON, CLASS_NAME_TEXT, WG_RELEVANT_USER_NAME, WG_SCRIPT, WG_SKIN} from './constant';
+import {CLASS_NAME, CLASS_NAME_ICON, CLASS_NAME_TEXT, WG_RELEVANT_USER_NAME, WG_SKIN} from './constant';
 import {type CountryOrAreaNameList, type RegionNameList, getCountryOrAreaName, getRegionName} from './util/getName';
 import React from 'ext.gadget.React';
 import type {StoreGeoInfo} from './types';
+import {api} from './api';
 import {getMessage} from './i18n';
 
 const appendIcon = (
@@ -43,18 +44,28 @@ const appendGeoIcon = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 	const storePageTitle: string = `User:${WG_RELEVANT_USER_NAME}/GeoIP.json`;
 
 	try {
-		const {country, countryOrArea, region} = (await $.getJSON(
-			new mw.Uri(WG_SCRIPT)
-				.extend({
-					action: 'raw',
-					title: storePageTitle,
-				})
-				.toString()
-		)) as StoreGeoInfo & {
-			country?: string;
-		};
-		const location: StoreGeoInfo['countryOrArea'] = country ?? countryOrArea ?? '';
+		const data = await api.post({
+			action: 'query',
+			title: storePageTitle,
+			format: 'json',
+			formatversion: 2,
+			prop: ['revisions'],
+			rvprop: ['content'],
+			rvslots: 'main',
+		});
 
+		const {
+			country,
+			countryOrArea,
+			region,
+		}: StoreGeoInfo & {
+			country?: string;
+		} = JSON.parse(
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			data['query'].pages[0].revisions[0].slots.main.content
+		);
+
+		const location: StoreGeoInfo['countryOrArea'] = country ?? countryOrArea ?? '';
 		const countryOrAreaName: string =
 			getCountryOrAreaName(location as keyof CountryOrAreaNameList) ?? getMessage('Unknown');
 		const regionName: string = location === 'CN' ? getRegionName(region as keyof RegionNameList) ?? '' : '';

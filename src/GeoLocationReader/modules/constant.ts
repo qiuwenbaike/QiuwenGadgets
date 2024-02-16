@@ -9,7 +9,6 @@ const IS_WG_ACTION_VIEW: boolean = mw.config.get('wgAction') === 'view';
 
 const WG_PAGE_NAME: string = mw.config.get('wgPageName');
 const WG_RELEVANT_USER_NAME: string = mw.config.get('wgRelevantUserName') ?? '';
-const WG_SCRIPT: string = mw.config.get('wgScript');
 const WG_SKIN: string = mw.config.get('skin');
 const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
 
@@ -22,7 +21,6 @@ export {
 	IS_WG_ACTION_VIEW,
 	WG_PAGE_NAME,
 	WG_RELEVANT_USER_NAME,
-	WG_SCRIPT,
 	WG_SKIN,
 	WG_USER_LANGUAGE,
 };
