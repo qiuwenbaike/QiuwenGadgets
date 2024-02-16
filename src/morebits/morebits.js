@@ -2462,7 +2462,7 @@
 			action: 'query',
 			prop: 'revisions',
 			titles: title,
-			rvslots: '*',
+			rvslots: 'main',
 			rvprop: 'content',
 			format: 'json',
 			smaxage: '3600',

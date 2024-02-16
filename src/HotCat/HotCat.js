@@ -669,7 +669,7 @@ hotCatMessages();
 			prop: ['info', 'revisions', 'langlinks'],
 			inprop: 'watched',
 			rvprop: ['content', 'timestamp', 'ids', 'user'],
-			rvslots: '*',
+			rvslots: 'main',
 			rvlimit: '2',
 			rvdir: 'newer',
 			rvstartid: conf.wgCurRevisionId,
@@ -3182,7 +3182,7 @@ hotCatMessages();
 				rvprop: ['content', 'timestamp', 'ids'],
 				rvlimit: '1',
 				rvstartid: conf.wgCurRevisionId,
-				rvslots: '*',
+				rvslots: 'main',
 				meta: ['siteinfo'],
 			};
 			HC.start = (data) => {
