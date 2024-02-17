@@ -4,6 +4,7 @@
 // @ts-nocheck
 import {Pare_str} from './modules/pare_str';
 import React from 'ext.gadget.React';
+import {WG_SKIN} from './modules/constant';
 import {easy_archive_lang} from './modules/i18n';
 import {initMwApi} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
@@ -308,7 +309,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			const [ntag, ntype, nttl, npersist, nsubst] = notice_set;
 			const toastifyInstance = toastify(
 				{
-					node: $('<span>').append(message(ntag, nsubst)).get(0),
+					node: <span>{message(ntag, nsubst)}</span>,
 					close: nttl === 'long',
 					duration: nttl === 'long' ? -1 : nttl,
 					onClick: () => {
@@ -344,14 +345,9 @@ import {toastify} from 'ext.gadget.Toastify';
 			section
 		</span>
 	);
-	let footer_info_ele;
-	let position_of_insertion;
-	if (document.querySelector('#footer-info') || document.querySelectorAll('.page-info')) {
-		footer_info_ele = document.querySelector('#footer-info') || document.querySelectorAll('.page-info')[0];
-		position_of_insertion = 'afterbegin';
-	} else {
-		footer_info_ele = <></>;
-		position_of_insertion = '';
+	const footer_info_ele = document.querySelector('#footer-info') || document.querySelectorAll('.page-info')[0];
+	if (!footer_info_ele) {
+		return;
 	}
 	// ... interface injection - logic
 	const is_in_blacklist = (blacklist) => {
@@ -362,27 +358,37 @@ import {toastify} from 'ext.gadget.Toastify';
 		}
 		return false;
 	};
+	const element_wrap = (id, innerElement) => {
+		if (WG_SKIN === 'citizen') {
+			return (
+				<section className={'page-info__item'} id={id}>
+					{innerElement}
+				</section>
+			);
+		} else if (['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) || document.querySelector('ul#footer-info')) {
+			return <li id={id}>{innerElement}</li>;
+		}
+		return <div id={id}>{innerElement}</div>;
+	};
 	if (window.easy_archive.on_article || window.easy_archive.on_hist_version) {
 		// insert no interface on an article page or a history version.
 	} else if (is_in_blacklist(window.easy_archive.never_enable_on_these_pages_regex)) {
 		// insert no interface if the page name is blacklisted.
 	} else if (is_in_blacklist(window.easy_archive.dis_support_these_pages_regex)) {
 		// insert not supported notice if the page name indicates that it is not supported.
-		footer_info_ele.insertAdjacentElement(
-			position_of_insertion,
-			<div id="easy_archive_enable_notice">
+		footer_info_ele.prepend(
+			element_wrap(
+				'easy_archive_enable_notice',
 				<a
-					style={{
-						color: 'inherit',
-						cursor: 'pointer',
-					}}
-					onClick={() => {
+					style={{color: 'inherit'}}
+					onClick={(event) => {
+						event.preventDefault();
 						window.easy_archive.elaborate_notice('page_not_supported_elaborate');
 					}}
 				>
 					{message('page_not_supported')}
 				</a>
-			</div>
+			)
 		);
 	} else if (mw.config.get('wgPageName') === window.easy_archive.settings.find('arc-loc')) {
 		window.easy_archive.elaborate_notice('problem_with_archive_location_same_page');
@@ -409,32 +415,39 @@ import {toastify} from 'ext.gadget.Toastify';
 						10
 					);
 					nominal = i - j + 1;
-					section_delete_interface_html = section_delete_interface_inhibit
-						? ''
-						: pipe_html.after(
-								<a
-									// eslint-disable-next-line no-loop-func
-									onClick={() => {
-										window.easy_archive.delete_section(actual, nominal);
-									}}
-								>
-									{message('delete')}
-								</a>
-							);
-					section_archive_interface_html = section_archive_interface_inhibit
-						? ''
-						: pipe_html.after(
-								<a
-									// eslint-disable-next-line no-loop-func
-									onClick={() => {
-										window.easy_archive.archive_section(actual, nominal);
-									}}
-								>
-									{message('archive')}
-								</a>
-							);
-					ele.childNodes[child_node_number].insertAdjacentElement(
-						'afterend',
+					section_delete_interface_html = section_delete_interface_inhibit ? (
+						<></>
+					) : (
+						<>
+							{pipe_html}
+							<a
+								// eslint-disable-next-line no-loop-func
+								onClick={(event) => {
+									event.preventDefault();
+									window.easy_archive.delete_section(actual, nominal);
+								}}
+							>
+								{message('delete')}
+							</a>
+						</>
+					);
+					section_archive_interface_html = section_archive_interface_inhibit ? (
+						<></>
+					) : (
+						<>
+							{pipe_html}
+							<a
+								// eslint-disable-next-line no-loop-func
+								onClick={(event) => {
+									event.preventDefault();
+									window.easy_archive.archive_section(actual, nominal);
+								}}
+							>
+								{message('archive')}
+							</a>
+						</>
+					);
+					ele.childNodes[child_node_number].after(
 						<>
 							{section_delete_interface_html}
 							{section_archive_interface_html}
@@ -446,94 +459,69 @@ import {toastify} from 'ext.gadget.Toastify';
 				}
 			}
 			window.easy_archive.section_count = i - j + 1;
-			footer_info_ele.insertAdjacentElement(
-				position_of_insertion,
-				<div id="easy_archive_supports_notice">
-					{message('supports')}
-					{message('left_par_split')}
-					{message('archive_path_colon_split')}
-					<a href={`/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}`}>
-						{sanitize_html(window.easy_archive.settings.find('arc-loc'))}
-					</a>
-					{message('right_par')}
-					{message('period')}
-				</div>
+			footer_info_ele.prepend(
+				element_wrap(
+					'easy_archive_supports_notice',
+					<>
+						{message('supports')}
+						{message('left_par_split')}
+						{message('archive_path_colon_split')}
+						<a href={`/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}`}>
+							{sanitize_html(window.easy_archive.settings.find('arc-loc'))}
+						</a>
+						{message('right_par')}
+						{message('period')}
+					</>
+				)
 			);
 		};
 		normal_function_inject_interface();
 	} else if (window.easy_archive.others_user_talk === true) {
 		// others user talk.
-		footer_info_ele.insertAdjacentElement(
-			position_of_insertion,
-			<div id="easy_archive_enable_notice">
+		footer_info_ele.prepend(
+			element_wrap(
+				'easy_archive_enable_notice',
 				<a
-					style={{
-						color: 'inherit',
-						cursor: 'pointer',
-					}}
-					onClick={() => {
+					style={{color: 'inherit'}}
+					onClick={(event) => {
+						event.preventDefault();
 						window.easy_archive.elaborate_notice('others_talk_elaborate');
 					}}
 				>
 					{message('others_page')}
 				</a>
-			</div>
+			)
 		);
 	} else if (window.easy_archive.my_user_talk === false) {
 		// a generic page that did not enable easy archive.
-		footer_info_ele.insertAdjacentElement(
-			position_of_insertion,
-			<div id="easy_archive_enable_notice">
+		footer_info_ele.prepend(
+			element_wrap(
+				'easy_archive_enable_notice',
 				<a
-					style={{
-						color: 'inherit',
-						cursor: 'pointer',
-					}}
-					onClick={() => {
+					style={{color: 'inherit'}}
+					onClick={(event) => {
+						event.preventDefault();
 						window.easy_archive.elaborate_notice('enable_on_generic_page');
 					}}
 				>
 					{message('to_enable')}
 				</a>
-			</div>
+			)
 		);
 	} else {
-		footer_info_ele.insertAdjacentElement(
-			position_of_insertion,
-			<div id="easy_archive_enable_notice">
+		footer_info_ele.prepend(
+			element_wrap(
+				'easy_archive_enable_notice',
 				<a
-					style={{
-						color: 'inherit',
-						cursor: 'pointer',
-					}}
-					onClick={() => {
+					style={{color: 'inherit'}}
+					onClick={(event) => {
+						event.preventDefault();
 						window.easy_archive.elaborate_notice('please_enable_elaborate');
 					}}
 				>
 					{message('please_enable')}
 				</a>
-			</div>
+			)
 		);
-	}
-	if (mw.config.get('skin') === 'citizen') {
-		const $body = $('body');
-		$body
-			.find('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice')
-			.replaceWith(function () {
-				const $this = $(this);
-				return $('<section>').addClass('page-info__item').attr('id', $this.attr('id')).html($this.html());
-			});
-	}
-	if (
-		['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
-		document.querySelector('ul#footer-info')
-	) {
-		const $body = $('body');
-		$body
-			.find('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice')
-			.replaceWith(function () {
-				const $this = $(this);
-				return $('<li>').attr('id', $this.attr('id')).html($this.html());
-			});
 	}
 })();
