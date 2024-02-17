@@ -27,6 +27,10 @@ const getI18nMessages = () => {
 			'zh-hans': '查找巡查者时出现错误。',
 			'zh-hant': '查找巡查者時出現錯誤。',
 		}),
+		period: localize({
+			en: '.',
+			zh: '。',
+		}),
 	};
 };
 const i18nMessages = getI18nMessages();

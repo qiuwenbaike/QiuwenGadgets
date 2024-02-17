@@ -3,6 +3,7 @@ import React from 'ext.gadget.React';
 import {elementWrap} from './elementWrap';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
+import {replaceChild} from './replaceChild';
 
 export const pagePatroller = async (): Promise<void> => {
 	const element = elementWrap('footer-info-patroller');
@@ -18,13 +19,12 @@ export const pagePatroller = async (): Promise<void> => {
 
 	// Load patroller info
 	// add `Loading...`
-	const loading = <span id={'page_patroller__loading'}>{getMessage('Loading...')}</span>;
+	element.append(<span id={'page_patroller__loading'}>{getMessage('Loading...')}</span>);
 	const patrolled = (
 		<span id={'page_patroller__patrolled'}>
 			{getMessage('This page has been patrolled, or has been marked as auto-patrolled')}
 		</span>
 	);
-	element.append(loading);
 
 	try {
 		const api = initMwApi('PagePatroller/2.0');
@@ -63,24 +63,26 @@ export const pagePatroller = async (): Promise<void> => {
 
 			if (action === 'patrol') {
 				const timestampText = `${date.getUTCFullYear()}年${date.getUTCMonth() + 1}月${date.getUTCDate()}日 ${`0${date.getUTCHours()}`.slice(-2)}:${`0${date.getUTCMinutes()}`.slice(-2)} (UTC)`;
-				loading.replaceWith(
+				const patrolledBy = (
 					<span id={'page_patroller__patrolled-by'}>
 						{getMessage('This page was patrolled at by').replace('$1', timestampText)}
 						<a href={mw.util.getUrl(`User:${user}`)}>{user}</a>
+						{getMessage('period')}
 					</span>
 				);
+				replaceChild(element, patrolledBy);
 			} else {
-				loading.replaceWith(patrolled);
+				replaceChild(element, patrolled);
 			}
 		} else {
-			loading.replaceWith(patrolled);
+			replaceChild(element, patrolled);
 		}
 	} catch (error: unknown) {
 		// return error(s)
 		console.error('[PagePatroller]:', error);
-		const innerElement = (
+		const errorMessage = (
 			<span id={'page_patroller__error'}>{getMessage('Error occurs when finding patroller')}</span>
 		);
-		loading.replaceWith(innerElement);
+		replaceChild(element, errorMessage);
 	}
 };
