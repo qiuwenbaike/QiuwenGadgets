@@ -1,7 +1,7 @@
 {
 	"enable": true,
 	"excludeSites": ["licencewiki", "testwiki"],
-	"description": "<span id=\"Gadget-UserRightsManager\"></span> 用户权限管理器 <small>用于[[Qiuwen:权限申请|权限申请]]页面</small>",
+	"description": "<span id=\"Gadget-UserRightsManager\"></span> 用户权限管理器 <small>用于[[zhqiuwenbaike:Project talk:权限申请|权限申请]]页面</small>",
 	"section": "sysop",
 	"dependencies": [
 		"ext.gadget.i18n",
