@@ -1,5 +1,5 @@
 // minified code dependency functions
-class Pare_str {
+class PareStr {
 	str: string;
 	left: string | undefined;
 	delim: string | undefined;
@@ -34,4 +34,4 @@ class Pare_str {
 	}
 }
 
-export {Pare_str};
+export {PareStr};
