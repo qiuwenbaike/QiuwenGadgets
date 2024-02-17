@@ -2,24 +2,21 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {Pare_str} from './modules/pare_str';
+import * as OPTIONS from '../options.json';
+import {DIS_SUPPORT_PAGES_REGEX} from './constant';
+import {PareStr} from './PareStr';
 import React from 'ext.gadget.React';
-import {WG_SKIN} from './modules/constant';
-import {easy_archive_lang} from './modules/i18n';
+import {elementWrap} from './elementWrap';
+import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
+import {isInBlacklist} from './isInBlacklist';
 import {toastify} from 'ext.gadget.Toastify';
 
-(function easyArchive() {
-	if (mw.config.get('wgNamespaceNumber') < 0 || mw.config.get('wgPageName') === 'Qiuwen:首页') {
-		return;
-	}
-	if (!window.easy_archive) {
-		window.easy_archive = {};
-	}
+const easyArchive = () => {
 	// common repo.
 	const expose = (() => {
 		const asyncPost = (param, callback) => {
-			const api = initMwApi('EasyAchive/3.0');
+			const api = initMwApi(`EasyAchive/${OPTIONS.version}`);
 			void api.postWithToken('csrf', param).then(callback);
 		};
 		const getPage = (title, callback) => {
@@ -93,7 +90,7 @@ import {toastify} from 'ext.gadget.Toastify';
 		};
 	})();
 	// default settings:
-	window.easy_archive.settings_string =
+	let settings_string =
 		'#set%|?									\n' +
 		'display section delete link	%sec-del|1?	\n' +
 		'display section archive line	%sec-arc|1?	\n' +
@@ -102,31 +99,19 @@ import {toastify} from 'ext.gadget.Toastify';
 		'subsection effectiveness		%sub-sec|2?	\n' +
 		'confirm action				%confirm|0?	\n' +
 		'is this data initialized		%data-init|0? \n';
-	window.easy_archive.settings = new Pare_str(window.easy_archive.settings_string);
-	window.easy_archive.my_user_talk = null;
-	window.easy_archive.never_enable_on_these_pages_regex ??= [];
-	window.easy_archive.dis_support_these_pages_regex = [
-		/^File:.*$/,
-		/^MediaWiki:.*$/,
-		/^Module:.*$/,
-		/^Category:.*$/,
-		/^Template:.*$/,
-		/^Special:.*$/,
-		/^User:.*\/?.*\.js$/,
-		/^User:.*\/?.*\.css$/,
-		/^User:.*\/?.*\.json$/,
-	];
-	const settings_span_collection = document.querySelectorAll('.easy_archive_data_point_collection');
-	const [settings_span] = settings_span_collection;
-	const settings = settings_span ? new Pare_str(settings_span.innerHTML) : new Pare_str('');
-	if (settings.find('data-init') === '1') {
-		window.easy_archive.settings_string = settings_span.innerHTML;
-		window.easy_archive.settings = new Pare_str(window.easy_archive.settings_string);
+	let settings = new PareStr(settings_string);
+	let my_user_talk = null;
+	const never_enable_on_these_pages_regex = window.easy_archive.never_enable_on_these_pages_regex ?? [];
+	const [settings_span] = document.querySelectorAll(OPTIONS.collectionPointSelector);
+	const settings_in_page = new PareStr(settings_span?.innerHTML ?? '');
+	if (settings_in_page.find('data-init') === '1') {
+		settings_string = settings_span.innerHTML;
+		settings = new PareStr(settings_string);
 	}
 	// identify if Easy Archive can be used on the page - compatibility
-	window.easy_archive.on_user_talk = mw.config.get('wgNamespaceNumber') === 3;
-	window.easy_archive.my_user_talk =
-		window.easy_archive.on_user_talk &&
+	const on_user_talk = mw.config.get('wgNamespaceNumber') === 3;
+	my_user_talk =
+		on_user_talk &&
 		(() => {
 			let page_name = mw.config.get('wgPageName').split(':');
 			page_name[0] = '';
@@ -137,14 +122,10 @@ import {toastify} from 'ext.gadget.Toastify';
 				user_name.split('_').join('').split(' ').join('') === page_name.split('_').join('').split(' ').join('')
 			);
 		})();
-	window.easy_archive.has_template = settings.find('data-init') === '1';
-	window.easy_archive.others_user_talk =
-		window.easy_archive.my_user_talk === false && window.easy_archive.on_user_talk === true;
-	window.easy_archive.on_article = mw.config.get('wgNamespaceNumber') === 0;
-	window.easy_archive.on_hist_version = mw.config.get('wgCurRevisionId') - mw.config.get('wgRevisionId') !== 0;
-	easy_archive_lang();
-	const arc_sum = window.easy_archive.user_custom_archive_summary ?? null;
-	const del_sum = window.easy_archive.user_custom_delete_summary ?? null;
+	const has_template = settings_in_page.find('data-init') === '1';
+	const others_user_talk = my_user_talk === false && on_user_talk === true;
+	const on_article = mw.config.get('wgNamespaceNumber') === 0;
+	const on_hist_version = mw.config.get('wgCurRevisionId') - mw.config.get('wgRevisionId') !== 0;
 	const sanitize_html = (string) =>
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 		string
@@ -154,19 +135,15 @@ import {toastify} from 'ext.gadget.Toastify';
 			.replace(/'/g, '&apos;')
 			.replace(/"/g, '&quot;');
 	// multi language selector definition
-	const message = (tag, para_list) => {
+	const message = (tag, ...para_list) => {
 		try {
-			let content = window.easy_archive.lang[tag];
-			for (let has_unfulfilled_para = true, _i = 0; has_unfulfilled_para; _i++) {
-				const search = `$${_i + 1}`;
-				if (content.includes(search)) {
-					content = para_list[_i]
-						? content.split(search).join(para_list[_i])
-						: content.split(search).join('');
-				} else {
-					has_unfulfilled_para = false;
+			let content = getMessage(tag);
+			if (para_list && para_list.length > 0) {
+				for (const [_i, element] of para_list.entries()) {
+					content = content.replace(`$${_i + 1}`, element);
 				}
 			}
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 			return content;
 		} catch {
 			return '(!) undefined language content';
@@ -223,7 +200,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			ding: () => {
 				toastify(
 					{
-						text: message(tag_ding, [section_number.toString(), to]),
+						text: message(tag_ding, section_number.toString(), to),
 						close: !ding_autohide,
 						duration: ding_autohide ? 3000 : -1,
 					},
@@ -254,16 +231,16 @@ import {toastify} from 'ext.gadget.Toastify';
 				report_doneness_ui(_nominal, 'delete', '', 'done').section_link();
 				nominal_sections[section_number] = true;
 			},
-			del_sum || message('delete_summary')
+			message('delete_summary')
 		);
 	};
-	window.easy_archive.delete_section = (section_number, _nominal) => {
+	const delete_section = (section_number, _nominal) => {
 		report_doneness_ui(_nominal, 'delete', '', 'ongoing').section_link();
 		delete_section_core(section_number, _nominal);
 	};
 	const archive_section_core = (section_number, _nominal) => {
 		const actual_section_number = actual_section(section_number);
-		const to = window.easy_archive.settings.find('arc-loc');
+		const to = settings.find('arc-loc');
 		report_doneness_ui(_nominal, 'archive', to, 'ongoing').ding();
 		expose.archive_section(
 			mw.config.get('wgPageName'),
@@ -274,15 +251,15 @@ import {toastify} from 'ext.gadget.Toastify';
 				report_doneness_ui(_nominal, 'archive', to, 'done').section_link();
 				nominal_sections[section_number] = true;
 			},
-			arc_sum || message('archive_summary')
+			message('archive_summary')
 		);
 	};
-	window.easy_archive.archive_section = (section_number, _nominal) => {
-		const to = window.easy_archive.settings.find('arc-loc');
+	const archive_section = (section_number, _nominal) => {
+		const to = settings.find('arc-loc');
 		report_doneness_ui(_nominal, 'archive', to, 'ongoing').section_link();
 		archive_section_core(section_number, _nominal);
 	};
-	window.easy_archive.elaborate_notice = (notice_tag_name) => {
+	const elaborate_notice = (notice_tag_name) => {
 		// acronym scheme: refer to qwerty keyboard layout. (p=9)
 		const notice_tag_dictionary = {
 			please_enable_elaborate: ['please_enable_elaborate'],
@@ -293,14 +270,14 @@ import {toastify} from 'ext.gadget.Toastify';
 				'warning',
 				'long',
 				false,
-				[sanitize_html(window.easy_archive.settings.find('arc-loc'))],
+				[sanitize_html(settings.find('arc-loc'))],
 			],
 			problem_with_archive_location_same_page: [
 				'problem_with_archive_location_same_page',
 				'warning',
 				'long',
 				false,
-				[sanitize_html(window.easy_archive.settings.find('arc-loc'))],
+				[sanitize_html(settings.find('arc-loc'))],
 			],
 			page_not_supported_elaborate: ['page_not_supported_elaborate'],
 		};
@@ -309,7 +286,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			const [ntag, ntype, nttl, npersist, nsubst] = notice_set;
 			const toastifyInstance = toastify(
 				{
-					node: <span>{message(ntag, nsubst)}</span>,
+					node: <span>{message(ntag, ...nsubst)}</span>,
 					close: nttl === 'long',
 					duration: nttl === 'long' ? -1 : nttl,
 					onClick: () => {
@@ -331,10 +308,8 @@ import {toastify} from 'ext.gadget.Toastify';
 	let nominal;
 	let actual;
 	const pipe_html = <span class="mw-editsection-divider"> &#124; </span>;
-	const section_delete_interface_inhibit =
-		window.easy_archive.settings.find('sec-del') === '0' || window.easy_archive.settings.find('data-init') === '0';
-	const section_archive_interface_inhibit =
-		window.easy_archive.settings.find('sec-arc') === '0' || window.easy_archive.settings.find('data-init') === '0';
+	const section_delete_interface_inhibit = settings.find('sec-del') === '0' || settings.find('data-init') === '0';
+	const section_archive_interface_inhibit = settings.find('sec-arc') === '0' || settings.find('data-init') === '0';
 	let section_delete_interface_html;
 	let section_archive_interface_html;
 	const section_id_span_html = (order_no) => (
@@ -345,58 +320,36 @@ import {toastify} from 'ext.gadget.Toastify';
 			section
 		</span>
 	);
-	const footer_info_ele = document.querySelector('#footer-info') || document.querySelectorAll('.page-info')[0];
+	const [footer_info_ele] = document.querySelectorAll(OPTIONS.mountPointSelector);
 	if (!footer_info_ele) {
 		return;
 	}
-	// ... interface injection - logic
-	const is_in_blacklist = (blacklist) => {
-		for (const element of blacklist) {
-			if (element.test(mw.config.get('wgPageName'))) {
-				return true;
-			}
-		}
-		return false;
-	};
-	const element_wrap = (id, innerElement) => {
-		if (WG_SKIN === 'citizen') {
-			return (
-				<section className={'page-info__item'} id={id}>
-					{innerElement}
-				</section>
-			);
-		} else if (['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) || document.querySelector('ul#footer-info')) {
-			return <li id={id}>{innerElement}</li>;
-		}
-		return <div id={id}>{innerElement}</div>;
-	};
-	if (window.easy_archive.on_article || window.easy_archive.on_hist_version) {
+	if (on_article || on_hist_version || isInBlacklist(never_enable_on_these_pages_regex)) {
 		// insert no interface on an article page or a history version.
-	} else if (is_in_blacklist(window.easy_archive.never_enable_on_these_pages_regex)) {
 		// insert no interface if the page name is blacklisted.
-	} else if (is_in_blacklist(window.easy_archive.dis_support_these_pages_regex)) {
+	} else if (isInBlacklist(DIS_SUPPORT_PAGES_REGEX)) {
 		// insert not supported notice if the page name indicates that it is not supported.
 		footer_info_ele.prepend(
-			element_wrap(
+			elementWrap(
 				'easy_archive_enable_notice',
 				<a
 					style={{color: 'inherit'}}
 					onClick={(event) => {
 						event.preventDefault();
-						window.easy_archive.elaborate_notice('page_not_supported_elaborate');
+						elaborate_notice('page_not_supported_elaborate');
 					}}
 				>
 					{message('page_not_supported')}
 				</a>
 			)
 		);
-	} else if (mw.config.get('wgPageName') === window.easy_archive.settings.find('arc-loc')) {
-		window.easy_archive.elaborate_notice('problem_with_archive_location_same_page');
-	} else if (window.easy_archive.has_template && !window.easy_archive.others_user_talk) {
+	} else if (mw.config.get('wgPageName') === settings.find('arc-loc')) {
+		elaborate_notice('problem_with_archive_location_same_page');
+	} else if (has_template && !others_user_talk) {
 		// any page that has template that's not others' talk page. function normally.
 		// !! the archive location in main space and needs attention !!
-		if (/.+:.+/.test(window.easy_archive.settings.find('arc-loc')) !== true) {
-			window.easy_archive.elaborate_notice('problem_with_archive_location_main_space');
+		if (/.+:.+/.test(settings.find('arc-loc')) !== true) {
+			elaborate_notice('problem_with_archive_location_main_space');
 		}
 		const normal_function_inject_interface = () => {
 			const editSectionCollection = document.querySelectorAll('.mw-editsection');
@@ -424,7 +377,7 @@ import {toastify} from 'ext.gadget.Toastify';
 								// eslint-disable-next-line no-loop-func
 								onClick={(event) => {
 									event.preventDefault();
-									window.easy_archive.delete_section(actual, nominal);
+									delete_section(actual, nominal);
 								}}
 							>
 								{message('delete')}
@@ -440,7 +393,7 @@ import {toastify} from 'ext.gadget.Toastify';
 								// eslint-disable-next-line no-loop-func
 								onClick={(event) => {
 									event.preventDefault();
-									window.easy_archive.archive_section(actual, nominal);
+									archive_section(actual, nominal);
 								}}
 							>
 								{message('archive')}
@@ -460,14 +413,14 @@ import {toastify} from 'ext.gadget.Toastify';
 			}
 			window.easy_archive.section_count = i - j + 1;
 			footer_info_ele.prepend(
-				element_wrap(
+				elementWrap(
 					'easy_archive_supports_notice',
 					<>
 						{message('supports')}
 						{message('left_par_split')}
 						{message('archive_path_colon_split')}
-						<a href={`/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}`}>
-							{sanitize_html(window.easy_archive.settings.find('arc-loc'))}
+						<a href={`/wiki/${sanitize_html(settings.find('arc-loc'))}`}>
+							{sanitize_html(settings.find('arc-loc'))}
 						</a>
 						{message('right_par')}
 						{message('period')}
@@ -476,32 +429,32 @@ import {toastify} from 'ext.gadget.Toastify';
 			);
 		};
 		normal_function_inject_interface();
-	} else if (window.easy_archive.others_user_talk === true) {
+	} else if (others_user_talk === true) {
 		// others user talk.
 		footer_info_ele.prepend(
-			element_wrap(
+			elementWrap(
 				'easy_archive_enable_notice',
 				<a
 					style={{color: 'inherit'}}
 					onClick={(event) => {
 						event.preventDefault();
-						window.easy_archive.elaborate_notice('others_talk_elaborate');
+						elaborate_notice('others_talk_elaborate');
 					}}
 				>
 					{message('others_page')}
 				</a>
 			)
 		);
-	} else if (window.easy_archive.my_user_talk === false) {
+	} else if (my_user_talk === false) {
 		// a generic page that did not enable easy archive.
 		footer_info_ele.prepend(
-			element_wrap(
+			elementWrap(
 				'easy_archive_enable_notice',
 				<a
 					style={{color: 'inherit'}}
 					onClick={(event) => {
 						event.preventDefault();
-						window.easy_archive.elaborate_notice('enable_on_generic_page');
+						elaborate_notice('enable_on_generic_page');
 					}}
 				>
 					{message('to_enable')}
@@ -510,13 +463,13 @@ import {toastify} from 'ext.gadget.Toastify';
 		);
 	} else {
 		footer_info_ele.prepend(
-			element_wrap(
+			elementWrap(
 				'easy_archive_enable_notice',
 				<a
 					style={{color: 'inherit'}}
 					onClick={(event) => {
 						event.preventDefault();
-						window.easy_archive.elaborate_notice('please_enable_elaborate');
+						elaborate_notice('please_enable_elaborate');
 					}}
 				>
 					{message('please_enable')}
@@ -524,4 +477,6 @@ import {toastify} from 'ext.gadget.Toastify';
 			)
 		);
 	}
-})();
+};
+
+export {easyArchive};
