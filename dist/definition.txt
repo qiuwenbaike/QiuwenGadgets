@@ -93,7 +93,7 @@
 * DisamAssist[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.Title|peers=DisamAssist-pagestyles|rights=skipcaptcha|requiresES6]|DisamAssist.js
 * DisamAssist-pagestyles[ResourceLoader|hidden|requiresES6]|DisamAssist-pagestyles.css
 * DisambigLinks[ResourceLoader|requiresES6]|DisambigLinks.css
-* EasyArchive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util|peers=EasyArchive-pagestyles|rights=skipcaptcha|requiresES6]|EasyArchive.js
+* EasyArchive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util|peers=EasyArchive-pagestyles|rights=skipcaptcha|requiresES6]|EasyArchive.js
 * EasyArchive-pagestyles[ResourceLoader|hidden|requiresES6]|EasyArchive-pagestyles.css
 * Edit0[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.Uri|rights=edit|requiresES6]|Edit0.js|Edit0.css
 * EditConflict[ResourceLoader|actions=edit,submit|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api|rights=skipcaptcha|requiresES6]|EditConflict.js

@@ -1,5 +1,11 @@
+/* eslint-disable no-loop-func */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {Pare_str} from './modules/pare_str';
+import React from 'ext.gadget.React';
 import {easy_archive_lang} from './modules/i18n';
 import {initMwApi} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
@@ -8,47 +14,20 @@ import {toastify} from 'ext.gadget.Toastify';
 	if (mw.config.get('wgNamespaceNumber') < 0 || mw.config.get('wgPageName') === 'Qiuwen:首页') {
 		return;
 	}
-	window.easy_archive ??= {};
-	// minified code dependency functions
-	class Pare_str {
-		constructor(pare_string, config) {
-			this.str = pare_string;
-			this.left = '(';
-			this.delim = ':';
-			this.right = ')';
-			if (typeof config !== 'string') {
-				config = String(config);
-			}
-			if (
-				pare_string.length > 6 &&
-				/[#%@][Ss][Ee][Tt]/.test(pare_string.slice(0, 4)) &&
-				!config.includes('ignore-set')
-			) {
-				[, , , , this.left, this.delim, this.right] = pare_string;
-				if (this.left === this.right || this.left === this.delim || this.right === this.delim) {
-					throw new SyntaxError("Pound set statement has repetitive characters. E.g. '#set|:|' is illegal.");
-				}
-			}
-		}
-		find(lookup_key) {
-			lookup_key = this.left + lookup_key + this.delim;
-			if (!this.str.includes(lookup_key)) {
-				return null;
-			}
-			return this.str.split(lookup_key)[1].split(this.right)[0];
-		}
+	if (!window.easy_archive) {
+		window.easy_archive = {};
 	}
 	// common repo.
 	const expose = (() => {
 		const asyncPost = (param, callback) => {
 			const api = initMwApi('EasyAchive/3.0');
-			api.postWithToken('csrf', param).then(callback);
+			void api.postWithToken('csrf', param).then(callback);
 		};
 		const getPage = (title, callback) => {
 			const param = {
 				action: 'query',
 				prop: ['revisions'],
-				rvprop: 'ids|flags|timestamp|user|userid|size|comment|tags|content',
+				rvprop: ['ids', 'flags', 'timestamp', 'user', 'userid', 'size', 'comment', 'tags', 'content'],
 				format: 'json',
 				formatversion: '2',
 				titles: title,
@@ -59,7 +38,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			const param = {
 				action: 'query',
 				prop: ['revisions'],
-				rvprop: 'content',
+				rvprop: ['content'],
 				format: 'json',
 				formatversion: '2',
 				titles: title,
@@ -166,14 +145,13 @@ import {toastify} from 'ext.gadget.Toastify';
 	easy_archive_lang();
 	const arc_sum = window.easy_archive.user_custom_archive_summary ?? null;
 	const del_sum = window.easy_archive.user_custom_delete_summary ?? null;
-	const sanitize_html = (string) => {
-		return string
+	const sanitize_html = (string) =>
+		string
 			.replace(/&/g, '&amp;')
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
 			.replace(/'/g, '&apos;')
 			.replace(/"/g, '&quot;');
-	};
 	// multi language selector definition
 	const message = (tag, para_list) => {
 		try {
@@ -350,24 +328,28 @@ import {toastify} from 'ext.gadget.Toastify';
 	let ele;
 	let nominal;
 	let actual;
-	const pipe_html = '<span class="mw-editsection-divider"> | </span>';
+	const pipe_html = <span class="mw-editsection-divider"> &#124; </span>;
 	const section_delete_interface_inhibit =
 		window.easy_archive.settings.find('sec-del') === '0' || window.easy_archive.settings.find('data-init') === '0';
 	const section_archive_interface_inhibit =
 		window.easy_archive.settings.find('sec-arc') === '0' || window.easy_archive.settings.find('data-init') === '0';
 	let section_delete_interface_html;
 	let section_archive_interface_html;
-	const section_id_span_html =
-		'<span class="easy-archive-section-id-span easy-archive-section-id-span-order-@@" style="display:none">section</span>';
+	const section_id_span_html = (order_no) => (
+		<span
+			class={['easy-archive-section-id-span', `easy-archive-section-id-span-order-${order_no}`]}
+			style={{display: 'none'}}
+		>
+			section
+		</span>
+	);
 	let footer_info_ele;
 	let position_of_insertion;
 	if (document.querySelector('#footer-info') || document.querySelectorAll('.page-info')) {
 		footer_info_ele = document.querySelector('#footer-info') || document.querySelectorAll('.page-info')[0];
 		position_of_insertion = 'afterbegin';
 	} else {
-		footer_info_ele = {
-			insertAdjacentHTML: () => {},
-		};
+		footer_info_ele = <></>;
 		position_of_insertion = '';
 	}
 	// ... interface injection - logic
@@ -385,11 +367,21 @@ import {toastify} from 'ext.gadget.Toastify';
 		// insert no interface if the page name is blacklisted.
 	} else if (is_in_blacklist(window.easy_archive.dis_support_these_pages_regex)) {
 		// insert not supported notice if the page name indicates that it is not supported.
-		footer_info_ele.insertAdjacentHTML(
+		footer_info_ele.insertAdjacentElement(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('page_not_supported_elaborate')">${message(
-				'page_not_supported'
-			)}</a></div>`
+			<div id="easy_archive_enable_notice">
+				<a
+					style={{
+						color: 'inherit',
+						cursor: 'pointer',
+					}}
+					onClick={() => {
+						window.easy_archive.elaborate_notice('page_not_supported_elaborate');
+					}}
+				>
+					${message('page_not_supported')}
+				</a>
+			</div>
 		);
 	} else if (mw.config.get('wgPageName') === window.easy_archive.settings.find('arc-loc')) {
 		window.easy_archive.elaborate_notice('problem_with_archive_location_same_page');
@@ -418,59 +410,103 @@ import {toastify} from 'ext.gadget.Toastify';
 					nominal = i - j + 1;
 					section_delete_interface_html = section_delete_interface_inhibit
 						? ''
-						: `${pipe_html}<a href="javascript:window.easy_archive.delete_section(${actual}, ${nominal})">${message(
-								'delete'
-							)}</a>`;
+						: pipe_html.after(
+								<a
+									onClick={() => {
+										window.easy_archive.delete_section(actual, nominal);
+									}}
+								>
+									${message('delete')}
+								</a>
+							);
 					section_archive_interface_html = section_archive_interface_inhibit
 						? ''
-						: `${pipe_html}<a href="javascript:window.easy_archive.archive_section(${actual}, ${nominal})">${message(
-								'archive'
-							)}</a>`;
-					ele.childNodes[child_node_number].insertAdjacentHTML(
+						: pipe_html.after(
+								<a
+									onClick={() => {
+										window.easy_archive.archive_section(actual, nominal);
+									}}
+								>
+									${message('archive')}
+								</a>
+							);
+					ele.childNodes[child_node_number].insertAdjacentElement(
 						'afterend',
-						section_delete_interface_html +
-							section_archive_interface_html +
-							section_id_span_html.replace('@@', nominal.toString())
+						<>
+							{section_delete_interface_html}
+							{section_archive_interface_html}
+							{section_id_span_html(nominal.toString())}
+						</>
 					);
 				} else {
 					j++;
 				}
 			}
 			window.easy_archive.section_count = i - j + 1;
-			footer_info_ele.insertAdjacentHTML(
+			footer_info_ele.insertAdjacentElement(
 				position_of_insertion,
-				`<div id="easy_archive_supports_notice">${message('supports')}${message('left_par_split')}${message(
-					'archive_path_colon_split'
-				)}<a href="/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}">${sanitize_html(
-					window.easy_archive.settings.find('arc-loc')
-				)}</a>${message('right_par')}${message('period')}</div>`
+				<div id="easy_archive_supports_notice">
+					${message('supports')}${message('left_par_split')}${message('archive_path_colon_split')}
+					<a href={`/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}`}>
+						${sanitize_html(window.easy_archive.settings.find('arc-loc'))}
+					</a>
+					${message('right_par')}${message('period')}
+				</div>
 			);
 		};
 		normal_function_inject_interface();
 	} else if (window.easy_archive.others_user_talk === true) {
 		// others user talk.
-		footer_info_ele.insertAdjacentHTML(
+		footer_info_ele.insertAdjacentElement(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('others_talk_elaborate')">${message(
-				'others_page'
-			)}</a></div>`
+			<div id="easy_archive_enable_notice">
+				<a
+					style={{
+						color: 'inherit',
+						cursor: 'pointer',
+					}}
+					onClick={() => {
+						window.easy_archive.elaborate_notice('others_talk_elaborate');
+					}}
+				>
+					${message('others_page')}
+				</a>
+			</div>
 		);
 	} else if (window.easy_archive.my_user_talk === false) {
 		// a generic page that did not enable easy archive.
-		footer_info_ele.insertAdjacentHTML(
+		footer_info_ele.insertAdjacentElement(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('enable_on_generic_page')">${message(
-				'to_enable'
-			)}</a></div>`
+			<div id="easy_archive_enable_notice">
+				<a
+					style={{
+						color: 'inherit',
+						cursor: 'pointer',
+					}}
+					onClick={() => {
+						window.easy_archive.elaborate_notice('enable_on_generic_page');
+					}}
+				>
+					${message('to_enable')}
+				</a>
+			</div>
 		);
 	} else {
-		// then assert: (window.easy_archive.my_user_talk === true), (window.easy_archive.has_template === false).
-		// my user talk -- installed easy archive but lacking template.
-		footer_info_ele.insertAdjacentHTML(
+		footer_info_ele.insertAdjacentElement(
 			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('please_enable_elaborate')">${message(
-				'please_enable'
-			)}</a></div>`
+			<div id="easy_archive_enable_notice">
+				<a
+					style={{
+						color: 'inherit',
+						cursor: 'pointer',
+					}}
+					onClick={() => {
+						window.easy_archive.elaborate_notice('please_enable_elaborate');
+					}}
+				>
+					${message('please_enable')}
+				</a>
+			</div>
 		);
 	}
 	if (mw.config.get('skin') === 'citizen') {
