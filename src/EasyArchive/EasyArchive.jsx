@@ -1,5 +1,3 @@
-/* eslint-disable no-loop-func */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -48,6 +46,7 @@ import {toastify} from 'ext.gadget.Toastify';
 		};
 		const pickPageContent = (data) => {
 			if (data.query && data.query.pages && data.query.pages[0] && data.query.pages[0].revisions[0]) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 				return data.query.pages[0].revisions[0].content;
 			}
 			return false;
@@ -146,6 +145,7 @@ import {toastify} from 'ext.gadget.Toastify';
 	const arc_sum = window.easy_archive.user_custom_archive_summary ?? null;
 	const del_sum = window.easy_archive.user_custom_delete_summary ?? null;
 	const sanitize_html = (string) =>
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 		string
 			.replace(/&/g, '&amp;')
 			.replace(/</g, '&lt;')
@@ -178,6 +178,7 @@ import {toastify} from 'ext.gadget.Toastify';
 		for (let _i = 0; _i < count; _i++) {
 			arr[_i] = false;
 		}
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 		return arr;
 	})(window.easy_archive.section_count);
 	const actual_section = (nominal_section_number) => {
@@ -379,7 +380,7 @@ import {toastify} from 'ext.gadget.Toastify';
 						window.easy_archive.elaborate_notice('page_not_supported_elaborate');
 					}}
 				>
-					${message('page_not_supported')}
+					{message('page_not_supported')}
 				</a>
 			</div>
 		);
@@ -412,22 +413,24 @@ import {toastify} from 'ext.gadget.Toastify';
 						? ''
 						: pipe_html.after(
 								<a
+									// eslint-disable-next-line no-loop-func
 									onClick={() => {
 										window.easy_archive.delete_section(actual, nominal);
 									}}
 								>
-									${message('delete')}
+									{message('delete')}
 								</a>
 							);
 					section_archive_interface_html = section_archive_interface_inhibit
 						? ''
 						: pipe_html.after(
 								<a
+									// eslint-disable-next-line no-loop-func
 									onClick={() => {
 										window.easy_archive.archive_section(actual, nominal);
 									}}
 								>
-									${message('archive')}
+									{message('archive')}
 								</a>
 							);
 					ele.childNodes[child_node_number].insertAdjacentElement(
@@ -446,11 +449,14 @@ import {toastify} from 'ext.gadget.Toastify';
 			footer_info_ele.insertAdjacentElement(
 				position_of_insertion,
 				<div id="easy_archive_supports_notice">
-					${message('supports')}${message('left_par_split')}${message('archive_path_colon_split')}
+					{message('supports')}
+					{message('left_par_split')}
+					{message('archive_path_colon_split')}
 					<a href={`/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}`}>
-						${sanitize_html(window.easy_archive.settings.find('arc-loc'))}
+						{sanitize_html(window.easy_archive.settings.find('arc-loc'))}
 					</a>
-					${message('right_par')}${message('period')}
+					{message('right_par')}
+					{message('period')}
 				</div>
 			);
 		};
@@ -469,7 +475,7 @@ import {toastify} from 'ext.gadget.Toastify';
 						window.easy_archive.elaborate_notice('others_talk_elaborate');
 					}}
 				>
-					${message('others_page')}
+					{message('others_page')}
 				</a>
 			</div>
 		);
@@ -487,7 +493,7 @@ import {toastify} from 'ext.gadget.Toastify';
 						window.easy_archive.elaborate_notice('enable_on_generic_page');
 					}}
 				>
-					${message('to_enable')}
+					{message('to_enable')}
 				</a>
 			</div>
 		);
@@ -504,7 +510,7 @@ import {toastify} from 'ext.gadget.Toastify';
 						window.easy_archive.elaborate_notice('please_enable_elaborate');
 					}}
 				>
-					${message('please_enable')}
+					{message('please_enable')}
 				</a>
 			</div>
 		);
