@@ -459,14 +459,14 @@ const findSourceFile = (): SourceFiles => {
 				break;
 			case 'index.js': {
 				const {script} = targetGadget;
-				if (!script || !/^index\.[jt]sx?$/.test(script)) {
+				if (!script || !/^index\.tsx?$/.test(script)) {
 					targetGadget.script = fileName;
 				}
 				break;
 			}
 			case 'index.jsx': {
 				const {script} = targetGadget;
-				if (!script || !/^index\.[jt]sx?$/.test(script)) {
+				if (!script || !/^index\.tsx?$/.test(script)) {
 					targetGadget.script = fileName;
 				}
 				break;
@@ -490,21 +490,21 @@ const findSourceFile = (): SourceFiles => {
 			}
 			case `${gadgetName}.jsx`: {
 				const {script} = targetGadget;
-				if (!script || (!/\.[jt]sx?$/.test(script) && script !== 'index.js')) {
+				if (!script || (!/\.tsx?$/.test(script) && script !== 'index.js')) {
 					targetGadget.script = fileName;
 				}
 				break;
 			}
 			case `${gadgetName}.ts`: {
 				const {script} = targetGadget;
-				if (!script || (!/^index\.[jt]sx?$/.test(script) && script !== `${gadgetName}.tsx`)) {
+				if (!script || (!/^index\.tsx?$/.test(script) && script !== `${gadgetName}.tsx`)) {
 					targetGadget.script = fileName;
 				}
 				break;
 			}
 			case `${gadgetName}.tsx`: {
 				const {script} = targetGadget;
-				if (!script || !/^index\.[jt]sx?$/.test(script)) {
+				if (!script || !/^index\.tsx?$/.test(script)) {
 					targetGadget.script = fileName;
 				}
 				break;
@@ -550,7 +550,7 @@ const findSourceFile = (): SourceFiles => {
 		};
 
 		targetGadget.scripts ??= [];
-		if (/^\.[jt]sx?$/.test(fileExt)) {
+		if (/^\.tsx?$/.test(fileExt)) {
 			const {scripts} = targetGadget;
 			scripts.push(fileName);
 			// If there are files with the same name in both JavaScript and TypeScript, only retain the TypeScript file
