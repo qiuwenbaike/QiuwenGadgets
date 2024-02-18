@@ -44,15 +44,17 @@ const appendGeoIcon = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 	const storePageTitle: string = `User:${WG_RELEVANT_USER_NAME}/GeoIP.json`;
 
 	try {
-		const data = await api.post({
+		const params: ApiQueryRevisionsParams = {
 			action: 'query',
-			title: storePageTitle,
+			titles: [storePageTitle],
 			format: 'json',
 			formatversion: '2',
 			prop: ['revisions'],
 			rvprop: ['content'],
 			rvslots: 'main',
-		});
+		};
+
+		const data = await api.post(params);
 
 		const {
 			country,
