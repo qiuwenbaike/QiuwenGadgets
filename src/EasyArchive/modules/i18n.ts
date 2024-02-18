@@ -1,7 +1,7 @@
 import {localize} from 'ext.gadget.i18n';
 
-const getI18nMessages = () => {
-	return {
+export const easy_archive_lang = () => {
+	window.easy_archive.lang = {
 		delete: localize({
 			en: 'delete',
 			'zh-hans': '删除',
@@ -144,10 +144,3 @@ const getI18nMessages = () => {
 		}),
 	};
 };
-const i18nMessages = getI18nMessages();
-
-const getMessage: GetMessages<typeof i18nMessages> = (key) => {
-	return i18nMessages[key] || key;
-};
-
-export {getMessage};

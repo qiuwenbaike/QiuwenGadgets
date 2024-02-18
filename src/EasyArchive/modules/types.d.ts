@@ -1,8 +1,10 @@
 declare global {
-	interface Window {
+	declare interface Window {
 		easy_archive: {
-			never_enable_on_these_pages_regex?: RegExp[];
-			section_count: number | null;
+			lang: Record<string, string>;
+			settings_string: string;
+			user_custom_archive_summary?: string;
+			user_custom_delete_summary?: string;
 		};
 	}
 }
