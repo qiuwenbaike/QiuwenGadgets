@@ -8,15 +8,17 @@ const storeLocation = async ({countryOrArea, region}: StoreGeoInfo): Promise<voi
 	const storePageTitle: string = `User:${WG_USER_NAME}/GeoIP.json`;
 
 	try {
-		const data = await api.post({
+		const queryParams: ApiQueryRevisionsParams = {
 			action: 'query',
-			title: storePageTitle,
+			titles: [storePageTitle],
 			format: 'json',
 			formatversion: '2',
 			prop: ['revisions'],
 			rvprop: ['content'],
 			rvslots: 'main',
-		});
+		};
+
+		const data = await api.post(queryParams);
 
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 		const response = JSON.parse(data['query'].pages[0].revisions[0].slots.main.content) as Partial<StoreGeoInfo>;
