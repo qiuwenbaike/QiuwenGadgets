@@ -51,7 +51,7 @@ import {initMwApi} from 'ext.gadget.Util';
 		}
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const self = this;
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
 		const newVal = (self.wpTextbox1 as HTMLTextAreaElement).value?.replace(checkCategoriesRegExp, '');
 		const dlgButtons: {
 			'Yes, Remove'?: () => void;
@@ -62,11 +62,9 @@ import {initMwApi} from 'ext.gadget.Util';
 		let $textHintNode;
 		let $dialog;
 		const doRemove = () => {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			(self.wpSummary as HTMLInputElement).value =
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				`Removing [[Template:Check categories|{${`{Check categories}}]] ${(self.wpSummary as HTMLInputElement).value}`}`;
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
 			(self.wpTextbox1 as HTMLTextAreaElement).value = newVal;
 		};
 		const writeStorage = (val: string) => {
@@ -206,7 +204,7 @@ import {initMwApi} from 'ext.gadget.Util';
 				},
 			});
 		};
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
 		if (newVal !== (self.wpTextbox1 as HTMLTextAreaElement).value) {
 			if (window.HotCatAutoRemoveCheckCat || storageItem === 'auto') {
 				doRemove();

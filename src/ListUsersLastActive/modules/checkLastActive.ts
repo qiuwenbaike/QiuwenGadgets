@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {adjustTime} from './util/adjustTime';
 import {api} from './api';
 

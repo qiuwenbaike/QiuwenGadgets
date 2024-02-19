@@ -142,7 +142,7 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 			ususers,
 		};
 		const response = await api.get(params);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const _users: {groups: string; name: string}[] = response['query']?.users ?? [];
 		for (const user of _users) {
 			if (!user || !user.groups) {

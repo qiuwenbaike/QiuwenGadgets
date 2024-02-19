@@ -32,7 +32,6 @@ export const QuickPatrol = (): void => {
 				})
 				.done(({error}): void => {
 					if (error) {
-						// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 						void mw.notify(getMessage('API') + error['info'], {type: 'error', tag: 'QuickPatrol'});
 						$(`#gadget-quick_patrol__${btnid}`).css('color', '#f00');
 					} else {

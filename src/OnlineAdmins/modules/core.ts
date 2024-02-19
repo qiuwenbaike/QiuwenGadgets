@@ -36,7 +36,7 @@ export const onlineAdmins = (): void => {
 				rcend,
 			};
 			const recentchanges = await api.get(recentchangesParams);
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
 			for (const {user} of recentchanges['query'].recentchanges as {user: string}[]) {
 				users.push(user);
 			}
@@ -50,7 +50,7 @@ export const onlineAdmins = (): void => {
 				leend: rcend,
 			};
 			const logevents = await api.get(logeventsParams);
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
 			for (const {user} of logevents['query'].logevents as {user: string}[]) {
 				usersExt.push(user);
 			}
@@ -68,7 +68,7 @@ export const onlineAdmins = (): void => {
 						usprop: 'groups',
 					};
 					const response = await api.get(params);
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
 					for (const {groups, name} of response['query'].users as {groups: string[]; name: string}[]) {
 						// 找到管理人员，去除机器人，消除name的空值
 						if (groups.includes('bot') || BLACK_LIST.includes(name) || !name) {

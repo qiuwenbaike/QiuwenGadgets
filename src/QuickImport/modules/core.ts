@@ -64,7 +64,7 @@ const quickImport = async (): Promise<void> => {
 			titles: pageName,
 		};
 		const result = await api.get(params);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		for (const [, info] of Object.entries(result['query'].pages)) {
 			if ((info as Record<string, never>)['redirect'] === '') {
 				continue;
@@ -104,7 +104,7 @@ const quickImport = async (): Promise<void> => {
 			titles: pageName,
 		};
 		const data = await api.get(queryParams);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		for (const [, pageinfo] of Object.entries(data['query'].pages)) {
 			if ((pageinfo as Record<string, never>)['missing'] === '') {
 				await importPage(pageName);

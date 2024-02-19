@@ -20,7 +20,7 @@ const storeLocation = async ({countryOrArea, region}: StoreGeoInfo): Promise<voi
 
 		const data = await api.post(queryParams);
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		const response = JSON.parse(data['query'].pages[0].revisions[0].slots.main.content) as Partial<StoreGeoInfo>;
 
 		if (response.countryOrArea === countryOrArea && (response.region === region || (response.region && !region))) {

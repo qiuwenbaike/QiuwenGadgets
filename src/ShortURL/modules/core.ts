@@ -27,11 +27,10 @@ const doIns = (link: string): void => {
 			const $element: JQuery = $('<div>');
 			for (const domain of ['qwbk.cc', 'qwbk.org', 'bkwz.cn']) {
 				$element.append(
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 					new mw.widgets.CopyTextLayout({
 						align: 'top',
 						copyText: `https://${domain}${link}`,
-						// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 					}).$element as JQuery
 				);
 			}
@@ -127,11 +126,7 @@ export const init = async ({
 					torelative: 'prev',
 				};
 				const {compare} = await api.get(params);
-				if (
-					diffId === mw.config.get('wgDiffNewId') &&
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-					compare?.fromrevid === mw.config.get('wgDiffOldId')
-				) {
+				if (diffId === mw.config.get('wgDiffNewId') && compare?.fromrevid === mw.config.get('wgDiffOldId')) {
 					buildLink();
 				}
 			} catch {}

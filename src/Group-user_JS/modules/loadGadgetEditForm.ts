@@ -9,7 +9,7 @@ const loadGadgetEditForm = async (): Promise<void> => {
 		usingEditFormJS();
 	} else {
 		await mw.loader.using('ext.visualEditor.desktopArticleTarget.init');
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 		mw.libs['ve'].addPlugin((): void => {
 			usingEditFormJS();
 		});
