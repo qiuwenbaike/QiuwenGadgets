@@ -33,6 +33,7 @@
  * would result in the local time in Los Angeles being shown. See
  * TZ database for valid options.
  */
+import './UTCLiveClock.less';
 import {liveClock} from './modules/core';
 
 $(liveClock);

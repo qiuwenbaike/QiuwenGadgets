@@ -1,3 +1,4 @@
+import './FloatTOC.less';
 import {floatTOC} from './modules/core';
 import {getBody} from 'ext.gadget.Util';
 

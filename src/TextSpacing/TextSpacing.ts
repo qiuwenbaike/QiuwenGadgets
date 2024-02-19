@@ -1,3 +1,4 @@
+import './TextSpacing.less';
 import {WRAPPER_CLASS, addSpaceToString, adjustSpacing, getLeafElements} from './modules/spacing';
 
 const run = (element: HTMLElement): void => {

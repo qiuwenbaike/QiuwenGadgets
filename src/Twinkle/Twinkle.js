@@ -1,3 +1,4 @@
+import './Twinkle.less';
 import './modules/twinkle';
 import './modules/twinklearv';
 import './modules/twinklewarn';

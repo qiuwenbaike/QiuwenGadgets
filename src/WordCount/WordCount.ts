@@ -1,3 +1,4 @@
+import './WordCount.less';
 import {addListener} from './modules/addListener';
 import {getBody} from 'ext.gadget.Util';
 

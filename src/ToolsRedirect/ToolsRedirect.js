@@ -1,3 +1,4 @@
+import './ToolsRedirect.less';
 import {ToolsRedirect} from './modules/core';
 import {toolsRedirectMessages} from './modules/messages';
 

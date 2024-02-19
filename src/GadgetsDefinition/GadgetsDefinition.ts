@@ -5,6 +5,7 @@
  * click a link to them.
  */
 // Technique gleaned from [[enwiki:fr:Utilisateur:Od1n/AddLinksGadgetsDefinition.js]].
+import './GadgetsDefinition.less';
 import {IS_DEFINITION_PAGE} from './modules/constant';
 import {generateGadgetId} from './modules/util/generateGadgetId';
 import {getBody} from 'ext.gadget.Util';

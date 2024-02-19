@@ -36,6 +36,8 @@
  * @param {JQuery} $
  * @namespace Morebits
  */
+import './morebits.less';
+
 (function morebits($) {
 	// Wrap entire file with anonymous function
 	/** @lends Morebits */

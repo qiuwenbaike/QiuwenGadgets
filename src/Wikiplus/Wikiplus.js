@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import './Wikiplus.less';
+
 (async () => {
 	if (!(mw.config.get('wgAction') === 'view' && mw.config.get('wgIsArticle'))) {
 		return;
