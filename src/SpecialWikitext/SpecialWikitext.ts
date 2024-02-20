@@ -475,7 +475,7 @@ const previewTool = (): void => {
 				if (addWiki.toString().trim() !== '' && itemElement) {
 					// 若解析结果非空才放置预览
 					$(itemElement).prepend(noticeLoading);
-					packageWikitext += `<div className="special-wikitext-preview-testcase-${i}">\n${addWiki}\n</div>`;
+					packageWikitext += `<div class="special-wikitext-preview-testcase-${i}">\n${addWiki}\n</div>`;
 				}
 			} else if (['lua', 'scribunto'].includes(testcaseItem.lang.toLowerCase())) {
 				void mwAddLuaText(
@@ -495,7 +495,7 @@ const previewTool = (): void => {
 
 		// 将整理完的Testcase预览元素统一发送API请求，并将返回结果分发到各Testcase
 		if (packageWikitext.trim() !== '') {
-			packageWikitext = `<div className="special-wikitext-preview-testcase-undefined">${packageWikitext}</div>`;
+			packageWikitext = `<div class="special-wikitext-preview-testcase-undefined">${packageWikitext}</div>`;
 			try {
 				const params: ApiParseParams = {
 					action: 'parse',
