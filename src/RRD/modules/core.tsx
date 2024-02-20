@@ -91,19 +91,19 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 
 const updateConfig = (): void => {
 	const checkBoxes: rrdConfigCheckBoxes = {};
-	if ((document.querySelector('#rrdHideContent') as HTMLInputElement)?.checked) {
+	if ((document.querySelector('#rrd__hide-content') as HTMLInputElement)?.checked) {
 		checkBoxes.rrdHideContent = true;
 	}
-	if ((document.querySelector('#rrdHideUsername') as HTMLInputElement)?.checked) {
+	if ((document.querySelector('#rrd__hide-username') as HTMLInputElement)?.checked) {
 		checkBoxes.rrdHideUsername = true;
 	}
-	if ((document.querySelector('#rrdHideSummary') as HTMLInputElement)?.checked) {
+	if ((document.querySelector('#rrd__hide-summary') as HTMLInputElement)?.checked) {
 		checkBoxes.rrdHideSummary = true;
 	}
 	config.checkboxes = checkBoxes;
 	const others: rrdConfigOthers = {
-		rrdReason: (document.querySelector('#rrdReason') as HTMLInputElement)?.value,
-		rrdOtherReasons: (document.querySelector('#rrdOtherReasons') as HTMLInputElement)?.value,
+		rrdReason: (document.querySelector('#rrd__reason') as HTMLInputElement)?.value,
+		rrdOtherReasons: (document.querySelector('#rrd__other-reasons') as HTMLInputElement)?.value,
 	};
 	config.others = others;
 };
