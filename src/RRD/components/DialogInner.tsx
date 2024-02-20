@@ -3,32 +3,32 @@ import React from 'ext.gadget.React';
 import {getMessage} from '../modules/i18n';
 
 const DialogInner = () => (
-	<div id="rrdConfig">
-		{getMessage('hideItems')}
+	<div id="rrd__config">
+		<>{getMessage('hideItems')}</>
 		<br />
-		<div style="float: left; padding: 0 5px;">
-			<input name="content" id="rrdHideContent" type="checkbox" value="content" checked />
-			<label htmlFor="rrdHideContent" id="rrd-content">
+		<div className={'rrd__content-wrapper'}>
+			<input name="content" id="rrd__hide-content" type="checkbox" value="content" checked />
+			<label htmlFor="rrd__hide-content" id="rrd-content">
 				{IS_LOG ? getMessage('hideLog') : getMessage('hideContent')}
 			</label>
 		</div>
-		<div style="float: left; padding: 0 5px;">
-			<input name="username" id="rrdHideUsername" type="checkbox" value="username" />
-			<label htmlFor="rrdHideUsername" id="rrd-username">
+		<div className={'rrd__content-wrapper'}>
+			<input name="username" id="rrd__hide-username" type="checkbox" value="username" />
+			<label htmlFor="rrd__hide-username" id="rrd-username">
 				{getMessage('hideUsername')}
 			</label>
 		</div>
-		<div style="float: left; padding: 0 5px;">
-			<input name="summary" id="rrdHideSummary" type="checkbox" value="summary" />
-			<label htmlFor="rrdHideSummary" id="rrd-summary">
+		<div className={'rrd__content-wrapper'}>
+			<input name="summary" id="rrd__hide-summary" type="checkbox" value="summary" />
+			<label htmlFor="rrd__hide-summary" id="rrd-summary">
 				{getMessage('hideSummary')}
 			</label>
 		</div>
 		<br />
 		<br />
-		{getMessage('hideReason')}
+		<>{getMessage('hideReason')}</>
 		<br />
-		<select name="rrdReason" id="rrdReason">
+		<select name="rrd__reason" id="rrd__reason">
 			<option value={getMessage('hideReasonRD1')}>{getMessage('hideReasonRD1')}</option>
 			<option value={getMessage('hideReasonRD2')}>{getMessage('hideReasonRD2')}</option>
 			<option value={getMessage('hideReasonRD3')}>{getMessage('hideReasonRD3')}</option>
@@ -38,9 +38,9 @@ const DialogInner = () => (
 		</select>
 		<br />
 		<br />
-		{getMessage('otherReasons')}
+		<>{getMessage('otherReasons')}</>
 		<br />
-		<textarea name="otherReasons" id="rrdOtherReasons" rows={4}></textarea>
+		<textarea name="otherReasons" id="rrd__other-reasons" rows={4}></textarea>
 	</div>
 );
 
