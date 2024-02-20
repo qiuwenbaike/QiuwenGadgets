@@ -1,4 +1,5 @@
-import React from 'ext.gadget.React';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import {noticeFailElement, noticeLoadingElement} from './modules/generateElements';
 import {initMwApi} from 'ext.gadget.Util';
 
 /* 跟[[Module:Special wikitext]]保持一致的段落。 */
@@ -173,45 +174,10 @@ const previewTool = (): void => {
 	const api: mw.Api = initMwApi('SpecialWikitext/1.1');
 	const $noticeAddText: string = '{{Special_wikitext/notice}}';
 	// {{Quote box |quote  = -{zh-hans:预览加载中;zh-hant:預覽載入中;}-…… |width  = 50% |align  = center}}
-	const noticeLoading = (
-		<div id="mw-_addText-preview-loading">
-			<div
-				class="quotebox"
-				style="margin:auto;padding:6px;width:50%;border:1px solid #aaa;background:#f9f9f9;font-size:88%"
-			>
-				<div
-					id="mw-_addText-preview-loading-content"
-					style="background:#f9f9f9;color:#000;text-align:center;font-size:larger"
-				>
-					<img
-						src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif"
-						decoding="async"
-						data-file-width="32"
-						data-file-height="32"
-						width="32"
-						height="32"
-					/>
-					{window.wgULS('预览加载中……', '預覽載入中……')}
-				</div>
-			</div>
-		</div>
-	);
+	const noticeLoading = noticeLoadingElement();
 	// [[File:Gnome-dialog-warning2.svg|32px]]
 	// -{zh-hans:预览加载失败;zh-hant:預覽載入失败;}-
-	const noticeFail = (
-		<>
-			<img
-				src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/8/8f/Alert_Mark_%28Orange%29.svg/48px-Alert_Mark_%28Orange%29.svg.png"
-				decoding="async"
-				data-file-width="48"
-				data-file-height="48"
-				width="32"
-				height="32"
-			/>{' '}
-			{window.wgULS('预览加载失败', '預覽載入失败')}
-		</>
-	);
-
+	const noticeFail = noticeFailElement();
 	// 检查对应selector的网页对象是否存在
 	const $elementExist = (selectors: string | string[]) => {
 		const selectorArray: string[] = Array.isArray(selectors) ? selectors : selectors ? [selectors] : [];
@@ -247,8 +213,8 @@ const previewTool = (): void => {
 	const addParsedWikitext = (parsedWikitext: string | HTMLElement): void => {
 		const $htmlObj = $().html(parsedWikitext);
 		const $body = $('body');
-		if ($elementExist('#mw-_addText-preview-loading')) {
-			const $element: JQuery = $body.find('#mw-_addText-preview-loading');
+		if ($elementExist('#specialwikitext__preview-loading')) {
+			const $element: JQuery = $body.find('#specialwikitext__preview-loading');
 			$element.html(parsedWikitext);
 			mw.hook('wikipage.content').fire($element);
 		} else if ($elementExist('.diff-currentversion-title')) {
@@ -279,16 +245,18 @@ const previewTool = (): void => {
 
 	// 载入错误的提示
 	const loadingFailNotice = (): void => {
-		setHtml('#mw-_addText-preview-loading-content', noticeFail as HTMLElement);
+		setHtml('#specialwikitext__preview-loading-content', noticeFail as HTMLElement);
 	};
 
 	// 移除“[载入中]”的提示
 	const removeLoadingNotice = (): void => {
-		setHtml('#mw-_addText-preview-loading', '');
+		setHtml('#specialwikitext__preview-loading', '');
 	};
 
 	// 检查是否有预览的必要性
-	const needPreview = (): boolean => document.documentElement.innerHTML.search('_addText') > -1;
+	const needPreview = (): boolean => {
+		return document.documentElement.innerHTML.search('_addText') > -1;
+	};
 
 	// 加入预览内容
 	const mwAddWikiText = async (wikiText: string, pagename: string, isPreview: boolean) => {
@@ -507,28 +475,27 @@ const previewTool = (): void => {
 				if (addWiki.toString().trim() !== '' && itemElement) {
 					// 若解析结果非空才放置预览
 					$(itemElement).prepend(noticeLoading);
-					packageWikitext += `<div class="special-wikitext-preview-testcase-${i}">\n${addWiki}\n</div>`;
+					packageWikitext += `<div className="special-wikitext-preview-testcase-${i}">\n${addWiki}\n</div>`;
 				}
 			} else if (['lua', 'scribunto'].includes(testcaseItem.lang.toLowerCase())) {
 				void mwAddLuaText(
 					testcaseItem.code,
 					mw.config.get('wgPageName'),
 					isPreview,
-					(
-						() =>
-						(wikitext: string): void => {
+					(() => {
+						return (wikitext: string): void => {
 							if (itemElement) {
 								$(itemElement).prepend(wikitext);
 							}
-						}
-					)()
+						};
+					})()
 				);
 			}
 		}
 
 		// 将整理完的Testcase预览元素统一发送API请求，并将返回结果分发到各Testcase
 		if (packageWikitext.trim() !== '') {
-			packageWikitext = `<div class="special-wikitext-preview-testcase-undefined">${packageWikitext}</div>`;
+			packageWikitext = `<div className="special-wikitext-preview-testcase-undefined">${packageWikitext}</div>`;
 			try {
 				const params: ApiParseParams = {
 					action: 'parse',
@@ -560,7 +527,7 @@ const previewTool = (): void => {
 							if (checkParseElement.length) {
 								const $addTarget: JQuery = $(
 									testcaseItem.element as NonNullable<typeof testcaseItem.element>
-								).find('#mw-_addText-preview-loading');
+								).find('#specialwikitext__preview-loading');
 								$addTarget.html(checkParseElement.html());
 								mw.hook('wikipage.content').fire($addTarget);
 							}
