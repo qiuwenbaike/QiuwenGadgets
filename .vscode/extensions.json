@@ -13,6 +13,8 @@
 		"simonsiefke.svg-preview",
 		"stylelint.vscode-stylelint",
 		"usernamehw.errorlens",
+		"vue.volar",
+		"vue.vscode-typescript-vue-plugin",
 		"webben.browserslist",
 		"yoavbls.pretty-ts-errors"
 	]
