@@ -1329,7 +1329,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/UserRightsManager/UserRightsManager.js
-//! src/UserRightsManager/modules/constant.ts
 require_es_array_push();
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
@@ -1360,6 +1359,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/UserRightsManager/modules/constant.ts
 var WG_PAGE_NAME = mw.config.get("wgPageName");
 var PAGE_PERM = {
   "Qiuwen_talk:权限申请/申请巡查回退权": "patroller",

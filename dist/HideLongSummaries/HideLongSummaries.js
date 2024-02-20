@@ -1327,7 +1327,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/HideLongSummaries/HideLongSummaries.js
-//! src/HideLongSummaries/options.json
 require_es_array_push();
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
@@ -1388,6 +1387,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/HideLongSummaries/options.json
 var maxLength = 256;
 //! src/HideLongSummaries/modules/constant.ts
 var CLASS_NAME = "gadget-hide_long_summaries";

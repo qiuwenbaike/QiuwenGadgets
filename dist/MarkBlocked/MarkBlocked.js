@@ -1328,7 +1328,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/MarkBlocked/MarkBlocked.js
-//! src/MarkBlocked/modules/constant.ts
 require_es_array_push();
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
@@ -1389,6 +1388,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/MarkBlocked/modules/constant.ts
 var CLASS_NAME = "gadget-mark_blocked";
 var CLASS_NAME_LOADING = "".concat(CLASS_NAME, "--loading");
 var CLASS_NAME_USERLINK = "".concat(CLASS_NAME, "-userlink");

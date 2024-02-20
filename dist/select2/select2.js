@@ -1386,9 +1386,9 @@ var require_es_array_unshift = __commonJS({
 });
 
 // dist/select2/select2.js
-//! src/select2/select2.js
 require_es_array_push();
 require_es_array_unshift();
+//! src/select2/select2.js
 !function(n) {
   "function" == typeof define && define.amd ? define(["jquery"], n) : (
     /*"object"==typeof module&&module.exports?module.exports=function(e,t){return void 0===t&&(t="undefined"!=typeof window?require("jquery"):require("jquery")(e)),n(t),t}:*/

@@ -25,7 +25,6 @@
 "use strict";
 
 // dist/AutoLink/AutoLink.js
-//! src/AutoLink/modules/constant.ts
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (!it) {
@@ -85,6 +84,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/AutoLink/modules/constant.ts
 var WG_ACTION = mw.config.get("wgAction");
 var WG_CANONICAL_NAMESPACE = mw.config.get("wgCanonicalNamespace");
 var WG_CANONICAL_SPECIAL_PAGE_NAME = mw.config.get("wgCanonicalSpecialPageName").toString();

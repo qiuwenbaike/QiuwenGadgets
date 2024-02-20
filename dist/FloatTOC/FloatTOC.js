@@ -413,8 +413,8 @@ var require_IntersectionObserver = __commonJS({
 });
 
 // dist/FloatTOC/FloatTOC.js
-//! src/FloatTOC/modules/constant.ts
 require_IntersectionObserver();
+//! src/FloatTOC/modules/constant.ts
 var ID = "floatTOC";
 var WG_SKIN = mw.config.get("skin");
 //! src/FloatTOC/modules/core.ts

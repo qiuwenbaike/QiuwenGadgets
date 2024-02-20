@@ -23,8 +23,8 @@
 "use strict";
 
 // dist/Wikicache/Wikicache.js
-//! src/Wikicache/modules/constant.ts
 var _document$querySelect;
+//! src/Wikicache/modules/constant.ts
 var wgAction = mw.config.get("wgAction");
 var WG_PAGE_NAME = mw.config.get("wgPageName");
 //! src/Wikicache/modules/core.ts

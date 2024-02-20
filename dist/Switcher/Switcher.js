@@ -1329,7 +1329,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/Switcher/Switcher.js
-//! src/Switcher/Switcher.ts
 require_es_array_push();
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
@@ -1390,6 +1389,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/Switcher/Switcher.ts
 var switcherJS = () => {
   var _iterator = _createForOfIteratorHelper([...document.querySelectorAll(".switcher-container")].entries()), _step;
   try {

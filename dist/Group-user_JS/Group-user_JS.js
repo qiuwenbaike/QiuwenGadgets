@@ -26,7 +26,6 @@
 "use strict";
 
 // dist/Group-user_JS/Group-user_JS.js
-//! src/Group-user_JS/modules/constant.ts
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -115,6 +114,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/Group-user_JS/modules/constant.ts
 var WG_ACTION = mw.config.get("wgAction");
 var WG_CANONICAL_SPECIAL_PAGE_NAME = mw.config.get("wgCanonicalSpecialPageName");
 var WG_CATEGORIES = mw.config.get("wgCategories");

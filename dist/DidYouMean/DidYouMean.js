@@ -23,8 +23,8 @@
 "use strict";
 
 // dist/DidYouMean/DidYouMean.js
-//! src/DidYouMean/options.json
 var _mw$config$get;
+//! src/DidYouMean/options.json
 var targetSelector = "#noarticletext-dym-link a:not(.mw-selflink)";
 //! src/DidYouMean/modules/constant.ts
 var WG_RELEVANT_USER_NAME = (_mw$config$get = mw.config.get("wgRelevantUserName")) !== null && _mw$config$get !== void 0 ? _mw$config$get : "";

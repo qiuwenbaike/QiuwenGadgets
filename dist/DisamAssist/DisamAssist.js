@@ -1387,7 +1387,6 @@ var require_es_array_unshift = __commonJS({
 });
 
 // dist/DisamAssist/DisamAssist.js
-//! src/DisamAssist/modules/constant.ts
 require_es_array_push();
 require_es_array_unshift();
 function _createForOfIteratorHelper(o, allowArrayLike) {
@@ -1449,6 +1448,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/DisamAssist/modules/constant.ts
 var WG_ACTION = mw.config.get("wgAction");
 //! src/DisamAssist/modules/config.ts
 var cfg = {

@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/CopyCodeBlock/CopyCodeBlock.js
-//! src/CopyCodeBlock/modules/constant.ts
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (!it) {
@@ -84,6 +83,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/CopyCodeBlock/modules/constant.ts
 var CLASS_NAME = "gadget-copy_code_block";
 var CLASS_NAME_COPY_BUTTON = "".concat(CLASS_NAME, "__copy-button");
 //! src/CopyCodeBlock/modules/addCopyListener.ts

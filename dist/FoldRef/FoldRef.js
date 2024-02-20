@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/FoldRef/FoldRef.js
-//! src/FoldRef/modules/constant.ts
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (!it) {
@@ -84,6 +83,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/FoldRef/modules/constant.ts
 var CLASS_NAME = "gadget-foldref";
 var CLASS_NAME_EXPAND_BUTTON = "".concat(CLASS_NAME, "__expand-button");
 var WG_NAMESPACE_NUMBER = mw.config.get("wgNamespaceNumber");

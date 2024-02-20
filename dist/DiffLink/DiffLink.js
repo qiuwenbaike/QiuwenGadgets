@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/DiffLink/DiffLink.js
-//! src/DiffLink/modules/util/checkDiffPage.ts
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -54,6 +53,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/DiffLink/modules/util/checkDiffPage.ts
 var checkDiffPage = ($content) => {
   return $content.find("table").hasClass("diff") && !!mw.config.get("wgCurRevisionId");
 };

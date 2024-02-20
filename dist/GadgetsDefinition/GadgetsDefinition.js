@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/GadgetsDefinition/GadgetsDefinition.js
-//! src/GadgetsDefinition/modules/constant.ts
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (!it) {
@@ -84,6 +83,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/GadgetsDefinition/modules/constant.ts
 var IS_DEFINITION_PAGE = mw.config.get("wgCanonicalNamespace") === "MediaWiki" && mw.config.get("wgTitle") === "Gadgets-definition";
 var REXEX_GADGET_NAME = /^(\s*)([\w_-]+)\s*/;
 //! src/GadgetsDefinition/modules/util/generateGadgetId.ts

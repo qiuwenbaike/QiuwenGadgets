@@ -25,7 +25,6 @@
 "use strict";
 
 // dist/ListUsersLastActive/ListUsersLastActive.js
-//! src/ListUsersLastActive/modules/constant.ts
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (!it) {
@@ -114,6 +113,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/ListUsersLastActive/modules/constant.ts
 var WG_CANONICAL_SPECIAL_PAGE_NAME = mw.config.get("wgCanonicalSpecialPageName");
 //! src/ListUsersLastActive/modules/util/adjustTime.ts
 var addLeadingZero = (number) => {

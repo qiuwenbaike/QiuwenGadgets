@@ -23,7 +23,6 @@
 "use strict";
 
 // dist/PurgePageCache/PurgePageCache.js
-//! src/PurgePageCache/modules/constant.ts
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -53,6 +52,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/PurgePageCache/modules/constant.ts
 var WG_WIKI_ID = mw.config.get("wgWikiID");
 //! src/PurgePageCache/modules/i18n.ts
 var import_ext_gadget = require("ext.gadget.i18n");

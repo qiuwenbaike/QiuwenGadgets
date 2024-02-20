@@ -1360,7 +1360,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/Edittools-refToolbar/Edittools-refToolbar.js
-//! src/Edittools-refToolbar/modules/constant.ts
 require_es_array_push();
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
@@ -1450,6 +1449,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/Edittools-refToolbar/modules/constant.ts
 var WG_ACTION = mw.config.get("wgAction");
 var WG_PAGE_CONTENT_MODEL = mw.config.get("wgPageContentModel");
 var WG_USER_LANGUAGE = mw.config.get("wgUserLanguage");

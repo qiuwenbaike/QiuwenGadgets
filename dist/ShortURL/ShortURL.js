@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/ShortURL/ShortURL.js
-//! src/ShortURL/modules/core.ts
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -54,6 +53,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/ShortURL/modules/core.ts
 var import_ext_gadget2 = require("ext.gadget.Clipboard");
 //! src/ShortURL/modules/i18n.ts
 var import_ext_gadget = require("ext.gadget.i18n");

@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/EditForm_JS/EditForm_JS.js
-//! src/EditForm_JS/modules/constant.ts
 var _mw$config$get;
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
@@ -85,6 +84,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/EditForm_JS/modules/constant.ts
 var WG_ACTION = mw.config.get("wgAction");
 var WG_WIKI_ID = mw.config.get("wgWikiID");
 var WG_NAMESPACE_NUMBER = mw.config.get("wgNamespaceNumber");

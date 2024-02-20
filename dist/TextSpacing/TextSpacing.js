@@ -1712,7 +1712,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/TextSpacing/TextSpacing.js
-//! src/TextSpacing/modules/util.ts
 require_IntersectionObserver();
 require_es_array_push();
 function _createForOfIteratorHelper(o, allowArrayLike) {
@@ -1774,6 +1773,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/TextSpacing/modules/util.ts
 var isInlineHTMLElement = (node) => {
   return node instanceof HTMLElement && window.getComputedStyle(node).display.includes("inline");
 };

@@ -1337,7 +1337,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/HotCat/HotCat.js
-//! src/HotCat/modules/check.ts
 require_es_array_push();
 var _mw$config$get;
 function _createForOfIteratorHelper(o, allowArrayLike) {
@@ -1399,6 +1398,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/HotCat/modules/check.ts
 var import_ext_gadget = require("ext.gadget.Util");
 (function hotCatCheck() {
   if (mw.config.get("wgNamespaceNumber") !== 6 || window.HotCatAutoRemoveCheckCatOptOut || !document.querySelectorAll(".checkcategories")[0]) {

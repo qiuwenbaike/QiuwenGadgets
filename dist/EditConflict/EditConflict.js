@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/EditConflict/EditConflict.js
-//! src/EditConflict/modules/constant.ts
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -54,6 +53,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/EditConflict/modules/constant.ts
 var WG_ACTION = mw.config.get("wgAction");
 var WG_CUR_REVISION_ID = mw.config.get("wgCurRevisionId");
 var WG_PAGE_NAME = mw.config.get("wgPageName");

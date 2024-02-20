@@ -25,7 +25,6 @@
 "use strict";
 
 // dist/BanPage/BanPage.js
-//! src/BanPage/modules/constant.ts
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -55,6 +54,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/BanPage/modules/constant.ts
 var WG_NAMESPACE_NUMBER = mw.config.get("wgNamespaceNumber");
 var WG_PAGE_NAME = mw.config.get("wgPageName");
 var WG_SCRIPT = mw.config.get("wgScript");

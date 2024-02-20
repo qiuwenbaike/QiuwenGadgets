@@ -23,7 +23,6 @@
 "use strict";
 
 // dist/QuickImport/QuickImport.js
-//! src/QuickImport/modules/core.ts
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -53,6 +52,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/QuickImport/modules/core.ts
 var import_ext_gadget = require("ext.gadget.Util");
 var import_ext_gadget2 = require("ext.gadget.Toastify");
 var quickImport = /* @__PURE__ */ function() {

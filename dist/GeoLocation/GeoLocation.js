@@ -23,7 +23,6 @@
 "use strict";
 
 // dist/GeoLocation/GeoLocation.js
-//! src/GeoLocation/modules/constant.ts
 var _mw$config$get;
 var _mw$config$get2;
 var _mw$config$get3;
@@ -56,6 +55,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/GeoLocation/modules/constant.ts
 var SYSTEM_SCRIPT_LIST = ["滥用过滤器", "求闻编者", "求闻百科社区", "Example", "External contributors", "Maintenance script", "MediaWiki default", "MediaWiki message delivery", "New user page"];
 var WEBMASTER_LIST = ["QiuWen", "QiuWen for Accounts", "QiuwenSocialMedia"];
 var WG_USER_GROUPS = (_mw$config$get = mw.config.get("wgUserGroups")) !== null && _mw$config$get !== void 0 ? _mw$config$get : [];

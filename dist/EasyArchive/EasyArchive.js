@@ -25,7 +25,6 @@
 "use strict";
 
 // dist/EasyArchive/EasyArchive.js
-//! src/EasyArchive/modules/i18n.ts
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (!it) {
@@ -85,6 +84,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/EasyArchive/modules/i18n.ts
 var import_ext_gadget = require("ext.gadget.i18n");
 var easy_archive_lang = () => {
   window.easy_archive.lang = {

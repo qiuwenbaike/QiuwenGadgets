@@ -1361,7 +1361,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/ToolsRedirect/ToolsRedirect.js
-//! src/ToolsRedirect/modules/constant.ts
 require_es_array_push();
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
@@ -1422,6 +1421,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/ToolsRedirect/modules/constant.ts
 var WG_NAMESPACE_IDS = mw.config.get("wgNamespaceIds");
 var WG_NAMESPACE_NUMBER = mw.config.get("wgNamespaceNumber");
 var WG_PAGE_NAME = mw.config.get("wgPageName");

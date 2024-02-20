@@ -1481,7 +1481,6 @@ var require_es_regexp_flags = __commonJS({
 });
 
 // dist/Navigation_popups/Navigation_popups.js
-//! src/Navigation_popups/modules/core.js
 require_es_array_push();
 require_es_array_unshift();
 require_es_regexp_flags();
@@ -1573,6 +1572,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/Navigation_popups/modules/core.js
 var import_ext_gadget = require("ext.gadget.Util");
 //! src/Navigation_popups/modules/string.ts
 var popupStrings = {

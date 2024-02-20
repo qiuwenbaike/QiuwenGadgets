@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/DefaultSummaries/DefaultSummaries.js
-//! src/DefaultSummaries/DefaultSummaries.ts
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (!it) {
@@ -84,6 +83,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/DefaultSummaries/DefaultSummaries.ts
 var import_ext_gadget = require("ext.gadget.Util");
 //! src/DefaultSummaries/modules/messages.ts
 var {

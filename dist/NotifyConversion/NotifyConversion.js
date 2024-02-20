@@ -31,8 +31,8 @@
 "use strict";
 
 // dist/NotifyConversion/NotifyConversion.js
-//! src/NotifyConversion/modules/constant.ts
 var _ref;
+//! src/NotifyConversion/modules/constant.ts
 var GADGET_NAME = "ext.gadget.NotifyConversion";
 var SYSTEM_SCRIPT_LIST = ["滥用过滤器", "求闻编者", "求闻百科社区", "Example", "External contributors", "Maintenance script", "MediaWiki default", "MediaWiki message delivery", "New user page"];
 var WEBMASTER_LIST = ["QiuWen", "QiuWen for Accounts", "QiuwenSocialMedia"];

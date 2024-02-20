@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/Edit0/Edit0.js
-//! src/Edit0/modules/constant.ts
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (!it) {
@@ -84,6 +83,7 @@ function _arrayLikeToArray(arr, len) {
     arr2[i] = arr[i];
   return arr2;
 }
+//! src/Edit0/modules/constant.ts
 var WG_NAMESPACE_NUMBER = mw.config.get("wgNamespaceNumber");
 var WG_SKIN = mw.config.get("skin");
 //! src/Edit0/modules/i18n.ts

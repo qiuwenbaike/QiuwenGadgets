@@ -1328,7 +1328,6 @@ var require_es_array_push = __commonJS({
 });
 
 // dist/MarkRights/MarkRights.js
-//! src/MarkRights/modules/i18n.ts
 require_es_array_push();
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
@@ -1418,6 +1417,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/MarkRights/modules/i18n.ts
 var import_ext_gadget = require("ext.gadget.i18n");
 var getI18nMessages = () => {
   return {

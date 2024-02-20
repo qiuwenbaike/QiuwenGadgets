@@ -24,7 +24,6 @@
 "use strict";
 
 // dist/ConfirmLogout/ConfirmLogout.js
-//! src/ConfirmLogout/options.json
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -54,6 +53,7 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+//! src/ConfirmLogout/options.json
 var logoutElementSelector = '#ca-cb-logout>a,#topbar>a[href*="UserLogout"],#pt-logout>a';
 var logoutElementSelectorOfVector2022StickyHeader = "#pt-logout-sticky-header>a";
 var version = "3.0";
