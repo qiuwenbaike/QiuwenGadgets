@@ -2,7 +2,11 @@ import {init} from './modules/core';
 import {wgAction} from './modules/constant';
 
 $(() => {
-	if (!window.localStorage || !document.querySelector('#wpTextbox1') || !document.querySelector('#wpSummary')) {
+	if (
+		!window.localStorage ||
+		!document.querySelector('input[name=wpTextbox1]') ||
+		!document.querySelector('input[name=wpSummary]')
+	) {
 		return;
 	}
 

@@ -14,7 +14,7 @@ const processWikiEditor = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
-	const $dropdowns: JQuery = generateSummaryDropdown($body.find('#wpSummary'));
+	const $dropdowns: JQuery = generateSummaryDropdown($body.find('input[name=wpSummary]'));
 
 	$dropdowns.css({
 		'padding-bottom': '1em',

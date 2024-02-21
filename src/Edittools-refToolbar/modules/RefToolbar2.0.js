@@ -42,7 +42,7 @@ const refToolbar2 = async () => {
 		 */
 
 		$(document).find('head').trigger('reftoolbarbase');
-		const $target = $body.find('#wpTextbox1');
+		const $target = $body.find('input[name=wpTextbox1]');
 		const temlist = {};
 		for (const t in CiteTB.Templates) {
 			if (Object.hasOwn(CiteTB.Templates, t)) {
@@ -127,19 +127,19 @@ const refToolbar2 = async () => {
 			sections: {
 				cites: {
 					type: 'toolbar',
-					labelMsg: 'cite-section-label',
+					label: mw.msg('cite-section-label'),
 					groups: {
 						template: {
 							tools: {
 								template: {
 									type: 'select',
-									labelMsg: 'cite-template-list',
+									label: mw.msg('cite-template-list'),
 									list: temlist,
 								},
 							},
 						},
 						namedrefs: {
-							labelMsg: 'cite-named-refs-label',
+							label: mw.msg('cite-named-refs-label'),
 							tools: {
 								nrefs: {
 									type: 'button',
@@ -150,12 +150,12 @@ const refToolbar2 = async () => {
 									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/b/be/Nuvola_clipboard_lined.svg/22px-Nuvola_clipboard_lined.svg.png',
 									section: 'cites',
 									group: 'namedrefs',
-									labelMsg: 'cite-named-refs-button',
+									label: mw.msg('cite-named-refs-button'),
 								},
 							},
 						},
 						errorcheck: {
-							labelMsg: 'cite-errorcheck-label',
+							label: mw.msg('cite-errorcheck-label'),
 							tools: {
 								echeck: {
 									type: 'button',
@@ -166,7 +166,7 @@ const refToolbar2 = async () => {
 									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/a/a3/Nuvola_apps_korganizer-NO.png/22px-Nuvola_apps_korganizer-NO.png',
 									section: 'cites',
 									group: 'errorcheck',
-									labelMsg: 'cite-errorcheck-button',
+									label: mw.msg('cite-errorcheck-button'),
 								},
 							},
 						},
@@ -448,9 +448,9 @@ const refToolbar2 = async () => {
 		const section = $body.find('input[name=wpSection]').val();
 		if (section === '') {
 			if (CiteTB.getOption('expandtemplates')) {
-				CiteTB.expandtemplates($body.find('#wpTextbox1').wikiEditor('getContents').text(), callback);
+				CiteTB.expandtemplates($body.find('input[name=wpTextbox1]').wikiEditor('getContents').text(), callback);
 			} else {
-				callback($body.find('#wpTextbox1').wikiEditor('getContents').text());
+				callback($body.find('input[name=wpTextbox1]').wikiEditor('getContents').text());
 			}
 		} else {
 			const postdata = {

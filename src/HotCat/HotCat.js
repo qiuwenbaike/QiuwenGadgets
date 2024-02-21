@@ -2833,7 +2833,7 @@ hotCatMessages();
 					$(eForm).append($ct);
 					oldTxt = eForm.wpTextbox1.value;
 					const $body = $('body');
-					$body.find('#wpSave').one('click', () => {
+					$body.find('input[name=wpSave]').one('click', () => {
 						if ($ct.val()) {
 							sum.value = sum.value.replace(
 								getMessage('messages-using') || getMessage('messages-prefix'),
@@ -2923,9 +2923,9 @@ hotCatMessages();
 	const setup_upload = () => {
 		onUpload = true;
 		// Add an empty category bar at the end of the table containing the description, and change the onsubmit handler.
-		let ip = document.querySelector('#mw-htmlform-description') || document.querySelector('#wpDestFile');
+		let ip = document.querySelector('#mw-htmlform-description') || document.querySelector('input[name=wpDestFile]');
 		if (!ip) {
-			ip = document.querySelector('#wpDestFile');
+			ip = document.querySelector('input[name=wpDestFile]');
 			while (ip && ip.nodeName.toLowerCase() !== 'table') {
 				ip = ip.parentNode;
 			}
@@ -2933,8 +2933,8 @@ hotCatMessages();
 		if (!ip) {
 			return;
 		}
-		const reupload = document.querySelector('#wpForReUpload');
-		const destFile = document.querySelector('#wpDestFile');
+		const reupload = document.querySelector('input[name=wpForReUpload]');
+		const destFile = document.querySelector('input[name=wpDestFile]');
 		if ((reupload && !!reupload.value) || (destFile && (destFile.disabled || destFile.readOnly))) {
 			return; // re-upload form...
 		}
@@ -2984,7 +2984,8 @@ hotCatMessages();
 					}
 					closeForm();
 					// Copy the categories
-					const eb = document.querySelector('#wpUploadDescription') || document.querySelector('#wpDesc');
+					const eb =
+						document.querySelector('input[name=wpUploadDescription]') || document.querySelector('#wpDesc');
 					let addedOne = false;
 					for (const editor of editors) {
 						const t = editor.currentCategory;
