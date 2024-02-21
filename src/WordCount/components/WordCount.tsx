@@ -1,6 +1,6 @@
 import {getCJKCountByTextLength, getCountByTextLength, getUTF8CountByTextLength} from '../modules/getCount';
-import {CLASS_NAME} from '../modules/constant';
 import React from 'ext.gadget.React';
+import {tip} from './WordCount.module.less';
 
 interface Props {
 	text: string;
@@ -10,7 +10,7 @@ const WordCount = (props: Props) => {
 	const {text} = props;
 
 	return (
-		<div className={[CLASS_NAME, 'noprint', 'ui-state-highlight', 'ui-corner-all']}>
+		<div className={[tip, 'noprint', 'ui-state-highlight', 'ui-corner-all']}>
 			{getCountByTextLength(text)}
 			{getCJKCountByTextLength(text)}
 			<br />

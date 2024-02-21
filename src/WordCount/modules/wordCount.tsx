@@ -1,9 +1,9 @@
-import {CLASS_NAME} from './constant';
 import React from 'ext.gadget.React';
 import WordCount from '../components/WordCount';
+import {tip} from '../components/WordCount.module.less';
 
 const wordCount = ($body: JQuery<HTMLBodyElement>): void => {
-	$body.find(`.${CLASS_NAME}`).remove();
+	$body.find(`.${tip}`).remove();
 
 	const text: string | undefined = window.getSelection()?.toString();
 	if (!text) {
