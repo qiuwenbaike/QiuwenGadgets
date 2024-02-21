@@ -1,7 +1,6 @@
 import {WG_RELEVANT_USER_NAME} from './constant';
 import {api} from './api';
 import {appendGeoIcon} from './appendGeoIcon';
-import {getBody} from 'ext.gadget.Util';
 
 const addElement = async (): Promise<void> => {
 	const queryUserGroupsParams: ApiQueryUsersParams = {
@@ -28,13 +27,11 @@ const addElement = async (): Promise<void> => {
 			};
 		} = (await api.get(queryUserGroupsParams)) as never;
 
-		const $body: JQuery<HTMLBodyElement> = await getBody();
-
 		if (groups.includes('bot') || groups.includes('qiuwen')) {
 			/* empty */
 			// Already shown in MarkRights-Userpage
 		} else {
-			void appendGeoIcon($body);
+			void appendGeoIcon();
 		}
 	} catch (error: unknown) {
 		console.error('[GeoLocationReader] Ajax error in `addElement` method:', error);
