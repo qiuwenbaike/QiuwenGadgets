@@ -4,6 +4,6 @@
 	"section": "edit",
 	"actions": ["edit", "submit"],
 	"default": true,
-	"dependencies": ["mediawiki.storage"],
+	"dependencies": ["ext.gadget.Util", "mediawiki.storage"],
 	"rights": ["edit"]
 }
