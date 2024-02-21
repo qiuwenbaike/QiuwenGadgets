@@ -1,6 +1,6 @@
 const WG_PAGE_NAME: string = mw.config.get('wgPageName');
 
-const PAGE_PERM: Record<string, string> = {
+const PAGE_PERM: Record<string, Partial<userRights>> = {
 	'Qiuwen_talk:权限申请/申请巡查回退权': 'patroller',
 	'Qiuwen_talk:权限申请/申请巡查豁免权': 'autoreviewer',
 	'Qiuwen_talk:权限申请/申请确认用户权': 'confirmed',
@@ -11,7 +11,8 @@ const PAGE_PERM: Record<string, string> = {
 	'Qiuwen_talk:权限申请/申请机器人权限': 'bot',
 	'Qiuwen_talk:权限申请/申请实名制验证豁免': 'rnrsverify-exempt',
 };
-const PERM_NAME: Record<string, string> = {
+
+const PERM_NAME: Partial<Record<userRights, string>> = {
 	patroller: '巡查员',
 	autoreviewer: '巡查豁免者',
 	confirmed: '确认用户',
@@ -22,12 +23,14 @@ const PERM_NAME: Record<string, string> = {
 	bot: '机器人',
 	'rnrsverify-exempt': '实名制验证豁免',
 };
-const PERM_TEMPLATE: Record<string, string> = {
+
+const PERM_TEMPLATE: Partial<Record<userRights, string>> = {
 	patroller: 'Patrolgranted',
 	autoreviewer: 'Autopatrolgranted',
 	'massmessage-sender': 'MMSgranted',
 	templateeditor: 'Template editor granted',
 };
+
 const TAGLINE: string = '（使用[[MediaWiki:Gadget-UserRightsManager.js|UserRightsManager]]）';
 
 export {WG_PAGE_NAME, PAGE_PERM, PERM_NAME, PERM_TEMPLATE, TAGLINE};
