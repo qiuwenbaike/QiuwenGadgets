@@ -1,8 +1,8 @@
 type autoSaveObject = {
 	_path: string;
 	_date: Date;
-	'#wpTextbox1'?: string;
-	'#wpSummary'?: string;
+	'input[name=wpTextbox1]'?: string;
+	'input[name=wpSummary]'?: string;
 };
 
 import {WG_PAGE_NAME} from './constant';
@@ -20,8 +20,8 @@ const save = () => {
 	const saveObject: autoSaveObject = {
 		_path: location.pathname + location.search,
 		_date: new Date(),
-		'#wpTextbox1': (document.querySelector('#wpTextbox1') as HTMLTextAreaElement).value,
-		'#wpSummary': (document.querySelector('#wpSummary') as HTMLInputElement).value,
+		'input[name=wpTextbox1]': (document.querySelector('input[name=wpTextbox1]') as HTMLTextAreaElement).value,
+		'input[name=wpSummary]': (document.querySelector('input[name=wpSummary]') as HTMLInputElement).value,
 	};
 	mw.storage.remove(cacheKey);
 	mw.storage.setObject(cacheKey, saveObject, 2592e3); // 30 days
@@ -42,13 +42,13 @@ const onSubmit = () => {
 export const init = () => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const saveObject: autoSaveObject = mw.storage.getObject(cacheKey) ?? {};
-	if (saveObject['#wpTextbox1']) {
-		const wpTextbox1 = document.querySelector('#wpTextbox1') as HTMLTextAreaElement;
-		wpTextbox1.value = saveObject['#wpTextbox1'];
+	if (saveObject['input[name=wpTextbox1]']) {
+		const wpTextbox1 = document.querySelector('input[name=wpTextbox1]') as HTMLTextAreaElement;
+		wpTextbox1.value = saveObject['input[name=wpTextbox1]'];
 	}
-	if (saveObject['#wpSummary']) {
-		const wpSummary = document.querySelector('#wpSummary') as HTMLInputElement;
-		wpSummary.value = saveObject['#wpSummary'];
+	if (saveObject['input[name=wpSummary]']) {
+		const wpSummary = document.querySelector('input[name=wpSummary]') as HTMLInputElement;
+		wpSummary.value = saveObject['input[name=wpSummary]'];
 	}
 	autoSave();
 	document.querySelector('#editform')?.addEventListener('submit', onSubmit);

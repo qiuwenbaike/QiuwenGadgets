@@ -3,7 +3,7 @@ import {WG_PAGE_NAME} from './constant';
 const disableTitle = ($body: JQuery<HTMLBodyElement>): void => {
 	if ($body.find('#no-new-title').length && $body.find('#editform input[name="wpSection"]').val() === 'new') {
 		// 传统文本编辑器
-		const $wpSummary: JQuery = $body.find('#wpSummary');
+		const $wpSummary: JQuery = $body.find('input[name=wpSummary]');
 		$wpSummary.prop('disabled', true);
 		$wpSummary.val('');
 	}

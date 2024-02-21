@@ -8,7 +8,7 @@ const editConflict = async (): Promise<void> => {
 	let isContinue: boolean = true;
 
 	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
-		$body.find('#wpSave').on('click', (): void => {
+		$body.find('input[name="wpSave"]').on('click', (): void => {
 			isContinue = false;
 		});
 	});

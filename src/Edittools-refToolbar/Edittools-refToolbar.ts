@@ -30,7 +30,7 @@ import {refToolbarMesages} from './modules/messages';
 		return;
 	}
 
-	if (document.querySelector('#wpTextbox1[readonly]')) {
+	if (document.querySelector('input[name=wpTextbox1][readonly]')) {
 		return;
 	}
 

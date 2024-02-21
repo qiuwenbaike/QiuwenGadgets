@@ -7,7 +7,7 @@ const customizeToolbar: CustomizeToolbar = (customizer) => {
 	}
 
 	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
-		customizer.call($body.find('#wpTextbox1'));
+		customizer.call($body.find('input[name=wpTextbox1]'));
 	});
 };
 

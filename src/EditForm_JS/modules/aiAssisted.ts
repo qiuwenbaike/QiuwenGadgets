@@ -47,7 +47,7 @@ const aiAssisted = ({$body, $editForm}: {$body?: JQuery<HTMLBodyElement>; $editF
 				value: '',
 			});
 			$body = ($editForm as JQuery).parents('body');
-			const $originWpChangeTags: JQuery = $body.find('#wpChangeTags');
+			const $originWpChangeTags: JQuery = $body.find('input[name=wpChangeTags]');
 			if (!$originWpChangeTags.length) {
 				$body.prepend($wpChangeTags);
 			}

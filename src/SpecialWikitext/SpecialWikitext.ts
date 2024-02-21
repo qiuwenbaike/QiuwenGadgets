@@ -88,7 +88,8 @@ const luaGetObjText = (str: string): string => {
 // 分析CSS中符合条件的wikitext
 const luaGetCSSwikitext = (inputStr: string): string => {
 	let wikitext: string = '';
-	const cssText: string = inputStr || (document.querySelector('#wpTextbox1') as HTMLTextAreaElement)?.value || '';
+	const cssText: string =
+		inputStr || (document.querySelector('input[name=wpTextbox1]') as HTMLTextAreaElement)?.value || '';
 	if (!cssText.trim()) {
 		return '';
 	}
@@ -103,7 +104,7 @@ const luaGetCSSwikitext = (inputStr: string): string => {
 const luaGetJSwikitext = (inputStr: string): string => {
 	let wikitext: string = '';
 	const jsText: string =
-		inputStr || (document.querySelector('#wpTextbox1') as HTMLInputElement)?.value?.toString() || '';
+		inputStr || (document.querySelector('input[name=wpTextbox1]') as HTMLInputElement)?.value?.toString() || '';
 	if (!jsText.trim()) {
 		return '';
 	}
@@ -114,7 +115,8 @@ const luaGetJSwikitext = (inputStr: string): string => {
 // 分析JSON中符合条件的wikitext
 const luaGetJSONwikitext = (inputStr: string): string => {
 	let wikitext: string = '';
-	const JSONText: string = inputStr || (document.querySelector('#wpTextbox1') as HTMLTextAreaElement)?.value || '';
+	const JSONText: string =
+		inputStr || (document.querySelector('input[name=wpTextbox1]') as HTMLTextAreaElement)?.value || '';
 	if (!JSONText.trim()) {
 		return '';
 	}
@@ -575,7 +577,7 @@ const previewTool = (): void => {
 					// 若已有#mw-clearyourcache则先清掉，否则会出现两个MediaWiki:Clearyourcache
 					$body.find('#mw-clearyourcache').html('');
 				}
-				if (!$elementExist('#wpTextbox1')) {
+				if (!$elementExist('input[name=wpTextbox1]')) {
 					// 非编辑模式才执行 (预览使用上方的if区块)
 					addLoadingNotice(); // 放置提示，提示使用者等待AJAX
 					void mwApplyRevision(mw.config.get('wgRevisionId'), currentPageName); // 为了让历史版本正常显示，使用wgRevisionId取得内容
@@ -583,7 +585,7 @@ const previewTool = (): void => {
 			} else if ($elementExist('#mw-revision-info') && checkMwConfig('wgAction', 'view')) {
 				// 模式3：页面历史版本检视：如需复查的项目为页面历史版本，本工具提供页面历史版本内容显示支持
 				// 有嵌入'#mw-clearyourcache'的页面的历史版本会只能显示最新版的 _addText 因此执行修正
-				if (!$elementExist('#wpTextbox1')) {
+				if (!$elementExist('input[name=wpTextbox1]')) {
 					// 非编辑模式才执行 (预览使用上方的if区块)
 					$body.find('#mw-clearyourcache').html(noticeLoading); // 差异模式（含检阅修订版本删除）的插入点不同
 					void mwApplyRevision(mw.config.get('wgRevisionId'), currentPageName); // 为了让特定版本正常显示，使用wgRevisionId取得内容
@@ -597,13 +599,13 @@ const previewTool = (): void => {
 				return; // 没有预览必要时，直接停止程序，不继续判断，以提高效率
 			}
 			if (
-				$elementExist('#wpTextbox1') &&
+				$elementExist('input[name=wpTextbox1]') &&
 				$elementExist('table.diff') &&
 				!$elementExist('.previewnote') &&
 				!checkMwConfig('wgAction', 'view')
 			) {
 				$(noticeLoading).insertAfter('#wikiDiff');
-				void mwAddLuaText(($body.find('#wpTextbox1').val() || '').toString(), currentPageName, true);
+				void mwAddLuaText(($body.find('input[name=wpTextbox1]').val() || '').toString(), currentPageName, true);
 			}
 		} else if ($elementExist('.mw-undelete-revision')) {
 			// 模式4：已删页面预览

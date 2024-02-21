@@ -106,7 +106,7 @@ mw.hook('wikipage.editform').add(($editForm): void => {
 		mw.config.set('wgUserVariant', getSelectedVariant() || (mw.user.options.get('variant') as string));
 	};
 	$editForm
-		.find('#wpPreview')
+		.find('input[name=wpPreview]')
 		.on('click', mw.user.options.get('uselivepreview') ? manipulateVariantConfig : manipulateActionUrl);
 	$templateSandboxPreview.on('click', manipulateActionUrl);
 	dropdown.getMenu().on('select', manipulateVariantConfig);

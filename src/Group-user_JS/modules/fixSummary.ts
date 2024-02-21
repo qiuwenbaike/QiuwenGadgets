@@ -22,9 +22,9 @@ const fixSummary = ($body: JQuery<HTMLBodyElement>): void => {
 			$body.find('input[name=assignKnownUsers]').prop('checked', true);
 			break;
 		case 'MassEditRegex':
-			$body.find('#wpSummaryLabel').html(
+			$body.find('input[name=wpSummary]Label').html(
 				$body
-					.find('#wpSummaryLabel')
+					.find('input[name=wpSummary]Label')
 					.text()
 					.replace(/\[\[#\.\|(.+?)]]/g, '$1')
 			);
@@ -38,7 +38,7 @@ const fixSummary = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 
 	if (WG_ACTION === 'delete') {
-		const $wpReason: JQuery = $body.find('#wpReason');
+		const $wpReason: JQuery = $body.find('input[name=wpReason]');
 		if (!$wpReason.length) {
 			return;
 		}
