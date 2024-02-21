@@ -1,3 +1,4 @@
 const WG_SKIN: string = mw.config.get('skin');
+const ELEMENT_ID: string = 'footer-info-patroller';
 
-export {WG_SKIN};
+export {ELEMENT_ID, WG_SKIN};

@@ -1,30 +1,21 @@
 import * as OPTIONS from '../options.json';
-import React from 'ext.gadget.React';
-import {elementWrap} from './elementWrap';
-import {getMessage} from './i18n';
+import {elementWrap, errorMessage, loading, notBeenPatrolledYet, patrolled, patrolledBy} from './elementWrap';
 import {initMwApi} from 'ext.gadget.Util';
 import {replaceChild} from './replaceChild';
 
-export const pagePatroller = async (): Promise<void> => {
-	const element = elementWrap('footer-info-patroller');
+const pagePatroller = async (): Promise<void> => {
+	const element = elementWrap();
 	document.querySelectorAll(OPTIONS.mountPointSelector)[0]?.prepend(element);
 
 	// if there is a patrol link, the page must be not patrolled
 	if (document.querySelectorAll('.patrollink').length) {
-		element.append(
-			<span id={'page_patroller__not-patrolled'}>{getMessage('This page has not been patrolled yet')}</span>
-		);
+		element.append(notBeenPatrolledYet());
 		return;
 	}
 
 	// Load patroller info
 	// add `Loading...`
-	element.append(<span id={'page_patroller__loading'}>{getMessage('Loading...')}</span>);
-	const patrolled = (
-		<span id={'page_patroller__patrolled'}>
-			{getMessage('This page has been patrolled, or has been marked as auto-patrolled')}
-		</span>
-	);
+	element.append(loading());
 
 	try {
 		const api = initMwApi('PagePatroller/2.0');
@@ -62,27 +53,18 @@ export const pagePatroller = async (): Promise<void> => {
 			const date: Date = new Date(timestamp);
 
 			if (action === 'patrol') {
-				const timestampText = `${date.getUTCFullYear()}年${date.getUTCMonth() + 1}月${date.getUTCDate()}日 ${`0${date.getUTCHours()}`.slice(-2)}:${`0${date.getUTCMinutes()}`.slice(-2)} (UTC)`;
-				const patrolledBy = (
-					<span id={'page_patroller__patrolled-by'}>
-						{getMessage('This page was patrolled at by').replace('$1', timestampText)}
-						<a href={mw.util.getUrl(`User:${user}`)}>{user}</a>
-						{getMessage('period')}
-					</span>
-				);
-				replaceChild(element, patrolledBy);
+				replaceChild(element, patrolledBy(date.toLocaleString(), user));
 			} else {
-				replaceChild(element, patrolled);
+				replaceChild(element, patrolled());
 			}
 		} else {
-			replaceChild(element, patrolled);
+			replaceChild(element, patrolled());
 		}
 	} catch (error: unknown) {
 		// return error(s)
 		console.error('[PagePatroller]:', error);
-		const errorMessage = (
-			<span id={'page_patroller__error'}>{getMessage('Error occurs when finding patroller')}</span>
-		);
-		replaceChild(element, errorMessage);
+		replaceChild(element, errorMessage());
 	}
 };
+
+export {pagePatroller};
