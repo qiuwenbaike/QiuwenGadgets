@@ -19,18 +19,18 @@
  */
 /* <nowiki> */
 
-/* src/WordCount/WordCount.less */
-.gadget-wordcount {
-  position: fixed;
-  right: 0;
-  bottom: 0;
+/* esbuild-css-modules-plugin-ns-css:src/WordCount/components/WordCount.module.less */
+.WordCount-module__tip_HBDn5a__434 {
   margin: 4px;
   padding: 6px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }
-.ve-activated .gadget-wordcount {
+.ve-activated .WordCount-module__tip_HBDn5a__434 {
   display: none !important;
 }
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL1dvcmRDb3VudC9Xb3JkQ291bnQubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLmdhZGdldC13b3JkY291bnQge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIHJpZ2h0OiAwO1xuICBib3R0b206IDA7XG4gIG1hcmdpbjogNHB4O1xuICBwYWRkaW5nOiA2cHg7XG59XG4udmUtYWN0aXZhdGVkIC5nYWRnZXQtd29yZGNvdW50IHtcbiAgZGlzcGxheTogbm9uZSAhaW1wb3J0YW50O1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxZQUFVO0FBQ1YsU0FBTztBQUNQLFVBQVE7QUFDUixVQUFRO0FBQ1IsV0FBUztBQUNYO0FBQ0EsQ0FBQyxhQUFhLENBUGI7QUFRQyxXQUFTO0FBQ1g7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9Xb3JkQ291bnQvY29tcG9uZW50cy9Xb3JkQ291bnQubW9kdWxlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5Xb3JkQ291bnQtbW9kdWxlX190aXBfSEJEbjVhX180MzQge1xuICBtYXJnaW46IDRweDtcbiAgcGFkZGluZzogNnB4O1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGJvdHRvbTogMDtcbiAgcmlnaHQ6IDA7XG59XG5cbi52ZS1hY3RpdmF0ZWQgLldvcmRDb3VudC1tb2R1bGVfX3RpcF9IQkRuNWFfXzQzNCB7XG4gIGRpc3BsYXk6IG5vbmUgIWltcG9ydGFudDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDO0FBQ0MsVUFBUTtBQUNSLFdBQVM7QUFDVCxZQUFVO0FBQ1YsVUFBUTtBQUNSLFNBQU87QUFDVDtBQUVBLENBQUMsYUFBYSxDQVJiO0FBU0MsV0FBUztBQUNYOyIsCiAgIm5hbWVzIjogW10KfQo= */
