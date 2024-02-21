@@ -125,3 +125,5 @@
 	observer.observe(document.body, {childList: true});
 	mw.loader.load(`${CDN}/${REPO_CDN}@${version}/styles.min.css`, 'text/css');
 })();
+
+export {};
