@@ -138,23 +138,43 @@
 
 	&-license,
 	&.license-pd {
-		background: #f7f8ff; /* Very light gray */
+		background: #f7f8ff; /* Very light gray with blue */
+
+		.client-darkmode & {
+			background: #d9ddff; /* light blue */
+		}
 	}
 
 	&.license-cc {
 		background: #f9f9f9; /* Very light gray */
+
+		.client-darkmode & {
+			background: #d9d9d9; /* light gray */
+		}
 	}
 
 	&.license-other {
-		background: #ffe; /* Very light gray */
+		background: #ffe; /* Very light gray with yellow */
+
+		.client-darkmode & {
+			background: #ff0; /* Yellow */
+		}
 	}
 
 	&.license-free {
 		background: #f3ffee; /* Very light green */
+
+		.client-darkmode & {
+			background: #b8ff99; /* Light green */
+		}
 	}
 
 	&.license-nonfree {
 		background: #fff9f9; /* Very light red */
+
+		.client-darkmode & {
+			background: #fcc; /* Light red */
+		}
 	}
 
 	&.license-self {
@@ -286,8 +306,8 @@
 #mw-protect-cascadeon {
 	padding: 0.5em;
 	border: 1px solid #bb7070;
-	margin: 0.2em 0;
 	background: #ffdbdb;
+	margin: 0.2em 0;
 	clear: both;
 }
 
