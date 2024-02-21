@@ -2,7 +2,7 @@ import {init} from './modules/core';
 
 if (
 	mw.config.get('wgNamespaceNumber') >= 0 ||
-	!document.querySelectorAll('.noarticletext').length ||
+	mw.config.get('wgArticleId') > 0 ||
 	mw.config.get('wgAction') === 'view'
 ) {
 	// Load main function
