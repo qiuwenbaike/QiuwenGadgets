@@ -1,32 +1,7 @@
-import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_RELEVANT_USER_NAME, WG_SKIN} from './constant';
-import React from 'ext.gadget.React';
+import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_RELEVANT_USER_NAME} from './constant';
+import {appendIcon} from './appendIcon';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
-
-const appendIcon = (indicatorText: string, spanClass: string): void => {
-	if (spanClass === 'unknown') {
-		return;
-	}
-	const tag =
-		WG_SKIN === 'citizen' ? (
-			<section className={['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`]} />
-		) : ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) ? (
-			<li className={['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`]} />
-		) : (
-			<div className={['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`]} />
-		);
-	const indicator = (
-		<>
-			<span
-				className={['gadget-markrights_userpage__icon', `gadget-markrights_userpage__icon__${spanClass}`]}
-				title={indicatorText}
-			/>
-			<span className="gadget-markrights_userpage__text">{indicatorText ?? ''}</span>
-		</>
-	);
-	const $body: JQuery<HTMLBodyElement> = $('body');
-	$(tag).append(indicator).prependTo($body.find('#footer-info, .page-info'));
-};
 
 export const getPermissions = async (): Promise<void> => {
 	if (!WG_RELEVANT_USER_NAME) {
@@ -43,7 +18,8 @@ export const getPermissions = async (): Promise<void> => {
 			usprop: 'groups',
 		};
 		const {query} = await api.get(listUsersParams);
-		const [{groups}]: [{groups: string[]}] = query.users;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const [{groups}]: [{groups: userRights[]}] = query.users;
 		if (WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('qiuwen')) {
 			appendIcon(getMessage('Webmaster'), 'qiuwen');
 		}
