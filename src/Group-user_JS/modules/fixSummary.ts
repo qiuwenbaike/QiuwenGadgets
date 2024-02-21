@@ -22,9 +22,9 @@ const fixSummary = ($body: JQuery<HTMLBodyElement>): void => {
 			$body.find('input[name=assignKnownUsers]').prop('checked', true);
 			break;
 		case 'MassEditRegex':
-			$body.find('wpSummaryLabel').html(
+			$body.find('#wpSummaryLabel').html(
 				$body
-					.find('wpSummaryLabel')
+					.find('#wpSummaryLabel')
 					.text()
 					.replace(/\[\[#\.\|(.+?)]]/g, '$1')
 			);
