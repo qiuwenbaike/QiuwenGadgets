@@ -1,6 +1,5 @@
-import React from 'ext.gadget.React';
-import {WG_SKIN} from './constant';
-import {getMessage} from './i18n';
+import * as OPTIONS from '../options.json';
+import {getLastActiveMarker} from './getLastActiveMarker';
 import {initMwApi} from 'ext.gadget.Util';
 
 export const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
@@ -30,43 +29,6 @@ export const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 	if (filteredLinks.length === 0) {
 		return;
 	}
-	const getLastActiveMarker = (timestamp: string, indicator: boolean) => {
-		const date: number = Date.parse(timestamp);
-		const now: number = Date.now();
-		const diff: number = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-		let timespan: 'ThisWeek' | 'ThisMonth' | 'ThisYear' | 'OverAYear';
-		if (diff > 365) {
-			timespan = 'OverAYear';
-		} else if (diff > 30) {
-			timespan = 'ThisYear';
-		} else if (diff > 7) {
-			timespan = 'ThisMonth';
-		} else {
-			timespan = 'ThisWeek';
-		}
-		const tag =
-			WG_SKIN === 'citizen' ? (
-				<section className={['gadget-whoisactive__span', `gadget-whoisactive__${timespan}`]} />
-			) : ['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) ? (
-				<li className={['gadget-whoisactive__span', `gadget-whoisactive__${timespan}`]} />
-			) : (
-				<div className={['gadget-whoisactive__span', `gadget-whoisactive__${timespan}`]} />
-			);
-		const tagInner = (
-			<>
-				<span
-					className={['gadget-whoisactive__icon', `gadget-whoisactive__icon__${timespan}`]}
-					title={getMessage(timespan)}
-				/>
-				<span
-					className={['gadget-whoisactive__text', indicator === true ? ', gadget-whoisactive__notext' : '']}
-				>
-					{getMessage(timespan) ?? ''}
-				</span>
-			</>
-		);
-		return $(tag).append(tagInner);
-	};
 	for (const item of filteredLinks) {
 		const {username} = item;
 		const {element} = item;
@@ -78,8 +40,9 @@ export const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 		};
 		void api.get(params).then((result): void => {
 			if (result['query'].usercontribs.length > 0) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				const [{timestamp}] = result['query'].usercontribs;
-				getLastActiveMarker(timestamp as string, true).insertAfter(element);
+				$(getLastActiveMarker(timestamp as string, true)).insertAfter(element);
 			}
 		});
 	}
@@ -96,8 +59,11 @@ export const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 			};
 			void api.get(params).then((result): void => {
 				if (result['query'].usercontribs.length > 0) {
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 					const [{timestamp}] = result['query'].usercontribs;
-					getLastActiveMarker(timestamp as string, false).prependTo($body.find('#footer-info, .page-info'));
+					(document.querySelectorAll(OPTIONS.mountPointSelector)[0] as HTMLElement).prepend(
+						getLastActiveMarker(timestamp as string, false)
+					);
 				}
 			});
 		}
