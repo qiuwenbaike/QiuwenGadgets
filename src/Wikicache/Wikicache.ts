@@ -18,10 +18,14 @@ void getBody().then(async function Wikicache($body: JQuery<HTMLBodyElement>): Pr
 
 	const saveObject: Partial<AutoSaveObject> = (mw.storage.getObject(cacheKey) as AutoSaveObject | null) ?? {};
 	if (saveObject['input[name=wpSummary]']) {
-		wpSummary.value = saveObject['input[name=wpSummary]'];
+		wpSummary.value = saveObject['input[name=wpSummary]'] ?? saveObject['#wpSummary'];
+	} else if (saveObject['#wpSummary']) {
+		wpSummary.value = saveObject['#wpSummary'];
 	}
 	if (saveObject['input[name=wpTextbox1]']) {
 		wpTextbox1.value = saveObject['input[name=wpTextbox1]'];
+	} else if (saveObject['#wpTextbox1']) {
+		wpTextbox1.value = saveObject['#wpTextbox1'];
 	}
 
 	document.querySelector<HTMLFormElement>('#editform')?.addEventListener('submit', (): void => {
