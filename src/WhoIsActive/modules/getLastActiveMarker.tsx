@@ -1,48 +1,56 @@
-import React, {ReactElement} from 'ext.gadget.React';
-import {WG_SKIN} from './constant';
+import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
 
-type timeSpan = 'ThisWeek' | 'ThisMonth' | 'ThisYear' | 'OverAYear';
+type TimeSpan = 'ThisWeek' | 'ThisMonth' | 'ThisYear' | 'OverAYear';
 
-const elementWrap = (timespan: timeSpan, innerElement: ReactElement) => {
-	const className = ['gadget-whoisactive__span', `gadget-whoisactive__${timespan}`];
+function Wrapper(props: {timeSpan: TimeSpan; innerElement: React.ReactElement}) {
+	const {timeSpan, innerElement} = props;
 
-	if (WG_SKIN === 'citizen') {
+	const className: string[] = ['gadget-whoisactive__span', `gadget-whoisactive__${timeSpan}`];
+	const {skin} = mw.config.get();
+
+	if (skin === 'citizen') {
 		return <section className={className}>{innerElement}</section>;
-	} else if (['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) || document.querySelector('ul#footer-info')) {
+	} else if (['gongbi', 'vector', 'vector-2022'].includes(skin) || document.querySelector('ul#footer-info')) {
 		return <li className={className}>{innerElement}</li>;
 	}
-	return <div className={className}>{innerElement}</div>;
-};
 
-const tagInner = (timespan: timeSpan, indicator: boolean) => {
-	const iconClassName = ['gadget-whoisactive__icon', `gadget-whoisactive__icon__${timespan}`];
-	const textClassName = ['gadget-whoisactive__text', indicator === true ? ', gadget-whoisactive__notext' : ''];
+	return <div className={className}>{innerElement}</div>;
+}
+
+function Tag(props: {timeSpan: TimeSpan; indicator: boolean}) {
+	const {timeSpan, indicator} = props;
+
+	const iconClassName: string[] = ['gadget-whoisactive__icon', `gadget-whoisactive__icon__${timeSpan}`];
+	const textClassName: string[] = [
+		'gadget-whoisactive__text',
+		indicator === true ? ', gadget-whoisactive__notext' : '',
+	];
 
 	return (
 		<>
-			<span className={iconClassName} title={getMessage(timespan)} />
-			<span className={textClassName}>{getMessage(timespan) ?? ''}</span>
+			<span className={iconClassName} title={getMessage(timeSpan)} />
+			<span className={textClassName}>{getMessage(timeSpan) ?? ''}</span>
 		</>
 	);
-};
+}
 
-const getLastActiveMarker = (timestamp: string, indicator: boolean) => {
+const getLastActiveMarker = (timestamp: string, indicator: boolean): React.ReactElement => {
 	const date: number = Date.parse(timestamp);
 	const now: number = Date.now();
 	const diff: number = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-	let timespan: timeSpan;
+
+	let timeSpan: TimeSpan = 'ThisWeek';
 	if (diff > 365) {
-		timespan = 'OverAYear';
+		timeSpan = 'OverAYear';
 	} else if (diff > 30) {
-		timespan = 'ThisYear';
+		timeSpan = 'ThisYear';
 	} else if (diff > 7) {
-		timespan = 'ThisMonth';
-	} else {
-		timespan = 'ThisWeek';
+		timeSpan = 'ThisMonth';
 	}
 
-	return elementWrap(timespan, tagInner(timespan, indicator));
+	return <Wrapper timeSpan={timeSpan} innerElement={<Tag timeSpan={timeSpan} indicator={indicator} />} />;
 };
 
+export type {TimeSpan};
 export {getLastActiveMarker};
