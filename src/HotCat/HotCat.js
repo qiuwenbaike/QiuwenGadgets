@@ -2985,7 +2985,8 @@ hotCatMessages();
 					closeForm();
 					// Copy the categories
 					const eb =
-						document.querySelector('input[name=wpUploadDescription]') || document.querySelector('#wpDesc');
+						document.querySelector('textarea[name=wpUploadDescription]') ||
+						document.querySelector('#wpDesc');
 					let addedOne = false;
 					for (const editor of editors) {
 						const t = editor.currentCategory;

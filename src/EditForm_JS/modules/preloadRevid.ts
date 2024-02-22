@@ -32,8 +32,8 @@ const preloadRevid = ($body: JQuery<HTMLBodyElement>): void => {
 		) {
 			$body.find('.oo-ui-icon-highlight').trigger('click');
 		}
-		if (document.querySelector('input[name=wpTextbox1]')) {
-			(document.querySelector('input[name=wpTextbox1]') as HTMLTextAreaElement).value = content;
+		if (document.querySelector('textarea[name=wpTextbox1]')) {
+			(document.querySelector('textarea[name=wpTextbox1]') as HTMLTextAreaElement).value = content;
 			$body.find('input[name=wpDiff]').trigger('click');
 			void mw.notify(getMessage('RevisionPreloaded').replace('$1', revid), {type: 'success'});
 		}
