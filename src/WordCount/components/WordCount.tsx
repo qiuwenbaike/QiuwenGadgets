@@ -6,17 +6,13 @@ interface Props {
 	text: string;
 }
 
-const WordCount = (props: Props) => {
-	const {text} = props;
-
-	return (
-		<div className={[tip, 'noprint', 'ui-state-highlight', 'ui-corner-all']}>
-			{getCountByTextLength(text)}
-			{getCJKCountByTextLength(text)}
-			<br />
-			{getUTF8CountByTextLength(text)}
-		</div>
-	);
-};
+const WordCount = ({text}: Props) => (
+	<div className={[tip, 'noprint', 'ui-state-highlight', 'ui-corner-all']}>
+		{getCountByTextLength(text)}
+		{getCJKCountByTextLength(text)}
+		<br />
+		{getUTF8CountByTextLength(text)}
+	</div>
+);
 
 export default WordCount;
