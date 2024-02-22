@@ -18,8 +18,6 @@ import {refToolbarMesages} from './modules/messages';
 	if (mw.config.get('wgRefToolbarInstalled')) {
 		return;
 	}
-	// Set guard
-	mw.config.set('wgRefToolbarInstalled', true);
 
 	// Only execute when editing/previewing wikitext pages
 	if (!IS_WG_EDIT_OR_SUBMIT_ACTION || WG_PAGE_CONTENT_MODEL !== 'wikitext') {
@@ -30,7 +28,7 @@ import {refToolbarMesages} from './modules/messages';
 		return;
 	}
 
-	if (document.querySelector('input[name=wpTextbox1][readonly]')) {
+	if (document.querySelector('textarea[name=wpTextbox1][readonly]')) {
 		return;
 	}
 
@@ -39,4 +37,7 @@ import {refToolbarMesages} from './modules/messages';
 	// Load main functions
 	refToolbarBase();
 	void refToolbar2();
+
+	// Set guard
+	mw.config.set('wgRefToolbarInstalled', true);
 })();

@@ -3,7 +3,9 @@ import type {AutoSaveObject} from './modules/types';
 
 void getBody().then(async function wikicache($body: JQuery<HTMLBodyElement>): Promise<void> {
 	const wpSummary: HTMLInputElement | undefined = $body.find<HTMLInputElement>('input[name=wpSummary]').get(0);
-	const wpTextbox1: HTMLInputElement | undefined = $body.find<HTMLInputElement>('input[name=wpTextbox1]').get(0);
+	const wpTextbox1: HTMLTextAreaElement | undefined = $body
+		.find<HTMLTextAreaElement>('textarea[name=wpTextbox1]')
+		.get(0);
 	if (!wpSummary || !wpTextbox1) {
 		return;
 	}
@@ -22,8 +24,8 @@ void getBody().then(async function wikicache($body: JQuery<HTMLBodyElement>): Pr
 	} else if (saveObject['#wpSummary']) {
 		wpSummary.value = saveObject['#wpSummary'];
 	}
-	if (saveObject['input[name=wpTextbox1]']) {
-		wpTextbox1.value = saveObject['input[name=wpTextbox1]'];
+	if (saveObject['textarea[name=wpTextbox1]']) {
+		wpTextbox1.value = saveObject['textarea[name=wpTextbox1]'];
 	} else if (saveObject['#wpTextbox1']) {
 		wpTextbox1.value = saveObject['#wpTextbox1'];
 	}
@@ -38,7 +40,7 @@ void getBody().then(async function wikicache($body: JQuery<HTMLBodyElement>): Pr
 			_path: location.pathname + location.search,
 			_date: new Date(),
 			'input[name=wpSummary]': wpSummary.value,
-			'input[name=wpTextbox1]': wpTextbox1.value,
+			'textarea[name=wpTextbox1]': wpTextbox1.value,
 		};
 		mw.storage.setObject(cacheKey, newSaveObject, 60 * 60 * 24 * 30 * 1000);
 	}

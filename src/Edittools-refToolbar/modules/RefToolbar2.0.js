@@ -42,7 +42,7 @@ const refToolbar2 = async () => {
 		 */
 
 		$(document).find('head').trigger('reftoolbarbase');
-		const $target = $body.find('input[name=wpTextbox1]');
+		const $target = $body.find('textarea[name=wpTextbox1]');
 		const temlist = {};
 		for (const t in CiteTB.Templates) {
 			if (Object.hasOwn(CiteTB.Templates, t)) {
@@ -114,7 +114,7 @@ const refToolbar2 = async () => {
 					/* TypeError: range is null */
 				}
 				// if (!CiteTB.getOption('modal')) {
-				//     $body.find('#citetoolbar-'+sform).dialog('option', 'modal', false);
+				// 	$body.find(`#citetoolbar-${sform}`).dialog('option', 'modal', false);
 				// }
 				temlist[sform] = {
 					label: tem.templatename,
@@ -127,19 +127,19 @@ const refToolbar2 = async () => {
 			sections: {
 				cites: {
 					type: 'toolbar',
-					label: mw.msg('cite-section-label'),
+					label: getMessage('cite-section-label'),
 					groups: {
 						template: {
 							tools: {
 								template: {
 									type: 'select',
-									label: mw.msg('cite-template-list'),
+									label: getMessage('cite-template-list'),
 									list: temlist,
 								},
 							},
 						},
 						namedrefs: {
-							label: mw.msg('cite-named-refs-label'),
+							label: getMessage('cite-named-refs-label'),
 							tools: {
 								nrefs: {
 									type: 'button',
@@ -150,12 +150,12 @@ const refToolbar2 = async () => {
 									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/b/be/Nuvola_clipboard_lined.svg/22px-Nuvola_clipboard_lined.svg.png',
 									section: 'cites',
 									group: 'namedrefs',
-									label: mw.msg('cite-named-refs-button'),
+									label: getMessage('cite-named-refs-button'),
 								},
 							},
 						},
 						errorcheck: {
-							label: mw.msg('cite-errorcheck-label'),
+							label: getMessage('cite-errorcheck-label'),
 							tools: {
 								echeck: {
 									type: 'button',
@@ -166,7 +166,7 @@ const refToolbar2 = async () => {
 									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/a/a3/Nuvola_apps_korganizer-NO.png/22px-Nuvola_apps_korganizer-NO.png',
 									section: 'cites',
 									group: 'errorcheck',
-									label: mw.msg('cite-errorcheck-button'),
+									label: getMessage('cite-errorcheck-button'),
 								},
 							},
 						},
@@ -448,9 +448,12 @@ const refToolbar2 = async () => {
 		const section = $body.find('input[name=wpSection]').val();
 		if (section === '') {
 			if (CiteTB.getOption('expandtemplates')) {
-				CiteTB.expandtemplates($body.find('input[name=wpTextbox1]').wikiEditor('getContents').text(), callback);
+				CiteTB.expandtemplates(
+					$body.find('textarea[name=wpTextbox1]').wikiEditor('getContents').text(),
+					callback
+				);
 			} else {
-				callback($body.find('input[name=wpTextbox1]').wikiEditor('getContents').text());
+				callback($body.find('textarea[name=wpTextbox1]').wikiEditor('getContents').text());
 			}
 		} else {
 			const postdata = {
@@ -494,7 +497,7 @@ const refToolbar2 = async () => {
 		if (!id) {
 			return false;
 		}
-		let url = '//citoid.qiuwen.net.cn/lookup.php?';
+		let url = 'https://citoid.qiuwen.net.cn/lookup.php?';
 		// Citoid expects minimally encoded input, so do some speculative decoding here to avoid
 		// 404 fetches. https://phabricator.wikimedia.org/T146539
 		id = CiteTB.safeDecodeURIComponent(id);
