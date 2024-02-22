@@ -1,7 +1,7 @@
 import {delay, getBody} from 'ext.gadget.Util';
 import type {AutoSaveObject} from './modules/types';
 
-void getBody().then(async function Wikicache($body: JQuery<HTMLBodyElement>): Promise<void> {
+void getBody().then(async function wikicache($body: JQuery<HTMLBodyElement>): Promise<void> {
 	const wpSummary: HTMLInputElement | undefined = $body.find<HTMLInputElement>('input[name=wpSummary]').get(0);
 	const wpTextbox1: HTMLInputElement | undefined = $body.find<HTMLInputElement>('input[name=wpTextbox1]').get(0);
 	if (!wpSummary || !wpTextbox1) {
