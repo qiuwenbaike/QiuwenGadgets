@@ -1,6 +1,4 @@
-@import (reference) '../variables.less';
-
-.gadget-cookie_warning {
+.warning {
 	position: fixed;
 	z-index: 101;
 	bottom: 1em;
@@ -8,11 +6,11 @@
 	left: 0;
 	max-width: 92.5%;
 	padding: 0.75em;
-	border: 1px solid @const-color-gray;
-	border-radius: @border-radius--medium;
+	border: 1px solid #e6e6e6;
+	border-radius: 0.5em;
 	margin: 0.75em;
-	background-color: @const-color-white;
-	color: @const-color-primary;
+	background-color: #fff;
+	color: #191919;
 	font-size: 0.9em;
 	line-height: 1.25;
 	opacity: 1;
@@ -22,16 +20,16 @@
 		margin: 0 auto 0.5rem;
 	}
 
-	.mw-ui-button,
-	.cdx-button {
+	:global(.mw-ui-button),
+	:global(.cdx-button) {
 		display: block;
 		width: 100%;
 		padding: 0.5em 0;
-		border-color: @color--primary;
-		border-radius: @border-radius--small;
+		border-color: #36c;
+		border-radius: 0.25em;
 		margin: 0 auto;
-		background-color: @color--primary;
-		color: @const-color-white;
+		background-color: #36c;
+		color: #fff;
 		line-height: 1;
 		text-align: center;
 	}
