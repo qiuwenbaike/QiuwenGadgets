@@ -1,71 +1,93 @@
 import * as OPTIONS from '../options.json';
+import {api} from './api';
 import {getLastActiveMarker} from './getLastActiveMarker';
-import {initMwApi} from 'ext.gadget.Util';
 
-export const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
-	const api: mw.Api = initMwApi('WhoIsActive/1.1');
-	const filteredLinks: {username: string; element: JQuery}[] = [];
-	const {2: localizedUserNamespace} = mw.config.get('wgFormattedNamespaces');
-	$body
-		.find('.mw-body-content')
-		.find(
-			`a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"]), a[title^="${localizedUserNamespace}:"]:not(.mw-changeslist-date):not([href*="undo"])`
-		)
-		.each((_index: number, element: HTMLElement) => {
-			const link: JQuery = $(element);
-			const href: string = decodeURI(link.attr('href') ?? '');
-			const userRegex: RegExp = new RegExp(`((User)|(${localizedUserNamespace})):(.*?)(?=&|$)`);
-			const username: RegExpMatchArray | null = href.match(userRegex);
-			if (username) {
-				const index: number = username[0].indexOf('/');
-				if (index === -1) {
-					filteredLinks.push({
-						username: username[0],
-						element: link,
-					});
-				}
-			}
-		});
-	if (filteredLinks.length === 0) {
-		return;
-	}
-	for (const item of filteredLinks) {
-		const {username} = item;
-		const {element} = item;
-		const params: ApiQueryUserContribsParams = {
-			action: 'query',
-			list: 'usercontribs',
-			uclimit: 1,
-			ucuser: username,
-		};
-		void api.get(params).then((result): void => {
-			if (result['query'].usercontribs.length > 0) {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				const [{timestamp}] = result['query'].usercontribs;
-				$(getLastActiveMarker(timestamp as string, true)).insertAfter(element);
-			}
-		});
-	}
-	const wgRelevantUserName: string | null = mw.config.get('wgRelevantUserName');
-	if (wgRelevantUserName && mw.config.get('wgNamespaceNumber') === 2 && mw.config.get('wgAction') === 'view') {
-		const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
-		const pageName: string = new mw.Title(mw.config.get('wgPageName')).toText();
-		if (relevantUserPageName === pageName) {
-			const params: ApiQueryUserContribsParams = {
-				action: 'query',
-				list: 'usercontribs',
-				uclimit: 1,
-				ucuser: wgRelevantUserName,
+const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
+	const filteredLinks: {
+		username: string;
+		$element: JQuery<HTMLAnchorElement>;
+	}[] = [];
+
+	const {wgAction, wgFormattedNamespaces, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
+
+	const {2: localizedUserNamespace} = wgFormattedNamespaces;
+	for (const element of mw.util.$content.find<HTMLAnchorElement>(
+		`a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"]), a[title^="${localizedUserNamespace}:"]:not(.mw-changeslist-date):not([href*="undo"])`
+	)) {
+		const $element: JQuery<HTMLAnchorElement> = $(element);
+
+		const userRegex: RegExp = new RegExp(`((User)|(${localizedUserNamespace})):(.*?)(?=&|$)`);
+		const usernameMatchArray: RegExpMatchArray | null = decodeURI($element.attr('href') ?? '').match(userRegex);
+		if (!usernameMatchArray) {
+			continue;
+		}
+
+		const [username] = usernameMatchArray;
+		const index: number = username.indexOf('/');
+		if (index === -1) {
+			filteredLinks[filteredLinks.length] = {
+				username,
+				$element,
 			};
-			void api.get(params).then((result): void => {
-				if (result['query'].usercontribs.length > 0) {
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-					const [{timestamp}] = result['query'].usercontribs;
-					(document.querySelectorAll(OPTIONS.mountPointSelector)[0] as HTMLElement).prepend(
-						getLastActiveMarker(timestamp as string, false)
-					);
-				}
-			});
 		}
 	}
+
+	if (!filteredLinks.length) {
+		return;
+	}
+
+	const baseParams: ApiQueryUserContribsParams = {
+		action: 'query',
+		list: 'usercontribs',
+		uclimit: 1,
+	};
+	type Usercontribs = {
+		usercontribs: Array<{
+			timestamp: string;
+		}>;
+	};
+
+	for (const {username, $element} of filteredLinks) {
+		const params: ApiQueryUserContribsParams = {
+			...baseParams,
+			ucuser: username,
+		};
+
+		void api.get(params).then((result): void => {
+			const {usercontribs} = result['query'] as Usercontribs;
+			if (!usercontribs.length) {
+				return;
+			}
+
+			const {timestamp} = usercontribs[0]!;
+			$(getLastActiveMarker(timestamp, true)).insertAfter($element);
+		});
+	}
+
+	if (wgRelevantUserName && wgNamespaceNumber === 2 && wgAction === 'view') {
+		const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
+		const pageName: string = new mw.Title(wgPageName).toText();
+		if (relevantUserPageName !== pageName) {
+			return;
+		}
+
+		const params: ApiQueryUserContribsParams = {
+			...baseParams,
+			ucuser: wgRelevantUserName,
+		};
+
+		void api.get(params).then((result): void => {
+			const {usercontribs} = result['query'] as Usercontribs;
+			if (!usercontribs.length) {
+				return;
+			}
+
+			const {timestamp} = usercontribs[0]!;
+			for (const element of $body.find(OPTIONS.mountPointSelector)) {
+				element.prepend(getLastActiveMarker(timestamp, false));
+			}
+		});
+	}
 };
+
+export {whoIsActive};

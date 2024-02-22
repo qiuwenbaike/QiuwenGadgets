@@ -1,3 +1,4 @@
+import type {TimeSpan} from './getLastActiveMarker';
 import {localize} from 'ext.gadget.i18n';
 
 const getI18nMessages = () => {
@@ -22,7 +23,7 @@ const getI18nMessages = () => {
 			'zh-hans': '一年内有编辑',
 			'zh-hant': '一年內有編輯',
 		}),
-	};
+	} satisfies Record<TimeSpan, string> & Record<string, string>;
 };
 
 const i18nMessages = getI18nMessages();
