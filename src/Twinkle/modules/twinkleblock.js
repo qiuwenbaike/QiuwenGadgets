@@ -1,7 +1,7 @@
 /* eslint-disable no-jquery/no-map-util */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {initMwApi} from 'ext.gadget.Util';
+import {generateArray, initMwApi} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkleblock.js */
 (function twinkleblock($) {
@@ -1825,18 +1825,11 @@ import {initMwApi} from 'ext.gadget.Util';
 							$pageSelect.append(newOption);
 						}
 					}
-					$pageSelect
-						.val([...$pageSelect.val(), ...(Array.isArray(pages) ? pages : [pages])])
-						.trigger('change');
+					$pageSelect.val([...$pageSelect.val(), ...generateArray(pages)]).trigger('change');
 				}
 				if (data.restrictions.namespaces) {
 					$namespaceSelect
-						.val([
-							...$namespaceSelect.val(),
-							...(Array.isArray(data.restrictions.namespaces)
-								? data.restrictions.namespaces
-								: [data.restrictions.namespaces]),
-						])
+						.val([...$namespaceSelect.val(), ...generateArray(data.restrictions.namespaces)])
 						.trigger('change');
 				}
 			}

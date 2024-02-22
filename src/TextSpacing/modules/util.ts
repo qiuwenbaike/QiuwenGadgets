@@ -67,7 +67,7 @@ const splitAtIndexes = (str: string, indexes: number[]): string[] => {
 
 	for (let i: number = 0; i < normalizedIndexes.length; i++) {
 		const slice: string = str.slice(normalizedIndexes[i - 1], normalizedIndexes[i]);
-		result.push(slice);
+		result[result.length] = slice; // Replace `result.push(slice)` to avoid polyfilling core-js
 	}
 
 	return result;

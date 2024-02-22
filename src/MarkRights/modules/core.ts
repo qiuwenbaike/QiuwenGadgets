@@ -36,16 +36,16 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 	$userLinks.each((_index: number, {textContent}: {textContent: string | null}): void => {
 		const userLinkText: string | undefined = textContent?.toString();
 		if (userLinkText) {
-			users.push(userLinkText);
+			users[users.length] = userLinkText; // Replace `users.push(userLinkText)` to avoid polyfilling core-js
 		}
 		users = [...new Set(users)];
 		if (users.length === 50) {
-			queue.push(users);
+			queue[queue.length] = users; // Replace `queue.push(users)` to avoid polyfilling core-js
 			users = [];
 		}
 	});
 	if (users.length > 0) {
-		queue.push(users);
+		queue[queue.length] = users; // Replace `queue.push(users)` to avoid polyfilling core-js
 	}
 	const getUsername = (url: string): string => {
 		if (!url) {
@@ -154,7 +154,7 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 				}
 				const groupsGroup: string[] = groups[group as never] as string[];
 				if (user.groups.includes(group)) {
-					groupsGroup.push(user.name);
+					groupsGroup[groupsGroup.length] = user.name; // Replace `groupsGroup.push(user.name)` to avoid polyfilling core-js
 				}
 			}
 		}

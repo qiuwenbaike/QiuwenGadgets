@@ -37,6 +37,7 @@
  * @namespace Morebits
  */
 import './morebits.less';
+import {generateArray} from 'ext.gadget.Util';
 
 (function morebits($) {
 	// Wrap entire file with anonymous function
@@ -170,9 +171,7 @@ import './morebits.less';
 		if (!input) {
 			return fragment;
 		}
-		if (!Array.isArray(input)) {
-			input = [input];
-		}
+		input = generateArray(input);
 		for (const element of input) {
 			if (element instanceof Node) {
 				fragment.appendChild(element);
@@ -221,9 +220,7 @@ import './morebits.less';
 	 * @returns {string} - Regex-suitable string of all namespace aliases.
 	 */
 	Morebits.namespaceRegex = (namespaces) => {
-		if (!Array.isArray(namespaces)) {
-			namespaces = [namespaces];
-		}
+		namespaces = generateArray(namespaces);
 		const aliases = [];
 		let regex;
 		for (const [name, number] of Object.entries(mw.config.get('wgNamespaceIds'))) {
@@ -555,9 +552,7 @@ import './morebits.less';
 						let event;
 						if (current.subgroup) {
 							let tmpgroup = current.subgroup;
-							if (!Array.isArray(tmpgroup)) {
-								tmpgroup = [tmpgroup];
-							}
+							tmpgroup = generateArray(tmpgroup);
 							const subgroupRaw = new Morebits.quickForm.element({
 								type: 'div',
 								id: `${id}_${i}_subgroup`,
@@ -1828,7 +1823,7 @@ import './morebits.less';
 		}
 		if (!this._d) {
 			// Try standard date
-			this._d = new (Function.prototype.bind.apply(Date, [Date, ...(Array.isArray(args) ? args : [args])]))();
+			this._d = new (Function.prototype.bind.apply(Date, [Date, ...generateArray(args)]))();
 		}
 		// Still no?
 		if (!this.isValid()) {

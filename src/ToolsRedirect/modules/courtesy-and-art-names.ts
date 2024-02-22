@@ -86,7 +86,7 @@ export const toolsRedirect_courtesy_and_art_names = (): void => {
 				if (!surname) {
 					surname = findSurname(pagename);
 				}
-				titles.push(surname + name);
+				titles[titles.length] = surname + name; // Replace `titles.push(surname + name)` to avoid polyfilling core-js
 			}
 		});
 		return [...new Set(titles)];

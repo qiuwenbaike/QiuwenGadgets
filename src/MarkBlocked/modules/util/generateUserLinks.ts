@@ -79,7 +79,10 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 		$element.addClass(CLASS_NAME_USERLINK);
 
 		userLinks[user] ??= [];
-		(userLinks[user] as (typeof userLinks)[keyof typeof userLinks]).push($element);
+
+		(userLinks[user] as (typeof userLinks)[keyof typeof userLinks])[
+			(userLinks[user] as (typeof userLinks)[keyof typeof userLinks]).length
+		] = $element; // Replace `[].push()` to avoid polyfilling core-js
 	}
 
 	return userLinks;

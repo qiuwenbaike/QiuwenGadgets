@@ -13,8 +13,8 @@ export const toolsRedirect_bio_latin_names = () => {
 			}
 			if (previousNode && prefixRegex.test(previousNode.textContent)) {
 				title = $(element).text().trim();
-				titles.push(title);
-				window.toolsRedirect.setRedirectTextSuffix(title, '\n{{学名重定向}}');
+				titles[titles.length] = title; // Replace `titles.push(title)` to avoid polyfilling core-js
+				window.toolsRedirect.setRedirectTextSuffix(title, '{{学名重定向}}');
 			}
 		});
 		return [...new Set(titles)];

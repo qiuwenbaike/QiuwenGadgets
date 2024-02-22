@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {generateArray} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinklespeedy.js */
 (function twinklespeedy($) {
 	const $body = $('body');
@@ -470,10 +472,7 @@
 		// custom rationale lives under general criteria when tagging
 		let generalCriteria = Twinkle.speedy.generalList;
 		if (!Twinkle.speedy.mode.isSysop(mode)) {
-			generalCriteria = [
-				...Twinkle.speedy.customRationale,
-				...(Array.isArray(generalCriteria) ? generalCriteria : [generalCriteria]),
-			];
+			generalCriteria = [...Twinkle.speedy.customRationale, ...generateArray(generalCriteria)];
 		}
 		work_area.append({
 			type: 'header',
@@ -657,28 +656,12 @@
 				return null;
 			}
 			if (criterion.subgroup && !hasSubmitButton) {
-				if (Array.isArray(criterion.subgroup)) {
-					criterion.subgroup.push({
-						type: 'button',
-						name: 'submit',
-						label: isSysopMode
-							? window.wgULS('删除页面', '刪除頁面')
-							: window.wgULS('标记页面', '標記頁面'),
-						event: submitSubgroupHandler,
-					});
-				} else {
-					criterion.subgroup = [
-						criterion.subgroup,
-						{
-							type: 'button',
-							name: 'submit',
-							label: isSysopMode
-								? window.wgULS('删除页面', '刪除頁面')
-								: window.wgULS('标记页面', '標記頁面'),
-							event: submitSubgroupHandler,
-						},
-					];
-				}
+				criterion.subgroup = generateArray(criterion.subgroup, {
+					type: 'button',
+					name: 'submit',
+					label: isSysopMode ? window.wgULS('删除页面', '刪除頁面') : window.wgULS('标记页面', '標記頁面'),
+					event: submitSubgroupHandler,
+				});
 				// FIXME: does this do anything?
 				criterion.event = openSubgroupHandler;
 			}

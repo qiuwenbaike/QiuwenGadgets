@@ -9,7 +9,7 @@ const switcherJS = (): void => {
 			if (!label || label.childNodes.length === 0) {
 				continue;
 			}
-			switchers.push(switcher);
+			switchers[switchers.length] = switcher; // Replace `switchers.push()` to avoid polyfilling core-js
 			$radio = $('<input>')
 				.prop({
 					type: 'radio',
