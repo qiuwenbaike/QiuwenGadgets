@@ -93,10 +93,13 @@ const setRedirectTextSuffix = (title, suffix, flag) => {
 		// if not exist, every flag can set
 		flag_set = true;
 	}
+	pageWithRedirectTextSuffix[title] = [];
 	if (flag_set) {
-		pageWithRedirectTextSuffix[title] = suffix;
+		pageWithRedirectTextSuffix[title] = [suffix];
 	} else if (flag_append) {
-		pageWithRedirectTextSuffix[title] += suffix;
+		pageWithRedirectTextSuffix[title].push(suffix);
+		// De-duplicate
+		pageWithRedirectTextSuffix[title] = [...new Set(pageWithRedirectTextSuffix[title])];
 	}
 };
 
@@ -216,7 +219,7 @@ export const ToolsRedirect = {
 	},
 	addRedirectTextSuffix(title, text) {
 		if (title in pageWithRedirectTextSuffix) {
-			text += pageWithRedirectTextSuffix[title];
+			text += pageWithRedirectTextSuffix[title].join('');
 		}
 		return text;
 	},
