@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import {generateArray, initMwApi} from 'ext.gadget.Util';
 import {noticeFailElement, noticeLoadingElement} from './modules/generateElements';
-import {initMwApi} from 'ext.gadget.Util';
 
 /* 跟[[Module:Special wikitext]]保持一致的段落。 */
 const wikiTextKey: string = '_addText';
@@ -184,7 +184,7 @@ const previewTool = (): void => {
 	const noticeFail = noticeFailElement();
 	// 检查对应selector的网页对象是否存在
 	const $elementExist = (selectors: string | string[]) => {
-		const selectorArray: string[] = Array.isArray(selectors) ? selectors : selectors ? [selectors] : [];
+		const selectorArray: string[] = generateArray(selectors) as string[];
 		let eleCount: number = 0;
 		const $body = $('body');
 		for (const selector of selectorArray) {
@@ -201,7 +201,7 @@ const previewTool = (): void => {
 			return false;
 		}
 		mwConfigData = String(mwConfigData).toLowerCase();
-		const mwConfigArray: string[] = Array.isArray(mwConfigs) ? mwConfigs : mwConfigs ? [mwConfigs] : [];
+		const mwConfigArray: string[] = generateArray(mwConfigs) as string[];
 		return mwConfigArray.includes(mwConfigData as string);
 	};
 
@@ -460,11 +460,11 @@ const previewTool = (): void => {
 			const [, codeId] = /mw-highlight-lang-(\S+)/.exec(codeItClass) || [];
 			const loadIndex: number = testcaseDataList.length;
 			$(testcaseItem as HTMLElement).attr('preview-id', loadIndex);
-			testcaseDataList.push({
+			testcaseDataList[loadIndex] = {
 				element: testcaseItem as HTMLElement,
 				lang: codeId || '',
 				code: codeIt.text().toString(),
-			});
+			}; // Replace `testcaseDataList.push()` to avoid polyfilling core-js
 		}
 
 		// 整理页面中的Testcase预览元素，并放置“[载入中]”消息

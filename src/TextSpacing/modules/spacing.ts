@@ -108,13 +108,13 @@ const getLeafElements = (parent: HTMLElement): HTMLElement[] => {
 	const result: HTMLElement[] = [];
 
 	if (parent.matches(SELECTOR)) {
-		result.push(parent);
+		result[result.length] = parent; // Replace `result.push()` to avoid polyfilling core-js
 	}
 
 	for (const candidate of candidates) {
 		for (const childNode of candidate.childNodes) {
 			if (isTextNode(childNode)) {
-				result.push(candidate);
+				result[result.length] = candidate; // Replace `result.push()` to avoid polyfilling core-js
 				break;
 			}
 		}
@@ -206,7 +206,7 @@ const adjustSpacing = (element: HTMLElement): void => {
 			if (!match) {
 				break;
 			}
-			indexes.push(match.index + 1); // +1 to match script boundary
+			indexes[indexes.length] = match.index + 1; // Replace `indexes.push()` to avoid polyfilling core-js
 		}
 
 		if (!indexes.length) {
@@ -230,7 +230,7 @@ const adjustSpacing = (element: HTMLElement): void => {
 				.flatMap((fragment: string): [string, HTMLSpanElement] => {
 					return createSpacingWrapper(fragment);
 				});
-			replacement.push(fragments.at(-1) as string);
+			replacement[replacement.length] = fragments.at(-1) as string; // Replace `replacement.push()` to avoid polyfilling core-js
 
 			// Optimization: prevent forced reflows
 			requestAnimationFrame(() => {

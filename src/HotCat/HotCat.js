@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import './modules/check';
+import {generateArray, initMwApi} from 'ext.gadget.Util';
 import {getMessage} from './modules/getMessage';
 import {hotCatMessages} from './modules/messages';
-import {initMwApi} from 'ext.gadget.Util';
 
 /**
  * @description Ajax-based simple Category manager. Allows adding/removing/changing categories on a page view.
@@ -2104,10 +2104,7 @@ hotCatMessages();
 			$.getJSON(url, (json) => {
 				const titles = e.handler(json, z);
 				if (titles && titles.length > 0) {
-					cb.allTitles =
-						cb.allTitles === null
-							? titles
-							: [...cb.allTitles, ...(Array.isArray(titles) ? titles : [titles])];
+					cb.allTitles = cb.allTitles === null ? titles : [...cb.allTitles, ...generateArray(titles)];
 					if (titles.exists) {
 						cb.exists = true;
 					}

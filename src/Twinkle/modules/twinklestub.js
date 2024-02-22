@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {generateArray} from 'ext.gadget.Util';
+
 /*! Twinkle.js - twinklestub.js */
 (function twinklestub($) {
 	/**
@@ -324,7 +326,7 @@
 						)
 					);
 				} else {
-					tags = [...tags, ...(Array.isArray(params.tags[i]) ? params.tags[i] : [params.tags[i]])];
+					tags = [...tags, ...generateArray(params.tags[i])];
 				}
 			}
 			tags = [...tags, ...groupableTags];
