@@ -137,7 +137,7 @@
 * MarkRights-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-pagestyles.css
 * MarkRights-Userpage[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.api,mediawiki.Title|peers=MarkRights-Userpage-pagestyles|requiresES6]|MarkRights-Userpage.js
 * MarkRights-Userpage-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-Userpage-pagestyles.css
-* OnlineAdmins[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|peers=OnlineAdmins-pagestyles|requiresES6]|OnlineAdmins.js
+* OnlineAdmins[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.api,mediawiki.util|peers=OnlineAdmins-pagestyles|requiresES6]|OnlineAdmins.js
 * OnlineAdmins-pagestyles[ResourceLoader|hidden|requiresES6]|OnlineAdmins-pagestyles.css
 * PagePatroller[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=autopatrol,patrol|requiresES6]|PagePatroller.js
 * QuickPatrol[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=patrol|requiresES6]|QuickPatrol.js
