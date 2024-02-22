@@ -3,8 +3,8 @@ import {getMessage} from '../modules/i18n';
 
 const ConsentNotice = () => (
 	<>
-		<p>{getMessage('TOSNotice')}</p>
-		<p>{getMessage('CookieNotice')}</p>
+		<p innerHTML={getMessage('TOSNotice')} />
+		<p innerHTML={getMessage('CookieNotice')} />
 	</>
 );
 
