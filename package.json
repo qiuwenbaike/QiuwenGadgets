@@ -1,6 +1,6 @@
 {
 	"name": "awesome-gadgets",
-	"version": "4.3.5",
+	"version": "4.4.0",
 	"description": "Storage, management, compilation, and automatic deployment of MediaWiki gadgets.",
 	"private": true,
 	"type": "module",
@@ -9,7 +9,9 @@
 		"deploy": "pnpm build && pnpm deploy:only",
 		"build:only": "tsx --no-deprecation scripts/run.ts --build",
 		"deploy:only": "tsx --no-deprecation scripts/run.ts --deploy",
+		"deploy:directly": "tsx --no-deprecation scripts/run.ts --deploy --skip-ask",
 		"deploy:test": "tsx --no-deprecation scripts/run.ts --deploy --test",
+		"deploy:test:directly": "tsx --no-deprecation scripts/run.ts --deploy --test --skip-ask",
 		"sort": "tsx --no-deprecation scripts/run.ts --format-json",
 		"format": "prettier --cache --write . && pnpm lint:fix && vue-tsc && pnpm minify-svg",
 		"eslint": "eslint --cache .",
@@ -18,9 +20,9 @@
 		"stylelint:fix": "stylelint --allow-empty-input --cache --fix src/**/*.{css,less}",
 		"lint": "pnpm eslint && pnpm stylelint",
 		"lint:fix": "pnpm eslint:fix && pnpm stylelint:fix",
+		"minify-svg": "svgo --config=svgo.config.cjs --quiet --recursive --folder src",
 		"preinstall": "npx only-allow pnpm",
-		"prepare": "husky install",
-		"minify-svg": "svgo --config=svgo.config.cjs --quiet --recursive --folder src"
+		"prepare": "husky"
 	},
 	"author": {
 		"name": "AnYiEE",
@@ -99,7 +101,7 @@
 		"eslint-plugin-unicorn": "latest",
 		"eslint-plugin-vue": "^9.21.1",
 		"glob": "^10.3.10",
-		"happy-dom": "^13.3.8",
+		"happy-dom": "^13.4.1",
 		"husky": "^9.0.11",
 		"less-plugin-npm-import": "^2.1.0",
 		"less-plugin-preset-env": "latest",
