@@ -1,5 +1,4 @@
 import {PORTLET_CLASS, WG_SKIN} from './constant';
-import React from 'ext.gadget.React';
 
 let portletId: string | undefined;
 
@@ -21,29 +20,18 @@ const initGlobalMethods = ($body: JQuery<HTMLBodyElement>): typeof globalMethods
 
 		let $noteTATab: JQuery | undefined;
 		globalMethods.init = (): void => {
-			if ($noteTATab) {
+			if ($noteTATab || !portletId) {
 				return;
 			}
-			///////////////////
-			/**
-			 * @todo replace with `mw.util.addPortlet` after upgrade to MediaWiki 1.41+
-			 * @example
-			 * const noteTATab: HTMLElement | null = mw.util.addPortlet(PORTLET_ID);
-			 * if (!noteTATab) {
-			 *     return;
-			 * }
-			 * $noteTATab = $(noteTATab);
-			 * $noteTATab.removeClass(`mw-portlet-${PORTLET_ID}`).addClass([`mw-portlet-${PORTLET_ID.replace('p-', '')}`, 'vector-menu-tabs']);
-			 */
-			const noteTATab = (
-				<div className={['vector-menu', 'vector-menu-tabs', 'vector-menu-tabs-legacy']} id={portletId}>
-					<div>
-						<ul />
-					</div>
-				</div>
-			);
-			///////////////////
-			$noteTATab = $(noteTATab) as JQuery;
+			const noteTATab: HTMLElement | null = mw.util.addPortlet(portletId);
+			if (!noteTATab) {
+				return;
+			}
+			$noteTATab = $(noteTATab);
+			// eslint-disable-next-line mediawiki/class-doc
+			$noteTATab
+				.removeClass(`mw-portlet-${portletId}`)
+				.addClass([`mw-portlet-${portletId.replace('p-', '')}`, 'vector-menu-tabs']);
 			$body.find('#p-variants').after($noteTATab);
 		};
 		globalMethods.deInit = (): void => {
