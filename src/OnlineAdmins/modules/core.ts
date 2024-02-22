@@ -1,3 +1,4 @@
+import {groupListElement, listTitle} from './components/groupList';
 import {BLACK_LIST} from './constant';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
@@ -38,7 +39,7 @@ export const onlineAdmins = (): void => {
 			const recentchanges = await api.get(recentchangesParams);
 
 			for (const {user} of recentchanges['query'].recentchanges as {user: string}[]) {
-				users[users.length] = user; // Replace `users.push(user)` to avoid polyfilling core-js
+				users[users.length] = user; // Replace `[].push()` to avoid polyfilling core-js
 			}
 			const logeventsParams: ApiQueryLogEventsParams = {
 				action: 'query',
@@ -52,7 +53,7 @@ export const onlineAdmins = (): void => {
 			const logevents = await api.get(logeventsParams);
 
 			for (const {user} of logevents['query'].logevents as {user: string}[]) {
-				usersExt[usersExt.length] = user; // Replace `usersExt.push()` to avoid polyfilling core-js
+				usersExt[usersExt.length] = user;
 			}
 			// 用户名列表合并、去重、分割
 			users = [...new Set([...users, ...usersExt])];
@@ -84,61 +85,24 @@ export const onlineAdmins = (): void => {
 							patrollers[patrollers.length] = name;
 						}
 					}
-				}; // Replace `[].push()` to avoid polyfilling core-js
+				};
 			}
 			// 查询用户权限
 			for (const promise of promises) {
 				await promise();
 			}
-			const userlink = (user: string): string => {
-				const _user: string = user
-					.replace(/&/g, '&amp;')
-					.replace(/</g, '&lt;')
-					.replace(/>/g, '&lt;')
-					.replace(/"/g, '&quot;');
-				return `<li><a href="${mw.util.getUrl(
-					`User:${_user}`
-				)}" rel="noopener" target="_blank">${_user}</a>&nbsp;<span style="font-size: 90%">（<a href="${mw.util.getUrl(
-					`User talk:${_user}`
-				)}" rel="noopener" target="_blank">留言</a>）</span></li>`;
-			};
 			if (stewards.length + admins.length + patrollers.length > 0) {
-				const adminsstring: string[] = [`<p>${getMessage('OnlineWithin30Minutes')}</p>`];
-				const onlineCountText: string = getMessage(' ($1 online):');
+				const elements: Element[] = [listTitle()];
 				if (stewards.length > 0) {
-					adminsstring[adminsstring.length] =
-						`<div class="onlineadmin-section">${getMessage('Stewards')}${onlineCountText.replace(
-							'$1',
-							String(stewards.length)
-						)}<ul class="onlineadmin-list">`;
-					for (const element of stewards) {
-						adminsstring[adminsstring.length] = userlink(element);
-					}
-					adminsstring[adminsstring.length] = '</ul></div>';
+					elements[elements.length] = groupListElement(getMessage('Stewards'), stewards);
 				}
 				if (admins.length > 0) {
-					adminsstring[adminsstring.length] =
-						`<div class="onlineadmin-section">${getMessage('Admins')}${onlineCountText.replace(
-							'$1',
-							String(admins.length)
-						)}<ul class="onlineadmin-list">`;
-					for (const element of admins) {
-						adminsstring[adminsstring.length] = userlink(element);
-					}
-					adminsstring[adminsstring.length] = '</ul></div>';
+					elements[elements.length] = groupListElement(getMessage('Admins'), admins);
 				}
 				if (patrollers.length > 0) {
-					adminsstring[adminsstring.length] =
-						`<div class="onlineadmin-section">${getMessage('Patrollers')}${onlineCountText.replace(
-							'$1',
-							String(patrollers.length)
-						)}<ul class="onlineadmin-list">`;
-					for (const element of patrollers) {
-						adminsstring[adminsstring.length] = userlink(element);
-					}
-					adminsstring[adminsstring.length] = '</ul></div>';
+					elements[elements.length] = groupListElement(getMessage('Patrollers'), patrollers);
 				}
-				void mw.notify($(adminsstring.join('')), {tag: 'onlineAdmins'});
+				void mw.notify($('<div>').append(elements), {tag: 'onlineAdmins'});
 			} else {
 				void mw.notify(getMessage('NoOnline'), {
 					tag: 'onlineAdmins',
