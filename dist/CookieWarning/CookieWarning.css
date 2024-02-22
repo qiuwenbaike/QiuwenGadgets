@@ -1,0 +1,66 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/CookieWarning}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* esbuild-css-modules-plugin-ns-css:src/CookieWarning/components/CookieWarning.module.less */
+.CookieWarning-module__warning_ukvfyG__435 {
+  z-index: 101;
+  border: 1px solid @const-color-gray;
+  border-radius: @border-radius--medium;
+  background-color: @const-color-white;
+  color: @const-color-primary;
+  opacity: 1;
+  pointer-events: auto;
+  max-width: 92.5%;
+  margin: .75em;
+  padding: .75em;
+  font-size: .9em;
+  line-height: 1.25;
+  position: fixed;
+  bottom: 1em;
+  left: 0;
+  right: 0;
+}
+.CookieWarning-module__warning_ukvfyG__435 p {
+  margin: 0 auto .5rem;
+}
+.CookieWarning-module__warning_ukvfyG__435 .CookieWarning-module__mw-ui-button_ukvfyG__435,
+.CookieWarning-module__warning_ukvfyG__435 .CookieWarning-module__cdx-button_ukvfyG__435 {
+  border-color: @color--primary;
+  border-radius: @border-radius--small;
+  background-color: @color--primary;
+  color: @const-color-white;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: .5em 0;
+  line-height: 1;
+  display: block;
+}
+@media screen and (min-width: 768px) {
+  .CookieWarning-module__warning_ukvfyG__435 {
+    width: 20em;
+    left: 0;
+    right: auto;
+  }
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9Db29raWVXYXJuaW5nL2NvbXBvbmVudHMvQ29va2llV2FybmluZy5tb2R1bGUubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLkNvb2tpZVdhcm5pbmctbW9kdWxlX193YXJuaW5nX3VrdmZ5R19fNDM1IHtcbiAgei1pbmRleDogMTAxO1xuICBib3JkZXI6IDFweCBzb2xpZCBAY29uc3QtY29sb3ItZ3JheTtcbiAgYm9yZGVyLXJhZGl1czogQGJvcmRlci1yYWRpdXMtLW1lZGl1bTtcbiAgYmFja2dyb3VuZC1jb2xvcjogQGNvbnN0LWNvbG9yLXdoaXRlO1xuICBjb2xvcjogQGNvbnN0LWNvbG9yLXByaW1hcnk7XG4gIG9wYWNpdHk6IDE7XG4gIHBvaW50ZXItZXZlbnRzOiBhdXRvO1xuICBtYXgtd2lkdGg6IDkyLjUlO1xuICBtYXJnaW46IC43NWVtO1xuICBwYWRkaW5nOiAuNzVlbTtcbiAgZm9udC1zaXplOiAuOWVtO1xuICBsaW5lLWhlaWdodDogMS4yNTtcbiAgcG9zaXRpb246IGZpeGVkO1xuICBib3R0b206IDFlbTtcbiAgbGVmdDogMDtcbiAgcmlnaHQ6IDA7XG59XG5cbi5Db29raWVXYXJuaW5nLW1vZHVsZV9fd2FybmluZ191a3ZmeUdfXzQzNSBwIHtcbiAgbWFyZ2luOiAwIGF1dG8gLjVyZW07XG59XG5cbi5Db29raWVXYXJuaW5nLW1vZHVsZV9fd2FybmluZ191a3ZmeUdfXzQzNSAuQ29va2llV2FybmluZy1tb2R1bGVfX213LXVpLWJ1dHRvbl91a3ZmeUdfXzQzNSwgLkNvb2tpZVdhcm5pbmctbW9kdWxlX193YXJuaW5nX3VrdmZ5R19fNDM1IC5Db29raWVXYXJuaW5nLW1vZHVsZV9fY2R4LWJ1dHRvbl91a3ZmeUdfXzQzNSB7XG4gIGJvcmRlci1jb2xvcjogQGNvbG9yLS1wcmltYXJ5O1xuICBib3JkZXItcmFkaXVzOiBAYm9yZGVyLXJhZGl1cy0tc21hbGw7XG4gIGJhY2tncm91bmQtY29sb3I6IEBjb2xvci0tcHJpbWFyeTtcbiAgY29sb3I6IEBjb25zdC1jb2xvci13aGl0ZTtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICB3aWR0aDogMTAwJTtcbiAgbWFyZ2luOiAwIGF1dG87XG4gIHBhZGRpbmc6IC41ZW0gMDtcbiAgbGluZS1oZWlnaHQ6IDE7XG4gIGRpc3BsYXk6IGJsb2NrO1xufVxuXG5AbWVkaWEgc2NyZWVuIGFuZCAobWluLXdpZHRoOiA3NjhweCkge1xuICAuQ29va2llV2FybmluZy1tb2R1bGVfX3dhcm5pbmdfdWt2ZnlHX180MzUge1xuICAgIHdpZHRoOiAyMGVtO1xuICAgIGxlZnQ6IDA7XG4gICAgcmlnaHQ6IGF1dG87XG4gIH1cbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxXQUFTO0FBQ1QsVUFBUSxJQUFJLE1BQU07QUFDbEIsaUJBQWU7QUFDZixvQkFBa0I7QUFDbEIsU0FBTztBQUNQLFdBQVM7QUFDVCxrQkFBZ0I7QUFDaEIsYUFBVztBQUNYLFVBQVE7QUFDUixXQUFTO0FBQ1QsYUFBVztBQUNYLGVBQWE7QUFDYixZQUFVO0FBQ1YsVUFBUTtBQUNSLFFBQU07QUFDTixTQUFPO0FBQ1Q7QUFFQSxDQW5CQywwQ0FtQjBDO0FBQ3pDLFVBQVEsRUFBRSxLQUFLO0FBQ2pCO0FBRUEsQ0F2QkMsMENBdUIwQyxDQUFDO0FBQWdELENBdkIzRiwwQ0F1QnNJLENBQUM7QUFDdEksZ0JBQWM7QUFDZCxpQkFBZTtBQUNmLG9CQUFrQjtBQUNsQixTQUFPO0FBQ1AsY0FBWTtBQUNaLFNBQU87QUFDUCxVQUFRLEVBQUU7QUFDVixXQUFTLEtBQUs7QUFDZCxlQUFhO0FBQ2IsV0FBUztBQUNYO0FBRUEsT0FBTyxPQUFPLElBQUksQ0FBQyxTQUFTLEVBQUU7QUFDNUIsR0FyQ0Q7QUFzQ0csV0FBTztBQUNQLFVBQU07QUFDTixXQUFPO0FBQ1Q7QUFDRjsiLAogICJuYW1lcyI6IFtdCn0K */

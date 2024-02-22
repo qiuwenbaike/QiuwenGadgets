@@ -1,10 +1,10 @@
 import AgreeButton from './AgreeButton';
-import {CLASS_NAME} from '../modules/constant';
 import ConsentNotice from './ConsentNotice';
 import React from 'ext.gadget.React';
+import {warning} from './CookieWarning.module.less';
 
 const RootElement = (agreeButtonOnClick: () => void) => (
-	<div className={[CLASS_NAME, 'noprint']}>
+	<div className={[warning, 'noprint']}>
 		<ConsentNotice />
 		<AgreeButton onClick={agreeButtonOnClick} />
 	</div>
