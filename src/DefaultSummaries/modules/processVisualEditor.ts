@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
+import {DROPDOWN_ID} from './constant';
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
-const processVisualEditor = (): void => {
+const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Guard against double inclusions
 	if (mw.config.get('wgDefaultSummariesInstalled')) {
 		return;
@@ -20,7 +21,9 @@ const processVisualEditor = (): void => {
 
 	const $dropdowns: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
 
-	$saveOptions.before($dropdowns);
+	if (!$body.find(`#${DROPDOWN_ID}`).length) {
+		$saveOptions.before($dropdowns);
+	}
 };
 
 export {processVisualEditor};

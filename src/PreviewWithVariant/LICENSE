@@ -1,7 +1,9 @@
 /**
  * SPDX-License-Identifier: MIT
- * _addText: '{{Gadget Header|license=MIT}}'
+ * _addText: '{{Gadget Header|license=MIT|attribution=Diskdance, et. al.}}'
  *
- * @base {@link https://zh.wikipedia.org/wiki/Special:Permalink/67345361}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-PreviewWithVariant.js}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-PreviewWithVariant2017.js}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-PreviewWithVariant2017.css}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/PreviewWithVariant}
  */

@@ -1,8 +1,0 @@
-{
-	"enable": true,
-	"hidden": true,
-	"description": "<span id=\"Gadget-PreviewWithVariant2017\"></span> 在2017年版源代码编辑器下，以用户指定的语言变体显示预览",
-	"section": "edit",
-	"dependencies": ["ext.gadget.i18n", "mediawiki.jqueryMsg", "oojs-ui", "oojs-ui-core"],
-	"rights": ["edit"]
-}

@@ -8,6 +8,13 @@ void getBody().then(function defaultSummaries($body: JQuery<HTMLBodyElement>): v
 	});
 
 	mw.hook('ve.saveDialog.stateChanged').add((): void => {
-		processVisualEditor();
+		processVisualEditor($body);
+
+		// Switching between VE and NWE, requires to be reinitialized
+		mw.hook('ve.activationComplete').add(() => {
+			if (mw.config.get('wgDefaultSummariesInstalled')) {
+				mw.config.set('wgDefaultSummariesInstalled', false);
+			}
+		});
 	});
 });

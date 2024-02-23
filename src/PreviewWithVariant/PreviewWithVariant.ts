@@ -1,84 +1,12 @@
-import './PreviewWithVariant.less';
-import {VARIANTS, WG_PAGE_CONTENT_MODEL, WG_USER_VARIANT} from './modules/constant';
-/**
- * @description Add a "Preview with variant" option to the edit form.
- */
-mw.hook('wikipage.editform').add(($editForm): void => {
-	// Guard against double inclusions
-	if (mw.config.get('wgPreviewWithVariantInitialized')) {
-		return;
-	}
-	const $templateSandboxPreview: JQuery = $editForm.find('input[name="wpTemplateSandboxPreview"]');
-	// It is possible that a user want to preview a page with a non-wikitext module
-	// Do not return in this case
-	if (WG_PAGE_CONTENT_MODEL !== 'wikitext' && !$templateSandboxPreview.length) {
-		return;
-	}
-	const $layout: JQuery = $editForm.find('.editCheckboxes .oo-ui-horizontalLayout');
-	if (!$layout.length) {
-		return;
-	}
-	// Guard against double inclusions
-	mw.config.set('wgPreviewWithVariantInitialized', true);
-	const uriVariant: string | null = mw.util.getParamValue('variant');
-	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
-		selected: Boolean(uriVariant),
+import {processVisualEditor} from './modules/processVisualEditor';
+import {processWikiEditor} from './modules/processWikiEditor';
+
+(function previewWithVariants(): void {
+	mw.hook('ve.saveDialog.stateChanged').add((): void => {
+		processVisualEditor();
 	});
-	const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
-		$overlay: true,
-		disabled: !checkbox.isSelected(),
-		menu: {
-			items: VARIANTS.map(({data, label}): OO.ui.MenuOptionWidget => {
-				return new OO.ui.MenuOptionWidget({
-					data,
-					label,
-				});
-			}),
-		},
+
+	mw.hook('wikipage.editform').add((): void => {
+		processWikiEditor();
 	});
-	dropdown.getMenu().selectItemByData(WG_USER_VARIANT || uriVariant || mw.user.options.get('variant'));
-	checkbox.on('change', (selected: boolean | string): void => {
-		dropdown.setDisabled(!selected);
-	});
-	const getSelectedVariant = (): string | undefined => {
-		if (!checkbox.isSelected()) {
-			return;
-		}
-		const selectedItem: OO.ui.OptionWidget | null = dropdown
-			.getMenu()
-			.findSelectedItem() as OO.ui.OptionWidget | null;
-		return selectedItem ? (selectedItem.getData() as string) : undefined;
-	};
-	const manipulateActionUrl = (): void => {
-		const selectedVariant: string | undefined = getSelectedVariant();
-		const originalAction: string | undefined = $editForm.attr('action');
-		if (selectedVariant && originalAction) {
-			$editForm.attr(
-				'action',
-				new mw.Uri(originalAction)
-					.extend({
-						variant: selectedVariant,
-					})
-					.getRelativePath()
-			);
-		}
-	};
-	const manipulateVariantConfig = (): void => {
-		mw.config.set('wgUserVariant', getSelectedVariant() || (mw.user.options.get('variant') as string));
-	};
-	$editForm
-		.find('input[name=wpPreview]')
-		.on('click', mw.user.options.get('uselivepreview') ? manipulateVariantConfig : manipulateActionUrl);
-	$templateSandboxPreview.on('click', manipulateActionUrl);
-	dropdown.getMenu().on('select', manipulateVariantConfig);
-	const checkboxField: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
-		align: 'inline',
-		label: window.wgULS('预览字词转换', '預覽字詞轉換'),
-	});
-	const dropdownField: OO.ui.FieldLayout<OO.ui.DropdownWidget> = new OO.ui.FieldLayout(dropdown, {
-		align: 'top',
-		label: window.wgULS('使用该语言变体显示预览：', '使用該語言變體顯示預覽：'),
-		invisibleLabel: true,
-	});
-	$layout.append($('<div>').attr('id', 'pwv-area').append(checkboxField.$element, dropdownField.$element));
-});
+})();
