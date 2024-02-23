@@ -1,4 +1,5 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_RELEVANT_USER_NAME} from './constant';
+import type {UserRights} from '~/MarkRights/modules/types';
 import {appendIcon} from './appendIcon';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
@@ -19,7 +20,7 @@ export const getPermissions = async (): Promise<void> => {
 		};
 		const {query} = await api.get(listUsersParams);
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const [{groups}]: [{groups: userRights[]}] = query.users;
+		const [{groups}]: [{groups: UserRights[]}] = query.users;
 		if (WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('qiuwen')) {
 			appendIcon(getMessage('Webmaster'), 'qiuwen');
 		}
