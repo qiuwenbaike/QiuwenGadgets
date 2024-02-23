@@ -192,25 +192,23 @@
 					const size = $page.find('rev').attr('size');
 					const metadata = [];
 					if (isRedir) {
-						metadata.push(window.wgULS('重定向', '重新導向'));
+						metadata[metadata.length] = window.wgULS('重定向', '重新導向');
 					}
 					if (isProtected) {
-						metadata.push(
+						metadata[metadata.length] =
 							window.wgULS('全保护，', '全保護，') +
-								($editprot.attr('expiry') === 'infinity'
-									? window.wgULS('无限期', '無限期')
-									: `${new Morebits.date($editprot.attr('expiry')).calendar('utc')} (UTC)`) +
-								window.wgULS('过期', '過期')
-						);
+							($editprot.attr('expiry') === 'infinity'
+								? window.wgULS('无限期', '無限期')
+								: `${new Morebits.date($editprot.attr('expiry')).calendar('utc')} (UTC)`) +
+							window.wgULS('过期', '過期');
 					}
 					if (ns === '6') {
 						// mimic what delimages used to show for files
-						metadata.push(
-							window.wgULS('上传者：', '上傳者：') + $page.find('ii').attr('user'),
-							window.wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user')
-						);
+						metadata[metadata.length] =
+							(window.wgULS('上传者：', '上傳者：') + $page.find('ii').attr('user'),
+							window.wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user'));
 					} else {
-						metadata.push(mw.language.convertNumber(size) + window.wgULS('字节', '位元組'));
+						metadata[metadata.length] = mw.language.convertNumber(size) + window.wgULS('字节', '位元組');
 					}
 					Twinkle.batchdelete.pages[title] = {
 						label: title + (metadata.length ? `（${metadata.join('，')}）` : ''),
@@ -459,34 +457,31 @@
 								const size = $page.find('rev').attr('size');
 								const metadata = [];
 								if (isRedir) {
-									metadata.push('redirect');
+									metadata[metadata.length] = 'redirect';
 								}
 								if (isProtected) {
-									metadata.push(
+									metadata[metadata.length] =
 										window.wgULS('全保护，', '全保護，') +
-											($editprot.attr('expiry') === 'infinity'
-												? window.wgULS('无限期', '無限期')
-												: `${new Morebits.date($editprot.attr('expiry')).calendar(
-														'utc'
-													)} (UTC)`) +
-											window.wgULS('过期', '過期')
-									);
+										($editprot.attr('expiry') === 'infinity'
+											? window.wgULS('无限期', '無限期')
+											: `${new Morebits.date($editprot.attr('expiry')).calendar('utc')} (UTC)`) +
+										window.wgULS('过期', '過期');
 								}
 								if (ns === '6') {
 									// mimic what delimages used to show for files
-									metadata.push(
-										window.wgULS('上传者：', '上傳者：') + $page.find('ii').attr('user'),
-										window.wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user')
-									);
+									metadata[metadata.length] =
+										(window.wgULS('上传者：', '上傳者：') + $page.find('ii').attr('user'),
+										window.wgULS('最后编辑：', '最後編輯：') + $page.find('rev').attr('user'));
 								} else {
-									metadata.push(mw.language.convertNumber(size) + window.wgULS('字节', '位元組'));
+									metadata[metadata.length] =
+										mw.language.convertNumber(size) + window.wgULS('字节', '位元組');
 								}
-								subpageList.push({
+								subpageList[subpageList.length] = {
 									label: title + (metadata.length ? ` (${metadata.join('; ')})` : ''),
 									value: title,
 									checked: true,
 									style: isProtected ? 'color: #f00' : '',
-								});
+								};
 							});
 							if (subpageList.length) {
 								const pageName_ = apiobj.query.pageNameFull;

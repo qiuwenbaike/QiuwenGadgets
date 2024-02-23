@@ -1633,7 +1633,7 @@ import {generateArray} from 'ext.gadget.Util';
 				default:
 					break;
 			}
-			parameters.push(currentParams);
+			parameters[parameters.length] = currentParams;
 		}
 		return parameters;
 	};
@@ -1715,7 +1715,7 @@ import {generateArray} from 'ext.gadget.Util';
 		const normalizeds = [];
 		for (const value of values) {
 			const norm = Twinkle.speedy.normalizeHash[value];
-			normalizeds.push(norm);
+			normalizeds[normalizeds.length] = norm;
 		}
 		// analyse each criterion to determine whether to watch the page/notify the creator
 		let watchPage = false;

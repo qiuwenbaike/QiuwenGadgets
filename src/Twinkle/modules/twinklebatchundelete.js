@@ -72,7 +72,7 @@
 					const title = $page.attr('title');
 					const $editprot = $page.find('pr[type="create"][level="sysop"]');
 					const isProtected = $editprot.length > 0;
-					list.push({
+					list[list.length] = {
 						label:
 							title +
 							(isProtected
@@ -87,7 +87,7 @@
 						value: title,
 						checked: true,
 						style: isProtected ? 'color: #f00' : '',
-					});
+					};
 				});
 				apiobj.params.form.append({
 					type: 'header',
