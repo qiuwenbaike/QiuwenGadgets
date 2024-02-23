@@ -31,7 +31,7 @@ const initGlobalMethods = ($body: JQuery<HTMLBodyElement>): typeof globalMethods
 			// eslint-disable-next-line mediawiki/class-doc
 			$noteTATab
 				.removeClass(`mw-portlet-${portletId}`)
-				.addClass([`mw-portlet-${portletId.replace('p-', '')}`, 'vector-menu-tabs']);
+				.addClass([`mw-portlet-${portletId.replace('p-', '')}`, 'vector-menu-tabs', 'vector-menu-tabs-legacy']);
 			$body.find('#p-variants').after($noteTATab);
 		};
 		globalMethods.deInit = (): void => {
