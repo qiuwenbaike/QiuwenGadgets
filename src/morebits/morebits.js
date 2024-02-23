@@ -111,7 +111,7 @@ import {generateArray} from 'ext.gadget.Util';
 	 */
 	Morebits.sanitizeIPv6 = (address) => {
 		console.warn(
-			'NOTE: Morebits.sanitizeIPv6 was renamed to Morebits.ip.sanitizeIPv6 in February 2021, please use that instead'
+			'[Morebits] NOTE: Morebits.sanitizeIPv6 was renamed to Morebits.ip.sanitizeIPv6 in February 2021, please use that instead'
 		);
 		return Morebits.ip.sanitizeIPv6(address);
 	};
@@ -2161,7 +2161,9 @@ import {generateArray} from 'ext.gadget.Util';
 	 * @returns {boolean}
 	 */
 	Morebits.wiki.isPageRedirect = () => {
-		console.warn('NOTE: Morebits.wiki.isPageRedirect has been deprecated, use Morebits.isPageRedirect instead.');
+		console.warn(
+			'[Morebits] NOTE: Morebits.wiki.isPageRedirect has been deprecated, use Morebits.isPageRedirect instead.'
+		);
 		return Morebits.isPageRedirect();
 	};
 	/* **************** Morebits.wiki.actionCompleted **************** */
@@ -3143,7 +3145,7 @@ import {generateArray} from 'ext.gadget.Util';
 		 */
 		this.setWatchlistFromPreferences = (watchlistOption) => {
 			console.warn(
-				'NOTE: Morebits.wiki.page.setWatchlistFromPreferences was deprecated December 2020, please use setWatchlist'
+				'[Morebits] NOTE: Morebits.wiki.page.setWatchlistFromPreferences was deprecated December 2020, please use setWatchlist'
 			);
 			if (watchlistOption) {
 				ctx.watchlistOption = 'preferences';
