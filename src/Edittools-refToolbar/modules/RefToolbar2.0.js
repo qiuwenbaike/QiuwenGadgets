@@ -340,7 +340,7 @@ const refToolbar2 = async () => {
 			res += '</ref>';
 		}
 		if (forinsert) {
-			CiteTB.mainRefList.push(refobj);
+			CiteTB.mainRefList[CiteTB.mainRefList.length] = refobj;
 		}
 		return res;
 	};
@@ -348,10 +348,10 @@ const refToolbar2 = async () => {
 	// Make a reference to a named ref
 	CiteTB.getNamedRef = (refname, forinsert) => {
 		if (forinsert) {
-			CiteTB.mainRefList.push({
+			CiteTB.mainRefList[CiteTB.mainRefList.length] = {
 				shorttag: true,
 				refname,
-			});
+			};
 		}
 		return `<ref name=${CiteTB.getQuotedString(refname)} />`;
 	};
@@ -404,7 +404,7 @@ const refToolbar2 = async () => {
 					[, , , , , , , , refobj[`ref${ref[5]}`]] = ref;
 				}
 			}
-			CiteTB.mainRefList.push(refobj);
+			CiteTB.mainRefList[CiteTB.mainRefList.length] = refobj;
 		}
 		CiteTB.refsLoaded = true;
 		CiteTB.setupErrorCheck();
@@ -567,7 +567,7 @@ const refToolbar2 = async () => {
 					} else {
 						coauthors = [];
 						for (j = i; j < data.authors.length; j++) {
-							coauthors.push(data.authors[j].join(', '));
+							coauthors[coauthors.length] = data.authors[j].join(', ');
 						}
 						$(`.${cl}coauthors`).val(coauthors.join('; '));
 						break;
@@ -576,7 +576,7 @@ const refToolbar2 = async () => {
 			} else if ($(`.${cl}author1`).length === 0) {
 				const authors = [];
 				for (i = 0; data.authors && i < data.authors.length; i++) {
-					authors.push(data.authors[i].join(', '));
+					authors[authors.length] = data.authors[i].join(', ');
 				}
 				$(`.${cl}authors`).val(authors.join('; '));
 			} else {
@@ -586,7 +586,7 @@ const refToolbar2 = async () => {
 					} else {
 						coauthors = [];
 						for (j = i; j < data.authors.length; j++) {
-							coauthors.push(data.authors[j].join(', '));
+							coauthors[coauthors.length] = data.authors[j].join(', ');
 						}
 						$(`.${cl}coauthors`).val(coauthors.join('; '));
 						break;
@@ -745,7 +745,7 @@ const refToolbar2 = async () => {
 		let i;
 		for (i = 0; i < CiteTB.mainRefList.length; i++) {
 			if (!CiteTB.mainRefList[i].shorttag && CiteTB.mainRefList[i].refname) {
-				names.push(CiteTB.mainRefList[i]);
+				names[names.length] = CiteTB.mainRefList[i];
 			}
 		}
 		const stuff = $('<div>');

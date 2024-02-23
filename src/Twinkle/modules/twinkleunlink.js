@@ -188,11 +188,11 @@
 					list = [];
 					for (i = 0; i < imageusage.length; ++i) {
 						// Label made by Twinkle.generateBatchPageLinks
-						list.push({
+						list[list.length] = {
 							label: '',
 							value: imageusage[i].title,
 							checked: true,
-						});
+						};
 					}
 					if (list.length) {
 						apiobj.params.form.append({
@@ -201,11 +201,10 @@
 						});
 						namespaces = [];
 						for (const v of Twinkle.getPref('unlinkNamespaces')) {
-							namespaces.push(
+							namespaces[namespaces.length] =
 								v === '0'
 									? window.wgULS('（条目）', '（條目）')
-									: mw.config.get('wgFormattedNamespaces')[v]
-							);
+									: mw.config.get('wgFormattedNamespaces')[v];
 						}
 						apiobj.params.form.append({
 							type: 'div',
@@ -257,11 +256,11 @@
 					list = [];
 					for (i = 0; i < backlinks.length; ++i) {
 						// Label made by Twinkle.generateBatchPageLinks
-						list.push({
+						list[list.length] = {
 							label: '',
 							value: backlinks[i].title,
 							checked: true,
-						});
+						};
 					}
 					apiobj.params.form.append({
 						type: 'header',
@@ -269,9 +268,10 @@
 					});
 					namespaces = [];
 					for (const v of Twinkle.getPref('unlinkNamespaces')) {
-						namespaces.push(
-							v === '0' ? window.wgULS('（条目）', '（條目）') : mw.config.get('wgFormattedNamespaces')[v]
-						);
+						namespaces[namespaces.length] =
+							v === '0'
+								? window.wgULS('（条目）', '（條目）')
+								: mw.config.get('wgFormattedNamespaces')[v];
 					}
 					apiobj.params.form.append({
 						type: 'div',

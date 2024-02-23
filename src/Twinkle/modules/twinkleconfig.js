@@ -1675,7 +1675,7 @@
 					current.label = input.value;
 					// exclude totally empty rows
 					if (current.value || current.label) {
-						result.push(current);
+						result[result.length] = current;
 					}
 				}
 			});
@@ -1836,14 +1836,14 @@
 									// read only those keys specified in the display order
 									for (const item of pref.setDisplayOrder) {
 										if (form[`${pref.name}_${item}`].checked) {
-											userValue.push(item);
+											userValue[userValue.length] = item;
 										}
 									}
 								} else {
 									// read all the keys in the list of values
 									for (const [itemkey] of Object.entries(pref.setValues)) {
 										if (form[`${pref.name}_${itemkey}`].checked) {
-											userValue.push(itemkey);
+											userValue[userValue.length] = itemkey;
 										}
 									}
 								}

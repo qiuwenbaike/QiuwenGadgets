@@ -1644,7 +1644,7 @@ import {initMwApi} from 'ext.gadget.Util';
 	Twinkle.protect.formatProtectionDescription = (protectionLevels) => {
 		const protectionNode = [];
 		if (Object.keys(protectionLevels).length === 0) {
-			protectionNode.push($(`<b>${window.wgULS('无保护', '無保護')}</b>`)[0]);
+			[protectionNode[protectionNode.length]] = $(`<b>${window.wgULS('无保护', '無保護')}</b>`);
 		} else {
 			for (const [type, settings] of Object.entries(protectionLevels)) {
 				let label;
@@ -1686,16 +1686,15 @@ import {initMwApi} from 'ext.gadget.Util';
 						({level} = settings);
 						break;
 				}
-				protectionNode.push($(`<b>${label}：${level}</b>`)[0]);
+				[protectionNode[protectionNode.length]] = $(`<b>${label}：${level}</b>`);
 				if (Morebits.string.isInfinity(settings.expiry)) {
-					protectionNode.push(window.wgULS('（无限期）', '（無限期）'));
+					protectionNode[protectionNode.length] = window.wgULS('（无限期）', '（無限期）');
 				} else {
-					protectionNode.push(
-						`${window.wgULS('（过期：', '（過期：') + new Morebits.date(settings.expiry).calendar('utc')}）`
-					);
+					protectionNode[protectionNode.length] =
+						`${window.wgULS('（过期：', '（過期：') + new Morebits.date(settings.expiry).calendar('utc')}）`;
 				}
 				if (settings.cascade) {
-					protectionNode.push(window.wgULS('（连锁）', '（連鎖）'));
+					protectionNode[protectionNode.length] = window.wgULS('（连锁）', '（連鎖）');
 				}
 			}
 		}

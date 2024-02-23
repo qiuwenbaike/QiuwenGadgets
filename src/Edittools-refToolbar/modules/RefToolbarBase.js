@@ -44,7 +44,9 @@ const refToolbarBase = () => {
 						!this.incrementables[fieldobj.increment_group].setup
 					) {
 						// The object has been created, but not fully initialized
-						this.incrementables[fieldobj.increment_group].fields.push(fieldobj);
+						this.incrementables[fieldobj.increment_group].fields[
+							this.incrementables[fieldobj.increment_group].fields.length
+						] = fieldobj;
 					} else if (!this.incrementables[fieldobj.increment_group]) {
 						// Object not yet created
 						this.incrementables[fieldobj.increment_group] = {
@@ -91,7 +93,7 @@ const refToolbarBase = () => {
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
 					ad.attr('id', `cite-auto-${CiteTB.escStr(this.shortform)}-${field}-${autotype}`);
-					autofills.push(`#cite-auto-${CiteTB.escStr(this.shortform)}-${field}-${autotype}`);
+					autofills[autofills.length] = `#cite-auto-${CiteTB.escStr(this.shortform)}-${field}-${autotype}`;
 				}
 				if (fieldobj.increment_button) {
 					const incrtype = fieldobj.increment_group;
@@ -152,7 +154,7 @@ const refToolbarBase = () => {
 				}
 				tr.append(td2);
 				if (i % 2 === 0) {
-					trs.push(tr);
+					trs[trs.length] = tr;
 				}
 			}
 			let needsetup = false;
@@ -306,7 +308,7 @@ const refToolbarBase = () => {
 					for (let i = 0; i < CiteTB.mainRefList.length; i++) {
 						const e = this.obj.func(CiteTB.mainRefList[i]);
 						if (e) {
-							errors.push(e);
+							errors[errors.length] = e;
 						}
 					}
 					break;

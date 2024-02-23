@@ -423,7 +423,7 @@ import {generateArray, initMwApi} from 'ext.gadget.Util';
 					return bg.label === prior.label;
 				})
 			) {
-				blockGroup.push(prior);
+				blockGroup[blockGroup.length] = prior;
 			}
 			// Always ensure proper template exists/is selected when switching modes
 			if (partialBox) {
@@ -618,22 +618,22 @@ import {generateArray, initMwApi} from 'ext.gadget.Util';
 				},
 			];
 			if (Twinkle.block.isRegistered) {
-				blockoptions.push({
+				blockoptions[blockoptions.length] = {
 					checked: Twinkle.block.field_block_options.autoblock,
 					label: window.wgULS('自动封禁', '自動封鎖'),
 					name: 'autoblock',
 					value: '1',
-				});
+				};
 			} else {
-				blockoptions.push({
+				blockoptions[blockoptions.length] = {
 					checked: Twinkle.block.field_block_options.hardblock,
 					label: window.wgULS('阻止登录用户使用该IP地址编辑', '阻止登入使用者使用該IP位址編輯'),
 					name: 'hardblock',
 					value: '1',
-				});
+				};
 			}
-			blockoptions.push(
-				{
+			blockoptions[blockoptions.length] =
+				({
 					checked: Twinkle.block.field_block_options.watchuser,
 					label: window.wgULS('监视该用户的用户页和讨论页', '監視該使用者的使用者頁面和討論頁'),
 					name: 'watchuser',
@@ -644,8 +644,7 @@ import {generateArray, initMwApi} from 'ext.gadget.Util';
 					label: window.wgULS('标记当前的破坏中的请求', '標記當前的破壞中的請求'),
 					name: 'closevip',
 					value: '1',
-				}
-			);
+				});
 			field_block_options.append({
 				type: 'checkbox',
 				name: 'blockoptions',
@@ -1133,27 +1132,26 @@ import {generateArray, initMwApi} from 'ext.gadget.Util';
 				)
 			);
 			if (Twinkle.block.currentBlockInfo) {
-				blockloginfo.push(window.wgULS('封禁详情', '封鎖詳情'));
+				blockloginfo[blockloginfo.length] = window.wgULS('封禁详情', '封鎖詳情');
 			} else {
 				const [lastBlockAction] = Twinkle.block.blockLog;
 				const blockAction = lastBlockAction.action === 'unblock' ? Twinkle.block.blockLog[1] : lastBlockAction;
-				blockloginfo.push(
-					`此${
+				blockloginfo[blockloginfo.length] =
+					(`此${
 						Morebits.ip.isRange(relevantUserName)
 							? window.wgULS('IP范围', 'IP範圍')
 							: window.wgULS('用户', '使用者')
 					}曾在`,
 					$(`<b>${new Morebits.date(blockAction.timestamp).calendar('utc')}</b>`)[0],
 					`被${blockAction.user}${window.wgULS('封禁', '封鎖')}`,
-					$(`<b>${Morebits.string.formatTime(blockAction.params.duration)}</b>`)[0]
-				);
+					$(`<b>${Morebits.string.formatTime(blockAction.params.duration)}</b>`)[0]);
 				if (lastBlockAction.action === 'unblock') {
-					blockloginfo.push(`，${new Morebits.date(lastBlockAction.timestamp).calendar('utc')}解封`);
+					blockloginfo[blockloginfo.length] =
+						`，${new Morebits.date(lastBlockAction.timestamp).calendar('utc')}解封`;
 				} else {
 					// block or reblock
-					blockloginfo.push(
-						`，${new Morebits.date(blockAction.params.expiry).calendar('utc')}${window.wgULS('过期', '過期')}`
-					);
+					blockloginfo[blockloginfo.length] =
+						`，${new Morebits.date(blockAction.params.expiry).calendar('utc')}${window.wgULS('过期', '過期')}`;
 				}
 			}
 			Morebits.status.init($body.find('div[name="hasblocklog"] span').last()[0]);
@@ -1747,7 +1745,7 @@ import {generateArray, initMwApi} from 'ext.gadget.Util';
 			return el !== this.value;
 		});
 		if (this.checked) {
-			Twinkle.block.seeAlsos.push(this.value);
+			Twinkle.block.seeAlsos[Twinkle.block.seeAlsos.length] = this.value;
 		}
 		const seeAlsoMessage = Twinkle.block.seeAlsos.join('、');
 		if (Twinkle.block.seeAlsos.length) {
@@ -2317,7 +2315,7 @@ import {generateArray, initMwApi} from 'ext.gadget.Util';
 						continue;
 				}
 				tagtext += '}}';
-				tags.push(tagtext);
+				tags[tags.length] = tagtext;
 			}
 			const text = tags.join('\n');
 			pageobj.setPageText(text);

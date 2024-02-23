@@ -713,17 +713,17 @@ const refToolbarConfig = () => {
 					if (errors.includes(element.content)) {
 						continue;
 					}
-					errors.push(element.content);
+					errors[errors.length] = element.content;
 				} else {
-					refs2.push(element.content);
+					refs2[refs2.length] = element.content;
 				}
 			}
 			const ret = [];
 			for (const error of errors) {
-				ret.push({
+				ret[ret.length] = {
 					msg: 'cite-samecontent-error',
 					err: error,
-				});
+				};
 			}
 			return ret;
 		},
@@ -743,17 +743,17 @@ const refToolbarConfig = () => {
 					if (errors.includes(element.refname)) {
 						continue;
 					}
-					errors.push(element.refname);
+					errors[errors.length] = element.refname;
 				} else {
-					refs2.push(element.refname);
+					refs2[refs2.length] = element.refname;
 				}
 			}
 			const ret = [];
 			for (const error of errors) {
-				ret.push({
+				ret[ret.length] = {
 					msg: 'cite-repeated-error',
 					err: error,
-				});
+				};
 			}
 			return ret;
 		},
@@ -768,18 +768,18 @@ const refToolbarConfig = () => {
 			for (const value of Object.values(reflist)) {
 				const {refname, shorttag} = value;
 				if (!shorttag && refname) {
-					longrefs.push(value.refname);
+					longrefs[longrefs.length] = value.refname;
 				}
 				if (shorttag && errors.includes(refname) === -1 && !longrefs.includes(refname)) {
-					errors.push(refname);
+					errors[errors.length] = refname;
 				}
 			}
 			const ret = [];
 			for (const error of errors) {
-				ret.push({
+				ret[ret.length] = {
 					msg: 'cite-undefined-error',
 					err: error,
-				});
+				};
 			}
 			return ret;
 		},
