@@ -46,10 +46,15 @@ const getI18nMessages = () => {
 			en: 'Taiwan, Province of China (Traditional) (中國臺灣繁體)',
 			zh: '中國臺灣繁體',
 		}),
-		privacyNotice: localize({
+		privacyNoticeNotLoggedIn: localize({
 			en: 'Your choices will be only stored in your browser only. We will not track your choices.',
 			'zh-hans': '您的选择将仅存储在您的浏览器中，我们不会追踪您的选择。',
 			'zh-hant': '您的選擇將僅存儲在您的瀏覽器中，我們不會追蹤您的選擇。',
+		}),
+		privacyNoticeLoggedIn: localize({
+			en: 'Your choices will be stored in your browser and your user preferences. However, We will not track your choices.',
+			'zh-hans': '您的选择将存储在您的浏览器及用户参数设置中；但是，我们不会追踪您的选择。',
+			'zh-hant': '您的選擇將存儲在您的瀏覽器及使用者偏好設定中；但是，我們不會追蹤您的選擇。',
 		}),
 		confirm: localize({
 			en: 'Confirm',
