@@ -157,8 +157,8 @@ const markDisamOptions = () => {
 				chooseReplacement(title);
 			});
 		link.after(optionMarker);
-		optionMarkers.push(optionMarker);
-		optionPageTitles.push(title);
+		optionMarkers[optionMarkers.length] = optionMarker;
+		optionPageTitles[optionPageTitles.length] = title;
 	});
 	// Now check the disambiguation options and display a different message for those that are
 	// actually the same as the target page where the links go, as choosing those options doesn't really
@@ -526,18 +526,18 @@ const applyAllChanges = () => {
 /* Record a new pending change/* * pageTitle: Title of the page/* * page: Content of the page/* * oldContent: Content of the page before the change/* * link: Link that has been changed/* * summary: Change summary */
 const addChange = (pageTitle, page, oldContent, link, summary) => {
 	if (!pageChanges.length || pageChanges.at(-1).title !== pageTitle) {
-		pageChanges.push({
+		pageChanges[pageChanges.length] = {
 			title: pageTitle,
 			page,
 			contentBefore: [],
 			links: [],
 			summary: [],
-		});
+		};
 	}
 	const lastPageChange = pageChanges.at(-1);
-	lastPageChange.contentBefore.push(oldContent);
-	lastPageChange.links.push(link);
-	lastPageChange.summary.push(summary);
+	lastPageChange.contentBefore[lastPageChange.contentBefore.length] = oldContent;
+	lastPageChange.links[lastPageChange.links.length] = link;
+	lastPageChange.summary[lastPageChange.summary.length] = summary;
 };
 
 /* Check whether actual changes are stored in the history array */
@@ -869,14 +869,14 @@ const getBacklinks = (page) => {
 			const linkTitles = [getCanonicalTitle(page)];
 			const backlinksQuery = query.backlinks;
 			for (const element of backlinksQuery) {
-				backlinks.push(element.title);
+				backlinks[backlinks.length] = element.title;
 				if (!element.redirlinks) {
 					continue;
 				}
-				linkTitles.push(element.title);
+				linkTitles[linkTitles.length] = element.title;
 				const {redirlinks} = element;
 				for (const {title} of redirlinks) {
-					backlinks.push(title);
+					backlinks[backlinks.length] = title;
 				}
 			}
 			deferred.resolve(backlinks, linkTitles);
@@ -975,10 +975,10 @@ const loadPage = (pageTitle) => {
 /* Register changes to a page, to be saved later. Returns a jQuery promise/* * (success - no params, failure - error description). Takes the same parameters/* * as savePage */
 const saveWithCooldown = (...args) => {
 	const deferred = new $.Deferred();
-	pendingSaves.push({
+	pendingSaves[pendingSaves.length] = {
 		args,
 		dfd: deferred,
-	});
+	};
 	if (!runningSaves) {
 		checkAndSave();
 	}

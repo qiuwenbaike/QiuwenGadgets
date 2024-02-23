@@ -49,12 +49,10 @@ const printOptionsMain = {
 						selected: question.checked,
 					});
 					question.widget = checkbox;
-					fieldset.push(
-						new OO.ui.FieldLayout(checkbox, {
-							label: question.label,
-							align: 'inline',
-						})
-					);
+					fieldset[fieldset.length] = new OO.ui.FieldLayout(checkbox, {
+						label: question.label,
+						align: 'inline',
+					});
 				}
 			}
 			this.content.addItems(fieldset);
