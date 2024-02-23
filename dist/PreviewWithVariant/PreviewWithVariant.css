@@ -2,7 +2,8 @@
  * SPDX-License-Identifier: MIT
  * _addText: '{{Gadget Header|license=MIT}}'
  *
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/PreviewWithVariant-pagestyles}
+ * @base {@link https://zh.wikipedia.org/wiki/Special:Permalink/67345361}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/PreviewWithVariant}
  */
 /**
  * +------------------------------------------------------------+
@@ -17,7 +18,7 @@
  */
 /* <nowiki> */
 
-/* src/PreviewWithVariant-pagestyles/PreviewWithVariant-pagestyles.less */
+/* src/PreviewWithVariant/PreviewWithVariant.less */
 #pwv-area {
   display: inline-flex;
   flex-direction: row;
@@ -29,4 +30,4 @@
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL1ByZXZpZXdXaXRoVmFyaWFudC1wYWdlc3R5bGVzL1ByZXZpZXdXaXRoVmFyaWFudC1wYWdlc3R5bGVzLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIiNwd3YtYXJlYSB7XG4gIGRpc3BsYXk6IGlubGluZS1mbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xufVxuI3B3di1hcmVhIC5vby11aS1maWVsZExheW91dCB7XG4gIG1hcmdpbi10b3A6IDA7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxXQUFTO0FBQ1Qsa0JBQWdCO0FBQ2hCLGVBQWE7QUFDZjtBQUNBLENBTEMsU0FLUyxDQUFDO0FBQ1QsY0FBWTtBQUNkOyIsCiAgIm5hbWVzIjogW10KfQo= */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL1ByZXZpZXdXaXRoVmFyaWFudC9QcmV2aWV3V2l0aFZhcmlhbnQubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiI3B3di1hcmVhIHtcbiAgZGlzcGxheTogaW5saW5lLWZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG4jcHd2LWFyZWEgLm9vLXVpLWZpZWxkTGF5b3V0IHtcbiAgbWFyZ2luLXRvcDogMDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxXQUFTO0FBQ1Qsa0JBQWdCO0FBQ2hCLGVBQWE7QUFDZjtBQUNBLENBTEMsU0FLUyxDQUFDO0FBQ1QsY0FBWTtBQUNkOyIsCiAgIm5hbWVzIjogW10KfQo= */

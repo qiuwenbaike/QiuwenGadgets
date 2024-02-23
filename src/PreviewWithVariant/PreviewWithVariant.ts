@@ -1,3 +1,4 @@
+import './PreviewWithVariant.less';
 /**
  * @description Add a "Preview with variant" option to the edit form.
  */
