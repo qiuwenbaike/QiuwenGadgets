@@ -20,7 +20,7 @@ const loadIDs = (): void => {
 			const idRegex: RegExp = /ids\[(\d+)]/;
 			const idArray: RegExpExecArray | null = idRegex.exec(box.name);
 			if (idArray && idArray[1] !== undefined) {
-				ids.push(idArray[1]);
+				[, ids[ids.length]] = idArray;
 			}
 		}
 	}
@@ -36,9 +36,9 @@ const submit = async (toHide: string, reason: string, otherReasons: string): Pro
 		`|reason = ${reason}${otherReasons}`,
 	];
 	for (const [index, id] of ids.entries()) {
-		rrdArr.push(`|id${index + 1} = ${id}`);
+		rrdArr[rrdArr.length] = `|id${index + 1} = ${id}`;
 	}
-	rrdArr.push('}}\n--~~'.concat('~~'));
+	rrdArr[rrdArr.length] = '}}\n--~~'.concat('~~');
 	const api: mw.Api = initMwApi('RRD/2.0');
 	try {
 		const params: ApiQueryRevisionsParams = {
@@ -150,13 +150,13 @@ const showDialog = (): void => {
 					}
 					const toHide: string[] = [];
 					if (config.checkboxes.rrdHideContent) {
-						toHide.push(IS_LOG ? getMessage('hideLog') : getMessage('hideContent'));
+						toHide[toHide.length] = IS_LOG ? getMessage('hideLog') : getMessage('hideContent');
 					}
 					if (config.checkboxes.rrdHideUsername) {
-						toHide.push(getMessage('hideUsername'));
+						toHide[toHide.length] = getMessage('hideUsername');
 					}
 					if (config.checkboxes.rrdHideSummary) {
-						toHide.push(getMessage('hideSummary'));
+						toHide[toHide.length] = getMessage('hideSummary');
 					}
 					let cont: boolean = true;
 					if (!toHide.length) {
