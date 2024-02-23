@@ -15,6 +15,5 @@
 		"oojs-ui-windows",
 		"oojs-ui.styles.icons-editing-advanced",
 		"user.options"
-	],
-	"peers": ["NotifyConversion-pagestyles"]
+	]
 }
