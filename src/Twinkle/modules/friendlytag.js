@@ -334,22 +334,23 @@
 									.each((_index, element) => {
 										if (element.classList[0].indexOf('box-') === 0) {
 											const boxTag = element.classList[0].slice('box-'.length).replace(/_/g, ' ');
-											Twinkle.tag.alreadyPresentTags.push(boxTag);
+											Twinkle.tag.alreadyPresentTags[Twinkle.tag.alreadyPresentTags.length] =
+												boxTag;
 										}
 									});
 								return true; // continue
 							}
 
 							const tag = e.classList[0].slice('box-'.length).replace(/_/g, ' ');
-							Twinkle.tag.alreadyPresentTags.push(tag);
+							Twinkle.tag.alreadyPresentTags[Twinkle.tag.alreadyPresentTags.length] = tag;
 						}
 					});
 				// {{Uncategorized}} and {{Improve categories}} are usually placed at the end
 				if ($body.find('.box-Uncategorized').length) {
-					Twinkle.tag.alreadyPresentTags.push('Uncategorized');
+					Twinkle.tag.alreadyPresentTags[Twinkle.tag.alreadyPresentTags.length] = 'Uncategorized';
 				}
 				if ($body.find('.box-Improve_categories').length) {
-					Twinkle.tag.alreadyPresentTags.push('Improve categories');
+					Twinkle.tag.alreadyPresentTags[Twinkle.tag.alreadyPresentTags.length] = 'Improve categories';
 				}
 			}
 			// Add status text node after Submit button
@@ -466,7 +467,7 @@
 						},
 					];
 					if (mw.config.get('wgNamespaceNumber') === 0) {
-						checkbox.subgroup.push({
+						checkbox.subgroup[checkbox.subgroup.length] = {
 							name: 'mergeReason',
 							type: 'textarea',
 							label: window.wgULS(
@@ -477,7 +478,7 @@
 								'可选，但强烈推荐。如不需要请留空。仅在只输入了一个条目名时可用。',
 								'可選，但強烈推薦。如不需要請留空。僅在只輸入了一個條目名時可用。'
 							),
-						});
+						};
 					}
 					break;
 				}
@@ -640,7 +641,7 @@
 					}`,
 					checked: !unCheckedTags.includes(tag),
 				};
-				checkboxes.push(checkbox);
+				checkboxes[checkboxes.length] = checkbox;
 			}
 			subdiv.append({
 				type: 'checkbox',
@@ -655,7 +656,7 @@
 				const checkboxes = [];
 				for (const item of subgroup) {
 					if (!Twinkle.tag.alreadyPresentTags.includes(item.tag)) {
-						checkboxes.push(makeCheckbox(item.tag, item.description));
+						checkboxes[checkboxes.length] = makeCheckbox(item.tag, item.description);
 					}
 				}
 				subdiv.append({
@@ -706,7 +707,7 @@
 			const checkboxes = [];
 			for (const tag of Twinkle.tag.article.alphabeticalList) {
 				if (!Twinkle.tag.alreadyPresentTags.includes(tag)) {
-					checkboxes.push(makeCheckbox(tag, Twinkle.tag.article.flatObject[tag].description));
+					checkboxes[checkboxes.length] = makeCheckbox(tag, Twinkle.tag.article.flatObject[tag].description);
 				}
 			}
 			container.append({
@@ -1652,7 +1653,7 @@
 					if (tag_re.test(pageText)) {
 						pageText = pageText.replace(tag_re, '');
 					} else {
-						getRedirectsFor.push(`Template:${tag}`);
+						getRedirectsFor[getRedirectsFor.length] = `Template:${tag}`;
 					}
 				}
 				if (!getRedirectsFor.length) {
@@ -1855,12 +1856,12 @@
 					// condition Twinkle.tag.article.tags[tag] to ensure that its not a custom tag
 					// Custom tags are assumed non-groupable, since we don't know whether MI template supports them
 					if (Twinkle.tag.article.flatObject[tag] && !Twinkle.tag.article.flatObject[tag].excludeMI) {
-						groupableTags.push(tag);
+						groupableTags[groupableTags.length] = tag;
 					} else {
-						tags.push(tag);
+						tags[tags.length] = tag;
 					}
 				} else if (tag === 'Merge from') {
-					tags.push(tag);
+					tags[tags.length] = tag;
 				} else {
 					Morebits.status.warn(
 						window.wgULS('信息', '資訊'),
@@ -1878,7 +1879,7 @@
 			for (const tag of params.tagsToRemain) {
 				// If the tag is unknown to us, we consider it non-groupable
 				if (Twinkle.tag.article.flatObject[tag] && !Twinkle.tag.article.flatObject[tag].excludeMI) {
-					groupableExistingTags.push(tag);
+					groupableExistingTags[groupableExistingTags.length] = tag;
 				}
 			}
 			const miTest =
@@ -1929,7 +1930,7 @@
 						tagText += tag_re.exec(pageText)[1];
 						pageText = pageText.replace(tag_re, '');
 					} else {
-						getRedirectsFor.push(`Template:${tag}`);
+						getRedirectsFor[getRedirectsFor.length] = `Template:${tag}`;
 					}
 				}
 				if (!getRedirectsFor.length) {
@@ -2010,7 +2011,7 @@
 							window.wgULS('}}……跳过', '}}……跳過')
 					);
 				} else {
-					tags.push(params.tags[i]);
+					tags[tags.length] = params.tags[i];
 				}
 			}
 			// used in Array#forEach

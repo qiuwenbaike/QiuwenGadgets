@@ -143,7 +143,7 @@ import {generateArray} from 'ext.gadget.Util';
 			});
 			const customcheckboxes = [];
 			for (const item of Twinkle.getPref('customStubList')) {
-				customcheckboxes.push(makeCheckbox(item.value, item.label));
+				customcheckboxes[customcheckboxes.length] = makeCheckbox(item.value, item.label);
 			}
 			container.append({
 				type: 'checkbox',
@@ -158,7 +158,7 @@ import {generateArray} from 'ext.gadget.Util';
 				const checkboxes = [];
 				for (const tag of array) {
 					const description = Twinkle.stub.article.tags[tag];
-					checkboxes.push(makeCheckbox(tag, description));
+					checkboxes[checkboxes.length] = makeCheckbox(tag, description);
 				}
 				subdiv.append({
 					type: 'checkbox',
@@ -195,7 +195,7 @@ import {generateArray} from 'ext.gadget.Util';
 		} else {
 			const checkboxes = [];
 			for (const [tag, description] of Object.entries(Twinkle.stub.article.tags)) {
-				checkboxes.push(makeCheckbox(tag, description));
+				checkboxes[checkboxes.length] = makeCheckbox(tag, description);
 			}
 			container.append({
 				type: 'checkbox',

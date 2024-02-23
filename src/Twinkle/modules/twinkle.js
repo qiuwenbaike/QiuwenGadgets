@@ -31,10 +31,10 @@
 	 * If name is not given, module is loaded unconditionally.
 	 */
 	Twinkle.addInitCallback = (func, name) => {
-		Twinkle.initCallbacks.push({
+		Twinkle.initCallbacks[Twinkle.initCallbacks.length] = {
 			func,
 			name,
-		});
+		};
 	};
 	Twinkle.defaultConfig = {};
 	/**
