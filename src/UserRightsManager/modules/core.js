@@ -244,11 +244,9 @@ const showDialog = ({_index, _userName, _permission, $body}) => {
 			}),
 		];
 		if (PERM_TEMPLATE[permission]) {
-			formElements.push(
-				new OO.ui.FieldLayout(this.watchTalkPageCheckbox, {
-					label: window.wgULS('监视用户讨论页', '監視用戶討論頁'),
-				})
-			);
+			formElements[formElements.length] = new OO.ui.FieldLayout(this.watchTalkPageCheckbox, {
+				label: window.wgULS('监视用户讨论页', '監視用戶討論頁'),
+			});
 		}
 		this.editFieldset.addItems(formElements);
 		this.submitPanel = new OO.ui.PanelLayout({
