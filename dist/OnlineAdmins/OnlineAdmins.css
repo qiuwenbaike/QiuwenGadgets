@@ -1,0 +1,40 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://zh.wikipedia.org/wiki/User:Vanished_user_1929210/js/OnlineAdmins.js}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/OnlineAdmins}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* esbuild-css-modules-plugin-ns-css:src/OnlineAdmins/modules/components/OnlineAdmins.module.less */
+.OnlineAdmins-module__onlineadminSection_WS9IGa__440 {
+  word-break: break-all;
+}
+.OnlineAdmins-module__onlineadminSectionlist_WS9IGa__440,
+.OnlineAdmins-module__onlineadminSectionlist_WS9IGa__440 li {
+  margin: 0;
+  display: inline;
+}
+:is(.OnlineAdmins-module__onlineadminSectionlist_WS9IGa__440, .OnlineAdmins-module__onlineadminSectionlist_WS9IGa__440 li):after {
+  content: "、";
+}
+:is(.OnlineAdmins-module__onlineadminSectionlist_WS9IGa__440, .OnlineAdmins-module__onlineadminSectionlist_WS9IGa__440 li):last-child:after {
+  content: none;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9PbmxpbmVBZG1pbnMvbW9kdWxlcy9jb21wb25lbnRzL09ubGluZUFkbWlucy5tb2R1bGUubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLk9ubGluZUFkbWlucy1tb2R1bGVfX29ubGluZWFkbWluU2VjdGlvbl9XUzlJR2FfXzQ0MCB7XG4gIHdvcmQtYnJlYWs6IGJyZWFrLWFsbDtcbn1cblxuLk9ubGluZUFkbWlucy1tb2R1bGVfX29ubGluZWFkbWluU2VjdGlvbmxpc3RfV1M5SUdhX180NDAsIC5PbmxpbmVBZG1pbnMtbW9kdWxlX19vbmxpbmVhZG1pblNlY3Rpb25saXN0X1dTOUlHYV9fNDQwIGxpIHtcbiAgbWFyZ2luOiAwO1xuICBkaXNwbGF5OiBpbmxpbmU7XG59XG5cbjppcyguT25saW5lQWRtaW5zLW1vZHVsZV9fb25saW5lYWRtaW5TZWN0aW9ubGlzdF9XUzlJR2FfXzQ0MCwgLk9ubGluZUFkbWlucy1tb2R1bGVfX29ubGluZWFkbWluU2VjdGlvbmxpc3RfV1M5SUdhX180NDAgbGkpOmFmdGVyIHtcbiAgY29udGVudDogXCLjgIFcIjtcbn1cblxuOmlzKC5PbmxpbmVBZG1pbnMtbW9kdWxlX19vbmxpbmVhZG1pblNlY3Rpb25saXN0X1dTOUlHYV9fNDQwLCAuT25saW5lQWRtaW5zLW1vZHVsZV9fb25saW5lYWRtaW5TZWN0aW9ubGlzdF9XUzlJR2FfXzQ0MCBsaSk6bGFzdC1jaGlsZDphZnRlciB7XG4gIGNvbnRlbnQ6IG5vbmU7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQztBQUNDLGNBQVk7QUFDZDtBQUVBLENBQUM7QUFBeUQsQ0FBekQsd0RBQWtIO0FBQ2pILFVBQVE7QUFDUixXQUFTO0FBQ1g7QUFFQSxJQUFJLENBTEgseURBSzZELENBTDdELHdEQUtzSCxHQUFHO0FBQ3hILFdBQVM7QUFDWDtBQUVBLElBQUksQ0FUSCx5REFTNkQsQ0FUN0Qsd0RBU3NILEdBQUcsV0FBVztBQUNuSSxXQUFTO0FBQ1g7IiwKICAibmFtZXMiOiBbXQp9Cg== */

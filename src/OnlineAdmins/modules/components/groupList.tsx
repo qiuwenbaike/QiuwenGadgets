@@ -1,3 +1,4 @@
+import {onlineadminSection, onlineadminSectionlist} from './OnlineAdmins.module.less';
 import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 
@@ -32,10 +33,10 @@ const UserLink = ({userName}: UserLinkProps) => (
 const onlineCountText: string = getMessage(' ($1 online):');
 
 const GroupList = ({groupName, userNames}: GroupListProps) => (
-	<div class={'onlineadmin-section'}>
+	<div class={onlineadminSection}>
 		<span>{groupName}</span>
 		<span>{onlineCountText.replace('$1', String(userNames.length))}</span>
-		<ul class={'onlineadmin-list'}>
+		<ul class={onlineadminSectionlist}>
 			{userNames.map((user) => (
 				<UserLink key={user} userName={user} />
 			))}

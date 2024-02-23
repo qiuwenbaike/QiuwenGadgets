@@ -1,0 +1,19 @@
+.onlineadminSection {
+	word-break: break-all;
+}
+
+.onlineadminSectionlist {
+	&,
+	& li {
+		margin: 0;
+		display: inline;
+
+		&::after {
+			content: '、';
+		}
+
+		&:last-child::after {
+			content: none;
+		}
+	}
+}
