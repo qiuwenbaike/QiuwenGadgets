@@ -184,7 +184,7 @@ const previewTool = (): void => {
 	const noticeFail = noticeFailElement();
 	// 检查对应selector的网页对象是否存在
 	const $elementExist = (selectors: string | string[]) => {
-		const selectorArray: string[] = generateArray(selectors) as string[];
+		const selectorArray: string[] = generateArray(selectors);
 		let eleCount: number = 0;
 		const $body = $('body');
 		for (const selector of selectorArray) {
@@ -201,7 +201,7 @@ const previewTool = (): void => {
 			return false;
 		}
 		mwConfigData = String(mwConfigData).toLowerCase();
-		const mwConfigArray: string[] = generateArray(mwConfigs) as string[];
+		const mwConfigArray: string[] = generateArray(mwConfigs);
 		return mwConfigArray.includes(mwConfigData as string);
 	};
 
