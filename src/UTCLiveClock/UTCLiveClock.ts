@@ -37,7 +37,7 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	$element.on('click', (event: JQuery.ClickEvent): void => {
 		event.preventDefault();
 
-		localStorage.removeItem(`MediaWikiModuleStore:${wgWikiID}`);
+		mw.storage.remove(`MediaWikiModuleStore:${wgWikiID}`);
 
 		const params: ApiPurgeParams = {
 			action: 'purge',
