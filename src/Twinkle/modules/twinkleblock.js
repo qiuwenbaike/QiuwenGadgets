@@ -2558,3 +2558,5 @@ import {generateArray, initMwApi} from 'ext.gadget.Util';
 	};
 	Twinkle.addInitCallback(Twinkle.block, 'block');
 })(jQuery);
+
+export {};

@@ -387,3 +387,5 @@
 	};
 	Twinkle.addInitCallback(Twinkle.image, 'image');
 })();
+
+export {};
