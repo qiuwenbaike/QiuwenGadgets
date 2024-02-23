@@ -6,13 +6,15 @@
 	"dependencies": [
 		"ext.gadget.i18n",
 		"ext.gadget.Util",
+		"mediawiki.api",
 		"mediawiki.storage",
 		"mediawiki.Uri",
 		"mediawiki.util",
 		"oojs-ui-core",
 		"oojs-ui-widgets",
 		"oojs-ui-windows",
-		"oojs-ui.styles.icons-editing-advanced"
+		"oojs-ui.styles.icons-editing-advanced",
+		"user.options"
 	],
 	"peers": ["NotifyConversion-pagestyles"]
 }
