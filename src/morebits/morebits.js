@@ -228,13 +228,11 @@ import {generateArray} from 'ext.gadget.Util';
 				// Namespaces are completely agnostic as to case,
 				// and a regex string is more useful/compatible than a RegExp object,
 				// so we accept any casing for any letter.
-				aliases.push(
-					[...name]
-						.map((char) => {
-							return Morebits.pageNameRegex(char);
-						})
-						.join('')
-				);
+				aliases[aliases.length] = [...name]
+					.map((char) => {
+						return Morebits.pageNameRegex(char);
+					})
+					.join('');
 			}
 		}
 		switch (aliases.length) {
@@ -370,7 +368,7 @@ import {generateArray} from 'ext.gadget.Util';
 		} else {
 			child = new Morebits.quickForm.element(data);
 		}
-		this.childs.push(child);
+		this.childs[this.childs.length] = child;
 		return child;
 	};
 	/**
@@ -928,7 +926,7 @@ import {generateArray} from 'ext.gadget.Util';
 					} else {
 						result[fieldNameNorm] ||= [];
 						if (field.checked) {
-							result[fieldNameNorm].push(field.value);
+							result[fieldNameNorm][result[fieldNameNorm].length] = field.value;
 						}
 					}
 					break;
@@ -1136,9 +1134,9 @@ import {generateArray} from 'ext.gadget.Util';
 			for (i = 0; i < options.length; ++i) {
 				if (options[i].selected) {
 					if (options[i].values) {
-						returnArray.push(options[i].values);
+						returnArray[returnArray.length] = options[i].values;
 					} else {
-						returnArray.push(options[i].value);
+						returnArray[returnArray.length] = options[i].value;
 					}
 				}
 			}
@@ -1155,9 +1153,9 @@ import {generateArray} from 'ext.gadget.Util';
 						continue;
 					}
 					if (elements[i].values) {
-						returnArray.push(elements[i].values);
+						returnArray[returnArray.length] = elements[i].values;
 					} else {
-						returnArray.push(elements[i].value);
+						returnArray[returnArray.length] = elements[i].value;
 					}
 				}
 			}
@@ -1188,9 +1186,9 @@ import {generateArray} from 'ext.gadget.Util';
 			for (i = 0; i < options.length; ++i) {
 				if (!options[i].selected) {
 					if (options[i].values) {
-						returnArray.push(options[i].values);
+						returnArray[returnArray.length] = options[i].values;
 					} else {
-						returnArray.push(options[i].value);
+						returnArray[returnArray.length] = options[i].value;
 					}
 				}
 			}
@@ -1207,9 +1205,9 @@ import {generateArray} from 'ext.gadget.Util';
 						continue;
 					}
 					if (elements[i].values) {
-						returnArray.push(elements[i].values);
+						returnArray[returnArray.length] = elements[i].values;
 					} else {
-						returnArray.push(elements[i].value);
+						returnArray[returnArray.length] = elements[i].value;
 					}
 				}
 			}
@@ -1405,7 +1403,7 @@ import {generateArray} from 'ext.gadget.Util';
 					i += end.length - 1;
 				}
 				if (!level && initial !== null) {
-					result.push(str.slice(initial, i + 1));
+					result[result.length] = str.slice(initial, i + 1);
 					initial = null;
 				}
 			}
@@ -2346,15 +2344,16 @@ import {generateArray} from 'ext.gadget.Util';
 		 */
 		post(callerAjaxParameters) {
 			++Morebits.wiki.numberOfActionsLeft;
-			const _queryString = [];
+			const queryStringArr = [];
 			for (const [i, val] of Object.entries(this.query)) {
 				if (Array.isArray(val)) {
-					_queryString.push(`${encodeURIComponent(i)}=${val.map(encodeURIComponent).join('|')}`);
+					queryStringArr[queryStringArr.length] =
+						`${encodeURIComponent(i)}=${val.map(encodeURIComponent).join('|')}`;
 				} else if (val !== undefined) {
-					_queryString.push(`${encodeURIComponent(i)}=${encodeURIComponent(val)}`);
+					queryStringArr[queryStringArr.length] = `${encodeURIComponent(i)}=${encodeURIComponent(val)}`;
 				}
 			}
-			const queryString = _queryString.join('&').replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
+			const queryString = queryStringArr.join('&').replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
 			// token should always be the last item in the query string (bug TW-B-0013)
 			const ajaxparams = {
 				context: this,
@@ -3720,7 +3719,7 @@ import {generateArray} from 'ext.gadget.Util';
 			ctx.testActions = []; // was null
 			for (const action of Object.keys(testactions)) {
 				if (testactions[action]) {
-					ctx.testActions.push(action);
+					ctx.testActions[ctx.testActions.length] = action;
 				}
 			}
 			if (ctx.editMode === 'revert') {
@@ -4472,16 +4471,16 @@ import {generateArray} from 'ext.gadget.Util';
 			const protections = [];
 			const expirys = [];
 			if (ctx.protectEdit) {
-				protections.push(`edit=${ctx.protectEdit.level}`);
-				expirys.push(ctx.protectEdit.expiry);
+				protections[protections.length] = `edit=${ctx.protectEdit.level}`;
+				expirys[expirys.length] = ctx.protectEdit.expiry;
 			}
 			if (ctx.protectMove) {
-				protections.push(`move=${ctx.protectMove.level}`);
-				expirys.push(ctx.protectMove.expiry);
+				protections[protections.length] = `move=${ctx.protectMove.level}`;
+				expirys[expirys.length] = ctx.protectMove.expiry;
 			}
 			if (ctx.protectCreate) {
-				protections.push(`create=${ctx.protectCreate.level}`);
-				expirys.push(ctx.protectCreate.expiry);
+				protections[protections.length] = `create=${ctx.protectCreate.level}`;
+				expirys[expirys.length] = ctx.protectCreate.expiry;
 			}
 			const query = {
 				action: 'protect',
@@ -4662,7 +4661,7 @@ import {generateArray} from 'ext.gadget.Util';
 				current += test3;
 				i += 2;
 				if (test3 === '{{{') {
-					level.push(3);
+					level[level.length] = 3;
 				} else {
 					level.pop();
 				}
@@ -4674,9 +4673,9 @@ import {generateArray} from 'ext.gadget.Util';
 				current += test2;
 				++i;
 				if (test2 === '{{') {
-					level.push(2);
+					level[level.length] = 2;
 				} else {
-					level.push('wl');
+					level[level.length] = 'wl';
 				}
 				continue;
 			}
@@ -5667,7 +5666,7 @@ import {generateArray} from 'ext.gadget.Util';
 						},
 						false
 					);
-					self.buttons.push(button);
+					self.buttons[self.buttons.length] = button;
 				});
 			// remove all buttons from the button pane and re-add them
 			if (this.buttons.length > 0) {
