@@ -1,8 +1,9 @@
 import * as OPTIONS from '../options.json';
 import React, {ReactElement} from 'ext.gadget.React';
+import type {UserRights} from '~/MarkRights/modules/types';
 import {WG_SKIN} from './constant';
 
-const elementWrap = (spanClass: userRights, innerElement: ReactElement) => {
+const elementWrap = (spanClass: UserRights, innerElement: ReactElement) => {
 	const className = ['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`];
 
 	if (WG_SKIN === 'citizen') {
@@ -13,7 +14,7 @@ const elementWrap = (spanClass: userRights, innerElement: ReactElement) => {
 	return <div className={className}>{innerElement}</div>;
 };
 
-const appendIcon = (indicatorText: string | undefined, spanClass: userRights | 'unknown'): void => {
+const appendIcon = (indicatorText: string | undefined, spanClass: UserRights | 'unknown'): void => {
 	if (spanClass === 'unknown' || !indicatorText) {
 		return;
 	}

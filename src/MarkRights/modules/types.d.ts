@@ -1,4 +1,4 @@
-type userRights =
+type UserRights =
 	// 全站管理型权限
 	| 'qiuwen'
 	| 'steward'
@@ -24,3 +24,5 @@ type userRights =
 	// 豁免
 	| 'ipblock-exempt'
 	| 'rnrsverify-exempt';
+
+export {UserRights};

@@ -1,7 +1,8 @@
+import type {UserRights} from './types';
 import {getMessage} from './i18n';
 import {initMwApi} from 'ext.gadget.Util';
 
-const groups: Record<userRights, string[]> = {
+const groups: Record<UserRights, string[]> = {
 	// 全站管理型权限
 	qiuwen: [],
 	steward: [],
@@ -123,8 +124,8 @@ export const markUserRights = async ($content: JQuery): Promise<void> => {
 					$('<sup>')
 						.addClass(className)
 						.attr({
-							alt: getMessage(group as userRights),
-							title: getMessage(group as userRights),
+							alt: getMessage(group as UserRights),
+							title: getMessage(group as UserRights),
 						})
 				);
 			}
