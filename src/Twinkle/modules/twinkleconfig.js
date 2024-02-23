@@ -1909,3 +1909,5 @@
 	};
 	Twinkle.addInitCallback(Twinkle.config.init);
 })(jQuery);
+
+export {};

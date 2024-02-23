@@ -1772,3 +1772,5 @@ import {generateArray} from 'ext.gadget.Util';
 	};
 	Twinkle.addInitCallback(Twinkle.speedy, 'speedy');
 })(jQuery);
+
+export {};

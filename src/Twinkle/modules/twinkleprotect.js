@@ -1703,3 +1703,5 @@ import {initMwApi} from 'ext.gadget.Util';
 	};
 	Twinkle.addInitCallback(Twinkle.protect, 'protect');
 })(jQuery);
+
+export {};

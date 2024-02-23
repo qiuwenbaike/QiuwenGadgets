@@ -387,3 +387,5 @@
 	};
 	Twinkle.addInitCallback(Twinkle.unlink, 'unlink');
 })(jQuery);
+
+export {};

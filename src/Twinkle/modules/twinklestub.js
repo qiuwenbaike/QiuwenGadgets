@@ -423,3 +423,5 @@ import {generateArray} from 'ext.gadget.Util';
 	};
 	Twinkle.addInitCallback(Twinkle.stub, 'stub');
 })(jQuery);
+
+export {};
