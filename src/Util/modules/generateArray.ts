@@ -1,17 +1,21 @@
-type GenerateArray = (...args: unknown[]) => unknown[];
+type GenerateArray = typeof generateArray;
 
-const generateArray: GenerateArray = (...args) => {
-	const array: unknown[] = [];
-	for (const arg of args) {
+function generateArray<T extends []>(...args: (T | T[])[]): T[];
+function generateArray<T extends NodeList>(...args: (T | T[])[]): Node[];
+function generateArray<T = unknown>(...args: (T | T[])[]): T[];
+// eslint-disable-next-line func-style
+function generateArray<T>(...args: (T | T[])[]): T[] {
+	return args.flatMap((arg) => {
 		if (Array.isArray(arg)) {
-			for (const element of arg) {
-				array[array.length] = element; // Replace `array.push()` to avoid polyfilling core-js
-			}
-		} else {
-			array[array.length] = arg; // Replace `array.push()` to avoid polyfilling core-js
+			return arg;
 		}
-	}
-	return array;
-};
+
+		if (arg instanceof NodeList) {
+			return [...arg] as T;
+		}
+
+		return [arg];
+	});
+}
 
 export {type GenerateArray, generateArray};
