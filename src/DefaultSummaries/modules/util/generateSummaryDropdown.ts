@@ -1,5 +1,5 @@
 import {ARTICLE_SUMMARIES, COMMON_SUMMARIES, COMMON_SUMMARIES_LABEL, TALKPAGE_SUMMARIES} from '../messages';
-import {WG_NAMESPACE_NUMBER} from '../constant';
+import {DROPDOWN_ID, WG_NAMESPACE_NUMBER} from '../constant';
 
 const generateMenuOptionWidget = (label: string): OO.ui.MenuOptionWidget => {
 	return new OO.ui.MenuOptionWidget({
@@ -28,6 +28,8 @@ const generateSummaryDropdown = ($wpSummary: JQuery): JQuery => {
 	const dropdownWidget: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
 		label: COMMON_SUMMARIES_LABEL,
 	});
+
+	dropdownWidget.setElementId(DROPDOWN_ID);
 
 	dropdownWidget.getMenu().on('select', (optionWidget: OO.ui.OptionWidget | OO.ui.OptionWidget[] | null): void => {
 		onSelectCallback(optionWidget as OO.ui.OptionWidget, $wpSummary);

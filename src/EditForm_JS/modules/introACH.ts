@@ -1,6 +1,6 @@
 import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_USER_GROUPS, WG_WIKI_ID} from './constant';
 
-const introAFC = (): void => {
+const introACH = (): void => {
 	// Disabled for wikis other than zhqiuwenbaike
 	if (WG_WIKI_ID !== 'zhqiuwenbaike') {
 		return;
@@ -56,4 +56,4 @@ const introAFC = (): void => {
 	}
 };
 
-export {introAFC};
+export {introACH};

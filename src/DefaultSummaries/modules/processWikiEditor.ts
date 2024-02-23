@@ -1,3 +1,4 @@
+import {DROPDOWN_ID} from './constant';
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
 const processWikiEditor = ($body: JQuery<HTMLBodyElement>): void => {
@@ -20,7 +21,10 @@ const processWikiEditor = ($body: JQuery<HTMLBodyElement>): void => {
 		'padding-bottom': '1em',
 		width: '48%',
 	});
-	$editCheckboxes.before($dropdowns);
+
+	if (!$body.find(`#${DROPDOWN_ID}`).length) {
+		$editCheckboxes.before($dropdowns);
+	}
 };
 
 export {processWikiEditor};

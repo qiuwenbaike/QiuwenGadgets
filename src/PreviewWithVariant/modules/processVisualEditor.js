@@ -1,8 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import './PreviewWithVariant2017.less';
-import {DATA, WG_SKIN, WG_USER_LANGUAGE, WG_USER_VARIANT} from './modules/constant';
-import {PWV2017messages} from './modules/messages';
+import './processVisualEditor.less';
+import {CLASS_NAME, DATA, WG_SKIN, WG_USER_LANGUAGE, WG_USER_VARIANT} from './constant';
+import {PWV2017messages} from './messages';
+
+mw.config.set('wgPreviewWithVariantInitialized', false);
 
 PWV2017messages();
 
@@ -15,7 +17,7 @@ const PendingStackLayout = function PendingStackLayout(config) {
 OO.inheritClass(PendingStackLayout, OO.ui.StackLayout);
 OO.mixinClass(PendingStackLayout, OO.ui.mixin.PendingElement);
 
-const entryPoint = () => {
+const processVisualEditor = () => {
 	let variant, target, dialog, dropdown, stackLayout, panelLayouts, windowManager, errorDialog;
 
 	const constructDocument = (title, wikitext, categories) => {
@@ -167,7 +169,10 @@ const entryPoint = () => {
 						dialog.swapPanel('preview');
 						currentPanel.$element.append($previewContent);
 						stackLayout.setItem(stackLayout.findItemFromData(variant));
-						dialog.previewPanel.$element.prepend(dropdown.$element);
+						const $body = $('body');
+						if (!$body.find(`.${CLASS_NAME}`).length) {
+							dialog.previewPanel.$element.prepend(dropdown.$element);
+						}
 					},
 					(error) => {
 						dialog.showErrors(
@@ -189,9 +194,10 @@ const entryPoint = () => {
 		// eslint-disable-next-line no-undef
 		({target} = ve.init);
 		dialog = target.saveDialog;
+		// eslint-disable-next-line mediawiki/class-doc
 		dropdown = new OO.ui.DropdownInputWidget({
 			$overlay: dialog.$overlay,
-			classes: ['pwv-2017-variant'],
+			classes: [CLASS_NAME],
 			options: [
 				{
 					optgroup: mw.msg('pwv-2017-caption'),
@@ -221,23 +227,26 @@ const entryPoint = () => {
 		errorDialog = new OO.ui.MessageDialog();
 		windowManager = new OO.ui.WindowManager();
 		windowManager.addWindows([errorDialog]);
-		$(document.body).append(windowManager.$element);
+		const $body = $('body');
+		$body.append(windowManager.$element);
 
 		const handlerToRemove = 'onSaveDialogPreview';
 		dialog.off('preview', handlerToRemove, target).on('preview', previewWithVariant);
+
+		mw.config.set('wgPreviewWithVariant2017Initialized', true);
+
+		// Switching between VE and NWE, requires to be reinitialized
+		mw.hook('ve.activationComplete').add(() => {
+			if (mw.config.get('wgPreviewWithVariantInitialized')) {
+				mw.config.set('wgPreviewWithVariantInitialized', false);
+			}
+		});
 	};
 
-	if (!mw.config.get('wgPreviewWithVariant2017Initialized')) {
+	if (!mw.config.get('wgPreviewWithVariantInitialized')) {
 		init();
-		mw.config.set('wgPreviewWithVariant2017Initialized', true);
+		mw.config.set('wgPreviewWithVariantInitialized', true);
 	}
 };
 
-mw.hook('ve.saveDialog.stateChanged').add(entryPoint);
-
-mw.hook('ve.activationComplete').add(() => {
-	if (mw.config.get('wgPreviewWithVariant2017Initialized')) {
-		// Switching between VE and NWE, requires to be reinitialized
-		mw.config.set('wgPreviewWithVariant2017Initialized', false);
-	}
-});
+export {processVisualEditor};
