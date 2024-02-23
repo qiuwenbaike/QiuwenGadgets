@@ -1,16 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {PAGE_PERM, PERM_NAME, PERM_TEMPLATE, TAGLINE, WG_PAGE_NAME} from './constant';
-import {initMwApi} from 'ext.gadget.Util';
+import {PERM_NAME, PERM_TEMPLATE, SUMMARY} from './constant';
+import {api} from './api';
 
-const permission = PAGE_PERM[WG_PAGE_NAME];
-const api = initMwApi('morebits.js; UserRightsManager/2.0');
-const $body = $('body');
-
-let permaLink;
-let userName;
+let index = '';
+let userName = '';
+let permission = '';
 let dialog;
-let index;
+let permaLink = '';
+
+const WG_PAGE_NAME = mw.config.get('wgPageName');
 
 const assignPermission = (summary, revId, expiry) => {
 	permaLink = `[[Special:PermaLink/${revId}#User:${userName}|权限申请]]`;
@@ -18,7 +17,7 @@ const assignPermission = (summary, revId, expiry) => {
 	if (summary !== '') {
 		fullSummary += `；${summary}`;
 	}
-	fullSummary += TAGLINE;
+	fullSummary += SUMMARY;
 	const params = {
 		action: 'userrights',
 		user: userName.replace(/ /g, '_'),
@@ -84,7 +83,7 @@ const markAsDone = (closingRemarks) => {
 				nocreate: true,
 				section: sectionNumber,
 				starttimestamp: curtimestamp,
-				summary: `/* User:${userName} */ 完成${TAGLINE}`,
+				summary: `/* User:${userName} */ 完成${SUMMARY}`,
 				text: content,
 				basetimestamp,
 			};
@@ -98,13 +97,17 @@ const issueTemplate = (watch) => {
 		action: 'edit',
 		title: talkPage,
 		appendtext: '\n\n{{'.concat('subst:', PERM_TEMPLATE[permission], '}}}'),
-		summary: `根据${permaLink}授予${PERM_NAME[permission]}${TAGLINE}`,
+		summary: `根据${permaLink}授予${PERM_NAME[permission]}${SUMMARY}`,
 		watchlist: watch ? 'watch' : 'unwatch',
 	};
 	return api.postWithEditToken(params);
 };
 
-const showDialog = () => {
+const showDialog = ({_index, _userName, _permission, $body}) => {
+	permission = _permission;
+	index = _index;
+	userName = _userName;
+
 	const Dialog = function (config) {
 		Dialog.super.call(this, config);
 	};
@@ -356,16 +359,4 @@ const showDialog = () => {
 	windowManager.openWindow(dialog);
 };
 
-export const initDialog = () => {
-	$body.find('.perm-assign-permissions a').on('click', function (e) {
-		if (permission === 'AutoWikiBrowser') {
-			return true;
-		}
-		e.preventDefault();
-		const $this = $(this);
-		userName = mw.util.getParamValue('user', $this.attr('href'));
-		const sectionId = $this.parents('dl').prev('h4').find('.mw-headline').attr('id');
-		index = sectionId === `User:${userName}` ? '' : sectionId.replace('User:', '').replace(userName, '');
-		showDialog();
-	});
-};
+export {showDialog};

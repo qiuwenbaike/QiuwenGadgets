@@ -1,6 +1,18 @@
-const WG_PAGE_NAME: string = mw.config.get('wgPageName');
+import type {UserRights} from '~/MarkRights/modules/types';
 
-const PAGE_PERM: Record<string, Partial<userRights>> = {
+const PERM_NAME = {
+	patroller: '巡查员',
+	autoreviewer: '巡查豁免者',
+	confirmed: '确认用户',
+	'massmessage-sender': '大量消息发送者',
+	eventsponsor: '活动组织者',
+	transwiki: '导入者',
+	templateeditor: '模板编辑员',
+	bot: '机器人',
+	'rnrsverify-exempt': '实名制验证豁免',
+} as const satisfies Partial<Record<UserRights, string>>;
+
+const PAGE_PERM: Record<string, UserRights> = {
 	'Qiuwen_talk:权限申请/申请巡查回退权': 'patroller',
 	'Qiuwen_talk:权限申请/申请巡查豁免权': 'autoreviewer',
 	'Qiuwen_talk:权限申请/申请确认用户权': 'confirmed',
@@ -12,25 +24,13 @@ const PAGE_PERM: Record<string, Partial<userRights>> = {
 	'Qiuwen_talk:权限申请/申请实名制验证豁免': 'rnrsverify-exempt',
 };
 
-const PERM_NAME: Partial<Record<userRights, string>> = {
-	patroller: '巡查员',
-	autoreviewer: '巡查豁免者',
-	confirmed: '确认用户',
-	'massmessage-sender': '大量消息发送者',
-	eventsponsor: '活动组织者',
-	transwiki: '导入者',
-	templateeditor: '模板编辑员',
-	bot: '机器人',
-	'rnrsverify-exempt': '实名制验证豁免',
-};
-
-const PERM_TEMPLATE: Partial<Record<userRights, string>> = {
+const PERM_TEMPLATE = {
 	patroller: 'Patrolgranted',
 	autoreviewer: 'Autopatrolgranted',
 	'massmessage-sender': 'MMSgranted',
 	templateeditor: 'Template editor granted',
-};
+} as const satisfies Partial<Record<UserRights, string>>;
 
-const TAGLINE: string = '（使用[[MediaWiki:Gadget-UserRightsManager.js|UserRightsManager]]）';
+const SUMMARY: string = '（使用[[MediaWiki:Gadget-UserRightsManager.js|UserRightsManager]]）';
 
-export {WG_PAGE_NAME, PAGE_PERM, PERM_NAME, PERM_TEMPLATE, TAGLINE};
+export {PAGE_PERM, PERM_NAME, PERM_TEMPLATE, SUMMARY};
