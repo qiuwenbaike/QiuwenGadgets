@@ -2344,16 +2344,16 @@ import {generateArray} from 'ext.gadget.Util';
 		 */
 		post(callerAjaxParameters) {
 			++Morebits.wiki.numberOfActionsLeft;
-			const _queryString = [];
+			const queryStringArr = [];
 			for (const [i, val] of Object.entries(this.query)) {
 				if (Array.isArray(val)) {
-					_queryString[_queryString.length] =
+					queryStringArr[queryStringArr.length] =
 						`${encodeURIComponent(i)}=${val.map(encodeURIComponent).join('|')}`;
 				} else if (val !== undefined) {
-					_queryString[_queryString.length] = `${encodeURIComponent(i)}=${encodeURIComponent(val)}`;
+					queryStringArr[queryStringArr.length] = `${encodeURIComponent(i)}=${encodeURIComponent(val)}`;
 				}
 			}
-			const queryString = _queryString.join('&').replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
+			const queryString = queryStringArr.join('&').replace(/^(.*?)(\btoken=[^&]*)&(.*)/, '$1$3&$2');
 			// token should always be the last item in the query string (bug TW-B-0013)
 			const ajaxparams = {
 				context: this,
