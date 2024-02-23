@@ -1,0 +1,40 @@
+/**
+ * SPDX-License-Identifier: MIT
+ * _addText: '{{Gadget Header|license=MIT}}'
+ *
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-PreviewWithVariant2017.js}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-PreviewWithVariant2017.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/PreviewWithVariant2017}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/PreviewWithVariant2017/PreviewWithVariant2017.less */
+.pwv-2017-variant {
+  width: 9em;
+  float: right;
+}
+.ve-ui-mwSaveDialog-preview > .mw-content-container {
+  display: none;
+}
+.pwv-2017-pendingStackLayout.oo-ui-pendingElement-pending > .oo-ui-panelLayout {
+  opacity: 0.5;
+  transition: opacity 0.1s ease-out;
+}
+.pwv-2017-pendingStackLayout .vector-body .firstHeading {
+  margin-top: 0;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL1ByZXZpZXdXaXRoVmFyaWFudDIwMTcvUHJldmlld1dpdGhWYXJpYW50MjAxNy5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIucHd2LTIwMTctdmFyaWFudCB7XG4gIHdpZHRoOiA5ZW07XG4gIGZsb2F0OiByaWdodDtcbn1cbi52ZS11aS1td1NhdmVEaWFsb2ctcHJldmlldyA+IC5tdy1jb250ZW50LWNvbnRhaW5lciB7XG4gIGRpc3BsYXk6IG5vbmU7XG59XG4ucHd2LTIwMTctcGVuZGluZ1N0YWNrTGF5b3V0Lm9vLXVpLXBlbmRpbmdFbGVtZW50LXBlbmRpbmcgPiAub28tdWktcGFuZWxMYXlvdXQge1xuICBvcGFjaXR5OiAwLjU7XG4gIHRyYW5zaXRpb246IG9wYWNpdHkgMC4xcyBlYXNlLW91dDtcbn1cbi5wd3YtMjAxNy1wZW5kaW5nU3RhY2tMYXlvdXQgLnZlY3Rvci1ib2R5IC5maXJzdEhlYWRpbmcge1xuICBtYXJnaW4tdG9wOiAwO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxTQUFPO0FBQ1AsU0FBTztBQUNUO0FBQ0EsQ0FBQywyQkFBMkIsRUFBRSxDQUFDO0FBQzdCLFdBQVM7QUFDWDtBQUNBLENBQUMsMkJBQTJCLENBQUMsNkJBQTZCLEVBQUUsQ0FBQztBQUMzRCxXQUFTO0FBQ1QsY0FBWSxRQUFRLEtBQUs7QUFDM0I7QUFDQSxDQUpDLDRCQUk0QixDQUFDLFlBQVksQ0FBQztBQUN6QyxjQUFZO0FBQ2Q7IiwKICAibmFtZXMiOiBbXQp9Cg== */
