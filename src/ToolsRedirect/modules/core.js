@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import * as OPTIONS from '../options.json';
 import {
-	EDIT_TAG,
 	IS_CATEGORY,
 	SUFFIX_APPEND,
 	SUFFIX_REPLACE,
@@ -11,10 +11,9 @@ import {
 	WG_NAMESPACE_NUMBER,
 	WG_PAGE_NAME,
 } from './constant';
-import {generateArray, initMwApi} from 'ext.gadget.Util';
-import {getMessage} from './util/getMessages';
-
-const api = initMwApi('ToolsRedirect/2.0');
+import {api} from './api';
+import {generateArray} from 'ext.gadget.Util';
+import {getMessage} from './util/getMessage';
 
 let findRedirectCallbacks = [];
 const pageWithRedirectTextSuffix = {};
@@ -111,9 +110,8 @@ export const ToolsRedirect = {
 	tabselem: null,
 	tagselem: null,
 	variants: VARIANTS,
-	init() {
+	init($body) {
 		const self = this;
-		const $body = $('body');
 		const button = $('<li>')
 			.addClass('mw-list-item collapsible vector-tab-noicon')
 			.attr('id', 'ca-redirect')
@@ -244,7 +242,7 @@ export const ToolsRedirect = {
 						title,
 						text: self.addRedirectTextSuffix(title, text),
 						summary,
-						tags: EDIT_TAG,
+						tags: OPTIONS.apiTag,
 					});
 				}
 				return $.when(...deferreds);
@@ -276,7 +274,7 @@ export const ToolsRedirect = {
 						formatversion: '2',
 						title: page.title,
 						text: newContent,
-						tags: EDIT_TAG,
+						tags: OPTIONS.apiTag,
 						basetimestamp: page.revisions[0].timestamp,
 						summary,
 					});

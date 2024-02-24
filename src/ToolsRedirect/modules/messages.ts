@@ -1,8 +1,36 @@
+import type {MessageKey} from './types';
 import {WG_USER_LANGUAGE} from './constant';
 
-export const toolsRedirectMessages = (): void => {
+const DEFAULT_MESSAGES = {
+	'toolsredirect-btntitle': '重定向',
+	'toolsredirect-btndesc': '创建和管理此页面的重定向',
+	'toolsredirect-dlgtitle': '创建和管理重定向',
+	'toolsredirect-rediloading': '数据加载中，请稍候……',
+	'toolsredirect-rediedit': '编辑',
+	'toolsredirect-selectall': '全选',
+	'toolsredirect-selectinverse': '反选',
+	'toolsredirect-tabviewtitle': '查看',
+	'toolsredirect-tabviewdesc': '以下是指向此页面的重定向页：',
+	'toolsredirect-tabviewnotfound': '没有找到任何指向此页面的重定向页。',
+	'toolsredirect-tabviewmulti': '多重',
+	'toolsredirect-tabviewfix': '修复',
+	'toolsredirect-fixloading': '请稍候，正在自动修复重定向……',
+	'toolsredirect-fixtext': '#REDIRECT [[$1]]',
+	'toolsredirect-fixsummary': '编辑工具：修复多重重定向',
+	'toolsredirect-tabcreatetitle': '创建',
+	'toolsredirect-tabcreatedesc': '以下是尚未创建的重定向页：',
+	'toolsredirect-tabcreatenotfound': '没有找到可以创建的重定向页。',
+	'toolsredirect-tabcreateall': '全部创建',
+	'toolsredirect-createloading': '请稍候，正在自动创建重定向……',
+	'toolsredirect-createtext': '#REDIRECT [[$1]]',
+	'toolsredirect-createsummary': '编辑工具：自动创建重定向到[[$1]]',
+	'toolsredirect-errcycleredirect': '无法自动修复：发现循环重定向',
+	'toolsredirect-refresh': '刷新',
+} satisfies Record<MessageKey, string>;
+
+const setMessages = (): void => {
 	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(WG_USER_LANGUAGE)) {
-		mw.messages.set({
+		mw.messages.set<typeof DEFAULT_MESSAGES>({
 			'toolsredirect-btntitle': '重新導向',
 			'toolsredirect-btndesc': '創建和管理此頁面的重新導向',
 			'toolsredirect-dlgtitle': '創建和管理重新導向',
@@ -29,31 +57,8 @@ export const toolsRedirectMessages = (): void => {
 			'toolsredirect-refresh': '刷新',
 		});
 	} else {
-		mw.messages.set({
-			'toolsredirect-btntitle': '重定向',
-			'toolsredirect-btndesc': '创建和管理此页面的重定向',
-			'toolsredirect-dlgtitle': '创建和管理重定向',
-			'toolsredirect-rediloading': '数据加载中，请稍候……',
-			'toolsredirect-rediedit': '编辑',
-			'toolsredirect-selectall': '全选',
-			'toolsredirect-selectinverse': '反选',
-			'toolsredirect-tabviewtitle': '查看',
-			'toolsredirect-tabviewdesc': '以下是指向此页面的重定向页：',
-			'toolsredirect-tabviewnotfound': '没有找到任何指向此页面的重定向页。',
-			'toolsredirect-tabviewmulti': '多重',
-			'toolsredirect-tabviewfix': '修复',
-			'toolsredirect-fixloading': '请稍候，正在自动修复重定向……',
-			'toolsredirect-fixtext': '#REDIRECT [[$1]]',
-			'toolsredirect-fixsummary': '编辑工具：修复多重重定向',
-			'toolsredirect-tabcreatetitle': '创建',
-			'toolsredirect-tabcreatedesc': '以下是尚未创建的重定向页：',
-			'toolsredirect-tabcreatenotfound': '没有找到可以创建的重定向页。',
-			'toolsredirect-tabcreateall': '全部创建',
-			'toolsredirect-createloading': '请稍候，正在自动创建重定向……',
-			'toolsredirect-createtext': '#REDIRECT [[$1]]',
-			'toolsredirect-createsummary': '编辑工具：自动创建重定向到[[$1]]',
-			'toolsredirect-errcycleredirect': '无法自动修复：发现循环重定向',
-			'toolsredirect-refresh': '刷新',
-		});
+		mw.messages.set(DEFAULT_MESSAGES);
 	}
 };
+
+export {setMessages};
