@@ -1,15 +1,22 @@
-const switcherJS = (): void => {
+import {getBody} from 'ext.gadget.Util';
+
+void getBody().then(function switcherJS(): void {
 	for (const [index, container] of [...document.querySelectorAll('.switcher-container')].entries()) {
-		let selected: unknown[] | Element | undefined;
-		let $radio: JQuery<Element> | undefined;
-		const switchers: Element[] = [];
 		const radioName: string = `switcher-${index}`;
-		for (const [, switcher] of [...container.children].entries()) {
+
+		let $selectedSwitcher: JQuery | undefined;
+		let $radio: JQuery | undefined;
+		const switchers: HTMLElement[] = [];
+
+		for (const switcher of [...container.children].values()) {
 			const label: HTMLElement | null = switcher.querySelector('.switcher-label');
-			if (!label || label.childNodes.length === 0) {
+			if (!label?.childNodes.length) {
 				continue;
 			}
-			switchers[switchers.length] = switcher; // Replace `switchers.push()` to avoid polyfilling core-js
+
+			switchers[switchers.length] = switcher as HTMLElement; // Replace `switchers.push()` to avoid polyfilling core-js
+			const $switcher: JQuery = $(switcher as HTMLElement);
+
 			$radio = $('<input>')
 				.prop({
 					type: 'radio',
@@ -17,27 +24,31 @@ const switcherJS = (): void => {
 				})
 				// eslint-disable-next-line no-loop-func
 				.on('click', (): void => {
-					$(selected as NonNullable<typeof selected>).hide();
-					$(switcher).show();
-					selected = switcher;
+					$selectedSwitcher?.hide();
+					$switcher.show();
+					$selectedSwitcher = $switcher;
 				});
-			if (!selected) {
+
+			if (!$selectedSwitcher) {
 				// Mark the first one as selected
-				selected = switcher;
+				$selectedSwitcher = $switcher;
 				$radio.prop('checked', true);
-			} else if (label.dataset['switcherDefault'] === null) {
+			} else if (label.dataset['switcherDefault']) {
 				// Hide non-default
-				$(switcher).hide();
+				$switcher.hide();
 			} else {
 				// Custom default
 				$radio.trigger('click');
 			}
+
 			$('<label>')
 				.css('display', 'block')
-				.append($radio, label.childNodes as unknown as HTMLElement)
+				.append($radio, label.childNodes as unknown as Element[])
 				.appendTo(container);
-			$(label).remove();
+
+			label.remove();
 		}
+
 		if (switchers.length > 1) {
 			$('<label>')
 				.css('display', 'block')
@@ -49,16 +60,14 @@ const switcherJS = (): void => {
 							name: radioName,
 						})
 						.on('click', (): void => {
-							$(switchers).show();
-							selected = switchers;
+							const $switchers: JQuery = $(switchers);
+							$switchers.show();
+							$selectedSwitcher = $switchers;
 						})
 				)
 				.appendTo(container);
-		}
-		if (switchers.length === 1 && $radio !== undefined) {
-			$radio.remove();
+		} else if (switchers.length) {
+			$radio?.remove();
 		}
 	}
-};
-
-$(switcherJS);
+});
