@@ -43,9 +43,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		label: getMessage('AiAssisted'),
 	});
 
-	if ($body.find(`#${INPUT_ID}`).length) {
-		mw.config.set('wgEditFormAiAssistedInstalled', true);
-	} else {
+	if (!$body.find(`#${INPUT_ID}`).length) {
 		$target.append(checkboxLayout.$element);
 	}
 };
