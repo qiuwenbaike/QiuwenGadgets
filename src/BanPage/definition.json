@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-BanPage\"></span> 一键禁用页面和文件",
+	"description": "<sup><abbr title=\"默认为所有自动确认用户启用\">C</abbr></sup><span id=\"Gadget-BanPage\"></span> 一键禁用页面和文件",
 	"section": "sysop",
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify", "ext.gadget.Util", "mediawiki.api", "mediawiki.util"],
