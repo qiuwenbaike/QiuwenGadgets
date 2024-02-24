@@ -1,8 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-export const toolsRedirect_courtesy_and_art_names = (): void => {
-	const prefixRegex = /[号字號]\s*$/;
-	const compSurnames = [
+const toolsRedirect_courtesy_and_art_names = (): void => {
+	const REGEX_PREFIX: RegExp = /[号字號]\s*$/;
+	const compSurnames: string[] = [
 		'欧阳',
 		'歐陽',
 		'令狐',
@@ -68,27 +66,43 @@ export const toolsRedirect_courtesy_and_art_names = (): void => {
 		'单于',
 		'單于',
 		'田丘',
-	];
-	const compSurnameRegex = new RegExp(`^(${compSurnames.join('|')}).`);
-	const findSurname = (pagename: string) => {
-		if (compSurnameRegex.test(pagename)) {
-			return compSurnameRegex.exec(pagename)[1];
+	] as const;
+	const REGEX_COMP_SURNAME = new RegExp(`^(${compSurnames.join('|')}).`);
+
+	const findSurname = (pageName: string): string | undefined => {
+		if (REGEX_COMP_SURNAME.test(pageName)) {
+			return (REGEX_COMP_SURNAME.exec(pageName) as RegExpExecArray)[1];
 		}
-		return pagename[0];
+
+		return pageName[0];
 	};
-	window.toolsRedirect.findRedirectCallback((pagename, $content) => {
-		let surname;
+
+	window.toolsRedirect.findRedirectCallback((pageName: string, $content: JQuery): string[] => {
 		const titles: string[] = [];
-		$content.find('> p > b').each((_index, element) => {
-			const previousNode = element.previousSibling;
-			if (previousNode && prefixRegex.test(previousNode.textContent)) {
-				const name = $(element).text().trim();
-				if (!surname) {
-					surname = findSurname(pagename);
+
+		let surname: string | undefined;
+		for (const element of $content.find('> p > b')) {
+			const {previousSibling, textContent} = element;
+			if (!previousSibling) {
+				continue;
+			}
+
+			if (REGEX_PREFIX.test(textContent ?? '')) {
+				const name: string | undefined = textContent?.trim();
+				if (!name) {
+					continue;
 				}
+
+				if (!surname) {
+					surname = findSurname(pageName);
+				}
+
 				titles[titles.length] = surname + name; // Replace `titles.push(surname + name)` to avoid polyfilling core-js
 			}
-		});
+		}
+
 		return [...new Set(titles)];
 	});
 };
+
+export {toolsRedirect_courtesy_and_art_names};
