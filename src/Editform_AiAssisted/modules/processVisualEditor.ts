@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call */
-import {INPUT_ID} from './constant';
+import {INPUT_ID, TARGET_CLASS} from './constant';
 import {getMessage} from './i18n';
 
 const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
@@ -8,7 +8,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		return;
 	}
 
-	const $target: JQuery = $body.find('.ve-ui-mwSaveDialog-checkboxes');
+	const $target: JQuery = $body.find(`.${TARGET_CLASS}`);
 	if (!$target.length) {
 		return;
 	}
