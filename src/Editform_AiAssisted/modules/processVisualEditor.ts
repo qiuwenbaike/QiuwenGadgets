@@ -2,10 +2,9 @@
 import {INPUT_ID} from './constant';
 import {getMessage} from './i18n';
 
-let isInit: boolean = false;
-
 const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
-	if (isInit) {
+	// Guard against double inclusions
+	if (mw.config.get('wgEditFormAiAssistedInstalled')) {
 		return;
 	}
 
@@ -14,7 +13,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		return;
 	}
 
-	isInit = true;
+	mw.config.set('wgEditFormAiAssistedInstalled', true);
 
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,
@@ -44,7 +43,9 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		label: getMessage('AiAssisted'),
 	});
 
-	if (!$body.find(`#${INPUT_ID}`).length) {
+	if ($body.find(`#${INPUT_ID}`).length) {
+		mw.config.set('wgEditFormAiAssistedInstalled', true);
+	} else {
 		$target.append(checkboxLayout.$element);
 	}
 };
