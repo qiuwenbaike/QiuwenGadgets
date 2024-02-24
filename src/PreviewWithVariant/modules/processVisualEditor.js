@@ -75,7 +75,7 @@ const processVisualEditor = () => {
 			})
 			.then(
 				(response) => {
-					deferred.resolve(
+					void deferred.resolve(
 						constructDocument(
 							response.parse.displaytitle,
 							response.parse.text,
@@ -84,7 +84,7 @@ const processVisualEditor = () => {
 					);
 				},
 				(error, detail) => {
-					deferred.reject(detail);
+					void deferred.reject(detail);
 				}
 			);
 		return deferred;
@@ -101,7 +101,7 @@ const processVisualEditor = () => {
 			stackLayout.pushPending();
 			dropdown.setDisabled(true);
 
-			fetchPreview()
+			void fetchPreview()
 				.then(
 					($previewContainer) => {
 						targetPanel.$element.append($previewContainer);
@@ -154,7 +154,7 @@ const processVisualEditor = () => {
 			target.emit('savePreview');
 			dialog.pushPending();
 
-			fetchPreview()
+			void fetchPreview()
 				.then(
 					($previewContent) => {
 						target
