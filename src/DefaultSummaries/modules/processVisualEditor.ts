@@ -21,7 +21,9 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 
 	const $dropdowns: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
 
-	if (!$body.find(`#${DROPDOWN_ID}`).length) {
+	if ($body.find(`#${DROPDOWN_ID}`).length) {
+		mw.config.set('wgDefaultSummariesInstalled', true);
+	} else {
 		$saveOptions.before($dropdowns);
 	}
 };
