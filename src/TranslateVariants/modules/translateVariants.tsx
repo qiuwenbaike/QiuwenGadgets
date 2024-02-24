@@ -135,7 +135,10 @@ const translateVariants = (wgPageName: string): void => {
 					const [page] = data['query'].pages;
 					if (page.missing) {
 						const $submit = $(
-							<button className={['TranslateVariants-publish-changes', 'mw-ui-button', 'cdx-button']} style={{float: 'right'}}>
+							<button
+								className={['TranslateVariants-publish-changes', 'mw-ui-button', 'cdx-button']}
+								style={{float: 'right'}}
+							>
 								{window.wgULS('发布页面', '發佈頁面')}
 							</button>
 						) as JQuery;
@@ -188,7 +191,10 @@ const translateVariants = (wgPageName: string): void => {
 						$tool.append(<span style={{float: 'right'}}>{window.wgULS('无更改', '無變更')}</span>);
 					} else {
 						const $submit = $(
-							<button className={['TranslateVariants-publish-changes', 'mw-ui-button', 'cdx-button']} style={{float: 'right'}}>
+							<button
+								className={['TranslateVariants-publish-changes', 'mw-ui-button', 'cdx-button']}
+								style={{float: 'right'}}
+							>
 								{window.wgULS('发布更改', '發佈變更')}
 							</button>
 						) as JQuery;
