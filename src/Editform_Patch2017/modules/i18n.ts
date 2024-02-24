@@ -28,4 +28,8 @@ const getMessage: GetMessages<typeof i18nMessages> = (key) => {
 	return i18nMessages[key] || key;
 };
 
-export {getMessage};
+const setMessages = () => {
+	mw.messages.set({minoredit: getMessage('minoredit'), watchthis: getMessage('watchthis')});
+};
+
+export {getMessage, setMessages};
