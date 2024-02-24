@@ -112,10 +112,10 @@
 * Navigation_popups-pagestyles[ResourceLoader|hidden|requiresES6]|Navigation_popups-pagestyles.css
 * PreviewWithVariant[ResourceLoader|dependencies=ext.gadget.i18n,mediawiki.jqueryMsg,mediawiki.Uri,oojs-ui,oojs-ui-core,user.options|rights=edit|requiresES6]|PreviewWithVariant.js|PreviewWithVariant.css
 * QuickImport[ResourceLoader|dependencies=ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=import|requiresES6]|QuickImport.js
-* ToolsRedirect[ResourceLoader|actions=view|dependencies=ext.gadget.Util,jquery.ui,mediawiki.jqueryMsg,user.options|rights=edit|requiresES6]|ToolsRedirect.js|ToolsRedirect.css
-* ToolsRedirect-bio-latin-names[ResourceLoader|actions=view|dependencies=ext.gadget.Util,user.options|rights=edit|requiresES6]|ToolsRedirect-bio-latin-names.js
-* ToolsRedirect-courtesy-and-art-names[ResourceLoader|actions=view|dependencies=ext.gadget.Util,user.options|rights=edit|requiresES6]|ToolsRedirect-courtesy-and-art-names.js
-* ToolsRedirect-opt-bolds[ResourceLoader|actions=view|dependencies=ext.gadget.Util,user.options|rights=edit|requiresES6]|ToolsRedirect-opt-bolds.js
+* ToolsRedirect[ResourceLoader|actions=view|dependencies=ext.gadget.Util,jquery.ui,mediawiki.api,mediawiki.jqueryMsg,user.options|rights=edit|requiresES6]|ToolsRedirect.js|ToolsRedirect.css
+* ToolsRedirect-bio-latin-names[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-bio-latin-names.js
+* ToolsRedirect-courtesy-and-art-names[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-courtesy-and-art-names.js
+* ToolsRedirect-opt-bolds[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-opt-bolds.js
 * Wikicache[ResourceLoader|actions=edit,submit|default|dependencies=ext.gadget.Util,mediawiki.storage|rights=edit|requiresES6]|Wikicache.js
 * Wikiplus[ResourceLoader|dependencies=user.options|rights=skipcaptcha|requiresES6]|Wikiplus.js|Wikiplus.css
 * Wikiplus-highlight[ResourceLoader|actions=view|dependencies=ext.gadget.Util,user.options|rights=skipcaptcha|requiresES6]|Wikiplus-highlight.js
