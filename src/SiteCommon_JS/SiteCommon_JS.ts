@@ -13,23 +13,24 @@ import {
 } from './modules/core';
 import {tippyForCitizenHeader, tippyForExtension} from './modules/tippy';
 import {deprecatedFunctions} from './modules/deprecatedFunctions';
+import {getBody} from 'ext.gadget.Util';
+
+let isInit: boolean = false;
 
 (function siteCommon(): void {
 	// Guard against double inclusions
-	if (mw.config.get('wgSiteCommonInstalled')) {
+	if (isInit) {
 		return;
 	}
 	// Set guard
-	mw.config.set('wgSiteCommonInstalled', true);
+	isInit = true;
 
 	// Core modules
 	loadWithURL();
 	noPermWarning();
 	fixLocationHash();
 
-	$((): void => {
-		const $body: JQuery<HTMLBodyElement> = $('body');
-
+	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		// Core modules (need $.ready)
 		highLightRev($body);
 		addTargetBlank($body);

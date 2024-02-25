@@ -7,15 +7,11 @@ import {
 	URL_WITH_CSS,
 	URL_WITH_JS,
 	URL_WITH_MODULE,
-	WG_ACTION,
-	WG_CANONICAL_SPECIAL_PAGE_NAME,
-	WG_NAMESPACE_NUMBER,
-	WG_PAGE_NAME,
-	WG_SCRIPT,
-	WG_USER_NAME,
 } from './constant';
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
+
+const {wgAction, wgCanonicalSpecialPageName, wgNamespaceNumber, wgPageName, wgScript, wgUserName} = mw.config.get();
 
 const loadWithURL = (): void => {
 	/**
@@ -62,12 +58,12 @@ const loadWithURL = (): void => {
 	 * &use=File1.css|File2.css|File3.js
 	 */
 	if (URL_USE) {
-		const wgUserName: string = mw.util.escapeRegExp(WG_USER_NAME ?? '');
+		const wgUserNameExcaped: string = mw.util.escapeRegExp(wgUserName ?? '');
 		const REGEX_FILE: RegExp = new RegExp(
-			`^(?:MediaWiki:${wgUserName ? `|User:${wgUserName}/` : ''})[^&<>=%#]*\\.(js|css)$`
+			`^(?:MediaWiki:${wgUserNameExcaped ? `|User:${wgUserNameExcaped}/` : ''})[^&<>=%#]*\\.(js|css)$`
 		);
 		const REGEX_EXT: RegExp = /^ext\.[^,]+$/;
-		const path: string = `${WG_SCRIPT}?action=raw&ctype=text/`;
+		const path: string = `${wgScript}?action=raw&ctype=text/`;
 		for (const useFile of URL_USE.split('|')) {
 			const name: string = useFile.toString().trim();
 			const what: string[] = REGEX_FILE.exec(name) ?? ['', ''];
@@ -102,6 +98,7 @@ const noPermWarning = (): void => {
 	if (!URL_NO_PERM) {
 		return;
 	}
+
 	switch (URL_NO_PERM) {
 		case '0':
 			void mw.notify(
@@ -148,6 +145,7 @@ const noPermWarning = (): void => {
 				{tag: 'noPerm', type: 'error'}
 			);
 	}
+
 	const newUrl: string = location.href.replace(/[?&]noperm=[0-9]+/, '');
 	history.pushState({}, document.title, newUrl);
 };
@@ -157,9 +155,11 @@ const highLightRev = ($body: JQuery<HTMLBodyElement>): void => {
 	 * Add highlight to revisions when using `&hilight=revid` or `&highlight=revid`
 	 */
 	const highlight: string | null = URL_HIGHLIGHT ?? URL_HILIGHT;
-	if (!highlight || WG_ACTION !== 'history') {
+
+	if (!highlight || wgAction !== 'history') {
 		return;
 	}
+
 	for (const version of highlight.split(',')) {
 		$body.find(`input[name=oldid][value=${version}]`).parent().addClass('not-patrolled');
 	}
@@ -177,6 +177,7 @@ const addTargetBlank = ($body: JQuery<HTMLBodyElement>): void => {
 				return false;
 			}
 		}
+
 		if (element.href.includes(`${location.protocol}//${location.hostname}`)) {
 			element.target = '_blank';
 			if (!element.rel.includes('noopener')) {
@@ -186,6 +187,7 @@ const addTargetBlank = ($body: JQuery<HTMLBodyElement>): void => {
 				element.rel += ' noreferrer';
 			}
 		}
+
 		return true;
 	});
 };
@@ -195,14 +197,18 @@ const removeTitleFromPermalink = ($body: JQuery<HTMLBodyElement>): void => {
 	 * Remove title=* from permalink
 	 */
 	const $permaLink: JQuery = $body.find('#t-permalink');
-	if ($permaLink.length) {
-		const $permaLinkFirstChild: JQuery<HTMLAnchorElement> = $permaLink.find<HTMLAnchorElement>(':first-child');
-		const href: string | undefined = $permaLinkFirstChild.attr('href')?.replace(/title=[^&]*&/, '');
-		if (!href) {
-			return;
-		}
-		$permaLinkFirstChild.attr('href', href);
+	if (!$permaLink.length) {
+		return;
 	}
+
+	const $permaLinkFirstChild: JQuery<HTMLAnchorElement> = $permaLink.find<HTMLAnchorElement>(':first-child');
+
+	const href: string | undefined = $permaLinkFirstChild.attr('href')?.replace(/title=[^&]*&/, '');
+	if (!href) {
+		return;
+	}
+
+	$permaLinkFirstChild.attr('href', href);
 };
 
 const openSearchInNewTab = ($body: JQuery<HTMLBodyElement>): void => {
@@ -211,7 +217,7 @@ const openSearchInNewTab = ($body: JQuery<HTMLBodyElement>): void => {
 	 * when holding down the Ctrl key (by Timeshifter)
 	 */
 	$body
-		.find('#search,#searchbox,#searchform,.search-types,#search-types')
+		.find(['#search', '#searchbox', '#searchform', '.search-types', '#search-types'].join(','))
 		.on('keydown keyup mousedown', (event: JQuery.TriggeredEvent<HTMLElement>): void => {
 			const {ctrlKey, metaKey, target} = event;
 			$(target).attr('target', ctrlKey ?? metaKey ? '_blank' : '');
@@ -222,14 +228,17 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Cleanup title for all pages
 	 */
-	if (URL_DIFF || WG_ACTION !== 'view' || ![6, 118].includes(WG_NAMESPACE_NUMBER)) {
+	if (URL_DIFF || wgAction !== 'view' || ![6, 118].includes(wgNamespaceNumber)) {
 		return;
 	}
-	const fullPageName: string = new mw.Title(WG_PAGE_NAME).getPrefixedText();
+
+	const fullPageName: string = new mw.Title(wgPageName).getPrefixedText();
 	const $firstHeading: JQuery = $body.find('.firstHeading');
 	const documentTitle: string = document.title;
 	const pageTitle: string = $firstHeading.text();
+
 	const replaceTitle = (title: string): string => title.replace(pageTitle, fullPageName);
+
 	document.title = replaceTitle(documentTitle);
 	$firstHeading.text(replaceTitle(pageTitle));
 };
@@ -240,15 +249,18 @@ const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
 	 * (beta test)
 	 */
 	// Do not display on Special Pages
-	if (WG_NAMESPACE_NUMBER < 0) {
+	if (wgNamespaceNumber < 0) {
 		return;
 	}
-	$body.find('attr, .inline-unihan').each((_index: number, element: HTMLElement): void => {
+
+	for (const element of $body.find('attr, .inline-unihan')) {
 		const $element: JQuery = $(element);
+
 		const title: string | undefined = $element.attr('title');
 		if (!title) {
-			return;
+			continue;
 		}
+
 		void mw.loader.using('oojs-ui-core').then((): void => {
 			const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
 				$content: $(<p>{title}</p>) as JQuery,
@@ -261,7 +273,7 @@ const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
 				popup.toggle();
 			});
 		});
-	});
+	}
 };
 
 const fixLocationHash = (): void => {
@@ -273,20 +285,25 @@ const fixLocationHash = (): void => {
 
 const hideNewUsersLog = ($body: JQuery<HTMLBodyElement>): void => {
 	/* 临时：禁止用户查看用户创建日志 */
-	if (WG_CANONICAL_SPECIAL_PAGE_NAME !== 'Log') {
+	if (wgCanonicalSpecialPageName !== 'Log') {
 		return;
 	}
+
 	const $newUsersLog: JQuery = $body.find('input[name="wpfilters[]"][value=newusers]');
 	$newUsersLog.prop({
-		checked: 0,
-		disabled: 'disabled',
+		checked: false,
+		disabled: true,
 	});
 };
 
 const toggleLink = ($body: JQuery<HTMLBodyElement>): void => {
 	/* 调整折叠按钮的颜色 */
 	const $toggler: JQuery = $body.find('.mw-collapsible-toggle, .gadget-collapsible-toggler');
-	if ($toggler.length && $toggler.parent()[0]?.style.color) {
+	if (!$toggler.length) {
+		return;
+	}
+
+	if ($toggler.parent()[0]?.style.color) {
 		$toggler.find('a').css('color', 'inherit');
 	}
 };
