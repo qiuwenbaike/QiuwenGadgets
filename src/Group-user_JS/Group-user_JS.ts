@@ -7,12 +7,14 @@ import {smartEditIntro} from './modules/smartEditIntro';
 import {smartNewSection} from './modules/smartNewSection';
 
 (function userJS(): void {
+	const configKey: string = 'gadget-Group-user_JS__Initialized';
+
 	// Guard against double inclusions
-	if (mw.config.get('wgUserJSInstalled')) {
+	if (mw.config.get(configKey)) {
 		return;
 	}
 	// Set guard
-	mw.config.set('wgUserJSInstalled', true);
+	mw.config.set(configKey, true);
 
 	/* 加载编辑界面脚本 */
 	void loadGadgetEditForm();

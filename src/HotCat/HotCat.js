@@ -3317,9 +3317,6 @@ hotCatMessages();
 		// run user-registered code once HotCat is fully set up and ready.
 		mw.hook('hotcat.ready').add(callback);
 	};
-	// Make sure we don't get conflicts with AjaxCategories (core development that should one day
-	// replace HotCat).
-	mw.config.set('disableAJAXCategories', true);
 	// Run as soon as possible. This varies depending on MediaWiki version;
 	// window's 'load' event is always safe, but usually we can do better than that.
 	if (conf.wgCanonicalSpecialPageName !== 'Upload') {

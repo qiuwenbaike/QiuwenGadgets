@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call */
+import * as OPTIONS from '~/Editform_AiAssisted/options.json';
 import {INPUT_ID, TARGET_CLASS} from './constant';
 import {getMessage} from './i18n';
 
 const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
 	// Guard against double inclusions
-	if (mw.config.get('wgEditFormAiAssistedInstalled')) {
+	if (mw.config.get(OPTIONS.configKey)) {
 		return;
 	}
 
@@ -13,7 +14,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		return;
 	}
 
-	mw.config.set('wgEditFormAiAssistedInstalled', true);
+	mw.config.set(OPTIONS.configKey, true);
 
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,

@@ -1,10 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import './processVisualEditor.less';
+import * as OPTIONS from '../options.json';
 import {CLASS_NAME, DATA, WG_SKIN, WG_USER_LANGUAGE, WG_USER_VARIANT} from './constant';
 import {PWV2017messages} from './messages';
 
-mw.config.set('wgPreviewWithVariantInitialized', false);
+mw.config.set(OPTIONS.configKey, false);
 
 PWV2017messages();
 
@@ -233,19 +234,17 @@ const processVisualEditor = () => {
 		const handlerToRemove = 'onSaveDialogPreview';
 		dialog.off('preview', handlerToRemove, target).on('preview', previewWithVariant);
 
-		mw.config.set('wgPreviewWithVariant2017Initialized', true);
-
 		// Switching between VE and NWE, requires to be reinitialized
 		mw.hook('ve.activationComplete').add(() => {
-			if (mw.config.get('wgPreviewWithVariantInitialized')) {
-				mw.config.set('wgPreviewWithVariantInitialized', false);
+			if (mw.config.get(OPTIONS.configKey)) {
+				mw.config.set(OPTIONS.configKey, false);
 			}
 		});
 	};
 
-	if (!mw.config.get('wgPreviewWithVariantInitialized')) {
+	if (!mw.config.get(OPTIONS.configKey)) {
 		init();
-		mw.config.set('wgPreviewWithVariantInitialized', true);
+		mw.config.set(OPTIONS.configKey, true);
 	}
 };
 

@@ -1,5 +1,7 @@
 import {init} from './modules/core';
 
+let isInit: boolean = false;
+
 if (
 	mw.config.get('wgNamespaceNumber') >= 0 ||
 	mw.config.get('wgArticleId') > 0 ||
@@ -8,7 +10,7 @@ if (
 	// Load main function
 	mw.hook('wikipage.content').add(($content): void => {
 		// Guard against double inclusions
-		if (mw.config.get('wgShortURLInstalled')) {
+		if (isInit) {
 			return;
 		}
 
@@ -16,14 +18,13 @@ if (
 			return;
 		}
 
+		isInit = true;
+
 		void init({
 			diffId: mw.config.get('wgDiffNewId'),
 			oldId: mw.config.get('wgDiffOldId'),
 			articleId: mw.config.get('wgArticleId'),
 			revisionId: mw.config.get('wgRevisionId'),
 		});
-
-		// Set guard
-		mw.config.set('wgShortURLInstalled', true);
 	});
 }

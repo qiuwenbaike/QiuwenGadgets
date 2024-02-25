@@ -1,9 +1,10 @@
+import * as OPTIONS from '~/Editform_AiAssisted/options.json';
 import {INPUT_ID} from './constant';
 import {getMessage} from './i18n';
 
 const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $editForm?: JQuery}): void => {
 	// Guard against double inclusions
-	if (mw.config.get('wgEditFormAiAssistedInstalled')) {
+	if (mw.config.get(OPTIONS.configKey)) {
 		return;
 	}
 
@@ -12,7 +13,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		return;
 	}
 
-	mw.config.set('wgEditFormAiAssistedInstalled', true);
+	mw.config.set(OPTIONS.configKey, true);
 
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,

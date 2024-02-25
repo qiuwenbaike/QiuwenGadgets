@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
+import * as OPTIONS from '~/DefaultSummaries/options.json';
 import {DROPDOWN_ID} from './constant';
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
 const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Guard against double inclusions
-	if (mw.config.get('wgDefaultSummariesInstalled')) {
+	if (mw.config.get(OPTIONS.configKey)) {
 		return;
 	}
-
 	// Set guard
-	mw.config.set('wgDefaultSummariesInstalled', true);
+	mw.config.set(OPTIONS.configKey, true);
 
 	// @ts-expect-error TS2304
 	const {target} = ve.init;
@@ -22,7 +22,7 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	const $dropdowns: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
 
 	if ($body.find(`#${DROPDOWN_ID}`).length) {
-		mw.config.set('wgDefaultSummariesInstalled', true);
+		mw.config.set(OPTIONS.configKey, true);
 	} else {
 		$saveOptions.before($dropdowns);
 	}

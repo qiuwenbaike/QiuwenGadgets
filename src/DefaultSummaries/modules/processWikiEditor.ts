@@ -1,14 +1,15 @@
+import * as OPTIONS from '~/DefaultSummaries/options.json';
 import {DROPDOWN_ID} from './constant';
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
 const processWikiEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Guard against double inclusions
-	if (mw.config.get('wgDefaultSummariesInstalled')) {
+	if (mw.config.get(OPTIONS.configKey)) {
 		return;
 	}
 
 	// Set guard
-	mw.config.set('wgDefaultSummariesInstalled', true);
+	mw.config.set(OPTIONS.configKey, true);
 
 	const $editCheckboxes: JQuery = $body.find('.editCheckboxes');
 	if (!$editCheckboxes.length) {

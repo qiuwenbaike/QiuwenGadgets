@@ -1,3 +1,4 @@
+import * as OPTIONS from './options.json';
 import {getBody} from 'ext.gadget.Util';
 import {processVisualEditor} from './modules/processVisualEditor';
 import {processWikiEditor} from './modules/processWikiEditor';
@@ -12,8 +13,8 @@ void getBody().then(function defaultSummaries($body: JQuery<HTMLBodyElement>): v
 
 		// Switching between VE and NWE, requires to be reinitialized
 		mw.hook('ve.activationComplete').add(() => {
-			if (mw.config.get('wgDefaultSummariesInstalled')) {
-				mw.config.set('wgDefaultSummariesInstalled', false);
+			if (mw.config.get(OPTIONS.configKey)) {
+				mw.config.set(OPTIONS.configKey, false);
 			}
 		});
 	});
