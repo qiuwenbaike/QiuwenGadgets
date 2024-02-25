@@ -1,5 +1,6 @@
-import {WG_SKIN} from './constant';
 import {tippy} from 'ext.gadget.Tippy';
+
+const {skin} = mw.config.get();
 
 const getContent = (reference: Element): string => {
 	const label: string | null = reference.getAttribute('aria-label');
@@ -20,12 +21,18 @@ const onShowCallback = (instance: ReturnType<typeof tippy>[0]): void => {
 };
 
 const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
-	if (WG_SKIN !== 'citizen') {
+	if (skin !== 'citizen') {
 		return;
 	}
 
 	for (const element of $body.find(
-		'.citizen-header label[title],.citizen-header .mw-echo-notifications-badge,.citizen-header__logo a,.page-actions>nav>ul>li a,.page-actions__button'
+		[
+			'.citizen-header label[title]',
+			'.citizen-header .mw-echo-notifications-badge',
+			'.citizen-header__logo a',
+			'.page-actions>nav>ul>li a',
+			'.page-actions__button',
+		].join(',')
 	)) {
 		const $element: JQuery = $(element);
 		let title: string | undefined = $element.attr('title');
@@ -61,7 +68,7 @@ const tippyForExtension = async (): Promise<void> => {
 		onShow: onShowCallback,
 	});
 
-	if (WG_SKIN === 'vector') {
+	if (skin === 'vector') {
 		await mw.loader.using('ext.CollapsibleSidebar.vector');
 		tippy('#sidebarCollapse', {
 			arrow: true,
