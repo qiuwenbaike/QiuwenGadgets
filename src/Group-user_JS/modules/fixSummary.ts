@@ -16,18 +16,12 @@ const fixSummary = ($body: JQuery<HTMLBodyElement>): void => {
 			const userNamePrefixInput = document.querySelectorAll(
 				'#mw-import-upload-form input[name=usernamePrefix]'
 			)[0] as HTMLInputElement;
-			const logCommentInput = document.querySelectorAll(
-				'#mw-import-upload-form input[name=log-comment]'
-			)[0] as HTMLInputElement;
-			const importUploadPrefix = userNamePrefixInput?.value;
-			if (importUploadPrefix) {
-				logCommentInput.value = `导入自[[${importUploadPrefix}:|此网站]]的同名页面［页面文字原许可：[[cc-by-sa:4.0|CC BY-SA 4.0]]］`;
-			}
 			userNamePrefixInput.addEventListener('input', () => {
-				const newValue = logCommentInput.value.replace(
-					/\[\[.*?:\|此网站\]\]/,
-					`[[${userNamePrefixInput.value}:|此网站]]`
-				);
+				const logCommentInput = document.querySelectorAll(
+					'#mw-import-upload-form input[name=log-comment]'
+				)[0] as HTMLInputElement;
+				const importUploadPrefix = userNamePrefixInput?.value;
+				const newValue = `导入自[[${importUploadPrefix}:|此网站]]的同名页面［页面文字原许可：[[cc-by-sa:4.0|CC BY-SA 4.0]]］`;
 				logCommentInput.value = newValue;
 			});
 			// #mw-import-interwiki-form
