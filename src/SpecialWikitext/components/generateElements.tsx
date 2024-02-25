@@ -18,7 +18,7 @@ const Failed = () => (
 
 const Loading = () => (
 	<div id={'specialwikitext-preview-loading'}>
-		<div className={previewLoadingInner} id={'specialwikitext-preview-loading__inner'}>
+		<div className={['quotebox', previewLoadingInner]} id={'specialwikitext-preview-loading__inner'}>
 			<div className={previewLoadingContent} id={'specialwikitext-preview-loading__content'}>
 				<img
 					src={'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif'}

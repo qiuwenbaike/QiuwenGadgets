@@ -10,9 +10,7 @@ import {luaCheck} from '../lua/luaCheck';
 const {wgCanonicalNamespace, wgCanonicalSpecialPageName, wgPageName} = mw.config.get();
 
 // 给页面添加预览
-const mwAddPreview = (): void => {
-	const $body: JQuery<HTMLBodyElement> = $('body');
-
+const mwAddPreview = ($body: JQuery<HTMLBodyElement>): void => {
 	// 预览模式只适用于以下页面内容模型
 	if (checkMwConfig('wgPageContentModel', ['javascript', 'js', 'json', 'text', 'css', 'sanitized-css'])) {
 		// 模式1：页面预览
@@ -29,11 +27,11 @@ const mwAddPreview = (): void => {
 				return;
 			}
 
-			const addWiki: string = luaCheck();
-			if (addWiki) {
+			const wikitext: string = luaCheck();
+			if (wikitext) {
 				// 若解析结果非空才放置预览
 				addLoadingNotice(); // 放置提示，提示使用者等待AJAX
-				void mwAddWikiText(addWiki, wgPageName, true); // 若取得 _addText 则显示预览
+				void mwAddWikiText(wikitext, wgPageName, true); // 若取得 _addText 则显示预览
 			}
 		} else if (!checkElementExist('.mw-_addText-content') && checkMwConfig('wgAction', 'view')) {
 			// 模式2：不支持显示的特殊页面
@@ -91,15 +89,15 @@ const mwAddPreview = (): void => {
 			// 确认正在预览已删内容
 			const textareaContent: string = $body.find('textarea').val() ?? ''; // 尝试取得已删内容源代码
 
-			let tryAddWiki: string = luaGetJSONwikitext(textareaContent);
-			if (!tryAddWiki) {
-				tryAddWiki = luaGetCSSwikitext(textareaContent);
+			let wikitext: string = luaGetJSONwikitext(textareaContent);
+			if (!wikitext) {
+				wikitext = luaGetCSSwikitext(textareaContent);
 			}
 
-			if (tryAddWiki) {
+			if (wikitext) {
 				// 若取得 _addText 则显示预览
 				addLoadingNotice();
-				void mwAddWikiText(tryAddWiki, mw.config.get('wgRelevantPageName'), true);
+				void mwAddWikiText(wikitext, mw.config.get('wgRelevantPageName'), true);
 			} else if (/module[ _]wikitext.*_addtext/i.test($body.find('.mw-parser-output').text())) {
 				// 尝试Lua解析
 				// 本功能目前测试正常运作
