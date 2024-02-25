@@ -35,24 +35,24 @@ const wikitextPreviewTestcase = async (isPreview: boolean): Promise<void> => {
 			continue;
 		}
 
-		const codeIt: HTMLElement | null = element.querySelector<HTMLElement>('.mw-highlight');
-		if (!codeIt) {
+		const codeElement: HTMLElement | null = element.querySelector<HTMLElement>('.mw-highlight');
+		if (!codeElement) {
 			continue;
 		}
 
-		const {className: codeItClass} = codeIt;
-		if (!codeItClass) {
+		const {className} = codeElement;
+		if (!className) {
 			continue;
 		}
 
-		const [, codeId] = /mw-highlight-lang-(\S+)/.exec(codeItClass) ?? [];
-		const {length: loadIndex} = testcaseDataList;
+		const [, codeId] = /mw-highlight-lang-(\S+)/.exec(className) ?? [];
+		const {length} = testcaseDataList;
 
-		element.setAttribute('preview-id', loadIndex.toString());
-		testcaseDataList[loadIndex] = {
+		element.setAttribute('preview-id', length.toString());
+		testcaseDataList[length] = {
 			element,
 			lang: codeId?.toLowerCase() ?? '',
-			code: codeIt.textContent?.trim() ?? '',
+			code: codeElement.textContent?.trim() ?? '',
 		}; // Replace `testcaseDataList.push()` to avoid polyfilling core-js
 	}
 
@@ -68,11 +68,11 @@ const wikitextPreviewTestcase = async (isPreview: boolean): Promise<void> => {
 		const $element: JQuery = $(element);
 
 		if (['javascript', 'js', 'css', 'json', 'text'].includes(testcaseItem.lang)) {
-			const addWiki: string = luaCheck(code, lang);
-			if (addWiki && element) {
+			const wikitext: string = luaCheck(code, lang);
+			if (wikitext) {
 				// 若解析结果非空才放置预览
 				$element.prepend(noticeLoadingElement);
-				packageWikitext += `<div class="special-wikitext-preview-testcase-${i}">\n${addWiki}\n</div>`;
+				packageWikitext += `<div class="special-wikitext-preview-testcase-${i}">\n${wikitext}\n</div>`;
 			}
 		} else if (['lua', 'scribunto'].includes(lang)) {
 			void mwAddLuaText(

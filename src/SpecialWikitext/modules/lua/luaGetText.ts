@@ -3,11 +3,11 @@ import {luaAddText} from './luaAddText';
 
 // 读取wikitext字符串，并忽略注释尾部
 const luaGetString = (inputString: string): string => {
-	const testStringArray: RegExpExecArray | null = /[^\n]*\*\//.exec(inputString);
+	const testStringExecArray: RegExpExecArray | null = /[^\n]*\*\//.exec(inputString);
 
 	let testString: string = inputString;
-	if (testStringArray) {
-		[testString] = testStringArray;
+	if (testStringExecArray) {
+		[testString] = testStringExecArray;
 		testString = testString.slice(0, Math.max(0, testString.length - 2));
 	}
 
@@ -20,7 +20,7 @@ const luaGetString = (inputString: string): string => {
 	return testString.trim();
 };
 
-// 读取CSS之`<{OPTIONS.wikiTextKey}>  { content："XXX" }`模式的字符串
+// 捕获CSS文本中符合`<{OPTIONS.wikiTextKey}>  { content："XXX" }`模式的字符串
 const luaGetContentText = (inputString: string): string => {
 	let wikitext: string = '';
 
@@ -48,7 +48,7 @@ const luaGetContentText = (inputString: string): string => {
 	return wikitext.trim();
 };
 
-// 读取对象定义模式为`<{OPTIONS.wikiTextKey}>＝XXX`或`<{OPTIONS.wikiTextKey}>：XXX`模式的字符串 (注释以全角字符代替，避免被抓取)
+// 捕获字符串化的对象中符合`<{OPTIONS.wikiTextKey}>＝XXX`或`<{OPTIONS.wikiTextKey}>：XXX`模式的字符串 (注释以全角字符代替，避免被捕获)
 const luaGetObjText = (inputString: string): string => {
 	let wikitext: string = '';
 
@@ -88,7 +88,7 @@ const luaGetCSSwikitext = (inputString: string): string => {
 
 	// 匹配 <{OPTIONS.wikiTextKey}> { content："XXX" } 模式
 	wikitext = luaAddText(wikitext, luaGetContentText(cssText), true);
-	// 同时亦匹配 /* <{OPTIONS.wikiTextKey}>：XXX */ 模式
+	// 匹配 /* <{OPTIONS.wikiTextKey}>：XXX */ 模式
 	wikitext = luaAddText(wikitext, luaGetObjText(cssText), true);
 
 	return wikitext.trim();
@@ -111,7 +111,7 @@ const luaGetJSONwikitext = (inputString: string): string => {
 				wikitext = luaAddText(wikitext, value);
 			}
 
-			// 若是数组对象会多包一层
+			// 若键值是对象
 			if (typeof value !== 'string') {
 				for (const [k, v] of Object.entries(value as object)) {
 					if (new RegExp(OPTIONS.wikiTextKey).test(k) && typeof v === 'string') {
