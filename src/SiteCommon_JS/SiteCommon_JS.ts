@@ -15,15 +15,15 @@ import {tippyForCitizenHeader, tippyForExtension} from './modules/tippy';
 import {deprecatedFunctions} from './modules/deprecatedFunctions';
 import {getBody} from 'ext.gadget.Util';
 
-let isInit: boolean = false;
-
 (function siteCommon(): void {
+	const configKey: string = 'gadget-SiteCommon_JS__Initialized';
+
 	// Guard against double inclusions
-	if (isInit) {
+	if (mw.config.get(configKey)) {
 		return;
 	}
 	// Set guard
-	isInit = true;
+	mw.config.set(configKey, true);
 
 	// Core modules
 	loadWithURL();

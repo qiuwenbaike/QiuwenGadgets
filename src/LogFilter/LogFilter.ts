@@ -16,17 +16,19 @@ import {LogFilter} from './modules/core';
 import {getBody} from 'ext.gadget.Util';
 
 (function logFilter(): void {
+	const configKey: string = 'gadget-LogFilter__Initialized';
+
+	// Guard against double inclusions
+	if (mw.config.get(configKey)) {
+		return;
+	}
+	// Set guard
+	mw.config.set(configKey, true);
+
 	// When to enable all this
 	if (WG_ACTION !== 'history' && !URL_LIFILTER && !REGEX_TARGET_PAGE.test(WG_CANONICAL_SPECIAL_PAGE_NAME)) {
 		return;
 	}
-
-	// Guard against double inclusions
-	if (mw.config.get('wgLogFilterInstalled')) {
-		return;
-	}
-	// Set guard
-	mw.config.set('wgLogFilterInstalled', true);
 
 	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		// Load

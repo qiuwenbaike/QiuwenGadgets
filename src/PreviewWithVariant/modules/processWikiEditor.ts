@@ -1,4 +1,5 @@
 import './processWikiEditor.less';
+import * as OPTIONS from '../options.json';
 import {VARIANTS, WG_PAGE_CONTENT_MODEL, WG_USER_VARIANT} from './constant';
 /**
  * @description Add a "Preview with variant" option to the edit form.
@@ -6,7 +7,7 @@ import {VARIANTS, WG_PAGE_CONTENT_MODEL, WG_USER_VARIANT} from './constant';
 const processWikiEditor = (): void => {
 	mw.hook('wikipage.editform').add(($editForm): void => {
 		// Guard against double inclusions
-		if (mw.config.get('wgPreviewWithVariantInitialized')) {
+		if (mw.config.get(OPTIONS.configKey)) {
 			return;
 		}
 		const $templateSandboxPreview: JQuery = $editForm.find('input[name="wpTemplateSandboxPreview"]');
@@ -20,7 +21,7 @@ const processWikiEditor = (): void => {
 			return;
 		}
 		// Guard against double inclusions
-		mw.config.set('wgPreviewWithVariantInitialized', true);
+		mw.config.set(OPTIONS.configKey, true);
 		const uriVariant: string | null = mw.util.getParamValue('variant');
 		const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 			selected: Boolean(uriVariant),
