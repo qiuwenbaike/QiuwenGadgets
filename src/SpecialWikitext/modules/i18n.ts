@@ -8,7 +8,7 @@ const getI18nMessages = () => {
 			'zh-hant': '預覽載入失败',
 		}),
 		Loading: localize({
-			en: 'Loading preview……',
+			en: 'Loading preview...',
 			'zh-hans': '预览加载中……',
 			'zh-hant': '預覽載入中……',
 		}),
