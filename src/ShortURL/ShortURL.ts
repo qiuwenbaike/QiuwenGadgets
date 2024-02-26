@@ -1,29 +1,20 @@
-import {init} from './modules/core';
+import {checkRevisionPage} from './modules/util/checkRevisionPage';
+import {processId} from './modules/processId';
 
-let isInit: boolean = false;
+const {wgAction, wgArticleId, wgNamespaceNumber} = mw.config.get();
 
-if (
-	mw.config.get('wgNamespaceNumber') >= 0 ||
-	mw.config.get('wgArticleId') > 0 ||
-	mw.config.get('wgAction') === 'view'
-) {
-	// Load main function
+if (wgAction === 'view' && wgArticleId && wgNamespaceNumber >= 0) {
 	mw.hook('wikipage.content').add(($content): void => {
-		// Guard against double inclusions
-		if (isInit) {
-			return;
-		}
-
 		if ($content.attr('id') !== 'mw-content-text') {
 			return;
 		}
 
-		isInit = true;
+		const isRevisionPage: boolean = checkRevisionPage($content);
 
-		void init({
+		processId(isRevisionPage, {
+			articleId: mw.config.get('wgArticleId'),
 			diffId: mw.config.get('wgDiffNewId'),
 			oldId: mw.config.get('wgDiffOldId'),
-			articleId: mw.config.get('wgArticleId'),
 			revisionId: mw.config.get('wgRevisionId'),
 		});
 	});

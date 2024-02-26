@@ -7,13 +7,13 @@
 	"dependencies": [
 		"ext.gadget.Clipboard",
 		"ext.gadget.i18n",
+		"ext.gadget.React",
 		"ext.gadget.Tippy",
+		"ext.gadget.Toastify",
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.util",
 		"mediawiki.widgets",
 		"oojs-ui-windows"
-	],
-	"peers": ["ShortURL-pagestyles"],
-	"rights": ["edit"]
+	]
 }
