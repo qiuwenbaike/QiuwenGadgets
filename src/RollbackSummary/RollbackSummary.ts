@@ -1,3 +1,5 @@
-import {rollbackSummary} from './modules/core';
+import {updateLinks} from './modules/updateLinks';
 
-$(rollbackSummary);
+mw.hook('wikipage.content').add(($content): void => {
+	updateLinks($content);
+});
