@@ -17,13 +17,14 @@
 * Mainpage_licencewiki[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_licencewiki.css
 * NavboxCSS[ResourceLoader|default|hidden|requiresES6]|NavboxCSS.css
 * NospzGothic[ResourceLoader|default|requiresES6]|NospzGothic.css
-* NotifyConversion[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.Uri,mediawiki.util,oojs-ui-core,oojs-ui-widgets,oojs-ui-windows,oojs-ui.styles.icons-editing-advanced,user.options|requiresES6]|NotifyConversion.js|NotifyConversion.css
 * OneSideMenu[ResourceLoader|skins=gongbi|requiresES6]|OneSideMenu.css
 * ResponsiveContent[ResourceLoader|requiresES6]|ResponsiveContent.css
 * StickyTableHeaders[ResourceLoader|dependencies=ext.gadget.Util|peers=StickyTableHeaders-pagestyles|skins=gongbi,vector,vector-2022|requiresES6]|StickyTableHeaders.js
 * StickyTableHeaders-pagestyles[ResourceLoader|hidden|requiresES6]|StickyTableHeaders-pagestyles.css
 * TextSpacing[ResourceLoader|requiresES6]|TextSpacing.js|TextSpacing.css
 * TOC3-gongbi[ResourceLoader|skins=gongbi|requiresES6]|TOC3-gongbi.css
+* VariantAlly[ResourceLoader|default|dependencies=user.options|requiresES6]|VariantAlly.js
+* VariantAllyDialog[ResourceLoader|default|dependencies=ext.gadget.VariantAlly,vue|hidden|requiresES6]|VariantAllyDialog.js|VariantAllyDialog.css
 
 == browser ==
 * AddSectionPlus[ResourceLoader|dependencies=ext.gadget.Util|peers=AddSectionPlus-pagestyles|rights=edit|requiresES6]|AddSectionPlus.js
