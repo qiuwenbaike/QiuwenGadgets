@@ -1,7 +1,7 @@
 {
 	"enable": true,
-	"excludeSites": ["licencewiki", "testwiki"],
 	"description": "<span id=\"Gadget-Report-pagestyles\"></span> “报告不良信息”配套样式表",
 	"section": "sysop",
+	"excludeSites": ["licencewiki", "testwiki"],
 	"hidden": true
 }
