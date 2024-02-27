@@ -1,22 +1,21 @@
 import {getMessage} from './i18n';
 
-const fillSpecialPage = (): void => {
-	const $body: JQuery<HTMLBodyElement> = $('body');
-
+const fillSpecialPage = ($body: JQuery<HTMLBodyElement>): void => {
 	const $wpSubjectElement: JQuery<HTMLInputElement> = $body.find<HTMLInputElement>('input[name="wpSubject"]');
 	if (!$wpSubjectElement.length) {
 		return;
 	}
 
-	const $bodyHasClass = $body.hasClass('page-Special_联系_Report') || $body.hasClass('page-Special_联系_report');
-	if (!$bodyHasClass) {
+	const isBodyHasClass: boolean =
+		$body.hasClass('page-Special_联系_Report') || $body.hasClass('page-Special_联系_report');
+	if (!isBodyHasClass) {
 		return;
 	}
 
 	const $wpTitleElement: JQuery<HTMLInputElement> = $body.find<HTMLInputElement>('input[name="wpTitle"]');
 
 	const linkTilte: string = getMessage('Report');
-	const reportRevision: string = mw.util.getParamValue('report_revision') ?? '0';
+	const reportRevision: string = mw.util.getParamValue('report_revision') || '0';
 	let reportTitle: string = mw.util.getParamValue('report_title') || '';
 	if (reportRevision !== '0') {
 		reportTitle += getMessage('(') + getMessage('Revision') + reportRevision + getMessage(')');

@@ -30,7 +30,7 @@ function ScrollButton(props: Props) {
 const TO_BOTTOM: string = getMessage('ToBottom');
 const TO_TOP: string = getMessage('ToTop');
 
-const ScrollDownButton = (
+const ScrollDownButton = () => (
 	<ScrollButton
 		additionalClassName={CLASS_NAME_DOWN}
 		alt={TO_BOTTOM}
@@ -41,7 +41,7 @@ const ScrollDownButton = (
 	/>
 );
 
-const ScrollUpButton = (
+const ScrollUpButton = () => (
 	<ScrollButton
 		additionalClassName={CLASS_NAME_UP}
 		alt={TO_TOP}
