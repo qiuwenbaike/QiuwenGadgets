@@ -7,7 +7,10 @@ const insertElementandListener = ($body: JQuery<HTMLBodyElement>): void => {
 		changeOpacityWhenMouseEnterOrLeave(event);
 	};
 
-	for (const element of [ScrollDownButton, ScrollUpButton] as HTMLElement[]) {
+	const scrollDownButton = ScrollDownButton() as HTMLElement;
+	const scrollUpButton = ScrollUpButton() as HTMLElement;
+
+	for (const element of [scrollDownButton, scrollUpButton]) {
 		for (const event of ['mouseenter', 'mouseleave'] as const) {
 			element.addEventListener(event, onMouseEnterMouseLeave);
 		}
@@ -22,7 +25,9 @@ const insertElementandListener = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 
 	const scrollListener = (): void => {
-		let downButtonButtom, upButtonButtom;
+		let downButtonButtom: string;
+		let upButtonButtom: string;
+
 		if (
 			document.querySelector('#proveit') ||
 			document.querySelector('.gadget-cat_a_lot-container') ||
@@ -35,8 +40,8 @@ const insertElementandListener = ($body: JQuery<HTMLBodyElement>): void => {
 			upButtonButtom = '85px';
 		}
 
-		ScrollDownButton.style.bottom = downButtonButtom;
-		ScrollUpButton.style.bottom = upButtonButtom;
+		scrollDownButton.style.bottom = downButtonButtom;
+		scrollUpButton.style.bottom = upButtonButtom;
 	};
 	const scrollListenerWithThrottle: typeof scrollListener = mw.util.throttle(scrollListener, 200);
 

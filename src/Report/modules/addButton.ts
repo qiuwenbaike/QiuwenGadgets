@@ -1,42 +1,48 @@
+import ReportButton from '../components/ReportButton';
 import {WG_NAMESPACE_NUMBER} from './constant';
 import {changeOpacityWhenMouseEnterOrLeave} from 'ext.gadget.Util';
-import {reportButton} from '../components/button';
 import {tippy} from 'ext.gadget.Tippy';
 
-const addButton = (): void => {
+const addButton = ($body: JQuery<HTMLBodyElement>): void => {
 	if (WG_NAMESPACE_NUMBER < 0) {
 		return;
 	}
 
-	const $body = $('body');
-	const onMouseEnterMouseLeave = (event: JQuery.TriggeredEvent): void => {
+	const onMouseEnterMouseLeave = (event: MouseEvent): void => {
 		changeOpacityWhenMouseEnterOrLeave(event);
 	};
 
-	const $element = $(reportButton);
-	$element.on('mouseenter mouseleave', onMouseEnterMouseLeave);
-	$element.appendTo($body);
+	const reportButton = ReportButton() as HTMLElement;
 
-	tippy($element.get(0) as HTMLAnchorElement, {
+	for (const event of ['mouseenter', 'mouseleave'] as const) {
+		reportButton.addEventListener(event, onMouseEnterMouseLeave);
+	}
+
+	tippy(reportButton, {
 		arrow: true,
-		content: $element.attr('aria-label') as string,
+		content: reportButton.getAttribute('alt') as string,
 		placement: 'left',
 	});
 
+	$body.append(reportButton);
+
 	const scrollListener = (): void => {
-		let buttonBottom;
+		let buttonBottom: string;
+
 		if (
 			document.querySelector('#proveit') ||
 			document.querySelector('.gadget-cat_a_lot-container') ||
-			document.querySelector('.wordcount')
+			document.querySelector('#gadget-word_count-tip')
 		) {
 			buttonBottom = '253px';
 		} else {
 			buttonBottom = '211px';
 		}
-		$element.css('bottom', buttonBottom);
+
+		reportButton.style.bottom = buttonBottom;
 	};
 	const scrollListenerWithThrottle: typeof scrollListener = mw.util.throttle(scrollListener, 200);
+
 	$(window).on('scroll selectionchange', scrollListenerWithThrottle);
 };
 

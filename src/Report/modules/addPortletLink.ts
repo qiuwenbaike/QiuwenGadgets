@@ -1,14 +1,13 @@
-import {URL} from './constant';
+import {URL, WG_NAMESPACE_NUMBER} from './constant';
 import {getMessage} from './i18n';
 
 const addPortletLink = (): void => {
-	if (mw.config.get('wgNamespaceNumber') < 0) {
+	if (WG_NAMESPACE_NUMBER < 0) {
 		return;
 	}
 
 	const linkTilte: string = getMessage('Report');
-	const portletId: string = 'p-tb';
-	mw.util.addPortletLink(portletId, URL, linkTilte, 't-report', linkTilte);
+	mw.util.addPortletLink('p-tb', URL, linkTilte, 't-report', linkTilte);
 };
 
 export {addPortletLink};
