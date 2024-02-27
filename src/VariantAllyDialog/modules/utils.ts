@@ -19,7 +19,7 @@ function getMountPoint(): Element {
 	switch (mw.config.get('skin')) {
 		case 'vector-2022':
 			return document.querySelectorAll('.mw-page-container')[0] ?? document.body;
-		case 'timeless':
+		case 'gongbi':
 			return document.querySelector('#mw-content-block') ?? document.body;
 		default:
 			return document.body;
