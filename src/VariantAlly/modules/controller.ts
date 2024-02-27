@@ -1,4 +1,3 @@
-import {output} from './debug';
 import {Variant, getMediaWikiVariant, isValidVariant, setLocalVariant} from './model';
 
 const REGEX_WIKI_URL = /^\/(?:wiki|zh(?:-\w+)?)\//i;
@@ -27,7 +26,6 @@ function isEligibleForRewriting(link: string): boolean {
 
 		return true;
 	} catch {
-		output('isEligibleForRewriting', `Exception occurs when checking ${link}!`);
 		return false;
 	}
 }
@@ -55,11 +53,9 @@ function rewriteLink(link: string, variant: Variant): string {
 		}
 
 		const result = url.toString();
-		output('rewriteLink', `${link} + ${variant} - ${normalizationTargetVariant} => ${result}`);
 
 		return result;
 	} catch {
-		output('rewriteLink', `Exception occurs when rewriting ${link} + ${variant}!`);
 		return link;
 	}
 }
@@ -81,28 +77,19 @@ function redirect(preferredVariant: Variant, options: RedirectionOptions = {}): 
 	if (options.forced || newLink !== location.href) {
 		// Use replace() to prevent navigating back
 		location.replace(newLink);
-	} else {
-		output('redirect', 'newLink === location.href. No refreshing page.');
 	}
 }
 
 function checkThisPage(preferredVariant: Variant, pageVariant?: Variant): void {
 	if (pageVariant === preferredVariant) {
-		output('checkThisPage', 'Variant is correct :)');
 		return;
 	}
-
-	output('checkThisPage', `Redirecting to ${preferredVariant}...`);
 
 	const redirectionOrigin: string | null = mw.config.get('wgRedirectedFrom');
 	if (redirectionOrigin === null) {
 		redirect(preferredVariant);
 		return;
 	}
-
-	// If current page is redirected from another page, rewrite link to point to
-	// the original redirect so the "redirected from XXX" hint is correctly displayed
-	output('checkThisPage', `Detected redirection from ${redirectionOrigin}`);
 
 	// Use URL to reserve other parts of the link
 	const redirectionURL = new URL(location.href);
@@ -121,17 +108,13 @@ function rewriteAnchors(variant: Variant): void {
 				const anchor: HTMLAnchorElement | null = target.closest('a[href]:not([href^="#"])');
 
 				if (anchor !== null) {
-					output('rewriteAnchors', `Event ${ev.type} on ${anchor.href}`);
-
 					const origLink = anchor.href;
 					if (!isEligibleForRewriting(origLink)) {
-						output('rewriteAnchors', 'Anchor does not require rewriting. Stop.');
 						return;
 					}
 
 					const newLink = rewriteLink(origLink, variant);
 					if (newLink === origLink) {
-						output('rewriteAnchors', 'Anchor link is unchanged. Stop.');
 						return;
 					}
 
@@ -142,42 +125,23 @@ function rewriteAnchors(variant: Variant): void {
 						for (const type of ev.dataTransfer.types) {
 							ev.dataTransfer.setData(type, newLink);
 						}
-
-						output('rewriteAnchors', 'dragHandler', 'Drop data changed!');
 					} else {
 						// Use a mutex to avoid being overwritten by overlapped handler calls
 						if (anchor.dataset['vaMutex'] === undefined) {
 							anchor.dataset['vaMutex'] = '';
-
-							output('rewriteAnchors', 'clickHandler', 'Anchor locked.');
 						}
 
 						anchor.href = newLink;
-						output('rewriteAnchors', 'clickHandler', `href ${anchor.href}, origLink ${origLink}`);
 
 						// HACK: workaround popups not working on modified links
 						// Add handler to <a> directly so it was triggered before anything else
 						for (const innerName of ['mouseover', 'mouseleave', 'keyup']) {
 							anchor.addEventListener(
 								innerName,
-								(innerEv) => {
-									output(
-										'rewriteAnchors',
-										'clickHandler',
-										'restorationHandler',
-										`Event ${innerEv.type} on ${anchor.href}, origLink ${origLink}`
-									);
-
+								() => {
 									if (anchor.dataset['vaMutex'] !== undefined) {
 										anchor.href = origLink;
 										delete anchor.dataset['vaMutex'];
-
-										output(
-											'rewriteAnchors',
-											'clickHandler',
-											'restorationHandler',
-											'Anchor unlocked.'
-										);
 									}
 								},
 								{once: true}
@@ -205,7 +169,6 @@ function showVariantPrompt(): void {
 function applyURLVariant(): void {
 	const variant = new URL(location.href).searchParams.get(VARIANT_PARAM);
 	if (variant !== null && isValidVariant(variant)) {
-		output('applyURLVariant', `${VARIANT_PARAM}=${variant}, setting local variant...`);
 		setLocalVariant(variant);
 	}
 }

@@ -1,4 +1,3 @@
-import {checkDebugURLParam, output, showDebugInfo} from './modules/debug';
 import {
 	checkThisPage,
 	rewriteAnchors,
@@ -9,25 +8,18 @@ import {
 import {calculatePreferredVariant, getPageVariant, isOptOuted, setLocalVariant} from './modules/model';
 import {isLoggedIn, isLangChinese, isWikitextPage, isViewingPage, isReferrerSelf} from './modules/utils';
 
-// Debug utilities are (intentionally) unaffected by opt-out logics
-showDebugInfo();
-checkDebugURLParam();
-
 function main() {
 	// Manually opt outed users
 	if (isOptOuted()) {
-		output('main', 'Opt-outed. Stop.');
 		return;
 	}
 
 	if (isLoggedIn()) {
-		output('main', 'Logged in. Stop.');
 		return;
 	}
 
 	// Non-Chinese pages/users
 	if (!isLangChinese()) {
-		output('main', 'Current lang is not Chinese. Stop.');
 		return;
 	}
 
@@ -45,11 +37,9 @@ function main() {
 
 	// Non-article page (JS/CSS pages, Special pages etc.)
 	if (pageVariant === null || !isWikitextPage()) {
-		output('main', 'Non-article page.');
 		// Such page can't have variant, but preferred variant may be available
 		// So still rewrite links
 		if (preferredVariant !== null) {
-			output('main', 'Preferred variant is not null, continue.');
 			rewriteAnchors(preferredVariant);
 		}
 		return;
@@ -58,12 +48,10 @@ function main() {
 	// Preferred variant unavailable
 	if (preferredVariant === null) {
 		if (isViewingPage()) {
-			output('main', 'Preferred variant is null, show variant prompt');
 			showVariantPrompt();
 			return;
 		}
 
-		output('main', 'Preferred variant is null, do nothing.');
 		return;
 	}
 
@@ -71,7 +59,6 @@ function main() {
 	// The eligibility check is require because user may click on a link with variant intentionally
 	// e.g. variant dropdown and {{Variant-cnhktwsg}}
 	if (isReferrerSelf() && !isEligibleForRewriting(location.href)) {
-		output('main', 'On-site navigation to links ineligible for writing. No checking redirection.');
 		rewriteAnchors(preferredVariant);
 		return;
 	}
