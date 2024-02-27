@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-VariantAllyDialog\"></span> VariantAlly配套对话框",
+	"excludeSites": ["testwiki"],
+	"default": true,
+	"dependencies": ["ext.gadget.VariantAlly", "vue"],
+	"hidden": true
+}
