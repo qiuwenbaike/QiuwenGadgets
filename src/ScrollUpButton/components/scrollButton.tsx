@@ -10,19 +10,13 @@ interface Props {
 	onClick: () => void;
 }
 
-const IMAGE_URI: string =
-	"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E";
-
-const TO_BOTTOM: string = getMessage('ToBottom');
-
-const TO_TOP: string = getMessage('ToTop');
-
-const scrollButton = (props: Props) => {
+function ScrollButton(props: Props) {
 	const {additionalClassName, alt, ariaLabel, onClick} = props;
+
 	return (
 		<img
 			className={[CLASS_NAME, additionalClassName]}
-			src={IMAGE_URI}
+			src={"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E"}
 			width="32"
 			height="32"
 			draggable={false}
@@ -31,24 +25,31 @@ const scrollButton = (props: Props) => {
 			onClick={onClick}
 		/>
 	);
-};
+}
 
-const scrollDownButton = scrollButton({
-	additionalClassName: CLASS_NAME_DOWN,
-	alt: TO_BOTTOM,
-	ariaLabel: TO_BOTTOM,
-	onClick: (): void => {
-		scrollTop(($(document).height() ?? 0) - ($(window).height() ?? 0));
-	},
-});
+const TO_BOTTOM: string = getMessage('ToBottom');
+const TO_TOP: string = getMessage('ToTop');
 
-const scrollUpButton = scrollButton({
-	additionalClassName: CLASS_NAME_UP,
-	alt: TO_TOP,
-	ariaLabel: TO_TOP,
-	onClick: (): void => {
-		scrollTop(0);
-	},
-});
+const ScrollDownButton = (
+	<ScrollButton
+		additionalClassName={CLASS_NAME_DOWN}
+		alt={TO_BOTTOM}
+		ariaLabel={TO_BOTTOM}
+		onClick={(): void => {
+			scrollTop(($(document).height() ?? 0) - ($(window).height() ?? 0));
+		}}
+	/>
+);
 
-export {scrollDownButton, scrollUpButton};
+const ScrollUpButton = (
+	<ScrollButton
+		additionalClassName={CLASS_NAME_UP}
+		alt={TO_TOP}
+		ariaLabel={TO_TOP}
+		onClick={(): void => {
+			scrollTop(0);
+		}}
+	/>
+);
+
+export {ScrollDownButton, ScrollUpButton};
