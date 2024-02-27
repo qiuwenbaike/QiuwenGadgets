@@ -191,7 +191,10 @@ function rewriteAnchors(variant: Variant): void {
 }
 
 function showVariantPrompt(): void {
-	import('ext.gadget.VariantAllyDialog');
+	const moduleName = 'ext.gadget.VariantAllyDialog';
+	void mw.loader.using(moduleName, (require) => {
+		require(moduleName);
+	});
 }
 
 /**
