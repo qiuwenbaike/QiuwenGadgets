@@ -4,6 +4,7 @@ import type {
 	ApiEditPageParams as _ApiEditPageParams,
 	ApiImportParams as _ApiImportParams,
 	ApiParseParams as _ApiParseParams,
+	ApiPatrolParams as _ApiPatrolParams,
 	ApiPurgeParams as _ApiPurgeParams,
 	ApiQueryBlocksParams as _ApiQueryBlocksParams,
 	ApiQueryLogEventsParams as _ApiQueryLogEventsParams,
@@ -22,6 +23,7 @@ declare global {
 	type ApiEditPageParams = _ApiEditPageParams;
 	type ApiImportParams = _ApiImportParams;
 	type ApiParseParams = _ApiParseParams;
+	type ApiPatrolParams = _ApiPatrolParams;
 	type ApiPurgeParams = _ApiPurgeParams;
 	type ApiQueryBlocksParams = _ApiQueryBlocksParams;
 	type ApiQueryLogEventsParams = _ApiQueryLogEventsParams;
