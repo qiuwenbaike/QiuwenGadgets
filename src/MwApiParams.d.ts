@@ -1,39 +1,17 @@
-import type {
-	ApiClientLoginParams as _ApiClientLoginParams,
-	ApiComparePagesParams as _ApiComparePagesParams,
-	ApiEditPageParams as _ApiEditPageParams,
-	ApiImportParams as _ApiImportParams,
-	ApiParseParams as _ApiParseParams,
-	ApiPatrolParams as _ApiPatrolParams,
-	ApiPurgeParams as _ApiPurgeParams,
-	ApiQueryBlocksParams as _ApiQueryBlocksParams,
-	ApiQueryLogEventsParams as _ApiQueryLogEventsParams,
-	ApiQueryParams as _ApiQueryParams,
-	ApiQueryRecentChangesParams as _ApiQueryRecentChangesParams,
-	ApiQueryRevisionsParams as _ApiQueryRevisionsParams,
-	ApiQueryUserContribsParams as _ApiQueryUserContribsParams,
-	ApiQueryUsersParams as _ApiQueryUsersParams,
-	ApiUploadParams as _ApiUploadParams,
-	UrlShortenerApiShortenUrlParams as _UrlShortenerApiShortenUrlParams,
-} from 'types-mediawiki-renovate/api_params';
-
-declare global {
-	type ApiClientLoginParams = _ApiClientLoginParams;
-	type ApiComparePagesParams = _ApiComparePagesParams;
-	type ApiEditPageParams = _ApiEditPageParams;
-	type ApiImportParams = _ApiImportParams;
-	type ApiParseParams = _ApiParseParams;
-	type ApiPatrolParams = _ApiPatrolParams;
-	type ApiPurgeParams = _ApiPurgeParams;
-	type ApiQueryBlocksParams = _ApiQueryBlocksParams;
-	type ApiQueryLogEventsParams = _ApiQueryLogEventsParams;
-	type ApiQueryParams = _ApiQueryParams;
-	type ApiQueryRecentChangesParams = _ApiQueryRecentChangesParams;
-	type ApiQueryRevisionsParams = _ApiQueryRevisionsParams;
-	type ApiQueryUserContribsParams = _ApiQueryUserContribsParams;
-	type ApiQueryUsersParams = _ApiQueryUsersParams;
-	type ApiUploadParams = _ApiUploadParams;
-	type UrlShortenerApiShortenUrlParams = _UrlShortenerApiShortenUrlParams;
-}
-
-export {};
+// Declare some types globally (DO NOT use import/export to prevent this file from being recognized as a module)
+type ApiClientLoginParams = import('types-mediawiki-renovate/api_params').ApiClientLoginParams;
+type ApiComparePagesParams = import('types-mediawiki-renovate/api_params').ApiComparePagesParams;
+type ApiEditPageParams = import('types-mediawiki-renovate/api_params').ApiEditPageParams;
+type ApiImportParams = import('types-mediawiki-renovate/api_params').ApiImportParams;
+type ApiParseParams = import('types-mediawiki-renovate/api_params').ApiParseParams;
+type ApiPatrolParams = import('types-mediawiki-renovate/api_params').ApiPatrolParams;
+type ApiPurgeParams = import('types-mediawiki-renovate/api_params').ApiPurgeParams;
+type ApiQueryBlocksParams = import('types-mediawiki-renovate/api_params').ApiQueryBlocksParams;
+type ApiQueryLogEventsParams = import('types-mediawiki-renovate/api_params').ApiQueryLogEventsParams;
+type ApiQueryParams = import('types-mediawiki-renovate/api_params').ApiQueryParams;
+type ApiQueryRecentChangesParams = import('types-mediawiki-renovate/api_params').ApiQueryRecentChangesParams;
+type ApiQueryRevisionsParams = import('types-mediawiki-renovate/api_params').ApiQueryRevisionsParams;
+type ApiQueryUserContribsParams = import('types-mediawiki-renovate/api_params').ApiQueryUserContribsParams;
+type ApiQueryUsersParams = import('types-mediawiki-renovate/api_params').ApiQueryUsersParams;
+type ApiUploadParams = import('types-mediawiki-renovate/api_params').ApiUploadParams;
+type UrlShortenerApiShortenUrlParams = import('types-mediawiki-renovate/api_params').UrlShortenerApiShortenUrlParams;
