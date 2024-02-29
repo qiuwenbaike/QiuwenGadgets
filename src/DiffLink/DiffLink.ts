@@ -2,7 +2,7 @@ import {checkDiffPage} from './modules/util/checkDiffPage';
 import {checkRevisionPage} from './modules/util/checkRevisionPage';
 import {processId} from './modules/processId';
 
-mw.hook('wikipage.content').add(($content): void => {
+mw.hook('wikipage.content').add(function diffLink($content): void {
 	if ($content.attr('id') !== 'mw-content-text') {
 		return;
 	}
