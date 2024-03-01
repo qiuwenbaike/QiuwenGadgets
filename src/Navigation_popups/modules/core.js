@@ -3,7 +3,7 @@
 import {initMwApi} from 'ext.gadget.Util';
 import {popupStrings} from './string';
 
-export const popups = () => {
+const popups = () => {
 	// STARTFILE: main.js
 	// Fix later
 	// Globals
@@ -8162,3 +8162,5 @@ export const popups = () => {
 	})();
 	// ENDFILE: run.js
 };
+
+export {popups};
