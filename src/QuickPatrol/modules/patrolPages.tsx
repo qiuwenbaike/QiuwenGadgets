@@ -2,7 +2,28 @@ import React from 'ext.gadget.React';
 import {api} from './api';
 import {getMessage} from './i18n';
 
-const PatrolSinglePage = (index: number | string, revId: string) => (
+const patrolAllPages = ($body: JQuery<HTMLBodyElement>) => (
+	<li>
+		<a
+			id="gadget-quick_patrol__all"
+			onClick={(): void => {
+				if (!confirm(getMessage('Patrol all pages?'))) {
+					return;
+				}
+				$body.find('.not-patrolled').each((index): void => {
+					const $element: JQuery = $(`#gadget-quick_patrol__${index}`);
+					if ($element.css('pointer-events') !== 'none') {
+						$element.trigger('click');
+					}
+				});
+			}}
+		>
+			{`[${getMessage('Patrol all pages')}]`}
+		</a>
+	</li>
+);
+
+const patrolSinglePage = (index: string, revId: string) => (
 	<a
 		className="gadget-quick_patrol__patrolbtn"
 		id={`gadget-quick_patrol__${index}`}
@@ -49,25 +70,4 @@ const PatrolSinglePage = (index: number | string, revId: string) => (
 	</a>
 );
 
-const PatrolAllPages = ($body: JQuery<HTMLBodyElement>) => (
-	<li>
-		<a
-			id="gadget-quick_patrol__all"
-			onClick={(): void => {
-				if (!confirm(getMessage('Patrol all pages?'))) {
-					return;
-				}
-				$body.find('.not-patrolled').each((index): void => {
-					const $element: JQuery = $(`#gadget-quick_patrol__${index}`);
-					if ($element.css('pointer-events') !== 'none') {
-						$element.trigger('click');
-					}
-				});
-			}}
-		>
-			{`[${getMessage('Patrol all pages')}]`}
-		</a>
-	</li>
-);
-
-export {PatrolAllPages, PatrolSinglePage};
+export {patrolAllPages, patrolSinglePage};
