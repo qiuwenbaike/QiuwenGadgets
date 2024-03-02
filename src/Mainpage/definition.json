@@ -1,6 +1,7 @@
 {
 	"enable": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage\"></span> 首页样式",
+	"section": "appear",
 	"excludeSites": ["licencewiki", "testwiki"],
 	"default": true,
 	"hidden": true,
