@@ -52,12 +52,14 @@ li#t-specialpages {
 	padding: 1em;
 }
 
-body:not(.page-Qiuwen_首页) {
-	#catlinks:not(.catlinks-allhidden) {
-		display: block !important;
+body {
+	&:not(.page-Qiuwen_首页, .page-许可百科_首页) {
+		#catlinks:not(.catlinks-allhidden) {
+			display: block !important;
 
-		.skin-citizen & {
-			display: flex !important;
+			.skin-citizen & {
+				display: flex !important;
+			}
 		}
 	}
 }
