@@ -279,10 +279,10 @@ const translateVariants = (wgPageName: string): void => {
 			}
 
 			const [page] = data['query'].pages;
-			if (!page?.invalid) {
+
+			if (page.invalid) {
 				return $.Deferred().reject('invalidtitle');
 			}
-
 			if (page.missing) {
 				return $.Deferred().reject('nocreate-missing');
 			}
