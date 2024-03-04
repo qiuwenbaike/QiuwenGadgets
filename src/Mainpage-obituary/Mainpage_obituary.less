@@ -12,93 +12,95 @@
 /* == 非页面正文 == */
 
 /* 隐藏首页的页顶、页尾及其他无用要素 */
-.page-Qiuwen_首页,
-.page-许可百科_首页 {
-	&.action-view {
-		&.skin-citizen .mw-body,
-		&.skin-gongbi #mw-content,
-		&.skin-vector .mw-body {
-			/* 背景 */
-			background: @background-color-primary--lighter;
+body.page-许可百科_首页.action-view,
+body.page-Qiuwen_首页.action-view {
+	&.skin-citizen .mw-body,
+	&.skin-gongbi #mw-content,
+	&.skin-vector .mw-body {
+		/* 背景 */
+		background: @background-color-primary--lighter;
 
-			.client-darkmode & {
-				background: @const-color-gray--dark;
-			}
+		html.client-darkmode & {
+			background: @const-color-gray--dark;
 		}
 	}
 }
 
 /* == 页面正文 == */
-.mainpage {
-	.client-darkmode & {
-		color: @const-color-black;
-	}
-
-	h2 {
-		background: @color--primary;
-		color: @const-color-white;
-
-		.mw-headline {
-			&::before,
-			&::after {
-				color: @const-color-white;
-			}
+.skin-citizen .mw-body,
+.skin-gongbi #mw-content,
+.skin-vector .mw-body {
+	.mainpage {
+		html.client-darkmode & {
+			color: @const-color-black;
 		}
-	}
 
-	a.new {
-		color: inherit;
-	}
-
-	.mw-ui-progressive,
-	.cdx-button--action-progressive {
-		border-color: @color--primary;
-		background-color: @color--primary;
-	}
-
-	&-header-box,
-	&-box,
-	&-footer-box {
-		background: @background-color-light;
-		box-shadow:
-			0 1px 2px @background-color-primary--light,
-			0 -1px 2px @background-color-primary--light;
-
-		.client-darkmode & {
-			background: @background-color-primary--light;
-			box-shadow:
-				0 1px 2px @background-color-primary--darkest,
-				0 -1px 2px @background-color-primary--darkest !important;
-		}
-	}
-
-	&-header {
-		filter: grayscale(1);
-
-		.mainpage-articlecount {
-			color: @const-color-secondary;
-
-			.client-darkmode & {
-				color: @const-color-primary;
-			}
-		}
-	}
-
-	&-link-button {
-		&:hover {
+		h2 {
 			background: @color--primary;
 			color: @const-color-white;
 
-			a {
-				&,
-				&.extiw,
-				&.external {
+			.mw-headline {
+				&::before,
+				&::after {
+					color: @const-color-white;
+				}
+			}
+		}
+
+		a.new {
+			color: inherit;
+		}
+
+		.mw-ui-progressive,
+		.cdx-button--action-progressive {
+			border-color: @color--primary;
+			background-color: @color--primary;
+		}
+
+		.mainpage-header-box,
+		.mainpage-box,
+		.mainpage-footer-box {
+			background: @background-color-light;
+			box-shadow:
+				0 1px 2px @background-color-primary--light,
+				0 -1px 2px @background-color-primary--light;
+
+			html.client-darkmode & {
+				background: @background-color-primary--light;
+				box-shadow:
+					0 1px 2px @background-color-primary--darkest,
+					0 -1px 2px @background-color-primary--darkest !important;
+			}
+		}
+
+		.mainpage-header {
+			filter: grayscale(1);
+
+			.mainpage-articlecount {
+				color: @const-color-secondary;
+
+				html.client-darkmode & {
+					color: @const-color-primary;
+				}
+			}
+		}
+
+		.mainpage-link-button {
+			&:hover {
+				background: @color--primary;
+				color: @const-color-white;
+
+				a {
 					&,
-					&:visited {
+					&.extiw,
+					&.external {
 						&,
-						&:hover {
-							color: @const-color-white;
-							text-decoration: none;
+						&:visited {
+							&,
+							&:hover {
+								color: @const-color-white;
+								text-decoration: none;
+							}
 						}
 					}
 				}
