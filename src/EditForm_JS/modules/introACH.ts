@@ -54,12 +54,12 @@ const introACH = (): void => {
 		if (mw.config.get('wgNamespaceNumber') === 6) {
 			/**
 			 * If editing pages under `File:` namespace,
-			 * redirect to Special:UploadWizard
+			 * redirect to [[Special:UploadWizard]]
 			 */
 			location.href = '/wiki/Special:UploadWizard';
-		} else {
+		} else if (mw.config.get('wgNamespaceNumber') === 0) {
 			/**
-			 * If editing pages under other namespaces,
+			 * If editing pages under main namespace,
 			 * redirect to [[QW:ACH]]
 			 */
 			location.href = '/wiki/QW:ACH';
