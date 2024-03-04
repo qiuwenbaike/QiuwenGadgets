@@ -11,6 +11,17 @@ const introACH = (): void => {
 		return;
 	}
 
+	// Disabled for official users and experienced users
+	if (
+		WG_USER_GROUPS.includes('qiuwen') ||
+		WG_USER_GROUPS.includes('steward') ||
+		WG_USER_GROUPS.includes('senioreditor') ||
+		WG_USER_GROUPS.includes('bot') ||
+		WG_USER_GROUPS.includes('confirmed')
+	) {
+		return;
+	}
+
 	/**
 	 * Remove "Edit" buttons
 	 */
