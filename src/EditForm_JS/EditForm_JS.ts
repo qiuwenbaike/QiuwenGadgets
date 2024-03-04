@@ -20,7 +20,7 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 
 	// 新用户引导至条目创建向导（[[QW:AFC]]）
 	const curid = mw.config.get('wgArticleId');
-	if (!curid && ![2, 3, 118].includes(WG_NAMESPACE_NUMBER)) {
+	if (!curid && [0, 6].includes(WG_NAMESPACE_NUMBER)) {
 		introACH();
 	}
 });
