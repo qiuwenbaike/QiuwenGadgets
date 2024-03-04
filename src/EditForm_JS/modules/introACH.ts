@@ -1,4 +1,4 @@
-import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_USER_GROUPS, WG_WIKI_ID} from './constant';
+import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_NAMESPACE_NUMBER, WG_USER_GROUPS, WG_WIKI_ID} from './constant';
 
 const introACH = (): void => {
 	// Disabled for wikis other than zhqiuwenbaike
@@ -25,8 +25,10 @@ const introACH = (): void => {
 	/**
 	 * Remove "Edit" buttons
 	 */
-	for (const element of document.querySelectorAll('#ca-ve-edit, #ca-edit')) {
-		element.remove();
+	if ([0, 6].includes(WG_NAMESPACE_NUMBER)) {
+		for (const element of document.querySelectorAll('#ca-ve-edit, #ca-edit')) {
+			element.remove();
+		}
 	}
 
 	/**
@@ -51,13 +53,13 @@ const introACH = (): void => {
 	}
 
 	if (IS_WG_EDIT_OR_SUBMIT_ACTION) {
-		if (mw.config.get('wgNamespaceNumber') === 6) {
+		if (WG_NAMESPACE_NUMBER === 6) {
 			/**
 			 * If editing pages under `File:` namespace,
 			 * redirect to [[Special:UploadWizard]]
 			 */
 			location.href = '/wiki/Special:UploadWizard';
-		} else if (mw.config.get('wgNamespaceNumber') === 0) {
+		} else if (WG_NAMESPACE_NUMBER === 0) {
 			/**
 			 * If editing pages under main namespace,
 			 * redirect to [[QW:ACH]]
