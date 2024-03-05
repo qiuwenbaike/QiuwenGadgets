@@ -1,4 +1,4 @@
-import {initMwApi} from 'ext.gadget.Util';
+import {mwApi} from './api';
 
 /**
  * CheckCategories HotCat Extension –
@@ -16,7 +16,7 @@ import {initMwApi} from 'ext.gadget.Util';
 	) {
 		return;
 	}
-	const api = initMwApi('hotCatCheck/2.0');
+	const api = mwApi('hotCatCheck/2.0');
 	const checkCategoriesRegExp = /{{[Cc]heck[ _]categories[^{}]*}}/g;
 	const selfName = '([[MediaWiki:Gadget-HotCat-check.js|Script]]): ';
 	const storageItemName = 'checkCat';

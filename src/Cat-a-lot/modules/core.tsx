@@ -31,8 +31,9 @@ import {
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
-import {getBody, initMwApi} from 'ext.gadget.Util';
 import React from 'ext.gadget.React';
+import {api} from './api';
+import {getBody} from 'ext.gadget.Util';
 
 /**
  * Changes category of multiple files
@@ -44,7 +45,6 @@ const catALot = (): void => {
 
 		private static readonly MESSAGES: Record<MessageKey, string> = DEFAULT_MESSAGES;
 		private static readonly DEFAULT_SETTING: Setting = DEFAULT_SETTING;
-		private static readonly VERSION: string = OPTIONS.version;
 
 		private static readonly API_TAG: string = OPTIONS.apiTag;
 		private static readonly TARGET_NAMESPACE: number = OPTIONS.targetNamespace;
@@ -56,7 +56,7 @@ const catALot = (): void => {
 
 		private static isAutoCompleteInit = false;
 
-		private static api = initMwApi(`Cat-a-lot/${CAL.VERSION}`);
+		private static api = api;
 
 		private static alreadyThere: string[] = [];
 		private static connectionError: string[] = [];
