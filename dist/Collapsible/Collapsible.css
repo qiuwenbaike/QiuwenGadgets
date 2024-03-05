@@ -1,0 +1,45 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://rs.miraheze.org/wiki/MediaWiki:Gadget-collapsible.js}
+ * @base {@link https://rs.miraheze.org/wiki/MediaWiki:Gadget-collapsible.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Collapsible}
+ * @author SolidBlock
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* esbuild-css-modules-plugin-ns-css:src/Collapsible/modules/util/Collapsible.module.less */
+.Collapsible-module__toggler_kvMGjG {
+  -webkit-user-select: none;
+  user-select: none;
+  font-weight: normal;
+}
+.mw-content-ltr .Collapsible-module__toggler_kvMGjG {
+  float: right;
+  text-align: right;
+  margin-left: .5em;
+  margin-right: 0;
+}
+.mw-content-rtl .Collapsible-module__toggler_kvMGjG {
+  float: left;
+  text-align: left;
+  margin-left: 0;
+  margin-right: .5em;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9Db2xsYXBzaWJsZS9tb2R1bGVzL3V0aWwvQ29sbGFwc2libGUubW9kdWxlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5Db2xsYXBzaWJsZS1tb2R1bGVfX3RvZ2dsZXJfa3ZNR2pHIHtcbiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTtcbiAgdXNlci1zZWxlY3Q6IG5vbmU7XG4gIGZvbnQtd2VpZ2h0OiBub3JtYWw7XG59XG5cbi5tdy1jb250ZW50LWx0ciAuQ29sbGFwc2libGUtbW9kdWxlX190b2dnbGVyX2t2TUdqRyB7XG4gIGZsb2F0OiByaWdodDtcbiAgdGV4dC1hbGlnbjogcmlnaHQ7XG4gIG1hcmdpbi1sZWZ0OiAuNWVtO1xuICBtYXJnaW4tcmlnaHQ6IDA7XG59XG5cbi5tdy1jb250ZW50LXJ0bCAuQ29sbGFwc2libGUtbW9kdWxlX190b2dnbGVyX2t2TUdqRyB7XG4gIGZsb2F0OiBsZWZ0O1xuICB0ZXh0LWFsaWduOiBsZWZ0O1xuICBtYXJnaW4tbGVmdDogMDtcbiAgbWFyZ2luLXJpZ2h0OiAuNWVtO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQztBQUNDLHVCQUFxQjtBQUNyQixlQUFhO0FBQ2IsZUFBYTtBQUNmO0FBRUEsQ0FBQyxlQUFlLENBTmY7QUFPQyxTQUFPO0FBQ1AsY0FBWTtBQUNaLGVBQWE7QUFDYixnQkFBYztBQUNoQjtBQUVBLENBQUMsZUFBZSxDQWJmO0FBY0MsU0FBTztBQUNQLGNBQVk7QUFDWixlQUFhO0FBQ2IsZ0JBQWM7QUFDaEI7IiwKICAibmFtZXMiOiBbXQp9Cg== */
