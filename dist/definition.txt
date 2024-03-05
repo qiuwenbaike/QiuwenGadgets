@@ -5,8 +5,7 @@
 </div>
 
 == appear ==
-* FoldRef[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util|peers=FoldRef-pagestyles|requiresES6]|FoldRef.js
-* FoldRef-pagestyles[ResourceLoader|hidden|requiresES6]|FoldRef-pagestyles.css
+* FoldRef[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|FoldRef.js|FoldRef.css
 * GadgetsDefinition[ResourceLoader|default|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|GadgetsDefinition.js|GadgetsDefinition.css
 * HanSect[ResourceLoader|default|requiresES6]|HanSect.css
 * HideConversionTab[ResourceLoader|default|requiresES6]|HideConversionTab.css
@@ -33,7 +32,7 @@
 * AjaxLogin[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,oojs-ui-core,oojs-ui-windows,oojs-ui.styles.icons-interactions,oojs-ui.styles.icons-user|hidden|requiresES6]|AjaxLogin.js
 * AutoLink[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|AutoLink.js
 * CodeLinks[ResourceLoader|default|dependencies=ext.gadget.React,ext.gadget.Util,mediawiki.util|rights=edit|requiresES6]|CodeLinks.js
-* CopyCodeBlock[ResourceLoader|actions=view|default|dependencies=ext.gadget.Clipboard,ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Toastify,mediawiki.util,oojs-ui-core,oojs-ui.styles.icons-editing-advanced|peers=CopyCodeBlock-pagestyles|requiresES6]|CopyCodeBlock.js|CopyCodeBlock.css
+* CopyCodeBlock[ResourceLoader|actions=view|default|dependencies=ext.gadget.Clipboard,ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Toastify,mediawiki.util,oojs-ui-core,oojs-ui.styles.icons-editing-advanced|requiresES6]|CopyCodeBlock.js|CopyCodeBlock.css
 * DidYouMean[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util|requiresES6]|DidYouMean.js
 * DiffLink[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,mediawiki.widgets,oojs-ui-windows|requiresES6]|DiffLink.js
 * EnhancedSpecialSearch[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util|requiresES6]|EnhancedSpecialSearch.js
@@ -87,7 +86,7 @@
 * Cat-a-lot[ResourceLoader|actions=view|dependencies=ext.gadget.React,ext.gadget.Util,jquery.ui,mediawiki.jqueryMsg,mediawiki.util|peers=Cat-a-lot-pagestyles|rights=skipcaptcha|requiresES6]|Cat-a-lot.js
 * Cat-a-lot-pagestyles[ResourceLoader|hidden|requiresES6]|Cat-a-lot-pagestyles.css
 * DefaultSummaries[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,oojs-ui-core|rights=edit|requiresES6]|DefaultSummaries.js
-* DisamAssist[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.Title|peers=DisamAssist-pagestyles|rights=skipcaptcha|requiresES6]|DisamAssist.js|DisamAssist.css
+* DisamAssist[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.Title|rights=skipcaptcha|requiresES6]|DisamAssist.js|DisamAssist.css
 * DisambigLinks[ResourceLoader|requiresES6]|DisambigLinks.css
 * EasyArchive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util|rights=skipcaptcha|requiresES6]|EasyArchive.js|EasyArchive.css
 * Edit0[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.Uri|rights=edit|requiresES6]|Edit0.js|Edit0.css
