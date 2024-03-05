@@ -4,11 +4,13 @@ const getI18nMessages = () => {
 	return {
 		Print: localize({
 			en: 'Print',
-			'zh-hans': 'Api 调用连续失败 $1 次，$1 次调用的错误分别为：',
-			'zh-hant': 'Api 調用連續失敗 $1 次，$1 次調用的錯誤分別為：',
+			ja: '印刷',
+			'zh-hans': '打印',
+			'zh-hant': '列印',
 		}),
 		'Print this page': localize({
 			en: 'Print this page',
+			ja: 'このページを印刷に',
 			'zh-hans': '打印此页面',
 			'zh-hant': '列印此頁面',
 		}),
