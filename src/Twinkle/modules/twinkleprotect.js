@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {initMwApi} from 'ext.gadget.Util';
+import {api} from './api';
 
 /*! Twinkle.js - twinkleprotect.js */
 (function twinkleprotect($) {
@@ -112,7 +112,6 @@ import {initMwApi} from 'ext.gadget.Util';
 	Twinkle.protect.currentProtectionLevels = {};
 	Twinkle.protect.previousProtectionLevels = {};
 	Twinkle.protect.fetchProtectionLevel = async () => {
-		const api = initMwApi('morebits.js; Twinkle/1.1');
 		try {
 			const params = {
 				format: 'json',
