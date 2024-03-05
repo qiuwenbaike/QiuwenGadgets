@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {getMessage} from './modules/i18n';
 
 let /** @type {OO.ui.WindowManager} */ windowManager;
 let /** @type {OO.ui.ProcessDialog} */ printDialog;
@@ -32,15 +33,15 @@ const printOptionsMain = {
 
 		PrintDialog.static = {};
 		PrintDialog.static.name = 'PrintDialog';
-		PrintDialog.static.title = `${window.wgULS('打', '列')}印此${window.wgULS('页', '頁')}面`;
+		PrintDialog.static.title = getMessage('Print this page');
 		PrintDialog.static.actions = [
 			{
 				action: 'print',
-				label: `${window.wgULS('打', '列')}印`,
+				label: getMessage('Print'),
 				flags: ['primary', 'progressive'],
 			},
 			{
-				label: '取消',
+				label: getMessage('Cancel'),
 				flags: ['safe', 'close'],
 			},
 		];
