@@ -1,15 +1,12 @@
 /* global CiteTB */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {getBody, initMwApi} from 'ext.gadget.Util';
+import {api} from './util/api';
 import {getMessage} from './util/getMessage';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
-const refToolbar2 = async () => {
-	const $body = await getBody();
-	const api = initMwApi('RefToolbar/2.0');
-
+const refToolbar2 = ($body) => {
 	// Default options, these mainly exist so the script won't break if a new option is added
 	CiteTB.DefaultOptions = {
 		'date format': '<year>-<zmonth>-<zdate>',

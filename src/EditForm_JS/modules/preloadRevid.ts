@@ -3,8 +3,8 @@
 /**
  * @description Preload contents from Revision ID (oldid)
  */
+import {api} from './util/api';
 import {getMessage} from './i18n';
-import {initMwApi} from 'ext.gadget.Util';
 
 const preloadRevid = ($body: JQuery<HTMLBodyElement>): void => {
 	const revid = mw.util.getParamValue('preloadrevid');
@@ -13,7 +13,6 @@ const preloadRevid = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
-	const api = initMwApi();
 	const params: ApiQueryRevisionsParams = {
 		action: 'query',
 		format: 'json',

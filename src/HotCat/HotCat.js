@@ -1,9 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import './modules/check';
-import {generateArray, initMwApi} from 'ext.gadget.Util';
+import {generateArray} from 'ext.gadget.Util';
 import {getMessage} from './modules/getMessage';
 import {hotCatMessages} from './modules/messages';
+import {mwApi} from './modules/api';
 
 /**
  * @description Ajax-based simple Category manager. Allows adding/removing/changing categories on a page view.
@@ -27,7 +28,7 @@ hotCatMessages();
 		return; // Not on edit mode
 	}
 	// Initialize MediaWiki API
-	const api = initMwApi('HotCat/3.0');
+	const api = mwApi('HotCat/3.0');
 	// Configuration stuff.
 	window.HotCat = {
 		// The little modification links displayed after category names. U+2212 is a minus sign; U+2193 and U+2191 are
