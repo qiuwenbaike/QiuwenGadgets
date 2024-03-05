@@ -1,14 +1,14 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_RELEVANT_USER_NAME} from './constant';
 import type {UserRights} from '~/MarkRights/modules/types';
+import {api} from './api';
 import {appendIcon} from './appendIcon';
 import {getMessage} from './i18n';
-import {initMwApi} from 'ext.gadget.Util';
 
-export const getPermissions = async (): Promise<void> => {
+const getPermissions = async (): Promise<void> => {
 	if (!WG_RELEVANT_USER_NAME) {
 		return;
 	}
-	const api: mw.Api = initMwApi('MarkRights-Userpage/1.0');
+
 	try {
 		const listUsersParams: ApiQueryUsersParams = {
 			action: 'query',
@@ -21,61 +21,17 @@ export const getPermissions = async (): Promise<void> => {
 		const {query} = await api.get(listUsersParams);
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const [{groups}]: [{groups: UserRights[]}] = query.users;
-		if (WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || groups.includes('qiuwen')) {
-			appendIcon(getMessage('Webmaster'), 'qiuwen');
-		}
-		if (groups.includes('steward')) {
-			appendIcon(getMessage('Steward'), 'steward');
-		}
-		if (groups.includes('checkuser')) {
-			appendIcon(getMessage('CheckUser'), 'checkuser');
-		}
-		if (groups.includes('suppress')) {
-			appendIcon(getMessage('Suppress'), 'suppress');
-		}
-		if (groups.includes('sysop')) {
-			appendIcon(getMessage('SysOp'), 'sysop');
-		}
-		if (groups.includes('interface-admin')) {
-			appendIcon(getMessage('InterfaceAdmin'), 'interface-admin');
-		}
-		if (groups.includes('templateeditor')) {
-			appendIcon(getMessage('TemplateEditor'), 'templateeditor');
-		}
-		if (groups.includes('transwiki')) {
-			appendIcon(getMessage('Transwiki'), 'transwiki');
-		}
-		if (groups.includes('patroller')) {
-			appendIcon(getMessage('Patroller'), 'patroller');
-		}
-		if (groups.includes('autoreviewer')) {
-			appendIcon(getMessage('AutoReviewer'), 'autoreviewer');
-		}
-		if (groups.includes('senioreditor')) {
-			appendIcon(getMessage('SeniorEditor'), 'senioreditor');
-		}
-		if (groups.includes('massmessage-sender')) {
-			appendIcon(getMessage('MassMessageSender'), 'massmessage-sender');
-		}
-		if (groups.includes('autoconfirmed')) {
-			appendIcon(getMessage('AutoConfirmed'), 'autoconfirmed');
-		} else if (groups.includes('confirmed')) {
-			appendIcon(getMessage('Confirmed'), 'confirmed');
-		}
-		if (groups.includes('rnrsverify-exempt')) {
-			appendIcon(getMessage('RNRSVerifyExempt'), 'rnrsverify-exempt');
-		}
-		if (
-			groups.includes('bot') &&
-			!SYSTEM_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME) // Already shown in GeoLocationViewer
-		) {
-			appendIcon(getMessage('Bot'), 'bot');
-		}
-		if (groups.includes('flood')) {
-			appendIcon(getMessage('Flood'), 'flood');
-		}
-		if (groups.includes('ipblock-exempt')) {
-			appendIcon(getMessage('IPBlockExempt'), 'ipblock-exempt');
+
+		for (const group of groups) {
+			if (WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || group === 'qiuwen') {
+				appendIcon(getMessage('qiuwen'), 'qiuwen');
+			} else if (group === 'bot' && SYSTEM_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME)) {
+				continue; // Already shown in GeoLocationViewer
+			} else if (groups.includes(group)) {
+				appendIcon(getMessage(group), group);
+			}
 		}
 	} catch {}
 };
+
+export {getPermissions};
