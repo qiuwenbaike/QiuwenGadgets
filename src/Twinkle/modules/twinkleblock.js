@@ -1,12 +1,12 @@
 /* eslint-disable no-jquery/no-map-util */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {generateArray, initMwApi} from 'ext.gadget.Util';
+import {api} from './api';
+import {generateArray} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkleblock.js */
 (function twinkleblock($) {
 	const $body = $('body');
-	const api = initMwApi('morebits.js; Twinkle/1.1');
 	let relevantUserName;
 	let blockedUserName;
 	const menuFormattedNamespaces = {
