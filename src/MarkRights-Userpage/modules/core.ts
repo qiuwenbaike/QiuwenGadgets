@@ -23,10 +23,12 @@ const getPermissions = async (): Promise<void> => {
 		const [{groups}]: [{groups: UserRights[]}] = query.users;
 
 		for (const group of groups) {
-			if (WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || group === 'qiuwen') {
-				appendIcon(getMessage('qiuwen'), 'qiuwen');
+			if (['*', 'user', 'autoconfirmed', 'rnrsverify-confirmed'].includes(group)) {
+				continue; // Do not show implicit groups
 			} else if (group === 'bot' && SYSTEM_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME)) {
 				continue; // Already shown in GeoLocationViewer
+			} else if (WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || group === 'qiuwen') {
+				appendIcon(getMessage('qiuwen'), 'qiuwen');
 			} else if (groups.includes(group)) {
 				appendIcon(getMessage(group), group);
 			}
