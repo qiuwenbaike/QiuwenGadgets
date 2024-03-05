@@ -1,4 +1,4 @@
-export const txt = {
+const messages = {
 	start: '为链接消歧义',
 	startMain: '为链至主条目的链接消歧义',
 	startSame: '为链至消歧义页的链接消歧义',
@@ -41,3 +41,5 @@ export const txt = {
 	summarySeparator: '; ',
 	redirectSummary: '使用[[MediaWiki:Gadget-DisamAssist.js|DisamAssist]]创建目标为[[$1]]的重定向。',
 };
+
+export {messages};
