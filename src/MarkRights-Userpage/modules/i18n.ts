@@ -2,97 +2,97 @@ import {localize} from 'ext.gadget.i18n';
 
 const getI18nMessages = () => {
 	return {
-		Webmaster: localize({
+		qiuwen: localize({
 			en: 'Webmaster',
 			'zh-hans': '站长',
 			'zh-hant': '站長',
 		}),
-		Steward: localize({
+		steward: localize({
 			en: 'Steward',
 			'zh-hans': '裁决委员',
 			'zh-hant': '裁決委員',
 		}),
-		CheckUser: localize({
+		checkuser: localize({
 			en: 'CheckUser',
 			'zh-hans': '用户查核',
 			'zh-hant': '用戶查核',
 		}),
-		Suppress: localize({
+		suppress: localize({
 			en: 'Oversighter',
 			'zh-hans': '监督员',
 			'zh-hant': '監督員',
 		}),
-		SysOp: localize({
+		sysop: localize({
 			en: 'SysOp',
 			'zh-hans': '管理员',
 			'zh-hant': '管理員',
 		}),
-		InterfaceAdmin: localize({
+		'interface-admin': localize({
 			en: 'Interface Administrator',
 			'zh-hans': '界面管理员',
 			'zh-hant': '介面管理員',
 		}),
-		TemplateEditor: localize({
+		templateeditor: localize({
 			en: 'Template Editor',
 			'zh-hans': '模板编辑员',
 			'zh-hant': '模板編輯員',
 		}),
-		Transwiki: localize({
+		transwiki: localize({
 			en: 'Importer',
 			'zh-hans': '导入者',
 			'zh-hant': '匯入者',
 		}),
-		Patroller: localize({
+		patroller: localize({
 			en: 'Patroller',
 			'zh-hans': '巡查员',
 			'zh-hant': '巡查員',
 		}),
-		AutoReviewer: localize({
+		autoreviewer: localize({
 			en: 'Exempted from page patrol',
 			'zh-hans': '巡查豁免',
 			'zh-hant': '巡查豁免',
 		}),
-		SeniorEditor: localize({
+		senioreditor: localize({
 			en: 'Senior Editor',
 			'zh-hans': '资深编者',
 			'zh-hant': '資深編者',
 		}),
-		EventSponsor: localize({
+		eventsponsor: localize({
 			en: 'Event Sponsor',
 			'zh-hans': '活动组织者',
 			'zh-hant': '活動組織者',
 		}),
-		MassMessageSender: localize({
+		'massmessage-sender': localize({
 			en: 'MassMessage sender',
 			'zh-hans': '大量消息发送者',
 			'zh-hant': '大量訊息傳送者',
 		}),
-		Confirmed: localize({
+		confirmed: localize({
 			en: 'Confirmed user',
 			'zh-hans': '确认用户',
 			'zh-hant': '確認用戶',
 		}),
-		AutoConfirmed: localize({
+		autoconfirmed: localize({
 			en: 'Auto-confirmed user',
 			'zh-hans': '自动确认用户',
 			'zh-hant': '自動確認用戶',
 		}),
-		RNRSVerifyExempt: localize({
+		'rnrsverify-exempt': localize({
 			en: 'Exempted from real-name verification',
 			'zh-hans': '实名制验证豁免',
 			'zh-hant': '實名制驗證豁免',
 		}),
-		Bot: localize({
+		bot: localize({
 			en: 'Bot',
 			'zh-hans': '机器人',
 			'zh-hant': '機械人',
 		}),
-		Flood: localize({
+		flood: localize({
 			en: 'Flooder',
 			'zh-hans': '机器用户',
 			'zh-hant': '機械用戶',
 		}),
-		IPBlockExempt: localize({
+		'ipblock-exempt': localize({
 			en: 'Exempted from IP blocks',
 			'zh-hans': 'IP封禁豁免',
 			'zh-hant': 'IP封鎖豁免',

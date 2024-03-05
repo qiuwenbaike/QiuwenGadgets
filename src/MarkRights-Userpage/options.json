@@ -1,3 +1,4 @@
 {
-	"mountPointSelector": "#footer-info,.page-info"
+	"mountPointSelector": "#footer-info,.page-info",
+	"version": 1.1
 }
