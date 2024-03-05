@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {initMwApi} from 'ext.gadget.Util';
-import {popupStrings} from './string';
+import {USER_AGENT} from './constant';
+import {api} from './api';
+import {message} from './string';
 
 const popups = () => {
 	// STARTFILE: main.js
@@ -6068,8 +6069,8 @@ const popups = () => {
 	};
 	const getMwApi = () => {
 		if (!pg.api.client) {
-			pg.api.userAgent = `Navigation popups/1.0 (${mw.config.get('wgWikiID')})`;
-			pg.api.client = initMwApi(pg.api.userAgent);
+			pg.api.userAgent = USER_AGENT;
+			pg.api.client = api;
 		}
 		return pg.api.client;
 	};
@@ -8100,8 +8101,8 @@ const popups = () => {
 		autoedit_version: 'np20140416',
 	};
 	const popupString = (str) => {
-		if (popupStrings !== undefined && popupStrings && popupStrings[str]) {
-			return popupStrings[str];
+		if (message !== undefined && message && message[str]) {
+			return message[str];
 		}
 		if (pg.string[str]) {
 			return pg.string[str];

@@ -4,7 +4,7 @@
  *
  * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-easy-archive.js}
  * @base {@link https://meta.wikimedia.org/w/index.php?oldid=18915644}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EasyArchive-pagestyles}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EasyArchive}
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
@@ -20,7 +20,7 @@
  */
 /* <nowiki> */
 
-/* src/EasyArchive-pagestyles/EasyArchive-pagestyles.less */
+/* src/EasyArchive/EasyArchive.less */
 .ve-activated #easy_archive_enable_notice,
 .ve-activated #easy_archive_stop_notice,
 .ve-activated #easy_archive_supports_notice {
@@ -33,4 +33,4 @@
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0Vhc3lBcmNoaXZlLXBhZ2VzdHlsZXMvRWFzeUFyY2hpdmUtcGFnZXN0eWxlcy5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIudmUtYWN0aXZhdGVkICNlYXN5X2FyY2hpdmVfZW5hYmxlX25vdGljZSxcbi52ZS1hY3RpdmF0ZWQgI2Vhc3lfYXJjaGl2ZV9zdG9wX25vdGljZSxcbi52ZS1hY3RpdmF0ZWQgI2Vhc3lfYXJjaGl2ZV9zdXBwb3J0c19ub3RpY2Uge1xuICBkaXNwbGF5OiBub25lO1xufVxuLnNraW4tY2l0aXplbiAuZWFzeS1hcmNoaXZlLXNlY3Rpb24taWQtc3BhbiB7XG4gIGZvbnQtc2l6ZTogMC44NzVyZW07XG4gIG1hcmdpbjogMCAwLjVyZW07XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUMsYUFBYSxDQUFDO0FBQ2YsQ0FEQyxhQUNhLENBQUM7QUFDZixDQUZDLGFBRWEsQ0FBQztBQUNiLFdBQVM7QUFDWDtBQUNBLENBQUMsYUFBYSxDQUFDO0FBQ2IsYUFBVztBQUNYLFVBQVEsRUFBRTtBQUNaOyIsCiAgIm5hbWVzIjogW10KfQo= */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0Vhc3lBcmNoaXZlL0Vhc3lBcmNoaXZlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi52ZS1hY3RpdmF0ZWQgI2Vhc3lfYXJjaGl2ZV9lbmFibGVfbm90aWNlLFxuLnZlLWFjdGl2YXRlZCAjZWFzeV9hcmNoaXZlX3N0b3Bfbm90aWNlLFxuLnZlLWFjdGl2YXRlZCAjZWFzeV9hcmNoaXZlX3N1cHBvcnRzX25vdGljZSB7XG4gIGRpc3BsYXk6IG5vbmU7XG59XG4uc2tpbi1jaXRpemVuIC5lYXN5LWFyY2hpdmUtc2VjdGlvbi1pZC1zcGFuIHtcbiAgZm9udC1zaXplOiAwLjg3NXJlbTtcbiAgbWFyZ2luOiAwIDAuNXJlbTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQyxhQUFhLENBQUM7QUFDZixDQURDLGFBQ2EsQ0FBQztBQUNmLENBRkMsYUFFYSxDQUFDO0FBQ2IsV0FBUztBQUNYO0FBQ0EsQ0FBQyxhQUFhLENBQUM7QUFDYixhQUFXO0FBQ1gsVUFBUSxFQUFFO0FBQ1o7IiwKICAibmFtZXMiOiBbXQp9Cg== */

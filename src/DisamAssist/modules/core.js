@@ -1,11 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {WG_ACTION} from './constant';
+import {api} from './api';
 import {cfg} from './config';
-import {initMwApi} from 'ext.gadget.Util';
-import {txt} from './messages';
-
-const api = initMwApi('DisamAssist/1.1');
+import {messages} from './messages';
 
 let startLink;
 let ui;
@@ -37,17 +35,18 @@ export const install = () => {
 		const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 		// This is a " (disambiguation)" page
 		if (new RegExp(cfg.disamRegExp).test(getTitle())) {
-			const startMainLink = $(mw.util.addPortletLink(portletId, '#', txt.startMain, 'ca-disamassist-main')).on(
-				'click',
-				startMain
-			);
-			const startSameLink = $(mw.util.addPortletLink(portletId, '#', txt.startSame, 'ca-disamassist-same')).on(
-				'click',
-				startSame
-			);
+			const startMainLink = $(
+				mw.util.addPortletLink(portletId, '#', messages.startMain, 'ca-disamassist-main')
+			).on('click', startMain);
+			const startSameLink = $(
+				mw.util.addPortletLink(portletId, '#', messages.startSame, 'ca-disamassist-same')
+			).on('click', startSame);
 			startLink = startMainLink.add(startSameLink);
 		} else {
-			startLink = $(mw.util.addPortletLink(portletId, '#', txt.start, 'ca-disamassist-page')).on('click', start);
+			startLink = $(mw.util.addPortletLink(portletId, '#', messages.start, 'ca-disamassist-page')).on(
+				'click',
+				start
+			);
 		}
 	});
 };
@@ -91,20 +90,20 @@ const createUI = () => {
 	const $body = $('body');
 	ui = {
 		display: $('<div>').addClass('disamassist-box disamassist-mainbox'),
-		finishedMessage: $('<div>').text(txt.noMoreLinks).hide(),
+		finishedMessage: $('<div>').text(messages.noMoreLinks).hide(),
 		pageTitleLine: $('<span>').addClass('disamassist-pagetitleline'),
 		pendingEditCounter: $('<div>').addClass('disamassist-editcounter'),
 		context: $('<span>').addClass('disamassist-context'),
-		undoButton: createButton(txt.undo, undo),
-		omitButton: createButton(txt.omit, omit),
-		endButton: createButton(txt.close, saveAndEnd),
-		refreshButton: createButton(txt.refresh, refresh),
-		titleAsTextButton: createButton(txt.titleAsText, chooseTitleFromPrompt),
+		undoButton: createButton(messages.undo, undo),
+		omitButton: createButton(messages.omit, omit),
+		endButton: createButton(messages.close, saveAndEnd),
+		refreshButton: createButton(messages.refresh, refresh),
+		titleAsTextButton: createButton(messages.titleAsText, chooseTitleFromPrompt),
 		intentionalLinkButton: canMarkIntentionalLinks
-			? createButton(txt.intentionalLink, chooseIntentionalLink)
+			? createButton(messages.intentionalLink, chooseIntentionalLink)
 			: $('<span>'),
-		disamNeededButton: cfg.disamNeededText ? createButton(txt.disamNeeded, chooseDisamNeeded) : $('<span>'),
-		removeLinkButton: createButton(txt.removeLink, chooseLinkRemoval),
+		disamNeededButton: cfg.disamNeededText ? createButton(messages.disamNeeded, chooseDisamNeeded) : $('<span>'),
+		removeLinkButton: createButton(messages.removeLink, chooseLinkRemoval),
 	};
 	const top = $('<div>')
 		.addClass('disamassist-top')
@@ -134,9 +133,9 @@ const createUI = () => {
 const addUnloadConfirm = () => {
 	$(window).on('beforeunload', () => {
 		if (running && checkActualChanges()) {
-			return txt.pending;
+			return messages.pending;
 		} else if (editCount !== 0) {
-			return txt.editInProgress;
+			return messages.editInProgress;
 		}
 	});
 };
@@ -151,7 +150,7 @@ const markDisamOptions = () => {
 		const optionMarker = $('<a>')
 			.attr('href', '#')
 			.addClass('disamassist-optionmarker')
-			.text(txt.optionMarker)
+			.text(messages.optionMarker)
 			.on('click', (ev) => {
 				ev.preventDefault();
 				chooseReplacement(title);
@@ -170,9 +169,9 @@ const markDisamOptions = () => {
 			for (const [ii, optionPageTitle] of optionPageTitles.entries()) {
 				const endOptionTitle = resolveRedirect(optionPageTitle, redirects);
 				if (isSamePage(optionPageTitle, targetPage)) {
-					optionMarkers[ii].text(txt.targetOptionMarker).addClass('disamassist-curroptionmarker');
+					optionMarkers[ii].text(messages.targetOptionMarker).addClass('disamassist-curroptionmarker');
 				} else if (isSamePage(endOptionTitle, endTargetPage)) {
-					optionMarkers[ii].text(txt.redirectOptionMarker).addClass('disamassist-curroptionmarker');
+					optionMarkers[ii].text(messages.redirectOptionMarker).addClass('disamassist-curroptionmarker');
 				}
 			}
 		})
@@ -197,7 +196,7 @@ const ensureDABExists = () => {
 				if (page.missing) {
 					// We try to create it
 					page.content = cfg.redirectToDisam.replace('$1', title);
-					const summary = txt.redirectSummary.replace('$1', title);
+					const summary = messages.redirectSummary.replace('$1', title);
 					savePage(disamTitle, page, summary, false, true)
 						.done(() => {
 							deferred.resolve(true);
@@ -307,7 +306,7 @@ const chooseReplacement = (pageTitle, extra, summary) => {
 	if (choosing) {
 		choosing = false;
 		if (!summary) {
-			summary = pageTitle ? txt.summaryChanged.replace('$1', pageTitle) : txt.summaryOmitted;
+			summary = pageTitle ? messages.summaryChanged.replace('$1', pageTitle) : messages.summaryOmitted;
 		}
 		addChange(currentPageTitle, currentPageParameters, currentPageParameters.content, currentLink, summary);
 		if (pageTitle && (pageTitle !== getTargetPage() || extra)) {
@@ -325,12 +324,12 @@ const chooseReplacement = (pageTitle, extra, summary) => {
 /* Replace the link with an explicit link to the disambiguation page */
 const chooseIntentionalLink = () => {
 	const disamTitle = cfg.disamFormat.replace('$1', getTargetPage());
-	chooseReplacement(disamTitle, '', txt.summaryIntentional);
+	chooseReplacement(disamTitle, '', messages.summaryIntentional);
 };
 
 /* Prompt for an alternative link target and use it as a replacement */
 const chooseTitleFromPrompt = () => {
-	const title = prompt(txt.titleAsTextPrompt);
+	const title = prompt(messages.titleAsTextPrompt);
 	if (title !== null) {
 		chooseReplacement(title);
 	}
@@ -339,7 +338,7 @@ const chooseTitleFromPrompt = () => {
 /* Remove the current link, leaving the text unchanged */
 const chooseLinkRemoval = () => {
 	if (choosing) {
-		const summary = txt.summaryRemoved;
+		const summary = messages.summaryRemoved;
 		addChange(currentPageTitle, currentPageParameters, currentPageParameters.content, currentLink, summary);
 		currentPageParameters.content = removeLink(currentPageParameters.content, currentLink);
 		doLink();
@@ -348,7 +347,7 @@ const chooseLinkRemoval = () => {
 
 /* Add a "disambiguation needed" template after the link */
 const chooseDisamNeeded = () => {
-	chooseReplacement(currentLink.title, cfg.disamNeededText, txt.summaryHelpNeeded);
+	chooseReplacement(currentLink.title, cfg.disamNeededText, messages.summaryHelpNeeded);
 };
 
 /* Undo the last change */
@@ -412,7 +411,7 @@ const togglePendingEditBox = (show) => {
 		pendingEditBoxText = $('<div>');
 		pendingEditBox.append(pendingEditBoxText).hide();
 		if (editLimit) {
-			pendingEditBox.append($('<div>').text(txt.pendingEditBoxLimited).addClass('disamassist-subtitle'));
+			pendingEditBox.append($('<div>').text(messages.pendingEditBoxLimited).addClass('disamassist-subtitle'));
 		}
 		$body.find('#mw-content-text').before(pendingEditBox);
 		updateEditCounter();
@@ -427,7 +426,7 @@ const togglePendingEditBox = (show) => {
 const notifyCompletion = () => {
 	const $body = $('body');
 	const oldTitle = document.title;
-	document.title = txt.notifyCharacter + document.title;
+	document.title = messages.notifyCharacter + document.title;
 	$body.one('mousemove', () => {
 		document.title = oldTitle;
 	});
@@ -438,7 +437,7 @@ const updateContext = () => {
 	updateEditCounter();
 	if (currentLink) {
 		ui.pageTitleLine.html(
-			txt.pageTitleLine
+			messages.pageTitleLine
 				.replace(
 					'$1',
 					mw.util.getUrl(currentPageTitle, {
@@ -478,7 +477,7 @@ const updateContext = () => {
 const updateEditCounter = () => {
 	if (ui.pendingEditCounter) {
 		ui.pendingEditCounter.text(
-			txt.pendingEditCounter.replace('$1', editCount).replace('$2', countActuallyChangedFullyCheckedPages())
+			messages.pendingEditCounter.replace('$1', editCount).replace('$2', countActuallyChangedFullyCheckedPages())
 		);
 	}
 	if (pendingEditBox) {
@@ -488,11 +487,11 @@ const updateEditCounter = () => {
 		}
 		let textContent = editCount;
 		if (editLimit) {
-			textContent = txt.pendingEditBoxTimeEstimation
+			textContent = messages.pendingEditBoxTimeEstimation
 				.replace('$1', editCount)
 				.replace('$2', secondsToHHMMSS(cfg.editCooldown * editCount));
 		}
-		pendingEditBoxText.text(txt.pendingEditBox.replace('$1', textContent));
+		pendingEditBoxText.text(messages.pendingEditBox.replace('$1', textContent));
 	}
 };
 
@@ -500,8 +499,8 @@ const updateEditCounter = () => {
 const applyChange = (pageChange) => {
 	if (pageChange.page.content !== pageChange.contentBefore[0]) {
 		editCount++;
-		const changeSummaries = pageChange.summary.join(txt.summarySeparator);
-		const summary = txt.summary.replace('$1', getTargetPage()).replace('$2', changeSummaries);
+		const changeSummaries = pageChange.summary.join(messages.summarySeparator);
+		const summary = messages.summary.replace('$1', getTargetPage()).replace('$2', changeSummaries);
 		const save = editLimit ? saveWithCooldown : savePage;
 		save(pageChange.title, pageChange.page, summary, true, true)
 			.always(() => {
@@ -608,9 +607,9 @@ const end = () => {
 const error = (errorDescription) => {
 	const $body = $('body');
 	const errorBox = $('<div>').addClass('disamassist-box disamassist-errorbox');
-	errorBox.text(txt.error.replace('$1', errorDescription));
+	errorBox.text(messages.error.replace('$1', errorDescription));
 	errorBox.append(
-		createButton(txt.dismissError, () => {
+		createButton(messages.dismissError, () => {
 			errorBox.fadeOut();
 		}).addClass('disamassist-errorbutton')
 	);
@@ -734,11 +733,11 @@ const extractContext = (text, link) => {
 	const contextEnd = link.end + cfg.radius;
 	let contextPrev = text.slice(contextStart, link.start);
 	if (contextStart > 0) {
-		contextPrev = txt.ellipsis + contextPrev;
+		contextPrev = messages.ellipsis + contextPrev;
 	}
 	let contextNext = text.slice(link.end, contextEnd);
 	if (contextEnd < text.length) {
-		contextNext += txt.ellipsis;
+		contextNext += messages.ellipsis;
 	}
 	return [contextPrev, text.slice(link.start, link.end), contextNext];
 };
@@ -882,7 +881,7 @@ const getBacklinks = (page) => {
 			deferred.resolve(backlinks, linkTitles);
 		})
 		.fail((code) => {
-			deferred.reject(txt.getBacklinksError.replace('$1', code));
+			deferred.reject(messages.getBacklinksError.replace('$1', code));
 		});
 	return deferred.promise();
 };
@@ -913,7 +912,7 @@ const fetchRedirects = (pageTitles) => {
 			}
 		})
 		.fail((code) => {
-			deferred.reject(txt.fetchRedirectsError.replace('$1', code));
+			deferred.reject(messages.fetchRedirectsError.replace('$1', code));
 		});
 	return deferred.promise();
 };
@@ -931,7 +930,7 @@ const fetchRights = () => {
 			deferred.resolve(query.userinfo.rights);
 		})
 		.fail((code) => {
-			deferred.reject(txt.fetchRightsError.replace('$1', code));
+			deferred.reject(messages.fetchRightsError.replace('$1', code));
 		});
 	return deferred.promise();
 };
@@ -967,7 +966,7 @@ const loadPage = (pageTitle) => {
 			deferred.resolve(page);
 		})
 		.fail((code) => {
-			deferred.reject(txt.loadPageError.replace('$1', pageTitle).replace('$2', code));
+			deferred.reject(messages.loadPageError.replace('$1', pageTitle).replace('$2', code));
 		});
 	return deferred.promise();
 };
@@ -1033,7 +1032,7 @@ const savePage = (pageTitle, {editToken, content, baseTimeStamp, startTimeStamp}
 			deferred.resolve();
 		})
 		.fail((code) => {
-			deferred.reject(txt.savePageError.replace('$1', pageTitle).replace('$2', code));
+			deferred.reject(messages.savePageError.replace('$1', pageTitle).replace('$2', code));
 		});
 	return deferred.promise();
 };

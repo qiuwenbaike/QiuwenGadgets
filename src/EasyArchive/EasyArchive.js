@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import './EasyArchive.less';
+
+import {api} from './modules/api';
 import {easy_archive_lang} from './modules/i18n';
-import {initMwApi} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
 (function easyArchive() {
@@ -41,7 +43,6 @@ import {toastify} from 'ext.gadget.Toastify';
 	// common repo.
 	const expose = (() => {
 		const asyncPost = (param, callback) => {
-			const api = initMwApi('EasyAchive/3.0');
 			api.postWithToken('csrf', param).then(callback);
 		};
 		const getPage = (title, callback) => {
