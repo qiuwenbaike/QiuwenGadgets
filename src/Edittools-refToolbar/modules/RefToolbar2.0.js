@@ -52,7 +52,8 @@ const refToolbar2 = ($body) => {
 				const dialogobj = {};
 				dialogobj[`cite-dialog-${sform}`] = {
 					resizeme: false,
-					titleMsg: `cite-dialog-${sform}`,
+					// eslint-disable-next-line mediawiki/msg-doc
+					title: mw.message(`cite-dialog-${sform}`).parse(),
 					id: `citetoolbar-${sform}`,
 					init: () => {},
 					html: tem.getInitial(),
@@ -174,7 +175,7 @@ const refToolbar2 = ($body) => {
 
 		const defaultdialogs = {
 			'cite-toolbar-errorcheck': {
-				titleMsg: 'cite-errorcheck-label',
+				title: mw.message('cite-errorcheck-label').parse(),
 				id: 'citetoolbar-errorcheck',
 				resizeme: false,
 				init: () => {},
@@ -203,7 +204,7 @@ const refToolbar2 = ($body) => {
 				},
 			},
 			'cite-toolbar-namedrefs': {
-				titleMsg: 'cite-named-refs-title',
+				title: mw.message('cite-named-refs-title').parse(),
 				resizeme: false,
 				id: 'citetoolbar-namedrefs',
 				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" /> &nbsp;${getMessage(
