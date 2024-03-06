@@ -33,10 +33,10 @@ const UserLink = ({userName}: UserLinkProps) => (
 const onlineCountText: string = getMessage(' ($1 online):');
 
 const GroupList = ({groupName, userNames}: GroupListProps) => (
-	<div class={section}>
+	<div className={section}>
 		<span>{groupName}</span>
 		<span>{onlineCountText.replace('$1', String(userNames.length))}</span>
-		<ul class={sectionList}>
+		<ul className={sectionList}>
 			{userNames.map((user) => (
 				<UserLink key={user} userName={user} />
 			))}
