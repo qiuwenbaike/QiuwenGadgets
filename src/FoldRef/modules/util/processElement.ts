@@ -6,7 +6,7 @@ const processElement = ($element: JQuery): void => {
 	// The following classes are used here:
 	// * see constant.ts
 	// * for more information
-	const $refFolder: JQuery = $('<div>').addClass(refarea as string);
+	const $refFolder: JQuery = $('<div>').addClass(`${refarea}`);
 
 	$refFolder.insertBefore($element);
 	$element.appendTo($refFolder);
@@ -15,9 +15,7 @@ const processElement = ($element: JQuery): void => {
 	// The following classes are used here:
 	// * see constant.ts
 	// * for more information
-	const $expandButton: JQuery = $('<div>')
-		.addClass(expand as string)
-		.text(getMessage('Expand'));
+	const $expandButton: JQuery = $('<div>').addClass(`${expand}`).text(getMessage('Expand'));
 	$refFolder.after($expandButton);
 };
 

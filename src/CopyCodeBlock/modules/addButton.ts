@@ -8,7 +8,7 @@ const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 	// * see constant.ts
 	// * for more information
 	const copyButton: OO.ui.ButtonWidget = new OO.ui.ButtonWidget({
-		classes: [button as string],
+		classes: [`${button}`],
 		framed: false,
 		icon: 'copy',
 	});
@@ -19,7 +19,7 @@ const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 	// The following classes are used here:
 	// * see constant.ts
 	// * for more information
-	$pres.addClass(codeBlock as string).append($copyButton);
+	$pres.addClass(`${codeBlock}`).append($copyButton);
 
 	tippy($copyButton.get(0) as HTMLSpanElement, {
 		arrow: true,
