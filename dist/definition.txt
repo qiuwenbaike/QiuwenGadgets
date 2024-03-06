@@ -101,8 +101,7 @@
 * Edittools-refToolbar[ResourceLoader|actions=edit,submit|default|dependencies=ext.gadget.Util,ext.wikiEditor,mediawiki.jqueryMsg,mediawiki.util,user.options|rights=edit|requiresES6]|Edittools-refToolbar.js|Edittools-refToolbar.css
 * Edittools-vector[ResourceLoader|actions=edit,submit|default|dependencies=ext.gadget.Edittools-customizeToolbar|rights=edit|requiresES6]|Edittools-vector.js
 * Edittools-vplus[ResourceLoader|actions=edit,submit|default|dependencies=ext.gadget.Edittools-customizeToolbar,ext.gadget.i18n|rights=edit|requiresES6]|Edittools-vplus.js
-* HotCat[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,jquery.ui,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.user,mediawiki.util|peers=HotCat-pagestyles|rights=skipcaptcha|requiresES6]|HotCat.js
-* HotCat-pagestyles[ResourceLoader|hidden|requiresES6]|HotCat-pagestyles.css
+* HotCat[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,jquery.ui,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.user,mediawiki.util|rights=skipcaptcha|requiresES6]|HotCat.js|HotCat.css
 * InPageEdit[ResourceLoader|rights=skipcaptcha|requiresES6]|InPageEdit.js
 * Navigation_popups[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.user,mediawiki.util,user.options|peers=Navigation_popups-pagestyles|requiresES6]|Navigation_popups.js|Navigation_popups.css
 * PreviewWithVariant[ResourceLoader|dependencies=ext.gadget.i18n,mediawiki.jqueryMsg,mediawiki.Uri,oojs-ui,oojs-ui-core,user.options|rights=edit|requiresES6]|PreviewWithVariant.js|PreviewWithVariant.css
@@ -126,7 +125,7 @@
 * HRTProtectLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|rights=protect|requiresES6]|HRTProtectLink.js
 * ListUsersLastActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|requiresES6]|ListUsersLastActive.js
 * LogFilter[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|LogFilter.js
-* MarkBlocked[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.Uri,mediawiki.util|peers=MarkBlocked-pagestyles|requiresES6]|MarkBlocked.js|MarkBlocked.css
+* MarkBlocked[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.Uri,mediawiki.util|requiresES6]|MarkBlocked.js|MarkBlocked.css
 * MarkRights[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|peers=MarkRights-pagestyles|requiresES6]|MarkRights.js
 * MarkRights-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-pagestyles.css
 * MarkRights-Userpage[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.api,mediawiki.Title|peers=MarkRights-Userpage-pagestyles|requiresES6]|MarkRights-Userpage.js
