@@ -61,10 +61,19 @@ body:not(.ns-0, .ns-2) .gallerybox .thumb {
 	background-color: #f9f9f9;
 	border-collapse: inherit;
 
+	@media (max-width: 768px) {
+		width: 100%;
+		max-width: 100%;
+	}
+
 	td {
 		padding: 0.5em;
 		background-color: #f7f8ff;
 		vertical-align: top;
+
+		@media (max-width: 768px) {
+			flex: 1 1 100%;
+		}
 
 		&.fileinfo-paramfield {
 			width: 5em;
@@ -72,79 +81,68 @@ body:not(.ns-0, .ns-2) .gallerybox .thumb {
 			font-weight: bold;
 			text-align: right;
 
+			@media (max-width: 768px) {
+				text-align: center;
+			}
+
 			.client-darkmode & {
 				filter: invert(1) hue-rotate(180deg);
 			}
 		}
 	}
 
+	@media (max-width: 768px) {
+		tr {
+			display: flex;
+			flex: 1 1 100%;
+			flex-wrap: wrap;
+		}
+	}
+
 	tbody {
-		> tr {
+		@media (max-width: 768px) {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+		}
+
+		& > tr {
 			&:first-child > td:first-child {
 				border-radius: 0.25em 0 0;
+
+				@media (max-width: 768px) {
+					border-radius: 0.25em 0.25em 0 0;
+				}
 			}
 
 			&:first-child > td:last-child {
 				border-radius: 0 0.25em 0 0;
+
+				@media (max-width: 768px) {
+					border-radius: 0;
+				}
 			}
 
 			&:last-child > td:first-child {
 				border-radius: 0 0 0 0.25em;
+
+				@media (max-width: 768px) {
+					border-radius: 0;
+				}
 			}
 
 			&:last-child > td:last-child {
 				border-radius: 0 0 0.25em;
+
+				@media (max-width: 768px) {
+					border-radius: 0 0 0.25em 0.25em;
+				}
 			}
 		}
 	}
 
 	.fn {
 		display: none;
-	}
-}
-
-@media (max-width: 768px) {
-	.fileinfotpl {
-		width: 100%;
-		max-width: 100%;
-
-		tbody {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
-			justify-content: center;
-
-			> tr {
-				&:first-child > td:first-child {
-					border-radius: 0.25em 0.25em 0 0;
-				}
-
-				&:first-child > td:last-child {
-					border-radius: 0;
-				}
-
-				&:last-child > td:first-child {
-					border-radius: 0;
-				}
-
-				&:last-child > td:last-child {
-					border-radius: 0 0 0.25em 0.25em;
-				}
-			}
-		}
-
-		tr {
-			display: flex;
-			flex: 1 1 100%;
-			flex-wrap: wrap;
-		}
-
-		td {
-			flex: 1 1 100%;
-
-			&.fileinfo-paramfield {
-				text-align: center;
-			}
-		}
 	}
 }
