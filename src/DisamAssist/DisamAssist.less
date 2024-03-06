@@ -76,6 +76,10 @@
 	}
 
 	&-context {
-		font-family: monospace;
+		font-family: @monospace-zh-hans, monospace, @emoji-font;
+
+		html:lang(zh-hant) & {
+			font-family: @monospace-zh-hant, monospace, @emoji-font;
+		}
 	}
 }
