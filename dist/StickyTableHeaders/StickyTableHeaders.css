@@ -1,0 +1,43 @@
+/**
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * _addText: '{{Gadget Header|license=GPL-3.0-or-later}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/StickyTableHeaders}
+ * @author 安忆 <i@anyi.in>
+ * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* esbuild-css-modules-plugin-ns-css:src/StickyTableHeaders/StickyTableHeaders.module.less */
+.StickyTableHeaders-module__stickyheader_eOk_LG .StickyTableHeaders-module__thead_eOk_LG {
+  position: sticky;
+  top: -1px;
+}
+.skin-gongbi :is(.StickyTableHeaders-module__stickyheader_eOk_LG .StickyTableHeaders-module__thead_eOk_LG) {
+  top: calc(3.125rem + 6px);
+}
+@media screen and (min-width: 1440px) and (max-width: 1524px), screen and (max-width: 950px) {
+  .skin-gongbi :is(.StickyTableHeaders-module__stickyheader_eOk_LG .StickyTableHeaders-module__thead_eOk_LG) {
+    top: -1px;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .skin-vector-2022.vector-sticky-header-visible :is(.StickyTableHeaders-module__stickyheader_eOk_LG .StickyTableHeaders-module__thead_eOk_LG) {
+    top: calc(3.125rem - 1px);
+  }
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9TdGlja3lUYWJsZUhlYWRlcnMvU3RpY2t5VGFibGVIZWFkZXJzLm1vZHVsZS5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIuU3RpY2t5VGFibGVIZWFkZXJzLW1vZHVsZV9fc3RpY2t5aGVhZGVyX2VPa19MRyAuU3RpY2t5VGFibGVIZWFkZXJzLW1vZHVsZV9fdGhlYWRfZU9rX0xHIHtcbiAgcG9zaXRpb246IHN0aWNreTtcbiAgdG9wOiAtMXB4O1xufVxuXG4uc2tpbi1nb25nYmkgOmlzKC5TdGlja3lUYWJsZUhlYWRlcnMtbW9kdWxlX19zdGlja3loZWFkZXJfZU9rX0xHIC5TdGlja3lUYWJsZUhlYWRlcnMtbW9kdWxlX190aGVhZF9lT2tfTEcpIHtcbiAgdG9wOiBjYWxjKDMuMTI1cmVtICsgNnB4KTtcbn1cblxuQG1lZGlhIHNjcmVlbiBhbmQgKG1pbi13aWR0aDogMTQ0MHB4KSBhbmQgKG1heC13aWR0aDogMTUyNHB4KSwgc2NyZWVuIGFuZCAobWF4LXdpZHRoOiA5NTBweCkge1xuICAuc2tpbi1nb25nYmkgOmlzKC5TdGlja3lUYWJsZUhlYWRlcnMtbW9kdWxlX19zdGlja3loZWFkZXJfZU9rX0xHIC5TdGlja3lUYWJsZUhlYWRlcnMtbW9kdWxlX190aGVhZF9lT2tfTEcpIHtcbiAgICB0b3A6IC0xcHg7XG4gIH1cbn1cblxuQG1lZGlhIHNjcmVlbiBhbmQgKG1pbi13aWR0aDogMTAwMHB4KSB7XG4gIC5za2luLXZlY3Rvci0yMDIyLnZlY3Rvci1zdGlja3ktaGVhZGVyLXZpc2libGUgOmlzKC5TdGlja3lUYWJsZUhlYWRlcnMtbW9kdWxlX19zdGlja3loZWFkZXJfZU9rX0xHIC5TdGlja3lUYWJsZUhlYWRlcnMtbW9kdWxlX190aGVhZF9lT2tfTEcpIHtcbiAgICB0b3A6IGNhbGMoMy4xMjVyZW0gLSAxcHgpO1xuICB9XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQywrQ0FBK0MsQ0FBQztBQUMvQyxZQUFVO0FBQ1YsT0FBSztBQUNQO0FBRUEsQ0FBQyxZQUFZLElBQUksQ0FMaEIsK0NBS2dFLENBTGhCO0FBTS9DLE9BQUssS0FBSyxTQUFTLEVBQUU7QUFDdkI7QUFFQSxPQUFPLE9BQU8sSUFBSSxDQUFDLFNBQVMsRUFBRSxRQUFRLElBQUksQ0FBQyxTQUFTLEVBQUUsT0FBTyxFQUFFLE9BQU8sSUFBSSxDQUFDLFNBQVMsRUFBRTtBQUNwRixHQUxELFlBS2MsSUFBSSxDQVZsQiwrQ0FVa0UsQ0FWbEI7QUFXN0MsU0FBSztBQUNQO0FBQ0Y7QUFFQSxPQUFPLE9BQU8sSUFBSSxDQUFDLFNBQVMsRUFBRTtBQUM1QixHQUFDLGdCQUFnQixDQUFDLDZCQUE2QixJQUFJLENBaEJwRCwrQ0FnQm9HLENBaEJwRDtBQWlCN0MsU0FBSyxLQUFLLFNBQVMsRUFBRTtBQUN2QjtBQUNGOyIsCiAgIm5hbWVzIjogW10KfQo= */
