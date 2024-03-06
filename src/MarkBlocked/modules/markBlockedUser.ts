@@ -1,10 +1,5 @@
-import {
-	CLASS_NAME_LOADING,
-	CLASS_NAME_USERLINK_INDEF,
-	CLASS_NAME_USERLINK_PARTIAL,
-	CLASS_NAME_USERLINK_TEMP,
-} from './constant';
 import {inHours, parseTS} from './util/parseTime';
+import {loading, userlinkIndef, userlinkPartial, userlinkTemp} from './MarkBlocked.module.less';
 import {api} from './api';
 import {generateUserLinks} from './util/generateUserLinks';
 import {getMessage} from './i18n';
@@ -20,9 +15,9 @@ const markBlockedUser = ($content: JQuery): void => {
 	}
 
 	// The following classes are used here:
-	// * see constant.ts
+	// * see ./Markblocked.module.less
 	// * for more information
-	$content.addClass(CLASS_NAME_LOADING);
+	$content.addClass(`${loading}`);
 
 	// API request
 	type Response = {
@@ -48,16 +43,16 @@ const markBlockedUser = ($content: JQuery): void => {
 		for (const block of response['query'].blocks) {
 			const isPartialBlcok: boolean = typeof block.restrictions === 'string' && block.restrictions !== ''; // Partial block
 
-			let className: string = CLASS_NAME_USERLINK_PARTIAL;
+			let className: string = `${userlinkPartial}`;
 			let blockTime: string = '';
 			if (block.expiry.startsWith('in')) {
 				if (!isPartialBlcok) {
-					className = CLASS_NAME_USERLINK_INDEF;
+					className = `${userlinkIndef}`;
 				}
 				blockTime = getMessage('infinity');
 			} else {
 				if (!isPartialBlcok) {
-					className = CLASS_NAME_USERLINK_TEMP;
+					className = `${userlinkTemp}`;
 				}
 				blockTime = inHours(parseTS(block.expiry) - parseTS(block.timestamp));
 			}
@@ -76,19 +71,17 @@ const markBlockedUser = ($content: JQuery): void => {
 
 			for (const $link of $links) {
 				// The following classes are used here:
-				// * see constant.ts for more information
-				// * gadget-mark_blocked-userlink--indef
-				// * gadget-mark_blocked-userlink--temp
-				// * gadget-mark_blocked-userlink--partial
+				// * see ./Markblocked.module.less
+				// * for more information
 				$link.addClass(className).attr('title', $link.attr('title') + tip);
 			}
 		}
 
 		if (--apiRequestCount === 0) {
 			// The following classes are used here:
-			// * see constant.ts
+			// * see ./Markblocked.module.less
 			// * for more information
-			$content.removeClass(CLASS_NAME_LOADING);
+			$content.removeClass(`${loading}`);
 		}
 	};
 

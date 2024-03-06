@@ -1,6 +1,7 @@
 import * as OPTIONS from '../../options.json';
-import {CLASS_NAME_USERLINK, WG_ARTICLE_PATH, WG_SCRIPT} from '../constant';
+import {WG_ARTICLE_PATH, WG_SCRIPT} from '../constant';
 import {generateUserNamespaceTitles} from './generateUserNamespaceTitles';
+import {userlink} from '../MarkBlocked.module.less';
 
 // Get all aliases for user: & user_talk:
 const userNamespaceTitles: string[] = generateUserNamespaceTitles();
@@ -74,9 +75,9 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 		}
 
 		// The following classes are used here:
-		// * see constant.ts
+		// * see ../Markblocked.module.less
 		// * for more information
-		$element.addClass(CLASS_NAME_USERLINK);
+		$element.addClass(`${userlink}`);
 
 		userLinks[user] ??= [];
 
