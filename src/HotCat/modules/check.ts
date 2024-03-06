@@ -1,3 +1,4 @@
+import {catcheckInlineIcon} from './check.module.less';
 import {mwApi} from './api';
 
 /**
@@ -28,7 +29,7 @@ import {mwApi} from './api';
 	 * @return {JQuery}
 	 */
 	const createjIcon = (iconClass: string): JQuery => {
-		return $('<span>').attr('class', `ui-icon ${iconClass} catcheck-inline-icon`).text(' ');
+		return $('<span>').attr('class', `ui-icon ${iconClass} ${catcheckInlineIcon}`).text(' ');
 	};
 	const createNotifyArea = (textNode: JQuery<JQuery.Node>, icon: string, state: string): JQuery<HTMLElement> => {
 		return $('<div>')
