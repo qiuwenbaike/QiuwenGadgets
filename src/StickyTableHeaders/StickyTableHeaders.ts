@@ -1,3 +1,5 @@
+/* eslint-disable mediawiki/class-doc */
+import {stickyheader, thead} from './StickyTableHeaders.module.less';
 import {getBody} from 'ext.gadget.Util';
 
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
@@ -5,8 +7,8 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		const $table: JQuery<HTMLTableElement> = $(table);
 
 		const $thead: JQuery<HTMLTableSectionElement> = $table.find('thead');
-		const $trTh = $table.find('tbody>tr>th').parent().eq(0) as JQuery<HTMLTableRowElement>;
-		const $trTd = $table.find('tbody>tr>td').parent() as JQuery<HTMLTableRowElement>;
+		const $trTh = $table.find('tbody > tr > th').parent().eq(0) as JQuery<HTMLTableRowElement>;
+		const $trTd = $table.find('tbody > tr > td').parent() as JQuery<HTMLTableRowElement>;
 
 		const $target: JQuery<HTMLTableSectionElement> | JQuery<HTMLTableRowElement> | null = $thead.length
 			? $thead
@@ -15,8 +17,8 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 				: null;
 
 		if ($target && $trTd.length >= 5) {
-			$table.addClass('mw-sticky-header');
-			$target.addClass('thead');
+			$table.addClass(`${stickyheader}`);
+			$target.addClass(`${thead}`);
 		}
 	}
 });
