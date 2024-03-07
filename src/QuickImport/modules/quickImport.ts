@@ -77,21 +77,30 @@ const uploadFile = async (pageName: string): Promise<void> => {
 	refreshPage(pageName);
 };
 
+const importRedirect = async (redirects: {from: string; to: string}[]) => {
+	for (const {to} of redirects as {from: string; to: string}[]) {
+		await importPage(`${to}`, 'zhwiki', true);
+		await detectIfFileRedirect(`${to}`);
+	}
+};
+
 const detectIfFileRedirect = async (pageName: string): Promise<void> => {
 	const params: ApiQueryParams = {
 		action: 'query',
 		prop: 'info',
 		titles: pageName,
+		redirects: true,
 	};
 	const response = await api.get(params);
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 	for (const [, info] of Object.entries(response['query'].pages)) {
 		if ((info as Record<string, never>)['redirect'] === '') {
-			continue;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			await importRedirect(response['query'].redirects);
+		} else {
+			await uploadFile(pageName);
 		}
-
-		await uploadFile(pageName);
 	}
 };
 
