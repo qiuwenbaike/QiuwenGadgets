@@ -77,30 +77,22 @@ const uploadFile = async (pageName: string): Promise<void> => {
 	refreshPage(pageName);
 };
 
-const importRedirect = async (redirects: {from: string; to: string}[]) => {
-	for (const {to} of redirects as {from: string; to: string}[]) {
-		await importPage(`${to}`, 'zhwiki', true);
-		await detectIfFileRedirect(`${to}`);
-	}
-};
-
-const detectIfFileRedirect = async (pageName: string): Promise<void> => {
+const detectIfFileRedirect = async (target: string): Promise<void> => {
 	const params: ApiQueryParams = {
 		action: 'query',
 		prop: 'info',
-		titles: pageName,
+		titles: target,
 		redirects: true,
 	};
-	const response = await api.get(params);
+	const {query} = await api.get(params);
 
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-	for (const [, info] of Object.entries(response['query'].pages)) {
-		if ((info as Record<string, never>)['redirect'] === '') {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			await importRedirect(response['query'].redirects);
-		} else {
-			await uploadFile(pageName);
+	if (query.redirects) {
+		for (const {to} of query.redirects as {from: string; to: string}[]) {
+			await importPage(to, 'zhwiki', true);
+			await uploadFile(to);
 		}
+	} else {
+		await uploadFile(target);
 	}
 };
 
