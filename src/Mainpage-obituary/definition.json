@@ -3,7 +3,6 @@
 	"description": "<span id=\"Gadget-Mainpage-obituary\"></span> 特殊日期时首页样式",
 	"section": "appear",
 	"excludeSites": ["testwiki"],
-	"default": true,
 	"hidden": true,
 	"namespaces": [4, 10]
 }

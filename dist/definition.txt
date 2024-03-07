@@ -12,7 +12,7 @@
 * LoginToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-windows|hidden|requiresES6]|LoginToEdit.js
 * Mainpage[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage.css
 * Mainpage-ChineseNewYear[ResourceLoader|requiresES6]|Mainpage-ChineseNewYear.css
-* Mainpage-obituary[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage-obituary.css
+* Mainpage-obituary[ResourceLoader|hidden|namespaces=4,10|requiresES6]|Mainpage-obituary.css
 * Mainpage_JS[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|namespaces=4,10|requiresES6]|Mainpage_JS.js
 * Mainpage_licencewiki[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_licencewiki.css
 * NavboxCSS[ResourceLoader|default|hidden|requiresES6]|NavboxCSS.css
