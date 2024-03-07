@@ -38,31 +38,28 @@
 
 @emoji-font: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
-@sans-serif-zh-hans: '-apple-system', 'BlinkMacSystemFont', 'MiSans', '小米兰亭 Pro VF', 'OPPO Sans', 'HarmonyOS Sans',
-	'HONOR Sans', 'Source Sans Pro', 'Source Sans 3', 'Noto Sans CJK SC', 'Noto Sans CJK', 'Source Han Sans SC',
-	'Source Han Sans', 'DejaVu Sans', 'Liberation Sans', 'Helvetica', 'Roboto', 'Inter', 'Arial', 'Microsoft YaHei',
-	'SFProDisplay-Regular';
-@sans-serif-zh-hant: '-apple-system', 'BlinkMacSystemFont', 'MiSans', '小米兰亭 Pro VF', 'OPPO Sans', 'HarmonyOS Sans',
-	'HONOR Sans', 'Source Sans Pro', 'Source Sans 3', 'Noto Sans CJK TC', 'Noto Sans CJK', 'Source Han Sans TC',
-	'Source Han Sans', 'DejaVu Sans', 'Liberation Sans', 'Helvetica', 'Roboto', 'Inter', 'Arial', 'Microsoft JhengHei',
-	'SFProDisplay-Regular';
-@sans-serif-ja: '-apple-system', 'BlinkMacSystemFont', 'MiSans', 'HarmonyOS Sans', 'HONOR Sans', 'Source Sans Pro',
-	'Source Sans 3', 'Noto Sans CJK JP', 'Noto Sans CJK', 'Source Han Sans JP', 'Source Han Sans', 'Helvetica', 'Roboto',
-	'Inter', 'Arial', 'Meiryo', 'SFProDisplay-Regular';
+@sans-serif-latin: '-apple-system', 'BlinkMacSystemFont', 'Noto Sans', 'Source Sans Pro', 'Source Sans 3', 'DejaVu Sans',
+	'Liberation Sans', 'Helvetica', 'Roboto', 'Inter', 'SFProDisplay-Regular', 'Arial';
+@sans-serif-zh-hans: @sans-serif-latin, 'Noto Sans CJK SC', 'Noto Sans SC', 'Noto Sans CJK', 'Source Han Sans SC',
+	'Source Han Sans', 'Microsoft YaHei';
+@sans-serif-zh-hant: @sans-serif-latin, 'Noto Sans CJK TC', 'Noto Sans TC', 'Noto Sans CJK', 'Source Han Sans TC',
+	'Source Han Sans', 'Microsoft JhengHei';
+@sans-serif-ja: @sans-serif-latin, 'Noto Sans CJK JP', 'Noto Sans JP', 'Noto Sans CJK', 'Source Han Sans JP',
+	'Source Han Sans', 'Meiryo';
 
-@serif-zh-hans: 'Source Serif', 'Noto Serif CJK SC', 'Noto Serif CJK', 'Source Han Serif SC', 'Source Han Serif',
-	'DejaVu Serif', 'Liberation Serif', 'Linux Libertine', 'Georgia', 'Calibri', 'Times New Roman', 'STSong SC',
-	'STSong', 'SimSun';
-@serif-zh-hant: 'Source Serif', 'Noto Serif CJK TC', 'Noto Serif CJK', 'Source Han Serif TC', 'Source Han Serif',
-	'DejaVu Serif', 'Liberation Serif', 'Linux Libertine', 'Georgia', 'Calibri', 'Times New Roman', 'STSong TC',
-	'STSong', 'MingLiU';
+@serif-latin: 'Noto Serif', 'Source Serif 4', 'DejaVu Serif', 'Liberation Serif', 'Linux Libertine', 'Georgia',
+	'Calibri', 'Times New Roman';
+@serif-zh-hans: @serif-latin, 'Noto Serif CJK SC', 'Noto Serif SC', 'Noto Serif CJK', 'Source Han Serif SC',
+	'Source Han Serif', 'STSong SC', 'STSong', 'SimSun';
+@serif-zh-hant: @serif-latin, 'Noto Serif CJK TC', 'Noto Serif TC', 'Noto Serif CJK', 'Source Han Serif TC',
+	'Source Han Serif', 'STSong TC', 'STSong', 'MingLiU';
 
-@monospace-zh-hans: 'Consolas', 'JetBrains Mono', 'Noto Sans Mono', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK',
-	'Source Code Pro', 'Source Hans Mono SC', 'Source Hans Mono', 'Menlo', 'SFMono-Regular', 'Roboto Mono', 'Monaco',
+@monospace-latin: 'Source Code Pro', 'Consolas', 'JetBrains Mono', 'Menlo', 'SFMono-Regular', 'Roboto Mono', 'Monaco',
 	'DejaVu Sans Mono', 'Liberation Mono', 'Courier New', 'Courier';
-@monospace-zh-hant: 'Consolas', 'JetBrains Mono', 'Noto Sans Mono', 'Noto Sans Mono CJK TC', 'Noto Sans Mono CJK',
-	'Source Code Pro', 'Source Hans Mono TC', 'Source Hans Mono', 'Menlo', 'SFMono-Regular', 'Roboto Mono', 'Monaco',
-	'DejaVu Sans Mono', 'Liberation Mono', 'Courier New', 'Courier';
+@monospace-zh-hans: @monospace-latin, 'Noto Sans Mono', 'Source Hans Mono SC', 'Source Hans Mono', 'Microsoft YaHei',
+	'SimSun';
+@monospace-zh-hant: @monospace-latin, 'Noto Sans Mono', 'Source Hans Mono TC', 'Source Hans Mono', 'Microsoft JhengHei',
+	'MingLiU';
 
 @unihan: 'Plangothic P1', 'Plangothic P2', '方正宋体S-超大字符集', '方正宋体S-超大字符集(SIP)', '文泉驿等宽正黑',
 	'BabelStone Han', 'HanaMinB', 'FZSong-Extended', 'Arial Unicode MS', 'Code2002', 'DFSongStd', 'unifont';
