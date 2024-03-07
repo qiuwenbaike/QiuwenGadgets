@@ -1,5 +1,4 @@
 import * as OPTIONS from './options.json';
-import {WG_RELEVANT_USER_NAME} from './modules/constant';
 import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './modules/i18n';
 import {toastify} from 'ext.gadget.Toastify';
@@ -15,8 +14,10 @@ void getBody().then(function didYouMean($body: JQuery<HTMLBodyElement>): void {
 		return;
 	}
 
-	if (mw.config.get('wgNamespaceNumber') === 2 && WG_RELEVANT_USER_NAME) {
-		const relevantUserPageName: string = new mw.Title(WG_RELEVANT_USER_NAME, 2).toText();
+	const {wgNamespaceNumber, wgRelevantUserName} = mw.config.get();
+
+	if (wgNamespaceNumber === 2 && wgRelevantUserName) {
+		const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
 		const pageName: string = new mw.Title(mw.config.get('wgPageName')).toText();
 
 		if (relevantUserPageName === pageName) {
