@@ -46,15 +46,15 @@
 body {
 	&:lang(zh),
 	&:lang(zh-hans) {
-		font-family: @sans-serif-zh-hans, 'NospzGothic', @unihan, sans-serif, @emoji-font;
-		--fonts-sans: @sans-serif-zh-hans, 'NospzGothic', @unihan, sans-serif, @emoji-font;
-		--fonts-serif: @serif-zh-hans, 'NospzGothic', @unihan, serif, @emoji-font;
+		font-family: @sans-serif-zh-hans, 'NospzGothic', @emoji-font, @unihan;
+		--fonts-sans: @sans-serif-zh-hans, 'NospzGothic', @emoji-font, @unihan;
+		--fonts-serif: @serif-zh-hans, 'NospzGothic', @emoji-font, @unihan;
 	}
 
 	&:lang(zh-hant) {
-		font-family: @sans-serif-zh-hant, 'NospzGothic', @unihan, sans-serif, @emoji-font;
-		--fonts-sans: @sans-serif-zh-hant, 'NospzGothic', @unihan, sans-serif, @emoji-font;
-		--fonts-serif: @serif-zh-hant, 'NospzGothic', @unihan, serif, @emoji-font;
+		font-family: @sans-serif-zh-hant, 'NospzGothic', @emoji-font, @unihan;
+		--fonts-sans: @sans-serif-zh-hant, 'NospzGothic', @emoji-font, @unihan;
+		--fonts-serif: @serif-zh-hant, 'NospzGothic', @emoji-font, @unihan;
 	}
 }
 
@@ -67,11 +67,11 @@ body {
 h1#firstHeading {
 	html:lang(zh) &,
 	html:lang(zh-hans) & {
-		font-family: @serif-zh-hans, 'NospzGothic', @unihan, serif, @emoji-font;
+		font-family: @serif-zh-hans, 'NospzGothic', @emoji-font, @unihan;
 	}
 
 	html:lang(zh-hant) & {
-		font-family: @serif-zh-hant, 'NospzGothic', @unihan, serif, @emoji-font;
+		font-family: @serif-zh-hant, 'NospzGothic', @emoji-font, @unihan;
 	}
 }
 
@@ -80,6 +80,6 @@ html {
 	[style*='italic'] span[lang='ja' i],
 	span[lang='ja' i] i,
 	span[lang='ja' i] [style*='italic'] {
-		font-family: @sans-serif-ja, 'NospzGothic', @unihan, sans-serif, @emoji-font;
+		font-family: @sans-serif-ja, 'NospzGothic', @emoji-font, @unihan;
 	}
 }
