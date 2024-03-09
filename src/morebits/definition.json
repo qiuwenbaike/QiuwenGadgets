@@ -2,6 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-morebits\"></span> morebits.js",
 	"section": "compatibility",
+	"excludeSites": ["mncqiuwenbaike"],
 	"dependencies": [
 		"ext.gadget.select2",
 		"ext.gadget.Util",
