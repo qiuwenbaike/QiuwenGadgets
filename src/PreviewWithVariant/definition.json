@@ -2,6 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-PreviewWithVariant\"></span> 在源代码编辑器下，以用户指定的语言变体显示预览",
 	"section": "edit",
+	"excludeSites": ["mncqiuwenbaike"],
 	"dependencies": [
 		"ext.gadget.i18n",
 		"mediawiki.jqueryMsg",
