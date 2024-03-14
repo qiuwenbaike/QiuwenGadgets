@@ -11,6 +11,5 @@
 		"mediawiki.util"
 	],
 	"default": true,
-	"hidden": true,
 	"rights": ["skipcaptcha"]
 }
