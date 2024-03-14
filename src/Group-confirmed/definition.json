@@ -4,5 +4,5 @@
 	"section": "usergroup",
 	"default": true,
 	"hidden": true,
-	"rights": ["autoconfirmed"]
+	"rights": ["skipcaptcha"]
 }
