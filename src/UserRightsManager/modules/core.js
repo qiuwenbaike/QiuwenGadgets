@@ -1,19 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {PERM_NAME, PERM_TEMPLATE, SUMMARY} from './constant';
+import {getPermissionRequested, getPermissonName} from './i18n';
+import {SUMMARY} from './constant';
 import {api} from './api';
 
-let index = '';
-let userName = '';
-let permission = '';
-let dialog;
-let permaLink = '';
-
-const WG_PAGE_NAME = mw.config.get('wgPageName');
-
-const assignPermission = (summary, revId, expiry) => {
-	permaLink = `[[Special:PermaLink/${revId}#User:${userName}|权限申请]]`;
-	let fullSummary = `+${PERM_NAME[permission]}；${permaLink}`;
+const assignPermission = (userName, permission, summary, revId, expiry) => {
+	const permaLink = `[[Special:PermaLink/${revId}#User:${userName}|权限申请]]`;
+	let fullSummary = `+${getPermissonName(permission)}；${permaLink}`;
 	if (summary !== '') {
 		fullSummary += `；${summary}`;
 	}
@@ -28,7 +21,8 @@ const assignPermission = (summary, revId, expiry) => {
 	return api.postWithToken('userrights', params);
 };
 
-const markAsDone = (closingRemarks) => {
+const markAsDone = (userName, index, closingRemarks) => {
+	const {wgPageName} = mw.config.get();
 	const sectionNode = document.querySelector(
 		`#User\\:${userName.replace(/"/g, '.22').replace(/ /g, '_')}${index ?? ''}`
 	);
@@ -47,7 +41,7 @@ const markAsDone = (closingRemarks) => {
 		format: 'json',
 		formatversion: '2',
 		prop: 'revisions',
-		titles: [WG_PAGE_NAME],
+		titles: [wgPageName],
 		curtimestamp: true,
 		rvprop: ['content', 'timestamp'],
 		rvsection: sectionNumber,
@@ -78,7 +72,7 @@ const markAsDone = (closingRemarks) => {
 				action: 'edit',
 				format: 'json',
 				formatversion: '2',
-				title: WG_PAGE_NAME,
+				title: wgPageName,
 				assert: mw.config.get('wgUserName') ? 'user' : undefined,
 				nocreate: true,
 				section: sectionNumber,
@@ -91,29 +85,25 @@ const markAsDone = (closingRemarks) => {
 		});
 };
 
-const issueTemplate = (watch) => {
+const issueTemplate = (userName, permission, watch) => {
 	const talkPage = `User talk:${userName.replace(/ /g, '_')}`;
 	const params = {
 		action: 'edit',
 		title: talkPage,
-		appendtext: '\n\n{{'.concat('subst:', PERM_TEMPLATE[permission], '}}}'),
-		summary: `根据${permaLink}授予${PERM_NAME[permission]}${SUMMARY}`,
+		appendtext: '\n\n{{'.concat('subst:', getPermissionRequested(permission), '}}}'),
+		summary: `根据共识授予${getPermissonName(permission)}${SUMMARY}`,
 		watchlist: watch ? 'watch' : 'unwatch',
 	};
 	return api.postWithEditToken(params);
 };
 
-const showDialog = ({_index, _userName, _permission, $body}) => {
-	permission = _permission;
-	index = _index;
-	userName = _userName;
-
+const showDialog = ({index, userName, permission, $body}) => {
 	const Dialog = function (config) {
 		Dialog.super.call(this, config);
 	};
 	OO.inheritClass(Dialog, OO.ui.ProcessDialog);
 	Dialog.static.name = 'user-rights-manager';
-	Dialog.static.title = `授予${PERM_NAME[permission]}${window.wgULS('给', '給')}${userName}`;
+	Dialog.static.title = `授予${getPermissonName(permission)}${window.wgULS('给', '給')}${userName}`;
 	Dialog.static.actions = [
 		{
 			action: 'submit',
@@ -243,7 +233,7 @@ const showDialog = ({_index, _userName, _permission, $body}) => {
 				label: window.wgULS('关闭请求留言', '關閉請求留言'),
 			}),
 		];
-		if (PERM_TEMPLATE[permission]) {
+		if (getPermissionRequested(permission)) {
 			formElements[formElements.length] = new OO.ui.FieldLayout(this.watchTalkPageCheckbox, {
 				label: window.wgULS('监视用户讨论页', '監視用戶討論頁'),
 			});
@@ -271,7 +261,7 @@ const showDialog = ({_index, _userName, _permission, $body}) => {
 	};
 	Dialog.prototype.onSubmit = function () {
 		const self = this;
-		let promiseCount = PERM_TEMPLATE[permission] ? 3 : 2;
+		let promiseCount = getPermissionRequested(permission) ? 3 : 2;
 		self.actions.setAbilities({
 			submit: false,
 		});
@@ -315,29 +305,32 @@ const showDialog = ({_index, _userName, _permission, $body}) => {
 		self.submitFieldset.addItems([self.markAsDoneProgressField]);
 		self.changeRightsProgressField.setLabel('授予权限...');
 		self.submitFieldset.addItems([self.changeRightsProgressField]);
-		if (PERM_TEMPLATE[permission]) {
+		if (getPermissionRequested(permission)) {
 			self.issueTemplateProgressField.setLabel('发送通知...');
 			self.submitFieldset.addItems([self.issueTemplateProgressField]);
 		}
-		addPromise(self.markAsDoneProgressField, markAsDone(`\n:${this.closingRemarksInput.getValue()}`)).then(
-			({edit}) => {
-				addPromise(
-					self.changeRightsProgressField,
-					assignPermission(
-						this.rightsChangeSummaryInput.getValue(),
-						edit.newrevid,
-						this.expiryInput.getValue()
-					)
-				).then(() => {
-					if (PERM_TEMPLATE[permission]) {
-						addPromise(
-							self.issueTemplateProgressField,
-							issueTemplate(this.watchTalkPageCheckbox.isSelected())
-						);
-					}
-				});
-			}
-		);
+		addPromise(
+			self.markAsDoneProgressField,
+			markAsDone(userName, index, `\n:${this.closingRemarksInput.getValue()}`)
+		).then(({edit}) => {
+			addPromise(
+				self.changeRightsProgressField,
+				assignPermission(
+					userName,
+					permission,
+					this.rightsChangeSummaryInput.getValue(),
+					edit.newrevid,
+					this.expiryInput.getValue()
+				)
+			).then(() => {
+				if (getPermissionRequested(permission)) {
+					addPromise(
+						self.issueTemplateProgressField,
+						issueTemplate(userName, permission, this.watchTalkPageCheckbox.isSelected())
+					);
+				}
+			});
+		});
 		self.stackLayout.setItem(self.submitPanel);
 	};
 	Dialog.prototype.getActionProcess = function (action) {
@@ -348,13 +341,13 @@ const showDialog = ({_index, _userName, _permission, $body}) => {
 			return Dialog.super.prototype.getActionProcess.call(this, action);
 		}, this);
 	};
-	dialog = new Dialog({
+	const dialog = new Dialog({
 		size: 'medium',
 	});
 	const windowManager = new OO.ui.WindowManager();
 	$body.append(windowManager.$element);
 	windowManager.addWindows([dialog]);
-	windowManager.openWindow(dialog);
+	void windowManager.openWindow(dialog);
 };
 
 export {showDialog};
