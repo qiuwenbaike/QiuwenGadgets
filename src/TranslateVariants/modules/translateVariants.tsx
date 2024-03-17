@@ -22,7 +22,7 @@ const translateVariants = (wgPageName: string): void => {
 	const $wrapper: JQuery = ($(<div id="TranslateVariants" />) as JQuery).prependTo('#bodyContent');
 
 	const $submitAll: JQuery = $(
-		<button className={['cdx-button', 'cdx-button--action-progressive']}>
+		<button className={['cdx-button', 'cdx-button--action-progressive', 'cdx-button--weight-primary']}>
 			{window.wgULS('发布所有更改', '發佈所有變更')}
 		</button>
 	) as JQuery;
