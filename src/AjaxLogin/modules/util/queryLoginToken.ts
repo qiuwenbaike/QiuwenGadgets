@@ -2,12 +2,7 @@ import {api} from '../api';
 import {getMessage} from '../i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
-const queryLoginToken = async (
-	toastifyInstance: ToastifyInstance
-): Promise<{
-	loginToken: string;
-	toastifyInstance: ToastifyInstance;
-}> => {
+const queryLoginToken = async (toastifyInstance: ToastifyInstance): Promise<string> => {
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify({
 		text: getMessage('Getting login token'),
@@ -21,10 +16,7 @@ const queryLoginToken = async (
 		duration: -1,
 	});
 
-	return {
-		loginToken,
-		toastifyInstance,
-	};
+	return loginToken;
 };
 
 export {queryLoginToken};

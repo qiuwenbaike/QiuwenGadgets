@@ -8,13 +8,8 @@ const generateElements = (
 	$opener: JQuery<HTMLAnchorElement>;
 } => {
 	const table = (
-		<table
-			className="wikitable"
-			style={{
-				width: '100%',
-			}}
-		>
-			{[...$body.find('[accesskey]')].reduce(
+		<table className="wikitable" style={{width: '100%'}}>
+			{[...$body.find('[accesskey]')].reduce<React.ReactElement[]>(
 				(accumulator, element) => [
 					...accumulator,
 					<>
@@ -34,7 +29,7 @@ const generateElements = (
 						</tr>
 					</>,
 				],
-				[] as React.ReactElement[]
+				[]
 			)}
 		</table>
 	);
