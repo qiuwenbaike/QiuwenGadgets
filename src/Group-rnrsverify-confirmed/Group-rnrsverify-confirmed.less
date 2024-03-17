@@ -31,5 +31,8 @@ li.@{group}-show {
 }
 
 .@{group}-hide {
-	display: none !important;
+	&,
+	&.user-show.rnrsverify-confirmed-hide {
+		display: none !important;
+	}
 }
