@@ -22,7 +22,7 @@ const translateVariants = (wgPageName: string): void => {
 	const $wrapper: JQuery = ($(<div id="TranslateVariants" />) as JQuery).prependTo('#bodyContent');
 
 	const $submitAll: JQuery = $(
-		<button className={['mw-ui-button', 'mw-ui-progressive', 'cdx-button', 'cdx-button--action-progressive']}>
+		<button className={['cdx-button', 'cdx-button--action-progressive', 'cdx-button--weight-primary']}>
 			{window.wgULS('发布所有更改', '發佈所有變更')}
 		</button>
 	) as JQuery;
@@ -136,7 +136,7 @@ const translateVariants = (wgPageName: string): void => {
 					if (page.missing) {
 						const $submit = $(
 							<button
-								className={['TranslateVariants-publish-changes', 'mw-ui-button', 'cdx-button']}
+								className={['TranslateVariants-publish-changes', 'cdx-button']}
 								style={{float: 'right'}}
 							>
 								{window.wgULS('发布页面', '發佈頁面')}
@@ -192,7 +192,7 @@ const translateVariants = (wgPageName: string): void => {
 					} else {
 						const $submit = $(
 							<button
-								className={['TranslateVariants-publish-changes', 'mw-ui-button', 'cdx-button']}
+								className={['TranslateVariants-publish-changes', 'cdx-button']}
 								style={{float: 'right'}}
 							>
 								{window.wgULS('发布更改', '發佈變更')}

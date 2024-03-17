@@ -76,8 +76,8 @@ class LogFilter {
 		fieldsetHtml += `<input id="rfCase" type="checkbox"><label for="rfCase">${mw.html.escape(
 			LogFilter.msg('case-label')
 		)}</label>`;
-		fieldsetHtml += `<button type="button" value="0">${mw.html.escape(LogFilter.msg('filter-button'))}</button>`;
-		fieldsetHtml += `<button type="button" value="1">${mw.html.escape(LogFilter.msg('highlight-button'))}</button>`;
+		fieldsetHtml += `<button class="cdx-button cdx-button--action-progressive cdx-button--weight-primary" value="0">${mw.html.escape(LogFilter.msg('filter-button'))}</button>`;
+		fieldsetHtml += `<button class="cdx-button cdx-button--action-progressive cdx-button--weight-primary" value="1">${mw.html.escape(LogFilter.msg('highlight-button'))}</button>`;
 		// Inject the html into the fieldset
 		$fieldSet.append(fieldsetHtml);
 		$pageTop.after($fieldSet);
