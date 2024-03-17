@@ -10,7 +10,7 @@ import {toastify} from 'ext.gadget.Toastify';
 const broadcastChannel: BroadcastChannel = new BroadcastChannel(STORAGE_KEY);
 
 let currentVersion: string = '0';
-const localVersion: string | null = mw.storage.get(STORAGE_KEY) as string | null;
+const localVersion = mw.storage.get(STORAGE_KEY) as string | null;
 
 let timer: ReturnType<typeof setTimeout>;
 

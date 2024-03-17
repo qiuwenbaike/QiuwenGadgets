@@ -1,13 +1,13 @@
-import {WG_USER_GROUPS, WG_USER_LANGUAGE} from '../constant';
+const {wgUserGroups, wgUserLanguage} = mw.config.get();
 
 // eslint-disable-next-line camelcase
 const in_group = (group: string): boolean => {
-	return WG_USER_GROUPS.includes(group);
+	return !!wgUserGroups?.includes(group);
 };
 
 // eslint-disable-next-line camelcase
 const only_for = (userLanguage: string): boolean => {
-	return userLanguage === WG_USER_LANGUAGE;
+	return userLanguage === wgUserLanguage;
 };
 
 const matchCriteria = ($notice: JQuery): boolean => {

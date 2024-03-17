@@ -12,13 +12,15 @@ const getTargetElements = ($body: JQuery<HTMLBodyElement>): TargetElements => {
 	if (IS_DIFF_ACTION) {
 		// in diff pages
 		color = 'inherit'; // not coloured links
-		targetElements = [...$body.find('.diff,.firstrevisionheader')];
+		targetElements = [...$body.find(['.diff', '.firstrevisionheader'].join(','))];
 	} else if (IS_WG_EDIT_OR_SUBMIT_ACTION || IS_WG_HISTORY_ACTION || IS_TARGET_SPECIAL_PAGE) {
 		// in comments
 		targetElements = [...$body.find('.comment')];
 	} else {
 		// in code sections
-		targetElements = [...$body.find('source,.css,.source-css,.javascript,.source-javascript')];
+		targetElements = [
+			...$body.find(['source', '.css', '.source-css', '.javascript', '.source-javascript'].join(',')),
+		];
 	}
 
 	return {

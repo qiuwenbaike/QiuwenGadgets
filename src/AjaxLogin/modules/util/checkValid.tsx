@@ -10,10 +10,9 @@ const checkValid = async (
 ): Promise<{
 	isAgreeTos: boolean;
 	isValid: boolean;
-	toastifyInstance: ToastifyInstance;
 }> => {
 	let isAgreeTos: boolean = agreeTosCheckbox.isSelected();
-	const isFill: boolean = ![nameInput.getValue(), pwdInput.getValue()].includes('');
+	const isFill: boolean = ![nameInput.getValue().trim(), pwdInput.getValue().trim()].includes('');
 
 	toastifyInstance.hideToast();
 	await windowManager.clearWindows();
@@ -59,7 +58,6 @@ const checkValid = async (
 	return {
 		isAgreeTos,
 		isValid,
-		toastifyInstance,
 	};
 };
 
