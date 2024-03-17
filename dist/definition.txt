@@ -149,6 +149,7 @@
 * Group-interface-admin[ResourceLoader|default|hidden|rights=editsitecss|requiresES6]|Group-interface-admin.css
 * Group-massmessage-sender[ResourceLoader|default|hidden|rights=massmessage|requiresES6]|Group-massmessage-sender.css
 * Group-patroller[ResourceLoader|default|hidden|rights=patrol|requiresES6]|Group-patroller.css
+* Group-rnrsverify-confirmed[ResourceLoader|default|hidden|rights=rnrsverify-confirmed|requiresES6]|Group-rnrsverify-confirmed.css
 * Group-senioreditor[ResourceLoader|default|hidden|rights=revisionprotected|requiresES6]|Group-senioreditor.css
 * Group-steward[ResourceLoader|default|hidden|rights=officialprotected|requiresES6]|Group-steward.css
 * Group-sysop[ResourceLoader|default|hidden|rights=editprotected|requiresES6]|Group-sysop.css

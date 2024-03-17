@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-Group-rnrsverify-confirmed\"></span> 身份已确认用户样式表",
+	"section": "usergroup",
+	"default": true,
+	"hidden": true,
+	"rights": ["rnrsverify-confirmed"]
+}
