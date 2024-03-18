@@ -29,7 +29,7 @@ const ajaxLogin = (toastifyInstance: ToastifyInstance, isAgreeTos: boolean = fal
 	const login = async ({loginContinue = false, retypePassword = false} = {}): Promise<void> => {
 		try {
 			if (!loginContinue) {
-				loginToken = await queryLoginToken(toastifyInstance);
+				({loginToken, toastifyInstance} = await queryLoginToken(toastifyInstance));
 			}
 
 			const params: ClientLoginParams = {
@@ -197,10 +197,13 @@ const ajaxLogin = (toastifyInstance: ToastifyInstance, isAgreeTos: boolean = fal
 	};
 
 	const check = async (): Promise<void> => {
-		const {isValid, isAgreeTos: lastIsAgreeTos} = await checkValid(
-			[agreeTosCheckbox, nameInput, pwdInput],
-			toastifyInstance
-		);
+		const {
+			isValid,
+			isAgreeTos: lastIsAgreeTos,
+			toastifyInstance: lastToastifyInstance,
+		} = await checkValid([agreeTosCheckbox, nameInput, pwdInput], toastifyInstance);
+
+		toastifyInstance = lastToastifyInstance;
 
 		if (isValid) {
 			void login();
