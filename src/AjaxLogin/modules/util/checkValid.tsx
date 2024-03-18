@@ -10,6 +10,7 @@ const checkValid = async (
 ): Promise<{
 	isAgreeTos: boolean;
 	isValid: boolean;
+	toastifyInstance: ToastifyInstance;
 }> => {
 	let isAgreeTos: boolean = agreeTosCheckbox.isSelected();
 	const isFill: boolean = ![nameInput.getValue().trim(), pwdInput.getValue().trim()].includes('');
@@ -58,6 +59,7 @@ const checkValid = async (
 	return {
 		isAgreeTos,
 		isValid,
+		toastifyInstance,
 	};
 };
 
