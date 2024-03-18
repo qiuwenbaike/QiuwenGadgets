@@ -1,19 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import * as OPTIONS from '../options.json';
-import {
-	IS_CATEGORY,
-	SUFFIX_APPEND,
-	SUFFIX_REPLACE,
-	SUFFIX_SETDEFAULT,
-	VARIANTS,
-	WG_NAMESPACE_IDS,
-	WG_NAMESPACE_NUMBER,
-	WG_PAGE_NAME,
-} from './constant';
+import {SUFFIX_APPEND, SUFFIX_REPLACE, SUFFIX_SETDEFAULT, VARIANTS} from './constant';
 import {api} from './api';
 import {generateArray} from 'ext.gadget.Util';
 import {getMessage} from './util/getMessage';
+
+const {wgNamespaceIds, wgNamespaceNumber, wgPageName} = mw.config.get();
+const IS_CATEGORY = wgNamespaceNumber === 14;
 
 let findRedirectCallbacks = [];
 const pageWithRedirectTextSuffix = {};
@@ -21,23 +15,23 @@ const redirectExcludes = {};
 const nsPrefixes = [];
 let nsCanonPrefix, nsPrefixPattern;
 
-for (const [text, nsid] of Object.entries(WG_NAMESPACE_IDS)) {
-	if (nsid === WG_NAMESPACE_NUMBER && !!text) {
+for (const [text, nsid] of Object.entries(wgNamespaceIds)) {
+	if (nsid === wgNamespaceNumber && !!text) {
 		nsPrefixes[nsPrefixes.length] = text;
 	}
 }
 
-if (WG_NAMESPACE_NUMBER === 0) {
+if (wgNamespaceNumber === 0) {
 	// articles
 	nsCanonPrefix = '';
 	nsPrefixPattern = /^/;
 } else {
-	nsCanonPrefix = `${WG_PAGE_NAME.split(':')[0]}:`;
+	nsCanonPrefix = `${wgPageName.split(':')[0]}:`;
 	nsPrefixPattern = new RegExp(`^(${nsPrefixes.join('|')}):`, 'i');
 }
 
 const fixNamespace = (title) => {
-	if (WG_NAMESPACE_NUMBER === 0) {
+	if (wgNamespaceNumber === 0) {
 		// do nothing if it's articles
 		return title;
 	} else if (nsPrefixPattern.test(title)) {
@@ -183,7 +177,7 @@ export const ToolsRedirect = {
 		$('p[class!=desc]', self.tabs.view.cont).remove();
 		self.loading(self.tabs.view.cont);
 		void self
-			.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${WG_PAGE_NAME}]]`, getMessage('fixsummary'))
+			.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${wgPageName}]]`, getMessage('fixsummary'))
 			.then(() => {
 				// delay load before the asynchronous tasks on server finished
 				setTimeout(() => {
@@ -200,8 +194,8 @@ export const ToolsRedirect = {
 		void self
 			.bulkEdit(
 				pagenames,
-				getMessage('createtext').replace('$1', WG_PAGE_NAME),
-				getMessage('createsummary').replace('$1', WG_PAGE_NAME)
+				getMessage('createtext').replace('$1', wgPageName),
+				getMessage('createsummary').replace('$1', wgPageName)
 			)
 			.then(() => {
 				// delay load before the asynchronous tasks on server finished
@@ -409,7 +403,7 @@ export const ToolsRedirect = {
 		this.loadTabCont(
 			'view',
 			function () {
-				return this.loadRedirect(WG_PAGE_NAME, $container, 0);
+				return this.loadRedirect(wgPageName, $container, 0);
 			},
 			reload
 		);
@@ -418,7 +412,7 @@ export const ToolsRedirect = {
 		this.loadTabCont(
 			'create',
 			function () {
-				return this.findRedirect(WG_PAGE_NAME);
+				return this.findRedirect(wgPageName);
 			},
 			reload
 		);
@@ -634,7 +628,7 @@ export const ToolsRedirect = {
 							}
 							titles[titles.length] = title;
 							if (IS_CATEGORY) {
-								const target = WG_PAGE_NAME.replace(/^Category:/, '');
+								const target = wgPageName.replace(/^Category:/, '');
 								setRedirectTextSuffix(title, '{{分类重定向|$1}}'.replace('$1', target));
 							}
 							// only set default suffix
