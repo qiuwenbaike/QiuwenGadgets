@@ -1,10 +1,10 @@
 import ReportButton from '../components/ReportButton';
-import {WG_NAMESPACE_NUMBER} from './constant';
 import {changeOpacityWhenMouseEnterOrLeave} from 'ext.gadget.Util';
 import {tippy} from 'ext.gadget.Tippy';
 
-const addButton = ($body: JQuery<HTMLBodyElement>): void => {
-	if (WG_NAMESPACE_NUMBER < 0) {
+const addButton = ($body: JQuery<HTMLBodyElement>, URL: string): void => {
+	const {wgNamespaceNumber} = mw.config.get();
+	if (wgNamespaceNumber < 0) {
 		return;
 	}
 
@@ -12,7 +12,7 @@ const addButton = ($body: JQuery<HTMLBodyElement>): void => {
 		changeOpacityWhenMouseEnterOrLeave(event);
 	};
 
-	const reportButton = ReportButton() as HTMLElement;
+	const reportButton = ReportButton(URL) as HTMLElement;
 
 	for (const event of ['mouseenter', 'mouseleave'] as const) {
 		reportButton.addEventListener(event, onMouseEnterMouseLeave);
