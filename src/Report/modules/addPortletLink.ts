@@ -1,8 +1,8 @@
-import {URL, WG_NAMESPACE_NUMBER} from './constant';
 import {getMessage} from './i18n';
 
-const addPortletLink = (): void => {
-	if (WG_NAMESPACE_NUMBER < 0) {
+const addPortletLink = (URL: string): void => {
+	const {wgNamespaceNumber} = mw.config.get();
+	if (wgNamespaceNumber < 0) {
 		return;
 	}
 

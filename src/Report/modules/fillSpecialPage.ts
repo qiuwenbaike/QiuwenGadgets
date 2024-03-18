@@ -15,8 +15,9 @@ const fillSpecialPage = ($body: JQuery<HTMLBodyElement>): void => {
 	const $wpTitleElement: JQuery<HTMLInputElement> = $body.find<HTMLInputElement>('input[name="wpTitle"]');
 
 	const linkTilte: string = getMessage('Report');
-	const reportRevision: string = mw.util.getParamValue('report_revision') || '0';
-	let reportTitle: string = mw.util.getParamValue('report_title') || '';
+	const reportRevision: string =
+		mw.util.getParamValue('report_revision') || mw.util.getParamValue('reportrevision') || '0';
+	let reportTitle: string = mw.util.getParamValue('report_title') || mw.util.getParamValue('reporttitle') || '';
 	if (reportRevision !== '0') {
 		reportTitle += getMessage('(') + getMessage('Revision') + reportRevision + getMessage(')');
 	}
