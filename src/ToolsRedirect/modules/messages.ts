@@ -1,5 +1,6 @@
 import type {MessageKey} from './types';
-import {WG_USER_LANGUAGE} from './constant';
+
+const {wgUserLanguage} = mw.config.get();
 
 const DEFAULT_MESSAGES = {
 	'toolsredirect-btntitle': '重定向',
@@ -29,7 +30,7 @@ const DEFAULT_MESSAGES = {
 } satisfies Record<MessageKey, string>;
 
 const setMessages = (): void => {
-	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(WG_USER_LANGUAGE)) {
+	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(wgUserLanguage)) {
 		mw.messages.set<typeof DEFAULT_MESSAGES>({
 			'toolsredirect-btntitle': '重新導向',
 			'toolsredirect-btndesc': '創建和管理此頁面的重新導向',
