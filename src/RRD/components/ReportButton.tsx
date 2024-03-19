@@ -9,8 +9,8 @@ interface Props {
 
 const ReportButton = ({onClick}: Props) => (
 	<button
+		type={'button'}
 		className={['reportrrd', 'cdx-button', 'cdx-button--weight-primary']}
-		name={'reportrrd'}
 		title={getMessage('reportButtonTitle') + OPTIONS.rrdPage}
 		onClick={onClick}
 	>
