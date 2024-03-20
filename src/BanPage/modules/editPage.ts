@@ -11,7 +11,7 @@ const editPage = async (): Promise<void> => {
 	} catch {
 		try {
 			await create(editParams);
-		} catch (error: unknown) {
+		} catch (error) {
 			showError(error);
 		}
 	}

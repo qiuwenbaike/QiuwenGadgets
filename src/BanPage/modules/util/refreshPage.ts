@@ -1,6 +1,7 @@
-import {WG_SCRIPT} from '../constant';
 import {getMessage} from '../i18n';
 import {toastify} from 'ext.gadget.Toastify';
+
+const {wgScript} = mw.config.get();
 
 const refresh = (targetPage: string): void => {
 	toastify(
@@ -12,7 +13,7 @@ const refresh = (targetPage: string): void => {
 	);
 
 	location.replace(
-		mw.util.getUrl(WG_SCRIPT, {
+		mw.util.getUrl(wgScript, {
 			title: targetPage,
 		})
 	);
