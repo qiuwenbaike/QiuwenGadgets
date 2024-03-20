@@ -23,17 +23,14 @@ import {
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
 	VARIANTS,
-	WG_CANONICAL_SPECIAL_PAGE_NAME,
-	WG_FORMATTED_NAMESPACES,
-	WG_NAMESPACE_IDS,
-	WG_NAMESPACE_NUMBER,
-	WG_TITLE,
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
 import React from 'ext.gadget.React';
 import {api} from './api';
 import {getBody} from 'ext.gadget.Util';
+
+const {wgCanonicalSpecialPageName, wgFormattedNamespaces, wgNamespaceIds, wgNamespaceNumber, wgTitle} = mw.config.get();
 
 /**
  * Changes category of multiple files
@@ -49,10 +46,10 @@ const catALot = (): void => {
 		private static readonly API_TAG: string = OPTIONS.apiTag;
 		private static readonly TARGET_NAMESPACE: number = OPTIONS.targetNamespace;
 
-		private static readonly CURRENT_CATEGROY: string = WG_TITLE;
+		private static readonly CURRENT_CATEGROY: string = wgTitle;
 
-		private static readonly WG_FORMATTED_NAMESPACES: Record<number, string> = WG_FORMATTED_NAMESPACES;
-		private static readonly WG_NAMESPACE_IDS: Record<string, number> = WG_NAMESPACE_IDS;
+		private static readonly wgFormattedNamespaces: Record<number, string> = wgFormattedNamespaces;
+		private static readonly wgNamespaceIds: Record<string, number> = wgNamespaceIds;
 
 		private static isAutoCompleteInit = false;
 
@@ -69,7 +66,7 @@ const catALot = (): void => {
 
 		private static dialogHeight = 450;
 		private static editToken = '';
-		private static localCatName = WG_FORMATTED_NAMESPACES[CAL.TARGET_NAMESPACE] as string;
+		private static localCatName = wgFormattedNamespaces[CAL.TARGET_NAMESPACE] as string;
 
 		private static parentCats: string[] = [];
 		private static subCats: string[] = [];
@@ -268,16 +265,16 @@ const catALot = (): void => {
 				return regexName.replace(/([$()*+.?\\^])/g, '\\$1').replace(wikiTextBlankRE, wikiTextBlank);
 			};
 			fallback = fallback.toLowerCase();
-			const canonical: string | undefined = CAL.WG_FORMATTED_NAMESPACES[namespaceNumber]?.toLowerCase();
+			const canonical: string | undefined = CAL.wgFormattedNamespaces[namespaceNumber]?.toLowerCase();
 			let regexString: string = createRegexStr(canonical);
 			if (fallback && canonical !== fallback) {
 				regexString += `|${createRegexStr(fallback)}`;
 			}
-			for (const catName of Object.keys(CAL.WG_NAMESPACE_IDS)) {
+			for (const catName of Object.keys(CAL.wgNamespaceIds)) {
 				if (
 					catName.toLowerCase() !== canonical &&
 					catName.toLowerCase() !== fallback &&
-					CAL.WG_NAMESPACE_IDS[catName] === namespaceNumber
+					CAL.wgNamespaceIds[catName] === namespaceNumber
 				) {
 					regexString += `|${createRegexStr(catName)}`;
 				}
@@ -912,10 +909,10 @@ const catALot = (): void => {
 	}
 
 	if (
-		(WG_NAMESPACE_NUMBER === -1 && WG_CANONICAL_SPECIAL_PAGE_NAME === 'Search') ||
-		WG_NAMESPACE_NUMBER === OPTIONS.targetNamespace
+		(wgNamespaceNumber === -1 && wgCanonicalSpecialPageName === 'Search') ||
+		wgNamespaceNumber === OPTIONS.targetNamespace
 	) {
-		if (WG_NAMESPACE_NUMBER === -1) {
+		if (wgNamespaceNumber === -1) {
 			CAL.isSearchMode = true;
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */

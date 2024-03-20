@@ -1,8 +1,10 @@
-import {LAST_STORAGE_VALUE, STORAGE_KEY, URL_CONSENT_READ, WG_USER_NAME} from './modules/constant';
+import {LAST_STORAGE_VALUE, STORAGE_KEY, URL_CONSENT_READ} from './modules/constant';
 import {RootElement} from './components/RootElement';
 
+const {wgUserName} = mw.config.get();
+
 (function cookieWarning(): void {
-	if (WG_USER_NAME || LAST_STORAGE_VALUE === '1' || URL_CONSENT_READ) {
+	if (wgUserName || LAST_STORAGE_VALUE === '1' || URL_CONSENT_READ) {
 		return;
 	}
 
