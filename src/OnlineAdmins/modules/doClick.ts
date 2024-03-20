@@ -20,6 +20,7 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 	try {
 		const recentchangesParams: ApiQueryRecentChangesParams = {
 			action: 'query',
+			format: 'json',
 			formatversion: '2',
 			list: 'recentchanges',
 			rcprop: 'user',
@@ -35,6 +36,7 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		}
 		const logeventsParams: ApiQueryLogEventsParams = {
 			action: 'query',
+			format: 'json',
 			formatversion: '2',
 			list: 'logevents',
 			leprop: 'user',

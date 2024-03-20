@@ -35,10 +35,11 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 
 	const params: ApiImportParams = {
 		action: 'import',
+		format: 'json',
 		assignknownusers: true,
 		interwikipage: pageName,
 		interwikiprefix: iwprefix,
-		interwikisource: iwprefix,
+		interwikisource: iwprefix as NonNullable<ApiImportParams['interwikisource']>,
 		summary: `［${summary}］`,
 	};
 	await api.postWithEditToken(params);
@@ -68,6 +69,7 @@ const uploadFile = async (pageName: string): Promise<void> => {
 	const uploadParams: ApiUploadParams = {
 		url,
 		action: 'upload',
+		format: 'json',
 		filename: pageName,
 		comment: '自其他网站迁移文件',
 		ignorewarnings: true,
@@ -80,6 +82,7 @@ const uploadFile = async (pageName: string): Promise<void> => {
 const detectIfFileRedirect = async (target: string): Promise<void> => {
 	const params: ApiQueryParams = {
 		action: 'query',
+		format: 'json',
 		prop: 'info',
 		titles: target,
 		redirects: true,

@@ -6,7 +6,7 @@ import {refresh} from './refreshPage';
 const edit = async (editParams: EditParams): Promise<void> => {
 	const {targetPage, text, summary} = editParams;
 
-	await api.edit(WG_PAGE_NAME, (): ApiEditPageParams => {
+	await api.edit(WG_PAGE_NAME, () => {
 		return {
 			text,
 			summary,

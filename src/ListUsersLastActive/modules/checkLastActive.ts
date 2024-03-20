@@ -7,6 +7,7 @@ const checkLastActive = async ($element: JQuery): Promise<void> => {
 
 	const logEventsParams: ApiQueryLogEventsParams = {
 		action: 'query',
+		format: 'json',
 		formatversion: '2',
 		list: 'logevents',
 		lelimit: 1,

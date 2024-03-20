@@ -38,6 +38,7 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 
 	const baseParams: ApiQueryUserContribsParams = {
 		action: 'query',
+		format: 'json',
 		list: 'usercontribs',
 		uclimit: 1,
 	};

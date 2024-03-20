@@ -86,7 +86,6 @@ const translateVariants = (wgPageName: string): void => {
 		let newPageContent: string = '';
 		void api
 			.parse(`{{NoteTA|G1=IT|G2=MediaWiki}}<div id="TranslateVariants-content">${pageContent}</div>`, {
-				prop: 'text',
 				uselang: lang,
 			})
 			.then(
@@ -201,14 +200,11 @@ const translateVariants = (wgPageName: string): void => {
 						$submit.on('click', (): void => {
 							$submit.remove();
 
-							api.edit(
-								targetTitle,
-								(): ApiEditPageParams => ({
-									summary,
-									text: newPageContent,
-									nocreate: false,
-								})
-							).then(
+							api.edit(targetTitle, () => ({
+								summary,
+								text: newPageContent,
+								nocreate: false,
+							})).then(
 								(): void => {
 									void mw.notify(window.wgULS('已编辑', '已編輯 ') + targetTitle, {
 										tag: 'TranslateVariant',

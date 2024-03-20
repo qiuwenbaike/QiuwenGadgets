@@ -21,7 +21,7 @@ const queryApi = async (diffId: number): Promise<CompareResponse> => {
 		return await api.get({
 			...parameters,
 			fromrev: diffId,
-		});
+		} as ApiComparePagesParams);
 	} catch (error: unknown) {
 		console.error('[ShortURL] Ajax error:', error);
 		toastify(

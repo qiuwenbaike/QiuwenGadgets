@@ -181,7 +181,7 @@ const catALot = (): void => {
 				CAL.isAutoCompleteInit = true;
 
 				this.$searchInput.autocomplete({
-					source: (request: {term: unknown}, response: (arg: JQuery<string>) => void): void => {
+					source: (request: {term: string}, response: (arg: JQuery<string>) => void): void => {
 						this.doAPICall(
 							{
 								action: 'opensearch',
@@ -312,7 +312,7 @@ const catALot = (): void => {
 				const {parse} = await CAL.api.post({
 					...params,
 					variant,
-				});
+				} as ApiParseParams);
 				const {text} = parse;
 				results[results.length] = $(text).eq(0).text().trim();
 			}
@@ -352,11 +352,19 @@ const catALot = (): void => {
 		}
 
 		private doAPICall(
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			params: Record<string, any>,
+			_params:
+				| Omit<ApiEditPageParams, 'format'>
+				| Omit<ApiOpenSearchParams, 'format'>
+				| Omit<ApiQueryCategoryMembersParams, 'format'>
+				| Omit<ApiQueryRevisionsParams, 'format'>
+				| Omit<ApiQueryTokensParams, 'format'>,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			callback: (data: any) => void
 		) {
+			const params = _params as typeof _params & {
+				format: 'json';
+				title?: string;
+			};
 			params['format'] = 'json';
 			params['formatversion'] = '2';
 			let i: number = 0;
@@ -367,7 +375,7 @@ const catALot = (): void => {
 						setTimeout(doCall, 300);
 						i++;
 					} else if (params['title']) {
-						CAL.connectionError[CAL.connectionError.length] = params['title'] as string;
+						CAL.connectionError[CAL.connectionError.length] = params['title'];
 						this.updateCounter();
 					}
 				};
@@ -583,11 +591,11 @@ const catALot = (): void => {
 					title: markedLabelTitle,
 					assert: 'user',
 					bot: true,
-					basetimestamp: timestamp,
-					watchlist: CAL.settings.watchlist,
+					basetimestamp: timestamp.toString(),
+					watchlist: CAL.settings.watchlist as never,
 					text,
 					summary,
-					starttimestamp,
+					starttimestamp: starttimestamp.toString(),
 				},
 				(): void => {
 					this.updateCounter();
@@ -607,7 +615,7 @@ const catALot = (): void => {
 					meta: 'tokens',
 					titles: markedLabel[0],
 					prop: 'revisions',
-					rvprop: 'content|timestamp',
+					rvprop: ['content', 'timestamp'],
 				},
 				(result): void => {
 					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -810,7 +818,7 @@ const catALot = (): void => {
 					action: 'query',
 					list: 'categorymembers',
 					cmtype: 'subcat',
-					cmlimit: CAL.settings.subcatcount,
+					cmlimit: CAL.settings.subcatcount as never,
 					cmtitle: `Category:${CAL.currentCategory}`,
 				},
 				(result): void => {

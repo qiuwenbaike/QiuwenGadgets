@@ -41,6 +41,7 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 
 		const params: ApiPurgeParams = {
 			action: 'purge',
+			format: 'json',
 			titles: wgPageName,
 		};
 		api.post(params)

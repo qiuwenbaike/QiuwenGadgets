@@ -34,6 +34,7 @@ import {api} from './modules/api';
 
 			const queryParams: ApiQueryParams = {
 				action: 'query',
+				format: 'json',
 				prop: 'info',
 				titles: pageName,
 			};
