@@ -1,18 +1,20 @@
-import {WG_NAMESPACE_NUMBER} from '../constant';
 import {getMessage} from '../i18n';
 
 type EditParams = {
 	targetPage: string;
 	text: string;
 	summary: string;
+	wgPageName: MediaWikiConfigMap['wgPageName'];
 };
+
+const {wgNamespaceNumber, wgPageName} = mw.config.get();
 
 const generateEditParams = (): EditParams => {
 	let targetPage: string = 'Qiuwen:首页';
 	let redirectTemplate: string = '';
 	let summary: string = getMessage('Ban the $1');
 
-	switch (WG_NAMESPACE_NUMBER) {
+	switch (wgNamespaceNumber) {
 		case 6:
 			targetPage = 'File:Banned Images.svg';
 			redirectTemplate = '{{文件重定向}}';
@@ -34,6 +36,7 @@ const generateEditParams = (): EditParams => {
 		targetPage,
 		text,
 		summary,
+		wgPageName,
 	};
 };
 

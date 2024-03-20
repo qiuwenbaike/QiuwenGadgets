@@ -14,7 +14,7 @@ const addListener = ($element: JQuery): void => {
 		void editPage();
 	};
 
-	$element.on('click', (event: JQuery.ClickEvent): void => {
+	$element.on('click', (event): void => {
 		void clickListener(event);
 	});
 };
