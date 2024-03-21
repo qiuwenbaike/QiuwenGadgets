@@ -26,10 +26,10 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 			sectionId === `User:${userName}` ? '' : sectionId.replace('User:', '').replace(userName, '');
 
 		showDialog({
-			$body,
 			index,
 			userName,
 			permission,
+			$body,
 		});
 	});
 });
