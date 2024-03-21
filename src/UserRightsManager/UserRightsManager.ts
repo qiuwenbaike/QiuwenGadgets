@@ -11,11 +11,11 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 
 	const permission: string | undefined = getPermissionRequested(wgPageName);
 
-	$body.find('.perm-assign-permissions a').on('click', (event: JQuery.ClickEvent): void => {
-		if (permission === 'AutoWikiBrowser') {
-			return;
-		}
+	if (permission === 'AutoWikiBrowser') {
+		return;
+	}
 
+	$body.find('.perm-assign-permissions a').on('click', (event: JQuery.ClickEvent): void => {
 		event.preventDefault();
 
 		const $element: JQuery<HTMLAnchorElement> = $(event.target as HTMLAnchorElement);

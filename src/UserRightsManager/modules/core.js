@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {getPermissionRequested, getPermissonName} from './i18n';
+import {getPermissionRequested, getPermissonName, getpermissionTemplate} from './i18n';
 import {SUMMARY} from './constant';
 import {api} from './api';
 
@@ -23,9 +23,8 @@ const assignPermission = (userName, permission, summary, revId, expiry) => {
 
 const markAsDone = (userName, index, closingRemarks) => {
 	const {wgPageName} = mw.config.get();
-	const sectionNode = document.querySelector(
-		`#User\\:${userName.replace(/"/g, '.22').replace(/ /g, '_')}${index ?? ''}`
-	);
+	const sectionSelector = `#${CSS.escape(`User:${userName}`)}${index ?? ''}`;
+	const sectionNode = document.querySelector(sectionSelector);
 	const [, sectionNumber] = $(sectionNode)
 		.siblings('.mw-editsection')
 		.find('a:not(.mw-editsection-visualeditor)')
@@ -90,14 +89,14 @@ const issueTemplate = (userName, permission, watch) => {
 	const params = {
 		action: 'edit',
 		title: talkPage,
-		appendtext: '\n\n{{'.concat('subst:', getPermissionRequested(permission), '}}}'),
+		appendtext: '\n\n{{'.concat('subst:', getpermissionTemplate(permission), '}}}'),
 		summary: `根据共识授予${getPermissonName(permission)}${SUMMARY}`,
 		watchlist: watch ? 'watch' : 'unwatch',
 	};
 	return api.postWithEditToken(params);
 };
 
-const showDialog = ({index, userName, permission, $body}) => {
+const showDialog = ({userName, index, permission, $body}) => {
 	const Dialog = function (config) {
 		Dialog.super.call(this, config);
 	};
