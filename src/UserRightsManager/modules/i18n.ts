@@ -40,4 +40,19 @@ const getPermissionRequested: GetMessages<typeof permissionRequested> = (key) =>
 	return permissionRequested[key] || key;
 };
 
-export {getPermissonName, getPermissionRequested};
+const getPermissionTemplates = () => {
+	return {
+		patroller: 'Patrolgranted',
+		autoreviewer: 'Autopatrolgranted',
+		'massmessage-sender': 'MMSgranted',
+		templateeditor: 'Template editor granted',
+	} as const satisfies Partial<Record<UserRights, string>>;
+};
+
+const permissionTemplate = getPermissionTemplates();
+
+const getpermissionTemplate: GetMessages<typeof permissionTemplate> = (key) => {
+	return permissionTemplate[key] || key;
+};
+
+export {getPermissonName, getPermissionRequested, getpermissionTemplate};
