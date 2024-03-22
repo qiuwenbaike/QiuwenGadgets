@@ -490,8 +490,12 @@ var catALot = () => {
     buildElements() {
       const regexCat = new RegExp("^\\s*".concat(CAL.localizedRegex(CAL.TARGET_NAMESPACE, "Category"), ":"), "");
       this.$searchInput.on("input keyup", (event) => {
-        const currentTarget = event.currentTarget;
-        const oldVal = currentTarget.value;
+        const {
+          currentTarget
+        } = event;
+        const {
+          value: oldVal
+        } = currentTarget;
         const newVal = oldVal.replace(regexCat, "");
         if (newVal !== oldVal) {
           currentTarget.value = newVal;
@@ -838,9 +842,10 @@ var catALot = () => {
       const markedLabels = [];
       CAL.$selectedLabels = CAL.$labels.filter(".".concat(CLASS_NAME_LABEL_SELECTED));
       CAL.$selectedLabels.each((_index, label) => {
+        var _$labelLink$attr;
         const $label = $(label);
         const $labelLink = $label.find("a[title]");
-        const title = $labelLink.attr("title") || CAL.getTitleFromLink($labelLink.attr("href")) || CAL.getTitleFromLink($label.find("a").attr("href"));
+        const title = ((_$labelLink$attr = $labelLink.attr("title")) === null || _$labelLink$attr === void 0 ? void 0 : _$labelLink$attr.trim()) || CAL.getTitleFromLink($labelLink.attr("href")) || CAL.getTitleFromLink($label.find("a").attr("href"));
         markedLabels[markedLabels.length] = [title, $label];
       });
       return markedLabels;
@@ -1116,29 +1121,31 @@ var catALot = () => {
 //! src/Cat-a-lot/modules/extendJQueryPrototype.ts
 var extendJQueryPrototype = () => {
   /*! jQuery checkboxShiftClick | GPL-2.0 <https://qwbk.cc/H:GPL> */
-  $.fn.onCatALotShiftClick = function(callback) {
-    let prevCheckbox;
-    this.on("click.catALot", (event) => {
-      if (!event.ctrlKey) {
-        event.preventDefault();
-      }
-      this.parents("body").find(".".concat(CLASS_NAME_LABEL_LAST_SELECTED)).removeClass(CLASS_NAME_LABEL_LAST_SELECTED);
-      let $thisControl = $(event.target);
-      if (!$thisControl.hasClass(CLASS_NAME_LABEL)) {
-        $thisControl = $thisControl.parents(".".concat(CLASS_NAME_LABEL));
-      }
-      $thisControl.addClass(CLASS_NAME_LABEL_LAST_SELECTED).toggleClass(CLASS_NAME_LABEL_SELECTED);
-      if (prevCheckbox && event.shiftKey) {
-        const method = $thisControl.hasClass(CLASS_NAME_LABEL_SELECTED) ? "addClass" : "removeClass";
-        this.slice(Math.min(this.index(prevCheckbox), this.index($thisControl)), Math.max(this.index(prevCheckbox), this.index($thisControl)) + 1)[method](CLASS_NAME_LABEL_SELECTED);
-      }
-      prevCheckbox = $thisControl;
-      if (typeof callback === "function") {
-        callback();
-      }
-    });
-    return this;
-  };
+  $.fn.extend({
+    onCatALotShiftClick: function(callback) {
+      let prevCheckbox;
+      this.on("click.catALot", (event) => {
+        if (!event.ctrlKey) {
+          event.preventDefault();
+        }
+        this.parents("body").find(".".concat(CLASS_NAME_LABEL_LAST_SELECTED)).removeClass(CLASS_NAME_LABEL_LAST_SELECTED);
+        let $thisControl = $(event.target);
+        if (!$thisControl.hasClass(CLASS_NAME_LABEL)) {
+          $thisControl = $thisControl.parents(".".concat(CLASS_NAME_LABEL));
+        }
+        $thisControl.addClass(CLASS_NAME_LABEL_LAST_SELECTED).toggleClass(CLASS_NAME_LABEL_SELECTED);
+        if (prevCheckbox && event.shiftKey) {
+          const method = $thisControl.hasClass(CLASS_NAME_LABEL_SELECTED) ? "addClass" : "removeClass";
+          this.slice(Math.min(this.index(prevCheckbox), this.index($thisControl)), Math.max(this.index(prevCheckbox), this.index($thisControl)) + 1)[method](CLASS_NAME_LABEL_SELECTED);
+        }
+        prevCheckbox = $thisControl;
+        if (typeof callback === "function") {
+          callback();
+        }
+      });
+      return this;
+    }
+  });
 };
 //! src/Cat-a-lot/Cat-a-lot.ts
 /*! jQuery checkboxShiftClick | GPL-2.0 <https://qwbk.cc/H:GPL> */

@@ -18,7 +18,7 @@ const {wgUserName} = mw.config.get();
 	const broadcastChannel: BroadcastChannel = new BroadcastChannel(STORAGE_KEY);
 	broadcastChannel.addEventListener('message', closeWarning);
 
-	const rootElement = RootElement(closeWarning);
+	const rootElement = RootElement({agreeButtonOnClick: closeWarning});
 
 	document.body.append(rootElement);
 })();
