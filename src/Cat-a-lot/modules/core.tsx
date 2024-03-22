@@ -588,11 +588,11 @@ const catALot = (): void => {
 					title: markedLabelTitle,
 					assert: 'user',
 					bot: true,
-					basetimestamp: timestamp.toString(),
+					basetimestamp: timestamp as never as string,
 					watchlist: CAL.settings.watchlist as never,
 					text,
 					summary,
-					starttimestamp: starttimestamp.toString(),
+					starttimestamp: starttimestamp as never as string,
 				},
 				(): void => {
 					this.updateCounter();
