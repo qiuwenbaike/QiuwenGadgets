@@ -6,7 +6,7 @@ import {toastify} from 'ext.gadget.Toastify';
 const addCopyListener = ($pres: JQuery<HTMLPreElement>): void => {
 	for (const pre of $pres) {
 		const clipboard = new Clipboard(pre.querySelector(`.${button}`) as HTMLSpanElement, {
-			text: (): string => {
+			text(): string {
 				return pre.textContent ?? '';
 			},
 		});

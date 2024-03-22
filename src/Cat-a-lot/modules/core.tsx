@@ -122,7 +122,7 @@ const catALot = (): void => {
 							{[CAL.msg('select'), ' ']}
 							<a
 								className={CLASS_NAME_CONTAINER_DATA_SELECTIONS_ALL}
-								onClick={() => {
+								onClick={(): void => {
 									this.toggleAll(true);
 								}}
 							>
@@ -131,7 +131,7 @@ const catALot = (): void => {
 							{' • '}
 							<a
 								className={CLASS_NAME_CONTAINER_DATA_SELECTIONS_NONE}
-								onClick={() => {
+								onClick={(): void => {
 									this.toggleAll(false);
 								}}
 							>
@@ -140,7 +140,7 @@ const catALot = (): void => {
 						</div>
 					</div>
 					<div className={CLASS_NAME_CONTAINER_HEAD}>
-						<a className={CLASS_NAME_CONTAINER_HEAD_LINK}>{'Cat-a-lot'}</a>
+						<a className={CLASS_NAME_CONTAINER_HEAD_LINK}>Cat-a-lot</a>
 					</div>
 				</div>
 			);
@@ -162,9 +162,9 @@ const catALot = (): void => {
 		public buildElements(): void {
 			const regexCat: RegExp = new RegExp(`^\\s*${CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category')}:`, '');
 
-			this.$searchInput.on('input keyup', (event: JQuery.TriggeredEvent | JQuery.KeyUpEvent): void => {
-				const currentTarget = event.currentTarget as HTMLInputElement;
-				const oldVal: string = currentTarget.value;
+			this.$searchInput.on('input keyup', (event): void => {
+				const {currentTarget} = event;
+				const {value: oldVal} = currentTarget;
 				const newVal: string = oldVal.replace(regexCat, '');
 				if (newVal !== oldVal) {
 					currentTarget.value = newVal;
@@ -189,9 +189,7 @@ const catALot = (): void => {
 							(result): void => {
 								if (result[1]) {
 									response(
-										$(result[1]).map((_index: number, item: string): string =>
-											item.replace(regexCat, '')
-										)
+										$(result[1]).map((_index, item: string): string => item.replace(regexCat, ''))
 									);
 								}
 							}
@@ -205,7 +203,7 @@ const catALot = (): void => {
 					appendTo: `.${CLASS_NAME_CONTAINER}`,
 				});
 			};
-			this.$link.on('click', (event: JQuery.ClickEvent): void => {
+			this.$link.on('click', (event): void => {
 				$(event.currentTarget).toggleClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED);
 				initAutocomplete();
 				this.run();
@@ -309,7 +307,7 @@ const catALot = (): void => {
 				const {parse} = await CAL.api.post({
 					...params,
 					variant,
-				} as ApiParseParams);
+				} as typeof params);
 				const {text} = parse;
 				results[results.length] = $(text).eq(0).text().trim();
 			}
@@ -460,10 +458,10 @@ const catALot = (): void => {
 				$parent.append(
 					<>
 						<h5>{CAL.msg('skipped-already', CAL.alreadyThere.length.toString())}</h5>
-						{CAL.alreadyThere.reduce(
+						{CAL.alreadyThere.reduce<(string | React.ReactElement)[]>(
 							(pre, cur, index) =>
 								index < CAL.alreadyThere.length - 1 ? [...pre, cur, <br key={index} />] : [...pre, cur],
-							[] as (string | React.ReactElement)[]
+							[]
 						)}
 					</>
 				);
@@ -472,10 +470,10 @@ const catALot = (): void => {
 				$parent.append(
 					<>
 						<h5>{CAL.msg('skipped-not-found', CAL.notFound.length.toString())}</h5>
-						{CAL.notFound.reduce(
+						{CAL.notFound.reduce<(string | React.ReactElement)[]>(
 							(pre, cur, index) =>
 								index < CAL.notFound.length - 1 ? [...pre, cur, <br key={index} />] : [...pre, cur],
-							[] as (string | React.ReactElement)[]
+							[]
 						)}
 					</>
 				);
@@ -484,12 +482,12 @@ const catALot = (): void => {
 				$parent.append(
 					<>
 						<h5>{CAL.msg('skipped-server', CAL.connectionError.length.toString())}</h5>
-						{CAL.connectionError.reduce(
+						{CAL.connectionError.reduce<(string | React.ReactElement)[]>(
 							(pre, cur, index) =>
 								index < CAL.connectionError.length - 1
 									? [...pre, cur, <br key={index} />]
 									: [...pre, cur],
-							[] as (string | React.ReactElement)[]
+							[]
 						)}
 					</>
 				);
@@ -630,11 +628,11 @@ const catALot = (): void => {
 		private getMarkedLabels(): [string, JQuery][] {
 			const markedLabels: ReturnType<typeof this.getMarkedLabels> = [];
 			CAL.$selectedLabels = CAL.$labels.filter(`.${CLASS_NAME_LABEL_SELECTED}`);
-			CAL.$selectedLabels.each((_index: number, label: HTMLElement): void => {
+			CAL.$selectedLabels.each((_index, label): void => {
 				const $label: JQuery = $(label);
 				const $labelLink: JQuery = $label.find('a[title]');
 				const title: string =
-					$labelLink.attr('title') ||
+					$labelLink.attr('title')?.trim() ||
 					CAL.getTitleFromLink($labelLink.attr('href')) ||
 					CAL.getTitleFromLink($label.find('a').attr('href'));
 				markedLabels[markedLabels.length] = [title, $label];
@@ -864,13 +862,9 @@ const catALot = (): void => {
 		}
 		private makeClickable(): void {
 			this.findAllLabels();
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-			CAL.$labels
-				.addClass(CLASS_NAME_LABEL)
-				// @ts-expect-error TS2339
-				.onCatALotShiftClick((): void => {
-					this.updateSelectionCounter();
-				});
+			CAL.$labels.addClass(CLASS_NAME_LABEL).onCatALotShiftClick((): void => {
+				this.updateSelectionCounter();
+			});
 		}
 
 		private run(): void {
@@ -880,8 +874,8 @@ const catALot = (): void => {
 				this.$container.resizable({
 					alsoResize: this.$resultList,
 					handles: 'n',
-					resize: (event: JQueryEventObject): void => {
-						const $currentTarget = $(event.currentTarget) as JQuery;
+					resize: (event): void => {
+						const $currentTarget = $(event.currentTarget);
 						$currentTarget.css({
 							left: '',
 							top: '',
