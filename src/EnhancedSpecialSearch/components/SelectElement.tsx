@@ -9,17 +9,15 @@ const SelectElement = () => (
 			width: 'auto',
 		}}
 	>
-		{getOptionData().reduce((accumulator, {site, url, origin}) => {
+		{getOptionData().map<HTMLOptionElement>(({site, url, origin}) => {
 			const optionElement: HTMLOptionElement = new Option(site, url, origin);
 
 			if (origin) {
 				optionElement.dataset['origin'] = '1';
 			}
 
-			accumulator[accumulator.length] = optionElement;
-
-			return accumulator;
-		}, [] as HTMLOptionElement[])}
+			return optionElement;
+		})}
 	</select>
 );
 

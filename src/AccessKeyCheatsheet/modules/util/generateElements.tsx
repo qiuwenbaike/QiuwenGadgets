@@ -9,28 +9,22 @@ const generateElements = (
 } => {
 	const table = (
 		<table className="wikitable" style={{width: '100%'}}>
-			{[...$body.find('[accesskey]')].reduce<React.ReactElement[]>(
-				(accumulator, element) => [
-					...accumulator,
-					<>
-						<tr>
-							<th>{element.accessKey.toUpperCase()}</th>
-							<td>
-								{(
-									element.getAttribute('aria-label') ||
-									element.title ||
-									element.textContent ||
-									(element as HTMLInputElement).value ||
-									$body.find(`label[for="${element.id}"]`).text()
-								)
-									.replace(/\s*?\[.+?]$/, '')
-									.trim()}
-							</td>
-						</tr>
-					</>,
-				],
-				[]
-			)}
+			{[...$body.find('[accesskey]')].map<React.ReactElement>((element, index) => (
+				<tr key={index}>
+					<th>{element.accessKey.toUpperCase()}</th>
+					<td>
+						{(
+							element.getAttribute('aria-label') ||
+							element.title ||
+							element.textContent ||
+							(element as HTMLInputElement).value ||
+							$body.find(`label[for="${element.id}"]`).text()
+						)
+							.replace(/\s*?\[.+?]$/, '')
+							.trim()}
+					</td>
+				</tr>
+			))}
 		</table>
 	);
 	const $table = $(table) as JQuery;
