@@ -176,8 +176,8 @@ import {toastify} from 'ext.gadget.Toastify';
 	const others_user_talk = my_user_talk === false && on_user_talk === true;
 	const on_article = wgNamespaceNumber === 0;
 	const on_hist_version = wgCurRevisionId - wgRevisionId !== 0;
-	const arc_sum = message('archive_summary');
-	const del_sum = message('delete_summary');
+	const arc_sum = getMessage('archive_summary');
+	const del_sum = getMessage('delete_summary');
 	let section_count;
 	const sanitize_html = (string) => {
 		return string
