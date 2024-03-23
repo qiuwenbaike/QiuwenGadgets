@@ -176,8 +176,6 @@ import {toastify} from 'ext.gadget.Toastify';
 	const others_user_talk = my_user_talk === false && on_user_talk === true;
 	const on_article = wgNamespaceNumber === 0;
 	const on_hist_version = wgCurRevisionId - wgRevisionId !== 0;
-	const arc_sum = getMessage('archive_summary');
-	const del_sum = getMessage('delete_summary');
 	let section_count;
 	const sanitize_html = (string) => {
 		return string
@@ -204,6 +202,8 @@ import {toastify} from 'ext.gadget.Toastify';
 			return '(!) undefined language content';
 		}
 	};
+	const arc_sum = message('archive_summary');
+	const del_sum = message('delete_summary');
 	const nominal_sections = ((count) => {
 		const arr = Array.from({
 			length: count,
@@ -262,14 +262,16 @@ import {toastify} from 'ext.gadget.Toastify';
 				);
 			},
 			section_link: () => {
-				const node = document.querySelector(`.easy-archive-section-id-span-order-${section_number}`);
-				const pnode = node.parentNode;
-				for (let i = 1; i < pnode.childNodes.length - 2; i++) {
-					pnode.childNodes[i].style.display = 'none';
+				const nodes = document.querySelectorAll(`.easy-archive-section-id-span-order-${section_number}`);
+				for (const node of nodes) {
+					const {parentNode} = node;
+					for (const childNode of parentNode.querySelectorAll('.easy-archive-link')) {
+						childNode.style.display = 'none';
+					}
+					node.innerHTML = message(tag_section);
+					node.style.display = 'inline';
+					node.style.color = 'rgb(0 0 0/.5)';
 				}
-				node.innerHTML = message(tag_section);
-				node.style.display = 'inline';
-				node.style.color = 'rgb(0 0 0/.5)';
 			},
 		};
 		return actions;
@@ -403,7 +405,7 @@ import {toastify} from 'ext.gadget.Toastify';
 		const normal_function_inject_interface = () => {
 			let i = 0;
 			let j = 0;
-			const editSectionCollection = document.querySelectorAll('.mw-editsection:not(.mw-editsection-section-0)');
+			const editSectionCollection = document.querySelectorAll('.mw-editsection');
 			for (i = 0; i < editSectionCollection.length; i++) {
 				const ele = editSectionCollection[i];
 				const ve = /[&?]veaction=edit/.test(ele.childNodes[1].href);

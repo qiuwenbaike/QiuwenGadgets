@@ -9,7 +9,11 @@ const edit0 = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 
 	const $span0: JQuery = $span1.clone();
-	$span0.addClass('mw-editsection-section-0');
+	$span0.removeClass('mw-editsection').addClass('mw-editsection-section-0');
+
+	if ($span0.find('.easy-archive-link').length) {
+		$span0.find('.easy-archive-link').remove();
+	}
 
 	switch (WG_SKIN) {
 		case 'citizen':
