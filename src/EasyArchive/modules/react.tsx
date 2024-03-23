@@ -20,7 +20,13 @@ const emptyElement = (...innerElement: ReactElement[]) => <>{[...innerElement]}<
 const linkWrap = (textContent: string, href: string) => <a href={href} textContent={textContent} />;
 
 const onClickWrap = (textContent: string, onClick: () => void, dataActual?: string, dataNominal?: string) => (
-	<a onClick={onClick} textContent={textContent} data-actual={dataActual} data-nominal={dataNominal} />
+	<a
+		class={['easy-archive-link', `easy-archive-link-${dataActual}-${dataNominal}`]}
+		onClick={onClick}
+		textContent={textContent}
+		data-actual={dataActual}
+		data-nominal={dataNominal}
+	/>
 );
 
 const pipeElement = () => <span class="mw-editsection-divider" textContent={'|'} />;
@@ -29,9 +35,7 @@ const sectionIdSpanElement = (id: string) => (
 	<span
 		class={['easy-archive-section-id-span', `easy-archive-section-id-span-order-${id}`]}
 		style={{display: 'none'}}
-	>
-		section
-	</span>
+	/>
 );
 
 const span = (innerHTML: string) => <span innerHTML={innerHTML} />;
