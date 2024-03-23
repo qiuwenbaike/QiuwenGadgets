@@ -2,15 +2,27 @@
 // @ts-nocheck
 import './EasyArchive.less';
 
+import * as OPTIONS from './options.json';
+import {
+	elementWrap,
+	emptyElement,
+	linkWrap,
+	onClickWrap,
+	pipeElement,
+	sectionIdSpanElement,
+	span,
+} from './modules/react.tsx';
 import {api} from './modules/api';
-import {easy_archive_lang} from './modules/i18n';
+import {getMessage} from './modules/i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
-(function easyArchive() {
-	if (mw.config.get('wgNamespaceNumber') < 0 || mw.config.get('wgPageName') === 'Qiuwen:首页') {
+(function easyArchiveWrap() {
+	const {wgNamespaceNumber, wgPageName, wgUserName, wgCurRevisionId, wgRevisionId} = mw.config.get();
+
+	if (wgNamespaceNumber < 0 || wgPageName === 'Qiuwen:首页') {
 		return;
 	}
-	window.easy_archive ??= {};
+
 	// minified code dependency functions
 	class Pare_str {
 		constructor(pare_string, config) {
@@ -40,6 +52,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			return this.str.split(lookup_key)[1].split(this.right)[0];
 		}
 	}
+
 	// common repo.
 	const expose = (() => {
 		const asyncPost = (param, callback) => {
@@ -114,6 +127,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			delete_section: deleteSection,
 		};
 	})();
+
 	// default settings:
 	window.easy_archive.settings_string =
 		'#set%|?									\n' +
@@ -146,15 +160,15 @@ import {toastify} from 'ext.gadget.Toastify';
 		window.easy_archive.settings = new Pare_str(window.easy_archive.settings_string);
 	}
 	// identify if Easy Archive can be used on the page - compatibility
-	window.easy_archive.on_user_talk = mw.config.get('wgNamespaceNumber') === 3;
+	window.easy_archive.on_user_talk = wgNamespaceNumber === 3;
 	window.easy_archive.my_user_talk =
 		window.easy_archive.on_user_talk &&
 		(() => {
-			let page_name = mw.config.get('wgPageName').split(':');
+			let page_name = wgPageName.split(':');
 			page_name[0] = '';
 			page_name = page_name.join('');
 			[page_name] = page_name.split('/');
-			const user_name = mw.config.get('wgUserName');
+			const user_name = wgUserName;
 			return (
 				user_name.split('_').join('').split(' ').join('') === page_name.split('_').join('').split(' ').join('')
 			);
@@ -162,9 +176,8 @@ import {toastify} from 'ext.gadget.Toastify';
 	window.easy_archive.has_template = settings.find('data-init') === '1';
 	window.easy_archive.others_user_talk =
 		window.easy_archive.my_user_talk === false && window.easy_archive.on_user_talk === true;
-	window.easy_archive.on_article = mw.config.get('wgNamespaceNumber') === 0;
-	window.easy_archive.on_hist_version = mw.config.get('wgCurRevisionId') - mw.config.get('wgRevisionId') !== 0;
-	easy_archive_lang();
+	window.easy_archive.on_article = wgNamespaceNumber === 0;
+	window.easy_archive.on_hist_version = wgCurRevisionId - wgRevisionId !== 0;
 	const arc_sum = window.easy_archive.user_custom_archive_summary ?? null;
 	const del_sum = window.easy_archive.user_custom_delete_summary ?? null;
 	const sanitize_html = (string) => {
@@ -178,7 +191,7 @@ import {toastify} from 'ext.gadget.Toastify';
 	// multi language selector definition
 	const message = (tag, para_list) => {
 		try {
-			let content = window.easy_archive.lang[tag];
+			let content = getMessage(tag);
 			for (let has_unfulfilled_para = true, _i = 0; has_unfulfilled_para; _i++) {
 				const search = `$${_i + 1}`;
 				if (content.includes(search)) {
@@ -268,7 +281,7 @@ import {toastify} from 'ext.gadget.Toastify';
 		const actual_section_number = actual_section(section_number);
 		report_doneness_ui(_nominal, 'delete', '', 'ongoing').ding();
 		expose.delete_section(
-			mw.config.get('wgPageName'),
+			wgPageName,
 			actual_section_number,
 			() => {
 				report_doneness_ui(_nominal, 'delete', '', 'done').ding();
@@ -287,7 +300,7 @@ import {toastify} from 'ext.gadget.Toastify';
 		const to = window.easy_archive.settings.find('arc-loc');
 		report_doneness_ui(_nominal, 'archive', to, 'ongoing').ding();
 		expose.archive_section(
-			mw.config.get('wgPageName'),
+			wgPageName,
 			actual_section_number,
 			to,
 			() => {
@@ -330,7 +343,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			const [ntag, ntype, nttl, npersist, nsubst] = notice_set;
 			const toastifyInstance = toastify(
 				{
-					node: $('<span>').append(message(ntag, nsubst)).get(0),
+					node: span(message(ntag, nsubst)),
 					close: nttl === 'long',
 					duration: nttl === 'long' ? -1 : nttl,
 					onClick: () => {
@@ -351,48 +364,45 @@ import {toastify} from 'ext.gadget.Toastify';
 	let ele;
 	let nominal;
 	let actual;
-	const pipe_html = '<span class="mw-editsection-divider"> | </span>';
 	const section_delete_interface_inhibit =
 		window.easy_archive.settings.find('sec-del') === '0' || window.easy_archive.settings.find('data-init') === '0';
 	const section_archive_interface_inhibit =
 		window.easy_archive.settings.find('sec-arc') === '0' || window.easy_archive.settings.find('data-init') === '0';
-	let section_delete_interface_html;
-	let section_archive_interface_html;
-	const section_id_span_html =
-		'<span class="easy-archive-section-id-span easy-archive-section-id-span-order-@@" style="display:none">section</span>';
+	const section_delete_interface = emptyElement();
+	const section_archive_interface = emptyElement();
 	let footer_info_ele;
-	let position_of_insertion;
-	if (document.querySelector('#footer-info') || document.querySelectorAll('.page-info')) {
-		footer_info_ele = document.querySelector('#footer-info') || document.querySelectorAll('.page-info')[0];
-		position_of_insertion = 'afterbegin';
+	if (document.querySelectorAll(OPTIONS.mountPointSelector).length) {
+		[footer_info_ele] = document.querySelectorAll(OPTIONS.mountPointSelector);
 	} else {
-		footer_info_ele = {
-			insertAdjacentHTML: () => {},
-		};
-		position_of_insertion = '';
+		footer_info_ele = emptyElement();
 	}
 	// ... interface injection - logic
 	const is_in_blacklist = (blacklist) => {
 		for (const element of blacklist) {
-			if (element.test(mw.config.get('wgPageName'))) {
+			if (element.test(wgPageName)) {
 				return true;
 			}
 		}
 		return false;
 	};
 	if (window.easy_archive.on_article || window.easy_archive.on_hist_version) {
-		// insert no interface on an article page or a history version.
-	} else if (is_in_blacklist(window.easy_archive.never_enable_on_these_pages_regex)) {
-		// insert no interface if the page name is blacklisted.
-	} else if (is_in_blacklist(window.easy_archive.dis_support_these_pages_regex)) {
+		return; // insert no interface on an article page or a history version.
+	}
+	if (is_in_blacklist(window.easy_archive.never_enable_on_these_pages_regex)) {
+		return; // insert no interface if the page name is blacklisted.
+	}
+	if (is_in_blacklist(window.easy_archive.dis_support_these_pages_regex)) {
 		// insert not supported notice if the page name indicates that it is not supported.
-		footer_info_ele.insertAdjacentHTML(
-			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('page_not_supported_elaborate')">${message(
-				'page_not_supported'
-			)}</a></div>`
+		footer_info_ele.prepend(
+			elementWrap(
+				'easy_archive_enable_notice',
+				onClickWrap(message('page_not_supported'), (event) => {
+					event.preventDefault();
+					window.easy_archive.elaborate_notice('page_not_supported_elaborate');
+				})
+			)
 		);
-	} else if (mw.config.get('wgPageName') === window.easy_archive.settings.find('arc-loc')) {
+	} else if (wgPageName === window.easy_archive.settings.find('arc-loc')) {
 		window.easy_archive.elaborate_notice('problem_with_archive_location_same_page');
 	} else if (window.easy_archive.has_template && !window.easy_archive.others_user_talk) {
 		// any page that has template that's not others' talk page. function normally.
@@ -401,7 +411,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			window.easy_archive.elaborate_notice('problem_with_archive_location_main_space');
 		}
 		const normal_function_inject_interface = () => {
-			const editSectionCollection = document.querySelectorAll('.mw-editsection');
+			const editSectionCollection = document.querySelectorAll('.mw-editsection:not(.mw-editsection-section-0)');
 			for (i = 0; i < editSectionCollection.length; i++) {
 				ele = editSectionCollection[i];
 				const ve = /[&?]veaction=edit/.test(ele.childNodes[1].href);
@@ -410,89 +420,103 @@ import {toastify} from 'ext.gadget.Toastify';
 					ele.parentNode.tagName.toLowerCase() === 'h2' &&
 					ele.parentNode.id !== 'firstHeading' &&
 					decodeURIComponent(ele.childNodes[child_node_number].href.split(/[&?]title=/)[1].split('&')[0]) ===
-						mw.config.get('wgPageName')
+						wgPageName
 				) {
 					actual = Number.parseInt(
 						ele.childNodes[child_node_number].href.split(/[&?]section=/)[1].split('&')[0],
 						10
 					);
 					nominal = i - j + 1;
-					section_delete_interface_html = section_delete_interface_inhibit
-						? ''
-						: `${pipe_html}<a href="javascript:window.easy_archive.delete_section(${actual}, ${nominal})">${message(
-								'delete'
-							)}</a>`;
-					section_archive_interface_html = section_archive_interface_inhibit
-						? ''
-						: `${pipe_html}<a href="javascript:window.easy_archive.archive_section(${actual}, ${nominal})">${message(
-								'archive'
-							)}</a>`;
-					ele.childNodes[child_node_number].insertAdjacentHTML(
-						'afterend',
-						section_delete_interface_html +
-							section_archive_interface_html +
-							section_id_span_html.replace('@@', nominal.toString())
+					if (!section_delete_interface_inhibit) {
+						section_delete_interface.append(
+							pipeElement(),
+							onClickWrap(
+								message('delete'),
+								(event) => {
+									event.preventDefault();
+									const {target} = event;
+									const dataActual = target.dataset.actual;
+									const dataNominal = target.dataset.nominal;
+									window.easy_archive.delete_section(dataActual, dataNominal);
+								},
+								actual,
+								nominal
+							)
+						);
+					}
+					if (!section_archive_interface_inhibit) {
+						section_archive_interface.append(
+							pipeElement(),
+							onClickWrap(
+								message('archive'),
+								(event) => {
+									event.preventDefault();
+									const {target} = event;
+									const dataActual = target.dataset.actual;
+									const dataNominal = target.dataset.nominal;
+									window.easy_archive.archive_section(dataActual, dataNominal);
+								},
+								actual,
+								nominal
+							)
+						);
+					}
+					ele.childNodes[child_node_number].after(
+						section_delete_interface,
+						section_archive_interface,
+						sectionIdSpanElement(nominal.toString())
 					);
 				} else {
 					j++;
 				}
 			}
 			window.easy_archive.section_count = i - j + 1;
-			footer_info_ele.insertAdjacentHTML(
-				position_of_insertion,
-				`<div id="easy_archive_supports_notice">${message('supports')}${message('left_par_split')}${message(
-					'archive_path_colon_split'
-				)}<a href="/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}">${sanitize_html(
-					window.easy_archive.settings.find('arc-loc')
-				)}</a>${message('right_par')}${message('period')}</div>`
+			const easy_archive_supports_notice = emptyElement();
+			easy_archive_supports_notice.append(
+				message('supports'),
+				message('left_par_split'),
+				message('archive_path_colon_split'),
+				linkWrap(
+					sanitize_html(window.easy_archive.settings.find('arc-loc')),
+					`/wiki/${sanitize_html(window.easy_archive.settings.find('arc-loc'))}`
+				),
+				message('right_par'),
+				message('period')
 			);
+			footer_info_ele.prepend(elementWrap('easy_archive_supports_notice', easy_archive_supports_notice));
 		};
 		normal_function_inject_interface();
 	} else if (window.easy_archive.others_user_talk === true) {
 		// others user talk.
-		footer_info_ele.insertAdjacentHTML(
-			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('others_talk_elaborate')">${message(
-				'others_page'
-			)}</a></div>`
+		footer_info_ele.prepend(
+			elementWrap('easy_archive_enable_notice'),
+			onClickWrap(message('others_page'), (event) => {
+				event.preventDefault();
+				window.easy_archive.elaborate_notice('others_talk_elaborate');
+			})
 		);
 	} else if (window.easy_archive.my_user_talk === false) {
 		// a generic page that did not enable easy archive.
-		footer_info_ele.insertAdjacentHTML(
-			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('enable_on_generic_page')">${message(
-				'to_enable'
-			)}</a></div>`
+		footer_info_ele.prepend(
+			elementWrap(
+				'easy_archive_enable_notice',
+				onClickWrap(message('to_enable'), (event) => {
+					event.preventDefault();
+					window.easy_archive.elaborate_notice('enable_on_generic_page');
+				})
+			)
 		);
 	} else {
 		// then assert: (window.easy_archive.my_user_talk === true), (window.easy_archive.has_template === false).
 		// my user talk -- installed easy archive but lacking template.
-		footer_info_ele.insertAdjacentHTML(
-			position_of_insertion,
-			`<div id="easy_archive_enable_notice"><a style="color:inherit" href="javascript:window.easy_archive.elaborate_notice('please_enable_elaborate')">${message(
-				'please_enable'
-			)}</a></div>`
+		footer_info_ele.prepend(
+			elementWrap(
+				'easy_archive_enable_notice',
+				onClickWrap(message('please_enable'), (event) => {
+					event.preventDefault();
+					window.easy_archive.elaborate_notice('please_enable_elaborate');
+				})
+			)
 		);
-	}
-	if (mw.config.get('skin') === 'citizen') {
-		const $body = $('body');
-		$body
-			.find('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice')
-			.replaceWith(function () {
-				const $this = $(this);
-				return $('<section>').addClass('page-info__item').attr('id', $this.attr('id')).html($this.html());
-			});
-	}
-	if (
-		['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
-		document.querySelector('ul#footer-info')
-	) {
-		const $body = $('body');
-		$body
-			.find('#easy_archive_enable_notice, #easy_archive_supports_notice, #easy_archive_stop_notice')
-			.replaceWith(function () {
-				const $this = $(this);
-				return $('<li>').attr('id', $this.attr('id')).html($this.html());
-			});
 	}
 })();
