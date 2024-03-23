@@ -9,6 +9,7 @@ const edit0 = ($body: JQuery<HTMLBodyElement>): void => {
 	}
 
 	const $span0: JQuery = $span1.clone();
+	$span0.addClass('.mw-editsection-section-0');
 
 	switch (WG_SKIN) {
 		case 'citizen':
