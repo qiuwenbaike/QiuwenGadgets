@@ -151,4 +151,17 @@ const getMessage: GetMessages<typeof i18nMessages> = (key) => {
 	return i18nMessages[key] || key;
 };
 
-export {getMessage};
+const message = (tag: keyof typeof i18nMessages, ...params: string[]) => {
+	let content = getMessage(tag);
+	try {
+		for (const [i, element] of params.entries()) {
+			const search = `$${i + 1}`;
+			if (content.includes(search)) {
+				content = content.replace(search, element ?? '');
+			}
+		}
+	} catch {}
+	return content;
+};
+
+export {message};

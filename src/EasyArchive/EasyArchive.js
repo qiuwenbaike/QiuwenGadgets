@@ -3,6 +3,7 @@
 import './EasyArchive.less';
 
 import * as OPTIONS from './options.json';
+import {archiveSectionCallback, deleteSectionCallback} from './modules/expose';
 import {
 	elementWrap,
 	emptyElement,
@@ -12,8 +13,8 @@ import {
 	sectionIdSpanElement,
 	span,
 } from './modules/react.tsx';
-import {api} from './modules/api';
-import {getMessage} from './modules/i18n';
+import {message} from './modules/i18n';
+import {sanitize} from './modules/sanitize.ts';
 import {toastify} from 'ext.gadget.Toastify';
 
 (function easyArchiveWrap() {
@@ -52,81 +53,6 @@ import {toastify} from 'ext.gadget.Toastify';
 			return this.str.split(lookup_key)[1].split(this.right)[0];
 		}
 	}
-
-	// common repo.
-	const expose = (() => {
-		const asyncPost = (param, callback) => {
-			api.postWithToken('csrf', param).then(callback);
-		};
-		const getPage = (title, callback) => {
-			const param = {
-				action: 'query',
-				prop: ['revisions'],
-				rvprop: 'ids|flags|timestamp|user|userid|size|comment|tags|content',
-				format: 'json',
-				formatversion: '2',
-				titles: title,
-			};
-			asyncPost(param, callback);
-		};
-		const getPageSection = (title, section, callback) => {
-			const param = {
-				action: 'query',
-				prop: ['revisions'],
-				rvprop: 'content',
-				format: 'json',
-				formatversion: '2',
-				titles: title,
-				rvsection: section,
-			};
-			asyncPost(param, callback);
-		};
-		const pickPageContent = (data) => {
-			if (data.query && data.query.pages && data.query.pages[0] && data.query.pages[0].revisions[0]) {
-				return data.query.pages[0].revisions[0].content;
-			}
-			return false;
-		};
-		const tellPageExist = (data) => {
-			if (typeof data !== 'object' || !data.query || !data.query.pages || data.query.pages[0].missing) {
-				return false;
-			}
-			return true;
-		};
-		const edit = (title, section, text, summary, callback) => {
-			const param = {
-				action: 'edit',
-				format: 'json',
-				formatversion: '2',
-				title,
-				summary,
-				text,
-			};
-			if (section) {
-				param.section = section;
-			}
-			asyncPost(param, callback);
-		};
-		const editAppend = (page, added_content, summary, callback) => {
-			getPage(page, (data) => {
-				const original_content = tellPageExist(data) === false ? '' : pickPageContent(data);
-				edit(page, null, String(original_content) + added_content, summary, callback);
-			});
-		};
-		const archiveSection = (title, section, targetTitle, callback, summary) => {
-			getPageSection(title, section, (data) => {
-				editAppend(targetTitle, `\n\n${pickPageContent(data)}`, summary);
-				edit(title, section.toString(), '', summary, callback);
-			});
-		};
-		const deleteSection = (title, section, callback, summary) => {
-			edit(title, section.toString(), '', summary, callback);
-		};
-		return {
-			archive_section: archiveSection,
-			delete_section: deleteSection,
-		};
-	})();
 
 	// default settings:
 	let settings_string =
@@ -177,31 +103,6 @@ import {toastify} from 'ext.gadget.Toastify';
 	const on_article = wgNamespaceNumber === 0;
 	const on_hist_version = wgCurRevisionId - wgRevisionId !== 0;
 	let section_count;
-	const sanitize_html = (string) => {
-		return string
-			.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/'/g, '&apos;')
-			.replace(/"/g, '&quot;');
-	};
-	// multi language selector definition
-	const message = (tag, para_list) => {
-		try {
-			let content = getMessage(tag);
-			for (let has_unfulfilled_para = true, i = 0; has_unfulfilled_para; i++) {
-				const search = `$${i + 1}`;
-				if (content.includes(search)) {
-					content = para_list[i] ? content.split(search).join(para_list[i]) : content.split(search).join('');
-				} else {
-					has_unfulfilled_para = false;
-				}
-			}
-			return content;
-		} catch {
-			return '(!) undefined language content';
-		}
-	};
 	const arc_sum = message('archive_summary');
 	const del_sum = message('delete_summary');
 	const nominal_sections = ((count) => {
@@ -276,10 +177,10 @@ import {toastify} from 'ext.gadget.Toastify';
 		};
 		return actions;
 	};
-	const delete_section_core = (section_number, _nominal) => {
+	const deleteSectionCore = (section_number, _nominal) => {
 		const actual_section_number = actual_section(section_number);
 		report_doneness_ui(_nominal, 'delete', '', 'ongoing').ding();
-		expose.delete_section(
+		deleteSectionCallback(
 			wgPageName,
 			actual_section_number,
 			() => {
@@ -290,15 +191,15 @@ import {toastify} from 'ext.gadget.Toastify';
 			del_sum
 		);
 	};
-	const delete_section = (section_number, _nominal) => {
+	const deleteSection = (section_number, _nominal) => {
 		report_doneness_ui(_nominal, 'delete', '', 'ongoing').section_link();
-		delete_section_core(section_number, _nominal);
+		deleteSectionCore(section_number, _nominal);
 	};
-	const archive_section_core = (section_number, _nominal) => {
+	const archiveSectionCore = (section_number, _nominal) => {
 		const actual_section_number = actual_section(section_number);
 		const to = settings.find('arc-loc');
 		report_doneness_ui(_nominal, 'archive', to, 'ongoing').ding();
-		expose.archive_section(
+		archiveSectionCallback(
 			wgPageName,
 			actual_section_number,
 			to,
@@ -310,10 +211,10 @@ import {toastify} from 'ext.gadget.Toastify';
 			arc_sum
 		);
 	};
-	const archive_section = (section_number, _nominal) => {
+	const archiveSection = (section_number, _nominal) => {
 		const to = settings.find('arc-loc');
 		report_doneness_ui(_nominal, 'archive', to, 'ongoing').section_link();
-		archive_section_core(section_number, _nominal);
+		archiveSectionCore(section_number, _nominal);
 	};
 	const elaborate_notice = (notice_tag_name) => {
 		// acronym scheme: refer to qwerty keyboard layout. (p=9)
@@ -326,14 +227,14 @@ import {toastify} from 'ext.gadget.Toastify';
 				'warning',
 				'long',
 				false,
-				[sanitize_html(settings.find('arc-loc'))],
+				[sanitize(settings.find('arc-loc'))],
 			],
 			problem_with_archive_location_same_page: [
 				'problem_with_archive_location_same_page',
 				'warning',
 				'long',
 				false,
-				[sanitize_html(settings.find('arc-loc'))],
+				[sanitize(settings.find('arc-loc'))],
 			],
 			page_not_supported_elaborate: ['page_not_supported_elaborate'],
 		};
@@ -431,7 +332,7 @@ import {toastify} from 'ext.gadget.Toastify';
 									const {target} = event;
 									const dataActual = target.dataset.actual;
 									const dataNominal = target.dataset.nominal;
-									delete_section(dataActual, dataNominal);
+									deleteSection(dataActual, dataNominal);
 								},
 								actual,
 								nominal
@@ -448,7 +349,7 @@ import {toastify} from 'ext.gadget.Toastify';
 									const {target} = event;
 									const dataActual = target.dataset.actual;
 									const dataNominal = target.dataset.nominal;
-									archive_section(dataActual, dataNominal);
+									archiveSection(dataActual, dataNominal);
 								},
 								actual,
 								nominal
@@ -470,7 +371,7 @@ import {toastify} from 'ext.gadget.Toastify';
 				message('supports'),
 				message('left_par_split'),
 				message('archive_path_colon_split'),
-				linkWrap(sanitize_html(settings.find('arc-loc')), `/wiki/${sanitize_html(settings.find('arc-loc'))}`),
+				linkWrap(sanitize(settings.find('arc-loc')), `/wiki/${sanitize(settings.find('arc-loc'))}`),
 				message('right_par'),
 				message('period')
 			);
