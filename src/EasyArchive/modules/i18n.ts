@@ -1,3 +1,4 @@
+import {generateArray} from 'ext.gadget.Util';
 import {localize} from 'ext.gadget.i18n';
 
 const getI18nMessages = () => {
@@ -153,6 +154,7 @@ const getMessage: GetMessages<typeof i18nMessages> = (key) => {
 
 const message = (tag: keyof typeof i18nMessages, ...params: string[]) => {
 	let content = getMessage(tag);
+	params = generateArray(...params);
 	try {
 		for (const [i, element] of params.entries()) {
 			const search = `$${i + 1}`;

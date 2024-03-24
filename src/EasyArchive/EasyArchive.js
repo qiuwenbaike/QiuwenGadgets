@@ -155,7 +155,7 @@ import {toastify} from 'ext.gadget.Toastify';
 			ding: () => {
 				toastify(
 					{
-						text: message(tag_ding, [section_number.toString(), to]),
+						text: message(tag_ding, `${section_number}`, to),
 						close: !ding_autohide,
 						duration: ding_autohide ? 3000 : -1,
 					},
@@ -359,7 +359,7 @@ import {toastify} from 'ext.gadget.Toastify';
 					ele.childNodes[child_node_number].after(
 						section_delete_interface,
 						section_archive_interface,
-						sectionIdSpanElement(nominal.toString())
+						sectionIdSpanElement(`${nominal}`)
 					);
 				} else {
 					j++;
