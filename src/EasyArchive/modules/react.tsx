@@ -15,7 +15,7 @@ const elementWrap = (id: string, innerElement: ReactElement) => {
 	return <div id={id}>{innerElement}</div>;
 };
 
-const emptyElement = (...innerElement: ReactElement[]) => <>{[...innerElement]}</>;
+const emptyElement = () => <></>;
 
 const linkWrap = (textContent: string, href: string) => <a href={href} textContent={textContent} />;
 
