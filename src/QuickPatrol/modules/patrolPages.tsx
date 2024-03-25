@@ -10,10 +10,9 @@ const patrolAllPages = ($body: JQuery<HTMLBodyElement>) => (
 				if (!confirm(getMessage('Patrol all pages?'))) {
 					return;
 				}
-				$body.find('.not-patrolled').each((index): void => {
-					const $element: JQuery = $(`#gadget-quick_patrol__${index}`);
-					if ($element.css('pointer-events') !== 'none') {
-						$element.trigger('click');
+				$body.find('.not-patrolled .gadget-quick_patrol__patrolbtn').each((_index, element): void => {
+					if ($(element).css('pointer-events') !== 'none') {
+						element.click();
 					}
 				});
 			}}
