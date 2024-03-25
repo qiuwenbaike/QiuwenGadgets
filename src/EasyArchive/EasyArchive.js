@@ -86,25 +86,12 @@ import {toastify} from 'ext.gadget.Toastify';
 	}
 	// identify if Easy Archive can be used on the page - compatibility
 	const on_user_talk = wgNamespaceNumber === 3;
-	const my_user_talk =
-		on_user_talk &&
-		(() => {
-			let page_name = wgPageName.split(':');
-			page_name[0] = '';
-			page_name = page_name.join('');
-			[page_name] = page_name.split('/');
-			const user_name = wgUserName;
-			return (
-				user_name.split('_').join('').split(' ').join('') === page_name.split('_').join('').split(' ').join('')
-			);
-		})();
+	const my_user_talk = on_user_talk && new mw.Title(wgPageName).title === new mw.Title(wgUserName);
+	const others_user_talk = on_user_talk && !my_user_talk;
 	const has_template = page_settings.find('data-init') === '1';
-	const others_user_talk = my_user_talk === false && on_user_talk === true;
 	const on_article = wgNamespaceNumber === 0;
 	const on_hist_version = wgCurRevisionId - wgRevisionId !== 0;
 	let section_count;
-	const arc_sum = message('archive_summary');
-	const del_sum = message('delete_summary');
 	const nominal_sections = ((count) => {
 		const arr = Array.from({
 			length: count,
@@ -188,7 +175,7 @@ import {toastify} from 'ext.gadget.Toastify';
 				report_doneness_ui(_nominal, 'delete', '', 'done').section_link();
 				nominal_sections[section_number] = true;
 			},
-			del_sum
+			message('delete_summary')
 		);
 	};
 	const deleteSection = (section_number, _nominal) => {
@@ -208,7 +195,7 @@ import {toastify} from 'ext.gadget.Toastify';
 				report_doneness_ui(_nominal, 'archive', to, 'done').section_link();
 				nominal_sections[section_number] = true;
 			},
-			arc_sum
+			message('archive_summary')
 		);
 	};
 	const archiveSection = (section_number, _nominal) => {

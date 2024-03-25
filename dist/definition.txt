@@ -87,7 +87,7 @@
 * DefaultSummaries[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,oojs-ui-core|rights=edit|requiresES6]|DefaultSummaries.js
 * DisamAssist[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.Title|rights=skipcaptcha|requiresES6]|DisamAssist.js|DisamAssist.css
 * DisambigLinks[ResourceLoader|requiresES6]|DisambigLinks.css
-* EasyArchive[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util|rights=skipcaptcha|requiresES6]|EasyArchive.js|EasyArchive.css
+* EasyArchive[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.Title|rights=skipcaptcha|requiresES6]|EasyArchive.js|EasyArchive.css
 * Edit0[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.Uri|rights=edit|requiresES6]|Edit0.js|Edit0.css
 * EditConflict[ResourceLoader|actions=edit,submit|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api|rights=skipcaptcha|requiresES6]|EditConflict.js
 * EditCount[ResourceLoader|skins=gongbi,vector,vector-2022|requiresES6]|EditCount.js
