@@ -47,7 +47,9 @@
 		delLink.appendChild(spanTag('Black', ']'));
 		delNode.appendChild(delLink);
 		for (const current of titles) {
-			const headlinehref = $(current).find('.mw-headline a').attr('href');
+			const headlinehref = $(current)
+				.find('.mw-headline a:not(.ext-discussiontools-init-section-subscribe-link)')
+				.attr('href');
 			if (headlinehref !== undefined) {
 				let title = null;
 				if (headlinehref.includes('redlink=1')) {
