@@ -1,4 +1,5 @@
 import {getBody} from 'ext.gadget.Util';
+import {getMessage} from './modules/i18n';
 
 void getBody().then(function switcherJS(): void {
 	for (const [index, container] of [...document.querySelectorAll('.switcher-container')].entries()) {
@@ -17,17 +18,16 @@ void getBody().then(function switcherJS(): void {
 			switchers[switchers.length] = switcher as HTMLElement; // Replace `switchers.push()` to avoid polyfilling core-js
 			const $switcher: JQuery = $(switcher as HTMLElement);
 
-			$radio = $('<input>')
-				.prop({
-					type: 'radio',
-					name: radioName,
-				})
-				// eslint-disable-next-line no-loop-func
-				.on('click', (): void => {
-					$selectedSwitcher?.hide();
-					$switcher.show();
-					$selectedSwitcher = $switcher;
-				});
+			$radio = $('<input>').prop({
+				type: 'radio',
+				name: radioName,
+			});
+			// eslint-disable-next-line no-loop-func
+			$radio.on('click', (): void => {
+				$selectedSwitcher?.hide();
+				$switcher.show();
+				$selectedSwitcher = $switcher;
+			});
 
 			if (!$selectedSwitcher) {
 				// Mark the first one as selected
@@ -41,31 +41,26 @@ void getBody().then(function switcherJS(): void {
 				$radio.trigger('click');
 			}
 
-			$('<label>')
-				.css('display', 'block')
-				.append($radio, label.childNodes as unknown as Element[])
-				.appendTo(container);
+			const $radios = $('<label>').css('display', 'block');
+			$radios.append($radio, label.childNodes as unknown as Element[]);
+			$radios.appendTo(container);
 
 			label.remove();
 		}
 
 		if (switchers.length > 1) {
-			$('<label>')
-				.css('display', 'block')
-				.text(`${window.wgULS('显示', '顯示')}全部`)
-				.prepend(
-					$('<input>')
-						.prop({
-							type: 'radio',
-							name: radioName,
-						})
-						.on('click', (): void => {
-							const $switchers: JQuery = $(switchers);
-							$switchers.show();
-							$selectedSwitcher = $switchers;
-						})
-				)
-				.appendTo(container);
+			const $label = $('<label>').css('display', 'block').text(getMessage('Show all'));
+			const $showAllRadio = $('<input>').prop({
+				type: 'radio',
+				name: radioName,
+			});
+			$showAllRadio.on('click', (): void => {
+				const $switchers: JQuery = $(switchers);
+				$switchers.show();
+				$selectedSwitcher = $switchers;
+			});
+			$label.prepend($showAllRadio);
+			$label.appendTo(container);
 		} else if (switchers.length) {
 			$radio?.remove();
 		}
