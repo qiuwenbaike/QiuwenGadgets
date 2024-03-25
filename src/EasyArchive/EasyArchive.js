@@ -86,7 +86,7 @@ import {toastify} from 'ext.gadget.Toastify';
 	}
 	// identify if Easy Archive can be used on the page - compatibility
 	const on_user_talk = wgNamespaceNumber === 3;
-	const my_user_talk = on_user_talk && new mw.Title(wgPageName).title === new mw.Title(wgUserName);
+	const my_user_talk = on_user_talk && new mw.Title(wgPageName).title === new mw.Title(wgUserName).title;
 	const others_user_talk = on_user_talk && !my_user_talk;
 	const has_template = page_settings.find('data-init') === '1';
 	const on_article = wgNamespaceNumber === 0;
