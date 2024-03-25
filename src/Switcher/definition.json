@@ -3,6 +3,6 @@
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Switcher\"></span> 实现文件显示切换功能 <small>{{tl|Switcher}}模板配套脚本（测试版本）</small>",
 	"section": "compatibility",
 	"default": true,
-	"dependencies": ["ext.gadget.Util"],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util"],
 	"hidden": true
 }
