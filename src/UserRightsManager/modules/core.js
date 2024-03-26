@@ -23,7 +23,7 @@ const assignPermission = (userName, permission, summary, revId, expiry) => {
 
 const markAsDone = (userName, index, closingRemarks) => {
 	const {wgPageName} = mw.config.get();
-	const sectionSelector = `#${CSS.escape(`User:${userName}`)}${index ?? ''}`;
+	const sectionSelector = `#${CSS.escape(`User:${userName.replace(/"/g, '.22').replace(/ /g, '_')}`)}${index ?? ''}`;
 	const sectionNode = document.querySelector(sectionSelector);
 	const [, sectionNumber] = $(sectionNode)
 		.siblings('.mw-editsection')
