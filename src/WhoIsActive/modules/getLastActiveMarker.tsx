@@ -1,7 +1,7 @@
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
 
-type TimeSpan = 'ThisWeek' | 'ThisMonth' | 'ThisYear' | 'OverAYear';
+type TimeSpan = 'ThisWeek' | 'ThisMonth' | 'ThisSeason' | 'ThisSemiyear' | 'ThisYear' | 'OverAYear';
 
 function Wrapper(props: {timeSpan: TimeSpan; innerElement: React.ReactElement}) {
 	const {timeSpan, innerElement} = props;
@@ -43,7 +43,11 @@ const getLastActiveMarker = (timestamp: string, indicator: boolean): React.React
 	let timeSpan: TimeSpan = 'ThisWeek';
 	if (diff > 365) {
 		timeSpan = 'OverAYear';
-	} else if (diff > 30) {
+	} else if (diff > 183) {
+		timeSpan = 'ThisSemiyear';
+	} else if (diff > 92) {
+		timeSpan = 'ThisSeason';
+	} else if (diff > 31) {
 		timeSpan = 'ThisYear';
 	} else if (diff > 7) {
 		timeSpan = 'ThisMonth';

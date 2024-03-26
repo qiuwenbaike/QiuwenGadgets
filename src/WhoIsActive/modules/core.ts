@@ -3,16 +3,17 @@ import {api} from './api';
 import {getLastActiveMarker} from './getLastActiveMarker';
 
 const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
-	const filteredLinks: {
-		username: string;
-		$element: JQuery<HTMLAnchorElement>;
-	}[] = [];
+	const usernames: string[] = [];
+	const $elements: JQuery<HTMLAnchorElement>[] = [];
 
 	const {wgAction, wgFormattedNamespaces, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
 
 	const {2: localizedUserNamespace} = wgFormattedNamespaces;
 	for (const element of mw.util.$content.find<HTMLAnchorElement>(
-		`a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"]), a[title^="${localizedUserNamespace}:"]:not(.mw-changeslist-date):not([href*="undo"])`
+		[
+			'a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"])',
+			`a[title^="${localizedUserNamespace}:"]:not(.mw-changeslist-date):not([href*="undo"])`,
+		].join(',')
 	)) {
 		const $element: JQuery<HTMLAnchorElement> = $(element);
 
@@ -25,14 +26,13 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 		const [username] = usernameMatchArray;
 		const index: number = username.indexOf('/');
 		if (index === -1) {
-			filteredLinks[filteredLinks.length] = {
-				username,
-				$element,
-			};
+			$element.data('username', username);
+			usernames[usernames.length] = username;
+			$elements[$elements.length] = $element;
 		}
 	}
 
-	if (!filteredLinks.length) {
+	if (!usernames.length || !$elements.length) {
 		return;
 	}
 
@@ -48,7 +48,7 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 		}>;
 	};
 
-	for (const {username, $element} of filteredLinks) {
+	for (const username of new Set(usernames)) {
 		const params: ApiQueryUserContribsParams = {
 			...baseParams,
 			ucuser: username,
@@ -61,7 +61,12 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 			}
 
 			const {timestamp} = usercontribs[0]!;
-			$(getLastActiveMarker(timestamp, true)).insertAfter($element);
+
+			for (const $element of $elements) {
+				if ($element.data('username') === username) {
+					$(getLastActiveMarker(timestamp, true)).insertAfter($element);
+				}
+			}
 		});
 	}
 
