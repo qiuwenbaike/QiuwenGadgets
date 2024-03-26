@@ -1,4 +1,5 @@
 import * as OPTIONS from '../options.json';
+import {SYSTEM_SCRIPT_LIST} from './constant';
 import {api} from './api';
 import {getLastActiveMarker} from './getLastActiveMarker';
 
@@ -49,6 +50,10 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 	};
 
 	for (const username of new Set(usernames)) {
+		if (SYSTEM_SCRIPT_LIST.includes(username)) {
+			continue;
+		}
+
 		const params: ApiQueryUserContribsParams = {
 			...baseParams,
 			ucuser: username,
