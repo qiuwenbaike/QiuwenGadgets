@@ -31,8 +31,14 @@ const editConflict = async (): Promise<void> => {
 	};
 
 	while (true) {
+		// If !isContinue triggered (by onClick) then break
+		if (!isContinue) {
+			break;
+		}
+
 		await checkEditConflict();
 
+		// If !isContinue triggered (by checkEditConflict) then break
 		if (!isContinue) {
 			break;
 		}
