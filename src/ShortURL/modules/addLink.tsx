@@ -56,8 +56,10 @@ const addLink = (link: string): void => {
 		});
 
 		const isCitizen: boolean = skin === 'citizen';
-		if (isCitizen) {
-			$(portletLink).find('a').prepend('<span class="citizen-ui-icon mw-ui-icon-wikimedia-shortlink"></span>');
+		if (isCitizen && !$(portletLink).find('.mw-ui-icon-wikimedia-shortlink').length) {
+			$(portletLink)
+				.find('a')
+				.prepend(<span class="citizen-ui-icon mw-ui-icon-wikimedia-shortlink" />);
 		}
 	}
 
