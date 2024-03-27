@@ -24,7 +24,8 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 			continue;
 		}
 
-		const [username] = usernameMatchArray;
+		let [username] = usernameMatchArray;
+		username = username.replace(new RegExp(`^((User)|(${localizedUserNamespace})):`, 'i'), '');
 		const index: number = username.indexOf('/');
 		if (index === -1) {
 			$element.data('username', username);
