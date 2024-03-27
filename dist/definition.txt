@@ -89,7 +89,7 @@
 * DisambigLinks[ResourceLoader|requiresES6]|DisambigLinks.css
 * EasyArchive[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.Title|rights=skipcaptcha|requiresES6]|EasyArchive.js|EasyArchive.css
 * Edit0[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.Uri|rights=edit|requiresES6]|Edit0.js|Edit0.css
-* EditConflict[ResourceLoader|actions=edit,submit|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api|rights=skipcaptcha|requiresES6]|EditConflict.js
+* EditConflict[ResourceLoader|actions=edit,submit|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api|requiresES6]|EditConflict.js
 * EditCount[ResourceLoader|skins=gongbi,vector,vector-2022|requiresES6]|EditCount.js
 * EditForm[ResourceLoader|hidden|rights=edit|requiresES6]|EditForm.css
 * Editform_AiAssisted[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-core|rights=edit|requiresES6]|Editform_AiAssisted.js
