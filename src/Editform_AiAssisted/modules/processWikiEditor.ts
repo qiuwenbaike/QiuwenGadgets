@@ -1,5 +1,4 @@
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
-import {INPUT_ID} from './constant';
 import {getMessage} from './i18n';
 
 const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $editForm?: JQuery}): void => {
@@ -19,7 +18,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		selected: false,
 	});
 
-	checkbox.setInputId(INPUT_ID);
+	checkbox.setInputId(OPTIONS.inputId);
 
 	checkbox.on('change', (): void => {
 		const changeTag: string = 'AI_assisted';
@@ -51,7 +50,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		label: getMessage('AiAssisted'),
 	});
 
-	if (!$body.find(`#${INPUT_ID}`).length) {
+	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.append(checkboxLayout.$element);
 	}
 };

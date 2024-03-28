@@ -454,11 +454,12 @@ const refToolbar2 = ($body) => {
 				callback($body.find('textarea[name=wpTextbox1]').wikiEditor('getContents').text());
 			}
 		} else {
+			const {wgArticleId} = mw.config.get();
 			const postdata = {
 				action: 'query',
 				prop: 'revisions',
 				rvprop: 'content',
-				pageids: mw.config.get('wgArticleId'),
+				pageids: wgArticleId,
 				format: 'json',
 				formatversion: '2',
 			};

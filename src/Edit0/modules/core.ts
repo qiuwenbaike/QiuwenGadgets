@@ -1,4 +1,3 @@
-import {WG_SKIN} from './constant';
 import {getMessage} from './i18n';
 
 const edit0 = ($body: JQuery<HTMLBodyElement>): void => {
@@ -15,7 +14,9 @@ const edit0 = ($body: JQuery<HTMLBodyElement>): void => {
 		$span0.find('.easy-archive-link').remove();
 	}
 
-	switch (WG_SKIN) {
+	const {skin} = mw.config.get();
+
+	switch (skin) {
 		case 'citizen':
 			$body.find('.mw-indicators').prepend($span0);
 			break;

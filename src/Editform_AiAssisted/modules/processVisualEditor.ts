@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call */
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
-import {INPUT_ID, TARGET_CLASS} from './constant';
 import {getMessage} from './i18n';
 
 const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
@@ -9,7 +7,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		return;
 	}
 
-	const $target: JQuery = $body.find(`.${TARGET_CLASS}`);
+	const $target: JQuery = $body.find(`.${OPTIONS.targetClass}`);
 	if (!$target.length) {
 		return;
 	}
@@ -20,7 +18,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		selected: false,
 	});
 
-	checkbox.setInputId(INPUT_ID);
+	checkbox.setInputId(OPTIONS.inputId);
 
 	checkbox.on('change', (): void => {
 		const changeTag: string = 'AI_assisted';
@@ -32,6 +30,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 
 		let changeTags: string = '';
 		// @ts-expect-error TS2304
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
 		changeTags = generateChangeTags(ve.init.target.saveFields.wpChangeTags?.() ?? '');
 		// @ts-expect-error TS2304
 		ve.init.target.saveFields.wpChangeTags = (): string => {
@@ -44,7 +43,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		label: getMessage('AiAssisted'),
 	});
 
-	if (!$body.find(`#${INPUT_ID}`).length) {
+	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.append(checkboxLayout.$element);
 	}
 };

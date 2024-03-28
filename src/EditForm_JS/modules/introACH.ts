@@ -1,23 +1,33 @@
-import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_NAMESPACE_NUMBER, WG_USER_GROUPS, WG_WIKI_ID} from './constant';
-
 const introACH = (): void => {
+	const {wgAction, wgArticleId, wgWikiID, wgUserGroups, wgNamespaceNumber} = mw.config.get();
+
 	// Disabled for wikis other than zhqiuwenbaike
-	if (WG_WIKI_ID !== 'zhqiuwenbaike') {
+	if (wgWikiID !== 'zhqiuwenbaike') {
+		return;
+	}
+
+	// Disabled for existing page(s)
+	if (wgArticleId) {
+		return;
+	}
+
+	// Disabled for non-content namespaces
+	if (![0, 6].includes(wgNamespaceNumber)) {
 		return;
 	}
 
 	// Disabled for confirmed users
-	if (WG_USER_GROUPS.includes('confirmed') || WG_USER_GROUPS.includes('autoconfirmed')) {
+	if (!wgUserGroups || wgUserGroups.includes('confirmed') || wgUserGroups.includes('autoconfirmed')) {
 		return;
 	}
 
 	// Disabled for official users and experienced users
 	if (
-		WG_USER_GROUPS.includes('qiuwen') ||
-		WG_USER_GROUPS.includes('steward') ||
-		WG_USER_GROUPS.includes('senioreditor') ||
-		WG_USER_GROUPS.includes('bot') ||
-		WG_USER_GROUPS.includes('confirmed')
+		wgUserGroups.includes('qiuwen') ||
+		wgUserGroups.includes('steward') ||
+		wgUserGroups.includes('senioreditor') ||
+		wgUserGroups.includes('bot') ||
+		wgUserGroups.includes('confirmed')
 	) {
 		return;
 	}
@@ -25,7 +35,7 @@ const introACH = (): void => {
 	/**
 	 * Remove "Edit" buttons
 	 */
-	if ([0, 6].includes(WG_NAMESPACE_NUMBER)) {
+	if ([0, 6].includes(wgNamespaceNumber)) {
 		for (const element of document.querySelectorAll('#ca-ve-edit, #ca-edit')) {
 			element.remove();
 		}
@@ -52,14 +62,14 @@ const introACH = (): void => {
 		}
 	}
 
-	if (IS_WG_EDIT_OR_SUBMIT_ACTION) {
-		if (WG_NAMESPACE_NUMBER === 6) {
+	if (['edit', 'submit'].includes(wgAction)) {
+		if (wgNamespaceNumber === 6) {
 			/**
 			 * If editing pages under `File:` namespace,
 			 * redirect to [[Special:UploadWizard]]
 			 */
 			location.href = '/wiki/Special:UploadWizard';
-		} else if (WG_NAMESPACE_NUMBER === 0) {
+		} else if (wgNamespaceNumber === 0) {
 			/**
 			 * If editing pages under main namespace,
 			 * redirect to [[QW:ACH]]
