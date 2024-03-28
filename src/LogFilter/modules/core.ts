@@ -1,5 +1,10 @@
-import {URL_LIFILTER, URL_LIFILTER_CASE, URL_LIFILTER_EXPR, URL_LIFILTER_HILIGHT, URL_LIFILTER_INV} from './constant';
 import {MESSAGES} from './messages';
+
+const URL_LIFILTER: string | null = mw.util.getParamValue('lifilter');
+const URL_LIFILTER_CASE: string | null = mw.util.getParamValue('lifiltercase');
+const URL_LIFILTER_EXPR: string | null = mw.util.getParamValue('lifilterexpr');
+const URL_LIFILTER_HILIGHT: string | null = mw.util.getParamValue('lifilterhilight');
+const URL_LIFILTER_INV: string | null = mw.util.getParamValue('lifilterinv');
 
 class LogFilter {
 	private readonly rightsLogOnly = location.href.includes('type=rights') || location.href.includes('Log/rights');
