@@ -1,4 +1,4 @@
-import {PORTLET_CLASS} from '../constant';
+import * as OPTIONS from '../../options.json';
 import React from 'ext.gadget.React';
 import {portletId} from '../initGlobalMethods';
 
@@ -20,7 +20,7 @@ const generatePortletLink = (hash: string): JQuery | undefined => {
 	// The following classes are used here:
 	// * see constant.ts
 	// * for more information
-	const $portletLink: JQuery = $(portletLink).addClass(PORTLET_CLASS);
+	const $portletLink: JQuery = $(portletLink).addClass(`${OPTIONS.portletClass}`);
 	$portletLink
 		.find('a')
 		.empty()

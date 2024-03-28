@@ -1,6 +1,5 @@
-import {USER_AGENT} from './constant';
 import {initMwApi} from 'ext.gadget.Util';
 
-const api: mw.Api = initMwApi(USER_AGENT);
+const api: mw.Api = initMwApi('Navigation popups/1.0');
 
 export {api};
