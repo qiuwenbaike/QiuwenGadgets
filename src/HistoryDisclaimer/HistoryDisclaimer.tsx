@@ -1,6 +1,6 @@
 import './HistoryDisclaimer.less';
+import * as OPTIONS from './options.json';
 import {Background} from './modules/background';
-import {CLASS_NAME} from './modules/constant';
 
 (function historyDisclaimer(): void {
 	const {wgCurRevisionId, wgRevisionId} = mw.config.get();
@@ -9,7 +9,7 @@ import {CLASS_NAME} from './modules/constant';
 		return;
 	}
 
-	if (document.querySelectorAll(`.${CLASS_NAME}`).length) {
+	if (document.querySelectorAll(`.${OPTIONS.className}`).length) {
 		return;
 	}
 
