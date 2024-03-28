@@ -100,7 +100,7 @@ window.toolsRedirect = {
 	setRedirectTextSuffix,
 };
 
-export const ToolsRedirect = {
+const ToolsRedirect = {
 	tabselem: null,
 	tagselem: null,
 	variants: VARIANTS,
@@ -739,3 +739,5 @@ export const ToolsRedirect = {
 		return deferred.promise();
 	},
 };
+
+export {ToolsRedirect};
