@@ -1,4 +1,6 @@
-import {addLog, addSubpage} from './modules/addSubpageAndLog';
+import {addLog} from './modules/addLog';
+import {addSubpage} from './modules/addSubpage';
+import {fixReason} from './modules/fixReason';
 import {fixSummary} from './modules/fixSummary';
 import {getBody} from 'ext.gadget.Util';
 import {linkSearchEditButton} from './modules/linkSearchEditButton';
@@ -24,6 +26,8 @@ import {smartNewSection} from './modules/smartNewSection';
 		addLog();
 		/* 向侧边栏添加“子页面”菜单 */
 		addSubpage();
+		/* 修改删除摘要 */
+		fixReason($body);
 		/* 修改编辑摘要 */
 		fixSummary($body);
 		/* 在[[Special:LinkSearch]]显示“编辑”按钮 */

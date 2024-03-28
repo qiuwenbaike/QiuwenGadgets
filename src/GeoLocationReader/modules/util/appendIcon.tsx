@@ -1,17 +1,18 @@
 import * as OPTIONS from '../../options.json';
-import {CLASS_NAME, CLASS_NAME_ICON, CLASS_NAME_TEXT, WG_SKIN} from '../constant';
+import {CLASS_NAME, CLASS_NAME_ICON, CLASS_NAME_TEXT} from '../constant';
 import React, {ReactElement} from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 
 const elementWrap = (spanClass: 'green' | 'orange', innerElement: ReactElement) => {
-	const className = [CLASS_NAME, `${CLASS_NAME}-${spanClass}`];
+	const {skin} = mw.config.get();
+	const classNames = [CLASS_NAME, `${CLASS_NAME}-${spanClass}`];
 
-	if (WG_SKIN === 'citizen') {
-		return <section className={className}>{innerElement}</section>;
-	} else if (['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) || document.querySelector('ul#footer-info')) {
-		return <li className={className}>{innerElement}</li>;
+	if (skin === 'citizen') {
+		return <section className={classNames}>{innerElement}</section>;
+	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
+		return <li className={classNames}>{innerElement}</li>;
 	}
-	return <div className={className}>{innerElement}</div>;
+	return <div className={classNames}>{innerElement}</div>;
 };
 
 const indicator = (icon: 'globe' | 'helpNotice', indicatorText: string) => {
