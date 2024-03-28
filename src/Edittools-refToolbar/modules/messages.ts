@@ -1,12 +1,12 @@
-import {WG_USER_LANGUAGE} from './constant';
-
 const refToolbarMesages = (): void => {
-	if (WG_USER_LANGUAGE === 'en') {
+	const {wgUserLanguage} = mw.config.get();
+
+	if (wgUserLanguage === 'en') {
 		return;
 	}
 	// All user-facing messages
 	// TODO: Document usage
-	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(WG_USER_LANGUAGE)) {
+	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(wgUserLanguage)) {
 		mw.messages.set({
 			'cite-section-label': '引用',
 			'cite-template-list': '模板',

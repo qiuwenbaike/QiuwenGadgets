@@ -13,6 +13,12 @@ const preloadRevid = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
+	const {wgAction} = mw.config.get();
+
+	if (!['edit', 'submit'].includes(wgAction)) {
+		return;
+	}
+
 	const params: ApiQueryRevisionsParams = {
 		action: 'query',
 		format: 'json',

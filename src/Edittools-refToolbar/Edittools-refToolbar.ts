@@ -1,5 +1,4 @@
 import './Edittools-refToolbar.less';
-import {IS_WG_EDIT_OR_SUBMIT_ACTION, WG_PAGE_CONTENT_MODEL} from './modules/constant';
 import {getBody} from 'ext.gadget.Util';
 import {refToolbar2} from './modules/RefToolbar2.0';
 import {refToolbarBase} from './modules/RefToolbarBase';
@@ -15,8 +14,10 @@ import {refToolbarMesages} from './modules/messages';
  * @author Mr.Z-man, Kaldari
  */
 ((): void => {
+	const {wgAction, wgPageContentModel} = mw.config.get();
+
 	// Only execute when editing/previewing wikitext pages
-	if (!IS_WG_EDIT_OR_SUBMIT_ACTION || WG_PAGE_CONTENT_MODEL !== 'wikitext') {
+	if (!['edit', 'submit'].includes(wgAction) || wgPageContentModel !== 'wikitext') {
 		return;
 	}
 
