@@ -1,11 +1,13 @@
-import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST, WG_RELEVANT_USER_NAME} from './constant';
+import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
 import type {UserRights} from '~/MarkRights/modules/types';
 import {api} from './api';
 import {appendIcon} from './appendIcon';
 import {getMessage} from './i18n';
 
 const getPermissions = async (): Promise<void> => {
-	if (!WG_RELEVANT_USER_NAME) {
+	const {wgRelevantUserName} = mw.config.get();
+
+	if (!wgRelevantUserName) {
 		return;
 	}
 
@@ -15,7 +17,7 @@ const getPermissions = async (): Promise<void> => {
 			format: 'json',
 			formatversion: '2',
 			list: 'users',
-			ususers: WG_RELEVANT_USER_NAME,
+			ususers: wgRelevantUserName,
 			usprop: 'groups',
 		};
 		const {query} = await api.get(listUsersParams);
@@ -25,9 +27,9 @@ const getPermissions = async (): Promise<void> => {
 		for (const group of groups) {
 			if (['*', 'user', 'autoconfirmed', 'rnrsverify-confirmed'].includes(group)) {
 				continue; // Do not show implicit groups
-			} else if (group === 'bot' && SYSTEM_SCRIPT_LIST.includes(WG_RELEVANT_USER_NAME)) {
+			} else if (group === 'bot' && SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName)) {
 				continue; // Already shown in GeoLocationViewer
-			} else if (WEBMASTER_LIST.includes(WG_RELEVANT_USER_NAME) || group === 'qiuwen') {
+			} else if (WEBMASTER_LIST.includes(wgRelevantUserName) || group === 'qiuwen') {
 				appendIcon(getMessage('qiuwen'), 'qiuwen');
 			} else if (groups.includes(group)) {
 				appendIcon(getMessage(group), group);

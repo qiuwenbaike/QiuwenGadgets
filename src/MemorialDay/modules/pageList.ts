@@ -1,4 +1,4 @@
-export const pageList: {
+const pageList: {
 	titles: string | string[];
 	dates?: number | number[];
 }[] = [
@@ -8,3 +8,5 @@ export const pageList: {
 		dates: 1213,
 	},
 ];
+
+export {pageList};
