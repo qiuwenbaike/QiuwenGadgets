@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import * as OPTIONS from '../options.json';
 import {getPermissionRequested, getPermissonName, getpermissionTemplate} from './i18n';
-import {SUMMARY} from './constant';
 import {api} from './api';
 
 const assignPermission = (userName, permission, summary, revId, expiry) => {
@@ -10,7 +10,7 @@ const assignPermission = (userName, permission, summary, revId, expiry) => {
 	if (summary !== '') {
 		fullSummary += `；${summary}`;
 	}
-	fullSummary += SUMMARY;
+	fullSummary += OPTIONS.userRightsManagerSummary;
 	const params = {
 		action: 'userrights',
 		user: userName.replace(/ /g, '_'),
@@ -76,7 +76,7 @@ const markAsDone = (userName, index, closingRemarks) => {
 				nocreate: true,
 				section: sectionNumber,
 				starttimestamp: curtimestamp,
-				summary: `/* User:${userName} */ 完成${SUMMARY}`,
+				summary: `/* User:${userName} */ 完成${OPTIONS.userRightsManagerSummary}`,
 				text: content,
 				basetimestamp,
 			};
@@ -90,7 +90,7 @@ const issueTemplate = (userName, permission, watch) => {
 		action: 'edit',
 		title: talkPage,
 		appendtext: '\n\n{{'.concat('subst:', getpermissionTemplate(permission), '}}}'),
-		summary: `根据共识授予${getPermissonName(permission)}${SUMMARY}`,
+		summary: `根据共识授予${getPermissonName(permission)}${OPTIONS.userRightsManagerSummary}`,
 		watchlist: watch ? 'watch' : 'unwatch',
 	};
 	return api.postWithEditToken(params);

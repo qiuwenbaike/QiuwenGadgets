@@ -1,19 +1,12 @@
-import {
-	URL_DIFF,
-	URL_HIGHLIGHT,
-	URL_HILIGHT,
-	URL_NO_PERM,
-	URL_USE,
-	URL_WITH_CSS,
-	URL_WITH_JS,
-	URL_WITH_MODULE,
-} from './constant';
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
 
 const {wgAction, wgCanonicalSpecialPageName, wgNamespaceNumber, wgPageName, wgScript, wgUserName} = mw.config.get();
 
 const loadWithURL = (): void => {
+	const URL_WITH_CSS: string | null = mw.util.getParamValue('withCSS');
+	const URL_WITH_JS: string | null = mw.util.getParamValue('withJS');
+	const URL_WITH_MODULE: string | null = mw.util.getParamValue('withModule');
 	/**
 	 * &withCSS= and &withJS= URL parameters
 	 * Allow to try custom scripts from MediaWiki space
@@ -49,7 +42,7 @@ const loadWithURL = (): void => {
 			// @ts-expect-error TS6133
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			void mw.loader.using(URL_WITH_MODULE).then((require): void => {
-				mw.loader.load(URL_WITH_MODULE as string);
+				mw.loader.load(URL_WITH_MODULE);
 			});
 		}
 	}
@@ -57,6 +50,7 @@ const loadWithURL = (): void => {
 	 * Load CSS and JS files temporarily through URL.
 	 * &use=File1.css|File2.css|File3.js
 	 */
+	const URL_USE: string | null = mw.util.getParamValue('use');
 	if (URL_USE) {
 		const wgUserNameExcaped: string = mw.util.escapeRegExp(wgUserName ?? '');
 		const REGEX_FILE: RegExp = new RegExp(
@@ -95,6 +89,7 @@ const noPermWarning = (): void => {
 	/**
 	 * Load warning(s) when user has no access to page
 	 */
+	const URL_NO_PERM: string | null = mw.util.getParamValue('noperm');
 	if (!URL_NO_PERM) {
 		return;
 	}
@@ -154,6 +149,8 @@ const highLightRev = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Add highlight to revisions when using `&hilight=revid` or `&highlight=revid`
 	 */
+	const URL_HIGHLIGHT: string | null = mw.util.getParamValue('highlight');
+	const URL_HILIGHT: string | null = mw.util.getParamValue('hilight');
 	const highlight: string | null = URL_HIGHLIGHT ?? URL_HILIGHT;
 
 	if (!highlight || wgAction !== 'history') {
@@ -228,6 +225,7 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Cleanup title for all pages
 	 */
+	const URL_DIFF: string | null = mw.util.getParamValue('diff');
 	if (URL_DIFF || wgAction !== 'view' || ![6, 118].includes(wgNamespaceNumber)) {
 		return;
 	}
