@@ -1,7 +1,7 @@
 import './DialogInner.less';
-import {IS_WG_LOG_NS} from '../modules/constant';
 import React from 'ext.gadget.React';
 import {getMessage} from '../modules/i18n';
+import {isSpecialLog} from '../modules/isSpecialLog';
 
 const DialogInner = () => (
 	<div id="rrd__config">
@@ -10,7 +10,7 @@ const DialogInner = () => (
 		<div className="rrd__content-wrapper">
 			<input name="content" id="rrd__hide-content" type="checkbox" value="content" checked />
 			<label htmlFor="rrd__hide-content" id="rrd-content">
-				{IS_WG_LOG_NS ? getMessage('hideLog') : getMessage('hideContent')}
+				{isSpecialLog() ? getMessage('hideLog') : getMessage('hideContent')}
 			</label>
 		</div>
 		<div className="rrd__content-wrapper">

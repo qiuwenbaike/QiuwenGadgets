@@ -1,15 +1,15 @@
 import * as OPTIONS from '../options.json';
-import {WG_PAGE_NAME} from './constant';
 import {api} from './api';
 import {getMessage} from './i18n';
 
 const submit = async (_ids: string[], toHide: string, reason: string, otherReasons: string): Promise<void> => {
 	const ids: string[] = [...new Set(_ids)];
+	const {wgPageName} = mw.config.get();
 
 	const rrdArr: string[] = [
 		'{{Revdel',
 		'|status = ',
-		`|article = ${WG_PAGE_NAME}`,
+		`|article = ${wgPageName}`,
 		`|set = ${toHide}`,
 		`|reason = ${reason}${otherReasons}`,
 	];

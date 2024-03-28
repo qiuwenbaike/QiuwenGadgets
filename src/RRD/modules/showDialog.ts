@@ -1,8 +1,8 @@
 import {config, updateConfig} from './rrdConfig';
 import DialogInner from '../components/DialogInner';
-import {IS_WG_LOG_NS} from './constant';
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
+import {isSpecialLog} from './isSpecialLog';
 import {loadIds} from './loadIds';
 import {submit} from './submit';
 
@@ -58,7 +58,7 @@ const showDialog = ($body: JQuery<HTMLBodyElement>): void => {
 
 					const toHide: string[] = [];
 					if (rrdHideContent) {
-						toHide[toHide.length] = IS_WG_LOG_NS ? getMessage('hideLog') : getMessage('hideContent');
+						toHide[toHide.length] = isSpecialLog() ? getMessage('hideLog') : getMessage('hideContent');
 					}
 					if (rrdHideUsername) {
 						toHide[toHide.length] = getMessage('hideUsername');
