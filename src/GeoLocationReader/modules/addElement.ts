@@ -1,14 +1,14 @@
-import {WG_RELEVANT_USER_NAME} from './constant';
 import {api} from './api';
 import {appendGeoIcon} from './appendGeoIcon';
 
 const addElement = async (): Promise<void> => {
+	const {wgRelevantUserName} = mw.config.get();
 	const queryUserGroupsParams: ApiQueryUsersParams = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		list: 'users',
-		ususers: WG_RELEVANT_USER_NAME,
+		ususers: wgRelevantUserName as string,
 		usprop: 'groups',
 	};
 

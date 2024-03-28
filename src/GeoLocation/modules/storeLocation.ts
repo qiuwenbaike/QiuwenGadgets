@@ -1,11 +1,11 @@
 import * as OPTIONS from '../options.json';
 import type {StoreGeoInfo} from './types';
-import {WG_USER_NAME} from './constant';
 import {api} from './api';
 import {getMessage} from './i18n';
 
 const storeLocation = async ({countryOrArea, region}: StoreGeoInfo): Promise<void> => {
-	const storePageTitle: string = `User:${WG_USER_NAME}/GeoIP.json`;
+	const {wgUserName} = mw.config.get();
+	const storePageTitle: string = `User:${wgUserName}/GeoIP.json`;
 
 	try {
 		const queryParams: ApiQueryRevisionsParams = {

@@ -1,12 +1,12 @@
 import {type CountryOrAreaNameList, type RegionNameList, getCountryOrAreaName, getRegionName} from './util/getName';
 import type {StoreGeoInfo} from './types';
-import {WG_RELEVANT_USER_NAME} from './constant';
 import {api} from './api';
 import {appendIcon} from './util/appendIcon';
 import {getMessage} from './i18n';
 
 const appendGeoIcon = async (): Promise<void> => {
-	const storePageTitle: string = `User:${WG_RELEVANT_USER_NAME}/GeoIP.json`;
+	const {wgRelevantUserName} = mw.config.get();
+	const storePageTitle: string = `User:${wgRelevantUserName}/GeoIP.json`;
 
 	try {
 		const params: ApiQueryRevisionsParams = {

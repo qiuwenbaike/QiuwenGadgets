@@ -1,7 +1,6 @@
-import {WG_ACTION, WG_CANONICAL_SPECIAL_PAGE_NAME} from './constant';
-
 const fixSummary = ($body: JQuery<HTMLBodyElement>): void => {
-	switch (WG_CANONICAL_SPECIAL_PAGE_NAME) {
+	const {wgCanonicalSpecialPageName} = mw.config.get();
+	switch (wgCanonicalSpecialPageName) {
 		case 'FileImporter-SpecialPage':
 			$body
 				.find('input[name=intendedRevisionSummary]')
@@ -45,18 +44,6 @@ const fixSummary = ($body: JQuery<HTMLBodyElement>): void => {
 				disabled: true,
 			});
 			break;
-	}
-
-	if (WG_ACTION === 'delete') {
-		const $wpReason: JQuery = $body.find('input[name=wpReason]');
-		if (!$wpReason.length) {
-			return;
-		}
-
-		const autoSummaryRegExp: RegExp = /(内容|page was empty|content before blanking was)/i;
-		if (autoSummaryRegExp.test(String($wpReason.val()))) {
-			$wpReason.val('');
-		}
 	}
 };
 
