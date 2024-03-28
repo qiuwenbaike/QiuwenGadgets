@@ -1,17 +1,17 @@
 import * as OPTIONS from '../options.json';
 import React, {ReactElement} from 'ext.gadget.React';
 import type {UserRights} from '~/MarkRights/modules/types';
-import {WG_SKIN} from './constant';
 
 const elementWrap = (spanClass: UserRights, innerElement: ReactElement) => {
-	const className = ['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`];
+	const {skin} = mw.config.get();
+	const classNames = ['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`];
 
-	if (WG_SKIN === 'citizen') {
-		return <section className={className}>{innerElement}</section>;
-	} else if (['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) || document.querySelector('ul#footer-info')) {
-		return <li className={className}>{innerElement}</li>;
+	if (skin === 'citizen') {
+		return <section className={classNames}>{innerElement}</section>;
+	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
+		return <li className={classNames}>{innerElement}</li>;
 	}
-	return <div className={className}>{innerElement}</div>;
+	return <div className={classNames}>{innerElement}</div>;
 };
 
 const appendIcon = (indicatorText: string | undefined, spanClass: UserRights | 'unknown'): void => {

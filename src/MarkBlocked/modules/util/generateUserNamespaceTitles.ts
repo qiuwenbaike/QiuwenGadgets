@@ -1,10 +1,11 @@
 import * as OPTIONS from '../../options.json';
-import {WG_NAMESPACE_IDS} from '../constant';
 
 const generateUserNamespaceTitles = (): string[] => {
+	const {wgNamespaceIds} = mw.config.get();
+
 	const userNamespaceTitles: string[] = [];
 
-	for (const [namespace, id] of Object.entries(WG_NAMESPACE_IDS)) {
+	for (const [namespace, id] of Object.entries(wgNamespaceIds)) {
 		if (!OPTIONS.userNamespaceNumbers.includes(id)) {
 			continue;
 		}

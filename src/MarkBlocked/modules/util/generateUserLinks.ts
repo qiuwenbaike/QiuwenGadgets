@@ -1,5 +1,4 @@
 import * as OPTIONS from '../../options.json';
-import {WG_ARTICLE_PATH, WG_SCRIPT} from '../constant';
 import {generateUserNamespaceTitles} from './generateUserNamespaceTitles';
 import {userlink} from '../MarkBlocked.module.less';
 
@@ -13,8 +12,9 @@ const userTitleRegex: RegExp = new RegExp(
 
 // RegExp for links
 // articleRegex also matches external links in order to support the noping template
-const articleRegex: RegExp = new RegExp(`${WG_ARTICLE_PATH.replace('$1', '')}([^#]+)`);
-const scriptRegex: RegExp = new RegExp(`^${WG_SCRIPT}\\?title=([^#&]+)`);
+const {wgArticlePath, wgScript} = mw.config.get();
+const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}([^#]+)`);
+const scriptRegex: RegExp = new RegExp(`^${wgScript}\\?title=([^#&]+)`);
 
 const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 	// Find all "user" links and save them in userLinks : { 'users': [<link1>, <link2>, ...], 'user2': [<link3>, <link3>, ...], ... }
