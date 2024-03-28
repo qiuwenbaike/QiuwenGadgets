@@ -1,5 +1,5 @@
+import * as OPTIONS from '../options.json';
 import {type ApiParseResponse, type ApiResponse, parseWikitext} from './parseWikitext';
-import {PORTLET_CLASS, WG_PAGE_NAME, WG_USER_VARIANT} from './constant';
 import {ApiRetryFailError} from './util/ApiRetryFailError';
 import React from 'ext.gadget.React';
 import {assert} from './util/assert';
@@ -21,6 +21,8 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 	if (!$targetElement.length) {
 		throw new Error(`Can't get Element "#noteTA-${hash}".`);
 	}
+
+	const {wgPageName, wgUserVariant} = mw.config.get();
 
 	class NoteTAViewer extends OO.ui.ProcessDialog {
 		private dataIsLoaded: boolean;
@@ -98,7 +100,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			}
 
 			const $noteTAtitle: JQuery = $targetElement.find('.noteTA-title');
-			const actualTitle: string = WG_PAGE_NAME.replace(/_/g, ' ');
+			const actualTitle: string = wgPageName.replace(/_/g, ' ');
 			let wikitext: string = '';
 
 			const titleDeferred = $.Deferred<ApiResponse>();
@@ -152,7 +154,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 								}
 							}
 
-							const titleConverted: string | null | undefined = variantText[WG_USER_VARIANT as string];
+							const titleConverted: string | null | undefined = variantText[wgUserVariant as string];
 
 							const multiTitle: string[] = [];
 							for (const key in variantText) {
@@ -262,7 +264,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 						wikitext as ApiParseResponse,
 						{
 							title: 'Template:CGroup/-',
-							variant: WG_USER_VARIANT as string,
+							variant: wgUserVariant as string,
 						} as ParseParams
 					)
 				)
@@ -273,7 +275,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 					this.$realContent
 						.empty()
 						.html(parsedHtml as ApiParseResponse)
-						.addClass(`${PORTLET_CLASS}-output`);
+						.addClass(`${OPTIONS.portletClass}-output`);
 
 					(
 						this.$realContent.find('.mw-collapsible') as JQuery & {makeCollapsible: () => JQuery}

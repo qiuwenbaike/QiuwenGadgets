@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {USER_AGENT} from './constant';
 import {api} from './api';
 import {message} from './string';
 
@@ -6069,7 +6068,7 @@ const popups = () => {
 	};
 	const getMwApi = () => {
 		if (!pg.api.client) {
-			pg.api.userAgent = USER_AGENT;
+			pg.api.userAgent = 'Navigation popups/1.0';
 			pg.api.client = api;
 		}
 		return pg.api.client;

@@ -80,6 +80,8 @@ const createNavigationBarToggleButton = ($content: JQuery): void => {
 	});
 };
 
-export const navFrameLoad = (): void => {
+const navFrameLoad = (): void => {
 	mw.hook('wikipage.content').add(createNavigationBarToggleButton);
 };
+
+export {navFrameLoad};
