@@ -7,16 +7,4 @@ const URL_LIFILTER_EXPR: string | null = mw.util.getParamValue('lifilterexpr');
 const URL_LIFILTER_HILIGHT: string | null = mw.util.getParamValue('lifilterhilight');
 const URL_LIFILTER_INV: string | null = mw.util.getParamValue('lifilterinv');
 
-const WG_ACTION: MediaWikiConfigMapWgAction = mw.config.get('wgAction');
-const WG_CANONICAL_SPECIAL_PAGE_NAME: string = mw.config.get('wgCanonicalSpecialPageName') || '';
-
-export {
-	REGEX_TARGET_PAGE,
-	URL_LIFILTER,
-	URL_LIFILTER_CASE,
-	URL_LIFILTER_EXPR,
-	URL_LIFILTER_HILIGHT,
-	URL_LIFILTER_INV,
-	WG_ACTION,
-	WG_CANONICAL_SPECIAL_PAGE_NAME,
-};
+export {REGEX_TARGET_PAGE, URL_LIFILTER, URL_LIFILTER_CASE, URL_LIFILTER_EXPR, URL_LIFILTER_HILIGHT, URL_LIFILTER_INV};

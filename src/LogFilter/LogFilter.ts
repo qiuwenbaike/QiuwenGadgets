@@ -11,12 +11,14 @@
  * mw.util.getUrl( mw.config.get( 'wgPageName' ) ) + '?' +
  * 'withJS=MediaWiki:Gadget-LogFilter.js&lifilter=1&lifilterexpr=TEST&lifiltercase&lifilterhilight&lifilterinv'
  */
-import {REGEX_TARGET_PAGE, URL_LIFILTER, WG_ACTION, WG_CANONICAL_SPECIAL_PAGE_NAME} from './modules/constant';
+import * as OPTIONS from './options.json';
+import {REGEX_TARGET_PAGE, URL_LIFILTER} from './modules/constant';
 import {LogFilter} from './modules/core';
 import {getBody} from 'ext.gadget.Util';
 
 (function logFilter(): void {
-	const configKey: string = 'gadget-LogFilter__Initialized';
+	const {configKey} = OPTIONS;
+	const {wgAction, wgCanonicalSpecialPageName} = mw.config.get();
 
 	// Guard against double inclusions
 	if (mw.config.get(configKey)) {
@@ -26,7 +28,7 @@ import {getBody} from 'ext.gadget.Util';
 	mw.config.set(configKey, true);
 
 	// When to enable all this
-	if (WG_ACTION !== 'history' && !URL_LIFILTER && !REGEX_TARGET_PAGE.test(WG_CANONICAL_SPECIAL_PAGE_NAME)) {
+	if (wgAction !== 'history' && !URL_LIFILTER && !REGEX_TARGET_PAGE.test(wgCanonicalSpecialPageName || '')) {
 		return;
 	}
 
