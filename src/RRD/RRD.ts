@@ -1,11 +1,11 @@
-import {IS_WG_HISTORY_ACTION, IS_WG_LOG_NS} from './modules/constant';
 import ReportButton from './components/ReportButton';
 import {getBody} from 'ext.gadget.Util';
 import {showDialog} from './modules/showDialog';
 
-if (IS_WG_HISTORY_ACTION || IS_WG_LOG_NS) {
-	void getBody().then(function rrd($body: JQuery<HTMLBodyElement>): void {
-		// For action=history and Special:Log
+void getBody().then(function rrd($body: JQuery<HTMLBodyElement>): void {
+	const {wgAction, wgCanonicalSpecialPageName} = mw.config.get();
+
+	if (wgAction === 'history' || wgCanonicalSpecialPageName === 'Log') {
 		for (const element of $body.find(
 			[
 				'.historysubmit.mw-history-compareselectedversions-button',
@@ -20,5 +20,5 @@ if (IS_WG_HISTORY_ACTION || IS_WG_LOG_NS) {
 				})
 			);
 		}
-	});
-}
+	}
+});
