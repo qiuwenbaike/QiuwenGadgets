@@ -1,5 +1,3 @@
-const CLASS_NAME = 'pwv-2017-variant';
-
 const VARIANTS: {
 	data: string;
 	label: string;
@@ -54,12 +52,4 @@ const DATA = [
 	{var: 'zh-tw', htmlLang: 'zh-Hant-TW', msg: 'pwv-2017-zh-tw'},
 ];
 
-const WG_SKIN = mw.config.get('skin');
-
-const WG_PAGE_CONTENT_MODEL = mw.config.get('wgPageContentModel');
-
-const WG_USER_LANGUAGE: string = mw.config.get('wgUserLanguage');
-
-const WG_USER_VARIANT: string | null = mw.config.get('wgUserVariant');
-
-export {CLASS_NAME, DATA, WG_SKIN, WG_USER_LANGUAGE, VARIANTS, WG_PAGE_CONTENT_MODEL, WG_USER_VARIANT};
+export {DATA, VARIANTS};

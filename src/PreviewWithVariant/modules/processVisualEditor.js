@@ -2,7 +2,7 @@
 // @ts-nocheck
 import './processVisualEditor.less';
 import * as OPTIONS from '../options.json';
-import {CLASS_NAME, DATA, WG_SKIN, WG_USER_LANGUAGE, WG_USER_VARIANT} from './constant';
+import {DATA} from './constant';
 import {PWV2017messages} from './messages';
 
 mw.config.set(OPTIONS.configKey, false);
@@ -19,12 +19,13 @@ OO.inheritClass(PendingStackLayout, OO.ui.StackLayout);
 OO.mixinClass(PendingStackLayout, OO.ui.mixin.PendingElement);
 
 const processVisualEditor = () => {
+	const {skin, wgUserLanguage, wgUserVariant} = mw.config.get();
 	let variant, target, dialog, dropdown, stackLayout, panelLayouts, windowManager, errorDialog;
 
 	const constructDocument = (title, wikitext, categories) => {
 		const $result = $('<div>').addClass('mw-body mw-body-content');
 
-		if (WG_SKIN === 'vector') {
+		if (skin === 'vector') {
 			// Additional classes required in vector to get correct appearance
 			$result.addClass('vector-body');
 		}
@@ -63,7 +64,7 @@ const processVisualEditor = () => {
 				action: 'parse',
 				disableeditsection: true,
 				errorformat: 'html',
-				errorlang: WG_USER_LANGUAGE,
+				errorlang: wgUserLanguage,
 				errorsuselocal: true,
 				formatversion: 2,
 				prop: 'text|indicators|displaytitle|categorieshtml|parsewarningshtml',
@@ -71,7 +72,7 @@ const processVisualEditor = () => {
 				preview: true,
 				title: target.getPageName(),
 				text: target.getDocToSave(),
-				uselang: WG_USER_LANGUAGE,
+				uselang: wgUserLanguage,
 				variant,
 			})
 			.then(
@@ -171,7 +172,7 @@ const processVisualEditor = () => {
 						currentPanel.$element.append($previewContent);
 						stackLayout.setItem(stackLayout.findItemFromData(variant));
 						const $body = $('body');
-						if (!$body.find(`.${CLASS_NAME}`).length) {
+						if (!$body.find(`.${OPTIONS.className}`).length) {
 							dialog.previewPanel.$element.prepend(dropdown.$element);
 						}
 					},
@@ -191,14 +192,14 @@ const processVisualEditor = () => {
 	};
 
 	const init = () => {
-		variant = WG_USER_VARIANT;
+		variant = wgUserVariant;
 		// eslint-disable-next-line no-undef
 		({target} = ve.init);
 		dialog = target.saveDialog;
 		// eslint-disable-next-line mediawiki/class-doc
 		dropdown = new OO.ui.DropdownInputWidget({
 			$overlay: dialog.$overlay,
-			classes: [CLASS_NAME],
+			classes: [OPTIONS.className],
 			options: [
 				{
 					optgroup: mw.msg('pwv-2017-caption'),

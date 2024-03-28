@@ -1,14 +1,15 @@
-import {ELEMENT_ID, WG_SKIN} from './constant';
+import * as OPTIONS from '../options.json';
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
 
 const elementWrap = () => {
-	if (WG_SKIN === 'citizen') {
-		return <section className={'page-info__item'} id={ELEMENT_ID} />;
-	} else if (['vector', 'vector-2022', 'gongbi'].includes(WG_SKIN) || document.querySelector('ul#footer-info')) {
-		return <li id={ELEMENT_ID} />;
+	const {skin} = mw.config.get();
+	if (skin === 'citizen') {
+		return <section className={'page-info__item'} id={OPTIONS.elementId} />;
+	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
+		return <li id={OPTIONS.elementId} />;
 	}
-	return <div id={ELEMENT_ID} />;
+	return <div id={OPTIONS.elementId} />;
 };
 
 const notBeenPatrolledYet = () => (

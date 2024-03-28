@@ -1,6 +1,6 @@
 import './processWikiEditor.less';
 import * as OPTIONS from '../options.json';
-import {VARIANTS, WG_PAGE_CONTENT_MODEL, WG_USER_VARIANT} from './constant';
+import {VARIANTS} from './constant';
 /**
  * @description Add a "Preview with variant" option to the edit form.
  */
@@ -10,10 +10,11 @@ const processWikiEditor = (): void => {
 		if (mw.config.get(OPTIONS.configKey)) {
 			return;
 		}
+		const {wgPageContentModel, wgUserVariant} = mw.config.get();
 		const $templateSandboxPreview: JQuery = $editForm.find('input[name="wpTemplateSandboxPreview"]');
 		// It is possible that a user want to preview a page with a non-wikitext module
 		// Do not return in this case
-		if (WG_PAGE_CONTENT_MODEL !== 'wikitext' && !$templateSandboxPreview.length) {
+		if (wgPageContentModel !== 'wikitext' && !$templateSandboxPreview.length) {
 			return;
 		}
 		const $layout: JQuery = $editForm.find('.editCheckboxes .oo-ui-horizontalLayout');
@@ -38,7 +39,7 @@ const processWikiEditor = (): void => {
 				}),
 			},
 		});
-		dropdown.getMenu().selectItemByData(WG_USER_VARIANT || uriVariant || mw.user.options.get('variant'));
+		dropdown.getMenu().selectItemByData(wgUserVariant || uriVariant || mw.user.options.get('variant'));
 		checkbox.on('change', (selected: boolean | string): void => {
 			dropdown.setDisabled(!selected);
 		});
