@@ -1,10 +1,12 @@
-import {LAST_STORAGE_VALUE, STORAGE_KEY, URL_CONSENT_READ} from './modules/constant';
+import * as OPTIONS from './options.json';
 import {RootElement} from './components/RootElement';
 
-const {wgUserName} = mw.config.get();
-
 (function cookieWarning(): void {
-	if (wgUserName || LAST_STORAGE_VALUE === '1' || URL_CONSENT_READ) {
+	const {wgUserName} = mw.config.get();
+	const lastStorageValue: string | null = mw.storage.get(OPTIONS.storageKey) as string | null;
+	const urlConsentRead: string | null = mw.util.getParamValue(OPTIONS.readingPIPPKey);
+
+	if (wgUserName || lastStorageValue === '1' || urlConsentRead) {
 		return;
 	}
 
@@ -12,10 +14,10 @@ const {wgUserName} = mw.config.get();
 		broadcastChannel.postMessage('close');
 		broadcastChannel.close();
 		rootElement.remove();
-		mw.storage.set(STORAGE_KEY, '1', 60 * 60 * 1000 * 24 * 30);
+		mw.storage.set(OPTIONS.storageKey, '1', 60 * 60 * 1000 * 24 * 30);
 	};
 
-	const broadcastChannel: BroadcastChannel = new BroadcastChannel(STORAGE_KEY);
+	const broadcastChannel: BroadcastChannel = new BroadcastChannel(OPTIONS.storageKey);
 	broadcastChannel.addEventListener('message', closeWarning);
 
 	const rootElement = RootElement({agreeButtonOnClick: closeWarning});

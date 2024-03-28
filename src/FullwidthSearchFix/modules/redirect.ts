@@ -1,4 +1,3 @@
-import {WG_SCRIPT} from './constant';
 import {getMessage} from './i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
@@ -11,7 +10,8 @@ const redirect = (nameSpace: string, pageName: string): void => {
 		'info'
 	);
 
-	const href: string = new mw.Uri(WG_SCRIPT)
+	const {wgScript} = mw.config.get();
+	const href: string = new mw.Uri(wgScript)
 		.extend({
 			search: `${nameSpace}:${pageName}`,
 		})
