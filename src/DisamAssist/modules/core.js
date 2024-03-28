@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {WG_ACTION} from './constant';
 import {api} from './api';
 import {cfg} from './config';
 import {messages} from './messages';
@@ -27,8 +26,9 @@ let lastEditMillis = 0;
 let runningSaves = false;
 
 /* Entry point. Check whether we are in a disambiguation page. If so, add a link to start the tool */
-export const install = () => {
-	if (WG_ACTION !== 'view' || !isDisam()) {
+const install = () => {
+	const {wgAction} = mw.config.get();
+	if (wgAction !== 'view' || !isDisam()) {
 		return;
 	}
 	$(() => {
@@ -701,7 +701,8 @@ const getTargetPage = () => {
 
 /* Get the page title, with the namespace prefix if any. */
 const getTitle = () => {
-	return mw.config.get('wgPageName').replace(/_/g, ' ');
+	const {wgPageName} = mw.config.get();
+	return wgPageName.replace(/_/g, ' ');
 };
 
 /* Extract a "main" title from ".* (disambiguation)" or whatever the appropiate local format is */
@@ -758,15 +759,16 @@ const extractPageName = (link) => {
 
 /* Extract the page name from a link, as is */
 const extractPageNameRaw = (link) => {
+	const {wgScript, wgArticlePath} = mw.config.get();
 	if (!link.hasClass('image')) {
 		const href = link.attr('href');
 		if (link.hasClass('new')) {
 			// "Red" link
-			if (href.includes(mw.config.get('wgScript'))) {
+			if (href.includes(wgScript)) {
 				return mw.util.getParamValue('title', href);
 			}
 		} else {
-			const regex = mw.config.get('wgArticlePath').replace('$1', '(.*)');
+			const regex = wgArticlePath.replace('$1', '(.*)');
 			const regexResult = new RegExp(`^${regex}$`).exec(href);
 			if (Array.isArray(regexResult) && regexResult.length) {
 				return decodeURIComponent(regexResult[1]);
@@ -777,7 +779,8 @@ const extractPageNameRaw = (link) => {
 
 /* Check whether this is a disambiguation page */
 const isDisam = () => {
-	const categories = mw.config.get('wgCategories', []);
+	const {wgCategories} = mw.config.get();
+	const categories = wgCategories ?? [];
 	for (const category of categories) {
 		const {disamCategories} = cfg;
 		if (disamCategories.includes(category)) {
@@ -1036,3 +1039,5 @@ const savePage = (pageTitle, {editToken, content, baseTimeStamp, startTimeStamp}
 		});
 	return deferred.promise();
 };
+
+export {install};

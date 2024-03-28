@@ -14,11 +14,11 @@ void getBody().then(function didYouMean($body: JQuery<HTMLBodyElement>): void {
 		return;
 	}
 
-	const {wgNamespaceNumber, wgRelevantUserName} = mw.config.get();
+	const {wgNamespaceNumber, wgRelevantUserName, wgPageName} = mw.config.get();
 
 	if (wgNamespaceNumber === 2 && wgRelevantUserName) {
 		const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
-		const pageName: string = new mw.Title(mw.config.get('wgPageName')).toText();
+		const pageName: string = new mw.Title(wgPageName).toText();
 
 		if (relevantUserPageName === pageName) {
 			return;

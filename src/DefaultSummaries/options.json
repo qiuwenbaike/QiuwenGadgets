@@ -1,3 +1,4 @@
 {
-	"configKey": "gadget-DefaultSummaries__Initialized"
+	"configKey": "gadget-DefaultSummaries__Initialized",
+	"dropdownId": "editform_default_summary"
 }

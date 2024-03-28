@@ -1,5 +1,4 @@
 import * as OPTIONS from '~/DefaultSummaries/options.json';
-import {DROPDOWN_ID} from './constant';
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
 const processWikiEditor = ($body: JQuery<HTMLBodyElement>): void => {
@@ -23,7 +22,7 @@ const processWikiEditor = ($body: JQuery<HTMLBodyElement>): void => {
 		width: '48%',
 	});
 
-	if (!$body.find(`#${DROPDOWN_ID}`).length) {
+	if (!$body.find(`#${OPTIONS.dropdownId}`).length) {
 		$editCheckboxes.before($dropdowns);
 	}
 };
