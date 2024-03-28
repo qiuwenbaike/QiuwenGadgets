@@ -1,9 +1,7 @@
 import {pagePatroller} from './modules/core';
 
-if (
-	mw.config.get('wgNamespaceNumber') >= 0 &&
-	mw.config.get('wgPageName') !== 'Qiuwen:首页' &&
-	mw.config.get('wgArticleId') > 0
-) {
+const {wgNamespaceNumber, wgPageName, wgArticleId} = mw.config.get();
+
+if (wgNamespaceNumber >= 0 && wgPageName !== 'Qiuwen:首页' && wgArticleId > 0) {
 	void pagePatroller();
 }
