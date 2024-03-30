@@ -307,7 +307,7 @@ const catALot = (): void => {
 				const {parse} = await CAL.api.post({
 					...params,
 					variant,
-				} as typeof params);
+				} as const);
 				const {text} = parse;
 				results[results.length] = $(text).eq(0).text().trim();
 			}
@@ -586,11 +586,11 @@ const catALot = (): void => {
 					title: markedLabelTitle,
 					assert: 'user',
 					bot: true,
-					basetimestamp: timestamp as never as string,
+					basetimestamp: timestamp as unknown as string,
 					watchlist: CAL.settings.watchlist as never,
 					text,
 					summary,
-					starttimestamp: starttimestamp as never as string,
+					starttimestamp: starttimestamp as unknown as string,
 				},
 				(): void => {
 					this.updateCounter();

@@ -97,7 +97,7 @@ import {mwApi} from './api';
 				title: `User:${mw.config.get('wgUserName')}/common.js`,
 				summary: `${selfName}Saving HotCat configuration.`,
 				appendtext: $el.data('addText') as string,
-			};
+			} as const;
 			const editDone = (editStat?: {error?: {code?: string; info?: string}}) => {
 				if (!editStat) {
 					return;
@@ -244,7 +244,7 @@ import {mwApi} from './api';
 				summary: `${selfName}Categories are checked and OK. You can help [[Category:Media needing category review|reviewing]]!`,
 				nocreate: true,
 				text,
-			};
+			} as const;
 			const editDone = (editStat?: {error?: {code?: string; info?: string}}) => {
 				if (!editStat) {
 					return;

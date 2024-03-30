@@ -2557,7 +2557,6 @@ import {generateArray} from 'ext.gadget.Util';
 	 * 2. The sequence for append/prepend/newSection could be slightly shortened,
 	 * but it would require significant duplication of code for little benefit.
 	 *
-	 *
 	 * @memberof Morebits.wiki
 	 * @class
 	 * @param {string} pageName - The name of the page, prefixed by the namespace (if any).
@@ -2998,7 +2997,6 @@ import {generateArray} from 'ext.gadget.Util';
 		 * - nocreate: don't create the page, only edit it if it already exists.
 		 * - `null`: create the page if it does not exist, unless it was deleted
 		 * in the moment between loading the page and saving the edit (default).
-		 *
 		 */
 		this.setCreateOption = (createOption) => {
 			ctx.createOption = createOption;

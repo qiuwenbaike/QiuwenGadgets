@@ -7,8 +7,6 @@ import {getMessage} from './i18n';
 import {viewerMap} from './initViewMap';
 import {windowManager} from './initWindowManager';
 
-type ParseParams = Omit<ApiParseParams, 'action' | 'format'>;
-
 const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer => {
 	if (viewerMap.has(hash)) {
 		const storedViewer = viewerMap.get(hash);
@@ -126,7 +124,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 				parseWikitext(`{{noteTA/multititle|${actualTitle}}}`, {
 					title: actualTitle,
 					variant: 'zh',
-				} as ParseParams)
+				} as const)
 					.then((resultHtml: ApiResponse): void => {
 						const $multiTitle: JQuery = $($.parseHTML(resultHtml as ApiParseResponse)).find(
 							'.noteTA-multititle'
@@ -265,7 +263,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 						{
 							title: 'Template:CGroup/-',
 							variant: wgUserVariant as string,
-						} as ParseParams
+						} as const
 					)
 				)
 				.then((parsedHtml: ApiResponse): void => {

@@ -8,9 +8,7 @@ interface RemoteNotices {
 
 const {wgUserLanguage} = mw.config.get();
 
-const parameters: ApiParseParams & {
-	variant?: string;
-} = {
+const parameters: ApiParseParams = {
 	action: 'parse',
 	format: 'json',
 	formatversion: '2',
