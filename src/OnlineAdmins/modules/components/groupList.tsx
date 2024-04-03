@@ -1,4 +1,4 @@
-import {section, sectionList} from './OnlineAdmins.module.less';
+import {section, sectionList, talkPageLink} from './OnlineAdmins.module.less';
 import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 
@@ -20,7 +20,7 @@ const UserLink = ({userName}: UserLinkProps) => (
 			{sanitize(userName)}
 		</a>
 		&nbsp;
-		<span style={{fontSize: '90%'}}>
+		<span className={talkPageLink}>
 			（
 			<a href={mw.util.getUrl(`User_talk:${sanitize(userName)}`)} rel="noopener noreferrer" target="_blank">
 				留言
