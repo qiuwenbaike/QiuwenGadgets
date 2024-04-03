@@ -1,4 +1,5 @@
 import * as OPTIONS from '../options.json';
+import {noChanges, publishChanges, submitAll, warning} from '../TranslateVariants.module.less';
 import React from 'ext.gadget.React';
 import {api} from './api';
 
@@ -27,7 +28,7 @@ const translateVariants = (wgPageName: string): void => {
 		</button>
 	) as JQuery;
 	$submitAll.on('click', (): void => {
-		const $buttons: JQuery = $wrapper.find('.TranslateVariants-publish-changes');
+		const $buttons: JQuery = $wrapper.find(`.${publishChanges}`);
 		if (!$buttons.length) {
 			void mw.notify(window.wgULS('没有任何可以发布的更改', '沒有任何變更可發佈'), {
 				tag: 'TranslateVariants',
@@ -36,7 +37,7 @@ const translateVariants = (wgPageName: string): void => {
 			return;
 		}
 
-		if (!confirm(`${window.wgULS('更改', '發佈')}${$buttons.length}${window.wgULS('个更改', '個變更')}？`)) {
+		if (!confirm(window.wgULS('更改$1个更改？', '發佈$1個變更？').replace('$1', `${$buttons.length}}`))) {
 			void mw.notify(window.wgULS('已取消更改', '已取消發佈'), {tag: 'TranslateVariants', type: 'warn'});
 			return;
 		}
@@ -47,8 +48,8 @@ const translateVariants = (wgPageName: string): void => {
 	});
 
 	$wrapper.append(
-		$(<div style={{textAlign: 'right'}} />).append($submitAll),
-		<div style={{color: '#f00'}}>
+		$(<div className={submitAll} />).append($submitAll),
+		<div className={warning}>
 			{window.wgULS(
 				'提醒：TranslateVariants工具使用IT及MediaWiki转换组进行自动转换，请确认转换结果是否正确！',
 				'提醒：TranslateVariants工具使用IT及MediaWiki轉換組進行自動轉換，請確認轉換結果是否正確！'
@@ -85,13 +86,13 @@ const translateVariants = (wgPageName: string): void => {
 
 		let newPageContent: string = '';
 		void api
-			.parse(`{{NoteTA|G1=IT|G2=MediaWiki}}<div id="TranslateVariants-content">${pageContent}</div>`, {
+			.parse(`{{NoteTA|G1=IT|G2=MediaWiki}}<div id="${OPTIONS.contentID}">${pageContent}</div>`, {
 				uselang: lang,
 			})
 			.then(
 				(content: string) => {
 					newPageContent = $(<div innerHTML={content} />)
-						.find('#TranslateVariants-content')
+						.find(`#${OPTIONS.contentID}`)
 						.text();
 
 					const _params: ApiQueryRevisionsParams = {
@@ -107,7 +108,7 @@ const translateVariants = (wgPageName: string): void => {
 				},
 				(error): null => {
 					void mw.notify(`解析${lang}${window.wgULS('时发生错误：', '時發生錯誤：')}${error}`, {
-						tag: 'TranslateVariant',
+						tag: 'TranslateVariants',
 						type: 'error',
 					});
 
@@ -134,10 +135,7 @@ const translateVariants = (wgPageName: string): void => {
 					const [page] = data['query'].pages;
 					if (page.missing) {
 						const $submit = $(
-							<button
-								className={['TranslateVariants-publish-changes', 'cdx-button']}
-								style={{float: 'right'}}
-							>
+							<button className={[publishChanges, 'cdx-button']}>
 								{window.wgULS('发布页面', '發佈頁面')}
 							</button>
 						) as JQuery;
@@ -153,7 +151,7 @@ const translateVariants = (wgPageName: string): void => {
 							).then(
 								(): void => {
 									void mw.notify(window.wgULS('已编辑 ', '已編輯 ') + targetTitle, {
-										tag: 'TranslateVariant',
+										tag: 'TranslateVariants',
 										type: 'success',
 									});
 								},
@@ -164,7 +162,7 @@ const translateVariants = (wgPageName: string): void => {
 											window.wgULS(' 发生错误：', ' 發生錯誤：') +
 											error,
 										{
-											tag: 'TranslateVariant',
+											tag: 'TranslateVariants',
 											type: 'error',
 										}
 									);
@@ -187,13 +185,10 @@ const translateVariants = (wgPageName: string): void => {
 
 					const diff: string = page.revisions[0].diff.body;
 					if (diff === '') {
-						$tool.append(<span style={{float: 'right'}}>{window.wgULS('无更改', '無變更')}</span>);
+						$tool.append(<span className={noChanges}>{window.wgULS('无更改', '無變更')}</span>);
 					} else {
 						const $submit = $(
-							<button
-								className={['TranslateVariants-publish-changes', 'cdx-button']}
-								style={{float: 'right'}}
-							>
+							<button className={[publishChanges, 'cdx-button']}>
 								{window.wgULS('发布更改', '發佈變更')}
 							</button>
 						) as JQuery;
@@ -207,7 +202,7 @@ const translateVariants = (wgPageName: string): void => {
 							})).then(
 								(): void => {
 									void mw.notify(window.wgULS('已编辑', '已編輯 ') + targetTitle, {
-										tag: 'TranslateVariant',
+										tag: 'TranslateVariants',
 										type: 'success',
 									});
 								},
@@ -218,7 +213,7 @@ const translateVariants = (wgPageName: string): void => {
 											window.wgULS(' 发生错误：', ' 發生錯誤：') +
 											error,
 										{
-											tag: 'TranslateVariant',
+											tag: 'TranslateVariants',
 											type: 'error',
 										}
 									);
@@ -246,7 +241,7 @@ const translateVariants = (wgPageName: string): void => {
 							window.wgULS('差异时发生错误：', '差異時發生錯誤：') +
 							error,
 						{
-							tag: 'TranslateVariant',
+							tag: 'TranslateVariants',
 							type: 'error',
 						}
 					);
