@@ -107,10 +107,13 @@ const translateVariants = (wgPageName: string): void => {
 					return api.post(_params);
 				},
 				(error): null => {
-					void mw.notify(`解析${lang}${window.wgULS('时发生错误：', '時發生錯誤：')}${error}`, {
-						tag: 'TranslateVariants',
-						type: 'error',
-					});
+					void mw.notify(
+						window.wgULS('解析$1时发生错误：', '解析$1時發生錯誤：').replace('$1', lang) + error,
+						{
+							tag: 'TranslateVariants',
+							type: 'error',
+						}
+					);
 
 					return null;
 				}
@@ -208,10 +211,9 @@ const translateVariants = (wgPageName: string): void => {
 								},
 								(error) => {
 									void mw.notify(
-										window.wgULS('编辑', '編輯 ') +
-											targetTitle +
-											window.wgULS(' 发生错误：', ' 發生錯誤：') +
-											error,
+										window
+											.wgULS('编辑$1发生错误：', '編輯$1發生錯誤：')
+											.replace('$1', targetTitle) + error,
 										{
 											tag: 'TranslateVariants',
 											type: 'error',
@@ -236,10 +238,7 @@ const translateVariants = (wgPageName: string): void => {
 				},
 				(error): void => {
 					void mw.notify(
-						window.wgULS('获取', '取得') +
-							lang +
-							window.wgULS('差异时发生错误：', '差異時發生錯誤：') +
-							error,
+						window.wgULS('获取$1差异时发生错误：', '取得$1差異時發生錯誤：').replace('$1', lang) + error,
 						{
 							tag: 'TranslateVariants',
 							type: 'error',
