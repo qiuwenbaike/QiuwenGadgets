@@ -11,6 +11,7 @@
  * mw.util.getUrl( mw.config.get( 'wgPageName' ) ) + '?' +
  * 'withJS=MediaWiki:Gadget-LogFilter.js&lifilter=1&lifilterexpr=TEST&lifiltercase&lifilterhilight&lifilterinv'
  */
+import './LogFilter.less';
 import * as OPTIONS from './options.json';
 import {LogFilter} from './modules/core';
 import {REGEX_TARGET_PAGE} from './modules/constant';
