@@ -26,8 +26,7 @@
 * VariantAllyDialog[ResourceLoader|dependencies=ext.gadget.VariantAlly,vue|hidden|requiresES6]|VariantAllyDialog.js|VariantAllyDialog.css
 
 == browser ==
-* AddSectionPlus[ResourceLoader|dependencies=ext.gadget.Util|peers=AddSectionPlus-pagestyles|rights=edit|requiresES6]|AddSectionPlus.js
-* AddSectionPlus-pagestyles[ResourceLoader|hidden|requiresES6]|AddSectionPlus-pagestyles.css
+* AddSectionPlus[ResourceLoader|dependencies=ext.gadget.Util|peers=AddSectionPlus-pagestyles|rights=edit|requiresES6]|AddSectionPlus.js|AddSectionPlus.css
 * AjaxLogin[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,oojs-ui-core,oojs-ui-windows,oojs-ui.styles.icons-interactions,oojs-ui.styles.icons-user|hidden|requiresES6]|AjaxLogin.js
 * AutoLink[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|AutoLink.js
 * CodeLinks[ResourceLoader|default|dependencies=ext.gadget.React,ext.gadget.Util,mediawiki.util|rights=edit|requiresES6]|CodeLinks.js
