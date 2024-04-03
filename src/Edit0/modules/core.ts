@@ -24,6 +24,8 @@ const edit0 = ($body: JQuery<HTMLBodyElement>): void => {
 			$body.find('#content h1#firstHeading').append($span0);
 	}
 
+	$span0.addClass('mw-editsection');
+
 	for (const element of $span0.find('a')) {
 		element.title = getMessage('Edit0');
 
