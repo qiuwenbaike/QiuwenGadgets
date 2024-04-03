@@ -44,11 +44,11 @@ const getLastActiveMarker = (timestamp: string, indicator: boolean): React.React
 	if (diff > 365) {
 		timeSpan = 'OverAYear';
 	} else if (diff > 183) {
-		timeSpan = 'ThisSemiyear';
-	} else if (diff > 92) {
-		timeSpan = 'ThisSeason';
-	} else if (diff > 31) {
 		timeSpan = 'ThisYear';
+	} else if (diff > 92) {
+		timeSpan = 'ThisSemiyear';
+	} else if (diff > 31) {
+		timeSpan = 'ThisSeason';
 	} else if (diff > 7) {
 		timeSpan = 'ThisMonth';
 	}
