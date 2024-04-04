@@ -20,10 +20,13 @@
 /* <nowiki> */
 
 /* src/LogFilter/LogFilter.less */
-#rightsFilter > * {
-  margin: 0.125em 0.25em;
+#rightsFilter {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 0.25em;
 }
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0xvZ0ZpbHRlci9Mb2dGaWx0ZXIubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiI3JpZ2h0c0ZpbHRlciA+ICoge1xuICBtYXJnaW46IDAuMTI1ZW0gMC4yNWVtO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUMsYUFBYSxFQUFFO0FBQ2QsVUFBUSxRQUFRO0FBQ2xCOyIsCiAgIm5hbWVzIjogW10KfQo= */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0xvZ0ZpbHRlci9Mb2dGaWx0ZXIubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiI3JpZ2h0c0ZpbHRlciB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZmxvdzogcm93IHdyYXA7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGdhcDogMC4yNWVtO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxXQUFTO0FBQ1QsYUFBVyxJQUFJO0FBQ2YsZUFBYTtBQUNiLE9BQUs7QUFDUDsiLAogICJuYW1lcyI6IFtdCn0K */

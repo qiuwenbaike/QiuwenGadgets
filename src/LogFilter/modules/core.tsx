@@ -1,4 +1,5 @@
 import {MESSAGES} from './messages';
+import React from 'ext.gadget.React';
 
 const URL_LIFILTER: string | null = mw.util.getParamValue('lifilter');
 const URL_LIFILTER_CASE: string | null = mw.util.getParamValue('lifiltercase');
@@ -41,12 +42,11 @@ class LogFilter {
 	}
 
 	private buildForm(): void {
-		const $pageTop: JQuery = this.$body.find('#contentSub,#topbar');
+		const $pageTop: JQuery = this.$body.find('#contentSub, #topbar');
 		if (!$pageTop.length) {
 			return;
 		}
 
-		let fieldsetHtml: string = '';
 		let oldInput: string = '';
 		const instructions: string = this.rightsLogOnly
 			? LogFilter.msg('rights-list-instructions')
@@ -64,34 +64,60 @@ class LogFilter {
 		const $legend: JQuery = $('<legend>').text(LogFilter.msg('legend'));
 		$fieldSet.append($legend);
 
+		let rfSelect = <></>;
 		if (this.rightsLogOnly) {
-			fieldsetHtml += '<select id="rfSelect">';
-			fieldsetHtml += `<option>${mw.html.escape(LogFilter.msg('option-added'))}</option>`;
-			fieldsetHtml += `<option>${mw.html.escape(LogFilter.msg('option-removed'))}</option>`;
-			fieldsetHtml += `<option>${mw.html.escape(LogFilter.msg('option-added-or-removed'))}</option>`;
-			fieldsetHtml += `<option>${mw.html.escape(LogFilter.msg('option-added-removed-static'))}</option>`;
-			fieldsetHtml += '</select>';
+			rfSelect = (
+				<select id="gadget-log_filter__select">
+					<option>{mw.html.escape(LogFilter.msg('option-added'))}</option>
+					<option>{mw.html.escape(LogFilter.msg('option-removed'))}</option>
+					<option>{mw.html.escape(LogFilter.msg('option-added-or-removed'))}</option>
+					<option>{mw.html.escape(LogFilter.msg('option-added-removed-static'))}</option>
+				</select>
+			);
 		}
-		fieldsetHtml += `<label for="rfRegex">${mw.html.escape(
-			LogFilter.msg('regex-label')
-		)}</label><input id="rfRegex">`;
-		fieldsetHtml += `<input id="rfInvert" type="checkbox"><label for="rfInvert">${mw.html.escape(
-			LogFilter.msg('invert-label')
-		)}</label>`;
-		fieldsetHtml += `<input id="rfCase" type="checkbox"><label for="rfCase">${mw.html.escape(
-			LogFilter.msg('case-label')
-		)}</label>`;
-		fieldsetHtml += `<button class="cdx-button cdx-button--action-progressive cdx-button--weight-primary" value="0">${mw.html.escape(LogFilter.msg('filter-button'))}</button>`;
-		fieldsetHtml += `<button class="cdx-button cdx-button--action-progressive cdx-button--weight-primary" value="1">${mw.html.escape(LogFilter.msg('highlight-button'))}</button>`;
-		// Inject the html into the fieldset
-		$fieldSet.append(fieldsetHtml);
+		const fieldSetInner = (
+			<>
+				<div class="gadget-log_filter__regex">
+					<label htmlFor="gadget-log_filter__regex">{mw.html.escape(LogFilter.msg('regex-label'))}</label>
+					<input id="gadget-log_filter__regex" />
+				</div>
+				<div class="gadget-log_filter__checkboxes">
+					<div class="gadget-log_filter__invert">
+						<input id="gadget-log_filter__invert" type="checkbox" />
+						<label htmlFor="gadget-log_filter__invert">
+							{mw.html.escape(LogFilter.msg('invert-label'))}
+						</label>
+					</div>
+					<div class="gadget-log_filter__case">
+						<input id="gadget-log_filter__case" type="checkbox" />
+						<label htmlFor="gadget-log_filter__case">{mw.html.escape(LogFilter.msg('case-label'))}</label>
+					</div>
+				</div>
+				<div class="gadget-log_filter__buttons">
+					<button
+						class={['cdx-button cdx-button--action-progressive', 'cdx-button--weight-primary']}
+						value="0"
+					>
+						${mw.html.escape(LogFilter.msg('filter-button'))}
+					</button>
+					<button
+						class={['cdx-button cdx-button--action-progressive', 'cdx-button--weight-primary']}
+						value="1"
+					>
+						${mw.html.escape(LogFilter.msg('highlight-button'))}
+					</button>
+				</div>
+			</>
+		);
+		// Inject these HTML elements into the fieldset
+		$fieldSet.append(rfSelect, fieldSetInner);
 		$pageTop.after($fieldSet);
 
 		// Set passed values
-		this.$body.find('#rfRegex').val(URL_LIFILTER_EXPR ?? '');
-		this.$body.find('#rfCase').prop('checked', !casing);
-		this.$body.find('#rfInvert').prop('checked', inverted);
-		this.$body.find('#rfRegex').trigger('focus');
+		this.$body.find('#gadget-log_filter__regex').val(URL_LIFILTER_EXPR ?? '');
+		this.$body.find('#gadget-log_filter__case').prop('checked', !casing);
+		this.$body.find('#gadget-log_filter__invert').prop('checked', inverted);
+		this.$body.find('#gadget-log_filter__regex').trigger('focus');
 
 		// Bind click and change listeners
 		this.$body
@@ -99,7 +125,7 @@ class LogFilter {
 			.find('input')
 			.on('keyup change', (event): void => {
 				const $element: JQuery = $(event.currentTarget);
-				if ($element.attr('id') !== 'rfRegex') {
+				if ($element.attr('id') !== 'gadget-log_filter__regex') {
 					this.filterLi();
 					return;
 				}
@@ -132,12 +158,12 @@ class LogFilter {
 		// Grab options from form
 		let type: string | undefined;
 		if (this.rightsLogOnly) {
-			type = this.$body.find('#rfSelect').attr('selectedIndex');
+			type = this.$body.find('#gadget-log_filter__select').attr('selectedIndex');
 		}
 
-		const invert = this.$body.find('#rfInvert').prop('checked') as boolean;
-		const search: string = this.$body.find('#rfRegex').val()?.toString() ?? '';
-		const flags: string = this.$body.find('#rfCase').prop('checked') ? 'ig' : 'g';
+		const invert = this.$body.find('#gadget-log_filter__invert').prop('checked') as boolean;
+		const search: string = this.$body.find('#gadget-log_filter__regex').val()?.toString() ?? '';
+		const flags: string = this.$body.find('#gadget-log_filter__case').prop('checked') ? 'ig' : 'g';
 		let regexRf: RegExp | undefined;
 		try {
 			regexRf = new RegExp(`${search}`, `${flags}`);
