@@ -1,4 +1,4 @@
-import {detectIfFileRedirect, refreshPage} from './modules/quickImport';
+import {detectIfFileRedirect, refreshPage} from './modules/core';
 
 (function quickImport(): void {
 	const {wgNamespaceNumber, wgPageName, wgWikiID} = mw.config.get();
