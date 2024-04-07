@@ -22,7 +22,7 @@ const purge = async (title: string): Promise<void> => {
 		};
 
 		await api.post(params);
-		mw.storage.remove(`MediaWikiModuleStore:${wgWikiID}`);
+		localStorage.removeItem(`MediaWikiModuleStore:${wgWikiID}`);
 
 		location.reload();
 	} catch (error: unknown) {
