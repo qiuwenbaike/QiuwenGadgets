@@ -1,5 +1,6 @@
 import {ApiQueryImageInfoParams} from 'types-mediawiki-renovate/api_params';
 import {api} from './api';
+import {generateArray} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
 let toastifyInstance: ToastifyInstance = {
@@ -86,6 +87,7 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 };
 
 const detectIfFileRedirect = async (titles: string | string[], isFileNS = false): Promise<void> => {
+	titles = generateArray(titles);
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i: number = 0; i < (titles.length + 50) / 50; i++) {
