@@ -34,6 +34,17 @@ const getAllImages = async (wgPageName: string) => {
 		fileNames[fileNames.length] = imageInfo.title;
 	}
 
+	const fileLinkElements = document.querySelectorAll("a[href^='/wiki/File:']");
+
+	for (const element of fileLinkElements as unknown as HTMLAnchorElement[]) {
+		const {href} = element;
+
+		if (href) {
+			const fileName = decodeURIComponent(href.replace('/wiki/', '').replace('File:File:', ''));
+			fileNames[fileNames.length] = fileName;
+		}
+	}
+
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{

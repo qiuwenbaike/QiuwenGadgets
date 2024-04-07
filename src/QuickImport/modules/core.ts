@@ -23,7 +23,7 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
-			text: `导入页面中${pageName}`,
+			text: `导入页面中：${pageName}`,
 			duration: -1,
 		},
 		'info'
@@ -100,12 +100,18 @@ const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = fal
 	for (const page of response['query'].pages) {
 		const title = page.title as string;
 
-		if (page.missing) {
-			await importPage(title, 'commons', isFileNS);
-			await importPage(title, 'zhwiki', isFileNS);
+		if (!page.missing) {
+			continue;
 		}
 
-		if (page.pageid && !page.redirect && isFileNS && page.imagerepository !== 'local') {
+		await importPage(title, 'commons', isFileNS);
+		await importPage(title, 'zhwiki', isFileNS);
+
+		if (isFileNS) {
+			if (!page.known) {
+				continue;
+			}
+
 			await uploadFile(title, page.imageinfo[0].url as string);
 		}
 	}
