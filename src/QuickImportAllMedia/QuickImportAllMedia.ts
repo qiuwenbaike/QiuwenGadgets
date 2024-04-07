@@ -10,12 +10,13 @@ import {api} from './modules/api';
 
 	const {wgPageName} = mw.config.get();
 	const fileNames: string[] = [];
-	const params: ApiQueryParams = {
+	const params: ApiQueryImagesParams = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		prop: 'images',
 		titles: wgPageName,
+		imlimit: 5000,
 	};
 
 	const data = await api.get(params);
