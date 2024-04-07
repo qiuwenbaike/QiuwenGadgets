@@ -86,22 +86,30 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 	);
 };
 
-const detectIfFileRedirect = async (titles: string | string[], isFileNS = false): Promise<void> => {
-	titles = generateArray(titles);
+const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = false): Promise<void> => {
+	pageNames = generateArray(pageNames);
 	const promises: (() => Promise<void>)[] = [];
 
-	for (let i: number = 0; i < (titles.length + 50) / 50; i++) {
+	for (let i: number = 0; i < (pageNames.length + 50) / 50; i++) {
 		promises[promises.length] = async (): Promise<void> => {
+			const titles = pageNames.slice(i * 50, (i + 1) * 50);
+			if (pageNames.length === 0) {
+				return;
+			}
+
 			const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
 				action: 'query',
 				format: 'json',
 				formatversion: '2',
 				prop: ['imageinfo', 'info'],
 				iiprop: ['url'],
-				titles: titles.slice(i * 50, (i + 1) * 50),
+				titles,
 				redirects: true,
 			};
 			const response = await api.post(queryParams);
+			if (!response['query']) {
+				return;
+			}
 
 			for (const page of response['query'].pages) {
 				const title = page.title as string;
