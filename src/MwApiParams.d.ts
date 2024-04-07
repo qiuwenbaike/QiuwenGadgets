@@ -21,6 +21,8 @@ type ApiQueryBlocksParams = import('types-mediawiki-renovate/api_params').ApiQue
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiQueryCategoryMembersParams = import('types-mediawiki-renovate/api_params').ApiQueryCategoryMembersParams &
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
+type ApiQueryImagesParams = import('types-mediawiki-renovate/api_params').ApiQueryImagesParams &
+	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiQueryLogEventsParams = import('types-mediawiki-renovate/api_params').ApiQueryLogEventsParams &
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiQueryParams = import('types-mediawiki-renovate/api_params').ApiQueryParams &
