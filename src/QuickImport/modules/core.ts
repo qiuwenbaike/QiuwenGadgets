@@ -95,7 +95,7 @@ const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = fal
 		titles: pageNames,
 		redirects: true,
 	};
-	const response = await api.get(queryParams);
+	const response = await api.post(queryParams);
 
 	for (const page of response['query'].pages) {
 		const title = page.title as string;
