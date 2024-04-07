@@ -1,5 +1,6 @@
 import {ApiQueryImageInfoParams} from 'types-mediawiki-renovate/api_params';
 import {api} from './api';
+import {generateArray} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
 let toastifyInstance: ToastifyInstance = {
@@ -85,45 +86,59 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 	);
 };
 
-const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = false): Promise<void> => {
-	const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: ['imageinfo', 'info'],
-		iiprop: ['url'],
-		titles: pageNames,
-		redirects: true,
-	};
-	const response = await api.post(queryParams);
-
-	for (const page of response['query'].pages) {
-		const title = page.title as string;
-
-		if (!page.missing) {
-			continue;
-		}
-
-		await importPage(title, 'commons', isFileNS);
-		await importPage(title, 'zhwiki', isFileNS);
-
-		if (isFileNS) {
-			if (!page.known) {
-				continue;
-			}
-
-			await uploadFile(title, page.imageinfo[0].url as string);
-		}
+const detectIfFileRedirect = async (titles: string | string[], isFileNS = false): Promise<void> => {
+	if (!Array.isArray(titles)) {
+		titles = generateArray(titles);
 	}
 
-	if (response['query'].redirects) {
-		const tos = [];
+	const promises: (() => Promise<void>)[] = [];
 
-		for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
-			tos[tos.length] = to;
-		}
+	while (titles.length > 0) {
+		promises[promises.length] = async (): Promise<void> => {
+			const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
+				action: 'query',
+				format: 'json',
+				formatversion: '2',
+				prop: ['imageinfo', 'info'],
+				iiprop: ['url'],
+				titles: titles.splice(0, 50),
+				redirects: true,
+			};
+			const response = await api.post(queryParams);
 
-		await detectIfFileRedirect(tos);
+			for (const page of response['query'].pages) {
+				const title = page.title as string;
+
+				if (!page.missing) {
+					continue;
+				}
+
+				await importPage(title, 'commons', isFileNS);
+				await importPage(title, 'zhwiki', isFileNS);
+
+				if (isFileNS) {
+					if (!page.known) {
+						continue;
+					}
+
+					await uploadFile(title, page.imageinfo[0].url as string);
+				}
+			}
+
+			if (response['query'].redirects) {
+				const tos = [];
+
+				for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
+					tos[tos.length] = to;
+				}
+
+				await detectIfFileRedirect(tos);
+			}
+		};
+	}
+
+	for (const promise of promises) {
+		await promise();
 	}
 };
 
