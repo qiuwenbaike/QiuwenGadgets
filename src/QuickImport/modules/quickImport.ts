@@ -55,59 +55,54 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 };
 
 const uploadFile = async (target: string): Promise<void> => {
-	const params: ApiQueryParams = {
-		action: 'query',
+	const url: string = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`;
+
+	toastifyInstance.hideToast();
+	toastifyInstance = toastify(
+		{
+			text: '迁移文件中',
+			duration: -1,
+		},
+		'info'
+	);
+
+	const uploadParams: ApiUploadParams = {
+		url,
+		action: 'upload',
 		format: 'json',
-		formatversion: '2',
-		prop: 'imageinfo',
-		titles: target,
-		redirects: true,
+		filename: target,
+		comment: '自其他网站迁移文件',
+		ignorewarnings: true,
 	};
-	const {query} = await api.get(params);
-
-	if (query.pages[0].imagerepository !== 'local') {
-		const url: string = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`;
-
-		toastifyInstance.hideToast();
-		toastifyInstance = toastify(
-			{
-				text: '迁移文件中',
-				duration: -1,
-			},
-			'info'
-		);
-
-		const uploadParams: ApiUploadParams = {
-			url,
-			action: 'upload',
-			format: 'json',
-			filename: target,
-			comment: '自其他网站迁移文件',
-			ignorewarnings: true,
-		};
-		await api.postWithEditToken(uploadParams);
-	}
+	await api.postWithEditToken(uploadParams);
 };
 
-const detectIfFileRedirect = async (target: string): Promise<void> => {
-	const params: ApiQueryParams = {
+const detectIfFileRedirect = async (pageName: string, isFileNS = false): Promise<void> => {
+	const queryParams: ApiQueryParams = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		prop: ['imageinfo', 'info'],
-		titles: target,
+		titles: pageName,
 		redirects: true,
 	};
-	const {query} = await api.get(params);
+	const response = await api.get(queryParams);
 
-	if (query.redirects) {
-		for (const {to} of query.redirects as {from: string; to: string}[]) {
-			await importPage(to, 'zhwiki', true);
-			await uploadFile(to);
+	if (response['pages'][0].missing) {
+		await importPage(pageName, 'commons', isFileNS);
+		await importPage(pageName, 'zhwiki', isFileNS);
+	}
+
+	if (response['redirects']) {
+		for (const {to} of response['redirects'] as {from: string; to: string}[]) {
+			await detectIfFileRedirect(to);
 		}
-	} else if (query.pages[0].imagerepository !== 'local') {
-		await uploadFile(target);
+	} else if (isFileNS) {
+		// eslint-disable-next-line unicorn/no-lonely-if
+		if (response['pages'][0].imagerepository && response['pages'][0].imagerepository !== 'local') {
+			await uploadFile(pageName);
+		}
 	}
 };
 
-export {detectIfFileRedirect, importPage, refreshPage};
+export {detectIfFileRedirect, refreshPage};
