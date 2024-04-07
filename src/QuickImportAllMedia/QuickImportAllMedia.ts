@@ -1,4 +1,4 @@
-import {detectIfFileRedirect, importPage} from './modules/quickImport';
+import {detectIfFileRedirect, importPage, refreshPage} from './modules/quickImport';
 import {api} from './modules/api';
 
 (async function quickImportAllMedia(): Promise<void> {
@@ -31,8 +31,10 @@ import {api} from './modules/api';
 	}
 
 	element.addEventListener('click', (): void => {
-		for (const fileName of new Set(fileNames)) {
-			void importPage(fileName, 'zhwiki').then(() => {
+		void (async () => {
+			for (const fileName of new Set(fileNames)) {
+				await importPage(fileName, 'commons');
+				await importPage(fileName, 'zhwiki');
 				const queryParams: ApiQueryParams = {
 					action: 'query',
 					format: 'json',
@@ -40,18 +42,19 @@ import {api} from './modules/api';
 					titles: fileName,
 				};
 
-				void api.get(queryParams).then(async (response) => {
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-					for (const [, pageinfo] of Object.entries(response['query'].pages)) {
-						if ((pageinfo as Record<string, never>)['missing']) {
-							await detectIfFileRedirect(fileName);
-						} else {
-							await importPage(fileName, 'zhwiki');
-							await detectIfFileRedirect(fileName);
-						}
+				const response = await api.get(queryParams);
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				for (const [, pageinfo] of Object.entries(response['query'].pages)) {
+					if ((pageinfo as Record<string, never>)['missing']) {
+						await detectIfFileRedirect(fileName);
+					} else {
+						await importPage(fileName, 'zhwiki');
+						await detectIfFileRedirect(fileName);
 					}
-				});
-			});
-		}
+				}
+			}
+		})().then(() => {
+			refreshPage(wgPageName);
+		});
 	});
 })();

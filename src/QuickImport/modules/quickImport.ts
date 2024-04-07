@@ -54,36 +54,47 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 	);
 };
 
-const uploadFile = async (pageName: string): Promise<void> => {
-	const url: string = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(pageName)}`;
-
-	toastifyInstance.hideToast();
-	toastifyInstance = toastify(
-		{
-			text: '迁移文件中',
-			duration: -1,
-		},
-		'info'
-	);
-
-	const uploadParams: ApiUploadParams = {
-		url,
-		action: 'upload',
+const uploadFile = async (target: string): Promise<void> => {
+	const params: ApiQueryParams = {
+		action: 'query',
 		format: 'json',
-		filename: pageName,
-		comment: '自其他网站迁移文件',
-		ignorewarnings: true,
+		formatversion: '2',
+		prop: 'imageinfo',
+		titles: target,
+		redirects: true,
 	};
-	await api.postWithEditToken(uploadParams);
+	const {query} = await api.get(params);
 
-	refreshPage(pageName);
+	if (query.pages[0].imagerepository !== 'local') {
+		const url: string = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`;
+
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: '迁移文件中',
+				duration: -1,
+			},
+			'info'
+		);
+
+		const uploadParams: ApiUploadParams = {
+			url,
+			action: 'upload',
+			format: 'json',
+			filename: target,
+			comment: '自其他网站迁移文件',
+			ignorewarnings: true,
+		};
+		await api.postWithEditToken(uploadParams);
+	}
 };
 
 const detectIfFileRedirect = async (target: string): Promise<void> => {
 	const params: ApiQueryParams = {
 		action: 'query',
 		format: 'json',
-		prop: 'info',
+		formatversion: '2',
+		prop: ['imageinfo', 'info'],
 		titles: target,
 		redirects: true,
 	};
@@ -94,7 +105,7 @@ const detectIfFileRedirect = async (target: string): Promise<void> => {
 			await importPage(to, 'zhwiki', true);
 			await uploadFile(to);
 		}
-	} else {
+	} else if (query.pages[0].imagerepository !== 'local') {
 		await uploadFile(target);
 	}
 };
