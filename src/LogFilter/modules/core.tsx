@@ -98,13 +98,13 @@ class LogFilter {
 						class={['cdx-button cdx-button--action-progressive', 'cdx-button--weight-primary']}
 						value="0"
 					>
-						${mw.html.escape(LogFilter.msg('filter-button'))}
+						{mw.html.escape(LogFilter.msg('filter-button'))}
 					</button>
 					<button
 						class={['cdx-button cdx-button--action-progressive', 'cdx-button--weight-primary']}
 						value="1"
 					>
-						${mw.html.escape(LogFilter.msg('highlight-button'))}
+						{mw.html.escape(LogFilter.msg('highlight-button'))}
 					</button>
 				</div>
 			</>
