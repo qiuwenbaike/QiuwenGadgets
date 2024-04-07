@@ -86,16 +86,16 @@ const detectIfFileRedirect = async (pageName: string): Promise<void> => {
 	};
 	const response = await api.get(queryParams);
 
-	if (response['pages'][0].missing) {
+	if (response['query'].pages[0].missing) {
 		await importPage(pageName, 'commons');
 		await importPage(pageName, 'zhwiki');
 	}
 
-	if (response['redirects']) {
-		for (const {to} of response['redirects'] as {from: string; to: string}[]) {
+	if (response['query'].redirects) {
+		for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
 			await detectIfFileRedirect(to);
 		}
-	} else if (response['pages'][0].pageid && response['pages'][0].imagerepository !== 'local') {
+	} else if (response['query'].pages[0].pageid && response['query'].pages[0].imagerepository !== 'local') {
 		await uploadFile(pageName);
 	}
 };
@@ -112,10 +112,8 @@ const getAllImages = async (wgPageName: string) => {
 	};
 
 	const response = await api.get(queryImageParams);
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-	const queryImages: {ns: number; title: string}[] = response['query']?.pages[0].images ?? [];
 
-	for (const imageInfo of queryImages) {
+	for (const imageInfo of response['query']?.pages[0].images as {ns: number; title: string}[]) {
 		if (!imageInfo || !imageInfo.title) {
 			continue;
 		}

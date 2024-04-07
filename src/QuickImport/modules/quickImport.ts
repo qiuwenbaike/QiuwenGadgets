@@ -88,18 +88,18 @@ const detectIfFileRedirect = async (pageName: string, isFileNS = false): Promise
 	};
 	const response = await api.get(queryParams);
 
-	if (response['pages'][0].missing) {
+	if (response['query'].pages[0].missing) {
 		await importPage(pageName, 'commons', isFileNS);
 		await importPage(pageName, 'zhwiki', isFileNS);
 	}
 
-	if (response['redirects']) {
-		for (const {to} of response['redirects'] as {from: string; to: string}[]) {
+	if (response['query'].redirects) {
+		for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
 			await detectIfFileRedirect(to);
 		}
 	} else if (isFileNS) {
 		// eslint-disable-next-line unicorn/no-lonely-if
-		if (response['pages'][0].imagerepository && response['pages'][0].imagerepository !== 'local') {
+		if (response['query'].pages[0].imagerepository && response['query'].pages[0].imagerepository !== 'local') {
 			await uploadFile(pageName);
 		}
 	}

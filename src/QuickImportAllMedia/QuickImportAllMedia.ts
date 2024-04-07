@@ -1,6 +1,6 @@
 import {detectIfFileRedirect, getAllImages, refreshPage} from './modules/quickImport';
 
-(async function quickImportAllMedia(): Promise<void> {
+(function quickImportAllMedia(): void {
 	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
 	const element: HTMLLIElement | null = mw.util.addPortletLink(portletId, '#', '导入此页面所有文件', 't-import');
 	if (!element) {
@@ -13,10 +13,10 @@ import {detectIfFileRedirect, getAllImages, refreshPage} from './modules/quickIm
 	}
 
 	const {wgPageName} = mw.config.get();
-	const fileNames: string[] = await getAllImages(wgPageName);
 
 	element.addEventListener('click', (): void => {
 		void (async () => {
+			const fileNames: string[] = await getAllImages(wgPageName);
 			for (const fileName of new Set(fileNames)) {
 				await detectIfFileRedirect(fileName);
 			}
