@@ -54,14 +54,14 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 
 		const promises: (() => Promise<void>)[] = [];
 
-		for (let i: number = 0; i < (users.length + 50) / 50; i++) {
+		while (users.length > 0) {
 			promises[promises.length] = async (): Promise<void> => {
 				const params: ApiQueryUsersParams = {
 					action: 'query',
 					format: 'json',
 					formatversion: '2',
 					list: 'users',
-					ususers: users.slice(i * 50, (i + 1) * 50).join('|'),
+					ususers: users.splice(0, 50),
 					usprop: 'groups',
 				};
 				const response = await api.get(params);

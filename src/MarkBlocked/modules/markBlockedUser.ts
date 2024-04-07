@@ -32,7 +32,6 @@ const markBlockedUser = ($content: JQuery): void => {
 			}>;
 		};
 	};
-	let apiRequestCount: number = 0;
 
 	// Callback: receive data and mark links
 	const markLinks = (response: Response): void => {
@@ -76,34 +75,39 @@ const markBlockedUser = ($content: JQuery): void => {
 				$link.addClass(className).attr('title', $link.attr('title') + tip);
 			}
 		}
-
-		if (--apiRequestCount === 0) {
-			// The following classes are used here:
-			// * see ./Markblocked.module.less
-			// * for more information
-			$content.removeClass(`${loading}`);
-		}
 	};
 
-	while (users.length > 0) {
-		apiRequestCount++;
-		const params: ApiQueryBlocksParams = {
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			list: 'blocks',
-			bklimit: 100,
-			bkprop: ['by', 'expiry', 'reason', 'restrictions', 'timestamp', 'user'],
-			bkusers: users.splice(0, 50).join('|'),
+	const promises: (() => Promise<void> | void)[] = [];
+
+	for (let i: number = 0; i < (users.length + 50) / 50; i++) {
+		promises[promises.length] = () => {
+			const params: ApiQueryBlocksParams = {
+				action: 'query',
+				format: 'json',
+				formatversion: '2',
+				list: 'blocks',
+				bklimit: 100,
+				bkprop: ['by', 'expiry', 'reason', 'restrictions', 'timestamp', 'user'],
+				bkusers: users.splice(0, 50),
+			};
+			void api
+				.post(params)
+				.then((response): void => {
+					markLinks(response as Response);
+				})
+				.catch((error: never): void => {
+					console.error('[MarkBlocked] Ajax error:', error);
+				});
 		};
-		api.post(params)
-			.then((response): void => {
-				markLinks(response as Response);
-			})
-			.catch((error: never): void => {
-				console.error('[MarkBlocked] Ajax error:', error);
-			});
 	}
+
+	for (const promise of promises) {
+		void promise();
+	}
+
+	// * see ./Markblocked.module.less
+	// * for more information
+	$content.removeClass(`${loading}`);
 };
 
 export {markBlockedUser};
