@@ -3,15 +3,9 @@ import {getMessage} from './modules/i18n';
 import {purge} from './modules/purge';
 
 void getBody().then(function purgePageCache($body: JQuery<HTMLBodyElement>): void {
-	const {wgAction, wgCurRevisionId, wgIsArticle, wgPageName, wgRevisionId} = mw.config.get();
+	const {wgAction, wgPageName, wgNamespaceNumber} = mw.config.get();
 
-	if (
-		wgAction === 'view' &&
-		wgIsArticle &&
-		wgCurRevisionId !== 0 &&
-		wgRevisionId !== 0 &&
-		wgCurRevisionId === wgRevisionId
-	) {
+	if (wgAction !== 'view' || wgNamespaceNumber < 0) {
 		return;
 	}
 

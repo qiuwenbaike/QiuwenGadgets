@@ -10,6 +10,7 @@ const purge = async (title: string): Promise<void> => {
 		},
 		'info'
 	);
+	const {wgWikiID} = mw.config.get();
 
 	try {
 		const params: ApiPurgeParams = {
@@ -21,7 +22,7 @@ const purge = async (title: string): Promise<void> => {
 		};
 
 		await api.post(params);
-		localStorage.removeItem(`MediaWikiModuleStore:${mw.config.get('wgWikiID')}`);
+		mw.storage.remove(`MediaWikiModuleStore:${wgWikiID}`);
 
 		location.reload();
 	} catch (error: unknown) {
