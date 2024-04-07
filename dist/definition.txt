@@ -37,14 +37,14 @@
 * FloatTOC[ResourceLoader|actions=view|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Util,mediawiki.notification,mediawiki.storage,oojs-ui.styles.icons-editing-citation,oojs-ui.styles.icons-interactions,oojs-ui.styles.icons-movement|skins=citizen,vector|requiresES6]|FloatTOC.js|FloatTOC.css
 * FullwidthSearchFix[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,mediawiki.Uri,mediawiki.util|requiresES6]|FullwidthSearchFix.js
 * HideLongSummaries[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|HideLongSummaries.js
-* PurgePageCache[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|rights=edit|requiresES6]|PurgePageCache.js
+* PurgePageCache[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=edit|requiresES6]|PurgePageCache.js
 * ScrollUpButton[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Tippy,ext.gadget.Util|peers=ScrollUpButton-pagestyles|requiresES6]|ScrollUpButton.js
 * ScrollUpButton-pagestyles[ResourceLoader|hidden|requiresES6]|ScrollUpButton-pagestyles.css
 * SearchShortcuts[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|SearchShortcuts.js
 * ShortURL[ResourceLoader|default|dependencies=ext.gadget.Clipboard,ext.gadget.i18n,ext.gadget.React,ext.gadget.Tippy,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,mediawiki.widgets,oojs-ui-windows|peers=ShortURL-pagestyles|requiresES6]|ShortURL.js
 * ShortURL-pagestyles[ResourceLoader|hidden|requiresES6]|ShortURL-pagestyles.css
 * SmoothTOC[ResourceLoader|default|dependencies=ext.gadget.Util|skins=gongbi,vector,vector-2022|requiresES6]|SmoothTOC.js
-* UTCLiveClock[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|requiresES6]|UTCLiveClock.js|UTCLiveClock.css
+* UTCLiveClock[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|UTCLiveClock.js|UTCLiveClock.css
 * WordCount[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util|requiresES6]|WordCount.js|WordCount.css
 
 == compatibility ==
