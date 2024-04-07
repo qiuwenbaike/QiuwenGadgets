@@ -1,4 +1,4 @@
-import {detectIfFileRedirect, getAllImages, refreshPage} from './modules/quickImport';
+import {detectIfFileRedirect, getAllImages, refreshPage} from './modules/quickImportAllMedia';
 
 (function quickImportAllMedia(): void {
 	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';

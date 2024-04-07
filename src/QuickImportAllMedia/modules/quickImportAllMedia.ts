@@ -1,6 +1,29 @@
 import {api} from './api';
 import {toastify} from 'ext.gadget.Toastify';
 
+const getAllImages = async (wgPageName: string) => {
+	const fileNames: string[] = [];
+	const queryImageParams: ApiQueryImagesParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		prop: 'images',
+		titles: wgPageName,
+		imlimit: 5000,
+	};
+
+	const response = await api.get(queryImageParams);
+
+	for (const imageInfo of response['query']?.pages[0].images as {ns: number; title: string}[]) {
+		if (!imageInfo || !imageInfo.title) {
+			continue;
+		}
+		fileNames[fileNames.length] = imageInfo.title;
+	}
+
+	return [...new Set(fileNames)];
+};
+
 let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
 };
@@ -95,32 +118,9 @@ const detectIfFileRedirect = async (pageName: string): Promise<void> => {
 		for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
 			await detectIfFileRedirect(to);
 		}
-	} else if (response['query'].pages[0].pageid && response['query'].pages[0].imagerepository !== 'local') {
+	} else if (response['query'].pages[0].imagerepository && response['query'].pages[0].imagerepository !== 'local') {
 		await uploadFile(pageName);
 	}
-};
-
-const getAllImages = async (wgPageName: string) => {
-	const fileNames: string[] = [];
-	const queryImageParams: ApiQueryImagesParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: 'images',
-		titles: wgPageName,
-		imlimit: 5000,
-	};
-
-	const response = await api.get(queryImageParams);
-
-	for (const imageInfo of response['query']?.pages[0].images as {ns: number; title: string}[]) {
-		if (!imageInfo || !imageInfo.title) {
-			continue;
-		}
-		fileNames[fileNames.length] = imageInfo.title;
-	}
-
-	return [...new Set(fileNames)];
 };
 
 export {detectIfFileRedirect, getAllImages, refreshPage};
