@@ -105,7 +105,7 @@ const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = fal
 			await importPage(title, 'zhwiki', isFileNS);
 		}
 
-		if (page.pageid && !page.redirect && page.imagerepository !== 'local') {
+		if (page.pageid && !page.redirect && isFileNS && page.imagerepository !== 'local') {
 			await uploadFile(title, page.imageinfo[0].url as string);
 		}
 	}
