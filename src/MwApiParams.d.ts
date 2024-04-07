@@ -27,6 +27,10 @@ type ApiQueryLogEventsParams = import('types-mediawiki-renovate/api_params').Api
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiQueryParams = import('types-mediawiki-renovate/api_params').ApiQueryParams &
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
+type ApiQueryImageInfoParams = import('types-mediawiki-renovate/api_params').ApiQueryImageInfoParams &
+	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
+type ApiQueryInfoParams = import('types-mediawiki-renovate/api_params').ApiQueryInfoParams &
+	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiQueryRecentChangesParams = import('types-mediawiki-renovate/api_params').ApiQueryRecentChangesParams &
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiQueryRevisionsParams = import('types-mediawiki-renovate/api_params').ApiQueryRevisionsParams &

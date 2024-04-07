@@ -45,7 +45,7 @@ const importPage = async (pageName: string, iwprefix: string): Promise<void> => 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
-			text: '导入页面中',
+			text: `导入页面中：${pageName}`,
 			duration: -1,
 		},
 		'info'
@@ -68,27 +68,25 @@ const importPage = async (pageName: string, iwprefix: string): Promise<void> => 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
-			text: '页面导入完成',
+			text: `页面导入完成：${pageName}`,
 			duration: -1,
 		},
 		'success'
 	);
 };
 
-const uploadFile = async (target: string): Promise<void> => {
-	const url: string = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`;
-
+const uploadFile = async (target: string, url?: string): Promise<void> => {
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
-			text: '迁移文件中',
+			text: `迁移文件中：${target}`,
 			duration: -1,
 		},
 		'info'
 	);
 
 	const uploadParams: ApiUploadParams = {
-		url,
+		url: url ?? `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`,
 		action: 'upload',
 		format: 'json',
 		filename: target,
@@ -96,30 +94,50 @@ const uploadFile = async (target: string): Promise<void> => {
 		ignorewarnings: true,
 	};
 	await api.postWithEditToken(uploadParams);
+
+	toastifyInstance.hideToast();
+	toastifyInstance = toastify(
+		{
+			text: `文件迁移完成：${target}`,
+			duration: -1,
+		},
+		'success'
+	);
 };
 
-const detectIfFileRedirect = async (pageName: string): Promise<void> => {
-	const queryParams: ApiQueryParams = {
+const detectIfFileRedirect = async (pageNames: string | string[]): Promise<void> => {
+	const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		prop: ['imageinfo', 'info'],
-		titles: pageName,
+		iiprop: ['url'],
+		titles: pageNames,
 		redirects: true,
 	};
 	const response = await api.get(queryParams);
 
-	if (response['query'].pages[0].missing) {
-		await importPage(pageName, 'commons');
-		await importPage(pageName, 'zhwiki');
+	for (const page of response['query'].pages) {
+		const title = page.title as string;
+
+		if (page.missing) {
+			await importPage(title, 'commons');
+			await importPage(title, 'zhwiki');
+		}
+
+		if (page.pageid && !page.redirect && page.imagerepository !== 'local') {
+			await uploadFile(title, page.imageinfo[0].url as string);
+		}
 	}
 
 	if (response['query'].redirects) {
+		const tos = [];
+
 		for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
-			await detectIfFileRedirect(to);
+			tos[tos.length] = to;
 		}
-	} else if (response['query'].pages[0].imagerepository && response['query'].pages[0].imagerepository !== 'local') {
-		await uploadFile(pageName);
+
+		await detectIfFileRedirect(tos);
 	}
 };
 
