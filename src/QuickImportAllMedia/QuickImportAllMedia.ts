@@ -1,4 +1,5 @@
-import {detectIfFileRedirect, getAllImages, refreshPage} from './modules/core';
+import {detectIfFileRedirect, refreshPage} from '~/QuickImport/modules/core';
+import {getAllImages} from './modules/core';
 
 (function quickImportAllMedia(): void {
 	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
@@ -17,9 +18,7 @@ import {detectIfFileRedirect, getAllImages, refreshPage} from './modules/core';
 	element.addEventListener('click', (): void => {
 		void (async () => {
 			const fileNames: string[] = await getAllImages(wgPageName);
-			for (const fileName of new Set(fileNames)) {
-				await detectIfFileRedirect(fileName);
-			}
+			await detectIfFileRedirect([...new Set(fileNames)], true);
 		})().then(() => {
 			refreshPage(wgPageName);
 		});
