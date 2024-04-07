@@ -20,7 +20,8 @@
 /* <nowiki> */
 
 /* src/LogFilter/LogFilter.less */
-#rightsFilter {
+#rightsFilter,
+#rightsFilter > * {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -29,4 +30,4 @@
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0xvZ0ZpbHRlci9Mb2dGaWx0ZXIubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiI3JpZ2h0c0ZpbHRlciB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZmxvdzogcm93IHdyYXA7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGdhcDogMC4yNWVtO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxXQUFTO0FBQ1QsYUFBVyxJQUFJO0FBQ2YsZUFBYTtBQUNiLE9BQUs7QUFDUDsiLAogICJuYW1lcyI6IFtdCn0K */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0xvZ0ZpbHRlci9Mb2dGaWx0ZXIubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiI3JpZ2h0c0ZpbHRlcixcbiNyaWdodHNGaWx0ZXIgPiAqIHtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC1mbG93OiByb3cgd3JhcDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgZ2FwOiAwLjI1ZW07XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQztBQUNELENBREMsYUFDYSxFQUFFO0FBQ2QsV0FBUztBQUNULGFBQVcsSUFBSTtBQUNmLGVBQWE7QUFDYixPQUFLO0FBQ1A7IiwKICAibmFtZXMiOiBbXQp9Cg== */
