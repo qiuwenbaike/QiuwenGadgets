@@ -63,9 +63,7 @@ const uploadFile = async (target: string): Promise<void> => {
 	};
 	const {query} = await api.get(params);
 
-	if (query.pages[0].imagerepository === 'local') {
-		refreshPage(target);
-	} else {
+	if (query.pages[0].imagerepository !== 'local') {
 		const url: string = `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`;
 
 		toastifyInstance.hideToast();
@@ -86,8 +84,6 @@ const uploadFile = async (target: string): Promise<void> => {
 			ignorewarnings: true,
 		};
 		await api.postWithEditToken(uploadParams);
-
-		refreshPage(target);
 	}
 };
 
@@ -107,9 +103,7 @@ const detectIfFileRedirect = async (target: string): Promise<void> => {
 			await importPage(to, 'zhwiki');
 			await uploadFile(to);
 		}
-	} else if (query.pages[0].imagerepository === 'local') {
-		refreshPage(target);
-	} else {
+	} else if (query.pages[0].imagerepository !== 'local') {
 		await uploadFile(target);
 	}
 };
