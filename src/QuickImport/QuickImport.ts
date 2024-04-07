@@ -1,5 +1,4 @@
-import {detectIfFileRedirect, importPage, refreshPage} from './modules/quickImport';
-import {api} from './modules/api';
+import {detectIfFileRedirect, refreshPage} from './modules/quickImport';
 
 (function quickImport(): void {
 	const {wgNamespaceNumber, wgPageName} = mw.config.get();
@@ -28,30 +27,7 @@ import {api} from './modules/api';
 	element.addEventListener('click', (): void => {
 		void (async () => {
 			const pageName: string = redirectTextA?.textContent || wgPageName;
-
-			if (isFileNS && !hasMwNoarticletext) {
-				await importPage(pageName, iwprefix, isFileNS);
-
-				const queryParams: ApiQueryParams = {
-					action: 'query',
-					format: 'json',
-					prop: 'info',
-					titles: pageName,
-				};
-				const response = await api.get(queryParams);
-
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-				for (const [, pageinfo] of Object.entries(response['query'].pages)) {
-					if ((pageinfo as Record<string, never>)['missing']) {
-						await detectIfFileRedirect(pageName);
-					} else {
-						await importPage(pageName, 'zhwiki', isFileNS);
-						await detectIfFileRedirect(pageName);
-					}
-				}
-			} else {
-				await importPage(pageName, 'zhwiki');
-			}
+			await detectIfFileRedirect(pageName, isFileNS);
 		})().then(() => {
 			refreshPage(wgPageName);
 		});
