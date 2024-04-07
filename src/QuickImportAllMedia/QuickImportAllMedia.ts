@@ -1,57 +1,24 @@
-import {detectIfFileRedirect, importPage, refreshPage} from './modules/quickImport';
-import {api} from './modules/api';
+import {detectIfFileRedirect, getAllImages, refreshPage} from './modules/core';
 
-(async function quickImportAllMedia(): Promise<void> {
+(function quickImportAllMedia(): void {
 	const portletId: 'p-cactions' | 'p-tb' = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
-	const element: HTMLLIElement | null = mw.util.addPortletLink(portletId, '#', '导入文件', 't-import');
+	const element: HTMLLIElement | null = mw.util.addPortletLink(portletId, '#', '导入此页面所有文件', 't-import');
 	if (!element) {
 		return;
 	}
 
-	const {wgPageName} = mw.config.get();
-	const fileNames: string[] = [];
-	const params: ApiQueryImagesParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: 'images',
-		titles: wgPageName,
-		imlimit: 5000,
-	};
-
-	const data = await api.get(params);
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-	const queryImages: {ns: number; title: string}[] = data['query']?.pages[0].images ?? [];
-
-	for (const imageInfo of queryImages) {
-		if (!imageInfo || !imageInfo.title) {
-			continue;
-		}
-		fileNames[fileNames.length] = imageInfo.title;
+	const {wgArticleId} = mw.config.get();
+	if (!wgArticleId) {
+		return;
 	}
+
+	const {wgPageName} = mw.config.get();
 
 	element.addEventListener('click', (): void => {
 		void (async () => {
+			const fileNames: string[] = await getAllImages(wgPageName);
 			for (const fileName of new Set(fileNames)) {
-				await importPage(fileName, 'commons');
-				await importPage(fileName, 'zhwiki');
-				const queryParams: ApiQueryParams = {
-					action: 'query',
-					format: 'json',
-					prop: 'info',
-					titles: fileName,
-				};
-
-				const response = await api.get(queryParams);
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-				for (const [, pageinfo] of Object.entries(response['query'].pages)) {
-					if ((pageinfo as Record<string, never>)['missing']) {
-						await detectIfFileRedirect(fileName);
-					} else {
-						await importPage(fileName, 'zhwiki');
-						await detectIfFileRedirect(fileName);
-					}
-				}
+				await detectIfFileRedirect(fileName);
 			}
 		})().then(() => {
 			refreshPage(wgPageName);
