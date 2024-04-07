@@ -10,7 +10,7 @@ const storeLocation = async ({countryOrArea, region}: StoreGeoInfo): Promise<voi
 	try {
 		const queryParams: ApiQueryRevisionsParams = {
 			action: 'query',
-			titles: storePageTitle,
+			titles: [storePageTitle],
 			format: 'json',
 			formatversion: '2',
 			prop: ['revisions'],
