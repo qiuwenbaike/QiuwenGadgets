@@ -85,45 +85,55 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 	);
 };
 
-const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = false): Promise<void> => {
-	const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: ['imageinfo', 'info'],
-		iiprop: ['url'],
-		titles: pageNames,
-		redirects: true,
-	};
-	const response = await api.get(queryParams);
+const detectIfFileRedirect = async (titles: string | string[], isFileNS = false): Promise<void> => {
+	const promises: (() => Promise<void>)[] = [];
 
-	for (const page of response['query'].pages) {
-		const title = page.title as string;
+	for (let i: number = 0; i < (titles.length + 50) / 50; i++) {
+		promises[promises.length] = async (): Promise<void> => {
+			const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
+				action: 'query',
+				format: 'json',
+				formatversion: '2',
+				prop: ['imageinfo', 'info'],
+				iiprop: ['url'],
+				titles: titles.slice(i * 50, (i + 1) * 50),
+				redirects: true,
+			};
+			const response = await api.post(queryParams);
 
-		if (!page.missing) {
-			continue;
-		}
+			for (const page of response['query'].pages) {
+				const title = page.title as string;
 
-		await importPage(title, 'commons', isFileNS);
-		await importPage(title, 'zhwiki', isFileNS);
+				if (!page.missing) {
+					continue;
+				}
 
-		if (isFileNS) {
-			if (!page.known) {
-				continue;
+				await importPage(title, 'commons', isFileNS);
+				await importPage(title, 'zhwiki', isFileNS);
+
+				if (isFileNS) {
+					if (!page.known) {
+						continue;
+					}
+
+					await uploadFile(title, page.imageinfo[0].url as string);
+				}
 			}
 
-			await uploadFile(title, page.imageinfo[0].url as string);
-		}
+			if (response['query'].redirects) {
+				const tos = [];
+
+				for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
+					tos[tos.length] = to;
+				}
+
+				await detectIfFileRedirect(tos);
+			}
+		};
 	}
 
-	if (response['query'].redirects) {
-		const tos = [];
-
-		for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
-			tos[tos.length] = to;
-		}
-
-		await detectIfFileRedirect(tos);
+	for (const promise of promises) {
+		await promise();
 	}
 };
 

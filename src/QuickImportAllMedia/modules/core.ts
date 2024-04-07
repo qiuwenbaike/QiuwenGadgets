@@ -40,7 +40,9 @@ const getAllImages = async (wgPageName: string) => {
 		const {href} = element;
 
 		if (href) {
-			const fileName = decodeURIComponent(href.replace('/wiki/', '').replace('File:File:', ''));
+			const fileName = decodeURIComponent(
+				href.replace(`${location.protocol}//${location.host}/wiki/`, '').replace('File:File:', '')
+			);
 			fileNames[fileNames.length] = fileName;
 		}
 	}
