@@ -2,8 +2,8 @@ import {detectIfFileRedirect, refreshPage} from '~/QuickImport/modules/core';
 import {getAllImages} from './modules/core';
 
 (function quickImportAllMedia(): void {
-	const {wgArticleId} = mw.config.get();
-	if (!wgArticleId) {
+	const {wgCanonicalSpecialPageName, wgCurRevisionId} = mw.config.get();
+	if (!(wgCurRevisionId || ['Prefixindex', 'BrokenRedirects'].includes(wgCanonicalSpecialPageName || ''))) {
 		return;
 	}
 
@@ -13,9 +13,9 @@ import {getAllImages} from './modules/core';
 		return;
 	}
 
-	const {wgPageName} = mw.config.get();
-
 	element.addEventListener('click', (): void => {
+		const {wgPageName} = mw.config.get();
+
 		void (async () => {
 			const fileNames: string[] = await getAllImages(wgPageName);
 			await detectIfFileRedirect([...new Set(fileNames)], true);
