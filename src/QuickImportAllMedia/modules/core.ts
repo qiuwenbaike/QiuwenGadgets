@@ -5,7 +5,7 @@ let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
 };
 
-const getAllImages = async (wgPageName: string) => {
+const getAllImages = async () => {
 	toastifyInstance.hideToast();
 	toastify(
 		{
@@ -16,22 +16,26 @@ const getAllImages = async (wgPageName: string) => {
 	);
 
 	const fileNames: string[] = [];
-	const queryImageParams: ApiQueryImagesParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: 'images',
-		titles: wgPageName,
-		imlimit: 5000,
-	};
+	const {wgPageName, wgNamespaceNumber} = mw.config.get();
 
-	const response = await api.get(queryImageParams);
+	if (!(wgNamespaceNumber < 0)) {
+		const queryImageParams: ApiQueryImagesParams = {
+			action: 'query',
+			format: 'json',
+			formatversion: '2',
+			prop: 'images',
+			titles: wgPageName,
+			imlimit: 5000,
+		};
 
-	for (const imageInfo of response['query']?.pages[0].images as {ns: number; title: string}[]) {
-		if (!imageInfo || !imageInfo.title) {
-			continue;
+		const response = await api.get(queryImageParams);
+
+		for (const imageInfo of response['query']?.pages[0].images as {ns: number; title: string}[]) {
+			if (!imageInfo || !imageInfo.title) {
+				continue;
+			}
+			fileNames[fileNames.length] = imageInfo.title;
 		}
-		fileNames[fileNames.length] = imageInfo.title;
 	}
 
 	const fileLinkElements = document.querySelectorAll("a[href^='/wiki/File:']");
