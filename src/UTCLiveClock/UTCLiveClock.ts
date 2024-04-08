@@ -13,9 +13,8 @@
  * TZ database for valid options.
  */
 import './UTCLiveClock.less';
-import {api} from './modules/api';
 import {getBody} from 'ext.gadget.Util';
-import {getMessage} from './modules/i18n';
+import {purge} from 'ext.gadget.PurgePageCache';
 import {showTime} from './modules/showTime';
 
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
@@ -33,31 +32,10 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 
 	// Purge the page when the clock is clicked. We have to do this through the
 	// API, as purge URLs now make people click through a confirmation screen.
-	const {wgPageName, wgWikiID} = mw.config.get();
+	const {wgPageName} = mw.config.get();
 	$element.on('click', (event: JQuery.ClickEvent): void => {
 		event.preventDefault();
-
-		localStorage.removeItem(`MediaWikiModuleStore:${wgWikiID}`);
-
-		const params: ApiPurgeParams = {
-			action: 'purge',
-			format: 'json',
-			titles: wgPageName,
-		};
-		api.post(params)
-			.then((): void => {
-				void mw.notify(getMessage('Success'), {
-					tag: 'UTCLiveClock',
-					type: 'success',
-				});
-				location.reload();
-			})
-			.catch((): void => {
-				void mw.notify(getMessage('Failed'), {
-					tag: 'UTCLiveClock',
-					type: 'error',
-				});
-			});
+		void purge(wgPageName);
 	});
 
 	// Show the clock.

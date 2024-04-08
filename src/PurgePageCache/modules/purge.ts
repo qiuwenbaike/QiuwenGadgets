@@ -24,6 +24,16 @@ const purge = async (title: string): Promise<void> => {
 		await api.post(params);
 		localStorage.removeItem(`MediaWikiModuleStore:${wgWikiID}`);
 
+		toastifyInstance.hideToast();
+		toastify(
+			{
+				text: getMessage('Success'),
+				close: true,
+				duration: -1,
+			},
+			'success'
+		);
+
 		location.reload();
 	} catch (error: unknown) {
 		console.error('[PurgePageCache] Ajax error:', error);
