@@ -3,11 +3,23 @@ import {SYSTEM_SCRIPT_LIST} from './constant';
 import {api} from './api';
 import {getLastActiveMarker} from './getLastActiveMarker';
 
-const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
+const baseParams: ApiQueryUserContribsParams = {
+	action: 'query',
+	format: 'json',
+	list: 'usercontribs',
+	uclimit: 1,
+};
+type Usercontribs = {
+	usercontribs: Array<{
+		timestamp: string;
+	}>;
+};
+
+const whoIsActive = async (): Promise<void> => {
 	const usernames: string[] = [];
 	const $elements: JQuery<HTMLAnchorElement>[] = [];
 
-	const {wgAction, wgFormattedNamespaces, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
+	const {wgFormattedNamespaces} = mw.config.get();
 
 	const {2: localizedUserNamespace} = wgFormattedNamespaces;
 	for (const element of mw.util.$content.find<HTMLAnchorElement>(
@@ -38,18 +50,6 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
-	const baseParams: ApiQueryUserContribsParams = {
-		action: 'query',
-		format: 'json',
-		list: 'usercontribs',
-		uclimit: 1,
-	};
-	type Usercontribs = {
-		usercontribs: Array<{
-			timestamp: string;
-		}>;
-	};
-
 	for (const username of new Set(usernames)) {
 		if (SYSTEM_SCRIPT_LIST.includes(username)) {
 			continue;
@@ -60,21 +60,25 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 			ucuser: username,
 		};
 
-		void api.get(params).then((result): void => {
-			const {usercontribs} = result['query'] as Usercontribs;
-			if (!usercontribs.length) {
-				return;
-			}
+		const result = await api.get(params);
 
-			const {timestamp} = usercontribs[0]!;
+		const {usercontribs} = result['query'] as Usercontribs;
+		if (!usercontribs.length) {
+			return;
+		}
 
-			for (const $element of $elements) {
-				if ($element.data('username') === username) {
-					$(getLastActiveMarker(timestamp, true)).insertAfter($element);
-				}
+		const {timestamp} = usercontribs[0]!;
+
+		for (const $element of $elements) {
+			if ($element.data('username') === username) {
+				$(getLastActiveMarker(timestamp, true)).insertAfter($element);
 			}
-		});
+		}
 	}
+};
+
+const whoIsActiveUserPage = async () => {
+	const {wgAction, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
 
 	if (wgRelevantUserName && wgNamespaceNumber === 2 && wgAction === 'view') {
 		const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
@@ -88,18 +92,18 @@ const whoIsActive = ($body: JQuery<HTMLBodyElement>): void => {
 			ucuser: wgRelevantUserName,
 		};
 
-		void api.get(params).then((result): void => {
-			const {usercontribs} = result['query'] as Usercontribs;
-			if (!usercontribs.length) {
-				return;
-			}
+		const result = await api.get(params);
 
-			const {timestamp} = usercontribs[0]!;
-			for (const element of $body.find(OPTIONS.mountPointSelector)) {
-				element.prepend(getLastActiveMarker(timestamp, false));
-			}
-		});
+		const {usercontribs} = result['query'] as Usercontribs;
+		if (!usercontribs.length) {
+			return;
+		}
+
+		const {timestamp} = usercontribs[0]!;
+		for (const element of document.querySelectorAll<HTMLElement>(OPTIONS.mountPointSelector)) {
+			element.prepend(getLastActiveMarker(timestamp, false));
+		}
 	}
 };
 
-export {whoIsActive};
+export {whoIsActive, whoIsActiveUserPage};
