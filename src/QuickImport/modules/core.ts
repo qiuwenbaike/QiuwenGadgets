@@ -37,25 +37,27 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 		summary += '；文件作者请参见此页面及来源页面记载';
 	}
 
-	const params: ApiImportParams = {
-		action: 'import',
-		format: 'json',
-		assignknownusers: true,
-		interwikipage: pageName,
-		interwikiprefix: iwprefix,
-		interwikisource: iwprefix as NonNullable<ApiImportParams['interwikisource']>,
-		summary: `［${summary}］`,
-	};
-	await api.postWithEditToken(params);
+	try {
+		const params: ApiImportParams = {
+			action: 'import',
+			format: 'json',
+			assignknownusers: true,
+			interwikipage: pageName,
+			interwikiprefix: iwprefix,
+			interwikisource: iwprefix as NonNullable<ApiImportParams['interwikisource']>,
+			summary: `［${summary}］`,
+		};
+		await api.postWithEditToken(params);
 
-	toastifyInstance.hideToast();
-	toastifyInstance = toastify(
-		{
-			text: `页面导入完成：${pageName}`,
-			duration: -1,
-		},
-		'success'
-	);
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: `页面导入完成：${pageName}`,
+				duration: -1,
+			},
+			'success'
+		);
+	} catch {}
 };
 
 const uploadFile = async (target: string, url?: string): Promise<void> => {
@@ -68,39 +70,45 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 		'info'
 	);
 
-	const uploadParams: ApiUploadParams = {
-		url: url ?? `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`,
-		action: 'upload',
-		format: 'json',
-		filename: target,
-		comment: '自其他网站迁移文件',
-		ignorewarnings: true,
-	};
-	await api.postWithEditToken(uploadParams);
+	try {
+		const uploadParams: ApiUploadParams = {
+			url: url ?? `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`,
+			action: 'upload',
+			format: 'json',
+			filename: target,
+			comment: '自其他网站迁移文件',
+			ignorewarnings: true,
+		};
+		await api.postWithEditToken(uploadParams);
 
-	toastifyInstance.hideToast();
-	toastifyInstance = toastify(
-		{
-			text: `文件迁移完成：${target}`,
-			duration: -1,
-		},
-		'success'
-	);
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: `文件迁移完成：${target}`,
+				duration: -1,
+			},
+			'success'
+		);
+	} catch {}
 };
 
 const queryImageInfo = async (titles: string | string[]) => {
-	const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: ['imageinfo', 'info'],
-		iiprop: ['url'],
-		titles,
-		redirects: true,
-	};
-	const response = await api.post(queryParams);
+	try {
+		const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
+			action: 'query',
+			format: 'json',
+			formatversion: '2',
+			prop: ['imageinfo', 'info'],
+			iiprop: ['url'],
+			titles,
+			redirects: true,
+		};
+		const response = await api.post(queryParams);
 
-	return response;
+		return response;
+	} catch {}
+
+	return {};
 };
 
 const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = false) => {

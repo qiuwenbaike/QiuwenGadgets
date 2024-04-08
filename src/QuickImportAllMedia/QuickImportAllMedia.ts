@@ -15,7 +15,10 @@ import {getAllImages} from './modules/core';
 
 	element.addEventListener('click', (): void => {
 		void (async () => {
-			const fileNames: string[] = await getAllImages();
+			const fileNames: string[] = (await getAllImages()) ?? [];
+			if (!fileNames.length) {
+				return;
+			}
 			await detectIfFileRedirect([...new Set(fileNames)], true);
 		})().then(() => {
 			const {wgPageName} = mw.config.get();

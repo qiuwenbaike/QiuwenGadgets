@@ -17,32 +17,70 @@ const getAllImages = async () => {
 
 	const fileNames: string[] = [];
 	const {wgArticlePath, wgNamespaceNumber, wgPageName, wgScript} = mw.config.get();
+
+	// Analyze step 1: Query
+	if (!(wgNamespaceNumber < 0)) {
+		try {
+			const queryImageParams: ApiQueryImagesParams = {
+				action: 'query',
+				format: 'json',
+				formatversion: '2',
+				prop: 'images',
+				titles: wgPageName,
+				imlimit: 5000,
+			};
+
+			const queryImageResponse = await api.get(queryImageParams);
+			if (
+				!queryImageResponse['query'] ||
+				!queryImageResponse['query']?.pages[0] ||
+				!queryImageResponse['query']?.pages[0].images
+			) {
+				return;
+			}
+
+			for (const imageInfo of queryImageResponse['query']?.pages[0].images as {ns: number; title: string}[]) {
+				if (!imageInfo || !imageInfo.title) {
+					continue;
+				}
+				fileNames[fileNames.length] = imageInfo.title;
+			}
+		} catch {}
+	}
+
+	// Analyze step 2: Find from pages
+	let fileLinkElements: HTMLAnchorElement[] = [];
 	const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}(File:[^#]+)`);
 	const scriptRegex: RegExp = new RegExp(`^${wgScript}\\?title=(File:[^#&]+)`);
 
-	if (!(wgNamespaceNumber < 0)) {
-		const queryImageParams: ApiQueryImagesParams = {
-			action: 'query',
+	try {
+		const parseParams: ApiParseParams = {
+			action: 'parse',
 			format: 'json',
 			formatversion: '2',
-			prop: 'images',
-			titles: wgPageName,
-			imlimit: 5000,
+			prop: 'text',
+			page: wgPageName,
 		};
 
-		const response = await api.get(queryImageParams);
-
-		for (const imageInfo of response['query']?.pages[0].images as {ns: number; title: string}[]) {
-			if (!imageInfo || !imageInfo.title) {
-				continue;
-			}
-			fileNames[fileNames.length] = imageInfo.title;
+		const parseResponse = await api.get(parseParams);
+		if (!parseResponse['parse'] || !parseResponse['parse']?.text) {
+			return;
 		}
-	}
 
-	const fileLinkElements = document.querySelectorAll<HTMLAnchorElement>(
-		"a[href^='/wiki/File:'], a[href*='title=File:']"
-	);
+		const pageContent = document.createElement('span');
+		pageContent.innerHTML = parseResponse['parse']?.text as string;
+
+		fileLinkElements = [
+			...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
+			...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
+		];
+	} catch {}
+
+	fileLinkElements = [
+		...fileLinkElements,
+		...document.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
+		...document.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
+	];
 
 	for (const element of fileLinkElements) {
 		const {href} = element;
