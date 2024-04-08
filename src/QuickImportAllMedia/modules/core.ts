@@ -16,7 +16,9 @@ const getAllImages = async () => {
 	);
 
 	const fileNames: string[] = [];
-	const {wgPageName, wgNamespaceNumber} = mw.config.get();
+	const {wgArticlePath, wgNamespaceNumber, wgPageName, wgScript} = mw.config.get();
+	const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}(File:[^#]+)`);
+	const scriptRegex: RegExp = new RegExp(`^${wgScript}\\?title=(File:[^#&]+)`);
 
 	if (!(wgNamespaceNumber < 0)) {
 		const queryImageParams: ApiQueryImagesParams = {
@@ -38,17 +40,28 @@ const getAllImages = async () => {
 		}
 	}
 
-	const fileLinkElements = document.querySelectorAll("a[href^='/wiki/File:']");
+	const fileLinkElements = document.querySelectorAll("a[href^='/wiki/File:'], a[href*='title=File:']");
 
 	for (const element of fileLinkElements as unknown as HTMLAnchorElement[]) {
 		const {href} = element;
 
-		if (href) {
-			const fileName = decodeURIComponent(
-				href.replace(`${location.protocol}//${location.host}/wiki/`, '').replace('File:File:', '')
-			);
-			fileNames[fileNames.length] = fileName;
+		if (!href) {
+			continue;
 		}
+
+		let fileName: string | undefined;
+		if (articleRegex.test(href)) {
+			const match: RegExpExecArray = articleRegex.exec(href) as RegExpExecArray;
+			fileName = match[1] as string;
+		} else if (scriptRegex.test(href)) {
+			const match: RegExpExecArray = scriptRegex.exec(href) as RegExpExecArray;
+			fileName = match[1] as string;
+		} else {
+			continue;
+		}
+
+		fileName = fileName.replace(/File:(File:|Image:)?/i, 'File:');
+		fileNames[fileNames.length] = fileName;
 	}
 
 	toastifyInstance.hideToast();
