@@ -7,14 +7,10 @@ const insertElementandListener = ($body: JQuery<HTMLBodyElement>): void => {
 		changeOpacityWhenMouseEnterOrLeave(event);
 	};
 
-	const scrollDownButton = ScrollDownButton() as HTMLElement;
-	const scrollUpButton = ScrollUpButton() as HTMLElement;
+	const scrollDownButton = ScrollDownButton(onMouseEnterMouseLeave);
+	const scrollUpButton = ScrollUpButton(onMouseEnterMouseLeave);
 
 	for (const element of [scrollDownButton, scrollUpButton]) {
-		for (const event of ['mouseenter', 'mouseleave'] as const) {
-			element.addEventListener(event, onMouseEnterMouseLeave);
-		}
-
 		$body.append(element);
 
 		tippy(element, {

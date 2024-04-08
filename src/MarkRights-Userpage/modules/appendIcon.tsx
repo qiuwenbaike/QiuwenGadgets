@@ -28,7 +28,7 @@ const appendIcon = (indicatorText: string | undefined, spanClass: UserRights | '
 		</>
 	);
 	const tag = elementWrap(spanClass, indicator);
-	(document.querySelectorAll(OPTIONS.mountPointSelector)[0] as HTMLElement)?.prepend(tag);
+	document.querySelectorAll<HTMLElement>(OPTIONS.mountPointSelector)[0]?.prepend(tag);
 };
 
 export {appendIcon};

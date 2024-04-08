@@ -7,11 +7,13 @@ interface Props {
 	additionalClassName: string;
 	alt: string;
 	ariaLabel: string;
-	onClick: () => void;
+	onClick: (event?: MouseEvent) => void;
+	onMouseEnter: (event: MouseEvent) => void;
+	onMouseLeave: (event: MouseEvent) => void;
 }
 
 function ScrollButton(props: Props) {
-	const {additionalClassName, alt, ariaLabel, onClick} = props;
+	const {additionalClassName, alt, ariaLabel, onClick, onMouseEnter, onMouseLeave} = props;
 
 	return (
 		<img
@@ -23,6 +25,8 @@ function ScrollButton(props: Props) {
 			alt={alt}
 			aria-label={ariaLabel}
 			onClick={onClick}
+			onMouseEnter={onMouseEnter}
+			onMouseLeave={onMouseLeave}
 		/>
 	);
 }
@@ -30,7 +34,7 @@ function ScrollButton(props: Props) {
 const TO_BOTTOM: string = getMessage('ToBottom');
 const TO_TOP: string = getMessage('ToTop');
 
-const ScrollDownButton = () => (
+const ScrollDownButton = (onMouseEnterMouseLeave: (event: MouseEvent) => void) => (
 	<ScrollButton
 		additionalClassName={CLASS_NAME_DOWN}
 		alt={TO_BOTTOM}
@@ -38,10 +42,12 @@ const ScrollDownButton = () => (
 		onClick={(): void => {
 			scrollTop(($(document).height() ?? 0) - ($(window).height() ?? 0));
 		}}
+		onMouseEnter={onMouseEnterMouseLeave}
+		onMouseLeave={onMouseEnterMouseLeave}
 	/>
 );
 
-const ScrollUpButton = () => (
+const ScrollUpButton = (onMouseEnterMouseLeave: (event: MouseEvent) => void) => (
 	<ScrollButton
 		additionalClassName={CLASS_NAME_UP}
 		alt={TO_TOP}
@@ -49,6 +55,8 @@ const ScrollUpButton = () => (
 		onClick={(): void => {
 			scrollTop(0);
 		}}
+		onMouseEnter={onMouseEnterMouseLeave}
+		onMouseLeave={onMouseEnterMouseLeave}
 	/>
 );
 
