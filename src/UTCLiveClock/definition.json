@@ -5,6 +5,7 @@
 	"dependencies": [
 		"ext.gadget.i18n",
 		"ext.gadget.PurgePageCache",
+		"ext.gadget.Toastify",
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.util"

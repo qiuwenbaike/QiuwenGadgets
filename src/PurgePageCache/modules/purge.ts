@@ -2,7 +2,9 @@ import {api} from './api';
 import {getMessage} from './i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
-const purge = async (title: string): Promise<void> => {
+type Purge = (title: string) => Promise<void>;
+
+const purge: Purge = async (title) => {
 	const toastifyInstance: ToastifyInstance = toastify(
 		{
 			text: getMessage('Purging'),
@@ -50,4 +52,4 @@ const purge = async (title: string): Promise<void> => {
 	}
 };
 
-export {purge};
+export {type Purge, purge};

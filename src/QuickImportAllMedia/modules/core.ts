@@ -1,4 +1,4 @@
-import {api} from 'ext.gadget.QuickImport';
+import {api} from './api';
 import {toastify} from 'ext.gadget.Toastify';
 
 let toastifyInstance: ToastifyInstance = {
