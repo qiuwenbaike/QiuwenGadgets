@@ -146,7 +146,7 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 				}
 			}
 
-			OO.inheritClass(PrintDialog, OO.ui.ProcessDialog);
+			// OO.inheritClass(PrintDialog, OO.ui.ProcessDialog);
 			PrintDialog.static = {
 				...OO.ui.ProcessDialog.static,
 			};
