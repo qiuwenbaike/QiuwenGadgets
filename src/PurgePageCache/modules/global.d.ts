@@ -1,3 +1,5 @@
+type Purge = import('./purge').Purge;
+
 declare module 'ext.gadget.PurgePageCache' {
-	export async function purge(title: string): Promise<void>;
+	export const purge: Purge;
 }
