@@ -13,7 +13,7 @@ import {mwApi} from './api';
 	if (
 		mw.config.get('wgNamespaceNumber') !== 6 ||
 		window.HotCatAutoRemoveCheckCatOptOut ||
-		!document.querySelectorAll('.checkcategories')[0]
+		!document.querySelector('.checkcategories')
 	) {
 		return;
 	}

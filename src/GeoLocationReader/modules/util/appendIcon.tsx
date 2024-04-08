@@ -40,7 +40,7 @@ const appendIcon = ({
 		return;
 	}
 	const tag = elementWrap(spanClass, indicator(icon, indicatorText));
-	(document.querySelectorAll(OPTIONS.mountPointSelector)[0] as HTMLElement)?.prepend(tag);
+	document.querySelectorAll<HTMLElement>(OPTIONS.mountPointSelector)[0]?.prepend(tag);
 };
 
 export {appendIcon};

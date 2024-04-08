@@ -12,11 +12,7 @@ const addButton = ($body: JQuery<HTMLBodyElement>, URL: string): void => {
 		changeOpacityWhenMouseEnterOrLeave(event);
 	};
 
-	const reportButton = ReportButton(URL) as HTMLElement;
-
-	for (const event of ['mouseenter', 'mouseleave'] as const) {
-		reportButton.addEventListener(event, onMouseEnterMouseLeave);
-	}
+	const reportButton = ReportButton(URL, onMouseEnterMouseLeave);
 
 	tippy(reportButton, {
 		arrow: true,
