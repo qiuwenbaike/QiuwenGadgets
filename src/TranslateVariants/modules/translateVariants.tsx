@@ -37,8 +37,8 @@ const translateVariants = (wgPageName: string): void => {
 			return;
 		}
 
-		if (!confirm(window.wgULS('更改$1个更改？', '發佈$1個變更？').replace('$1', `${$buttons.length}}`))) {
-			void mw.notify(window.wgULS('已取消更改', '已取消發佈'), {tag: 'TranslateVariants', type: 'warn'});
+		if (!confirm(window.wgULS('发布$1个更改？', '發佈$1個變更？').replace('$1', `${$buttons.length}`))) {
+			void mw.notify(window.wgULS('已取消发布', '已取消發佈'), {tag: 'TranslateVariants', type: 'warn'});
 			return;
 		}
 
