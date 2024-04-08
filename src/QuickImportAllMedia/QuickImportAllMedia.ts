@@ -2,8 +2,11 @@ import {detectIfFileRedirect, refreshPage} from '~/QuickImport/modules/core';
 import {getAllImages} from './modules/core';
 
 (function quickImportAllMedia(): void {
-	const {wgArticleId} = mw.config.get();
-	if (!wgArticleId) {
+	const {wgNamespaceNumber, wgCanonicalSpecialPageName, wgCurRevisionId} = mw.config.get();
+	if (
+		!(wgCurRevisionId && wgNamespaceNumber > 0) &&
+		!['Prefixindex', 'BrokenRedirects'].includes(wgCanonicalSpecialPageName || '')
+	) {
 		return;
 	}
 
