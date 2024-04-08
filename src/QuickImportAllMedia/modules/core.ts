@@ -50,37 +50,40 @@ const getAllImages = async () => {
 
 	// Analyze step 2: Find from pages
 	let fileLinkElements: HTMLAnchorElement[] = [];
-	const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}(File:[^#]+)`);
-	const scriptRegex: RegExp = new RegExp(`^${wgScript}\\?title=(File:[^#&]+)`);
 
-	try {
-		const parseParams: ApiParseParams = {
-			action: 'parse',
-			format: 'json',
-			formatversion: '2',
-			prop: 'text',
-			page: wgPageName,
-		};
+	if (!(wgNamespaceNumber < 0)) {
+		try {
+			const parseParams: ApiParseParams = {
+				action: 'parse',
+				format: 'json',
+				formatversion: '2',
+				prop: 'text',
+				page: wgPageName,
+			};
 
-		const parseResponse = await api.get(parseParams);
-		if (!parseResponse['parse'] || !parseResponse['parse']?.text) {
-			return;
-		}
+			const parseResponse = await api.get(parseParams);
+			if (!parseResponse['parse'] || !parseResponse['parse']?.text) {
+				return;
+			}
 
-		const pageContent = document.createElement('span');
-		pageContent.innerHTML = parseResponse['parse']?.text as string;
+			const pageContent = document.createElement('span');
+			pageContent.innerHTML = parseResponse['parse']?.text as string;
 
-		fileLinkElements = [
-			...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
-			...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
-		];
-	} catch {}
+			fileLinkElements = [
+				...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
+				...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
+			];
+		} catch {}
+	}
 
 	fileLinkElements = [
 		...fileLinkElements,
 		...document.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
 		...document.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
 	];
+
+	const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}(File:[^#]+)`);
+	const scriptRegex: RegExp = new RegExp(`${wgScript}\\?title=(File:[^#&]+)`);
 
 	for (const element of fileLinkElements) {
 		const {href} = element;
