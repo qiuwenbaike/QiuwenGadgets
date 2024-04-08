@@ -1,6 +1,1 @@
-import * as OPTIONS from '../options.json';
-import {initMwApi} from 'ext.gadget.Util';
-
-const api: mw.Api = initMwApi(`QuickImportAllMedia/${OPTIONS.version}`);
-
-export {api};
+export {api} from 'ext.gadget.QuickImport';
