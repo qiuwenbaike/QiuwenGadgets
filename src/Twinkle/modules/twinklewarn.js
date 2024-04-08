@@ -10,9 +10,16 @@
 	 * Active on: Any page with relevant user name (userspace, contribs,
 	 * etc.), as well as the rollback success page
 	 */
-	const relevantUserName = mw.config.get('wgRelevantUserName');
+	const {
+		wgAbuseFilterVariables,
+		wgAction,
+		wgCanonicalSpecialPageName,
+		wgNamespaceNumber,
+		wgRelevantUserName,
+		wgUserName,
+	} = mw.config.get();
 	Twinkle.warn = () => {
-		if (relevantUserName) {
+		if (wgRelevantUserName) {
 			Twinkle.addPortletLink(
 				Twinkle.warn.callback,
 				'警告',
@@ -21,7 +28,7 @@
 			);
 			if (
 				Twinkle.getPref('autoMenuAfterRollback') &&
-				mw.config.get('wgNamespaceNumber') === 3 &&
+				wgNamespaceNumber === 3 &&
 				mw.util.getParamValue('vanarticle') &&
 				!mw.util.getParamValue('noautowarn')
 			) {
@@ -30,20 +37,17 @@
 		}
 		// Modify URL of talk page on rollback success pages, makes use of a
 		// custom message box in [[MediaWiki:Rollback-success]]
-		if (mw.config.get('wgAction') === 'rollback') {
+		if (wgAction === 'rollback') {
 			const $vandalTalkLink = $body.find('#mw-rollback-success').find('.mw-usertoollinks a').first();
 			if ($vandalTalkLink.length) {
 				Twinkle.warn.makeVandalTalkLink($vandalTalkLink, Morebits.pageNameNorm);
 				$vandalTalkLink.css('font-weight', 'bold');
 			}
 		}
-		if (
-			mw.config.get('wgCanonicalSpecialPageName') === 'AbuseLog' &&
-			mw.config.get('wgAbuseFilterVariables') !== null
-		) {
+		if (wgCanonicalSpecialPageName === 'AbuseLog' && wgAbuseFilterVariables !== null) {
 			const afTalkLink = $body.find('.mw-usertoollinks-talk').first();
 			if (afTalkLink.length) {
-				Twinkle.warn.makeVandalTalkLink(afTalkLink, mw.config.get('wgAbuseFilterVariables').page_prefixedtitle);
+				Twinkle.warn.makeVandalTalkLink(afTalkLink, wgAbuseFilterVariables.page_prefixedtitle);
 				afTalkLink.css('font-weight', 'bold');
 			}
 		}
@@ -70,7 +74,7 @@
 	Twinkle.warn.dialog = null;
 	Twinkle.warn.callback = () => {
 		if (
-			relevantUserName === mw.config.get('wgUserName') &&
+			wgRelevantUserName === wgUserName &&
 			!confirm(window.wgULS('您将要警告自己！您确定要继续吗？', '您將要警告自己！您確定要繼續嗎？'))
 		) {
 			return;
@@ -232,7 +236,7 @@
 					query,
 					(apiobj) => {
 						const revertUser = $(apiobj.getResponse()).find('revisions rev')[1].getAttribute('user');
-						if (revertUser && revertUser !== mw.config.get('wgUserName')) {
+						if (revertUser && revertUser !== wgUserName) {
 							message += window.wgULS(
 								'其他人回退了该页面，并可能已经警告该用户。',
 								'其他人回退了該頁面，並可能已經警告該使用者。'
@@ -882,7 +886,7 @@
 					autolevelProc();
 				} else {
 					const usertalk_page = new Morebits.wiki.page(
-						`User_talk:${relevantUserName}`,
+						`User_talk:${wgRelevantUserName}`,
 						window.wgULS('加载上次警告', '載入上次警告')
 					);
 					usertalk_page.setFollowRedirect(true, false);
@@ -1018,7 +1022,7 @@
 				input.reason,
 				input.main_group === 'custom'
 			);
-			form.previewer.beginRender(templatetext, `User_talk:${relevantUserName}`); // Force wikitext/correct username
+			form.previewer.beginRender(templatetext, `User_talk:${wgRelevantUserName}`); // Force wikitext/correct username
 		},
 
 		// Just a pass-through unless the autolevel option was selected
@@ -1026,7 +1030,7 @@
 			if (form.main_group.value === 'autolevel') {
 				// Always get a new, updated talkpage for autolevel processing
 				const usertalk_page = new Morebits.wiki.page(
-					`User_talk:${relevantUserName}`,
+					`User_talk:${wgRelevantUserName}`,
 					window.wgULS('加载上次警告', '載入上次警告')
 				);
 				usertalk_page.setFollowRedirect(true, false);
@@ -1154,7 +1158,7 @@
 								.on('click', () => {
 									Morebits.wiki.actionCompleted.redirect = null;
 									Twinkle.warn.dialog.close();
-									Twinkle.arv.callback(relevantUserName);
+									Twinkle.arv.callback(wgRelevantUserName);
 									$body.find('input[name=page]').val(params.article); // Target page
 									$body.find('input[value=final]').prop('checked', true); // Vandalism after final
 								});
@@ -1162,7 +1166,7 @@
 							const statusNode = $('<div>')
 								.css('color', '#f00')
 								.text(
-									relevantUserName +
+									wgRelevantUserName +
 										window.wgULS('最后收到了一个层级2警告（', '最後收到了一個層級2警告（') +
 										latest.type +
 										window.wgULS(
@@ -1365,7 +1369,7 @@
 		},
 	};
 	Twinkle.warn.callback.evaluate = (e) => {
-		const userTalkPage = `User_talk:${relevantUserName}`;
+		const userTalkPage = `User_talk:${wgRelevantUserName}`;
 		// reason, main_group, sub_group, article
 		const params = Morebits.quickForm.getInputData(e.target);
 		if (params.article) {

@@ -3,6 +3,7 @@
 
 /*! Twinkle.js - twinklebatchprotect.js */
 (function twinklebatchprotect($) {
+	const {wgArticleId, wgCanonicalSpecialPageName, wgNamespaceNumber, wgPageName} = mw.config.get();
 	/**
 	 * twinklebatchprotect.js: Batch protect module (sysops only)
 	 * Mode of invocation: Tab ("P-batch")
@@ -12,9 +13,9 @@
 	Twinkle.batchprotect = () => {
 		if (
 			Morebits.userIsSysop &&
-			((mw.config.get('wgArticleId') > 0 && [2, 4].includes(mw.config.get('wgNamespaceNumber'))) ||
-				mw.config.get('wgNamespaceNumber') === 14 ||
-				mw.config.get('wgCanonicalSpecialPageName') === 'Prefixindex')
+			((wgArticleId > 0 && [2, 4].includes(wgNamespaceNumber)) ||
+				wgNamespaceNumber === 14 ||
+				wgCanonicalSpecialPageName === 'Prefixindex')
 		) {
 			Twinkle.addPortletLink(Twinkle.batchprotect.callback, '批保', 'tw-pbatch', '批量保护链出页面');
 		}
@@ -149,12 +150,12 @@
 			inprop: 'protection',
 			format: 'json',
 		};
-		if (mw.config.get('wgNamespaceNumber') === 14) {
+		if (wgNamespaceNumber === 14) {
 			// categories
 			query.generator = 'categorymembers';
-			query.gcmtitle = mw.config.get('wgPageName');
+			query.gcmtitle = wgPageName;
 			query.gcmlimit = Twinkle.getPref('batchMax');
-		} else if (mw.config.get('wgCanonicalSpecialPageName') === 'Prefixindex') {
+		} else if (wgCanonicalSpecialPageName === 'Prefixindex') {
 			query.generator = 'allpages';
 			query.gapnamespace =
 				mw.util.getParamValue('namespace') || document.querySelectorAll('select[name=namespace]')[0].value;
@@ -163,7 +164,7 @@
 			query.gaplimit = Twinkle.getPref('batchMax');
 		} else {
 			query.generator = 'links';
-			query.titles = mw.config.get('wgPageName');
+			query.titles = wgPageName;
 			query.gpllimit = Twinkle.getPref('batchMax');
 		}
 		const statusdiv = document.createElement('div');

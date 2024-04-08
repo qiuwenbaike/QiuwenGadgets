@@ -2,6 +2,7 @@
 // @ts-nocheck
 /*! Twinkle.js - twinklexfd.js */
 (function twinklexfd() {
+	const {wgArticleId, wgNamespaceNumber, wgPageContentModel, wgPageName, wgTitle, wgUserName} = mw.config.get();
 	/**
 	 * twinklexfd.js: XFD module
 	 * Mode of invocation: Tab ("XFD")
@@ -16,9 +17,9 @@
 		// * non-local files, whether there is a local page or not (unneeded local pages of files on Share are eligible for CSD F2)
 		// * file pages without actual files
 		if (
-			mw.config.get('wgNamespaceNumber') < 0 ||
-			!mw.config.get('wgArticleId') ||
-			(mw.config.get('wgNamespaceNumber') === 6 &&
+			wgNamespaceNumber < 0 ||
+			!wgArticleId ||
+			(wgNamespaceNumber === 6 &&
 				(document.querySelector('#mw-sharedupload') ||
 					(!document.querySelector('#mw-imagepage-section-filehistory') && !Morebits.isPageRedirect())))
 		) {
@@ -62,13 +63,13 @@
 		categories.append({
 			type: 'option',
 			label: window.wgULS('页面存废讨论', '頁面存廢討論'),
-			selected: mw.config.get('wgNamespaceNumber') === 0,
+			selected: wgNamespaceNumber === 0,
 			value: 'afd',
 		});
 		categories.append({
 			type: 'option',
 			label: window.wgULS('文件存废讨论', '檔案存廢討論'),
-			selected: mw.config.get('wgNamespaceNumber') === 6,
+			selected: wgNamespaceNumber === 6,
 			value: 'ffd',
 		});
 		form.append({
@@ -157,12 +158,10 @@
 							label: '使用&lt;noinclude&gt;包裹模板',
 							value: 'noinclude',
 							name: 'noinclude',
-							checked:
-								mw.config.get('wgNamespaceNumber') === 10 &&
-								mw.config.get('wgPageContentModel') !== 'Scribunto',
+							checked: wgNamespaceNumber === 10 && wgPageContentModel !== 'Scribunto',
 							// Template namespace
 							tooltip: window.wgULS('使其不会在被包含时出现。', '使其不會在被包含時出現。'),
-							disabled: mw.config.get('wgPageContentModel') === 'Scribunto',
+							disabled: wgPageContentModel === 'Scribunto',
 						},
 					],
 				});
@@ -315,7 +314,7 @@
 				// Notification to first contributor
 				if (params.notify) {
 					// Disallow warning yourself
-					if (params.creator === mw.config.get('wgUserName')) {
+					if (params.creator === wgUserName) {
 						Morebits.status.warn(
 							`${window.wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`,
 							window.wgULS('您创建了该页，跳过通知', '您建立了該頁，跳過通知')
@@ -433,9 +432,7 @@
 					case 'fame':
 					case 'substub':
 					case 'batch': {
-						const commentText = `<!-- Twinkle: User:${mw.config.get(
-							'wgUserName'
-						)} 的 ${type} 提删插入点，请勿更改或移除此行，除非不再于此页面提删 -->`;
+						const commentText = `<!-- Twinkle: User:${wgUserName} 的 ${type} 提删插入点，请勿更改或移除此行，除非不再于此页面提删 -->`;
 						let newText = `===[[:${Morebits.pageNameNorm}]]===`;
 						if (type === 'fame') {
 							newText += `\n{{Findsources|${Morebits.pageNameNorm}}}`;
@@ -496,7 +493,7 @@
 				params.creator = target_page.getCreator();
 				// Tagging page
 				const tagging_page = new Morebits.wiki.page(
-					mw.config.get('wgPageName'),
+					wgPageName,
 					window.wgULS('加入存废讨论模板到页面', '加入存廢討論模板到頁面')
 				);
 				tagging_page.setFollowRedirect(false);
@@ -549,7 +546,7 @@
 				// Notification to first contributor
 				if (params.notify) {
 					// Disallow warning yourself
-					if (params.creator === mw.config.get('wgUserName')) {
+					if (params.creator === wgUserName) {
 						Morebits.status.warn(
 							`${window.wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`,
 							window.wgULS('您创建了该页，跳过通知', '您建立了該頁，跳過通知')
@@ -561,7 +558,7 @@
 						talkPageName,
 						`${window.wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
 					);
-					const notifytext = '\n{{'.concat('subst:', `idw|File:${mw.config.get('wgTitle')}}}`, '--~~', '~~');
+					const notifytext = '\n{{'.concat('subst:', `idw|File:${wgTitle}}}`, '--~~', '~~');
 					usertalkpage.setAppendText(notifytext);
 					usertalkpage.setEditSummary(`通知：文件[[${Morebits.pageNameNorm}]]存废讨论提名`);
 					usertalkpage.setChangeTags(Twinkle.changeTags);
@@ -601,7 +598,7 @@
 				pageobj.setAppendText(
 					'\n{{'.concat(
 						'subst:',
-						`IfdItem|Filename=${mw.config.get('wgTitle')}|Uploader=${
+						`IfdItem|Filename=${wgTitle}|Uploader=${
 							params.creator
 						}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}}}--~~`.concat('~~')
 					)
@@ -621,7 +618,7 @@
 				params.creator = target_page.getCreator();
 				// Tagging file
 				const tagging_page = new Morebits.wiki.page(
-					mw.config.get('wgPageName'),
+					wgPageName,
 					window.wgULS('加入存废讨论模板到文件描述页', '加入存廢討論模板到檔案描述頁')
 				);
 				tagging_page.setFollowRedirect(false);
@@ -693,9 +690,9 @@
 			}
 			// If a logged file is deleted but exists on remote repo, the wikilink will be blue, so provide a link to the log
 			let appendText = `# [[:${Morebits.pageNameNorm}]]`;
-			if (mw.config.get('wgNamespaceNumber') === 6) {
+			if (wgNamespaceNumber === 6) {
 				appendText += `（[{{fullurl:Special:Log|page=${mw.util.wikiUrlencode(
-					mw.config.get('wgPageName')
+					wgPageName
 				)}}} ${window.wgULS('日志', '日誌')}]）`;
 			}
 			appendText += `：${xfdCatName}`;
@@ -757,12 +754,9 @@
 					'提名完成，重新導向到討論頁'
 				);
 				// Lookup creation
-				target_page = new Morebits.wiki.page(
-					mw.config.get('wgPageName'),
-					window.wgULS('获取页面创建信息', '取得頁面建立資訊')
-				);
+				target_page = new Morebits.wiki.page(wgPageName, window.wgULS('获取页面创建信息', '取得頁面建立資訊'));
 				target_page.setCallbackParameters(params);
-				if (mw.config.get('wgPageContentModel') === 'wikitext') {
+				if (wgPageContentModel === 'wikitext') {
 					target_page.setLookupNonRedirectCreator(true); // Look for author of first non-redirect revision
 				}
 
@@ -783,7 +777,7 @@
 				);
 				// Lookup creation
 				const qiuwen_page = new Morebits.wiki.page(
-					mw.config.get('wgPageName'),
+					wgPageName,
 					window.wgULS('获取页面创建信息', '取得頁面建立資訊')
 				);
 				qiuwen_page.setCallbackParameters(params);

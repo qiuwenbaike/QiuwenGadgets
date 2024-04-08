@@ -7,11 +7,10 @@ import {generateArray} from 'ext.gadget.Util';
 /*! Twinkle.js - twinkleblock.js */
 (function twinkleblock($) {
 	const $body = $('body');
+	const {wgFormattedNamespaces, wgRelevantUserName, wgUserName} = mw.config.get();
 	let relevantUserName;
 	let blockedUserName;
-	const menuFormattedNamespaces = {
-		...mw.config.get('wgFormattedNamespaces'),
-	};
+	const menuFormattedNamespaces = {...wgFormattedNamespaces};
 	menuFormattedNamespaces[0] = window.wgULS('（条目）', '（條目）');
 	const blockActionText = {
 		block: window.wgULS('封禁', '封鎖'),
@@ -24,7 +23,7 @@ import {generateArray} from 'ext.gadget.Util';
 	 * Active on: Any page with relevant user name (userspace, contribs, etc.)
 	 */
 	Twinkle.block = () => {
-		relevantUserName = mw.config.get('wgRelevantUserName');
+		relevantUserName = wgRelevantUserName;
 		// should show on Contributions or Block pages, anywhere there's a relevant user
 		// Ignore ranges wider than the CIDR limit
 		// Enable for non-admins
@@ -43,7 +42,7 @@ import {generateArray} from 'ext.gadget.Util';
 	};
 	Twinkle.block.callback = () => {
 		if (
-			relevantUserName === mw.config.get('wgUserName') &&
+			relevantUserName === wgUserName &&
 			!confirm(
 				window.wgULS(
 					'您即将对自己执行封禁相关操作！确认要继续吗？',
@@ -140,8 +139,8 @@ import {generateArray} from 'ext.gadget.Util';
 		 * (mis)treated as separate by MediaWiki's logging,
 		 * using Morebits.ip.get64 provides a modicum of relief in thise case.
 		 */
-		const sixtyFour = Morebits.ip.get64(mw.config.get('wgRelevantUserName'));
-		if (sixtyFour && sixtyFour !== mw.config.get('wgRelevantUserName')) {
+		const sixtyFour = Morebits.ip.get64(wgRelevantUserName);
+		if (sixtyFour && sixtyFour !== wgRelevantUserName) {
 			const block64field = form.append({
 				type: 'field',
 				label: window.wgULS('转换为/64段封禁', '轉換為/64段封鎖'),
@@ -161,10 +160,10 @@ import {generateArray} from 'ext.gadget.Util';
 						checked: Twinkle.getPref('defaultToBlock64'),
 						label: window.wgULS('改成封禁/64', '改成封鎖/64'),
 						value: 'block64',
-						tooltip: Morebits.ip.isRange(mw.config.get('wgRelevantUserName'))
+						tooltip: Morebits.ip.isRange(wgRelevantUserName)
 							? window.wgULS('将不会发送模板通知。', '將不會發送模板通知。')
 							: window.wgULS('任何模板将会发送给原始IP：', '任何模板將會發送給原始IP：') +
-								mw.config.get('wgRelevantUserName'),
+								wgRelevantUserName,
 					},
 				],
 			});
@@ -327,13 +326,13 @@ import {generateArray} from 'ext.gadget.Util';
 		// Single IPv6, or IPv6 range smaller than a /64
 		const priorName = relevantUserName;
 		if ($block64.is(':checked')) {
-			relevantUserName = Morebits.ip.get64(mw.config.get('wgRelevantUserName'));
+			relevantUserName = Morebits.ip.get64(wgRelevantUserName);
 		} else {
-			relevantUserName = mw.config.get('wgRelevantUserName');
+			relevantUserName = wgRelevantUserName;
 		}
 		// No templates for ranges, but if the original user is a single IP, offer the option
 		// (done separately in Twinkle.block.callback.issue_template)
-		const originalIsRange = Morebits.ip.isRange(mw.config.get('wgRelevantUserName'));
+		const originalIsRange = Morebits.ip.isRange(wgRelevantUserName);
 		$form
 			.find('[name=actiontype][value=template]')
 			.prop('disabled', originalIsRange)
@@ -2239,7 +2238,7 @@ import {generateArray} from 'ext.gadget.Util';
 		if (toTag || toProtect) {
 			Morebits.simpleWindow.setButtonsEnabled(false);
 			Morebits.status.init(e.target);
-			const userPage = `User:${mw.config.get('wgRelevantUserName')}`;
+			const userPage = `User:${wgRelevantUserName}`;
 			const qiuwen_page = new Morebits.wiki.page(
 				userPage,
 				window.wgULS('标记或保护用户页', '標記或保護使用者頁面')
@@ -2259,7 +2258,7 @@ import {generateArray} from 'ext.gadget.Util';
 			Morebits.status.init(e.target);
 			const unblockStatusElement = new Morebits.status(window.wgULS('执行解除封禁', '執行解除封鎖'));
 			unblockoptions.action = 'unblock';
-			unblockoptions.user = mw.config.get('wgRelevantUserName');
+			unblockoptions.user = wgRelevantUserName;
 			// execute unblock
 			unblockoptions.tags = Twinkle.changeTags;
 			unblockoptions.token = mw.user.tokens.get('csrfToken');
@@ -2356,7 +2355,7 @@ import {generateArray} from 'ext.gadget.Util';
 	Twinkle.block.callback.issue_template = (formData) => {
 		// Use wgRelevantUserName to ensure the block template goes to a single IP and not to the
 		// "talk page" of an IP range (which does not exist)
-		const userTalkPage = `User_talk:${mw.config.get('wgRelevantUserName')}`;
+		const userTalkPage = `User_talk:${wgRelevantUserName}`;
 		const params = {
 			...formData,
 			messageData: Twinkle.block.blockPresetsInfo[formData.template],
@@ -2379,7 +2378,7 @@ import {generateArray} from 'ext.gadget.Util';
 		const params = vipPage.getCallbackParameters();
 		let text = vipPage.getPageText();
 		const statusElement = vipPage.getStatusElement();
-		const userName = mw.config.get('wgRelevantUserName');
+		const userName = wgRelevantUserName;
 		const expiryText = Morebits.string.formatTime(params.expiry);
 		const comment = `{{Blocked|${Morebits.string.isInfinity(params.expiry) ? 'indef' : expiryText}}}。`;
 		const requestList = text.split(/(?=\n===.+===\s*\n)/);

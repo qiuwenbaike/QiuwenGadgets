@@ -4,13 +4,14 @@
 /*! Twinkle.js - twinklearv.js */
 (function twinklearv($) {
 	const $body = $('body');
+	const {wgPageName, wgRelevantUserName, wgUserName} = mw.config.get();
 	/**
 	 * twinklearv.js: ARV module
 	 * Mode of invocation: Tab ("ARV")
 	 * Active on: Any page with relevant user name (userspace, contribs, etc.)
 	 */
 	Twinkle.arv = () => {
-		const username = mw.config.get('wgRelevantUserName');
+		const username = wgRelevantUserName;
 		if (!username) {
 			return;
 		}
@@ -28,7 +29,7 @@
 		);
 	};
 	Twinkle.arv.callback = (uid, isIP) => {
-		if (uid === mw.config.get('wgUserName')) {
+		if (uid === wgUserName) {
 			mw.notify(window.wgULS('你不想报告你自己，对吧？', '你不想報告你自己，對吧？'), {
 				type: 'warn',
 				tag: 'twinklearv',
@@ -439,7 +440,7 @@
 						},
 					],
 				});
-				if (!mw.util.isIPAddress(mw.config.get('wgRelevantUserName'))) {
+				if (!mw.util.isIPAddress(wgRelevantUserName)) {
 					work_area.append({
 						type: 'checkbox',
 						list: [
@@ -497,7 +498,7 @@
 				title = 'Qiuwen_talk:管理员告示板';
 				break;
 			default:
-				title = mw.config.get('wgPageName');
+				title = wgPageName;
 				break;
 		}
 		form.previewer.beginRender(`__NOTOC__${reason[0]}`, title);

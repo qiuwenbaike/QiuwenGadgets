@@ -4,6 +4,7 @@ import {generateArray} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinklestub.js */
 (function twinklestub($) {
+	const {wgCurRevisionId, wgNamespaceNumber, wgPageName} = mw.config.get();
 	/**
 	 * twinklestub.js: Tag module
 	 * Mode of invocation: Tab ("Stub")
@@ -16,7 +17,7 @@ import {generateArray} from 'ext.gadget.Util';
 			// Skip
 			// article/draft article tagging
 		} else if (
-			([0, 118].includes(mw.config.get('wgNamespaceNumber')) && mw.config.get('wgCurRevisionId')) ||
+			([0, 118].includes(wgNamespaceNumber) && wgCurRevisionId) ||
 			Morebits.pageNameNorm === Twinkle.getPref('sandboxPage')
 		) {
 			Twinkle.stub.mode = '条目';
@@ -28,8 +29,7 @@ import {generateArray} from 'ext.gadget.Util';
 			// Skip
 			// article/draft article tagging
 		} else if (
-			((mw.config.get('wgNamespaceNumber') === 0 || mw.config.get('wgNamespaceNumber') === 118) &&
-				mw.config.get('wgCurRevisionId')) ||
+			([0, 118].includes(wgNamespaceNumber) && wgCurRevisionId) ||
 			Morebits.pageNameNorm === Twinkle.getPref('sandboxPage')
 		) {
 			Twinkle.stub.mode = window.wgULS('条目', '條目');
@@ -389,7 +389,7 @@ import {generateArray} from 'ext.gadget.Util';
 		}
 		Morebits.simpleWindow.setButtonsEnabled(false);
 		Morebits.status.init(form);
-		Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
+		Morebits.wiki.actionCompleted.redirect = wgPageName;
 		Morebits.wiki.actionCompleted.notice = window.wgULS(
 			'标记完成，将在几秒内刷新页面',
 			'標記完成，將在幾秒內重新整理頁面'
@@ -398,7 +398,7 @@ import {generateArray} from 'ext.gadget.Util';
 			Morebits.wiki.actionCompleted.followRedirect = false;
 		}
 		const qiuwen_page = new Morebits.wiki.page(
-			mw.config.get('wgPageName'),
+			wgPageName,
 			window.wgULS('正在标记', '正在標記') + Twinkle.stub.mode
 		);
 		qiuwen_page.setCallbackParameters(params);

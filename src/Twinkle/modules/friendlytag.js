@@ -3,6 +3,7 @@
 /*! Twinkle.js - friendlytag.js */
 (function friendlytag($) {
 	const $body = $('body');
+	const {wgCurRevisionId, wgDiffNewId, wgNamespaceNumber, wgRevisionId, wgTitle} = mw.config.get();
 	/**
 	 * friendlytag.js: Tag module
 	 * Mode of invocation: Tab ("Tag")
@@ -22,7 +23,7 @@
 			);
 			// file tagging
 		} else if (
-			mw.config.get('wgNamespaceNumber') === 6 &&
+			wgNamespaceNumber === 6 &&
 			!document.querySelector('#mw-sharedupload') &&
 			document.querySelector('#mw-imagepage-section-filehistory')
 		) {
@@ -36,17 +37,17 @@
 			);
 			// article/draft tagging
 		} else if (
-			([0, 118].includes(mw.config.get('wgNamespaceNumber')) && mw.config.get('wgCurRevisionId')) ||
+			([0, 118].includes(wgNamespaceNumber) && wgCurRevisionId) ||
 			Morebits.pageNameNorm === Twinkle.getPref('sandboxPage')
 		) {
 			Twinkle.tag.mode = window.wgULS('条目', '條目');
 			Twinkle.tag.modeEn = 'article';
 			// Can't remove tags when not viewing current version
 			Twinkle.tag.canRemove =
-				mw.config.get('wgCurRevisionId') === mw.config.get('wgRevisionId') &&
+				wgCurRevisionId === wgRevisionId &&
 				// Disabled on latest diff because the diff slider could be used to slide
 				// away from the latest diff without causing the script to reload
-				!mw.config.get('wgDiffNewId');
+				!wgDiffNewId;
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
 				window.wgULS('标记', '標記'),
@@ -466,7 +467,7 @@
 							],
 						},
 					];
-					if (mw.config.get('wgNamespaceNumber') === 0) {
+					if (wgNamespaceNumber === 0) {
 						checkbox.subgroup[checkbox.subgroup.length] = {
 							name: 'mergeReason',
 							type: 'textarea',
@@ -1749,17 +1750,13 @@
 								);
 								currentTag += `|${params.mergeTarget}`;
 								// link to the correct section on the talk page, for article space only
-								if (
-									mw.config.get('wgNamespaceNumber') === 0 &&
-									(params.mergeReason || params.discussArticle)
-								) {
+								if (wgNamespaceNumber === 0 && (params.mergeReason || params.discussArticle)) {
 									if (!params.discussArticle) {
 										// discussArticle is the article whose talk page will contain the discussion
-										params.discussArticle =
-											tagName === 'Merge to' ? params.mergeTarget : mw.config.get('wgTitle');
+										params.discussArticle = tagName === 'Merge to' ? params.mergeTarget : wgTitle;
 										// nonDiscussArticle is the article which won't have the discussion
 										params.nonDiscussArticle =
-											tagName === 'Merge to' ? mw.config.get('wgTitle') : params.mergeTarget;
+											tagName === 'Merge to' ? wgTitle : params.mergeTarget;
 										params.talkDiscussionTitle =
 											window.wgULS('请求与', '請求與') +
 											params.nonDiscussArticle +
@@ -1783,7 +1780,7 @@
 								params.moveTarget = Morebits.string.toUpperCaseFirstChar(
 									params.moveTarget.replace(/_/g, ' ')
 								);
-								params.discussArticle = mw.config.get('wgTitle');
+								params.discussArticle = wgTitle;
 								currentTag += `|${params.moveTarget}`;
 							}
 							break;
@@ -1837,7 +1834,7 @@
 				if (Twinkle.tag.canRemove || !tagRe.exec(pageText)) {
 					if (
 						tag === 'Notability' &&
-						(mw.config.get('wgNamespaceNumber') === 0 ||
+						(wgNamespaceNumber === 0 ||
 							confirm(
 								window.wgULS(
 									'该页面不是条目，您仍要提报到关注度提报吗？',
@@ -2139,9 +2136,6 @@
 							break;
 						case 'Do not move to Commons':
 							currentTag += `|reason=${params.DoNotMoveToCommons_reason}`;
-							break;
-						case 'Copy to Wikimedia Commons':
-							currentTag += `|human=${mw.config.get('wgUserName')}`;
 							break;
 						default:
 							break;

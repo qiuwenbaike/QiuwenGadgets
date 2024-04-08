@@ -2,6 +2,7 @@
 // @ts-nocheck
 /*! Twinkle.js - twinkleimage.js */
 (function twinkleimage() {
+	const {wgNamespaceNumber, wgPageName, wgUserName} = mw.config.get();
 	/**
 	 * twinkleimage.js: Image CSD module
 	 * Mode of invocation: Tab ("DI")
@@ -9,7 +10,7 @@
 	 */
 	Twinkle.image = () => {
 		if (
-			mw.config.get('wgNamespaceNumber') === 6 &&
+			wgNamespaceNumber === 6 &&
 			!document.querySelector('#mw-sharedupload') &&
 			document.querySelector('#mw-imagepage-section-filehistory')
 		) {
@@ -241,13 +242,10 @@
 		}
 		Morebits.simpleWindow.setButtonsEnabled(false);
 		Morebits.status.init(event.target);
-		Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
+		Morebits.wiki.actionCompleted.redirect = wgPageName;
 		Morebits.wiki.actionCompleted.notice = window.wgULS('标记完成', '標記完成');
 		// Tagging image
-		const qiuwen_page = new Morebits.wiki.page(
-			mw.config.get('wgPageName'),
-			window.wgULS('加入删除标记', '加入刪除標記')
-		);
+		const qiuwen_page = new Morebits.wiki.page(wgPageName, window.wgULS('加入删除标记', '加入刪除標記'));
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.load(Twinkle.image.callbacks.taggingImage);
 		// Notifying uploader
@@ -342,7 +340,7 @@
 			const params = pageobj.getCallbackParameters();
 			const initialContrib = pageobj.getCreator();
 			// disallow warning yourself
-			if (initialContrib === mw.config.get('wgUserName')) {
+			if (initialContrib === wgUserName) {
 				pageobj
 					.getStatusElement()
 					.warn(`您（${initialContrib}）${window.wgULS('创建了该页，跳过通知', '建立了該頁，跳過通知')}`);

@@ -4,6 +4,16 @@
 /*! Twinkle.js - twinkleconfig.js */
 (function twinkleconfig($) {
 	const $body = $('body');
+	const {
+		wgAction,
+		wgArticleId,
+		wgFormattedNamespaces,
+		wgNamespaceIds,
+		wgNamespaceNumber,
+		wgPageName,
+		wgTitle,
+		wgUserName,
+	} = mw.config.get();
 	/**
 	 * twinkleconfig.js: Preferences module
 	 * Mode of invocation: Adds configuration form to Help:Twinkle/参数设置,
@@ -1119,7 +1129,7 @@
 	]; // end of Twinkle.config.sections
 	Twinkle.config.init = () => {
 		// create the config page at Twinkle.getPref('configPage')
-		if (mw.config.get('wgPageName') === Twinkle.getPref('configPage') && mw.config.get('wgAction') === 'view') {
+		if (wgPageName === Twinkle.getPref('configPage') && wgAction === 'view') {
 			if (!document.querySelector('#twinkle-config')) {
 				return; // maybe the page is misconfigured, or something - but any attempt to modify it will be pointless
 			}
@@ -1442,9 +1452,9 @@
 				window.location.hash = loc;
 			}
 		} else if (
-			mw.config.get('wgNamespaceNumber') === mw.config.get('wgNamespaceIds').user &&
-			mw.config.get('wgTitle').indexOf(mw.config.get('wgUserName')) === 0 &&
-			mw.config.get('wgPageName').slice(-3) === '.js'
+			wgNamespaceNumber === wgNamespaceIds.user &&
+			wgTitle.indexOf(wgUserName) === 0 &&
+			wgPageName.slice(-3) === '.js'
 		) {
 			const box = document.createElement('div');
 			// Styled in twinkle.css
@@ -1452,14 +1462,11 @@
 			let link;
 			const scriptPageName = mw.config
 				.get('wgPageName')
-				.slice(
-					mw.config.get('wgPageName').lastIndexOf('/') + 1,
-					mw.config.get('wgPageName').lastIndexOf('.js')
-				);
+				.slice(wgPageName.lastIndexOf('/') + 1, wgPageName.lastIndexOf('.js'));
 			if (scriptPageName === 'twinkleoptions') {
 				// place "why not try the preference panel" notice
 				box.setAttribute('class', 'config-twopt-box');
-				if (mw.config.get('wgArticleId') > 0) {
+				if (wgArticleId > 0) {
 					// page exists
 					box.appendChild(
 						document.createTextNode(
@@ -1757,9 +1764,7 @@
 
 	Twinkle.config.save = (e) => {
 		Morebits.status.init(document.querySelector('#twinkle-config-content'));
-		const userjs = `${mw.config.get('wgFormattedNamespaces')[mw.config.get('wgNamespaceIds').user]}:${mw.config.get(
-			'wgUserName'
-		)}/twinkleoptions.js`;
+		const userjs = `${wgFormattedNamespaces[wgNamespaceIds.user]}:${wgUserName}/twinkleoptions.js`;
 		const qiuwen_page = new Morebits.wiki.page(userjs, window.wgULS('保存参数设置到 ', '儲存偏好設定到 ') + userjs);
 		qiuwen_page.setCallbackParameters(e.target);
 		qiuwen_page.load(Twinkle.config.writePrefs);

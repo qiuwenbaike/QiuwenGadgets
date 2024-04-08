@@ -5,6 +5,7 @@ import {api} from './api';
 /*! Twinkle.js - twinkleprotect.js */
 (function twinkleprotect($) {
 	const $body = $('body');
+	const {wgArticleId, wgNamespaceNumber, wgPageContentModel, wgPageName} = mw.config.get();
 	/**
 	 * twinkleprotect.js: Protect/RPP module
 	 * Mode of invocation: Tab ("PP"/"RPP")
@@ -12,7 +13,7 @@ import {api} from './api';
 	 */
 	// Note: a lot of code in this module is re-used/called by batchprotect.
 	Twinkle.protect = () => {
-		if (mw.config.get('wgNamespaceNumber') < 0 || mw.config.get('wgNamespaceNumber') === 8) {
+		if (wgNamespaceNumber < 0 || wgNamespaceNumber === 8) {
 			return;
 		}
 		Twinkle.addPortletLink(
@@ -69,7 +70,7 @@ import {api} from './api';
 					label: window.wgULS('用保护模板标记此页', '用保護模板標記此頁'),
 					value: 'tag',
 					tooltip: window.wgULS('可以用此为页面加上合适的保护模板。', '可以用此為頁面加上合適的保護模板。'),
-					disabled: mw.config.get('wgArticleId') === 0 || mw.config.get('wgPageContentModel') === 'Scribunto',
+					disabled: wgArticleId === 0 || wgPageContentModel === 'Scribunto',
 				},
 			],
 		});
@@ -105,7 +106,7 @@ import {api} from './api';
 	// In theory it'd be nice to have restrictionlevels defined here,
 	// but those are only available via a siteinfo query
 	// Limit template editor; a Twinkle restriction, not a site setting
-	const isTemplate = mw.config.get('wgNamespaceNumber') === 10 || mw.config.get('wgNamespaceNumber') === 828;
+	const isTemplate = [10, 828].includes(wgNamespaceNumber);
 	// Contains the current protection level in an object
 	// Once filled, it will look something like:
 	// { edit: { level: "sysop", expiry: <some date>, cascade: true }, ... }
@@ -119,10 +120,10 @@ import {api} from './api';
 				action: 'query',
 				list: 'logevents',
 				letype: 'protect',
-				letitle: mw.config.get('wgPageName'),
+				letitle: wgPageName,
 				prop: 'info',
 				inprop: 'protection|watched',
-				titles: mw.config.get('wgPageName'),
+				titles: wgPageName,
 			};
 			const protectData = await api.get(params);
 			const [pageid] = protectData.query.pageids;
@@ -173,7 +174,7 @@ import {api} from './api';
 					$(
 						`<a rel="noopener" target="_blank" href="${mw.util.getUrl('Special:Log', {
 							action: 'view',
-							page: mw.config.get('wgPageName'),
+							page: wgPageName,
 							type: 'protect',
 						})}">${window.wgULS('保护日志', '保護日誌')}</a>`
 					),
@@ -222,9 +223,7 @@ import {api} from './api';
 					name: 'category',
 					label: window.wgULS('选择默认：', '選擇預設：'),
 					event: Twinkle.protect.callback.changePreset,
-					list: mw.config.get('wgArticleId')
-						? Twinkle.protect.protectionTypesAdmin
-						: Twinkle.protect.protectionTypesCreate,
+					list: wgArticleId ? Twinkle.protect.protectionTypesAdmin : Twinkle.protect.protectionTypesCreate,
 				});
 				field2 = new Morebits.quickForm.element({
 					type: 'field',
@@ -242,7 +241,7 @@ import {api} from './api';
 					label: ' ',
 				});
 				// for existing pages
-				if (mw.config.get('wgArticleId')) {
+				if (wgArticleId) {
 					field2.append({
 						type: 'checkbox',
 						event: Twinkle.protect.formevents.editmodify,
@@ -368,7 +367,7 @@ import {api} from './api';
 					name: 'protectReason',
 					label: window.wgULS('理由（保护日志）：', '理由（保護日誌）：'),
 				});
-				if (!mw.config.get('wgArticleId') || mw.config.get('wgPageContentModel') === 'Scribunto') {
+				if (!wgArticleId || wgPageContentModel === 'Scribunto') {
 					// tagging isn't relevant for non-existing or module pages
 					break;
 				}
@@ -414,7 +413,7 @@ import {api} from './api';
 								'将保护模板包裹在&lt;noinclude&gt;中',
 								'將保護模板包裹在&lt;noinclude&gt;中'
 							),
-							checked: mw.config.get('wgNamespaceNumber') === 10,
+							checked: wgNamespaceNumber === 10,
 						},
 						{
 							name: 'showexpiry',
@@ -437,9 +436,7 @@ import {api} from './api';
 					name: 'category',
 					label: window.wgULS('类型和理由：', '類別和理由：'),
 					event: Twinkle.protect.callback.changePreset,
-					list: mw.config.get('wgArticleId')
-						? Twinkle.protect.protectionTypes
-						: Twinkle.protect.protectionTypesCreate,
+					list: wgArticleId ? Twinkle.protect.protectionTypes : Twinkle.protect.protectionTypesCreate,
 				});
 				field1 = new Morebits.quickForm.element({
 					type: 'field',
@@ -958,7 +955,7 @@ import {api} from './api';
 		if (actiontype === 'protect') {
 			// actually protecting the page
 			const item = Twinkle.protect.protectionPresetsInfo[form.category.value];
-			if (mw.config.get('wgArticleId')) {
+			if (wgArticleId) {
 				if (item.edit) {
 					form.editmodify.checked = true;
 					Twinkle.protect.formevents.editmodify({
@@ -1008,7 +1005,7 @@ import {api} from './api';
 				reasonField.value = '';
 			}
 			// sort out tagging options, disabled if nonexistent or lua
-			if (mw.config.get('wgArticleId') && mw.config.get('wgPageContentModel') !== 'Scribunto') {
+			if (wgArticleId && wgPageContentModel !== 'Scribunto') {
 				if (form.category.value === 'unprotect') {
 					form.tagtype.value = 'none';
 				} else {
@@ -1019,7 +1016,7 @@ import {api} from './api';
 				});
 				if (/template/.test(form.category.value)) {
 					form.noinclude.checked = true;
-				} else if (mw.config.get('wgNamespaceNumber') !== 10) {
+				} else if (wgNamespaceNumber !== 10) {
 					form.noinclude.checked = false;
 				}
 			}
@@ -1038,9 +1035,7 @@ import {api} from './api';
 		let tagparams;
 		if (
 			input.actiontype === 'tag' ||
-			(input.actiontype === 'protect' &&
-				mw.config.get('wgArticleId') &&
-				mw.config.get('wgPageContentModel') !== 'Scribunto')
+			(input.actiontype === 'protect' && wgArticleId && wgPageContentModel !== 'Scribunto')
 		) {
 			tagparams = {
 				tag: input.tagtype,
@@ -1067,7 +1062,7 @@ import {api} from './api';
 		if (input.close) {
 			if (input.category === 'unprotect') {
 				closeparams.type = 'unprotect';
-			} else if (mw.config.get('wgArticleId')) {
+			} else if (wgArticleId) {
 				if (input.editmodify) {
 					switch (input.editlevel) {
 						case 'officialprotected':
@@ -1107,7 +1102,7 @@ import {api} from './api';
 		switch (input.actiontype) {
 			case 'protect': {
 				// protect the page
-				Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
+				Morebits.wiki.actionCompleted.redirect = wgPageName;
 				Morebits.wiki.actionCompleted.notice = window.wgULS('保护完成', '保護完成');
 				let statusInited = false;
 				let thispage;
@@ -1129,11 +1124,8 @@ import {api} from './api';
 					}
 				};
 				const protectIt = (next) => {
-					thispage = new Morebits.wiki.page(
-						mw.config.get('wgPageName'),
-						window.wgULS('保护页面', '保護頁面')
-					);
-					if (mw.config.get('wgArticleId')) {
+					thispage = new Morebits.wiki.page(wgPageName, window.wgULS('保护页面', '保護頁面'));
+					if (wgArticleId) {
 						if (input.editmodify) {
 							thispage.setEditProtection(input.editlevel, input.editexpiry);
 						}
@@ -1178,7 +1170,7 @@ import {api} from './api';
 					thispage.setChangeTags(Twinkle.changeTags);
 					thispage.protect(next);
 				};
-				if (input.editmodify || input.movemodify || !mw.config.get('wgArticleId')) {
+				if (input.editmodify || input.movemodify || !wgArticleId) {
 					protectIt(allDone);
 				} else {
 					mw.notify(
@@ -1198,7 +1190,7 @@ import {api} from './api';
 				// apply a protection template
 				Morebits.simpleWindow.setButtonsEnabled(false);
 				Morebits.status.init(form);
-				Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
+				Morebits.wiki.actionCompleted.redirect = wgPageName;
 				Morebits.wiki.actionCompleted.followRedirect = false;
 				Morebits.wiki.actionCompleted.notice = window.wgULS('标记完成', '標記完成');
 				Twinkle.protect.callbacks.taggingPageInitial(tagparams);
@@ -1337,7 +1329,7 @@ import {api} from './api';
 				);
 				return;
 			}
-			const pageName = mw.config.get('wgPageName');
+			const pageName = wgPageName;
 			const protectedPage = new Morebits.wiki.page(pageName, window.wgULS('标记页面', '標記頁面'));
 			protectedPage.setCallbackParameters(tagparams);
 			protectedPage.load(Twinkle.protect.callbacks.taggingPage);
@@ -1521,7 +1513,7 @@ import {api} from './api';
 				if (watch) {
 					const watch_query = {
 						action: 'watch',
-						titles: mw.config.get('wgPageName'),
+						titles: wgPageName,
 						token: mw.user.tokens.get('watchToken'),
 					};
 					// Only add the expiry if page is unwatched or already temporarily watched

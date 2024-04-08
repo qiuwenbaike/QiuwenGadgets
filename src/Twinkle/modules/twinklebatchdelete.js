@@ -4,6 +4,8 @@
 /*! Twinkle.js - twinklebatchdelete.js */
 (function twinklebatchdelete($) {
 	const $body = $('body');
+	const {wgCurRevisionId, wgCanonicalSpecialPageName, wgNamespaceIds, wgNamespaceNumber, wgPageName} =
+		mw.config.get();
 	/**
 	 * twinklebatchdelete.js: Batch delete module (sysops only)
 	 * Mode of invocation: Tab ("D-batch")
@@ -12,9 +14,7 @@
 	Twinkle.batchdelete = () => {
 		if (
 			Morebits.userIsSysop &&
-			((mw.config.get('wgCurRevisionId') && mw.config.get('wgNamespaceNumber') > 0) ||
-				mw.config.get('wgCanonicalSpecialPageName') === 'Prefixindex' ||
-				mw.config.get('wgCanonicalSpecialPageName') === 'BrokenRedirects')
+			(wgCurRevisionId || ['Prefixindex', 'BrokenRedirects'].includes(wgCanonicalSpecialPageName || ''))
 		) {
 			Twinkle.addPortletLink(
 				Twinkle.batchdelete.callback,
@@ -131,12 +131,12 @@
 			rvprop: 'size|user',
 		};
 		// On categories
-		if (mw.config.get('wgNamespaceNumber') === 14) {
+		if (wgNamespaceNumber === 14) {
 			query.generator = 'categorymembers';
-			query.gcmtitle = mw.config.get('wgPageName');
+			query.gcmtitle = wgPageName;
 			query.gcmlimit = Twinkle.getPref('batchMax');
 			// On Special:PrefixIndex
-		} else if (mw.config.get('wgCanonicalSpecialPageName') === 'Prefixindex') {
+		} else if (wgCanonicalSpecialPageName === 'Prefixindex') {
 			query.generator = 'allpages';
 			query.gaplimit = Twinkle.getPref('batchMax');
 			if (mw.util.getParamValue('prefix')) {
@@ -148,7 +148,7 @@
 					return;
 				}
 				const titleSplit = pathSplit[3].split(':');
-				query.gapnamespace = mw.config.get('wgNamespaceIds')[titleSplit[0].toLowerCase()];
+				query.gapnamespace = wgNamespaceIds[titleSplit[0].toLowerCase()];
 				if (titleSplit.length < 2 || query.gapnamespace === undefined) {
 					query.gapnamespace = 0; // article namespace
 					query.gapprefix = pathSplit.splice(3).join('/');
@@ -159,14 +159,14 @@
 				}
 			}
 			// On Special:BrokenRedirects
-		} else if (mw.config.get('wgCanonicalSpecialPageName') === 'BrokenRedirects') {
+		} else if (wgCanonicalSpecialPageName === 'BrokenRedirects') {
 			query.generator = 'querypage';
 			query.gqppage = 'BrokenRedirects';
 			query.gqplimit = Twinkle.getPref('batchMax');
 			// On normal pages
 		} else {
 			query.generator = 'links';
-			query.titles = mw.config.get('wgPageName');
+			query.titles = wgPageName;
 			query.gpllimit = Twinkle.getPref('batchMax');
 		}
 		const statusdiv = document.createElement('div');

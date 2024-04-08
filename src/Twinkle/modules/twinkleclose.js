@@ -4,6 +4,7 @@
 /*! Twinkle.js - twinkleclose.js */
 (function twinkleclose($) {
 	const $body = $('body');
+	const {wgPageName} = mw.config.get();
 	/**
 	 * twinkleclose.js: XFD closing module
 	 * Mode of invocation: Links after section heading
@@ -13,7 +14,7 @@
 	Twinkle.close = () => {
 		if (
 			Twinkle.getPref('XfdClose') === 'hide' ||
-			!/^Qiuwen([_ ]talk)?:存废讨论\/记录(?:\/\d+){3}$/.test(mw.config.get('wgPageName'))
+			!/^Qiuwen([_ ]talk)?:存废讨论\/记录(?:\/\d+){3}$/.test(wgPageName)
 		) {
 			return;
 		}
@@ -447,7 +448,7 @@
 					}
 				});
 			} else {
-				page.setEditSummary(`存废讨论通过：[[${mw.config.get('wgPageName')}#${params.title}]]`);
+				page.setEditSummary(`存废讨论通过：[[${wgPageName}#${params.title}]]`);
 				page.setChangeTags(Twinkle.changeTags);
 				page.deletePage(() => {
 					page.getStatusElement().info('完成');
@@ -564,7 +565,7 @@
 					.slice(2)
 					.join('/')}|${reason}}}\n`;
 				talkpage.setPrependText(vfdkept);
-				talkpage.setEditSummary(`[[${mw.config.get('wgPageName')}#${params.title}]]：${reason}`);
+				talkpage.setEditSummary(`[[${wgPageName}#${params.title}]]：${reason}`);
 				talkpage.setChangeTags(Twinkle.changeTags);
 				talkpage.setCreateOption('recreate');
 				talkpage.prepend();
@@ -587,7 +588,7 @@
 			if (params.code === 'mergeapproved') {
 				const tag = '{{'
 					.concat('subst:')
-					.concat(`Merge approved/auto|discuss=${mw.config.get('wgPageName')}#${params.title}}}\n`);
+					.concat(`Merge approved/auto|discuss=${wgPageName}#${params.title}}}\n`);
 				// Insert tag after short description or any hatnotes
 				const qiuwen_page = new Morebits.wikitext.page(newtext);
 				newtext = qiuwen_page.insertAfterTemplates(tag, Twinkle.hatnoteRegex).getText();
@@ -597,7 +598,7 @@
 				Twinkle.close.callbacks.talkend(params);
 				return;
 			}
-			const editsummary = `存废讨论关闭：[[${mw.config.get('wgPageName')}#${params.title}]]`;
+			const editsummary = `存废讨论关闭：[[${wgPageName}#${params.title}]]`;
 			pageobj.setPageText(newtext);
 			pageobj.setEditSummary(editsummary);
 			pageobj.setChangeTags(Twinkle.changeTags);
@@ -609,7 +610,7 @@
 			Twinkle.close.callbacks.talkend(params);
 		},
 		talkend: (params) => {
-			const qiuwen_page = new Morebits.wiki.page(mw.config.get('wgPageName'), '关闭讨论');
+			const qiuwen_page = new Morebits.wiki.page(wgPageName, '关闭讨论');
 			qiuwen_page.setCallbackParameters(params);
 			qiuwen_page.setPageSection(params.section);
 			qiuwen_page.load(Twinkle.close.callbacks.saveTalk);

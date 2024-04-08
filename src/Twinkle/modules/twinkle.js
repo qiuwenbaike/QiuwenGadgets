@@ -3,6 +3,7 @@
 /*! Twinkle.js - twinkle.js */
 (function twinkle($) {
 	const $body = $('body');
+	const {skin, wgCanonicalSpecialPageName, wgFormattedNamespaces, wgNamespaceNumber, wgUserName} = mw.config.get();
 	const Twinkle = {};
 	window.Twinkle ||= Twinkle; // allow global access
 	// Wrap with anonymous function
@@ -180,7 +181,7 @@
 		batchMax: 5000,
 		batchChunks: 50,
 		configPage: 'Help:Twinkle/参数设置',
-		projectNamespaceName: mw.config.get('wgFormattedNamespaces')[4],
+		projectNamespaceName: wgFormattedNamespaces[4],
 		sandboxPage: 'Qiuwen:沙盒',
 		// Deprecated options, as a fallback for add-on scripts/modules
 		summaryAd: '（[[H:TW|Twinkle]]）',
@@ -211,7 +212,7 @@
 		mailHeading: window.wgULS('您有新邮件！', '您有新郵件！'),
 	};
 	// now some skin dependent config.
-	switch (mw.config.get('skin')) {
+	switch (skin) {
 		case 'vector':
 		case 'vector-2022':
 			Twinkle.defaultConfig.portletArea = 'right-navigation';
@@ -296,7 +297,6 @@
 			nextnode = document.querySelector(`#${nextnodeid}`);
 		}
 		// verify/normalize input
-		const skin = mw.config.get('skin');
 		if (
 			(skin !== 'vector' && skin !== 'vector-2022') ||
 			(navigation !== 'left-navigation' && navigation !== 'right-navigation')
@@ -449,7 +449,7 @@
 	/**
 	 * **************** General initialization code ****************
 	 */
-	const scripturl = mw.util.getUrl(`User:${mw.config.get('wgUserName')}/twinkleoptions.js`, {
+	const scripturl = mw.util.getUrl(`User:${wgUserName}/twinkleoptions.js`, {
 		action: 'raw',
 		ctype: 'text/javascript',
 		happy: 'yes',
@@ -481,10 +481,7 @@
 				'BrokenRedirects',
 			];
 		}
-		if (
-			mw.config.get('wgNamespaceNumber') === -1 &&
-			!activeSpecialPageList.includes(mw.config.get('wgCanonicalSpecialPageName'))
-		) {
+		if (wgNamespaceNumber === -1 && !activeSpecialPageList.includes(wgCanonicalSpecialPageName)) {
 			return;
 		}
 		// Prevent clickjacking
@@ -513,7 +510,7 @@
 			);
 		}
 		// Hide the lingering space if the TW menu is empty
-		const isVector = ['vector', 'vector-2022'].includes(mw.config.get('skin'));
+		const isVector = ['vector', 'vector-2022'].includes(skin);
 		if (isVector && Twinkle.getPref('portletType') === 'menu' && $body.find('#p-twinkle').length === 0) {
 			$body.find('#p-cactions').css('margin-right', 'initial');
 		}

@@ -2,6 +2,7 @@
 // @ts-nocheck
 /*! Twinkle.js - twinklediff.js */
 (function twinklediff($) {
+	const {wgArticleId, wgCurRevisionId, wgDiffNewId, wgNamespaceNumber, wgPageName, wgUserName} = mw.config.get();
 	/**
 	 * twinklediff.js: Diff module
 	 * Mode of invocation: Tab on non-diff pages ("Last");
@@ -9,11 +10,11 @@
 	 * Active on: Existing non-special pages
 	 */
 	Twinkle.diff = () => {
-		if (mw.config.get('wgNamespaceNumber') < 0 || !mw.config.get('wgArticleId')) {
+		if (wgNamespaceNumber < 0 || !wgArticleId) {
 			return;
 		}
 		Twinkle.addPortletLink(
-			mw.util.getUrl(mw.config.get('wgPageName'), {
+			mw.util.getUrl(wgPageName, {
 				diff: 'cur',
 				oldid: 'prev',
 			}),
@@ -22,7 +23,7 @@
 			window.wgULS('显示最后修改', '顯示最後修改')
 		);
 		// Show additional tabs only on diff pages
-		if (mw.config.get('wgDiffNewId')) {
+		if (wgDiffNewId) {
 			Twinkle.addPortletLink(
 				() => {
 					Twinkle.diff.evaluate(false);
@@ -40,9 +41,9 @@
 				window.wgULS('显示与我做出的修订版本的差异', '顯示與我做出的修訂版本的差異')
 			);
 			Twinkle.addPortletLink(
-				mw.util.getUrl(mw.config.get('wgPageName'), {
+				mw.util.getUrl(wgPageName, {
 					diff: 'cur',
-					oldid: mw.config.get('wgDiffNewId'),
+					oldid: wgDiffNewId,
 				}),
 				window.wgULS('当前', '目前'),
 				'tw-curdiff',
@@ -53,7 +54,7 @@
 	Twinkle.diff.evaluate = (me) => {
 		let user;
 		if (me) {
-			user = mw.config.get('wgUserName');
+			user = wgUserName;
 		} else {
 			const node = document.querySelector('#mw-diff-ntitle2');
 			if (!node) {
@@ -65,10 +66,10 @@
 		const query = {
 			prop: 'revisions',
 			action: 'query',
-			titles: mw.config.get('wgPageName'),
+			titles: wgPageName,
 			rvlimit: 1,
 			rvprop: ['ids', 'user'],
-			rvstartid: mw.config.get('wgCurRevisionId') - 1,
+			rvstartid: wgCurRevisionId - 1,
 			rvuser: user,
 		};
 		Morebits.status.init(document.querySelector('#mw-content-text'));
@@ -94,8 +95,8 @@
 				);
 				return;
 			}
-			location = mw.util.getUrl(mw.config.get('wgPageName'), {
-				diff: mw.config.get('wgCurRevisionId'),
+			location = mw.util.getUrl(wgPageName, {
+				diff: wgCurRevisionId,
 				oldid: revid,
 			});
 		},

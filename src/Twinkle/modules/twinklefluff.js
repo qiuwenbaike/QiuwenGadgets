@@ -4,6 +4,19 @@
 /*! Twinkle.js - twinklefluff.js */
 (function twinklefluff($) {
 	const $body = $('body');
+	const {
+		wgAction,
+		wgCanonicalSpecialPageName,
+		wgCurRevisionId,
+		wgDiffNewId,
+		wgDiffOldId,
+		wgIsProbablyEditable,
+		wgNamespaceNumber,
+		wgPageName,
+		wgRelevantUserName,
+		wgRevisionId,
+		wgUserName,
+	} = mw.config.get();
 	/**
 	 * twinklefluff.js: Revert/rollback module
 	 * Mode of invocation: Links on contributions,
@@ -19,30 +32,26 @@
 		// wgIsProbablyEditable should take
 		// care of namespace/contentModel restrictions as well as explicit
 		// protections; it won't take care of cascading or TitleBlacklist.
-		if (mw.config.get('wgIsProbablyEditable')) {
+		if (wgIsProbablyEditable) {
 			// wgDiffOldId included for clarity in if else loop
-			if (mw.config.get('wgDiffNewId') || mw.config.get('wgDiffOldId')) {
+			if (wgDiffNewId || wgDiffOldId) {
 				// Reload alongside the revision slider
 				mw.hook('wikipage.diff').add(() => {
 					Twinkle.fluff.addLinks.diff();
 				});
-			} else if (
-				mw.config.get('wgAction') === 'view' &&
-				mw.config.get('wgRevisionId') &&
-				mw.config.get('wgCurRevisionId') !== mw.config.get('wgRevisionId')
-			) {
+			} else if (wgAction === 'view' && wgRevisionId && wgCurRevisionId !== wgRevisionId) {
 				Twinkle.fluff.addLinks.oldid();
-			} else if (mw.config.get('wgAction') === 'history') {
+			} else if (wgAction === 'history') {
 				Twinkle.fluff.addLinks.history();
 			}
-		} else if (mw.config.get('wgNamespaceNumber') === -1) {
+		} else if (wgNamespaceNumber === -1) {
 			Twinkle.fluff.skipTalk = !Twinkle.getPref('openTalkPageOnAutoRevert');
 			Twinkle.fluff.rollbackInPlace = Twinkle.getPref('rollbackInPlace');
-			if (mw.config.get('wgCanonicalSpecialPageName') === 'Contributions') {
+			if (wgCanonicalSpecialPageName === 'Contributions') {
 				Twinkle.fluff.addLinks.contributions();
 			} else if (
-				mw.config.get('wgCanonicalSpecialPageName') === 'Recentchanges' ||
-				mw.config.get('wgCanonicalSpecialPageName') === 'Recentchangeslinked'
+				wgCanonicalSpecialPageName === 'Recentchanges' ||
+				wgCanonicalSpecialPageName === 'Recentchangeslinked'
 			) {
 				// Reload with recent changes updates
 				// structuredChangeFilters.ui.initialized is just on load
@@ -153,12 +162,11 @@
 			const isRange = !!$body.find('#sp-contributions-footer-anon-range')[0];
 			if (mw.config.exists('wgRelevantUserName') || isRange) {
 				// Get the username these contributions are for
-				let username = mw.config.get('wgRelevantUserName');
+				let username = wgRelevantUserName;
 				if (
 					Twinkle.getPref('showRollbackLinks').includes('contribs') ||
-					(mw.config.get('wgUserName') !== username &&
-						Twinkle.getPref('showRollbackLinks').includes('others')) ||
-					(mw.config.get('wgUserName') === username && Twinkle.getPref('showRollbackLinks').includes('mine'))
+					(wgUserName !== username && Twinkle.getPref('showRollbackLinks').includes('others')) ||
+					(wgUserName === username && Twinkle.getPref('showRollbackLinks').includes('mine'))
 				) {
 					const $list = $body
 						.find('#mw-content-text')
@@ -184,9 +192,9 @@
 		},
 		recentchanges: () => {
 			if (
-				(mw.config.get('wgCanonicalSpecialPageName') === 'Recentchanges' &&
+				(wgCanonicalSpecialPageName === 'Recentchanges' &&
 					Twinkle.getPref('showRollbackLinks').includes('recentchanges')) ||
-				(mw.config.get('wgCanonicalSpecialPageName') === 'Recentchangeslinked' &&
+				(wgCanonicalSpecialPageName === 'Recentchangeslinked' &&
 					Twinkle.getPref('showRollbackLinks').includes('recentchangeslinked'))
 			) {
 				// Latest and revertable (not page creations, logs, categorizations, etc.)
@@ -247,7 +255,7 @@
 					let extraParams = `vanarticle=${mw.util.rawurlencode(Morebits.pageNameNorm)}&noautowarn=true`;
 					// diffIDs for vanarticlerevid
 					extraParams += '&vanarticlerevid=';
-					extraParams += xtitle === 'otitle' ? mw.config.get('wgDiffOldId') : mw.config.get('wgDiffNewId');
+					extraParams += xtitle === 'otitle' ? wgDiffOldId : wgDiffNewId;
 					const href = talkLink.attr('href');
 					if (href.includes('?')) {
 						talkLink.attr('href', `${href}&${extraParams}`);
@@ -259,7 +267,7 @@
 			// Older revision
 			warnFromTalk('otitle'); // Add quick-warn link to user talk link
 			// Don't load if there's a single revision or weird diff (cur on latest)
-			if (mw.config.get('wgDiffOldId') && mw.config.get('wgDiffOldId') !== mw.config.get('wgDiffNewId')) {
+			if (wgDiffOldId && wgDiffOldId !== wgDiffNewId) {
 				// Add a [restore this revision] link to the older revision
 				const oldTitle = document.querySelector('#mw-diff-otitle1').parentNode;
 				const revertToRevision = Twinkle.fluff.linkBuilder.restoreThisRevisionLink('wgDiffOldId');
@@ -298,9 +306,8 @@
 				);
 			} else if (
 				Twinkle.getPref('showRollbackLinks').includes('diff') &&
-				mw.config.get('wgDiffOldId') &&
-				(mw.config.get('wgDiffOldId') !== mw.config.get('wgDiffNewId') ||
-					document.querySelector('#differences-prevlink'))
+				wgDiffOldId &&
+				(wgDiffOldId !== wgDiffNewId || document.querySelector('#differences-prevlink'))
 			) {
 				// Normally .mw-userlink is a link, but if the
 				// username is hidden, it will be a span with
@@ -339,8 +346,8 @@
 		if (mw.util.isIPv6Address(vandal)) {
 			vandal = Morebits.sanitizeIPv6(vandal);
 		}
-		const pagename = page || mw.config.get('wgPageName');
-		const revid = rev || mw.config.get('wgCurRevisionId');
+		const pagename = page || wgPageName;
+		const revid = rev || wgCurRevisionId;
 		let summary = '';
 		if (document.getElementsByName('revertsummary')[0] !== undefined) {
 			summary = document.getElementsByName('revertsummary')[0].value;
@@ -394,7 +401,7 @@
 		const query = {
 			action: 'query',
 			prop: ['info', 'revisions'],
-			titles: mw.config.get('wgPageName'),
+			titles: wgPageName,
 			rvlimit: 1,
 			rvstartid: oldrev,
 			rvprop: ['ids', 'user'],
@@ -448,7 +455,7 @@
 			);
 			const query = {
 				action: 'edit',
-				title: mw.config.get('wgPageName'),
+				title: wgPageName,
 				summary,
 				tags: Twinkle.changeTags,
 				token: csrftoken,
@@ -474,7 +481,7 @@
 					}
 				}
 			}
-			Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
+			Morebits.wiki.actionCompleted.redirect = wgPageName;
 			Morebits.wiki.actionCompleted.notice = '回退完成';
 			const qiuwen_api = new Morebits.wiki.api(
 				window.wgULS('保存回退内容', '儲存回退內容'),
@@ -772,7 +779,7 @@
 				!Twinkle.fluff.skipTalk &&
 				Twinkle.getPref('openTalkPage').includes(params.type) &&
 				!params.userHidden &&
-				mw.config.get('wgUserName') !== params.user
+				wgUserName !== params.user
 			) {
 				params.notifyUser = true;
 				// Pass along to the warn module

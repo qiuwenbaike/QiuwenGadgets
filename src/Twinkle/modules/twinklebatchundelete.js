@@ -2,6 +2,7 @@
 // @ts-nocheck
 /*! Twinkle.js - twinklebatchundelete.js */
 (function twinklebatchundelete($) {
+	const {wgArticleId, wgNamespaceIds, wgNamespaceNumber, wgPageName} = mw.config.get();
 	/**
 	 * twinklebatchundelete.js: Batch undelete module
 	 * Mode of invocation: Tab ("Und-batch")
@@ -10,9 +11,8 @@
 	Twinkle.batchundelete = () => {
 		if (
 			!Morebits.userIsSysop ||
-			!mw.config.get('wgArticleId') ||
-			(mw.config.get('wgNamespaceNumber') !== mw.config.get('wgNamespaceIds').user &&
-				mw.config.get('wgNamespaceNumber') !== mw.config.get('wgNamespaceIds').project)
+			!wgArticleId ||
+			(wgNamespaceNumber !== wgNamespaceIds.user && wgNamespaceNumber !== wgNamespaceIds.project)
 		) {
 			return;
 		}
@@ -56,7 +56,7 @@
 			generator: 'links',
 			prop: 'info',
 			inprop: 'protection',
-			titles: mw.config.get('wgPageName'),
+			titles: wgPageName,
 			gpllimit: Twinkle.getPref('batchMax'),
 		};
 		const statelem = new Morebits.status(window.wgULS('抓取页面列表', '抓取頁面列表'));

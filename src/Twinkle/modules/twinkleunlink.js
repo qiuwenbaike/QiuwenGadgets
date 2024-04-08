@@ -2,17 +2,14 @@
 // @ts-nocheck
 /*! Twinkle.js - twinkleunlink.js */
 (function twinkleunlink($) {
+	const {wgFormattedNamespaces, wgNamespaceNumber, wgPageName, wgTitle} = mw.config.get();
 	/**
 	 * twinkleunlink.js: Unlink module
 	 * Mode of invocation: Tab ("Unlink")
 	 * Active on: Non-special pages, except Qiuwen:沙盒
 	 */
 	Twinkle.unlink = () => {
-		if (
-			mw.config.get('wgNamespaceNumber') < 0 ||
-			mw.config.get('wgPageName') === Twinkle.getPref('sandboxPage') ||
-			!Morebits.userIsSysop
-		) {
+		if (wgNamespaceNumber < 0 || wgPageName === Twinkle.getPref('sandboxPage') || !Morebits.userIsSysop) {
 			return;
 		}
 		Twinkle.addPortletLink(
@@ -24,7 +21,7 @@
 	};
 	// the parameter is used when invoking unlink from admin speedy
 	Twinkle.unlink.callback = (presetReason) => {
-		const fileSpace = mw.config.get('wgNamespaceNumber') === 6;
+		const fileSpace = wgNamespaceNumber === 6;
 		const Window = new Morebits.simpleWindow(600, 440);
 		Window.setTitle(
 			window.wgULS('取消链入', '取消連入') +
@@ -42,7 +39,7 @@
 		);
 		const linkTextAfter = Morebits.htmlNode('code', window.wgULS('链接文字', '連結文字'));
 		const linkPlainBefore = Morebits.htmlNode('code', `[[${Morebits.pageNameNorm}]]`);
-		const linkTemplateBefore = Morebits.htmlNode('code', `{{${mw.config.get('wgTitle')}}}`);
+		const linkTemplateBefore = Morebits.htmlNode('code', `{{${wgTitle}}}`);
 		let linkPlainAfter;
 		if (fileSpace) {
 			linkPlainAfter = Morebits.htmlNode('code', `<!-- [[${Morebits.pageNameNorm}]] -->`);
@@ -92,7 +89,7 @@
 		const query = {
 			action: 'query',
 			list: 'backlinks',
-			bltitle: mw.config.get('wgPageName'),
+			bltitle: wgPageName,
 			bllimit: 'max',
 			// 500 is max for normal users, 5000 for bots and sysops
 			blnamespace: Twinkle.getPref('unlinkNamespaces'),
@@ -202,9 +199,7 @@
 						namespaces = [];
 						for (const v of Twinkle.getPref('unlinkNamespaces')) {
 							namespaces[namespaces.length] =
-								v === '0'
-									? window.wgULS('（条目）', '（條目）')
-									: mw.config.get('wgFormattedNamespaces')[v];
+								v === '0' ? window.wgULS('（条目）', '（條目）') : wgFormattedNamespaces[v];
 						}
 						apiobj.params.form.append({
 							type: 'div',
@@ -269,9 +264,7 @@
 					namespaces = [];
 					for (const v of Twinkle.getPref('unlinkNamespaces')) {
 						namespaces[namespaces.length] =
-							v === '0'
-								? window.wgULS('（条目）', '（條目）')
-								: mw.config.get('wgFormattedNamespaces')[v];
+							v === '0' ? window.wgULS('（条目）', '（條目）') : wgFormattedNamespaces[v];
 					}
 					apiobj.params.form.append({
 						type: 'div',
@@ -341,7 +334,7 @@
 			let text;
 			// remove image usages
 			if (params.doImageusage) {
-				text = qiuwen_page.commentOutImage(mw.config.get('wgTitle'), window.wgULS('注释', '注釋')).getText();
+				text = qiuwen_page.commentOutImage(wgTitle, window.wgULS('注释', '注釋')).getText();
 				// did we actually make any changes?
 				if (text === oldtext) {
 					warningString = window.wgULS('文件使用', '檔案使用');
@@ -353,7 +346,7 @@
 			// remove backlinks
 			if (params.doBacklinks) {
 				text = qiuwen_page.removeLink(Morebits.pageNameNorm).getText();
-				text = qiuwen_page.removeTemplate(mw.config.get('wgTitle')).getText();
+				text = qiuwen_page.removeTemplate(wgTitle).getText();
 				// did we actually make any changes?
 				if (text === oldtext) {
 					warningString = warningString

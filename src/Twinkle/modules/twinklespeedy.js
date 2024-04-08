@@ -5,6 +5,17 @@ import {generateArray} from 'ext.gadget.Util';
 /*! Twinkle.js - twinklespeedy.js */
 (function twinklespeedy($) {
 	const $body = $('body');
+	const {
+		wgArticleId,
+		wgFormattedNamespaces,
+		wgIsRedirect,
+		wgNamespaceNumber,
+		wgPageName,
+		wgPageContentModel,
+		wgRelevantUserName,
+		wgTitle,
+		wgUserName,
+	} = mw.config.get();
 	/**
 	 * twinklespeedy.js: CSD module
 	 * Mode of invocation: Tab ("CSD")
@@ -20,7 +31,7 @@ import {generateArray} from 'ext.gadget.Util';
 		// Disable on:
 		// * special pages
 		// * non-existent pages
-		if (mw.config.get('wgNamespaceNumber') < 0 || !mw.config.get('wgArticleId')) {
+		if (wgNamespaceNumber < 0 || !wgArticleId) {
 			return;
 		}
 		Twinkle.addPortletLink(
@@ -155,7 +166,7 @@ import {generateArray} from 'ext.gadget.Util';
 				type: 'header',
 				label: window.wgULS('删除相关选项', '刪除相關選項'),
 			});
-			if (mw.config.get('wgNamespaceNumber') % 2 === 0 && mw.config.get('wgNamespaceNumber') !== 2) {
+			if (wgNamespaceNumber % 2 === 0 && wgNamespaceNumber !== 2) {
 				// hide option for user pages, to avoid accidentally deleting user talk page
 				deleteOptions.append({
 					type: 'checkbox',
@@ -322,7 +333,7 @@ import {generateArray} from 'ext.gadget.Util';
 		return mode;
 	};
 	Twinkle.speedy.callback.modeChanged = (form) => {
-		const namespace = mw.config.get('wgNamespaceNumber');
+		const namespace = wgNamespaceNumber;
 		// first figure out what mode we're in
 		const mode = Twinkle.speedy.callback.getMode(form);
 		const isSysopMode = Twinkle.speedy.mode.isSysop(mode);
@@ -397,7 +408,7 @@ import {generateArray} from 'ext.gadget.Util';
 				break;
 			case 3:
 				// user talk
-				if (mw.util.isIPAddress(mw.config.get('wgRelevantUserName'))) {
+				if (mw.util.isIPAddress(wgRelevantUserName)) {
 					work_area.append({
 						type: 'header',
 						label: window.wgULS('用户讨论页', '使用者討論頁'),
@@ -492,7 +503,7 @@ import {generateArray} from 'ext.gadget.Util';
 				),
 			});
 		}
-		if (mw.config.get('wgIsRedirect') || Morebits.userIsSysop) {
+		if (wgIsRedirect || Morebits.userIsSysop) {
 			work_area.append({
 				type: 'header',
 				label: '重定向',
@@ -525,12 +536,12 @@ import {generateArray} from 'ext.gadget.Util';
 				'height: 2em; width: 2em; height: -moz-initial; width: -moz-initial; -moz-transform: scale(2); -o-transform: scale(2);';
 			document.querySelector('input[value="g7"]').labels[0].style = 'font-size: 1.5em; line-height: 1.5em;';
 		}
-		if (!isSysopMode && mw.config.get('wgPageContentModel') !== 'wikitext') {
+		if (!isSysopMode && wgPageContentModel !== 'wikitext') {
 			$body.find('[name=tag_options]').hide();
 			$body.find('[name=work_area]').empty();
 			const message = [
 				window.wgULS('Twinkle不支持在页面内容模型为', 'Twinkle不支援在頁面內容模型為'),
-				mw.config.get('wgPageContentModel'),
+				wgPageContentModel,
 				window.wgULS('的页面上挂上快速删除模板，请参见', '的頁面上掛上快速刪除模板，請參見'),
 				$('<a>')
 					.attr({
@@ -555,7 +566,7 @@ import {generateArray} from 'ext.gadget.Util';
 			letype: 'delete',
 			leaction: 'delete/delete',
 			// Just pure page deletion, no redirect overwrites or revdel
-			letitle: mw.config.get('wgPageName'),
+			letitle: wgPageName,
 			leprop: '',
 			// We're just counting we don't actually care about the entries
 			lelimit: 5,
@@ -580,7 +591,7 @@ import {generateArray} from 'ext.gadget.Util';
 				link.setAttribute(
 					'href',
 					mw.util.getUrl('Special:Log', {
-						page: mw.config.get('wgPageName'),
+						page: wgPageName,
 					})
 				);
 				link.setAttribute('target', '_blank');
@@ -641,18 +652,12 @@ import {generateArray} from 'ext.gadget.Util';
 					criterion.subgroup = null;
 				}
 			}
-			if (mw.config.get('wgIsRedirect') && criterion.hideWhenRedirect) {
+			if (wgIsRedirect && criterion.hideWhenRedirect) {
 				return null;
 			}
-			if (
-				criterion.showInNamespaces &&
-				!criterion.showInNamespaces.includes(mw.config.get('wgNamespaceNumber'))
-			) {
+			if (criterion.showInNamespaces && !criterion.showInNamespaces.includes(wgNamespaceNumber)) {
 				return null;
-			} else if (
-				criterion.hideInNamespaces &&
-				criterion.hideInNamespaces.includes(mw.config.get('wgNamespaceNumber'))
-			) {
+			} else if (criterion.hideInNamespaces && criterion.hideInNamespaces.includes(wgNamespaceNumber)) {
 				return null;
 			}
 			if (criterion.subgroup && !hasSubmitButton) {
@@ -1020,7 +1025,7 @@ import {generateArray} from 'ext.gadget.Util';
 					Twinkle.speedy.callbacks.sysop.deletePage(reason, params);
 				} else {
 					const [code] = Twinkle.speedy.callbacks.getTemplateCodeAndParams(params);
-					Twinkle.speedy.callbacks.parseWikitext(mw.config.get('wgPageName'), code, (deleteReason) => {
+					Twinkle.speedy.callbacks.parseWikitext(wgPageName, code, (deleteReason) => {
 						if (params.promptForSummary) {
 							deleteReason = prompt(
 								window.wgULS(
@@ -1035,10 +1040,7 @@ import {generateArray} from 'ext.gadget.Util';
 				}
 			},
 			deletePage: (reason, params) => {
-				const thispage = new Morebits.wiki.page(
-					mw.config.get('wgPageName'),
-					window.wgULS('删除页面', '刪除頁面')
-				);
+				const thispage = new Morebits.wiki.page(wgPageName, window.wgULS('删除页面', '刪除頁面'));
 				if (reason === null) {
 					return Morebits.status.error(
 						window.wgULS('询问理由', '詢問理由'),
@@ -1079,9 +1081,7 @@ import {generateArray} from 'ext.gadget.Util';
 					!document.querySelector('#ca-talk').classList.contains('new')
 				) {
 					const talkpage = new Morebits.wiki.page(
-						`${
-							mw.config.get('wgFormattedNamespaces')[mw.config.get('wgNamespaceNumber') + 1]
-						}:${mw.config.get('wgTitle')}`,
+						`${wgFormattedNamespaces[wgNamespaceNumber + 1]}:${wgTitle}`,
 						window.wgULS('删除讨论页', '刪除討論頁')
 					);
 					talkpage.setEditSummary(`[[QW:CSD#G9|G9]]: 孤立页面：已删除页面“${Morebits.pageNameNorm}”的讨论页`);
@@ -1101,7 +1101,7 @@ import {generateArray} from 'ext.gadget.Util';
 				if (params.deleteRedirects) {
 					const query = {
 						action: 'query',
-						titles: mw.config.get('wgPageName'),
+						titles: wgPageName,
 						prop: 'redirects',
 						rdlimit: 5000, // 500 is max for normal users, 5000 for bots and sysops
 					};
@@ -1141,7 +1141,7 @@ import {generateArray} from 'ext.gadget.Util';
 					Morebits.status.info($bigtext[0], $link[0]);
 				}
 				// promote Unlink tool
-				if (mw.config.get('wgNamespaceNumber') === 6) {
+				if (wgNamespaceNumber === 6) {
 					$link = $('<a>')
 						.attr('href', '#')
 						.text(window.wgULS('单击这里前往取消链入工具', '點擊這裡前往取消連入工具'))
@@ -1349,14 +1349,14 @@ import {generateArray} from 'ext.gadget.Util';
 				const buildData = Twinkle.speedy.callbacks.getTemplateCodeAndParams(params);
 				let [code] = buildData;
 				[, params.utparams] = buildData;
-				const thispage = new Morebits.wiki.page(mw.config.get('wgPageName'));
+				const thispage = new Morebits.wiki.page(wgPageName);
 				// patrol the page, if reached from Special:NewPages
 				if (Twinkle.getPref('markSpeedyPagesAsPatrolled')) {
 					thispage.patrol();
 				}
 				// Wrap SD template in noinclude tags if we are in template space.
 				// Won't work with userboxes in userspace, or any other transcluded page outside template space
-				if (mw.config.get('wgNamespaceNumber') === 10) {
+				if (wgNamespaceNumber === 10) {
 					// Template:
 					code = `<noinclude>${code}</noinclude>`;
 				}
@@ -1365,7 +1365,7 @@ import {generateArray} from 'ext.gadget.Util';
 					/\{\{\s*([Nn]ew unreviewed article|[Uu]nreviewed|[Uu]serspace draft)\s*(\|(?:\{\{[^{}]*\}\}|[^{}])*)?\}\}\s*/g,
 					''
 				);
-				if (mw.config.get('wgNamespaceNumber') === 6) {
+				if (wgNamespaceNumber === 6) {
 					// remove "move to Commons" tag - deletion-tagged files cannot be moved to Commons
 					text = text.replace(
 						/\{\{(mtc|(copy |move )?to ?(share|commons)|move to (qiuwen share|wikimedia commons)|copy to (qiuwen share|wikimedia commons))[^}]*\}\}/gi,
@@ -1417,16 +1417,13 @@ import {generateArray} from 'ext.gadget.Util';
 					const callback = (pageObj) => {
 						let initialContrib = pageObj.getCreator();
 						// disallow warning yourself
-						if (initialContrib === mw.config.get('wgUserName')) {
+						if (initialContrib === wgUserName) {
 							Morebits.status.warn(
 								`您（${initialContrib}${window.wgULS('）创建了该页，跳过通知', '）建立了該頁，跳過通知')}`
 							);
 							initialContrib = null;
 							// don't notify users when their user talk page is nominated
-						} else if (
-							initialContrib === mw.config.get('wgTitle') &&
-							mw.config.get('wgNamespaceNumber') === 3
-						) {
+						} else if (initialContrib === wgTitle && wgNamespaceNumber === 3) {
 							Morebits.status.warn(
 								window.wgULS(
 									'通知页面创建者：用户创建了自己的讨论页',
@@ -1764,9 +1761,9 @@ import {generateArray} from 'ext.gadget.Util';
 		}
 		Morebits.simpleWindow.setButtonsEnabled(false);
 		Morebits.status.init(form);
-		Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
+		Morebits.wiki.actionCompleted.redirect = wgPageName;
 		Morebits.wiki.actionCompleted.notice = window.wgULS('标记完成', '標記完成');
-		const qiuwen_page = new Morebits.wiki.page(mw.config.get('wgPageName'), window.wgULS('标记页面', '標記頁面'));
+		const qiuwen_page = new Morebits.wiki.page(wgPageName, window.wgULS('标记页面', '標記頁面'));
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.load(Twinkle.speedy.callbacks.user.main);
 	};

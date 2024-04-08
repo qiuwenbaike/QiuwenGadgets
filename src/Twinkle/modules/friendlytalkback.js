@@ -4,6 +4,7 @@
 /*! Twinkle.js - friendlytalkback.js */
 (function friendlytalkback($) {
 	const $body = $('body');
+	const {wgFormattedNamespaces, wgNamespaceIds, wgRelevantUserName, wgUserName} = mw.config.get();
 	/**
 	 * friendlytalkback.js: Talkback module
 	 * Mode of invocation: Tab ("TB")
@@ -11,7 +12,7 @@
 	 * Config directives in: FriendlyConfig
 	 */
 	Twinkle.talkback = () => {
-		if (!mw.config.get('wgRelevantUserName')) {
+		if (!wgRelevantUserName) {
 			return;
 		}
 		Twinkle.addPortletLink(
@@ -23,7 +24,7 @@
 	};
 	Twinkle.talkback.callback = () => {
 		if (
-			mw.config.get('wgRelevantUserName') === mw.config.get('wgUserName') &&
+			wgRelevantUserName === wgUserName &&
 			!confirm(window.wgULS('您寂寞到了要自己回复自己的程度么？', '您寂寞到了要自己回覆自己的程度麼？'))
 		) {
 			return;
@@ -104,7 +105,7 @@
 		const query = {
 			action: 'query',
 			prop: 'extlinks',
-			titles: `User talk:${mw.config.get('wgRelevantUserName')}`,
+			titles: `User talk:${wgRelevantUserName}`,
 			elquery: 'userjs.invalid/noTalkback',
 			ellimit: '1',
 		};
@@ -119,8 +120,7 @@
 	Twinkle.talkback.callback.optoutStatus = (apiobj) => {
 		const $el = $(apiobj.getXML()).find('el');
 		if ($el.length) {
-			Twinkle.talkback.optout =
-				mw.config.get('wgRelevantUserName') + window.wgULS('不希望收到回复通告', '不希望收到回覆通告');
+			Twinkle.talkback.optout = wgRelevantUserName + window.wgULS('不希望收到回复通告', '不希望收到回覆通告');
 			const url = $el.text();
 			const reason = mw.util.getParamValue('reason', url);
 			Twinkle.talkback.optout += reason ? `：${Morebits.string.appendPunctuation(reason)}` : '。';
@@ -349,7 +349,7 @@
 			({editSummary} = Twinkle.talkback.noticeboards[page]);
 		} else {
 			// usertalk, other, see
-			page = form.page ? form.page.value : mw.config.get('wgUserName');
+			page = form.page ? form.page.value : wgUserName;
 			if (form.message) {
 				message = form.message.value.trim();
 			}
@@ -371,9 +371,7 @@
 		}
 		Morebits.simpleWindow.setButtonsEnabled(false);
 		Morebits.status.init(form);
-		const fullUserTalkPageName = `${
-			mw.config.get('wgFormattedNamespaces')[mw.config.get('wgNamespaceIds').user_talk]
-		}:${mw.config.get('wgRelevantUserName')}`;
+		const fullUserTalkPageName = `${wgFormattedNamespaces[wgNamespaceIds.user_talk]}:${wgRelevantUserName}`;
 		Morebits.wiki.actionCompleted.redirect = fullUserTalkPageName;
 		Morebits.wiki.actionCompleted.notice = window.wgULS(
 			'回复通告完成，将在几秒内刷新页面',
@@ -398,13 +396,13 @@
 			page = form.noticeboard.value;
 		} else {
 			// usertalk, other, see
-			page = form.page ? form.page.value : mw.config.get('wgUserName');
+			page = form.page ? form.page.value : wgUserName;
 			if (form.message) {
 				message = form.message.value.trim();
 			}
 		}
 		const [noticetext] = Twinkle.talkback.getNoticeWikitext(tbtarget, page, section, message);
-		form.previewer.beginRender(noticetext, `User_talk:${mw.config.get('wgRelevantUserName')}`); // Force wikitext/correct username
+		form.previewer.beginRender(noticetext, `User_talk:${wgRelevantUserName}`); // Force wikitext/correct username
 	};
 
 	Twinkle.talkback.getNoticeWikitext = (tbtarget, page, section, message) => {
