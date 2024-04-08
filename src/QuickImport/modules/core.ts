@@ -1,4 +1,3 @@
-import {ApiQueryImageInfoParams} from 'types-mediawiki-renovate/api_params';
 import {api} from './api';
 import {generateArray} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
