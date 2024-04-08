@@ -1,4 +1,4 @@
-import {detectIfFileRedirect, refreshPage} from '~/QuickImport/modules/core';
+import {detectIfFileRedirect, refreshPage} from 'ext.gadget.QuickImport';
 import {getAllImages} from './modules/core';
 
 (function quickImportAllMedia(): void {
@@ -19,7 +19,7 @@ import {getAllImages} from './modules/core';
 			await detectIfFileRedirect([...new Set(fileNames)], true);
 		})().then(() => {
 			const {wgPageName} = mw.config.get();
-			refreshPage(wgPageName);
+			void refreshPage(wgPageName);
 		});
 	});
 })();

@@ -2,11 +2,14 @@ import {api} from './api';
 import {generateArray} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
+type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => Promise<void>;
+type RefreshPage = (title: string) => void;
+
 let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
 };
 
-const refreshPage = (wgPageName: string): void => {
+const refreshPage: RefreshPage = (title) => {
 	toastifyInstance.hideToast();
 	toastify(
 		{
@@ -16,7 +19,7 @@ const refreshPage = (wgPageName: string): void => {
 		'info'
 	);
 
-	location.replace(mw.util.getUrl(wgPageName));
+	location.replace(mw.util.getUrl(title));
 };
 
 const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean = false): Promise<void> => {
@@ -85,35 +88,53 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 	);
 };
 
-const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = false): Promise<void> => {
+const queryImageInfo = async (titles: string | string[]) => {
+	const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		prop: ['imageinfo', 'info'],
+		iiprop: ['url'],
+		titles,
+		redirects: true,
+	};
+	const response = await api.post(queryParams);
+
+	return response;
+};
+
+const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = false) => {
 	pageNames = generateArray(pageNames);
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i: number = 0; i < (pageNames.length + 50) / 50; i++) {
 		promises[promises.length] = async (): Promise<void> => {
-			const titles = pageNames.slice(i * 50, (i + 1) * 50);
+			let titles = pageNames.slice(i * 50, (i + 1) * 50);
 			if (pageNames.length === 0) {
 				return;
 			}
 
-			const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
-				action: 'query',
-				format: 'json',
-				formatversion: '2',
-				prop: ['imageinfo', 'info'],
-				iiprop: ['url'],
-				titles,
-				redirects: true,
-			};
-			const response = await api.post(queryParams);
+			// Analyze step 1: import pages itself
+			//// Query
+			const response = await queryImageInfo(titles);
 			if (!response['query']) {
 				return;
 			}
 
-			for (const page of response['query'].pages) {
-				const title = page.title as string;
+			//// Normalize
+			if (response['query'].normalized) {
+				for (const {from, to} of response['query'].normalized as {from: string; to: string}[]) {
+					titles = titles.map((element) => {
+						return element === from ? to : element;
+					});
+				}
+			}
 
-				if (!page.missing) {
+			//// Import
+			for (const page1 of response['query'].pages) {
+				const title = page1.title as string;
+
+				if (!page1.missing) {
 					continue;
 				}
 
@@ -121,21 +142,58 @@ const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = fal
 					await importPage(title, 'commons', isFileNS);
 				}
 				await importPage(title, 'zhwiki', isFileNS);
+			}
 
-				if (isFileNS && (page.known || (page.imagerepository && page.imagerepository !== 'local'))) {
-					await uploadFile(title, page.imageinfo[0].url as string);
+			// Analyze step 2: for files, check if it is a redirect
+			let response2;
+			if (isFileNS) {
+				//// Query
+				response2 = await queryImageInfo(titles);
+				if (!response2['query']) {
+					return;
+				}
+
+				//// Normalize
+				if (response2['query'].normalized) {
+					for (const {from, to} of response2['query'].normalized as {from: string; to: string}[]) {
+						titles = titles.map((element) => {
+							return element === from ? to : element;
+						});
+					}
+				}
+
+				//// upload
+				for (const page2 of response2['query'].pages) {
+					const title = page2.title as string;
+
+					if (page2.missing || page2.redirect) {
+						continue;
+					}
+
+					if (page2.imagerepository && page2.imagerepository !== 'local') {
+						await uploadFile(title, page2.imageinfo[0].url as string);
+					}
 				}
 			}
 
-			if (response['query'].redirects) {
-				const tos = [];
+			// Analyze step 3: import pages as redirect target
+			const tos: string[] = [];
 
+			//// Push redirect targets into array
+			if (response['query'].redirects) {
 				for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
 					tos[tos.length] = to;
 				}
-
-				await detectIfFileRedirect(tos);
 			}
+
+			if (response2 && response2['query'].redirects) {
+				for (const {to} of response2['query'].redirects as {from: string; to: string}[]) {
+					tos[tos.length] = to;
+				}
+			}
+
+			//// Queue requests to import redirect targets
+			await detectIfFileRedirect(tos);
 		};
 	}
 
@@ -144,4 +202,4 @@ const detectIfFileRedirect = async (pageNames: string | string[], isFileNS = fal
 	}
 };
 
-export {detectIfFileRedirect, refreshPage};
+export {type DetectIfFileRedirect, detectIfFileRedirect, type RefreshPage, refreshPage};
