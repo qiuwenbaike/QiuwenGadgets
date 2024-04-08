@@ -40,9 +40,11 @@ const getAllImages = async () => {
 		}
 	}
 
-	const fileLinkElements = document.querySelectorAll("a[href^='/wiki/File:'], a[href*='title=File:']");
+	const fileLinkElements = document.querySelectorAll<HTMLAnchorElement>(
+		"a[href^='/wiki/File:'], a[href*='title=File:']"
+	);
 
-	for (const element of fileLinkElements as unknown as HTMLAnchorElement[]) {
+	for (const element of fileLinkElements) {
 		const {href} = element;
 
 		if (!href) {

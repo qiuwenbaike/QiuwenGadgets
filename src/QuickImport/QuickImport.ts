@@ -38,3 +38,6 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 		});
 	});
 })();
+
+export {api} from './modules/api';
+export {detectIfFileRedirect, refreshPage} from './modules/core';

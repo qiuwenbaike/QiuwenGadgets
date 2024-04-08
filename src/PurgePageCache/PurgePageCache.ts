@@ -34,3 +34,5 @@ void getBody().then(function purgePageCache($body: JQuery<HTMLBodyElement>): voi
 		});
 	}
 });
+
+export {purge} from './modules/purge';
