@@ -15,6 +15,7 @@
 * Mainpage-obituary[ResourceLoader|hidden|namespaces=4,10|requiresES6]|Mainpage-obituary.css
 * Mainpage_JS[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|namespaces=4,10|requiresES6]|Mainpage_JS.js
 * Mainpage_licencewiki[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_licencewiki.css
+* Mainpage_zhqiuwenbaike[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_zhqiuwenbaike.css
 * NavboxCSS[ResourceLoader|default|hidden|requiresES6]|NavboxCSS.css
 * NospzGothic[ResourceLoader|default|requiresES6]|NospzGothic.css
 * OneSideMenu[ResourceLoader|skins=gongbi|requiresES6]|OneSideMenu.css

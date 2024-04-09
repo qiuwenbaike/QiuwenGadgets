@@ -1,0 +1,34 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage_zhqiuwenbaike}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/Mainpage_zhqiuwenbaike/Mainpage_zhqiuwenbaike.less */
+:root {
+  --color--primary: #36c;
+  --background-color-primary: rgba(51, 102, 204, 0.25);
+  --background-color-primary--darkest: rgba(51, 102, 204, 0.75);
+  --background-color-primary--darker: rgba(51, 102, 204, 0.5);
+  --background-color-primary--light: rgba(51, 102, 204, 0.125);
+  --background-color-primary--lighter: rgba(51, 102, 204, 0.0625);
+  --background-color-primary--lightest: rgba(51, 102, 204, 0.0125);
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL01haW5wYWdlX3pocWl1d2VuYmFpa2UvTWFpbnBhZ2VfemhxaXV3ZW5iYWlrZS5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIvKiBWYXJpYWJsZXMgZm9yIHJvb3QgKi9cbjpyb290IHtcbiAgLS1jb2xvci0tcHJpbWFyeTogIzM2YztcbiAgLS1iYWNrZ3JvdW5kLWNvbG9yLXByaW1hcnk6IHJnYmEoNTEsIDEwMiwgMjA0LCAwLjI1KTtcbiAgLS1iYWNrZ3JvdW5kLWNvbG9yLXByaW1hcnktLWRhcmtlc3Q6IHJnYmEoNTEsIDEwMiwgMjA0LCAwLjc1KTtcbiAgLS1iYWNrZ3JvdW5kLWNvbG9yLXByaW1hcnktLWRhcmtlcjogcmdiYSg1MSwgMTAyLCAyMDQsIDAuNSk7XG4gIC0tYmFja2dyb3VuZC1jb2xvci1wcmltYXJ5LS1saWdodDogcmdiYSg1MSwgMTAyLCAyMDQsIDAuMTI1KTtcbiAgLS1iYWNrZ3JvdW5kLWNvbG9yLXByaW1hcnktLWxpZ2h0ZXI6IHJnYmEoNTEsIDEwMiwgMjA0LCAwLjA2MjUpO1xuICAtLWJhY2tncm91bmQtY29sb3ItcHJpbWFyeS0tbGlnaHRlc3Q6IHJnYmEoNTEsIDEwMiwgMjA0LCAwLjAxMjUpO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQ0E7QUFDRSxvQkFBa0I7QUFDbEIsOEJBQTRCLEtBQUssRUFBRSxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7QUFDL0MsdUNBQXFDLEtBQUssRUFBRSxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7QUFDeEQsc0NBQW9DLEtBQUssRUFBRSxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7QUFDdkQscUNBQW1DLEtBQUssRUFBRSxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7QUFDdEQsdUNBQXFDLEtBQUssRUFBRSxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7QUFDeEQsd0NBQXNDLEtBQUssRUFBRSxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7QUFDM0Q7IiwKICAibmFtZXMiOiBbXQp9Cg== */
