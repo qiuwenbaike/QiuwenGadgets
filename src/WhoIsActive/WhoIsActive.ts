@@ -5,6 +5,6 @@ import {whoIsActive, whoIsActiveUserPage} from './modules/core';
 		return;
 	}
 
-	void whoIsActive();
+	mw.hook('wikipage.content').add(whoIsActive);
 	void whoIsActiveUserPage();
 })();

@@ -15,14 +15,14 @@ type Usercontribs = {
 	}>;
 };
 
-const whoIsActive = async (): Promise<void> => {
+const whoIsActive = async ($content: JQuery<HTMLElement>): Promise<void> => {
 	const usernames: string[] = [];
 	const $elements: JQuery<HTMLAnchorElement>[] = [];
 
 	const {wgFormattedNamespaces} = mw.config.get();
 
 	const {2: localizedUserNamespace} = wgFormattedNamespaces;
-	for (const element of mw.util.$content.find<HTMLAnchorElement>(
+	for (const element of $content.find<HTMLAnchorElement>(
 		[
 			'a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"])',
 			`a[title^="${localizedUserNamespace}:"]:not(.mw-changeslist-date):not([href*="undo"])`,
@@ -77,7 +77,7 @@ const whoIsActive = async (): Promise<void> => {
 	}
 };
 
-const whoIsActiveUserPage = async () => {
+const whoIsActiveUserPage = async (): Promise<void> => {
 	const {wgAction, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
 
 	if (wgRelevantUserName && wgNamespaceNumber === 2 && wgAction === 'view') {
