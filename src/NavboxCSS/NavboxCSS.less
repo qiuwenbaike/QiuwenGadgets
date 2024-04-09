@@ -30,10 +30,10 @@
 	text-align: start;
 
 	/* Variables */
-	--navbox-title-color: hsl(var(--navbox-hue) var(--navbox-saturation) 72%);
-	--navbox-group-color: hsl(var(--navbox-hue) var(--navbox-saturation) 80%);
-	--navbox-subgroup-color: hsl(var(--navbox-hue) var(--navbox-saturation) 86%);
-	--navbox-sub-subgroup-color: hsl(var(--navbox-hue) var(--navbox-saturation) 90%);
+	--navbox-title-color: hsl(var(--navbox-hue, 160) var(--navbox-saturation, 45%) 72%);
+	--navbox-group-color: hsl(var(--navbox-hue, 160) var(--navbox-saturation, 45%) 80%);
+	--navbox-subgroup-color: hsl(var(--navbox-hue, 160) var(--navbox-saturation, 45%) 86%);
+	--navbox-sub-subgroup-color: hsl(var(--navbox-hue, 160) var(--navbox-saturation, 45%) 90%);
 
 	/* 整个navbox中的所有单元格，包括title、group、list等。 */
 	.navbox-cell {
@@ -82,8 +82,7 @@
 		text-align: center;
 		/* Fallback end */
 		padding-left: 1em;
-		background-color: #c4e3b5;
-		background-color: var(--navbox-title-color);
+		background-color: var(--navbox-title-color, #c4e3b5);
 		font-size: 97.5%;
 		font-weight: bolder;
 		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
@@ -126,16 +125,13 @@
 	.navbox-above,
 	.navbox-below,
 	.navbox .navbox-title {
-		background-color: #d2ebc7;
-		background-color: var(--navbox-group-color);
+		background-color: var(--navbox-group-color, #d2ebc7);
 
 		.navbox & {
-			background-color: #e2f1da;
-			background-color: var(--navbox-subgroup-color);
+			background-color: var(--navbox-subgroup-color, #e2f1da);
 
 			.navbox & {
-				background-color: #f0f7ed;
-				background-color: var(--navbox-sub-subgroup-color);
+				background-color: var(--navbox-sub-subgroup-color, #f0f7ed);
 			}
 		}
 	}
