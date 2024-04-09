@@ -1,21 +1,19 @@
 @import (reference) '../variables.less';
 
 .gadget-whoisactive {
-	&__span {
-		display: inline-block;
-		padding: 0 0.5em !important;
-		border: 1px solid #ddd;
-		margin: 0 0.25em;
-		white-space: nowrap;
-		border-radius: @border-radius--small;
-		font-size: 0.9em;
+	display: inline-block;
+	margin: 0 0.25em !important;
+	padding: 0 0.5em !important;
+	border: 1px solid @const-color-gray;
+	white-space: nowrap;
+	border-radius: @border-radius--small;
+	font-size: 0.9em;
 
-		.mw-footer & {
-			margin-bottom: 0.25em !important;
+	.mw-footer & {
+		margin-bottom: 0.25em !important;
 
-			.ve-activated & {
-				display: none;
-			}
+		.ve-activated & {
+			display: none;
 		}
 	}
 

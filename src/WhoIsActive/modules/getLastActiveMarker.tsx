@@ -6,7 +6,7 @@ type TimeSpan = 'ThisWeek' | 'ThisMonth' | 'ThisSeason' | 'ThisSemiyear' | 'This
 function Wrapper(props: {timeSpan: TimeSpan; innerElement: React.ReactElement}) {
 	const {timeSpan, innerElement} = props;
 
-	const className: string[] = ['gadget-whoisactive__span', `gadget-whoisactive__${timeSpan}`];
+	const className: string[] = ['gadget-whoisactive', `gadget-whoisactive__${timeSpan}`];
 	const {skin} = mw.config.get();
 
 	if (skin === 'citizen') {
