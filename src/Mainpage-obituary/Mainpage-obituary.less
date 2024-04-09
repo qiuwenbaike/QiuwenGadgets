@@ -7,13 +7,13 @@
 
 /* Variables for root */
 :root {
-	--mainpage--color: @color--primary !important;
-	--mainpage-background-color: fade(@color--primary, 25%) !important; // @color--primary with 25% opacity
-	--mainpage-background-color--darkest: fade(@color--primary, 75%) !important; // @color--primary with 75% opacity
-	--mainpage-background-color--darker: fade(@color--primary, 50%) !important; // @color--primary with 50% opacity
-	--mainpage-background-color--light: fade(@color--primary, 12.5%) !important; // @color--primary with 12.5% opacity
-	--mainpage-background-color--lighter: fade(@color--primary, 6.25%) !important; // @color--primary with 6.25% opacity
-	--mainpage-background-color--lightest: fade(@color--primary, 1.25%) !important; // @color--primary with 1.25% opacity
+	--mp--color: @color--primary !important;
+	--mp-background-color: fade(@color--primary, 25%) !important; // @color--primary with 25% opacity
+	--mp-background-color--darkest: fade(@color--primary, 75%) !important; // @color--primary with 75% opacity
+	--mp-background-color--darker: fade(@color--primary, 50%) !important; // @color--primary with 50% opacity
+	--mp-background-color--light: fade(@color--primary, 12.5%) !important; // @color--primary with 12.5% opacity
+	--mp-background-color--lighter: fade(@color--primary, 6.25%) !important; // @color--primary with 6.25% opacity
+	--mp-background-color--lightest: fade(@color--primary, 1.25%) !important; // @color--primary with 1.25% opacity
 }
 
 /* == 非页面正文 == */
@@ -25,7 +25,7 @@
 		&.skin-gongbi #mw-content,
 		&.skin-vector .mw-body {
 			/* 背景 */
-			background: var(--mainpage-background-color--lighter, @background-color-primary--lighter) !important;
+			background: var(--mp-background-color--lighter, @background-color-primary--lighter) !important;
 		}
 	}
 }

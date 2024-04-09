@@ -7,20 +7,20 @@
 
 /* Variables for root */
 :root {
-	--mainpage--color: @color--primary !important;
-	--mainpage-background-color: fade(@color--primary, 25%) !important; // @color--primary with 25% opacity
-	--mainpage-background-color--darkest: fade(@color--primary, 75%) !important; // @color--primary with 75% opacity
-	--mainpage-background-color--darker: fade(@color--primary, 50%) !important; // @color--primary with 50% opacity
-	--mainpage-background-color--light: fade(@color--primary, 12.5%) !important; // @color--primary with 12.5% opacity
-	--mainpage-background-color--lighter: fade(@color--primary, 6.25%) !important; // @color--primary with 6.25% opacity
-	--mainpage-background-color--lightest: fade(@color--primary, 1.25%) !important; // @color--primary with 1.25% opacity
+	--mp--color: @color--primary !important;
+	--mp-background-color: fade(@color--primary, 25%) !important; // @color--primary with 25% opacity
+	--mp-background-color--darkest: fade(@color--primary, 75%) !important; // @color--primary with 75% opacity
+	--mp-background-color--darker: fade(@color--primary, 50%) !important; // @color--primary with 50% opacity
+	--mp-background-color--light: fade(@color--primary, 12.5%) !important; // @color--primary with 12.5% opacity
+	--mp-background-color--lighter: fade(@color--primary, 6.25%) !important; // @color--primary with 6.25% opacity
+	--mp-background-color--lightest: fade(@color--primary, 1.25%) !important; // @color--primary with 1.25% opacity
 }
 
 .mainpage {
 	&-header-box,
 	&-box,
 	&-footer-box {
-		border: 3px solid var(--mainpage-background-color-primary--lightest, @background-color-primary--lightest);
+		border: 3px solid var(--mp-background-color-primary--lightest, @background-color-primary--lightest);
 	}
 
 	&-header {
@@ -58,7 +58,7 @@ html {
 
 /* For Gongbi skin */
 #mw-header-container {
-	border-color: var(--mainpage--color, @color--primary);
+	border-color: var(--mp--color, @color--primary);
 }
 
 .skin-gongbi.page-Qiuwen_首页.action-view .bodySearch {
