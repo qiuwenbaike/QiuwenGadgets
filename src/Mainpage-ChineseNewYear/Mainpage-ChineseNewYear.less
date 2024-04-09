@@ -1,74 +1,34 @@
 @import (reference) '../variables.less';
 
-// Overriding variables.less
-@color--primary: #c33;
-@background-color-primary: rgba(204, 51, 51, 0.25); // @color--primary with 25% opacity
-@background-color-primary--darkest: rgba(204, 51, 51, 0.75); // @color--primary with 75% opacity
-@background-color-primary--darker: rgba(204, 51, 51, 0.5); // @color--primary with 50% opacity
-@background-color-primary--light: rgba(204, 51, 51, 0.1); // @color--primary with 10% opacity
-@background-color-primary--lighter: rgba(204, 51, 51, 0.0625); // @color--primary with 6.25% opacity
-@background-color-primary--lightest: rgba(204, 51, 51, 0.0125); // @color--primary with 1.25% opacity
+/**
+ * @description 特殊时期，庆祝节日
+ */
+@color--primary: @const-color-red;
 
-/* 特殊时期，庆祝节日 */
-.page-Qiuwen_首页.action-view,
-.page-许可百科_首页.action-view {
-	&.skin-citizen .mw-body,
-	&.skin-gongbi #mw-content,
-	&.skin-vector .mw-body {
-		background: @background-color-primary--light;
-
-		.client-darkmode & {
-			background: @const-color-gray--dark;
-		}
-	}
+/* Variables for root */
+:root {
+	--mainpage--color: @color--primary !important;
+	--mainpage-background-color: fade(@color--primary, 25%) !important; // @color--primary with 25% opacity
+	--mainpage-background-color--darkest: fade(@color--primary, 75%) !important; // @color--primary with 75% opacity
+	--mainpage-background-color--darker: fade(@color--primary, 50%) !important; // @color--primary with 50% opacity
+	--mainpage-background-color--light: fade(@color--primary, 12.5%) !important; // @color--primary with 12.5% opacity
+	--mainpage-background-color--lighter: fade(@color--primary, 6.25%) !important; // @color--primary with 6.25% opacity
+	--mainpage-background-color--lightest: fade(@color--primary, 1.25%) !important; // @color--primary with 1.25% opacity
 }
 
 .mainpage {
-	h2 {
-		background: @color--primary;
-	}
-
-	.mw-ui {
-		&-progressive {
-			border-color: @color--primary;
-			background-color: @color--primary;
-		}
-
-		&-input:focus {
-			border-color: @color--primary;
-			box-shadow: inset 0 0 0 1px @color--primary;
-		}
-
-		&-button:not(:disabled):focus {
-			border-color: @color--primary;
-			box-shadow:
-				inset 0 0 0 1px @color--primary,
-				inset 0 0 0 2px @const-color-white;
-		}
-	}
-
 	&-header-box,
 	&-box,
 	&-footer-box {
-		border: 3px solid @background-color-primary--lightest;
-
-		.client-darkmode .mainpage & {
-			border: 0;
-			background: @background-color-primary--light;
-			box-shadow:
-				0 1px 2px @background-color-primary--darkest,
-				0 -1px 2px @background-color-primary--darkest !important;
-		}
+		border: 3px solid var(--mainpage-background-color-primary--lightest, @background-color-primary--lightest);
 	}
 
 	&-header {
-		.mainpage-slogan {
-			img {
-				filter: hue-rotate(141deg);
+		.mainpage-slogan img {
+			filter: hue-rotate(141deg);
 
-				.client-darkmode & {
-					filter: invert(1) hue-rotate(320deg);
-				}
+			.client-darkmode & {
+				filter: invert(1) hue-rotate(320deg);
 			}
 		}
 	}
@@ -98,7 +58,7 @@ html {
 
 /* For Gongbi skin */
 #mw-header-container {
-	border-color: @color--primary;
+	border-color: var(--mainpage--color, @color--primary);
 }
 
 .skin-gongbi.page-Qiuwen_首页.action-view .bodySearch {

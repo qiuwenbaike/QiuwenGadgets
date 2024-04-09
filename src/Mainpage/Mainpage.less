@@ -43,7 +43,7 @@
 		&.skin-gongbi #mw-content,
 		&.skin-vector .mw-body {
 			/* 背景 */
-			background: var(--background-color-primary--light, @background-color-primary--light);
+			background: var(--mainpage-background-color--light, @background-color-primary--light);
 
 			.client-darkmode & {
 				background: @const-color-gray--dark;
@@ -95,7 +95,7 @@
 		border: 0;
 		border-radius: @border-radius--small;
 		margin: 0 auto;
-		background: var(--color--primary, @color--primary);
+		background: var(--mainpage--color, @color--primary);
 		color: @const-color-white;
 		font-size: 1.25em;
 		font-weight: normal;
@@ -190,8 +190,8 @@
 	 */
 
 	.cdx-button--action-progressive {
-		border-color: var(--color--primary, @color--primary);
-		background-color: var(--color--primary, @color--primary);
+		border-color: var(--mainpage--color, @color--primary);
+		background-color: var(--mainpage--color, @color--primary);
 	}
 
 	ul.gallery {
@@ -229,18 +229,18 @@
 		flex: 1 1 340px;
 		padding: 1em;
 		border-radius: @border-radius--small;
-		background: var(--background-color-light, @background-color-light);
+		background: var(--mainpage-background-color-light, @background-color-light);
 		box-shadow:
-			0 1px 2px var(--background-color-primary--light, @background-color-primary--light),
-			0 -1px 2px var(--background-color-primary--light, @background-color-primary--light);
+			0 1px 2px var(--mainpage-background-color--light, @background-color-primary--light),
+			0 -1px 2px var(--mainpage-background-color--light, @background-color-primary--light);
 		break-inside: avoid;
 
 		.client-darkmode & {
 			border: 0;
-			background: var(--background-color-primary--light, @background-color-primary--light);
+			background: var(--mainpage-background-color--light, @background-color-primary--light);
 			box-shadow:
-				0 1px 2px var(--background-color-primary--darkest, @background-color-primary--darkest),
-				0 -1px 2px var(--background-color-primary--darkest, @background-color-primary--darkest) !important;
+				0 1px 2px var(--mainpage-background-color--darkest, @background-color-primary--darkest),
+				0 -1px 2px var(--mainpage-background-color--darkest, @background-color-primary--darkest) !important;
 		}
 	}
 
@@ -335,7 +335,7 @@
 		}
 
 		&:hover {
-			background: var(--color--primary, @color--primary);
+			background: var(--mainpage--color, @color--primary);
 			color: @const-color-white;
 
 			a {
