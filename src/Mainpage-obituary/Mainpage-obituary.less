@@ -1,109 +1,36 @@
 @import (reference) '../variables.less';
 
-// Overriding variables.less
-@color--primary: #666;
-@background-color-primary: rgba(102, 102, 102, 0.25); // @color--primary with 25% opacity
-@background-color-primary--darkest: rgba(102, 102, 102, 0.75); // @color--primary with 75% opacity
-@background-color-primary--darker: rgba(102, 102, 102, 0.5); // @color--primary with 50% opacity
-@background-color-primary--light: rgba(102, 102, 102, 0.125); // @color--primary with 12.5% opacity
-@background-color-primary--lighter: rgba(102, 102, 102, 0.0625); // @color--primary with 6.25% opacity
-@background-color-primary--lightest: rgba(102, 102, 102, 0.0125); // @color--primary with 1.25% opacity
+/**
+ * @description 特殊时期，寄托哀思
+ */
+@color--primary: @const-color-gray;
+
+/* Variables for root */
+:root {
+	--mainpage--color: @color--primary !important;
+	--mainpage-background-color: fade(@color--primary, 25%) !important; // @color--primary with 25% opacity
+	--mainpage-background-color--darkest: fade(@color--primary, 75%) !important; // @color--primary with 75% opacity
+	--mainpage-background-color--darker: fade(@color--primary, 50%) !important; // @color--primary with 50% opacity
+	--mainpage-background-color--light: fade(@color--primary, 12.5%) !important; // @color--primary with 12.5% opacity
+	--mainpage-background-color--lighter: fade(@color--primary, 6.25%) !important; // @color--primary with 6.25% opacity
+	--mainpage-background-color--lightest: fade(@color--primary, 1.25%) !important; // @color--primary with 1.25% opacity
+}
 
 /* == 非页面正文 == */
 
 /* 隐藏首页的页顶、页尾及其他无用要素 */
-body.page-许可百科_首页.action-view,
-body.page-Qiuwen_首页.action-view {
-	&.skin-citizen .mw-body,
-	&.skin-gongbi #mw-content,
-	&.skin-vector .mw-body {
-		/* 背景 */
-		background: @background-color-primary--lighter;
-
-		html.client-darkmode & {
-			background: @const-color-gray--dark;
+.page-Qiuwen_首页 {
+	&.action-view {
+		&.skin-citizen .mw-body,
+		&.skin-gongbi #mw-content,
+		&.skin-vector .mw-body {
+			/* 背景 */
+			background: var(--mainpage-background-color--lighter, @background-color-primary--lighter) !important;
 		}
 	}
 }
 
 /* == 页面正文 == */
-.skin-citizen .mw-body,
-.skin-gongbi #mw-content,
-.skin-vector .mw-body {
-	.mainpage {
-		html.client-darkmode & {
-			color: @const-color-black;
-		}
-
-		h2 {
-			background: @color--primary;
-			color: @const-color-white;
-
-			.mw-headline {
-				&::before,
-				&::after {
-					color: @const-color-white;
-				}
-			}
-		}
-
-		a.new {
-			color: inherit;
-		}
-
-		.cdx-button--action-progressive {
-			border-color: @color--primary;
-			background-color: @color--primary;
-		}
-
-		.mainpage-header-box,
-		.mainpage-box,
-		.mainpage-footer-box {
-			background: @background-color-light;
-			box-shadow:
-				0 1px 2px @background-color-primary--light,
-				0 -1px 2px @background-color-primary--light;
-
-			html.client-darkmode & {
-				background: @background-color-primary--light;
-				box-shadow:
-					0 1px 2px @background-color-primary--darkest,
-					0 -1px 2px @background-color-primary--darkest !important;
-			}
-		}
-
-		.mainpage-header {
-			filter: grayscale(1);
-
-			.mainpage-articlecount {
-				color: @const-color-secondary;
-
-				html.client-darkmode & {
-					color: @const-color-primary;
-				}
-			}
-		}
-
-		.mainpage-link-button {
-			&:hover {
-				background: @color--primary;
-				color: @const-color-white;
-
-				a {
-					&,
-					&.extiw,
-					&.external {
-						&,
-						&:visited {
-							&,
-							&:hover {
-								color: @const-color-white;
-								text-decoration: none;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+.mainpage-header {
+	filter: grayscale(1);
 }
