@@ -53,7 +53,7 @@
 * AdvancedSiteNotices[ResourceLoader|actions=view|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Tippy,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.Uri|peers=AdvancedSiteNotices-pagestyles|requiresES6]|AdvancedSiteNotices.js
 * AdvancedSiteNotices-pagestyles[ResourceLoader|hidden|requiresES6]|AdvancedSiteNotices-pagestyles.css
 * Clipboard[ResourceLoader|hidden|requiresES6]|Clipboard.js
-* Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util|hidden|requiresES6]|Collapsible.js|Collapsible.css
+* Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
 * ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,oojs-ui-windows|rights=edit|requiresES6]|ConfirmLogout.js
 * CookieWarning[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.storage,mediawiki.util|hidden|requiresES6]|CookieWarning.js|CookieWarning.css
 * FilterAlteredClicks[ResourceLoader|hidden|requiresES6]|FilterAlteredClicks.js
@@ -65,7 +65,7 @@
 * i18n[ResourceLoader|dependencies=ext.gadget.Util|hidden|requiresES6]|i18n.js
 * MemorialDay[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|requiresES6]|MemorialDay.js
 * morebits[ResourceLoader|dependencies=ext.gadget.select2,ext.gadget.Util,jquery.ui,mediawiki.Title,mediawiki.user,mediawiki.util|hidden|requiresES6]|morebits.js|morebits.css
-* NavFrame[ResourceLoader|default|dependencies=ext.gadget.i18n|hidden|peers=NavFrame-pagestyles|requiresES6]|NavFrame.js
+* NavFrame[ResourceLoader|dependencies=ext.gadget.i18n|peers=NavFrame-pagestyles|requiresES6]|NavFrame.js
 * NavFrame-pagestyles[ResourceLoader|hidden|requiresES6]|NavFrame-pagestyles.css
 * NoteTA[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,jquery.makeCollapsible,mediawiki.api,oojs-ui-core,oojs-ui-windows|hidden|peers=NoteTA-pagestyles|requiresES6]|NoteTA.js
 * NoteTA-pagestyles[ResourceLoader|hidden|requiresES6]|NoteTA-pagestyles.css
