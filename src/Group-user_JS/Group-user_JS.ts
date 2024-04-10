@@ -1,3 +1,4 @@
+import * as OPTIONS from './options.json';
 import {addLog} from './modules/addLog';
 import {addSubpage} from './modules/addSubpage';
 import {fixReason} from './modules/fixReason';
@@ -9,7 +10,7 @@ import {smartEditIntro} from './modules/smartEditIntro';
 import {smartNewSection} from './modules/smartNewSection';
 
 (function userJS(): void {
-	const configKey: string = 'gadget-Group-user_JS__Initialized';
+	const {configKey} = OPTIONS;
 
 	// Guard against double inclusions
 	if (mw.config.get(configKey)) {
