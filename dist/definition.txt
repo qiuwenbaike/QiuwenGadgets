@@ -155,6 +155,6 @@
 * Group-sysop[ResourceLoader|default|hidden|rights=editprotected|requiresES6]|Group-sysop.css
 * Group-templateeditor[ResourceLoader|default|hidden|rights=templateeditor|requiresES6]|Group-templateeditor.css
 * Group-transwiki[ResourceLoader|default|hidden|rights=import|requiresES6]|Group-transwiki.css
-* Group-transwiki_JS[ResourceLoader|default|dependencies=ext.gadget.Util,oojs-ui-windows|hidden|peers=Group-transwiki|rights=import|requiresES6]|Group-transwiki_JS.js
+* Group-transwiki_JS[ResourceLoader|default|dependencies=oojs-ui-windows|hidden|peers=Group-transwiki|rights=import|requiresES6]|Group-transwiki_JS.js
 * Group-user[ResourceLoader|default|hidden|rights=edit|requiresES6]|Group-user.css
 * Group-user_JS[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,user.options|hidden|peers=Group-user|rights=edit|requiresES6]|Group-user_JS.js
