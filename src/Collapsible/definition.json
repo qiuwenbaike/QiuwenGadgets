@@ -4,5 +4,6 @@
 	"section": "compatibility",
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.React", "ext.gadget.Util"],
-	"hidden": true
+	"hidden": true,
+	"peers": ["NavFrame-pagestyles"]
 }
