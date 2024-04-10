@@ -5,12 +5,12 @@ const fixSummary = (): void => {
 		const defaultFileImportSummary = `${defaultSummary}；文件作者请参见此页面及来源页面记载`;
 
 		// #mw-import-upload-form
-		const [userNamePrefixInput] = document.querySelectorAll<HTMLInputElement>(
+		const userNamePrefixInput = document.querySelector<HTMLInputElement>(
 			'#mw-import-upload-form input[name=usernamePrefix]'
 		);
 		if (userNamePrefixInput) {
 			userNamePrefixInput.addEventListener('input', () => {
-				const [uploadLogCommentInput] = document.querySelectorAll<HTMLInputElement>(
+				const uploadLogCommentInput = document.querySelector<HTMLInputElement>(
 					'#mw-import-upload-form input[name=log-comment]'
 				);
 				if (!uploadLogCommentInput) {
@@ -23,10 +23,10 @@ const fixSummary = (): void => {
 		}
 
 		// #mw-import-interwiki-form
-		const [interwikiLogCommentInput] = document.querySelectorAll<HTMLInputElement>(
+		const interwikiLogCommentInput = document.querySelector<HTMLInputElement>(
 			'#mw-import-interwiki-form input[name=log-comment]'
 		);
-		const [interwikiPrefixSelect] = document.querySelectorAll<HTMLSelectElement>(
+		const interwikiPrefixSelect = document.querySelector<HTMLSelectElement>(
 			'#mw-import-interwiki-form select[name=interwiki]'
 		);
 

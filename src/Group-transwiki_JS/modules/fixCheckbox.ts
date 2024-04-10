@@ -1,5 +1,5 @@
 const fixCheckbox = () => {
-	const {wgCanonicalSpecialPageName, wgWikiId} = mw.config.get();
+	const {wgCanonicalSpecialPageName, wgWikiID} = mw.config.get();
 
 	if (wgCanonicalSpecialPageName !== 'Import') {
 		return;
@@ -16,7 +16,7 @@ const fixCheckbox = () => {
 		interwikiTemplates.checked = false;
 	}
 
-	if (wgWikiId === 'zhqiuwenbaike') {
+	if (wgWikiID === 'zhqiuwenbaike') {
 		if (interwikiHistory) {
 			interwikiHistory.disabled = true;
 		}
