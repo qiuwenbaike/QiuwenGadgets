@@ -1,3 +1,4 @@
 {
-	"siteDomain": "qiuwenbaike.cn"
+	"siteDomain": "qiuwenbaike.cn",
+	"flexStyle": "display: flex; flex-wrap: wrap; align-items: center"
 }
