@@ -1,5 +1,4 @@
 @import (reference) '../variables.less';
-
 div {
 	&.Boxmerge,
 	&.NavFrame {
@@ -9,48 +8,53 @@ div {
 		border-collapse: collapse;
 		font-size: 95%;
 		text-align: center;
+
+		&,
+		div.NavContent {
+			p {
+				font-size: 100%;
+			}
+		}
+
+		.client-js & {
+			&.collapsed > div.NavContent {
+				display: none;
+			}
+		}
 	}
 
-	&.NavContent {
-		text-align: left;
-	}
-}
-
-div.Boxmerge div.NavFrame,
-div.NavFrame + div.NavFrame,
-div.NavFrame + table.collapsible,
-table.collapsible + div.NavFrame,
-table.collapsible + table.collapsible {
-	border-top-style: hidden;
-}
-
-div.NavPic {
-	padding: 2px;
-	margin: 0;
-	background-color: @const-color-white;
-	float: left;
-}
-
-div.NavFrame {
-	div.NavHead {
+	&.NavHead {
 		position: relative;
 		background-color: #ccf;
 		font-weight: bold;
 		line-height: 1.6em;
 	}
 
-	p,
-	div.NavContent,
-	div.NavContent p {
-		font-size: 100%;
+	&.NavPic {
+		padding: 2px;
+		margin: 0;
+		background-color: @const-color-white;
+		float: left;
+	}
+
+	&.NavContent {
+		text-align: left;
+	}
+
+	&.NavEnd {
+		padding: 0;
+		margin: 0;
+		clear: both;
+		line-height: 0.0625rem;
 	}
 }
 
-div.NavEnd {
-	padding: 0;
-	margin: 0;
-	clear: both;
-	line-height: 0.0625rem;
+div.Boxmerge,
+div.NavFrame,
+table.collapsible {
+	& + & {
+		border-top-style: hidden;
+	}
 }
 
 span.NavToggle {
@@ -59,8 +63,4 @@ span.NavToggle {
 	font-size: 90%;
 	font-weight: normal;
 	user-select: none;
-}
-
-.client-js .NavFrame.collapsed > .NavContent {
-	display: none;
 }
