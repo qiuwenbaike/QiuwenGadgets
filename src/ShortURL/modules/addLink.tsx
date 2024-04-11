@@ -1,6 +1,7 @@
 import {Clipboard} from 'ext.gadget.Clipboard';
 import React from 'ext.gadget.React';
 import {addEventListenerWithRemover} from 'ext.gadget.Util';
+import {getDomains} from './util/getDomains';
 import {getMessage} from './i18n';
 import {tippy} from 'ext.gadget.Tippy';
 
@@ -32,7 +33,9 @@ const addLink = (link: string): void => {
 			event.preventDefault();
 
 			const $element: JQuery = $('<div>');
-			for (const domain of ['qwbk.cc', 'qwbk.org', 'bkwz.cn']) {
+			const domains = getDomains();
+
+			for (const domain of domains) {
 				$element.append(
 					// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 					new mw.widgets.CopyTextLayout({
