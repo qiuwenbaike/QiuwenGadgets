@@ -15,11 +15,6 @@ const navFrame = ($content: JQuery): void => {
 		}
 	}
 
-	// NavFrame 元素的折叠按钮添加至其子元素 NavHead 中，且该 NavHead 会避免被折叠影响到。
-	for (const element of $content.find<HTMLDivElement>('.NavHead')) {
-		element.classList.add('collapsible');
-	}
-
 	// 如果 NavContent 或 NavPic 元素被隐藏，则给父元素 NavFrame 添加 collapsed。
 	for (const element of $content.find<HTMLDivElement>('.NavContent, .NavPic')) {
 		if (element.style.display !== 'none') {
