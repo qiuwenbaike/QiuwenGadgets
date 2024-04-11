@@ -6,6 +6,7 @@ import {getMessage} from './i18n';
 import {tippy} from 'ext.gadget.Tippy';
 
 const {skin} = mw.config.get();
+const domains = getDomains();
 
 let clipboardInstance: ClipboardJS | undefined;
 let headerLinkEventListener: ReturnType<typeof addEventListenerWithRemover> = {
@@ -33,7 +34,6 @@ const addLink = (link: string): void => {
 			event.preventDefault();
 
 			const $element: JQuery = $('<div>');
-			const domains = getDomains();
 
 			for (const domain of domains) {
 				$element.append(
@@ -89,7 +89,7 @@ const addLink = (link: string): void => {
 		$headerElement.prependTo('.mw-indicators');
 	}
 
-	const fullLink: string = `https://qwbk.cc${link}`;
+	const fullLink: string = `https://${domains[0]}${link}`;
 
 	const $notifyElement = $(
 		<span>
