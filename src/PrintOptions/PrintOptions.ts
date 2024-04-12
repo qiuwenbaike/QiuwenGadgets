@@ -132,9 +132,7 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 								}
 							}
 
-							// @ts-expect-error TS2339
-							// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-							self.close({action}).done(() => {
+							void self.close({action}).closed.then(() => {
 								printOptions.changePrintCSS();
 								printOptions.otherEnhancements();
 								window.print();
