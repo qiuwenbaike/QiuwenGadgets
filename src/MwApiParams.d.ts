@@ -43,5 +43,7 @@ type ApiQueryUsersParams = import('types-mediawiki-renovate/api_params').ApiQuer
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiUploadParams = import('types-mediawiki-renovate/api_params').ApiUploadParams &
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
+type ApiUserrightsParams = import('types-mediawiki-renovate/api_params').ApiUserrightsParams &
+	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type UrlShortenerApiShortenUrlParams = import('types-mediawiki-renovate/api_params').UrlShortenerApiShortenUrlParams &
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
