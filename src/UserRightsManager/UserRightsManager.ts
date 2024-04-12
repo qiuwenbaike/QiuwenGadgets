@@ -1,6 +1,6 @@
 import {getBody} from 'ext.gadget.Util';
 import {getPermissionRequested} from './modules/i18n';
-import {showDialog} from './modules/core.js';
+import {showDialog} from './modules/showDialog.js';
 
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	const {wgPageName} = mw.config.get();

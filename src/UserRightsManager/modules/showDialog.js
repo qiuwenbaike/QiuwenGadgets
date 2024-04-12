@@ -1,100 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import * as OPTIONS from '../options.json';
-import {getPermissionRequested, getPermissonName, getpermissionTemplate} from './i18n';
+import {getPermissionRequested, getPermissonName} from './i18n';
 import {api} from './api';
-
-const assignPermission = (userName, permission, summary, revId, expiry) => {
-	const permaLink = `[[Special:PermaLink/${revId}#User:${userName}|权限申请]]`;
-	let fullSummary = `+${getPermissonName(permission)}；${permaLink}`;
-	if (summary !== '') {
-		fullSummary += `；${summary}`;
-	}
-	fullSummary += OPTIONS.userRightsManagerSummary;
-	const params = {
-		action: 'userrights',
-		user: userName.replace(/ /g, '_'),
-		add: permission,
-		expiry: expiry === '' ? 'infinity' : expiry,
-		reason: fullSummary,
-	};
-	return api.postWithToken('userrights', params);
-};
-
-const markAsDone = (userName, index, closingRemarks) => {
-	const {wgPageName} = mw.config.get();
-	const sectionSelector = `#${CSS.escape(`User:${userName.replace(/"/g, '.22').replace(/ /g, '_')}`)}${index ?? ''}`;
-	const sectionNode = document.querySelector(sectionSelector);
-	const [, sectionNumber] = $(sectionNode)
-		.siblings('.mw-editsection')
-		.find('a:not(.mw-editsection-visualeditor)')
-		.prop('href')
-		.match(/section=(\d+)/);
-	let basetimestamp;
-	let curtimestamp;
-	let page;
-	let revision;
-	let content;
-	const queryParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: 'revisions',
-		titles: [wgPageName],
-		curtimestamp: true,
-		rvprop: ['content', 'timestamp'],
-		rvsection: sectionNumber,
-	};
-	return api
-		.get(queryParams)
-		.then((data) => {
-			if (!data.query || !data.query.pages) {
-				return $.Deferred().reject('unknown');
-			}
-			[page] = data.query.pages;
-			if (!page || page.invalid) {
-				return $.Deferred().reject('invalidtitle');
-			}
-			if (page.missing) {
-				return $.Deferred().reject('nocreate-missing');
-			}
-			[revision] = page.revisions;
-			basetimestamp = revision.timestamp;
-			({curtimestamp} = data);
-			({content} = revision);
-		})
-		.then(() => {
-			content = content.trim();
-			content = content.replace(/:{{status(\|.*?)?}}/i, ':{{Status|+}}');
-			content += closingRemarks;
-			const editParams = {
-				action: 'edit',
-				format: 'json',
-				formatversion: '2',
-				title: wgPageName,
-				assert: mw.config.get('wgUserName') ? 'user' : undefined,
-				nocreate: true,
-				section: sectionNumber,
-				starttimestamp: curtimestamp,
-				summary: `/* User:${userName} */ 完成${OPTIONS.userRightsManagerSummary}`,
-				text: content,
-				basetimestamp,
-			};
-			return api.postWithEditToken(editParams);
-		});
-};
-
-const issueTemplate = (userName, permission, watch) => {
-	const talkPage = `User talk:${userName.replace(/ /g, '_')}`;
-	const params = {
-		action: 'edit',
-		title: talkPage,
-		appendtext: '\n\n{{'.concat('subst:', getpermissionTemplate(permission), '}}}'),
-		summary: `根据共识授予${getPermissonName(permission)}${OPTIONS.userRightsManagerSummary}`,
-		watchlist: watch ? 'watch' : 'unwatch',
-	};
-	return api.postWithEditToken(params);
-};
+import {assignPermission} from './assignPermission';
+import {issueTemplate} from './issueTemplate';
+import {markAsDone} from './markAsDone';
 
 const showDialog = ({userName, index, permission, $body}) => {
 	const Dialog = function (config) {
