@@ -38,17 +38,20 @@ const markAsDone = (userName: string, index: string, closingRemarks: string) => 
 					return $.Deferred().reject('unknown');
 				}
 
-				if (!data['query'].pages[0] || data['query'].pages[0].invalid) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+				const [page] = data['query'].pages;
+
+				if (!page || page.invalid) {
 					return $.Deferred().reject('invalidtitle');
 				}
 
-				if (data['query'].pFages[0].missing) {
+				if (page.missing) {
 					return $.Deferred().reject('nocreate-missing');
 				}
 
 				curtimestamp = data['curtimestamp'] as string;
-				basetimestamp = data['query'].pages[0].revisions[0].timestamp as string;
-				content = data['query'].pages[0].revisions[0].content as string;
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+				[{basetimestamp, content}] = page.revisions;
 				content = content.trim().replace(/:{{status(\|.*?)?}}/i, ':{{Status|+}}');
 				content += closingRemarks;
 			})
