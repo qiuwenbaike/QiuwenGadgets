@@ -1,16 +1,9 @@
 /*! Twinkle.js - twinkle.css */
 
-/* twinkleclose.js */
-a.twinkle-close-button {
-	color: #f00;
-	font-weight: bold;
-
-	&-disabled {
-		color: #808080;
-	}
-}
-
-/* The additional box on user skin.js and twinklepreferences.js pages */
+/**
+ * The additional box on user skin.js and twinkleoptions.js pages
+ * see [[H:TW/PREF]]
+ */
 #twinkle-config {
 	&-headerbox {
 		padding: 0.6em;
@@ -20,11 +13,11 @@ a.twinkle-close-button {
 		text-align: center;
 
 		&.config-twopt-box {
-			/* twinkleoptions.js */
 			width: 80%;
 			border-width: 2px;
 			font-weight: bold;
 		}
+
 		&.config-userskin-box {
 			/* Skin-specific JS */
 			width: 60%;
@@ -32,12 +25,6 @@ a.twinkle-close-button {
 	}
 
 	&-content input[type='checkbox'] {
-		/* [[H:TW/PREF]] */
 		margin-right: 2px;
-	}
-
-	&-titlebar {
-		/* twinkleconfig.js */
-		background-image: data-uri('../images/titlebar.png');
 	}
 }
