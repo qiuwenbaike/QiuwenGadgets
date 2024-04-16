@@ -51,7 +51,7 @@ const getAllImages = async () => {
 	// Analyze step 2: Find from pages
 	let fileLinkElements: HTMLAnchorElement[] = [];
 
-	if (!(wgNamespaceNumber < 0)) {
+	if (!(wgNamespaceNumber < 0) || wgNamespaceNumber === 6) {
 		try {
 			const parseParams: ApiParseParams = {
 				action: 'parse',
