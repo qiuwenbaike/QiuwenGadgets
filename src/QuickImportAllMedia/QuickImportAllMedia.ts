@@ -3,7 +3,12 @@ import {getAllImages} from './modules/core';
 
 (function quickImportAllMedia(): void {
 	const {wgCanonicalSpecialPageName, wgCurRevisionId} = mw.config.get();
-	if (!(wgCurRevisionId || ['Prefixindex', 'BrokenRedirects'].includes(wgCanonicalSpecialPageName || ''))) {
+	if (
+		!(
+			wgCurRevisionId ||
+			['Prefixindex', 'BrokenRedirects', 'Wantedfiles'].includes(wgCanonicalSpecialPageName || '')
+		)
+	) {
 		return;
 	}
 
