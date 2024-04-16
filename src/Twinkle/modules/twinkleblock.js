@@ -302,7 +302,7 @@ import {generateArray} from 'ext.gadget.Util';
 			// groupmemberships only relevant for registered users
 			query.usprop = 'groupmemberships';
 		}
-		api.get(query).then(
+		void api.get(query).then(
 			(data) => {
 				Twinkle.block.processUserInfo(data, fn);
 			},
@@ -2120,7 +2120,7 @@ import {generateArray} from 'ext.gadget.Util';
 				query.meta = 'tokens';
 				query.type = 'userrights';
 			}
-			api.get(query).then((data) => {
+			void api.get(query).then((data) => {
 				let [block] = data.query.blocks;
 				// As with the initial data fetch, if an IP is blocked
 				// *and* rangeblocked, this would only grab whichever
