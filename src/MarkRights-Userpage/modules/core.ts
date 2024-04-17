@@ -4,6 +4,20 @@ import {api} from './api';
 import {appendIcon} from './appendIcon';
 import {getMessage} from './i18n';
 
+const queryUserGroups = async (ususers: string) => {
+	const params: ApiQueryUsersParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		list: 'users',
+		ususers,
+		usprop: 'groups',
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
 const getPermissions = async (): Promise<void> => {
 	const {wgRelevantUserName} = mw.config.get();
 
@@ -12,15 +26,7 @@ const getPermissions = async (): Promise<void> => {
 	}
 
 	try {
-		const listUsersParams: ApiQueryUsersParams = {
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			list: 'users',
-			ususers: wgRelevantUserName,
-			usprop: 'groups',
-		};
-		const {query} = await api.get(listUsersParams);
+		const {query} = await queryUserGroups(wgRelevantUserName);
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const [{groups}]: [{groups: UserRights[]}] = query.users;
 
