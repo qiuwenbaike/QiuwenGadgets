@@ -2,7 +2,7 @@ import {api} from './api';
 import {generateArray} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
-type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => Promise<void>;
+type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => void;
 type RefreshPage = (title: string) => void;
 
 let toastifyInstance: ToastifyInstance = {
@@ -103,7 +103,7 @@ const queryImageInfo = async (titles: string | string[]) => {
 	return response;
 };
 
-const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = false) => {
+const detectIfFileRedirect: DetectIfFileRedirect = (pageNames, isFileNS = false) => {
 	pageNames = generateArray(pageNames);
 	const promises: (() => Promise<void>)[] = [];
 	const tos: string[] = [];
@@ -191,13 +191,15 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 
 			// Analyze step 3: import pages as redirect target
 			//// Queue requests to import redirect targets
-			await detectIfFileRedirect(tos);
+			detectIfFileRedirect(tos);
 		};
 	}
 
-	for (const promise of promises) {
-		await promise();
-	}
+	void (async () => {
+		for (const promise of promises) {
+			await promise();
+		}
+	});
 };
 
 export {type DetectIfFileRedirect, detectIfFileRedirect, type RefreshPage, refreshPage};
