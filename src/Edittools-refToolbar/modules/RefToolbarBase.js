@@ -303,8 +303,8 @@ const refToolbarBase = () => {
 			switch (this.obj.type) {
 				case 'refcheck':
 					CiteTB.loadRefs();
-					for (let i = 0; i < CiteTB.mainRefList.length; i++) {
-						const e = this.obj.func(CiteTB.mainRefList[i]);
+					for (const ref of CiteTB.mainRefList) {
+						const e = this.obj.func(ref);
 						if (e) {
 							errors.push(e);
 						}

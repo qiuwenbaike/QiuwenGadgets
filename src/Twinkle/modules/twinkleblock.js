@@ -2391,18 +2391,18 @@ import {generateArray} from 'ext.gadget.Util';
 			)}\\s*(\\|\\s*hidename\\s*=[^|]+)?}}`,
 			'm'
 		);
-		for (let i = 1; i < requestList.length; i++) {
-			if (vipRe.exec(requestList[i])) {
-				hidename = /\|\s*hidename\s*=[^|]+/.test(requestList[i]);
-				requestList[i] = requestList[i].trimEnd();
-				let newText = requestList[i].replace(
+		for (let request of requestList) {
+			if (vipRe.exec(request)) {
+				hidename = /\|\s*hidename\s*=[^|]+/.test(request);
+				request = request.trimEnd();
+				let newText = request.replace(
 					/^(\*\s*处理：)[ \t]*(<!-- 非管理員僅可標記已執行的封禁，針對提報的意見請放在下一行 -->)?[ \t]*$/m,
 					`$1${comment}--~~`.concat('~~')
 				);
-				if (requestList[i] === newText) {
-					newText = `${requestList[i]}\n* 处理：${comment}--~~`.concat('~~');
+				if (request === newText) {
+					newText = `${request}\n* 处理：${comment}--~~`.concat('~~');
 				}
-				requestList[i] = `${newText}\n`;
+				request = `${newText}\n`;
 				found = true;
 				break;
 			}

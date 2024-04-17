@@ -1567,13 +1567,13 @@ import {api} from './api';
 				`===\\s*(\\[\\[)?\\s*:?\\s*${Morebits.pageNameRegex(Morebits.pageNameNorm)}\\s*(\\]\\])?\\s*===`,
 				'm'
 			);
-			for (let i = 1; i < requestList.length; i++) {
-				if (rppRe.exec(requestList[i])) {
-					requestList[i] = requestList[i].trimEnd();
+			for (let request of requestList) {
+				if (rppRe.exec(request)) {
+					request = request.trimEnd();
 					if (params.type === 'unprotect') {
-						requestList[i] += '\n: {{RFPP|isun}}。--~~'.concat('~~\n');
+						request += '\n: {{RFPP|isun}}。--~~'.concat('~~\n');
 					} else {
-						requestList[i] += `\n: {{RFPP|${params.type}|${
+						request += `\n: {{RFPP|${params.type}|${
 							Morebits.string.isInfinity(params.expiry) ? 'infinity' : expiryText
 						}}}。--~~`.concat('~~\n');
 					}

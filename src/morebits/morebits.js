@@ -381,9 +381,9 @@ import {generateArray} from 'ext.gadget.Util';
 	 */
 	Morebits.quickForm.element.prototype.render = function (internalSubgroupId) {
 		const currentNode = this.compute(this.data, internalSubgroupId);
-		for (let i = 0; i < this.childs.length; ++i) {
+		for (const child of this.childs) {
 			// do not pass internal_subgroup_id to recursive calls
-			currentNode[1].appendChild(this.childs[i].render());
+			currentNode[1].appendChild(child.render());
 		}
 		return currentNode[0];
 	};

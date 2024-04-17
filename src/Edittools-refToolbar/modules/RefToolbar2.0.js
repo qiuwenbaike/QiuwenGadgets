@@ -821,9 +821,9 @@ const refToolbar2 = ($body) => {
 			return false;
 		}
 		$body.find('#cite-nref-parse').hide();
-		for (let i = 0; i < CiteTB.mainRefList.length; i++) {
-			if (!CiteTB.mainRefList[i].shorttag && CiteTB.mainRefList[i].refname === choice) {
-				CiteTB.parse(CiteTB.mainRefList[i].content, CiteTB.fillNrefPreview);
+		for (const ref of CiteTB.mainRefList) {
+			if (!ref.shorttag && ref.refname === choice) {
+				CiteTB.parse(ref.content, CiteTB.fillNrefPreview);
 				return false;
 			}
 		}
@@ -845,10 +845,10 @@ const refToolbar2 = ($body) => {
 			$body.find('#cite-nref-parse').hide();
 			return;
 		}
-		for (let i = 0; i < CiteTB.mainRefList.length; i++) {
-			if (!CiteTB.mainRefList[i].shorttag && CiteTB.mainRefList[i].refname === choice) {
+		for (const ref of CiteTB.mainRefList) {
+			if (!ref.shorttag && ref.refname === choice) {
 				$body.find('#cite-nref-preview-label').show();
-				$body.find('#cite-namedref-preview').text(CiteTB.mainRefList[i].content);
+				$body.find('#cite-namedref-preview').text(ref.content);
 				if (CiteTB.getOption('autoparse')) {
 					CiteTB.nrefParseClick();
 				} else {
