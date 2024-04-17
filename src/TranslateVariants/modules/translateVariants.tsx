@@ -95,7 +95,7 @@ const translateVariants = (wgPageName: string): void => {
 						.find(`#${OPTIONS.contentID}`)
 						.text();
 
-					const _params: ApiQueryRevisionsParams = {
+					const queryDiffParams: ApiQueryRevisionsParams = {
 						action: 'query',
 						format: 'json',
 						formatversion: '2',
@@ -104,7 +104,7 @@ const translateVariants = (wgPageName: string): void => {
 						rvdifftotext: newPageContent,
 					};
 
-					return api.post(_params);
+					return api.post(queryDiffParams);
 				},
 				(error): null => {
 					void mw.notify(
@@ -251,7 +251,7 @@ const translateVariants = (wgPageName: string): void => {
 			});
 	};
 
-	const params: ApiQueryRevisionsParams = {
+	const queryContentParams: ApiQueryRevisionsParams = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
@@ -262,7 +262,7 @@ const translateVariants = (wgPageName: string): void => {
 	};
 
 	void api
-		.get(params)
+		.get(queryContentParams)
 		.then((data) => {
 			if (!data['query']?.pages) {
 				return $.Deferred().reject('unknown');

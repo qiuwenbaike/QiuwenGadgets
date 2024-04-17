@@ -2,6 +2,36 @@ import * as OPTIONS from '../options.json';
 import {api} from './api';
 import {getMessage} from './i18n';
 
+const queryRevisions = async (titles: string | string[]) => {
+	const params: ApiQueryRevisionsParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		titles,
+		prop: 'revisions',
+		rvprop: 'content',
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
+const edit = async (title: string, text: string, summary?: string) => {
+	const params: ApiEditPageParams = {
+		action: 'edit',
+		format: 'json',
+		formatversion: '2',
+		title,
+		text,
+	};
+	if (summary) {
+		params.summary = summary;
+	}
+	const response = await api.postWithEditToken(params);
+
+	return response;
+};
+
 const submit = async (_ids: string[], toHide: string, reason: string, otherReasons: string): Promise<void> => {
 	const ids: string[] = [...new Set(_ids)];
 	const {wgPageName} = mw.config.get();
@@ -20,16 +50,7 @@ const submit = async (_ids: string[], toHide: string, reason: string, otherReaso
 	rrdArr[rrdArr.length] = '}}\n--~~'.concat('~~');
 
 	try {
-		const queryParams: ApiQueryRevisionsParams = {
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			titles: OPTIONS.rrdPage,
-			prop: 'revisions',
-			rvprop: 'content',
-		};
-
-		const response = await api.get(queryParams);
+		const response = await queryRevisions(OPTIONS.rrdPage);
 
 		let content: string | undefined;
 		if (response['query']?.pages) {
@@ -46,16 +67,7 @@ const submit = async (_ids: string[], toHide: string, reason: string, otherReaso
 		}
 
 		try {
-			const editParams: ApiEditPageParams = {
-				action: 'edit',
-				format: 'json',
-				formatversion: '2',
-				title: OPTIONS.rrdPage,
-				text: `${content}\n\n${rrdArr.join('\n')}`,
-				summary: getMessage('editSummary'),
-			};
-
-			const result = await api.postWithEditToken(editParams);
+			const result = await edit(OPTIONS.rrdPage, `${content}\n\n${rrdArr.join('\n')}`, getMessage('editSummary'));
 
 			if (result['edit']?.result === 'Success') {
 				location.replace(mw.util.getUrl(OPTIONS.rrdPage));

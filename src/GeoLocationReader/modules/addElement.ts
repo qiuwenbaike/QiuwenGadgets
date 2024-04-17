@@ -1,17 +1,23 @@
 import {api} from './api';
 import {appendGeoIcon} from './appendGeoIcon';
 
-const addElement = async (): Promise<void> => {
-	const {wgRelevantUserName} = mw.config.get();
-	const queryUserGroupsParams: ApiQueryUsersParams = {
+const queryUserGroups = async (ususers: string) => {
+	const params: ApiQueryUsersParams = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		list: 'users',
-		ususers: wgRelevantUserName as string,
+		ususers,
 		usprop: 'groups',
 	};
 
+	const response = await api.post(params);
+
+	return response;
+};
+
+const addElement = async (): Promise<void> => {
+	const {wgRelevantUserName} = mw.config.get();
 	try {
 		const {
 			query: {
@@ -25,7 +31,7 @@ const addElement = async (): Promise<void> => {
 					},
 				];
 			};
-		} = (await api.get(queryUserGroupsParams)) as never;
+		} = (await queryUserGroups(`${wgRelevantUserName}`)) as never;
 
 		if (groups.includes('bot') || groups.includes('qiuwen')) {
 			/* empty */

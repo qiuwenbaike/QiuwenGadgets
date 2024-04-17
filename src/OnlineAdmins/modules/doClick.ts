@@ -3,6 +3,53 @@ import {BLACK_LIST} from './constant';
 import {api} from './api';
 import {getMessage} from './i18n';
 
+const queryRecentChanges = async (rcstart: string, rcend: string) => {
+	const params: ApiQueryRecentChangesParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		list: 'recentchanges',
+		rcprop: 'user',
+		rcshow: ['!bot', '!anon'],
+		rclimit: 500,
+		rcstart,
+		rcend,
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
+const queryLogEvents = async (lestart: string, leend: string) => {
+	const params: ApiQueryLogEventsParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		list: 'logevents',
+		leprop: 'user',
+		lelimit: 500,
+		lestart,
+		leend,
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
+const queryUserProps = async (ususers: string | string[]) => {
+	const params: ApiQueryUsersParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		list: 'users',
+		ususers,
+		usprop: 'groups',
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
 const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 	event.preventDefault();
 
@@ -18,33 +65,13 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 	const rcend: string = time.toISOString();
 
 	try {
-		const recentchangesParams: ApiQueryRecentChangesParams = {
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			list: 'recentchanges',
-			rcprop: 'user',
-			rcshow: ['!bot', '!anon'],
-			rclimit: 500,
-			rcstart,
-			rcend,
-		};
-		const recentchanges = await api.get(recentchangesParams);
+		const recentchanges = await queryRecentChanges(rcstart, rcend);
 
 		for (const {user} of recentchanges['query'].recentchanges as {user: string}[]) {
 			users[users.length] = user; // Replace `[].push()` to avoid polyfilling core-js
 		}
-		const logeventsParams: ApiQueryLogEventsParams = {
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			list: 'logevents',
-			leprop: 'user',
-			lelimit: 500,
-			lestart: rcstart,
-			leend: rcend,
-		};
-		const logevents = await api.get(logeventsParams);
+
+		const logevents = await queryLogEvents(rcstart, rcend);
 
 		for (const {user} of logevents['query'].logevents as {user: string}[]) {
 			usersExt[usersExt.length] = user;
@@ -55,17 +82,9 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		const promises: (() => Promise<void>)[] = [];
 
 		for (let i = 0; i < users.length; i++) {
-			const ususers = users.splice(0, 50);
 			promises[promises.length] = async (): Promise<void> => {
-				const params: ApiQueryUsersParams = {
-					action: 'query',
-					format: 'json',
-					formatversion: '2',
-					list: 'users',
-					ususers,
-					usprop: 'groups',
-				};
-				const response = await api.get(params);
+				const ususers = users.splice(0, 50);
+				const response = await queryUserProps(ususers);
 
 				for (const {groups, name} of response['query'].users as {groups: string[]; name: string}[]) {
 					// 找到管理人员，去除机器人，消除name的空值
@@ -91,16 +110,16 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 				await promise();
 			}
 		})().then(() => {
-			if (stewards.length + admins.length + patrollers.length > 0) {
+			if (stewards.length + admins.length + patrollers.length) {
 				const elements: Element[] = [listTitle()];
 
-				if (stewards.length > 0) {
+				if (stewards.length) {
 					elements[elements.length] = groupListElement(getMessage('Stewards'), stewards);
 				}
-				if (admins.length > 0) {
+				if (admins.length) {
 					elements[elements.length] = groupListElement(getMessage('Admins'), admins);
 				}
-				if (patrollers.length > 0) {
+				if (patrollers.length) {
 					elements[elements.length] = groupListElement(getMessage('Patrollers'), patrollers);
 				}
 				void mw.notify($('<div>').append(elements), {tag: 'onlineAdmins'});

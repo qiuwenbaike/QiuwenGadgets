@@ -5,6 +5,33 @@ let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
 };
 
+const queryImages = async (titles: string | string[]) => {
+	const params: ApiQueryImagesParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		prop: 'images',
+		titles,
+		imlimit: 5000,
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
+const parse = async (page: string) => {
+	const params: ApiParseParams = {
+		action: 'parse',
+		format: 'json',
+		formatversion: '2',
+		prop: 'text',
+		page,
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
 const getAllImages = async (): Promise<string[]> => {
 	toastifyInstance.hideToast();
 	toastify(
@@ -21,16 +48,7 @@ const getAllImages = async (): Promise<string[]> => {
 	// Analyze step 1: Query
 	if (!(wgNamespaceNumber < 0)) {
 		try {
-			const queryImageParams: ApiQueryImagesParams = {
-				action: 'query',
-				format: 'json',
-				formatversion: '2',
-				prop: 'images',
-				titles: wgPageName,
-				imlimit: 5000,
-			};
-
-			const queryImageResponse = await api.get(queryImageParams);
+			const queryImageResponse = await queryImages(wgPageName);
 			if (
 				queryImageResponse['query'] &&
 				queryImageResponse['query']?.pages[0] &&
@@ -51,15 +69,7 @@ const getAllImages = async (): Promise<string[]> => {
 
 	if (!(wgNamespaceNumber < 0) || wgNamespaceNumber === 6) {
 		try {
-			const parseParams: ApiParseParams = {
-				action: 'parse',
-				format: 'json',
-				formatversion: '2',
-				prop: 'text',
-				page: wgPageName,
-			};
-
-			const parseResponse = await api.get(parseParams);
+			const parseResponse = await parse(wgPageName);
 			if (parseResponse['parse'] && parseResponse['parse']?.text) {
 				const pageContent = document.createElement('span');
 				pageContent.innerHTML = parseResponse['parse']?.text as string;
