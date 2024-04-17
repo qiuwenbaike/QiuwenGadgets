@@ -1784,11 +1784,11 @@
 				}
 				a.sort();
 				b.sort();
-				for (let i = 0; a[i]; ++i) {
+				for (const [i, element] of a.entries()) {
 					// comparison of the two properties of custom lists
-					if (typeof a[i] === 'object' && (a[i].label !== b[i].label || a[i].value !== b[i].value)) {
+					if (typeof element === 'object' && (element.label !== b[i].label || element.value !== b[i].value)) {
 						return false;
-					} else if (a[i].toString() !== b[i].toString()) {
+					} else if (element.toString() !== b[i].toString()) {
 						return false;
 					}
 				}
