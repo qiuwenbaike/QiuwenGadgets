@@ -84,30 +84,33 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 				}
 			};
 		}
-		// 查询用户权限
-		for (const promise of promises) {
-			await promise();
-		}
 
-		if (stewards.length + admins.length + patrollers.length > 0) {
-			const elements: Element[] = [listTitle()];
+		void (async () => {
+			// 查询用户权限
+			for (const promise of promises) {
+				await promise();
+			}
+		})().then(() => {
+			if (stewards.length + admins.length + patrollers.length > 0) {
+				const elements: Element[] = [listTitle()];
 
-			if (stewards.length > 0) {
-				elements[elements.length] = groupListElement(getMessage('Stewards'), stewards);
+				if (stewards.length > 0) {
+					elements[elements.length] = groupListElement(getMessage('Stewards'), stewards);
+				}
+				if (admins.length > 0) {
+					elements[elements.length] = groupListElement(getMessage('Admins'), admins);
+				}
+				if (patrollers.length > 0) {
+					elements[elements.length] = groupListElement(getMessage('Patrollers'), patrollers);
+				}
+				void mw.notify($('<div>').append(elements), {tag: 'onlineAdmins'});
+			} else {
+				void mw.notify(getMessage('NoOnline'), {
+					tag: 'onlineAdmins',
+					type: 'warn',
+				});
 			}
-			if (admins.length > 0) {
-				elements[elements.length] = groupListElement(getMessage('Admins'), admins);
-			}
-			if (patrollers.length > 0) {
-				elements[elements.length] = groupListElement(getMessage('Patrollers'), patrollers);
-			}
-			void mw.notify($('<div>').append(elements), {tag: 'onlineAdmins'});
-		} else {
-			void mw.notify(getMessage('NoOnline'), {
-				tag: 'onlineAdmins',
-				type: 'warn',
-			});
-		}
+		});
 	} catch {
 		void mw.notify(getMessage('Network error'), {tag: 'onlineAdmins', type: 'error'});
 	}
