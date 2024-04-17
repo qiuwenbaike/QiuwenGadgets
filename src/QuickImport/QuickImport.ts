@@ -8,14 +8,14 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 
 	const isFileNS: boolean = wgNamespaceNumber === 6;
 	const hasMwNoarticletext: boolean = !!document.querySelector('#mw-noarticletext');
-	const iwprefix: string = caViewForeignZhwiki.length > 0 ? 'zhwiki' : 'commons';
+	const iwprefix: string = caViewForeignZhwiki.length ? 'zhwiki' : 'commons';
 
 	const label: string = isFileNS && !hasMwNoarticletext ? iwprefix : '';
 	const buttonLabel: string = isFileNS
 		? label
 			? `文件（${label}）`
 			: '页面'
-		: redirectTextA.length > 0
+		: redirectTextA.length
 			? '重定向目标'
 			: '页面';
 

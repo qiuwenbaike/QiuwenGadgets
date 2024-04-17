@@ -68,7 +68,7 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 		'info'
 	);
 
-	const uploadParams: ApiUploadParams = {
+	const params: ApiUploadParams = {
 		url: url ?? `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`,
 		action: 'upload',
 		format: 'json',
@@ -76,7 +76,7 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 		comment: '自其他网站迁移文件',
 		ignorewarnings: true,
 	};
-	await api.postWithEditToken(uploadParams);
+	await api.postWithEditToken(params);
 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
@@ -89,7 +89,7 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 };
 
 const queryImageInfo = async (titles: string | string[]) => {
-	const queryParams: ApiQueryInfoParams & ApiQueryImageInfoParams = {
+	const params: ApiQueryInfoParams & ApiQueryImageInfoParams = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
@@ -98,7 +98,7 @@ const queryImageInfo = async (titles: string | string[]) => {
 		titles,
 		redirects: true,
 	};
-	const response = await api.post(queryParams);
+	const response = await api.post(params);
 
 	return response;
 };
@@ -110,9 +110,6 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 	for (let i = 0; i < pageNames.length; i++) {
 		promises[promises.length] = async (): Promise<void> => {
 			let titles = pageNames.splice(0, 50);
-			if (pageNames.length === 0) {
-				return;
-			}
 
 			// Redirect target(s)
 			const tos: string[] = [];
