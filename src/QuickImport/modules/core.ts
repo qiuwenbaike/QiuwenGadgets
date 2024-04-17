@@ -2,7 +2,7 @@ import {api} from './api';
 import {generateArray} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
-type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => void;
+type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => Promise<void>;
 type RefreshPage = (title: string) => void;
 
 let toastifyInstance: ToastifyInstance = {
@@ -103,10 +103,9 @@ const queryImageInfo = async (titles: string | string[]) => {
 	return response;
 };
 
-const detectIfFileRedirect: DetectIfFileRedirect = (pageNames, isFileNS = false) => {
+const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = false) => {
 	pageNames = generateArray(pageNames);
 	const promises: (() => Promise<void>)[] = [];
-	const tos: string[] = [];
 
 	for (let i = 0; i < pageNames.length; i++) {
 		promises[promises.length] = async (): Promise<void> => {
@@ -115,40 +114,43 @@ const detectIfFileRedirect: DetectIfFileRedirect = (pageNames, isFileNS = false)
 				return;
 			}
 
+			// Redirect target(s)
+			const tos: string[] = [];
+
 			// Analyze step 1: import pages itself
 			//// Query
 			const response = await queryImageInfo(titles);
-			if (!response['query']) {
-				return;
-			}
-
-			//// Normalize
-			if (response['query'].normalized) {
-				for (const {from, to} of response['query'].normalized as {from: string; to: string}[]) {
-					titles = titles.map((element) => {
-						return element === from ? to : element;
-					});
-				}
-			}
-
-			//// Import
-			for (const page1 of response['query'].pages) {
-				const title = page1.title as string;
-
-				if (!page1.missing) {
-					continue;
+			if (response['query']) {
+				//// Normalize
+				if (response['query'].normalized) {
+					for (const {from, to} of response['query'].normalized as {from: string; to: string}[]) {
+						titles = titles.map((element) => {
+							return element === from ? to : element;
+						});
+					}
 				}
 
-				if (isFileNS) {
-					await importPage(title, 'commons', isFileNS);
-				}
-				await importPage(title, 'zhwiki', isFileNS);
-			}
+				//// Import
+				if (response['query'].pages) {
+					for (const page1 of response['query'].pages) {
+						const title = page1.title as string;
 
-			//// Push redirect targets into array
-			if (response['query'].redirects) {
-				for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
-					tos[tos.length] = to;
+						if (!page1.missing) {
+							continue;
+						}
+
+						if (isFileNS) {
+							await importPage(title, 'commons', isFileNS);
+						}
+						await importPage(title, 'zhwiki', isFileNS);
+					}
+				}
+
+				//// Push redirect targets into array
+				if (response['query'].redirects) {
+					for (const {to} of response['query'].redirects as {from: string; to: string}[]) {
+						tos[tos.length] = to;
+					}
 				}
 			}
 
@@ -156,50 +158,50 @@ const detectIfFileRedirect: DetectIfFileRedirect = (pageNames, isFileNS = false)
 			if (isFileNS) {
 				//// Query
 				const response2 = await queryImageInfo(titles);
-				if (!response2['query']) {
-					return;
-				}
-
-				//// Normalize
-				if (response2['query'].normalized) {
-					for (const {from, to} of response2['query'].normalized as {from: string; to: string}[]) {
-						titles = titles.map((element) => {
-							return element === from ? to : element;
-						});
-					}
-				}
-
-				//// upload
-				for (const page2 of response2['query'].pages) {
-					const title = page2.title as string;
-
-					if (page2.missing || page2.redirect) {
-						continue;
+				if (response2['query']) {
+					//// Normalize
+					if (response2['query'].normalized) {
+						for (const {from, to} of response2['query'].normalized as {from: string; to: string}[]) {
+							titles = titles.map((element) => {
+								return element === from ? to : element;
+							});
+						}
 					}
 
-					if (page2.imagerepository && page2.imagerepository !== 'local') {
-						await uploadFile(title, page2.imageinfo[0].url as string);
-					}
-				}
+					//// upload
+					if (response2['query'].pages) {
+						for (const page2 of response2['query'].pages) {
+							const title = page2.title as string;
 
-				if (response2['query'].redirects) {
-					for (const {to} of response2['query'].redirects as {from: string; to: string}[]) {
-						tos[tos.length] = to;
+							if (page2.missing || page2.redirect) {
+								continue;
+							}
+
+							if (page2.imagerepository && page2.imagerepository !== 'local') {
+								await uploadFile(title, page2.imageinfo[0].url as string);
+							}
+						}
+					}
+
+					if (response2['query'].redirects) {
+						for (const {to} of response2['query'].redirects as {from: string; to: string}[]) {
+							tos[tos.length] = to;
+						}
 					}
 				}
 			}
 
 			// Analyze step 3: import pages as redirect target
 			//// Queue requests to import redirect targets
-			detectIfFileRedirect(tos);
+			if (tos.length) {
+				await detectIfFileRedirect(tos);
+			}
 		};
 	}
 
-	void (async () => {
-		for (const promise of promises) {
-			await promise();
-		}
-	});
+	for (const promise of promises) {
+		await promise();
+	}
 };
 
 export {type DetectIfFileRedirect, detectIfFileRedirect, type RefreshPage, refreshPage};

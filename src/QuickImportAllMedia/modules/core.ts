@@ -5,7 +5,7 @@ let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
 };
 
-const getAllImages = async () => {
+const getAllImages = async (): Promise<string[]> => {
 	toastifyInstance.hideToast();
 	toastify(
 		{
@@ -32,18 +32,16 @@ const getAllImages = async () => {
 
 			const queryImageResponse = await api.get(queryImageParams);
 			if (
-				!queryImageResponse['query'] ||
-				!queryImageResponse['query']?.pages[0] ||
-				!queryImageResponse['query']?.pages[0].images
+				queryImageResponse['query'] &&
+				queryImageResponse['query']?.pages[0] &&
+				queryImageResponse['query']?.pages[0].images
 			) {
-				return;
-			}
-
-			for (const imageInfo of queryImageResponse['query']?.pages[0].images as {ns: number; title: string}[]) {
-				if (!imageInfo || !imageInfo.title) {
-					continue;
+				for (const imageInfo of queryImageResponse['query']?.pages[0].images as {ns: number; title: string}[]) {
+					if (!imageInfo || !imageInfo.title) {
+						continue;
+					}
+					fileNames[fileNames.length] = imageInfo.title;
 				}
-				fileNames[fileNames.length] = imageInfo.title;
 			}
 		} catch {}
 	}
@@ -62,17 +60,15 @@ const getAllImages = async () => {
 			};
 
 			const parseResponse = await api.get(parseParams);
-			if (!parseResponse['parse'] || !parseResponse['parse']?.text) {
-				return;
+			if (parseResponse['parse'] && parseResponse['parse']?.text) {
+				const pageContent = document.createElement('span');
+				pageContent.innerHTML = parseResponse['parse']?.text as string;
+
+				fileLinkElements = [
+					...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
+					...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
+				];
 			}
-
-			const pageContent = document.createElement('span');
-			pageContent.innerHTML = parseResponse['parse']?.text as string;
-
-			fileLinkElements = [
-				...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
-				...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
-			];
 		} catch {}
 	}
 
