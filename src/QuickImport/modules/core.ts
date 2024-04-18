@@ -26,7 +26,7 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
-			text: `导入页面中：${pageName}`,
+			text: `导入页面中：${iwprefix}:${pageName}`,
 			duration: -1,
 		},
 		'info'
@@ -46,16 +46,27 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 		interwikisource: iwprefix as NonNullable<ApiImportParams['interwikisource']>,
 		summary: `［${summary}］`,
 	};
-	await api.postWithEditToken(params);
+	const result = await api.postWithEditToken(params);
 
-	toastifyInstance.hideToast();
-	toastifyInstance = toastify(
-		{
-			text: `页面导入完成：${pageName}`,
-			duration: -1,
-		},
-		'success'
-	);
+	if (result['import'] && result['import'][0] && result['import'].revisions) {
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: `页面导入完成：${pageName}`,
+				duration: -1,
+			},
+			'success'
+		);
+	} else {
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: `页面导入失败：${iwprefix}:${pageName}`,
+				duration: -1,
+			},
+			'warning'
+		);
+	}
 };
 
 const uploadFile = async (target: string, url?: string): Promise<void> => {
@@ -108,8 +119,15 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i = 0; i < pageNames.length; i++) {
+		if (pageNames.length === 0) {
+			return;
+		}
+
 		promises[promises.length] = async (): Promise<void> => {
 			let titles = pageNames.splice(0, 50);
+			if (titles.length === 0) {
+				return;
+			}
 
 			// Redirect target(s)
 			const tos: string[] = [];
