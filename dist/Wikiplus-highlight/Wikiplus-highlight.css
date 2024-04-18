@@ -9,16 +9,6 @@
  * @author Bhsd <https://github.com/bhsd-harry>, 机智的小鱼君 <https://github.com/Dragon-Fish>
  * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
  */
-
-/**
- * SPDX-License-Identifier: MIT
- *
- * settings Icon (ltr) from OOjs UI
- *
- * @base {@link https://github.com/wikimedia/oojs-ui/blob/e17952e413cfc00c15cfd861d47463c29062afe7/src/themes/wikimediaui/images/icons/globe.svg}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus-highlight/images}
- * @license MIT {@link https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT}
- */
 /**
  * +------------------------------------------------------------+
  * |            === WARNING: GLOBAL GADGET FILE ===             |
@@ -41,10 +31,7 @@
 div.Wikiplus-InterBox {
   z-index: 100;
 }
-.mw-ui-icon-portletlink-wphl-settings::before {
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2220%22%20height%3D%2220%22%20fill%3D%22%2354595d%22%3E%3Cg%20transform%3D%22translate(10%2010)%22%3E%3Cpath%20id%3D%22a%22%20d%3D%22M1.5-10h-3l-1%206.5h5m0%207h-5l1%206.5h3%22%2F%3E%3Cuse%20xlink%3Ahref%3D%22%23a%22%20transform%3D%22rotate(45)%22%2F%3E%3Cuse%20xlink%3Ahref%3D%22%23a%22%20transform%3D%22rotate(90)%22%2F%3E%3Cuse%20xlink%3Ahref%3D%22%23a%22%20transform%3D%22rotate(135)%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M10%202.5a7.5%207.5%200%200%200%200%2015%207.5%207.5%200%200%200%200-15v4a3.5%203.5%200%200%201%200%207%203.5%203.5%200%200%201%200-7%22%2F%3E%3C%2Fsvg%3E");
-}
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL1dpa2lwbHVzLWhpZ2hsaWdodC9XaWtpcGx1cy1oaWdobGlnaHQubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLyohIFdpa2lwbHVzLWhpZ2hsaWdodCB8IEJoc2QsIOacuuaZuueahOWwj+mxvOWQmyB8IEdQTC0zLjAgPGh0dHBzOi8vcXdiay5jYy9IOkdQTC0zLjA+ICovXG4jV2lraXBsdXMtQ29kZU1pcnJvciB7XG4gIGJvcmRlcjogMXB4IHNvbGlkICNjOGNjZDE7XG4gIGNsZWFyOiBib3RoO1xufVxuZGl2Lldpa2lwbHVzLUludGVyQm94IHtcbiAgei1pbmRleDogMTAwO1xufVxuLm13LXVpLWljb24tcG9ydGxldGxpbmstd3BobC1zZXR0aW5nczo6YmVmb3JlIHtcbiAgYmFja2dyb3VuZC1pbWFnZTogdXJsKFwiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyUyMHhtbG5zJTNEJTIyaHR0cCUzQSUyRiUyRnd3dy53My5vcmclMkYyMDAwJTJGc3ZnJTIyJTIweG1sbnMlM0F4bGluayUzRCUyMmh0dHAlM0ElMkYlMkZ3d3cudzMub3JnJTJGMTk5OSUyRnhsaW5rJTIyJTIwd2lkdGglM0QlMjIyMCUyMiUyMGhlaWdodCUzRCUyMjIwJTIyJTIwZmlsbCUzRCUyMiUyMzU0NTk1ZCUyMiUzRSUzQ2clMjB0cmFuc2Zvcm0lM0QlMjJ0cmFuc2xhdGUoMTAlMjAxMCklMjIlM0UlM0NwYXRoJTIwaWQlM0QlMjJhJTIyJTIwZCUzRCUyMk0xLjUtMTBoLTNsLTElMjA2LjVoNW0wJTIwN2gtNWwxJTIwNi41aDMlMjIlMkYlM0UlM0N1c2UlMjB4bGluayUzQWhyZWYlM0QlMjIlMjNhJTIyJTIwdHJhbnNmb3JtJTNEJTIycm90YXRlKDQ1KSUyMiUyRiUzRSUzQ3VzZSUyMHhsaW5rJTNBaHJlZiUzRCUyMiUyM2ElMjIlMjB0cmFuc2Zvcm0lM0QlMjJyb3RhdGUoOTApJTIyJTJGJTNFJTNDdXNlJTIweGxpbmslM0FocmVmJTNEJTIyJTIzYSUyMiUyMHRyYW5zZm9ybSUzRCUyMnJvdGF0ZSgxMzUpJTIyJTJGJTNFJTNDJTJGZyUzRSUzQ3BhdGglMjBkJTNEJTIyTTEwJTIwMi41YTcuNSUyMDcuNSUyMDAlMjAwJTIwMCUyMDAlMjAxNSUyMDcuNSUyMDcuNSUyMDAlMjAwJTIwMCUyMDAtMTV2NGEzLjUlMjAzLjUlMjAwJTIwMCUyMDElMjAwJTIwNyUyMDMuNSUyMDMuNSUyMDAlMjAwJTIwMSUyMDAtNyUyMiUyRiUzRSUzQyUyRnN2ZyUzRVwiKTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUE7QUFDQSxDQUFDO0FBQ0MsVUFBUSxJQUFJLE1BQU07QUFDbEIsU0FBTztBQUNUO0FBQ0EsR0FBRyxDQUFDO0FBQ0YsV0FBUztBQUNYO0FBQ0EsQ0FBQyxvQ0FBb0M7QUFDbkMsb0JBQWtCO0FBQ3BCOyIsCiAgIm5hbWVzIjogW10KfQo= */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL1dpa2lwbHVzLWhpZ2hsaWdodC9XaWtpcGx1cy1oaWdobGlnaHQubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLyohIFdpa2lwbHVzLWhpZ2hsaWdodCB8IEJoc2QsIOacuuaZuueahOWwj+mxvOWQmyB8IEdQTC0zLjAgPGh0dHBzOi8vcXdiay5jYy9IOkdQTC0zLjA+ICovXG4jV2lraXBsdXMtQ29kZU1pcnJvciB7XG4gIGJvcmRlcjogMXB4IHNvbGlkICNjOGNjZDE7XG4gIGNsZWFyOiBib3RoO1xufVxuZGl2Lldpa2lwbHVzLUludGVyQm94IHtcbiAgei1pbmRleDogMTAwO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBO0FBQ0EsQ0FBQztBQUNDLFVBQVEsSUFBSSxNQUFNO0FBQ2xCLFNBQU87QUFDVDtBQUNBLEdBQUcsQ0FBQztBQUNGLFdBQVM7QUFDWDsiLAogICJuYW1lcyI6IFtdCn0K */
