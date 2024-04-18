@@ -80,16 +80,12 @@ const markBlockedUser = ($content: JQuery): void => {
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i = 0; i < users.length; i++) {
-		if (!users.length) {
+		const bkusers = users.splice(0, 50);
+		if (!bkusers.length) {
 			continue;
 		}
 
 		promises[promises.length] = async (): Promise<void> => {
-			const bkusers = users.splice(0, 50);
-			if (!bkusers.length) {
-				return;
-			}
-
 			const params: ApiQueryBlocksParams = {
 				action: 'query',
 				format: 'json',

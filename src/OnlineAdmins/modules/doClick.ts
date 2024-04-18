@@ -82,15 +82,12 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		const promises: (() => Promise<void>)[] = [];
 
 		for (let i = 0; i < users.length; i++) {
-			if (!users.length) {
+			const ususers = users.splice(0, 50);
+			if (!ususers.length) {
 				continue;
 			}
 
 			promises[promises.length] = async (): Promise<void> => {
-				const ususers = users.splice(0, 50);
-				if (ususers.length === 0) {
-					return;
-				}
 				const response = await queryUserProps(ususers);
 
 				for (const {groups, name} of response['query'].users as {groups: string[]; name: string}[]) {
