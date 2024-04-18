@@ -1,4 +1,6 @@
-const toolsRedirect_courtesy_and_art_names = (): void => {
+import {findRedirectCallback} from 'ext.gadget.ToolsRedirect';
+
+const checkRedirect = (): void => {
 	const REGEX_PREFIX: RegExp = /[号字號]\s*$/;
 	const compSurnames: string[] = [
 		'欧阳',
@@ -77,7 +79,7 @@ const toolsRedirect_courtesy_and_art_names = (): void => {
 		return pageName[0];
 	};
 
-	window.toolsRedirect.findRedirectCallback((pageName: string, $content: JQuery): string[] => {
+	findRedirectCallback((pageName: string, $content: JQuery): string[] => {
 		const titles: string[] = [];
 
 		let surname: string | undefined;
@@ -105,4 +107,4 @@ const toolsRedirect_courtesy_and_art_names = (): void => {
 	});
 };
 
-export {toolsRedirect_courtesy_and_art_names};
+export {checkRedirect};

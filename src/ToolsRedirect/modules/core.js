@@ -740,4 +740,4 @@ const ToolsRedirect = {
 	},
 };
 
-export {ToolsRedirect};
+export {ToolsRedirect, findRedirectCallback, findRedirectBySelector, setRedirectTextSuffix};
