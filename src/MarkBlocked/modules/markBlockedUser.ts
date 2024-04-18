@@ -80,9 +80,13 @@ const markBlockedUser = ($content: JQuery): void => {
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i = 0; i < users.length; i++) {
+		if (!users.length) {
+			continue;
+		}
+
 		promises[promises.length] = async (): Promise<void> => {
 			const bkusers = users.splice(0, 50);
-			if (bkusers.length === 0) {
+			if (!bkusers.length) {
 				return;
 			}
 
