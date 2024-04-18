@@ -9,7 +9,6 @@ const refToolbarBase = () => {
 		Options: {}, // Global options
 		UserOptions: {}, // User options
 		DefaultOptions: {}, // Script defaults
-		ErrorChecks: {}, // Error check functions
 	};
 
 	// Class for cite templates
@@ -274,67 +273,6 @@ const refToolbarBase = () => {
 			extras.append(link);
 			main.append(extras);
 			return main;
-		}
-	};
-	/**
-	 * Class for error checks
-	 * FIXME: DOCS OUT OF DATE
-	 * type - type of error check - current options:
-	 * * 'refcheck' - apply a function on each ref individually
-	 * - function should accept a ref object, return a string
-	 * * 'reflist' - apply a function on the entire ref list
-	 * - function should accept an array of ref objects, return an array of strings
-	 * * 'search' - apply a function ro the page text
-	 * - function should accept the page text as a string, return an array of strings
-	 * The strings returned by the function should be valid HTML
-	 * function - The function described above testname - Name of the error check, must not contain spaces
-	 * desc - A short description of the test
-	 *
-	 * @param {unknown} obj
-	 */
-	window.CiteErrorCheck = class CiteErrorCheck {
-		constructor(obj) {
-			this.obj = obj;
-
-			CiteTB.ErrorChecks[this.obj.testname] = this;
-		}
-		run() {
-			let errors = [];
-			switch (this.obj.type) {
-				case 'refcheck':
-					CiteTB.loadRefs();
-					for (const ref of CiteTB.mainRefList) {
-						const e = this.obj.func(ref);
-						if (e) {
-							errors.push(e);
-						}
-					}
-					break;
-				case 'reflist':
-					CiteTB.loadRefs();
-					errors = this.obj.func(CiteTB.mainRefList);
-					break;
-				case 'search': {
-					const {func} = this.obj;
-					CiteTB.getPageText((text) => {
-						errors = func(text);
-					});
-					break;
-				}
-			}
-			return errors;
-		}
-		getRow() {
-			const row = $('<li>');
-			const check = $('<input>').attr({
-				type: 'checkbox',
-				name: 'cite-err-test',
-			});
-			check.attr('value', this.obj.testname);
-			const label = $('<label>').html(getMessage(this.obj.desc));
-			label.attr('for', this.obj.testname);
-			row.append(check).append(' &ndash; ').append(label);
-			return row;
 		}
 	};
 

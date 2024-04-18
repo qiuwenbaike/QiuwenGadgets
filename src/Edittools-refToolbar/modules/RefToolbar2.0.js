@@ -34,7 +34,6 @@ const refToolbar2 = ($body) => {
 		 * - A section for cites
 		 * -- dropdown for the templates (previously defined)
 		 * -- button for named refs with a dialog box
-		 * -- button for errorcheck
 		 * 3. add the whole thing to the main toolbar
 		 */
 
@@ -152,57 +151,12 @@ const refToolbar2 = ($body) => {
 								},
 							},
 						},
-						errorcheck: {
-							label: getMessage('cite-errorcheck-label'),
-							tools: {
-								echeck: {
-									type: 'button',
-									action: {
-										type: 'dialog',
-										module: 'cite-toolbar-errorcheck',
-									},
-									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/a/a3/Nuvola_apps_korganizer-NO.png/22px-Nuvola_apps_korganizer-NO.png',
-									section: 'cites',
-									group: 'errorcheck',
-									label: getMessage('cite-errorcheck-button'),
-								},
-							},
-						},
 					},
 				},
 			},
 		};
 
 		const defaultdialogs = {
-			'cite-toolbar-errorcheck': {
-				title: mw.message('cite-errorcheck-label').parse(),
-				id: 'citetoolbar-errorcheck',
-				resizeme: false,
-				init: () => {},
-				html: `<div id="cite-namedref-loading"><img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" />&nbsp;${getMessage(
-					'cite-loading'
-				)}</div>`,
-				dialog: {
-					width: Math.round($(window).width() ?? 0 * 0.8),
-					open() {
-						CiteTB.loadRefs();
-					},
-					buttons: {
-						'cite-errorcheck-submit'() {
-							const errorchecks = $body.find('input[name=cite-err-test]:checked');
-							let errors = [];
-							for (const errorcheck of errorchecks) {
-								errors = [...errors, ...CiteTB.ErrorChecks[$(errorcheck).val()].run()];
-							}
-							CiteTB.displayErrors(errors);
-							$(this).dialog('close');
-						},
-						'wikieditor-toolbar-tool-link-cancel'() {
-							$(this).dialog('close');
-						},
-					},
-				},
-			},
 			'cite-toolbar-namedrefs': {
 				title: mw.message('cite-named-refs-title').parse(),
 				resizeme: false,
@@ -250,7 +204,6 @@ const refToolbar2 = ($body) => {
 		$body.find('#citetoolbar-namedrefs').off('dialogopen');
 		if (!CiteTB.getOption('modal')) {
 			// $body.find('#citetoolbar-namedrefs').dialog('option', 'modal', false);
-			// $body.find('#citetoolbar-errorcheck').dialog('option', 'modal', false);
 			mw.util.addCSS('.ui-widget-overlay{display:none !important}');
 		}
 		try {
@@ -405,7 +358,6 @@ const refToolbar2 = ($body) => {
 			CiteTB.mainRefList.push(refobj);
 		}
 		CiteTB.refsLoaded = true;
-		CiteTB.setupErrorCheck();
 		CiteTB.setupNamedRefs();
 	};
 
@@ -789,21 +741,6 @@ const refToolbar2 = ($body) => {
 			$body.find('#cite-namedref-select').on('change', CiteTB.namedRefSelectClick);
 			$body.find('#cite-nref-parse').on('click', CiteTB.nrefParseClick);
 		}
-	};
-
-	// Function to get the errorcheck form HTML
-	CiteTB.setupErrorCheck = () => {
-		const form = $('<div>').attr('id', 'cite-errorcheck-heading').html(getMessage('cite-errorcheck-heading'));
-		const ul = $('<ul>').attr('id', 'cite-errcheck-list');
-		let test;
-		for (const t in CiteTB.ErrorChecks) {
-			if (Object.hasOwn(CiteTB.ErrorChecks, t)) {
-				test = CiteTB.ErrorChecks[t];
-				ul.append(test.getRow());
-			}
-		}
-		form.append(ul);
-		$body.find('#citetoolbar-errorcheck').html(form.html());
 	};
 
 	// Callback function for parsed preview
