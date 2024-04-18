@@ -1,8 +1,10 @@
-const toolsRedirect_bio_latin_names = (): void => {
+import {findRedirectCallback} from 'ext.gadget.ToolsRedirect';
+
+const checkRedirect = (): void => {
 	const REGEX_PREFIX: RegExp = /[学學]名\s*[:：]?\s*$/;
 	const REGEX_COLON: RegExp = /^\s*[:：]?\s*$/;
 
-	window.toolsRedirect.findRedirectCallback((_pageName: string, $content: JQuery): string[] => {
+	findRedirectCallback((_pageName: string, $content: JQuery): string[] => {
 		const titles: string[] = [];
 
 		for (const element of $content.find('> p > [lang="la"], > p > i')) {
@@ -28,4 +30,4 @@ const toolsRedirect_bio_latin_names = (): void => {
 	});
 };
 
-export {toolsRedirect_bio_latin_names};
+export {checkRedirect};

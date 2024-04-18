@@ -1,10 +1,7 @@
-import {api} from './modules/api';
+import {checkDependencies} from './modules/checkDependencies';
+import {checkRedirect} from './modules/bio-latin-names';
 
-if (!mw.user.options.get('gadget-ToolsRedirect')) {
-	void api.postWithEditToken({
-		action: 'options',
-		change: 'gadget-ToolsRedirect=1',
-	} as ApiOptionsParams);
-
-	void mw.loader.using('ext.gadget.ToolsRedirect');
-}
+(function toolsRedirectBioLatinNames() {
+	void checkDependencies();
+	checkRedirect();
+})();

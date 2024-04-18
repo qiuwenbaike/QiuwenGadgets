@@ -7,5 +7,9 @@
 		"mediawiki/msg-doc": "off",
 		"no-use-before-define": "off"
 	},
+	"globals": {
+		"CodeMirror": "readonly",
+		"CodeMirror6": "readonly"
+	},
 	"ignorePatterns": ["modules/core.js"]
 }
