@@ -4,6 +4,6 @@
 	"section": "edit",
 	"excludeSites": ["licencewiki", "mncqiuwenbaike"],
 	"actions": ["view"],
-	"dependencies": ["ext.gadget.Util", "mediawiki.api", "user.options"],
+	"dependencies": ["ext.gadget.ToolsRedirect", "ext.gadget.Util", "mediawiki.api", "user.options"],
 	"rights": ["edit"]
 }
