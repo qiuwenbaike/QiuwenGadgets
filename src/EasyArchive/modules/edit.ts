@@ -48,12 +48,10 @@ const editAppend = ({
 	};
 
 	void api.postWithToken('csrf', param).then((data) => {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const originalContent = data['query'].pages[0].revisions[0].content ?? '';
 		edit({
 			title,
 			section: undefined,
-			text: `${originalContent + addedContent}`,
+			text: `${(data['query'].pages[0].revisions[0].content ?? '') + addedContent}`,
 			summary,
 			callback: callback ?? (() => {}),
 		});
