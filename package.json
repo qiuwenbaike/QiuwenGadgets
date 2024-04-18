@@ -131,7 +131,8 @@
 		"unorm": "^1.6.0",
 		"vue": "^3.4.21",
 		"vue-eslint-parser": "^9.4.2",
-		"vue-tsc": "^2.0.13"
+		"vue-tsc": "^2.0.13",
+		"@bhsd/codemirror-mediawiki": "^2.6.8"
 	},
 	"pnpm": {
 		"overrides": {
