@@ -1,4 +1,4 @@
-type ToolsRedirect = typeof import('./types').ToolsRedirect;
+type ToolsRedirect = typeof import('./core').ToolsRedirect;
 
 declare module 'ext.gadget.ToolsRedirect' {
 	export const findRedirectCallback: (...args: ((pageName: string, $content: JQuery) => string[])[]) => ToolsRedirect;

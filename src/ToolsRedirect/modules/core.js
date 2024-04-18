@@ -93,13 +93,6 @@ const setRedirectTextSuffix = (title, suffix, flag) => {
 	}
 };
 
-/* export global object */
-window.toolsRedirect = {
-	findRedirectCallback,
-	findRedirectBySelector,
-	setRedirectTextSuffix,
-};
-
 const ToolsRedirect = {
 	tabselem: null,
 	tagselem: null,
@@ -738,6 +731,13 @@ const ToolsRedirect = {
 			});
 		return deferred.promise();
 	},
+};
+
+/* export global object */
+window.toolsRedirect = {
+	findRedirectCallback,
+	findRedirectBySelector,
+	setRedirectTextSuffix,
 };
 
 export {ToolsRedirect, findRedirectCallback, findRedirectBySelector, setRedirectTextSuffix};

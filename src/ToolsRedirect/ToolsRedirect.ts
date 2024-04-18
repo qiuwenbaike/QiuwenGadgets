@@ -18,3 +18,5 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		toolsRedirect_opt_bolds();
 	}
 });
+
+export {findRedirectCallback, findRedirectBySelector, setRedirectTextSuffix} from './modules/core';
