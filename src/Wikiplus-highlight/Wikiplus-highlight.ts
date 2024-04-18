@@ -16,7 +16,6 @@ import {checkDependencies} from './modules/checkDependencies';
 	}
 
 	if (!('ontouchstart' in document)) {
-		/*! Wikiplus-highlight | Bhsd, 机智的小鱼君 | GPL-3.0 <https://qwbk.cc/H:GPL-3.0> */
 		await import('./modules/highlight');
 	}
 })();
