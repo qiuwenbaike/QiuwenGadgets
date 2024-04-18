@@ -1,4 +1,6 @@
-window.customizeToolbar(function (this: JQuery): void {
+import {customizeToolbar} from 'ext.gadget.Edittools-customizeToolbar';
+
+customizeToolbar(function (this: JQuery): void {
 	const self = this as JQuery & {wikiEditor: (method: string, options: Record<string, unknown>) => void};
 
 	self.wikiEditor('addToToolbar', {
@@ -8,7 +10,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			category: {
 				label: '分类',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/0/0c/VisualEditor_-_Icon_-_Tag.svg/24px-VisualEditor_-_Icon_-_Tag.svg.png',
+				oouiIcon: 'tag',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -39,7 +41,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			strikethrough: {
 				label: '删除线',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/7/72/VisualEditor_-_Icon_-_Strikethrough-s.svg/24px-VisualEditor_-_Icon_-_Strikethrough-s.svg.png',
+				oouiIcon: 'strikethrough',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -51,7 +53,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			underline: {
 				label: '下划线',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/a/a9/VisualEditor_-_Icon_-_Underline-u.svg/24px-VisualEditor_-_Icon_-_Underline-u.svg.png',
+				oouiIcon: 'underline',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -63,7 +65,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			quote: {
 				label: '块引用',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/d/d8/VisualEditor_-_Icon_-_Block-quote.svg/24px-VisualEditor_-_Icon_-_Block-quote.svg.png',
+				oouiIcon: 'quotes',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -75,7 +77,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			'justify-left': {
 				label: '左对齐',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/7/7f/OOjs_UI_icon_alignLeft.svg/24px-OOjs_UI_icon_alignLeft.svg.png',
+				oouiIcon: 'alignLeft',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -87,7 +89,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			'justify-center': {
 				label: '居中',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/b/ba/OOjs_UI_icon_alignCenter.svg/24px-OOjs_UI_icon_alignCenter.svg.png',
+				oouiIcon: 'alignCenter',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -99,7 +101,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			'justify-right': {
 				label: '右对齐',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/1/13/OOjs_UI_icon_alignRight.svg/24px-OOjs_UI_icon_alignRight.svg.png',
+				oouiIcon: 'alignRight',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -111,7 +113,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			source: {
 				label: '源代码',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/2/2c/VisualEditor_-_Icon_-_Source.svg/24px-VisualEditor_-_Icon_-_Source.svg.png',
+				oouiIcon: 'markup',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -129,7 +131,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			math: {
 				label: '数学公式',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/3/30/VisualEditor_-_Icon_-_Equation.svg/24px-VisualEditor_-_Icon_-_Equation.svg.png',
+				oouiIcon: 'mathematics',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -142,7 +144,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			hidden: {
 				label: '注释或隐藏文字',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/d/d1/VisualEditor_-_Icon_-_Comment.svg/24px-VisualEditor_-_Icon_-_Comment.svg.png',
+				oouiIcon: 'notice',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -154,7 +156,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			hline: {
 				label: '水平线',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/0/0e/VisualEditor_-_Icon_-_Remove-item.svg/24px-VisualEditor_-_Icon_-_Remove-item.svg.png',
+				oouiIcon: 'subtract',
 				action: {
 					type: 'encapsulate',
 					options: {
@@ -179,7 +181,7 @@ window.customizeToolbar(function (this: JQuery): void {
 			references: {
 				label: '参考文献区',
 				type: 'button',
-				icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/f/f9/VisualEditor_-_Icon_-_References.svg/24px-VisualEditor_-_Icon_-_References.svg.png',
+				oouiIcon: 'references',
 				action: {
 					type: 'encapsulate',
 					options: {

@@ -12,3 +12,5 @@ const customizeToolbar: CustomizeToolbar = (customizer) => {
 };
 
 window.customizeToolbar = customizeToolbar;
+
+export {customizeToolbar};
