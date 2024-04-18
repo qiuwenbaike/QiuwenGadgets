@@ -5,6 +5,7 @@
  * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-NavFrame.css}
  * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-NavFrame.css}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NavFrame-pagestyles}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 
 /**
@@ -16,9 +17,8 @@
  * @maintainer Helder.wiki, 2012–2013
  * @maintainer Krinkle, 2013
  * @maintainer Fantasticfears, 2013-2014
- */
-
-/**
- * Warning: NavFrame-pagestyles is retained for compatibility. Use .mw-collapsible or .collapsible instead.
- * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ *
+ * **WARNING**
+ * NavFrame-pagestyles is retained for compatibility.
+ * Use .mw-collapsible or .collapsible instead.
  */

@@ -1,14 +1,16 @@
+
 /**
  * SPDX-License-Identifier: MIT
- * _addText: '{{Gadget Header|license=MIT|attribution=2012-2017 Kevin Brown, Igor Vaynberg, and Select2 contributors}}'
+ * _addText: '{{Gadget Header|license=MIT|attribution=Diskdance, et. al.}}'
  *
- * @base {@link https://github.com/select2/select2/}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/select2}
- * @license MIT {@link https://github.com/select2/select2/blob/master/LICENSE.md}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-PreviewWithVariant2017.js}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-PreviewWithVariant2017.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/PreviewWithVariant2017}
+ * @license MIT {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-PreviewWithVariant2017.js}
  */
 
 /**
- * Copyright (c) 2012-2017 Kevin Brown, Igor Vaynberg, and Select2 contributors
+ * Copyright Diskdance
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
