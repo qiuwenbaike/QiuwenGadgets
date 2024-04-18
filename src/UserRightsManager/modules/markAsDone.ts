@@ -1,5 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as OPTIONS from '../options.json';
 import {api} from './api';
+
+const queryRevisions = async (titles: string | string[], rvsection: string) => {
+	const params: ApiQueryRevisionsParams = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		prop: 'revisions',
+		titles,
+		curtimestamp: true,
+		rvprop: ['content', 'timestamp'],
+		rvsection,
+	};
+
+	return await api.post(params);
+};
 
 const markAsDone = (userName: string, index: string, closingRemarks: string) => {
 	const {wgPageName} = mw.config.get();
@@ -8,7 +24,7 @@ const markAsDone = (userName: string, index: string, closingRemarks: string) => 
 	if (!sectionNode) {
 		return;
 	}
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 	const [, sectionNumber] = $(sectionNode as HTMLElement)
 		.siblings('.mw-editsection')
 		.find('a:not(.mw-editsection-visualeditor)')
@@ -18,63 +34,47 @@ const markAsDone = (userName: string, index: string, closingRemarks: string) => 
 	let curtimestamp: string;
 	let content: string;
 
-	const queryParams: ApiQueryRevisionsParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: 'revisions',
-		titles: [wgPageName],
-		curtimestamp: true,
-		rvprop: ['content', 'timestamp'],
-		rvsection: `${sectionNumber}`,
-	};
+	return queryRevisions(wgPageName, `${sectionNumber}`)
+		.then((data) => {
+			if (!data['query'] || !data['query'].pages) {
+				return $.Deferred().reject('unknown');
+			}
 
-	return (
-		api
-			.get(queryParams)
-			// @ts-expect-error TS7030
-			.then((data) => {
-				if (!data['query'] || !data['query'].pages) {
-					return $.Deferred().reject('unknown');
-				}
+			const [page] = data['query'].pages;
 
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				const [page] = data['query'].pages;
+			if (!page || page.invalid) {
+				return $.Deferred().reject('invalidtitle');
+			}
 
-				if (!page || page.invalid) {
-					return $.Deferred().reject('invalidtitle');
-				}
+			if (page.missing) {
+				return $.Deferred().reject('nocreate-missing');
+			}
 
-				if (page.missing) {
-					return $.Deferred().reject('nocreate-missing');
-				}
+			curtimestamp = data['curtimestamp'] as string;
+			[{basetimestamp, content}] = page.revisions;
+			content = content.trim().replace(/:{{status(\|.*?)?}}/i, ':{{Status|+}}');
+			content += closingRemarks;
+			return $.Deferred().resolve();
+		})
+		.then(() => {
+			const editParams: ApiEditPageParams = {
+				action: 'edit',
+				format: 'json',
+				formatversion: '2',
+				title: wgPageName,
+				nocreate: true,
+				section: `${sectionNumber}`,
+				starttimestamp: curtimestamp,
+				summary: `/* User:${userName} */ 完成${OPTIONS.userRightsManagerSummary}`,
+				text: content,
+				basetimestamp,
+			};
+			if (mw.config.get('wgUserName')) {
+				editParams.assert = 'user';
+			}
 
-				curtimestamp = data['curtimestamp'] as string;
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				[{basetimestamp, content}] = page.revisions;
-				content = content.trim().replace(/:{{status(\|.*?)?}}/i, ':{{Status|+}}');
-				content += closingRemarks;
-			})
-			.then(() => {
-				const editParams: ApiEditPageParams = {
-					action: 'edit',
-					format: 'json',
-					formatversion: '2',
-					title: wgPageName,
-					nocreate: true,
-					section: `${sectionNumber}`,
-					starttimestamp: curtimestamp,
-					summary: `/* User:${userName} */ 完成${OPTIONS.userRightsManagerSummary}`,
-					text: content,
-					basetimestamp,
-				};
-				if (mw.config.get('wgUserName')) {
-					editParams.assert = 'user';
-				}
-
-				return api.postWithEditToken(editParams);
-			})
-	);
+			return api.postWithEditToken(editParams);
+		});
 };
 
 export {markAsDone};
