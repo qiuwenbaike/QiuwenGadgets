@@ -51,10 +51,10 @@ const getAllImages = async (): Promise<string[]> => {
 			const queryImageResponse = await queryImages(wgPageName);
 			if (
 				queryImageResponse['query'] &&
-				queryImageResponse['query']?.pages[0] &&
-				queryImageResponse['query']?.pages[0].images
+				queryImageResponse['query'].pages[0] &&
+				queryImageResponse['query'].pages[0].images
 			) {
-				for (const imageInfo of queryImageResponse['query']?.pages[0].images as {ns: number; title: string}[]) {
+				for (const imageInfo of queryImageResponse['query'].pages[0].images as {ns: number; title: string}[]) {
 					if (!imageInfo || !imageInfo.title) {
 						continue;
 					}
@@ -67,12 +67,12 @@ const getAllImages = async (): Promise<string[]> => {
 	// Analyze step 2: Find from pages
 	let fileLinkElements: HTMLAnchorElement[] = [];
 
-	if (!(wgNamespaceNumber < 0) || wgNamespaceNumber === 6) {
+	if (!(wgNamespaceNumber < 0)) {
 		try {
 			const parseResponse = await parse(wgPageName);
-			if (parseResponse['parse'] && parseResponse['parse']?.text) {
+			if (parseResponse['parse'] && parseResponse['parse'].text) {
 				const pageContent = document.createElement('span');
-				pageContent.innerHTML = parseResponse['parse']?.text as string;
+				pageContent.innerHTML = parseResponse['parse'].text as string;
 
 				fileLinkElements = [
 					...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
@@ -102,15 +102,16 @@ const getAllImages = async (): Promise<string[]> => {
 		if (articleRegex.test(href)) {
 			const match: RegExpExecArray = articleRegex.exec(href) as RegExpExecArray;
 			fileName = match[1] as string;
-		} else if (scriptRegex.test(href)) {
-			const match: RegExpExecArray = scriptRegex.exec(href) as RegExpExecArray;
-			fileName = match[1] as string;
-		} else {
-			continue;
+			fileName = fileName.replace(/File:(File:|Image:)?/i, 'File:');
+			fileNames[fileNames.length] = fileName;
 		}
 
-		fileName = fileName.replace(/File:(File:|Image:)?/i, 'File:');
-		fileNames[fileNames.length] = fileName;
+		if (scriptRegex.test(href)) {
+			const match: RegExpExecArray = scriptRegex.exec(href) as RegExpExecArray;
+			fileName = match[1] as string;
+			fileName = fileName.replace(/File:(File:|Image:)?/i, 'File:');
+			fileNames[fileNames.length] = fileName;
+		}
 	}
 
 	toastifyInstance.hideToast();
