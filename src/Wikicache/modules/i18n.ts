@@ -13,14 +13,14 @@ const getI18nMessages = () => {
 			'zh-hant': '先前未保存的編輯內容已儲存于本地儲存。是否恢復先前未保存的編輯內容？',
 		}),
 		'Restore unsaved changes': localize({
-			en: 'Restore unsaved changes',
-			'zh-hans': '恢复先前未保存编辑内容',
-			'zh-hant': '恢復先前未保存編輯內容',
+			en: 'Restore',
+			'zh-hans': '恢复',
+			'zh-hant': '恢復',
 		}),
-		'Delete unsaved changes': localize({
-			en: 'Delete unsaved changes from local storage',
-			'zh-hans': '不恢复且删除本地储存的编辑内容',
-			'zh-hant': '不恢復且刪除本地儲存的編輯內容',
+		'Not to restore': localize({
+			en: 'Not to restore',
+			'zh-hans': '不恢复',
+			'zh-hant': '不恢復',
 		}),
 	};
 };
