@@ -1,7 +1,7 @@
 import * as OPTIONS from '../options.json';
-import {delay, getBody} from 'ext.gadget.Util';
 import {getWpTextbox1Content, setWpTextbox1Content} from './wpTextbox1Content';
 import {AutoSaveObject} from './types';
+import {delay} from 'ext.gadget.Util';
 import {getMessage} from './i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
@@ -16,10 +16,9 @@ const getCacheKey = () => {
 	return cacheKey;
 };
 
-const getCache = async () => {
+const getCache = async ({$editForm}: {$editForm: JQuery<HTMLElement>}) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const saveObject: Partial<AutoSaveObject> = mw.storage.getObject(getCacheKey());
-	const $body = await getBody();
 
 	if (!saveObject) {
 		return;
@@ -32,7 +31,7 @@ const getCache = async () => {
 
 	if (
 		saveObject['textarea[name=wpTextbox1]'] &&
-		!(getWpTextbox1Content({$body}) === saveObject['textarea[name=wpTextbox1]'])
+		!(getWpTextbox1Content({$editForm}) === saveObject['textarea[name=wpTextbox1]'])
 	) {
 		const confirm = await OO.ui.confirm(getMessage('Restore changes?'), {
 			actions: [
@@ -41,19 +40,18 @@ const getCache = async () => {
 			],
 		});
 		if (confirm) {
-			setWpTextbox1Content({$body, content: saveObject['textarea[name=wpTextbox1]']});
+			setWpTextbox1Content({$editForm, content: saveObject['textarea[name=wpTextbox1]']});
 		}
 	}
 };
 
-const setCache = async () => {
-	const $body = await getBody();
+const setCache = async ({$editForm}: {$editForm: JQuery<HTMLElement>}) => {
 	while (true) {
 		await delay(30 * 1000);
 		const newSaveObject: AutoSaveObject = {
 			date: new Date(),
 			'input[name=wpSummary]': `${document.querySelector<HTMLInputElement>('input[name=wpSummary]')?.value}`,
-			'textarea[name=wpTextbox1]': getWpTextbox1Content({$body}),
+			'textarea[name=wpTextbox1]': getWpTextbox1Content({$editForm}),
 		};
 		try {
 			mw.storage.setObject(getCacheKey(), newSaveObject, 60 * 60 * 24 * 30 * 1000);
