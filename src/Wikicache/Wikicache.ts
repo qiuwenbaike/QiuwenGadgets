@@ -5,9 +5,8 @@ import {getMessage} from './modules/i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
 (async function wikicache(): Promise<void> {
-	const wpSummary: HTMLInputElement | null = document.querySelector<HTMLInputElement>('input[name=wpSummary]');
-	const wpTextbox1: HTMLTextAreaElement | null =
-		document.querySelector<HTMLTextAreaElement>('textarea[name=wpTextbox1]');
+	const wpSummary: HTMLInputElement | null = document.querySelector('input[name=wpSummary]');
+	const wpTextbox1: HTMLTextAreaElement | null = document.querySelector('textarea[name=wpTextbox1]');
 
 	if (mw.config.get(OPTIONS.configKey) || !wpSummary || !wpTextbox1) {
 		return;
@@ -24,30 +23,32 @@ import {toastify} from 'ext.gadget.Toastify';
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const saveObject: Partial<AutoSaveObject> = mw.storage.getObject(cacheKey);
-	if (saveObject['input[name=wpSummary]']) {
-		wpSummary.value = saveObject['input[name=wpSummary]'];
-	}
+	if (saveObject) {
+		if (saveObject['input[name=wpSummary]']) {
+			wpSummary.value = saveObject['input[name=wpSummary]'];
+		}
 
-	if (saveObject['textarea[name=wpTextbox1]']) {
-		if (wpTextbox1.value === saveObject['textarea[name=wpTextbox1]']) {
-			mw.storage.remove(cacheKey);
-		} else {
-			const confirm = await OO.ui.confirm(getMessage('Restore changes?'), {
-				actions: [
-					{label: getMessage('Restore unsaved changes'), action: 'accept', flags: ['progressive']},
-					{label: getMessage('Delete unsaved changes'), action: 'cancel', flags: ['destructive']},
-				],
-			});
-			if (confirm) {
-				wpTextbox1.value = saveObject['textarea[name=wpTextbox1]'];
-			} else {
+		if (saveObject['textarea[name=wpTextbox1]']) {
+			if (wpTextbox1.value === saveObject['textarea[name=wpTextbox1]']) {
 				mw.storage.remove(cacheKey);
+			} else {
+				const confirm = await OO.ui.confirm(getMessage('Restore changes?'), {
+					actions: [
+						{label: getMessage('Restore unsaved changes'), action: 'accept', flags: ['progressive']},
+						{label: getMessage('Delete unsaved changes'), action: 'cancel', flags: ['destructive']},
+					],
+				});
+				if (confirm) {
+					wpTextbox1.value = saveObject['textarea[name=wpTextbox1]'];
+				} else {
+					mw.storage.remove(cacheKey);
+				}
 			}
 		}
 	}
 
 	while (true) {
-		await delay(60 * 1000);
+		await delay(30 * 1000);
 		const newSaveObject: AutoSaveObject = {
 			date: new Date(),
 			'input[name=wpSummary]': wpSummary.value,
