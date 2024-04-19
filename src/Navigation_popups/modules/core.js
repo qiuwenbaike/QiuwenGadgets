@@ -8137,14 +8137,12 @@ const popups = () => {
 				return;
 			}
 			const registerHooksForVisibleNavpops = () => {
-				if (pg.current.links) {
-					for (const link of pg.current.links.length) {
-						const navpop = link.navpopup;
-						if (!navpop || !navpop.isVisible()) {
-							continue;
-						}
-						Navpopup.tracker.addHook(posCheckerHook(navpop));
+				for (let i = 0; pg.current.links && i < pg.current.links.length; i++) {
+					const navpop = pg.current.links[i].navpopup;
+					if (!navpop || !navpop.isVisible()) {
+						continue;
 					}
+					Navpopup.tracker.addHook(posCheckerHook(navpop));
 				}
 			};
 			const doIt = () => {
