@@ -3,7 +3,7 @@ import {generateArray} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
 type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => Promise<void>;
-type RefreshPage = (title: string) => void;
+type RefreshPage = (title?: string) => void;
 
 let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
@@ -19,7 +19,11 @@ const refreshPage: RefreshPage = (title) => {
 		'info'
 	);
 
-	location.replace(mw.util.getUrl(title));
+	if (title) {
+		location.replace(mw.util.getUrl(title));
+	} else {
+		location.reload();
+	}
 };
 
 const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean = false): Promise<void> => {

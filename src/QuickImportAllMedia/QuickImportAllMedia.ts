@@ -26,8 +26,7 @@ import {getAllImages} from './modules/core';
 			}
 			await detectIfFileRedirect(fileNames, true);
 		})().then(() => {
-			const {wgPageName} = mw.config.get();
-			refreshPage(wgPageName);
+			refreshPage();
 		});
 	});
 })();
