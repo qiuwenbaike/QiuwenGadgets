@@ -17,6 +17,11 @@ const getCacheKey = () => {
 };
 
 const getCache = async ({$editForm}: {$editForm: JQuery<HTMLElement>}) => {
+	if (mw.config.get(OPTIONS.configKey)) {
+		return;
+	}
+	mw.config.set(OPTIONS.configKey, true);
+
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const saveObject: Partial<AutoSaveObject> = mw.storage.getObject(getCacheKey());
 
