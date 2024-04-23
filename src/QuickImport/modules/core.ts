@@ -156,13 +156,11 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 							continue;
 						}
 
+						let ifImportSuccess = false;
 						if (isFileNS) {
-							await importPage(title, 'commons', isFileNS).then(async (result) => {
-								if (!result) {
-									await importPage(title, 'zhwiki', isFileNS);
-								}
-							});
-						} else {
+							ifImportSuccess = await importPage(title, 'commons', isFileNS);
+						}
+						if (!ifImportSuccess) {
 							await importPage(title, 'zhwiki', isFileNS);
 						}
 					}
