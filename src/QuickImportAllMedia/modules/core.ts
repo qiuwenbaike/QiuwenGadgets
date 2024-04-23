@@ -103,6 +103,7 @@ const getAllImages = async (): Promise<string[]> => {
 			const match: RegExpExecArray = articleRegex.exec(href) as RegExpExecArray;
 			fileName = match[1] as string;
 			fileName = fileName.replace(/File:(File:|Image:)?/i, 'File:');
+			fileName = decodeURIComponent(fileName);
 			fileNames[fileNames.length] = fileName;
 		}
 
@@ -110,6 +111,7 @@ const getAllImages = async (): Promise<string[]> => {
 			const match: RegExpExecArray = scriptRegex.exec(href) as RegExpExecArray;
 			fileName = match[1] as string;
 			fileName = fileName.replace(/File:(File:|Image:)?/i, 'File:');
+			fileName = decodeURIComponent(fileName);
 			fileNames[fileNames.length] = fileName;
 		}
 	}
