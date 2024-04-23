@@ -91,7 +91,7 @@ const getAllImages = async (): Promise<string[]> => {
 	const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}(File:[^#]+)`);
 	const scriptRegex: RegExp = new RegExp(`${wgScript}\\?title=(File:[^#&]+)`);
 
-	for (const element of fileLinkElements) {
+	for (const element of new Set(fileLinkElements)) {
 		const {href} = element;
 
 		if (!href) {

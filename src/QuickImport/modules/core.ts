@@ -26,7 +26,7 @@ const refreshPage: RefreshPage = (title) => {
 	}
 };
 
-const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean = false): Promise<void> => {
+const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean = false): Promise<boolean> => {
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
@@ -57,20 +57,22 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 		toastifyInstance = toastify(
 			{
 				text: `页面导入完成：${pageName}`,
-				duration: -1,
+				duration: 3 * 1000,
 			},
 			'success'
 		);
-	} else {
-		toastifyInstance.hideToast();
-		toastifyInstance = toastify(
-			{
-				text: `页面导入失败：${iwprefix}:${pageName}`,
-				duration: -1,
-			},
-			'warning'
-		);
+		return true;
 	}
+
+	toastifyInstance.hideToast();
+	toastifyInstance = toastify(
+		{
+			text: `页面导入失败：${iwprefix}:${pageName}`,
+			duration: 3 * 1000,
+		},
+		'warning'
+	);
+	return false;
 };
 
 const uploadFile = async (target: string, url?: string): Promise<void> => {
@@ -97,7 +99,7 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 	toastifyInstance = toastify(
 		{
 			text: `文件迁移完成：${target}`,
-			duration: -1,
+			duration: 3 * 1000,
 		},
 		'success'
 	);
@@ -155,9 +157,14 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 						}
 
 						if (isFileNS) {
-							await importPage(title, 'commons', isFileNS);
+							await importPage(title, 'commons', isFileNS).then(async (result) => {
+								if (!result) {
+									await importPage(title, 'zhwiki', isFileNS);
+								}
+							});
+						} else {
+							await importPage(title, 'zhwiki', isFileNS);
 						}
-						await importPage(title, 'zhwiki', isFileNS);
 					}
 				}
 
@@ -209,7 +216,7 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 			// Analyze step 3: import pages as redirect target
 			//// Queue requests to import redirect targets
 			if (tos.length) {
-				await detectIfFileRedirect(tos);
+				await detectIfFileRedirect([...new Set(tos)]);
 			}
 		};
 	}
