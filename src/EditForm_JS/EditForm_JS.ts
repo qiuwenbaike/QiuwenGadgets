@@ -1,7 +1,7 @@
 import {clearUndoSummary} from './modules/clearUndoSummary';
 import {disableTitle} from './modules/disableTitle';
 import {getBody} from 'ext.gadget.Util';
-import {introACH} from './modules/introACH';
+// import {introACH} from './modules/introACH';
 import {preloadRevid} from './modules/preloadRevid';
 
 void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
@@ -15,5 +15,5 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	preloadRevid($body);
 
 	// 新用户引导至条目创建向导（[[QW:AFC]]）
-	introACH();
+	// introACH();
 });
