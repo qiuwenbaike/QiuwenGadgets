@@ -1,6 +1,6 @@
-import * as OPTIONS from '../options.json';
 import React from 'ext.gadget.React';
+import {disclaimer} from '../HistoryDisclaimer.module.less';
 
-const Background = () => <div className={OPTIONS.className} />;
+const Background = () => <div className={disclaimer} />;
 
 export {Background};
