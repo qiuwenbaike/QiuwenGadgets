@@ -1,19 +1,19 @@
-.gadget-history_disclaimer {
+.disclaimer {
 	position: fixed;
 	z-index: 99999;
-	background-image: data-uri('./images/background-zh-hans.svg');
+	background-image: url('./images/background-zh-hans.svg');
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
 	pointer-events: none;
 
-	html:lang(zh-hant) & {
-		background-image: data-uri('./images/background-zh-hant.svg');
+	:global(html):lang(zh-hant) & {
+		background-image: url('./images/background-zh-hant.svg');
 	}
 
 	/* For Gongbi skin */
-	.skin-gongbi & {
+	:global(.skin-gongbi) & {
 		top: 5em;
 		right: 15em;
 		bottom: 0;
@@ -35,8 +35,8 @@
 	}
 
 	/* For Vector skins */
-	.skin-vector &,
-	.skin-vector-legacy & {
+	:global(.skin-vector) &,
+	:global(.skin-vector-legacy) & {
 		top: 5em;
 		right: 0;
 		bottom: 0;
