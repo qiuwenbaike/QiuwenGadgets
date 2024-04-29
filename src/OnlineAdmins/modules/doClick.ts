@@ -111,7 +111,9 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		void (async () => {
 			// 查询用户权限
 			for (const promise of promises) {
-				await promise();
+				try {
+					await promise();
+				} catch {}
 			}
 		})().then(() => {
 			if (stewards.length + admins.length + patrollers.length) {

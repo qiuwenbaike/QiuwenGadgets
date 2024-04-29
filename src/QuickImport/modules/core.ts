@@ -220,7 +220,9 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 	}
 
 	for (const promise of promises) {
-		await promise();
+		try {
+			await promise();
+		} catch {}
 	}
 };
 

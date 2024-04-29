@@ -304,12 +304,14 @@ const catALot = (): void => {
 				title: 'temp',
 			};
 			for (const variant of VARIANTS) {
-				const {parse} = await CAL.api.post({
-					...params,
-					variant,
-				} as const);
-				const {text} = parse;
-				results[results.length] = $(text).eq(0).text().trim();
+				try {
+					const {parse} = await CAL.api.post({
+						...params,
+						variant,
+					} as const);
+					const {text} = parse;
+					results[results.length] = $(text).eq(0).text().trim();
+				} catch {}
 			}
 			// De-duplicate
 			CAL.variantCache[category] = [...new Set(results)];
