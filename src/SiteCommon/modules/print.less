@@ -3,11 +3,7 @@
 /* 此处的CSS只会在媒体查询为print时生效 */
 @media print {
 	:root {
-		font-family: @serif-zh-hans, @emoji-font;
-
-		&:lang(zh-hant) {
-			font-family: @serif-zh-hant, @emoji-font;
-		}
+		font-family: var(--fonts-sans);
 	}
 
 	.printfooter {
