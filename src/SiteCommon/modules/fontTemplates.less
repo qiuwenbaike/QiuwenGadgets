@@ -4,7 +4,7 @@
 .kaiti,
 .Kaiti,
 .KaiTi {
-	font-family: @cursive-zh-hans, cursive, var(--fonts-sans);
+	font-family: @cursive-zh-hans, cursive, var(--fonts-sans, sans-serif);
 }
 
 /* {{Fangsong}} */
@@ -12,7 +12,7 @@
 .fangSong,
 .Fangsong,
 .FangSong {
-	font-family: @fangsong, var(--fonts-sans);
+	font-family: @fangsong, var(--fonts-sans, sans-serif);
 }
 
 /* {{MongolUnicode}} */
@@ -28,13 +28,13 @@
 	&:lang(bxu),
 	&:lang(evn),
 	&:lang(cmg) {
-		font-family: @monfont, @emoji-font;
+		font-family: @monfont, var(--fonts-sans, sans-serif);
 	}
 
 	&-mnc,
 	&:lang(mnc),
 	&:lang(dta),
 	&:lang(sjo) {
-		font-family: @mncfont, @emoji-font;
+		font-family: @mncfont, var(--fonts-sans, sans-serif);
 	}
 }
