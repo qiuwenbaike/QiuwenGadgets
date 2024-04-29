@@ -149,26 +149,29 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 			usprop: 'groups',
 			ususers,
 		};
-		const response = await api.get(params);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const queryUsers: {groups: string; name: string}[] = response['query']?.users ?? [];
 
-		for (const user of queryUsers) {
-			if (!user || !user.groups) {
-				continue;
-			}
-			for (const group in groups) {
-				if (!Object.hasOwn(groups, group)) {
+		try {
+			const response = await api.get(params);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			const queryUsers: {groups: string; name: string}[] = response['query']?.users ?? [];
+
+			for (const user of queryUsers) {
+				if (!user || !user.groups) {
 					continue;
 				}
-				const groupsGroup: string[] = groups[group as never] as string[];
-				if (user.groups.includes(group)) {
-					groupsGroup[groupsGroup.length] = user.name; // Replace `[].push` to avoid polyfilling
+				for (const group in groups) {
+					if (!Object.hasOwn(groups, group)) {
+						continue;
+					}
+					const groupsGroup: string[] = groups[group as never] as string[];
+					if (user.groups.includes(group)) {
+						groupsGroup[groupsGroup.length] = user.name; // Replace `[].push` to avoid polyfilling
+					}
 				}
 			}
-		}
 
-		done($userLinks);
+			done($userLinks);
+		} catch {}
 	}
 };
 

@@ -107,7 +107,9 @@ const markBlockedUser = ($content: JQuery): void => {
 
 	void (async () => {
 		for (const promise of promises) {
-			await promise();
+			try {
+				await promise();
+			} catch {}
 		}
 	})().then(() => {
 		// The following classes are used here:
