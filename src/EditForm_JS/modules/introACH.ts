@@ -1,5 +1,7 @@
+import {userHasRight} from 'ext.gadget.Util';
+
 const introACH = (): void => {
-	const {wgAction, wgArticleId, wgWikiID, wgUserGroups, wgNamespaceNumber} = mw.config.get();
+	const {wgAction, wgArticleId, wgWikiID, wgNamespaceNumber} = mw.config.get();
 
 	// Disabled for wikis other than zhqiuwenbaike
 	if (wgWikiID !== 'zhqiuwenbaike') {
@@ -16,19 +18,8 @@ const introACH = (): void => {
 		return;
 	}
 
-	// Disabled for confirmed users
-	if (!wgUserGroups || wgUserGroups.includes('confirmed') || wgUserGroups.includes('autoconfirmed')) {
-		return;
-	}
-
 	// Disabled for official users and experienced users
-	if (
-		wgUserGroups.includes('qiuwen') ||
-		wgUserGroups.includes('steward') ||
-		wgUserGroups.includes('senioreditor') ||
-		wgUserGroups.includes('bot') ||
-		wgUserGroups.includes('confirmed')
-	) {
+	if (userHasRight('autoconfirmed') || userHasRight('bot') || userHasRight('revisionprotected')) {
 		return;
 	}
 
