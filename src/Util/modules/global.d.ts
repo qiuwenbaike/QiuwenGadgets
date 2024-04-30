@@ -10,6 +10,8 @@ type InitMwApi = import('./initMwApi').InitMwApi;
 type IsValidKey = import('./isValidKey').IsValidKey;
 type OouiConfirmWithStyle = import('./oouiConfirmWithStyle').OouiConfirmWithStyle;
 type ScrollTop = import('./scrollTop').ScrollTop;
+type UserIsInGroup = import('./userIsInGroup').UserIsInGroup;
+type UserHasRight = import('./userHasRight').UserHasRight;
 
 declare module 'ext.gadget.Util' {
 	export const addEventListenerWithRemover: AddEventListenerWithRemover;
@@ -23,4 +25,6 @@ declare module 'ext.gadget.Util' {
 	export const isValidKey: IsValidKey;
 	export const oouiConfirmWithStyle: OouiConfirmWithStyle;
 	export const scrollTop: ScrollTop;
+	export const userIsInGroup: UserIsInGroup;
+	export const userHasRight: UserHasRight;
 }
