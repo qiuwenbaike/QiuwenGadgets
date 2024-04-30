@@ -1,13 +1,21 @@
-import {userHasRight} from 'ext.gadget.Util';
+import {userIsInGroup} from 'ext.gadget.Util';
 
 const replaceRandom = ($body: JQuery<HTMLBodyElement>) => {
 	const {wgWikiID} = mw.config.get();
-	// Disabled for wikis other than zhqiuwenbaike
 	if (wgWikiID !== 'zhqiuwenbaike') {
 		return;
 	}
 
-	if (!userHasRight('rnrsverify-confirmed') && !userHasRight('rnrsverify-exempt')) {
+	if (
+		!(
+			userIsInGroup('rnrsverify-confirmed') ||
+			userIsInGroup('rnrsverify-exempt') ||
+			userIsInGroup('steward') ||
+			userIsInGroup('qiuwen') ||
+			userIsInGroup('confirmed') ||
+			userIsInGroup('autoconfirmed')
+		)
+	) {
 		return;
 	}
 

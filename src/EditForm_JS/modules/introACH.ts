@@ -1,4 +1,4 @@
-import {userHasRight} from 'ext.gadget.Util';
+import {userIsInGroup} from 'ext.gadget.Util';
 
 const introACH = (): void => {
 	const {wgAction, wgArticleId, wgWikiID, wgNamespaceNumber} = mw.config.get();
@@ -19,7 +19,14 @@ const introACH = (): void => {
 	}
 
 	// Disabled for official users and experienced users
-	if (userHasRight('autoconfirmed') || userHasRight('bot') || userHasRight('revisionprotected')) {
+	if (
+		userIsInGroup('qiuwen') ||
+		userIsInGroup('steward') ||
+		userIsInGroup('senioreditor') ||
+		userIsInGroup('bot') ||
+		userIsInGroup('confirmed') ||
+		userIsInGroup('autoconfirmed')
+	) {
 		return;
 	}
 
