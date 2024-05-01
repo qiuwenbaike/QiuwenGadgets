@@ -135,6 +135,7 @@
 * QuickPatrol[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=patrol|requiresES6]|QuickPatrol.js
 * Report[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|peers=Report-pagestyles|requiresES6]|Report.js
 * Report-pagestyles[ResourceLoader|hidden|requiresES6]|Report-pagestyles.css
+* RightTopicons[ResourceLoader|requiresES6]|RightTopicons.js
 * RollbackSummary[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,mediawiki.util|rights=rollback|requiresES6]|RollbackSummary.js
 * RRD[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,jquery.ui,mediawiki.api,mediawiki.util|rights=skipcaptcha|requiresES6]|RRD.js|RRD.css
 * TranslateVariants[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.api,mediawiki.diff.styles,mediawiki.util|rights=editinterface|requiresES6]|TranslateVariants.js|TranslateVariants.css
