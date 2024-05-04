@@ -1,5 +1,5 @@
 {
-	"enable": true,
+	"enable": false,
 	"description": "</sup><span id=\"Gadget-RightTopicons\"></span> 在用户页显示用户权限标识。",
 	"section": "sysop"
 }
