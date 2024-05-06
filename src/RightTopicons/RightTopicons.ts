@@ -1,4 +1,5 @@
 import {LIBdictionary} from './modules/PermissionData';
+
 $(() => {
 	const WikiURLName = window.location.pathname;
 	const matchResult = /^\/wiki\/User:[^/]*$/.test(WikiURLName);
@@ -26,6 +27,8 @@ $(() => {
 					tag: 'img',
 					props: {
 						src: aimgsrc,
+						width: '42',
+						height: '42',
 						style: 'width: 39px; margin: 0 3px;',
 					},
 				},
