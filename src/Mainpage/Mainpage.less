@@ -17,14 +17,20 @@
 		}
 
 		&.skin-citizen {
+			.citizen-body-container {
+				gap: 0;
+			}
+
 			.citizen-body {
 				/* 隐藏页边 */
 				grid-area: unset;
 			}
 
 			.mw-body-header {
-				/* 隐藏页头 */
-				display: none;
+				/* 隐藏页头部分按钮 */
+				#p-views {
+					display: none;
+				}
 			}
 
 			.citizen-footer {
