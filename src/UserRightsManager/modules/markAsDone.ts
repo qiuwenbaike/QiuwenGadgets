@@ -3,7 +3,7 @@ import * as OPTIONS from '../options.json';
 import {api} from './api';
 
 const queryRevisions = async (titles: string | string[], rvsection: string) => {
-	const params: ApiQueryRevisionsParams = {
+	const params = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
@@ -12,7 +12,7 @@ const queryRevisions = async (titles: string | string[], rvsection: string) => {
 		curtimestamp: true,
 		rvprop: ['content', 'timestamp'],
 		rvsection,
-	};
+	} as const satisfies ApiQueryRevisionsParams;
 
 	return await api.post(params);
 };
@@ -73,7 +73,7 @@ const markAsDone = (userName: string, index: string, closingRemarks: string) => 
 				editParams.assert = 'user';
 			}
 
-			return api.postWithEditToken(editParams);
+			return api.postWithEditToken(editParams as never);
 		});
 };
 

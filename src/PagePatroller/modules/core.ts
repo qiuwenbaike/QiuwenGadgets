@@ -19,7 +19,7 @@ const pagePatroller = async (): Promise<void> => {
 
 	try {
 		const api = initMwApi('PagePatroller/2.0');
-		const params: ApiQueryRevisionsParams & ApiQueryLogEventsParams = {
+		const params = {
 			action: 'query',
 			format: 'json',
 			formatversion: '2',
@@ -31,7 +31,7 @@ const pagePatroller = async (): Promise<void> => {
 			rvprop: 'timestamp',
 			rvlimit: 1,
 			rvdir: 'newer',
-		};
+		} as const satisfies ApiQueryRevisionsParams & ApiQueryLogEventsParams;
 		const {query} = await api.get(params);
 
 		if (query?.logevents && query.logevents.length) {

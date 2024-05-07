@@ -9,7 +9,7 @@ const appendGeoIcon = async (): Promise<void> => {
 	const storePageTitle: string = `User:${wgRelevantUserName}/GeoIP.json`;
 
 	try {
-		const params: ApiQueryRevisionsParams = {
+		const params = {
 			action: 'query',
 			titles: [storePageTitle],
 			format: 'json',
@@ -17,7 +17,7 @@ const appendGeoIcon = async (): Promise<void> => {
 			prop: ['revisions'],
 			rvprop: ['content'],
 			rvslots: 'main',
-		};
+		} as const satisfies ApiQueryRevisionsParams;
 
 		const data = await api.post(params);
 

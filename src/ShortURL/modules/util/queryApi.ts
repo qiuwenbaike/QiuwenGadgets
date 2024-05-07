@@ -8,13 +8,13 @@ type CompareResponse = {
 	};
 };
 
-const parameters: ApiComparePagesParams = {
+const parameters = {
 	action: 'compare',
 	format: 'json',
 	formatversion: '2',
 	prop: 'ids',
 	torelative: 'prev',
-};
+} as const satisfies ApiComparePagesParams;
 
 const queryApi = async (diffId: number): Promise<CompareResponse> => {
 	try {

@@ -122,9 +122,10 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 				void titleDeferred.resolve();
 			} else {
 				parseWikitext(`{{noteTA/multititle|${actualTitle}}}`, {
+					action: 'parse',
 					title: actualTitle,
 					variant: 'zh',
-				} as const)
+				})
 					.then((resultHtml: ApiResponse): void => {
 						const $multiTitle: JQuery = $($.parseHTML(resultHtml as ApiParseResponse)).find(
 							'.noteTA-multititle'
@@ -258,13 +259,11 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 
 			return NoteTAViewer.getNoteTAParseText()
 				.then((wikitext: ApiResponse) =>
-					parseWikitext(
-						wikitext as ApiParseResponse,
-						{
-							title: 'Template:CGroup/-',
-							variant: wgUserVariant as string,
-						} as const
-					)
+					parseWikitext(wikitext as ApiParseResponse, {
+						action: 'parse',
+						title: 'Template:CGroup/-',
+						variant: wgUserVariant as string,
+					})
 				)
 				.then((parsedHtml: ApiResponse): void => {
 					// The following classes are used here:

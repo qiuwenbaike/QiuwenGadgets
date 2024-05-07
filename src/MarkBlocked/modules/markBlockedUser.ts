@@ -86,7 +86,7 @@ const markBlockedUser = ($content: JQuery): void => {
 		}
 
 		promises[promises.length] = async (): Promise<void> => {
-			const params: ApiQueryBlocksParams = {
+			const params = {
 				action: 'query',
 				format: 'json',
 				formatversion: '2',
@@ -94,7 +94,7 @@ const markBlockedUser = ($content: JQuery): void => {
 				bklimit: 100,
 				bkprop: ['by', 'expiry', 'reason', 'restrictions', 'timestamp', 'user'],
 				bkusers,
-			};
+			} as const satisfies ApiQueryBlocksParams;
 
 			try {
 				const response = await api.post(params);

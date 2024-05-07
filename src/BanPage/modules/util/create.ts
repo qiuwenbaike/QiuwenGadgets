@@ -9,7 +9,7 @@ const create = async (editParams: EditParams): Promise<void> => {
 		wgPageName,
 		{
 			summary,
-		},
+		} as ApiEditPageParams,
 		text
 	);
 

@@ -8,7 +8,7 @@ const archiveSectionCallback = (
 	callback: () => void | undefined,
 	summary: string
 ) => {
-	const param: ApiQueryRevisionsParams = {
+	const param = {
 		action: 'query',
 		prop: ['revisions'],
 		rvprop: 'content',
@@ -16,7 +16,7 @@ const archiveSectionCallback = (
 		formatversion: '2',
 		titles: title,
 		rvsection: section,
-	};
+	} as const satisfies ApiQueryRevisionsParams;
 
 	void api.postWithToken('csrf', param).then((data) => {
 		editAppend({

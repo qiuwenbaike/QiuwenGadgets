@@ -37,8 +37,8 @@ const addLink = (link: string): void => {
 
 			for (const domain of domains) {
 				$element.append(
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-					new mw.widgets.CopyTextLayout({
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+					new (mw as any).widgets.CopyTextLayout({
 						align: 'top',
 						copyText: `https://${domain}${link}`,
 					}).$element as JQuery

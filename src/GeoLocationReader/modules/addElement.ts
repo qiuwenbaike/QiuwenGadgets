@@ -2,14 +2,14 @@ import {api} from './api';
 import {appendGeoIcon} from './appendGeoIcon';
 
 const queryUserGroups = async (ususers: string) => {
-	const params: ApiQueryUsersParams = {
+	const params = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		list: 'users',
 		ususers,
 		usprop: 'groups',
-	};
+	} as const satisfies ApiQueryUsersParams;
 
 	const response = await api.post(params);
 

@@ -109,7 +109,7 @@ const ajaxLogin = (toastifyInstance: ToastifyInstance, isAgreeTos: boolean = fal
 				'info'
 			);
 
-			const response = (await api.post(params)) as {
+			const response = (await api.post(params as never)) as {
 				clientlogin: {
 					status?: string;
 					messagecode?: string;

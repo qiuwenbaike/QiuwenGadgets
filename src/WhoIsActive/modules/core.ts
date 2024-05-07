@@ -55,10 +55,10 @@ const whoIsActive = async ($content: JQuery<HTMLElement>): Promise<void> => {
 			continue;
 		}
 
-		const params: ApiQueryUserContribsParams = {
+		const params = {
 			...baseParams,
 			ucuser: username,
-		};
+		} as const satisfies ApiQueryUserContribsParams;
 
 		const result = await api.get(params);
 
@@ -87,10 +87,10 @@ const whoIsActiveUserPage = async (): Promise<void> => {
 			return;
 		}
 
-		const params: ApiQueryUserContribsParams = {
+		const params = {
 			...baseParams,
 			ucuser: wgRelevantUserName,
-		};
+		} as const satisfies ApiQueryUserContribsParams;
 
 		const result = await api.get(params);
 

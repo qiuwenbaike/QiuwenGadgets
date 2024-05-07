@@ -24,7 +24,7 @@ const edit = ({
 	if (section) {
 		param.section = section;
 	}
-	void api.postWithToken('csrf', param).then(callback);
+	void api.postWithToken('csrf', param as never).then(callback);
 };
 
 const editAppend = ({
@@ -47,7 +47,7 @@ const editAppend = ({
 		titles: title,
 	};
 
-	void api.postWithToken('csrf', param).then((data) => {
+	void api.postWithToken('csrf', param as never).then((data) => {
 		edit({
 			title,
 			section: undefined,
