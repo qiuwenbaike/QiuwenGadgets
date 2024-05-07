@@ -10,4 +10,4 @@ export {isValidKey} from './modules/isValidKey';
 export {oouiConfirmWithStyle} from './modules/oouiConfirmWithStyle';
 export {scrollTop} from './modules/scrollTop';
 export {userIsInGroup} from './modules/userIsInGroup';
-export {userHasRight} from './modules/userHasRight';
+export {uniqueArray} from './modules/uniqueArray';

@@ -11,7 +11,7 @@ type IsValidKey = import('./isValidKey').IsValidKey;
 type OouiConfirmWithStyle = import('./oouiConfirmWithStyle').OouiConfirmWithStyle;
 type ScrollTop = import('./scrollTop').ScrollTop;
 type UserIsInGroup = import('./userIsInGroup').UserIsInGroup;
-type UserHasRight = import('./userHasRight').UserHasRight;
+type UniqueArray = import('./uniqueArray').UniqueArray;
 
 declare module 'ext.gadget.Util' {
 	export const addEventListenerWithRemover: AddEventListenerWithRemover;
@@ -26,5 +26,5 @@ declare module 'ext.gadget.Util' {
 	export const oouiConfirmWithStyle: OouiConfirmWithStyle;
 	export const scrollTop: ScrollTop;
 	export const userIsInGroup: UserIsInGroup;
-	export const userHasRight: UserHasRight;
+	export const uniqueArray: UniqueArray;
 }
