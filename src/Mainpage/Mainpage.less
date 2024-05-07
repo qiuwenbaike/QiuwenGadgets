@@ -18,7 +18,7 @@
 
 		&.skin-citizen {
 			.citizen-body-container {
-				gap: 0;
+				gap: var(--space-xxs);
 			}
 
 			.citizen-body {
@@ -27,8 +27,14 @@
 			}
 
 			.mw-body-header {
-				/* 隐藏页头部分按钮 */
 				#p-views {
+					/* 隐藏页头部分按钮 */
+					display: none;
+				}
+			}
+
+			&.citizen-body-header--sticky {
+				.mw-body-header {
 					display: none;
 				}
 			}
@@ -79,6 +85,10 @@
 
 /* == 页面正文 == */
 .mainpage {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 0.5em;
 	border-radius: @border-radius--small;
 	line-height: 1.5;
 	background: transparent;
@@ -226,7 +236,6 @@
 		flex-flow: row wrap;
 		justify-content: space-between;
 		padding: 0;
-		margin-bottom: 0.5em;
 	}
 
 	&-header-box,
