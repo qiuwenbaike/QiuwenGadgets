@@ -1,6 +1,7 @@
 import type {UserRights} from './types';
 import {api} from './api';
 import {getMessage} from './i18n';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const groups: Record<UserRights, string[]> = {
 	// 全站管理型权限
@@ -129,7 +130,8 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 		if (userLinkText) {
 			users[users.length] = userLinkText; // Replace `[].push` to avoid polyfilling
 		}
-		users = [...new Set(users)];
+		// users = [...new Set(users)];
+		users = [...uniqueArray(users)];
 		if (users.length === 50) {
 			queue[queue.length] = users; // Replace `[].push` to avoid polyfilling
 			users = [];

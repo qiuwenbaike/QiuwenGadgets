@@ -2,8 +2,8 @@
 // @ts-nocheck
 import * as OPTIONS from '../options.json';
 import {SUFFIX_APPEND, SUFFIX_REPLACE, SUFFIX_SETDEFAULT, VARIANTS} from './constant';
+import {generateArray, uniqueArray} from 'ext.gadget.Util';
 import {api} from './api';
-import {generateArray} from 'ext.gadget.Util';
 import {getMessage} from './util/getMessage';
 
 const {wgNamespaceIds, wgNamespaceNumber, wgPageName} = mw.config.get();
@@ -201,7 +201,8 @@ const ToolsRedirect = {
 	},
 	addRedirectTextSuffix(title, text) {
 		if (title in pageWithRedirectTextSuffix) {
-			text += `\n${[...new Set(pageWithRedirectTextSuffix[title])].join('\n')}`;
+			// text += `\n${[...new Set(pageWithRedirectTextSuffix[title])].join('\n')}`;
+			text += `\n${[...uniqueArray(pageWithRedirectTextSuffix[title])].join('\n')}`;
 		}
 		return text;
 	},
@@ -564,7 +565,7 @@ const ToolsRedirect = {
 				suffixes[suffixes.length] = suffix;
 			}
 			// append suffixes
-			for (const suffix of new Set(suffixes)) {
+			for (const suffix of uniqueArray(suffixes)) {
 				retTitles = [
 					...retTitles,
 					...titles.map((title) => {
@@ -573,12 +574,14 @@ const ToolsRedirect = {
 					}),
 				];
 			}
-			return self.findNotExists([...new Set(retTitles)]);
+			// return self.findNotExists([...new Set(retTitles)]);
+			return self.findNotExists([...uniqueArray(retTitles)]);
 		});
 	},
 	findNotExists(titles) {
 		const deferreds = [];
-		const excludes = new Set(['用字模式']);
+		// const excludes = new Set(['用字模式']);
+		const excludes = uniqueArray(['用字模式']);
 		let alltitles = [];
 		titles = titles.join('|');
 		for (const variant of VARIANTS) {
@@ -649,7 +652,8 @@ const ToolsRedirect = {
 				// is Deferred
 				frcDeferreds[frcDeferreds.length] = ret;
 			} else {
-				titles = [...new Set([...titles, ...ret])];
+				// titles = [...new Set([...titles, ...ret])];
+				titles = [...uniqueArray([...titles, ...ret])];
 			}
 		}
 		// remove all empty titles
@@ -668,7 +672,8 @@ const ToolsRedirect = {
 					if (typeof ret === 'string') {
 						titles[titles.length] = ret;
 					} else {
-						titles = [...new Set([...titles, ...ret])];
+						// titles = [...new Set([...titles, ...ret])];
+						titles = [...uniqueArray([...titles, ...ret])];
 					}
 				}
 				return self.findVariants(pagename, titles);

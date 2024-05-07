@@ -1,5 +1,5 @@
+import {generateArray, uniqueArray} from 'ext.gadget.Util';
 import {api} from './api';
-import {generateArray} from 'ext.gadget.Util';
 import {toastify} from 'ext.gadget.Toastify';
 
 type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => Promise<void>;
@@ -214,7 +214,8 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 			// Analyze step 3: import pages as redirect target
 			//// Queue requests to import redirect targets
 			if (tos.length) {
-				await detectIfFileRedirect([...new Set(tos)]);
+				// await detectIfFileRedirect([...new Set(tos)]);
+				await detectIfFileRedirect([...uniqueArray(tos)]);
 			}
 		};
 	}

@@ -1,5 +1,6 @@
 import {api} from './api';
 import {toastify} from 'ext.gadget.Toastify';
+import {uniqueArray} from 'ext.gadget.Util';
 
 let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
@@ -91,7 +92,8 @@ const getAllImages = async (): Promise<string[]> => {
 	const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}(File:[^#]+)`);
 	const scriptRegex: RegExp = new RegExp(`${wgScript}\\?title=(File:[^#&]+)`);
 
-	for (const element of new Set(fileLinkElements)) {
+	// new Set(fileLinkElements)
+	for (const element of uniqueArray(fileLinkElements)) {
 		const {href} = element;
 
 		if (!href) {
@@ -124,8 +126,8 @@ const getAllImages = async (): Promise<string[]> => {
 		},
 		'success'
 	);
-
-	return [...new Set(fileNames)];
+	// return [...new Set(fileNames)];
+	return [...uniqueArray(fileNames)];
 };
 
 export {getAllImages};

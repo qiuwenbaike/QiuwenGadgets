@@ -1,6 +1,7 @@
 import * as OPTIONS from '../options.json';
 import {api} from './api';
 import {getMessage} from './i18n';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const queryRevisions = async (titles: string | string[]) => {
 	const params = {
@@ -33,7 +34,8 @@ const edit = async (title: string, text: string, summary?: string) => {
 };
 
 const submit = async (_ids: string[], toHide: string, reason: string, otherReasons: string): Promise<void> => {
-	const ids: string[] = [...new Set(_ids)];
+	// const ids: string[] = [...new Set(_ids)];
+	const ids: string[] = [...uniqueArray(_ids)];
 	const {wgPageName} = mw.config.get();
 
 	const rrdArr: string[] = [

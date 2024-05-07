@@ -1,4 +1,5 @@
 import {findRedirectCallback} from 'ext.gadget.ToolsRedirect';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const checkRedirect = (): void => {
 	const REGEX_PREFIX: RegExp = /[学學]名\s*[:：]?\s*$/;
@@ -25,8 +26,8 @@ const checkRedirect = (): void => {
 				window.toolsRedirect.setRedirectTextSuffix(title, '{{学名重定向}}');
 			}
 		}
-
-		return [...new Set(titles)];
+		// return [...new Set(titles)];
+		return [...uniqueArray(titles)];
 	});
 };
 

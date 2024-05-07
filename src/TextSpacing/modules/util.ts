@@ -1,3 +1,5 @@
+import {uniqueArray} from 'ext.gadget.Util';
+
 const isInlineHTMLElement = (node: Node): node is HTMLElement => {
 	return node instanceof HTMLElement && window.getComputedStyle(node).display.includes('inline');
 };
@@ -53,7 +55,8 @@ const splitAtIndexes = (str: string, indexes: number[]): string[] => {
 
 	const normalizedIndexes: number[] = [
 		// Remove duplications and sort in ascending order
-		...new Set(
+		// ...new Set(
+		...uniqueArray(
 			indexes
 				.sort((a: number, b: number): number => {
 					return a - b;
