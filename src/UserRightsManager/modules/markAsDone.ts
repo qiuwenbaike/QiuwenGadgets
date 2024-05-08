@@ -3,16 +3,16 @@ import * as OPTIONS from '../options.json';
 import {api} from './api';
 
 const queryRevisions = async (titles: string | string[], rvsection: string) => {
-	const params = {
+	const params: ApiQueryRevisionsParams = {
+		titles,
+		rvsection,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		prop: 'revisions',
-		titles,
 		curtimestamp: true,
 		rvprop: ['content', 'timestamp'],
-		rvsection,
-	} as const satisfies ApiQueryRevisionsParams;
+	};
 
 	return await api.post(params);
 };
@@ -58,6 +58,7 @@ const markAsDone = (userName: string, index: string, closingRemarks: string) => 
 		})
 		.then(() => {
 			const editParams: ApiEditPageParams = {
+				basetimestamp,
 				action: 'edit',
 				format: 'json',
 				formatversion: '2',
@@ -67,13 +68,12 @@ const markAsDone = (userName: string, index: string, closingRemarks: string) => 
 				starttimestamp: curtimestamp,
 				summary: `/* User:${userName} */ 完成${OPTIONS.userRightsManagerSummary}`,
 				text: content,
-				basetimestamp,
 			};
 			if (mw.config.get('wgUserName')) {
 				editParams.assert = 'user';
 			}
 
-			return api.postWithEditToken(editParams as never);
+			return api.postWithEditToken(editParams);
 		});
 };
 

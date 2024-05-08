@@ -145,14 +145,14 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 	}
 
 	for (const ususers of queue) {
-		const params = {
+		const params: ApiQueryUsersParams = {
+			ususers,
 			action: 'query',
 			format: 'json',
 			formatversion: '2',
 			list: 'users',
 			usprop: 'groups',
-			ususers,
-		} as const satisfies ApiQueryUsersParams;
+		};
 
 		try {
 			const response = await api.get(params);

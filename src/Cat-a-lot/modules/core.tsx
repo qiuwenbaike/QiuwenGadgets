@@ -308,7 +308,7 @@ const catALot = (): void => {
 					const {parse} = await CAL.api.post({
 						...params,
 						variant,
-					} as const);
+					} as typeof params);
 					const {text} = parse;
 					results[results.length] = $(text).eq(0).text().trim();
 				} catch {}

@@ -41,15 +41,15 @@ const importPage = async (pageName: string, iwprefix: string, isFileNS: boolean 
 		summary += '；文件作者请参见此页面及来源页面记载';
 	}
 
-	const params = {
+	const params: ApiImportParams = {
 		action: 'import',
 		format: 'json',
 		assignknownusers: true,
 		interwikipage: pageName,
 		interwikiprefix: iwprefix,
-		interwikisource: iwprefix as NonNullable<ApiImportParams['interwikisource']>,
+		interwikisource: iwprefix,
 		summary: `［${summary}］`,
-	} as const satisfies ApiImportParams;
+	};
 	const result = await api.postWithEditToken(params);
 
 	if (result['import'] && result['import'][0] && result['import'].revisions) {
@@ -85,14 +85,14 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 		'info'
 	);
 
-	const params = {
+	const params: ApiUploadParams = {
 		url: url ?? `https://zh.wikipedia.org/wiki/Special:Redirect/file/${mw.util.rawurlencode(target)}`,
 		action: 'upload',
 		format: 'json',
 		filename: target,
 		comment: '自其他网站迁移文件',
 		ignorewarnings: true,
-	} as const satisfies ApiUploadParams;
+	};
 	await api.postWithEditToken(params);
 
 	toastifyInstance.hideToast();
@@ -106,15 +106,15 @@ const uploadFile = async (target: string, url?: string): Promise<void> => {
 };
 
 const queryImageInfo = async (titles: string | string[]) => {
-	const params = {
+	const params: ApiQueryInfoParams & ApiQueryImageInfoParams = {
+		titles,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		prop: ['imageinfo', 'info'],
 		iiprop: ['url'],
-		titles,
 		redirects: true,
-	} as const satisfies ApiQueryInfoParams & ApiQueryImageInfoParams;
+	};
 	const response = await api.post(params);
 
 	return response;

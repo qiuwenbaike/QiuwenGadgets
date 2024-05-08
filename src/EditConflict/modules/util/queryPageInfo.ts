@@ -11,13 +11,13 @@ interface PageInfo {
 	};
 }
 
-const parameters = {
+const parameters: ApiQueryRevisionsParams = {
 	action: 'query',
 	format: 'json',
 	formatversion: '2',
 	prop: 'revisions',
 	rvprop: 'ids',
-} as const satisfies ApiQueryRevisionsParams;
+};
 
 const queryPageInfo = async (title: string): Promise<PageInfo> => {
 	try {

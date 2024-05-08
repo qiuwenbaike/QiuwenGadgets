@@ -4,15 +4,15 @@ import {api} from './api';
 import {getMessage} from './i18n';
 
 const queryRevisons = async (titles: string | string[]) => {
-	const params = {
-		action: 'query',
+	const params: ApiQueryRevisionsParams = {
 		titles,
+		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		prop: ['revisions'],
 		rvprop: ['content'],
 		rvslots: 'main',
-	} as const satisfies ApiQueryRevisionsParams;
+	};
 	const response = await api.post(params);
 
 	return response;
@@ -20,13 +20,13 @@ const queryRevisons = async (titles: string | string[]) => {
 
 const edit = async (title: string, text: string, summary?: string) => {
 	const params: ApiEditPageParams = {
+		title,
+		text,
 		action: 'edit',
 		format: 'json',
 		formatversion: '2',
 		contentformat: 'application/json',
 		contentmodel: 'json',
-		title,
-		text,
 		minor: true,
 		recreate: true,
 		watchlist: 'unwatch',
@@ -35,7 +35,7 @@ const edit = async (title: string, text: string, summary?: string) => {
 	if (summary) {
 		params.summary = summary;
 	}
-	const response = await api.postWithEditToken(params as never);
+	const response = await api.postWithEditToken(params);
 
 	return response;
 };

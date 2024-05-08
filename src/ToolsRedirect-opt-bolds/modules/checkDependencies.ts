@@ -5,8 +5,7 @@ const checkDependencies = async () => {
 		void api.postWithEditToken({
 			action: 'options',
 			change: 'gadget-ToolsRedirect=1',
-			format: 'json',
-		} as const satisfies ApiOptionsParams);
+		} as ApiOptionsParams);
 		await mw.loader.using('ext.gadget.ToolsRedirect');
 	}
 };

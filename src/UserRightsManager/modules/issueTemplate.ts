@@ -8,7 +8,7 @@ const issueTemplate = (
 	watch: boolean | 'watch' | 'unwatch'
 ) => {
 	const talkPage = `User talk:${userName.replace(/ /g, '_')}`;
-	const params = {
+	const params: ApiEditPageParams = {
 		action: 'edit',
 		format: 'json',
 		title: talkPage,
@@ -21,7 +21,7 @@ const issueTemplate = (
 		),
 		summary: `根据共识授予${getPermissonName(permission)}${OPTIONS.userRightsManagerSummary}`,
 		watchlist: watch ? 'watch' : 'unwatch',
-	} as const satisfies ApiEditPageParams;
+	};
 	return api.postWithEditToken(params);
 };
 

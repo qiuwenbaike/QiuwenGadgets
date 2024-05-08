@@ -105,7 +105,7 @@ const wikitextPreviewTestcase = async (isPreview: boolean): Promise<void> => {
 				params.preview = true;
 			}
 
-			const data = await api.post(params as never);
+			const data = await api.post(params);
 			if (!data?.['parse']?.text) {
 				return;
 			}

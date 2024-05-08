@@ -9,7 +9,6 @@ const edit = async (editParams: EditParams): Promise<void> => {
 		return {
 			text,
 			summary,
-			action: 'edit',
 			minor: true,
 		};
 	});

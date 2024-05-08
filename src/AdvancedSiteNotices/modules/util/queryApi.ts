@@ -8,7 +8,7 @@ interface RemoteNotices {
 
 const {wgUserLanguage} = mw.config.get();
 
-const parameters = {
+const parameters: ApiParseParams = {
 	action: 'parse',
 	format: 'json',
 	formatversion: '2',
@@ -16,7 +16,7 @@ const parameters = {
 	page: OPTIONS.ajaxPageTitle,
 	uselang: wgUserLanguage,
 	variant: wgUserLanguage,
-} as const satisfies ApiParseParams;
+};
 
 const queryApi = async (): Promise<ReturnType<mw.Api['get']>> => {
 	try {

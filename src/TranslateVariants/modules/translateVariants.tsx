@@ -96,14 +96,14 @@ const translateVariants = (wgPageName: string): void => {
 						.find(`#${OPTIONS.contentID}`)
 						.text();
 
-					const queryDiffParams = {
+					const queryDiffParams: ApiQueryRevisionsParams = {
 						action: 'query',
 						format: 'json',
 						formatversion: '2',
 						titles: targetTitle,
 						prop: 'revisions',
 						rvdifftotext: newPageContent,
-					} as const satisfies ApiQueryRevisionsParams;
+					};
 
 					return api.post(queryDiffParams);
 				},
@@ -150,7 +150,6 @@ const translateVariants = (wgPageName: string): void => {
 								targetTitle,
 								{
 									summary,
-									action: 'edit',
 								},
 								newPageContent
 							).then(
@@ -202,7 +201,6 @@ const translateVariants = (wgPageName: string): void => {
 
 							api.edit(targetTitle, () => ({
 								summary,
-								action: 'edit',
 								text: newPageContent,
 								nocreate: false,
 							})).then(

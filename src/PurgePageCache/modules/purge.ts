@@ -15,13 +15,13 @@ const purge: Purge = async (title) => {
 	const {wgWikiID} = mw.config.get();
 
 	try {
-		const params = {
+		const params: ApiPurgeParams = {
 			action: 'purge',
 			format: 'json',
 			formatversion: '2',
 			titles: title,
 			forcelinkupdate: true,
-		} as const satisfies ApiPurgeParams;
+		};
 
 		await api.post(params);
 		localStorage.removeItem(`MediaWikiModuleStore:${wgWikiID}`);

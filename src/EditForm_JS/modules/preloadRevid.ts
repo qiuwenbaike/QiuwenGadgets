@@ -19,15 +19,15 @@ const preloadRevid = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
-	const params = {
+	const params: ApiQueryRevisionsParams = {
 		action: 'query',
 		format: 'json',
+		formatversion: '2',
 		prop: 'revisions',
 		revids: Number.parseInt(revid, 10),
-		formatversion: '2',
 		rvprop: 'content',
 		rvslots: 'main',
-	} as const satisfies ApiQueryRevisionsParams;
+	};
 
 	void api.get(params).then(({query}) => {
 		const {content} = query.pages[0].revisions[0].slots.main;
