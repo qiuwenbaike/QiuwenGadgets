@@ -79,8 +79,7 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		}
 
 		// 用户名列表合并、去重、分割
-		// users = [...new Set([...users, ...usersExt])];
-		users = [...uniqueArray([...users, ...usersExt])];
+		users = [...uniqueArray([...users, ...usersExt])]; // Replace `new Set()` to avoid polyfilling core-js
 
 		const promises: (() => Promise<void>)[] = [];
 

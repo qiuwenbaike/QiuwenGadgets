@@ -33,9 +33,8 @@ const edit = async (title: string, text: string, summary?: string) => {
 	return response;
 };
 
-const submit = async (_ids: string[], toHide: string, reason: string, otherReasons: string): Promise<void> => {
-	// const ids: string[] = [...new Set(_ids)];
-	const ids: string[] = [...uniqueArray(_ids)];
+const submit = async (ids: string[], toHide: string, reason: string, otherReasons: string): Promise<void> => {
+	ids = [...uniqueArray(ids)]; // Replace `new Set()` to avoid polyfilling core-js
 	const {wgPageName} = mw.config.get();
 
 	const rrdArr: string[] = [

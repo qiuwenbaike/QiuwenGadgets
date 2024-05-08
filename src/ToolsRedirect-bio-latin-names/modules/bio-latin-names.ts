@@ -22,12 +22,12 @@ const checkRedirect = (): void => {
 					continue;
 				}
 
-				titles[titles.length] = title; // Replace `titles.push(title)` to avoid polyfilling core-js
+				titles[titles.length] = title; // Replace `[].push()` to avoid polyfilling core-js
 				window.toolsRedirect.setRedirectTextSuffix(title, '{{学名重定向}}');
 			}
 		}
-		// return [...new Set(titles)];
-		return [...uniqueArray(titles)];
+
+		return [...uniqueArray(titles)]; // Replace `new Set()` to avoid polyfilling core-js
 	});
 };
 

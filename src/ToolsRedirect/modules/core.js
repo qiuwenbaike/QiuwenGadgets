@@ -201,8 +201,7 @@ const ToolsRedirect = {
 	},
 	addRedirectTextSuffix(title, text) {
 		if (title in pageWithRedirectTextSuffix) {
-			// text += `\n${[...new Set(pageWithRedirectTextSuffix[title])].join('\n')}`;
-			text += `\n${[...uniqueArray(pageWithRedirectTextSuffix[title])].join('\n')}`;
+			text += `\n${[...uniqueArray(pageWithRedirectTextSuffix[title])].join('\n')}`; // Replace `new Set()` to avoid polyfilling core-js
 		}
 		return text;
 	},
@@ -574,14 +573,13 @@ const ToolsRedirect = {
 					}),
 				];
 			}
-			// return self.findNotExists([...new Set(retTitles)]);
-			return self.findNotExists([...uniqueArray(retTitles)]);
+
+			return self.findNotExists([...uniqueArray(retTitles)]); // Replace `new Set()` to avoid polyfilling core-js
 		});
 	},
 	findNotExists(titles) {
 		const deferreds = [];
-		// const excludes = new Set(['用字模式']);
-		const excludes = uniqueArray(['用字模式']);
+		const excludes = uniqueArray(['用字模式']); // Replace `new Set()` to avoid polyfilling core-js
 		let alltitles = [];
 		titles = titles.join('|');
 		for (const variant of VARIANTS) {
@@ -652,8 +650,7 @@ const ToolsRedirect = {
 				// is Deferred
 				frcDeferreds[frcDeferreds.length] = ret;
 			} else {
-				// titles = [...new Set([...titles, ...ret])];
-				titles = [...uniqueArray([...titles, ...ret])];
+				titles = [...uniqueArray([...titles, ...ret])]; // Replace `new Set()` to avoid polyfilling core-js
 			}
 		}
 		// remove all empty titles
@@ -672,8 +669,7 @@ const ToolsRedirect = {
 					if (typeof ret === 'string') {
 						titles[titles.length] = ret;
 					} else {
-						// titles = [...new Set([...titles, ...ret])];
-						titles = [...uniqueArray([...titles, ...ret])];
+						titles = [...uniqueArray([...titles, ...ret])]; // Replace `new Set()` to avoid polyfilling core-js
 					}
 				}
 				return self.findVariants(pagename, titles);

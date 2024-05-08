@@ -15,7 +15,7 @@ void getBody().then(function switcherJS(): void {
 				continue;
 			}
 
-			switchers[switchers.length] = switcher as HTMLElement; // Replace `switchers.push()` to avoid polyfilling core-js
+			switchers[switchers.length] = switcher as HTMLElement; // Replace `[].push()` to avoid polyfilling core-js
 			const $switcher: JQuery = $(switcher as HTMLElement);
 
 			$radio = $('<input>').prop({

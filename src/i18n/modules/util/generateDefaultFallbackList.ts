@@ -24,8 +24,7 @@ const generateDefaultFallbackList = (): string[] => {
 		}
 	}
 
-	// return [...new Set([languageCode, OPTIONS.defaultLanguageCode])];
-	return [...uniqueArray([languageCode, OPTIONS.defaultLanguageCode])];
+	return [...uniqueArray([languageCode, OPTIONS.defaultLanguageCode])]; // Replace `new Set()` to avoid polyfilling core-js
 };
 
 export {generateDefaultFallbackList};

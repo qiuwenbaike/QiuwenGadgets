@@ -214,8 +214,7 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 			// Analyze step 3: import pages as redirect target
 			//// Queue requests to import redirect targets
 			if (tos.length) {
-				// await detectIfFileRedirect([...new Set(tos)]);
-				await detectIfFileRedirect([...uniqueArray(tos)]);
+				await detectIfFileRedirect([...uniqueArray(tos)]); // Replace `new Set()` to avoid polyfilling core-js
 			}
 		};
 	}
