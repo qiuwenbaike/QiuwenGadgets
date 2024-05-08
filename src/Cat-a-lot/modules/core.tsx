@@ -26,9 +26,9 @@ import {
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
+import {getBody, uniqueArray} from 'ext.gadget.Util';
 import React from 'ext.gadget.React';
 import {api} from './api';
-import {getBody} from 'ext.gadget.Util';
 
 const {wgCanonicalSpecialPageName, wgFormattedNamespaces, wgNamespaceIds, wgNamespaceNumber, wgTitle} = mw.config.get();
 
@@ -314,7 +314,7 @@ const catALot = (): void => {
 				} catch {}
 			}
 			// De-duplicate
-			CAL.variantCache[category] = [...new Set(results)];
+			CAL.variantCache[category] = uniqueArray(results); // Replace `[...new Set()]` to avoid polyfilling core-js
 			return results;
 		}
 

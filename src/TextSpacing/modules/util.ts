@@ -1,3 +1,5 @@
+import {uniqueArray} from 'ext.gadget.Util';
+
 const isInlineHTMLElement = (node: Node): node is HTMLElement => {
 	return node instanceof HTMLElement && window.getComputedStyle(node).display.includes('inline');
 };
@@ -53,7 +55,8 @@ const splitAtIndexes = (str: string, indexes: number[]): string[] => {
 
 	const normalizedIndexes: number[] = [
 		// Remove duplications and sort in ascending order
-		...new Set(
+		...uniqueArray(
+			// Replace `new Set()` to avoid polyfilling core-js
 			indexes
 				.sort((a: number, b: number): number => {
 					return a - b;
@@ -67,7 +70,7 @@ const splitAtIndexes = (str: string, indexes: number[]): string[] => {
 
 	for (let i: number = 0; i < normalizedIndexes.length; i++) {
 		const slice: string = str.slice(normalizedIndexes[i - 1], normalizedIndexes[i]);
-		result[result.length] = slice; // Replace `result.push(slice)` to avoid polyfilling core-js
+		result[result.length] = slice; // Replace `[].push()` to avoid polyfilling core-js
 	}
 
 	return result;

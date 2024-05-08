@@ -1,6 +1,7 @@
 import type {UserRights} from './types';
 import {api} from './api';
 import {getMessage} from './i18n';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const groups: Record<UserRights, string[]> = {
 	// 全站管理型权限
@@ -127,17 +128,20 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 	$userLinks.each((_index: number, {textContent}: {textContent: string | null}): void => {
 		const userLinkText: string | undefined = textContent?.toString();
 		if (userLinkText) {
-			users[users.length] = userLinkText; // Replace `[].push` to avoid polyfilling
+			users[users.length] = userLinkText; // Replace `[].push()` to avoid polyfilling core-js
 		}
-		users = [...new Set(users)];
+
+		// 用户名列表去重
+		users = uniqueArray(users); // Replace `[...new Set()]` to avoid polyfilling core-js
+
 		if (users.length === 50) {
-			queue[queue.length] = users; // Replace `[].push` to avoid polyfilling
+			queue[queue.length] = users; // Replace `[].push()` to avoid polyfilling core-js
 			users = [];
 		}
 	});
 
 	if (users.length > 0) {
-		queue[queue.length] = users; // Replace `[].push` to avoid polyfilling
+		queue[queue.length] = users; // Replace `[].push()` to avoid polyfilling core-js
 	}
 
 	for (const ususers of queue) {
@@ -165,7 +169,7 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 					}
 					const groupsGroup: string[] = groups[group as never] as string[];
 					if (user.groups.includes(group)) {
-						groupsGroup[groupsGroup.length] = user.name; // Replace `[].push` to avoid polyfilling
+						groupsGroup[groupsGroup.length] = user.name; // Replace `[].push()` to avoid polyfilling core-js
 					}
 				}
 			}

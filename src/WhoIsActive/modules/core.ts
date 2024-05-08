@@ -2,6 +2,7 @@ import * as OPTIONS from '../options.json';
 import {SYSTEM_SCRIPT_LIST} from './constant';
 import {api} from './api';
 import {getLastActiveMarker} from './getLastActiveMarker';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const baseParams: ApiQueryUserContribsParams = {
 	action: 'query',
@@ -50,7 +51,8 @@ const whoIsActive = async ($content: JQuery<HTMLElement>): Promise<void> => {
 		return;
 	}
 
-	for (const username of new Set(usernames)) {
+	for (const username of uniqueArray(usernames)) {
+		// Replace `new Set()` to avoid polyfilling core-js
 		if (SYSTEM_SCRIPT_LIST.includes(username)) {
 			continue;
 		}

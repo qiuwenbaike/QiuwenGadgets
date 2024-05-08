@@ -4,7 +4,7 @@ import React from 'ext.gadget.React';
 import {api} from './api';
 
 type Langs = 'zh' | 'zh-hans' | 'zh-cn' | 'zh-my' | 'zh-sg' | 'zh-hant' | 'zh-hk' | 'zh-mo' | 'zh-tw';
-const langs: Set<Langs> = new Set(['zh', 'zh-hans', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hant', 'zh-hk', 'zh-mo', 'zh-tw']);
+const langs: Langs[] = ['zh', 'zh-hans', 'zh-cn', 'zh-my', 'zh-sg', 'zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'];
 const nameOfLangs = {
 	zh: '原始',
 	'zh-hans': '简体',
@@ -69,7 +69,7 @@ const translateVariants = (wgPageName: string): void => {
 
 	const langQueue: Langs[] = runLangs
 		.map((lang: Langs): Langs => lang.trim() as Langs)
-		.filter((lang: Langs): boolean => langs.has(lang));
+		.filter((lang: Langs): boolean => langs.includes(lang));
 
 	const process = (pageContent: string): void => {
 		if (!langQueue.length) {

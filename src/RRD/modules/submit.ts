@@ -1,6 +1,7 @@
 import * as OPTIONS from '../options.json';
 import {api} from './api';
 import {getMessage} from './i18n';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const queryRevisions = async (titles: string | string[]) => {
 	const params: ApiQueryRevisionsParams = {
@@ -32,8 +33,7 @@ const edit = async (title: string, text: string, summary?: string) => {
 	return response;
 };
 
-const submit = async (_ids: string[], toHide: string, reason: string, otherReasons: string): Promise<void> => {
-	const ids: string[] = [...new Set(_ids)];
+const submit = async (ids: string[], toHide: string, reason: string, otherReasons: string): Promise<void> => {
 	const {wgPageName} = mw.config.get();
 
 	const rrdArr: string[] = [
@@ -44,7 +44,8 @@ const submit = async (_ids: string[], toHide: string, reason: string, otherReaso
 		`|reason = ${reason}${otherReasons}`,
 	];
 
-	for (const [index, id] of ids.entries()) {
+	for (const [index, id] of uniqueArray(ids).entries()) {
+		// Replace `[...new Set()]` to avoid polyfilling core-js
 		rrdArr[rrdArr.length] = `|id${index + 1} = ${id}`;
 	}
 	rrdArr[rrdArr.length] = '}}\n--~~'.concat('~~');

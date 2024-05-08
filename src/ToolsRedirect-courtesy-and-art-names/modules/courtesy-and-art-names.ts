@@ -1,4 +1,5 @@
 import {findRedirectCallback} from 'ext.gadget.ToolsRedirect';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const checkRedirect = (): void => {
 	const REGEX_PREFIX: RegExp = /[号字號]\s*$/;
@@ -99,11 +100,11 @@ const checkRedirect = (): void => {
 					surname = findSurname(pageName);
 				}
 
-				titles[titles.length] = surname + name; // Replace `titles.push(surname + name)` to avoid polyfilling core-js
+				titles[titles.length] = surname + name; // Replace `[].push()` to avoid polyfilling core-js
 			}
 		}
 
-		return [...new Set(titles)];
+		return uniqueArray(titles); // Replace `new Set()` to avoid polyfilling core-js
 	});
 };
 

@@ -2,6 +2,7 @@ import {groupListElement, listTitle} from './components/groupList';
 import {BLACK_LIST} from './constant';
 import {api} from './api';
 import {getMessage} from './i18n';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const queryRecentChanges = async (rcstart: string, rcend: string) => {
 	const params: ApiQueryRecentChangesParams = {
@@ -77,7 +78,8 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 			usersExt[usersExt.length] = user;
 		}
 
-		users = [...new Set([...users, ...usersExt])]; // 用户名列表合并、去重、分割
+		// 用户名列表合并、去重、分割
+		users = uniqueArray([...users, ...usersExt]); // Replace `[...new Set()]` to avoid polyfilling core-js
 
 		const promises: (() => Promise<void>)[] = [];
 
