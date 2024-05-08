@@ -15,14 +15,14 @@ const assignPermission = (
 		fullSummary += `；${summary}`;
 	}
 	fullSummary += OPTIONS.userRightsManagerSummary;
-	const params = {
+	const params: ApiUserrightsParams = {
 		action: 'userrights',
 		user: userName.replace(/ /g, '_'),
 		reason: fullSummary,
 		// @ts-expect-error TS2322
 		add: permission,
 		expiry: expiry === '' ? 'infinity' : expiry,
-	} as const satisfies ApiUserrightsParams;
+	};
 	return api.postWithToken('userrights', params);
 };
 

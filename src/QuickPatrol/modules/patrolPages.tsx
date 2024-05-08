@@ -32,11 +32,11 @@ const patrolSinglePage = (index: string, revId: string) => (
 		}}
 		onClick={(event): void => {
 			const {btnid, revid} = event.currentTarget.dataset;
-			const params = {
+			const params: ApiPatrolParams = {
 				action: 'patrol',
 				format: 'json',
 				revid: Number(revid),
-			} as const satisfies ApiPatrolParams;
+			};
 			void api
 				.postWithToken('patrol', params)
 				.done(({error}): void => {

@@ -4,7 +4,9 @@ import {api} from './api';
 import {getMessage} from './i18n';
 
 const queryRecentChanges = async (rcstart: string, rcend: string) => {
-	const params = {
+	const params: ApiQueryRecentChangesParams = {
+		rcstart,
+		rcend,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
@@ -12,39 +14,37 @@ const queryRecentChanges = async (rcstart: string, rcend: string) => {
 		rcprop: 'user',
 		rcshow: ['!bot', '!anon'],
 		rclimit: 500,
-		rcstart,
-		rcend,
-	} as const satisfies ApiQueryRecentChangesParams;
+	};
 	const response = await api.post(params);
 
 	return response;
 };
 
 const queryLogEvents = async (lestart: string, leend: string) => {
-	const params = {
+	const params: ApiQueryLogEventsParams = {
+		lestart,
+		leend,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		list: 'logevents',
 		leprop: 'user',
 		lelimit: 500,
-		lestart,
-		leend,
-	} as const satisfies ApiQueryLogEventsParams;
+	};
 	const response = await api.post(params);
 
 	return response;
 };
 
 const queryUserProps = async (ususers: string | string[]) => {
-	const params = {
+	const params: ApiQueryUsersParams = {
+		ususers,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		list: 'users',
-		ususers,
 		usprop: 'groups',
-	} as const satisfies ApiQueryUsersParams;
+	};
 	const response = await api.post(params);
 
 	return response;

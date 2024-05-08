@@ -3,7 +3,8 @@ import {api} from './api';
 import {getMessage} from './i18n';
 
 const queryUserContribs = async (ucuser: string) => {
-	const params = {
+	const params: ApiQueryUserContribsParams = {
+		ucuser,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
@@ -11,23 +12,22 @@ const queryUserContribs = async (ucuser: string) => {
 		ucdir: 'older',
 		uclimit: 1,
 		ucprop: 'timestamp',
-		ucuser,
-	} as const satisfies ApiQueryUserContribsParams;
+	};
 	const response = await api.post(params);
 
 	return response;
 };
 
 const queryLogEvents = async (leuser: string) => {
-	const params = {
+	const params: ApiQueryLogEventsParams = {
+		leuser,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		list: 'logevents',
 		lelimit: 1,
 		leprop: 'timestamp',
-		leuser,
-	} as const satisfies ApiQueryLogEventsParams;
+	};
 	const response = await api.post(params);
 
 	return response;

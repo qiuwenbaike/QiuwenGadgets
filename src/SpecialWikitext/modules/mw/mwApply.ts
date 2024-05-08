@@ -11,7 +11,7 @@ const {skin, wgRevisionId} = mw.config.get();
 // 加入编辑提示（若存在）
 const mwApplyNotice = async (currentPageName: string, pageSubName: string): Promise<void> => {
 	try {
-		const params = {
+		const params: ApiParseParams = {
 			action: 'parse',
 			format: 'json',
 			formatversion: '2',
@@ -21,7 +21,7 @@ const mwApplyNotice = async (currentPageName: string, pageSubName: string): Prom
 			prop: 'text',
 			uselang: getLanguage(),
 			useskin: skin,
-		} as const satisfies ApiParseParams;
+		};
 
 		const data = await api.post(params);
 		if (!data?.['parse']?.text) {
@@ -38,14 +38,14 @@ const mwApplyNotice = async (currentPageName: string, pageSubName: string): Prom
 // 从页面当前历史版本取出 <{OPTIONS.wikiTextKey}>
 const mwApplyRevision = async (currentPageName: string): Promise<void> => {
 	try {
-		const params = {
+		const params: ApiParseParams = {
 			action: 'parse',
 			format: 'json',
 			formatversion: '2',
 			// get the original wikitext content of a page
 			oldid: wgRevisionId,
 			prop: 'wikitext',
-		} as const satisfies ApiParseParams;
+		};
 
 		const data = await api.get(params);
 		if (!data?.['parse']?.wikitext) {

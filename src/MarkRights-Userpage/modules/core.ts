@@ -5,14 +5,14 @@ import {appendIcon} from './appendIcon';
 import {getMessage} from './i18n';
 
 const queryUserGroups = async (ususers: string) => {
-	const params = {
+	const params: ApiQueryUsersParams = {
+		ususers,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		list: 'users',
-		ususers,
 		usprop: 'groups',
-	} as const satisfies ApiQueryUsersParams;
+	};
 	const response = await api.post(params);
 
 	return response;

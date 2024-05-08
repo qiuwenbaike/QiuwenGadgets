@@ -6,27 +6,27 @@ let toastifyInstance: ToastifyInstance = {
 };
 
 const queryImages = async (titles: string | string[]) => {
-	const params = {
+	const params: ApiQueryImagesParams = {
+		titles,
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		prop: 'images',
-		titles,
 		imlimit: 5000,
-	} as const satisfies ApiQueryImagesParams;
+	};
 	const response = await api.post(params);
 
 	return response;
 };
 
 const parse = async (page: string) => {
-	const params = {
+	const params: ApiParseParams = {
+		page,
 		action: 'parse',
 		format: 'json',
 		formatversion: '2',
 		prop: 'text',
-		page,
-	} as const satisfies ApiParseParams;
+	};
 	const response = await api.post(params);
 
 	return response;

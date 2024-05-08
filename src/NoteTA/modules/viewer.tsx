@@ -122,7 +122,6 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 				void titleDeferred.resolve();
 			} else {
 				parseWikitext(`{{noteTA/multititle|${actualTitle}}}`, {
-					action: 'parse',
 					title: actualTitle,
 					variant: 'zh',
 				})
@@ -260,7 +259,6 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			return NoteTAViewer.getNoteTAParseText()
 				.then((wikitext: ApiResponse) =>
 					parseWikitext(wikitext as ApiParseResponse, {
-						action: 'parse',
 						title: 'Template:CGroup/-',
 						variant: wgUserVariant as string,
 					})
