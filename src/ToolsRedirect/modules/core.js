@@ -734,11 +734,4 @@ const ToolsRedirect = {
 	},
 };
 
-/* export global object */
-window.toolsRedirect = {
-	findRedirectCallback,
-	findRedirectBySelector,
-	setRedirectTextSuffix,
-};
-
 export {ToolsRedirect, findRedirectCallback, findRedirectBySelector, setRedirectTextSuffix};
