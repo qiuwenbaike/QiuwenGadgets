@@ -8,7 +8,7 @@ const uniqueArray = function uniqueArray<T>(args: T[]): T[] {
 	const result: typeof args = [];
 	for (const item of args) {
 		if (!result.includes(item)) {
-			result.push(item);
+			result[result.length] = item; // Replace `[].push()` to avoid polyfilling core-js
 		}
 	}
 	return result;
