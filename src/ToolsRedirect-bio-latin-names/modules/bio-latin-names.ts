@@ -1,4 +1,4 @@
-import {findRedirectCallback} from 'ext.gadget.ToolsRedirect';
+import {findRedirectCallback, setRedirectTextSuffix} from 'ext.gadget.ToolsRedirect';
 import {uniqueArray} from 'ext.gadget.Util';
 
 const checkRedirect = (): void => {
@@ -23,11 +23,11 @@ const checkRedirect = (): void => {
 				}
 
 				titles[titles.length] = title; // Replace `[].push()` to avoid polyfilling core-js
-				window.toolsRedirect.setRedirectTextSuffix(title, '{{学名重定向}}');
+				setRedirectTextSuffix(title, '{{学名重定向}}');
 			}
 		}
 
-		return uniqueArray(titles); // Replace `new Set()` to avoid polyfilling core-js
+		return uniqueArray(titles); // Replace `[...new Set()]` to avoid polyfilling core-js
 	});
 };
 
