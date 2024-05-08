@@ -130,7 +130,10 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 		if (userLinkText) {
 			users[users.length] = userLinkText; // Replace `[].push()` to avoid polyfilling core-js
 		}
-		users = [...uniqueArray(users)]; // Replace `new Set()` to avoid polyfilling core-js
+
+		// 用户名列表去重
+		users = uniqueArray(users); // Replace `[...new Set()]` to avoid polyfilling core-js
+
 		if (users.length === 50) {
 			queue[queue.length] = users; // Replace `[].push()` to avoid polyfilling core-js
 			users = [];

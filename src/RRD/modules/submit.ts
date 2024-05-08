@@ -34,7 +34,6 @@ const edit = async (title: string, text: string, summary?: string) => {
 };
 
 const submit = async (ids: string[], toHide: string, reason: string, otherReasons: string): Promise<void> => {
-	ids = [...uniqueArray(ids)]; // Replace `new Set()` to avoid polyfilling core-js
 	const {wgPageName} = mw.config.get();
 
 	const rrdArr: string[] = [
@@ -45,7 +44,8 @@ const submit = async (ids: string[], toHide: string, reason: string, otherReason
 		`|reason = ${reason}${otherReasons}`,
 	];
 
-	for (const [index, id] of ids.entries()) {
+	for (const [index, id] of uniqueArray(ids).entries()) {
+		// Replace `[...new Set()]` to avoid polyfilling core-js
 		rrdArr[rrdArr.length] = `|id${index + 1} = ${id}`;
 	}
 	rrdArr[rrdArr.length] = '}}\n--~~'.concat('~~');

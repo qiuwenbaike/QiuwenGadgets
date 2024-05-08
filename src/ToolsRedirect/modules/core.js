@@ -201,7 +201,7 @@ const ToolsRedirect = {
 	},
 	addRedirectTextSuffix(title, text) {
 		if (title in pageWithRedirectTextSuffix) {
-			text += `\n${[...uniqueArray(pageWithRedirectTextSuffix[title])].join('\n')}`; // Replace `new Set()` to avoid polyfilling core-js
+			text += `\n${uniqueArray(pageWithRedirectTextSuffix[title]).join('\n')}`; // Replace `[...new Set()]` to avoid polyfilling core-js
 		}
 		return text;
 	},
@@ -574,12 +574,12 @@ const ToolsRedirect = {
 				];
 			}
 
-			return self.findNotExists([...uniqueArray(retTitles)]); // Replace `new Set()` to avoid polyfilling core-js
+			return self.findNotExists(uniqueArray(retTitles)); // Replace `[...new Set()]` to avoid polyfilling core-js
 		});
 	},
 	findNotExists(titles) {
 		const deferreds = [];
-		const excludes = uniqueArray(['用字模式']); // Replace `new Set()` to avoid polyfilling core-js
+		const excludes = ['用字模式'];
 		let alltitles = [];
 		titles = titles.join('|');
 		for (const variant of VARIANTS) {
@@ -615,7 +615,7 @@ const ToolsRedirect = {
 					titles = [];
 					for (const page of query.pages) {
 						const {title} = page;
-						if (page.missing && !excludes.has(title)) {
+						if (page.missing && !excludes.includes(title)) {
 							if (title in redirectExcludes) {
 								// exclude special titles
 								return;
@@ -650,7 +650,7 @@ const ToolsRedirect = {
 				// is Deferred
 				frcDeferreds[frcDeferreds.length] = ret;
 			} else {
-				titles = [...uniqueArray([...titles, ...ret])]; // Replace `new Set()` to avoid polyfilling core-js
+				titles = uniqueArray([...titles, ...ret]); // Replace `[...new Set()]` to avoid polyfilling core-js
 			}
 		}
 		// remove all empty titles
@@ -669,7 +669,7 @@ const ToolsRedirect = {
 					if (typeof ret === 'string') {
 						titles[titles.length] = ret;
 					} else {
-						titles = [...uniqueArray([...titles, ...ret])]; // Replace `new Set()` to avoid polyfilling core-js
+						titles = uniqueArray([...titles, ...ret]); // Replace `[...new Set()]` to avoid polyfilling core-js
 					}
 				}
 				return self.findVariants(pagename, titles);

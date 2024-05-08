@@ -27,7 +27,7 @@ const checkRedirect = (): void => {
 			}
 		}
 
-		return [...uniqueArray(titles)]; // Replace `new Set()` to avoid polyfilling core-js
+		return uniqueArray(titles); // Replace `new Set()` to avoid polyfilling core-js
 	});
 };
 

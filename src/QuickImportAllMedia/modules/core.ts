@@ -127,7 +127,7 @@ const getAllImages = async (): Promise<string[]> => {
 		'success'
 	);
 
-	return [...uniqueArray(fileNames)]; // Replace `new Set()` to avoid polyfilling core-js
+	return uniqueArray(fileNames); // Replace `[...new Set()]` to avoid polyfilling core-js
 };
 
 export {getAllImages};
