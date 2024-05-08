@@ -286,8 +286,8 @@ importers:
         specifier: latest
         version: 0.16.1(postcss-less@6.0.0(postcss@8.4.38))(typescript@5.4.5)
       svgo:
-        specifier: 3.1.0
-        version: 3.1.0
+        specifier: 3.3.0
+        version: 3.3.0
       tsx:
         specifier: ^4.9.3
         version: 4.9.3
@@ -4401,8 +4401,8 @@ packages:
   svg-tags@1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
 
-  svgo@3.1.0:
-    resolution: {integrity: sha512-R5SnNA89w1dYgNv570591F66v34b3eQShpIBcQtZtM5trJwm1VvxbIoMpRYY3ybTAutcKTLEmTsdnaknOHbiQA==}
+  svgo@3.3.0:
+    resolution: {integrity: sha512-y350OL6eAmhDbWcASdukXoG0MbpdfJQPHwEUAaTW1HBNSO2VErJ35fs7uNLSWjzFDhfua517RcouBzjZoO1JFg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -9429,7 +9429,7 @@ snapshots:
 
   svg-tags@1.0.0: {}
 
-  svgo@3.1.0:
+  svgo@3.3.0:
     dependencies:
       '@trysound/sax': 0.2.0
       commander: 7.2.0
