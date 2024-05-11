@@ -12,7 +12,7 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	disableTitle($body);
 
 	// 源代码编辑器加载“编辑请求”补丁
-	preloadRevid($body);
+	preloadRevid();
 
 	// 新用户引导至条目创建向导（[[QW:AFC]]）
 	// introACH();
