@@ -8,6 +8,7 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	mw.hook('wikipage.editform').add(($editForm): void => {
 		// 删除回退时自动生成的编辑摘要
 		clearUndoSummary($editForm);
+
 		// 在提交新段落时，让主题栏在特定情况下失效
 		disableTitle({$body, $editForm});
 

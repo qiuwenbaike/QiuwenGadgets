@@ -14,6 +14,12 @@ const preloadRevid = ($editForm: JQuery<HTMLElement>): void => {
 		return;
 	}
 
+	if (mw.config.get('gadget-EditForm_JS__RevisionPreloaded')) {
+		return;
+	}
+
+	mw.config.set('gadget-EditForm_JS__RevisionPreloaded', true);
+
 	const {wgAction} = mw.config.get();
 
 	if (!['edit', 'submit'].includes(wgAction)) {
