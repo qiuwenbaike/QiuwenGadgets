@@ -8,7 +8,6 @@ import {
 } from 'ext.gadget.Util';
 import {AutoSaveObject} from './types';
 import {getMessage} from './i18n';
-import {toastify} from 'ext.gadget.Toastify';
 
 const getCacheKey = () => {
 	const {wgPageName} = mw.config.get();
@@ -34,12 +33,8 @@ const newSaveObject = ({$editForm}: {$editForm: JQuery<HTMLElement>}): AutoSaveO
 const setCache = ({$editForm}: {$editForm: JQuery<HTMLElement>}) => {
 	try {
 		mw.storage.setObject(getCacheKey(), newSaveObject({$editForm}), 60 * 60 * 24 * 30 * 1000);
-		toastify({
-			text: getMessage('Change saved'),
-			close: true,
-			duration: 3 * 1000,
-			gravity: 'top',
-			position: 'right',
+		void mw.notify(getMessage('Change saved'), {
+			tag: 'wikicache',
 		});
 	} catch (error) {
 		console.error(error);
@@ -77,6 +72,7 @@ const getCache = async ({$editForm}: {$editForm: JQuery<HTMLElement>}) => {
 		if (confirm) {
 			setWpTextbox1Content({$editForm, content: saveObject['wpTextbox1']});
 		}
+		mw.storage.remove(`${getCacheKey()}##PreviewDiff`);
 	}
 };
 
