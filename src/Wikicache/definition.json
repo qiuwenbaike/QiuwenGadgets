@@ -4,12 +4,6 @@
 	"section": "edit",
 	"actions": ["edit", "submit"],
 	"default": true,
-	"dependencies": [
-		"ext.gadget.i18n",
-		"ext.gadget.Toastify",
-		"ext.gadget.Util",
-		"mediawiki.storage",
-		"oojs-ui-windows"
-	],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.storage", "oojs-ui-windows"],
 	"rights": ["edit"]
 }
