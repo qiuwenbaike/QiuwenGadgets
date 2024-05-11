@@ -6,7 +6,7 @@
 import {api} from './util/api';
 import {getMessage} from './i18n';
 
-const preloadRevid = ($body: JQuery<HTMLBodyElement>): void => {
+const preloadRevid = (): void => {
 	const revid = mw.util.getParamValue('preloadrevid');
 
 	if (!revid) {
@@ -31,15 +31,9 @@ const preloadRevid = ($body: JQuery<HTMLBodyElement>): void => {
 
 	void api.get(params).then(({query}) => {
 		const {content} = query.pages[0].revisions[0].slots.main;
-		if (
-			$body.find('.oo-ui-icon-highlight').length &&
-			$body.find('.oo-ui-icon-highlight').hasClass('oo-ui-image-progressive')
-		) {
-			$body.find('.oo-ui-icon-highlight').trigger('click');
-		}
-		if (document.querySelector('textarea[name=wpTextbox1]')) {
-			(document.querySelector('textarea[name=wpTextbox1]') as HTMLTextAreaElement).value = content;
-			$body.find('input[name=wpDiff]').trigger('click');
+		const wpTextbox1 = document.querySelector<HTMLTextAreaElement>('textarea[name=wpTextbox1]');
+		if (wpTextbox1) {
+			wpTextbox1.value = content;
 			void mw.notify(getMessage('RevisionPreloaded').replace('$1', revid), {type: 'success'});
 		}
 	});

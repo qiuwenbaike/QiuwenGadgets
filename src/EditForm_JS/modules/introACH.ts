@@ -44,8 +44,8 @@ const introACH = (): void => {
 	 */
 	if (
 		document.querySelector('#ca-talk') &&
-		document.querySelectorAll('#ca-talk a')[0] &&
-		(document.querySelectorAll('#ca-talk a')[0] as HTMLAnchorElement).href.includes('redlink=1')
+		document.querySelector<HTMLAnchorElement>('#ca-talk a') &&
+		document.querySelector<HTMLAnchorElement>('#ca-talk a')?.href.includes('redlink=1')
 	) {
 		document.querySelector('#ca-talk')?.remove();
 	}
