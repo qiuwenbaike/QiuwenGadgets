@@ -63,7 +63,11 @@ const getCache = async ({$editForm}: {$editForm: JQuery<HTMLElement>}) => {
 		setWpSummaryContent({$editForm, content: saveObject['wpSummary']});
 	}
 
-	if (saveObject['wpTextbox1'] && !(getWpTextbox1Content({$editForm}) === saveObject['wpTextbox1'])) {
+	if (!saveObject['wpTextbox1']) {
+		return;
+	}
+
+	if (![saveObject['wpTextbox1'], `${saveObject['wpTextbox1']}\n`].includes(getWpTextbox1Content({$editForm}))) {
 		const confirm = await OO.ui.confirm(getMessage('Restore changes?'), {
 			actions: [
 				{label: getMessage('Restore unsaved changes'), action: 'accept', flags: ['progressive']},
@@ -84,7 +88,11 @@ const autoSetCache = async ({$editForm}: {$editForm: JQuery<HTMLElement>}) => {
 };
 
 const setCacheBeforeSubmit = ({$editForm}: {$editForm: JQuery<HTMLElement>}) => {
-	$editForm.on('submit', () => {
+	const editForm = document.querySelector<HTMLFormElement>('#editform');
+	editForm?.addEventListener('submit', (event) => {
+		if ([document.querySelector('#wpPreview'), document.querySelector('#wpDiff')].includes(event.submitter)) {
+			mw.storage.setObject(`${getCacheKey()}##PreviewDiff`, '1', 60 * 60 * 24 * 1);
+		}
 		setCache({$editForm});
 	});
 };
