@@ -1084,7 +1084,7 @@ hotCatMessages();
 					performChanges(failure);
 				},
 				(msg) => {
-					mw.notify(msg, {tag: 'hotCat'});
+					void mw.notify(msg, {tag: 'hotCat'});
 				}
 			);
 			return;
@@ -1115,7 +1115,7 @@ hotCatMessages();
 						performChanges(failure);
 					},
 					(msg) => {
-						mw.notify(msg, {tag: 'hotCat'});
+						void mw.notify(msg, {tag: 'hotCat'});
 					}
 				);
 			}
@@ -1971,7 +1971,7 @@ hotCatMessages();
 						performChanges(failure, self);
 					},
 					(msg) => {
-						mw.notify(msg, {tag: 'hotCat'});
+						void mw.notify(msg, {tag: 'hotCat'});
 					}
 				);
 			}
@@ -2023,7 +2023,7 @@ hotCatMessages();
 					},
 					(msg) => {
 						self.state = self.originalState;
-						mw.notify(msg, {tag: 'hotCat'});
+						void mw.notify(msg, {tag: 'hotCat'});
 					}
 				);
 			}

@@ -1207,7 +1207,7 @@ const popups = () => {
 				document.title = `(${document.title})`;
 				button.click();
 			} else {
-				mw.notify(
+				void mw.notify(
 					tprintf('Could not find button %s. Please check the settings in your javascript file.', [btn]),
 					{tag: 'popups', type: 'error'}
 				);
@@ -3624,7 +3624,7 @@ const popups = () => {
 			const sb = subopening ? Previewmaker.makeRegexp(subopening, '^') : null;
 			const sc = subclosing ? Previewmaker.makeRegexp(subclosing, '^') : cl;
 			if (!op || !cl) {
-				mw.notify('Navigation Popups error: op or cl is null! something is wrong.', {
+				void mw.notify('Navigation Popups error: op or cl is null! something is wrong.', {
 					tag: 'popups',
 					type: 'error',
 				});
@@ -4016,7 +4016,7 @@ const popups = () => {
 		const art = new Title(article).urlString();
 		let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query&`;
 		let htmlGenerator = () => /* a, d */ {
-			mw.notify('invalid html generator', {tag: 'popups', type: 'error'});
+			void mw.notify('invalid html generator', {tag: 'popups', type: 'error'});
 		};
 		let usernameart = '';
 		switch (queryType) {
@@ -4664,7 +4664,7 @@ const popups = () => {
 	// load image of type Title.
 	const loadImage = (image, navpop) => {
 		if (typeof image.stripNamespace !== 'function') {
-			mw.notify('loadImages bad', {tag: 'popups', type: 'error'});
+			void mw.notify('loadImages bad', {tag: 'popups', type: 'error'});
 		}
 		// API call to retrieve image info.
 		if (!getValueOf('popupImages')) {
@@ -4749,12 +4749,12 @@ const popups = () => {
 	const toggleSize = function toggleSize() {
 		const self = this;
 		if (!self) {
-			mw.notify('self is null :/', {tag: 'popups', type: 'error'});
+			void mw.notify('self is null :/', {tag: 'popups', type: 'error'});
 			return;
 		}
 		const img = self.firstChild;
 		if (!img) {
-			mw.notify('img is null :/', {tag: 'popups', type: 'error'});
+			void mw.notify('img is null :/', {tag: 'popups', type: 'error'});
 			return;
 		}
 		img.style.width = !img.style.width || img.style.width === '' ? '100%' : '';
@@ -5805,7 +5805,7 @@ const popups = () => {
 	const diffBugAlert = function diffBugAlert(word) {
 		if (!diffBugAlert.list[word]) {
 			diffBugAlert.list[word] = 1;
-			mw.notify(`Bad word: ${word}\n\nPlease report this bug.`, {tag: 'popups', type: 'error'});
+			void mw.notify(`Bad word: ${word}\n\nPlease report this bug.`, {tag: 'popups', type: 'error'});
 		}
 	};
 	diffBugAlert.list = {};
@@ -6833,7 +6833,7 @@ const popups = () => {
 								// TODO: Update current page and other already constructed popups
 							})
 							.fail(() => {
-								mw.notify(popupString('Could not marked this edit as patrolled'), {
+								void mw.notify(popupString('Could not marked this edit as patrolled'), {
 									tag: 'popups',
 									type: 'error',
 								});
@@ -7168,14 +7168,17 @@ const popups = () => {
 	};
 	const processLastContribInfo = (info, stuff) => {
 		if (!info.edits || info.edits.length === 0) {
-			mw.notify('Popups: an odd thing happened. Please retry.', {tag: 'popups', type: 'error'});
+			void mw.notify('Popups: an odd thing happened. Please retry.', {tag: 'popups', type: 'error'});
 			return;
 		}
 		if (!info.firstNewEditor) {
-			mw.notify(tprintf('Only found one editor: %s made %s edits', [info.edits[0].editor, info.edits.length]), {
-				tag: 'popups',
-				type: 'error',
-			});
+			void mw.notify(
+				tprintf('Only found one editor: %s made %s edits', [info.edits[0].editor, info.edits.length]),
+				{
+					tag: 'popups',
+					type: 'error',
+				}
+			);
 			return;
 		}
 		const newUrl = `${pg.wiki.titlebase + new Title(stuff.page).urlString()}&diff=cur&oldid=${
@@ -7190,12 +7193,12 @@ const popups = () => {
 	};
 	const processDiffSinceMyEdit = (info, stuff) => {
 		if (!info.edits || info.edits.length === 0) {
-			mw.notify('Popups: something fishy happened. Please try again.', {tag: 'popups', type: 'error'});
+			void mw.notify('Popups: something fishy happened. Please try again.', {tag: 'popups', type: 'error'});
 			return;
 		}
 		const friendlyName = stuff.page.split('_').join(' ');
 		if (!info.myLastEdit) {
-			mw.notify(
+			void mw.notify(
 				tprintf("Couldn't find an edit by %s\nin the last %s edits to\n%s", [
 					info.userName,
 					getValueOf('popupHistoryLimit'),
@@ -7206,7 +7209,7 @@ const popups = () => {
 			return;
 		}
 		if (info.myLastEdit.index === 0) {
-			mw.notify(tprintf('%s seems to be the last editor to the page %s', [info.userName, friendlyName]), {
+			void mw.notify(tprintf('%s seems to be the last editor to the page %s', [info.userName, friendlyName]), {
 				type: 'error',
 			});
 			return;
@@ -7283,7 +7286,7 @@ const popups = () => {
 		// Messages that can be used here:
 		// * see string.js
 		// * for more information
-		mw.notify(mw.message(messageName, title).parseDom(), {tag: 'popups'});
+		void mw.notify(mw.message(messageName, title).parseDom(), {tag: 'popups'});
 	};
 	const magicHistoryLink = (l) => {
 		// FIXME use onclick change href trick to sort this out instead of window.open

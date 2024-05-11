@@ -386,7 +386,7 @@ import {generateArray} from 'ext.gadget.Util';
 		if (e.target.value === 'unblock') {
 			if (!Twinkle.block.currentBlockInfo) {
 				$unblock.prop('checked', false);
-				mw.notify(window.wgULS('用户没有被封禁', '使用者沒有被封鎖'), {
+				void mw.notify(window.wgULS('用户没有被封禁', '使用者沒有被封鎖'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1955,7 +1955,7 @@ import {generateArray} from 'ext.gadget.Util';
 					'}}、{{'
 				)}}}。`;
 				message += extra || '';
-				mw.notify(message, {
+				void mw.notify(message, {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1964,7 +1964,7 @@ import {generateArray} from 'ext.gadget.Util';
 		};
 		if (toTag) {
 			if (params.tag.length === 0) {
-				mw.notify(window.wgULS('请至少选择一个用户页标记！', '請至少選擇一個使用者頁面標記！'), {
+				void mw.notify(window.wgULS('请至少选择一个用户页标记！', '請至少選擇一個使用者頁面標記！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -2001,7 +2001,7 @@ import {generateArray} from 'ext.gadget.Util';
 				return;
 			}
 			if (params.tag.includes('Sockpuppet') && params.sppUsername.trim() === '') {
-				mw.notify(window.wgULS('请提供傀儡账号的主账号用户名！', '請提供傀儡賬號的主賬號使用者名稱！'), {
+				void mw.notify(window.wgULS('请提供傀儡账号的主账号用户名！', '請提供傀儡賬號的主賬號使用者名稱！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -2011,7 +2011,7 @@ import {generateArray} from 'ext.gadget.Util';
 		if (toBlock) {
 			if (blockoptions.partial) {
 				if (blockoptions.disabletalk && !blockoptions.namespacerestrictions.includes('3')) {
-					mw.notify(
+					void mw.notify(
 						window.wgULS(
 							'部分封禁无法阻止编辑自己的讨论页，除非也封禁了User talk命名空间！',
 							'部分封鎖無法阻止編輯自己的討論頁，除非也封鎖了User talk命名空間！'
@@ -2026,7 +2026,7 @@ import {generateArray} from 'ext.gadget.Util';
 				if (!blockoptions.namespacerestrictions && !blockoptions.pagerestrictions) {
 					if (!blockoptions.noemail && !blockoptions.nocreate) {
 						// Blank entries technically allowed
-						mw.notify(
+						void mw.notify(
 							window.wgULS(
 								'没有选择页面或命名空间，也没有停用电子邮件或禁止创建账号；请选择至少一个选项以应用部分封禁！',
 								'沒有選擇頁面或命名空間，也沒有停用電子郵件或禁止建立賬號；請選擇至少一個選項以應用部分封鎖！'
@@ -2050,20 +2050,20 @@ import {generateArray} from 'ext.gadget.Util';
 				}
 			}
 			if (!blockoptions.expiry) {
-				mw.notify(window.wgULS('请提供过期时间！', '請提供過期時間！'), {
+				void mw.notify(window.wgULS('请提供过期时间！', '請提供過期時間！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
 				return;
 			} else if (Morebits.string.isInfinity(blockoptions.expiry) && !Twinkle.block.isRegistered) {
-				mw.notify(window.wgULS('禁止无限期封禁IP地址！', '禁止無限期封鎖IP位址！'), {
+				void mw.notify(window.wgULS('禁止无限期封禁IP地址！', '禁止無限期封鎖IP位址！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
 				return;
 			}
 			if (!blockoptions.reason) {
-				mw.notify(window.wgULS('请提供封禁理由！', '請提供封鎖理由！'), {
+				void mw.notify(window.wgULS('请提供封禁理由！', '請提供封鎖理由！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -2249,7 +2249,7 @@ import {generateArray} from 'ext.gadget.Util';
 		}
 		if (toUnblock) {
 			if (!unblockoptions.reason) {
-				mw.notify(window.wgULS('请提供解除封禁理由！', '請提供解除封鎖理由！'), {
+				void mw.notify(window.wgULS('请提供解除封禁理由！', '請提供解除封鎖理由！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -2273,7 +2273,7 @@ import {generateArray} from 'ext.gadget.Util';
 			unblockMbApi.post();
 		}
 		if (!toBlock && !toWarn && !toTag && !toProtect && !toUnblock) {
-			mw.notify(window.wgULS('请给Twinkle点事做！', '請給Twinkle點事做！'), {
+			void mw.notify(window.wgULS('请给Twinkle点事做！', '請給Twinkle點事做！'), {
 				type: 'warn',
 				tag: 'twinkleblock',
 			});
@@ -2308,7 +2308,7 @@ import {generateArray} from 'ext.gadget.Util';
 						tagtext += '\n';
 						break;
 					default:
-						mw.notify(window.wgULS('未知的用户页模板！', '未知的使用者頁面模板！'), {
+						void mw.notify(window.wgULS('未知的用户页模板！', '未知的使用者頁面模板！'), {
 							type: 'warn',
 							tag: 'twinkleblock',
 						});

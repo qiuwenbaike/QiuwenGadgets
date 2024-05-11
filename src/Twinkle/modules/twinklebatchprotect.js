@@ -279,7 +279,7 @@
 		}
 		const input = Morebits.quickForm.getInputData(form);
 		if (!input.reason) {
-			mw.notify('您必须给出一个理由。', {
+			void mw.notify('您必须给出一个理由。', {
 				type: 'warn',
 				tag: 'twinklebatchprotect',
 			});

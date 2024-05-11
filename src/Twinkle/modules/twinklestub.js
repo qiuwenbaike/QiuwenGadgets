@@ -95,7 +95,7 @@ import {generateArray} from 'ext.gadget.Util';
 				});
 				break;
 			default:
-				mw.notify(`Twinkle.stub：未知模式 ${Twinkle.stub.mode}`, {
+				void mw.notify(`Twinkle.stub：未知模式 ${Twinkle.stub.mode}`, {
 					type: 'warn',
 					tag: 'twinklestub',
 				});
@@ -374,14 +374,14 @@ import {generateArray} from 'ext.gadget.Util';
 				params.group = false;
 				break;
 			default:
-				mw.notify(`Twinkle.stub：未知模式 ${Twinkle.stub.mode}`, {
+				void mw.notify(`Twinkle.stub：未知模式 ${Twinkle.stub.mode}`, {
 					type: 'warn',
 					tag: 'twinklestub',
 				});
 				break;
 		}
 		if (!params.tags.length) {
-			mw.notify('必须选择至少一个标记！', {
+			void mw.notify('必须选择至少一个标记！', {
 				type: 'warn',
 				tag: 'twinklestub',
 			});
@@ -414,7 +414,7 @@ import {generateArray} from 'ext.gadget.Util';
 				qiuwen_page.load(Twinkle.stub.callbacks.file);
 				break;
 			default:
-				mw.notify(`Twinkle.stub：未知模式 ${Twinkle.stub.mode}`, {
+				void mw.notify(`Twinkle.stub：未知模式 ${Twinkle.stub.mode}`, {
 					type: 'warn',
 					tag: 'twinklestub',
 				});

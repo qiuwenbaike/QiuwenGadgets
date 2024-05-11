@@ -1374,7 +1374,7 @@
 							break;
 						}
 						default:
-							mw.notify(`twinkleconfig: 未知类型的属性 ${pref.name}`, {
+							void mw.notify(`twinkleconfig: 未知类型的属性 ${pref.name}`, {
 								type: 'warn',
 								tag: 'twinkleconfig',
 							});
@@ -1731,7 +1731,7 @@
 				$(document.querySelector(`#${pref.name}`)).data('value', Twinkle.defaultConfig[pref.name]);
 				break;
 			default:
-				mw.notify(`twinkleconfig: unknown data type for preference ${pref.name}`, {
+				void mw.notify(`twinkleconfig: unknown data type for preference ${pref.name}`, {
 					type: 'warn',
 					tag: 'twinkleconfig',
 				});
@@ -1853,7 +1853,7 @@
 								userValue = $(form[pref.name]).data('value');
 								break;
 							default:
-								mw.notify(`twinkleconfig: 未知数据类型，属性 ${pref.name}`, {
+								void mw.notify(`twinkleconfig: 未知数据类型，属性 ${pref.name}`, {
 									type: 'warn',
 									tag: 'twinkleconfig',
 								});

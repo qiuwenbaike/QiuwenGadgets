@@ -482,7 +482,7 @@ import {api} from './api';
 				});
 				break;
 			default:
-				mw.notify(window.wgULS('这玩意儿被海豚吃掉了！', '這玩意兒被海豚吃掉了！'), {
+				void mw.notify(window.wgULS('这玩意儿被海豚吃掉了！', '這玩意兒被海豚吃掉了！'), {
 					type: 'warn',
 					tag: 'twinkleprotect',
 				});
@@ -1141,7 +1141,7 @@ import {api} from './api';
 							if (input.movelevel) {
 								thispage.setMoveProtection(input.movelevel, input.moveexpiry);
 							} else {
-								mw.notify(window.wgULS('您需要选择保护层级！', '您需要選擇保護層級！'), {
+								void mw.notify(window.wgULS('您需要选择保护层级！', '您需要選擇保護層級！'), {
 									type: 'warn',
 									tag: 'twinkleprotect',
 								});
@@ -1157,7 +1157,7 @@ import {api} from './api';
 						thispage.setEditSummary(input.protectReason);
 						thispage.setChangeTags(Twinkle.changeTags);
 					} else {
-						mw.notify(
+						void mw.notify(
 							window.wgULS(
 								'您必须输入保护理由，这将被记录在保护日志中。',
 								'您必須輸入保護理由，這將被記錄在保護日誌中。'
@@ -1180,7 +1180,7 @@ import {api} from './api';
 				if (input.editmodify || input.movemodify || !mw.config.get('wgArticleId')) {
 					protectIt(allDone);
 				} else {
-					mw.notify(
+					void mw.notify(
 						window.wgULS(
 							'请告诉Twinkle要做什么！\n若您只是想标记该页，请选择上面的“用保护模板标记此页”选项。',
 							'請告訴Twinkle要做什麼！\n若您只是想標記該頁，請選擇上面的「用保護模板標記此頁」選項。'
@@ -1320,7 +1320,7 @@ import {api} from './api';
 				break;
 			}
 			default:
-				mw.notify('twinkleprotect: 未知操作类型', {
+				void mw.notify('twinkleprotect: 未知操作类型', {
 					type: 'warn',
 					tag: 'twinkleprotect',
 				});

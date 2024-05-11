@@ -573,7 +573,7 @@
 		const unlink_page = form.unlink_page.checked;
 		const unlink_file = form.unlink_file.checked;
 		if (!reason) {
-			mw.notify(window.wgULS('您需要给出一个理由', '您需要給出一個理由'), {
+			void mw.notify(window.wgULS('您需要给出一个理由', '您需要給出一個理由'), {
 				type: 'warn',
 				tag: 'twinklebatchdelete',
 			});

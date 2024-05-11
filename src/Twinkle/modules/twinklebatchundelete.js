@@ -146,7 +146,7 @@
 		const reason = event.target.reason.value;
 		const undel_talk = event.target.reason.value;
 		if (!reason) {
-			mw.notify('您需要指定理由。', {
+			void mw.notify('您需要指定理由。', {
 				type: 'warn',
 				tag: 'twinklebatchundelete',
 			});

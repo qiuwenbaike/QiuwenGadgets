@@ -418,7 +418,7 @@
 					break;
 				}
 				default:
-					mw.notify(`关闭存废讨论：未定义 ${code}`, {
+					void mw.notify(`关闭存废讨论：未定义 ${code}`, {
 						type: 'warn',
 						tag: 'twinkleclose',
 					});
