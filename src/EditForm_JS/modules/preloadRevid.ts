@@ -5,8 +5,9 @@
  */
 import {api} from './util/api';
 import {getMessage} from './i18n';
+import {setWpTextbox1Content} from 'ext.gadget.Util';
 
-const preloadRevid = (): void => {
+const preloadRevid = ($editForm: JQuery<HTMLElement>): void => {
 	const revid = mw.util.getParamValue('preloadrevid');
 
 	if (!revid) {
@@ -31,11 +32,8 @@ const preloadRevid = (): void => {
 
 	void api.get(params).then(({query}) => {
 		const {content} = query.pages[0].revisions[0].slots.main;
-		const wpTextbox1 = document.querySelector<HTMLTextAreaElement>('textarea[name=wpTextbox1]');
-		if (wpTextbox1) {
-			wpTextbox1.value = content;
-			void mw.notify(getMessage('RevisionPreloaded').replace('$1', revid), {type: 'success'});
-		}
+		setWpTextbox1Content({$editForm, content});
+		void mw.notify(getMessage('RevisionPreloaded').replace('$1', revid), {type: 'success'});
 	});
 };
 
