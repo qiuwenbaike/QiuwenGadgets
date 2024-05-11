@@ -347,7 +347,7 @@
 		}
 		if (Twinkle.fluff.rollbackInPlace) {
 			const notifyStatus = document.createElement('span');
-			mw.notify(notifyStatus, {
+			void mw.notify(notifyStatus, {
 				autoHide: false,
 				title: `回退${page}`,
 				tag: `twinklefluff_${rev}`, // Shouldn't be necessary given disableLink

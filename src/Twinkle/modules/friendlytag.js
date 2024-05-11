@@ -270,7 +270,7 @@
 				break;
 			}
 			default:
-				mw.notify(`Twinkle.tag：未知模式 ${Twinkle.tag.mode}`, {
+				void mw.notify(`Twinkle.tag：未知模式 ${Twinkle.tag.mode}`, {
 					type: 'warn',
 					tag: 'friendlytag',
 				});
@@ -2186,7 +2186,7 @@
 					'}}、{{'
 				)}}}。`;
 				message += extra || '';
-				mw.notify(message, {
+				void mw.notify(message, {
 					type: 'warn',
 					tag: 'friendlytag',
 				});
@@ -2197,7 +2197,7 @@
 		// Maybe just sock this away in each function???
 		const checkParameter = (tag, parameter, description = '理由') => {
 			if (params.tags.includes(tag) && params[parameter].trim() === '') {
-				mw.notify(`${window.wgULS('您必须指定', '您必須指定')}{{${tag}}}的${description}。`, {
+				void mw.notify(`${window.wgULS('您必须指定', '您必須指定')}{{${tag}}}的${description}。`, {
 					type: 'warn',
 					tag: 'friendlytag',
 				});
@@ -2229,7 +2229,7 @@
 						return;
 					}
 					if (!params.mergeTarget) {
-						mw.notify(
+						void mw.notify(
 							window.wgULS(
 								'请指定使用于merge模板中的另一个页面标题。',
 								'請指定使用於merge模板中的另一個頁面標題。'
@@ -2242,7 +2242,7 @@
 						return;
 					}
 					if ((params.mergeTagOther || params.mergeReason) && params.mergeTarget.includes('|')) {
-						mw.notify(
+						void mw.notify(
 							window.wgULS(
 								'当前还不支持在一次合并中标记多个条目，与开启关于多个条目的讨论。请不要勾选“标记其他条目”并清空“理由”框后再提交。',
 								'目前還不支援在一次合併中標記多個條目，與開啟關於多個條目的討論。請不要勾選「標記其他條目」並清空「理由」框後再提交。'
@@ -2287,7 +2287,7 @@
 			case 'redirect':
 				break;
 			default:
-				mw.notify(`Twinkle.tag：未知模式 ${Twinkle.tag.mode}`, {
+				void mw.notify(`Twinkle.tag：未知模式 ${Twinkle.tag.mode}`, {
 					type: 'warn',
 					tag: 'friendlytag',
 				});
@@ -2296,7 +2296,7 @@
 		// File/redirect: return if no tags selected
 		// Article: return if no tag is selected and no already present tag is deselected
 		if (params.tags.length === 0 && (Twinkle.tag.modeEn !== 'article' || params.tagsToRemove.length === 0)) {
-			mw.notify(window.wgULS('必须选择至少一个标记！', '必須選擇至少一個標記！'), {
+			void mw.notify(window.wgULS('必须选择至少一个标记！', '必須選擇至少一個標記！'), {
 				type: 'warn',
 				tag: 'friendlytag',
 			});

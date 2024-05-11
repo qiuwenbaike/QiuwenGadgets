@@ -726,7 +726,7 @@
 	Twinkle.xfd.callback.evaluate = (e) => {
 		const params = Morebits.quickForm.getInputData(e.target);
 		if (params.xfdcat === 'merge' && params.mergeinto.trim() === '') {
-			mw.notify(window.wgULS('请提供合并目标！', '請提供合併目標！'), {
+			void mw.notify(window.wgULS('请提供合并目标！', '請提供合併目標！'), {
 				type: 'warn',
 				tag: 'twinklexfd',
 			});
@@ -793,7 +793,7 @@
 				break;
 			}
 			default:
-				mw.notify('twinklexfd：未定义的类别', {
+				void mw.notify('twinklexfd：未定义的类别', {
 					type: 'warn',
 					tag: 'twinklexfd',
 				});

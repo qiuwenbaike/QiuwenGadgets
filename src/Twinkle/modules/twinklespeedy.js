@@ -1535,7 +1535,7 @@ import {generateArray} from 'ext.gadget.Util';
 					if (form['csd.reason_1']) {
 						const dbrationale = form['csd.reason_1'].value;
 						if (!dbrationale || !dbrationale.trim()) {
-							mw.notify(window.wgULS('自定义理由：请指定理由。', '自訂理由：請指定理由。'), {
+							void mw.notify(window.wgULS('自定义理由：请指定理由。', '自訂理由：請指定理由。'), {
 								type: 'warn',
 								tag: 'twinklespeedy',
 							});
@@ -1550,7 +1550,7 @@ import {generateArray} from 'ext.gadget.Util';
 					if (form['csd.a2_pagename']) {
 						const otherpage = form['csd.a2_pagename'].value;
 						if (!otherpage || !otherpage.trim()) {
-							mw.notify(
+							void mw.notify(
 								window.wgULS('CSD A2：请提供现有条目的名称。', 'CSD A2：請提供現有條目的名稱。'),
 								{
 									type: 'warn',
@@ -1568,7 +1568,7 @@ import {generateArray} from 'ext.gadget.Util';
 					if (form['csd.g4_pagename']) {
 						const pagename = form['csd.g4_pagename'].value;
 						if (!pagename || !pagename.trim()) {
-							mw.notify(window.wgULS('CSD G4：请提供页面名称。', 'CSD G4：請提供頁面名稱。'), {
+							void mw.notify(window.wgULS('CSD G4：请提供页面名称。', 'CSD G4：請提供頁面名稱。'), {
 								type: 'warn',
 								tag: 'twinklespeedy',
 							});
@@ -1583,7 +1583,7 @@ import {generateArray} from 'ext.gadget.Util';
 					if (form['csd.f2_filename']) {
 						redimage = form['csd.f2_filename'].value;
 						if (!redimage || !redimage.trim()) {
-							mw.notify(
+							void mw.notify(
 								window.wgULS('CSD F2：请提供另一文件的名称。', 'CSD F2：請提供另一檔案的名稱。'),
 								{
 									type: 'warn',
@@ -1604,7 +1604,7 @@ import {generateArray} from 'ext.gadget.Util';
 					if (form['csd.r1_type']) {
 						const redirtype = form['csd.r1_type'].value;
 						if (!redirtype) {
-							mw.notify(window.wgULS('CSD R1：请选择适用类型。', 'CSD R1：請選擇適用類別。'), {
+							void mw.notify(window.wgULS('CSD R1：请选择适用类型。', 'CSD R1：請選擇適用類別。'), {
 								type: 'warn',
 								tag: 'twinklespeedy',
 							});
@@ -1619,7 +1619,7 @@ import {generateArray} from 'ext.gadget.Util';
 					if (form['csd.r2_type']) {
 						const redirtype = form['csd.r2_type'].value;
 						if (!redirtype) {
-							mw.notify(window.wgULS('CSD R2：请选择适用类型。', 'CSD R2：請選擇適用類別。'), {
+							void mw.notify(window.wgULS('CSD R2：请选择适用类型。', 'CSD R2：請選擇適用類別。'), {
 								type: 'warn',
 								tag: 'twinklespeedy',
 							});
@@ -1649,7 +1649,7 @@ import {generateArray} from 'ext.gadget.Util';
 	Twinkle.speedy.resolveCsdValues = (e) => {
 		const values = (e.target.form ?? e.target).getChecked('csd');
 		if (values.length === 0) {
-			mw.notify(window.wgULS('请选择一个理据！', '請選擇一個理據！'), {
+			void mw.notify(window.wgULS('请选择一个理据！', '請選擇一個理據！'), {
 				type: 'warn',
 				tag: 'twinklespeedy',
 			});
