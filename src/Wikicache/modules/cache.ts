@@ -1,7 +1,12 @@
 import * as OPTIONS from '../options.json';
-import {getWpSummaryContent, getWpTextbox1Content, setWpSummaryContent, setWpTextbox1Content} from './content';
+import {
+	delay,
+	getWpSummaryContent,
+	getWpTextbox1Content,
+	setWpSummaryContent,
+	setWpTextbox1Content,
+} from 'ext.gadget.Util';
 import {AutoSaveObject} from './types';
-import {delay} from 'ext.gadget.Util';
 import {getMessage} from './i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
