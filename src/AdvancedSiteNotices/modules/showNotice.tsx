@@ -6,7 +6,6 @@ import {generateArea} from './util/generateArea';
 import {getMessage} from './i18n';
 import {matchCriteria} from './util/matchCriteria';
 import {tippy} from 'ext.gadget.Tippy';
-import {toastify} from 'ext.gadget.Toastify';
 
 const broadcastChannel: BroadcastChannel = new BroadcastChannel(OPTIONS.storageKey);
 
@@ -31,15 +30,8 @@ broadcastChannel.addEventListener('message', closeNotices);
 
 $dismiss.on('click', (): void => {
 	closeNotices();
-	const toastifyInstance: ToastifyInstance = toastify({
-		node: <span innerHTML={getMessage('DismissNotice')} />,
-		close: true,
-		duration: 10 * 1000,
-		gravity: 'top',
-		position: 'right',
-		onClick(): void {
-			toastifyInstance.hideToast();
-		},
+	void mw.notify($((<span innerHTML={getMessage('DismissNotice')} />) as HTMLElement), {
+		tag: 'AdvancedSiteNotices',
 	});
 });
 tippy($dismiss.get(0) as HTMLAnchorElement, {
