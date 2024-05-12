@@ -304,6 +304,14 @@
 
 		&-box {
 			padding: 1em;
+			position: relative;
+
+			.mainpage-login-menu {
+				position: absolute;
+				top: 0;
+				right: 0;
+				padding: 0;
+			}
 		}
 
 		.mainpage-articlecount {
@@ -467,17 +475,20 @@
 	}
 
 	@media screen and (min-width: 1024px) {
-		&-header {
-			&-box {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-			}
+		&-header-box {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
 
-			.mainpage-header-bio {
-				width: 100%;
-				margin: 0 auto;
+			.mainpage-login-menu {
+				position: relative;
+				margin: 0 1em 0 auto;
 			}
+		}
+
+		.mainpage-header-bio {
+			width: 100%;
+			margin: 0 auto;
 		}
 	}
 }
