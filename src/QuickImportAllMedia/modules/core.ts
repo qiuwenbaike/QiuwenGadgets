@@ -94,9 +94,13 @@ const getAllImages = async (): Promise<string[]> => {
 
 	for (const element of uniqueArray(fileLinkElements)) {
 		// Replace `new Set()` to avoid polyfilling core-js
-		const {href} = element;
+		const {href, classList} = element;
 
-		if (!href) {
+		if (!href || href.includes('redlink=1')) {
+			continue;
+		}
+
+		if (classList.contains('new')) {
 			continue;
 		}
 
