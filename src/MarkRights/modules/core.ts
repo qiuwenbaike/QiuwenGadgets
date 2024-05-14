@@ -3,33 +3,8 @@ import {api} from './api';
 import {getMessage} from './i18n';
 import {uniqueArray} from 'ext.gadget.Util';
 
-const groups: Record<UserRights, string[]> = {
-	// 全站管理型权限
-	qiuwen: [],
-	steward: [],
-	checkuser: [],
-	suppress: [],
-	sysop: [],
-	'interface-admin': [],
-	templateeditor: [],
-	transwiki: [],
-	// 页面管理型权限
-	patroller: [],
-	autoreviewer: [],
-	senioreditor: [],
-	// 大量操作型权限
-	eventsponsor: [],
-	'massmessage-sender': [],
-	// 确认权限
-	confirmed: [],
-	autoconfirmed: [],
-	// 机器权限
-	bot: [],
-	flood: [],
-	// 豁免
-	'ipblock-exempt': [],
-	'rnrsverify-exempt': [],
-};
+const userGroupMap = new Map();
+const globalUserGroupMap = new Map();
 
 const getUsername = (url: string): string => {
 	if (!url) {
@@ -64,6 +39,34 @@ const getUsername = (url: string): string => {
 	return '';
 };
 
+const queryUserGroups = async (ususers: string | string[]) => {
+	const params: ApiQueryUsersParams = {
+		ususers,
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		list: 'users',
+		usprop: 'groups',
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
+const queryGlobalUserGroups = async (user: string) => {
+	const params = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		meta: 'globaluserinfo',
+		guiuser: user,
+		guiprop: 'groups',
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
 const done = ($userLinks: JQuery<HTMLElement>): void => {
 	$userLinks.each((_index: number, element: HTMLElement): void => {
 		const $element: JQuery = $(element);
@@ -74,15 +77,13 @@ const done = ($userLinks: JQuery<HTMLElement>): void => {
 		if (!username) {
 			return;
 		}
+		const groups = (userGroupMap.get(username) as string[] | undefined) ?? [];
+		const globalGroups = (globalUserGroupMap.get(username) as string[] | undefined) ?? [];
+		if (!groups) {
+			return;
+		}
 		const $sups: JQuery = $('<span>').addClass('gadgets-markrights');
-		for (const group in groups) {
-			if (!Object.hasOwn(groups, group)) {
-				continue;
-			}
-			const groupsGroup: string[] = groups[group as never] ?? [];
-			if (!groupsGroup.includes(username)) {
-				continue;
-			}
+		for (const group of uniqueArray([...groups, ...globalGroups])) {
 			const className: string = `gadgets-markrights__${group}`;
 			if ($sups.find('sup').hasClass(className)) {
 				return;
@@ -145,32 +146,29 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 	}
 
 	for (const ususers of queue) {
-		const params: ApiQueryUsersParams = {
-			ususers,
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			list: 'users',
-			usprop: 'groups',
-		};
-
 		try {
-			const response = await api.get(params);
+			const queryUserResponse = await queryUserGroups(ususers);
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			const queryUsers: {groups: string; name: string}[] = response['query']?.users ?? [];
+			const {users: queryUsers}: {users: {groups: string[]; name: string}[]} = queryUserResponse['query'];
 
 			for (const user of queryUsers) {
 				if (!user || !user.groups) {
 					continue;
 				}
-				for (const group in groups) {
-					if (!Object.hasOwn(groups, group)) {
-						continue;
-					}
-					const groupsGroup: string[] = groups[group as never] as string[];
-					if (user.groups.includes(group)) {
-						groupsGroup[groupsGroup.length] = user.name; // Replace `[].push()` to avoid polyfilling core-js
-					}
+				userGroupMap.set(
+					user.name,
+					user.groups.filter((element) => {
+						return element !== '*';
+					})
+				);
+			}
+
+			for (const user of ususers) {
+				const queryGlobalUserInfoResponse = await queryGlobalUserGroups(user);
+				if (queryGlobalUserInfoResponse['query'] && queryGlobalUserInfoResponse['query'].globaluserinfo) {
+					const {groups: globalgroups}: {groups: string[]} = queryGlobalUserInfoResponse['query']
+						.globaluserinfo as {groups: string[]};
+					globalUserGroupMap.set(user, globalgroups);
 				}
 			}
 
