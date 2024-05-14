@@ -54,8 +54,8 @@ importers:
   .:
     dependencies:
       '@bhsd/codemirror-mediawiki':
-        specifier: ^2.11.3
-        version: 2.11.3
+        specifier: ^2.12.6
+        version: 2.12.6
       '@types/toastify-js':
         specifier: ^1.12.3
         version: 1.12.3
@@ -71,6 +71,9 @@ importers:
       select2:
         specifier: ^4.0.13
         version: 4.0.13
+      svgo:
+        specifier: 3.3.0
+        version: 3.3.0
       tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
@@ -285,9 +288,6 @@ importers:
       stylelint-config-wikimedia:
         specifier: latest
         version: 0.16.1(postcss-less@6.0.0(postcss@8.4.38))(typescript@5.4.5)
-      svgo:
-        specifier: 3.3.0
-        version: 3.3.0
       tsx:
         specifier: ^4.9.3
         version: 4.9.3
@@ -898,8 +898,8 @@ packages:
     resolution: {integrity: sha512-6mQNsaLeXTw0nxYUYu+NSa4Hx4BlF1x1x8/PMFbiR+GBSr+2DkECc69b8hgy2frEodNcvPffeH8YfWd3LI6jhQ==}
     engines: {node: '>=6.9.0'}
 
-  '@bhsd/codemirror-mediawiki@2.11.3':
-    resolution: {integrity: sha512-fHU6sYCwyoa+0VDopZTEUHnSoARJ3hNHyrv7bLz2eldTw2y5tTh5kYSNi8wBnQF8ZeJ1mNNP+XderPLGk+OChQ==}
+  '@bhsd/codemirror-mediawiki@2.12.6':
+    resolution: {integrity: sha512-EQMcCNkvbS2vlJbpW45NS+twDvgXtdRvQn0k93KNOth8xDSSY2Ug+QJfaEisG3w1Za0QrWha3ym/1BJPPmcyaQ==}
     engines: {node: 20.9.0}
 
   '@codemirror/language@6.10.1':
@@ -5499,7 +5499,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.5
       to-fast-properties: 2.0.0
 
-  '@bhsd/codemirror-mediawiki@2.11.3':
+  '@bhsd/codemirror-mediawiki@2.12.6':
     dependencies:
       '@codemirror/language': 6.10.1
       '@codemirror/lint': 6.7.0
