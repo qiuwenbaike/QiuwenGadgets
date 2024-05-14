@@ -3,6 +3,7 @@ import type {UserRights} from '~/MarkRights/modules/types';
 import {api} from './api';
 import {appendIcon} from './appendIcon';
 import {getMessage} from './i18n';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const queryUserGroups = async (ususers: string) => {
 	const params: ApiQueryUsersParams = {
@@ -18,6 +19,20 @@ const queryUserGroups = async (ususers: string) => {
 	return response;
 };
 
+const queryGlobalUserGroups = async (user: string) => {
+	const params = {
+		action: 'query',
+		format: 'json',
+		formatversion: '2',
+		meta: 'globaluserinfo',
+		guiuser: user,
+		guiprop: 'groups',
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
 const getPermissions = async (): Promise<void> => {
 	const {wgRelevantUserName} = mw.config.get();
 
@@ -26,18 +41,21 @@ const getPermissions = async (): Promise<void> => {
 	}
 
 	try {
-		const {query} = await queryUserGroups(wgRelevantUserName);
+		const {query: localquery} = await queryUserGroups(wgRelevantUserName);
+		const {query: globalquery} = await queryGlobalUserGroups(wgRelevantUserName);
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const [{groups}]: [{groups: UserRights[]}] = query.users;
+		const [{groups: localgroups}]: [{groups: UserRights[]}] = localquery.users;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const {groups: globalgroups}: {groups: UserRights[]} = globalquery.globaluserinfo;
 
-		for (const group of groups) {
+		for (const group of uniqueArray([...localgroups, ...globalgroups])) {
 			if (['*', 'user', 'autoconfirmed', 'rnrsverify-confirmed'].includes(group)) {
 				continue; // Do not show implicit groups
 			} else if (group === 'bot' && SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName)) {
 				continue; // Already shown in GeoLocationViewer
 			} else if (WEBMASTER_LIST.includes(wgRelevantUserName) || group === 'qiuwen') {
 				appendIcon(getMessage('qiuwen'), 'qiuwen');
-			} else if (groups.includes(group)) {
+			} else if (uniqueArray([...localgroups, ...globalgroups]).includes(group)) {
 				appendIcon(getMessage(group), group);
 			}
 		}
