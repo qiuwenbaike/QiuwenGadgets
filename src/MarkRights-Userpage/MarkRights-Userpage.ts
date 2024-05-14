@@ -6,6 +6,6 @@ if (wgRelevantUserName && mw.config.get('wgNamespaceNumber') === 2 && mw.config.
 	const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
 	const pageName: string = new mw.Title(mw.config.get('wgPageName')).toText();
 	if (relevantUserPageName === pageName) {
-		void getPermissions();
+		void getPermissions(wgRelevantUserName);
 	}
 }
