@@ -177,4 +177,4 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 	}
 };
 
-export {markUserRights};
+export {queryUserGroups, queryGlobalUserGroups, markUserRights};

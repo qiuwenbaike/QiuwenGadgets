@@ -1,37 +1,9 @@
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './constant';
+import {queryGlobalUserGroups, queryUserGroups} from 'ext.gadget.MarkRights';
 import type {UserRights} from '~/MarkRights/modules/types';
-import {api} from './api';
 import {appendIcon} from './appendIcon';
 import {getMessage} from './i18n';
 import {uniqueArray} from 'ext.gadget.Util';
-
-const queryUserGroups = async (ususers: string) => {
-	const params: ApiQueryUsersParams = {
-		ususers,
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		list: 'users',
-		usprop: 'groups',
-	};
-	const response = await api.post(params);
-
-	return response;
-};
-
-const queryGlobalUserGroups = async (guiuser: string) => {
-	const params = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		meta: 'globaluserinfo',
-		guiuser,
-		guiprop: 'groups',
-	};
-	const response = await api.post(params);
-
-	return response;
-};
 
 const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 	try {
