@@ -42,14 +42,17 @@ const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const {groups: globalgroups}: {groups: UserRights[]} = globalquery.globaluserinfo;
 
-		for (const group of uniqueArray([...localgroups, ...globalgroups])) {
-			if (['*', 'user', 'autoconfirmed', 'rnrsverify-confirmed'].includes(group)) {
-				continue; // Do not show implicit groups
-			} else if (group === 'bot' && SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName)) {
+		const groups = uniqueArray([...localgroups, ...globalgroups]).filter((element) => {
+			// Do not show implicit groups. Bots Already shown in GeoLocationViewer
+			return !['*', 'user', 'autoconfirmed', 'rnrsverify-confirmed', 'bot'].includes(element);
+		});
+
+		for (const group of groups) {
+			if (SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName)) {
 				continue; // Already shown in GeoLocationViewer
 			} else if (WEBMASTER_LIST.includes(wgRelevantUserName) || group === 'qiuwen') {
 				appendIcon(getMessage('qiuwen'), 'qiuwen');
-			} else if (uniqueArray([...localgroups, ...globalgroups]).includes(group)) {
+			} else {
 				appendIcon(getMessage(group), group);
 			}
 		}
