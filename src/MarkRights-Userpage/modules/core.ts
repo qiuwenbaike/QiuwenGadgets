@@ -33,13 +33,7 @@ const queryGlobalUserGroups = async (user: string) => {
 	return response;
 };
 
-const getPermissions = async (): Promise<void> => {
-	const {wgRelevantUserName} = mw.config.get();
-
-	if (!wgRelevantUserName) {
-		return;
-	}
-
+const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 	try {
 		const {query: localquery} = await queryUserGroups(wgRelevantUserName);
 		const {query: globalquery} = await queryGlobalUserGroups(wgRelevantUserName);
