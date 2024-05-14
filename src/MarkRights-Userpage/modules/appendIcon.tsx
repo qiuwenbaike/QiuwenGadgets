@@ -14,20 +14,21 @@ const elementWrap = (spanClass: UserRights, innerElement: ReactElement) => {
 	return <div className={classNames}>{innerElement}</div>;
 };
 
+const indicator = (indicatorText: string | undefined, spanClass: UserRights | 'unknown') => (
+	<>
+		<span
+			className={['gadget-markrights_userpage__icon', `gadget-markrights_userpage__icon__${spanClass}`]}
+			title={indicatorText}
+		/>
+		<span className="gadget-markrights_userpage__text">{indicatorText}</span>
+	</>
+);
+
 const appendIcon = (indicatorText: string | undefined, spanClass: UserRights | 'unknown'): void => {
 	if (spanClass === 'unknown' || !indicatorText) {
 		return;
 	}
-	const indicator = (
-		<>
-			<span
-				className={['gadget-markrights_userpage__icon', `gadget-markrights_userpage__icon__${spanClass}`]}
-				title={indicatorText}
-			/>
-			<span className="gadget-markrights_userpage__text">{indicatorText}</span>
-		</>
-	);
-	const tag = elementWrap(spanClass, indicator);
+	const tag = elementWrap(spanClass, indicator(indicatorText, spanClass));
 	document.querySelectorAll<HTMLElement>(OPTIONS.mountPointSelector)[0]?.prepend(tag);
 };
 

@@ -19,13 +19,13 @@ const queryUserGroups = async (ususers: string) => {
 	return response;
 };
 
-const queryGlobalUserGroups = async (user: string) => {
+const queryGlobalUserGroups = async (guiuser: string) => {
 	const params = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		meta: 'globaluserinfo',
-		guiuser: user,
+		guiuser,
 		guiprop: 'groups',
 	};
 	const response = await api.post(params);
@@ -47,12 +47,12 @@ const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 			return !['*', 'user', 'autoconfirmed', 'rnrsverify-confirmed', 'bot'].includes(element);
 		});
 
-		for (const group of groups) {
-			if (SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName)) {
-				continue; // Already shown in GeoLocationViewer
-			} else if (WEBMASTER_LIST.includes(wgRelevantUserName) || group === 'qiuwen') {
-				appendIcon(getMessage('qiuwen'), 'qiuwen');
-			} else {
+		if (SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName)) {
+			// Already shown in GeoLocationViewer
+		} else if (WEBMASTER_LIST.includes(wgRelevantUserName)) {
+			appendIcon(getMessage('qiuwen'), 'qiuwen');
+		} else {
+			for (const group of groups) {
 				appendIcon(getMessage(group), group);
 			}
 		}

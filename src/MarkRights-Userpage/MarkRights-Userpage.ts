@@ -1,8 +1,8 @@
 import {getPermissions} from './modules/core';
 
-const {wgRelevantUserName} = mw.config.get();
+const {wgAction, wgNamespaceNumber, wgRelevantUserName} = mw.config.get();
 
-if (wgRelevantUserName && mw.config.get('wgNamespaceNumber') === 2 && mw.config.get('wgAction') === 'view') {
+if (wgRelevantUserName && wgNamespaceNumber === 2 && wgAction === 'view') {
 	const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
 	const pageName: string = new mw.Title(mw.config.get('wgPageName')).toText();
 	if (relevantUserPageName === pageName) {
