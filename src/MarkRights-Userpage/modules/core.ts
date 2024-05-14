@@ -35,12 +35,30 @@ const queryGlobalUserGroups = async (guiuser: string) => {
 
 const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 	try {
-		const {query: localquery} = await queryUserGroups(wgRelevantUserName);
-		const {query: globalquery} = await queryGlobalUserGroups(wgRelevantUserName);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const [{groups: localgroups}]: [{groups: UserRights[]}] = localquery.users;
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const {groups: globalgroups}: {groups: UserRights[]} = globalquery.globaluserinfo;
+		const {
+			query: {
+				users: [{groups: localgroups}],
+			},
+		}: {
+			query: {
+				users: [
+					{
+						groups: string[];
+					},
+				];
+			};
+		} = (await queryUserGroups(`${wgRelevantUserName}`)) as never;
+		const {
+			query: {
+				globaluserinfo: {groups: globalgroups},
+			},
+		}: {
+			query: {
+				globaluserinfo: {
+					groups: string[];
+				};
+			};
+		} = (await queryGlobalUserGroups(`${wgRelevantUserName}`)) as never;
 
 		const groups = uniqueArray([...localgroups, ...globalgroups]).filter((element) => {
 			// Do not show implicit groups. Bots Already shown in GeoLocationViewer
@@ -53,7 +71,7 @@ const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 			appendIcon(getMessage('qiuwen'), 'qiuwen');
 		} else {
 			for (const group of groups) {
-				appendIcon(getMessage(group), group);
+				appendIcon(getMessage(group as UserRights), group as UserRights);
 			}
 		}
 	} catch {}
