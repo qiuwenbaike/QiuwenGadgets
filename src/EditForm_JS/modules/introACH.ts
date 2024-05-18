@@ -19,14 +19,7 @@ const introACH = (): void => {
 	}
 
 	// Disabled for official users and experienced users
-	if (
-		userIsInGroup('qiuwen') ||
-		userIsInGroup('steward') ||
-		userIsInGroup('senioreditor') ||
-		userIsInGroup('bot') ||
-		userIsInGroup('confirmed') ||
-		userIsInGroup('autoconfirmed')
-	) {
+	if (userIsInGroup(['qiuwen', 'steward', 'senioreditor', 'bot', 'confirmed', 'autoconfirmed'])) {
 		return;
 	}
 

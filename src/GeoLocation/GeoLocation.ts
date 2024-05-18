@@ -11,7 +11,7 @@ import {userIsInGroup} from 'ext.gadget.Util';
 	}
 
 	// Disabled for official users
-	if (userIsInGroup('qiuwen') || userIsInGroup('steward') || userIsInGroup('bot')) {
+	if (userIsInGroup(['qiuwen', 'steward', 'bot'])) {
 		return;
 	}
 
