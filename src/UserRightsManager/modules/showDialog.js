@@ -220,26 +220,26 @@ const showDialog = ({userName, index, permission, $body}) => {
 		}
 		addPromise(
 			self.markAsDoneProgressField,
-			markAsDone(userName, index, `\n:${this.closingRemarksInput.getValue()}`)
-		).then(({edit}) => {
-			addPromise(
-				self.changeRightsProgressField,
-				assignPermission(
-					userName,
-					permission,
-					this.rightsChangeSummaryInput.getValue(),
-					edit.newrevid,
-					this.expiryInput.getValue()
-				)
-			).then(() => {
-				if (getPermissionRequested(permission)) {
-					addPromise(
-						self.issueTemplateProgressField,
-						issueTemplate(userName, permission, this.watchTalkPageCheckbox.isSelected())
-					);
-				}
-			});
-		});
+			markAsDone(userName, index, `\n:${this.closingRemarksInput.getValue()}`).then(({edit}) => {
+				addPromise(
+					self.changeRightsProgressField,
+					assignPermission(
+						userName,
+						permission,
+						this.rightsChangeSummaryInput.getValue(),
+						edit.newrevid,
+						this.expiryInput.getValue()
+					).then(() => {
+						if (getPermissionRequested(permission)) {
+							addPromise(
+								self.issueTemplateProgressField,
+								issueTemplate(userName, permission, this.watchTalkPageCheckbox.isSelected())
+							);
+						}
+					})
+				);
+			})
+		);
 		self.stackLayout.setItem(self.submitPanel);
 	};
 	Dialog.prototype.getActionProcess = function (action) {
