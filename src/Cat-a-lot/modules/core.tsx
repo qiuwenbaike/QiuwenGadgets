@@ -246,8 +246,7 @@ const catALot = (): void => {
 		}
 		private static localizedRegex(namespaceNumber: number, fallback: string): string {
 			// Copied from HotCat, thanks Lupo.
-			const wikiTextBlank: string =
-				'[\\t _\\xA0\\u1680\\u180E\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000]+';
+			const wikiTextBlank: string = String.raw`[\t _\xA0\u1680\u180E\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+`;
 			const wikiTextBlankRE: RegExp = new RegExp(wikiTextBlank, 'g');
 			const createRegexStr = (name: string | undefined): string => {
 				if (!name?.length) {
@@ -260,7 +259,7 @@ const catALot = (): void => {
 					const ul: string = initial.toUpperCase();
 					regexName += ll === ul ? initial : `[${ll}${ul}]`;
 				}
-				return regexName.replace(/([$()*+.?\\^])/g, '\\$1').replace(wikiTextBlankRE, wikiTextBlank);
+				return regexName.replace(/([$()*+.?\\^])/g, String.raw`\$1`).replace(wikiTextBlankRE, wikiTextBlank);
 			};
 			fallback = fallback.toLowerCase();
 			const canonical: string | undefined = CAL.wgFormattedNamespaces[namespaceNumber]?.toLowerCase();
@@ -330,7 +329,7 @@ const catALot = (): void => {
 			for (let variant of variants) {
 				variant = mw.util.escapeRegExp(variant);
 				// any sequence of spaces and underscores should match any other
-				variant = variant.replace(/[\s_]+/g, '[\\s_]+');
+				variant = variant.replace(/[\s_]+/g, String.raw`[\s_]+`);
 				// Make the first character case-insensitive:
 				const first: string = variant.slice(0, 1);
 				if (first.toUpperCase() !== first.toLowerCase()) {

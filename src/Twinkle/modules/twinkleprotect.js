@@ -1449,7 +1449,7 @@ import {api} from './api';
 				return;
 			}
 			let newtag = `=== [[:${Morebits.pageNameNorm}]] ===\n`;
-			if (new RegExp(`^${mw.util.escapeRegExp(newtag).replace(/\s+/g, '\\s*')}`, 'm').test(text)) {
+			if (new RegExp(`^${mw.util.escapeRegExp(newtag).replace(/\s+/g, String.raw`\s*`)}`, 'm').test(text)) {
 				statusElement.error([
 					rppLink,
 					window.wgULS('已有对此页面的保护提名，取消操作。', '已有對此頁面的保護提名，取消操作。'),

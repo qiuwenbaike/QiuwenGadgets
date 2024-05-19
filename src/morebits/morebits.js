@@ -2063,7 +2063,7 @@ import {generateArray} from 'ext.gadget.Util';
 				Y,
 			};
 			const unbinder = new Morebits.unbinder(formatstr); // escape stuff between [...]
-			unbinder.unbind('\\[', '\\]');
+			unbinder.unbind(String.raw`\[`, String.raw`\]`);
 			unbinder.content = unbinder.content.replace(
 				/* Regex notes:
 				 * d(d{2,3})? matches exactly 1, 3 or 4 occurrences of 'd' ('dd' is treated as a double match of 'd')
