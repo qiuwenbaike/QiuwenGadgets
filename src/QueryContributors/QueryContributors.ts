@@ -19,7 +19,12 @@ void getBody().then(async ($body: JQuery<HTMLBodyElement>) => {
 	const $contributorsList: JQuery[] = contributors.map((userName, index) => {
 		return $('<span>').append(
 			$('<a>')
-				.attr('href', mw.util.getUrl(`User:${sanitize(userName)}`))
+				.attr(
+					'href',
+					userName.includes('>')
+						? mw.util.getUrl(`Special:GoToInterWiki/${sanitize(userName.replace('>', ':User:'))}`)
+						: mw.util.getUrl(`User:${sanitize(userName)}`)
+				)
 				.text(userName),
 			index < contributors.length - 1 ? getMessage('Seperator') : ''
 		);
