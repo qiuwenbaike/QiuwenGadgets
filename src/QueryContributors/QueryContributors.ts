@@ -22,8 +22,8 @@ void getBody().then(async ($body: JQuery<HTMLBodyElement>) => {
 				.attr(
 					'href',
 					userName.includes('>')
-						? mw.util.getUrl(`User:${sanitize(userName)}`)
-						: mw.util.getUrl(`Special:GoToInterWiki/${sanitize(userName.replace('>', ':User:'))}`)
+						? mw.util.getUrl(`Special:GoToInterWiki/${sanitize(userName.replace('>', ':User:'))}`)
+						: mw.util.getUrl(`User:${sanitize(userName)}`)
 				)
 				.text(userName),
 			index < contributors.length - 1 ? getMessage('Seperator') : ''
