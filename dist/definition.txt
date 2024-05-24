@@ -19,7 +19,7 @@
 * NavboxCSS[ResourceLoader|default|hidden|requiresES6]|NavboxCSS.css
 * NospzGothic[ResourceLoader|default|requiresES6]|NospzGothic.css
 * OneSideMenu[ResourceLoader|skins=gongbi|requiresES6]|OneSideMenu.css
-* QueryContributors[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|requiresES6]|QueryContributors.js
+* QueryContributors[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|QueryContributors.js
 * ResponsiveContent[ResourceLoader|requiresES6]|ResponsiveContent.css
 * StickyTableHeaders[ResourceLoader|dependencies=ext.gadget.Util|skins=gongbi,vector,vector-2022|requiresES6]|StickyTableHeaders.js|StickyTableHeaders.css
 * TextSpacing[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|TextSpacing.js|TextSpacing.css
