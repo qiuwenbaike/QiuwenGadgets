@@ -1,0 +1,6 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-QueryContributors\"></span> 查阅页面贡献者",
+	"section": "appear",
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.api"]
+}
