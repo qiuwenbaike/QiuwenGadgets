@@ -33,7 +33,6 @@ const UserList = (userNames: string[]) => (
 				<>{index < userNames.length - 1 ? getMessage('Seperator') : getMessage('Period')}</>
 			</>
 		))}
-		<>{getMessage('Period')}</>
 	</>
 );
 
