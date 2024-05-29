@@ -33,7 +33,7 @@ const parse = async (page: string) => {
 	return response;
 };
 
-const getAllImages = async (): Promise<string[]> => {
+const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
 	toastifyInstance.hideToast();
 	toastify(
 		{
@@ -46,20 +46,29 @@ const getAllImages = async (): Promise<string[]> => {
 	const fileNames: string[] = [];
 	const {wgArticlePath, wgNamespaceNumber, wgPageName, wgScript} = mw.config.get();
 
+	if (!titles || !titles.length) {
+		titles = [wgPageName];
+	}
+
 	// Analyze step 1: Query
 	if (!(wgNamespaceNumber < 0)) {
 		try {
-			const queryImageResponse = await queryImages(wgPageName);
-			if (
-				queryImageResponse['query'] &&
-				queryImageResponse['query'].pages[0] &&
-				queryImageResponse['query'].pages[0].images
-			) {
-				for (const imageInfo of queryImageResponse['query'].pages[0].images as {ns: number; title: string}[]) {
-					if (!imageInfo || !imageInfo.title) {
-						continue;
+			for (const title of titles) {
+				const queryImageResponse = await queryImages(title);
+				if (
+					queryImageResponse['query'] &&
+					queryImageResponse['query'].pages[0] &&
+					queryImageResponse['query'].pages[0].images
+				) {
+					for (const imageInfo of queryImageResponse['query'].pages[0].images as {
+						ns: number;
+						title: string;
+					}[]) {
+						if (!imageInfo || !imageInfo.title) {
+							continue;
+						}
+						fileNames[fileNames.length] = imageInfo.title;
 					}
-					fileNames[fileNames.length] = imageInfo.title;
 				}
 			}
 		} catch {}
@@ -70,15 +79,17 @@ const getAllImages = async (): Promise<string[]> => {
 
 	if (!(wgNamespaceNumber < 0)) {
 		try {
-			const parseResponse = await parse(wgPageName);
-			if (parseResponse['parse'] && parseResponse['parse'].text) {
-				const pageContent = document.createElement('span');
-				pageContent.innerHTML = parseResponse['parse'].text as string;
+			for (const title of titles) {
+				const parseResponse = await parse(title);
+				if (parseResponse['parse'] && parseResponse['parse'].text) {
+					const pageContent = document.createElement('span');
+					pageContent.innerHTML = parseResponse['parse'].text as string;
 
-				fileLinkElements = [
-					...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
-					...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
-				];
+					fileLinkElements = [
+						...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
+						...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
+					];
+				}
 			}
 		} catch {}
 	}

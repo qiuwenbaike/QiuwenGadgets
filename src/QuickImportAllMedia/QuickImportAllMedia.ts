@@ -1,6 +1,13 @@
 import {detectIfFileRedirect, refreshPage} from 'ext.gadget.QuickImport';
 import {getAllImages} from './modules/core';
 
+declare global {
+	interface Window {
+		detectIfFileRedirect: DetectIfFileRedirect;
+		getAllImages: typeof getAllImages;
+	}
+}
+
 (function quickImportAllMedia(): void {
 	const {wgCanonicalSpecialPageName, wgCurRevisionId} = mw.config.get();
 	if (
@@ -29,4 +36,7 @@ import {getAllImages} from './modules/core';
 			refreshPage();
 		});
 	});
+
+	window.detectIfFileRedirect = detectIfFileRedirect;
+	window.getAllImages = getAllImages;
 })();
