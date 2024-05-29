@@ -5,6 +5,12 @@ import {toastify} from 'ext.gadget.Toastify';
 type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => Promise<void>;
 type RefreshPage = (title?: string) => void;
 
+declare global {
+	interface Window {
+		detectIfFileRedirect: DetectIfFileRedirect;
+	}
+}
+
 let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
 };
@@ -225,5 +231,7 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 		} catch {}
 	}
 };
+
+window.detectIfFileRedirect = detectIfFileRedirect;
 
 export {type DetectIfFileRedirect, detectIfFileRedirect, type RefreshPage, refreshPage};
