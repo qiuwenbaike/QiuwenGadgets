@@ -150,23 +150,21 @@ const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
 	const {wgNamespaceNumber, wgPageName} = mw.config.get();
 
 	if (!titles || !titles.length) {
-		if (wgNamespaceNumber < 0) {
-			titles = [];
-		} else {
-			titles = [wgPageName];
-		}
+		titles = wgNamespaceNumber < 0 ? [] : [wgPageName];
 	}
 
 	if (titles.length) {
 		fileNames = await getImages(titles);
-	} else {
-		const fileLinkElements = [
+	}
+
+	fileNames = [
+		...fileNames,
+		...getImagesFromElements([
 			...document.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
 			...document.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
-		];
-		fileNames = getImagesFromElements(fileLinkElements);
-		fileNames = [...fileNames, ...(await getImages(fileNames))];
-	}
+		]),
+	];
+	fileNames = [...fileNames, ...(await getImages(titles)), ...(await getImages(fileNames))];
 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
