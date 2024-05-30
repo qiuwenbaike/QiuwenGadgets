@@ -8,6 +8,9 @@ declare global {
 	}
 }
 
+window.detectIfFileRedirect = detectIfFileRedirect;
+window.getAllImages = getAllImages;
+
 (function quickImportAllMedia(): void {
 	const {wgCanonicalSpecialPageName, wgCurRevisionId} = mw.config.get();
 	if (
@@ -36,7 +39,4 @@ declare global {
 			refreshPage();
 		});
 	});
-
-	window.detectIfFileRedirect = detectIfFileRedirect;
-	window.getAllImages = getAllImages;
 })();

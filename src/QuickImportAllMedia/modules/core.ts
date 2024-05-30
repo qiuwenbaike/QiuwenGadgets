@@ -1,6 +1,6 @@
+import {generateArray, uniqueArray} from 'ext.gadget.Util';
 import {api} from './api';
 import {toastify} from 'ext.gadget.Toastify';
-import {uniqueArray} from 'ext.gadget.Util';
 
 let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
@@ -33,66 +33,24 @@ const parse = async (page: string) => {
 	return response;
 };
 
-const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
-	toastifyInstance.hideToast();
-	toastify(
-		{
-			text: '正在获取迁移目标',
-			duration: -1,
-		},
-		'info'
-	);
-
-	const fileNames: string[] = [];
-	const {wgArticlePath, wgNamespaceNumber, wgPageName, wgScript} = mw.config.get();
-
-	if (!titles || !titles.length) {
-		if (wgNamespaceNumber < 0) {
-			titles = [];
-		} else {
-			titles = [wgPageName];
-		}
-	}
-
-	// Analyze step 1: Query
-	try {
-		for (const title of titles) {
-			const queryImageResponse = await queryImages(title);
-			if (
-				queryImageResponse['query'] &&
-				queryImageResponse['query'].pages[0] &&
-				queryImageResponse['query'].pages[0].images
-			) {
-				for (const imageInfo of queryImageResponse['query'].pages[0].images as {
-					ns: number;
-					title: string;
-				}[]) {
-					if (!imageInfo || !imageInfo.title) {
-						continue;
-					}
-					fileNames[fileNames.length] = imageInfo.title;
-				}
-			}
-		}
-	} catch {}
-
-	// Analyze step 2: Find from pages
+const getElements = async (titles: string[]) => {
 	let fileLinkElements: HTMLAnchorElement[] = [];
 
-	try {
-		for (const title of titles) {
+	for (const title of titles) {
+		try {
 			const parseResponse = await parse(title);
-			if (parseResponse['parse'] && parseResponse['parse'].text) {
-				const pageContent = document.createElement('span');
-				pageContent.innerHTML = parseResponse['parse'].text as string;
-
-				fileLinkElements = [
-					...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
-					...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
-				];
+			if (!parseResponse['parse'] || !parseResponse['parse'].text) {
+				continue;
 			}
-		}
-	} catch {}
+			const pageContent = document.createElement('span');
+			pageContent.innerHTML = parseResponse['parse'].text as string;
+
+			fileLinkElements = [
+				...pageContent.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
+				...pageContent.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
+			];
+		} catch {}
+	}
 
 	fileLinkElements = [
 		...fileLinkElements,
@@ -100,6 +58,12 @@ const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
 		...document.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
 	];
 
+	return fileLinkElements;
+};
+
+const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
+	const fileNames: string[] = [];
+	const {wgArticlePath, wgScript} = mw.config.get();
 	const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}(File:[^#]+)`);
 	const scriptRegex: RegExp = new RegExp(`${wgScript}\\?title=(File:[^#&]+)`);
 
@@ -131,6 +95,75 @@ const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
 			fileName = decodeURIComponent(fileName);
 			fileNames[fileNames.length] = fileName;
 		}
+	}
+
+	return fileNames;
+};
+
+const getImages = async (titles: string | string[]) => {
+	let fileNames: string[] = [];
+	let fileLinkElements: HTMLAnchorElement[] = [];
+
+	titles = generateArray(titles);
+
+	// Analyze step 1: Query
+	try {
+		const queryImageResponse = await queryImages(titles);
+		if (
+			queryImageResponse['query'] &&
+			queryImageResponse['query'].pages[0] &&
+			queryImageResponse['query'].pages[0].images
+		) {
+			for (const imageInfo of queryImageResponse['query'].pages[0].images as {
+				ns: number;
+				title: string;
+			}[]) {
+				if (!imageInfo || !imageInfo.title) {
+					continue;
+				}
+				fileNames[fileNames.length] = imageInfo.title;
+			}
+		}
+	} catch {}
+
+	fileLinkElements = await getElements(titles);
+
+	// Analyze step 2: Find from pages
+	fileNames = [...fileNames, ...getImagesFromElements(fileLinkElements)];
+
+	return fileNames;
+};
+
+const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
+	toastifyInstance.hideToast();
+	toastify(
+		{
+			text: '正在获取迁移目标',
+			duration: -1,
+		},
+		'info'
+	);
+
+	let fileNames: string[] = [];
+	const {wgNamespaceNumber, wgPageName} = mw.config.get();
+
+	if (!titles || !titles.length) {
+		if (wgNamespaceNumber < 0) {
+			titles = [];
+		} else {
+			titles = [wgPageName];
+		}
+	}
+
+	if (titles.length) {
+		fileNames = await getImages(titles);
+	} else {
+		const fileLinkElements = [
+			...document.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
+			...document.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
+		];
+		fileNames = [...getImagesFromElements(fileLinkElements)];
+		fileNames = [...fileNames, ...(await getImages(fileNames))];
 	}
 
 	toastifyInstance.hideToast();
