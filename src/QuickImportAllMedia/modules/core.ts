@@ -27,6 +27,8 @@ const parse = async (page: string) => {
 		format: 'json',
 		formatversion: '2',
 		prop: 'text',
+		redirects: true,
+		disabletoc: true,
 	};
 	const response = await api.post(params);
 
@@ -162,7 +164,7 @@ const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
 			...document.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
 			...document.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
 		];
-		fileNames = [...getImagesFromElements(fileLinkElements)];
+		fileNames = getImagesFromElements(fileLinkElements);
 		fileNames = [...fileNames, ...(await getImages(fileNames))];
 	}
 
