@@ -37,6 +37,7 @@ const parse = async (page: string) => {
 
 const getElements = async (titles: string[]) => {
 	let fileLinkElements: HTMLAnchorElement[] = [];
+	titles = uniqueArray(titles);
 
 	for (const title of titles) {
 		try {
@@ -65,11 +66,12 @@ const getElements = async (titles: string[]) => {
 
 const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 	const fileNames: string[] = [];
+	fileLinkElements = uniqueArray(fileLinkElements);
 	const {wgArticlePath, wgScript} = mw.config.get();
 	const articleRegex: RegExp = new RegExp(`${wgArticlePath.replace('$1', '')}(File:[^#]+)`);
 	const scriptRegex: RegExp = new RegExp(`${wgScript}\\?title=(File:[^#&]+)`);
 
-	for (const element of uniqueArray(fileLinkElements)) {
+	for (const element of fileLinkElements) {
 		// Replace `new Set()` to avoid polyfilling core-js
 		const {href, classList} = element;
 
@@ -99,7 +101,7 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 		}
 	}
 
-	return fileNames;
+	return uniqueArray(fileNames);
 };
 
 const getImages = async (titles: string | string[]) => {
@@ -133,7 +135,7 @@ const getImages = async (titles: string | string[]) => {
 	// Analyze step 2: Find from pages
 	fileNames = [...fileNames, ...getImagesFromElements(fileLinkElements)];
 
-	return fileNames;
+	return uniqueArray(fileNames);
 };
 
 const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
