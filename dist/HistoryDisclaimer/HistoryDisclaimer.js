@@ -23,53 +23,48 @@
 "use strict";
 
 // dist/HistoryDisclaimer/HistoryDisclaimer.js
-function _createForOfIteratorHelper(o, allowArrayLike) {
-  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-  if (!it) {
-    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-      if (it) o = it;
-      var i = 0;
-      var F = function() {
+function _createForOfIteratorHelper(r, e) {
+  var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (!t) {
+    if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) {
+      t && (r = t);
+      var n = 0, F = function() {
       };
       return { s: F, n: function() {
-        if (i >= o.length) return { done: true };
-        return { done: false, value: o[i++] };
-      }, e: function(e) {
-        throw e;
+        return n >= r.length ? { done: true } : { done: false, value: r[n++] };
+      }, e: function(r2) {
+        throw r2;
       }, f: F };
     }
     throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-  var normalCompletion = true, didErr = false, err;
+  var o, a = true, u = false;
   return { s: function() {
-    it = it.call(o);
+    t = t.call(r);
   }, n: function() {
-    var step = it.next();
-    normalCompletion = step.done;
-    return step;
-  }, e: function(e) {
-    didErr = true;
-    err = e;
+    var r2 = t.next();
+    return a = r2.done, r2;
+  }, e: function(r2) {
+    u = true, o = r2;
   }, f: function() {
     try {
-      if (!normalCompletion && it.return != null) it.return();
+      a || null == t.return || t.return();
     } finally {
-      if (didErr) throw err;
+      if (u) throw o;
     }
   } };
 }
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ("string" == typeof r) return _arrayLikeToArray(r, a);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+  }
 }
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-  return arr2;
+function _arrayLikeToArray(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
 }
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -134,4 +129,4 @@ var Background = () => /* @__PURE__ */ import_ext_gadget.default.createElement("
 
 /* </nowiki> */
 
-//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic3JjL0hpc3RvcnlEaXNjbGFpbWVyL21vZHVsZXMvYmFja2dyb3VuZC50c3giLCAic3JjL0hpc3RvcnlEaXNjbGFpbWVyL0hpc3RvcnlEaXNjbGFpbWVyLm1vZHVsZS5sZXNzIiwgInNyYy9IaXN0b3J5RGlzY2xhaW1lci9IaXN0b3J5RGlzY2xhaW1lci50c3giXSwKICAic291cmNlc0NvbnRlbnQiOiBbImltcG9ydCBSZWFjdCBmcm9tICdleHQuZ2FkZ2V0LlJlYWN0JztcbmltcG9ydCB7ZGlzY2xhaW1lcn0gZnJvbSAnLi4vSGlzdG9yeURpc2NsYWltZXIubW9kdWxlLmxlc3MnO1xuXG5jb25zdCBCYWNrZ3JvdW5kID0gKCkgPT4gPGRpdiBjbGFzc05hbWU9e2Rpc2NsYWltZXJ9IC8+O1xuXG5leHBvcnQge0JhY2tncm91bmR9O1xuIiwgImltcG9ydCBcImVzYnVpbGQtY3NzLW1vZHVsZXMtcGx1Z2luLW5zLWNzczpzcmMvSGlzdG9yeURpc2NsYWltZXIvSGlzdG9yeURpc2NsYWltZXIubW9kdWxlLmxlc3NcIjtcbmV4cG9ydCBjb25zdCBkaXNjbGFpbWVyID0gXCJIaXN0b3J5RGlzY2xhaW1lci1tb2R1bGVfX2Rpc2NsYWltZXJfVzlTWW9HXCI7XG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgXCJkaXNjbGFpbWVyXCI6IGRpc2NsYWltZXJcbn07XG4gICAgICAiLCAiaW1wb3J0IHtCYWNrZ3JvdW5kfSBmcm9tICcuL21vZHVsZXMvYmFja2dyb3VuZCc7XG5pbXBvcnQge2Rpc2NsYWltZXJ9IGZyb20gJy4vSGlzdG9yeURpc2NsYWltZXIubW9kdWxlLmxlc3MnO1xuXG4oZnVuY3Rpb24gaGlzdG9yeURpc2NsYWltZXIoKTogdm9pZCB7XG5cdGNvbnN0IHt3Z0N1clJldmlzaW9uSWQsIHdnUmV2aXNpb25JZH0gPSBtdy5jb25maWcuZ2V0KCk7XG5cblx0aWYgKCF3Z0N1clJldmlzaW9uSWQgfHwgIXdnUmV2aXNpb25JZCB8fCB3Z0N1clJldmlzaW9uSWQgPD0gd2dSZXZpc2lvbklkKSB7XG5cdFx0cmV0dXJuO1xuXHR9XG5cblx0aWYgKGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoYC4ke2Rpc2NsYWltZXJ9YCkubGVuZ3RoKSB7XG5cdFx0cmV0dXJuO1xuXHR9XG5cblx0ZG9jdW1lbnQuYm9keS5hcHBlbmQoQmFja2dyb3VuZCgpKTtcbn0pKCk7XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLElBQUFBLG9CQUFrQkMsUUFBQUMsUUFBQSxrQkFBQSxHQUFBLENBQUE7O0FDQ1gsSUFBTUMsYUFBYTs7QURFMUIsSUFBTUMsYUFBYUEsTUFBTUosa0NBQUFLLFFBQUFDLGNBQUMsT0FBQTtFQUFJQyxXQUFXSjtBQUFBLENBQVk7O0NFQXBELFNBQVNLLG9CQUEwQjtBQUNuQyxRQUFNO0lBQUNDO0lBQWlCQztFQUFZLElBQUlDLEdBQUdDLE9BQU9DLElBQUk7QUFFdEQsTUFBSSxDQUFDSixtQkFBbUIsQ0FBQ0MsZ0JBQWdCRCxtQkFBbUJDLGNBQWM7QUFDekU7RUFDRDtBQUVBLE1BQUlJLFNBQVNDLGlCQUFBLElBQUFDLE9BQXFCYixVQUFVLENBQUUsRUFBRWMsUUFBUTtBQUN2RDtFQUNEO0FBRUFILFdBQVNJLEtBQUtDLE9BQU9mLFdBQVcsQ0FBQztBQUNsQyxHQUFHOyIsCiAgIm5hbWVzIjogWyJpbXBvcnRfZXh0X2dhZGdldCIsICJfX3RvRVNNIiwgInJlcXVpcmUiLCAiZGlzY2xhaW1lciIsICJCYWNrZ3JvdW5kIiwgImRlZmF1bHQiLCAiY3JlYXRlRWxlbWVudCIsICJjbGFzc05hbWUiLCAiaGlzdG9yeURpc2NsYWltZXIiLCAid2dDdXJSZXZpc2lvbklkIiwgIndnUmV2aXNpb25JZCIsICJtdyIsICJjb25maWciLCAiZ2V0IiwgImRvY3VtZW50IiwgInF1ZXJ5U2VsZWN0b3JBbGwiLCAiY29uY2F0IiwgImxlbmd0aCIsICJib2R5IiwgImFwcGVuZCJdCn0K
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic3JjL0hpc3RvcnlEaXNjbGFpbWVyL21vZHVsZXMvYmFja2dyb3VuZC50c3giLCAic3JjL0hpc3RvcnlEaXNjbGFpbWVyL0hpc3RvcnlEaXNjbGFpbWVyLm1vZHVsZS5sZXNzIiwgInNyYy9IaXN0b3J5RGlzY2xhaW1lci9IaXN0b3J5RGlzY2xhaW1lci50c3giXSwKICAic291cmNlc0NvbnRlbnQiOiBbImltcG9ydCBSZWFjdCBmcm9tICdleHQuZ2FkZ2V0LlJlYWN0JztcbmltcG9ydCB7ZGlzY2xhaW1lcn0gZnJvbSAnLi4vSGlzdG9yeURpc2NsYWltZXIubW9kdWxlLmxlc3MnO1xuXG5jb25zdCBCYWNrZ3JvdW5kID0gKCkgPT4gPGRpdiBjbGFzc05hbWU9e2Rpc2NsYWltZXJ9IC8+O1xuXG5leHBvcnQge0JhY2tncm91bmR9O1xuIiwgImltcG9ydCBcImVzYnVpbGQtY3NzLW1vZHVsZXMtcGx1Z2luLW5zLWNzczpzcmMvSGlzdG9yeURpc2NsYWltZXIvSGlzdG9yeURpc2NsYWltZXIubW9kdWxlLmxlc3NcIjtcbmV4cG9ydCBjb25zdCBkaXNjbGFpbWVyID0gXCJIaXN0b3J5RGlzY2xhaW1lci1tb2R1bGVfX2Rpc2NsYWltZXJfVzlTWW9HXCI7XG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgXCJkaXNjbGFpbWVyXCI6IGRpc2NsYWltZXJcbn07XG4gICAgICAiLCAiaW1wb3J0IHtCYWNrZ3JvdW5kfSBmcm9tICcuL21vZHVsZXMvYmFja2dyb3VuZCc7XG5pbXBvcnQge2Rpc2NsYWltZXJ9IGZyb20gJy4vSGlzdG9yeURpc2NsYWltZXIubW9kdWxlLmxlc3MnO1xuXG4oZnVuY3Rpb24gaGlzdG9yeURpc2NsYWltZXIoKTogdm9pZCB7XG5cdGNvbnN0IHt3Z0N1clJldmlzaW9uSWQsIHdnUmV2aXNpb25JZH0gPSBtdy5jb25maWcuZ2V0KCk7XG5cblx0aWYgKCF3Z0N1clJldmlzaW9uSWQgfHwgIXdnUmV2aXNpb25JZCB8fCB3Z0N1clJldmlzaW9uSWQgPD0gd2dSZXZpc2lvbklkKSB7XG5cdFx0cmV0dXJuO1xuXHR9XG5cblx0aWYgKGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoYC4ke2Rpc2NsYWltZXJ9YCkubGVuZ3RoKSB7XG5cdFx0cmV0dXJuO1xuXHR9XG5cblx0ZG9jdW1lbnQuYm9keS5hcHBlbmQoQmFja2dyb3VuZCgpKTtcbn0pKCk7XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxJQUFBQSxvQkFBa0JDLFFBQUFDLFFBQUEsa0JBQUEsR0FBQSxDQUFBOztBQ0NYLElBQU1DLGFBQWE7O0FERTFCLElBQU1DLGFBQWFBLE1BQU1KLGtDQUFBSyxRQUFBQyxjQUFDLE9BQUE7RUFBSUMsV0FBV0o7QUFBQSxDQUFZOztDRUFwRCxTQUFTSyxvQkFBMEI7QUFDbkMsUUFBTTtJQUFDQztJQUFpQkM7RUFBWSxJQUFJQyxHQUFHQyxPQUFPQyxJQUFJO0FBRXRELE1BQUksQ0FBQ0osbUJBQW1CLENBQUNDLGdCQUFnQkQsbUJBQW1CQyxjQUFjO0FBQ3pFO0VBQ0Q7QUFFQSxNQUFJSSxTQUFTQyxpQkFBQSxJQUFBQyxPQUFxQmIsVUFBVSxDQUFFLEVBQUVjLFFBQVE7QUFDdkQ7RUFDRDtBQUVBSCxXQUFTSSxLQUFLQyxPQUFPZixXQUFXLENBQUM7QUFDbEMsR0FBRzsiLAogICJuYW1lcyI6IFsiaW1wb3J0X2V4dF9nYWRnZXQiLCAiX190b0VTTSIsICJyZXF1aXJlIiwgImRpc2NsYWltZXIiLCAiQmFja2dyb3VuZCIsICJkZWZhdWx0IiwgImNyZWF0ZUVsZW1lbnQiLCAiY2xhc3NOYW1lIiwgImhpc3RvcnlEaXNjbGFpbWVyIiwgIndnQ3VyUmV2aXNpb25JZCIsICJ3Z1JldmlzaW9uSWQiLCAibXciLCAiY29uZmlnIiwgImdldCIsICJkb2N1bWVudCIsICJxdWVyeVNlbGVjdG9yQWxsIiwgImNvbmNhdCIsICJsZW5ndGgiLCAiYm9keSIsICJhcHBlbmQiXQp9Cg==
