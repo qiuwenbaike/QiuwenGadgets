@@ -121,7 +121,7 @@ const queryImageInfo = async (titles: string | string[]) => {
 };
 
 const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = false) => {
-	pageNames = generateArray(pageNames);
+	pageNames = uniqueArray(generateArray(pageNames));
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i = 0; i < pageNames.length; i++) {
