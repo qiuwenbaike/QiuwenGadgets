@@ -123,12 +123,11 @@ import {generateArray} from 'ext.gadget.Util';
 	 * @returns {boolean}
 	 */
 	Morebits.isPageRedirect = () => {
-		const $body = $('body');
 		return !!(
 			mw.config.get('wgIsRedirect') ||
 			document.querySelector('#softredirect') ||
-			$body.find('.box-RfD').length ||
-			$body.find('.box-Redirect_category_shell').length
+			document.querySelector('.box-RfD') ||
+			document.querySelector('.box-Redirect_category_shell')
 		);
 	};
 	/**
