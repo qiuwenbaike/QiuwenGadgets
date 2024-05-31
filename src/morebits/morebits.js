@@ -68,10 +68,10 @@ import {generateArray} from 'ext.gadget.Util';
 			const rgxCST = /(\d{4})年(\d{1,2})月(\d{1,2})日 \(.\) (\d{2}):(\d{2}) \(CST\)/; // YYYY年Month月DD日 (w) HH:mm (CST)
 			const match = rgxUTC.exec(str) || rgxCST.exec(str);
 			const matchCST = rgxCST.exec(str);
-			if (!match) {
+			if (!match && !matchCST) {
 				return null;
 			}
-			const month = Morebits.date.localeData.months.indexOf(match[4]);
+			const month = Morebits.date.localeData.months.indexOf(match[4] ?? matchCST[4]);
 			if (month === -1) {
 				return null;
 			}
