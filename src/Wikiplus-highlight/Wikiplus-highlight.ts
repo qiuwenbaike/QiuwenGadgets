@@ -1,4 +1,3 @@
-import './Wikiplus-highlight.less';
 import {checkDependencies} from './modules/checkDependencies';
 
 (async function WikiplusHighlight() {
