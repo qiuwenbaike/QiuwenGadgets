@@ -29,12 +29,25 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 		return;
 	}
 
+	let wgPageName2: string | undefined;
+	if (!isFileNS) {
+		const disamRegExp = /^(.*)（(.*?)）$/;
+		const match = wgPageName.match(disamRegExp);
+		if (match) {
+			const [, rootPageName, disamKey] = match;
+			wgPageName2 = `${rootPageName}_(${disamKey})`;
+		}
+	}
+
 	element.addEventListener('click', (): void => {
 		void (async () => {
 			const pageName: string = redirectTextA[0]?.textContent || wgPageName;
 			await detectIfFileRedirect(pageName, isFileNS);
+			if (wgPageName2) {
+				await detectIfFileRedirect(wgPageName2, isFileNS);
+			}
 		})().then(() => {
-			refreshPage(wgPageName);
+			refreshPage(wgPageName2 ?? wgPageName);
 		});
 	});
 })();
