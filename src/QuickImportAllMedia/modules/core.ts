@@ -72,24 +72,36 @@ const getImages = async (titles: string | string[]) => {
 	titles = uniqueArray(generateArray(titles));
 
 	// Analyze step 1: Query
-	try {
-		const queryImageResponse = await queryImages(titles);
-		if (
-			queryImageResponse['query'] &&
-			queryImageResponse['query'].pages[0] &&
-			queryImageResponse['query'].pages[0].images
-		) {
-			for (const imageInfo of queryImageResponse['query'].pages[0].images as {
-				ns: number;
-				title: string;
-			}[]) {
-				if (!imageInfo || !imageInfo.title) {
+	for (let i = 0; i < titles.length; i++) {
+		const querytitles = titles.splice(0, 50);
+		if (!querytitles.length) {
+			continue;
+		}
+
+		try {
+			const response = await queryImages(querytitles);
+			if (!response['query'] || !response['query'].pages) {
+				continue;
+			}
+
+			for (const page of response['query'].pages) {
+				if (!page.images) {
 					continue;
 				}
-				fileNames[fileNames.length] = imageInfo.title;
+
+				for (const {title} of page.images as {
+					ns: number;
+					title: string;
+				}[]) {
+					if (!title) {
+						continue;
+					}
+
+					fileNames[fileNames.length] = title;
+				}
 			}
-		}
-	} catch {}
+		} catch {}
+	}
 
 	return uniqueArray(fileNames);
 };
