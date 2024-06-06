@@ -6,6 +6,51 @@ let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
 };
 
+const parse = async (page: string) => {
+	const params: ApiParseParams = {
+		page,
+		action: 'parse',
+		format: 'json',
+		formatversion: '2',
+		prop: 'text',
+		redirects: true,
+		disabletoc: true,
+	};
+	const response = await api.post(params);
+
+	return response;
+};
+
+const getElements = (element: Document | HTMLElement) => {
+	return [
+		...element.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
+		...element.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
+	];
+};
+
+const getElementsFromParse = async (titles: string[]) => {
+	const fileLinkElements: HTMLAnchorElement[] = [];
+	titles = uniqueArray(titles);
+
+	for (const title of titles) {
+		try {
+			const response = await parse(title);
+			if (!response['parse'] || !response['parse'].text) {
+				continue;
+			}
+
+			const pageContent = document.createElement('span');
+			pageContent.innerHTML = response['parse'].text as string;
+
+			for (const element of getElements(pageContent)) {
+				fileLinkElements[fileLinkElements.length] = element;
+			}
+		} catch {}
+	}
+
+	return fileLinkElements;
+};
+
 const queryImages = async (titles: string | string[]) => {
 	const params: ApiQueryImagesParams = {
 		titles,
@@ -18,13 +63,6 @@ const queryImages = async (titles: string | string[]) => {
 	const response = await api.post(params);
 
 	return response;
-};
-
-const getElements = () => {
-	return [
-		...document.querySelectorAll<HTMLAnchorElement>("a[href^='/wiki/File:']"),
-		...document.querySelectorAll<HTMLAnchorElement>("a[href*='title=File:']"),
-	];
 };
 
 const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
@@ -71,7 +109,6 @@ const getImages = async (titles: string | string[]) => {
 	const fileNames: string[] = [];
 	titles = uniqueArray(generateArray(titles));
 
-	// Analyze step 1: Query
 	for (let i = 0; i < titles.length; i++) {
 		const querytitles = titles.splice(0, 50);
 		if (!querytitles.length) {
@@ -123,9 +160,15 @@ const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
 		titles = wgNamespaceNumber < 0 ? [] : [wgPageName];
 	}
 
+	const elementsFromPage = getElements(document);
+	const fileNamesFromPage = getImagesFromElements(elementsFromPage);
+	const elementsFromParse = await getElementsFromParse(fileNamesFromPage);
+	const fileNamesFromParse = getImagesFromElements(elementsFromParse);
+
 	fileNames = uniqueArray([
-		...getImagesFromElements(getElements()),
-		...(await getImages([...titles, ...getImagesFromElements(getElements())])),
+		...fileNamesFromPage,
+		...fileNamesFromParse,
+		...(await getImages([...titles, ...fileNamesFromPage])),
 	]);
 
 	toastifyInstance.hideToast();
