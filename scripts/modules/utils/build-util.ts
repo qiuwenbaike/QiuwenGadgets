@@ -145,7 +145,13 @@ const generateTransformOptions = (): typeof options => {
 					corejs: {
 						version: PACKAGE.devDependencies['core-js'].match(/\d+(?:.\d+){0,2}/)?.[0] ?? '3.37',
 					},
-					exclude: ['web.dom-collections.for-each', 'web.dom-collections.iterator'],
+					exclude: [
+						'web.dom-collections.for-each',
+						'web.dom-collections.iterator',
+						'es.array.push',
+						'es.array.unshift',
+						'es.regexp.flags',
+					],
 					include: [] as string[],
 					modules: 'commonjs',
 					useBuiltIns: 'usage',
