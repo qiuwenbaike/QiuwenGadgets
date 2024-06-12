@@ -10,7 +10,7 @@
 
 /**
  * Copyright 2024 WaitSpring <me@waitspring.com>
- * Licensed under the "Qiuwen License" (the "License");
+ * Licensed under the "Qiuwen Public License" (the "License");
  * You may obtain a copy of the License at
  *
  *     http://www.qiuwenbaike.cn/wiki/QW:QWL
