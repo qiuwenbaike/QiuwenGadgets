@@ -5,6 +5,8 @@ import {generateArray} from 'ext.gadget.Util';
 import {getMessage} from './modules/getMessage';
 import {hotCatMessages} from './modules/messages';
 import {mwApi} from './modules/api';
+import pno from './images/P_no.png';
+import pyes from './images/P_yes.png';
 
 /**
  * @description Ajax-based simple Category manager. Allows adding/removing/changing categories on a page view.
@@ -69,8 +71,8 @@ hotCatMessages();
 		// If not, set it to null.
 		uncat_regexp: /{{\s*[Uu]ncategorized\s*[^}]*}}\s*(<!--.*?-->\s*)?/g,
 		// The images used for the little indication icon. Should not need changing.
-		existsYes: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/b/be/P_yes.svg/20px-P_yes.svg.png',
-		existsNo: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/4/42/P_no.svg/20px-P_no.svg.png',
+		existsYes: pyes,
+		existsNo: pno,
 		// a list of categories which can be removed by removing a template
 		// key: the category without namespace
 		// value: A regexp matching the template name, again without namespace
