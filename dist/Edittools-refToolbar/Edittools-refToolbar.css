@@ -43,6 +43,139 @@
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/modules/RefToolbarConfig.js}
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
+
+/**
+ * Ajax-loader
+ *
+ * @base {@link https://www.qiuwenbaike.cn/wiki/File:Ajax-loader.gif}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/images}
+ * @license Public Domain
+ */
+
+/**
+ * A magnifying glass icon
+ *
+ * @base {@link https://www.qiuwenbaike.cn/wiki/File:System-search.svg}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/images}
+ * @author The people from the Tango! project {@link http://tango.freedesktop.org/The_People}
+ * @license Public Domain
+ */
+
+/**
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
+ * Nuvola-style icon for a clipboard (with lined paper)
+ *
+ * @base {@link https://www.qiuwenbaike.cn/wiki/File:Nuvola_clipboard_lined.svg}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/images}
+ * @author David Vignoni, Stannered
+ * @license LGPL-2.1-or-later {@link https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html}
+ */
+
+/**
+ * Copyright (C) 2008  David Vignoni, Stannered
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+/**
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
+ * Nuvola action icon
+ *
+ * @base {@link https://www.qiuwenbaike.cn/wiki/File:Nuvola_action_edit_add.svg}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/images}
+ * @author David Vignoni, Stannered
+ * @license LGPL-2.1-or-later {@link https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html}
+ */
+
+/**
+ * Copyright (C) 2008  David Vignoni, Stannered
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+/**
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
+ * Vector version of Nuvola KDE icon
+ *
+ * @base {@link https://www.qiuwenbaike.cn/wiki/File:Nuvola_apps_date.svg}
+ * @author David Vignoni, Stannered
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/images}
+ * @license LGPL-2.1-or-later {@link https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html}
+ */
+
+/**
+ * Copyright (C) 2008  David Vignoni, Stannered
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+/**
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
+ * Icon from Nuvola icon theme for KDE 3.x / GNOME 2 (Gtk-stop)
+ *
+ * @base {@link https://www.qiuwenbaike.cn/wiki/File:Gtk-stop.svg}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Edittools-refToolbar/images}
+ * @author David Vignoni / ICON KING
+ * @license LGPL-2.1-or-later {@link https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html}
+ */
+
+/**
+ * Copyright (C) 2008  David Vignoni / ICON KING
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 /**
  * +------------------------------------------------------------+
  * |            === WARNING: GLOBAL GADGET FILE ===             |
@@ -64,4 +197,4 @@
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0VkaXR0b29scy1yZWZUb29sYmFyL0VkaXR0b29scy1yZWZUb29sYmFyLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5jaXRlLWZvcm0tdGQge1xuICBwYWRkaW5nOiAwLjFlbSAhaW1wb3J0YW50O1xuICBoZWlnaHQ6IDAgIWltcG9ydGFudDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQztBQUNDLFdBQVM7QUFDVCxVQUFRO0FBQ1Y7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0VkaXR0b29scy1yZWZUb29sYmFyL0VkaXR0b29scy1yZWZUb29sYmFyLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5jaXRlLWZvcm0tdGQge1xuICBwYWRkaW5nOiAwLjFlbSAhaW1wb3J0YW50O1xuICBoZWlnaHQ6IDAgIWltcG9ydGFudDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxXQUFTO0FBQ1QsVUFBUTtBQUNWOyIsCiAgIm5hbWVzIjogW10KfQo= */
