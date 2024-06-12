@@ -6,6 +6,23 @@
  * @author 安忆 <i@anyi.in>
  * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
  */
+
+/**
+ * Copyright (C)  安忆
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 /**
  * +------------------------------------------------------------+
  * |            === WARNING: GLOBAL GADGET FILE ===             |
@@ -34,4 +51,4 @@ mw.loader.addStyleTag('#pt-mycontris > a::after,\n	.menu__item--userContribution
 
 /* </nowiki> */
 
-//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic3JjL0VkaXRDb3VudC9FZGl0Q291bnQudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IHt3Z1VzZXJFZGl0Q291bnR9ID0gbXcuY29uZmlnLmdldCgpO1xuXG5tdy5sb2FkZXIuYWRkU3R5bGVUYWcoXG5cdGAjcHQtbXljb250cmlzID4gYTo6YWZ0ZXIsXG5cdC5tZW51X19pdGVtLS11c2VyQ29udHJpYnV0aW9ucyA+IHNwYW4gPiBzcGFuOjphZnRlciB7XG5cdFx0Y29udGVudDpcIiAoJHt3Z1VzZXJFZGl0Q291bnQgPz8gMH0pXCJcblx0fWBcbik7XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxJQUFNO0VBQUNBO0FBQWUsSUFBSUMsR0FBR0MsT0FBT0MsSUFBSTtBQUV4Q0YsR0FBR0csT0FBT0MsWUFBQSxtR0FBQUMsT0FHS04sb0JBQUEsUUFBQUEsb0JBQUEsU0FBQUEsa0JBQW1CLEdBQUMsUUFBQSxDQUVuQzsiLAogICJuYW1lcyI6IFsid2dVc2VyRWRpdENvdW50IiwgIm13IiwgImNvbmZpZyIsICJnZXQiLCAibG9hZGVyIiwgImFkZFN0eWxlVGFnIiwgImNvbmNhdCJdCn0K
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic3JjL0VkaXRDb3VudC9FZGl0Q291bnQudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IHt3Z1VzZXJFZGl0Q291bnR9ID0gbXcuY29uZmlnLmdldCgpO1xuXG5tdy5sb2FkZXIuYWRkU3R5bGVUYWcoXG5cdGAjcHQtbXljb250cmlzID4gYTo6YWZ0ZXIsXG5cdC5tZW51X19pdGVtLS11c2VyQ29udHJpYnV0aW9ucyA+IHNwYW4gPiBzcGFuOjphZnRlciB7XG5cdFx0Y29udGVudDpcIiAoJHt3Z1VzZXJFZGl0Q291bnQgPz8gMH0pXCJcblx0fWBcbik7XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLElBQU07RUFBQ0E7QUFBZSxJQUFJQyxHQUFHQyxPQUFPQyxJQUFJO0FBRXhDRixHQUFHRyxPQUFPQyxZQUFBLG1HQUFBQyxPQUdLTixvQkFBQSxRQUFBQSxvQkFBQSxTQUFBQSxrQkFBbUIsR0FBQyxRQUFBLENBRW5DOyIsCiAgIm5hbWVzIjogWyJ3Z1VzZXJFZGl0Q291bnQiLCAibXciLCAiY29uZmlnIiwgImdldCIsICJsb2FkZXIiLCAiYWRkU3R5bGVUYWciLCAiY29uY2F0Il0KfQo=

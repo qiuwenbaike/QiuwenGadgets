@@ -1,10 +1,10 @@
 /**
- * SPDX-License-Identifier: CC-BY-SA-4.0
+ * SPDX-License-Identifier: CC-BY-SA-4.0 OR Apache-2.0
  * _addText: '{{Gadget Header|title=Wikiplus|license=CC-BY-SA-4.0}}'
  *
  * Wikiplus
  *
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/module/core.js}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/}
  * @author Eridanus Sora (妹空酱)
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
