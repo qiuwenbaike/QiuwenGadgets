@@ -1,8 +1,11 @@
 /* global CiteTB */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
+import ajaxLoader from '../images/Ajax-loader.gif';
 import {api} from './util/api';
+import clipboardLined from '../images/Nuvola-clipboard-lined.png';
 import {getMessage} from './util/getMessage';
+import gtkStop from '../images/Gtk-stop.png';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
@@ -144,7 +147,7 @@ const refToolbar2 = ($body) => {
 										type: 'dialog',
 										module: 'cite-toolbar-namedrefs',
 									},
-									icon: 'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/b/be/Nuvola_clipboard_lined.svg/22px-Nuvola_clipboard_lined.svg.png',
+									icon: clipboardLined,
 									section: 'cites',
 									group: 'namedrefs',
 									label: getMessage('cite-named-refs-button'),
@@ -161,7 +164,7 @@ const refToolbar2 = ($body) => {
 				title: mw.message('cite-named-refs-title').parse(),
 				resizeme: false,
 				id: 'citetoolbar-namedrefs',
-				html: `<div id="cite-namedref-loading"> <img src="https://tu.zhongwen.wiki/images/qiuwenbaike/zh/d/de/Ajax-loader.gif" /> &nbsp;${getMessage(
+				html: `<div id="cite-namedref-loading"> <img src="${ajaxLoader}" /> &nbsp;${getMessage(
 					'cite-loading'
 				)}</div>`,
 				init: () => {},
@@ -898,10 +901,7 @@ const refToolbar2 = ($body) => {
 		const tr1 = $('<tr>').css('width', '100%');
 		const th1 = $('<th>').css('width', '60%').css('font-size', '110%').html(getMessage('cite-err-report-heading'));
 		const th2 = $('<th>').css('width', '40%').css('text-align', 'right;');
-		const im = $('<img>').attr(
-			'src',
-			'https://tu.zhongwen.wiki/images/qiuwenbaike/zh/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png'
-		);
+		const im = $('<img>').attr('src', gtkStop);
 		im.attr('alt', getMessage('cite-err-report-close')).attr('title', getMessage('cite-err-report-close'));
 		const ad = $('<a>').attr({
 			id: 'cite-err-check-close',
