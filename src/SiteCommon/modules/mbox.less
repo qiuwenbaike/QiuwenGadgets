@@ -353,18 +353,18 @@ body.mediawiki .mbox-small {
 		&-image,
 		&-imageright {
 			img {
-				max-width: 6vw;
+				max-width: 2em;
 			}
 		}
 
 		&-image {
 			/* The left image cell */
-			padding: 2px 0 2px 2vw; /* 2vw left, 0px right */
+			padding: 2px 0 2px 0.5em; /* 0.5em left, 0px right */
 		}
 
 		&-imageright {
 			/* The right image cell */
-			padding: 2px 2vw 2px 0; /* 0px left, 2vw right */
+			padding: 2px 0.5em 2px 0; /* 0px left, 0.5em right */
 		}
 
 		&.licensetpl {
@@ -375,7 +375,8 @@ body.mediawiki .mbox-small {
 		}
 
 		&-text {
-			flex: 1 1 90vw;
+			flex: 1 1 92.5%;
+			padding: 0.375em 0.5em;
 		}
 	}
 }
