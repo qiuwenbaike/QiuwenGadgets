@@ -108,6 +108,8 @@
 
 	/* Normalize */
 	h2 {
+		flex: 1 1 100%;
+		max-width: 100%;
 		padding: 0.5em;
 		border: 0;
 		border-radius: @border-radius--small;
@@ -197,10 +199,12 @@
 		height: auto;
 	}
 
-	&-row img,
-	&-box img {
-		max-width: 20em;
-		height: auto;
+	&-row,
+	&-box {
+		img {
+			max-width: 20em;
+			height: auto;
+		}
 	}
 
 	.cdx-button--action-progressive {
@@ -240,7 +244,12 @@
 	&-header-box,
 	&-box,
 	&-footer-box {
-		flex: 1 1 240px;
+		display: flex;
+		flex: 1 1 calc(33% - 3.3em);
+		max-width: 33%;
+		flex-flow: row wrap;
+		place-content: flex-start center;
+		align-items: center;
 		padding: 1em;
 		border-radius: @border-radius--small;
 		background: var(--mp-background-color-light, @background-color-light);
@@ -270,7 +279,8 @@
 	}
 
 	&-wide-box {
-		flex: 1 1 320px;
+		flex: 1 1 calc(50% - 5em);
+		max-width: 50%;
 	}
 
 	&-extra-box {
@@ -346,6 +356,7 @@
 
 	&-row {
 		flex: 1 1 100%;
+		max-width: 100%;
 		gap: 0.5em;
 	}
 
@@ -409,7 +420,6 @@
 			list-style-type: none;
 			text-align: center;
 			flex: 1 1 4.5em;
-			width: auto;
 			max-width: 4.5em;
 
 			&::marker {
@@ -432,6 +442,7 @@
 			justify-content: center;
 			gap: 1em;
 			flex: 1 1 50%;
+			max-width: 50%;
 			margin: 0.25em;
 		}
 	}
@@ -445,8 +456,10 @@
 	}
 
 	&-feedback {
+		flex: 1 1 100%;
 		padding: 0.5em 2.5em;
 		margin: 0 0 auto auto;
+		max-width: 100%;
 		text-align: right;
 		font-size: 0.875em;
 	}
