@@ -245,8 +245,6 @@
 	&-box,
 	&-footer-box {
 		display: flex;
-		flex: 1 1 calc(33% - 3.3em);
-		max-width: 33%;
 		flex-flow: row wrap;
 		place-content: flex-start center;
 		align-items: center;
@@ -265,6 +263,19 @@
 				0 1px 2px var(--mp-background-color--darkest, @background-color-primary--darkest),
 				0 -1px 2px var(--mp-background-color--darkest, @background-color-primary--darkest) !important;
 		}
+	}
+
+	&-header-box,
+	&-footer-box {
+		flex: 1 1 100%;
+		width: 100%;
+		max-width: 100%;
+	}
+
+	&-box {
+		flex: 1 1 calc(33% - 3.3em);
+		width: 33%;
+		max-width: 33%;
 	}
 
 	&-header-box > div {
@@ -441,8 +452,8 @@
 			align-items: center;
 			justify-content: center;
 			gap: 1em;
-			flex: 1 1 50%;
-			max-width: 50%;
+			flex: 100%;
+			max-width: 100%;
 			margin: 0.25em;
 		}
 	}
