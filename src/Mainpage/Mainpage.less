@@ -86,12 +86,13 @@
 /* == 页面正文 == */
 .mainpage {
 	display: flex;
-	flex-direction: column;
+	flex-flow: row wrap;
 	align-items: stretch;
 	gap: 0.5em;
 	border-radius: @border-radius--small;
 	line-height: 1.5;
 	background: transparent;
+	place-content: center center;
 
 	.skin-gongbi & {
 		padding: 1em;
@@ -110,7 +111,7 @@
 		padding: 0.5em;
 		border: 0;
 		border-radius: @border-radius--small;
-		margin: 0 auto;
+		margin: 0 auto 0.5em;
 		background: var(--mp--color, @color--primary);
 		color: @const-color-white;
 		font-size: 1.25em;
@@ -228,6 +229,7 @@
 	&-row,
 	&-footer {
 		display: flex;
+		flex: 1 1 100%;
 		max-width: 100%;
 		flex-flow: row wrap;
 		justify-content: space-between;
@@ -264,6 +266,10 @@
 		& > div {
 			padding: 0.5em;
 		}
+	}
+
+	&-wide-box {
+		flex: 1 1 320px;
 	}
 
 	&-top-menu {
@@ -341,8 +347,8 @@
 		cursor: pointer;
 		border: 0;
 		border-radius: @border-radius--small;
-		margin: 0.125em 0.125em 0;
-		padding: 0.25em 0.5em;
+		margin: auto;
+		padding: @border-radius--small @border-radius--medium;
 		transition: background 0.1s ease-in-out;
 
 		img {
@@ -386,15 +392,19 @@
 		ul {
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: center;
+			place-content: center center;
+			align-items: center;
 			margin: auto;
-			gap: 0.25em;
+			gap: 0.5em;
 		}
 
 		li {
-			font-size: 1.1em;
+			font-size: 1.125em;
 			list-style-type: none;
 			text-align: center;
+			flex: 1 1 4.5em;
+			width: auto;
+			max-width: 4.5em;
 
 			&::marker {
 				content: '';
@@ -404,8 +414,10 @@
 
 	#mainpage-sisterproject-box .guidelist {
 		display: flex;
-		flex-direction: column;
+		flex-flow: row wrap;
 		gap: 1em;
+		align-items: center;
+		justify-content: space-around;
 
 		.mainpage-sisterproject-item {
 			display: flex;
@@ -413,6 +425,8 @@
 			align-items: center;
 			justify-content: center;
 			gap: 1em;
+			flex: 1 1 50%;
+			margin: 0.25em;
 		}
 	}
 
