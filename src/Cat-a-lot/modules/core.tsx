@@ -73,6 +73,7 @@ const catALot = (): void => {
 
 		private static settings: NonNullable<typeof window.CatALotPrefs> = {};
 		private static variantCache: Record<string, string[]> = {};
+		private static variantCache2: Record<string, Record<string, string>> = {};
 
 		private static $counter: JQuery = $();
 		private static $progressDialog: JQuery = $();
@@ -294,6 +295,9 @@ const catALot = (): void => {
 			if (CAL.variantCache[category] !== undefined) {
 				return CAL.variantCache[category] as string[];
 			}
+			if (!CAL.variantCache2[category]) {
+				CAL.variantCache2[category] = {};
+			}
 			const results: string[] = [];
 			const params: ApiParseParams = {
 				action: 'parse',
@@ -303,13 +307,24 @@ const catALot = (): void => {
 				title: 'temp',
 			};
 			for (const variant of VARIANTS) {
+				const result2 = Object.getOwnPropertyDescriptor(CAL.variantCache2[category], variant)?.value;
+				if (result2) {
+					results[results.length] = result2;
+					continue;
+				}
 				try {
 					const {parse} = await CAL.api.post({
 						...params,
 						variant,
 					} as typeof params);
 					const {text} = parse;
-					results[results.length] = $(text).eq(0).text().trim();
+					const result = $(text).eq(0).text().trim();
+					results[results.length] = result;
+					if (CAL.variantCache2[category]) {
+						Object.defineProperty(CAL.variantCache2[category], variant, {
+							value: result,
+						});
+					}
 				} catch {}
 			}
 			// De-duplicate
