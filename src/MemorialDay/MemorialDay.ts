@@ -10,17 +10,17 @@ const DAY: number = DATENOW.getDate();
 const {wgPageName} = mw.config.get();
 
 for (const {titles, dates} of pageList) {
-	for (const title of titles) {
-		if (!(wgPageName === title)) {
-			continue;
-		}
+	if (!titles.includes(wgPageName)) {
+		continue;
+	}
 
-		for (const date of generateArray(dates)) {
-			if (!(MONTH * 100 + DAY === date || YEAR * 1e4 + MONTH * 100 + DAY === date || !date)) {
-				continue;
-			}
+	const allDates = generateArray(dates);
 
-			addStyleTag();
-		}
+	if (!allDates.length) {
+		continue;
+	}
+
+	if (!allDates.includes(MONTH * 100 + DAY) || !allDates.includes(YEAR * 1e4 + MONTH * 100 + DAY)) {
+		addStyleTag();
 	}
 }
