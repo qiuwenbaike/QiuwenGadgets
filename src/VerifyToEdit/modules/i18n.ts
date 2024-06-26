@@ -28,11 +28,11 @@ const getI18nMessages = () => {
 			'zh-hant': '完成行動電話號碼認證',
 		}),
 		DialogMessage: localize({
-			en: 'You have logged in, but your mobile phone number has not been verified yet. According to Chinese law, you must complete phone number verification before starting editing.',
+			en: 'You have logged in, but your mobile phone number has not been verified yet. In order to prevent vandalism, you must complete phone number verification before starting editing.',
 			'zh-hans':
-				'您已登录求闻百科，但您暂未完成手机号码认证。根据中国法律规定，在开始编辑前，您必须完成手机号码认证。',
+				'您已登录求闻百科，但您暂未完成手机号码认证。基于减少破坏的目的，在开始编辑前，您必须完成手机号码认证。',
 			'zh-hant':
-				'您已登錄求聞百科，但您暫未完成行動電話號碼認證。根據中國法律規定，在開始編輯前，您必須完成行動電話號碼認證。',
+				'您已登錄求聞百科，但您暫未完成行動電話號碼認證。基於減少破壞的目的，在開始編輯前，您必須完成行動電話號碼認證。',
 		}),
 	};
 };
