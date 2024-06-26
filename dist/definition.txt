@@ -26,6 +26,7 @@
 * TOC3-gongbi[ResourceLoader|skins=gongbi|requiresES6]|TOC3-gongbi.css
 * VariantAlly[ResourceLoader|default|dependencies=user.options|requiresES6]|VariantAlly.js
 * VariantAllyDialog[ResourceLoader|dependencies=ext.gadget.VariantAlly,vue|hidden|requiresES6]|VariantAllyDialog.js|VariantAllyDialog.css
+* VerifyToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-windows|hidden|requiresES6]|VerifyToEdit.js
 
 == browser ==
 * AddSectionPlus[ResourceLoader|dependencies=ext.gadget.Util|rights=edit|requiresES6]|AddSectionPlus.js|AddSectionPlus.css
