@@ -8,7 +8,7 @@ void getBody().then(function loginToEdit($body: JQuery<HTMLBodyElement>): void {
 		return;
 	}
 
-	if (userIsInGroup(['rnrsverify-confirmed', 'rnrsverify-exempt', 'steward', 'qiuwen'])) {
+	if (userIsInGroup(['bot', 'qiuwen', 'rnrsverify-confirmed', 'rnrsverify-exempt', 'steward'])) {
 		return;
 	}
 
