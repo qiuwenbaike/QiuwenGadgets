@@ -359,7 +359,7 @@ import {generateArray} from 'ext.gadget.Util';
 			});
 		}
 		const radioOrCheckbox = Twinkle.speedy.mode.isMultiple(mode) ? 'checkbox' : 'radio';
-		if (isSysopMode && !Twinkle.speedy.mode.isMultiple(mode)) {
+		if (isSysopMode) {
 			work_area.append({
 				type: 'header',
 				label: window.wgULS('自定义理由', '自訂理由'),
