@@ -80,7 +80,7 @@ const DEFINITION_SECTION_MAP = {
  * The `User-Agent` header used when deploying
  */
 const DEPLOY_USER_AGENT =
-	'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0 AnYiEE/AwesomeGadgets (https://github.com/AnYiEE/AwesomeGadgets; i@anyi.in) Qiuwenbaike/QiuwenGadgets (https://github.com/Qiuwenbaike/QiuwenGadgets; adjcom@volunteers.qiuwen.org)' satisfies string;
+	'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0 Qiuwen/1.1 (https://www.qiuwenbaike.cn) AnYiEE/AwesomeGadgets (https://github.com/AnYiEE/AwesomeGadgets; i@anyi.in) Qiuwenbaike/QiuwenGadgets (https://github.com/Qiuwenbaike/QiuwenGadgets; adjcom@volunteers.qiuwen.org)' satisfies string;
 
 /**
  * 启用此选项以自动转换`MediaWiki:Gadget-${gadgetName}`和`MediaWiki:Gadget-section-${DEFAULT_DEFINITION.section}`页面的语言变体
