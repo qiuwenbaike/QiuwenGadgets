@@ -16,11 +16,13 @@ for (const {titles, dates} of pageList) {
 
 	const allDates = generateArray(dates);
 
-	if (!allDates.length) {
+	if (
+		!allDates.length ||
+		!allDates.includes(MONTH * 100 + DAY) ||
+		!allDates.includes(YEAR * 1e4 + MONTH * 100 + DAY)
+	) {
 		continue;
 	}
 
-	if (!allDates.includes(MONTH * 100 + DAY) || !allDates.includes(YEAR * 1e4 + MONTH * 100 + DAY)) {
-		addStyleTag();
-	}
+	addStyleTag();
 }
