@@ -18,8 +18,7 @@ for (const {titles, dates} of pageList) {
 
 	if (
 		!allDates.length ||
-		!allDates.includes(MONTH * 100 + DAY) ||
-		!allDates.includes(YEAR * 1e4 + MONTH * 100 + DAY)
+		(!allDates.includes(MONTH * 100 + DAY) && !allDates.includes(YEAR * 1e4 + MONTH * 100 + DAY))
 	) {
 		continue;
 	}
