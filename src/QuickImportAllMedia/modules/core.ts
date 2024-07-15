@@ -88,16 +88,17 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 		if (articleRegex.test(href)) {
 			const match: RegExpExecArray = articleRegex.exec(href) as RegExpExecArray;
 			fileName = match[1] as string;
-			fileName = fileName.replace(/File:(File:|Image:)?/i, 'File:');
-			fileName = decodeURIComponent(fileName);
-			fileNames[fileNames.length] = fileName;
+			fileName = decodeURIComponent(fileName)
+				.replace(/((File|Image):)((File|Image):)?/i, 'File:')
+				.replace('+', '_');
 		}
 
 		if (scriptRegex.test(href)) {
 			const match: RegExpExecArray = scriptRegex.exec(href) as RegExpExecArray;
 			fileName = match[1] as string;
-			fileName = fileName.replace(/File:(File:|Image:)?/i, 'File:');
-			fileName = decodeURIComponent(fileName);
+			fileName = decodeURIComponent(fileName)
+				.replace(/((File|Image):)((File|Image):)?/i, 'File:')
+				.replace('+', '_');
 			fileNames[fileNames.length] = fileName;
 		}
 	}
