@@ -12,7 +12,7 @@ const queryRevisions = async (titles: string | string[]) => {
 		prop: 'revisions',
 		rvprop: 'content',
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };

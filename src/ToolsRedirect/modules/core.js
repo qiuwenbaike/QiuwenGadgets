@@ -210,7 +210,6 @@ const ToolsRedirect = {
 		titles = titles.filter((v, i, arr) => {
 			return arr.indexOf(v) === i;
 		});
-		titles = titles.join('|');
 		return api
 			.post({
 				action: 'query',
@@ -239,7 +238,6 @@ const ToolsRedirect = {
 		titles = titles.filter((v, i, arr) => {
 			return arr.indexOf(v) === i;
 		});
-		titles = titles.join('|');
 		return api
 			.post({
 				action: 'query',
@@ -581,9 +579,8 @@ const ToolsRedirect = {
 		const deferreds = [];
 		const excludes = ['用字模式'];
 		let alltitles = [];
-		titles = titles.join('|');
 		for (const variant of VARIANTS) {
-			deferreds[deferreds.length] = api.post({
+			deferreds[deferreds.length] = api.get({
 				action: 'parse',
 				format: 'json',
 				formatversion: '2',
@@ -602,7 +599,6 @@ const ToolsRedirect = {
 			alltitles = alltitles.filter((v, i, arr) => {
 				return arr.indexOf(v) === i;
 			});
-			alltitles = alltitles.join('|');
 			return api
 				.post({
 					action: 'query',

@@ -21,7 +21,7 @@ const parameters: ApiQueryRevisionsParams = {
 
 const queryPageInfo = async (title: string): Promise<PageInfo> => {
 	try {
-		return (await api.post({
+		return (await api.get({
 			...parameters,
 			titles: title,
 		} as typeof parameters)) as PageInfo;

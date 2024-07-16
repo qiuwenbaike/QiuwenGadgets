@@ -48,7 +48,7 @@ const queryUserGroups = async (ususers: string | string[]) => {
 		list: 'users',
 		usprop: 'groups',
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };
@@ -62,7 +62,7 @@ const queryGlobalUserGroups = async (user: string) => {
 		guiuser: user,
 		guiprop: 'groups',
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };

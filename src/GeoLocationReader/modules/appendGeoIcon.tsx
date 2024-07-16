@@ -19,7 +19,7 @@ const appendGeoIcon = async (): Promise<void> => {
 			rvslots: 'main',
 		};
 
-		const data = await api.post(params);
+		const data = await api.get(params);
 
 		const {
 			country,

@@ -375,7 +375,7 @@ const refToolbar2 = ($body) => {
 			format: 'json',
 			formatversion: '2',
 		};
-		api.post(postdata).then(({parse}) => {
+		api.get(postdata).then(({parse}) => {
 			const html = parse.text;
 			callback(html);
 		});
@@ -390,7 +390,7 @@ const refToolbar2 = ($body) => {
 			format: 'json',
 			formatversion: '2',
 		};
-		api.post(postdata).then(({expandtemplates}) => {
+		api.get(postdata).then(({expandtemplates}) => {
 			const restext = expandtemplates.wikitext;
 			callback(restext);
 		});

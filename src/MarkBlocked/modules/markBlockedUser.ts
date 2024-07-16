@@ -97,7 +97,7 @@ const markBlockedUser = ($content: JQuery): void => {
 			};
 
 			try {
-				const response = await api.post(params);
+				const response = await api.get(params);
 				markLinks(response as Response);
 			} catch (error: unknown) {
 				console.error('[MarkBlocked] Ajax error:', error);
