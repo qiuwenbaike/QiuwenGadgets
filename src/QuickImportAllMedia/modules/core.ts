@@ -35,23 +35,24 @@ const getElementsFromParse = async (titles: string[]) => {
 	for (const title of titles) {
 		try {
 			const response = await parse(title);
-			if (!response['parse'].links && !response['parse'].images) {
-				continue;
-			}
 
-			const regex: RegExp = /(File:[^#]+)/;
+			if (response['parse'].links) {
+				const regex: RegExp = /(File:[^#]+)/;
 
-			for (const {title: titleName} of response['parse'].links as {title: string}[]) {
-				if (regex.test(titleName)) {
-					const match: RegExpExecArray = regex.exec(titleName) as RegExpExecArray;
-					let [fileName] = match;
-					fileName = fileName.replace(/((File|Image):)((File|Image):)?/i, 'File:').replace('+', '_');
-					fileNamesFromParse[fileNamesFromParse.length] = `${fileName}`;
+				for (const {title: titleName} of response['parse'].links as {title: string}[]) {
+					if (regex.test(titleName)) {
+						const match: RegExpExecArray = regex.exec(titleName) as RegExpExecArray;
+						let [fileName] = match;
+						fileName = fileName.replace(/((File|Image):)((File|Image):)?/i, 'File:').replace('+', '_');
+						fileNamesFromParse[fileNamesFromParse.length] = `${fileName}`;
+					}
 				}
 			}
 
-			for (const fileName of response['parse'].images) {
-				fileNamesFromParse[fileNamesFromParse.length] = `File:${fileName}`;
+			if (response['parse'].images) {
+				for (const fileName of response['parse'].images) {
+					fileNamesFromParse[fileNamesFromParse.length] = `File:${fileName}`;
+				}
 			}
 		} catch {}
 	}
