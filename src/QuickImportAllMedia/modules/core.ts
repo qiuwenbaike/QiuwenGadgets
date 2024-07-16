@@ -60,7 +60,7 @@ const getElementsFromParse = async (titles: string[]) => {
 		} catch {}
 	}
 
-	return fileNamesFromParse;
+	return uniqueArray(fileNamesFromParse);
 };
 
 const queryImages = async (titles: string | string[]) => {
@@ -103,6 +103,7 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 			fileName = decodeURIComponent(fileName)
 				.replace(/((File|Image):)((File|Image):)?/i, 'File:')
 				.replace('+', '_');
+			fileNames[fileNames.length] = fileName;
 		}
 
 		if (scriptRegex.test(href)) {
