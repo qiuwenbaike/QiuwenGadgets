@@ -1,5 +1,5 @@
 import {generateArray, uniqueArray} from 'ext.gadget.Util';
-import {api} from './api';
+import {api} from 'ext.gadget.QuickImport';
 import {toastify} from 'ext.gadget.Toastify';
 
 let toastifyInstance: ToastifyInstance = {
@@ -46,7 +46,7 @@ const getElementsFromParse = async (titles: string[]) => {
 					if (regex.test(titleName)) {
 						const match: RegExpExecArray = regex.exec(titleName) as RegExpExecArray;
 						let [fileName] = match;
-						fileName = fileName.replace(/((File|Image):)((File|Image):)?/i, 'File:').replace('+', '_');
+						fileName = fileName.replace(/((File|Image):)((File|Image):)?/i, 'File:').replace('+', ' ');
 						fileNamesFromParse[fileNamesFromParse.length] = `${fileName}`;
 					}
 				}
@@ -102,7 +102,7 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 			fileName = match[1] as string;
 			fileName = decodeURIComponent(fileName)
 				.replace(/((File|Image):)((File|Image):)?/i, 'File:')
-				.replace('+', '_');
+				.replace('+', ' ');
 			fileNames[fileNames.length] = fileName;
 		}
 
@@ -111,7 +111,7 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 			fileName = match[1] as string;
 			fileName = decodeURIComponent(fileName)
 				.replace(/((File|Image):)((File|Image):)?/i, 'File:')
-				.replace('+', '_');
+				.replace('+', ' ');
 			fileNames[fileNames.length] = fileName;
 		}
 	}
@@ -124,7 +124,7 @@ const getImages = async (titles: string | string[]) => {
 	titles = uniqueArray(generateArray(titles));
 
 	for (let i = 0; i < titles.length; i++) {
-		const querytitles = titles.splice(0, 50);
+		const querytitles = titles.splice(0, 25);
 		if (!querytitles.length) {
 			continue;
 		}

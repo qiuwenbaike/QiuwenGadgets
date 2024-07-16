@@ -84,7 +84,7 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		const promises: (() => Promise<void>)[] = [];
 
 		for (let i = 0; i < users.length; i++) {
-			const ususers = users.splice(0, 50);
+			const ususers = users.splice(0, 25);
 			if (!ususers.length) {
 				continue;
 			}
