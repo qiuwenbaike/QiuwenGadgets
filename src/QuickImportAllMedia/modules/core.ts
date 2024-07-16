@@ -35,6 +35,9 @@ const getElementsFromParse = async (titles: string[]) => {
 	for (const title of titles) {
 		try {
 			const response = await parse(title);
+			if (!response['parse'] || (!response['parse'].links && !response['parse'].images)) {
+				continue;
+			}
 
 			if (response['parse'].links) {
 				const regex: RegExp = /(File:[^#]+)/;
