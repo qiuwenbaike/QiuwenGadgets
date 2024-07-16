@@ -12,7 +12,7 @@ const parse = async (page: string) => {
 		action: 'parse',
 		format: 'json',
 		formatversion: '2',
-		prop: 'text',
+		prop: ['links', 'images'],
 		redirects: true,
 		disabletoc: true,
 	};
@@ -29,26 +29,35 @@ const getElements = (element: Document | HTMLElement) => {
 };
 
 const getElementsFromParse = async (titles: string[]) => {
-	const fileLinkElements: HTMLAnchorElement[] = [];
+	const fileNamesFromParse: string[] = [];
 	titles = uniqueArray(titles);
 
 	for (const title of titles) {
 		try {
 			const response = await parse(title);
-			if (!response['parse'] || !response['parse'].text) {
-				continue;
+
+			if (response['parse'].links) {
+				const regex: RegExp = /(File:[^#]+)/;
+
+				for (const {title: titleName} of response['parse'].links as {title: string}[]) {
+					if (regex.test(titleName)) {
+						const match: RegExpExecArray = regex.exec(titleName) as RegExpExecArray;
+						let [fileName] = match;
+						fileName = fileName.replace(/((File|Image):)((File|Image):)?/i, 'File:').replace('+', '_');
+						fileNamesFromParse[fileNamesFromParse.length] = `${fileName}`;
+					}
+				}
 			}
 
-			const pageContent = document.createElement('span');
-			pageContent.innerHTML = response['parse'].text as string;
-
-			for (const element of getElements(pageContent)) {
-				fileLinkElements[fileLinkElements.length] = element;
+			if (response['parse'].images) {
+				for (const fileName of response['parse'].images) {
+					fileNamesFromParse[fileNamesFromParse.length] = `File:${fileName}`;
+				}
 			}
 		} catch {}
 	}
 
-	return fileLinkElements;
+	return fileNamesFromParse;
 };
 
 const queryImages = async (titles: string | string[]) => {
@@ -163,8 +172,7 @@ const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
 
 	const elementsFromPage = getElements(document);
 	const fileNamesFromPage = getImagesFromElements(elementsFromPage);
-	const elementsFromParse = await getElementsFromParse(fileNamesFromPage);
-	const fileNamesFromParse = getImagesFromElements(elementsFromParse);
+	const fileNamesFromParse = await getElementsFromParse(fileNamesFromPage);
 
 	fileNames = uniqueArray([
 		...fileNamesFromPage,
