@@ -16,7 +16,7 @@ const queryRecentChanges = async (rcstart: string, rcend: string) => {
 		rcshow: ['!bot', '!anon'],
 		rclimit: 500,
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };
@@ -32,7 +32,7 @@ const queryLogEvents = async (lestart: string, leend: string) => {
 		leprop: 'user',
 		lelimit: 500,
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };
@@ -46,7 +46,7 @@ const queryUserProps = async (ususers: string | string[]) => {
 		list: 'users',
 		usprop: 'groups',
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };

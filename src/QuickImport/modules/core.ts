@@ -115,7 +115,7 @@ const queryImageInfo = async (titles: string | string[]) => {
 		iiprop: ['url'],
 		redirects: true,
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };

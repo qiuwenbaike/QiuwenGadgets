@@ -10,7 +10,7 @@ const queryUserGroups = async (ususers: string) => {
 		list: 'users',
 		usprop: 'groups',
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };

@@ -14,7 +14,7 @@ const queryRevisions = async (titles: string | string[], rvsection: string) => {
 		rvprop: ['content', 'timestamp'],
 	};
 
-	return await api.post(params);
+	return await api.get(params);
 };
 
 const markAsDone = (userName: string, index: string, closingRemarks: string) => {

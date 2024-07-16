@@ -16,7 +16,7 @@ const parse = async (page: string) => {
 		redirects: true,
 		disabletoc: true,
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };
@@ -60,7 +60,7 @@ const queryImages = async (titles: string | string[]) => {
 		prop: 'images',
 		imlimit: 5000,
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };

@@ -23,7 +23,7 @@ const mwApplyNotice = async (currentPageName: string, pageSubName: string): Prom
 			useskin: skin,
 		};
 
-		const data = await api.post(params);
+		const data = await api.get(params);
 		if (!data?.['parse']?.text) {
 			return;
 		}

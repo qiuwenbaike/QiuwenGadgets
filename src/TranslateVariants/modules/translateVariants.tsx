@@ -105,7 +105,7 @@ const translateVariants = (wgPageName: string): void => {
 						rvdifftotext: newPageContent,
 					};
 
-					return api.post(queryDiffParams);
+					return api.get(queryDiffParams);
 				},
 				(error): null => {
 					void mw.notify(

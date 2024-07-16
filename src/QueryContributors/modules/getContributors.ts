@@ -16,7 +16,7 @@ const queryContributors = async (titles: string, pccontinue?: string) => {
 		params.pccontinue = pccontinue;
 	}
 
-	const data = await api.post(params);
+	const data = await api.get(params);
 
 	return data;
 };

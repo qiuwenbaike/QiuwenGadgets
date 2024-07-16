@@ -13,7 +13,7 @@ const queryUserContribs = async (ucuser: string) => {
 		uclimit: 1,
 		ucprop: 'timestamp',
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };
@@ -28,7 +28,7 @@ const queryLogEvents = async (leuser: string) => {
 		lelimit: 1,
 		leprop: 'timestamp',
 	};
-	const response = await api.post(params);
+	const response = await api.get(params);
 
 	return response;
 };
