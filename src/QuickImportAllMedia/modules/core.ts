@@ -60,7 +60,7 @@ const getElementsFromParse = async (titles: string[]) => {
 		} catch {}
 	}
 
-	return fileNamesFromParse;
+	return uniqueArray(fileNamesFromParse);
 };
 
 const queryImages = async (titles: string | string[]) => {
