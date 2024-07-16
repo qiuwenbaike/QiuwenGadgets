@@ -135,7 +135,7 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 		// 用户名列表去重
 		users = uniqueArray(users); // Replace `[...new Set()]` to avoid polyfilling core-js
 
-		if (users.length === 50) {
+		if (users.length === 25) {
 			queue[queue.length] = users; // Replace `[].push()` to avoid polyfilling core-js
 			users = [];
 		}

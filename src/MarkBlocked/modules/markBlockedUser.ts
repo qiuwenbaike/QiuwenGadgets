@@ -80,7 +80,7 @@ const markBlockedUser = ($content: JQuery): void => {
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i = 0; i < users.length; i++) {
-		const bkusers = users.splice(0, 50);
+		const bkusers = users.splice(0, 25);
 		if (!bkusers.length) {
 			continue;
 		}

@@ -125,7 +125,7 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i = 0; i < pageNames.length; i++) {
-		let titles = pageNames.splice(0, 50);
+		let titles = pageNames.splice(0, 25);
 		if (!titles.length) {
 			continue;
 		}
