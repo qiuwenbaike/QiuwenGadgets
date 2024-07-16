@@ -313,7 +313,7 @@ const catALot = (): void => {
 					continue;
 				}
 				try {
-					const {parse} = await CAL.api.post({
+					const {parse} = await CAL.api.get({
 						...params,
 						variant,
 					} as typeof params);
@@ -390,7 +390,11 @@ const catALot = (): void => {
 						this.updateCounter();
 					}
 				};
-				CAL.api.post(params).then(callback).catch(handleError);
+				if (params.action === 'query') {
+					CAL.api.get(params).then(callback).catch(handleError);
+				} else {
+					CAL.api.post(params).then(callback).catch(handleError);
+				}
 			};
 			doCall();
 		}
