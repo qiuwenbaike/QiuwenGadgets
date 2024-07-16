@@ -103,6 +103,7 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 			fileName = decodeURIComponent(fileName)
 				.replace(/((File|Image):)((File|Image):)?/i, 'File:')
 				.replace('+', '_');
+			fileNames[fileNames.length] = fileName;
 		}
 
 		if (scriptRegex.test(href)) {
