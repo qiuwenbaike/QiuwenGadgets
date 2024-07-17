@@ -1,4 +1,4 @@
-const getDomains = (): string[] => {
+const getShortDomains = (): string[] => {
 	const {wgWikiID} = mw.config.get();
 	let domains: string[] = [];
 
@@ -17,4 +17,4 @@ const getDomains = (): string[] => {
 	return domains;
 };
 
-export {getDomains};
+export {getShortDomains};
