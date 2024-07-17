@@ -96,9 +96,7 @@ const checkRedirect = (): void => {
 					continue;
 				}
 
-				if (!surname) {
-					surname = findSurname(pageName);
-				}
+				surname ||= findSurname(pageName);
 
 				titles[titles.length] = surname + name; // Replace `[].push()` to avoid polyfilling core-js
 			}

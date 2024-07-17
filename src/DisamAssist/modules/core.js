@@ -305,9 +305,7 @@ const doLink = () => {
 const chooseReplacement = (pageTitle, extra, summary) => {
 	if (choosing) {
 		choosing = false;
-		if (!summary) {
-			summary = pageTitle ? messages.summaryChanged.replace('$1', pageTitle) : messages.summaryOmitted;
-		}
+		summary ||= pageTitle ? messages.summaryChanged.replace('$1', pageTitle) : messages.summaryOmitted;
 		addChange(currentPageTitle, currentPageParameters, currentPageParameters.content, currentLink, summary);
 		if (pageTitle && (pageTitle !== getTargetPage() || extra)) {
 			currentPageParameters.content = replaceLink(

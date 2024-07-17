@@ -12,7 +12,6 @@
 
 .navbox {
 	/* Fallback start */
-	display: flex;
 	flex-direction: column;
 	/* Fallback end */
 	box-sizing: border-box;
@@ -23,7 +22,6 @@
 	clear: both;
 	font-size: 97.5%; /* not subgroup */
 	overflow-x: auto;
-	/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
 	display: grid;
 	grid-gap: 3px;
 	grid-template-columns: auto 1fr;
@@ -54,10 +52,8 @@
 
 	.navbox-group {
 		/* Fallback start */
-		display: flex;
 		/* Fallback end */
 		font-weight: bold;
-		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
 		display: grid;
 		align-items: center;
 		justify-content: center;
@@ -78,14 +74,12 @@
 
 	.navbox-title {
 		/* Fallback start */
-		display: block;
 		text-align: center;
 		/* Fallback end */
 		padding-left: 1em;
 		background-color: var(--navbox-title-color, #c4e3b5);
 		font-size: 97.5%;
 		font-weight: bolder;
-		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
 		display: grid;
 		grid-template-columns: 1fr auto 1fr;
 	}

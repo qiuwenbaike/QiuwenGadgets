@@ -118,9 +118,7 @@ import {generateArray} from 'ext.gadget.Util';
 	Twinkle.stub.updateSortOrder = (e) => {
 		const sortorder = e.target.value;
 		Twinkle.stub.checkedTags = e.target.form.getChecked('articleTags');
-		if (!Twinkle.stub.checkedTags) {
-			Twinkle.stub.checkedTags = [];
-		}
+		Twinkle.stub.checkedTags ??= [];
 		const container = new Morebits.quickForm.element({
 			type: 'fragment',
 		});

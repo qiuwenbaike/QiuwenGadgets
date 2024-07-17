@@ -141,9 +141,7 @@ const popups = () => {
 		a.hasPopup = false;
 	};
 	const removeTitle = (a) => {
-		if (!a.originalTitle) {
-			a.originalTitle = a.title;
-		}
+		a.originalTitle ||= a.title;
 		a.title = '';
 	};
 	const restoreTitle = (a) => {
@@ -1424,9 +1422,7 @@ const popups = () => {
 		}
 		d.id = id;
 		d.setTarget();
-		if (!onfailure) {
-			onfailure = 2;
-		}
+		onfailure ||= 2;
 		const f = function () {
 			if (d.getReadyState() === 4) {
 				delete pg.misc.downloadsInProgress[this.id];
@@ -2713,9 +2709,7 @@ const popups = () => {
 			this.setUtf(this.value + x);
 		}
 		urlString(x) {
-			if (!x) {
-				x = {};
-			}
+			x ||= {};
 			let v = this.toString(true);
 			if (!x.omitAnchor && this.anchor) {
 				v += `#${this.urlAnchor()}`;
@@ -3409,9 +3403,7 @@ const popups = () => {
 	};
 	const emptySpanHTML = function emptySpanHTML(name, id, tag, classname) {
 		tag ||= 'span';
-		if (!classname) {
-			classname = emptySpanHTML.classAliases[name];
-		}
+		classname ||= emptySpanHTML.classAliases[name];
 		classname ||= name;
 		if (name === getValueOf('popupDragHandle')) {
 			classname += ' popupDragHandle';
@@ -3433,9 +3425,7 @@ const popups = () => {
 		);
 	};
 	const popTipsSoonFn = (id, when, popData) => {
-		if (!when) {
-			when = 250;
-		}
+		when ||= 250;
 		const popTips = () => {
 			setupTooltips(document.querySelector(`#${id}`), false, true, popData);
 		};
@@ -3656,9 +3646,7 @@ const popups = () => {
 					depth++;
 					removal = sb.exec(txt)[0].length;
 				}
-				if (!removal) {
-					removal = 1;
-				}
+				removal ||= 1;
 				txt = txt.slice(Math.max(0, removal));
 				if (depth === 0) {
 					break;
@@ -5551,9 +5539,7 @@ const popups = () => {
 			if (handleName) {
 				dragHandle = document.querySelector(`#${handleName}`);
 			}
-			if (!dragHandle) {
-				dragHandle = this.mainDiv;
-			}
+			dragHandle ||= this.mainDiv;
 			const self = this;
 			drag.endHook = (x, y) => {
 				Navpopup.tracker.dirty = true;
@@ -5821,9 +5807,7 @@ const popups = () => {
 			if (jsReservedProperties.test(src[i])) {
 				src[i] += '<!-- -->';
 			}
-			if (!ret[src[i]]) {
-				ret[src[i]] = [];
-			}
+			ret[src[i]] ??= [];
 			try {
 				ret[src[i]].push(i);
 			} catch {
@@ -6647,7 +6631,7 @@ const popups = () => {
 	// ENDFILE: navlinks.js
 	// STARTFILE: shortcutkeys.js
 	const popupHandleKeypress = function popupHandleKeypress(evt) {
-		const keyCode = window.event ? window.event.keyCode : evt.keyCode ?? evt.which;
+		const keyCode = window.event ? window.event.keyCode : (evt.keyCode ?? evt.which);
 		if (!keyCode || !pg.current.link || !pg.current.link.navpopup) {
 			return;
 		}
@@ -7358,9 +7342,7 @@ const popups = () => {
 			return null;
 		}
 		const base = `${pg.wiki.titlebase + mw.config.get('wgFormattedNamespaces')[pg.nsSpecialId]}:${l.specialpage}`;
-		if (l.sep === undefined || l.sep === null) {
-			l.sep = '&target=';
-		}
+		l.sep ??= '&target=';
 		let article = l.article.urlString({
 			keepSpaces: l.specialpage === 'Search',
 		});
@@ -7710,9 +7692,7 @@ const popups = () => {
 	// options
 	// check for existing value, else use default
 	const defaultize = (x) => {
-		if (pg.option[x] === null || pg.option[x] === undefined) {
-			pg.option[x] = window[x] === undefined ? pg.optionDefault[x] : window[x];
-		}
+		pg.option[x] ??= window[x] === undefined ? pg.optionDefault[x] : window[x];
 	};
 	const newOption = (x, def) => {
 		pg.optionDefault[x] = def;

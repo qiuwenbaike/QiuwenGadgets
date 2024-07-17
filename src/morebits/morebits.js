@@ -193,9 +193,7 @@ import {generateArray} from 'ext.gadget.Util';
 		// Don't convert wikilinks within code tags as they're used for displaying wiki-code
 		ub.unbind('<code>', '</code>');
 		ub.content = ub.content.replace(/\[\[:?(?:([^|\]]+?)\|)?([^\]|]+?)\]\]/g, (_, target, text_) => {
-			if (!target) {
-				target = text_;
-			}
+			target ||= text_;
 			return `<a rel="noopener" target="_blank" href="${mw.util.getUrl(target)}" title="${target.replace(
 				/"/g,
 				'&#34;'
@@ -558,9 +556,7 @@ import {generateArray} from 'ext.gadget.Util';
 								const newEl = {
 									...el,
 								};
-								if (!newEl.type) {
-									newEl.type = data.type;
-								}
+								newEl.type ||= data.type;
 								newEl.name = `${current.name || data.name}.${newEl.name}`;
 								subgroupRaw.append(newEl);
 							}
@@ -848,9 +844,7 @@ import {generateArray} from 'ext.gadget.Util';
 			default:
 				throw new Error(`Morebits.quickForm: unknown element type ${data.type.toString()}`);
 		}
-		if (!childContainer) {
-			childContainer = node;
-		}
+		childContainer ||= node;
 		if (data.tooltip) {
 			Morebits.quickForm.element.generateTooltip(label || node, data);
 		}
@@ -1818,10 +1812,8 @@ import {generateArray} from 'ext.gadget.Util';
 				}
 			}
 		}
-		if (!this._d) {
-			// Try standard date
-			this._d = new (Function.prototype.bind.apply(Date, [Date, ...generateArray(args)]))();
-		}
+		// Try standard date
+		this._d ??= new (Function.prototype.bind.apply(Date, [Date, ...generateArray(args)]))();
 		// Still no?
 		if (!this.isValid()) {
 			mw.log.warn('Invalid Morebits.date initialisation:', args);
@@ -2564,9 +2556,7 @@ import {generateArray} from 'ext.gadget.Util';
 	 * or a Morebits.status object
 	 */
 	Morebits.wiki.page = function (pageName, status) {
-		if (!status) {
-			status = window.wgULS('打开页面“', '打開頁面「') + pageName + window.wgULS('”', '」');
-		}
+		status ||= window.wgULS('打开页面“', '打開頁面「') + pageName + window.wgULS('”', '」');
 		/**
 		 * Private context variables.
 		 *
@@ -3750,9 +3740,7 @@ import {generateArray} from 'ext.gadget.Util';
 		};
 		// helper function to parse the page name returned from the API
 		const fnCheckPageName = function (response, onFailure) {
-			if (!onFailure) {
-				onFailure = emptyFunction;
-			}
+			onFailure ||= emptyFunction;
 			const page = response.pages && response.pages[0];
 			if (page) {
 				// check for invalid titles

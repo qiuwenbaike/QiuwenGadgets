@@ -404,9 +404,7 @@ hotCatMessages();
 			keyChange = toRemove && toAdd && toRemove === toAdd && toAdd.length > 0;
 		let matches;
 		let cat_point = -1;
-		if (key) {
-			key = `|${key}`;
-		}
+		key &&= `|${key}`;
 		// Remove
 		if (toRemove && toRemove.length > 0) {
 			matches = find_category(wikitext, toRemove);
@@ -1049,12 +1047,10 @@ hotCatMessages();
 				if (v.length > 1) {
 					[, which.currentKey] = v;
 				}
-				if (which.lastSelection) {
-					which.lastSelection = {
-						start: v[0].length,
-						end: v[0].length,
-					};
-				}
+				which.lastSelection &&= {
+					start: v[0].length,
+					end: v[0].length,
+				};
 			}
 			if (which.showsList) {
 				which.displayList();
@@ -1098,9 +1094,7 @@ hotCatMessages();
 			for (const element of resolved) {
 				if (element.lastInput === element.dabInput) {
 					if (element.dab) {
-						if (!firstDab) {
-							firstDab = element;
-						}
+						firstDab ||= element;
 					} else if (element.acceptCheck(true)) {
 						element.commit();
 					}
@@ -1163,9 +1157,7 @@ hotCatMessages();
 					const key = queryResult[0].slice(Math.max(0, queryResult[0].indexOf(':') + 1));
 					const [, titles] = queryResult;
 					let exists = false;
-					if (!cat_prefix) {
-						cat_prefix = new RegExp(`^(${HC.category_regexp}):`);
-					}
+					cat_prefix ||= new RegExp(`^(${HC.category_regexp}):`);
 					for (let i = 0; i < titles.length; i++) {
 						cat_prefix.lastIndex = 0;
 						const m = cat_prefix.exec(titles[i]);
