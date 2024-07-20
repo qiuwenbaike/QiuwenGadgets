@@ -1,3 +1,4 @@
+import './EasyArchive-New.less';
 import {emptyElement, onClickWrap, pipeElement, sectionIdSpanElement} from './modules/react';
 import {archive} from './modules/archive';
 import {getSections} from './modules/parse';

@@ -1,0 +1,34 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EasyArchive-New}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/EasyArchive-New/EasyArchive-New.less */
+.ve-activated #easy_archive_enable_notice,
+.ve-activated #easy_archive_stop_notice,
+.ve-activated #easy_archive_supports_notice {
+  display: none;
+}
+.skin-citizen .easy-archive-section-id-span {
+  font-size: 0.875rem;
+  margin: 0 0.5rem;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0Vhc3lBcmNoaXZlLU5ldy9FYXN5QXJjaGl2ZS1OZXcubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLnZlLWFjdGl2YXRlZCAjZWFzeV9hcmNoaXZlX2VuYWJsZV9ub3RpY2UsXG4udmUtYWN0aXZhdGVkICNlYXN5X2FyY2hpdmVfc3RvcF9ub3RpY2UsXG4udmUtYWN0aXZhdGVkICNlYXN5X2FyY2hpdmVfc3VwcG9ydHNfbm90aWNlIHtcbiAgZGlzcGxheTogbm9uZTtcbn1cbi5za2luLWNpdGl6ZW4gLmVhc3ktYXJjaGl2ZS1zZWN0aW9uLWlkLXNwYW4ge1xuICBmb250LXNpemU6IDAuODc1cmVtO1xuICBtYXJnaW46IDAgMC41cmVtO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQyxhQUFhLENBQUM7QUFDZixDQURDLGFBQ2EsQ0FBQztBQUNmLENBRkMsYUFFYSxDQUFDO0FBQ2IsV0FBUztBQUNYO0FBQ0EsQ0FBQyxhQUFhLENBQUM7QUFDYixhQUFXO0FBQ1gsVUFBUSxFQUFFO0FBQ1o7IiwKICAibmFtZXMiOiBbXQp9Cg== */
