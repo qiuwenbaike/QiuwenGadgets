@@ -31,12 +31,7 @@ const onClickWrap = (textContent: string, onClick: () => void, dataActual?: stri
 
 const pipeElement = () => <span class="mw-editsection-divider" textContent={'|'} />;
 
-const sectionIdSpanElement = (id: string) => (
-	<span
-		class={['easy-archive-section-id-span', `easy-archive-section-id-span-order-${id}`]}
-		style={{display: 'none'}}
-	/>
-);
+const sectionIdSpanElement = () => <span class={['easy-archive-section-id-span']} style={{display: 'none'}} />;
 
 const span = (innerHTML: string) => <span innerHTML={innerHTML} />;
 
