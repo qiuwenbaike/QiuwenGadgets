@@ -91,8 +91,8 @@
 * EasyArchive[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.Title|rights=skipcaptcha|requiresES6]|EasyArchive.js|EasyArchive.css
 * EasyArchive-New[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.Title|rights=skipcaptcha|requiresES6]|EasyArchive-New.js
 * Edit0[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.Uri|rights=edit|requiresES6]|Edit0.js|Edit0.css
-* EditConflict[ResourceLoader|actions=edit,submit|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api|requiresES6]|EditConflict.js
-* EditCount[ResourceLoader|skins=gongbi,vector,vector-2022|requiresES6]|EditCount.js
+* EditConflict[ResourceLoader|actions=edit,submit|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api|rights=edit|requiresES6]|EditConflict.js
+* EditCount[ResourceLoader|rights=edit|skins=gongbi,vector,vector-2022|requiresES6]|EditCount.js
 * EditForm[ResourceLoader|hidden|rights=edit|requiresES6]|EditForm.css
 * Editform_AiAssisted[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-core|rights=edit|requiresES6]|Editform_AiAssisted.js
 * EditForm_JS[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-core|hidden|peers=EditForm|rights=edit|requiresES6]|EditForm_JS.js
@@ -126,8 +126,8 @@
 == sysop ==
 * BanPage[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=skipcaptcha|requiresES6]|BanPage.js
 * HRTProtectLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|rights=protect|requiresES6]|HRTProtectLink.js
-* ListUsersLastActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|requiresES6]|ListUsersLastActive.js
-* LogFilter[ResourceLoader|dependencies=ext.gadget.React,ext.gadget.Util,mediawiki.util|requiresES6]|LogFilter.js|LogFilter.css
+* ListUsersLastActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|rights=protect|requiresES6]|ListUsersLastActive.js
+* LogFilter[ResourceLoader|dependencies=ext.gadget.React,ext.gadget.Util,mediawiki.util|rights=edit|requiresES6]|LogFilter.js|LogFilter.css
 * MarkBlocked[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.Uri,mediawiki.util|requiresES6]|MarkBlocked.js|MarkBlocked.css
 * MarkRights[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|peers=MarkRights-pagestyles|requiresES6]|MarkRights.js
 * MarkRights-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-pagestyles.css
