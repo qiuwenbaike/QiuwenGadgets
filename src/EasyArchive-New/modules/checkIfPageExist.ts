@@ -9,9 +9,9 @@ const checkIfPageExist = async (archiveTo: string) => {
 		titles: archiveTo,
 	};
 
-	const response = await api.get(params);
+	const {pages} = await api.get(params);
 
-	if (response['pages'][0].missing === true) {
+	if (pages[0]?.missing) {
 		return false;
 	}
 	return true;
