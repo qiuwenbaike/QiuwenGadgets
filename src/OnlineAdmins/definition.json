@@ -2,5 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-OnlineAdmins\"></span> 查看站务人员在线情况",
 	"section": "sysop",
+	"excludeSites": ["loginwiki"],
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.React", "ext.gadget.Util", "mediawiki.api", "mediawiki.util"]
 }

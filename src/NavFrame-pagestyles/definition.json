@@ -2,5 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-NavFrame\"></span> 旧版折叠显示支持",
 	"section": "compatibility",
+	"excludeSites": ["loginwiki"],
 	"hidden": true
 }

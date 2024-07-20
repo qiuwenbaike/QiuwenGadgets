@@ -2,6 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-MarkRights-Userpage\"></span> 在用户页下方标示用户权限",
 	"section": "sysop",
+	"excludeSites": ["loginwiki"],
 	"dependencies": [
 		"ext.gadget.i18n",
 		"ext.gadget.MarkRights",

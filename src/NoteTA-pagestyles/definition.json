@@ -2,5 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-NoteTA-pagestyles\"></span> “noteTA查看器”配套样式表",
 	"section": "compatibility",
+	"excludeSites": ["loginwiki"],
 	"hidden": true
 }

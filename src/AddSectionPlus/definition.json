@@ -2,6 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-AddSectionPlus\"></span> 将“{{int:skin-action-addsection}}”链接文本替换为加号（“+”）",
 	"section": "browser",
+	"excludeSites": ["loginwiki"],
 	"dependencies": ["ext.gadget.Util"],
 	"rights": ["edit"]
 }

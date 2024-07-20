@@ -6,6 +6,12 @@ const disableTitle = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $edit
 		$wpSummary.val('');
 	}
 
+	const {wgWikiID} = mw.config.get();
+	// Disabled for loginwikiF
+	if (wgWikiID === 'loginwiki') {
+		return;
+	}
+
 	const noSectionTitlePages: string[] = ['Qiuwen_talk:侵权提报', 'Qiuwen_talk:存废讨论/关注度提报'];
 	const noSectionTitlePagesRegex: RegExp = /^Qiuwen_talk:存废讨论/;
 	const {wgPageName} = mw.config.get();
