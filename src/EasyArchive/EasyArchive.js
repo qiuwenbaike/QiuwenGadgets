@@ -18,9 +18,9 @@ import {sanitize} from './modules/sanitize.ts';
 import {toastify} from 'ext.gadget.Toastify';
 
 (function easyArchiveWrap() {
-	const {wgNamespaceNumber, wgPageName, wgUserName, wgCurRevisionId, wgRevisionId} = mw.config.get();
+	const {wgNamespaceNumber, wgPageName, wgIsMainPage, wgUserName, wgCurRevisionId, wgRevisionId} = mw.config.get();
 
-	if (wgNamespaceNumber < 0 || wgPageName === 'Qiuwen:首页') {
+	if (wgNamespaceNumber < 0 || wgIsMainPage) {
 		return;
 	}
 
