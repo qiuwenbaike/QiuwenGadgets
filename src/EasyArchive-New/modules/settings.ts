@@ -1,5 +1,9 @@
 const getSettings = () => {
 	const settings = document.querySelector('.easy_archive_data_point_collection') as HTMLElement;
+	if (!settings) {
+		return null;
+	}
+
 	const {dataset} = settings;
 	const {arcLevel, arcLoc, secArc, secDel} = dataset;
 	return {
