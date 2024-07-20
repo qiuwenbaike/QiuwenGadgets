@@ -2,6 +2,7 @@
 	"enable": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-CopyCodeBlock\"></span> 提供便于复制代码块内容的按钮",
 	"section": "browser",
+	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
 	"default": true,
 	"dependencies": [

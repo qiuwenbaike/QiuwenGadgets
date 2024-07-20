@@ -2,6 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-PrintOptions\"></span> 打印选项 <small>控制页面的打印方式</small>",
 	"section": "compatibility",
+	"excludeSites": ["loginwiki"],
 	"dependencies": [
 		"ext.gadget.i18n",
 		"ext.gadget.Util",

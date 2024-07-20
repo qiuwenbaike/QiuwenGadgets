@@ -2,7 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-QuickImportAllMedia\"></span> 快速导入某一页面所需全部媒体文件",
 	"section": "edit",
-	"excludeSites": ["licencewiki", "mncqiuwenbaike", "testwiki"],
+	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike", "testwiki"],
 	"dependencies": [
 		"ext.gadget.QuickImport",
 		"ext.gadget.Toastify",

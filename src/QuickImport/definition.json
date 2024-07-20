@@ -2,6 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-QuickImport\"></span> 快速导入页面",
 	"section": "edit",
+	"excludeSites": ["loginwiki"],
 	"dependencies": ["ext.gadget.Toastify", "ext.gadget.Util", "mediawiki.api", "mediawiki.util"],
 	"rights": ["import"]
 }

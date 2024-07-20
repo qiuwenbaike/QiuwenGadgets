@@ -1,6 +1,7 @@
 {
 	"enable": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-NavboxCSS\"></span> {{tl|Navbox}}系列模板样式表",
+	"excludeSites": ["loginwiki"],
 	"default": true,
 	"hidden": true
 }

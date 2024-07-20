@@ -1,5 +1,6 @@
 {
 	"enable": true,
 	"description": "<span id=\"Gadget-NospzGothic\"></span> NospzGothic <small>为显示特殊汉字添加额外字体</small>",
+	"excludeSites": ["loginwiki"],
 	"default": true
 }
