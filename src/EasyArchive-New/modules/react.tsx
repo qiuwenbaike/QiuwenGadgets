@@ -19,7 +19,12 @@ const emptyElement = () => <></>;
 
 const linkWrap = (textContent: string, href: string) => <a href={href} textContent={textContent} />;
 
-const onClickWrap = (textContent: string, onClick: () => void, dataActual?: string, dataNominal?: string) => (
+const onClickWrap = (
+	textContent: string,
+	onClick: (event: Event) => void,
+	dataActual?: string,
+	dataNominal?: string
+) => (
 	<a
 		class={['easy-archive-link', `easy-archive-link-${dataActual}-${dataNominal}`]}
 		onClick={onClick}
@@ -31,7 +36,7 @@ const onClickWrap = (textContent: string, onClick: () => void, dataActual?: stri
 
 const pipeElement = () => <span class="mw-editsection-divider" textContent={'|'} />;
 
-const sectionIdSpanElement = () => <span class={['easy-archive-section-id-span']} style={{display: 'none'}} />;
+const sectionIdSpanElement = () => <span class={['easy-archive-section-id-span']} />;
 
 const span = (innerHTML: string) => <span innerHTML={innerHTML} />;
 
