@@ -72,26 +72,14 @@
 					tooltip: window.wgULS('本文件并未注明原始出处', '本檔案並未註明原始出處'),
 				},
 				{
-					label: window.wgULS(
-						'未知著作权或著作权无法被查证（CSD F3）',
-						'未知著作權或著作權無法被查證（CSD F3）'
-					),
+					label: window.wgULS('未知著作权信息（CSD F3）', '未知著作權資訊（CSD F3）'),
 					value: 'no license',
-					tooltip: window.wgULS(
-						'本文件缺少著作权信息，或声称的著作权信息无法被查证',
-						'本檔案缺少著作權資訊，或聲稱的著作權資訊無法被查證'
-					),
+					tooltip: window.wgULS('本文件缺少著作权信息', '本檔案缺少著作權資訊'),
 				},
 				{
-					label: window.wgULS(
-						'来源不明且未知著作权或著作权无法被查证（CSD F3）',
-						'來源不明且未知著作權或著作權無法被查證（CSD F3）'
-					),
-					value: 'no source no license',
-					tooltip: window.wgULS(
-						'本文件并未注明原始出处，且本文件缺少著作权信息或声称的著作权信息无法被查证',
-						'本檔案並未註明原始出處，且本檔案缺少著作權資訊或聲稱的著作權資訊無法被查證'
-					),
+					label: window.wgULS('著作权无法被查证（CSD F3）', '著作權無法被查證（CSD F3）'),
+					value: 'no license',
+					tooltip: window.wgULS('本文件声称的著作权信息无法被查证', '本檔案聲稱的著作權資訊無法被查證'),
 				},
 				{
 					label: window.wgULS('可被替代的非自由著作权文件（CSD F4）', '可被替代的非自由著作權檔案（CSD F4）'),
@@ -194,9 +182,6 @@
 				csdcrit = 'f3';
 				break;
 			case 'no license':
-				csdcrit = 'f3';
-				break;
-			case 'no source no license':
 				csdcrit = 'f3';
 				break;
 			case 'orphaned fair use':
