@@ -1,4 +1,4 @@
-import {emptyElement, onClickWrap, pipeElement} from './modules/react';
+import {emptyElement, onClickWrap, pipeElement, sectionIdSpanElement} from './modules/react';
 import {archive} from './modules/archive';
 import {getSections} from './modules/parse';
 import {getSettings} from './modules/settings';
@@ -41,7 +41,8 @@ const main = async () => {
 		const heading = document.getElementById(id);
 
 		if (heading) {
-			heading.after(
+			const sectionIdSpan = sectionIdSpanElement();
+			sectionIdSpan.append(
 				secArc === '1'
 					? onClickWrap('存档', () => {
 							void archive(index, id, arcLoc);
@@ -54,6 +55,7 @@ const main = async () => {
 						})
 					: emptyElement()
 			);
+			heading.after(sectionIdSpan);
 		}
 	}
 };
