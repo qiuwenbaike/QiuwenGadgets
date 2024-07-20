@@ -46,16 +46,6 @@ const addLinks = async ({
 			continue;
 		}
 
-		const heading = headline.parentElement;
-		if (!heading) {
-			continue;
-		}
-
-		const editSectionSpan = heading.querySelector('.mw-editsection');
-		if (!editSectionSpan) {
-			continue;
-		}
-
 		const sectionIdSpan = sectionIdSpanElement();
 		if (secArc === '1') {
 			sectionIdSpan.append(
@@ -80,7 +70,7 @@ const addLinks = async ({
 				})
 			);
 		}
-		editSectionSpan.append(sectionIdSpan);
+		headline.after(sectionIdSpan);
 	}
 };
 
