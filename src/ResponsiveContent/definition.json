@@ -1,4 +1,5 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-ResponsiveContent\"></span> 改善宽屏界面体验，为[[Template:Infobox|信息框]]、文件缩略图等留出右侧空白 <small>测试版本</small>"
+	"description": "<span id=\"Gadget-ResponsiveContent\"></span> 改善宽屏界面体验，为信息框、文件缩略图等留出右侧空白 <small>测试版本</small>",
+	"excludeSites": ["loginwiki"]
 }
