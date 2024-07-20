@@ -15,7 +15,7 @@ const archiveSection = async (archiveTo: string, text: string) => {
 	}
 	await api.edit(archiveTo, () => {
 		return {
-			appendtext: text,
+			appendtext: `\n\n${text}`,
 			summary: '存档内容',
 			minor: true,
 		};
