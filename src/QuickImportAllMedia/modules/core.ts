@@ -46,8 +46,11 @@ const getElementsFromParse = async (titles: string[]) => {
 					if (regex.test(titleName)) {
 						const match: RegExpExecArray = regex.exec(titleName) as RegExpExecArray;
 						let [fileName] = match;
-						fileName = fileName.replace(/((File|Image):)((File|Image):)?/i, 'File:').replace('+', ' ');
-						fileNamesFromParse[fileNamesFromParse.length] = `${fileName}`;
+						fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
+						fileNamesFromParse[fileNamesFromParse.length] = fileName;
+						if (`${fileName}`.includes('+')) {
+							fileNamesFromParse[fileNamesFromParse.length] = fileName.replace('+', ' ');
+						}
 					}
 				}
 			}
@@ -55,6 +58,9 @@ const getElementsFromParse = async (titles: string[]) => {
 			if (response['parse'].images) {
 				for (const fileName of response['parse'].images) {
 					fileNamesFromParse[fileNamesFromParse.length] = `File:${fileName}`;
+					if (`${fileName}`.includes('+')) {
+						fileNamesFromParse[fileNamesFromParse.length] = `File:${fileName}`.replace('+', ' ');
+					}
 				}
 			}
 		} catch {}
@@ -100,19 +106,21 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 		if (articleRegex.test(href)) {
 			const match: RegExpExecArray = articleRegex.exec(href) as RegExpExecArray;
 			fileName = match[1] as string;
-			fileName = decodeURIComponent(fileName)
-				.replace(/((File|Image):)((File|Image):)?/i, 'File:')
-				.replace('+', ' ');
+			fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
 			fileNames[fileNames.length] = fileName;
+			if (`${fileName}`.includes('+')) {
+				fileNames[fileNames.length] = fileName.replace('+', ' ');
+			}
 		}
 
 		if (scriptRegex.test(href)) {
 			const match: RegExpExecArray = scriptRegex.exec(href) as RegExpExecArray;
 			fileName = match[1] as string;
-			fileName = decodeURIComponent(fileName)
-				.replace(/((File|Image):)((File|Image):)?/i, 'File:')
-				.replace('+', ' ');
+			fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
 			fileNames[fileNames.length] = fileName;
+			if (`${fileName}`.includes('+')) {
+				fileNames[fileNames.length] = fileName.replace('+', ' ');
+			}
 		}
 	}
 
