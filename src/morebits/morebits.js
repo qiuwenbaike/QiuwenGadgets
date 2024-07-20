@@ -3911,8 +3911,8 @@ import {generateArray} from 'ext.gadget.Util';
 							window.wgULS('编辑被防滥用过滤器规则“', '編輯被防濫用過濾器規則「') +
 								errorData.abusefilter.description +
 								window.wgULS(
-									'”阻止。若您认为您的该次编辑是有意义的，请至 Wikipedia:防滥用过滤器/错误报告 提报。',
-									'」阻止。若您認為您的該次編輯是有意義的，請至 Wikipedia:防濫用過濾器/錯誤報告 提報。'
+									'”阻止。若您认为您的该次编辑是有意义的，请至 Qiuwen_talk:管理员告示板 提报。',
+									'」阻止。若您認為您的該次編輯是有意義的，請至 Qiuwen_talk:管理員告示板 提報。'
 								)
 						);
 						break;
