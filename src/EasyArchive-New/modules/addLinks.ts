@@ -3,6 +3,7 @@ import {archive} from './archive';
 import {getMessage} from './i18n';
 import {getSections} from './parse';
 import {remove} from './remove';
+import {replaceChild} from './replaceChild';
 
 const addLinks = async ({
 	arcLevel,
@@ -62,6 +63,10 @@ const addLinks = async ({
 			sectionIdSpan.append(
 				onClickWrap(getMessage('Archive'), 'archive', (event) => {
 					event.preventDefault();
+					const parentElement = (event.target as HTMLElement)?.parentElement;
+					if (parentElement) {
+						replaceChild(parentElement, onClickWrap(getMessage('Archiving'), 'archiving'));
+					}
 					void archive(index, id, arcLoc).then(() => {
 						location.reload();
 					});
@@ -75,6 +80,10 @@ const addLinks = async ({
 			sectionIdSpan.append(
 				onClickWrap(getMessage('Delete'), 'delete', (event) => {
 					event.preventDefault();
+					const parentElement = (event.target as HTMLElement)?.parentElement;
+					if (parentElement) {
+						replaceChild(parentElement, onClickWrap(getMessage('Deleting'), 'deleting'));
+					}
 					void remove(index, id).then(() => {
 						location.reload();
 					});
