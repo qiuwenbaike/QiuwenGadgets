@@ -1,5 +1,6 @@
 import {api} from './api';
 import {checkIfPageExist} from './checkIfPageExist';
+import {getMessage} from './i18n';
 
 const archiveSection = async (archiveTo: string, text: string) => {
 	const pageExist = await checkIfPageExist(archiveTo);
@@ -7,7 +8,7 @@ const archiveSection = async (archiveTo: string, text: string) => {
 		await api.create(
 			archiveTo,
 			{
-				summary: '新建存档页面',
+				summary: getMessage('Create summary'),
 				minor: true,
 			},
 			'{{talkarchive}}'
@@ -16,7 +17,7 @@ const archiveSection = async (archiveTo: string, text: string) => {
 	await api.edit(archiveTo, () => {
 		return {
 			appendtext: `\n\n${text}`,
-			summary: '存档内容',
+			summary: getMessage('Archive summary'),
 			minor: true,
 		};
 	});

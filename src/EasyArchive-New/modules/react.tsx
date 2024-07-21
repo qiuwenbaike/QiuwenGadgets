@@ -15,23 +15,8 @@ const elementWrap = (id: string, innerElement: ReactElement) => {
 	return <div id={id}>{innerElement}</div>;
 };
 
-const emptyElement = () => <></>;
-
-const linkWrap = (textContent: string, href: string) => <a href={href} textContent={textContent} />;
-
-const onClickWrap = (
-	textContent: string,
-	onClick: (event: Event) => void,
-	dataActual?: string,
-	dataNominal?: string
-) => (
-	<a
-		class={['easy-archive-link', `easy-archive-link-${dataActual}-${dataNominal}`]}
-		onClick={onClick}
-		textContent={textContent}
-		data-section-id={dataActual}
-		href="#"
-	/>
+const onClickWrap = (textContent: string, className: string, onClick: (event: Event) => void) => (
+	<a class={['easy-archive-link', `easy-archive-link-${className}`]} onClick={onClick} textContent={textContent} />
 );
 
 const pipeElement = () => <span class="mw-editsection-divider" textContent={'|'} />;
@@ -40,4 +25,4 @@ const sectionIdSpanElement = () => <span class={['easy-archive-section-id-span']
 
 const span = (innerHTML: string) => <span innerHTML={innerHTML} />;
 
-export {elementWrap, emptyElement, linkWrap, onClickWrap, pipeElement, sectionIdSpanElement, span};
+export {elementWrap, onClickWrap, pipeElement, sectionIdSpanElement, span};

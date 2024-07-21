@@ -1,6 +1,7 @@
 import './EasyArchive-New.less';
 import {addLinks} from './modules/addLinks';
 import {getSettings} from './modules/settings';
+import {ifArcLocNotAllowed} from './modules/ifArcLocNotAllowed';
 import {isInBlacklist} from './modules/isInBlackList';
 
 (function easyArchive() {
@@ -16,6 +17,11 @@ import {isInBlacklist} from './modules/isInBlackList';
 
 	const {arcLevel, arcLoc, secArc, secDel} = settings;
 	if (!arcLoc) {
+		return;
+	}
+
+	const arcLocNotAllowed = ifArcLocNotAllowed(arcLoc);
+	if (arcLocNotAllowed) {
 		return;
 	}
 
