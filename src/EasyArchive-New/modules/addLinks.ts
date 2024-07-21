@@ -1,5 +1,6 @@
 import {onClickWrap, pipeElement, sectionIdSpanElement} from './react';
 import {archive} from './archive';
+import {getMessage} from './i18n';
 import {getSections} from './parse';
 import {remove} from './remove';
 
@@ -46,10 +47,20 @@ const addLinks = async ({
 			continue;
 		}
 
+		const parentHeading = headline.parentElement;
+		if (!parentHeading) {
+			continue;
+		}
+
+		const editSection = parentHeading.querySelector('.mw-editsection');
+		if (!editSection) {
+			continue;
+		}
+
 		const sectionIdSpan = sectionIdSpanElement();
 		if (secArc === '1') {
 			sectionIdSpan.append(
-				onClickWrap('存档', (event) => {
+				onClickWrap(getMessage('Archive'), 'archive', (event) => {
 					event.preventDefault();
 					void archive(index, id, arcLoc).then(() => {
 						location.reload();
@@ -62,7 +73,7 @@ const addLinks = async ({
 		}
 		if (secDel === '1') {
 			sectionIdSpan.append(
-				onClickWrap('删除', (event) => {
+				onClickWrap(getMessage('Delete'), 'delete', (event) => {
 					event.preventDefault();
 					void remove(index, id).then(() => {
 						location.reload();
@@ -70,7 +81,7 @@ const addLinks = async ({
 				})
 			);
 		}
-		headline.after(sectionIdSpan);
+		editSection.prepend(sectionIdSpan);
 	}
 };
 

@@ -1,6 +1,7 @@
 import {archiveSection} from './archiveSection';
 import {checkIfSectionExist} from './checkIfSectionExist';
 import {deleteSection} from './deleteSection';
+import {getMessage} from './i18n';
 import {getSectionContent} from './getSectionContent';
 
 const archive = async (index: string, anchor: string, archiveTo: string) => {
@@ -18,7 +19,7 @@ const archive = async (index: string, anchor: string, archiveTo: string) => {
 	}
 
 	await archiveSection(archiveTo, content);
-	await deleteSection(wgPageName, index, '存档内容');
+	await deleteSection(wgPageName, index, getMessage('Archive summary'));
 };
 
 export {archive};
