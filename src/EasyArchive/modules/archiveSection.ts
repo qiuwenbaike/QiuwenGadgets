@@ -38,7 +38,7 @@ const archiveSection = async (index: string, anchor: string, archiveTo: string) 
 		};
 	});
 
-	await removeSection(wgPageName, index, getMessage('Archive summary'));
+	await removeSection(index, anchor, getMessage('Archive summary'));
 };
 
 export {archiveSection};
