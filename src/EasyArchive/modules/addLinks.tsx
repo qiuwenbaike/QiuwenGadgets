@@ -1,10 +1,10 @@
 import {onClickWrap, pipeElement, sectionIdSpanElement} from './react';
 import React from 'ext.gadget.React';
-import {archive} from './archive';
+import {archiveSection} from './archiveSection';
 import {getMessage} from './i18n';
 import {getSections} from './parse';
 import {refresh} from './refreshPage';
-import {remove} from './remove';
+import {removeSection} from './removeSection';
 import {replaceChild} from './replaceChild';
 import {toastify} from 'ext.gadget.Toastify';
 
@@ -81,7 +81,7 @@ const addLinks = async ({
 						},
 						'info'
 					);
-					void archive(index, id, arcLoc).then(() => {
+					void archiveSection(index, id, arcLoc).then(() => {
 						toastifyInstance.hideToast();
 						replaceChild(parentElement, <span>{getMessage('Archived')}</span>);
 						toastifyInstance = toastify(
@@ -118,7 +118,7 @@ const addLinks = async ({
 						},
 						'info'
 					);
-					void remove(index, id).then(() => {
+					void removeSection(index, id).then(() => {
 						toastifyInstance.hideToast();
 						replaceChild(parentElement, <span>{getMessage('Deleted')}</span>);
 						toastifyInstance = toastify(
