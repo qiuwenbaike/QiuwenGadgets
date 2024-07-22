@@ -1,9 +1,12 @@
 import {onClickWrap, pipeElement, sectionIdSpanElement} from './react';
+import React from 'ext.gadget.React';
 import {archive} from './archive';
 import {getMessage} from './i18n';
 import {getSections} from './parse';
+import {refresh} from './refreshPage';
 import {remove} from './remove';
 import {replaceChild} from './replaceChild';
+import {toastify} from 'ext.gadget.Toastify';
 
 const addLinks = async ({
 	arcLevel,
@@ -64,11 +67,31 @@ const addLinks = async ({
 				onClickWrap(getMessage('Archive'), 'archive', (event) => {
 					event.preventDefault();
 					const parentElement = (event.target as HTMLElement)?.parentElement;
-					if (parentElement) {
-						replaceChild(parentElement, onClickWrap(getMessage('Archiving'), 'archiving'));
+					if (!parentElement) {
+						return;
 					}
+					replaceChild(parentElement, <span>{getMessage('Archiving')}</span>);
+					let toastifyInstance: ToastifyInstance = {
+						hideToast: () => {},
+					};
+					toastifyInstance = toastify(
+						{
+							text: getMessage('Archiving'),
+							duration: -1,
+						},
+						'info'
+					);
 					void archive(index, id, arcLoc).then(() => {
-						location.reload();
+						toastifyInstance.hideToast();
+						replaceChild(parentElement, <span>{getMessage('Archived')}</span>);
+						toastifyInstance = toastify(
+							{
+								text: getMessage('Archived'),
+								duration: 3 * 1000,
+							},
+							'success'
+						);
+						refresh();
 					});
 				})
 			);
@@ -81,11 +104,31 @@ const addLinks = async ({
 				onClickWrap(getMessage('Delete'), 'delete', (event) => {
 					event.preventDefault();
 					const parentElement = (event.target as HTMLElement)?.parentElement;
-					if (parentElement) {
-						replaceChild(parentElement, onClickWrap(getMessage('Deleting'), 'deleting'));
+					if (!parentElement) {
+						return;
 					}
+					replaceChild(parentElement, <span>{getMessage('Deleting')}</span>);
+					let toastifyInstance: ToastifyInstance = {
+						hideToast: () => {},
+					};
+					toastifyInstance = toastify(
+						{
+							text: getMessage('Deleting'),
+							duration: -1,
+						},
+						'info'
+					);
 					void remove(index, id).then(() => {
-						location.reload();
+						toastifyInstance.hideToast();
+						replaceChild(parentElement, <span>{getMessage('Deleted')}</span>);
+						toastifyInstance = toastify(
+							{
+								text: getMessage('Deleted'),
+								duration: 3 * 1000,
+							},
+							'success'
+						);
+						refresh();
 					});
 				})
 			);

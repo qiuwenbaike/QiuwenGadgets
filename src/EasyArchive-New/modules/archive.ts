@@ -17,7 +17,6 @@ const archive = async (index: string, anchor: string, archiveTo: string) => {
 	if (content === null) {
 		return;
 	}
-
 	await archiveSection(archiveTo, content);
 	await deleteSection(wgPageName, index, getMessage('Archive summary'));
 };
