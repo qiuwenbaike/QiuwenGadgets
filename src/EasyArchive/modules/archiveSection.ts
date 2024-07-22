@@ -1,8 +1,7 @@
+import {checkIfPageExist, checkIfSectionExist} from './util/checkIfExist';
 import {api} from './api';
-import {checkIfPageExist} from './checkIfPageExist';
-import {checkIfSectionExist} from './checkIfSectionExist';
 import {getMessage} from './i18n';
-import {getSectionContent} from './getSectionContent';
+import {getSectionContent} from './util/getSection';
 import {removeSection} from './removeSection';
 
 const archiveSection = async (index: string, anchor: string, archiveTo: string) => {

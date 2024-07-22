@@ -1,11 +1,11 @@
-import {onClickWrap, pipeElement, sectionIdSpanElement} from './react';
+import {onClickWrap, pipeElement, sectionIdSpanElement} from './util/react';
 import React from 'ext.gadget.React';
 import {archiveSection} from './archiveSection';
 import {getMessage} from './i18n';
-import {getSections} from './parse';
-import {refresh} from './refreshPage';
+import {getSections} from './util/getSection';
+import {refresh} from './util/refreshPage';
 import {removeSection} from './removeSection';
-import {replaceChild} from './replaceChild';
+import {replaceChild} from './util/replaceChild';
 import {toastify} from 'ext.gadget.Toastify';
 
 const addLinks = async ({

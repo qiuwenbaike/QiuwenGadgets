@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
 import React, {ReactElement} from 'ext.gadget.React';
-import {elementWrap} from './react';
+import {elementWrap} from './util/react';
 import {getMessage} from './i18n';
 
 const footerNotice = (id: string, innerElement: HTMLElement | ReactElement) => {
