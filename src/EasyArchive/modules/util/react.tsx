@@ -35,6 +35,6 @@ const pipeElement = () => <span class="mw-editsection-divider" textContent={'|'}
 
 const sectionIdSpanElement = () => <span class={['gadget-easy_archive__section-id-span']} />;
 
-const span = (innerHTML: string) => <span innerHTML={innerHTML} />;
+const spanWrap = (innerHTML: string) => <span innerHTML={innerHTML} />;
 
-export {elementWrap, onClickWrap, pipeElement, sectionIdSpanElement, span};
+export {elementWrap, onClickWrap, pipeElement, sectionIdSpanElement, spanWrap};
