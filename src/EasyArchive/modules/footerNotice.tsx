@@ -16,7 +16,7 @@ const sanitize = (string: string) =>
 		.replace(/'/g, '&apos;')
 		.replace(/"/g, '&quot;');
 
-const notSupportededFooterNotice = () => {
+const inBlacklistFooterNotice = () => {
 	footerNotice(
 		'easy_archive_not_supported_notice',
 		<span>
@@ -63,10 +63,9 @@ const enabledFooterNotice = (arcLoc: string) => {
 };
 
 export {
-	footerNotice,
-	notSupportededFooterNotice,
-	notAllowededFooterNotice,
-	noArcLocFooterNotice,
 	arcLocNotAllowedFooterNotice,
 	enabledFooterNotice,
+	inBlacklistFooterNotice,
+	noArcLocFooterNotice,
+	notAllowededFooterNotice,
 };

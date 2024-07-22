@@ -1,10 +1,9 @@
-import {archiveSection} from './archiveSection';
+import {api} from './api';
 import {checkIfSectionExist} from './checkIfSectionExist';
-import {deleteSection} from './deleteSection';
 import {getMessage} from './i18n';
 import {getSectionContent} from './getSectionContent';
 
-const archive = async (index: string, anchor: string, archiveTo: string) => {
+const removeSection = async (index: string, anchor: string, summary?: string) => {
 	const {wgPageName} = mw.config.get();
 	const ifSectionExist = await checkIfSectionExist(index, anchor);
 
@@ -17,8 +16,15 @@ const archive = async (index: string, anchor: string, archiveTo: string) => {
 	if (content === null) {
 		return;
 	}
-	await archiveSection(archiveTo, content);
-	await deleteSection(wgPageName, index, getMessage('Archive summary'));
+
+	await api.edit(wgPageName, () => {
+		return {
+			section: index,
+			text: '',
+			summary: summary ?? getMessage('Delete summary'),
+			minor: true,
+		};
+	});
 };
 
-export {archive};
+export {removeSection};
