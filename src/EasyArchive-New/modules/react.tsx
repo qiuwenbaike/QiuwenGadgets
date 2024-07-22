@@ -25,7 +25,7 @@ const elementWrap = (id: string, innerElement: ReactElement) => {
 
 const onClickWrap = (textContent: string, className: string, onClick?: (event: Event) => void) => (
 	<a
-		class={['gadget-easy_archive__link', `easy-archive-link-${className}`]}
+		class={['gadget-easy_archive__link', `gadget-easy_archive__link-${className}`]}
 		onClick={onClick}
 		textContent={textContent}
 	/>

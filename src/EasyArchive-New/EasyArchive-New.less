@@ -1,12 +1,14 @@
-.ve-activated {
-	.gadget-easy_archive__footer_notice {
-		display: none;
+.gadget-easy_archive {
+	&__footer_notice {
+		.ve-activated & {
+			display: none;
+		}
 	}
-}
 
-.skin-citizen {
-	.easy-archive-section-id-span {
-		font-size: 0.875rem;
-		margin: 0 0.5rem;
+	&__section-id-span {
+		.skin-citizen & {
+			font-size: 0.875rem;
+			margin: 0 0.5rem;
+		}
 	}
 }
