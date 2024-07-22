@@ -1,4 +1,4 @@
-import {api} from './api';
+import {api} from '../api';
 
 const getSections = async (title: string) => {
 	const params: ApiParseParams = {
@@ -40,4 +40,21 @@ const getSections = async (title: string) => {
 	return sectionsToArchive;
 };
 
-export {getSections};
+const getSectionContent = async (title: string, section: string): Promise<string | null> => {
+	const params: ApiQueryRevisionsParams = {
+		action: 'query',
+		prop: ['revisions'],
+		rvprop: 'content',
+		format: 'json',
+		formatversion: '2',
+		titles: title,
+		rvsection: section,
+	};
+
+	const response = await api.get(params);
+
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+	return response['query'].pages[0].revisions[0].content ?? null;
+};
+
+export {getSections, getSectionContent};

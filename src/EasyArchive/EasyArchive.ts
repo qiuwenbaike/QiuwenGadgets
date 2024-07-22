@@ -6,12 +6,9 @@ import {
 	noArcLocFooterNotice,
 	notAllowededFooterNotice,
 } from './modules/footerNotice';
+import {ifArcLocNotAllowed, isInBlacklist, isNotAllowed, isNotSupported} from './modules/isInDisallowedList';
 import {addLinks} from './modules/addLinks';
-import {getSettings} from './modules/settings';
-import {ifArcLocNotAllowed} from './modules/ifArcLocNotAllowed';
-import {isInBlacklist} from './modules/isInBlacklist';
-import {isNotAllowed} from './modules/isNotAllowed';
-import {isNotSupported} from './modules/isNotSupported';
+import {getSettings} from './modules/getSettings';
 
 (function easyArchive() {
 	const notSupported = isNotSupported();

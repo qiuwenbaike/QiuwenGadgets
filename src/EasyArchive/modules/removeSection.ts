@@ -1,7 +1,7 @@
 import {api} from './api';
-import {checkIfSectionExist} from './checkIfSectionExist';
+import {checkIfSectionExist} from './util/checkIfExist';
 import {getMessage} from './i18n';
-import {getSectionContent} from './getSectionContent';
+import {getSectionContent} from './util/getSection';
 
 const removeSection = async (index: string, anchor: string, summary?: string) => {
 	const {wgPageName} = mw.config.get();

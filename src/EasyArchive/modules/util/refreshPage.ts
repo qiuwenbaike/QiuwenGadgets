@@ -1,4 +1,4 @@
-import {getMessage} from './i18n';
+import {getMessage} from '../i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
 const {wgScript} = mw.config.get();
