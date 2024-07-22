@@ -2,9 +2,7 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
  *
- * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-easy-archive.js}
- * @base {@link https://meta.wikimedia.org/w/index.php?oldid=18915644}
- * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EasyArchive}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EasyArchive-New}
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 /**
@@ -21,16 +19,14 @@
 /* <nowiki> */
 
 /* src/EasyArchive/EasyArchive.less */
-.ve-activated #easy_archive_enable_notice,
-.ve-activated #easy_archive_stop_notice,
-.ve-activated #easy_archive_supports_notice {
+.ve-activated .gadget-easy_archive__footer_notice {
   display: none;
 }
-.skin-citizen .easy-archive-section-id-span {
+.skin-citizen .gadget-easy_archive__section-id-span {
   font-size: 0.875rem;
   margin: 0 0.5rem;
 }
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0Vhc3lBcmNoaXZlL0Vhc3lBcmNoaXZlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi52ZS1hY3RpdmF0ZWQgI2Vhc3lfYXJjaGl2ZV9lbmFibGVfbm90aWNlLFxuLnZlLWFjdGl2YXRlZCAjZWFzeV9hcmNoaXZlX3N0b3Bfbm90aWNlLFxuLnZlLWFjdGl2YXRlZCAjZWFzeV9hcmNoaXZlX3N1cHBvcnRzX25vdGljZSB7XG4gIGRpc3BsYXk6IG5vbmU7XG59XG4uc2tpbi1jaXRpemVuIC5lYXN5LWFyY2hpdmUtc2VjdGlvbi1pZC1zcGFuIHtcbiAgZm9udC1zaXplOiAwLjg3NXJlbTtcbiAgbWFyZ2luOiAwIDAuNXJlbTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQyxhQUFhLENBQUM7QUFDZixDQURDLGFBQ2EsQ0FBQztBQUNmLENBRkMsYUFFYSxDQUFDO0FBQ2IsV0FBUztBQUNYO0FBQ0EsQ0FBQyxhQUFhLENBQUM7QUFDYixhQUFXO0FBQ1gsVUFBUSxFQUFFO0FBQ1o7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0Vhc3lBcmNoaXZlL0Vhc3lBcmNoaXZlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi52ZS1hY3RpdmF0ZWQgLmdhZGdldC1lYXN5X2FyY2hpdmVfX2Zvb3Rlcl9ub3RpY2Uge1xuICBkaXNwbGF5OiBub25lO1xufVxuLnNraW4tY2l0aXplbiAuZ2FkZ2V0LWVhc3lfYXJjaGl2ZV9fc2VjdGlvbi1pZC1zcGFuIHtcbiAgZm9udC1zaXplOiAwLjg3NXJlbTtcbiAgbWFyZ2luOiAwIDAuNXJlbTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUMsYUFBYSxDQUFDO0FBQ2IsV0FBUztBQUNYO0FBQ0EsQ0FBQyxhQUFhLENBQUM7QUFDYixhQUFXO0FBQ1gsVUFBUSxFQUFFO0FBQ1o7IiwKICAibmFtZXMiOiBbXQp9Cg== */

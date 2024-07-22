@@ -1,4 +1,4 @@
-import './EasyArchive-New.less';
+import './EasyArchive.less';
 import {
 	arcLocNotAllowedFooterNotice,
 	enabledFooterNotice,

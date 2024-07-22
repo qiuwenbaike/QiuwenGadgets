@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-EasyArchive\"></span> [[Help:Easy Archive|快速存档]] <small>一键存档讨论页</small>",
+	"description": "<span id=\"Gadget-EasyArchive-New\"></span> [[Help:Easy Archive|快速存档]] <small>一键存档讨论页（测试版）</small>",
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
