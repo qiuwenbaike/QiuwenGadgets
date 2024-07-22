@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
 import {initMwApi} from 'ext.gadget.Util';
 
-const api: mw.Api = initMwApi(`EasyAchive/${OPTIONS.version}`);
+const api: mw.Api = initMwApi(`EasyArchive/${OPTIONS.version}`);
 
 export {api};
