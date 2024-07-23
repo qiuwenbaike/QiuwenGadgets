@@ -1,9 +1,10 @@
 import React from 'ext.gadget.React';
 import {getMessage} from './i18n';
+import {uniqueArray} from 'ext.gadget.Util';
 
 const {wgAction, wgCanonicalSpecialPageName, wgNamespaceNumber, wgPageName, wgScript, wgUserName} = mw.config.get();
 
-const loadWithURL = (): void => {
+const loadWithURL = async (): Promise<void> => {
 	const URL_WITH_CSS: string | null = mw.util.getParamValue('withCSS');
 	const URL_WITH_JS: string | null = mw.util.getParamValue('withJS');
 	const URL_WITH_MODULE: string | null = mw.util.getParamValue('withModule');
@@ -24,10 +25,12 @@ const loadWithURL = (): void => {
 				'text/css'
 			);
 		}
-		if (URL_WITH_JS && /^MediaWiki:[^#%&<=>]*\.js$/.test(URL_WITH_JS)) {
+		if (URL_WITH_JS || URL_WITH_MODULE) {
 			// @ts-expect-error TS6133
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			void mw.loader.using('').then((require): void => {
+			const require = await mw.loader.using('ext.gadget.SiteCommon_JS');
+
+			if (URL_WITH_JS && /^MediaWiki:[^#%&<=>]*\.js$/.test(URL_WITH_JS)) {
 				mw.loader.load(
 					mw.util.getUrl(URL_WITH_JS, {
 						action: 'raw',
@@ -36,14 +39,12 @@ const loadWithURL = (): void => {
 						smaxage: '3600',
 					})
 				);
-			});
-		}
-		if (URL_WITH_MODULE && /^ext\.[^,|]+$/.test(URL_WITH_MODULE)) {
-			// @ts-expect-error TS6133
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			void mw.loader.using(URL_WITH_MODULE).then((require): void => {
-				mw.loader.load(URL_WITH_MODULE);
-			});
+			}
+
+			if (URL_WITH_MODULE && /^((ext\.[^,|]+)[,|]?)+$/.test(URL_WITH_MODULE)) {
+				const modules = uniqueArray(URL_WITH_MODULE.split(/[,|]/));
+				mw.loader.load(modules);
+			}
 		}
 	}
 	/**
@@ -57,92 +58,32 @@ const loadWithURL = (): void => {
 			`^(?:MediaWiki:${wgUserNameExcaped ? `|User:${wgUserNameExcaped}/` : ''})[^&<>=%#]*\\.(js|css)$`
 		);
 		const REGEX_EXT: RegExp = /^ext\.[^,]+$/;
-		const path: string = `${wgScript}?action=raw&ctype=text/`;
-		for (const useFile of URL_USE.split('|')) {
+		const path: string = wgScript;
+		const useFiles = URL_USE.split(/[,|]/);
+		for (const useFile of useFiles) {
 			const name: string = useFile.toString().trim();
 			const what: string[] = REGEX_FILE.exec(name) ?? ['', ''];
 			switch (what[1]) {
-				case 'js':
+				case 'css':
+					mw.loader.load(`${path}?action=raw&ctype=text/css&title=${encodeURIComponent(name)}`);
+					break;
+				case 'js': {
 					// @ts-expect-error TS6133
 					// eslint-disable-next-line @typescript-eslint/no-unused-vars
-					void mw.loader.using('').then((require): void => {
-						mw.loader.load(`${path}javascript&title=${encodeURIComponent(name)}`);
-					});
+					const require = await mw.loader.using('ext.gadget.SiteCommon_JS');
+					mw.loader.load(`${path}?action=raw&ctype=text/javascript&title=${encodeURIComponent(name)}`);
 					break;
-				case 'css':
-					mw.loader.load(`${path}css&title=${encodeURIComponent(name)}`);
-					break;
+				}
 				default:
 					if (REGEX_EXT.test(name)) {
 						// @ts-expect-error TS6133
 						// eslint-disable-next-line @typescript-eslint/no-unused-vars
-						void mw.loader.using(name).then((require): void => {
-							mw.loader.load(name);
-						});
+						const require = await mw.loader.using('ext.gadget.SiteCommon_JS');
+						mw.loader.load(name);
 					}
 			}
 		}
 	}
-};
-
-const noPermWarning = (): void => {
-	/**
-	 * Load warning(s) when user has no access to page
-	 */
-	const URL_NO_PERM: string | null = mw.util.getParamValue('noperm');
-	if (!URL_NO_PERM) {
-		return;
-	}
-
-	switch (URL_NO_PERM) {
-		case '0':
-			void mw.notify(
-				window.wgULS(
-					'因技术原因，您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
-					'因技術原因，您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
-				),
-				{tag: 'noPerm', type: 'error'}
-			);
-			break;
-		case '1':
-			void mw.notify(
-				window.wgULS(
-					'您没有权限访问相关页面。若您是资深编者，请与求闻百科技术团队联系，以获取权限。',
-					'您沒有權限訪問相關頁面。若您是資深編者，請與求聞百科技術團隊聯系，以獲取權限。'
-				),
-				{tag: 'noPerm', type: 'error'}
-			);
-			break;
-		case '2':
-			void mw.notify(
-				window.wgULS(
-					'您的网络环境存在风险，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
-					'您的網路環境存在風險，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
-				),
-				{tag: 'noPerm', type: 'warn'}
-			);
-			break;
-		case '3':
-			void mw.notify(
-				window.wgULS(
-					'相关功能仅向注册用户开放，请登录后继续使用。若您没有求闻百科账号，请注册后登录。',
-					'相關功能僅向注冊用戶開放，請登入後繼續使用。若您沒有求聞百科賬號，請注冊後登錄。'
-				),
-				{tag: 'noPerm', type: 'warn'}
-			);
-			break;
-		default:
-			void mw.notify(
-				window.wgULS(
-					'您没有权限访问相关页面。若有疑问，请与求闻百科运营者联系。',
-					'您沒有權限訪問相關頁面。若有疑問，請與求聞百科運營者聯系。'
-				),
-				{tag: 'noPerm', type: 'error'}
-			);
-	}
-
-	const newUrl: string = location.href.replace(/[?&]noperm=[0-9]+/, '');
-	history.pushState({}, document.title, newUrl);
 };
 
 const highLightRev = ($body: JQuery<HTMLBodyElement>): void => {
@@ -241,7 +182,7 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	$firstHeading.text(replaceTitle(pageTitle));
 };
 
-const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
+const unihanPopup = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 	/**
 	 * Display title=(.*) of <span class="inline-unihan"> after them.
 	 * (beta test)
@@ -251,6 +192,8 @@ const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
+	await mw.loader.using('oojs-ui-core');
+
 	for (const element of $body.find('attr, .inline-unihan')) {
 		const $element: JQuery = $(element);
 
@@ -259,17 +202,18 @@ const unihanPopup = ($body: JQuery<HTMLBodyElement>): void => {
 			continue;
 		}
 
-		void mw.loader.using('oojs-ui-core').then((): void => {
-			const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
-				$content: $(<p>{title}</p>) as JQuery,
-				label: getMessage('Note'),
-				anchor: true,
-				head: true,
-				padded: true,
-			});
-			$element.append(popup.$element).on('click', (): void => {
-				popup.toggle();
-			});
+		const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
+			$content: $(<p>{title}</p>) as JQuery,
+			label: getMessage('Note'),
+			anchor: true,
+			head: true,
+			padded: true,
+		});
+
+		$body.append(popup.$element);
+
+		$element.on('click', (): void => {
+			popup.toggle();
 		});
 	}
 };
@@ -308,7 +252,6 @@ const toggleLink = ($body: JQuery<HTMLBodyElement>): void => {
 
 export {
 	loadWithURL,
-	noPermWarning,
 	highLightRev,
 	addTargetBlank,
 	removeTitleFromPermalink,

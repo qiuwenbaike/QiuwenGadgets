@@ -4,7 +4,6 @@ import {
 	hideNewUsersLog,
 	highLightRev,
 	loadWithURL,
-	noPermWarning,
 	openSearchInNewTab,
 	removeTitleFromPermalink,
 	titleCleanUp,
@@ -26,8 +25,7 @@ import {getBody} from 'ext.gadget.Util';
 	mw.config.set(configKey, true);
 
 	// Core modules
-	loadWithURL();
-	noPermWarning();
+	void loadWithURL();
 	fixLocationHash();
 
 	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
@@ -37,7 +35,7 @@ import {getBody} from 'ext.gadget.Util';
 		removeTitleFromPermalink($body);
 		openSearchInNewTab($body);
 		titleCleanUp($body);
-		unihanPopup($body);
+		void unihanPopup($body);
 		hideNewUsersLog($body);
 		toggleLink($body);
 
