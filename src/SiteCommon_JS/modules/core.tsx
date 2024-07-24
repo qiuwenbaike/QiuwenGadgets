@@ -41,7 +41,7 @@ const loadWithURL = async (): Promise<void> => {
 				);
 			}
 
-			if (URL_WITH_MODULE && /^((ext\.[^,|]+)[,|]?)+$/.test(URL_WITH_MODULE)) {
+			if (URL_WITH_MODULE && /^(ext\.([^,|]|[,|])){1,}$/.test(URL_WITH_MODULE)) {
 				const modules = uniqueArray(URL_WITH_MODULE.split(/[,|]/));
 				mw.loader.load(modules);
 			}
