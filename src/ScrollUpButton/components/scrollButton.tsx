@@ -17,7 +17,7 @@ function ScrollButton(props: Props) {
 
 	return (
 		<img
-			className={[CLASS_NAME, additionalClassName]}
+			className={[CLASS_NAME, additionalClassName, 'noprint']}
 			src={"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E"}
 			width="32"
 			height="32"
