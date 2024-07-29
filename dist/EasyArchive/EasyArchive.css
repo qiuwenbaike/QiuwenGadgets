@@ -1,9 +1,23 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|license2=Qiuwen License}}'
  *
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/EasyArchive}
+ * @author WaitSpring <me@waitspring.com>
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ * @license Qiuwen License {@link https://www.qiuwenbaike.cn/wiki/QW:QWL}
+ */
+
+/**
+ * Copyright 2024 WaitSpring <me@waitspring.com>
+ * Licensed under the "Qiuwen License" (the "License",
+ * formerly the "Qiuwen Public Licence"), either
+ * version 1.0 of the Licence, or any later version.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.qiuwenbaike.cn/wiki/QW:QWL
+ *
+ * See the License for details.
  */
 /**
  * +------------------------------------------------------------+
@@ -29,4 +43,4 @@
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0Vhc3lBcmNoaXZlL0Vhc3lBcmNoaXZlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi52ZS1hY3RpdmF0ZWQgLmdhZGdldC1lYXN5X2FyY2hpdmVfX2Zvb3Rlcl9ub3RpY2Uge1xuICBkaXNwbGF5OiBub25lO1xufVxuLnNraW4tY2l0aXplbiAuZ2FkZ2V0LWVhc3lfYXJjaGl2ZV9fc2VjdGlvbi1pZC1zcGFuIHtcbiAgZm9udC1zaXplOiAwLjg3NXJlbTtcbiAgbWFyZ2luOiAwIDAuNXJlbTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUMsYUFBYSxDQUFDO0FBQ2IsV0FBUztBQUNYO0FBQ0EsQ0FBQyxhQUFhLENBQUM7QUFDYixhQUFXO0FBQ1gsVUFBUSxFQUFFO0FBQ1o7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL0Vhc3lBcmNoaXZlL0Vhc3lBcmNoaXZlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi52ZS1hY3RpdmF0ZWQgLmdhZGdldC1lYXN5X2FyY2hpdmVfX2Zvb3Rlcl9ub3RpY2Uge1xuICBkaXNwbGF5OiBub25lO1xufVxuLnNraW4tY2l0aXplbiAuZ2FkZ2V0LWVhc3lfYXJjaGl2ZV9fc2VjdGlvbi1pZC1zcGFuIHtcbiAgZm9udC1zaXplOiAwLjg3NXJlbTtcbiAgbWFyZ2luOiAwIDAuNXJlbTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQyxhQUFhLENBQUM7QUFDYixXQUFTO0FBQ1g7QUFDQSxDQUFDLGFBQWEsQ0FBQztBQUNiLGFBQVc7QUFDWCxVQUFRLEVBQUU7QUFDWjsiLAogICJuYW1lcyI6IFtdCn0K */
