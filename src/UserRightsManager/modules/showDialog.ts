@@ -1,4 +1,3 @@
-import {ApiResponse} from 'types-mediawiki-renovate/mw/Api';
 import {UserRights} from '~/MarkRights/modules/types';
 import {api} from './api';
 import {assignPermission} from './assignPermission';
@@ -165,23 +164,18 @@ const showDialog = function showDialog({
 			return this;
 		}
 		public static onSubmit() {
-			void markAsDone(userName, index, `\n:${Dialog.closingRemarksInput.getValue()}`)
+			void markAsDone({userName, index, closingRemarks: `\n:${Dialog.closingRemarksInput.getValue()}`})
 				.then((data) => {
-					void assignPermission(
+					void assignPermission({
 						userName,
 						permission,
-						Dialog.rightsChangeSummaryInput.getValue(),
-						Number.parseInt(data['edit'].newrevid as string, 10),
-						(Dialog.expiryInput as OO.ui.TextInputWidget).getValue()
-					).then(() => {
-						if (permissionTemplate) {
-							void (issueTemplate(
-								userName,
-								permission,
-								Dialog.watchTalkPageCheckbox.isSelected()
-							) as JQuery.Promise<ApiResponse>);
-						}
+						summary: Dialog.rightsChangeSummaryInput.getValue(),
+						revId: Number.parseInt(data['edit'].newrevid as string, 10),
+						expiry: (Dialog.expiryInput as OO.ui.TextInputWidget).getValue(),
 					});
+				})
+				.then(() => {
+					void issueTemplate({userName, permission, watch: Dialog.watchTalkPageCheckbox.isSelected()});
 				})
 				.then(() => {
 					setTimeout(() => {

@@ -5,11 +5,15 @@ import {api} from './api';
 import {getPermissionNames} from './getPermissionNames';
 import {getPermissionTemplate} from './getTemplates';
 
-const issueTemplate = (
-	userName: string,
-	permission: UserRights,
-	watch: boolean | 'watch' | 'unwatch'
-): JQuery.Promise<ApiResponse> | void => {
+const issueTemplate = ({
+	userName,
+	permission,
+	watch,
+}: {
+	userName: string;
+	permission: UserRights;
+	watch: boolean | 'watch' | 'unwatch';
+}): JQuery.Promise<ApiResponse> | void => {
 	const permissionTemplate = getPermissionTemplate(permission);
 	if (!permissionTemplate) {
 		return;

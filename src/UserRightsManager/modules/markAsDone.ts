@@ -18,7 +18,7 @@ const queryRevisions = async (titles: string | string[], rvsection: string) => {
 	return await api.get(params);
 };
 
-const markAsDone = (userName: string, index: string, closingRemarks: string) => {
+const markAsDone = ({userName, index, closingRemarks}: {userName: string; index: string; closingRemarks: string}) => {
 	const {wgPageName} = mw.config.get();
 	// eslint-disable-next-line unicorn/prefer-query-selector
 	const sectionNode = document.getElementById(
