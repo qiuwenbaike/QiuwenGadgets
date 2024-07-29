@@ -3,7 +3,7 @@ import {checkIfSectionExist} from './util/checkIfExist';
 import {getMessage} from './i18n';
 import {getSectionContent} from './util/getSection';
 
-const removeSection = async (index: string, anchor: string, summary?: string) => {
+const removeSection = async ({index, anchor, summary}: {index: string; anchor: string; summary?: string}) => {
 	const {wgPageName} = mw.config.get();
 	const ifSectionExist = await checkIfSectionExist(index, anchor);
 
