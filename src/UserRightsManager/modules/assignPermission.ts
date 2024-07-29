@@ -3,7 +3,19 @@ import {UserRights} from '~/MarkRights/modules/types';
 import {api} from './api';
 import {getPermissionNames} from './getPermissionNames';
 
-const assignPermission = (userName: string, permission: UserRights, summary: string, revId: number, expiry: string) => {
+const assignPermission = ({
+	userName,
+	permission,
+	summary,
+	revId,
+	expiry,
+}: {
+	userName: string;
+	permission: UserRights;
+	summary: string;
+	revId: number;
+	expiry: string;
+}) => {
 	const permaLink = `[[Special:PermaLink/${revId}#User:${userName}|权限申请]]`;
 	let fullSummary = `+${getPermissionNames(permission)}；${permaLink}`;
 	if (summary !== '') {
@@ -18,6 +30,9 @@ const assignPermission = (userName: string, permission: UserRights, summary: str
 		add: [permission],
 		expiry: expiry === '' ? 'infinity' : expiry,
 	};
+	if (permission === 'patroller' && expiry === 'infinite') {
+		params.remove = 'autoreviewer';
+	}
 	return api.postWithToken('userrights', params);
 };
 

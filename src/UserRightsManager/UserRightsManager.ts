@@ -11,12 +11,12 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	$body.find('.perm-assign-permissions a').on('click', function (event) {
 		event.preventDefault();
 
-		const userName = mw.util.getParamValue('user', $(this).attr('href'));
+		const $element: JQuery<HTMLAnchorElement> = $(this as HTMLAnchorElement);
+		const userName = mw.util.getParamValue('user', $element.attr('href'));
 		if (!userName) {
 			return;
 		}
 
-		const $element: JQuery<HTMLAnchorElement> = $(event.target as HTMLAnchorElement);
 		const sectionId: string = $element.parents('dl').prev('h4').find('.mw-headline').attr('id') ?? '';
 		const index: string =
 			sectionId === `User:${userName}` || sectionId === `User:${userName}`.replace(/"/g, '.22').replace(/ /g, '_')

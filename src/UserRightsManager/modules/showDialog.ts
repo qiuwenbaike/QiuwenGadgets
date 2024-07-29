@@ -1,4 +1,3 @@
-import {ApiResponse} from 'types-mediawiki-renovate/mw/Api';
 import {UserRights} from '~/MarkRights/modules/types';
 import {api} from './api';
 import {assignPermission} from './assignPermission';
@@ -32,15 +31,8 @@ const showDialog = function showDialog({
 		private static watchTalkPageCheckbox: OO.ui.CheckboxInputWidget;
 		private static submitPanel: OO.ui.PanelLayout;
 		private static submitFieldset: OO.ui.FieldsetLayout;
-		private static $body: JQuery = $('body');
 		private static stackLayout: OO.ui.StackLayout;
-		private static markAsDoneProgressField: OO.ui.FieldLayout;
-		private static changeRightsProgressField: OO.ui.FieldLayout;
-		private static issueTemplateProgressField: OO.ui.FieldLayout;
-		private static changeRightsProgressLabel: OO.ui.LabelWidget;
-		private static markAsDoneProgressLabel: OO.ui.LabelWidget;
-		private static issueTemplateProgressLabel: OO.ui.LabelWidget;
-		static actions: unknown;
+		private $body: JQuery | undefined;
 
 		public constructor() {
 			super({
@@ -163,106 +155,33 @@ const showDialog = function showDialog({
 			});
 			Dialog.submitPanel.$element.append(Dialog.submitFieldset.$element);
 			Dialog.submitPanel.$element.append(Dialog.submitFieldset.$element);
-			Dialog.changeRightsProgressLabel = new OO.ui.LabelWidget();
-			Dialog.changeRightsProgressField = new OO.ui.FieldLayout(Dialog.changeRightsProgressLabel);
-			Dialog.markAsDoneProgressLabel = new OO.ui.LabelWidget();
-			Dialog.markAsDoneProgressField = new OO.ui.FieldLayout(Dialog.markAsDoneProgressLabel);
-			Dialog.issueTemplateProgressLabel = new OO.ui.LabelWidget();
-			Dialog.issueTemplateProgressField = new OO.ui.FieldLayout(Dialog.issueTemplateProgressLabel);
 			Dialog.stackLayout = new OO.ui.StackLayout({
 				items: [Dialog.editPanel, Dialog.submitPanel],
 				padded: true,
 			});
-			Dialog.$body.append(Dialog.stackLayout.$element);
+			(this.$body as JQuery).append(Dialog.stackLayout.$element);
 
 			return this;
 		}
 		public static onSubmit() {
-			let promiseCount = permissionTemplate ? 3 : 2;
-
-			// @ts-expect-error TS18046
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-			Dialog.actions.setAbilities({submit: false});
-
-			const addPromise = function (field: OO.ui.FieldLayout, promise: JQuery.Promise<ApiResponse>) {
-				Dialog.pushPending();
-				void promise
-					.done(() => {
-						field.$field.append(
-							$('<span>')
-								.text('完成！')
-								.prop('style', 'position:relative; top:0.5em; color: #009000; font-weight: bold')
-						);
-					})
-					.fail((obj) => {
-						if (obj && obj.error && obj.error.info) {
-							field.$field.append(
-								$('<span>')
-									.text(wgULS('错误：', '錯誤：') + obj.error.info)
-									.prop('style', 'position:relative; top:0.5em; color: #cc0000; font-weight: bold')
-							);
-						} else {
-							field.$field.append(
-								$('<span>')
-									.text(wgULS('发生未知错误。', '發生未知錯誤。'))
-									.prop('style', 'position:relative; top:0.5em; color: #cc0000; font-weight: bold')
-							);
-						}
-					})
-					.always(() => {
-						promiseCount--; // FIXME: maybe we could use a Dialog.isPending() or something
-						Dialog.popPending();
-
-						if (promiseCount === 0) {
-							setTimeout(() => {
-								location.reload();
-							}, 1000);
-						}
-					});
-
-				return promise;
-			};
-
-			Dialog.markAsDoneProgressField.setLabel(wgULS('标记请求为已完成...', '標記請求為已完成...'));
-			Dialog.submitFieldset.addItems([Dialog.markAsDoneProgressField]);
-			Dialog.changeRightsProgressField.setLabel(wgULS('授予权限...', '授予權限...'));
-			Dialog.submitFieldset.addItems([Dialog.changeRightsProgressField]);
-
-			if (permissionTemplate) {
-				Dialog.issueTemplateProgressField.setLabel(wgULS('发送通知...', '發送通知...'));
-				Dialog.submitFieldset.addItems([Dialog.issueTemplateProgressField]);
-			}
-
-			void addPromise(
-				Dialog.markAsDoneProgressField,
-				markAsDone(
-					userName,
-					index,
-					`\n:${Dialog.closingRemarksInput.getValue()}`
-				) as unknown as JQuery.Promise<ApiResponse>
-			).then((data) => {
-				void addPromise(
-					Dialog.changeRightsProgressField,
-					assignPermission(
+			void markAsDone({userName, index, closingRemarks: `\n:${Dialog.closingRemarksInput.getValue()}`})
+				.then((data) => {
+					void assignPermission({
 						userName,
 						permission,
-						Dialog.rightsChangeSummaryInput.getValue(),
-						Number.parseInt(data['edit'].newrevid as string, 10),
-						(Dialog.expiryInput as OO.ui.TextInputWidget).getValue()
-					)
-				).then(() => {
-					if (permissionTemplate) {
-						void addPromise(
-							Dialog.issueTemplateProgressField,
-							issueTemplate(
-								userName,
-								permission,
-								Dialog.watchTalkPageCheckbox.isSelected()
-							) as JQuery.Promise<ApiResponse>
-						);
-					}
+						summary: Dialog.rightsChangeSummaryInput.getValue(),
+						revId: Number.parseInt(data['edit'].newrevid as string, 10),
+						expiry: (Dialog.expiryInput as OO.ui.TextInputWidget).getValue(),
+					});
+				})
+				.then(() => {
+					void issueTemplate({userName, permission, watch: Dialog.watchTalkPageCheckbox.isSelected()});
+				})
+				.then(() => {
+					setTimeout(() => {
+						location.reload();
+					}, 1000);
 				});
-			});
 
 			Dialog.stackLayout.setItem(Dialog.submitPanel);
 		}
