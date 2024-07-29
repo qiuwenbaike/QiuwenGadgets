@@ -1,7 +1,14 @@
 import * as OPTIONS from '../options.json';
 import React, {ReactElement} from 'ext.gadget.React';
 import {getMessage} from './i18n';
-import {sanitize} from './sanitize';
+
+const sanitize = (string: string) =>
+	string
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/'/g, '&apos;')
+		.replace(/"/g, '&quot;');
 
 const elementWrap = (innerElement: ReactElement) => {
 	const {skin} = mw.config.get();
