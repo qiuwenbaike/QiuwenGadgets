@@ -18,6 +18,9 @@ const assignPermission = (userName: string, permission: UserRights, summary: str
 		add: [permission],
 		expiry: expiry === '' ? 'infinity' : expiry,
 	};
+	if (permission === 'patroller' && expiry === 'infinite') {
+		params.remove = 'autoreviewer';
+	}
 	return api.postWithToken('userrights', params);
 };
 

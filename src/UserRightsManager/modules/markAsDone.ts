@@ -35,53 +35,51 @@ const markAsDone = (userName: string, index: string, closingRemarks: string) => 
 	let content: string;
 	let revision;
 
-	return (
-		queryRevisions(wgPageName, `${sectionNumber}`)
-			// @ts-expect-error TS7030
-			.then((data) => {
-				if (!data['query'] || !data['query'].pages) {
-					return $.Deferred().reject('unknown');
-				}
+	return queryRevisions(wgPageName, `${sectionNumber}`)
+		.then((data) => {
+			if (!data['query'] || !data['query'].pages) {
+				return $.Deferred().reject('unknown');
+			}
 
-				const [page] = data['query'].pages;
+			const [page] = data['query'].pages;
 
-				if (!page || page.invalid) {
-					return $.Deferred().reject('invalidtitle');
-				}
+			if (!page || page.invalid) {
+				return $.Deferred().reject('invalidtitle');
+			}
 
-				if (page.missing) {
-					return $.Deferred().reject('nocreate-missing');
-				}
+			if (page.missing) {
+				return $.Deferred().reject('nocreate-missing');
+			}
 
-				revision = page.revisions[0];
-				basetimestamp = revision.timestamp;
-				curtimestamp = data['curtimestamp'];
-				content = revision.content;
-			})
-			.then(() => {
-				content = content.trim();
-				content = content.replace(/(:\s*{{Status)(\|.*?)?}}/i, '$1|+}}');
-				content += closingRemarks;
+			[revision] = page.revisions;
+			basetimestamp = revision.timestamp;
+			curtimestamp = data['curtimestamp'];
+			content = revision.content;
+			return $.Deferred().resolve();
+		})
+		.then(() => {
+			content = content.trim();
+			content = content.replace(/(:\s*{{Status)(\|.*?)?}}/i, '$1|+}}');
+			content += closingRemarks;
 
-				const editParams: ApiEditPageParams = {
-					action: 'edit',
-					format: 'json',
-					formatversion: '2',
-					title: wgPageName,
-					section: sectionNumber,
-					text: content,
-					summary: `/* User:${userName} */ 完成${tagLine}`,
-					basetimestamp,
-					starttimestamp: curtimestamp,
-					nocreate: true,
-				};
-				if (mw.config.get('wgUserName')) {
-					editParams.assert = 'user';
-				}
+			const editParams: ApiEditPageParams = {
+				action: 'edit',
+				format: 'json',
+				formatversion: '2',
+				title: wgPageName,
+				section: sectionNumber,
+				text: content,
+				summary: `/* User:${userName} */ 完成${tagLine}`,
+				basetimestamp,
+				starttimestamp: curtimestamp,
+				nocreate: true,
+			};
+			if (mw.config.get('wgUserName')) {
+				editParams.assert = 'user';
+			}
 
-				return api.postWithEditToken(editParams);
-			})
-	);
+			return api.postWithEditToken(editParams);
+		});
 };
 
 export {markAsDone};
