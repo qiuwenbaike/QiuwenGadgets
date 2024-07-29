@@ -1,21 +1,22 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|license2=Qiuwen Public Licence}}'
  *
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage_mncqiuwenbaike}
  * @author WaitSpring <me@waitspring.com>
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
- * @license Qiuwen License {@link https://www.qiuwenbaike.cn/wiki/QW:QWL}
+ * @license Qiuwen Public License {@link https://www.qiuwenbaike.cn/wiki/QW:QWL}
  */
 
 /**
  * Copyright 2024 WaitSpring <me@waitspring.com>
- * Licensed under the "Qiuwen License" (the "License",
- * formerly the "Qiuwen Public Licence"), either
- * version 1.0 of the Licence, or any later version.
+ * Licensed under the "Qiuwen Public Licence"
+ * (the "License", formerly the "Qiuwen Licence"),
+ * either version 1.0 of the Licence, or any
+ * later version.
  * You may obtain a copy of the License at
  *
- *     http://www.qiuwenbaike.cn/wiki/QW:QWL
+ *  http://www.qiuwenbaike.cn/wiki/QW:QWL
  *
  * See the License for details.
  */
@@ -48,4 +49,4 @@
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL01haW5wYWdlX21uY3FpdXdlbmJhaWtlL01haW5wYWdlX21uY3FpdXdlbmJhaWtlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5wYWdlLemmlumhtS5hY3Rpb24tdmlldy5za2luLWNpdGl6ZW4gLmZpcnN0SGVhZGluZy1jb250YWluZXIge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbn1cbi5wYWdlLemmlumhtS5hY3Rpb24tdmlldy5za2luLWNpdGl6ZW4gI3Atdmlld3Mge1xuICBkaXNwbGF5OiBub25lO1xufVxuLnBhZ2Ut6aaW6aG1LmFjdGlvbi12aWV3ICNtYWlucGFnZSB7XG4gIG1heC13aWR0aDogODAwcHg7XG4gIG1hcmdpbjogYXV0bztcbiAgd2lkdGg6IGF1dG87XG4gIGZvbnQtc2l6ZTogMS4xMjVyZW07XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxhQUFhLENBQUM7QUFDakMsbUJBQWlCO0FBQ25CO0FBQ0EsQ0FIQyxPQUdPLENBSEMsV0FHVyxDQUhDLGFBR2EsQ0FBQztBQUNqQyxXQUFTO0FBQ1g7QUFDQSxDQU5DLE9BTU8sQ0FOQyxZQU1ZLENBQUM7QUFDcEIsYUFBVztBQUNYLFVBQVE7QUFDUixTQUFPO0FBQ1AsYUFBVztBQUNiOyIsCiAgIm5hbWVzIjogW10KfQo= */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL01haW5wYWdlX21uY3FpdXdlbmJhaWtlL01haW5wYWdlX21uY3FpdXdlbmJhaWtlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5wYWdlLemmlumhtS5hY3Rpb24tdmlldy5za2luLWNpdGl6ZW4gLmZpcnN0SGVhZGluZy1jb250YWluZXIge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbn1cbi5wYWdlLemmlumhtS5hY3Rpb24tdmlldy5za2luLWNpdGl6ZW4gI3Atdmlld3Mge1xuICBkaXNwbGF5OiBub25lO1xufVxuLnBhZ2Ut6aaW6aG1LmFjdGlvbi12aWV3ICNtYWlucGFnZSB7XG4gIG1heC13aWR0aDogODAwcHg7XG4gIG1hcmdpbjogYXV0bztcbiAgd2lkdGg6IGF1dG87XG4gIGZvbnQtc2l6ZTogMS4xMjVyZW07XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsYUFBYSxDQUFDO0FBQ2pDLG1CQUFpQjtBQUNuQjtBQUNBLENBSEMsT0FHTyxDQUhDLFdBR1csQ0FIQyxhQUdhLENBQUM7QUFDakMsV0FBUztBQUNYO0FBQ0EsQ0FOQyxPQU1PLENBTkMsWUFNWSxDQUFDO0FBQ3BCLGFBQVc7QUFDWCxVQUFRO0FBQ1IsU0FBTztBQUNQLGFBQVc7QUFDYjsiLAogICJuYW1lcyI6IFtdCn0K */

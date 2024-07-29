@@ -1,21 +1,22 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0|license2=Qiuwen Public Licence}}'
  *
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Mainpage_mncqiuwenbaike}
  * @author WaitSpring <me@waitspring.com>
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
- * @license Qiuwen License {@link https://www.qiuwenbaike.cn/wiki/QW:QWL}
+ * @license Qiuwen Public License {@link https://www.qiuwenbaike.cn/wiki/QW:QWL}
  */
 
 /**
  * Copyright 2024 WaitSpring <me@waitspring.com>
- * Licensed under the "Qiuwen License" (the "License",
- * formerly the "Qiuwen Public Licence"), either
- * version 1.0 of the Licence, or any later version.
+ * Licensed under the "Qiuwen Public Licence"
+ * (the "License", formerly the "Qiuwen Licence"),
+ * either version 1.0 of the Licence, or any
+ * later version.
  * You may obtain a copy of the License at
  *
- *     http://www.qiuwenbaike.cn/wiki/QW:QWL
+ *  http://www.qiuwenbaike.cn/wiki/QW:QWL
  *
  * See the License for details.
  */
