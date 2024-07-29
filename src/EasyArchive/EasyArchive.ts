@@ -34,7 +34,7 @@ import {getSettings} from './modules/getSettings';
 		return;
 	}
 
-	const {arcLevel, arcLoc, secArc, secDel} = settings;
+	const {arcLoc} = settings;
 	if (!arcLoc) {
 		noArcLocFooterNotice();
 		return;
@@ -46,6 +46,6 @@ import {getSettings} from './modules/getSettings';
 		return;
 	}
 
-	void addLinks({arcLevel, arcLoc, secArc, secDel});
+	void addLinks(settings);
 	enabledFooterNotice(arcLoc);
 })();

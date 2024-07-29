@@ -14,10 +14,14 @@ const addLinks = async ({
 	secDel,
 }: {
 	arcLevel: string;
-	arcLoc: string;
+	arcLoc: string | null;
 	secArc: string;
 	secDel: string;
 }) => {
+	if (!arcLoc) {
+		return;
+	}
+
 	const {wgPageName} = mw.config.get();
 	const sectionsToArchive = await getSections(wgPageName);
 
@@ -67,7 +71,9 @@ const addLinks = async ({
 			if (!parentElement) {
 				return;
 			}
+
 			replaceChild(parentElement, spanWrap(getMessage('Archiving')));
+
 			let toastifyInstance: ToastifyInstance = {
 				hideToast: () => {},
 			};
@@ -78,7 +84,8 @@ const addLinks = async ({
 				},
 				'info'
 			);
-			void archiveSection(index, id, arcLoc).then(() => {
+
+			void archiveSection({index, anchor: id, archiveTo: arcLoc}).then(() => {
 				toastifyInstance.hideToast();
 				replaceChild(parentElement, spanWrap(getMessage('Archived')));
 				toastifyInstance = toastify(
@@ -91,13 +98,16 @@ const addLinks = async ({
 				refresh();
 			});
 		});
+
 		const removeSectionLink = onClickWrap(getMessage('Delete'), 'delete', (event) => {
 			event.preventDefault();
 			const parentElement = (event.target as HTMLElement)?.parentElement;
 			if (!parentElement) {
 				return;
 			}
+
 			replaceChild(parentElement, spanWrap(getMessage('Deleting')));
+
 			let toastifyInstance: ToastifyInstance = {
 				hideToast: () => {},
 			};
@@ -108,7 +118,8 @@ const addLinks = async ({
 				},
 				'info'
 			);
-			void removeSection(index, id).then(() => {
+
+			void removeSection({index, anchor: id}).then(() => {
 				toastifyInstance.hideToast();
 				replaceChild(parentElement, spanWrap(getMessage('Deleted')));
 				toastifyInstance = toastify(

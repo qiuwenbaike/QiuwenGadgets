@@ -4,7 +4,7 @@ import {getMessage} from './i18n';
 import {getSectionContent} from './util/getSection';
 import {removeSection} from './removeSection';
 
-const archiveSection = async (index: string, anchor: string, archiveTo: string) => {
+const archiveSection = async ({index, anchor, archiveTo}: {index: string; anchor: string; archiveTo: string}) => {
 	const {wgPageName} = mw.config.get();
 	const ifSectionExist = await checkIfSectionExist(index, anchor);
 
@@ -38,7 +38,7 @@ const archiveSection = async (index: string, anchor: string, archiveTo: string) 
 		};
 	});
 
-	await removeSection(index, anchor, getMessage('Archive summary'));
+	await removeSection({index, anchor, summary: getMessage('Archive summary')});
 };
 
 export {archiveSection};
