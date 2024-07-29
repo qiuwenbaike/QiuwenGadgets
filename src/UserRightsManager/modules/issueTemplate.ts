@@ -1,25 +1,28 @@
 import * as OPTIONS from '../options.json';
-import {getPermissonName, getpermissionTemplate, permissionNames} from './i18n';
+import {ApiResponse} from 'types-mediawiki-renovate/mw/Api';
+import {UserRights} from '~/MarkRights/modules/types';
 import {api} from './api';
+import {getPermissionNames} from './getPermissionNames';
+import {getPermissionTemplate} from './getTemplates';
 
 const issueTemplate = (
 	userName: string,
-	permission: Partial<keyof typeof permissionNames>,
+	permission: UserRights,
 	watch: boolean | 'watch' | 'unwatch'
-) => {
+): JQuery.Promise<ApiResponse> | void => {
+	const permissionTemplate = getPermissionTemplate(permission);
+	if (!permissionTemplate) {
+		return;
+	}
+
+	const permissionName = getPermissionNames(permission);
 	const talkPage = `User talk:${userName.replace(/ /g, '_')}`;
 	const params: ApiEditPageParams = {
 		action: 'edit',
 		format: 'json',
 		title: talkPage,
-		appendtext: '\n\n{{'.concat(
-			'subst:',
-			getpermissionTemplate(
-				permission as 'templateeditor' | 'transwiki' | 'patroller' | 'autoreviewer' | 'massmessage-sender'
-			),
-			'}}}'
-		),
-		summary: `根据共识授予${getPermissonName(permission)}${OPTIONS.userRightsManagerSummary}`,
+		appendtext: '\n\n{{'.concat('subst:', permissionTemplate, '}}}'),
+		summary: `根据共识授予${permissionName}${OPTIONS.userRightsManagerSummary}`,
 		watchlist: watch ? 'watch' : 'unwatch',
 	};
 	return api.postWithEditToken(params);

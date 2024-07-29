@@ -1,26 +1,22 @@
 import {getBody} from 'ext.gadget.Util';
-import {getPermissionRequested} from './modules/i18n';
-import {showDialog} from './modules/showDialog.js';
+import {getPagePermissions} from './modules/getPagePermissions';
+import {showDialog} from './modules/showDialog';
 
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
-	const {wgPageName} = mw.config.get();
-
-	if (!getPermissionRequested(wgPageName) || getPermissionRequested(wgPageName) === wgPageName) {
+	const permission = getPagePermissions();
+	if (!permission) {
 		return;
 	}
 
-	const permission: string | undefined = getPermissionRequested(wgPageName);
-
-	if (permission === 'AutoWikiBrowser') {
-		return;
-	}
-
-	$body.find('.perm-assign-permissions a').on('click', (event: JQuery.ClickEvent): void => {
+	$body.find('.perm-assign-permissions a').on('click', function (event) {
 		event.preventDefault();
 
-		const $element: JQuery<HTMLAnchorElement> = $(event.target as HTMLAnchorElement);
+		const userName = mw.util.getParamValue('user', $(this).attr('href'));
+		if (!userName) {
+			return;
+		}
 
-		const userName: string = mw.util.getParamValue('user', $element.attr('href')) ?? '';
+		const $element: JQuery<HTMLAnchorElement> = $(event.target as HTMLAnchorElement);
 		const sectionId: string = $element.parents('dl').prev('h4').find('.mw-headline').attr('id') ?? '';
 		const index: string =
 			sectionId === `User:${userName}` || sectionId === `User:${userName}`.replace(/"/g, '.22').replace(/ /g, '_')
@@ -30,11 +26,6 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 						.replace(userName, '')
 						.replace(userName.replace(/"/g, '.22').replace(/ /g, '_'), '');
 
-		showDialog({
-			index,
-			userName,
-			permission,
-			$body,
-		});
+		showDialog({$body, userName, permission, index});
 	});
 });
