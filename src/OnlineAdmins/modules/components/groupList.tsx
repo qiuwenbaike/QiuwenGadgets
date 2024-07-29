@@ -3,7 +3,12 @@ import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 
 const sanitize = (string: string) =>
-	string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&lt;').replace(/"/g, '&quot;');
+	string
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/'/g, '&apos;')
+		.replace(/"/g, '&quot;');
 
 interface UserLinkProps {
 	userName: string;
