@@ -15,6 +15,7 @@ module.exports = {
 				},
 			},
 		},
+		'convertStyleToAttrs',
 		'removeRasterImages',
 		'sortAttrs',
 	],
