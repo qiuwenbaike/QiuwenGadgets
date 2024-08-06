@@ -186,11 +186,9 @@
 					let editProt;
 					if (missing) {
 						metadata[metadata.length] = '页面不存在';
-						editProt = page.protection
-							.filter((protection) => {
-								return protection.type === 'create' && protection.level === 'sysop';
-							})
-							.pop();
+						editProt = page.protection.findLast((protection) => {
+							return protection.type === 'create' && protection.level === 'sysop';
+						});
 					} else {
 						if (page.redirect) {
 							metadata[metadata.length] = '重定向';
@@ -201,11 +199,9 @@
 						} else {
 							metadata[metadata.length] = `${mw.language.convertNumber(page.revisions[0].size)}字节`;
 						}
-						editProt = page.protection
-							.filter((protection) => {
-								return protection.type === 'edit' && protection.level === 'sysop';
-							})
-							.pop();
+						editProt = page.protection.findLast((protection) => {
+							return protection.type === 'edit' && protection.level === 'sysop';
+						});
 					}
 					if (editProt) {
 						metadata[metadata.length] = `${missing ? '白纸' : ''}全保护${

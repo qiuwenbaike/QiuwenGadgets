@@ -4,7 +4,7 @@ import {getMessage} from '../modules/i18n';
 import {isSpecialLog} from '../modules/isSpecialLog';
 
 interface Props {
-	onClick(): void;
+	onClick: () => void;
 }
 
 const ReportButton = ({onClick}: Props) => (
