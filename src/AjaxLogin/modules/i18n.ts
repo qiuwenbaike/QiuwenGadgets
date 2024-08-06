@@ -62,8 +62,8 @@ const getI18nMessages = () => {
 			'zh-hans': '2FA验证码错误',
 			'zh-hant': '2FA驗證碼錯誤',
 		}),
-		'Invalid useruame or password': localize({
-			en: 'Invalid useruame or password',
+		'Invalid username or password': localize({
+			en: 'Invalid username or password',
 			ja: '利用者名またはパスワードが間違っています',
 			'zh-cn': '用户名或密码错误',
 			'zh-hk': '用戶名稱或密碼錯誤',
@@ -99,8 +99,8 @@ const getI18nMessages = () => {
 			'zh-hans': '登录成功',
 			'zh-hant': '登入成功',
 		}),
-		'Login token getted': localize({
-			en: 'Login token getted',
+		'Login token got': localize({
+			en: 'Login token got',
 			ja: 'ログイントークンの取得に成功しました',
 			'zh-hans': '获取登录令牌成功',
 			'zh-hant': '獲取登入權杖成功',

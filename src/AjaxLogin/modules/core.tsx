@@ -170,7 +170,7 @@ const ajaxLogin = (toastifyInstance: ToastifyInstance, isAgreeTos: boolean = fal
 					case 'wrongpassword':
 						toastifyInstance = toastify(
 							{
-								text: getMessage('Invalid useruame or password'),
+								text: getMessage('Invalid username or password'),
 								duration: -1,
 							},
 							'warning'
