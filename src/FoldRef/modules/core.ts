@@ -6,10 +6,7 @@ const foldRef = ($body: JQuery<HTMLBodyElement>): void => {
 	const $foldRef: JQuery = $body.find('.mw-references-wrap,.refbegin');
 	for (const element of $foldRef) {
 		const $element = $(element);
-		if (
-			$element.parent('div').parent('div').hasClass(`${refarea}`) ||
-			$element.parent('div').hasClass(`${refarea}`)
-		) {
+		if ($element.parent('div').parent('div').hasClass(refarea) || $element.parent('div').hasClass(refarea)) {
 			continue;
 		}
 
@@ -29,7 +26,7 @@ const foldRef = ($body: JQuery<HTMLBodyElement>): void => {
 		// The following classes are used here:
 		// * see constant.ts
 		// * for more information
-		$element.prev(`.${refarea}`).removeClass(`${refarea}`);
+		$element.prev(`.${refarea}`).removeClass(refarea);
 		$element.remove();
 	});
 };

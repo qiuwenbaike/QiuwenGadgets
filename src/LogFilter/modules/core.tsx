@@ -166,7 +166,7 @@ class LogFilter {
 		const flags: string = this.$body.find('#gadget-log_filter__case').prop('checked') ? 'ig' : 'g';
 		let regexRf: RegExp | undefined;
 		try {
-			regexRf = new RegExp(`${search}`, `${flags}`);
+			regexRf = new RegExp(search, flags);
 		} catch (error) {
 			console.log(error);
 		}

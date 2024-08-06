@@ -48,7 +48,7 @@ const getElementsFromParse = async (titles: string[]) => {
 						let [fileName] = match;
 						fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
 						fileNamesFromParse[fileNamesFromParse.length] = fileName;
-						if (`${fileName}`.includes('+')) {
+						if (fileName.includes('+')) {
 							fileNamesFromParse[fileNamesFromParse.length] = fileName.replace('+', ' ');
 						}
 					}
@@ -108,7 +108,7 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 			fileName = match[1] as string;
 			fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
 			fileNames[fileNames.length] = fileName;
-			if (`${fileName}`.includes('+')) {
+			if (fileName.includes('+')) {
 				fileNames[fileNames.length] = fileName.replace('+', ' ');
 			}
 		}
@@ -118,7 +118,7 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 			fileName = match[1] as string;
 			fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
 			fileNames[fileNames.length] = fileName;
-			if (`${fileName}`.includes('+')) {
+			if (fileName.includes('+')) {
 				fileNames[fileNames.length] = fileName.replace('+', ' ');
 			}
 		}

@@ -19,7 +19,7 @@ const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 					},
 				];
 			};
-		} = (await queryUserGroups(`${wgRelevantUserName}`)) as never;
+		} = (await queryUserGroups(wgRelevantUserName)) as never;
 		const {
 			query: {
 				globaluserinfo: {groups: globalgroups},
@@ -30,7 +30,7 @@ const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 					groups: string[];
 				};
 			};
-		} = (await queryGlobalUserGroups(`${wgRelevantUserName}`)) as never;
+		} = (await queryGlobalUserGroups(wgRelevantUserName)) as never;
 
 		const groups = uniqueArray([...localgroups, ...globalgroups]).filter((element) => {
 			// Do not show implicit groups. Bots Already shown in GeoLocationViewer

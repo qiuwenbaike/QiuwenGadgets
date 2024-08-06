@@ -77,7 +77,7 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 		// The following classes are used here:
 		// * see ../Markblocked.module.less
 		// * for more information
-		$element.addClass(`${userlink}`);
+		$element.addClass(userlink);
 
 		userLinks[user] ??= [];
 

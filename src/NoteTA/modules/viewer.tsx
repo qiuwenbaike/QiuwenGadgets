@@ -281,10 +281,12 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 				})
 				.catch((error: ApiRetryFailError | Error | string): void => {
 					if (error instanceof ApiRetryFailError) {
+						// eslint-disable-next-line @typescript-eslint/only-throw-error
 						throw new OO.ui.Error(error.toJQuery(), {
 							recoverable: true,
 						});
 					} else {
+						// eslint-disable-next-line @typescript-eslint/only-throw-error
 						throw new OO.ui.Error(String(error), {
 							recoverable: false,
 						});

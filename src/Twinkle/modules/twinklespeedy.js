@@ -1540,7 +1540,6 @@ import {generateArray} from 'ext.gadget.Util';
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							false;
 							continue;
 						}
 						currentParams['1'] = dbrationale;
@@ -1558,7 +1557,6 @@ import {generateArray} from 'ext.gadget.Util';
 								}
 							);
 							parameters = null;
-							false;
 							continue;
 						}
 						currentParams.pagename = otherpage;
@@ -1573,7 +1571,6 @@ import {generateArray} from 'ext.gadget.Util';
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							false;
 							continue;
 						}
 						currentParams.pagename = pagename;
@@ -1591,7 +1588,6 @@ import {generateArray} from 'ext.gadget.Util';
 								}
 							);
 							parameters = null;
-							false;
 							continue;
 						}
 						currentParams.filename = redimage.replace(
@@ -1609,7 +1605,6 @@ import {generateArray} from 'ext.gadget.Util';
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							false;
 							continue;
 						}
 						currentParams['1'] = redirtype;
@@ -1624,7 +1619,6 @@ import {generateArray} from 'ext.gadget.Util';
 								tag: 'twinklespeedy',
 							});
 							parameters = null;
-							false;
 							continue;
 						}
 						currentParams['1'] = redirtype;
@@ -1722,7 +1716,6 @@ import {generateArray} from 'ext.gadget.Util';
 		for (const norm of normalizeds) {
 			if (Twinkle.getPref('watchSpeedyPages').includes(norm)) {
 				watchPage = Twinkle.getPref('watchSpeedyExpiry');
-				false;
 				continue; // break
 			}
 		}
@@ -1732,7 +1725,6 @@ import {generateArray} from 'ext.gadget.Util';
 			for (const norm of normalizeds) {
 				if (Twinkle.getPref('notifyUserOnSpeedyDeletionNomination').includes(norm)) {
 					notifyuser = true;
-					false;
 					continue; // break
 				}
 			}
@@ -1743,7 +1735,6 @@ import {generateArray} from 'ext.gadget.Util';
 			for (const norm of normalizeds) {
 				if (!Twinkle.getPref('noLogOnSpeedyNomination').includes(norm)) {
 					csdlog = true;
-					false;
 					continue; // break
 				}
 			}

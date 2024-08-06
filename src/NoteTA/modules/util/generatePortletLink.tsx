@@ -16,7 +16,7 @@ const generatePortletLink = (hash: string): JQuery | undefined => {
 	// The following classes are used here:
 	// * see constant.ts
 	// * for more information
-	const $portletLink: JQuery = $(portletLink).addClass(`${OPTIONS.portletClass}`);
+	const $portletLink: JQuery = $(portletLink).addClass(OPTIONS.portletClass);
 	$portletLink
 		.find('a')
 		.empty()

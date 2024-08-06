@@ -17,8 +17,8 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 				: null;
 
 		if ($target && $trTd.length >= 5) {
-			$table.addClass(`${stickyheader}`);
-			$target.addClass(`${thead}`);
+			$table.addClass(stickyheader);
+			$target.addClass(thead);
 		}
 	}
 });

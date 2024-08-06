@@ -620,10 +620,11 @@ const error = (errorDescription) => {
 /* Change a link so that it points to the title/* * text: The wikitext of the whole page/* * title: The new destination of the link/* * link: The link that will be modified/* * extra: Text that will be added after the link (optional) */
 const replaceLink = (text, title, link, extra) => {
 	let newContent;
-	isSamePage(title, link.description)
-		? // [[B|A]] should be replaced with [[A]] rather than [[A|A]]
-			(newContent = link.description)
-		: (newContent = `${title}|${link.description}`);
+	if (isSamePage(title, link.description)) {
+		newContent = link.description;
+	} else {
+		newContent = `${title}|${link.description}`;
+	}
 	const linkStart = text.slice(0, Math.max(0, link.start));
 	const linkEnd = text.slice(Math.max(0, link.end));
 	return `${linkStart}[[${newContent}]]${link.afterDescription}${extra || ''}${linkEnd}`;
