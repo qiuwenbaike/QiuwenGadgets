@@ -96,10 +96,7 @@ $(async () => {
 			Settings.getSetting('escToExitQuickEdit') === true ||
 			Settings.getSetting('escToExitQuickEdit') === 'true';
 		const customEditTags = Settings.getSetting('custom_edit_tags');
-		const defaultEditTags =
-			location.host.includes('zh.wikipedia.org') || location.host.includes('zh.m.wikipedia.org')
-				? ['wikiplus']
-				: [];
+		const defaultEditTags = [];
 		const editTags = customEditTags?.length ? customEditTags : defaultEditTags;
 		clearTimeout(timer);
 		Notification.empty();
