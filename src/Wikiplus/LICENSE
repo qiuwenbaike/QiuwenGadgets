@@ -4,7 +4,19 @@
  *
  * Wikiplus
  *
+ * @base {@link https://github.com/Wikiplus/Wikiplus}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/Wikiplus}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Wikiplus/}
  * @author Eridanus Sora (妹空酱)
- * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0} OR Apache-2.0 {@link http://www.apache.org/licenses/LICENSE-2.0}
+ */
+
+/**
+ * Copyright 2014-2024 Eridanus Sora (妹空酱)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
  */
