@@ -1,5 +1,6 @@
 import React, {ReactElement} from 'ext.gadget.React';
 import {footerNotice, sectionIdSpan} from './EasyArchive.module.less';
+import {getMessage} from '../i18n';
 
 const elementWrap = (id: string, innerElement: ReactElement) => {
 	const {skin} = mw.config.get();
@@ -38,4 +39,15 @@ const sectionIdSpanElement = () => <span class={[sectionIdSpan]} />;
 
 const spanWrap = (innerHTML: string) => <span innerHTML={innerHTML} />;
 
-export {elementWrap, onClickWrap, pipeElement, sectionIdSpanElement, spanWrap};
+interface Props {
+	onClick: () => void;
+}
+
+const noticeMessage = ({onClick}: Props) => (
+	<span>
+		{getMessage('Edit Confilict Notice')}
+		<a onClick={onClick}>{getMessage('Refresh')}</a>
+	</span>
+);
+
+export {elementWrap, onClickWrap, pipeElement, sectionIdSpanElement, spanWrap, noticeMessage};

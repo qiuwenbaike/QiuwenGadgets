@@ -1,4 +1,4 @@
-import {onClickWrap, pipeElement, sectionIdSpanElement, spanWrap} from './util/react';
+import {noticeMessage, onClickWrap, pipeElement, sectionIdSpanElement, spanWrap} from './util/react';
 import {archiveSection} from './archiveSection';
 import {getMessage} from './i18n';
 import {getSections} from './util/getSection';
@@ -34,6 +34,10 @@ const addLinks = async ({
 		headlines[headlines.length] = headline?.id;
 	}
 
+	const arcDelChannel: BroadcastChannel = new BroadcastChannel(wgPageName);
+	const arcDelMessageChannel: BroadcastChannel = new BroadcastChannel(`${wgPageName}_message`);
+	const refreshChannel: BroadcastChannel = new BroadcastChannel(`${wgPageName}_refresh`);
+
 	for (const section of sectionsToArchive) {
 		if (section.level !== arcLevel) {
 			continue;
@@ -64,85 +68,165 @@ const addLinks = async ({
 			continue;
 		}
 
+		let toastifyInstance: ToastifyInstance = {
+			hideToast: () => {},
+		};
 		const sectionIdSpan = sectionIdSpanElement();
-		const archiveSectionLink = onClickWrap(getMessage('Archive'), 'archive', (event) => {
-			event.preventDefault();
-			const parentElement = (event.target as HTMLElement)?.parentElement;
-			if (!parentElement) {
-				return;
-			}
+		const archiveSectionLink = ({
+			indexNo,
+			anchor,
+			archiveTo,
+		}: {
+			indexNo: string;
+			anchor: string;
+			archiveTo: string;
+		}) => {
+			return onClickWrap(getMessage('Archive'), 'archive', (event) => {
+				event.preventDefault();
+				const parentElement = (event.target as HTMLElement)?.parentElement;
+				if (!parentElement) {
+					return;
+				}
 
-			replaceChild(parentElement, spanWrap(getMessage('Archiving')));
+				replaceChild(parentElement, spanWrap(getMessage('Archiving')));
 
-			let toastifyInstance: ToastifyInstance = {
-				hideToast: () => {},
-			};
-			toastifyInstance = toastify(
-				{
-					text: getMessage('Archiving'),
-					duration: -1,
-				},
-				'info'
-			);
-
-			void archiveSection({index, anchor: id, archiveTo: arcLoc}).then(() => {
-				toastifyInstance.hideToast();
-				replaceChild(parentElement, spanWrap(getMessage('Archived')));
 				toastifyInstance = toastify(
 					{
-						text: getMessage('Archived'),
-						duration: 3 * 1000,
+						text:
+							getMessage('Archiving') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo),
+						duration: -1,
 					},
-					'success'
+					'info'
 				);
-				refresh();
+				arcDelChannel.postMessage('Archive');
+				arcDelMessageChannel.postMessage(
+					getMessage('Archiving') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
+				);
+
+				void archiveSection({index: indexNo, anchor, archiveTo}).then(() => {
+					toastifyInstance.hideToast();
+					replaceChild(parentElement, spanWrap(getMessage('Archived')));
+					arcDelChannel.close();
+					toastifyInstance = toastify(
+						{
+							text: getMessage('Archived'),
+							duration: 3 * 1000,
+						},
+						'success'
+					);
+					toastifyInstance = toastify(
+						{
+							text: getMessage('Refreshing'),
+							close: true,
+							duration: -1,
+						},
+						'info'
+					);
+					refreshChannel.postMessage('Refresh');
+					refresh();
+				});
 			});
-		});
+		};
 
-		const removeSectionLink = onClickWrap(getMessage('Delete'), 'delete', (event) => {
-			event.preventDefault();
-			const parentElement = (event.target as HTMLElement)?.parentElement;
-			if (!parentElement) {
-				return;
-			}
+		const removeSectionLink = ({indexNo, anchor}: {indexNo: string; anchor: string}) => {
+			return onClickWrap(getMessage('Delete'), 'delete', (event) => {
+				event.preventDefault();
+				const parentElement = (event.target as HTMLElement)?.parentElement;
+				if (!parentElement) {
+					return;
+				}
 
-			replaceChild(parentElement, spanWrap(getMessage('Deleting')));
+				replaceChild(parentElement, spanWrap(getMessage('Deleting')));
 
-			let toastifyInstance: ToastifyInstance = {
-				hideToast: () => {},
-			};
-			toastifyInstance = toastify(
-				{
-					text: getMessage('Deleting'),
-					duration: -1,
-				},
-				'info'
-			);
-
-			void removeSection({index, anchor: id}).then(() => {
-				toastifyInstance.hideToast();
-				replaceChild(parentElement, spanWrap(getMessage('Deleted')));
 				toastifyInstance = toastify(
 					{
-						text: getMessage('Deleted'),
-						duration: 3 * 1000,
+						text:
+							getMessage('Deleting') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo),
+						duration: -1,
 					},
-					'success'
+					'info'
 				);
-				refresh();
+				arcDelChannel.postMessage('Delete');
+				arcDelMessageChannel.postMessage(
+					getMessage('Deleting') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
+				);
+
+				void removeSection({index: indexNo, anchor}).then(() => {
+					toastifyInstance.hideToast();
+					replaceChild(parentElement, spanWrap(getMessage('Deleted')));
+					arcDelChannel.close();
+					toastifyInstance = toastify(
+						{
+							text: getMessage('Deleted'),
+							duration: 3 * 1000,
+						},
+						'success'
+					);
+					toastifyInstance = toastify(
+						{
+							text: getMessage('Refreshing'),
+							close: true,
+							duration: -1,
+						},
+						'info'
+					);
+					refreshChannel.postMessage('Refresh');
+					refresh();
+				});
 			});
-		});
+		};
 
 		if (secArc === '1') {
-			sectionIdSpan.append(archiveSectionLink);
+			const archiveLink = archiveSectionLink({indexNo: index, anchor: id, archiveTo: arcLoc});
+			sectionIdSpan.append(archiveLink);
 		}
 		if (secArc === '1' && secDel === '1') {
 			sectionIdSpan.append(pipeElement());
 		}
 		if (secDel === '1') {
-			sectionIdSpan.append(removeSectionLink);
+			const removeLink = removeSectionLink({indexNo: index, anchor: id});
+			sectionIdSpan.append(removeLink);
 		}
 		editSection.prepend(sectionIdSpan);
+
+		arcDelChannel.addEventListener('message', () => {
+			sectionIdSpan.remove();
+		});
+		arcDelMessageChannel.addEventListener('message', (event) => {
+			toastifyInstance.hideToast();
+			toastifyInstance = toastify(
+				{
+					text: event.data as string,
+					close: true,
+					duration: -1,
+				},
+				'info'
+			);
+		});
+		refreshChannel.addEventListener('message', () => {
+			const locationReload = () => {
+				toastifyInstance.hideToast();
+				toastifyInstance = toastify(
+					{
+						text: getMessage('Refreshing'),
+						close: true,
+						duration: -1,
+					},
+					'info'
+				);
+				location.reload();
+				return false;
+			};
+			toastifyInstance.hideToast();
+			toastifyInstance = toastify(
+				{
+					node: noticeMessage({onClick: locationReload}),
+					close: true,
+					duration: -1,
+				},
+				'info'
+			);
+		});
 	}
 };
 

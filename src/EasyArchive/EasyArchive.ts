@@ -45,6 +45,8 @@ import {getSettings} from './modules/getSettings';
 		return;
 	}
 
-	void addLinks(settings);
+	mw.hook('wikipage.content').add((): void => {
+		void addLinks(settings);
+	});
 	enabledFooterNotice(arcLoc);
 })();
