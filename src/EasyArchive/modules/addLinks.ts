@@ -1,4 +1,5 @@
 import {noticeMessage, onClickWrap, pipeElement, sectionIdSpanElement, spanWrap} from './util/react';
+import {type ReactElement} from 'ext.gadget.React';
 import {archiveSection} from './archiveSection';
 import {getMessage} from './i18n';
 import {getSections} from './util/getSection';
@@ -34,8 +35,12 @@ const addLinks = async ({
 		headlines[headlines.length] = headline?.id;
 	}
 
-	const arcDelChannel: BroadcastChannel = new BroadcastChannel(wgPageName);
-	const arcDelMessageChannel: BroadcastChannel = new BroadcastChannel(`${wgPageName}_message`);
+	const sectionIdSpans: ReactElement[] = [];
+	let toastifyInstance: ToastifyInstance = {
+		hideToast: () => {},
+	};
+
+	const messageChannel: BroadcastChannel = new BroadcastChannel(`${wgPageName}_message`);
 	const refreshChannel: BroadcastChannel = new BroadcastChannel(`${wgPageName}_refresh`);
 
 	for (const section of sectionsToArchive) {
@@ -68,9 +73,6 @@ const addLinks = async ({
 			continue;
 		}
 
-		let toastifyInstance: ToastifyInstance = {
-			hideToast: () => {},
-		};
 		const sectionIdSpan = sectionIdSpanElement();
 		const archiveSectionLink = ({
 			indexNo,
@@ -89,39 +91,16 @@ const addLinks = async ({
 				}
 
 				replaceChild(parentElement, spanWrap(getMessage('Archiving')));
-
-				toastifyInstance = toastify(
-					{
-						text:
-							getMessage('Archiving') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo),
-						duration: -1,
-					},
-					'info'
-				);
-				arcDelChannel.postMessage('Archive');
-				arcDelMessageChannel.postMessage(
+				messageChannel.postMessage(
 					getMessage('Archiving') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
 				);
 
 				void archiveSection({index: indexNo, anchor, archiveTo}).then(() => {
-					toastifyInstance.hideToast();
 					replaceChild(parentElement, spanWrap(getMessage('Archived')));
-					arcDelChannel.close();
-					toastifyInstance = toastify(
-						{
-							text: getMessage('Archived'),
-							duration: 3 * 1000,
-						},
-						'success'
+					messageChannel.postMessage(
+						getMessage('Archived') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
 					);
-					toastifyInstance = toastify(
-						{
-							text: getMessage('Refreshing'),
-							close: true,
-							duration: -1,
-						},
-						'info'
-					);
+					messageChannel.close();
 					refreshChannel.postMessage('Refresh');
 					refresh();
 				});
@@ -137,39 +116,16 @@ const addLinks = async ({
 				}
 
 				replaceChild(parentElement, spanWrap(getMessage('Deleting')));
-
-				toastifyInstance = toastify(
-					{
-						text:
-							getMessage('Deleting') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo),
-						duration: -1,
-					},
-					'info'
-				);
-				arcDelChannel.postMessage('Delete');
-				arcDelMessageChannel.postMessage(
+				messageChannel.postMessage(
 					getMessage('Deleting') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
 				);
 
 				void removeSection({index: indexNo, anchor}).then(() => {
-					toastifyInstance.hideToast();
 					replaceChild(parentElement, spanWrap(getMessage('Deleted')));
-					arcDelChannel.close();
-					toastifyInstance = toastify(
-						{
-							text: getMessage('Deleted'),
-							duration: 3 * 1000,
-						},
-						'success'
+					messageChannel.postMessage(
+						getMessage('Deleted') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
 					);
-					toastifyInstance = toastify(
-						{
-							text: getMessage('Refreshing'),
-							close: true,
-							duration: -1,
-						},
-						'info'
-					);
+					messageChannel.close();
 					refreshChannel.postMessage('Refresh');
 					refresh();
 				});
@@ -187,47 +143,41 @@ const addLinks = async ({
 			const removeLink = removeSectionLink({indexNo: index, anchor: id});
 			sectionIdSpan.append(removeLink);
 		}
+		sectionIdSpans[sectionIdSpans.length] = sectionIdSpan;
 		editSection.prepend(sectionIdSpan);
-
-		arcDelChannel.addEventListener('message', () => {
-			sectionIdSpan.remove();
-		});
-		arcDelMessageChannel.addEventListener('message', (event) => {
-			toastifyInstance.hideToast();
-			toastifyInstance = toastify(
-				{
-					text: event.data as string,
-					close: true,
-					duration: -1,
-				},
-				'info'
-			);
-		});
-		refreshChannel.addEventListener('message', () => {
-			const locationReload = () => {
-				toastifyInstance.hideToast();
-				toastifyInstance = toastify(
-					{
-						text: getMessage('Refreshing'),
-						close: true,
-						duration: -1,
-					},
-					'info'
-				);
-				location.reload();
-				return false;
-			};
-			toastifyInstance.hideToast();
-			toastifyInstance = toastify(
-				{
-					node: noticeMessage({onClick: locationReload}),
-					close: true,
-					duration: -1,
-				},
-				'info'
-			);
-		});
 	}
+
+	messageChannel.addEventListener('message', (event) => {
+		for (const sectionIdSpan of sectionIdSpans) {
+			sectionIdSpan.remove();
+		}
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				text: event.data as string,
+				close: true,
+				duration: 3 * 1000,
+			},
+			'info'
+		);
+	});
+
+	refreshChannel.addEventListener('message', () => {
+		toastifyInstance.hideToast();
+		toastifyInstance = toastify(
+			{
+				node: noticeMessage({
+					onClick: () => {
+						toastifyInstance.hideToast();
+						refresh();
+					},
+				}),
+				close: true,
+				duration: -1,
+			},
+			'info'
+		);
+	});
 };
 
 export {addLinks};
