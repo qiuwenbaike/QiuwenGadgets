@@ -1,7 +1,6 @@
-import {checkDependencies} from './modules/checkDependencies';
+import {checkDependencies} from 'ext.gadget.Util';
 import {checkRedirect} from './modules/courtesy-and-art-names';
 
 (function toolsRedirectCourtesyAndArtNames() {
-	void checkDependencies();
-	checkRedirect();
+	void checkDependencies('ToolsRedirect').then(checkRedirect);
 })();

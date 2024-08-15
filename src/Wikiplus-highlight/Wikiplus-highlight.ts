@@ -1,11 +1,11 @@
-import {checkDependencies} from './modules/checkDependencies';
+import {checkDependencies} from 'ext.gadget.Util';
 
 (async function WikiplusHighlight() {
-	void checkDependencies();
 	const {wgAction, wgIsArticle} = mw.config.get();
 	if (wgAction !== 'view' || !wgIsArticle) {
 		return;
 	}
+	await checkDependencies('Wikiplus');
 
 	const {'visualeditor-enable': isVeEnable} = mw.user.options.get() as Record<string, unknown>;
 
