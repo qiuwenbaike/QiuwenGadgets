@@ -2,8 +2,8 @@ import {findRedirectCallback} from 'ext.gadget.ToolsRedirect';
 import {uniqueArray} from 'ext.gadget.Util';
 
 const checkRedirect = (): void => {
-	const REGEX_PREFIX: RegExp = /[号字號]\s*$/;
-	const compSurnames: string[] = [
+	const REGEX_PREFIX = /([；，]?[一又]?[字号號]\s)*$/;
+	const compSurnames = [
 		'欧阳',
 		'歐陽',
 		'令狐',
@@ -72,12 +72,12 @@ const checkRedirect = (): void => {
 	] as const;
 	const REGEX_COMP_SURNAME = new RegExp(`^(${compSurnames.join('|')}).`);
 
-	const findSurname = (pageName: string): string | undefined => {
+	const findSurname = (pageName: string): string => {
 		if (REGEX_COMP_SURNAME.test(pageName)) {
-			return (REGEX_COMP_SURNAME.exec(pageName) as RegExpExecArray)[1];
+			return (REGEX_COMP_SURNAME.exec(pageName) as RegExpExecArray)[1] ?? '';
 		}
 
-		return pageName[0];
+		return pageName[0] ?? '';
 	};
 
 	findRedirectCallback((pageName: string, $content: JQuery): string[] => {
@@ -86,12 +86,17 @@ const checkRedirect = (): void => {
 		let surname: string | undefined;
 		for (const element of $content.find('> p > b')) {
 			const {previousSibling, textContent} = element;
-			if (!previousSibling) {
+			if (!previousSibling || !textContent) {
 				continue;
 			}
 
-			if (REGEX_PREFIX.test(textContent ?? '')) {
-				const name: string | undefined = textContent?.trim();
+			const {textContent: textContent2} = previousSibling;
+			if (!textContent2) {
+				continue;
+			}
+
+			if (REGEX_PREFIX.test(textContent2)) {
+				const name: string | undefined = textContent.trim();
 				if (!name) {
 					continue;
 				}
