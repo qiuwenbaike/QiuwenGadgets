@@ -1,8 +1,10 @@
+/* eslint-disable mediawiki/class-doc */
 /* global CiteTB */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import actionEditAdd from '../images/Nuvola-action-edit-add.png';
 import appsDate from '../images/Nuvola-apps-date.png';
+import {citeFormTd} from '../Edittools-refToolbar.module.less';
 import {getMessage} from './util/getMessage';
 import systemSearch from '../images/System-search.png';
 
@@ -115,11 +117,9 @@ const refToolbarBase = () => {
 				if (fieldobj.autofillprop) {
 					let classname = `cite-${CiteTB.escStr(this.shortform)}-${fieldobj.autofillprop}`;
 					if (fieldobj.increment_group) {
-						// eslint-disable-next-line mediawiki/class-doc
 						input.addClass(`cite-${CiteTB.escStr(this.shortform)}-incr-${fieldobj.increment_group}`);
 						classname += `-${this.incrementables[fieldobj.increment_group].val.toString()}`;
 					}
-					// eslint-disable-next-line mediawiki/class-doc
 					input.addClass(classname);
 				}
 				const label = $('<label>');
@@ -133,12 +133,12 @@ const refToolbarBase = () => {
 				} else {
 					tr = $('<tr>');
 				}
-				const td1 = $('<td>').addClass('cite-form-td').attr({
+				const td1 = $('<td>').addClass(citeFormTd).attr({
 					style,
 				});
 				td1.append(label);
 				tr.append(td1);
-				const td2 = $('<td>').addClass('cite-form-td').css('width', '30%');
+				const td2 = $('<td>').addClass(citeFormTd).css('width', '30%');
 				td2.append(input);
 				if (ad) {
 					td2.append(ad);
@@ -198,14 +198,14 @@ const refToolbarBase = () => {
 				'padding-top': '1em',
 			});
 			const $tr = $('<tr>');
-			const $td1 = $('<td>').addClass('cite-form-td').css({
+			const $td1 = $('<td>').addClass(citeFormTd).css({
 				'text-align': 'right',
 				width: '20%',
 			});
 			const $label1 = $('<label>');
 			$label1.attr('for', `cite-${CiteTB.escStr(this.shortform)}-name`).text(getMessage('cite-name-label'));
 			$td1.append($label1);
-			const td2 = $('<td>').addClass('cite-form-td').css('width', '30%');
+			const td2 = $('<td>').addClass(citeFormTd).css('width', '30%');
 			const input1 = $('<input>').attr({
 				tabindex: '1',
 				style: 'width: 100%',
@@ -213,7 +213,7 @@ const refToolbarBase = () => {
 			});
 			input1.attr('id', `cite-${CiteTB.escStr(this.shortform)}-name`);
 			td2.append(input1);
-			const td3 = $('<td>').addClass('cite-form-td').css({
+			const td3 = $('<td>').addClass(citeFormTd).css({
 				'text-align': 'right',
 				'padding-left': '1em',
 				width: '20%',
@@ -221,7 +221,7 @@ const refToolbarBase = () => {
 			const label2 = $('<label>');
 			label2.attr('for', `cite-${CiteTB.escStr(this.shortform)}-group`).text(getMessage('cite-group-label'));
 			td3.append(label2);
-			const td4 = $('<td>').addClass('cite-form-td').css('width', '30%');
+			const td4 = $('<td>').addClass(citeFormTd).css('width', '30%');
 			const input2 = $('<input>').attr({
 				tabindex: '1',
 				style: 'width: 100%',

@@ -1,5 +1,6 @@
 import {MESSAGES} from './messages';
 import React from 'ext.gadget.React';
+import {rightsFilter} from '../LogFilter.module.less';
 
 const URL_LIFILTER: string | null = mw.util.getParamValue('lifilter');
 const URL_LIFILTER_CASE: string | null = mw.util.getParamValue('lifiltercase');
@@ -60,7 +61,8 @@ class LogFilter {
 		const inverted: boolean = URL_LIFILTER_INV === '1';
 
 		// Generate the form
-		const $fieldSet: JQuery = $('<fieldset>').attr('id', 'rightsFilter').text(instructions);
+		// eslint-disable-next-line mediawiki/class-doc
+		const $fieldSet: JQuery = $('<fieldset>').attr('id', 'rightsFilter').addClass(rightsFilter).text(instructions);
 		const $legend: JQuery = $('<legend>').text(LogFilter.msg('legend'));
 		$fieldSet.append($legend);
 
