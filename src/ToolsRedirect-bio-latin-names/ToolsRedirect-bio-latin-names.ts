@@ -1,7 +1,6 @@
-import {checkDependencies} from './modules/checkDependencies';
+import {checkDependencies} from 'ext.gadget.Util';
 import {checkRedirect} from './modules/bio-latin-names';
 
 (function toolsRedirectBioLatinNames() {
-	void checkDependencies();
-	checkRedirect();
+	void checkDependencies('ToolsRedirect').then(checkRedirect);
 })();
