@@ -18,7 +18,7 @@ const checkIfPageExist = async (archiveTo: string) => {
 	return true;
 };
 
-const checkIfSectionExist = async (index: string, anchor: string) => {
+const checkIfSectionExist = async ({index, anchor}: {index: string; anchor: string}) => {
 	const {wgPageName} = mw.config.get();
 	const sections = await getSections(wgPageName);
 

@@ -5,13 +5,13 @@ import {getSectionContent} from './util/getSection';
 
 const removeSection = async ({index, anchor, summary}: {index: string; anchor: string; summary?: string}) => {
 	const {wgPageName} = mw.config.get();
-	const ifSectionExist = await checkIfSectionExist(index, anchor);
+	const ifSectionExist = await checkIfSectionExist({index, anchor});
 
 	if (ifSectionExist !== true) {
 		return;
 	}
 
-	const content = await getSectionContent(wgPageName, index);
+	const content = await getSectionContent({title: wgPageName, section: index});
 
 	if (content === null) {
 		return;
