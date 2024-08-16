@@ -40,7 +40,7 @@ const getSections = async (title: string) => {
 	return sectionsToArchive;
 };
 
-const getSectionContent = async (title: string, section: string): Promise<string | null> => {
+const getSectionContent = async ({title, section}: {title: string; section: string}): Promise<string | null> => {
 	const params: ApiQueryRevisionsParams = {
 		action: 'query',
 		prop: ['revisions'],

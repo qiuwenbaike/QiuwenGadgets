@@ -78,10 +78,12 @@ const addLinks = async ({
 			indexNo,
 			anchor,
 			archiveTo,
+			toast,
 		}: {
 			indexNo: string;
 			anchor: string;
 			archiveTo: string;
+			toast: ToastifyInstance;
 		}) => {
 			return onClickWrap(getMessage('Archive'), 'archive', (event) => {
 				event.preventDefault();
@@ -91,23 +93,53 @@ const addLinks = async ({
 				}
 
 				replaceChild(parentElement, spanWrap(getMessage('Archiving')));
-				messageChannel.postMessage(
-					getMessage('Archiving') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
+				const message1 =
+					getMessage('Archiving') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
+				messageChannel.postMessage(message1);
+
+				toast ||= {
+					hideToast: () => {},
+				};
+				toast.hideToast();
+				toast = toastify(
+					{
+						text: message1,
+						close: true,
+						duration: -1,
+					},
+					'info'
 				);
 
 				void archiveSection({index: indexNo, anchor, archiveTo}).then(() => {
 					replaceChild(parentElement, spanWrap(getMessage('Archived')));
-					messageChannel.postMessage(
-						getMessage('Archived') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
+					const message2 =
+						getMessage('Archived') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
+					messageChannel.postMessage(message2);
+					toast.hideToast();
+					toast = toastify(
+						{
+							text: message2,
+							close: true,
+							duration: -1,
+						},
+						'info'
 					);
 					messageChannel.close();
 					refreshChannel.postMessage('Refresh');
-					refresh();
+					refresh({toastifyInstance: toast});
 				});
 			});
 		};
 
-		const removeSectionLink = ({indexNo, anchor}: {indexNo: string; anchor: string}) => {
+		const removeSectionLink = ({
+			indexNo,
+			anchor,
+			toast,
+		}: {
+			indexNo: string;
+			anchor: string;
+			toast: ToastifyInstance;
+		}) => {
 			return onClickWrap(getMessage('Delete'), 'delete', (event) => {
 				event.preventDefault();
 				const parentElement = (event.target as HTMLElement)?.parentElement;
@@ -116,31 +148,58 @@ const addLinks = async ({
 				}
 
 				replaceChild(parentElement, spanWrap(getMessage('Deleting')));
-				messageChannel.postMessage(
-					getMessage('Deleting') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
+				const message1 =
+					getMessage('Deleting') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
+				messageChannel.postMessage(message1);
+
+				toast ||= {
+					hideToast: () => {},
+				};
+				toast.hideToast();
+				toast = toastify(
+					{
+						text: message1,
+						close: true,
+						duration: -1,
+					},
+					'info'
 				);
 
 				void removeSection({index: indexNo, anchor}).then(() => {
 					replaceChild(parentElement, spanWrap(getMessage('Deleted')));
-					messageChannel.postMessage(
-						getMessage('Deleted') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo)
+					const message2 =
+						getMessage('Deleted') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
+					messageChannel.postMessage(message2);
+					toast.hideToast();
+					toast = toastify(
+						{
+							text: message2,
+							close: true,
+							duration: -1,
+						},
+						'info'
 					);
 					messageChannel.close();
 					refreshChannel.postMessage('Refresh');
-					refresh();
+					refresh({toastifyInstance: toast});
 				});
 			});
 		};
 
 		if (secArc === '1') {
-			const archiveLink = archiveSectionLink({indexNo: index, anchor: id, archiveTo: arcLoc});
+			const archiveLink = archiveSectionLink({
+				indexNo: index,
+				anchor: id,
+				archiveTo: arcLoc,
+				toast: toastifyInstance,
+			});
 			sectionIdSpan.append(archiveLink);
 		}
 		if (secArc === '1' && secDel === '1') {
 			sectionIdSpan.append(pipeElement());
 		}
 		if (secDel === '1') {
-			const removeLink = removeSectionLink({indexNo: index, anchor: id});
+			const removeLink = removeSectionLink({indexNo: index, anchor: id, toast: toastifyInstance});
 			sectionIdSpan.append(removeLink);
 		}
 		sectionIdSpans[sectionIdSpans.length] = sectionIdSpan;
