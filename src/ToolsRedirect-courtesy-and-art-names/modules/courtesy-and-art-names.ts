@@ -97,7 +97,7 @@ const checkRedirect = (): void => {
 
 			if (REGEX_PREFIX.test(textContent2)) {
 				const name: string | undefined = textContent.trim();
-				if (!name) {
+				if (!name || textContent === pageName) {
 					continue;
 				}
 
