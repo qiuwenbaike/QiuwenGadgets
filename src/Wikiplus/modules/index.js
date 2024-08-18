@@ -43,7 +43,7 @@ $(async () => {
 		console.log('Mediawiki JavaScript not loaded or not a Mediawiki website.');
 		return;
 	}
-	if (!Constants.userGroups.includes('autoconfirmed')) {
+	if (!Constants.userGroups.includes('autoconfirmed') && !Constants.userGroups.includes('confirmed')) {
 		Notification.error(i18n.translate('not_autoconfirmed_user'));
 		Log.info(i18n.translate('not_autoconfirmed_user'));
 		return;
