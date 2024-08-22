@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: CC-BY-SA-4.0 OR Apache-2.0
- * _addText: '{{Gadget Header|title=Wikiplus|license=CC-BY-SA-4.0}}'
+ * _addText: '{{Gadget Header|title=Wikiplus|license=CC-BY-SA-4.0|license2=Apache-2.0}}'
  *
  * Wikiplus
  *
