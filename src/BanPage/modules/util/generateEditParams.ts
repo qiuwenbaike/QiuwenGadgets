@@ -16,7 +16,11 @@ const generateEditParams = (): EditParams => {
 
 	switch (wgNamespaceNumber) {
 		case 6:
-			targetPage = 'File:Banned Images.svg';
+			if (wgPageName.startsWith('File:BSicon_')) {
+				targetPage = 'File:BSicon .svg';
+			} else {
+				targetPage = 'File:Banned Images.svg';
+			}
 			redirectTemplate = '{{文件重定向}}';
 			summary = summary.replace('$1', getMessage('Image'));
 			break;
