@@ -13,6 +13,7 @@ import {
 import {tippyForCitizenHeader, tippyForExtension} from './modules/tippy';
 import {deprecatedFunctions} from './modules/deprecatedFunctions';
 import {getBody} from 'ext.gadget.Util';
+import {resizeJQueryUI} from './modules/resizeJQueryUI';
 
 (function siteCommon(): void {
 	const configKey: string = 'gadget-SiteCommon_JS__Initialized';
@@ -38,6 +39,7 @@ import {getBody} from 'ext.gadget.Util';
 		void unihanPopup($body);
 		hideNewUsersLog($body);
 		toggleLink($body);
+		resizeJQueryUI($body);
 
 		// Tippy-related codes (need $.ready)
 		tippyForCitizenHeader($body);
