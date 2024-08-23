@@ -12,6 +12,7 @@ import Settings from './utils/settings';
 import Log from './utils/log';
 import Constants from './utils/constants';
 import i18n from './utils/i18n';
+import './wikiplus.less';
 
 $(async () => {
 	const Pages = {};
@@ -181,3 +182,5 @@ $(async () => {
 	UI.insertSettingsPanelButton(handleSettingsButtonClicked);
 	UI.bindPreloadEvents(handlePreload);
 });
+
+export {};
