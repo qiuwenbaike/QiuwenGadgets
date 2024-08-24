@@ -85,7 +85,7 @@ const addLinks = async ({
 			archiveTo: string;
 			toast: ToastifyInstance;
 		}) => {
-			return onClickWrap(getMessage('Archive'), 'archive', (event) => {
+			const archiveOnClick = (event: Event) => {
 				event.preventDefault();
 				const parentElement = (event.target as HTMLElement)?.parentElement;
 				if (!parentElement) {
@@ -93,6 +93,9 @@ const addLinks = async ({
 				}
 
 				replaceChild(parentElement, spanWrap(getMessage('Archiving')));
+				for (const span of sectionIdSpans) {
+					span.remove();
+				}
 				const message1 =
 					getMessage('Archiving') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
 				messageChannel.postMessage(message1);
@@ -128,7 +131,8 @@ const addLinks = async ({
 					refreshChannel.postMessage('Refresh');
 					refresh({toastifyInstance: toast});
 				});
-			});
+			};
+			return onClickWrap(getMessage('Archive'), 'archive', archiveOnClick);
 		};
 
 		const removeSectionLink = ({
@@ -140,7 +144,7 @@ const addLinks = async ({
 			anchor: string;
 			toast: ToastifyInstance;
 		}) => {
-			return onClickWrap(getMessage('Delete'), 'delete', (event) => {
+			const removeOnClick = (event: Event) => {
 				event.preventDefault();
 				const parentElement = (event.target as HTMLElement)?.parentElement;
 				if (!parentElement) {
@@ -148,6 +152,9 @@ const addLinks = async ({
 				}
 
 				replaceChild(parentElement, spanWrap(getMessage('Deleting')));
+				for (const span of sectionIdSpans) {
+					span.remove();
+				}
 				const message1 =
 					getMessage('Deleting') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
 				messageChannel.postMessage(message1);
@@ -183,32 +190,35 @@ const addLinks = async ({
 					refreshChannel.postMessage('Refresh');
 					refresh({toastifyInstance: toast});
 				});
-			});
+			};
+			return onClickWrap(getMessage('Delete'), 'delete', removeOnClick);
 		};
 
-		if (secArc === '1') {
-			const archiveLink = archiveSectionLink({
-				indexNo: index,
-				anchor: id,
-				archiveTo: arcLoc,
-				toast: toastifyInstance,
-			});
-			sectionIdSpan.append(archiveLink);
+		if (secArc === '1' || secDel === '1') {
+			if (secArc === '1') {
+				const archiveLink = archiveSectionLink({
+					indexNo: index,
+					anchor: id,
+					archiveTo: arcLoc,
+					toast: toastifyInstance,
+				});
+				sectionIdSpan.append(archiveLink);
+			}
+			if (secArc === '1' && secDel === '1') {
+				sectionIdSpan.append(pipeElement());
+			}
+			if (secDel === '1') {
+				const removeLink = removeSectionLink({indexNo: index, anchor: id, toast: toastifyInstance});
+				sectionIdSpan.append(removeLink);
+			}
+			sectionIdSpans[sectionIdSpans.length] = sectionIdSpan;
+			editSection.prepend(sectionIdSpan);
 		}
-		if (secArc === '1' && secDel === '1') {
-			sectionIdSpan.append(pipeElement());
-		}
-		if (secDel === '1') {
-			const removeLink = removeSectionLink({indexNo: index, anchor: id, toast: toastifyInstance});
-			sectionIdSpan.append(removeLink);
-		}
-		sectionIdSpans[sectionIdSpans.length] = sectionIdSpan;
-		editSection.prepend(sectionIdSpan);
 	}
 
 	messageChannel.addEventListener('message', (event) => {
-		for (const sectionIdSpan of sectionIdSpans) {
-			sectionIdSpan.remove();
+		for (const span of sectionIdSpans) {
+			span.remove();
 		}
 		toastifyInstance.hideToast();
 		toastifyInstance = toastify(
