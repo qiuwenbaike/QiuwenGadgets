@@ -3,7 +3,7 @@
 	"description": "<span id=\"Gadget-Wikicache\"></span> 源代码编辑器中，保留上次未保存的编辑结果",
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
-	"actions": ["edit", "submit"],
+	"actions": ["edit"],
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.storage", "oojs-ui-windows"],
 	"rights": ["edit"]
 }
