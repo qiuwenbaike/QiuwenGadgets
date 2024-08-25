@@ -27,7 +27,7 @@ const markAsDone = ({userName, index, closingRemarks}: {userName: string; index:
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 	const [, sectionNumber] = $(sectionNode as HTMLElement)
 		.siblings('.mw-editsection')
-		.find('a:not(.mw-editsection-visualeditor)')
+		.find('a:not(.mw-editsection-visualeditor)[href*=edit]')
 		.prop('href')
 		.match(/section=(\d+)/);
 	let basetimestamp: string;
