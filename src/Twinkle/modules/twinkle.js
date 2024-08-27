@@ -463,11 +463,20 @@ import {api} from './api';
 			rvlimit: '1',
 		})
 		.then((response) => {
-			const content = response['query'].pages[0].revisions[0].content ?? '';
-			try {
-				// eslint-disable-next-line no-eval
-				window.eval(content);
-			} catch {}
+			if (!response['query'].pages[0].missing) {
+				const content = response['query'].pages[0].revisions[0].content ?? '';
+				if (content !== '') {
+					try {
+						// eslint-disable-next-line no-eval
+						window.eval(content);
+					} catch {
+						void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
+							type: 'error',
+							tag: 'twinkle',
+						});
+					}
+				}
+			}
 		})
 		.fail(() => {
 			void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
