@@ -12,7 +12,7 @@ const Requests = {
 		const response = await fetch(url, {
 			credentials: 'same-origin',
 			headers: {
-				'Api-User-Agent': `Wikiplus/${Constants.version} (${Constants.wikiId})`,
+				'Api-User-Agent': Constants.userAgent,
 			},
 		});
 		return await response.json();
@@ -28,7 +28,7 @@ const Requests = {
 			body: form,
 			credentials: 'same-origin',
 			headers: {
-				'Api-User-Agent': `Wikiplus/${Constants.version} (${Constants.wikiId})`,
+				'Api-User-Agent': Constants.userAgent,
 			},
 		});
 		return await response.json();
