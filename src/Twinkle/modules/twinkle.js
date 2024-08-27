@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import {api} from './api';
 /*! Twinkle.js - twinkle.js */
 (function twinkle($) {
 	const $body = $('body');
@@ -456,8 +457,37 @@
 	});
 	// Retrieve the user's Twinkle preferences (window.Twinkle.prefs)
 	Twinkle.prefs ||= {};
-	mw.loader
-		.getScript(scripturl)
+	void api
+		.get({
+			action: 'query',
+			prop: ['revisions'],
+			rvprop: 'content',
+			format: 'json',
+			formatversion: '2',
+			titles: `User:${mw.config.get('wgUserName')}/twinkleoptions.js`,
+			rvlimit: '1',
+		})
+		.then((response) => {
+			let isSuccess;
+			const content = response['query'].pages[0].revisions[0].content ?? null;
+			if (content) {
+				try {
+					// eslint-disable-next-line no-eval
+					window.eval(content);
+					isSuccess = true;
+				} catch {
+					isSuccess = false;
+				}
+			} else {
+				isSuccess = false;
+			}
+			if (!isSuccess) {
+				void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
+					type: 'error',
+					tag: 'twinkle',
+				});
+			}
+		})
 		.fail(() => {
 			void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
 				type: 'error',
