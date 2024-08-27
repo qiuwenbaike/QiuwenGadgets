@@ -450,11 +450,6 @@ import {api} from './api';
 	/**
 	 * **************** General initialization code ****************
 	 */
-	const scripturl = mw.util.getUrl(`User:${mw.config.get('wgUserName')}/twinkleoptions.js`, {
-		action: 'raw',
-		ctype: 'text/javascript',
-		happy: 'yes',
-	});
 	// Retrieve the user's Twinkle preferences (window.Twinkle.prefs)
 	Twinkle.prefs ||= {};
 	void api
@@ -468,24 +463,19 @@ import {api} from './api';
 			rvlimit: '1',
 		})
 		.then((response) => {
-			let isSuccess;
-			const content = response['query'].pages[0].revisions[0].content ?? null;
-			if (content) {
-				try {
-					// eslint-disable-next-line no-eval
-					window.eval(content);
-					isSuccess = true;
-				} catch {
-					isSuccess = false;
+			if (!response['query'].pages[0].missing) {
+				const content = response['query'].pages[0].revisions[0].content ?? '';
+				if (content !== '') {
+					try {
+						// eslint-disable-next-line no-eval
+						window.eval(content);
+					} catch {
+						void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
+							type: 'error',
+							tag: 'twinkle',
+						});
+					}
 				}
-			} else {
-				isSuccess = false;
-			}
-			if (!isSuccess) {
-				void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
-					type: 'error',
-					tag: 'twinkle',
-				});
 			}
 		})
 		.fail(() => {
