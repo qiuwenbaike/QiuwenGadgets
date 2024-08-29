@@ -5,12 +5,6 @@
 	table {
 		/* Lots of crappy tables on file pages without classes etc */
 		box-sizing: border-box !important;
-
-		/* 文件历史 */
-		&.filehistory {
-			display: block;
-			overflow: auto;
-		}
 	}
 
 	#mw-imagepage-section-duplicates {
@@ -34,7 +28,7 @@
 
 /* 仅当文件页图像具有透明背景时，在图像描述页上显示棋盘格背景；<gallery>情况类似 */
 #file,
-body:not(.ns-0, .ns-2) .gallerybox .thumb {
+.gallerybox .thumb {
 	img {
 		background: data-uri('./images/gallery-background.svg') repeat;
 		background-color: #f8f9fa;
