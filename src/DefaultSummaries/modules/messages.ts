@@ -1,5 +1,5 @@
 const {wgULS} = window;
-const {wgPageName} = mw.config.get();
+const {wgCurRevisionId} = mw.config.get();
 
 const COMMON_SUMMARIES_LABEL: string = wgULS('常用编辑摘要', '常用編輯摘要');
 
@@ -11,7 +11,7 @@ let COMMON_SUMMARIES: string[] = [
 	wgULS('移除测试', '移除測試'),
 ];
 
-if (!wgPageName) {
+if (!wgCurRevisionId) {
 	COMMON_SUMMARIES = [wgULS('新页面', '新頁面'), ...COMMON_SUMMARIES];
 }
 
