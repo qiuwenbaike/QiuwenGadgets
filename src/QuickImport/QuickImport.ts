@@ -30,12 +30,18 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 	}
 
 	let wgPageName2: string | undefined;
+	let wgPageName3: string | undefined;
 	if (!isFileNS) {
 		const disamRegExp = /^(.*)（(.*?)）$/;
 		const match = wgPageName.match(disamRegExp);
 		if (match) {
 			const [, rootPageName, disamKey] = match;
 			wgPageName2 = `${rootPageName}_(${disamKey})`;
+			if (disamKey === '消歧义') {
+				wgPageName3 = `${rootPageName}_(消歧義)`;
+			} else if (disamKey === '消歧義') {
+				wgPageName3 = `${rootPageName}_(消歧义)`;
+			}
 		}
 	}
 
@@ -46,8 +52,11 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 			if (wgPageName2) {
 				await detectIfFileRedirect(wgPageName2, isFileNS);
 			}
+			if (wgPageName3) {
+				await detectIfFileRedirect(wgPageName3, isFileNS);
+			}
 		})().then(() => {
-			refreshPage(wgPageName2 ?? wgPageName);
+			refreshPage(wgPageName3 ?? wgPageName2 ?? wgPageName);
 		});
 	});
 })();
