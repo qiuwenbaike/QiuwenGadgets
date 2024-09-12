@@ -3164,9 +3164,24 @@ hotCatMessages();
 		document.querySelector('body').append(formContainer);
 		formContainer.innerHTML = `<form id="hotcatCommitForm" method="post" enctype="multipart/form-data" action="${
 			conf.wgScript
-		}?title=${encodeURIComponent(
-			conf.wgPageName
-		)}&action=submit"><input type="hidden" name="wpTextbox1">${`<input type="hidden" name="model" value="${conf.wgPageContentModel}">`}<input type="hidden" name="format" value="text/x-wiki"><input type="hidden" name="wpSummary" value=""><input type="checkbox" name="wpMinoredit" value="1"><input type="checkbox" name="wpWatchthis" value="1"><input type="hidden" name="wpAutoSummary" value="d41d8cd98f00b204e9800998ecf8427e"><input type="hidden" name="wpEdittime"><input type="hidden" name="wpStarttime"><input type="hidden" name="wpDiff" value="wpDiff"><input type="hidden" name="oldid" value="0"><input type="submit" name="hcCommit" value="hcCommit"><input type="hidden" name="wpEditToken"><input type="hidden" name="wpUltimateParam" value="1"><input type="hidden" name="wpChangeTags"><input type="hidden" value="ℳ𝒲♥𝓊𝓃𝒾𝒸ℴ𝒹ℯ" name="wpUnicodeCheck"></form>`;
+		}?title=${encodeURIComponent(conf.wgPageName)}&action=submit">
+		<input type="hidden" name="wpTextbox1">
+		<input type="hidden" name="model" value="${conf.wgPageContentModel}">
+		<input type="hidden" name="format" value="text/x-wiki">
+		<input type="hidden" name="wpSummary" value="">
+		<input type="checkbox" name="wpMinoredit" title="wpMinoredit" value="1">
+		<input type="checkbox" name="wpWatchthis" title="wpWatchthis" value="1">
+		<input type="hidden" name="wpAutoSummary" value="d41d8cd98f00b204e9800998ecf8427e">
+		<input type="hidden" name="wpEdittime">
+		<input type="hidden" name="wpStarttime">
+		<input type="hidden" name="wpDiff" value="wpDiff">
+		<input type="hidden" name="oldid" value="0">
+		<input type="submit" name="hcCommit" value="hcCommit">
+		<input type="hidden" name="wpEditToken">
+		<input type="hidden" name="wpUltimateParam" value="1">
+		<input type="hidden" name="wpChangeTags">
+		<input type="hidden" value="ℳ𝒲♥𝓊𝓃𝒾𝒸ℴ𝒹ℯ" name="wpUnicodeCheck">
+		</form>`;
 		commitForm = document.querySelector('#hotcatCommitForm');
 	};
 	const getPage = () => {
