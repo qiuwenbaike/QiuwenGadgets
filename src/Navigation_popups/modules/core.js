@@ -5927,11 +5927,12 @@ const popups = () => {
 			action: 'query',
 			format: 'json',
 			formatversion: '2',
-			maxage: 3600,
 			meta: 'siteinfo',
 			siprop: 'specialpagealiases',
-			// cache for an hour
 			uselang: 'content',
+			// cache for an hour
+			smaxage: 3600,
+			maxage: 3600,
 		};
 		return getMwApi()
 			.get(params)
