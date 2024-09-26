@@ -29,6 +29,7 @@ const queryLogEvents = async (leuser: string) => {
 		list: 'logevents',
 		lelimit: 1,
 		leprop: 'timestamp',
+		smaxage: 3600,
 		maxage: 3600,
 	};
 	const response = await api.get(params);

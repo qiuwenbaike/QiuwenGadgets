@@ -15,6 +15,8 @@ const queryRecentChanges = async (rcstart: string, rcend: string) => {
 		rcprop: 'user',
 		rcshow: ['!bot', '!anon'],
 		rclimit: 500,
+		smaxage: 3600,
+		maxage: 3600,
 	};
 	const response = await api.get(params);
 
@@ -31,6 +33,8 @@ const queryLogEvents = async (lestart: string, leend: string) => {
 		list: 'logevents',
 		leprop: 'user',
 		lelimit: 500,
+		smaxage: 3600,
+		maxage: 3600,
 	};
 	const response = await api.get(params);
 
@@ -45,6 +49,8 @@ const queryUserProps = async (ususers: string | string[]) => {
 		formatversion: '2',
 		list: 'users',
 		usprop: 'groups',
+		smaxage: 3600,
+		maxage: 3600,
 	};
 	const response = await api.get(params);
 
