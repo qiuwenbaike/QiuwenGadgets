@@ -9,6 +9,8 @@ const baseParams: ApiQueryUserContribsParams = {
 	format: 'json',
 	list: 'usercontribs',
 	uclimit: 1,
+	smaxage: 600,
+	maxage: 600,
 };
 type Usercontribs = {
 	usercontribs: Array<{

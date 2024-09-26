@@ -16,8 +16,8 @@ const parameters: ApiParseParams = {
 	page: OPTIONS.ajaxPageTitle,
 	uselang: wgUserLanguage,
 	variant: wgUserLanguage,
-	smaxage: 3600,
-	maxage: 3600,
+	smaxage: 600,
+	maxage: 600,
 };
 
 const queryApi = async (): Promise<ReturnType<mw.Api['get']>> => {

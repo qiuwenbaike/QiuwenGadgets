@@ -21,6 +21,8 @@ const mwApplyNotice = async (currentPageName: string, pageSubName: string): Prom
 			prop: 'text',
 			uselang: getLanguage(),
 			useskin: skin,
+			smaxage: 600,
+			maxage: 600,
 		};
 
 		const data = await api.get(params);
@@ -45,6 +47,8 @@ const mwApplyRevision = async (currentPageName: string): Promise<void> => {
 			// get the original wikitext content of a page
 			oldid: wgRevisionId,
 			prop: 'wikitext',
+			smaxage: 600,
+			maxage: 600,
 		};
 
 		const data = await api.get(params);

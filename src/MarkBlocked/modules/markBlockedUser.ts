@@ -94,8 +94,8 @@ const markBlockedUser = ($content: JQuery): void => {
 				list: 'blocks',
 				bklimit: 100,
 				bkprop: ['by', 'expiry', 'reason', 'restrictions', 'timestamp', 'user'],
-				smaxage: 3600,
-				maxage: 3600,
+				smaxage: 600,
+				maxage: 600,
 			};
 
 			try {

@@ -6721,6 +6721,8 @@ const popups = () => {
 		const params = {
 			action: 'compare',
 			prop: ['ids', 'title'],
+			smaxage: 600,
+			maxage: 600,
 		};
 		if (article.title) {
 			params.fromtitle = article.title;
