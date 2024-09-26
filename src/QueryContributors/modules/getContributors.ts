@@ -10,8 +10,8 @@ const queryContributors = async (titles: string, pccontinue?: string) => {
 		pcexcludegroup: ['bot'],
 		pclimit: 5000,
 		titles,
-		smaxage: 3600,
-		maxage: 3600,
+		smaxage: 600,
+		maxage: 600,
 	};
 
 	if (pccontinue) {

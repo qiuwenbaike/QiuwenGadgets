@@ -14,8 +14,8 @@ const parameters: ApiComparePagesParams = {
 	formatversion: '2',
 	prop: 'ids',
 	torelative: 'prev',
-	smaxage: 3600,
-	maxage: 3600,
+	smaxage: 600,
+	maxage: 600,
 };
 
 const queryApi = async (diffId: number): Promise<CompareResponse> => {

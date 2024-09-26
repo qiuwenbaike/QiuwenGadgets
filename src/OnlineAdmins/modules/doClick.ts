@@ -15,8 +15,8 @@ const queryRecentChanges = async (rcstart: string, rcend: string) => {
 		rcprop: 'user',
 		rcshow: ['!bot', '!anon'],
 		rclimit: 500,
-		smaxage: 3600,
-		maxage: 3600,
+		smaxage: 600,
+		maxage: 600,
 	};
 	const response = await api.get(params);
 
@@ -33,8 +33,8 @@ const queryLogEvents = async (lestart: string, leend: string) => {
 		list: 'logevents',
 		leprop: 'user',
 		lelimit: 500,
-		smaxage: 3600,
-		maxage: 3600,
+		smaxage: 600,
+		maxage: 600,
 	};
 	const response = await api.get(params);
 
@@ -49,8 +49,8 @@ const queryUserProps = async (ususers: string | string[]) => {
 		formatversion: '2',
 		list: 'users',
 		usprop: 'groups',
-		smaxage: 3600,
-		maxage: 3600,
+		smaxage: 600,
+		maxage: 600,
 	};
 	const response = await api.get(params);
 
@@ -60,8 +60,9 @@ const queryUserProps = async (ususers: string | string[]) => {
 const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 	event.preventDefault();
 
-	let users: string[] = [];
-	const usersExt: string[] = [];
+	let usersAll: string[] = [];
+	const usersRC: string[] = [];
+	const usersLE: string[] = [];
 	const stewards: string[] = [];
 	const admins: string[] = [];
 	const patrollers: string[] = [];
@@ -75,22 +76,22 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		const recentchanges = await queryRecentChanges(rcstart, rcend);
 
 		for (const {user} of recentchanges['query'].recentchanges as {user: string}[]) {
-			users[users.length] = user; // Replace `[].push()` to avoid polyfilling core-js
+			usersRC[usersRC.length] = user; // Replace `[].push()` to avoid polyfilling core-js
 		}
 
 		const logevents = await queryLogEvents(rcstart, rcend);
 
 		for (const {user} of logevents['query'].logevents as {user: string}[]) {
-			usersExt[usersExt.length] = user;
+			usersLE[usersLE.length] = user;
 		}
 
 		// 用户名列表合并、去重、分割
-		users = uniqueArray([...users, ...usersExt]); // Replace `[...new Set()]` to avoid polyfilling core-js
+		usersAll = uniqueArray([...usersRC, ...usersLE]); // Replace `[...new Set()]` to avoid polyfilling core-js
 
 		const promises: (() => Promise<void>)[] = [];
 
-		for (let i = 0; i < users.length; i++) {
-			const ususers = users.splice(0, 25);
+		for (let i = 0; i < usersAll.length; i++) {
+			const ususers = usersAll.splice(0, 25);
 			if (!ususers.length) {
 				continue;
 			}

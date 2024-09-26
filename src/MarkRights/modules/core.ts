@@ -47,8 +47,8 @@ const queryUserGroups = async (ususers: string | string[]) => {
 		formatversion: '2',
 		list: 'users',
 		usprop: 'groups',
-		smaxage: 3600,
-		maxage: 3600,
+		smaxage: 600,
+		maxage: 600,
 	};
 	const response = await api.get(params);
 
@@ -63,8 +63,8 @@ const queryGlobalUserGroups = async (user: string) => {
 		meta: 'globaluserinfo',
 		guiuser: user,
 		guiprop: 'groups',
-		smaxage: 3600,
-		maxage: 3600,
+		smaxage: 600,
+		maxage: 600,
 	};
 	const response = await api.get(params);
 
