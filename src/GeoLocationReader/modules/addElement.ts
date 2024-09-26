@@ -9,6 +9,8 @@ const queryUserGroups = async (ususers: string) => {
 		formatversion: '2',
 		list: 'users',
 		usprop: 'groups',
+		smaxage: 3600,
+		maxage: 3600,
 	};
 	const response = await api.get(params);
 

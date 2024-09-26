@@ -12,6 +12,8 @@ const queryUserContribs = async (ucuser: string) => {
 		ucdir: 'older',
 		uclimit: 1,
 		ucprop: 'timestamp',
+		smaxage: 3600,
+		maxage: 3600,
 	};
 	const response = await api.get(params);
 
@@ -27,6 +29,7 @@ const queryLogEvents = async (leuser: string) => {
 		list: 'logevents',
 		lelimit: 1,
 		leprop: 'timestamp',
+		maxage: 3600,
 	};
 	const response = await api.get(params);
 
