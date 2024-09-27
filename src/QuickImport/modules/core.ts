@@ -198,7 +198,10 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 							}
 
 							if (page2.imagerepository && page2.imagerepository !== 'local') {
-								await uploadFile(title, page2.imageinfo[0].url as string);
+								await uploadFile(
+									title,
+									`${page2.imageinfo[0].url}`.replace('wm.zhongwen.wiki', 'upload.wikimedia.org')
+								);
 							}
 						}
 					}
