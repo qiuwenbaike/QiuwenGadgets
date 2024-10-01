@@ -1,4 +1,5 @@
 import {getBody} from 'ext.gadget.Util';
+import {newLinkUnwrap} from './modules/newLinkUnwrap';
 
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	const {wgIsMainPage, wgAction} = mw.config.get();
@@ -7,6 +8,5 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
-	// 隐藏红色链接
-	$body.find('#mw-content-text a.new').contents().unwrap();
+	newLinkUnwrap($body);
 });

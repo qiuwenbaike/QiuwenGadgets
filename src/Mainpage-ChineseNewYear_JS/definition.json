@@ -1,0 +1,8 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 节庆首页样式配套脚本",
+	"section": "appear",
+	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki"],
+	"default": true,
+	"dependencies": ["ext.gadget.ChineseDays"]
+}

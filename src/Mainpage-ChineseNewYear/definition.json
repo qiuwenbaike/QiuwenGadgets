@@ -1,7 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 逢公历元旦、农历春节等节庆启用的首页样式",
+	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 节庆首页样式 <small>逢公历元旦、农历春节等节庆启用</small>",
 	"section": "appear",
-	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike", "testwiki"],
-	"default": true
+	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki"]
 }

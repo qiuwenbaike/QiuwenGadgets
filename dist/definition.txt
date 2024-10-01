@@ -11,7 +11,8 @@
 * HideConversionTab[ResourceLoader|default|requiresES6]|HideConversionTab.css
 * LoginToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-windows|hidden|requiresES6]|LoginToEdit.js
 * Mainpage[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage.css
-* Mainpage-ChineseNewYear[ResourceLoader|default|requiresES6]|Mainpage-ChineseNewYear.css
+* Mainpage-ChineseNewYear[ResourceLoader|requiresES6]|Mainpage-ChineseNewYear.css
+* Mainpage-ChineseNewYear_JS[ResourceLoader|default|dependencies=ext.gadget.ChineseDays|requiresES6]|Mainpage-ChineseNewYear_JS-Mainpage_JS.js
 * Mainpage-obituary[ResourceLoader|hidden|namespaces=4,10|requiresES6]|Mainpage-obituary.css
 * Mainpage_JS[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|namespaces=4,10|requiresES6]|Mainpage_JS.js
 * Mainpage_licencewiki[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_licencewiki.css
@@ -56,6 +57,7 @@
 * AccessKeyCheatsheet[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,oojs-ui-windows|requiresES6]|AccessKeyCheatsheet.js
 * AdvancedSiteNotices[ResourceLoader|actions=view|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Tippy,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.Uri|peers=AdvancedSiteNotices-pagestyles|requiresES6]|AdvancedSiteNotices.js
 * AdvancedSiteNotices-pagestyles[ResourceLoader|hidden|requiresES6]|AdvancedSiteNotices-pagestyles.css
+* ChineseDays[ResourceLoader|hidden|requiresES6]|ChineseDays.js
 * Clipboard[ResourceLoader|hidden|requiresES6]|Clipboard.js
 * Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
 * ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,oojs-ui-windows|rights=edit|requiresES6]|ConfirmLogout.js
