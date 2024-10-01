@@ -22,16 +22,6 @@
 	&-footer-box {
 		border: 3px solid var(--mp-background-color-primary--lightest, @background-color-primary--lightest);
 	}
-
-	&-header {
-		.mainpage-slogan img {
-			filter: hue-rotate(141deg);
-
-			.client-darkmode & {
-				filter: invert(1) hue-rotate(320deg);
-			}
-		}
-	}
 }
 
 /* === Other elements === */
@@ -63,25 +53,10 @@ html {
 	}
 }
 
-/* For Gongbi and Vector skins */
-#sliderCollapseLogo,
-.wordmark {
-	img {
-		filter: hue-rotate(141deg);
-	}
-}
-
-/* For Vector skin */
-.mw-logo,
-.mw-wiki-logo {
-	filter: hue-rotate(141deg);
-}
-
 /* For Citizen skin */
 .skin-citizen .mw-portlet-personal li a:hover,
 .skin-citizen #pt-login a,
 .citizen-header__button,
-.citizen-drawer__menu a:hover,
-.citizen-drawer__header img {
+.citizen-drawer__menu a:hover {
 	filter: hue-rotate(141deg) !important;
 }
