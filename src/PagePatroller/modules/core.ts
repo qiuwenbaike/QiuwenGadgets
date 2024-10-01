@@ -31,6 +31,8 @@ const pagePatroller = async (): Promise<void> => {
 			rvprop: 'timestamp',
 			rvlimit: 1,
 			rvdir: 'newer',
+			smaxage: 600,
+			maxage: 600,
 		};
 		const {query} = await api.get(params);
 

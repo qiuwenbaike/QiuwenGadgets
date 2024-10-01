@@ -12,6 +12,8 @@ const queryRevisons = async (titles: string | string[]) => {
 		prop: ['revisions'],
 		rvprop: ['content'],
 		rvslots: 'main',
+		smaxage: 600,
+		maxage: 600,
 	};
 	const response = await api.get(params);
 

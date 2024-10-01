@@ -5927,11 +5927,12 @@ const popups = () => {
 			action: 'query',
 			format: 'json',
 			formatversion: '2',
-			maxage: 3600,
 			meta: 'siteinfo',
 			siprop: 'specialpagealiases',
-			// cache for an hour
 			uselang: 'content',
+			// cache for an hour
+			smaxage: 3600,
+			maxage: 3600,
 		};
 		return getMwApi()
 			.get(params)
@@ -6720,6 +6721,8 @@ const popups = () => {
 		const params = {
 			action: 'compare',
 			prop: ['ids', 'title'],
+			smaxage: 600,
+			maxage: 600,
 		};
 		if (article.title) {
 			params.fromtitle = article.title;

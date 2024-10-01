@@ -17,6 +17,8 @@ const appendGeoIcon = async (): Promise<void> => {
 			prop: ['revisions'],
 			rvprop: ['content'],
 			rvslots: 'main',
+			smaxage: 600,
+			maxage: 600,
 		};
 
 		const data = await api.get(params);
