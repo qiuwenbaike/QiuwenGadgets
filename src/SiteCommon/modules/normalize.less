@@ -2,9 +2,13 @@
 
 /* 变量 */
 :root {
-	--fonts-sans: @sans-serif-zh-hans, @emoji-font, sans-serif;
-	--fonts-serif: @serif-zh-hans, @emoji-font, serif;
-	--fonts-monospace: @monospace-zh-hans, @emoji-font, monospace;
+	&,
+	&:lang(zh),
+	&:lang(zh-hans) {
+		--fonts-sans: @sans-serif-zh-hans, @emoji-font, sans-serif;
+		--fonts-serif: @serif-zh-hans, @emoji-font, serif;
+		--fonts-monospace: @monospace-zh-hans, @emoji-font, monospace;
+	}
 
 	&:lang(zh-hant) {
 		--fonts-sans: @sans-serif-zh-hant, @emoji-font, sans-serif;
@@ -16,6 +20,7 @@
 /* 重置<html>默认样式 */
 html {
 	tab-size: 4;
+	font-family: var(--fonts-sans, sans-serif);
 }
 
 /* 重置<cite>默认样式 */

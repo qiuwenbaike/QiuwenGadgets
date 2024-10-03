@@ -44,17 +44,20 @@
 }
 
 html {
+	&,
 	&:lang(zh),
 	&:lang(zh-hans) {
 		--fonts-sans: @sans-serif-zh-hans, @emoji-font, 'NospzGothic', @unihan-sans-serif, sans-serif;
 		--fonts-serif: @serif-zh-hans, @emoji-font, @unihan-serif, @unihan-serif, 'NospzGothic', serif;
 		--fonts-monospace: @monospace-zh-hans, @emoji-font, 'NospzGothic', @unihan-sans-serif, monospace;
+		font-family: var(--fonts-sans, sans-serif);
 	}
 
 	&:lang(zh-hant) {
 		--fonts-sans: @sans-serif-zh-hant, @emoji-font, 'NospzGothic', @unihan-sans-serif, sans-serif;
 		--fonts-serif: @serif-zh-hant, @emoji-font, @unihan-serif, @unihan-serif, 'NospzGothic', serif;
 		--fonts-monospace: @monospace-zh-hant, @emoji-font, 'NospzGothic', @unihan-sans-serif, monospace;
+		font-family: var(--fonts-sans, sans-serif);
 	}
 
 	i span[lang='ja' i],
