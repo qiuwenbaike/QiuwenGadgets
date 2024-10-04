@@ -90,14 +90,20 @@ class Wiki {
 	 */
 	async getWikiText({section, revisionId}) {
 		try {
-			const response = await requests.get({
+			const params = {
 				action: 'query',
 				prop: 'revisions',
 				rvprop: 'content',
 				format: 'json',
 				revids: revisionId,
-				section: section,
-			});
+			};
+			if (revisionId) {
+				params.revisionId = revisionId;
+			}
+			if (section) {
+				params.section = section;
+			}
+			const response = await requests.get(params);
 			if (response.query && response.query.pages) {
 				if (Object.keys(response.query.pages)[0] === '-1') {
 					// 不存在这一页面
