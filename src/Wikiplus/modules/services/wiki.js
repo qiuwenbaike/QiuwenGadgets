@@ -98,10 +98,10 @@ class Wiki {
 				revids: revisionId,
 			};
 			if (revisionId) {
-				params.revisionId = revisionId;
+				params.revids = revisionId;
 			}
 			if (section) {
-				params.section = section;
+				params.rvsection = section;
 			}
 			const response = await requests.get(params);
 			if (response.query && response.query.pages) {
