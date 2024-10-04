@@ -16,16 +16,15 @@
 	--mp-background-color--lightest: fade(@color--primary, 1.25%) !important; // @color--primary with 1.25% opacity
 }
 
-.mainpage {
-	&-header-box,
-	&-box,
-	&-footer-box {
-		border: 3px solid var(--mp-background-color-primary--lightest, @background-color-primary--lightest);
+/* === Other elements === */
+.gadget-advanced_site_notices {
+	box-shadow: 0 0.5px 0 var(--mp-background-color, fade(@color--primary, 25%));
+
+	&__title {
+		filter: hue-rotate(141deg) !important;
 	}
 }
 
-/* === Other elements === */
-.gadget-advanced_site_notices__title,
 .gadget-cookie_warning {
 	filter: hue-rotate(141deg) !important;
 }
@@ -42,20 +41,23 @@ html {
 	}
 }
 
-/* For Gongbi skin */
-#mw-header-container {
-	border-color: var(--mp--color, @color--primary);
-}
-
-.skin-gongbi.page-Qiuwen_首页.action-view .bodySearch {
-	.cdx-button {
+.skin-citizen {
+	.mw-portlet-personal li a:hover,
+	#pt-login a,
+	.citizen-drawer__menu a:hover {
 		filter: hue-rotate(141deg) !important;
 	}
 }
 
-/* For Citizen skin */
-.skin-citizen .mw-portlet-personal li a:hover,
-.skin-citizen #pt-login a,
-.citizen-drawer__menu a:hover {
-	filter: hue-rotate(141deg) !important;
+/* For Gongbi skin */
+.skin-gongbi {
+	#mw-header-container {
+		border-color: var(--mp--color, @color--primary);
+	}
+
+	&.page-Qiuwen_首页.action-view .bodySearch {
+		.cdx-button {
+			filter: hue-rotate(141deg) !important;
+		}
+	}
 }
