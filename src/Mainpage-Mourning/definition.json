@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Mainpage-obituary\"></span> 特殊日期时首页样式",
+	"description": "<span id=\"Gadget-Mainpage-Mourning\"></span> 特殊日期时首页样式",
 	"section": "appear",
 	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki"],
 	"hidden": true,
