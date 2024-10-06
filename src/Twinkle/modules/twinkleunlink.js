@@ -363,7 +363,7 @@
 						? window.wgULS('取消链入或文件使用', '取消連入或檔案使用')
 						: window.wgULS('取消链入', '取消連入');
 				} else {
-					summaryText = (summaryText ? `${summaryText} / ` : '') + window.wgULS('取消链结到', '取消連結到');
+					summaryText = (summaryText ? `${summaryText} / ` : '') + window.wgULS('取消链接到', '取消連結到');
 					oldtext = text;
 				}
 			}
