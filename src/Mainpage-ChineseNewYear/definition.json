@@ -3,5 +3,6 @@
 	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 节庆首页样式配套样式表",
 	"section": "appear",
 	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki"],
-	"hidden": true
+	"hidden": true,
+	"namespaces": [4, 10]
 }

@@ -11,13 +11,13 @@
 * HideConversionTab[ResourceLoader|default|requiresES6]|HideConversionTab.css
 * LoginToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-windows|hidden|requiresES6]|LoginToEdit.js
 * Mainpage[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage.css
-* Mainpage-ChineseNewYear[ResourceLoader|hidden|requiresES6]|Mainpage-ChineseNewYear.css
-* Mainpage-ChineseNewYear_JS[ResourceLoader|default|dependencies=ext.gadget.ChineseDays|requiresES6]|Mainpage-ChineseNewYear_JS.js
+* Mainpage-ChineseNewYear[ResourceLoader|hidden|namespaces=4,10|requiresES6]|Mainpage-ChineseNewYear.css
+* Mainpage-ChineseNewYear_JS[ResourceLoader|default|dependencies=ext.gadget.ChineseDays|namespaces=4,10|requiresES6]|Mainpage-ChineseNewYear_JS.js
 * Mainpage-Mourning[ResourceLoader|hidden|namespaces=4,10|requiresES6]|Mainpage-Mourning.css
 * Mainpage_JS[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|namespaces=4,10|requiresES6]|Mainpage_JS.js
 * Mainpage_licencewiki[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_licencewiki.css
-* Mainpage_loginwiki[ResourceLoader|default|hidden|namespaces=0|requiresES6]|Mainpage_loginwiki.css
-* Mainpage_mncqiuwenbaike[ResourceLoader|default|hidden|namespaces=10|requiresES6]|Mainpage_mncqiuwenbaike.css
+* Mainpage_loginwiki[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_loginwiki.css
+* Mainpage_mncqiuwenbaike[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_mncqiuwenbaike.css
 * Mainpage_zhqiuwenbaike[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage_zhqiuwenbaike.css
 * NavboxCSS[ResourceLoader|default|hidden|requiresES6]|NavboxCSS.css
 * NospzGothic[ResourceLoader|default|requiresES6]|NospzGothic.css
