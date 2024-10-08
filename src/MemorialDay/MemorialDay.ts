@@ -1,5 +1,5 @@
-import {generateArray, getBody} from 'ext.gadget.Util';
 import {addStyleTag} from './modules/addStyleTag';
+import {generateArray} from 'ext.gadget.Util';
 import {pageList} from './modules/pageList';
 
 const DATENOW: Date = new Date();
@@ -20,5 +20,5 @@ for (const {titles, dates} of pageList) {
 		continue;
 	}
 
-	void getBody().then(addStyleTag);
+	addStyleTag();
 }

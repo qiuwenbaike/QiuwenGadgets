@@ -7,9 +7,11 @@ const CLASS_LIST = [
 	'.skin-vector-2022 .mw-body',
 ];
 
-const addStyleTag = ($body: JQuery<HTMLBodyElement>) => {
-	// eslint-disable-next-line mediawiki/class-doc
-	$body.find(CLASS_LIST.join(',')).addClass(memorial as string);
+const addStyleTag = () => {
+	for (const className of CLASS_LIST) {
+		// eslint-disable-next-line mediawiki/class-doc
+		document.querySelector(className)?.classList.add(memorial as string);
+	}
 };
 
 export {addStyleTag};
