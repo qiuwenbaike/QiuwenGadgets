@@ -1,0 +1,28 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/MemorialDay}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* esbuild-css-modules-plugin-ns-css:src/MemorialDay/modules/MemorialDay.module.less */
+.MemorialDay-module__memorial_cnrRka {
+  filter: grayscale() !important;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9NZW1vcmlhbERheS9tb2R1bGVzL01lbW9yaWFsRGF5Lm1vZHVsZS5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIvKiA8c3RkaW4+ICovXG4uTWVtb3JpYWxEYXktbW9kdWxlX19tZW1vcmlhbF9jbnJSa2Ege1xuICBmaWx0ZXI6IGdyYXlzY2FsZSgpICFpbXBvcnRhbnQ7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFDQSxDQUFDO0FBQ0MsVUFBUTtBQUNWOyIsCiAgIm5hbWVzIjogW10KfQo= */
