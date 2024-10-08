@@ -5,5 +5,5 @@
 	"excludeSites": ["licencewiki", "loginwiki", "testwiki", "zhqiuwenbaike"],
 	"default": true,
 	"hidden": true,
-	"namespaces": [10]
+	"namespaces": [4, 10]
 }
