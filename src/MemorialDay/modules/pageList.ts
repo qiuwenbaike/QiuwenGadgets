@@ -9,7 +9,7 @@ const pageList: {
 	},
 	// Im memorial of Wu Bangguo
 	{
-		titles: ['吴邦国'],
+		titles: ['吴邦国', 'File:Wu_Bangguo_Beijing2011.jpg'],
 		dates: [20_241_008, 20_241_009, 20_241_010],
 	},
 ];
