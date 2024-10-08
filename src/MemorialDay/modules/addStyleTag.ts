@@ -1,6 +1,11 @@
 import {memorial} from './MemorialDay.module.less';
 
-const CLASS_LIST = ['.skin-citizen .mw-body', '.skin-vector .mw-body', '.skin-gongbi #mw-content'];
+const CLASS_LIST = [
+	'.skin-citizen .mw-body',
+	'.skin-gongbi #mw-content',
+	'.skin-vector .mw-body',
+	'.skin-vector-2022 .mw-body',
+];
 
 const addStyleTag = ($body: JQuery<HTMLBodyElement>) => {
 	// eslint-disable-next-line mediawiki/class-doc
