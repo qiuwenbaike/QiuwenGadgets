@@ -8,8 +8,10 @@ const CLASS_LIST = [
 ];
 
 const addStyleTag = ($body: JQuery<HTMLBodyElement>) => {
-	// eslint-disable-next-line mediawiki/class-doc
-	$body.find(CLASS_LIST.join(',')).addClass(memorial as string);
+	for (const className of CLASS_LIST) {
+		// eslint-disable-next-line mediawiki/class-doc
+		$body.find(className).addClass(memorial as string);
+	}
 };
 
 export {addStyleTag};
