@@ -62,7 +62,10 @@ class LogFilter {
 
 		// Generate the form
 		// eslint-disable-next-line mediawiki/class-doc
-		const $fieldSet: JQuery = $('<fieldset>').attr('id', 'rightsFilter').addClass(rightsFilter).text(instructions);
+		const $fieldSet: JQuery = $('<fieldset>')
+			.attr('id', 'rightsFilter')
+			.addClass(rightsFilter as string)
+			.text(instructions);
 		const $legend: JQuery = $('<legend>').text(LogFilter.msg('legend'));
 		$fieldSet.append($legend);
 

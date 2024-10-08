@@ -17,7 +17,7 @@ const markBlockedUser = ($content: JQuery): void => {
 	// The following classes are used here:
 	// * see ./Markblocked.module.less
 	// * for more information
-	$content.addClass(loading);
+	$content.addClass(loading as string);
 
 	// API request
 	type Response = {
@@ -42,16 +42,16 @@ const markBlockedUser = ($content: JQuery): void => {
 		for (const block of response['query'].blocks) {
 			const isPartialBlcok: boolean = typeof block.restrictions === 'string' && block.restrictions !== ''; // Partial block
 
-			let className: string = userlinkPartial;
+			let className: string = userlinkPartial as string;
 			let blockTime: string = '';
 			if (block.expiry.startsWith('in')) {
 				if (!isPartialBlcok) {
-					className = userlinkIndef;
+					className = userlinkIndef as string;
 				}
 				blockTime = getMessage('infinity');
 			} else {
 				if (!isPartialBlcok) {
-					className = userlinkTemp;
+					className = userlinkTemp as string;
 				}
 				blockTime = inHours(parseTS(block.expiry) - parseTS(block.timestamp));
 			}
@@ -117,7 +117,7 @@ const markBlockedUser = ($content: JQuery): void => {
 		// The following classes are used here:
 		// * see ./Markblocked.module.less
 		// * for more information
-		$content.removeClass(loading);
+		$content.removeClass(loading as string);
 	});
 };
 
