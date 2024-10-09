@@ -1610,17 +1610,6 @@
 		"MediaWiki:Vector.js"
 	],
 	"loginwiki": [
-		"MediaWiki:Gadget-ChineseDays",
-		"MediaWiki:Gadget-ChineseDays.js",
-		"MediaWiki:Gadget-ChineseDays/zh",
-		"MediaWiki:Gadget-ChineseDays/zh-cn",
-		"MediaWiki:Gadget-ChineseDays/zh-hans",
-		"MediaWiki:Gadget-ChineseDays/zh-hant",
-		"MediaWiki:Gadget-ChineseDays/zh-hk",
-		"MediaWiki:Gadget-ChineseDays/zh-mo",
-		"MediaWiki:Gadget-ChineseDays/zh-my",
-		"MediaWiki:Gadget-ChineseDays/zh-sg",
-		"MediaWiki:Gadget-ChineseDays/zh-tw",
 		"MediaWiki:Gadget-ConfirmLogout",
 		"MediaWiki:Gadget-ConfirmLogout.js",
 		"MediaWiki:Gadget-ConfirmLogout/zh",
