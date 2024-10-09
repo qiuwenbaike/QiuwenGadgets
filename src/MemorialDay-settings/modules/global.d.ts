@@ -1,6 +1,6 @@
 type PageList = {
 	titles: string | string[];
-	dates?: number | number[];
+	dates?: string | number | (string | number)[];
 }[];
 
 declare module 'ext.gadget.MemorialDay-settings' {

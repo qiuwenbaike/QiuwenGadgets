@@ -69,7 +69,7 @@
 * GeoLocationReader-pagestyles[ResourceLoader|hidden|requiresES6]|GeoLocationReader-pagestyles.css
 * HistoryDisclaimer[ResourceLoader|default|dependencies=ext.gadget.React|hidden|requiresES6]|HistoryDisclaimer.js|HistoryDisclaimer.css
 * i18n[ResourceLoader|dependencies=ext.gadget.Util|hidden|requiresES6]|i18n.js
-* MemorialDay[ResourceLoader|default|dependencies=ext.gadget.Util,ext.gadget.MemorialDay-settings|hidden|requiresES6]|MemorialDay.js|MemorialDay.css
+* MemorialDay[ResourceLoader|default|dependencies=ext.gadget.MemorialDay-settings,ext.gadget.Util|hidden|requiresES6]|MemorialDay.js|MemorialDay.css
 * MemorialDay-settings[ResourceLoader|hidden|requiresES6]|MemorialDay-settings.js
 * morebits[ResourceLoader|dependencies=ext.gadget.select2,ext.gadget.Util,jquery.ui,mediawiki.Title,mediawiki.user,mediawiki.util|hidden|requiresES6]|morebits.js|morebits.css
 * NavFrame-pagestyles[ResourceLoader|hidden|requiresES6]|NavFrame-pagestyles.css

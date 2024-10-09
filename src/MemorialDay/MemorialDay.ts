@@ -26,10 +26,16 @@ import {pageList} from 'ext.gadget.MemorialDay-settings';
 
 		const allDates = generateArray(dates);
 
-		if (!allDates.includes(MONTH * 1e2 + DAY) && !allDates.includes(YEAR * 1e4 + MONTH * 1e2 + DAY)) {
-			continue;
-		}
+		for (let date of allDates) {
+			if (typeof date === 'string') {
+				date = Number.parseInt(date, 10);
+			}
 
-		addStyleTag();
+			if (!allDates.includes(MONTH * 1e2 + DAY) && !allDates.includes(YEAR * 1e4 + MONTH * 1e2 + DAY)) {
+				continue;
+			}
+
+			addStyleTag();
+		}
 	}
 })();
