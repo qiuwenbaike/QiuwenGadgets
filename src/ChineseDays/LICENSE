@@ -4,7 +4,7 @@
  *
  * @base {@link https://github.com/vsme/chinese-days}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ChineseDays}
- * @license BSD-3-Clause {@link https://github.com/vsme/chinese-days/blob/main/LICENSE}
+ * @license MIT {@link https://github.com/vsme/chinese-days/blob/main/LICENSE}
  */
 
 /**
