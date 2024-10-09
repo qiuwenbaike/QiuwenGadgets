@@ -4,6 +4,6 @@
 	"section": "compatibility",
 	"excludeSites": ["loginwiki", "testwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.Util"],
+	"dependencies": ["ext.gadget.MemorialDay-settings", "ext.gadget.Util"],
 	"hidden": true
 }
