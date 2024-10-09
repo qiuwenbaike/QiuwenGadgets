@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-MemorialDay-settings\"></span> “特殊日期时自动调用页面样式”参数配置",
+	"section": "compatibility",
+	"excludeSites": ["loginwiki", "testwiki"],
+	"hidden": true
+}
