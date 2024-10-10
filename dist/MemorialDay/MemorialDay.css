@@ -18,11 +18,16 @@
  */
 /* <nowiki> */
 
+/* src/MemorialDay/MemorialDay.less */
+.memorial {
+  filter: grayscale(0.95) !important;
+}
+
 /* esbuild-css-modules-plugin-ns-css:src/MemorialDay/modules/MemorialDay.module.less */
-:is(.MemorialDay-module__memorial_cnrRka, .memorial) {
-  filter: grayscale() !important;
+.MemorialDay-module__memorial_cnrRka {
+  filter: grayscale(.95) !important;
 }
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9NZW1vcmlhbERheS9tb2R1bGVzL01lbW9yaWFsRGF5Lm1vZHVsZS5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIvKiA8c3RkaW4+ICovXG46aXMoLk1lbW9yaWFsRGF5LW1vZHVsZV9fbWVtb3JpYWxfY25yUmthLCAubWVtb3JpYWwpIHtcbiAgZmlsdGVyOiBncmF5c2NhbGUoKSAhaW1wb3J0YW50O1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQ0EsSUFBSSxDQUFDLHFDQUFxQyxDQUFDO0FBQ3pDLFVBQVE7QUFDVjsiLAogICJuYW1lcyI6IFtdCn0K */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL01lbW9yaWFsRGF5L01lbW9yaWFsRGF5Lmxlc3MiLCAiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9NZW1vcmlhbERheS9tb2R1bGVzL01lbW9yaWFsRGF5Lm1vZHVsZS5sZXNzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIubWVtb3JpYWwge1xuICBmaWx0ZXI6IGdyYXlzY2FsZSgwLjk1KSAhaW1wb3J0YW50O1xufVxuIiwgIi8qIDxzdGRpbj4gKi9cbi5NZW1vcmlhbERheS1tb2R1bGVfX21lbW9yaWFsX2NuclJrYSB7XG4gIGZpbHRlcjogZ3JheXNjYWxlKC45NSkgIWltcG9ydGFudDtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUM7QUFDQyxVQUFRLFVBQVU7QUFDcEI7OztBQ0RBLENBQUM7QUFDQyxVQUFRLFVBQVU7QUFDcEI7IiwKICAibmFtZXMiOiBbXQp9Cg== */

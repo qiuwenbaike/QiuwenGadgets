@@ -1,18 +1,25 @@
+import './MemorialDay.less';
+import * as OPTIONS from './options.json';
 import {addStyleTag} from './modules/addStyleTag';
 import {generateArray} from 'ext.gadget.Util';
 import {pageList} from 'ext.gadget.MemorialDay-settings';
 
-(function MemorialDay() {
+(function memorialDay() {
+	// Guard against double inclusions
+	if (mw.config.get(OPTIONS.configKey)) {
+		return;
+	}
+
+	if (!Array.isArray(pageList)) {
+		return;
+	}
+
 	const DATENOW: Date = new Date();
 	const YEAR: number = DATENOW.getFullYear();
 	const MONTH: number = DATENOW.getMonth() + 1;
 	const DAY: number = DATENOW.getDate();
 
 	const {wgPageName} = mw.config.get();
-
-	if (!Array.isArray(pageList)) {
-		return;
-	}
 
 	for (const page of pageList) {
 		if (!page.titles || !page.dates) {
@@ -36,6 +43,7 @@ import {pageList} from 'ext.gadget.MemorialDay-settings';
 			}
 
 			addStyleTag();
+			mw.config.set(OPTIONS.configKey, true);
 		}
 	}
 })();
