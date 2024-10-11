@@ -9,19 +9,19 @@ const loadHolidayStyle = () => {
 		return;
 	}
 
-	const holidays = [
+	const HOLIDAYS = [
 		"New Year's Day",
 		'Spring Festival',
-		'Tomb-sweeping Day',
+		/* 'Tomb-sweeping Day', */ // Do not load celebrating styles when it is Tomb-sweeping Day.
 		'Labour Day',
 		'Dragon Boat Festival',
 		'National Day',
 		'Mid-autumn Festival',
 	];
 
-	for (const holiday of holidays) {
+	for (const holiday of HOLIDAYS) {
 		if (name.includes(holiday)) {
-			mw.loader.using(['ext.gadget.Mainpage-ChineseNewYear']);
+			void mw.loader.using('ext.gadget.Mainpage-ChineseNewYear');
 		}
 	}
 };
