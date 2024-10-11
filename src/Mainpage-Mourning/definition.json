@@ -2,7 +2,7 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-Mainpage-Mourning\"></span> 特殊日期时首页样式",
 	"section": "appear",
-	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki"],
+	"excludeSites": ["loginwiki", "testwiki"],
 	"hidden": true,
 	"namespaces": [4, 10]
 }
