@@ -2,6 +2,7 @@
  * SPDX-License-Identifier: CC-BY-SA-4.0
  * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
  *
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Group-user.css}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Group-eventsponsor}
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
