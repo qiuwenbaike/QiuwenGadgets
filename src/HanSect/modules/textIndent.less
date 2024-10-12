@@ -1,0 +1,33 @@
+.textIndent() {
+	& > p {
+		text-indent: 2em; /* 缩进两个字 */
+		& > * {
+			text-indent: 0; /* 段落内若有其他元素，则不再缩进 */
+		}
+	}
+
+	& > ul,
+	& > ol {
+		margin-left: 3em;
+
+		& > *:not(ul, ol, li) {
+			margin-left: 0;
+		}
+	}
+
+	ul,
+	ol {
+		> li {
+			> ul,
+			> ol {
+				margin-left: 1em;
+			}
+		}
+	}
+
+	& > p,
+	& > ul,
+	& > ol {
+		line-height: 1.75; /* 行距设置 */
+	}
+}
