@@ -25,7 +25,7 @@ const issueTemplate = ({
 		action: 'edit',
 		format: 'json',
 		title: talkPage,
-		appendtext: '\n\n{{'.concat('subst:', permissionTemplate, '}}}'),
+		appendtext: '\n\n{{'.concat('subst:', permissionTemplate, '}}'),
 		summary: `根据共识授予${permissionName}${OPTIONS.userRightsManagerSummary}`,
 		watchlist: watch ? 'watch' : 'unwatch',
 	};
