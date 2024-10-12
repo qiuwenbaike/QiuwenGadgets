@@ -1,48 +1,23 @@
+@import (reference) './modules/textIndent.less';
+
 @selector: ~'.ext-discussiontools-replytool-enabled, .ext-discussiontools-newtopictool-enabled';
 
-:not(.ve-activated) {
-	body.ns-subject:not(@{selector}) .mw-parser-output,
-	body.skin-citizen.ns-subject:not(@{selector}) .mw-parser-output > section,
-	.hansect {
-		& > p {
-			text-indent: 2em; /* 缩进两个字 */
-			& > * {
-				text-indent: 0; /* 段落内若有其他元素，则不再缩进 */
-			}
-		}
+body.ns-subject:not(@{selector}) .ve-ui-surface-source .mw-parser-output > p,
+body.skin-citizen.ns-subject:not(@{selector}) .ve-ui-surface-source .mw-parser-output > section {
+	text-indent: 0;
+}
 
-		& > ul,
-		& > ol {
-			margin-left: 3em;
+body.ns-subject:not(@{selector}) .mw-parser-output,
+body.skin-citizen.ns-subject:not(@{selector}) .mw-parser-output > section,
+.hansect {
+	.textIndent;
+}
 
-			& > *:not(ul, ol, li) {
-				margin-left: 0;
-			}
-		}
+.mw-templatedata-doc-wrap p.mw-templatedata-doc-desc {
+	/* TemplateData */
+	text-indent: 2em;
 
-		ul,
-		ol {
-			> li {
-				> ul,
-				> ol {
-					margin-left: 1em;
-				}
-			}
-		}
-
-		& > p,
-		& > ul,
-		& > ol {
-			line-height: 1.75; /* 行距设置 */
-		}
-	}
-
-	.mw-templatedata-doc-wrap p.mw-templatedata-doc-desc {
-		/* TemplateData */
-		text-indent: 2em;
-
-		& > * {
-			text-indent: 0;
-		}
+	& > * {
+		text-indent: 0;
 	}
 }
