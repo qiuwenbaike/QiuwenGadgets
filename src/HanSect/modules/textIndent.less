@@ -1,11 +1,15 @@
-.textIndent() {
+.p_textIndent_2em() {
 	& > p {
 		text-indent: 2em; /* 缩进两个字 */
+		line-height: 1.75; /* 行距设置 */
+
 		& > * {
 			text-indent: 0; /* 段落内若有其他元素，则不再缩进 */
 		}
 	}
+}
 
+.ul_ol_marginLeft() {
 	& > ul,
 	& > ol {
 		margin-left: 3em;
@@ -25,7 +29,6 @@
 		}
 	}
 
-	& > p,
 	& > ul,
 	& > ol {
 		line-height: 1.75; /* 行距设置 */

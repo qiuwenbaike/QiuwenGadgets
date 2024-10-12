@@ -1,23 +1,21 @@
 @import (reference) './modules/textIndent.less';
 
-@selector: ~'.ext-discussiontools-replytool-enabled, .ext-discussiontools-newtopictool-enabled';
+@selector: ~'.hansect';
+@not_selector: ~'.ext-discussiontools-replytool-enabled, .ext-discussiontools-newtopictool-enabled';
 
-body.ns-subject:not(@{selector}) .ve-ui-surface-source .mw-parser-output > p,
-body.skin-citizen.ns-subject:not(@{selector}) .ve-ui-surface-source .mw-parser-output > section {
+body.ns-subject:not(@{not_selector}) .ve-ui-surface-source .mw-parser-output > p,
+body.skin-citizen.ns-subject:not(@{not_selector}) .ve-ui-surface-source .mw-parser-output > section > p {
 	text-indent: 0;
 }
 
-body.ns-subject:not(@{selector}) .mw-parser-output,
-body.skin-citizen.ns-subject:not(@{selector}) .mw-parser-output > section,
-.hansect {
-	.textIndent;
+body.ns-subject:not(@{not_selector}) .mw-parser-output,
+body.skin-citizen.ns-subject:not(@{not_selector}) .mw-parser-output > section,
+@{selector} {
+	.p_textIndent_2em();
+	.ul_ol_marginLeft();
 }
 
+/* TemplateData */
 .mw-templatedata-doc-wrap p.mw-templatedata-doc-desc {
-	/* TemplateData */
-	text-indent: 2em;
-
-	& > * {
-		text-indent: 0;
-	}
+	.p_textIndent_2em();
 }
