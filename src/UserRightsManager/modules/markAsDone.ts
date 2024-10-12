@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as OPTIONS from '../options.json';
 import {api} from './api';
 const tagLine = OPTIONS.userRightsManagerSummary;
@@ -24,24 +23,38 @@ const markAsDone = ({userName, index, closingRemarks}: {userName: string; index:
 	const sectionNode = document.getElementById(
 		`User:${userName.replace(/"/g, '.22').replace(/ /g, '_')}${index ?? ''}`
 	);
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-	const [, sectionNumber] = $(sectionNode as HTMLElement)
-		.siblings('.mw-editsection')
-		.find('a:not(.mw-editsection-visualeditor)[href*=edit]')
-		.prop('href')
-		.match(/section=(\d+)/);
+
+	const sectionNumber = (
+		(
+			$(sectionNode as HTMLElement)
+				.siblings('.mw-editsection')
+				.find('a:not(.mw-editsection-visualeditor)[href*=edit]')
+				.prop('href') as string
+		).match(/section=(\d+)/) as RegExpMatchArray
+	)[1] as string;
+
 	let basetimestamp: string;
 	let curtimestamp: string;
 	let content: string;
 	let revision;
 
-	return queryRevisions(wgPageName, `${sectionNumber}`)
+	return queryRevisions(wgPageName, sectionNumber)
 		.then((data) => {
 			if (!data['query'] || !data['query'].pages) {
 				return $.Deferred().reject('unknown');
 			}
 
-			const [page] = data['query'].pages;
+			const {pages} = data['query'] as {
+				pages: {
+					invalid?: boolean;
+					missing?: boolean;
+					revisions: {
+						timestamp: string;
+						content: string;
+					}[];
+				}[];
+			};
+			const [page] = pages;
 
 			if (!page || page.invalid) {
 				return $.Deferred().reject('invalidtitle');
@@ -52,9 +65,10 @@ const markAsDone = ({userName, index, closingRemarks}: {userName: string; index:
 			}
 
 			[revision] = page.revisions;
-			basetimestamp = revision.timestamp;
-			curtimestamp = data['curtimestamp'];
-			content = revision.content;
+			if (revision) {
+				({content, timestamp: basetimestamp} = revision);
+			}
+			curtimestamp = data['curtimestamp'] as string;
 			return $.Deferred().resolve();
 		})
 		.then(() => {

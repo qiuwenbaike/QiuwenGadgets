@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
 import * as OPTIONS from '~/DefaultSummaries/options.json';
 import {generateSummaryDropdown} from './util/generateSummaryDropdown';
 
@@ -10,15 +9,13 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Set guard
 	mw.config.set(OPTIONS.configKey, true);
 
-	// @ts-expect-error TS2304
-	const {target} = ve.init;
-	// @ts-expect-error TS2339
-	const {$saveOptions} = target.saveDialog as JQuery;
+	const {target} = window.ve.init;
+	const {$saveOptions} = target.saveDialog;
 	if (!$saveOptions.length) {
 		return;
 	}
 
-	const $dropdowns: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input as JQuery);
+	const $dropdowns: JQuery = generateSummaryDropdown(target.saveDialog.editSummaryInput.$input);
 
 	if ($body.find(`#${OPTIONS.dropdownId}`).length) {
 		mw.config.set(OPTIONS.configKey, true);
