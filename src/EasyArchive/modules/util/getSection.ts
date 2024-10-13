@@ -10,16 +10,13 @@ const getSections = async (title: string) => {
 	};
 
 	const {parse} = await api.get(params);
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-	const {
-		sections,
-	}: {
+	const {sections} = parse as {
 		sections: {
 			level: string;
 			index: string;
 			anchor: string;
 		}[];
-	} = parse;
+	};
 
 	const sectionsToArchive = [];
 
@@ -53,8 +50,7 @@ const getSectionContent = async ({title, section}: {title: string; section: stri
 
 	const response = await api.get(params);
 
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-	return response['query'].pages[0].revisions[0].content ?? null;
+	return (response['query'].pages[0].revisions[0].content as string) ?? null;
 };
 
 export {getSections, getSectionContent};

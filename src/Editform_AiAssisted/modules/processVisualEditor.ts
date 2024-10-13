@@ -29,11 +29,8 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		};
 
 		let changeTags: string = '';
-		// @ts-expect-error TS2304
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
-		changeTags = generateChangeTags(ve.init.target.saveFields.wpChangeTags?.() ?? '');
-		// @ts-expect-error TS2304
-		ve.init.target.saveFields.wpChangeTags = (): string => {
+		changeTags = generateChangeTags(window.ve.init.target.saveFields.wpChangeTags?.() ?? '');
+		window.ve.init.target.saveFields.wpChangeTags = (): string => {
 			return changeTags;
 		};
 	});

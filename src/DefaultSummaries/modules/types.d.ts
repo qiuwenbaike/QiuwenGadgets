@@ -7,6 +7,9 @@ type Ve = {
 					$input: JQuery;
 				};
 			};
+			saveFields: {
+				wpChangeTags: () => string;
+			};
 		};
 	};
 };
@@ -17,4 +20,4 @@ declare global {
 	}
 }
 
-export type {Ve};
+export default global;

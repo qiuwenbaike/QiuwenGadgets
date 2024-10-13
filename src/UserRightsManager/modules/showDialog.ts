@@ -71,15 +71,21 @@ const showDialog = function showDialog({
 			};
 
 			void api.get(queryLogEventsParams).done((data) => {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				const logs = data['query'].logevents;
-				if (logs.length === 0) {
+				const {logevents: logs} = data['query'] as {
+					logevents: {
+						params: {
+							newgroups: string[];
+						};
+						user: string;
+					}[];
+				};
+				if (logs.length === 0 || !logs[0]) {
 					rightLogText.text(wgULS('没有任何日志', '沒有任何日誌'));
 				} else {
 					// @ts-expect-error TS2304
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, new-cap
-					const timestamp = new Morebits.date(logs[0].timestamp).calendar();
-					const rights = (logs[0].params.newgroups as string[]).join('、') || wgULS('（无）', '（無）');
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-call, new-cap
+					const timestamp = new Morebits.date(logs[0].timestamp).calendar() as string;
+					const rights = logs[0].params.newgroups.join('、') || wgULS('（无）', '（無）');
 					rightLogText.text(
 						`${timestamp} ${logs[0].user}${wgULS('将用户组改为', '將使用者群組改為')}${rights}`
 					);
@@ -95,13 +101,11 @@ const showDialog = function showDialog({
 				value: '',
 				placeholder: '可留空',
 			});
-			// @ts-expect-error TS2339
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-			Dialog.expiryInput = new mw.widgets.ExpiryWidget({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+			Dialog.expiryInput = new (mw as any).widgets.ExpiryWidget({
 				$overlay: $body.find('.oo-ui-window'),
-				// @ts-expect-error TS2339
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				RelativeInputClass: mw.widgets.SelectWithInputWidget,
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+				RelativeInputClass: (mw as any).widgets.SelectWithInputWidget,
 				relativeInput: {
 					or: true,
 					dropdowninput: {
