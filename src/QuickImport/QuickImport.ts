@@ -61,5 +61,7 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 	});
 })();
 
+window.detectIfFileRedirect = detectIfFileRedirect;
+
 export {api} from './modules/api';
 export {detectIfFileRedirect, refreshPage} from './modules/core';

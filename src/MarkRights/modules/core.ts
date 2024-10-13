@@ -152,8 +152,9 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 	for (const ususers of queue) {
 		try {
 			const queryUserResponse = await queryUserGroups(ususers);
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			const {users: queryUsers}: {users: {groups: string[]; name: string}[]} = queryUserResponse['query'];
+			const {users: queryUsers} = queryUserResponse['query'] as {
+				users: {groups: string[]; name: string}[];
+			};
 
 			for (const user of queryUsers) {
 				if (!user || !user.groups) {

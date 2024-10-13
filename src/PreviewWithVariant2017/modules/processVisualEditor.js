@@ -113,8 +113,7 @@ const processVisualEditor = () => {
 						windowManager
 							.openWindow(errorDialog, {
 								title: OO.ui.msg('ooui-dialog-process-error'),
-								// eslint-disable-next-line no-undef
-								message: ve.init.target.getContentApi().getErrorMessage(error),
+								message: window.ve.init.target.getContentApi().getErrorMessage(error),
 								actions: [
 									{
 										action: 'reject',
@@ -178,8 +177,7 @@ const processVisualEditor = () => {
 					},
 					(error) => {
 						dialog.showErrors(
-							// eslint-disable-next-line no-undef
-							new OO.ui.Error(ve.init.target.getContentApi().getErrorMessage(error), {
+							new OO.ui.Error(window.ve.init.target.getContentApi().getErrorMessage(error), {
 								recoverable: true,
 							})
 						);
@@ -193,8 +191,7 @@ const processVisualEditor = () => {
 
 	const init = () => {
 		variant = wgUserVariant;
-		// eslint-disable-next-line no-undef
-		({target} = ve.init);
+		({target} = window.ve.init);
 		dialog = target.saveDialog;
 		// eslint-disable-next-line mediawiki/class-doc
 		dropdown = new OO.ui.DropdownInputWidget({
