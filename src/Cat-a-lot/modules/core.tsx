@@ -541,7 +541,7 @@ const catALot = (): void => {
 			const {pages} = result['query'];
 
 			const [page] = pages;
-			originText = page.revisions[0].content;
+			originText = page.revisions[0].slots.main.content;
 			({starttimestamp} = page);
 			[{timestamp}] = page.revisions;
 
@@ -625,10 +625,12 @@ const catALot = (): void => {
 			this.doAPICall(
 				{
 					action: 'query',
+					formatversion: '2',
 					meta: 'tokens',
 					titles: markedLabel[0],
 					prop: 'revisions',
 					rvprop: ['content', 'timestamp'],
+					rvslots: 'main',
 				},
 				(result): void => {
 					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument

@@ -414,6 +414,7 @@ const refToolbar2 = ($body) => {
 				action: 'query',
 				prop: 'revisions',
 				rvprop: 'content',
+				rvslots: 'main',
 				pageids: wgArticleId,
 				format: 'json',
 				formatversion: '2',
@@ -422,7 +423,7 @@ const refToolbar2 = ($body) => {
 				postdata.rvexpandtemplates = '1';
 			}
 			api.get(postdata).then(({query}) => {
-				const pagetext = query.pages[0].revisions[0].content;
+				const pagetext = query.pages[0].revisions[0].slots.main.content;
 				callback(pagetext);
 			});
 		}

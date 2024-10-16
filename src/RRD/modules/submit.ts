@@ -11,6 +11,7 @@ const queryRevisions = async (titles: string | string[]) => {
 		formatversion: '2',
 		prop: 'revisions',
 		rvprop: 'content',
+		rvslots: 'main',
 	};
 	const response = await api.get(params);
 
@@ -55,7 +56,7 @@ const submit = async (ids: string[], toHide: string, reason: string, otherReason
 
 		let content: string | undefined;
 		if (response['query']?.pages) {
-			content = response['query'].pages[0].revisions[0].content as string;
+			content = response['query'].pages[0].revisions[0].slots.main.content as string;
 		}
 
 		if (content === undefined) {

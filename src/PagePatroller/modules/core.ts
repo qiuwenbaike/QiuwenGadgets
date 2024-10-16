@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
 import {elementWrap, errorMessage, loading, notBeenPatrolledYet, patrolled, patrolledBy} from './elementWrap';
-import {initMwApi} from 'ext.gadget.Util';
+import {api} from './api';
 import {replaceChild} from './replaceChild';
 
 const pagePatroller = async (): Promise<void> => {
@@ -17,17 +17,18 @@ const pagePatroller = async (): Promise<void> => {
 	// add `Loading...`
 	element.append(loading());
 
+	const {wgPageName} = mw.config.get();
+
 	try {
-		const api = initMwApi('PagePatroller/2.0');
 		const params: ApiQueryRevisionsParams & ApiQueryLogEventsParams = {
 			action: 'query',
 			format: 'json',
 			formatversion: '2',
-			prop: ['revisions'],
-			titles: mw.config.get('wgPageName'),
+			prop: 'revisions',
+			titles: wgPageName,
 			list: 'logevents',
 			letype: 'patrol',
-			letitle: mw.config.get('wgPageName'),
+			letitle: wgPageName,
 			rvprop: 'timestamp',
 			rvlimit: 1,
 			rvdir: 'newer',

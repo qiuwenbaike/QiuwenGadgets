@@ -29,10 +29,7 @@ const appendGeoIcon = async (): Promise<void> => {
 			region,
 		}: StoreGeoInfo & {
 			country?: string;
-		} = JSON.parse(
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			data['query'].pages[0].revisions[0].slots.main.content
-		);
+		} = JSON.parse(data['query'].pages[0].revisions[0].slots.main.content as string);
 
 		const location: StoreGeoInfo['countryOrArea'] = country ?? countryOrArea ?? '';
 		const countryOrAreaName: string =
