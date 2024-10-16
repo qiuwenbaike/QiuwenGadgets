@@ -141,7 +141,7 @@ const ToolsRedirect = {
 		$('p[class!=desc]', self.tabs.view.cont).remove();
 		self.loading(self.tabs.view.cont);
 		void self
-			.bulkEditByRegex(pagenames, /\s*\[\[.*?\]\]/, ` [[${wgPageName}]]`, getMessage('fixsummary'))
+			.bulkEditByRegex(pagenames, /\s*\[\[.*?(#.*?)?\]\]/, ` [[${wgPageName}$1]]`, getMessage('fixsummary'))
 			.then(() => {
 				// delay load before the asynchronous tasks on server finished
 				setTimeout(() => {
