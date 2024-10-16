@@ -4,43 +4,14 @@ import * as OPTIONS from '../options.json';
 import {SUFFIX_APPEND, SUFFIX_REPLACE, SUFFIX_SETDEFAULT, VARIANTS} from './constant';
 import {generateArray, uniqueArray} from 'ext.gadget.Util';
 import {api} from './api';
+import {fixNamespace} from './util/fixNamespace';
 import {getMessage} from './util/getMessage';
 
-const {wgNamespaceIds, wgNamespaceNumber, wgPageName} = mw.config.get();
+const {wgNamespaceNumber, wgPageName} = mw.config.get();
 const IS_CATEGORY = wgNamespaceNumber === 14;
-
 let findRedirectCallbacks = [];
 const pageWithRedirectTextSuffix = {};
 const redirectExcludes = {};
-const nsPrefixes = [];
-let nsCanonPrefix, nsPrefixPattern;
-
-for (const [text, nsid] of Object.entries(wgNamespaceIds)) {
-	if (nsid === wgNamespaceNumber && !!text) {
-		nsPrefixes[nsPrefixes.length] = text;
-	}
-}
-
-if (wgNamespaceNumber === 0) {
-	// articles
-	nsCanonPrefix = '';
-	nsPrefixPattern = /^/;
-} else {
-	nsCanonPrefix = `${wgPageName.split(':')[0]}:`;
-	nsPrefixPattern = new RegExp(`^(${nsPrefixes.join('|')}):`, 'i');
-}
-
-const fixNamespace = (title) => {
-	if (wgNamespaceNumber === 0) {
-		// do nothing if it's articles
-		return title;
-	} else if (nsPrefixPattern.test(title)) {
-		// canonize the namespace
-		return title.replace(nsPrefixPattern, nsCanonPrefix);
-	}
-	// don't have a namespace
-	return nsCanonPrefix + title;
-};
 
 /**
  * Add new custom callback for finding new potential redirect titles.
