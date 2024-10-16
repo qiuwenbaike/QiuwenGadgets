@@ -40,17 +40,18 @@ const getSections = async (title: string) => {
 const getSectionContent = async ({title, section}: {title: string; section: string}): Promise<string | null> => {
 	const params: ApiQueryRevisionsParams = {
 		action: 'query',
-		prop: ['revisions'],
+		prop: 'revisions',
 		rvprop: 'content',
 		format: 'json',
 		formatversion: '2',
 		titles: title,
 		rvsection: section,
+		rvslots: 'main',
 	};
 
 	const response = await api.get(params);
 
-	return (response['query'].pages[0].revisions[0].content as string) ?? null;
+	return (response['query'].pages[0].revisions[0].slots.main.content as string) ?? null;
 };
 
 export {getSections, getSectionContent};

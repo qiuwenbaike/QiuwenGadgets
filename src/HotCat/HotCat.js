@@ -588,7 +588,7 @@ hotCatMessages();
 					if (page.revisions && page.revisions.length > 0) {
 						// Revisions are sorted by revision ID, hence [0] is the one we asked for, and possibly there's a [1] if we're
 						// not on the latest revision (edit conflicts and such).
-						pageText = page.revisions[0].slots['main'].content;
+						pageText = page.revisions[0].slots.main.content;
 						if (page.revisions[0].timestamp) {
 							pageTime = page.revisions[0].timestamp.replace(/\D/g, '');
 						}

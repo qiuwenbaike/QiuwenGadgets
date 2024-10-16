@@ -7,7 +7,7 @@ const disableTitle = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $edit
 	}
 
 	const {wgWikiID} = mw.config.get();
-	// Disabled for loginwikiF
+	// Disabled for loginwiki
 	if (wgWikiID === 'loginwiki') {
 		return;
 	}

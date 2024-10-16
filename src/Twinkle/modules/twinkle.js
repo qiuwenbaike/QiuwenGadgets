@@ -461,10 +461,11 @@ import {api} from './api';
 			formatversion: '2',
 			titles: `User:${mw.config.get('wgUserName')}/twinkleoptions.js`,
 			rvlimit: '1',
+			rvslots: 'main',
 		})
 		.then((response) => {
 			if (!response['query'].pages[0].missing) {
-				const content = response['query'].pages[0].revisions[0].content ?? '';
+				const content = response['query'].pages[0].revisions[0].slots.main.content ?? '';
 				if (content !== '') {
 					try {
 						// eslint-disable-next-line no-eval

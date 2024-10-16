@@ -12,13 +12,14 @@ const queryRevisions = async (titles: string | string[], rvsection: string) => {
 		prop: 'revisions',
 		curtimestamp: true,
 		rvprop: ['content', 'timestamp'],
+		rvslots: 'main',
 	};
 
 	return await api.get(params);
 };
 
 const markAsDone = ({userName, index, closingRemarks}: {userName: string; index: string; closingRemarks: string}) => {
-	const {wgPageName} = mw.config.get();
+	const {wgPageName, wgUserName} = mw.config.get();
 	// eslint-disable-next-line unicorn/prefer-query-selector
 	const sectionNode = document.getElementById(
 		`User:${userName.replace(/"/g, '.22').replace(/ /g, '_')}${index ?? ''}`
@@ -50,7 +51,11 @@ const markAsDone = ({userName, index, closingRemarks}: {userName: string; index:
 					missing?: boolean;
 					revisions: {
 						timestamp: string;
-						content: string;
+						slots: {
+							main: {
+								content: string;
+							};
+						};
 					}[];
 				}[];
 			};
@@ -66,7 +71,12 @@ const markAsDone = ({userName, index, closingRemarks}: {userName: string; index:
 
 			[revision] = page.revisions;
 			if (revision) {
-				({content, timestamp: basetimestamp} = revision);
+				({
+					slots: {
+						main: {content},
+					},
+					timestamp: basetimestamp,
+				} = revision);
 			}
 			curtimestamp = data['curtimestamp'] as string;
 			return $.Deferred().resolve();
@@ -88,7 +98,7 @@ const markAsDone = ({userName, index, closingRemarks}: {userName: string; index:
 				starttimestamp: curtimestamp,
 				nocreate: true,
 			};
-			if (mw.config.get('wgUserName')) {
+			if (wgUserName) {
 				editParams.assert = 'user';
 			}
 
