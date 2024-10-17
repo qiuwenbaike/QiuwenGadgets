@@ -1,6 +1,6 @@
 import {inHours, parseTS} from './util/parseTime';
 import {loading, userlinkIndef, userlinkPartial, userlinkTemp} from './MarkBlocked.module.less';
-import {api} from './api';
+import {api} from './util/api';
 import {generateUserLinks} from './util/generateUserLinks';
 import {getMessage} from './i18n';
 

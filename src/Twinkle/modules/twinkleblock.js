@@ -1,4 +1,3 @@
-/* eslint-disable no-jquery/no-map-util */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {api} from './api';
@@ -1642,24 +1641,24 @@ import {generateArray} from 'ext.gadget.Util';
 		},
 	];
 	Twinkle.block.callback.filtered_block_groups = (group, show_template) => {
-		return $.map(group, (blockGroup) => {
+		return Array.prototype.map.call(group, (blockGroup) => {
 			// Add custom reason
 			if (blockGroup.custom) {
 				if (show_template) {
-					let templates = $.map(Twinkle.getPref('customBlockReasonList'), (item) => {
+					let templates = Array.prototype.map.call(Twinkle.getPref('customBlockReasonList'), (item) => {
 						if (Twinkle.block.blockPresetsInfo[item.value].custom) {
 							return item.value;
 						}
 					});
 					templates = Morebits.array.uniq(templates);
-					blockGroup.list = $.map(templates, (template) => {
+					blockGroup.list = Array.prototype.map.call(templates, (template) => {
 						return {
 							label: window.wgULS('自定义模板', '自訂模板'),
 							value: template,
 						};
 					});
 				} else {
-					blockGroup.list = $.map(Twinkle.getPref('customBlockReasonList'), (item) => {
+					blockGroup.list = Array.prototype.map.call(Twinkle.getPref('customBlockReasonList'), (item) => {
 						return {
 							label: item.label,
 							value: `${item.value}|${item.label}`,
@@ -1667,7 +1666,7 @@ import {generateArray} from 'ext.gadget.Util';
 					});
 				}
 			}
-			const list = $.map(blockGroup.list, (blockPreset) => {
+			const list = Array.prototype.map.call(blockGroup.list, (blockPreset) => {
 				if (!show_template && blockPreset.meta) {
 					return;
 				}

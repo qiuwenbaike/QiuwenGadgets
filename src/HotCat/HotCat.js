@@ -125,12 +125,10 @@ hotCatMessages();
 		dont_add_to_watchlist: false,
 		shortcuts: null,
 		addShortcuts: (map) => {
-			let _a;
 			if (!map) {
 				return;
 			}
-			// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-			(_a = window.HotCat).shortcuts || (_a.shortcuts = {});
+			window.HotCat.shortcuts ||= {};
 			for (let k in map) {
 				if (!Object.hasOwn(map, k) || typeof k !== 'string') {
 					continue;
