@@ -1641,7 +1641,8 @@ import {generateArray} from 'ext.gadget.Util';
 		},
 	];
 	Twinkle.block.callback.filtered_block_groups = (group, show_template) => {
-		return Array.prototype.map.call(group, (blockGroup) => {
+		// eslint-disable-next-line no-jquery/no-map-util
+		return $.map(group, (blockGroup) => {
 			// Add custom reason
 			if (blockGroup.custom) {
 				if (show_template) {
@@ -1666,7 +1667,8 @@ import {generateArray} from 'ext.gadget.Util';
 					});
 				}
 			}
-			const list = Array.prototype.map.call(blockGroup.list, (blockPreset) => {
+			// eslint-disable-next-line no-jquery/no-map-util
+			const list = $.map(blockGroup.list, (blockPreset) => {
 				if (!show_template && blockPreset.meta) {
 					return;
 				}
