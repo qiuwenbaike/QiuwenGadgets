@@ -1,3 +1,4 @@
+import {addSisterProjectLinks} from './modules/addSisterProjectLinks';
 import {getBody} from 'ext.gadget.Util';
 import {newLinkUnwrap} from './modules/newLinkUnwrap';
 
@@ -8,5 +9,6 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
+	addSisterProjectLinks();
 	newLinkUnwrap($body);
 });
