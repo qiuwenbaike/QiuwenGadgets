@@ -1,5 +1,3 @@
-/* eslint-disable mediawiki/class-doc */
-/* global CiteTB */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import actionEditAdd from '../images/Nuvola-action-edit-add.png';
