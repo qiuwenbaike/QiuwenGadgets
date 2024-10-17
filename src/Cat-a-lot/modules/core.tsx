@@ -1,4 +1,3 @@
-/* eslint-disable mediawiki/class-doc */
 import * as OPTIONS from '../options.json';
 import {
 	CLASS_NAME,
