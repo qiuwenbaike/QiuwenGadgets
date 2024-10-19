@@ -1,10 +1,7 @@
+import {queryGlobalUserGroups, queryUserGroups} from './query';
 import type {UserRights} from './types';
-import {api} from './api';
 import {getMessage} from './i18n';
 import {uniqueArray} from 'ext.gadget.Util';
-
-const userGroupMap = new Map();
-const globalUserGroupMap = new Map();
 
 const getUsername = (url: string): string => {
 	if (!url) {
@@ -39,39 +36,10 @@ const getUsername = (url: string): string => {
 	return '';
 };
 
-const queryUserGroups = async (ususers: string | string[]) => {
-	const params: ApiQueryUsersParams = {
-		ususers,
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		list: 'users',
-		usprop: 'groups',
-		smaxage: 600,
-		maxage: 600,
-	};
-	const response = await api.get(params);
-
-	return response;
-};
-
-const queryGlobalUserGroups = async (user: string) => {
-	const params = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		meta: 'globaluserinfo',
-		guiuser: user,
-		guiprop: 'groups',
-		smaxage: 600,
-		maxage: 600,
-	};
-	const response = await api.get(params);
-
-	return response;
-};
-
-const done = ($userLinks: JQuery<HTMLElement>): void => {
+const appendUserRightsMark = (
+	$userLinks: JQuery<HTMLElement>,
+	{userGroupMap, globalUserGroupMap}: {userGroupMap: Map<string, string[]>; globalUserGroupMap: Map<string, string[]>}
+): void => {
 	$userLinks.each((_index: number, element: HTMLElement): void => {
 		const $element: JQuery = $(element);
 		if ($element.parents('li, table.mw-changeslist-line').find('.gadgets-markrights').length) {
@@ -81,8 +49,8 @@ const done = ($userLinks: JQuery<HTMLElement>): void => {
 		if (!username) {
 			return;
 		}
-		const groups = (userGroupMap.get(username) as string[] | undefined) ?? [];
-		const globalGroups = (globalUserGroupMap.get(username) as string[] | undefined) ?? [];
+		const groups = userGroupMap.get(username) ?? [];
+		const globalGroups = globalUserGroupMap.get(username) ?? [];
 		if (!groups) {
 			return;
 		}
@@ -129,6 +97,8 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 	const $userLinks: JQuery = $content.find('a.mw-userlink:not(.mw-anonuserlink)');
 	let users: string[] = [];
 	const queue: Array<typeof users> = [];
+	const userGroupMap: Map<string, string[]> = new Map();
+	const globalUserGroupMap: Map<string, string[]> = new Map();
 
 	$userLinks.each((_index: number, {textContent}: {textContent: string | null}): void => {
 		const userLinkText: string | undefined = textContent?.toString();
@@ -177,9 +147,9 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 				}
 			}
 
-			done($userLinks);
+			appendUserRightsMark($userLinks, {userGroupMap, globalUserGroupMap});
 		} catch {}
 	}
 };
 
-export {queryUserGroups, queryGlobalUserGroups, markUserRights};
+export {markUserRights};
