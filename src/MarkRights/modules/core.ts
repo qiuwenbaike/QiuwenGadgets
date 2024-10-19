@@ -74,7 +74,7 @@ const queryGlobalUserGroups = async (user: string) => {
 const done = ($userLinks: JQuery<HTMLElement>): void => {
 	$userLinks.each((_index: number, element: HTMLElement): void => {
 		const $element: JQuery = $(element);
-		if ($element.parents('li').find('.gadgets-markrights').length) {
+		if ($element.parents('li, table.mw-changeslist-line').find('.gadgets-markrights').length) {
 			return;
 		}
 		const username: string = getUsername($element.attr('href') ?? '');
