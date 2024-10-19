@@ -40,25 +40,28 @@ const appendUserRightsMark = (
 	$userLinks: JQuery<HTMLElement>,
 	{userGroupMap, globalUserGroupMap}: {userGroupMap: Map<string, string[]>; globalUserGroupMap: Map<string, string[]>}
 ): void => {
-	$userLinks.each((_index: number, element: HTMLElement): void => {
+	for (const element of $userLinks) {
 		const $element: JQuery = $(element);
-		if ($element.parents('li, table.mw-changeslist-line').find('.gadgets-markrights').length) {
-			return;
+		if ($element.parents('li').find('.gadgets-markrights').length) {
+			continue;
+		}
+		if ($element.siblings().find('.gadgets-markrights').length) {
+			continue;
 		}
 		const username: string = getUsername($element.attr('href') ?? '');
 		if (!username) {
-			return;
+			continue;
 		}
 		const groups = userGroupMap.get(username) ?? [];
 		const globalGroups = globalUserGroupMap.get(username) ?? [];
 		if (!groups) {
-			return;
+			continue;
 		}
 		const $sups: JQuery = $('<span>').addClass('gadgets-markrights');
 		for (const group of uniqueArray([...groups, ...globalGroups])) {
 			const className: string = `gadgets-markrights__${group}`;
 			if ($sups.find('sup').hasClass(className)) {
-				return;
+				continue;
 			}
 			$sups.append(
 				// The following classes are used here:
@@ -90,7 +93,7 @@ const appendUserRightsMark = (
 			);
 		}
 		$element.after($sups);
-	});
+	}
 };
 
 const markUserRights = async ($content: JQuery): Promise<void> => {
@@ -100,7 +103,7 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 	const userGroupMap: Map<string, string[]> = new Map();
 	const globalUserGroupMap: Map<string, string[]> = new Map();
 
-	$userLinks.each((_index: number, {textContent}: {textContent: string | null}): void => {
+	for (const {textContent} of $userLinks) {
 		const userLinkText: string | undefined = textContent?.toString();
 		if (userLinkText) {
 			users[users.length] = userLinkText; // Replace `[].push()` to avoid polyfilling core-js
@@ -113,7 +116,7 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 			queue[queue.length] = users; // Replace `[].push()` to avoid polyfilling core-js
 			users = [];
 		}
-	});
+	}
 
 	if (users.length > 0) {
 		queue[queue.length] = users; // Replace `[].push()` to avoid polyfilling core-js
