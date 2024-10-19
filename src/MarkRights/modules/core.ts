@@ -42,7 +42,10 @@ const appendUserRightsMark = (
 ): void => {
 	for (const element of $userLinks) {
 		const $element: JQuery = $(element);
-		if ($element.parents('li, table.mw-changeslist-line tbody').find('.gadgets-markrights').length) {
+		if ($element.parents('li').find('.gadgets-markrights').length) {
+			continue;
+		}
+		if ($element.siblings().find('.gadgets-markrights').length) {
 			continue;
 		}
 		const username: string = getUsername($element.attr('href') ?? '');
