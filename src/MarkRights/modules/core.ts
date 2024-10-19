@@ -103,7 +103,15 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 	const userGroupMap: Map<string, string[]> = new Map();
 	const globalUserGroupMap: Map<string, string[]> = new Map();
 
-	for (const {textContent} of $userLinks) {
+	for (const element of $userLinks) {
+		const $element: JQuery = $(element);
+		if ($element.parents('li').find('.gadgets-markrights').length) {
+			continue;
+		}
+		if ($element.siblings().find('.gadgets-markrights').length) {
+			continue;
+		}
+		const {textContent} = element;
 		const userLinkText: string | undefined = textContent?.toString();
 		if (userLinkText) {
 			users[users.length] = userLinkText; // Replace `[].push()` to avoid polyfilling core-js
