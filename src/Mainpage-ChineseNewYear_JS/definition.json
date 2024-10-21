@@ -4,7 +4,7 @@
 	"section": "appear",
 	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.ChineseDays"],
+	"dependencies": ["ext.gadget.ChineseDays", "ext.gadget.Util"],
 	"hidden": true,
 	"namespaces": [4, 10]
 }
