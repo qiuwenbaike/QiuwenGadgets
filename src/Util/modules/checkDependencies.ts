@@ -2,11 +2,16 @@ import {generateArray} from './generateArray';
 import {initMwApi} from './initMwApi';
 import {uniqueArray} from './uniqueArray';
 
-type CheckDependencies = (gadgetNames: string | string[], option?: '0' | '1') => Promise<void>;
+type Boolean = '0' | '1' | 0 | 1;
+type CheckDependencies = typeof checkDependencies;
 
-const checkDependencies = async (gadgetNames: string | string[], option: '0' | '1' = '1'): Promise<void> => {
+function checkDependencies(gadgetNames: string | string[]): Promise<void>;
+function checkDependencies(gadgetNames: string, option: Boolean): Promise<void>;
+// eslint-disable-next-line func-style
+async function checkDependencies(gadgetNames: string | string[], option?: Boolean): Promise<void> {
 	const api: mw.Api = initMwApi('Util-CheckDependencies');
 	gadgetNames = uniqueArray(generateArray(gadgetNames));
+	option ||= 1;
 
 	for (const gadgetName of gadgetNames) {
 		if (
@@ -20,6 +25,6 @@ const checkDependencies = async (gadgetNames: string | string[], option: '0' | '
 			await mw.loader.using(`ext.gadget.${gadgetName}`);
 		}
 	}
-};
+}
 
 export {type CheckDependencies, checkDependencies};
