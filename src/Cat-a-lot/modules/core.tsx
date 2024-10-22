@@ -161,8 +161,20 @@ const catALot = (): void => {
 
 		public buildElements(): void {
 			const regexCat: RegExp = new RegExp(`^\\s*${CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category')}:`, '');
+			let isCompositionStart: boolean;
+
+			this.$searchInput.on('compositionstart', () => {
+				isCompositionStart = true;
+			});
+
+			this.$searchInput.on('compositionend', () => {
+				isCompositionStart = false;
+			});
 
 			this.$searchInput.on('input keyup', (event): void => {
+				if (isCompositionStart) {
+					return;
+				}
 				const {currentTarget} = event;
 				const {value: oldVal} = currentTarget;
 				const newVal: string = oldVal.replace(regexCat, '');

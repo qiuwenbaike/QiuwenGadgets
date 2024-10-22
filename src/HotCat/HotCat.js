@@ -1313,6 +1313,7 @@ hotCatMessages();
 		constructor(...args) {
 			this.initialize(...args);
 		}
+		isCompositionStart = false;
 		initialize(line, span, after, key, is_hidden) {
 			// If a span is given, 'after' is the category title, otherwise it may be an element after which to
 			// insert the new span. 'key' is likewise overloaded; if a span is given, it is the category key (if
@@ -1511,6 +1512,9 @@ hotCatMessages();
 						}
 						// Also do this for ESC as a workaround for Firefox bug 524360
 						// {@link https://bugzilla.mozilla.org/show_bug.cgi?id=524360}
+						if (self.isCompositionStart) {
+							return;
+						}
 						self.invokeSuggestions(key === BS || key === DEL || key === ESC);
 					}
 					return true;
@@ -1567,14 +1571,19 @@ hotCatMessages();
 						self.lastKey = IME;
 						self.usesComposition = true;
 						self.ime = true;
+						self.isCompositionStart = true;
 					});
 					$(text).on('compositionend', () => {
 						self.lastKey = IME;
 						self.usesComposition = true;
 						self.ime = false;
+						self.isCompositionStart = false;
 					});
 					$(text).on('textInput', () => {
 						self.ime = false;
+						if (self.isCompositionStart) {
+							return;
+						}
 						self.invokeSuggestions(false);
 					});
 				} catch {
