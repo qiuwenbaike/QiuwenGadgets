@@ -1,6 +1,7 @@
 {
 	"enable": true,
 	"description": "<span id=\"Gadget-TextSpacing\"></span> 中西文混排时，自动调整字间距",
+	"section": "browser",
 	"excludeSites": ["loginwiki"],
 	"dependencies": ["ext.gadget.Util"]
 }
