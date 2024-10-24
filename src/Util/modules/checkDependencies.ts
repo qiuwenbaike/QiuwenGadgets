@@ -10,19 +10,19 @@ function checkDependencies(gadgetNames: string, option: Boolean): Promise<void>;
 // eslint-disable-next-line func-style
 async function checkDependencies(gadgetNames: string | string[], option?: Boolean): Promise<void> {
 	const api: mw.Api = initMwApi('Util-CheckDependencies');
-	gadgetNames = uniqueArray(generateArray(gadgetNames));
+	const gadgets = uniqueArray(generateArray(gadgetNames));
 	option ||= 1;
 
-	for (const gadgetName of gadgetNames) {
+	for (const gadget of gadgets) {
 		if (
-			(option === '0' && mw.user.options.get(`gadget-${gadgetName}`)) ||
-			(option === '1' && !mw.user.options.get(`gadget-${gadgetName}`))
+			(option === '0' && mw.user.options.get(`gadget-${gadget}`)) ||
+			(option === '1' && !mw.user.options.get(`gadget-${gadget}`))
 		) {
 			await api.postWithEditToken({
 				action: 'options',
-				change: `gadget-${gadgetName}=${option}`,
+				change: `gadget-${gadget}=${option}`,
 			} as ApiOptionsParams);
-			await mw.loader.using(`ext.gadget.${gadgetName}`);
+			await mw.loader.using(`ext.gadget.${gadget}`);
 		}
 	}
 }
