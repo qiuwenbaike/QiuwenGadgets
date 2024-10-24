@@ -1,8 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 节庆首页样式配套样式表",
+	"description": "<span id=\"Gadget-Mainpage-ChineseNewYear\"></span> 红色页面样式，展现喜庆氛围",
 	"section": "appear",
-	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki"],
-	"hidden": true,
-	"namespaces": [4, 10]
+	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki"]
 }
