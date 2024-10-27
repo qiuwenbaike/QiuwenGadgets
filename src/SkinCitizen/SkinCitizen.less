@@ -4,9 +4,13 @@
 /* 此处的CSS只会影响使用Citizen皮肤的用户 */
 
 /* 页面内容宽度 */
+
+@not_figure_selector: ~'figure, .mbox, .mw-halign-left, .mw-halign-none, .mw-halign-center';
+@not_infobox_selector: ~'.metadata, .infobox, .sidebar, .vertical-navbox';
+
 @media (min-width: 1440px) {
 	.ns-0 .mw-body-content .mw-parser-output {
-		& > *:not(figure, .mw-halign-left, .mw-halign-center, .mbox) {
+		& > *:not(@{not_figure_selector}) {
 			margin-right: 0;
 		}
 
@@ -20,7 +24,7 @@
 			}
 		}
 
-		& > table:not(.metadata, .infobox, .sidebar, .vertical-navbox) {
+		& > table:not(@{not_infobox_selector}) {
 			margin: 0 auto !important;
 		}
 	}
