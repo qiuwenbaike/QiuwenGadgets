@@ -68,7 +68,8 @@
 			/* 背景 */
 			background: var(--mp-background-color--light, @background-color-primary--light);
 
-			.client-darkmode & {
+			.client-darkmode &,
+			.skin-theme-clientpref-night & {
 				background: @const-color-gray--dark;
 			}
 		}
@@ -109,7 +110,8 @@
 		padding: 1em;
 	}
 
-	.client-darkmode & {
+	.client-darkmode &,
+	.skin-theme-clientpref-night & {
 		color: @const-color-black;
 	}
 
@@ -241,7 +243,8 @@
 			0 -1px 2px var(--mp-background-color--light, @background-color-primary--light);
 		break-inside: avoid;
 
-		.client-darkmode & {
+		.client-darkmode &,
+		.skin-theme-clientpref-night & {
 			border: 0;
 			background: var(--mp-background-color--light, @background-color-primary--light);
 			box-shadow:
@@ -377,7 +380,8 @@
 			font-size: 1.125em;
 			font-weight: normal;
 
-			.client-darkmode & {
+			.client-darkmode &,
+			.skin-theme-clientpref-night & {
 				color: @const-color-primary;
 			}
 		}
@@ -392,7 +396,8 @@
 		transition: background 0.1s ease-in-out;
 
 		img {
-			.client-darkmode & {
+			.client-darkmode &,
+			.skin-theme-clientpref-night & {
 				box-shadow: none;
 				filter: invert(0) !important;
 			}
@@ -421,7 +426,8 @@
 				box-shadow: none;
 				filter: invert(1) hue-rotate(180deg);
 
-				.client-darkmode & {
+				.client-darkmode &,
+				.skin-theme-clientpref-night & {
 					filter: invert(0);
 				}
 			}
