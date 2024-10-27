@@ -5,8 +5,8 @@
 </div>
 
 == appear ==
-* FoldRef[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|FoldRef.js|FoldRef.css
-* GadgetsDefinition[ResourceLoader|default|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|GadgetsDefinition.js|GadgetsDefinition.css
+* FoldRef[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|FoldRef.js|FoldRef.css
+* GadgetsDefinition[ResourceLoader|actions=view|default|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|GadgetsDefinition.js|GadgetsDefinition.css
 * HanSect[ResourceLoader|default|requiresES6]|HanSect.css
 * HideConversionTab[ResourceLoader|default|requiresES6]|HideConversionTab.css
 * LoginToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-windows|hidden|requiresES6]|LoginToEdit.js
