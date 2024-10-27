@@ -1,3 +1,5 @@
+@not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
+
 @media (min-width: 1440px) {
 	.ns-0 {
 		.mw-body-content {
@@ -15,13 +17,14 @@
 				& > .sidebar,
 				& > .vertical-navbox,
 				& > .stack-clear-right,
-				& > .mw-default-size[typeof~='mw:File/Thumb'],
 				& > .floatright,
 				& > .mw-halign-right,
 				& > .sistersitebox,
 				& > .mbox-small,
 				& > .tright,
-				& > .navbox {
+				& > .navbox,
+				& > [typeof~='mw:File/Thumb']:not(@{not_selector}),
+				& > [typeof~='mw:File/Frame']:not(@{not_selector}) {
 					margin-right: 0 !important;
 					margin-left: 2em !important;
 				}
@@ -29,10 +32,11 @@
 				& > .infobox,
 				& > .sidebar,
 				& > .vertical-navbox,
-				& > .mw-default-size[typeof~='mw:File/Thumb'],
 				& > .floatright,
 				& > .mw-halign-right,
-				& > .tright {
+				& > .tright,
+				& > [typeof~='mw:File/Thumb']:not(@{not_selector}),
+				& > [typeof~='mw:File/Frame']:not(@{not_selector}) {
 					min-width: 320px !important;
 				}
 
@@ -45,9 +49,10 @@
 				}
 
 				& > .tright .thumbimage,
-				& > .mw-default-size[typeof~='mw:File/Thumb'] img,
 				& > .floatright img,
-				& > .mw-halign-right img {
+				& > .mw-halign-right img,
+				& > [typeof~='mw:File/Thumb']:not(@{not_selector}) img,
+				& > [typeof~='mw:File/Frame']:not(@{not_selector}) img {
 					width: 100%;
 					height: auto;
 				}

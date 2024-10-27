@@ -503,7 +503,11 @@
 			max-width: 100%;
 		}
 
+		@not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
+
 		figure {
+			&[typeof~='mw:File/Thumb']:not(@{not_selector}),
+			&[typeof~='mw:File/Frame']:not(@{not_selector}),
 			&.mw-halign-left,
 			&.mw-halign-right,
 			&.mw-halign-center {
