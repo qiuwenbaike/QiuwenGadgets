@@ -23,7 +23,7 @@
 * NospzGothic[ResourceLoader|default|requiresES6]|NospzGothic.css
 * OneSideMenu[ResourceLoader|skins=gongbi|requiresES6]|OneSideMenu.css
 * QueryContributors[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.React,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|QueryContributors.js
-* ResponsiveContent[ResourceLoader|requiresES6]|ResponsiveContent.css
+* ResponsiveContent[ResourceLoader|actions=view|requiresES6]|ResponsiveContent.css
 * StickyTableHeaders[ResourceLoader|dependencies=ext.gadget.Util|skins=gongbi,vector,vector-2022|requiresES6]|StickyTableHeaders.js|StickyTableHeaders.css
 * TOC3-gongbi[ResourceLoader|skins=gongbi|requiresES6]|TOC3-gongbi.css
 * VariantAlly[ResourceLoader|default|dependencies=user.options|requiresES6]|VariantAlly.js
