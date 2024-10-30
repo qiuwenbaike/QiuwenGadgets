@@ -69,7 +69,8 @@
 			background: var(--mp-background-color--light, @background-color-primary--light);
 
 			.client-darkmode &,
-			.skin-theme-clientpref-night & {
+			.skin-theme-clientpref-night &,
+			.client-darkmode.skin-theme-clientpref-night & {
 				background: @const-color-gray--dark;
 			}
 		}
@@ -111,7 +112,8 @@
 	}
 
 	.client-darkmode &,
-	.skin-theme-clientpref-night & {
+	.skin-theme-clientpref-night &,
+	.client-darkmode.skin-theme-clientpref-night & {
 		color: @const-color-black;
 	}
 
@@ -244,7 +246,8 @@
 		break-inside: avoid;
 
 		.client-darkmode &,
-		.skin-theme-clientpref-night & {
+		.skin-theme-clientpref-night &,
+		.client-darkmode.skin-theme-clientpref-night & {
 			border: 0;
 			background: var(--mp-background-color--light, @background-color-primary--light);
 			box-shadow:
@@ -381,7 +384,8 @@
 			font-weight: normal;
 
 			.client-darkmode &,
-			.skin-theme-clientpref-night & {
+			.skin-theme-clientpref-night &,
+			.client-darkmode.skin-theme-clientpref-night & {
 				color: @const-color-primary;
 			}
 		}
@@ -397,7 +401,8 @@
 
 		img {
 			.client-darkmode &,
-			.skin-theme-clientpref-night & {
+			.skin-theme-clientpref-night &,
+			.client-darkmode.skin-theme-clientpref-night & {
 				box-shadow: none;
 				filter: invert(0) !important;
 			}
@@ -427,7 +432,8 @@
 				filter: invert(1) hue-rotate(180deg);
 
 				.client-darkmode &,
-				.skin-theme-clientpref-night & {
+				.skin-theme-clientpref-night &,
+				.client-darkmode.skin-theme-clientpref-night & {
 					filter: invert(0);
 				}
 			}
