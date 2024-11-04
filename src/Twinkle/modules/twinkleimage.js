@@ -252,13 +252,10 @@
 						'{{'.concat('subst:', `Uploadvionotice|${Morebits.pageNameNorm}}}--~~`, '~~')
 					)
 				);
-				Morebits.status.info(
-					'提示',
-					window.wgULS(
-						['这些内容应贴进上传者对话页：', document.createElement('br'), noteData],
-						['這些內容應貼進上傳者討論頁：', document.createElement('br'), noteData]
-					)
-				);
+				Morebits.status.info('提示', [
+					window.wgULS('这些内容应贴进上传者对话页：', '這些內容應貼進上傳者討論頁：'),
+					noteData,
+				]);
 			}
 		}
 	};
