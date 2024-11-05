@@ -3,8 +3,14 @@
 
 /* 此处的CSS只会影响使用Citizen皮肤的用户 */
 
-/* 页面内容宽度 */
+/* 字体 */
+:root {
+	--font-family-base: var(--fonts-sans, sans-serif);
+	--font-family-serif: var(--fonts-serif, serif);
+	--font-family-monospace: var(--fonts-monospace, monospace);
+}
 
+/* 页面内容宽度 */
 @not_figure_selector: ~'figure, .mbox, .mw-halign-left, .mw-halign-none, .mw-halign-center';
 @not_infobox_selector: ~'.metadata, .infobox, .sidebar, .vertical-navbox';
 
@@ -28,6 +34,11 @@
 			margin: 0 auto !important;
 		}
 	}
+}
+
+/* 本地通告 */
+#localNotice {
+	margin-bottom: 0;
 }
 
 /* 子标题 */
@@ -85,11 +96,4 @@
 	#citizen-languages__card {
 		right: calc(var(--space-xxl) * 2);
 	}
-}
-
-/* 字体 */
-:root {
-	--font-family-base: var(--fonts-sans, sans-serif);
-	--font-family-serif: var(--fonts-serif, serif);
-	--font-family-monospace: var(--fonts-monospace, monospace);
 }
