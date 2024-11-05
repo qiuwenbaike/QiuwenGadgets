@@ -17,6 +17,7 @@ import {resizeJQueryUI} from './modules/resizeJQueryUI';
 
 (function siteCommon(): void {
 	const configKey: string = 'gadget-SiteCommon_JS__Initialized';
+	const {skin} = mw.config.get();
 
 	// Guard against double inclusions
 	if (mw.config.get(configKey)) {
@@ -42,12 +43,16 @@ import {resizeJQueryUI} from './modules/resizeJQueryUI';
 		resizeJQueryUI($body);
 
 		// Tippy-related codes (need $.ready)
-		tippyForCitizenHeader($body);
+		if (skin === 'citizen') {
+			tippyForCitizenHeader($body);
+		}
 	});
 
 	// Deprecated functions
 	deprecatedFunctions();
 
 	// Tippy-related codes
-	void tippyForExtension();
+	if (!['vector-2022', 'citizen'].includes(skin)) {
+		void tippyForExtension();
+	}
 })();

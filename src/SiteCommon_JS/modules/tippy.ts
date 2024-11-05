@@ -1,7 +1,5 @@
 import {tippy} from 'ext.gadget.Tippy';
 
-const {skin} = mw.config.get();
-
 const getContent = (reference: Element): string => {
 	const label: string | null = reference.getAttribute('aria-label');
 	const title: string | null = reference.getAttribute('alt') ?? reference.getAttribute('title');
@@ -21,6 +19,7 @@ const onShowCallback = (instance: ReturnType<typeof tippy>[0]): void => {
 };
 
 const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
+	const {skin} = mw.config.get();
 	if (skin !== 'citizen') {
 		return;
 	}
@@ -58,6 +57,11 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 };
 
 const tippyForExtension = async (): Promise<void> => {
+	const {skin} = mw.config.get();
+	if (['vector-2022', 'citizen'].includes(skin)) {
+		return;
+	}
+
 	await mw.loader.using('ext.CollapsibleSidebar.js');
 	tippy('#sidebarButton', {
 		arrow: true,
