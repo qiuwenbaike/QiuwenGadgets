@@ -7,7 +7,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		return;
 	}
 
-	const $target: JQuery = ($editForm as JQuery).find('.editCheckboxes .oo-ui-horizontalLayout');
+	const $target: JQuery = ($editForm as JQuery).find(OPTIONS.targetWikiEditor);
 	if (!$target.length) {
 		return;
 	}
