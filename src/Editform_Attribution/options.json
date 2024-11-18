@@ -1,0 +1,7 @@
+{
+	"configKey": "gadget-Editform_Attribution__Initialized",
+	"changeTag": "Attribution_added",
+	"inputId": "editform_attribution",
+	"targetClassVe": "ve-ui-mwSaveDialog-checkboxes",
+	"targetWikiEditor": ".editCheckboxes .oo-ui-horizontalLayout"
+}
