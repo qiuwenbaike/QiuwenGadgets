@@ -7,7 +7,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		return;
 	}
 
-	const $target: JQuery = $body.find(`.${OPTIONS.targetClass}`);
+	const $target: JQuery = $body.find(`.${OPTIONS.targetClassVe}`);
 	if (!$target.length) {
 		return;
 	}
