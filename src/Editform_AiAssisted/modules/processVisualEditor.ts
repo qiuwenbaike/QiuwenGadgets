@@ -21,7 +21,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 	checkbox.setInputId(OPTIONS.inputId);
 
 	checkbox.on('change', (): void => {
-		const changeTag: string = 'AI_assisted';
+		const changeTag: string = OPTIONS.changeTag;
 		const generateChangeTags = (originChangeTags: string): string => {
 			return checkbox.isSelected()
 				? `${originChangeTags},${changeTag}`
