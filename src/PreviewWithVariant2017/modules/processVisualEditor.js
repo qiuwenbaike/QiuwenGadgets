@@ -232,7 +232,7 @@ const processVisualEditor = () => {
 		const handlerToRemove = 'onSaveDialogPreview';
 		dialog.off('preview', handlerToRemove, target).on('preview', previewWithVariant);
 
-		// Switching between VE and NWE, requires to be reinitialized
+		// Reinitialization is required for switching between VE and NWE
 		mw.hook('ve.activationComplete').add(() => {
 			if (mw.config.get(OPTIONS.configKey)) {
 				mw.config.set(OPTIONS.configKey, false);
