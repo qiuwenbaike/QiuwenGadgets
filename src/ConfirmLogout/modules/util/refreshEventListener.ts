@@ -7,7 +7,7 @@ const refreshEventListener = ($element: JQuery, clickListener: (event: JQuery.Cl
 	};
 	const hoverListenerWithDebounce: typeof hoverListener = mw.util.debounce(hoverListener, 200, true);
 
-	$element.on('mouseover touchstart', hoverListenerWithDebounce);
+	$element.on('mouseover touchstart', {passive: true}, hoverListenerWithDebounce);
 };
 
 export {refreshEventListener};

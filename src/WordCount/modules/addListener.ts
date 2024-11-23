@@ -8,7 +8,7 @@ const addListener = ($body: JQuery<HTMLBodyElement>): void => {
 		events = 'mouseup keyup';
 	}
 
-	$body.on(events, (): void => {
+	$body.on(events, {passive: true}, (): void => {
 		wordCount($body);
 	});
 };
