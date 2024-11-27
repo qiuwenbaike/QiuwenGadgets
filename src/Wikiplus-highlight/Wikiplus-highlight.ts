@@ -5,6 +5,11 @@ import {checkDependencies} from 'ext.gadget.Util';
 	if (wgAction !== 'view' || !wgIsArticle) {
 		return;
 	}
+
+	if ('ontouchstart' in document) {
+		return;
+	}
+
 	await checkDependencies('Wikiplus');
 
 	const {'visualeditor-enable': isVeEnable} = mw.user.options.get() as Record<string, unknown>;
@@ -14,7 +19,5 @@ import {checkDependencies} from 'ext.gadget.Util';
 		await mw.loader.using('ext.visualEditor.core');
 	}
 
-	if (!('ontouchstart' in document)) {
-		await import('./modules/highlight');
-	}
+	await import('./modules/highlight');
 })();
