@@ -15,15 +15,13 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	});
 
 	mw.hook('ve.saveDialog.stateChanged').add((): void => {
-		processVisualEditor({
-			$body,
-		});
+		processVisualEditor($body);
+	});
 
-		// Switching between VE and NWE, requires to be reinitialized
-		mw.hook('ve.activationComplete').add(() => {
-			if (mw.config.get(OPTIONS.configKey)) {
-				mw.config.set(OPTIONS.configKey, false);
-			}
-		});
+	// Reinitialization is required for switching between VE and NWE
+	mw.hook('ve.activationComplete').add(() => {
+		if (mw.config.get(OPTIONS.configKey)) {
+			mw.config.set(OPTIONS.configKey, false);
+		}
 	});
 });

@@ -10,12 +10,12 @@ void getBody().then(function defaultSummaries($body: JQuery<HTMLBodyElement>): v
 
 	mw.hook('ve.saveDialog.stateChanged').add((): void => {
 		processVisualEditor($body);
+	});
 
-		// Switching between VE and NWE, requires to be reinitialized
-		mw.hook('ve.activationComplete').add(() => {
-			if (mw.config.get(OPTIONS.configKey)) {
-				mw.config.set(OPTIONS.configKey, false);
-			}
-		});
+	// Reinitialization is required for switching between VE and NWE
+	mw.hook('ve.activationComplete').add(() => {
+		if (mw.config.get(OPTIONS.configKey)) {
+			mw.config.set(OPTIONS.configKey, false);
+		}
 	});
 });

@@ -1,7 +1,7 @@
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
 import {getMessage} from './i18n';
 
-const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
+const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Guard against double inclusions
 	if (mw.config.get(OPTIONS.configKey)) {
 		return;

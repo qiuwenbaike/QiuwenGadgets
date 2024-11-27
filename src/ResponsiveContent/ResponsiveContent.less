@@ -23,11 +23,21 @@
 				& > .sistersitebox,
 				& > .mbox-small,
 				& > .tright,
-				& > .navbox,
 				& > figure[typeof~='mw:File/Thumb']:not(@{not_selector}),
 				& > figure[typeof~='mw:File/Frame']:not(@{not_selector}) {
 					margin-right: 0 !important;
 					margin-left: 2em !important;
+				}
+
+				& > .navbox {
+					margin-right: auto !important;
+					margin-left: auto !important;
+				}
+
+				& > .mbox:not(.mbox-small),
+				& > .tmbox:not(.mbox-small) {
+					margin-right: 0.25em !important;
+					margin-left: 0.25em !important;
 				}
 
 				& > .infobox,
