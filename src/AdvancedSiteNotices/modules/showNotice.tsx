@@ -23,7 +23,7 @@ const closeNotices = (): void => {
 	broadcastChannel.close();
 	clearTimeout(timer);
 	$area.remove();
-	mw.storage.set(OPTIONS.storageKey, currentVersion, 60 * 60 * 24 * 30 * 1000);
+	mw.storage.set(OPTIONS.storageKey, currentVersion, 60 * 60 * 24 * 30);
 };
 
 broadcastChannel.addEventListener('message', closeNotices);
