@@ -2,9 +2,9 @@
 // @ts-nocheck
 import ajaxLoader from '../images/Ajax-loader.gif';
 import {api} from './util/api';
-import clipboardLined from '../images/Nuvola-clipboard-lined.png';
 import {getMessage} from './util/getMessage';
-import gtkStop from '../images/Gtk-stop.png';
+import oojsUiCiteArticle from '../images/citeArticle.svg';
+import oojsUiClose from '../images/close.svg';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
@@ -146,7 +146,7 @@ const refToolbar2 = ($body) => {
 										type: 'dialog',
 										module: 'cite-toolbar-namedrefs',
 									},
-									icon: clipboardLined,
+									icon: `data:image/svg+xml,${encodeURIComponent(oojsUiCiteArticle)}`,
 									section: 'cites',
 									group: 'namedrefs',
 									label: getMessage('cite-named-refs-button'),
@@ -901,7 +901,7 @@ const refToolbar2 = ($body) => {
 		const tr1 = $('<tr>').css('width', '100%');
 		const th1 = $('<th>').css('width', '60%').css('font-size', '110%').html(getMessage('cite-err-report-heading'));
 		const th2 = $('<th>').css('width', '40%').css('text-align', 'right;');
-		const im = $('<img>').attr('src', gtkStop);
+		const im = $('<img>').attr('src', `data:image/svg+xml,${encodeURIComponent(oojsUiClose)}`);
 		im.attr('alt', getMessage('cite-err-report-close')).attr('title', getMessage('cite-err-report-close'));
 		const ad = $('<a>').attr({
 			id: 'cite-err-check-close',
