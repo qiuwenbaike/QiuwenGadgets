@@ -5,8 +5,6 @@ import * as OPTIONS from '../options.json';
 import {DATA} from './constant';
 import {PWV2017messages} from './messages';
 
-mw.config.set(OPTIONS.configKey, false);
-
 PWV2017messages();
 
 const PendingStackLayout = function PendingStackLayout(config) {
@@ -18,9 +16,9 @@ const PendingStackLayout = function PendingStackLayout(config) {
 OO.inheritClass(PendingStackLayout, OO.ui.StackLayout);
 OO.mixinClass(PendingStackLayout, OO.ui.mixin.PendingElement);
 
-const processVisualEditor = () => {
+const processVisualEditor = ($body) => {
 	const {skin, wgUserLanguage, wgUserVariant} = mw.config.get();
-	let variant, target, dialog, dropdown, stackLayout, panelLayouts, windowManager, errorDialog;
+	let variant, target, saveDialog, dropdown, stackLayout, panelLayouts, windowManager, errorDialog;
 
 	const constructDocument = (title, wikitext, categories) => {
 		const $result = $('<div>').addClass('mw-body mw-body-content');
@@ -93,7 +91,7 @@ const processVisualEditor = () => {
 	};
 
 	const changeVariant = function changeVariant(val) {
-		dialog.previewPanel.$element[0].focus();
+		saveDialog.previewPanel.$element[0].focus();
 		variant = val;
 
 		const targetPanel = stackLayout.findItemFromData(variant);
@@ -149,11 +147,11 @@ const processVisualEditor = () => {
 		const currentPanel = stackLayout.getCurrentItem();
 
 		if (currentPanel.$element.children().length) {
-			dialog.swapPanel('preview');
-			dialog.previewPanel.$element.prepend(dropdown.$element);
+			saveDialog.swapPanel('preview');
+			saveDialog.previewPanel.$element.prepend(dropdown.$element);
 		} else {
 			target.emit('savePreview');
-			dialog.pushPending();
+			saveDialog.pushPending();
 
 			void fetchPreview()
 				.then(
@@ -167,16 +165,15 @@ const processVisualEditor = () => {
 									item.$element.empty();
 								}
 							});
-						dialog.swapPanel('preview');
+						saveDialog.swapPanel('preview');
 						currentPanel.$element.append($previewContent);
 						stackLayout.setItem(stackLayout.findItemFromData(variant));
-						const $body = $('body');
-						if (!$body.find(`.${OPTIONS.className}`).length) {
-							dialog.previewPanel.$element.prepend(dropdown.$element);
+						if (!saveDialog.$element.find(`.${OPTIONS.className}`).length) {
+							saveDialog.previewPanel.$element.prepend(dropdown.$element);
 						}
 					},
 					(error) => {
-						dialog.showErrors(
+						saveDialog.showErrors(
 							new OO.ui.Error(window.ve.init.target.getContentApi().getErrorMessage(error), {
 								recoverable: true,
 							})
@@ -184,7 +181,7 @@ const processVisualEditor = () => {
 					}
 				)
 				.always(() => {
-					dialog.popPending();
+					saveDialog.popPending();
 				});
 		}
 	};
@@ -192,10 +189,10 @@ const processVisualEditor = () => {
 	const init = () => {
 		variant = wgUserVariant;
 		({target} = window.ve.init);
-		dialog = target.saveDialog;
+		({saveDialog} = target);
 		// eslint-disable-next-line mediawiki/class-doc
 		dropdown = new OO.ui.DropdownInputWidget({
-			$overlay: dialog.$overlay,
+			$overlay: saveDialog.$overlay,
 			classes: [OPTIONS.className],
 			options: [
 				{
@@ -222,17 +219,16 @@ const processVisualEditor = () => {
 			items: panelLayouts,
 		});
 		stackLayout.setItem(stackLayout.findItemFromData(variant));
-		dialog.previewPanel.$element.append(stackLayout.$element);
+		saveDialog.previewPanel.$element.append(stackLayout.$element);
 		errorDialog = new OO.ui.MessageDialog();
 		windowManager = new OO.ui.WindowManager();
 		windowManager.addWindows([errorDialog]);
-		const $body = $('body');
 		$body.append(windowManager.$element);
 
 		const handlerToRemove = 'onSaveDialogPreview';
-		dialog.off('preview', handlerToRemove, target).on('preview', previewWithVariant);
+		saveDialog.off('preview', handlerToRemove, target).on('preview', previewWithVariant);
 
-		// Reinitialization is required for switching between VE and NWE
+		// Reinitialization is required for switching between VisualEditor and New Wikitext Editor (2017)
 		mw.hook('ve.activationComplete').add(() => {
 			if (mw.config.get(OPTIONS.configKey)) {
 				mw.config.set(OPTIONS.configKey, false);
@@ -240,8 +236,11 @@ const processVisualEditor = () => {
 		});
 	};
 
+	// Guard against double inclusions
 	if (!mw.config.get(OPTIONS.configKey)) {
 		init();
+
+		// Set guard
 		mw.config.set(OPTIONS.configKey, true);
 	}
 };

@@ -3,16 +3,21 @@ import {getMessage} from './i18n';
 
 const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Guard against double inclusions
-	if (mw.config.get(OPTIONS.configKey)) {
+	if (mw.config.get(OPTIONS.configKeyVe)) {
 		return;
 	}
 
-	const $target: JQuery = $body.find(`.${OPTIONS.targetClassVe}`);
-	if (!$target.length) {
+	const $targetElement: JQuery = $body.find(`.${OPTIONS.targetClassVe}`);
+	if (!$targetElement.length) {
 		return;
 	}
 
-	mw.config.set(OPTIONS.configKey, true);
+	const {target} = window.ve.init;
+	const {saveDialog, saveFields} = target;
+	const {$saveCheckboxes} = saveDialog;
+
+	// Set guard
+	mw.config.set(OPTIONS.configKeyVe, true);
 
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,
@@ -29,8 +34,8 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 		};
 
 		let changeTags: string = '';
-		changeTags = generateChangeTags(window.ve.init.target.saveFields.wpChangeTags?.() ?? '');
-		window.ve.init.target.saveFields.wpChangeTags = (): string => {
+		changeTags = generateChangeTags(saveFields.wpChangeTags?.() ?? '');
+		saveFields.wpChangeTags = (): string => {
 			return changeTags;
 		};
 	});
@@ -40,9 +45,16 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 		label: getMessage('AiAssisted'),
 	});
 
-	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$target.append(checkboxLayout.$element);
+	if (!saveDialog.$element.find(`#${OPTIONS.inputId}`).length) {
+		$saveCheckboxes.append(checkboxLayout.$element);
 	}
+
+	// Reinitialization is required for switching between VisualEditor and New Wikitext Editor (2017)
+	mw.hook('ve.activationComplete').add(() => {
+		if (mw.config.get(OPTIONS.configKeyVe)) {
+			mw.config.set(OPTIONS.configKeyVe, false);
+		}
+	});
 };
 
 export {processVisualEditor};
