@@ -4,7 +4,6 @@ import ajaxLoader from '../images/Ajax-loader.gif';
 import {api} from './util/api';
 import {getMessage} from './util/getMessage';
 import oojsUiCiteArticle from '../images/citeArticle.svg';
-import oojsUiClose from '../images/close.svg';
 import {refToolbarConfig} from './RefToolbarConfig';
 
 // TODO: make autodate an option in the CiteTemplate object, not a preference
@@ -884,69 +883,6 @@ const refToolbar2 = ($body) => {
 		const dialogs = $body.find('.ui-dialog-content.ui-widget-content:visible');
 		const templatename = $(dialogs[0]).find('.cite-template').val();
 		return CiteTB.Templates[templatename];
-	};
-
-	// Display the report for the error checks
-	CiteTB.displayErrors = (errors) => {
-		$body.find('#cite-err-report').remove();
-		const table = $('<table>').attr('id', 'cite-err-report').css({
-			width: '100%',
-			border: '1px solid #A9A9A9',
-			'background-color': '#FFEFD5',
-			padding: '0.25em',
-			'margin-top': '0.5em',
-		});
-		$body.find('#editpage-copywarn').before(table);
-		let tr;
-		const tr1 = $('<tr>').css('width', '100%');
-		const th1 = $('<th>').css('width', '60%').css('font-size', '110%').html(getMessage('cite-err-report-heading'));
-		const th2 = $('<th>').css('width', '40%').css('text-align', 'right;');
-		const im = $('<img>').attr('src', `data:image/svg+xml,${encodeURIComponent(oojsUiClose)}`);
-		im.attr('alt', getMessage('cite-err-report-close')).attr('title', getMessage('cite-err-report-close'));
-		const ad = $('<a>').attr({
-			id: 'cite-err-check-close',
-			href: '#',
-		});
-		ad.append(im);
-		th2.append(ad);
-		tr1.append(th1).append(th2);
-		table.append(tr1);
-		$body.find('#cite-err-check-close').on('click', () => {
-			$body.find('#cite-err-report').remove();
-		});
-		if (errors.length === 0) {
-			tr = $('<tr>').css('width', '100%');
-			const td = $('<td>')
-				.css('text-align', 'center')
-				.css('margin', '1.5px')
-				.html(getMessage('cite-err-report-empty'));
-			tr.append(td);
-			table.append(tr);
-
-			return;
-		}
-		for (const error in errors) {
-			if (Object.hasOwn(errors, error)) {
-				const err = errors[error];
-				tr = $('<tr>').css('width', '100%');
-				const td1 = $('<td>')
-					.css({
-						border: '1px solid #000',
-						margin: '1.5px',
-						width: '60%',
-					})
-					.html(err.err);
-				const td2 = $('<td>')
-					.css({
-						border: '1px solid #000',
-						margin: '1.5px',
-						width: '40%',
-					})
-					.html(getMessage(err.msg));
-				tr.append(td1).append(td2);
-				table.append(tr);
-			}
-		}
 	};
 
 	// Load configuration for site
