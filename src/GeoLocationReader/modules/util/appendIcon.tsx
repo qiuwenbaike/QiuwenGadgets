@@ -8,7 +8,11 @@ const elementWrap = (spanClass: 'green' | 'orange', innerElement: ReactElement) 
 	const classNames = [CLASS_NAME, `${CLASS_NAME}-${spanClass}`];
 
 	if (skin === 'citizen') {
-		return <section className={classNames}>{innerElement}</section>;
+		return (
+			<section className={[...classNames, 'page-info__item', 'citizen-footer__pageinfo-item']}>
+				{innerElement}
+			</section>
+		);
 	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
 		return <li className={classNames}>{innerElement}</li>;
 	}

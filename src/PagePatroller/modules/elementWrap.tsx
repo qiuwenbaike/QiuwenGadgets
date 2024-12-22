@@ -5,7 +5,12 @@ import {getMessage} from './i18n';
 const elementWrap = () => {
 	const {skin} = mw.config.get();
 	if (skin === 'citizen') {
-		return <section className={'page-info__item'} id={OPTIONS.elementId} />;
+		return (
+			<section
+				id={OPTIONS.elementId}
+				className={[OPTIONS.elementId, 'page-info__item', 'citizen-footer__pageinfo-item']}
+			/>
+		);
 	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
 		return <li id={OPTIONS.elementId} />;
 	}

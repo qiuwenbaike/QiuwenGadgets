@@ -7,7 +7,7 @@ const elementWrap = (id: string, innerElement: ReactElement) => {
 
 	if (skin === 'citizen') {
 		return (
-			<section className={['page-info__item', footerNotice]} id={id}>
+			<section id={id} className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item']}>
 				{innerElement}
 			</section>
 		);

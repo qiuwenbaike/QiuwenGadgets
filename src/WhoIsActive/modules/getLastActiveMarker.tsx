@@ -10,7 +10,11 @@ function Wrapper(props: {timeSpan: TimeSpan; innerElement: React.ReactElement}) 
 	const {skin} = mw.config.get();
 
 	if (skin === 'citizen') {
-		return <section className={className}>{innerElement}</section>;
+		return (
+			<section className={[...className, 'page-info__item', 'citizen-footer__pageinfo-item']}>
+				{innerElement}
+			</section>
+		);
 	} else if (['gongbi', 'vector', 'vector-2022'].includes(skin) || document.querySelector('ul#footer-info')) {
 		return <li className={className}>{innerElement}</li>;
 	}

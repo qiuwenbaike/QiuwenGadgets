@@ -12,14 +12,26 @@ const sanitize = (string: string) =>
 
 const elementWrap = (innerElement: ReactElement) => {
 	const {skin} = mw.config.get();
-	const classNames = ['gadget-query_contributors'];
+	const className = 'gadget-query_contributors';
 
 	if (skin === 'citizen') {
-		return <section className={classNames}>{innerElement}</section>;
+		return (
+			<section id={className} className={[className, 'page-info__item', 'citizen-footer__pageinfo-item']}>
+				{innerElement}
+			</section>
+		);
 	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
-		return <li className={classNames}>{innerElement}</li>;
+		return (
+			<li id={className} className={className}>
+				{innerElement}
+			</li>
+		);
 	}
-	return <div className={classNames}>{innerElement}</div>;
+	return (
+		<div id={className} className={className}>
+			{innerElement}
+		</div>
+	);
 };
 
 const UserList = (userNames: string[]) => (
