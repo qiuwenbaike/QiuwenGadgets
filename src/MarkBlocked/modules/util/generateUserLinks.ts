@@ -38,12 +38,12 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 			continue;
 		}
 		try {
-			if (new mw.Uri(href).host !== location.host) {
+			if (new URL(href).host !== location.host) {
 				continue;
 			}
 		} catch {
 			try {
-				if (new mw.Uri(location.href + href).host !== location.host) {
+				if (new URL(location.href + href).host !== location.host) {
 					continue;
 				}
 			} catch {

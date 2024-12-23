@@ -11,8 +11,7 @@
 		"ext.gadget.Tippy",
 		"ext.gadget.Util",
 		"mediawiki.api",
-		"mediawiki.storage",
-		"mediawiki.Uri"
+		"mediawiki.storage"
 	],
 	"peers": ["AdvancedSiteNotices-pagestyles"]
 }
