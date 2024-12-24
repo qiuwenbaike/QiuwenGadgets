@@ -67,13 +67,13 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 	}
 
 	if (typeof $notice.data('asn-html') === 'string') {
-		$notice.data('asn-html-raw', decodeURIComponent($notice.data('asn-html') as string).replaceAll('+', ''));
+		$notice.data('asn-html-raw', decodeURIComponent(($notice.data('asn-html') as string).replace(/\+/g, '%20')));
 		$notice.data('asn-html', null);
 	}
 	if (typeof $notice.data('asn-style') === 'string') {
 		$notice.data('asn-style-id', noticeStyles.length);
 		const style: HTMLStyleElement = mw.loader.addStyleTag(
-			decodeURIComponent($notice.data('asn-style') as string).replaceAll('+', '')
+			decodeURIComponent(($notice.data('asn-style') as string).replace(/\+/g, '%20'))
 		);
 		style.disabled = true;
 		noticeStyles[noticeStyles.length] = style; // Replace `[].push()` to avoid polyfilling core-js
