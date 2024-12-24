@@ -32,7 +32,7 @@ const matchCriteria = ($notice: JQuery): boolean => {
 	const criteriaData: string = (($notice.data('asn-criteria') as string | undefined) ?? '').trim();
 	if (criteriaData) {
 		try {
-			result = testCriteria(decodeURIComponent(criteriaData).replaceAll('+', ''));
+			result = testCriteria(decodeURIComponent(criteriaData.replace(/\+/g, '%20')));
 		} catch {
 			result = true;
 		}
