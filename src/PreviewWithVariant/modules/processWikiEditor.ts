@@ -1,5 +1,6 @@
 import './processWikiEditor.less';
 import * as OPTIONS from '../options.json';
+import {MwUri} from 'ext.gadget.Util';
 import {VARIANTS} from './constant';
 /**
  * @description Add a "Preview with variant" option to the edit form.
@@ -69,7 +70,7 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 		if (selectedVariant && originalAction) {
 			$editForm.attr(
 				'action',
-				new mw.Uri(originalAction)
+				new MwUri(originalAction)
 					.extend({
 						variant: selectedVariant,
 					})

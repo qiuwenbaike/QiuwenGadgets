@@ -1,3 +1,4 @@
+import {MwUri} from 'ext.gadget.Util';
 import {getMessage} from './i18n';
 
 const edit0 = ($body: JQuery<HTMLBodyElement>): void => {
@@ -30,35 +31,35 @@ const edit0 = ($body: JQuery<HTMLBodyElement>): void => {
 		element.title = getMessage('Edit0');
 
 		const {href} = element;
-		const urlSearch = {
-			summary: '/* top */ ',
-			section: '0',
-		} as const satisfies {
+		let urlSearch: {
+			action?: string;
 			summary: string;
 			section: string;
+			veaction?: string;
+			vesection?: string;
+		} = {
+			summary: '/* top */ ',
+			section: '0',
 		};
 
 		if (!/&(?:ve)?section=T/.test(href)) {
 			// not transcluded
-			element.href = new mw.Uri(href).extend(urlSearch).toString();
 		} else if (/&vesection=/.test(href)) {
 			// transcluded, VE
-			element.href = new mw.Uri(href)
-				.extend({
-					...urlSearch,
-					veaction: 'edit',
-					vesection: '0',
-				})
-				.toString();
+			urlSearch = {
+				...urlSearch,
+				veaction: 'edit',
+				vesection: '0',
+			};
 		} else {
 			// transcluded, not VE
-			element.href = new mw.Uri(href)
-				.extend({
-					...urlSearch,
-					action: 'edit',
-				})
-				.toString();
+			urlSearch = {
+				...urlSearch,
+				action: 'edit',
+			};
 		}
+
+		element.href = new MwUri(href).extend(urlSearch).toString();
 	}
 };
 

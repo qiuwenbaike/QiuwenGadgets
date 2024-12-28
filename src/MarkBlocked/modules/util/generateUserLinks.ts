@@ -1,4 +1,5 @@
 import * as OPTIONS from '../../options.json';
+import {MwUri} from 'ext.gadget.Util';
 import {generateUserNamespaceTitles} from './generateUserNamespaceTitles';
 import {userlink} from '../MarkBlocked.module.less';
 
@@ -38,12 +39,14 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 			continue;
 		}
 		try {
-			if (new URL(href).host !== location.host) {
+			// Maybe absolute URL
+			if (new MwUri(href).host !== location.host) {
 				continue;
 			}
 		} catch {
 			try {
-				if (new URL(location.href + href).host !== location.host) {
+				// Maybe relative URL
+				if (new MwUri(location.href + href).host !== location.host) {
 					continue;
 				}
 			} catch {
