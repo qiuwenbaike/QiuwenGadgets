@@ -332,6 +332,7 @@ import {api} from './api';
 			case 'citizen':
 				outerNavClass = 'citizen-menu mw-portlet';
 				innerDivClass = 'citizen-menu__content mw-portlet-twinkle';
+				ulClassName = 'citizen-menu__content-list';
 				break;
 			default:
 				navigation = 'column-one';
