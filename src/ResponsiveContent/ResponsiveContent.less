@@ -1,90 +1,107 @@
-@not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
+@root_not_selector: ~'.ve-activated';
+@halign_not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
 
 @media (min-width: 1440px) {
-	.ns-0 {
-		.mw-body-content {
-			.mw-parser-output {
-				& > * {
-					margin-right: 350px !important;
+	:not(@{root_not_selector}) {
+		.ns-0 {
+			.mw-body-content {
+				.mw-parser-output {
+					& > * {
+						margin-right: 350px !important;
+					}
+
+					& > .mw-parser-output {
+						margin-right: 0 !important;
+						margin-left: 0 !important;
+					}
+
+					& > .infobox,
+					& > .sidebar,
+					& > .vertical-navbox,
+					& > .stack-right,
+					& > .stack-clear-right,
+					& > .floatright,
+					& > .mw-halign-right,
+					& > .sistersitebox,
+					& > .mbox-small,
+					& > .tright,
+					& > figure[typeof~='mw:File/Thumb']:not(@{halign_not_selector}),
+					& > figure[typeof~='mw:File/Frame']:not(@{halign_not_selector}) {
+						margin-right: 0 !important;
+						margin-left: 2em !important;
+					}
+
+					& > .navbox {
+						margin-right: auto !important;
+						margin-left: auto !important;
+					}
+
+					& > .mbox:not(.mbox-small),
+					& > .tmbox:not(.mbox-small) {
+						margin-right: 0.25em !important;
+						margin-left: 0.25em !important;
+					}
+
+					& > .infobox,
+					& > .sidebar,
+					& > .vertical-navbox,
+					& > .stack-right,
+					& > .stack-clear-right,
+					& > .floatright,
+					& > .mw-halign-right,
+					& > .tright,
+					& > figure[typeof~='mw:File/Thumb']:not(@{halign_not_selector}),
+					& > figure[typeof~='mw:File/Frame']:not(@{halign_not_selector}) {
+						min-width: 320px !important;
+					}
+
+					& > .infobox,
+					& > .sidebar,
+					& > .vertical-navbox,
+					& > .tright > .thumbinner {
+						width: 320px !important;
+						box-sizing: border-box;
+					}
+
+					& > .tright .thumbimage,
+					& > .floatright img,
+					& > .mw-halign-right img,
+					& > figure[typeof~='mw:File/Thumb']:not(@{halign_not_selector}) img,
+					& > figure[typeof~='mw:File/Frame']:not(@{halign_not_selector}) img {
+						width: 100%;
+						height: auto;
+					}
+
+					& > #toc,
+					& > .floatleft,
+					& > .mw-halign-left,
+					& > .tleft {
+						margin-right: 1.4em !important;
+					}
+
+					& > table,
+					& > .center,
+					& > .mw-halign-center {
+						max-width: calc(100% - 350px);
+					}
 				}
 
-				& > .mw-parser-output {
-					margin-right: 0 !important;
-					margin-left: 0 !important;
-				}
+				.ext-WikiEditor-realtimepreview-preview .mw-parser-output {
+					& > ul,
+					& > ol,
+					& > li {
+						margin-right: 0 !important;
+					}
 
-				& > .infobox,
-				& > .sidebar,
-				& > .vertical-navbox,
-				& > .stack-right,
-				& > .stack-clear-right,
-				& > .floatright,
-				& > .mw-halign-right,
-				& > .sistersitebox,
-				& > .mbox-small,
-				& > .tright,
-				& > figure[typeof~='mw:File/Thumb']:not(@{not_selector}),
-				& > figure[typeof~='mw:File/Frame']:not(@{not_selector}) {
-					margin-right: 0 !important;
-					margin-left: 2em !important;
-				}
-
-				& > .navbox {
-					margin-right: auto !important;
-					margin-left: auto !important;
-				}
-
-				& > .mbox:not(.mbox-small),
-				& > .tmbox:not(.mbox-small) {
-					margin-right: 0.25em !important;
-					margin-left: 0.25em !important;
-				}
-
-				& > .infobox,
-				& > .sidebar,
-				& > .vertical-navbox,
-				& > .stack-right,
-				& > .stack-clear-right,
-				& > .floatright,
-				& > .mw-halign-right,
-				& > .tright,
-				& > figure[typeof~='mw:File/Thumb']:not(@{not_selector}),
-				& > figure[typeof~='mw:File/Frame']:not(@{not_selector}) {
-					min-width: 320px !important;
-				}
-
-				& > .infobox,
-				& > .sidebar,
-				& > .vertical-navbox,
-				& > .tright > .thumbinner {
-					width: 320px !important;
-					box-sizing: border-box;
-				}
-
-				& > .tright .thumbimage,
-				& > .floatright img,
-				& > .mw-halign-right img,
-				& > figure[typeof~='mw:File/Thumb']:not(@{not_selector}) img,
-				& > figure[typeof~='mw:File/Frame']:not(@{not_selector}) img {
-					width: 100%;
-					height: auto;
-				}
-
-				& > #toc,
-				& > .floatleft,
-				& > .mw-halign-left,
-				& > .tleft {
-					margin-right: 1.4em !important;
-				}
-
-				& > table,
-				& > .center,
-				& > .mw-halign-center {
-					max-width: calc(100% - 350px);
+					& > *:not(ul, ol, li) {
+						max-width: 100%;
+						margin-right: 0 !important;
+						margin-left: 0 !important;
+					}
 				}
 			}
 
-			.ext-WikiEditor-realtimepreview-preview .mw-parser-output {
+			.ve-init-mw-desktopArticleTarget .mw-body-content .mw-parser-output {
 				& > ul,
 				& > ol,
 				& > li {
@@ -92,23 +109,9 @@
 				}
 
 				& > *:not(ul, ol, li) {
-					max-width: 100%;
 					margin-right: 0 !important;
 					margin-left: 0 !important;
 				}
-			}
-		}
-
-		.ve-init-mw-desktopArticleTarget .mw-body-content .mw-parser-output {
-			& > ul,
-			& > ol,
-			& > li {
-				margin-right: 0 !important;
-			}
-
-			& > *:not(ul, ol, li) {
-				margin-right: 0 !important;
-				margin-left: 0 !important;
 			}
 		}
 	}
