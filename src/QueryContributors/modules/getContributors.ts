@@ -37,12 +37,10 @@ const getContributors = async (titles: string) => {
 						contributors: {userid: number; name: string}[];
 					};
 
-					if (!contributors[0] || !contributors[0].name) {
-						continue;
-					}
-
-					for (const {name} of contributors) {
-						pclist[pclist.length] = name;
+					if (contributors && contributors[0] && contributors[0].name) {
+						for (const {name} of contributors) {
+							pclist[pclist.length] = name;
+						}
 					}
 				}
 			} else {
