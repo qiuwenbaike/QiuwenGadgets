@@ -1,3 +1,4 @@
+@import (reference) '../mixins.less';
 @import (reference) '../variables.less';
 
 .gadget-markrights_userpage {
@@ -12,9 +13,7 @@
 	.mw-footer & {
 		margin-bottom: 0.25em !important;
 
-		.ve-activated & {
-			display: none;
-		}
+		.ve-activated-disabled();
 	}
 
 	&__text {
