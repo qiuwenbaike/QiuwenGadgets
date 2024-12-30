@@ -35,3 +35,9 @@
 		display: list-item !important;
 	}
 }
+
+.ve-activated-disabled(@important: '') {
+	.ve-activated & {
+		display: none ~'@{important}';
+	}
+}
