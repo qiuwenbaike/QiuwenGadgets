@@ -30,19 +30,31 @@ const getContributors = async (titles: string) => {
 	while (true) {
 		const data = await queryContributors(titles, pccontinue);
 
-		for (const page of data['query'].pages) {
-			const {contributors} = page as {
-				contributors: {userid: number; name: string}[];
-			};
+		try {
+			if (data['query'] && data['query'].pages) {
+				for (const page of data['query'].pages) {
+					const {contributors} = page as {
+						contributors: {userid: number; name: string}[];
+					};
 
-			for (const {name} of contributors) {
-				pclist[pclist.length] = name;
+					if (!contributors[0] || !contributors[0].name) {
+						continue;
+					}
+
+					for (const {name} of contributors) {
+						pclist[pclist.length] = name;
+					}
+				}
+			} else {
+				break;
 			}
-		}
 
-		if (data['continue'] && data['continue'].pccontinue) {
-			({pccontinue} = data['continue'] as {pccontinue: string});
-		} else {
+			if (data['continue'] && data['continue'].pccontinue) {
+				({pccontinue} = data['continue'] as {pccontinue: string});
+			} else {
+				break;
+			}
+		} catch {
 			break;
 		}
 	}
