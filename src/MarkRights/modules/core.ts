@@ -45,7 +45,7 @@ const appendUserRightsMark = (
 		if ($element.parents('li').find('.gadgets-markrights').length) {
 			continue;
 		}
-		if ($element.siblings().find('.gadgets-markrights').length) {
+		if ($element.siblings('.gadgets-markrights').length) {
 			continue;
 		}
 		const username: string = getUsername($element.attr('href') ?? '');
@@ -108,7 +108,7 @@ const markUserRights = async ($content: JQuery): Promise<void> => {
 		if ($element.parents('li').find('.gadgets-markrights').length) {
 			continue;
 		}
-		if ($element.siblings().find('.gadgets-markrights').length) {
+		if ($element.siblings('.gadgets-markrights').length) {
 			continue;
 		}
 		const {textContent} = element;
