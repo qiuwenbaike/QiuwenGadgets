@@ -4,7 +4,7 @@ const getShortDomains = (): string[] => {
 
 	switch (wgWikiID) {
 		case 'zhqiuwenbaike':
-			domains = ['qwbk.cc', 'qwbk.org', 'bkwz.cn'];
+			domains = ['qwbk.cc', 'bkwz.cn'];
 			break;
 		case 'licencewiki':
 			domains = ['l.qwbk.cc', 'l.bkwz.cn'];
