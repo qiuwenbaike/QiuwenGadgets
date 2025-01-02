@@ -827,7 +827,9 @@ const catALot = (): void => {
 						return;
 					}
 					let categories: {title: string}[] = [];
-					[{categories}] = pages;
+					if (pages[0]?.categories) {
+						[{categories}] = pages;
+					}
 					for (const cat of categories) {
 						CAL.parentCats[CAL.parentCats.length] = cat.title.replace(/^[^:]+:/, '');
 					}
