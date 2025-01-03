@@ -7,6 +7,12 @@ type ApiQueryContributorsParams = import('types-mediawiki-renovate/api_params').
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiEditPageParams = import('types-mediawiki-renovate/api_params').ApiEditPageParams &
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
+type ApiQueryGlobalBlocksParams =
+	import('types-mediawiki-renovate/api_params').GlobalBlockingApiQueryGlobalBlocksParams &
+		import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
+type ApiQueryGlobalUserInfoResponse =
+	import('types-mediawiki-renovate/api_params').CentralAuthApiQueryGlobalUserInfoParams &
+		import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiImportParams = import('types-mediawiki-renovate/api_params').ApiImportParams &
 	import('types-mediawiki-renovate/api_params').ApiFormatJsonParams;
 type ApiOpenSearchParams = import('types-mediawiki-renovate/api_params').ApiOpenSearchParams &

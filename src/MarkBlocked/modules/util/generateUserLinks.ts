@@ -25,6 +25,7 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 		const $element: JQuery<HTMLAnchorElement> = $(element);
 		if (
 			$element.hasClass('mw-changeslist-date') ||
+			$element.hasClass('ext-discussiontools-init-timestamplink') ||
 			$element.parent('span').hasClass('mw-history-undo') ||
 			$element.parent('span').hasClass('mw-rollback-link')
 		) {
