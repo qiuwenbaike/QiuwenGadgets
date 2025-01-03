@@ -1,5 +1,5 @@
 import {inHours, parseTS} from './util/parseTime';
-import {loading, userlinkIndef, userlinkLock, userlinkPartial, userlinkTemp} from './MarkBlocked.module.less';
+import {loading, userlinkIndef, userlinkLocked, userlinkPartial, userlinkTemp} from './MarkBlocked.module.less';
 import {api} from './util/api';
 import {generateUserLinks} from './util/generateUserLinks';
 import {getMessage} from './i18n';
@@ -133,7 +133,7 @@ const markBlockedUser = ($content: JQuery): void => {
 				return;
 			}
 
-			const className = userlinkLock as string;
+			const className = userlinkLocked as string;
 
 			for (const $link of $links) {
 				// The following classes are used here:
@@ -167,11 +167,11 @@ const markBlockedUser = ($content: JQuery): void => {
 				formatversion: '2',
 				list: ['blocks', 'globalblocks'],
 				bkusers,
-				bgtargets: bkusers,
 				bklimit: 100,
-				bglimit: 100,
 				bkprop: ['by', 'expiry', 'reason', 'restrictions', 'timestamp', 'user'],
-				bgprop: ['by', 'expiry', 'reason', 'timestamp'],
+				bglimit: 100,
+				bgtargets: bkusers,
+				bgprop: ['by', 'expiry', 'reason', 'timestamp', 'target'],
 				smaxage: 600,
 				maxage: 600,
 			};
