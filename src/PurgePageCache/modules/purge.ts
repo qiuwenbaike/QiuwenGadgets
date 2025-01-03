@@ -20,7 +20,7 @@ const purge: Purge = async (title) => {
 			format: 'json',
 			formatversion: '2',
 			titles: title,
-			forcelinkupdate: true,
+			forcelinkupdate: false,
 		};
 
 		await api.post(params);
