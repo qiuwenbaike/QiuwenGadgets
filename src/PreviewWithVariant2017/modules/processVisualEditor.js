@@ -64,7 +64,7 @@ const processVisualEditor = ($body) => {
 				errorformat: 'html',
 				errorlang: wgUserLanguage,
 				errorsuselocal: true,
-				formatversion: 2,
+				formatversion: '2',
 				prop: 'text|indicators|displaytitle|categorieshtml|parsewarningshtml',
 				pst: true,
 				preview: true,
