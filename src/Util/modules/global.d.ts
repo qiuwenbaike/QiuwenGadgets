@@ -4,6 +4,7 @@ type ChangeOpacityWhenMouseEnterOrLeave =
 type CheckA11yConfirmKey = import('./checkA11yConfirmKey').CheckA11yConfirmKey;
 type CheckDependencies = import('./checkDependencies').CheckDependencies;
 type Delay = import('./delay').Delay;
+type FindVariants = import('./findVariants').FindVariants;
 type GenerateArray = import('./generateArray').GenerateArray;
 type GenerateSvgDataUrl = import('./generateSvgDataUrl').GenerateSvgDataUrl;
 type GetBody = import('./getBody').GetBody;
@@ -26,6 +27,7 @@ declare module 'ext.gadget.Util' {
 	export const checkA11yConfirmKey: CheckA11yConfirmKey;
 	export const checkDependencies: CheckDependencies;
 	export const delay: Delay;
+	export const findVariants: FindVariants;
 	export const generateArray: GenerateArray;
 	export const generateSvgDataUrl: GenerateSvgDataUrl;
 	export const getBody: GetBody;

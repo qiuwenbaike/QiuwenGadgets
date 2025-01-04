@@ -2,7 +2,8 @@ import {initMwApi} from './initMwApi';
 
 type QueryUserGroups = typeof queryUserGroups;
 
-const queryUserGroups = async (users: string[]) => {
+// eslint-disable-next-line func-style
+async function queryUserGroups(users: string[]) {
 	const api: mw.Api = initMwApi('Util-QueryUserGroups');
 
 	const CACHE_KEY_PREFIX = 'ext.gadget.Util_queryUserGroups-';
@@ -61,6 +62,6 @@ const queryUserGroups = async (users: string[]) => {
 	}
 
 	return {query: {users: queryUsers}};
-};
+}
 
 export {type QueryUserGroups, queryUserGroups};
