@@ -3,6 +3,7 @@ export {changeOpacityWhenMouseEnterOrLeave} from './modules/changeOpacityWhenMou
 export {checkA11yConfirmKey} from './modules/checkA11yConfirmKey';
 export {checkDependencies} from './modules/checkDependencies.ts';
 export {delay} from './modules/delay';
+export {findVariants} from './modules/findVariants';
 export {generateArray} from './modules/generateArray';
 export {generateSvgDataUrl} from './modules/generateSvgDataUrl';
 export {getBody} from './modules/getBody';
