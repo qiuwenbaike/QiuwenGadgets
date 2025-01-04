@@ -10,6 +10,7 @@ export {initMwApi} from './modules/initMwApi';
 export {isValidKey} from './modules/isValidKey';
 export {MwUri} from './modules/mwUri';
 export {oouiConfirmWithStyle} from './modules/oouiConfirmWithStyle';
+export {queryUserGroups} from './modules/queryUserGroups';
 export {scrollTop} from './modules/scrollTop';
 export {userIsInGroup} from './modules/userIsInGroup';
 export {uniqueArray} from './modules/uniqueArray';
