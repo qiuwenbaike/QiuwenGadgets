@@ -13,7 +13,8 @@
 		"mediawiki.api",
 		"mediawiki.util",
 		"mediawiki.widgets",
-		"oojs-ui-windows"
+		"oojs-ui-windows",
+		"oojs-ui.styles.icons-editing-core"
 	],
 	"peers": ["ShortURL-pagestyles"]
 }
