@@ -1,7 +1,6 @@
 import * as OPTIONS from '../../options.json';
 import {MwUri} from 'ext.gadget.Util';
 import {generateUserNamespaceTitles} from './generateUserNamespaceTitles';
-import {userlink} from '../MarkBlocked.module.less';
 
 // Get all aliases for user: & user_talk:
 const userNamespaceTitles: string[] = generateUserNamespaceTitles();
@@ -77,11 +76,6 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 		if (mw.util.isIPv6Address(user)) {
 			user = user.toUpperCase();
 		}
-
-		// The following classes are used here:
-		// * see ../Markblocked.module.less
-		// * for more information
-		$element.addClass(userlink as string);
 
 		userLinks[user] ??= [];
 
