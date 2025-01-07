@@ -56,6 +56,9 @@ importers:
       '@bhsd/codemirror-mediawiki':
         specifier: ^2.17.4
         version: 2.17.4
+      '@bhsd/common':
+        specifier: ^0.5.0
+        version: 0.5.0
       '@types/toastify-js':
         specifier: ^1.12.3
         version: 1.12.3
@@ -903,6 +906,10 @@ packages:
   '@bhsd/codemirror-mediawiki@2.17.4':
     resolution: {integrity: sha512-fsnHzjzBKxfsLSF0bGgKBchutotawc/NTlrbRyZL1ra/Q9jAfyC6M3e7jDQT/6RztAc9GS0j2GhS1kKll5vqfw==}
     engines: {node: ^20.9.0}
+
+  '@bhsd/common@0.5.0':
+    resolution: {integrity: sha512-hiQ1GKyLUzMr6QVMkV81Wrl3Y8TkAZm9yI8W4/L8WxsGZXiUPp1PGnHVt6FEqKYzPsdG3HMTQvDOBqTz4nlckg==}
+    hasBin: true
 
   '@codemirror/language@6.10.2':
     resolution: {integrity: sha512-kgbTYTo0Au6dCSc/TFy7fK3fpJmgHDv1sG1KNQKJXVi+xBTEeBPY/M30YXiU6mMXeH+YIDLsbrT4ZwNRdtF+SA==}
@@ -5586,6 +5593,8 @@ snapshots:
       '@codemirror/view': 6.30.0
       '@lezer/common': 1.2.1
       wikiparser-node: 1.12.3
+
+  '@bhsd/common@0.5.0': {}
 
   '@codemirror/language@6.10.2':
     dependencies:
