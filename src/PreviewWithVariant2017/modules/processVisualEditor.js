@@ -65,7 +65,7 @@ const processVisualEditor = ($body) => {
 				errorlang: wgUserLanguage,
 				errorsuselocal: true,
 				formatversion: '2',
-				prop: 'text|indicators|displaytitle|categorieshtml|parsewarningshtml',
+				prop: ['text', 'indicators', 'displaytitle', 'categorieshtml', 'parsewarningshtml'],
 				pst: true,
 				preview: true,
 				title: target.getPageName(),
