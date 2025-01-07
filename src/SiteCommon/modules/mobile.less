@@ -1,4 +1,6 @@
 /* 移动端优化 */
+@not_infobox_selector: ~'.metadata, .infobox, .sidebar, .vertical-navbox';
+
 @media only screen and (max-width: 768px) {
 	/* !important to ignore inline styles */
 
@@ -6,7 +8,7 @@
 	.mw-body-content {
 		word-wrap: break-word;
 
-		table {
+		table:not(@{not_infobox_selector}) {
 			display: block;
 			max-width: 92.5% !important;
 			margin-right: auto !important;
