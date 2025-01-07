@@ -27,15 +27,15 @@ const elementWrap = (id: string, innerElement: ReactElement) => {
 
 const onClickWrap = (textContent: string, className: string, onClick?: (event: Event) => void) => (
 	<a
-		class={['gadget-easy_archive__link', `gadget-easy_archive__link-${className}`]}
+		className={['gadget-easy_archive__link', `gadget-easy_archive__link-${className}`]}
 		onClick={onClick}
 		textContent={textContent}
 	/>
 );
 
-const pipeElement = () => <span class="mw-editsection-divider" textContent={'|'} />;
+const pipeElement = () => <span className="mw-editsection-divider" textContent={'|'} />;
 
-const sectionIdSpanElement = () => <span class={[sectionIdSpan]} />;
+const sectionIdSpanElement = () => <span className={sectionIdSpan} />;
 
 const spanWrap = (innerHTML: string) => <span innerHTML={innerHTML} />;
 

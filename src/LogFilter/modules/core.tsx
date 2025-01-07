@@ -82,31 +82,31 @@ class LogFilter {
 		}
 		const fieldSetInner = (
 			<>
-				<div class="gadget-log_filter__regex">
+				<div className="gadget-log_filter__regex">
 					<label htmlFor="gadget-log_filter__regex">{mw.html.escape(LogFilter.msg('regex-label'))}</label>
 					<input id="gadget-log_filter__regex" />
 				</div>
-				<div class="gadget-log_filter__checkboxes">
-					<div class="gadget-log_filter__invert">
+				<div className="gadget-log_filter__checkboxes">
+					<div className="gadget-log_filter__invert">
 						<input id="gadget-log_filter__invert" type="checkbox" />
 						<label htmlFor="gadget-log_filter__invert">
 							{mw.html.escape(LogFilter.msg('invert-label'))}
 						</label>
 					</div>
-					<div class="gadget-log_filter__case">
+					<div className="gadget-log_filter__case">
 						<input id="gadget-log_filter__case" type="checkbox" />
 						<label htmlFor="gadget-log_filter__case">{mw.html.escape(LogFilter.msg('case-label'))}</label>
 					</div>
 				</div>
-				<div class="gadget-log_filter__buttons">
+				<div className="gadget-log_filter__buttons">
 					<button
-						class={['cdx-button cdx-button--action-progressive', 'cdx-button--weight-primary']}
+						className={['cdx-button cdx-button--action-progressive', 'cdx-button--weight-primary']}
 						value="0"
 					>
 						{mw.html.escape(LogFilter.msg('filter-button'))}
 					</button>
 					<button
-						class={['cdx-button cdx-button--action-progressive', 'cdx-button--weight-primary']}
+						className={['cdx-button cdx-button--action-progressive', 'cdx-button--weight-primary']}
 						value="1"
 					>
 						{mw.html.escape(LogFilter.msg('highlight-button'))}
