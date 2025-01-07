@@ -31,30 +31,47 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 
 	let wgPageName2: string | undefined;
 	let wgPageName3: string | undefined;
+
 	if (!isFileNS) {
-		const disamRegExp = /^(.*)（(.*?)）$/;
-		const match = wgPageName.match(disamRegExp);
-		if (match) {
-			const [, rootPageName, disamKey] = match;
-			wgPageName2 = `${rootPageName}_(${disamKey})`;
-			if (disamKey === '消歧义') {
-				wgPageName3 = `${rootPageName}_(消歧義)`;
-			} else if (disamKey === '消歧義') {
-				wgPageName3 = `${rootPageName}_(消歧义)`;
+		// Matching disamig-ed pages with full-width parentheses
+		const disamRegExpFW = /^(.*)（(.*?)）$/;
+		const matchFW = wgPageName.match(disamRegExpFW);
+		// Matching disamig-ed pages with half-width parentheses
+		const disamRegExpHW = /^(.*)[_ ]\((.*?)\)$/;
+		const matchHW = wgPageName.match(disamRegExpHW);
+
+		try {
+			// root page name and disambig-key
+			let rootPageName: string | undefined, disamKey: string | undefined;
+
+			if (matchFW) {
+				[, rootPageName, disamKey] = matchFW;
+			} else if (matchHW) {
+				[, rootPageName, disamKey] = matchHW;
 			}
-		}
+
+			if (rootPageName && disamKey) {
+				wgPageName2 = `${rootPageName}_(${disamKey})`;
+				if (disamKey === '消歧义') {
+					wgPageName3 = `${rootPageName}_(消歧義)`;
+				} else if (disamKey === '消歧義') {
+					wgPageName3 = `${rootPageName}_(消歧义)`;
+				}
+			}
+		} catch {}
 	}
 
 	element.addEventListener('click', (): void => {
 		void (async () => {
 			const pageName: string = redirectTextA[0]?.textContent || wgPageName;
-			await detectIfFileRedirect(pageName, isFileNS);
+			const pageNames = [pageName];
 			if (wgPageName2) {
-				await detectIfFileRedirect(wgPageName2, isFileNS);
+				pageNames[pageNames.length] = wgPageName2;
 			}
 			if (wgPageName3) {
-				await detectIfFileRedirect(wgPageName3, isFileNS);
+				pageNames[pageNames.length] = wgPageName3;
 			}
+			await detectIfFileRedirect(pageNames, isFileNS);
 		})().then(() => {
 			refreshPage(wgPageName3 ?? wgPageName2 ?? wgPageName);
 		});
