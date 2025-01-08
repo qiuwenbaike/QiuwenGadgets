@@ -108,7 +108,7 @@ const catALot = (): void => {
 								type="text"
 								value={CAL.isSearchMode ? (mw.util.getParamValue('search') ?? '') : ''}
 								onKeyDown={(event): void => {
-									const $element = $(event.currentTarget) as JQuery<HTMLInputElement>;
+									const $element = $<HTMLInputElement>(event.currentTarget);
 									if (event.key === 'Enter') {
 										const cat: string = $element.val()?.trim() ?? '';
 										if (cat) {
