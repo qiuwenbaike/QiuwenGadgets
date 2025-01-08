@@ -54,8 +54,8 @@ importers:
   .:
     dependencies:
       '@bhsd/codemirror-mediawiki':
-        specifier: ^2.17.4
-        version: 2.17.4
+        specifier: ^2.19.8
+        version: 2.19.8
       '@bhsd/common':
         specifier: ^0.5.0
         version: 0.5.0
@@ -75,7 +75,7 @@ importers:
         specifier: ^8.1.4
         version: 8.1.4
       monaco-editor:
-        specifier: ^0.52.0
+        specifier: ^0.52.2
         version: 0.52.2
       select2:
         specifier: ^4.0.13
@@ -903,25 +903,31 @@ packages:
     resolution: {integrity: sha512-vwIVdXG+j+FOpkwqHRcBgHLYNL7XMkufrlaFvL9o6Ai9sJn9+PdyIL5qa0XzTZw084c+u9LOls53eoZWP/W5WQ==}
     engines: {node: '>=6.9.0'}
 
-  '@bhsd/codemirror-mediawiki@2.17.4':
-    resolution: {integrity: sha512-fsnHzjzBKxfsLSF0bGgKBchutotawc/NTlrbRyZL1ra/Q9jAfyC6M3e7jDQT/6RztAc9GS0j2GhS1kKll5vqfw==}
-    engines: {node: ^20.9.0}
+  '@bhsd/codemirror-mediawiki@2.19.8':
+    resolution: {integrity: sha512-t9TewfAb9yN0+dCioQVOv38vXBLCJ71L3TX8Ls4EbZG7kDtI0FjCy5Bjd32mciwCg+74ZqUxi07eEMS74fsaxg==}
+
+  '@bhsd/common@0.4.6':
+    resolution: {integrity: sha512-JPllU4CTmdzs27Jj8+MU2LpSHWL4LabYO3sYBIAvw7gk1y1+nN7EBDOMLG/zR+xRHMaTXGS2/XhTuYv3RGx2sQ==}
+    hasBin: true
 
   '@bhsd/common@0.5.0':
     resolution: {integrity: sha512-hiQ1GKyLUzMr6QVMkV81Wrl3Y8TkAZm9yI8W4/L8WxsGZXiUPp1PGnHVt6FEqKYzPsdG3HMTQvDOBqTz4nlckg==}
     hasBin: true
 
-  '@codemirror/language@6.10.2':
-    resolution: {integrity: sha512-kgbTYTo0Au6dCSc/TFy7fK3fpJmgHDv1sG1KNQKJXVi+xBTEeBPY/M30YXiU6mMXeH+YIDLsbrT4ZwNRdtF+SA==}
+  '@codemirror/language@6.10.8':
+    resolution: {integrity: sha512-wcP8XPPhDH2vTqf181U8MbZnW+tDyPYy0UzVOa+oHORjyT+mhhom9vBd7dApJwoDz9Nb/a8kHjJIsuA/t8vNFw==}
 
-  '@codemirror/lint@6.8.1':
-    resolution: {integrity: sha512-IZ0Y7S4/bpaunwggW2jYqwLuHj0QtESf5xcROewY6+lDNwZ/NzvR4t+vpYgg9m7V8UXLPYqG+lu3DF470E5Oxg==}
+  '@codemirror/lint@6.8.4':
+    resolution: {integrity: sha512-u4q7PnZlJUojeRe8FJa/njJcMctISGgPQ4PnWsd9268R4ZTtU+tfFYmwkBvgcrK2+QQ8tYFVALVb5fVJykKc5A==}
 
   '@codemirror/state@6.4.1':
     resolution: {integrity: sha512-QkEyUiLhsJoZkbumGZlswmAhA7CBU02Wrz7zvH4SrcifbsqwlXShVXg65f3v/ts57W3dqyamEriMhij1Z3Zz4A==}
 
-  '@codemirror/view@6.30.0':
-    resolution: {integrity: sha512-96Nmn8OeLh6aONQprIeYk8hGVnEuYpWuxKSkdsODOx9hWPxyuyZGvmvxV/JmLsp+CubMO1PsLaN5TNNgrl0UrQ==}
+  '@codemirror/state@6.5.0':
+    resolution: {integrity: sha512-MwBHVK60IiIHDcoMet78lxt6iw5gJOGSbNbOIVBHWVXIH4/Nq1+GQgLLGgI1KlnN86WDXsPudVaqYHKBIx7Eyw==}
+
+  '@codemirror/view@6.36.1':
+    resolution: {integrity: sha512-miD1nyT4m4uopZaDdO2uXU/LLHliKNYL9kB1C1wJHrunHLm/rpkb5QVSokqgw9hFqEZakrdlb/VGWX8aYZTslQ==}
 
   '@commitlint/cli@19.5.0':
     resolution: {integrity: sha512-gaGqSliGwB86MDmAAKAtV9SV1SHdmN8pnGq4EJU4+hLisQ7IFfx4jvU4s+pk6tl0+9bv6yT+CaZkufOinkSJIQ==}
@@ -1465,14 +1471,17 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@lezer/common@1.2.1':
-    resolution: {integrity: sha512-yemX0ZD2xS/73llMZIK6KplkjIjf2EvAHcinDi/TfJ9hS25G0388+ClHt6/3but0oOxinTcQHJLDXh6w1crzFQ==}
+  '@lezer/common@1.2.3':
+    resolution: {integrity: sha512-w7ojc8ejBqr2REPsWxJjrMFsA/ysDCFICn8zEOR9mrqzOu2amhITYuLD8ag6XZf0CFXDrhKqw7+tW8cX66NaDA==}
 
-  '@lezer/highlight@1.2.0':
-    resolution: {integrity: sha512-WrS5Mw51sGrpqjlh3d4/fOwpEV2Hd3YOkp9DBt4k8XZQcoTHZFB7sx030A6OcahF4J1nDQAa3jXlTVVYH50IFA==}
+  '@lezer/highlight@1.2.1':
+    resolution: {integrity: sha512-Z5duk4RN/3zuVO7Jq0pGLJ3qynpxUVsh7IbUbGj88+uV2ApSAn6kWg2au3iJb+0Zi7kKtqffIESgNcRXWZWmSA==}
 
   '@lezer/lr@1.4.2':
     resolution: {integrity: sha512-pu0K1jCIdnQ12aWNaAVU5bzi7Bd1w54J3ECgANPmYLtQKP0HBj2cE/5coBD66MT10xbtIuUr7tg0Shbsvk0mDA==}
+
+  '@marijn/find-cluster-break@1.0.2':
+    resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
 
   '@mdn/browser-compat-data@5.6.4':
     resolution: {integrity: sha512-bOOF4GGzn0exmvNHpSWmTfOXB9beTpIFCm2KPY2UVoCdn1YVfr8heuHr1C++BYI9Tun8REgi5TNVdKbBs249CA==}
@@ -2971,8 +2980,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  hosted-git-info@8.0.0:
-    resolution: {integrity: sha512-4nw3vOVR+vHUOT8+U4giwe2tcGv+R3pwwRidUe67DoMBTjhrfr6rZYJVVwdkBE+Um050SG+X9tf0Jo4fOpn01w==}
+  hosted-git-info@8.0.2:
+    resolution: {integrity: sha512-sYKnA7eGln5ov8T8gnYlkSOxFJvywzEx9BueN6xo/GKO8PGiI6uK6xx+DIGe45T3bdVjLAQDQW1aicT8z8JwQg==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
   html-tags@3.3.1:
@@ -4746,9 +4755,9 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  wikiparser-node@1.12.3:
-    resolution: {integrity: sha512-DUzkZZQrC6lphqwhPW0/MQYQd2SkKyhQH9alsAsN1lLYkII750n5YzqyZ5jHE6Taj2AFfJDd/56rrfkndBujxg==}
-    engines: {node: ^20.9.0}
+  wikiparser-node@1.14.0:
+    resolution: {integrity: sha512-IJFbgvVmEK4e8AJk7ZbYlU8+cizRSQEgn6WTUdgEJyREPiKOcG7jP9/04doSrQAlZzifcI4eLWV/X1V7GthLgA==}
+    engines: {node: '>=18.12.0'}
 
   with@7.0.2:
     resolution: {integrity: sha512-RNGKj82nUPg3g5ygxkQl0R937xLyho1J24ItRCBTr/m1YnZkzJy1hUiHUJrc/VlsDQzsCnInEGSg3bci0Lmd4w==}
@@ -5585,37 +5594,45 @@ snapshots:
       '@babel/helper-validator-identifier': 7.25.7
       to-fast-properties: 2.0.0
 
-  '@bhsd/codemirror-mediawiki@2.17.4':
+  '@bhsd/codemirror-mediawiki@2.19.8':
     dependencies:
-      '@codemirror/language': 6.10.2
-      '@codemirror/lint': 6.8.1
+      '@bhsd/common': 0.5.0
+      '@codemirror/language': 6.10.8
+      '@codemirror/lint': 6.8.4
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.30.0
-      '@lezer/common': 1.2.1
-      wikiparser-node: 1.12.3
+      '@codemirror/view': 6.36.1
+      '@lezer/common': 1.2.3
+      style-mod: 4.1.2
+      wikiparser-node: 1.14.0
+
+  '@bhsd/common@0.4.6': {}
 
   '@bhsd/common@0.5.0': {}
 
-  '@codemirror/language@6.10.2':
+  '@codemirror/language@6.10.8':
     dependencies:
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.30.0
-      '@lezer/common': 1.2.1
-      '@lezer/highlight': 1.2.0
+      '@codemirror/view': 6.36.1
+      '@lezer/common': 1.2.3
+      '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
       style-mod: 4.1.2
 
-  '@codemirror/lint@6.8.1':
+  '@codemirror/lint@6.8.4':
     dependencies:
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.30.0
+      '@codemirror/view': 6.36.1
       crelt: 1.0.6
 
   '@codemirror/state@6.4.1': {}
 
-  '@codemirror/view@6.30.0':
+  '@codemirror/state@6.5.0':
     dependencies:
-      '@codemirror/state': 6.4.1
+      '@marijn/find-cluster-break': 1.0.2
+
+  '@codemirror/view@6.36.1':
+    dependencies:
+      '@codemirror/state': 6.5.0
       style-mod: 4.1.2
       w3c-keyname: 2.2.8
 
@@ -6129,15 +6146,17 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@lezer/common@1.2.1': {}
+  '@lezer/common@1.2.3': {}
 
-  '@lezer/highlight@1.2.0':
+  '@lezer/highlight@1.2.1':
     dependencies:
-      '@lezer/common': 1.2.1
+      '@lezer/common': 1.2.3
 
   '@lezer/lr@1.4.2':
     dependencies:
-      '@lezer/common': 1.2.1
+      '@lezer/common': 1.2.3
+
+  '@marijn/find-cluster-break@1.0.2': {}
 
   '@mdn/browser-compat-data@5.6.4': {}
 
@@ -7951,7 +7970,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  hosted-git-info@8.0.0:
+  hosted-git-info@8.0.2:
     dependencies:
       lru-cache: 10.4.3
 
@@ -8462,7 +8481,7 @@ snapshots:
 
   normalize-package-data@7.0.0:
     dependencies:
-      hosted-git-info: 8.0.0
+      hosted-git-info: 8.0.2
       semver: 7.6.3
       validate-npm-package-license: 3.0.4
 
@@ -9843,8 +9862,9 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  wikiparser-node@1.12.3:
+  wikiparser-node@1.14.0:
     dependencies:
+      '@bhsd/common': 0.4.6
       chalk: 4.1.2
 
   with@7.0.2:
