@@ -42,11 +42,11 @@ const mutationObserver: MutationObserver = new MutationObserver((records: Mutati
 const main = (): void => {
 	document.title = addSpaceToString(document.title);
 	// Watch for added nodes
-	mutationObserver.observe(document.body, {
+	mutationObserver.observe(document.querySelector('.mw-parser-output') as HTMLElement, {
 		subtree: true,
 		childList: true,
 	});
-	run(document.body);
+	run(document.querySelector('.mw-parser-output') as HTMLElement);
 };
 
 $(main);
