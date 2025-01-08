@@ -1,4 +1,4 @@
-/**
+/**!
  * @name Wikiplus-highlight Wikiplus编辑器的CodeMirror语法高亮扩展
  * @author Bhsd <https://github.com/bhsd-harry>
  * @license GPL-3.0
