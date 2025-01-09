@@ -16,6 +16,11 @@ const getI18nMessages = () => {
 			en: '.',
 			zh: '。',
 		}),
+		'Other anonymous contributors': localize({
+			en: 'other $1 anonymous contributor(s)',
+			'zh-hans': '其他$1位匿名贡献者',
+			'zh-hant': '其他$1位匿名貢獻者',
+		}),
 	};
 };
 
