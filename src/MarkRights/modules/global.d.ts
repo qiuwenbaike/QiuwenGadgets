@@ -1,5 +1,5 @@
-type QueryUserGroups = typeof import('./query').queryUserGroups;
-type QueryGlobalUserGroups = typeof import('./query').queryGlobalUserGroups;
+type QueryUserGroups = typeof import('./util/query').queryUserGroups;
+type QueryGlobalUserGroups = typeof import('./util/query').queryGlobalUserGroups;
 
 declare module 'ext.gadget.MarkRights' {
 	export const queryUserGroups: QueryUserGroups;
