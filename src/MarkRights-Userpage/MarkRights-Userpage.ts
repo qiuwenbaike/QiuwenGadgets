@@ -7,6 +7,10 @@ import {getPermissions} from './modules/core';
 		return;
 	}
 
+	if (mw.util.isIPv4Address(wgRelevantUserName) || mw.util.isIPv6Address(wgRelevantUserName)) {
+		return;
+	}
+
 	const relevantUserPageName: string = new mw.Title(wgRelevantUserName, OPTIONS.userNameSpaceNumber).toText();
 	const pageName: string = new mw.Title(wgPageName).toText();
 	if (pageName !== relevantUserPageName) {
