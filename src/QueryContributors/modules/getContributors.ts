@@ -1,3 +1,4 @@
+import {getMessage} from './i18n';
 import {queryContributors} from './queryContributors';
 import {uniqueArray} from 'ext.gadget.Util';
 
@@ -10,17 +11,23 @@ const getContributors = async (titles: string) => {
 
 		try {
 			if (data['query']?.pages) {
-				for (const page of data['query'].pages) {
-					const {contributors} = page as {
-						contributors: {userid: number; name: string}[];
-					};
-
-					if (!contributors || !contributors.length || !contributors[0]?.name) {
-						continue;
+				for (const page of data['query'].pages as {
+					anoncontributors: number;
+					contributors: {userid: number; name: string}[];
+				}[]) {
+					if (page?.contributors) {
+						for (const contributor of page.contributors) {
+							if (contributor?.name) {
+								pclist[pclist.length] = contributor.name;
+							}
+						}
 					}
 
-					for (const {name} of contributors) {
-						pclist[pclist.length] = name;
+					if (page?.anoncontributors) {
+						pclist[pclist.length] = getMessage('Other anonymous contributors').replace(
+							'$1',
+							`${page.anoncontributors}`
+						);
 					}
 				}
 			} else {
