@@ -7,9 +7,11 @@ import {getMessage} from '../i18n';
 const markLinks = ({
 	response,
 	userLinks,
+	bkip,
 }: {
 	response: QueryLocalAndGlobalBlocksAndLocksResponse;
 	userLinks: Record<string, JQuery[]>;
+	bkip?: string;
 }): void => {
 	// Local blocks
 	if (response['query']?.blocks) {
@@ -37,7 +39,7 @@ const markLinks = ({
 				.replace('$4', inHours(Date.now() - parseTS(block.timestamp)));
 			tip = isPartialBlcok ? tip.replace('$5', getMessage('partial')) : tip.replace('$5', '');
 
-			const $links: JQuery[] | undefined = userLinks[block.user];
+			const $links: JQuery[] | undefined = userLinks[bkip ?? block.user];
 			if (!$links) {
 				continue;
 			}
@@ -71,7 +73,7 @@ const markLinks = ({
 				.replace('$4', inHours(Date.now() - parseTS(block.timestamp)));
 			tip = tip.replace('$5', '');
 
-			const $links: JQuery[] | undefined = userLinks[block.target];
+			const $links: JQuery[] | undefined = userLinks[bkip ?? block.target];
 			if (!$links) {
 				continue;
 			}
@@ -96,7 +98,7 @@ const markLinks = ({
 
 		const tip: string = getMessage('Locked');
 
-		const $links: JQuery[] | undefined = userLinks[user];
+		const $links: JQuery[] | undefined = userLinks[bkip ?? user];
 		if (!$links) {
 			return;
 		}
