@@ -16,13 +16,13 @@ const queryUserGroups = async (ususers: string | string[]) => {
 	return response;
 };
 
-const queryGlobalUserGroups = async (user: string) => {
+const queryGlobalUserGroups = async (guiuser: string) => {
 	const params = {
 		action: 'query',
 		format: 'json',
 		formatversion: '2',
 		meta: 'globaluserinfo',
-		guiuser: user,
+		guiuser,
 		guiprop: 'groups',
 		smaxage: 600,
 		maxage: 600,

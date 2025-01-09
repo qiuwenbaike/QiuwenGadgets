@@ -1,6 +1,5 @@
-const generateUserLinks = ($content: JQuery): {users: string[]; $userLinks: JQuery<HTMLAnchorElement>[]} => {
-	const users: string[] = [];
-	const $userLinks: JQuery<HTMLAnchorElement>[] = [];
+const generateUserLinks = ($content: JQuery): Record<string, JQuery<HTMLAnchorElement>[]> => {
+	const userLinks: Record<string, JQuery<HTMLAnchorElement>[]> = generateUserLinks($content);
 	const $elements = $content.find<HTMLAnchorElement>('a.mw-userlink:not(.mw-anonuserlink)');
 
 	for (const element of $elements) {
@@ -12,8 +11,6 @@ const generateUserLinks = ($content: JQuery): {users: string[]; $userLinks: JQue
 			continue;
 		}
 
-		$userLinks[$userLinks.length] = $element;
-
 		const {textContent} = element;
 		const user: string | undefined = textContent?.toString();
 
@@ -21,10 +18,16 @@ const generateUserLinks = ($content: JQuery): {users: string[]; $userLinks: JQue
 			continue;
 		}
 
-		users[users.length] = user;
+		if (mw.util.isIPv4Address(user) || mw.util.isIPv6Address(user)) {
+			continue;
+		}
+
+		userLinks[user] ??= [];
+
+		userLinks[user][userLinks[user].length] = $element; // Replace `[].push()` to avoid polyfilling core-js
 	}
 
-	return {users, $userLinks};
+	return userLinks;
 };
 
 export {generateUserLinks};

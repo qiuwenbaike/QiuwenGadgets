@@ -1,14 +1,29 @@
-import {queryGlobalUserGroups, queryUserGroups} from './query';
+import {queryGlobalUserGroups, queryUserGroups} from './util/query';
 import {appendUserRightsMark} from './util/appendUserRightsMark';
 import {generateUserLinks} from './util/generateUserLinks';
 
 const markUserRights = ($content: JQuery): void => {
-	const {users, $userLinks} = generateUserLinks($content);
+	const userLinks = generateUserLinks($content);
+
+	// Convert users into array
+	const users: string[] = Object.keys(userLinks);
+	if (!users.length) {
+		return;
+	}
+
+	const $userLinks = Object.values(userLinks).reduce((previousValue, currentValue) => {
+		return [...previousValue, ...currentValue];
+	});
+	if (!$userLinks.length) {
+		return;
+	}
 
 	const promises: (() => Promise<void>)[] = [];
 
 	for (let i = 0; i < users.length; i++) {
-		const ususers = users.splice(0, 25);
+		const ususers = users.splice(0, 25).filter((element) => {
+			return !(mw.util.isIPv4Address(element) || mw.util.isIPv6Address(element));
+		});
 		if (!ususers.length) {
 			continue;
 		}
