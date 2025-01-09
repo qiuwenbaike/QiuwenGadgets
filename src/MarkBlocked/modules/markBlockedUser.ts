@@ -2,6 +2,7 @@ import type {QueryLocalAndGlobalBlocksAndLocksResponse} from './types';
 import {generateUserLinks} from './util/generateUserLinks';
 import {markLinks} from './util/markLinks';
 import {queryGlobalUserInfo} from './util/queryGlobalUserInfo';
+import {queryIPBlocks} from './util/queryIPBlocks';
 import {queryUserBlocks} from './util/queryUserBlocks';
 
 const markBlockedUser = ($content: JQuery): void => {
@@ -21,6 +22,10 @@ const markBlockedUser = ($content: JQuery): void => {
 	// since they use Array#splice to create bulk queries,
 	// and items will be removed from the array "users".
 	for (const guiuser of users) {
+		if (mw.util.isIPv4Address(guiuser) || mw.util.isIPv6Address(guiuser)) {
+			continue;
+		}
+
 		promises[promises.length] = async (): Promise<void> => {
 			try {
 				const response = (await queryGlobalUserInfo(guiuser)) as QueryLocalAndGlobalBlocksAndLocksResponse;
@@ -46,6 +51,25 @@ const markBlockedUser = ($content: JQuery): void => {
 				console.error('[MarkBlocked] Ajax error:', error);
 			}
 		};
+
+		for (let bkip of bkusers) {
+			if (!mw.util.isIPv4Address(bkip) && !mw.util.isIPv6Address(bkip)) {
+				continue;
+			}
+
+			if (mw.util.isIPv6Address(bkip)) {
+				bkip = bkip.toUpperCase();
+			}
+
+			promises[promises.length] = async (): Promise<void> => {
+				try {
+					const response = (await queryIPBlocks(bkip)) as QueryLocalAndGlobalBlocksAndLocksResponse;
+					markLinks({response, userLinks, bkip});
+				} catch (error: unknown) {
+					console.error('[MarkBlocked] Ajax error:', error);
+				}
+			};
+		}
 	}
 
 	void (async () => {
