@@ -17,7 +17,7 @@ span[data-mw-comment-start] {
 .discussiontools-ui-replyWidget-margin-left(@i) when (@i > 0) {
 	.discussiontools-ui-replyWidget-margin-left((@i - 1));
 
-	body .mw-parser-output dl:nth-child(@{i}) & {
+	body .mw-parser-output > dl:nth-child(@{i}) & {
 		margin-left: (1em - 0.5 * @i);
 	}
 }
