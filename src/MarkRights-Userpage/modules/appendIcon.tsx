@@ -8,14 +8,14 @@ const elementWrap = (spanClass: UserRights, innerElement: ReactElement) => {
 
 	if (skin === 'citizen') {
 		return (
-			<section className={[...classNames, 'page-info__item', 'citizen-footer__pageinfo-item']}>
+			<section className={[...classNames, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
 				{innerElement}
 			</section>
 		);
 	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
-		return <li className={classNames}>{innerElement}</li>;
+		return <li className={[classNames, 'noprint']}>{innerElement}</li>;
 	}
-	return <div className={classNames}>{innerElement}</div>;
+	return <div className={[classNames, 'noprint']}>{innerElement}</div>;
 };
 
 const indicator = ({

@@ -7,19 +7,19 @@ const elementWrap = (id: string, innerElement: ReactElement) => {
 
 	if (skin === 'citizen') {
 		return (
-			<section id={id} className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item']}>
+			<section id={id} className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
 				{innerElement}
 			</section>
 		);
 	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
 		return (
-			<li id={id} className={footerNotice}>
+			<li id={id} className={[footerNotice, 'noprint']}>
 				{innerElement}
 			</li>
 		);
 	}
 	return (
-		<div id={id} className={footerNotice}>
+		<div id={id} className={[footerNotice, 'noprint']}>
 			{innerElement}
 		</div>
 	);
