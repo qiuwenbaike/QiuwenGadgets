@@ -11,15 +11,15 @@ function Wrapper(props: {timeSpan: TimeSpan; innerElement: React.ReactElement}) 
 
 	if (skin === 'citizen') {
 		return (
-			<section className={[...className, 'page-info__item', 'citizen-footer__pageinfo-item']}>
+			<section className={[...className, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
 				{innerElement}
 			</section>
 		);
 	} else if (['gongbi', 'vector', 'vector-2022'].includes(skin) || document.querySelector('ul#footer-info')) {
-		return <li className={className}>{innerElement}</li>;
+		return <li className={[className, 'noprint']}>{innerElement}</li>;
 	}
 
-	return <div className={className}>{innerElement}</div>;
+	return <div className={[className, 'noprint']}>{innerElement}</div>;
 }
 
 function Tag(props: {timeSpan: TimeSpan; indicator: boolean}) {

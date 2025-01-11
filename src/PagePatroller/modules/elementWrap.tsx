@@ -8,13 +8,13 @@ const elementWrap = () => {
 		return (
 			<section
 				id={OPTIONS.elementId}
-				className={[OPTIONS.elementId, 'page-info__item', 'citizen-footer__pageinfo-item']}
+				className={[OPTIONS.elementId, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
 			/>
 		);
 	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
-		return <li id={OPTIONS.elementId} />;
+		return <li id={OPTIONS.elementId} className={'noprint'} />;
 	}
-	return <div id={OPTIONS.elementId} />;
+	return <div id={OPTIONS.elementId} className={'noprint'} />;
 };
 
 const notBeenPatrolledYet = () => (
