@@ -1,5 +1,5 @@
 const generateUserLinks = ($content: JQuery): Record<string, JQuery<HTMLAnchorElement>[]> => {
-	const userLinks: Record<string, JQuery<HTMLAnchorElement>[]> = generateUserLinks($content);
+	const userLinks: Record<string, JQuery<HTMLAnchorElement>[]> = {};
 	const $elements = $content.find<HTMLAnchorElement>('a.mw-userlink:not(.mw-anonuserlink)');
 
 	for (const element of $elements) {
