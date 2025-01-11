@@ -316,7 +316,7 @@ const catALot = (): void => {
 				title: 'temp',
 			};
 			for (const variant of VARIANTS) {
-				const result2 = Object.getOwnPropertyDescriptor(CAL.variantCache2[category], variant)?.value;
+				const result2 = CAL.variantCache2[category]?.[variant];
 				if (result2) {
 					results[results.length] = result2;
 					continue;
@@ -330,9 +330,7 @@ const catALot = (): void => {
 					const result = $(text).eq(0).text().trim();
 					results[results.length] = result;
 					if (CAL.variantCache2[category]) {
-						Object.defineProperty(CAL.variantCache2[category], variant, {
-							value: result,
-						});
+						CAL.variantCache2[category][variant] = result;
 					}
 				} catch {}
 			}
@@ -552,7 +550,7 @@ const catALot = (): void => {
 			const {pages} = result['query'];
 
 			const [page] = pages;
-			originText = page.revisions[0].slots.main.content;
+			originText = page?.revisions?.[0].slots.main.content;
 			({starttimestamp} = page);
 			[{timestamp}] = page.revisions;
 
@@ -661,11 +659,11 @@ const catALot = (): void => {
 			CAL.$selectedLabels = CAL.$labels.filter(`.${CLASS_NAME_LABEL_SELECTED}`);
 			CAL.$selectedLabels.each((_index, label): void => {
 				const $label: JQuery = $(label);
-				const $labelLink: JQuery = $label.find('a[title]');
+				const $labelLink: JQuery = $label.find('a:not(.CategoryTreeToggle)[title]');
 				const title: string =
 					$labelLink.attr('title')?.trim() ||
 					CAL.getTitleFromLink($labelLink.attr('href')) ||
-					CAL.getTitleFromLink($label.find('a').attr('href'));
+					CAL.getTitleFromLink($label.find('a:not(.CategoryTreeToggle)').attr('href'));
 				markedLabels[markedLabels.length] = [title, $label];
 			});
 			return markedLabels;
