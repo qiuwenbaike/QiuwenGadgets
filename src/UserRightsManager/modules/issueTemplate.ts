@@ -1,5 +1,5 @@
 import * as OPTIONS from '../options.json';
-import {ApiResponse} from 'types-mediawiki-renovate/mw/Api';
+import {ApiResponse} from 'types-mediawiki/mw/Api';
 import {UserRights} from '~/MarkRights/modules/types';
 import {api} from './api';
 import {getPermissionNames} from './getPermissionNames';

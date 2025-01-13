@@ -1,4 +1,4 @@
-import 'types-mediawiki-renovate';
+import 'types-mediawiki';
 import type * as Monaco from 'monaco-editor';
 import type {CodeMirror6} from '@bhsd/codemirror-mediawiki';
 
