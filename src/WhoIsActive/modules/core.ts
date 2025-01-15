@@ -53,8 +53,8 @@ const whoIsActive = async ($content: JQuery<HTMLElement>): Promise<void> => {
 		return;
 	}
 
+	// Replace Set with uniqueArray, avoiding core-js polyfilling
 	for (const username of uniqueArray(usernames)) {
-		// Replace `new Set()` to avoid polyfilling core-js
 		if (SYSTEM_SCRIPT_LIST.includes(username)) {
 			continue;
 		}

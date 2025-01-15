@@ -10,7 +10,7 @@ const generateUserNamespaceTitles = (): string[] => {
 			continue;
 		}
 
-		userNamespaceTitles[userNamespaceTitles.length] = `${mw.util.escapeRegExp(namespace.replace(/_/g, ' '))}:`; // Replace `[].push()` to avoid polyfilling core-js
+		userNamespaceTitles[userNamespaceTitles.length] = `${mw.util.escapeRegExp(namespace.replace(/_/g, ' '))}:`; // Replace Array#push to avoid core-js polyfilling
 	}
 
 	return userNamespaceTitles;

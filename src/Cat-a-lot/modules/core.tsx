@@ -335,7 +335,7 @@ const catALot = (): void => {
 				} catch {}
 			}
 			// De-duplicate
-			CAL.variantCache[category] = uniqueArray(results); // Replace `[...new Set()]` to avoid polyfilling core-js
+			CAL.variantCache[category] = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
 			return results;
 		}
 

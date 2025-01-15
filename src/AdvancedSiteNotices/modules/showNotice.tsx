@@ -76,7 +76,7 @@ const showNotices = ($mountPoint: JQuery, index: number, remoteNotices?: RemoteN
 			decodeURIComponent(($notice.data('asn-style') as string).replace(/\+/g, '%20'))
 		);
 		style.disabled = true;
-		noticeStyles[noticeStyles.length] = style; // Replace `[].push()` to avoid polyfilling core-js
+		noticeStyles[noticeStyles.length] = style; // Replace Array#push to avoid core-js polyfilling
 		$notice.data('asn-style', null);
 	}
 

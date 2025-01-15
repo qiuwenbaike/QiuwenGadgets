@@ -91,7 +91,7 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 	const scriptRegex: RegExp = new RegExp(`${wgScript}\\?title=(File:[^#&]+)`);
 
 	for (const element of fileLinkElements) {
-		// Replace `new Set()` to avoid polyfilling core-js
+		// Replace Set with uniqueArray, avoiding core-js polyfilling
 		const {href, classList} = element;
 
 		if (!href || href.includes('redlink=1')) {
@@ -201,7 +201,7 @@ const getAllImages = async (titles?: string | string[]): Promise<string[]> => {
 		'success'
 	);
 
-	return uniqueArray(fileNames); // Replace `[...new Set()]` to avoid polyfilling core-js
+	return uniqueArray(fileNames); // Replace Set with uniqueArray, avoiding core-js polyfilling
 };
 
 export {getAllImages};

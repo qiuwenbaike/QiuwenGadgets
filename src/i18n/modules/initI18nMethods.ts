@@ -15,8 +15,8 @@ const initI18nMethods = (): typeof i18nMethods => {
 			}
 		}
 
+		// Replace Set with uniqueArray, avoiding core-js polyfilling
 		for (const key of uniqueArray([locale, ...fallbackList, ...defaultFallbackList])) {
-			// Replace `new Set()` to avoid polyfilling core-js
 			if (isValidKey(candidates, key)) {
 				return candidates[key];
 			}
