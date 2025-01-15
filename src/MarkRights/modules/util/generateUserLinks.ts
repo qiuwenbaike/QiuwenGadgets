@@ -24,7 +24,7 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery<HTMLAnchorEl
 
 		userLinks[user] ??= [];
 
-		userLinks[user][userLinks[user].length] = $element; // Replace `[].push()` to avoid polyfilling core-js
+		userLinks[user][userLinks[user].length] = $element; // Replace Array#push to avoid core-js polyfilling
 	}
 
 	return userLinks;

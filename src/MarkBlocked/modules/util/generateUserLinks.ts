@@ -81,7 +81,7 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 
 		(userLinks[user] as (typeof userLinks)[keyof typeof userLinks])[
 			(userLinks[user] as (typeof userLinks)[keyof typeof userLinks]).length
-		] = $element; // Replace `[].push()` to avoid polyfilling core-js
+		] = $element; // Replace Array#push to avoid core-js polyfilling
 	}
 
 	return userLinks;

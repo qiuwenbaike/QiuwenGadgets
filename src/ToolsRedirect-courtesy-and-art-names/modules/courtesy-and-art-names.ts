@@ -103,11 +103,11 @@ const checkRedirect = (): void => {
 
 				surname ||= findSurname(pageName);
 
-				titles[titles.length] = surname + name; // Replace `[].push()` to avoid polyfilling core-js
+				titles[titles.length] = surname + name; // Replace Array#push to avoid core-js polyfilling
 			}
 		}
 
-		return uniqueArray(titles); // Replace `[...new Set()]` to avoid polyfilling core-js
+		return uniqueArray(titles); // Replace Set with uniqueArray, avoiding core-js polyfilling
 	});
 };
 

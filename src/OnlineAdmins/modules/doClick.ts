@@ -76,7 +76,7 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		const recentchanges = await queryRecentChanges(rcstart, rcend);
 
 		for (const {user} of recentchanges['query'].recentchanges as {user: string}[]) {
-			usersRC[usersRC.length] = user; // Replace `[].push()` to avoid polyfilling core-js
+			usersRC[usersRC.length] = user; // Replace Array#push to avoid core-js polyfilling
 		}
 
 		const logevents = await queryLogEvents(rcstart, rcend);
@@ -86,7 +86,7 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		}
 
 		// 用户名列表合并、去重、分割
-		usersAll = uniqueArray([...usersRC, ...usersLE]); // Replace `[...new Set()]` to avoid polyfilling core-js
+		usersAll = uniqueArray([...usersRC, ...usersLE]); // Replace Set with uniqueArray, avoiding core-js polyfilling
 
 		const promises: (() => Promise<void>)[] = [];
 

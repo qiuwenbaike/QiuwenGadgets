@@ -46,7 +46,7 @@ const submit = async (ids: string[], toHide: string, reason: string, otherReason
 	];
 
 	for (const [index, id] of uniqueArray(ids).entries()) {
-		// Replace `[...new Set()]` to avoid polyfilling core-js
+		// Replace Set with uniqueArray, avoiding core-js polyfilling
 		rrdArr[rrdArr.length] = `|id${index + 1} = ${id}`;
 	}
 	rrdArr[rrdArr.length] = '}}\n--~~'.concat('~~');

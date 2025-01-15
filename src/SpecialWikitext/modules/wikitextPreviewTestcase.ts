@@ -53,7 +53,7 @@ const wikitextPreviewTestcase = async (isPreview: boolean): Promise<void> => {
 			element,
 			lang: codeId?.toLowerCase() ?? '',
 			code: codeElement.textContent?.trim() ?? '',
-		}; // Replace `[].push()` to avoid polyfilling core-js
+		}; // Replace Array#push to avoid core-js polyfilling
 	}
 
 	// 整理页面中的Testcase预览元素，并放置“[载入中]”消息
