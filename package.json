@@ -1,6 +1,6 @@
 {
 	"name": "awesome-gadgets",
-	"version": "4.8.6",
+	"version": "4.8.7",
 	"description": "Storage, management, compilation, and automatic deployment of MediaWiki gadgets.",
 	"private": true,
 	"type": "module",
@@ -48,7 +48,7 @@
 	],
 	"dependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.20.1",
-		"@bhsd/common": "^0.5.0",
+		"@bhsd/common": "^0.6.1",
 		"@types/toastify-js": "^1.12.3",
 		"chinese-days": "^1.4.0",
 		"clipboard": "^2.0.11",
