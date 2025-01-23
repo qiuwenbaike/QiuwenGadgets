@@ -14,6 +14,7 @@ type InitMwApi = import('./initMwApi').InitMwApi;
 type IsValidKey = import('./isValidKey').IsValidKey;
 type ClassMwUri = import('./mwUri').ClassMwUri;
 type OouiConfirmWithStyle = import('./oouiConfirmWithStyle').OouiConfirmWithStyle;
+type QueryGlobalUserGroups = import('./queryGlobalUserGroups').QueryGlobalUserGroups;
 type QueryUserGroups = import('./queryUserGroups').QueryUserGroups;
 type ScrollTop = import('./scrollTop').ScrollTop;
 type SetWpSummaryContent = import('./wpSummaryContent').SetWpSummaryContent;
@@ -37,6 +38,7 @@ declare module 'ext.gadget.Util' {
 	export const isValidKey: IsValidKey;
 	export const MwUri: ClassMwUri;
 	export const oouiConfirmWithStyle: OouiConfirmWithStyle;
+	export const queryGlobalUserGroups: QueryGlobalUserGroups;
 	export const queryUserGroups: QueryUserGroups;
 	export const scrollTop: ScrollTop;
 	export const setWpSummaryContent: SetWpSummaryContent;
