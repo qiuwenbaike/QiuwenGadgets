@@ -1,6 +1,6 @@
 import {checkDependencies} from 'ext.gadget.Util';
 
-(async function WikiplusHighlight() {
+(function WikiplusHighlight() {
 	const {wgAction, wgIsArticle} = mw.config.get();
 	if (wgAction !== 'view' || !wgIsArticle) {
 		return;
@@ -10,14 +10,18 @@ import {checkDependencies} from 'ext.gadget.Util';
 		return;
 	}
 
-	await checkDependencies('Wikiplus');
+	const loader = async (): Promise<void> => {
+		await checkDependencies('Wikiplus');
 
-	const {'visualeditor-enable': isVeEnable} = mw.user.options.get() as Record<string, unknown>;
+		const {'visualeditor-enable': isVeEnable} = mw.user.options.get() as Record<string, unknown>;
 
-	/* see <https://github.com/Wikiplus/Wikiplus/issues/65> */
-	if (isVeEnable) {
-		await mw.loader.using('ext.visualEditor.core');
-	}
+		/* see <https://github.com/Wikiplus/Wikiplus/issues/65> */
+		if (isVeEnable) {
+			await mw.loader.using('ext.visualEditor.core');
+		}
 
-	await import('./modules/highlight');
+		await import('./modules/main');
+	};
+
+	void loader();
 })();
