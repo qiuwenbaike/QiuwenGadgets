@@ -14,14 +14,6 @@ span[data-mw-comment-start] {
 }
 
 /* 修复DiscussionTools溢出的问题，让该界面成为浮窗 */
-.discussiontools-ui-replyWidget-margin-left(@i) when (@i > 0) {
-	.discussiontools-ui-replyWidget-margin-left((@i - 1));
-
-	body .mw-parser-output > dl:nth-child(@{i}) & {
-		margin-left: (1em - 0.5 * @i);
-	}
-}
-
 .ext-discussiontools-ui-replyWidget {
 	body & {
 		border: 1px solid @const-color-gray;
@@ -40,8 +32,6 @@ span[data-mw-comment-start] {
 		}
 	}
 
-	.discussiontools-ui-replyWidget-margin-left(20);
-
 	.ext-discussiontools-ui-newTopic & {
 		position: relative;
 		border: 0;
@@ -50,4 +40,32 @@ span[data-mw-comment-start] {
 		inset: unset;
 		margin: 0;
 	}
+}
+
+.discussiontools-ui-replyWidget-margin-left-dd-dl(@i) when (@i > 0) {
+	dd dl {
+		.ext-discussiontools-ui-replyWidget {
+			margin-left: (-0.5em * @i);
+		}
+
+		.discussiontools-ui-replyWidget-margin-left-dd-dl((@i - 1));
+	}
+}
+
+.discussiontools-ui-replyWidget-margin-left-ul-li(@i) when (@i > 0) {
+	ul li {
+		.ext-discussiontools-ui-replyWidget {
+			margin-left: (-0.5em * @i);
+		}
+
+		.discussiontools-ui-replyWidget-margin-left-ul-li((@i - 1));
+	}
+}
+
+body .mw-parser-output > dl {
+	.discussiontools-ui-replyWidget-margin-left-dd-dl(10);
+}
+
+body .mw-parser-output > ul {
+	.discussiontools-ui-replyWidget-margin-left-ul-li(10);
 }
