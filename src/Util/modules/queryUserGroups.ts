@@ -8,8 +8,9 @@ async function queryUserGroups(users: string[]) {
 
 	const CACHE_KEY_PREFIX = 'ext.gadget.Util_queryUserGroups-';
 
-	// Query from cache
 	const cachedQueryUsers: {groups: string[]; name: string}[] = [];
+
+	// Query from cache
 	for (const user of users) {
 		// Check if user group info is cached in LocalStroage
 		// If cached, get them from LocalStroage
