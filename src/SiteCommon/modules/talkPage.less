@@ -42,30 +42,18 @@ span[data-mw-comment-start] {
 	}
 }
 
-.discussiontools-ui-replyWidget-margin-left-dd-dl(@i) when (@i > 0) {
-	dd dl {
-		.ext-discussiontools-ui-replyWidget {
-			margin-left: (-0.5em * @i);
-		}
+.discussiontools-ui-replyWidget-margin-left(@i) when (@i > 0) {
+	.ext-discussiontools-ui-replyWidget {
+		margin-left: (-10em + @i);
+	}
 
-		.discussiontools-ui-replyWidget-margin-left-dd-dl((@i - 1));
+	:is(dl, ul) {
+		.discussiontools-ui-replyWidget-margin-left((@i - 1));
 	}
 }
 
-.discussiontools-ui-replyWidget-margin-left-ul-li(@i) when (@i > 0) {
-	ul li {
-		.ext-discussiontools-ui-replyWidget {
-			margin-left: (-0.5em * @i);
-		}
-
-		.discussiontools-ui-replyWidget-margin-left-ul-li((@i - 1));
+body .mw-parser-output {
+	& > :is(dl, ul) {
+		.discussiontools-ui-replyWidget-margin-left(15);
 	}
-}
-
-body .mw-parser-output > dl {
-	.discussiontools-ui-replyWidget-margin-left-dd-dl(10);
-}
-
-body .mw-parser-output > ul {
-	.discussiontools-ui-replyWidget-margin-left-ul-li(10);
 }
