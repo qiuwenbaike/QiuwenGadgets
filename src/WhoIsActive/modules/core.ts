@@ -1,113 +1,31 @@
-import * as OPTIONS from '../options.json';
-import {SYSTEM_SCRIPT_LIST} from './constant';
-import {api} from './api';
-import {getLastActiveMarker} from './getLastActiveMarker';
-import {uniqueArray} from 'ext.gadget.Util';
+import {appendLastActiveMarker} from './util/appendLastActiveMarker';
+import {appendLastActiveMarkerToUserPage} from './util/appendLastActiveMarkerToUserPage';
+import {getUserNamesAndElements} from './util/getUserNamesAndElements';
 
-const baseParams: ApiQueryUserContribsParams = {
-	action: 'query',
-	format: 'json',
-	list: 'usercontribs',
-	uclimit: 1,
-	smaxage: 600,
-	maxage: 600,
-};
-type Usercontribs = {
-	usercontribs: Array<{
-		timestamp: string;
-	}>;
-};
-
-const whoIsActive = async ($content: JQuery<HTMLElement>): Promise<void> => {
-	const usernames: string[] = [];
-	const $elements: JQuery<HTMLAnchorElement>[] = [];
-
-	const {wgFormattedNamespaces} = mw.config.get();
-
-	const {2: localizedUserNamespace} = wgFormattedNamespaces;
-	for (const element of $content.find<HTMLAnchorElement>(
-		[
-			'a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"])',
-			`a[title^="${localizedUserNamespace}:"]:not(.mw-changeslist-date):not([href*="undo"])`,
-		].join(',')
-	)) {
-		const $element: JQuery<HTMLAnchorElement> = $(element);
-
-		const userRegex: RegExp = new RegExp(`((User)|(${localizedUserNamespace})):(.*?)(?=&|$)`);
-		const usernameMatchArray: RegExpMatchArray | null = decodeURI($element.attr('href') ?? '').match(userRegex);
-		if (!usernameMatchArray) {
-			continue;
-		}
-
-		let [username] = usernameMatchArray;
-		username = username.replace(new RegExp(`^((User)|(${localizedUserNamespace})):`, 'i'), '');
-		const index: number = username.indexOf('/');
-		if (index === -1) {
-			$element.data('username', username);
-			usernames[usernames.length] = username;
-			$elements[$elements.length] = $element;
-		}
-	}
+const whoIsActive = ($content: JQuery<HTMLElement>): void => {
+	const {usernames, $elements} = getUserNamesAndElements($content);
 
 	if (!usernames.length || !$elements.length) {
 		return;
 	}
 
-	// Replace Set with uniqueArray, avoiding core-js polyfilling
-	for (const username of uniqueArray(usernames)) {
-		if (SYSTEM_SCRIPT_LIST.includes(username)) {
-			continue;
-		}
-
-		const params: ApiQueryUserContribsParams = {
-			...baseParams,
-			ucuser: username,
-		};
-
-		const result = await api.get(params);
-
-		const {usercontribs} = result['query'] as Usercontribs;
-		if (!usercontribs.length) {
-			return;
-		}
-
-		const {timestamp} = usercontribs[0]!;
-
-		for (const $element of $elements) {
-			if ($element.data('username') === username) {
-				$(getLastActiveMarker(timestamp, true)).insertAfter($element);
-			}
-		}
-	}
+	void appendLastActiveMarker({usernames, $elements});
 };
 
-const whoIsActiveUserPage = async (): Promise<void> => {
+const whoIsActiveUserPage = (): void => {
 	const {wgAction, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
 
-	if (wgRelevantUserName && wgNamespaceNumber === 2 && wgAction === 'view') {
-		const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
-		const pageName: string = new mw.Title(wgPageName).toText();
-		if (relevantUserPageName !== pageName) {
-			return;
-		}
-
-		const params: ApiQueryUserContribsParams = {
-			...baseParams,
-			ucuser: wgRelevantUserName,
-		};
-
-		const result = await api.get(params);
-
-		const {usercontribs} = result['query'] as Usercontribs;
-		if (!usercontribs.length) {
-			return;
-		}
-
-		const {timestamp} = usercontribs[0]!;
-		for (const element of document.querySelectorAll<HTMLElement>(OPTIONS.mountPointSelector)) {
-			element.prepend(getLastActiveMarker(timestamp, false));
-		}
+	if (!wgRelevantUserName || wgNamespaceNumber !== 2 || wgAction !== 'view') {
+		return;
 	}
+
+	const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
+	const pageName: string = new mw.Title(wgPageName).toText();
+	if (relevantUserPageName !== pageName) {
+		return;
+	}
+
+	void appendLastActiveMarkerToUserPage(wgRelevantUserName);
 };
 
 export {whoIsActive, whoIsActiveUserPage};
