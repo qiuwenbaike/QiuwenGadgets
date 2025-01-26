@@ -13,7 +13,7 @@ const appendLastActiveMarker = async ({usernames, $elements}: {usernames: string
 		const timestamp = (await getTimestamp(username)) ?? '0';
 
 		if (!timestamp) {
-			con;
+			continue;
 		}
 
 		for (const $element of $elements) {
