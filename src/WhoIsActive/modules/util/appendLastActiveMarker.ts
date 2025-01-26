@@ -1,6 +1,6 @@
 import {SYSTEM_SCRIPT_LIST} from '../constant';
 import {getLastActiveMarker} from './getLastActiveMarker';
-import {getUserContribsTimestamp} from './getUserContribsTimestamp';
+import {getTimestamp} from './getTimestamp';
 import {uniqueArray} from 'ext.gadget.Util';
 
 const appendLastActiveMarker = async ({usernames, $elements}: {usernames: string[]; $elements: JQuery[]}) => {
@@ -10,10 +10,10 @@ const appendLastActiveMarker = async ({usernames, $elements}: {usernames: string
 			continue;
 		}
 
-		const timestamp = await getUserContribsTimestamp(username);
+		const timestamp = (await getTimestamp(username)) ?? '0';
 
 		if (!timestamp) {
-			continue;
+			con;
 		}
 
 		for (const $element of $elements) {

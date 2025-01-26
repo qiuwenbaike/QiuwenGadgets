@@ -4,4 +4,10 @@ type Usercontribs = {
 	}>;
 };
 
-export type {Usercontribs};
+type Logevents = {
+	logevents: Array<{
+		timestamp: string;
+	}>;
+};
+
+export type {Usercontribs, Logevents};

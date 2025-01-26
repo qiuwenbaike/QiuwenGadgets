@@ -1,14 +1,14 @@
 import * as OPTIONS from '../../options.json';
 import {SYSTEM_SCRIPT_LIST} from '../constant';
 import {getLastActiveMarker} from './getLastActiveMarker';
-import {getUserContribsTimestamp} from './getUserContribsTimestamp';
+import {getTimestamp} from './getTimestamp';
 
 const appendLastActiveMarkerToUserPage = async (username: string) => {
 	if (SYSTEM_SCRIPT_LIST.includes(username)) {
 		return;
 	}
 
-	const timestamp = await getUserContribsTimestamp(username);
+	const timestamp = (await getTimestamp(username)) ?? '0';
 
 	if (!timestamp) {
 		return;
