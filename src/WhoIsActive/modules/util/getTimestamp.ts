@@ -64,18 +64,28 @@ const getLogEventsTimestamp = async (leuser: string) => {
 	return timestamp;
 };
 
-const getTimestamp = async (username: string) => {
-	let timestamp: string;
+const getTimestamp = async (username: string): Promise<string | undefined> => {
+	let timestamp: string | undefined;
 
-	if (mw.storage.get(OPTIONS.storageKey + username)) {
-		timestamp = mw.storage.get(OPTIONS.storageKey + username) as string;
+	if (mw.storage.getObject(OPTIONS.storageKey + username)) {
+		timestamp = mw.storage.getObject(OPTIONS.storageKey + username) as string;
 	} else {
-		const ucTimestamp = (await getUserContribsTimestamp(username)) ?? '0';
-		const leTimestamp = (await getLogEventsTimestamp(username)) ?? '0';
-		timestamp = Number.parseInt(ucTimestamp, 10) > Number.parseInt(leTimestamp, 10) ? ucTimestamp : leTimestamp;
+		const ucTimestamp = await getUserContribsTimestamp(username);
+		const leTimestamp = await getLogEventsTimestamp(username);
 
-		// Cache for 10 minutes
-		mw.storage.set(OPTIONS.storageKey + username, timestamp, 10 * 60);
+		if (ucTimestamp || leTimestamp) {
+			if (ucTimestamp && leTimestamp) {
+				timestamp =
+					Number.parseInt(ucTimestamp, 10) > Number.parseInt(leTimestamp, 10) ? ucTimestamp : leTimestamp;
+			} else {
+				timestamp = ucTimestamp || leTimestamp;
+			}
+
+			// Cache for 10 minutes
+			mw.storage.setObject(OPTIONS.storageKey + username, timestamp, 10 * 60);
+		} else {
+			timestamp = undefined;
+		}
 	}
 
 	return timestamp;
