@@ -41,7 +41,7 @@ const getLocalUserGroups = async (ususers: string[]): Promise<Record<string, str
 			userGroups[username] = mw.storage.getObject(OPTIONS.storageKeyLocal + username) as string[];
 		}
 
-		return !!userGroups?.[username]?.length;
+		return !userGroups?.[username]?.length;
 	});
 
 	try {
@@ -84,7 +84,7 @@ const getGlobalUserGroups = async (ususers: string[]): Promise<Record<string, st
 			userGroups[username] = mw.storage.getObject(OPTIONS.storageKeyGlobal + username) as string[];
 		}
 
-		return !!userGroups?.[username]?.length;
+		return !userGroups?.[username]?.length;
 	});
 
 	for (const user of ususers) {
