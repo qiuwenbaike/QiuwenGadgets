@@ -8,7 +8,7 @@ const appendLastActiveMarkerToUserPage = async (username: string) => {
 		return;
 	}
 
-	const timestamp = (await getTimestamp(username)) ?? '0';
+	const timestamp = await getTimestamp(username);
 
 	if (!timestamp) {
 		return;
