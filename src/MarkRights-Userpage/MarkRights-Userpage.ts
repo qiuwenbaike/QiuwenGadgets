@@ -1,5 +1,5 @@
 import * as OPTIONS from './options.json';
-import {getPermissions} from './modules/core';
+import {getPermissions} from './modules/getPermissions';
 
 (function markRightsUserPage(): void {
 	const {wgAction, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();

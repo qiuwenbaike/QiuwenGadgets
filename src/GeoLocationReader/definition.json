@@ -4,7 +4,14 @@
 	"section": "compatibility",
 	"excludeSites": ["loginwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.React", "ext.gadget.Util", "mediawiki.api", "mediawiki.Title"],
+	"dependencies": [
+		"ext.gadget.i18n",
+		"ext.gadget.MarkRights",
+		"ext.gadget.React",
+		"ext.gadget.Util",
+		"mediawiki.api",
+		"mediawiki.Title"
+	],
 	"namespaces": [2],
 	"peers": ["GeoLocationReader-pagestyles"],
 	"rights": ["edit"]
