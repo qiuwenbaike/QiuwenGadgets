@@ -1,5 +1,5 @@
 {
-	"mountPointSelector": "#footer-info,.page-info",
 	"elementId": "footer-info-patroller",
+	"mountPointSelector": "#footer-info,.page-info",
 	"version": "3.0"
 }

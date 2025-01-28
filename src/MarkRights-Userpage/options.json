@@ -1,5 +1,5 @@
 {
 	"mountPointSelector": "#footer-info,.page-info",
-	"version": "2.0",
-	"userNameSpaceNumber": 2
+	"userNameSpaceNumber": 2,
+	"version": "2.0"
 }
