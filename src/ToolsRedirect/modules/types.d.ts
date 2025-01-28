@@ -20,6 +20,7 @@ type MessageKey =
 	| 'toolsredirect-tabcreateall'
 	| 'toolsredirect-createloading'
 	| 'toolsredirect-createtext'
+	| 'toolsredirect-createtext-category'
 	| 'toolsredirect-createsummary'
 	| 'toolsredirect-errcycleredirect'
 	| 'toolsredirect-refresh';

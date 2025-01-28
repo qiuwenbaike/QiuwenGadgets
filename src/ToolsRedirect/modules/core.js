@@ -158,7 +158,7 @@ const ToolsRedirect = {
 		void self
 			.bulkEdit(
 				pagenames,
-				getMessage('createtext').replace('$1', wgPageName),
+				getMessage(IS_CATEGORY ? 'createtext' : 'createtext-category').replace('$1', wgPageName),
 				getMessage('createsummary').replace('$1', wgPageName)
 			)
 			.then(() => {
