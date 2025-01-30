@@ -11,8 +11,8 @@ async function queryGlobalUserGroups(guiuser: string) {
 	let groups: string[] = [];
 
 	// Query from cache
-	// Check if user group info is cached in LocalStroage
-	// If cached, get them from LocalStroage
+	// Check if user group info is cached in LocalStorage
+	// If cached, get them from LocalStorage
 	if (mw.storage.getObject(CACHE_KEY_PREFIX + guiuser)) {
 		groups = mw.storage.getObject(CACHE_KEY_PREFIX + guiuser) as string[];
 		// Remove '*' from groups

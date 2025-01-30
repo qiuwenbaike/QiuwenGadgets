@@ -12,8 +12,8 @@ async function queryUserGroups(users: string[]) {
 
 	// Query from cache
 	for (const user of users) {
-		// Check if user group info is cached in LocalStroage
-		// If cached, get them from LocalStroage
+		// Check if user group info is cached in LocalStorage
+		// If cached, get them from LocalStorage
 		if (mw.storage.getObject(CACHE_KEY_PREFIX + user)) {
 			let groups = mw.storage.getObject(CACHE_KEY_PREFIX + user) as string[];
 			// Remove '*' from groups
