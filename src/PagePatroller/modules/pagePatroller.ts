@@ -1,7 +1,7 @@
 import * as OPTIONS from '../options.json';
-import {elementWrap, errorMessage, loading, notBeenPatrolledYet, patrolled, patrolledBy} from './elementWrap';
-import {api} from './api';
-import {replaceChild} from './replaceChild';
+import {elementWrap, errorMessage, loading, notBeenPatrolledYet, patrolled, patrolledBy} from './util/elementWrap';
+import {getPatroller} from './util/getPatroller';
+import {replaceChild} from './util/replaceChild';
 
 const pagePatroller = async (): Promise<void> => {
 	const element = elementWrap();
@@ -20,39 +20,10 @@ const pagePatroller = async (): Promise<void> => {
 	const {wgPageName} = mw.config.get();
 
 	try {
-		const params: ApiQueryRevisionsParams & ApiQueryLogEventsParams = {
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			prop: 'revisions',
-			titles: wgPageName,
-			list: 'logevents',
-			letype: 'patrol',
-			letitle: wgPageName,
-			rvprop: 'timestamp',
-			rvlimit: 1,
-			rvdir: 'newer',
-			smaxage: 600,
-			maxage: 600,
-		};
-		const {query} = await api.get(params);
+		const log = await getPatroller(wgPageName);
+		const {action, user, timestamp} = log;
 
-		if (query?.logevents && query.logevents.length) {
-			const [log]: [
-				{
-					user: string;
-					timestamp: string;
-					action: string;
-				},
-			] = query.logevents as [
-				{
-					user: string;
-					timestamp: string;
-					action: string;
-				},
-			];
-			const {action, user} = log;
-			const {timestamp} = log;
+		if (action && user && timestamp) {
 			const date: Date = new Date(timestamp);
 
 			if (action === 'patrol') {
