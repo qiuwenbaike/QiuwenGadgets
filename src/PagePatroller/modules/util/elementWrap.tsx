@@ -1,6 +1,6 @@
-import * as OPTIONS from '../options.json';
+import * as OPTIONS from '../../options.json';
 import React from 'ext.gadget.React';
-import {getMessage} from './i18n';
+import {getMessage} from '../i18n';
 
 const elementWrap = () => {
 	const {skin} = mw.config.get();

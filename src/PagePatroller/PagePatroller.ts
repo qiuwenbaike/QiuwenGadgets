@@ -1,4 +1,4 @@
-import {pagePatroller} from './modules/core';
+import {pagePatroller} from './modules/pagePatroller';
 
 const {wgNamespaceNumber, wgArticleId, wgIsMainPage} = mw.config.get();
 
