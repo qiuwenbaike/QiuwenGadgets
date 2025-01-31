@@ -3,7 +3,7 @@ import {Logevents, Usercontribs} from '../types';
 import {api} from './api';
 
 const getUserContribsTimestamp = async (ucuser: string) => {
-	let timestamp: string;
+	let timestamp: string | undefined;
 
 	try {
 		const params: ApiQueryUserContribsParams = {
@@ -19,13 +19,10 @@ const getUserContribsTimestamp = async (ucuser: string) => {
 		const result = await api.get(params);
 
 		const {usercontribs} = result['query'] as Usercontribs;
-		if (!usercontribs.length) {
-			return;
+		if (usercontribs.length) {
+			({timestamp} = usercontribs[0]!);
 		}
-
-		({timestamp} = usercontribs[0]!);
 	} catch (error: unknown) {
-		timestamp = '0';
 		console.error('[WhoIsActive] Ajax error:', error);
 	}
 
@@ -33,7 +30,7 @@ const getUserContribsTimestamp = async (ucuser: string) => {
 };
 
 const getLogEventsTimestamp = async (leuser: string) => {
-	let timestamp: string;
+	let timestamp: string | undefined;
 
 	try {
 		const params: ApiQueryLogEventsParams = {
@@ -51,13 +48,10 @@ const getLogEventsTimestamp = async (leuser: string) => {
 		const result = await api.get(params);
 
 		const {logevents} = result['query'] as Logevents;
-		if (!logevents.length) {
-			return;
+		if (logevents.length) {
+			({timestamp} = logevents[0]!);
 		}
-
-		({timestamp} = logevents[0]!);
 	} catch (error: unknown) {
-		timestamp = '0';
 		console.error('[WhoIsActive] Ajax error:', error);
 	}
 
@@ -80,12 +74,12 @@ const getTimestamp = async (username: string): Promise<string | undefined> => {
 			} else {
 				timestamp = ucTimestamp || leTimestamp;
 			}
-
-			// Cache for 10 minutes
-			mw.storage.setObject(OPTIONS.storageKey + username, timestamp, 10 * 60);
-		} else {
-			timestamp = undefined;
 		}
+	}
+
+	if (timestamp) {
+		// Cache for 10 minutes
+		mw.storage.setObject(OPTIONS.storageKey + username, timestamp, 10 * 60);
 	}
 
 	return timestamp;
