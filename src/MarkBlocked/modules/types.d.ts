@@ -18,6 +18,7 @@ type QueryLocalAndGlobalBlocksResponse = {
 		}>;
 	};
 };
+
 type QueryGlobalLocksResponse = {
 	query: {
 		globaluserinfo?: {
@@ -26,7 +27,6 @@ type QueryGlobalLocksResponse = {
 		};
 	};
 };
-type QueryLocalAndGlobalBlocksAndLocksResponse = QueryLocalAndGlobalBlocksResponse & QueryGlobalLocksResponse;
 
 type Bgprop = 'address' | 'by' | 'expiry' | 'id' | 'range' | 'reason' | 'target' | 'timestamp';
 
@@ -36,4 +36,4 @@ type ApiQueryGlobalBlocksParamsRedefined = Omit<ApiQueryGlobalBlocksParams, 'bgp
 };
 
 export default global;
-export type {ApiQueryGlobalBlocksParamsRedefined, Bgprop, QueryLocalAndGlobalBlocksAndLocksResponse};
+export type {ApiQueryGlobalBlocksParamsRedefined, Bgprop, QueryLocalAndGlobalBlocksResponse, QueryGlobalLocksResponse};
