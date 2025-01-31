@@ -19,14 +19,10 @@ const getUserContribsTimestamp = async (ucuser: string) => {
 		const result = await api.get(params);
 
 		const {usercontribs} = result['query'] as Usercontribs;
-		if (!usercontribs.length) {
-			timestamp = undefined;
-			return;
+		if (usercontribs.length) {
+			({timestamp} = usercontribs[0]!);
 		}
-
-		({timestamp} = usercontribs[0]!);
 	} catch (error: unknown) {
-		timestamp = undefined;
 		console.error('[WhoIsActive] Ajax error:', error);
 	}
 
@@ -52,14 +48,10 @@ const getLogEventsTimestamp = async (leuser: string) => {
 		const result = await api.get(params);
 
 		const {logevents} = result['query'] as Logevents;
-		if (!logevents.length) {
-			timestamp = undefined;
-			return;
+		if (logevents.length) {
+			({timestamp} = logevents[0]!);
 		}
-
-		({timestamp} = logevents[0]!);
 	} catch (error: unknown) {
-		timestamp = undefined;
 		console.error('[WhoIsActive] Ajax error:', error);
 	}
 
