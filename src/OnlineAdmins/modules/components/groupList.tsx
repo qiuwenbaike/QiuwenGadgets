@@ -19,6 +19,12 @@ interface GroupListProps {
 	userNames: string[];
 }
 
+interface OnlineAdminsListProps {
+	stewards: string[];
+	sysops: string[];
+	patrollers: string[];
+}
+
 const UserLink = ({userName}: UserLinkProps) => (
 	<li>
 		<a href={mw.util.getUrl(`User:${sanitize(userName)}`)} rel="noopener noreferrer" target="_blank">
@@ -49,10 +55,19 @@ const GroupList = ({groupName, userNames}: GroupListProps) => (
 	</div>
 );
 
-const groupListElement = (groupName: string, userNames: string[]) => (
-	<GroupList groupName={groupName} userNames={userNames} />
+const ListTitle = () => <p>{getMessage('OnlineWithin30Minutes')}</p>;
+
+const OnlineAdminsList = ({stewards, sysops, patrollers}: OnlineAdminsListProps) => (
+	<div>
+		<ListTitle />
+		{stewards.length && <GroupList groupName={getMessage('Stewards')} userNames={stewards} />}
+		{sysops.length && <GroupList groupName={getMessage('SysOps')} userNames={sysops} />}
+		{patrollers.length && <GroupList groupName={getMessage('Patrollers')} userNames={sysops} />}
+	</div>
 );
 
-const listTitle = () => <p>{getMessage('OnlineWithin30Minutes')}</p>;
+const getOnlineAdminsList = ({stewards, sysops, patrollers}: OnlineAdminsListProps) => (
+	<OnlineAdminsList stewards={stewards} sysops={sysops} patrollers={patrollers} />
+);
 
-export {groupListElement, listTitle};
+export {getOnlineAdminsList};

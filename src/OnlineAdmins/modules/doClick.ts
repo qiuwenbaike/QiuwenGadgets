@@ -1,6 +1,6 @@
-import {groupListElement, listTitle} from './components/groupList';
 import {getAdmins} from './util/getAdmins';
 import {getMessage} from './i18n';
+import {getOnlineAdminsList} from './components/groupList';
 
 const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 	event.preventDefault();
@@ -16,26 +16,12 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		const {stewards, sysops, patrollers} = await getAdmins();
 
 		if (stewards.length + sysops.length + patrollers.length) {
-			const elements: Element[] = [listTitle()];
-
-			if (stewards.length) {
-				elements[elements.length] = groupListElement(getMessage('Stewards'), stewards);
-			}
-
-			if (sysops.length) {
-				elements[elements.length] = groupListElement(getMessage('SysOps'), sysops);
-			}
-
-			if (patrollers.length) {
-				elements[elements.length] = groupListElement(getMessage('Patrollers'), patrollers);
-			}
-
-			void notify($('<div>').append(elements));
+			notify($('<div>').append(getOnlineAdminsList({stewards, sysops, patrollers})));
 		} else {
-			void notify(getMessage('NoOnline'), 'warn');
+			notify(getMessage('NoOnline'), 'warn');
 		}
 	} catch {
-		void notify(getMessage('Network error'), 'error');
+		notify(getMessage('Network error'), 'error');
 	}
 };
 
