@@ -31,16 +31,17 @@ const getLocation = async (wgRelevantUserName: string) => {
 
 			const data = await api.get(params);
 
-			const content: StoreGeoInfo & {
+			const content = (data['query']?.pages[0]?.revisions?.[0].slots.main.content as string) || '';
+			const response = JSON.parse(content) as StoreGeoInfo & {
 				country?: string;
-			} = (JSON.parse(data['query']?.pages[0]?.revisions?.[0].slots.main.content as string) as StoreGeoInfo & {
-				country?: string;
-			}) ?? {
-				countryOrArea: '',
-				region: '',
 			};
 
-			const {country, countryOrArea, region} = content;
+			if (!(response.country || response.countryOrArea) && !response.region) {
+				return;
+			}
+
+			const {country, countryOrArea, region} = response;
+
 			let location: StoreGeoInfo['countryOrArea'] = '';
 
 			if (country || countryOrArea) {
