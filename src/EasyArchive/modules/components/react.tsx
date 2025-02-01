@@ -8,18 +8,21 @@ interface FooterNoticeProps {
 	children?: ReactElement | ReactElement[];
 }
 
-const FooterNotice = ({id}: FooterNoticeProps) => (
+const FooterNotice = ({id, children}: FooterNoticeProps) => (
 	<>
 		{mw.config.get('skin') === 'citizen' ? (
-			<section
-				id={id}
-				className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
-			/>
+			<section id={id} className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
+				{children}
+			</section>
 		) : ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
 		  document.querySelector('ul#footer-info') ? (
-			<li id={id} className={[footerNotice, 'noprint']} />
+			<li id={id} className={[footerNotice, 'noprint']}>
+				{children}
+			</li>
 		) : (
-			<div id={id} className={[footerNotice, 'noprint']} />
+			<div id={id} className={[footerNotice, 'noprint']}>
+				{children}
+			</div>
 		)}
 	</>
 );
@@ -86,21 +89,24 @@ interface OnClickProps {
 	children?: ReactElement | ReactElement[];
 }
 
-const OnClick = ({textContent, className, onClick}: OnClickProps) => (
+const OnClick = ({textContent, className, onClick, children}: OnClickProps) => (
 	<a
 		className={['gadget-easy_archive__link', `gadget-easy_archive__link-${className}`]}
 		onClick={onClick}
 		textContent={textContent}
-	></a>
+	>
+		{children}
+	</a>
 );
 
 interface SectionIDProps {
-	id?: string;
 	className?: string;
 	children?: ReactElement | ReactElement[];
 }
 
-const SectionID = ({className}: SectionIDProps) => <span className={[className, sectionIdSpan]} />;
+const SectionID = ({className, children}: SectionIDProps) => (
+	<span className={[className, sectionIdSpan]}>{children}</span>
+);
 
 const Pipe = () => <span className="mw-editsection-divider" textContent={'|'} />;
 
