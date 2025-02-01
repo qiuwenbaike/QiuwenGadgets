@@ -1,7 +1,7 @@
 import React, {ReactElement} from 'ext.gadget.React';
 import {footerNotice, sectionIdSpan} from './EasyArchive.module.less';
 import {getMessage} from '../i18n';
-import {sanitize} from './sanitize';
+import {sanitize} from '../util/sanitize';
 
 interface FooterNoticeProps {
 	id: string;
@@ -115,6 +115,8 @@ const EditConflictNotice = ({onClick}: EditConflictNoticeProps) => (
 	</span>
 );
 
+const spanWrap = (textContent: string) => <span textContent={textContent} />;
+
 export {
 	FooterNotice,
 	Enabled,
@@ -126,4 +128,5 @@ export {
 	Pipe,
 	SectionID,
 	EditConflictNotice,
+	spanWrap,
 };

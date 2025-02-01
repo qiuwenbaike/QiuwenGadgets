@@ -1,7 +1,7 @@
 import * as OPTIONS from '../options.json';
-import {EditConflictNotice, Enabled} from './util/react';
+import {EditConflictNotice, Enabled} from './components/react';
 import React, {ReactElement} from 'ext.gadget.React';
-import {ArchiveAndDeleteSectionLink} from './util/sectionLink';
+import {ArchiveAndDeleteSectionLink} from './components/sectionLink';
 import {getSections} from './util/getSection';
 import {refresh} from './util/refreshPage';
 import {toastify} from 'ext.gadget.Toastify';
@@ -53,15 +53,15 @@ const addLinks = async ({
 
 		if (headlines.includes(section.anchor)) {
 			headingIndices[headingIndices.length] = {
-				index: section.index,
-				id: section.anchor,
+				indexNo: section.index,
+				anchor: section.anchor,
 			};
 		}
 	}
 
-	for (const {index, id} of headingIndices) {
+	for (const {indexNo, anchor} of headingIndices) {
 		// eslint-disable-next-line unicorn/prefer-query-selector
-		const headline = document.getElementById(id);
+		const headline = document.getElementById(anchor);
 		if (!headline) {
 			continue;
 		}
@@ -81,8 +81,8 @@ const addLinks = async ({
 				sectionIdSpans={sectionIdSpans}
 				messageChannel={messageChannel}
 				refreshChannel={refreshChannel}
-				index={index}
-				id={id}
+				indexNo={indexNo}
+				anchor={anchor}
 				toastifyInstance={toastifyInstance}
 				arcLoc={arcLoc}
 				secArc={secArc}

@@ -1,4 +1,4 @@
-import {ArcLocNotAllowed, InBlackList, NoArcLoc, NotAllowed} from './modules/util/react';
+import {ArcLocNotAllowed, InBlackList, NoArcLoc, NotAllowed} from './modules/components/react';
 import {addLinks, appendFooterNotice} from './modules/addLinks';
 import {getSettings, ifArcLocNotAllowed, isInBlacklist, isNotAllowed, isNotSupported} from './modules/util/getSettings';
 import React from 'ext.gadget.React';
