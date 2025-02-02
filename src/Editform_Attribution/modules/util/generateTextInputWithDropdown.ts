@@ -2,21 +2,29 @@ import {LICENSES} from '../constant';
 import {getMessage} from '../i18n';
 
 const generateTextInputWithDropdown = () => {
-	const textInput = new OO.ui.TextInputWidget({
-		placeholder: getMessage('Source'),
-	});
+	const getTextInput = () => {
+		const textInput = new OO.ui.TextInputWidget({
+			placeholder: getMessage('Source'),
+		});
 
-	const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
-		$overlay: true,
-		menu: {
-			items: LICENSES.map(({data, label}): OO.ui.MenuOptionWidget => {
-				return new OO.ui.MenuOptionWidget({
-					data,
-					label,
-				});
-			}),
-		},
-	});
+		return textInput;
+	};
+
+	const getDropDown = () => {
+		const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
+			$overlay: true,
+			menu: {
+				items: LICENSES.map(({data, label}): OO.ui.MenuOptionWidget => {
+					return new OO.ui.MenuOptionWidget({
+						data,
+						label,
+					});
+				}),
+			},
+		});
+
+		return dropdown;
+	};
 
 	const getAddItemButton = (onClick?: (event?: Event) => void): OO.ui.ButtonInputWidget => {
 		const addItemButton = new OO.ui.ButtonInputWidget({
@@ -58,8 +66,8 @@ const generateTextInputWithDropdown = () => {
 
 	const initialFieldset = new OO.ui.FieldsetLayout();
 	initialFieldset.addItems([
-		new OO.ui.FieldLayout(textInput, {label: getMessage('Source'), align: 'inline'}),
-		new OO.ui.FieldLayout(dropdown, {label: getMessage('License'), align: 'inline'}),
+		new OO.ui.FieldLayout(getTextInput(), {label: getMessage('Source'), align: 'inline'}),
+		new OO.ui.FieldLayout(getDropDown(), {label: getMessage('License'), align: 'inline'}),
 		new OO.ui.FieldLayout(
 			getAddItemButton(() => {
 				addItemOnClick(parentFieldSet);
@@ -71,8 +79,8 @@ const generateTextInputWithDropdown = () => {
 	const getFollowUpFieldset = () => {
 		const followUpFieldset = new OO.ui.FieldsetLayout();
 		followUpFieldset.addItems([
-			new OO.ui.FieldLayout(textInput, {label: getMessage('Source'), align: 'inline'}),
-			new OO.ui.FieldLayout(dropdown, {label: getMessage('License'), align: 'inline'}),
+			new OO.ui.FieldLayout(getTextInput(), {label: getMessage('Source'), align: 'inline'}),
+			new OO.ui.FieldLayout(getDropDown(), {label: getMessage('License'), align: 'inline'}),
 			new OO.ui.FieldLayout(
 				getAddItemButton(() => {
 					addItemOnClick(parentFieldSet);
