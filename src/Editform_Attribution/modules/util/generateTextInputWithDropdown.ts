@@ -18,23 +18,25 @@ const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) =>
 	};
 
 	const getDropDown = (onChange?: (event?: Event) => void) => {
-		const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
-			$overlay: true,
-			menu: {
-				items: LICENSES.map(({data, label}): OO.ui.MenuOptionWidget => {
-					return new OO.ui.MenuOptionWidget({
-						data,
-						label,
-					});
-				}),
-			},
-		});
+		const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget();
+
+		const menuOptions: OO.ui.MenuOptionWidget[] = [];
+
+		for (const {data, label} of LICENSES) {
+			menuOptions[menuOptions.length] = new OO.ui.MenuOptionWidget({
+				data,
+				label,
+			});
+		}
+
+		dropdown.getMenu().addItems(menuOptions);
 
 		if (onChange) {
 			dropdown.on('change', () => {
 				onChange();
 			});
 		}
+
 		return dropdown;
 	};
 

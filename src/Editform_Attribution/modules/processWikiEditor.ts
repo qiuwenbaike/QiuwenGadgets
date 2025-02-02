@@ -28,15 +28,10 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		$target.after($layout);
 	}
 
-	mw.hook('ve.activationComplete').add(() => {
-		const {target} = window.ve.init;
-		const {saveDialog} = target;
-
-		saveDialog.on('save', () => {
-			const customSummary = String($body.find('input[name=wpAttributions]').val());
-			const $wpSummary = $editForm.find('input[name=wpSummary]');
-			appendTextToSummary({customSummary, $wpSummary});
-		});
+	$editForm.on('submit', () => {
+		const customSummary = String($body.find('input[name=wpAttributions]').val());
+		const $wpSummary = $editForm.find('input[name=wpSummary]');
+		appendTextToSummary({customSummary, $wpSummary});
 	});
 };
 
