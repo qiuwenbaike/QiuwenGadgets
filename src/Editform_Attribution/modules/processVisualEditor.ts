@@ -1,5 +1,4 @@
 import * as OPTIONS from '~/Editform_Attribution/options.json';
-import {appendTextToSummary} from './util/changeSummary';
 import {generateVisualEditorCheckboxLayout} from './util/generateCheckboxLayout';
 import {getMessage} from './i18n';
 
@@ -31,16 +30,11 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		$target.append($layout);
 	}
 
-	mw.hook('ve.activationComplete').add(() => {
-		const {target} = window.ve.init;
-		const {saveDialog} = target;
+	const {target} = window.ve.init;
+	const {saveDialog} = target;
 
-		saveDialog.on('save', () => {
-			const customSummary = String($body.find('input[name=wpAttribution]').val());
-			const $wpSummary = target.saveDialog.editSummaryInput.$input;
-			appendTextToSummary({customSummary, $wpSummary});
-			$layout.replaceWith(get$Layout());
-		});
+	saveDialog.on('save', () => {
+		$layout.replaceWith(get$Layout());
 	});
 };
 
