@@ -6,7 +6,7 @@ const modifyAttribution = ({
 	parentFieldSet: OO.ui.FieldsetLayout;
 }) => {
 	const generateInfoMartix = (fieldSetLayout: OO.ui.FieldsetLayout) => {
-		let fieldsInfo: string = '';
+		const attributions = [];
 
 		const getSelectedValue = (dropdown: OO.ui.DropdownWidget): string | undefined => {
 			const selectedItem: OO.ui.OptionWidget | null = dropdown
@@ -16,7 +16,7 @@ const modifyAttribution = ({
 		};
 
 		for (const attributionFieldset of fieldSetLayout.getItems() as OO.ui.FieldsetLayout[]) {
-			const fieldInfo = [];
+			const attribution = [];
 
 			for (const fieldLayout of attributionFieldset.getItems() as OO.ui.FieldLayout[]) {
 				const field = fieldLayout.getField();
@@ -29,33 +29,33 @@ const modifyAttribution = ({
 				}
 
 				if (value) {
-					fieldInfo[fieldInfo.length] = value;
+					attribution[attribution.length] = value;
 				}
 			}
 
-			fieldsInfo = fieldInfo.join('; ');
+			attributions[attributions.length] = attribution.join(', ');
 		}
 
-		console.log(fieldsInfo);
+		console.log(attributions);
 
-		return fieldsInfo;
+		return attributions.join('; ');
 	};
 
-	let attributions: string = '';
+	let wpAttribution: string = '';
 
-	const $wpAttributions: JQuery = $('<input>').attr({
-		id: 'wpAttributions',
-		name: 'wpAttributions',
+	const $wpAttribution: JQuery = $('<input>').attr({
+		id: 'wpAttribution',
+		name: 'wpAttribution',
 		type: 'hidden',
 		value: '',
 	});
-	const $originWpAttributions: JQuery = $body.find('input[name=wpAttributions]');
-	if (!$originWpAttributions.length) {
-		$body.prepend($wpAttributions);
+	const $originwpAttribution: JQuery = $body.find('input[name=wpAttribution]');
+	if (!$originwpAttribution.length) {
+		$body.prepend($wpAttribution);
 	}
 
-	attributions = generateInfoMartix(parentFieldSet);
-	$originWpAttributions.val(attributions);
+	wpAttribution = generateInfoMartix(parentFieldSet);
+	$originwpAttribution.val(wpAttribution);
 };
 
 export {modifyAttribution};

@@ -29,7 +29,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 	}
 
 	$editForm.on('submit', () => {
-		const customSummary = String($body.find('input[name=wpAttributions]').val());
+		const customSummary = String($body.find('input[name=wpAttribution]').val());
 		const $wpSummary = $editForm.find('input[name=wpSummary]');
 		appendTextToSummary({customSummary, $wpSummary});
 	});

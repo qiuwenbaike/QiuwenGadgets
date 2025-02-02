@@ -32,7 +32,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		const {saveDialog} = target;
 
 		saveDialog.on('save', () => {
-			const customSummary = String($body.find('input[name=wpAttributions]').val());
+			const customSummary = String($body.find('input[name=wpAttribution]').val());
 			const $wpSummary = target.saveDialog.editSummaryInput.$input;
 			appendTextToSummary({customSummary, $wpSummary});
 		});
