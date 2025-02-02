@@ -1,5 +1,5 @@
 import * as OPTIONS from '~/Editform_Attribution/options.json';
-import {LICENSES} from './constant';
+import {generateVisualEditorCheckboxLayout} from './util/generateCheckboxLayout';
 import {getMessage} from './i18n';
 
 const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
@@ -15,49 +15,16 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
-		selected: false,
+	const checkboxLayout = generateVisualEditorCheckboxLayout({
+		inputId: OPTIONS.inputId,
+		label: getMessage('ThirdPartyContentContained'),
+		changeTag: OPTIONS.changeTag,
 	});
 
-	checkbox.setInputId(OPTIONS.inputId);
-
-	const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
-		$overlay: true,
-		disabled: !checkbox.isSelected(),
-		menu: {
-			items: LICENSES.map(({data, label}): OO.ui.MenuOptionWidget => {
-				return new OO.ui.MenuOptionWidget({
-					data,
-					label,
-				});
-			}),
-		},
-	});
-
-	checkbox.on('change', (selected: boolean | string): void => {
-		const changeTag: string = OPTIONS.changeTag;
-		const generateChangeTags = (originChangeTags: string): string => {
-			return checkbox.isSelected()
-				? `${originChangeTags},${changeTag}`
-				: originChangeTags.replace(`,${changeTag}`, '');
-		};
-
-		let changeTags: string = '';
-		changeTags = generateChangeTags(window.ve.init.target.saveFields.wpChangeTags?.() ?? '');
-		window.ve.init.target.saveFields.wpChangeTags = (): string => {
-			return changeTags;
-		};
-
-		dropdown.setDisabled(!selected);
-	});
-
-	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
-		align: 'inline',
-		label: getMessage('AttributionAdded'),
-	});
+	const $layout = $('<div>').attr('id', 'efa-area').append(checkboxLayout.$element);
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$target.append(checkboxLayout.$element);
+		$target.append($layout);
 	}
 };
 

@@ -1,4 +1,5 @@
 import * as OPTIONS from '~/Editform_Attribution/options.json';
+import {generateWikiEditorCheckboxLayout} from './util/generateCheckboxLayout';
 import {getMessage} from './i18n';
 
 const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $editForm?: JQuery}): void => {
@@ -14,44 +15,17 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
-		selected: false,
+	const checkboxLayout = generateWikiEditorCheckboxLayout({
+		inputId: OPTIONS.inputId,
+		label: getMessage('ThirdPartyContentContained'),
+		$editForm: $editForm as JQuery,
+		changeTag: OPTIONS.changeTag,
 	});
 
-	checkbox.setInputId(OPTIONS.inputId);
-
-	checkbox.on('change', (): void => {
-		const changeTag: string = OPTIONS.changeTag;
-		const generateChangeTags = (originChangeTags: string): string => {
-			return checkbox.isSelected()
-				? `${originChangeTags},${changeTag}`
-				: originChangeTags.replace(`,${changeTag}`, '');
-		};
-
-		let changeTags: string = '';
-
-		const $wpChangeTags: JQuery = $('<input>').attr({
-			id: 'wpChangeTags',
-			name: 'wpChangeTags',
-			type: 'hidden',
-			value: '',
-		});
-		$body = ($editForm as JQuery).parents('body');
-		const $originWpChangeTags: JQuery = $body.find('input[name=wpChangeTags]');
-		if (!$originWpChangeTags.length) {
-			$body.prepend($wpChangeTags);
-		}
-		changeTags = generateChangeTags($originWpChangeTags.val()?.toString() ?? '');
-		$originWpChangeTags.val(changeTags);
-	});
-
-	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
-		align: 'inline',
-		label: getMessage('AttributionAdded'),
-	});
+	const $layout = $('<div>').attr('id', 'efa-area').append(checkboxLayout.$element);
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$target.append(checkboxLayout.$element);
+		$target.append($layout);
 	}
 };
 
