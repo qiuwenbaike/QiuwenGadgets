@@ -16,13 +16,17 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const $layout = generateWikiEditorCheckboxLayout({
-		inputId: OPTIONS.inputId,
-		label: getMessage('ThirdPartyContentContained'),
-		$body,
-		$editForm,
-		changeTag: OPTIONS.changeTag,
-	});
+	const get$Layout = () => {
+		return generateWikiEditorCheckboxLayout({
+			inputId: OPTIONS.inputId,
+			label: getMessage('ThirdPartyContentContained'),
+			$body,
+			$editForm,
+			// changeTag: OPTIONS.changeTag,
+		});
+	};
+
+	const $layout = get$Layout();
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.after($layout);
@@ -32,8 +36,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		const customSummary = String($body.find('input[name=wpAttribution]').val());
 		const $wpSummary = $editForm.find('input[name=wpSummary]');
 		appendTextToSummary({customSummary, $wpSummary});
-		$layout.remove();
-		mw.config.set(OPTIONS.configKey, false);
+		$layout.replaceWith(get$Layout());
 	});
 };
 

@@ -16,12 +16,16 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const $layout = generateVisualEditorCheckboxLayout({
-		inputId: OPTIONS.inputId,
-		label: getMessage('ThirdPartyContentContained'),
-		changeTag: OPTIONS.changeTag,
-		$body,
-	});
+	const get$Layout = () => {
+		return generateVisualEditorCheckboxLayout({
+			inputId: OPTIONS.inputId,
+			label: getMessage('ThirdPartyContentContained'),
+			// changeTag: OPTIONS.changeTag,
+			$body,
+		});
+	};
+
+	const $layout = get$Layout();
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.append($layout);
@@ -35,6 +39,7 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 			const customSummary = String($body.find('input[name=wpAttribution]').val());
 			const $wpSummary = target.saveDialog.editSummaryInput.$input;
 			appendTextToSummary({customSummary, $wpSummary});
+			$layout.replaceWith(get$Layout());
 		});
 	});
 };
