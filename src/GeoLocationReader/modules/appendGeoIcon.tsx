@@ -9,7 +9,9 @@ const appendGeoIcon = async (): Promise<void> => {
 	}
 
 	try {
-		const {countryOrAreaName, regionName} = await getLocation(wgRelevantUserName);
+		const response = await getLocation(wgRelevantUserName);
+		const countryOrAreaName = response?.countryOrAreaName ?? '';
+		const regionName = response?.regionName ?? '';
 
 		appendIcon({
 			icon: 'globe',

@@ -1,14 +1,7 @@
 import {section, sectionList, talkPageLink} from './OnlineAdmins.module.less';
 import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
-
-const sanitize = (string: string) =>
-	string
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/'/g, '&apos;')
-		.replace(/"/g, '&quot;');
+import {sanitize} from '../util/sanitize';
 
 interface UserLinkProps {
 	userName: string;

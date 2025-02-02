@@ -1,5 +1,5 @@
 import {appendElement} from './modules/appendElement';
-import {getContributors} from './modules/getContributors';
+import {getContributors} from './modules/util/getContributors';
 
 (async function queryContributos() {
 	const {wgAction, wgArticleId, wgCurRevisionId, wgPageName, wgRevisionId} = mw.config.get();

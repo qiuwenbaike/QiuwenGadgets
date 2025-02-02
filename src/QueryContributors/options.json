@@ -1,4 +1,5 @@
 {
+	"elementId": "gadget-query_contributors",
 	"mountPointSelector": "#footer-info,.page-info",
 	"version": "1.0"
 }

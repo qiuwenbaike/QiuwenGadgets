@@ -58,7 +58,6 @@ const RemoveSectionLink = ({
 }: RemoveSectionLinkProps) => (
 	<OnClick
 		className={'delete'}
-		textContent={getMessage('Delete')}
 		onClick={(event) => {
 			void removeOnClick(event, {
 				sectionIdSpans,
@@ -69,6 +68,7 @@ const RemoveSectionLink = ({
 				toastifyInstance,
 			});
 		}}
+		textContent={getMessage('Delete')}
 	/>
 );
 

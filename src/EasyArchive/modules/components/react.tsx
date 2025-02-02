@@ -1,31 +1,38 @@
+import * as OPTIONS from '../../options.json';
 import React, {ReactElement} from 'ext.gadget.React';
 import {footerNotice, sectionIdSpan} from './EasyArchive.module.less';
 import {getMessage} from '../i18n';
 import {sanitize} from '../util/sanitize';
 
 interface FooterNoticeProps {
-	id: string;
+	id?: string;
 	children?: ReactElement | ReactElement[];
 }
 
-const FooterNotice = ({id, children}: FooterNoticeProps) => (
-	<>
-		{mw.config.get('skin') === 'citizen' ? (
-			<section id={id} className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
-				{children}
-			</section>
-		) : ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
-		  document.querySelector('ul#footer-info') ? (
-			<li id={id} className={[footerNotice, 'noprint']}>
-				{children}
-			</li>
-		) : (
-			<div id={id} className={[footerNotice, 'noprint']}>
-				{children}
-			</div>
-		)}
-	</>
-);
+const FooterNotice = ({id, children = <></>}: FooterNoticeProps) => {
+	const {skin} = mw.config.get();
+
+	return (
+		<>
+			{skin === 'citizen' ? (
+				<section
+					id={id ?? OPTIONS.elementId}
+					className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
+				>
+					{children}
+				</section>
+			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
+				<li id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
+					{children}
+				</li>
+			) : (
+				<div id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
+					{children}
+				</div>
+			)}
+		</>
+	);
+};
 
 const InBlackList = () => (
 	<FooterNotice id="easy_archive_not_supported_notice">
@@ -86,27 +93,21 @@ interface OnClickProps {
 	textContent: string;
 	className: string;
 	onClick?: (event: Event) => void;
-	children?: ReactElement | ReactElement[];
 }
 
-const OnClick = ({textContent, className, onClick, children}: OnClickProps) => (
+const OnClick = ({textContent, className, onClick}: OnClickProps) => (
 	<a
 		className={['gadget-easy_archive__link', `gadget-easy_archive__link-${className}`]}
-		onClick={onClick}
+		onClick={onClick || (() => {})}
 		textContent={textContent}
-	>
-		{children}
-	</a>
+	/>
 );
 
 interface SectionIDProps {
-	className?: string;
 	children?: ReactElement | ReactElement[];
 }
 
-const SectionID = ({className, children}: SectionIDProps) => (
-	<span className={[className, sectionIdSpan]}>{children}</span>
-);
+const SectionID = ({children}: SectionIDProps) => <span className={sectionIdSpan}>{children}</span>;
 
 const Pipe = () => <span className="mw-editsection-divider" textContent={'|'} />;
 
@@ -121,8 +122,6 @@ const EditConflictNotice = ({onClick}: EditConflictNoticeProps) => (
 	</span>
 );
 
-const spanWrap = (textContent: string) => <span textContent={textContent} />;
-
 export {
 	FooterNotice,
 	Enabled,
@@ -134,5 +133,4 @@ export {
 	Pipe,
 	SectionID,
 	EditConflictNotice,
-	spanWrap,
 };
