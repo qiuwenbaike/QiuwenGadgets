@@ -18,10 +18,13 @@ const modifyAttribution = ({
 		for (const attributionFieldset of fieldSetLayout.getItems() as OO.ui.FieldsetLayout[]) {
 			const fieldInfo = [];
 
-			for (const field of attributionFieldset.getItems()) {
-				fieldInfo[fieldInfo.length] = String(
-					(field as OO.ui.TextInputWidget).getValue() ?? getSelectedValue(field as OO.ui.DropdownWidget)
-				);
+			for (const fieldLayout of attributionFieldset.getItems() as OO.ui.FieldLayout[]) {
+				const field = fieldLayout.getField();
+				if ((field as OO.ui.TextInputWidget)?.getValue()) {
+					fieldInfo[fieldInfo.length] = (field as OO.ui.TextInputWidget).getValue();
+				} else if ((field as OO.ui.DropdownWidget)?.getMenu()) {
+					fieldInfo[fieldInfo.length] = getSelectedValue(field as OO.ui.DropdownWidget);
+				}
 			}
 
 			fieldsInfo[fieldsInfo.length] = fieldInfo;
