@@ -20,14 +20,20 @@ const modifyAttribution = ({
 
 			for (const fieldLayout of attributionFieldset.getItems() as OO.ui.FieldLayout[]) {
 				const field = fieldLayout.getField();
-				if ((field as OO.ui.TextInputWidget)?.getValue()) {
-					fieldInfo[fieldInfo.length] = (field as OO.ui.TextInputWidget).getValue();
-				} else if ((field as OO.ui.DropdownWidget)?.getMenu()) {
-					fieldInfo[fieldInfo.length] = getSelectedValue(field as OO.ui.DropdownWidget);
+				let value: string | undefined;
+
+				if (field.supports('getValue')) {
+					value = (field as OO.ui.TextInputWidget).getValue();
+				} else if (field.supports('getMenu')) {
+					value = getSelectedValue(field as OO.ui.DropdownWidget);
+				}
+
+				if (value) {
+					fieldInfo[fieldInfo.length] = value;
 				}
 			}
 
-			fieldsInfo[fieldsInfo.length] = fieldInfo;
+			fieldsInfo[fieldsInfo.length] = fieldInfo.join(', ');
 		}
 
 		console.log(fieldsInfo);
