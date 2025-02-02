@@ -1,7 +1,19 @@
-import {pagePatroller} from './modules/pagePatroller';
+import {showPagePatroller} from './modules/showPagePatroller';
 
 const {wgNamespaceNumber, wgArticleId, wgIsMainPage} = mw.config.get();
 
-if (wgNamespaceNumber >= 0 && !wgIsMainPage && wgArticleId > 0) {
-	void pagePatroller();
-}
+(function () {
+	if (wgNamespaceNumber < 0) {
+		return;
+	}
+
+	if (wgIsMainPage) {
+		return;
+	}
+
+	if (!(wgArticleId > 0)) {
+		return;
+	}
+
+	void showPagePatroller();
+})();
