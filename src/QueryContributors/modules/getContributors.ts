@@ -1,51 +1,59 @@
-import {api} from './api';
+import {getMessage} from './i18n';
+import {queryContributors} from './queryContributors';
 import {uniqueArray} from 'ext.gadget.Util';
 
-const queryContributors = async (titles: string, pccontinue?: string) => {
-	const params: ApiQueryContributorsParams = {
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		prop: 'contributors',
-		pcexcludegroup: ['bot'],
-		pclimit: 5000,
-		titles,
-		smaxage: 600,
-		maxage: 600,
-	};
-
-	if (pccontinue) {
-		params.pccontinue = pccontinue;
-	}
-
-	const data = await api.get(params);
-
-	return data;
-};
-
-const getContributors = async (titles: string) => {
-	const pclist: string[] = [];
+const getContributors = async (title: string) => {
+	let pclist: string[] = [];
 	let pccontinue: string | undefined;
 
+	const CACHE_KEY_PREFIX = 'ext.gadget.QueryContributors_getContributors-';
+
+	if (mw.storage.getObject(CACHE_KEY_PREFIX + title)) {
+		pclist = mw.storage.getObject(CACHE_KEY_PREFIX + title) as string[];
+
+		return uniqueArray(pclist);
+	}
+
 	while (true) {
-		const data = await queryContributors(titles, pccontinue);
+		const data = await queryContributors(title, pccontinue);
 
-		for (const page of data['query'].pages) {
-			const {contributors} = page as {
-				contributors: {userid: number; name: string}[];
-			};
+		try {
+			if (data['query']?.pages) {
+				for (const page of data['query'].pages as {
+					anoncontributors: number;
+					contributors: {userid: number; name: string}[];
+				}[]) {
+					if (page?.contributors) {
+						for (const contributor of page.contributors) {
+							if (contributor?.name) {
+								pclist[pclist.length] = contributor.name;
+							}
+						}
+					}
 
-			for (const {name} of contributors) {
-				pclist[pclist.length] = name;
+					if (page?.anoncontributors) {
+						pclist[pclist.length] = getMessage('Other anonymous contributors').replace(
+							'$1',
+							`${page.anoncontributors}`
+						);
+					}
+				}
+			} else {
+				break;
 			}
-		}
 
-		if (data['continue'] && data['continue'].pccontinue) {
-			({pccontinue} = data['continue'] as {pccontinue: string});
-		} else {
+			if (data['continue']?.pccontinue) {
+				({pccontinue} = data['continue'] as {pccontinue: string});
+			} else {
+				break;
+			}
+		} catch {
 			break;
 		}
 	}
+
+	// Cache for 10 minutes
+	mw.storage.setObject(CACHE_KEY_PREFIX + title, pclist, 10 * 60);
 
 	return uniqueArray(pclist);
 };

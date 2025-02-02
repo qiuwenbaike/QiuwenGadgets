@@ -7,7 +7,7 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 		const $table: JQuery<HTMLTableElement> = $(table);
 
 		const $thead: JQuery<HTMLTableSectionElement> = $table.find('thead');
-		const $trTh = $table.find('tbody > tr > th').parent().eq(0) as JQuery<HTMLTableRowElement>;
+		const $trTh = $table.find('tbody > tr > th').parent<HTMLTableRowElement>().eq(0);
 		const $trTd = $table.find('tbody > tr > td').parent();
 
 		const $target: JQuery<HTMLTableSectionElement> | JQuery<HTMLTableRowElement> | null = $thead.length

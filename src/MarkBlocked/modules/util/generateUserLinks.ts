@@ -1,6 +1,6 @@
 import * as OPTIONS from '../../options.json';
+import {MwUri} from 'ext.gadget.Util';
 import {generateUserNamespaceTitles} from './generateUserNamespaceTitles';
-import {userlink} from '../MarkBlocked.module.less';
 
 // Get all aliases for user: & user_talk:
 const userNamespaceTitles: string[] = generateUserNamespaceTitles();
@@ -24,6 +24,7 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 		const $element: JQuery<HTMLAnchorElement> = $(element);
 		if (
 			$element.hasClass('mw-changeslist-date') ||
+			$element.hasClass('ext-discussiontools-init-timestamplink') ||
 			$element.parent('span').hasClass('mw-history-undo') ||
 			$element.parent('span').hasClass('mw-rollback-link')
 		) {
@@ -38,12 +39,14 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 			continue;
 		}
 		try {
-			if (new mw.Uri(href).host !== location.host) {
+			// Maybe absolute URL
+			if (new MwUri(href).host !== location.host) {
 				continue;
 			}
 		} catch {
 			try {
-				if (new mw.Uri(location.href + href).host !== location.host) {
+				// Maybe relative URL
+				if (new MwUri(location.href + href).host !== location.host) {
 					continue;
 				}
 			} catch {
@@ -74,16 +77,11 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 			user = user.toUpperCase();
 		}
 
-		// The following classes are used here:
-		// * see ../Markblocked.module.less
-		// * for more information
-		$element.addClass(userlink as string);
-
 		userLinks[user] ??= [];
 
 		(userLinks[user] as (typeof userLinks)[keyof typeof userLinks])[
 			(userLinks[user] as (typeof userLinks)[keyof typeof userLinks]).length
-		] = $element; // Replace `[].push()` to avoid polyfilling core-js
+		] = $element; // Replace Array#push to avoid core-js polyfilling
 	}
 
 	return userLinks;

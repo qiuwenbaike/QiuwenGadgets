@@ -1,38 +1,16 @@
-import {api} from './api';
 import {appendGeoIcon} from './appendGeoIcon';
-
-const queryUserGroups = async (ususers: string) => {
-	const params: ApiQueryUsersParams = {
-		ususers,
-		action: 'query',
-		format: 'json',
-		formatversion: '2',
-		list: 'users',
-		usprop: 'groups',
-		smaxage: 600,
-		maxage: 600,
-	};
-	const response = await api.get(params);
-
-	return response;
-};
+import {getLocalUserGroups} from 'ext.gadget.MarkRights';
 
 const addElement = async (): Promise<void> => {
 	const {wgRelevantUserName} = mw.config.get();
+
+	if (!wgRelevantUserName) {
+		return;
+	}
+
 	try {
-		const {
-			query: {
-				users: [{groups}],
-			},
-		}: {
-			query: {
-				users: [
-					{
-						groups: string[];
-					},
-				];
-			};
-		} = (await queryUserGroups(`${wgRelevantUserName}`)) as never;
+		const groupsMap = await getLocalUserGroups([wgRelevantUserName]);
+		const groups = groupsMap[wgRelevantUserName] ?? [];
 
 		if (groups.includes('bot') || groups.includes('qiuwen')) {
 			/* empty */

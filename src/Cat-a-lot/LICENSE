@@ -24,8 +24,8 @@
  */
 
 /**
- * SPDX-License-Identifier: GPL-2.0-or-later
- * _addText: '{{Gadget Header|title3=jQuery checkboxShiftClick|license3=GPL-2.0-or-later}}'
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|title3=jQuery checkboxShiftClick|license3=CC-BY-SA-4.0}}'
  *
  * jQuery checkboxShiftClick
  *
@@ -33,24 +33,13 @@
  * @base {@link https://commons.wikimedia.org/wiki/MediaWiki:Gadget-Cat-a-lot.js}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Cat-a-lot/modules/extendJQueryPrototype.ts}
  * @author Krinkle <krinklemail@gmail.com>
- * @license GPL-2.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-2.0}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
 
 /**
- * jQuery checkboxShiftClick
- * Copyright (C) Krinkle
+ * Hereby releasing jquery.checkboxShiftClick into CC BY-SA 3.0,
+ * CC BY 4.0, CC-0 and for all intends and purpose in the public
+ * domain, so as to not need this annotation.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @source {@link https://commons.wikimedia.org/w/index.php?oldid=365723751}
 */

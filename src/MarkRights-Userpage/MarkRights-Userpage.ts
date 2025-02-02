@@ -1,9 +1,13 @@
 import * as OPTIONS from './options.json';
-import {getPermissions} from './modules/core';
+import {getPermissions} from './modules/getPermissions';
 
 (function markRightsUserPage(): void {
 	const {wgAction, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
 	if (!wgRelevantUserName || !(wgNamespaceNumber === OPTIONS.userNameSpaceNumber) || !(wgAction === 'view')) {
+		return;
+	}
+
+	if (mw.util.isIPv4Address(wgRelevantUserName) || mw.util.isIPv6Address(wgRelevantUserName)) {
 		return;
 	}
 

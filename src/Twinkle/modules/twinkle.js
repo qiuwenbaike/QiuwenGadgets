@@ -306,6 +306,7 @@ import {api} from './api';
 		}
 		let outerNavClass;
 		let innerDivClass;
+		let ulClassName;
 		switch (skin) {
 			case 'vector':
 			case 'vector-2022':
@@ -322,14 +323,16 @@ import {api} from './api';
 					outerNavClass += ' vector-menu-tabs';
 				}
 				innerDivClass = 'vector-menu-content vector-dropdown-content';
+				ulClassName = 'vector-menu-content-list';
 				break;
 			case 'gongbi':
 				outerNavClass = 'mw-portlet';
 				innerDivClass = 'mw-portlet-body';
 				break;
 			case 'citizen':
-				outerNavClass = 'mw-portlet';
-				innerDivClass = 'mw-portlet-twinkle';
+				outerNavClass = 'citizen-menu mw-portlet';
+				innerDivClass = 'citizen-menu__content mw-portlet-twinkle';
+				ulClassName = 'citizen-menu__content-list';
 				break;
 			default:
 				navigation = 'column-one';
@@ -388,6 +391,9 @@ import {api} from './api';
 			}
 		} else {
 			// Basically just Gongbi
+			if (ulClassName) {
+				ul.className = ulClassName;
+			}
 			heading.appendChild(document.createTextNode(text));
 		}
 		outerNav.appendChild(heading);

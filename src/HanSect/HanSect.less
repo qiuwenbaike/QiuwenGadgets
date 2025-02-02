@@ -1,16 +1,17 @@
 @import (reference) './modules/textIndent.less';
 
-@selector: ~'.hansect';
-@not_selector: ~'.ext-discussiontools-replytool-enabled, .ext-discussiontools-newtopictool-enabled';
+@body_not_selector: ~'.ext-discussiontools-replytool-enabled, .ext-discussiontools-newtopictool-enabled';
+@hansect_selector: ~'.hansect';
 
-body.ns-subject:not(@{not_selector}) .ve-ui-surface-source .mw-parser-output > p,
-body.skin-citizen.ns-subject:not(@{not_selector}) .ve-ui-surface-source .mw-parser-output > section > p {
-	text-indent: 0;
+body.ns-subject:not(@{body_not_selector}) .ve-ui-surface-source .mw-parser-output > p,
+body.skin-citizen.ns-subject:not(@{body_not_selector}) .ve-ui-surface-source .mw-parser-output > section > p {
+	text-indent: unset !important;
+	line-height: unset !important;
 }
 
-body.ns-subject:not(@{not_selector}) .mw-parser-output,
-body.skin-citizen.ns-subject:not(@{not_selector}) .mw-parser-output > section,
-@{selector} {
+body.ns-subject:not(@{body_not_selector}) .mw-parser-output,
+body.skin-citizen.ns-subject:not(@{body_not_selector}) .mw-parser-output > section,
+@{hansect_selector} {
 	.p_textIndent_2em();
 	.ul_ol_marginLeft();
 }

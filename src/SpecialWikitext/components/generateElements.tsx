@@ -12,9 +12,9 @@ const Failed = () => (
 );
 
 const Loading = () => (
-	<div id={'specialwikitext-preview-loading'}>
-		<div className={['quotebox', previewLoadingInner]} id={'specialwikitext-preview-loading__inner'}>
-			<div className={previewLoadingContent} id={'specialwikitext-preview-loading__content'}>
+	<div id="specialwikitext-preview-loading">
+		<div className={['quotebox', previewLoadingInner]} id="specialwikitext-preview-loading__inner">
+			<div className={previewLoadingContent} id="specialwikitext-preview-loading__content">
 				<img src={ajaxLoader} decoding="async" width="32" height="32" />
 				<span>&nbsp;{getMessage('Loading')}</span>
 			</div>

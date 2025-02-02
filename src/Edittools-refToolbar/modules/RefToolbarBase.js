@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import actionEditAdd from '../images/Nuvola-action-edit-add.png';
-import appsDate from '../images/Nuvola-apps-date.png';
 import {citeFormTd} from '../Edittools-refToolbar.module.less';
 import {getMessage} from './util/getMessage';
-import systemSearch from '../images/System-search.png';
+import oojsUiAdd from '../images/add.svg';
+import oojsUiCalendar from '../images/calendar.svg';
+import oojsUiSearch from '../images/search.svg';
 
 const refToolbarBase = () => {
 	window.CiteTB ||= {
@@ -69,7 +69,7 @@ const refToolbarBase = () => {
 				}
 				const autodateFields = CiteTB.getOption('autodate fields');
 				if (autodateFields.includes(field)) {
-					im = $('<img>').attr('src', appsDate);
+					im = $('<img>').attr('src', `data:image/svg+xml,${encodeURIComponent(oojsUiCalendar)}`);
 					im.attr('alt', getMessage('cite-insert-date')).attr('title', getMessage('cite-insert-date'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
@@ -82,7 +82,7 @@ const refToolbarBase = () => {
 				}
 				if (fieldobj.autofillid) {
 					const autotype = fieldobj.autofillid;
-					im = $('<img>').attr('src', systemSearch);
+					im = $('<img>').attr('src', `data:image/svg+xml,${encodeURIComponent(oojsUiSearch)}`);
 					im.attr('alt', getMessage('cite-autofill-alt')).attr('title', getMessage('cite-autofill-alt'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
@@ -91,7 +91,7 @@ const refToolbarBase = () => {
 				}
 				if (fieldobj.increment_button) {
 					const incrtype = fieldobj.increment_group;
-					im = $('<img>').attr('src', actionEditAdd);
+					im = $('<img>').attr('src', `data:image/svg+xml,${encodeURIComponent(oojsUiAdd)}`);
 					im.attr('alt', getMessage('cite-increment-alt')).attr('title', getMessage('cite-increment-alt'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);

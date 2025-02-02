@@ -1,10 +1,10 @@
-/**
+.group(@group) {
+	/*!
  * SPDX-License-Identifier: CC-BY-SA-4.0
  *
  * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Group-user.css}
  * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
  */
-.group(@group) {
 	div,
 	p {
 		&.@{group}-show {
@@ -33,5 +33,11 @@
 
 	li.@{group}-show {
 		display: list-item !important;
+	}
+}
+
+.ve-activated-disabled(@important: '') {
+	.ve-activated & {
+		display: none ~'@{important}';
 	}
 }

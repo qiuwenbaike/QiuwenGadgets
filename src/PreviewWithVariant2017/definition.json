@@ -4,6 +4,13 @@
 	"section": "edit",
 	"excludeSites": ["loginwiki", "mncqiuwenbaike"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "mediawiki.jqueryMsg", "oojs-ui", "oojs-ui-core", "user.options"],
+	"dependencies": [
+		"ext.gadget.i18n",
+		"ext.gadget.Util",
+		"mediawiki.jqueryMsg",
+		"oojs-ui",
+		"oojs-ui-core",
+		"user.options"
+	],
 	"rights": ["edit"]
 }

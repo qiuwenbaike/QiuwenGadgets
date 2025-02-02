@@ -69,7 +69,7 @@ import {mwApi} from './api';
 			(self.wpTextbox1 as HTMLTextAreaElement).value = newVal;
 		};
 		const writeStorage = (val: string) => {
-			mw.storage.set(storageItemName, val, 6048e2); // 7 days
+			mw.storage.set(storageItemName, val, 60 * 60 * 24 * 7); // 7 days
 		};
 		dlgButtons['Yes, Remove'] = function () {
 			doRemove();

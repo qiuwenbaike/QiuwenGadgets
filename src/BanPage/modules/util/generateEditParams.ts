@@ -4,7 +4,7 @@ type EditParams = {
 	targetPage: string;
 	text: string;
 	summary: string;
-	wgPageName: MediaWikiConfigMap['wgPageName'];
+	wgPageName: string;
 };
 
 const {wgNamespaceNumber, wgPageName} = mw.config.get();

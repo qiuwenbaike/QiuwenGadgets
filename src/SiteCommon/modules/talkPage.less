@@ -14,33 +14,46 @@ span[data-mw-comment-start] {
 }
 
 /* 修复DiscussionTools溢出的问题，让该界面成为浮窗 */
-body .ext-discussiontools-ui-replyWidget {
-	font-size: 1rem !important;
-	border: 1px solid @const-color-gray;
-	border-radius: @border-radius--medium;
-	margin: 0 1em;
-	padding: 1em;
-	z-index: 1;
-	background-color: #fff;
-	position: absolute;
-	left: 0;
-	right: 0;
-	max-height: 320px;
-	max-width: 92.5%;
-	max-width: calc(100% - 2em);
-	overflow-y: auto;
+.ext-discussiontools-ui-replyWidget {
+	body & {
+		border: 1px solid @const-color-gray;
+		border-radius: @border-radius--medium;
+		margin: 0 1em;
+		padding: 1em;
+		z-index: 1;
+		background-color: #fff;
+		max-width: 92.5%;
+		max-width: calc(100% - 2em);
+		overflow-y: auto;
 
-	@media screen and (min-width: 800px) {
-		max-width: 800px;
-		margin: 0 auto;
+		@media screen and (min-width: 800px) {
+			max-width: 800px;
+			margin: 0 auto;
+		}
+	}
+
+	.ext-discussiontools-ui-newTopic & {
+		position: relative;
+		border: 0;
+		max-width: 100%;
+		padding: 0;
+		inset: unset;
+		margin: 0;
 	}
 }
 
-.ext-discussiontools-ui-newTopic .ext-discussiontools-ui-replyWidget {
-	position: relative;
-	border: 0;
-	max-width: 100%;
-	padding: 0;
-	inset: unset;
-	margin: 0;
+.discussiontools-ui-replyWidget-margin-left(@i) when (@i > 0) {
+	.ext-discussiontools-ui-replyWidget {
+		margin-left: (-10em + @i);
+	}
+
+	:is(dl, ul) {
+		.discussiontools-ui-replyWidget-margin-left((@i - 1));
+	}
+}
+
+body .mw-parser-output {
+	& > :is(dl, ul) {
+		.discussiontools-ui-replyWidget-margin-left(15);
+	}
 }

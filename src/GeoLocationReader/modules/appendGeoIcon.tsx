@@ -1,40 +1,15 @@
-import {type CountryOrAreaNameList, type RegionNameList, getCountryOrAreaName, getRegionName} from './util/getName';
-import type {StoreGeoInfo} from './types';
-import {api} from './api';
 import {appendIcon} from './util/appendIcon';
+import {getLocation} from './util/getLocation';
 import {getMessage} from './i18n';
 
 const appendGeoIcon = async (): Promise<void> => {
 	const {wgRelevantUserName} = mw.config.get();
-	const storePageTitle: string = `User:${wgRelevantUserName}/GeoIP.json`;
+	if (!wgRelevantUserName) {
+		return;
+	}
 
 	try {
-		const params: ApiQueryRevisionsParams = {
-			action: 'query',
-			format: 'json',
-			formatversion: '2',
-			titles: [storePageTitle],
-			prop: ['revisions'],
-			rvprop: ['content'],
-			rvslots: 'main',
-			smaxage: 600,
-			maxage: 600,
-		};
-
-		const data = await api.get(params);
-
-		const {
-			country,
-			countryOrArea,
-			region,
-		}: StoreGeoInfo & {
-			country?: string;
-		} = JSON.parse(data['query'].pages[0].revisions[0].slots.main.content as string);
-
-		const location: StoreGeoInfo['countryOrArea'] = country ?? countryOrArea ?? '';
-		const countryOrAreaName: string =
-			getCountryOrAreaName(location as keyof CountryOrAreaNameList) ?? getMessage('Unknown');
-		const regionName: string = location === 'CN' ? (getRegionName(region as keyof RegionNameList) ?? '') : '';
+		const {countryOrAreaName, regionName} = await getLocation(wgRelevantUserName);
 
 		appendIcon({
 			icon: 'globe',

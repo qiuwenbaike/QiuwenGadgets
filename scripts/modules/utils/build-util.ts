@@ -143,7 +143,7 @@ const generateTransformOptions = () => {
 				{
 					bugfixes: true, // FIXME: Remove when updating to Babel 8
 					corejs: {
-						version: PACKAGE.devDependencies['core-js'].match(/\d+(?:.\d+){0,2}/)?.[0] ?? '3.38',
+						version: PACKAGE.devDependencies['core-js'].match(/\d+(?:.\d+){0,2}/)?.[0] ?? '3.40',
 					},
 					exclude: [
 						'web.dom-collections.for-each',
@@ -151,6 +151,16 @@ const generateTransformOptions = () => {
 						'es.array.push',
 						'es.array.unshift',
 						'es.regexp.flags',
+						'esnext.iterator.constructor',
+						'esnext.iterator.every',
+						'esnext.iterator.find',
+						'esnext.iterator.filter',
+						'esnext.iterator.flat-map',
+						'esnext.iterator.for-each',
+						'esnext.iterator.map',
+						'esnext.iterator.reduce',
+						'esnext.iterator.some',
+						'esnext.iterator.to-array',
 					],
 					include: [] as string[],
 					modules: 'commonjs',

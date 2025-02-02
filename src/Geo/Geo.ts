@@ -17,7 +17,7 @@ const getGeoInfo = async (): Promise<GeoInfo> => {
 			city: response.city ?? '',
 		};
 
-		mw.storage.setObject(OPTIONS.storageKey, geoInfo, 60 * 60 * 1000);
+		mw.storage.setObject(OPTIONS.storageKey, geoInfo, 60 * 60 * 24); // 1 day
 
 		return geoInfo;
 	} catch {

@@ -83,10 +83,15 @@ const addLink = (link: string, permaLink: string): void => {
 		});
 
 		const isCitizen: boolean = skin === 'citizen';
-		if (isCitizen && !$(portletLink).find('.mw-ui-icon-wikimedia-shortlink').length) {
+		if (isCitizen && !$(portletLink).find('#mw-ui-icon-wikimedia-shortlink').length) {
 			$(portletLink)
 				.find('a')
-				.prepend(<span class="citizen-ui-icon mw-ui-icon-wikimedia-shortlink" />);
+				.prepend(
+					<span
+						id="mw-ui-icon-wikimedia-shortlink"
+						className={['citizen-ui-icon', 'mw-ui-icon-link', 'mw-ui-icon-wikimedia-link']}
+					/>
+				);
 		}
 	}
 

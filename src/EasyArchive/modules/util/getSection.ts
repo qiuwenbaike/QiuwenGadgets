@@ -1,4 +1,4 @@
-import {api} from '../api';
+import {api} from './api';
 
 const getSections = async (title: string) => {
 	const params: ApiParseParams = {
@@ -51,7 +51,7 @@ const getSectionContent = async ({title, section}: {title: string; section: stri
 
 	const response = await api.get(params);
 
-	return (response['query'].pages[0].revisions[0].slots.main.content as string) ?? null;
+	return (response['query'].pages[0]?.revisions?.[0].slots.main.content as string) ?? null;
 };
 
 export {getSections, getSectionContent};

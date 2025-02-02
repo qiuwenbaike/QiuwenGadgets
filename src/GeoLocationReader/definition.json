@@ -6,11 +6,11 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.i18n",
+		"ext.gadget.MarkRights",
 		"ext.gadget.React",
 		"ext.gadget.Util",
 		"mediawiki.api",
-		"mediawiki.Title",
-		"mediawiki.Uri"
+		"mediawiki.Title"
 	],
 	"namespaces": [2],
 	"peers": ["GeoLocationReader-pagestyles"],

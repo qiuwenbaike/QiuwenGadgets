@@ -26,8 +26,8 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 
 	for (const element of $body.find(
 		[
-			'.citizen-header label[title]',
-			'.citizen-header .mw-echo-notifications-badge',
+			'.citizen-header .citizen-dropdown-summary',
+			'.citizen-header .citizen-echo-notification-badge',
 			'.citizen-header__logo a',
 			'.page-actions>nav>ul>li a',
 			'.page-actions__button',
@@ -58,7 +58,7 @@ const tippyForCitizenHeader = ($body: JQuery<HTMLBodyElement>): void => {
 
 const tippyForExtension = async (): Promise<void> => {
 	const {skin} = mw.config.get();
-	if (['vector-2022', 'citizen'].includes(skin)) {
+	if (skin === 'vector-2022') {
 		return;
 	}
 

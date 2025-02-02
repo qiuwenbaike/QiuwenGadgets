@@ -4,6 +4,6 @@
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.Uri"],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util"],
 	"rights": ["edit"]
 }
