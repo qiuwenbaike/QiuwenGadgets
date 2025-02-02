@@ -8,11 +8,20 @@ const modifyAttribution = ({
 	const generateInfoMartix = (fieldSetLayout: OO.ui.FieldsetLayout) => {
 		const fieldsInfo = [];
 
+		const getSelectedValue = (dropdown: OO.ui.DropdownWidget): string | undefined => {
+			const selectedItem: OO.ui.OptionWidget | null = dropdown
+				.getMenu()
+				.findSelectedItem() as OO.ui.OptionWidget | null;
+			return selectedItem ? (selectedItem.getData() as string) : undefined;
+		};
+
 		for (const attributionFieldset of fieldSetLayout.getItems() as OO.ui.FieldsetLayout[]) {
 			const fieldInfo = [];
 
-			for (const field of attributionFieldset.getItems() as OO.ui.FieldsetLayout[]) {
-				fieldInfo[fieldInfo.length] = field.getData();
+			for (const field of attributionFieldset.getItems()) {
+				fieldInfo[fieldInfo.length] = String(
+					(field as OO.ui.TextInputWidget).getValue() ?? getSelectedValue(field as OO.ui.DropdownWidget)
+				);
 			}
 
 			fieldsInfo[fieldsInfo.length] = fieldInfo;
