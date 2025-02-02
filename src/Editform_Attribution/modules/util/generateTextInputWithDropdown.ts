@@ -1,6 +1,6 @@
 import {LICENSES} from '../constant';
+import {getAttribution} from './getAttribution';
 import {getMessage} from '../i18n';
-import {modifyAttribution} from './modifyAttributionSummary';
 
 const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) => {
 	const getTextInput = (onChange?: (event?: Event) => void) => {
@@ -18,7 +18,9 @@ const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) =>
 	};
 
 	const getDropDown = (onSelect?: (event?: Event) => void) => {
-		const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget();
+		const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
+			label: getMessage('License'),
+		});
 
 		const menuOptions: OO.ui.MenuOptionWidget[] = [];
 
@@ -73,7 +75,7 @@ const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) =>
 	});
 
 	const inputOnChange = () => {
-		modifyAttribution({$body, parentFieldSet});
+		getAttribution({$body, parentFieldSet});
 	};
 
 	const addItemOnClick = () => {
@@ -110,7 +112,7 @@ const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) =>
 	parentFieldSet.addItems([initialFieldset]);
 
 	parentFieldSet.on('change', () => {
-		modifyAttribution({$body, parentFieldSet});
+		getAttribution({$body, parentFieldSet});
 	});
 
 	return parentFieldSet;

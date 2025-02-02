@@ -1,4 +1,4 @@
-const modifyAttribution = ({
+const getAttribution = ({
 	$body,
 	parentFieldSet,
 }: {
@@ -16,24 +16,27 @@ const modifyAttribution = ({
 		};
 
 		for (const attributionFieldset of fieldSetLayout.getItems() as OO.ui.FieldsetLayout[]) {
-			const attribution = [];
+			const attribution: {source?: string; license?: string} = {};
 
 			for (const fieldLayout of attributionFieldset.getItems() as OO.ui.FieldLayout[]) {
 				const field = fieldLayout.getField();
-				let value: string | undefined;
 
 				if (field.supports('getValue')) {
-					value = (field as OO.ui.TextInputWidget).getValue();
+					const value = (field as OO.ui.TextInputWidget).getValue();
+					if (value) {
+						attribution.source = value;
+					}
 				} else if (field.supports('getMenu')) {
-					value = getSelectedValue(field as OO.ui.DropdownWidget);
-				}
-
-				if (value) {
-					attribution[attribution.length] = value;
+					const value = getSelectedValue(field as OO.ui.DropdownWidget);
+					if (value) {
+						attribution.license = value;
+					}
 				}
 			}
 
-			attributions[attributions.length] = attribution.join(', ');
+			if (attribution.source && attribution.license) {
+				attributions[attributions.length] = `${attribution.source}, ${attribution.license}`;
+			}
 		}
 
 		console.log(attributions);
@@ -58,4 +61,4 @@ const modifyAttribution = ({
 	$originwpAttribution.val(wpAttribution);
 };
 
-export {modifyAttribution};
+export {getAttribution};
