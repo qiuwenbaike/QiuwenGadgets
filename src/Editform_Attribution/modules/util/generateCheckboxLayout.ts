@@ -26,6 +26,10 @@ const generateVisualEditorCheckboxLayout = ({
 	}
 
 	const textInputWithDropdown = generateTextInputWithDropdown({$body});
+	if (!checkbox.isSelected()) {
+		textInputWithDropdown.$element.prop('disabled', true);
+		textInputWithDropdown.$element.css('display', 'none');
+	}
 
 	checkbox.on('change', (selected) => {
 		textInputWithDropdown.$element.prop('disabled', !selected);
@@ -80,6 +84,10 @@ const generateWikiEditorCheckboxLayout = ({
 	}
 
 	const textInputWithDropdown = generateTextInputWithDropdown({$body});
+	if (!checkbox.isSelected()) {
+		textInputWithDropdown.$element.prop('disabled', true);
+		textInputWithDropdown.$element.css('display', 'none');
+	}
 
 	checkbox.on('change', (selected) => {
 		textInputWithDropdown.$element.prop('disabled', !selected);
