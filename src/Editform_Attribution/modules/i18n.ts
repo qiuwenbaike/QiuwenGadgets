@@ -1,0 +1,47 @@
+import {localize} from 'ext.gadget.i18n';
+
+const getI18nMessages = () => {
+	return {
+		Add: localize({
+			en: 'Add',
+			zh: '增加',
+		}),
+		Delete: localize({
+			en: 'Delete',
+			zh: '移除',
+		}),
+		Source: localize({
+			en: 'Source',
+			'zh-hans': '内容来源',
+			'zh-hant': '內容來源',
+		}),
+		License: localize({
+			en: 'License',
+			'zh-hans': '许可证',
+			'zh-hant': '許可證',
+		}),
+		'Sources and Licenses': localize({
+			en: 'Sources and Licenses',
+			'zh-hans': '内容来源及许可证',
+			'zh-hant': '內容來源及許可證',
+		}),
+		ThirdPartyContentContained: localize({
+			en: 'This editor contains third-party content.',
+			'zh-hans': '此编辑含有第三方内容',
+			'zh-hant': '此編輯含有第三方內容',
+		}),
+		QiuwenContentContained: localize({
+			en: 'This editor contains content from other pages of Qiuwen Baike.',
+			'zh-hans': '此编辑含有求闻百科其他页面的内容',
+			'zh-hant': '此編輯含有求聞百科其他頁面的內容',
+		}),
+	};
+};
+
+const i18nMessages = getI18nMessages();
+
+const getMessage: GetMessages<typeof i18nMessages> = (key) => {
+	return i18nMessages[key] || key;
+};
+
+export {getMessage};

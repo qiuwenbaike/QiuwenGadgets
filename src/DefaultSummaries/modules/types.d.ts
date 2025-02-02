@@ -2,6 +2,7 @@ type Ve = {
 	readonly init: {
 		target: {
 			saveDialog: {
+				on(arg0: string, arg1: () => void): unknown;
 				$saveCheckboxes: JQuery<HTMLElement>;
 				$element: JQuery<HTMLElement>;
 				$saveOptions: JQuery;
