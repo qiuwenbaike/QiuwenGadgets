@@ -32,6 +32,8 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		const customSummary = String($body.find('input[name=wpAttribution]').val());
 		const $wpSummary = $editForm.find('input[name=wpSummary]');
 		appendTextToSummary({customSummary, $wpSummary});
+		$layout.remove();
+		mw.config.set(OPTIONS.configKey, false);
 	});
 };
 
