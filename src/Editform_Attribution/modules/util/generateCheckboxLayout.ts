@@ -1,4 +1,5 @@
 import {modifyVisualEditorChangeTag, modifyWikiEditorChangeTag} from './modifyChangeTag';
+import {generateTextInputWithDropdown} from './generateTextInputWithDropdown';
 
 const generateVisualEditorCheckboxLayout = ({
 	inputId,
@@ -8,7 +9,7 @@ const generateVisualEditorCheckboxLayout = ({
 	inputId?: string;
 	label: string;
 	changeTag?: string;
-}): OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> => {
+}) => {
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,
 	});
@@ -21,8 +22,10 @@ const generateVisualEditorCheckboxLayout = ({
 		modifyVisualEditorChangeTag({changeTag, checkbox});
 	}
 
-	checkbox.on('change', () => {
-		
+	const textInputWithDropdown = generateTextInputWithDropdown();
+
+	checkbox.on('change', (selected) => {
+		textInputWithDropdown.$element.prop('disabled', !selected);
 	});
 
 	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
@@ -30,7 +33,9 @@ const generateVisualEditorCheckboxLayout = ({
 		label,
 	});
 
-	return checkboxLayout;
+	const $layout = $('<div>').attr('id', 'efa-area').append(checkboxLayout.$element, textInputWithDropdown.$element);
+
+	return $layout;
 };
 
 const generateWikiEditorCheckboxLayout = ({
@@ -43,7 +48,7 @@ const generateWikiEditorCheckboxLayout = ({
 	label: string;
 	changeTag?: string;
 	$editForm: JQuery;
-}): OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> => {
+}) => {
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,
 	});
@@ -56,11 +61,19 @@ const generateWikiEditorCheckboxLayout = ({
 		modifyWikiEditorChangeTag({changeTag, checkbox, $editForm});
 	}
 
+	const textInputWithDropdown = generateTextInputWithDropdown();
+
+	checkbox.on('change', (selected) => {
+		textInputWithDropdown.$element.prop('disabled', !selected);
+	});
+
 	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
 		align: 'inline',
 		label,
 	});
 
-	return checkboxLayout;
+	const $layout = $('<div>').attr('id', 'efa-area').append(checkboxLayout.$element, textInputWithDropdown.$element);
+
+	return $layout;
 };
 export {generateVisualEditorCheckboxLayout, generateWikiEditorCheckboxLayout};

@@ -15,13 +15,11 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const checkboxLayout = generateVisualEditorCheckboxLayout({
+	const $layout = generateVisualEditorCheckboxLayout({
 		inputId: OPTIONS.inputId,
 		label: getMessage('ThirdPartyContentContained'),
 		changeTag: OPTIONS.changeTag,
 	});
-
-	const $layout = $('<div>').attr('id', 'efa-area').append(checkboxLayout.$element);
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.append($layout);

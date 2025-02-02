@@ -1,5 +1,6 @@
 import {LICENSES} from '../constant';
 import {getMessage} from '../i18n';
+import {modifyAttribution} from './modifyAttributionSummary';
 
 const generateTextInputWithDropdown = () => {
 	const getTextInput = () => {
@@ -29,7 +30,6 @@ const generateTextInputWithDropdown = () => {
 	const getAddItemButton = (onClick?: (event?: Event) => void): OO.ui.ButtonInputWidget => {
 		const addItemButton = new OO.ui.ButtonInputWidget({
 			label: getMessage('Add'),
-			value: 'addItem',
 		});
 
 		if (onClick) {
@@ -46,7 +46,6 @@ const generateTextInputWithDropdown = () => {
 	const getDeleteItemButton = (onClick?: (event?: Event) => void): OO.ui.ButtonInputWidget => {
 		const deleteItemButton = new OO.ui.ButtonInputWidget({
 			label: getMessage('Delete'),
-			value: 'deleteItem',
 		});
 
 		if (onClick) {
@@ -99,6 +98,11 @@ const generateTextInputWithDropdown = () => {
 	};
 
 	parentFieldSet.addItems([initialFieldset]);
+
+	parentFieldSet.on('change', () => {
+		const $body = $('body');
+		modifyAttribution({$body, parentFieldSet});
+	});
 
 	return parentFieldSet;
 };

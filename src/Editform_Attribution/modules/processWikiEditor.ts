@@ -15,14 +15,12 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const checkboxLayout = generateWikiEditorCheckboxLayout({
+	const $layout = generateWikiEditorCheckboxLayout({
 		inputId: OPTIONS.inputId,
 		label: getMessage('ThirdPartyContentContained'),
 		$editForm: $editForm as JQuery,
 		changeTag: OPTIONS.changeTag,
 	});
-
-	const $layout = $('<div>').attr('id', 'efa-area').append(checkboxLayout.$element);
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.append($layout);
