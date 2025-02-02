@@ -1,26 +1,30 @@
+import * as OPTIONS from '../../options.json';
 import React, {ReactElement} from 'ext.gadget.React';
 import {footerNotice, sectionIdSpan} from './EasyArchive.module.less';
 import {getMessage} from '../i18n';
 import {sanitize} from '../util/sanitize';
 
 interface FooterNoticeProps {
-	id: string;
+	id?: string;
 	children?: ReactElement | ReactElement[];
 }
 
 const FooterNotice = ({id, children}: FooterNoticeProps) => (
 	<>
 		{mw.config.get('skin') === 'citizen' ? (
-			<section id={id} className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
+			<section
+				id={id ?? OPTIONS.elementId}
+				className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
+			>
 				{children}
 			</section>
 		) : ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
 		  document.querySelector('ul#footer-info') ? (
-			<li id={id} className={[footerNotice, 'noprint']}>
+			<li id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
 				{children}
 			</li>
 		) : (
-			<div id={id} className={[footerNotice, 'noprint']}>
+			<div id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
 				{children}
 			</div>
 		)}
@@ -92,7 +96,7 @@ interface OnClickProps {
 const OnClick = ({textContent, className, onClick, children}: OnClickProps) => (
 	<a
 		className={['gadget-easy_archive__link', `gadget-easy_archive__link-${className}`]}
-		onClick={onClick}
+		onClick={onClick || (() => {})}
 		textContent={textContent}
 	>
 		{children}
@@ -121,8 +125,6 @@ const EditConflictNotice = ({onClick}: EditConflictNoticeProps) => (
 	</span>
 );
 
-const spanWrap = (textContent: string) => <span textContent={textContent} />;
-
 export {
 	FooterNotice,
 	Enabled,
@@ -134,5 +136,4 @@ export {
 	Pipe,
 	SectionID,
 	EditConflictNotice,
-	spanWrap,
 };

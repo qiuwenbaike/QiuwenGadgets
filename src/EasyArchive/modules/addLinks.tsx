@@ -6,8 +6,12 @@ import {getSections} from './util/getSection';
 import {refresh} from './util/refreshPage';
 import {toastify} from 'ext.gadget.Toastify';
 
-const appendFooterNotice = (innerElement: Element) => {
-	document.querySelectorAll<HTMLElement>(OPTIONS.mountPointSelector)[0]?.prepend(innerElement);
+const appendFooterNotice = (element: Element) => {
+	const mountPoint = document.querySelector<HTMLElement>(OPTIONS.mountPointSelector);
+
+	if (mountPoint) {
+		mountPoint.prepend(element);
+	}
 };
 
 const addLinks = async ({

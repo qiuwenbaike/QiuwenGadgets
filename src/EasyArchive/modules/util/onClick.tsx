@@ -1,8 +1,8 @@
 import {archiveSection, removeSection} from './editSection';
+import {getArchivedMessage, getArchivingMessage, getDeletedMessage, getDeletingMessage} from './getMessage';
+import React from 'ext.gadget.React';
 import {getMessage} from '../i18n';
 import {refresh} from './refreshPage';
-import {replaceChild} from './replaceChild';
-import {spanWrap} from '../components/react';
 import {toastify} from 'ext.gadget.Toastify';
 
 const archiveOnClick = async (
@@ -31,13 +31,13 @@ const archiveOnClick = async (
 		return;
 	}
 
-	replaceChild(parentElement, spanWrap(getMessage('Archiving')));
+	parentElement.replaceChildren(<span>{getMessage('Archiving')}</span>);
 
 	for (const span of sectionIdSpans) {
 		span.remove();
 	}
 
-	const message1 = getMessage('Archiving') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
+	const message1 = getArchivingMessage(indexNo);
 	messageChannel.postMessage(message1);
 
 	toastifyInstance ||= {
@@ -55,15 +55,15 @@ const archiveOnClick = async (
 
 	await archiveSection({index: indexNo, anchor, archiveTo});
 
-	replaceChild(parentElement, spanWrap(getMessage('Archived')));
+	parentElement.replaceChildren(<span>{getMessage('Archived')}</span>);
 
-	const message2 = getMessage('Archived') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
-	messageChannel.postMessage(message2);
+	const message = getArchivedMessage(indexNo);
+	messageChannel.postMessage(message);
 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
-			text: message2,
+			text: message,
 			close: true,
 			duration: -1,
 		},
@@ -100,14 +100,14 @@ const removeOnClick = async (
 		return;
 	}
 
-	replaceChild(parentElement, spanWrap(getMessage('Deleting')));
+	parentElement.replaceChildren(<span>{getMessage('Deleting')}</span>);
 
 	for (const span of sectionIdSpans) {
 		span.remove();
 	}
 
-	const message1 = getMessage('Deleting') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
-	messageChannel.postMessage(message1);
+	let message = getDeletingMessage(indexNo);
+	messageChannel.postMessage(message);
 
 	toastifyInstance ||= {
 		hideToast: () => {},
@@ -115,7 +115,7 @@ const removeOnClick = async (
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
-			text: message1,
+			text: message,
 			close: true,
 			duration: -1,
 		},
@@ -124,15 +124,15 @@ const removeOnClick = async (
 
 	await removeSection({index: indexNo, anchor});
 
-	replaceChild(parentElement, spanWrap(getMessage('Deleted')));
+	parentElement.replaceChildren(<span>{getMessage('Deleted')}</span>);
 
-	const message2 = getMessage('Deleted') + getMessage(':') + getMessage('Section $1').replace('$1', indexNo);
-	messageChannel.postMessage(message2);
+	message = getDeletedMessage(indexNo);
+	messageChannel.postMessage(message);
 
 	toastifyInstance.hideToast();
 	toastifyInstance = toastify(
 		{
-			text: message2,
+			text: message,
 			close: true,
 			duration: -1,
 		},
