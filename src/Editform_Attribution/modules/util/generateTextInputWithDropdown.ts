@@ -2,16 +2,22 @@ import {LICENSES} from '../constant';
 import {getMessage} from '../i18n';
 import {modifyAttribution} from './modifyAttributionSummary';
 
-const generateTextInputWithDropdown = () => {
-	const getTextInput = () => {
+const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) => {
+	const getTextInput = (onChange?: (event?: Event) => void) => {
 		const textInput = new OO.ui.TextInputWidget({
 			placeholder: getMessage('Source'),
 		});
 
+		if (onChange) {
+			textInput.on('change', () => {
+				onChange();
+			});
+		}
+
 		return textInput;
 	};
 
-	const getDropDown = () => {
+	const getDropDown = (onChange?: (event?: Event) => void) => {
 		const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
 			$overlay: true,
 			menu: {
@@ -24,74 +30,76 @@ const generateTextInputWithDropdown = () => {
 			},
 		});
 
+		if (onChange) {
+			dropdown.on('change', () => {
+				onChange();
+			});
+		}
 		return dropdown;
 	};
 
-	const getAddItemButton = (onClick?: (event?: Event) => void): OO.ui.ButtonInputWidget => {
+	const getAddItemButton = (...onClicks: ((event?: Event) => void)[]): OO.ui.ButtonInputWidget => {
 		const addItemButton = new OO.ui.ButtonInputWidget({
 			label: getMessage('Add'),
 		});
 
-		if (onClick) {
-			addItemButton.on('click', onClick);
+		if (onClicks) {
+			for (const onClick of onClicks) {
+				addItemButton.on('click', onClick);
+			}
 		}
 
 		return addItemButton;
 	};
 
-	const addItemOnClick = (fieldSet: OO.ui.FieldsetLayout) => {
-		fieldSet.addItems([getFollowUpFieldset()]);
-	};
-
-	const getDeleteItemButton = (onClick?: (event?: Event) => void): OO.ui.ButtonInputWidget => {
+	const getDeleteItemButton = (...onClicks: ((event?: Event) => void)[]): OO.ui.ButtonInputWidget => {
 		const deleteItemButton = new OO.ui.ButtonInputWidget({
 			label: getMessage('Delete'),
 		});
 
-		if (onClick) {
-			deleteItemButton.on('click', onClick);
+		if (onClicks) {
+			for (const onClick of onClicks) {
+				deleteItemButton.on('click', onClick);
+			}
 		}
 
 		return deleteItemButton;
-	};
-
-	const deleteItemOnClick = (fieldSet: OO.ui.FieldsetLayout, item: OO.ui.FieldsetLayout) => {
-		fieldSet.removeItems([item]);
 	};
 
 	const parentFieldSet = new OO.ui.FieldsetLayout({
 		label: getMessage('Sources and Licenses'),
 	});
 
+	const inputOnChange = () => {
+		modifyAttribution({$body, parentFieldSet});
+	};
+
+	const addItemOnClick = () => {
+		parentFieldSet.addItems([getFollowUpFieldset()]);
+	};
+
+	const deleteItemOnClick = (item: OO.ui.FieldsetLayout) => {
+		parentFieldSet.removeItems([item]);
+	};
+
 	const initialFieldset = new OO.ui.FieldsetLayout();
 	initialFieldset.addItems([
-		new OO.ui.FieldLayout(getTextInput(), {label: getMessage('Source'), align: 'inline'}),
-		new OO.ui.FieldLayout(getDropDown(), {label: getMessage('License'), align: 'inline'}),
-		new OO.ui.FieldLayout(
-			getAddItemButton(() => {
-				addItemOnClick(parentFieldSet);
-			}),
-			{align: 'inline'}
-		),
+		new OO.ui.FieldLayout(getTextInput(inputOnChange), {label: getMessage('Source'), align: 'inline'}),
+		new OO.ui.FieldLayout(getDropDown(inputOnChange), {label: getMessage('License'), align: 'inline'}),
+		new OO.ui.FieldLayout(getAddItemButton(addItemOnClick, inputOnChange), {align: 'inline'}),
 	]);
 
 	const getFollowUpFieldset = () => {
 		const followUpFieldset = new OO.ui.FieldsetLayout();
+		const deleteThisItem = () => {
+			deleteItemOnClick(followUpFieldset);
+		};
+
 		followUpFieldset.addItems([
-			new OO.ui.FieldLayout(getTextInput(), {label: getMessage('Source'), align: 'inline'}),
-			new OO.ui.FieldLayout(getDropDown(), {label: getMessage('License'), align: 'inline'}),
-			new OO.ui.FieldLayout(
-				getAddItemButton(() => {
-					addItemOnClick(parentFieldSet);
-				}),
-				{align: 'inline'}
-			),
-			new OO.ui.FieldLayout(
-				getDeleteItemButton(() => {
-					deleteItemOnClick(parentFieldSet, followUpFieldset);
-				}),
-				{align: 'inline'}
-			),
+			new OO.ui.FieldLayout(getTextInput(inputOnChange), {label: getMessage('Source'), align: 'inline'}),
+			new OO.ui.FieldLayout(getDropDown(inputOnChange), {label: getMessage('License'), align: 'inline'}),
+			new OO.ui.FieldLayout(getAddItemButton(addItemOnClick, inputOnChange), {align: 'inline'}),
+			new OO.ui.FieldLayout(getDeleteItemButton(deleteThisItem, inputOnChange), {align: 'inline'}),
 		]);
 
 		return followUpFieldset;
@@ -100,7 +108,6 @@ const generateTextInputWithDropdown = () => {
 	parentFieldSet.addItems([initialFieldset]);
 
 	parentFieldSet.on('change', () => {
-		const $body = $('body');
 		modifyAttribution({$body, parentFieldSet});
 	});
 

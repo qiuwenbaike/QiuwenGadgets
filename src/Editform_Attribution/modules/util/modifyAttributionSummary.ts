@@ -6,7 +6,7 @@ const modifyAttribution = ({
 	parentFieldSet: OO.ui.FieldsetLayout;
 }) => {
 	const generateInfoMartix = (fieldSetLayout: OO.ui.FieldsetLayout) => {
-		const fieldsInfo = [];
+		let fieldsInfo: string = '';
 
 		const getSelectedValue = (dropdown: OO.ui.DropdownWidget): string | undefined => {
 			const selectedItem: OO.ui.OptionWidget | null = dropdown
@@ -33,12 +33,12 @@ const modifyAttribution = ({
 				}
 			}
 
-			fieldsInfo[fieldsInfo.length] = fieldInfo.join(', ');
+			fieldsInfo = fieldInfo.join('; ');
 		}
 
 		console.log(fieldsInfo);
 
-		return fieldsInfo.join('; ');
+		return fieldsInfo;
 	};
 
 	let attributions: string = '';

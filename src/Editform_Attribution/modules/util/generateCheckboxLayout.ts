@@ -4,10 +4,12 @@ import {generateTextInputWithDropdown} from './generateTextInputWithDropdown';
 const generateVisualEditorCheckboxLayout = ({
 	inputId,
 	label,
+	$body,
 	changeTag,
 }: {
 	inputId?: string;
 	label: string;
+	$body: JQuery<HTMLElement>;
 	changeTag?: string;
 }) => {
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
@@ -22,7 +24,7 @@ const generateVisualEditorCheckboxLayout = ({
 		modifyVisualEditorChangeTag({changeTag, checkbox});
 	}
 
-	const textInputWithDropdown = generateTextInputWithDropdown();
+	const textInputWithDropdown = generateTextInputWithDropdown({$body});
 
 	checkbox.on('change', (selected) => {
 		textInputWithDropdown.$element.prop('disabled', !selected);
@@ -42,11 +44,13 @@ const generateWikiEditorCheckboxLayout = ({
 	inputId,
 	label,
 	changeTag,
+	$body,
 	$editForm,
 }: {
 	inputId?: string;
 	label: string;
 	changeTag?: string;
+	$body: JQuery;
 	$editForm: JQuery;
 }) => {
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
@@ -61,7 +65,7 @@ const generateWikiEditorCheckboxLayout = ({
 		modifyWikiEditorChangeTag({changeTag, checkbox, $editForm});
 	}
 
-	const textInputWithDropdown = generateTextInputWithDropdown();
+	const textInputWithDropdown = generateTextInputWithDropdown({$body});
 
 	checkbox.on('change', (selected) => {
 		textInputWithDropdown.$element.prop('disabled', !selected);

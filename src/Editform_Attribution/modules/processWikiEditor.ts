@@ -1,14 +1,15 @@
 import * as OPTIONS from '~/Editform_Attribution/options.json';
+import {appendTextToSummary} from './util/changeSummary';
 import {generateWikiEditorCheckboxLayout} from './util/generateCheckboxLayout';
 import {getMessage} from './i18n';
 
-const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $editForm?: JQuery}): void => {
+const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $editForm: JQuery}): void => {
 	// Guard against double inclusions
 	if (mw.config.get(OPTIONS.configKey)) {
 		return;
 	}
 
-	const $target: JQuery = ($editForm as JQuery).find(OPTIONS.targetWikiEditor);
+	const $target: JQuery = $editForm.find(OPTIONS.targetWikiEditor);
 	if (!$target.length) {
 		return;
 	}
@@ -18,13 +19,25 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 	const $layout = generateWikiEditorCheckboxLayout({
 		inputId: OPTIONS.inputId,
 		label: getMessage('ThirdPartyContentContained'),
-		$editForm: $editForm as JQuery,
+		$body,
+		$editForm,
 		changeTag: OPTIONS.changeTag,
 	});
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$target.append($layout);
+		$target.after($layout);
 	}
+
+	mw.hook('ve.activationComplete').add(() => {
+		const {target} = window.ve.init;
+		const {saveDialog} = target;
+
+		saveDialog.on('save', () => {
+			const customSummary = String($body.find('input[name=wpAttributions]').val());
+			const $wpSummary = $editForm.find('input[name=wpSummary]');
+			appendTextToSummary({customSummary, $wpSummary});
+		});
+	});
 };
 
 export {processWikiEditor};
