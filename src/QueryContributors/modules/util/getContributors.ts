@@ -1,5 +1,5 @@
-import {getMessage} from './i18n';
-import {queryContributors} from './queryContributors';
+import {getMessage} from '../i18n';
+import {queryContributors} from '../queryContributors';
 import {uniqueArray} from 'ext.gadget.Util';
 
 const getContributors = async (title: string) => {

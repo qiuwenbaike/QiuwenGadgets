@@ -7,27 +7,30 @@ interface FooterNoticeProps {
 	children?: ReactElement | ReactElement[];
 }
 
-const FooterNotice = ({id, children}: FooterNoticeProps) => (
-	<>
-		{mw.config.get('skin') === 'citizen' ? (
-			<section
-				id={id ?? OPTIONS.elementId}
-				className={[OPTIONS.elementId, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
-			>
-				{children ?? <></>}
-			</section>
-		) : ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
-		  document.querySelector('ul#footer-info') ? (
-			<li id={id ?? OPTIONS.elementId} className={[OPTIONS.elementId, 'noprint']}>
-				{children ?? <></>}
-			</li>
-		) : (
-			<div id={id ?? OPTIONS.elementId} className={[OPTIONS.elementId, 'noprint']}>
-				{children ?? <></>}
-			</div>
-		)}
-	</>
-);
+const FooterNotice = ({id, children = <></>}: FooterNoticeProps) => {
+	const {skin} = mw.config.get();
+
+	return (
+		<>
+			{skin === 'citizen' ? (
+				<section
+					id={id ?? OPTIONS.elementId}
+					className={[OPTIONS.elementId, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
+				>
+					{children ?? <></>}
+				</section>
+			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
+				<li id={id ?? OPTIONS.elementId} className={[OPTIONS.elementId, 'noprint']}>
+					{children ?? <></>}
+				</li>
+			) : (
+				<div id={id ?? OPTIONS.elementId} className={[OPTIONS.elementId, 'noprint']}>
+					{children ?? <></>}
+				</div>
+			)}
+		</>
+	);
+};
 
 const NotPatrolledYet = () => (
 	<span id="page_patroller__not-patrolled" textContent={getMessage('This page has not been patrolled yet')} />

@@ -9,27 +9,30 @@ interface FooterNoticeProps {
 	children?: ReactElement | ReactElement[];
 }
 
-const FooterNotice = ({id, children}: FooterNoticeProps) => (
-	<>
-		{mw.config.get('skin') === 'citizen' ? (
-			<section
-				id={id ?? OPTIONS.elementId}
-				className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
-			>
-				{children ?? <></>}
-			</section>
-		) : ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
-		  document.querySelector('ul#footer-info') ? (
-			<li id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
-				{children ?? <></>}
-			</li>
-		) : (
-			<div id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
-				{children ?? <></>}
-			</div>
-		)}
-	</>
-);
+const FooterNotice = ({id, children = <></>}: FooterNoticeProps) => {
+	const {skin} = mw.config.get();
+
+	return (
+		<>
+			{skin === 'citizen' ? (
+				<section
+					id={id ?? OPTIONS.elementId}
+					className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
+				>
+					{children}
+				</section>
+			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
+				<li id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
+					{children}
+				</li>
+			) : (
+				<div id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
+					{children}
+				</div>
+			)}
+		</>
+	);
+};
 
 const InBlackList = () => (
 	<FooterNotice id="easy_archive_not_supported_notice">
@@ -104,7 +107,7 @@ interface SectionIDProps {
 	children?: ReactElement | ReactElement[];
 }
 
-const SectionID = ({children}: SectionIDProps) => <span className={sectionIdSpan}>{children ?? <></>}</span>;
+const SectionID = ({children}: SectionIDProps) => <span className={sectionIdSpan}>{children}</span>;
 
 const Pipe = () => <span className="mw-editsection-divider" textContent={'|'} />;
 

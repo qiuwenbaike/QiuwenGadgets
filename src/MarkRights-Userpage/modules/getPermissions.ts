@@ -21,10 +21,10 @@ const getPermissions = async (wgRelevantUserName: string): Promise<void> => {
 		if (SYSTEM_SCRIPT_LIST.includes(wgRelevantUserName)) {
 			// Already shown in GeoLocationViewer
 		} else if (WEBMASTER_LIST.includes(wgRelevantUserName)) {
-			appendIcon(getMessage('qiuwen'), 'qiuwen');
+			appendIcon({indicatorText: getMessage('qiuwen'), spanClass: 'qiuwen'});
 		} else {
 			for (const group of groups) {
-				appendIcon(getMessage(group as UserRights), group as UserRights);
+				appendIcon({indicatorText: getMessage(group as UserRights), spanClass: group as UserRights});
 			}
 		}
 	} catch {}

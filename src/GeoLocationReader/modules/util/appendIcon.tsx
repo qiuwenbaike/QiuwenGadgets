@@ -1,50 +1,21 @@
 import * as OPTIONS from '../../options.json';
-import {CLASS_NAME, CLASS_NAME_ICON, CLASS_NAME_TEXT} from '../constant';
-import React, {ReactElement} from 'ext.gadget.React';
-import {getMessage} from '../i18n';
+import {FooterIcon, type FooterIconProps} from '../components/react';
+import React from 'ext.gadget.React';
 
-const elementWrap = (spanClass: 'green' | 'orange', innerElement: ReactElement) => {
-	const {skin} = mw.config.get();
-	const classNames = [CLASS_NAME, `${CLASS_NAME}-${spanClass}`];
+const appendFooterNotice = (element: Element) => {
+	const mountPoint = document.querySelector<HTMLElement>(OPTIONS.mountPointSelector);
 
-	if (skin === 'citizen') {
-		return (
-			<section className={[...classNames, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
-				{innerElement}
-			</section>
-		);
-	} else if (['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info')) {
-		return <li className={[classNames, 'noprint']}>{innerElement}</li>;
+	if (mountPoint) {
+		mountPoint.prepend(element);
 	}
-	return <div className={[classNames, 'noprint']}>{innerElement}</div>;
 };
 
-const indicator = (icon: 'globe' | 'helpNotice', indicatorText: string) => {
-	const ipLocationDesc: string = getMessage('Location') + getMessage(':');
-	const text: string = icon === 'globe' ? ipLocationDesc + indicatorText : (indicatorText ?? '');
-
-	return (
-		<>
-			<span className={[CLASS_NAME_ICON, `${CLASS_NAME_ICON}-${icon}`]} aria-label={text}></span>
-			<span className={CLASS_NAME_TEXT}>{text}</span>
-		</>
-	);
-};
-
-const appendIcon = ({
-	icon,
-	indicatorText,
-	spanClass,
-}: {
-	icon: 'globe' | 'helpNotice';
-	indicatorText: string;
-	spanClass: 'green' | 'orange';
-}): void => {
-	if (!spanClass || !icon) {
+const appendIcon = ({icon, indicatorText, spanClass}: FooterIconProps): void => {
+	if (!spanClass || !icon || !indicatorText) {
 		return;
 	}
-	const tag = elementWrap(spanClass, indicator(icon, indicatorText));
-	document.querySelectorAll<HTMLElement>(OPTIONS.mountPointSelector)[0]?.prepend(tag);
+
+	appendFooterNotice(<FooterIcon spanClass={spanClass} icon={icon} indicatorText={indicatorText} />);
 };
 
 export {appendIcon};
