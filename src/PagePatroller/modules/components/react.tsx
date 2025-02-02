@@ -14,16 +14,16 @@ const FooterNotice = ({id, children}: FooterNoticeProps) => (
 				id={id ?? OPTIONS.elementId}
 				className={[OPTIONS.elementId, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
 			>
-				{children}
+				{children ?? <></>}
 			</section>
 		) : ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
 		  document.querySelector('ul#footer-info') ? (
 			<li id={id ?? OPTIONS.elementId} className={[OPTIONS.elementId, 'noprint']}>
-				{children}
+				{children ?? <></>}
 			</li>
 		) : (
 			<div id={id ?? OPTIONS.elementId} className={[OPTIONS.elementId, 'noprint']}>
-				{children}
+				{children ?? <></>}
 			</div>
 		)}
 	</>

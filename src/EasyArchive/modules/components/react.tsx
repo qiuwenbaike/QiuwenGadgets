@@ -16,16 +16,16 @@ const FooterNotice = ({id, children}: FooterNoticeProps) => (
 				id={id ?? OPTIONS.elementId}
 				className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
 			>
-				{children}
+				{children ?? <></>}
 			</section>
 		) : ['vector', 'vector-2022', 'gongbi'].includes(mw.config.get('skin')) ||
 		  document.querySelector('ul#footer-info') ? (
 			<li id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
-				{children}
+				{children ?? <></>}
 			</li>
 		) : (
 			<div id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
-				{children}
+				{children ?? <></>}
 			</div>
 		)}
 	</>
@@ -90,27 +90,21 @@ interface OnClickProps {
 	textContent: string;
 	className: string;
 	onClick?: (event: Event) => void;
-	children?: ReactElement | ReactElement[];
 }
 
-const OnClick = ({textContent, className, onClick, children}: OnClickProps) => (
+const OnClick = ({textContent, className, onClick}: OnClickProps) => (
 	<a
 		className={['gadget-easy_archive__link', `gadget-easy_archive__link-${className}`]}
 		onClick={onClick || (() => {})}
 		textContent={textContent}
-	>
-		{children}
-	</a>
+	/>
 );
 
 interface SectionIDProps {
-	className?: string;
 	children?: ReactElement | ReactElement[];
 }
 
-const SectionID = ({className, children}: SectionIDProps) => (
-	<span className={[className, sectionIdSpan]}>{children}</span>
-);
+const SectionID = ({children}: SectionIDProps) => <span className={sectionIdSpan}>{children ?? <></>}</span>;
 
 const Pipe = () => <span className="mw-editsection-divider" textContent={'|'} />;
 
