@@ -6,23 +6,21 @@ const modifyAttribution = ({
 	parentFieldSet: OO.ui.FieldsetLayout;
 }) => {
 	const generateInfoMartix = (fieldSetLayout: OO.ui.FieldsetLayout) => {
-		const infoMartix = [];
+		const fieldsInfo = [];
 
-		for (const fieldset of fieldSetLayout.getItems() as OO.ui.FieldsetLayout[]) {
-			for (const fields of fieldset.getItems() as OO.ui.FieldsetLayout[]) {
-				const info = [];
+		for (const attributionFieldset of fieldSetLayout.getItems() as OO.ui.FieldsetLayout[]) {
+			const fieldInfo = [];
 
-				for (const field of fields.getItems() as OO.ui.FieldsetLayout[]) {
-					info[info.length] = field.getData();
-				}
-
-				infoMartix[infoMartix.length] = info;
+			for (const field of attributionFieldset.getItems() as OO.ui.FieldsetLayout[]) {
+				fieldInfo[fieldInfo.length] = field.getData();
 			}
+
+			fieldsInfo[fieldsInfo.length] = fieldInfo;
 		}
 
-		console.log(infoMartix);
+		console.log(fieldsInfo);
 
-		return infoMartix.join('; ');
+		return fieldsInfo.join('; ');
 	};
 
 	let attributions: string = '';
