@@ -17,7 +17,7 @@ const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) =>
 		return textInput;
 	};
 
-	const getDropDown = (onChange?: (event?: Event) => void) => {
+	const getDropDown = (onSelect?: (event?: Event) => void) => {
 		const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget();
 
 		const menuOptions: OO.ui.MenuOptionWidget[] = [];
@@ -31,9 +31,9 @@ const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) =>
 
 		dropdown.getMenu().addItems(menuOptions);
 
-		if (onChange) {
-			dropdown.on('change', () => {
-				onChange();
+		if (onSelect) {
+			dropdown.getMenu().on('select', () => {
+				onSelect();
 			});
 		}
 
