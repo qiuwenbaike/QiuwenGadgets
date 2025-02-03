@@ -1,18 +1,9 @@
-import * as OPTIONS from '../options.json';
-import {EditConflictNotice, Enabled} from './components/react';
-import React, {ReactElement} from 'ext.gadget.React';
 import {ArchiveAndDeleteSectionLink} from './components/sectionLink';
+import {EditConflictNotice} from './components/react';
+import React from 'ext.gadget.React';
 import {getSections} from './util/getSection';
 import {refresh} from './util/refreshPage';
 import {toastify} from 'ext.gadget.Toastify';
-
-const appendFooterNotice = (element: Element) => {
-	const mountPoint = document.querySelector<HTMLElement>(OPTIONS.mountPointSelector);
-
-	if (mountPoint) {
-		mountPoint.prepend(element);
-	}
-};
 
 const addLinks = async ({
 	arcLevel,
@@ -21,15 +12,10 @@ const addLinks = async ({
 	secDel,
 }: {
 	arcLevel: string;
-	arcLoc: string | null;
+	arcLoc: string;
 	secArc: string;
 	secDel: string;
 }) => {
-	if (!arcLoc) {
-		return;
-	}
-	appendFooterNotice(<Enabled arcLoc={arcLoc} />);
-
 	const {wgPageName} = mw.config.get();
 	const sectionsToArchive = await getSections(wgPageName);
 
@@ -39,10 +25,12 @@ const addLinks = async ({
 
 	for (const heading of headings) {
 		const headline = heading.querySelector('.mw-headline');
-		headlines[headlines.length] = headline?.id;
+		if (headline) {
+			headlines[headlines.length] = headline.id;
+		}
 	}
 
-	const sectionIdSpans: ReactElement[] = [];
+	const sectionIdSpans: Element[] = [];
 	let toastifyInstance: ToastifyInstance = {
 		hideToast: () => {},
 	};
@@ -133,4 +121,4 @@ const addLinks = async ({
 	});
 };
 
-export {addLinks, appendFooterNotice};
+export {addLinks};

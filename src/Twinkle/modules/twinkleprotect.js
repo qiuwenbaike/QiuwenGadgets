@@ -491,19 +491,19 @@ import {api} from './api';
 		let oldfield;
 		if (field_preset) {
 			[oldfield] = $(e.target.form).find('fieldset[name="field_preset"]');
-			oldfield.parentNode.replaceChild(field_preset.render(), oldfield);
+			oldfield.replaceWith(field_preset.render());
 		} else {
 			$(e.target.form).find('fieldset[name="field_preset"]').css('display', 'none');
 		}
 		if (field1) {
 			[oldfield] = $(e.target.form).find('fieldset[name="field1"]');
-			oldfield.parentNode.replaceChild(field1.render(), oldfield);
+			oldfield.replaceWith(field1.render());
 		} else {
 			$(e.target.form).find('fieldset[name="field1"]').css('display', 'none');
 		}
 		if (field2) {
 			[oldfield] = $(e.target.form).find('fieldset[name="field2"]');
-			oldfield.parentNode.replaceChild(field2.render(), oldfield);
+			oldfield.replaceWith(field2.render());
 		} else {
 			$(e.target.form).find('fieldset[name="field2"]').css('display', 'none');
 		}

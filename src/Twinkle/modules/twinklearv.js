@@ -180,7 +180,7 @@
 					style: 'display: none',
 				});
 				work_area = work_area.render();
-				old_area.parentNode.replaceChild(work_area, old_area);
+				old_area.replaceWith(work_area);
 				break;
 			case 'username':
 				work_area = new Morebits.quickForm.element({
@@ -276,7 +276,7 @@
 					style: 'display: none',
 				});
 				work_area = work_area.render();
-				old_area.parentNode.replaceChild(work_area, old_area);
+				old_area.replaceWith(work_area);
 				break;
 			case 'spi':
 				work_area = new Morebits.quickForm.element({
@@ -350,7 +350,7 @@
 				});
 				work_area = work_area.render();
 				$('input:text[name=sockpuppet]', work_area).first().val(root_.uid.value);
-				old_area.parentNode.replaceChild(work_area, old_area);
+				old_area.replaceWith(work_area);
 				root_.spinoticepreviewer = new Morebits.wiki.preview(
 					$(work_area).find('#twinklearv-spinoticebox').last()[0]
 				);
@@ -471,7 +471,7 @@
 					style: 'display: none',
 				});
 				work_area = work_area.render();
-				old_area.parentNode.replaceChild(work_area, old_area);
+				old_area.replaceWith(work_area);
 				break;
 		}
 		root_.previewer = new Morebits.wiki.preview($(work_area).find('#twinklearv-previewbox').last()[0]);

@@ -236,7 +236,7 @@
 					hidden: true,
 				});
 				work_area = work_area.render();
-				old_area.parentNode.replaceChild(work_area, old_area);
+				old_area.replaceWith(work_area);
 				const evt = document.createEvent('Event');
 				evt.initEvent('change', true, true);
 				form.xfdcat.dispatchEvent(evt);
@@ -250,7 +250,7 @@
 				});
 				appendReasonBox('ffd');
 				work_area = work_area.render();
-				old_area.parentNode.replaceChild(work_area, old_area);
+				old_area.replaceWith(work_area);
 				break;
 			default:
 				work_area = new Morebits.quickForm.element({
@@ -259,7 +259,7 @@
 					name: 'work_area',
 				});
 				work_area = work_area.render();
-				old_area.parentNode.replaceChild(work_area, old_area);
+				old_area.replaceWith(work_area);
 				break;
 		}
 		// Return to checked state when switching

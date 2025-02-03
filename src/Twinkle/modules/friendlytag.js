@@ -276,7 +276,7 @@
 				});
 				break;
 		}
-		if (document.querySelectorAll('.patrollink').length) {
+		if (document.querySelector('.patrollink')) {
 			form.append({
 				type: 'checkbox',
 				list: [

@@ -1,10 +1,9 @@
-const modifyVisualEditorChangeTag = ({
-	changeTag,
-	checkbox,
-}: {
+interface ModifyChangeTagProps {
 	changeTag: string;
 	checkbox: OO.ui.CheckboxInputWidget;
-}): void => {
+}
+
+const modifyVisualEditorChangeTag = ({changeTag, checkbox}: ModifyChangeTagProps): void => {
 	checkbox.on('change', (): void => {
 		const generateChangeTags = (originChangeTags: string): string => {
 			return checkbox.isSelected()
@@ -24,11 +23,7 @@ const modifyWikiEditorChangeTag = ({
 	changeTag,
 	checkbox,
 	$editForm,
-}: {
-	changeTag: string;
-	checkbox: OO.ui.CheckboxInputWidget;
-	$editForm: JQuery;
-}): void => {
+}: ModifyChangeTagProps & {$editForm: JQuery}): void => {
 	checkbox.on('change', (): void => {
 		const generateChangeTags = (originChangeTags: string): string => {
 			return checkbox.isSelected()

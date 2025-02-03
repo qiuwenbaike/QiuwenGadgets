@@ -2,17 +2,14 @@ import {modifyVisualEditorChangeTag, modifyWikiEditorChangeTag} from './modifyCh
 import {appendTextToSummary} from './changeSummary';
 import {generateTextInputWithDropdown} from './generateTextInputWithDropdown';
 
-const generateVisualEditorCheckboxLayout = ({
-	inputId,
-	label,
-	$body,
-	changeTag,
-}: {
+interface CheckboxLayoutProps {
 	inputId?: string;
 	label: string;
 	$body: JQuery<HTMLElement>;
 	changeTag?: string;
-}) => {
+}
+
+const generateVisualEditorCheckboxLayout = ({inputId, label, $body, changeTag}: CheckboxLayoutProps) => {
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,
 	});
@@ -64,13 +61,7 @@ const generateWikiEditorCheckboxLayout = ({
 	changeTag,
 	$body,
 	$editForm,
-}: {
-	inputId?: string;
-	label: string;
-	changeTag?: string;
-	$body: JQuery;
-	$editForm: JQuery;
-}) => {
+}: CheckboxLayoutProps & {$editForm: JQuery}) => {
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,
 	});

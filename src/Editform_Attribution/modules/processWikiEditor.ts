@@ -19,9 +19,9 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		return generateWikiEditorCheckboxLayout({
 			inputId: OPTIONS.inputId,
 			label: getMessage('ThirdPartyContentContained'),
+			// changeTag: OPTIONS.changeTag,
 			$body,
 			$editForm,
-			// changeTag: OPTIONS.changeTag,
 		});
 	};
 

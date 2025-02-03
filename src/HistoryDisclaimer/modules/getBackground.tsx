@@ -3,4 +3,6 @@ import {disclaimer} from '../HistoryDisclaimer.module.less';
 
 const Background = () => <div className={disclaimer} />;
 
-export {Background};
+const getBackground = () => <Background />;
+
+export {Background, getBackground};

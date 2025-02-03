@@ -3,12 +3,20 @@ import {ErrorMessage, FooterNotice, Loading, NotPatrolledYet, Patrolled} from '.
 import React from 'ext.gadget.React';
 import {getPatroller} from './util/getPatroller';
 
+const appendFooterNotice = (element: Element) => {
+	const mountPoint = document.querySelector<HTMLElement>(OPTIONS.mountPointSelector);
+
+	if (mountPoint) {
+		mountPoint.prepend(element);
+	}
+};
+
 const showPagePatroller = async (): Promise<void> => {
 	const footerElement = <FooterNotice />;
-	document.querySelectorAll(OPTIONS.mountPointSelector)[0]?.prepend(footerElement);
+	appendFooterNotice(footerElement);
 
 	// if there is a patrol link, the page must be not patrolled
-	if (document.querySelectorAll('.patrollink').length) {
+	if (document.querySelector('.patrollink')) {
 		footerElement.append(<NotPatrolledYet />);
 		return;
 	}
