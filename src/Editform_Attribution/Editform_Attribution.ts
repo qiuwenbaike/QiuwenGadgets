@@ -1,4 +1,3 @@
-import * as OPTIONS from './options.json';
 import {getBody} from 'ext.gadget.Util';
 import {processVisualEditor} from './modules/processVisualEditor';
 import {processWikiEditor} from './modules/processWikiEditor';
@@ -15,15 +14,6 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	});
 
 	mw.hook('ve.saveDialog.stateChanged').add((): void => {
-		processVisualEditor({
-			$body,
-		});
-	});
-
-	// When switching between VE and NWE, re-initialization is required
-	mw.hook('ve.activationComplete').add(() => {
-		if (mw.config.get(OPTIONS.configKey)) {
-			mw.config.set(OPTIONS.configKey, false);
-		}
+		processVisualEditor({$body});
 	});
 });

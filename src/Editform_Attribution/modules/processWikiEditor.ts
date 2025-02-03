@@ -15,25 +15,17 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const get$Layout = () => {
-		return generateWikiEditorCheckboxLayout({
-			inputId: OPTIONS.inputId,
-			label: getMessage('ThirdPartyContentContained'),
-			// changeTag: OPTIONS.changeTag,
-			$body,
-			$editForm,
-		});
-	};
-
-	const $layout = get$Layout();
+	const $layout = generateWikiEditorCheckboxLayout({
+		inputId: OPTIONS.inputId,
+		label: getMessage('ThirdPartyContentContained'),
+		// changeTag: OPTIONS.changeTag,
+		$body,
+		$editForm,
+	});
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.after($layout);
 	}
-
-	$editForm.on('submit', () => {
-		$layout.replaceWith(get$Layout());
-	});
 };
 
 export {processWikiEditor};
