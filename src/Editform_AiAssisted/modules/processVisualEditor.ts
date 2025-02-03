@@ -1,20 +1,18 @@
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
 import {getMessage} from './i18n';
 
-const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
+const processVisualEditor = (): void => {
 	// Guard against double inclusions
 	if (mw.config.get(OPTIONS.configKeyVe)) {
-		return;
-	}
-
-	const $targetElement: JQuery = $body.find(`.${OPTIONS.targetClassVe}`);
-	if (!$targetElement.length) {
 		return;
 	}
 
 	const {target} = window.ve.init;
 	const {saveDialog, saveFields} = target;
 	const {$saveCheckboxes} = saveDialog;
+	if (!$saveCheckboxes.length) {
+		return;
+	}
 
 	// Set guard
 	mw.config.set(OPTIONS.configKeyVe, true);

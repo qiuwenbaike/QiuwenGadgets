@@ -1,6 +1,5 @@
 import * as OPTIONS from '~/Editform_Attribution/options.json';
-import {generateWikiEditorCheckboxLayout} from './util/generateCheckboxLayout';
-import {getMessage} from './i18n';
+import {generateWikiEditorLayout} from './util/generateLayout';
 
 const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $editForm: JQuery}): void => {
 	// Guard against double inclusions
@@ -15,13 +14,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const $layout = generateWikiEditorCheckboxLayout({
-		inputId: OPTIONS.inputId,
-		label: getMessage('ThirdPartyContentContained'),
-		// changeTag: OPTIONS.changeTag,
-		$body,
-		$editForm,
-	});
+	const $layout = generateWikiEditorLayout({$body, $editForm});
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.after($layout);
