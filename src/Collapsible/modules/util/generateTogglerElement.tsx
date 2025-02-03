@@ -1,4 +1,4 @@
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {toggler} from './Collapsible.module.less';
 
 const generateTogglerElement = ($collapsible: JQuery, hideText: string, showText: string): JQuery => {

@@ -1,6 +1,6 @@
 import {ArcLocNotAllowed, Enabled, InBlackList, NoArcLoc, NotAllowed} from './modules/components/react';
 import {getSettings, ifArcLocNotAllowed, isInBlacklist, isNotAllowed, isNotSupported} from './modules/util/getSettings';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {addLinks} from './modules/addLinks';
 import {appendFooterNotice} from './modules/appendFooterNotice';
 

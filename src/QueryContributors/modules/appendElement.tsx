@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
 import {FooterUserList} from './components/react';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 
 const appendFooterNotice = (element: Element) => {
 	const mountPoint = document.querySelector<HTMLElement>(OPTIONS.mountPointSelector);

@@ -6,7 +6,7 @@
 	"dependencies": [
 		"ext.gadget.Clipboard",
 		"ext.gadget.i18n",
-		"ext.gadget.React",
+		"ext.gadget.JSX",
 		"ext.gadget.Tippy",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",

@@ -6,8 +6,8 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.i18n",
+		"ext.gadget.JSX",
 		"ext.gadget.MarkRights",
-		"ext.gadget.React",
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.Title"

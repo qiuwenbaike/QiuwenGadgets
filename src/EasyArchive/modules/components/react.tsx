@@ -1,5 +1,5 @@
 import * as OPTIONS from '../../options.json';
-import React, {ReactElement} from 'ext.gadget.React';
+import React, {ReactElement} from 'ext.gadget.JSX';
 import {footerNotice, sectionIdSpan} from './EasyArchive.module.less';
 import {getMessage} from '../i18n';
 import {sanitize} from '../util/sanitize';

@@ -26,7 +26,7 @@ import {
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
 import {getBody, uniqueArray} from 'ext.gadget.Util';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {api} from './api';
 
 const {wgCanonicalSpecialPageName, wgFormattedNamespaces, wgNamespaceIds, wgNamespaceNumber, wgTitle} = mw.config.get();

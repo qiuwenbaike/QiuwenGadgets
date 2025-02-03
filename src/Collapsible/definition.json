@@ -4,7 +4,7 @@
 	"section": "compatibility",
 	"excludeSites": ["loginwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.React", "ext.gadget.Util"],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.JSX", "ext.gadget.Util"],
 	"hidden": true,
 	"peers": ["NavFrame-pagestyles"]
 }

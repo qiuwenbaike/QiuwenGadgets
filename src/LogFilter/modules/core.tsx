@@ -1,5 +1,5 @@
 import {MESSAGES} from './messages';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {rightsFilter} from '../LogFilter.module.less';
 
 const URL_LIFILTER: string | null = mw.util.getParamValue('lifilter');

@@ -1,5 +1,5 @@
 import {previewLoadingContent, previewLoadingInner} from './SpecialWikitext.module.less';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import ajaxLoader from '../images/Ajax-loader.gif';
 import alert from '../images/Alert.png';
 import {getMessage} from '../modules/i18n';

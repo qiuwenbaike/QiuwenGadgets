@@ -1,4 +1,4 @@
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {contentWrapper} from './DialogInner.module.less';
 import {getMessage} from '../modules/i18n';
 import {isSpecialLog} from '../modules/isSpecialLog';

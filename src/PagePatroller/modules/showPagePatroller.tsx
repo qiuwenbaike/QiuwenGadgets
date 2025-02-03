@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
 import {ErrorMessage, FooterNotice, Loading, NotPatrolledYet, Patrolled} from './components/react';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {getPatroller} from './util/getPatroller';
 
 const appendFooterNotice = (element: Element) => {

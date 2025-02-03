@@ -1,5 +1,5 @@
 import {CLASS_NAME_BUTTON} from '../modules/constant';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {getMessage} from '../modules/i18n';
 
 const LINK_TITLE: string = getMessage('Report');

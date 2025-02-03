@@ -5,7 +5,7 @@
 	"default": true,
 	"dependencies": [
 		"ext.gadget.i18n",
-		"ext.gadget.React",
+		"ext.gadget.JSX",
 		"ext.gadget.Tippy",
 		"ext.gadget.Util",
 		"mediawiki.Title",

@@ -1,6 +1,6 @@
 import {OnClick, Pipe, SectionID} from './react';
 import {archiveOnClick, removeOnClick} from '../util/onClick';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {getMessage} from '../i18n';
 
 interface ArchiveSectionLinkProps {

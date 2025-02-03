@@ -4,12 +4,6 @@
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
-	"dependencies": [
-		"ext.gadget.i18n",
-		"ext.gadget.React",
-		"ext.gadget.Toastify",
-		"ext.gadget.Util",
-		"mediawiki.Title"
-	],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.JSX", "ext.gadget.Toastify", "ext.gadget.Util", "mediawiki.Title"],
 	"rights": ["skipcaptcha"]
 }

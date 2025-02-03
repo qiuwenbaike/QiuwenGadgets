@@ -1,5 +1,5 @@
 import {CLASS_NAME, CLASS_NAME_ICON, CLASS_NAME_TEXT} from '../constant';
-import React, {ReactElement} from 'ext.gadget.React';
+import React, {ReactElement} from 'ext.gadget.JSX';
 import {getMessage} from '../i18n';
 
 interface FooterNoticeProps {

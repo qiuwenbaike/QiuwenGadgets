@@ -1,6 +1,6 @@
 import {ArchiveAndDeleteSectionLink} from './components/sectionLink';
 import {EditConflictNotice} from './components/react';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {getSections} from './util/getSection';
 import {refresh} from './util/refreshPage';
 import {toastify} from 'ext.gadget.Toastify';

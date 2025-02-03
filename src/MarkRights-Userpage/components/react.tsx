@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'ext.gadget.React';
+import React, {ReactElement} from 'ext.gadget.JSX';
 import type {UserRights} from '~/MarkRights/modules/types';
 
 interface FooterNoticeProps {

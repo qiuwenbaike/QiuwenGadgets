@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
 import {CLASS_NAME_DISMISS, CLASS_NAME_NOTICE_CONTENT} from './constant';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {type RemoteNotices} from './util/queryApi';
 import {generateArea} from './util/generateArea';
 import {getMessage} from './i18n';

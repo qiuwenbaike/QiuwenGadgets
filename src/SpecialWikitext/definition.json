@@ -4,6 +4,6 @@
 	"section": "compatibility",
 	"excludeSites": ["loginwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.React", "ext.gadget.Util", "mediawiki.api", "mediawiki.util"],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.JSX", "ext.gadget.Util", "mediawiki.api", "mediawiki.util"],
 	"hidden": true
 }

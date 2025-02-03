@@ -4,6 +4,6 @@
 	"section": "sysop",
 	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike", "testwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.React", "ext.gadget.Tippy", "ext.gadget.Util", "mediawiki.util"],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.JSX", "ext.gadget.Tippy", "ext.gadget.Util", "mediawiki.util"],
 	"peers": ["Report-pagestyles"]
 }

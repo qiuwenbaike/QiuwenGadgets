@@ -14,6 +14,6 @@ void getBody().then(function editForm($body: JQuery<HTMLBodyElement>): void {
 	});
 
 	mw.hook('ve.saveDialog.stateChanged').add((): void => {
-		processVisualEditor($body);
+		processVisualEditor();
 	});
 });

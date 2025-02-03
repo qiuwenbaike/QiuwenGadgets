@@ -1,6 +1,6 @@
 import {archiveSection, removeSection} from './editSection';
 import {getArchivedMessage, getArchivingMessage, getDeletedMessage, getDeletingMessage} from './getMessage';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {getMessage} from '../i18n';
 import {refresh} from './refreshPage';
 import {toastify} from 'ext.gadget.Toastify';

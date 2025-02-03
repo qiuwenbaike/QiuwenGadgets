@@ -1,5 +1,5 @@
 import {type ClientLoginParams, api} from './api';
-import React from 'ext.gadget.React';
+import React from 'ext.gadget.JSX';
 import {checkValid} from './util/checkValid';
 import {generateElements} from './util/generateElements';
 import {getMessage} from './i18n';

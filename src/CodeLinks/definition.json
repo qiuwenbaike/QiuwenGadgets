@@ -4,6 +4,6 @@
 	"section": "browser",
 	"excludeSites": ["loginwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.React", "ext.gadget.Util", "mediawiki.util"],
+	"dependencies": ["ext.gadget.JSX", "ext.gadget.Util", "mediawiki.util"],
 	"rights": ["edit"]
 }

@@ -4,7 +4,7 @@
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
-	"dependencies": ["ext.gadget.React", "ext.gadget.Util", "jquery.ui", "mediawiki.jqueryMsg", "mediawiki.util"],
+	"dependencies": ["ext.gadget.JSX", "ext.gadget.Util", "jquery.ui", "mediawiki.jqueryMsg", "mediawiki.util"],
 	"peers": ["Cat-a-lot-pagestyles"],
 	"rights": ["skipcaptcha"]
 }
