@@ -1,6 +1,5 @@
 import * as OPTIONS from '~/Editform_Attribution/options.json';
-import {generateVisualEditorCheckboxLayout} from './util/generateCheckboxLayout';
-import {getMessage} from './i18n';
+import {generateVisualEditorLayout} from './util/generateLayout';
 
 const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
 	// Guard against double inclusions
@@ -8,22 +7,20 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		return;
 	}
 
-	const $target: JQuery = $body.find(`.${OPTIONS.targetClassVe}`);
-	if (!$target.length) {
+	const {target} = window.ve.init;
+	const {saveDialog} = target;
+	const {$saveOptions} = saveDialog;
+	if (!$saveOptions.length) {
 		return;
 	}
 
+	// Set guard
 	mw.config.set(OPTIONS.configKeyVe, true);
 
-	const $layout = generateVisualEditorCheckboxLayout({
-		inputId: OPTIONS.inputId,
-		label: getMessage('ThirdPartyContentContained'),
-		// changeTag: OPTIONS.changeTag,
-		$body,
-	});
+	const $layout = generateVisualEditorLayout({$body});
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$target.append($layout);
+		$saveOptions.append($layout);
 	}
 
 	// Reinitialization is required for switching between VisualEditor and New Wikitext Editor (2017)

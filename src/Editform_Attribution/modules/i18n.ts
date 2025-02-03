@@ -17,9 +17,9 @@ const getI18nMessages = () => {
 			'zh-hant': '許可證',
 		}),
 		'Sources and Licenses': localize({
-			en: 'Sources and Licenses',
-			'zh-hans': '内容来源及许可证',
-			'zh-hant': '內容來源及許可證',
+			en: 'Sources and licenses of third-party content',
+			'zh-hans': '第三方内容的来源及许可证',
+			'zh-hant': '第三方內容的來源及許可證',
 		}),
 		'Other License': localize({
 			en: 'Other license',
@@ -27,7 +27,7 @@ const getI18nMessages = () => {
 			'zh-hant': '其他許可證',
 		}),
 		'Replace With License': localize({
-			en: ' (Replace With license name and URL)',
+			en: ' (Replace with license name and URL)',
 			'zh-hans': '（替换为许可证名称和网址）',
 			'zh-hant': '（替換爲許可證名稱和網址）',
 		}),
