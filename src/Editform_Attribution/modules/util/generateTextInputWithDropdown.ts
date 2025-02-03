@@ -3,21 +3,19 @@ import {getAttribution} from './getAttribution';
 import {getMessage} from '../i18n';
 
 const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) => {
-	const getTextInput = (onChange?: (event?: Event) => void) => {
+	const getTextInput = (...onChanges: (() => void)[]) => {
 		const textInput = new OO.ui.TextInputWidget({
 			placeholder: getMessage('Source'),
 		});
 
-		if (onChange) {
-			textInput.on('change', () => {
-				onChange();
-			});
+		for (const onChange of onChanges) {
+			textInput.on('change', onChange);
 		}
 
 		return textInput;
 	};
 
-	const getDropDown = (onSelect?: (event?: Event) => void) => {
+	const getDropDown = (...onSelects: (() => void)[]) => {
 		const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
 			label: getMessage('License'),
 		});
@@ -33,38 +31,32 @@ const generateTextInputWithDropdown = ({$body}: {$body: JQuery<HTMLElement>}) =>
 
 		dropdown.getMenu().addItems(menuOptions);
 
-		if (onSelect) {
-			dropdown.getMenu().on('select', () => {
-				onSelect();
-			});
+		for (const onSelect of onSelects) {
+			dropdown.getMenu().on('select', onSelect);
 		}
 
 		return dropdown;
 	};
 
-	const getAddItemButton = (...onClicks: ((event?: Event) => void)[]): OO.ui.ButtonInputWidget => {
+	const getAddItemButton = (...onClicks: (() => void)[]): OO.ui.ButtonInputWidget => {
 		const addItemButton = new OO.ui.ButtonInputWidget({
 			label: getMessage('Add'),
 		});
 
-		if (onClicks) {
-			for (const onClick of onClicks) {
-				addItemButton.on('click', onClick);
-			}
+		for (const onClick of onClicks) {
+			addItemButton.on('click', onClick);
 		}
 
 		return addItemButton;
 	};
 
-	const getDeleteItemButton = (...onClicks: ((event?: Event) => void)[]): OO.ui.ButtonInputWidget => {
+	const getDeleteItemButton = (...onClicks: (() => void)[]): OO.ui.ButtonInputWidget => {
 		const deleteItemButton = new OO.ui.ButtonInputWidget({
 			label: getMessage('Delete'),
 		});
 
-		if (onClicks) {
-			for (const onClick of onClicks) {
-				deleteItemButton.on('click', onClick);
-			}
+		for (const onClick of onClicks) {
+			deleteItemButton.on('click', onClick);
 		}
 
 		return deleteItemButton;

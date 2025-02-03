@@ -77,7 +77,7 @@ const getSettings = () => {
 	const {arcLevel, arcLoc, secArc, secDel} = dataset;
 	return {
 		arcLevel: arcLevel ?? '2',
-		arcLoc: arcLoc ?? null,
+		arcLoc: arcLoc ?? '',
 		secArc: secArc ?? '1',
 		secDel: secDel ?? '1',
 	};

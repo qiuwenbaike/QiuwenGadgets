@@ -1,5 +1,5 @@
-import {Background} from './modules/background';
 import {disclaimer} from './HistoryDisclaimer.module.less';
+import {getBackground} from './modules/getBackground';
 
 (function historyDisclaimer(): void {
 	const {wgCurRevisionId, wgRevisionId} = mw.config.get();
@@ -8,9 +8,9 @@ import {disclaimer} from './HistoryDisclaimer.module.less';
 		return;
 	}
 
-	if (document.querySelectorAll(`.${disclaimer}`).length) {
+	if (document.querySelector(`.${disclaimer}`)) {
 		return;
 	}
 
-	document.body.append(Background());
+	document.body.append(getBackground());
 })();

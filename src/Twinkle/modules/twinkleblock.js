@@ -950,13 +950,13 @@ import {generateArray} from 'ext.gadget.Util';
 		let oldfield;
 		if (field_preset) {
 			[oldfield] = $form.find('fieldset[name="field_preset"]');
-			oldfield.parentNode.replaceChild(field_preset.render(), oldfield);
+			oldfield.replaceWith(field_preset.render());
 		} else {
 			$form.find('fieldset[name="field_preset"]').hide();
 		}
 		if (field_block_options) {
 			[oldfield] = $form.find('fieldset[name="field_block_options"]');
-			oldfield.parentNode.replaceChild(field_block_options.render(), oldfield);
+			oldfield.replaceWith(field_block_options.render());
 			$form.find('fieldset[name="field_64"]').show();
 			$form.find('[name=pagerestrictions]').select2({
 				width: '100%',
@@ -1034,7 +1034,7 @@ import {generateArray} from 'ext.gadget.Util';
 		}
 		if (field_template_options) {
 			[oldfield] = $form.find('fieldset[name="field_template_options"]');
-			oldfield.parentNode.replaceChild(field_template_options.render(), oldfield);
+			oldfield.replaceWith(field_template_options.render());
 			e.target.form.root.previewer = new Morebits.wiki.preview(
 				$(e.target.form.root).find('#twinkleblock-previewbox').last()[0]
 			);
@@ -1043,13 +1043,13 @@ import {generateArray} from 'ext.gadget.Util';
 		}
 		if (field_tag_options) {
 			[oldfield] = $form.find('fieldset[name="field_tag_options"]');
-			oldfield.parentNode.replaceChild(field_tag_options.render(), oldfield);
+			oldfield.replaceWith(field_tag_options.render());
 		} else {
 			$form.find('fieldset[name="field_tag_options"]').hide();
 		}
 		if (field_unblock_options) {
 			[oldfield] = $form.find('fieldset[name="field_unblock_options"]');
-			oldfield.parentNode.replaceChild(field_unblock_options.render(), oldfield);
+			oldfield.replaceWith(field_unblock_options.render());
 		} else {
 			$form.find('fieldset[name="field_unblock_options"]').hide();
 		}

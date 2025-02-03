@@ -25,7 +25,7 @@ hotCatMessages();
 	// Don't use mw.config.get() as that takes a copy of the config, and so doesn't
 	// account for values changing, e.g. wgCurRevisionId after a VE edit
 	const conf = mw.config.values;
-	// Guard against double inclusions (in old IE/Opera element ids become window properties)
+	// Guard against double inclusions
 	if ((window.HotCat && !window.HotCat.nodeName) || conf.wgAction === 'edit') {
 		return; // Not on edit mode
 	}
@@ -1128,7 +1128,7 @@ hotCatMessages();
 		commitButton.value = getMessage('messages-commit');
 		commitButton.addEventListener('click', multiSubmit);
 		if (multiSpan) {
-			multiSpan.parentNode.replaceChild(commitButton, multiSpan);
+			multiSpan.replaceWith(commitButton);
 		} else {
 			catLine.append(commitButton);
 		}
@@ -1552,17 +1552,11 @@ hotCatMessages();
 					self.keyCount++;
 					return self.processKey(event);
 				});
-				$(text).on('focus', () => {
+				text.addEventListener('focus', () => {
 					makeActive(self);
 				});
-				// On IE, blur events are asynchronous, and may thus arrive after the element has lost the focus. Since IE
-				// can get the selection only while the element is active (has the focus), we may not always get the selection.
-				// Therefore, use an IE-specific synchronous event on IE...
 				// Don't test for text.selectionStart being defined;
-				$(text).on(
-					text.onbeforedeactivate !== undefined && text.createTextRange ? 'beforedeactivate' : 'blur',
-					this.saveView.bind(this)
-				);
+				$(text).on('blur', this.saveView.bind(this));
 				// DOM Level 3 IME handling
 				try {
 					// Setting lastKey = IME provides a fake keyDown for Gecko's single keyUp after a cmposition. If we didn't do this,
@@ -1668,10 +1662,6 @@ hotCatMessages();
 			span.className = 'hotcatinput';
 			span.style.position = 'relative';
 			span.append(text);
-			// Put some text into this span (a0 is nbsp) and make sure it always stays on the same
-			// line as the input field, otherwise, IE8/9 miscalculates the height of the span and
-			// then the engine selector may overlap the input field.
-			span.append(make('\u00A0', true));
 			span.style.whiteSpace = 'nowrap';
 			if (list) {
 				span.append(list);
@@ -1731,7 +1721,7 @@ hotCatMessages();
 			this.linkSpan.style.display = 'none';
 			this.form.style.display = 'inline';
 			this.ok.disabled = false;
-			// Kill the event before focussing, otherwise IE will kill the onfocus event!
+			// Kill the event before focusing, otherwise IE will kill the onfocus event!
 			const result = evtKill(event);
 			this.text.focus();
 			this.text.readOnly = false;
@@ -2389,19 +2379,12 @@ hotCatMessages();
 				maxListHeight = (listh / nofItems) * HC.listSize;
 			}
 			const viewport = (what) => {
-				if (is_webkit && !document.evaluate) {
-					// Safari < 3.0
-					return window[`inner${what}`];
-				}
 				const s = `client${what}`;
-				if (window.opera) {
-					return $('body')[0][s];
-				}
-				return (document.documentElement ? document.documentElement[s] : 0) || $('body')[0][s] || 0;
+				return document.documentElement ? document.documentElement[s] : 0;
 			};
 			const scroll_offset = (what) => {
 				const s = `scroll${what}`;
-				let result = (document.documentElement ? document.documentElement[s] : 0) || $('body')[0][s] || 0;
+				let result = document.documentElement ? document.documentElement[s] : 0;
 				if (is_rtl && what === 'Left') {
 					// RTL inconsistencies.
 					// FF: 0 at the far right, then increasingly negative values.
@@ -2547,7 +2530,6 @@ hotCatMessages();
 		canSelect() {
 			return (
 				this.text.setSelectionRange ||
-				this.text.createTextRange ||
 				(this.text.selectionStart !== undefined && this.text.selectionEnd !== undefined)
 			);
 		}
@@ -2567,12 +2549,6 @@ hotCatMessages();
 					this.text.selectionStart = from;
 					this.text.selectionEnd = to;
 				}
-			} else if (this.text.createTextRange) {
-				// IE
-				const new_selection = this.text.createTextRange();
-				new_selection.move('character', from);
-				new_selection.moveEnd('character', to - from);
-				new_selection.select();
 			}
 		}
 		getSelection() {
@@ -2584,24 +2560,6 @@ hotCatMessages();
 			} else if (this.text.selectionStart !== undefined) {
 				from = this.text.selectionStart;
 				to = this.text.selectionEnd;
-			} else if (document.selection && document.selection.createRange) {
-				// IE
-				const rng = document.selection.createRange().duplicate();
-				if (rng.parentNode() === this.text) {
-					try {
-						const textRng = this.text.createTextRange();
-						textRng.move('character', 0);
-						textRng.setEndPoint('EndToEnd', rng);
-						// We're in a single-line input box: no need to care about IE's strange
-						// handling of line ends
-						to = textRng.text.length;
-						textRng.setEndPoint('EndToStart', rng);
-						from = textRng.text.length;
-					} catch {
-						from = this.text.value.length;
-						to = from; // At end of text
-					}
-				}
 			}
 			return {
 				start: from,
@@ -2884,9 +2842,6 @@ hotCatMessages();
 				is_rtl = document.defaultView
 					.getComputedStyle(document.querySelector('body'), null)
 					.getPropertyValue('direction');
-			} else if ($('body')[0].currentStyle) {
-				// IE, has subtle differences to getComputedStyle
-				is_rtl = $('body')[0].currentStyle.direction;
 			} else {
 				// Not exactly right, but best effort
 				is_rtl = $('body')[0].style.direction;

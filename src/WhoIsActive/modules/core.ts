@@ -1,15 +1,12 @@
-import {appendLastActiveMarker} from './util/appendLastActiveMarker';
-import {appendLastActiveMarkerToUserPage} from './util/appendLastActiveMarkerToUserPage';
-import {getUserNamesAndElements} from './util/getUserNamesAndElements';
+import {appendMarkerToUserLinks, appendMarkerToUserPage} from './util/appendMarker';
+import {getUserLinks} from './util/getUserLinks';
 
-const whoIsActive = ($content: JQuery<HTMLElement>): void => {
-	const {usernames, $elements} = getUserNamesAndElements($content);
+const whoIsActiveUserLinks = ($content: JQuery<HTMLElement>): void => {
+	const userLinks = getUserLinks($content);
 
-	if (!usernames.length || !$elements.length) {
-		return;
+	for (const [userName, $elements] of Object.entries(userLinks)) {
+		void appendMarkerToUserLinks({userName, $elements});
 	}
-
-	void appendLastActiveMarker({usernames, $elements});
 };
 
 const whoIsActiveUserPage = (): void => {
@@ -25,7 +22,7 @@ const whoIsActiveUserPage = (): void => {
 		return;
 	}
 
-	void appendLastActiveMarkerToUserPage(wgRelevantUserName);
+	void appendMarkerToUserPage(wgRelevantUserName);
 };
 
-export {whoIsActive, whoIsActiveUserPage};
+export {whoIsActiveUserLinks, whoIsActiveUserPage};

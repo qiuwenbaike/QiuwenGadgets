@@ -1,7 +1,8 @@
-import {ArcLocNotAllowed, InBlackList, NoArcLoc, NotAllowed} from './modules/components/react';
-import {addLinks, appendFooterNotice} from './modules/addLinks';
+import {ArcLocNotAllowed, Enabled, InBlackList, NoArcLoc, NotAllowed} from './modules/components/react';
 import {getSettings, ifArcLocNotAllowed, isInBlacklist, isNotAllowed, isNotSupported} from './modules/util/getSettings';
 import React from 'ext.gadget.React';
+import {addLinks} from './modules/addLinks';
+import {appendFooterNotice} from './modules/appendFooterNotice';
 
 (function easyArchive() {
 	const notSupported = isNotSupported();
@@ -38,6 +39,8 @@ import React from 'ext.gadget.React';
 		appendFooterNotice(<ArcLocNotAllowed arcLoc={arcLoc} />);
 		return;
 	}
+
+	appendFooterNotice(<Enabled arcLoc={arcLoc} />);
 
 	void addLinks(settings);
 })();

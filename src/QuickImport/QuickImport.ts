@@ -3,19 +3,19 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 (function quickImport(): void {
 	const {wgNamespaceNumber, wgPageName, wgWikiID} = mw.config.get();
 
-	const caViewForeignZhwiki = document.querySelectorAll("#ca-view-foreign a[href*='zh.wikipedia.org']");
-	const redirectTextA = document.querySelectorAll('.redirectText a');
+	const caViewForeignZhwiki = document.querySelector("#ca-view-foreign a[href*='zh.wikipedia.org']");
+	const redirectTextA = document.querySelector('.redirectText a');
 
 	const isFileNS: boolean = wgNamespaceNumber === 6;
 	const hasMwNoarticletext: boolean = !!document.querySelector('#mw-noarticletext');
-	const iwprefix: string = caViewForeignZhwiki.length ? 'zhwiki' : 'commons';
+	const iwprefix: string = caViewForeignZhwiki ? 'zhwiki' : 'commons';
 
 	const label: string = isFileNS && !hasMwNoarticletext ? iwprefix : '';
 	const buttonLabel: string = isFileNS
 		? label
 			? `文件（${label}）`
 			: '页面'
-		: redirectTextA.length
+		: redirectTextA
 			? '重定向目标'
 			: '页面';
 
@@ -63,7 +63,7 @@ import {detectIfFileRedirect, refreshPage} from './modules/core';
 
 	element.addEventListener('click', (): void => {
 		void (async () => {
-			const pageName: string = redirectTextA[0]?.textContent || wgPageName;
+			const pageName: string = redirectTextA ? redirectTextA.textContent || wgPageName : wgPageName;
 			const pageNames = [pageName];
 			if (wgPageName2) {
 				pageNames[pageNames.length] = wgPageName2;

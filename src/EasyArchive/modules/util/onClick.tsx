@@ -5,25 +5,21 @@ import {getMessage} from '../i18n';
 import {refresh} from './refreshPage';
 import {toastify} from 'ext.gadget.Toastify';
 
+interface OnClickProps {
+	sectionIdSpans: Element[];
+	messageChannel: BroadcastChannel;
+	refreshChannel: BroadcastChannel;
+	indexNo: string;
+	anchor: string;
+	toastifyInstance: ToastifyInstance;
+}
+
+type ArchiveOnClickProps = OnClickProps & {archiveTo: string};
+type RemoveOnClickProps = OnClickProps;
+
 const archiveOnClick = async (
 	event: Event,
-	{
-		sectionIdSpans,
-		messageChannel,
-		refreshChannel,
-		indexNo,
-		anchor,
-		archiveTo,
-		toastifyInstance,
-	}: {
-		sectionIdSpans: Element[];
-		messageChannel: BroadcastChannel;
-		refreshChannel: BroadcastChannel;
-		indexNo: string;
-		anchor: string;
-		archiveTo: string;
-		toastifyInstance: ToastifyInstance;
-	}
+	{sectionIdSpans, messageChannel, refreshChannel, indexNo, anchor, toastifyInstance, archiveTo}: ArchiveOnClickProps
 ) => {
 	event.preventDefault();
 	const parentElement = (event.target as HTMLElement)?.parentElement;
@@ -75,24 +71,9 @@ const archiveOnClick = async (
 	refreshChannel.postMessage('Refresh');
 	refresh({toastifyInstance});
 };
-
 const removeOnClick = async (
 	event: Event,
-	{
-		sectionIdSpans,
-		messageChannel,
-		refreshChannel,
-		indexNo,
-		anchor,
-		toastifyInstance,
-	}: {
-		sectionIdSpans: Element[];
-		messageChannel: BroadcastChannel;
-		refreshChannel: BroadcastChannel;
-		indexNo: string;
-		anchor: string;
-		toastifyInstance: ToastifyInstance;
-	}
+	{sectionIdSpans, messageChannel, refreshChannel, indexNo, anchor, toastifyInstance}: RemoveOnClickProps
 ) => {
 	event.preventDefault();
 	const parentElement = (event.target as HTMLElement)?.parentElement;
