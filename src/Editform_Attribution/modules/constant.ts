@@ -1,3 +1,5 @@
+import {getMessage} from './i18n';
+
 const LICENSES = [
 	{
 		label: 'CC BY-SA 4.0',
@@ -18,6 +20,10 @@ const LICENSES = [
 	{
 		label: 'KOGL Type I: Attribution',
 		data: 'https://www.kogl.or.kr/info/licenseType1.do',
+	},
+	{
+		label: getMessage('Other License'),
+		data: getMessage('Replace With License'),
 	},
 ];
 

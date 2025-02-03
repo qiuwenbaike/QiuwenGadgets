@@ -6,10 +6,6 @@ const getI18nMessages = () => {
 			en: 'Add',
 			zh: '增加',
 		}),
-		Delete: localize({
-			en: 'Delete',
-			zh: '移除',
-		}),
 		Source: localize({
 			en: 'Source',
 			'zh-hans': '内容来源',
@@ -24,6 +20,16 @@ const getI18nMessages = () => {
 			en: 'Sources and Licenses',
 			'zh-hans': '内容来源及许可证',
 			'zh-hant': '內容來源及許可證',
+		}),
+		'Other License': localize({
+			en: 'Other license',
+			'zh-hans': '其他许可证',
+			'zh-hant': '其他許可證',
+		}),
+		'Replace With License': localize({
+			en: ' (Replace With license name and URL)',
+			'zh-hans': '（替换为许可证名称和网址）',
+			'zh-hant': '（替換爲許可證名稱和網址）',
 		}),
 		ThirdPartyContentContained: localize({
 			en: 'This editor contains third-party content.',

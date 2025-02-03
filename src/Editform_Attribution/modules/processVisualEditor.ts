@@ -4,7 +4,7 @@ import {getMessage} from './i18n';
 
 const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
 	// Guard against double inclusions
-	if (mw.config.get(OPTIONS.configKey)) {
+	if (mw.config.get(OPTIONS.configKeyVe)) {
 		return;
 	}
 
@@ -13,28 +13,24 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 		return;
 	}
 
-	mw.config.set(OPTIONS.configKey, true);
+	mw.config.set(OPTIONS.configKeyVe, true);
 
-	const get$Layout = () => {
-		return generateVisualEditorCheckboxLayout({
-			inputId: OPTIONS.inputId,
-			label: getMessage('ThirdPartyContentContained'),
-			// changeTag: OPTIONS.changeTag,
-			$body,
-		});
-	};
-
-	const $layout = get$Layout();
+	const $layout = generateVisualEditorCheckboxLayout({
+		inputId: OPTIONS.inputId,
+		label: getMessage('ThirdPartyContentContained'),
+		// changeTag: OPTIONS.changeTag,
+		$body,
+	});
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		$target.append($layout);
 	}
 
-	const {target} = window.ve.init;
-	const {saveDialog} = target;
-
-	saveDialog.on('save', () => {
-		$layout.replaceWith(get$Layout());
+	// Reinitialization is required for switching between VisualEditor and New Wikitext Editor (2017)
+	mw.hook('ve.activationComplete').add(() => {
+		if (mw.config.get(OPTIONS.configKeyVe)) {
+			mw.config.set(OPTIONS.configKeyVe, false);
+		}
 	});
 };
 
