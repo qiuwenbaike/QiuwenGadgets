@@ -40,7 +40,7 @@ const getDropDown = (...onSelects: (() => void)[]) => {
 
 const getAddItemButton = (...onClicks: (() => void)[]): OO.ui.ButtonInputWidget => {
 	const addItemButton = new OO.ui.ButtonInputWidget({
-		label: getMessage('Add'),
+		label: getMessage('Add to Edit Summary'),
 	});
 
 	for (const onClick of onClicks) {
@@ -53,7 +53,7 @@ const getAddItemButton = (...onClicks: (() => void)[]): OO.ui.ButtonInputWidget 
 const generateTextInputWithDropdown = ({$body, $wpSummary}: {$body: JQuery<HTMLElement>; $wpSummary: JQuery}) => {
 	const initialFieldset = new OO.ui.FieldsetLayout();
 	const parentFieldSet = new OO.ui.FieldsetLayout({
-		label: getMessage('Sources and Licenses'),
+		label: getMessage('Please Claim Sources and Licenses'),
 	});
 
 	const inputOnChange = () => {
@@ -83,8 +83,10 @@ const generateTextInputWithDropdown = ({$body, $wpSummary}: {$body: JQuery<HTMLE
 		$originwpAttribution.val(wpAttribution);
 
 		appendTextToSummary({
+			customSummary: $originwpAttribution.val()
+				? `［${getMessage('Source')}: ${$originwpAttribution.val()}］`
+				: '',
 			$wpSummary,
-			customSummary: $originwpAttribution.val() ? `<${getMessage('Source')}: ${$originwpAttribution.val()}>` : '',
 		});
 
 		textInput.setValue('');
