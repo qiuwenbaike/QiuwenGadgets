@@ -3,7 +3,7 @@ import type {UserRights} from '~/MarkRights/modules/types';
 
 interface FooterNoticeProps {
 	spanClass: string;
-	children?: ReactElement | ReactElement[];
+	children?: ReactElement;
 }
 
 const FooterNotice = ({spanClass, children = <></>}: FooterNoticeProps) => {
@@ -14,12 +14,12 @@ const FooterNotice = ({spanClass, children = <></>}: FooterNoticeProps) => {
 		<>
 			{skin === 'citizen' ? (
 				<section className={[...classNames, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
-					{children ?? <></>}
+					{children}
 				</section>
 			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
-				<li className={[classNames, 'noprint']}>{children ?? <></>}</li>
+				<li className={[classNames, 'noprint']}>{children}</li>
 			) : (
-				<div className={[classNames, 'noprint']}>{children ?? <></>}</div>
+				<div className={[classNames, 'noprint']}>{children}</div>
 			)}
 		</>
 	);

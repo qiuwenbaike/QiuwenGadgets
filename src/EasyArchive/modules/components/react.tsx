@@ -6,27 +6,27 @@ import {sanitize} from '../util/sanitize';
 
 interface FooterNoticeProps {
 	id?: string;
-	children?: ReactElement | ReactElement[];
+	children?: ReactElement;
 }
 
-const FooterNotice = ({id, children = <></>}: FooterNoticeProps) => {
+const FooterNotice = ({id = OPTIONS.elementId, children = <></>}: FooterNoticeProps) => {
 	const {skin} = mw.config.get();
 
 	return (
 		<>
 			{skin === 'citizen' ? (
 				<section
-					id={id ?? OPTIONS.elementId}
+					id={id}
 					className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
 				>
 					{children}
 				</section>
 			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
-				<li id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
+				<li id={id} className={[footerNotice, 'noprint']}>
 					{children}
 				</li>
 			) : (
-				<div id={id ?? OPTIONS.elementId} className={[footerNotice, 'noprint']}>
+				<div id={id} className={[footerNotice, 'noprint']}>
 					{children}
 				</div>
 			)}
@@ -104,10 +104,10 @@ const OnClick = ({textContent, className, onClick}: OnClickProps) => (
 );
 
 interface SectionIDProps {
-	children?: ReactElement | ReactElement[];
+	children?: ReactElement;
 }
 
-const SectionID = ({children}: SectionIDProps) => <span className={sectionIdSpan}>{children}</span>;
+const SectionID = ({children = <></>}: SectionIDProps) => <span className={sectionIdSpan}>{children}</span>;
 
 const Pipe = () => <span className="mw-editsection-divider" textContent={'|'} />;
 
