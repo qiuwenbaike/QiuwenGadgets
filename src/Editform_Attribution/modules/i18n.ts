@@ -2,9 +2,10 @@ import {localize} from 'ext.gadget.i18n';
 
 const getI18nMessages = () => {
 	return {
-		Add: localize({
-			en: 'Add',
-			zh: '增加',
+		'Add to Edit Summary': localize({
+			en: 'Add to Edit Summary',
+			'zh-hans': '添加至编辑摘要',
+			'zh-hant': '添加至編輯摘要',
 		}),
 		Source: localize({
 			en: 'Source',
@@ -16,30 +17,20 @@ const getI18nMessages = () => {
 			'zh-hans': '许可证',
 			'zh-hant': '許可證',
 		}),
-		'Sources and Licenses': localize({
-			en: 'Sources and licenses of third-party content',
-			'zh-hans': '第三方内容的来源及许可证',
-			'zh-hant': '第三方內容的來源及許可證',
-		}),
 		'Other License': localize({
 			en: 'Other license',
 			'zh-hans': '其他许可证',
 			'zh-hant': '其他許可證',
 		}),
+		'Please Claim Sources and Licenses': localize({
+			en: 'If edit content adds any third-party content, please add the source and license of the third-party content separately to the editing summary.',
+			'zh-hans': '若您向编辑内容中添加了第三方内容，请将第三方内容的来源、许可证在编辑摘要中分条声明',
+			'zh-hant': '若您向編輯內容中添加了第三方內容，請將第三方內容的來源、許可證在編輯摘要中分條聲明',
+		}),
 		'Replace With License': localize({
 			en: ' (Replace with license name and URL)',
 			'zh-hans': '（替换为许可证名称和网址）',
 			'zh-hant': '（替換爲許可證名稱和網址）',
-		}),
-		ThirdPartyContentContained: localize({
-			en: 'This editor contains third-party content.',
-			'zh-hans': '此编辑含有第三方内容',
-			'zh-hant': '此編輯含有第三方內容',
-		}),
-		QiuwenContentContained: localize({
-			en: 'This editor contains content from other pages of Qiuwen Baike.',
-			'zh-hans': '此编辑含有求闻百科其他页面的内容',
-			'zh-hant': '此編輯含有求聞百科其他頁面的內容',
 		}),
 	};
 };
