@@ -4,12 +4,11 @@ import {getMessage} from '../i18n';
 
 interface FooterNoticeProps {
 	spanClass: string;
-	children?: ReactElement | ReactElement[];
+	children?: ReactElement;
 }
 
 const FooterNotice = ({spanClass, children = <></>}: FooterNoticeProps) => {
 	const {skin} = mw.config.get();
-	children ??= <></>;
 
 	return (
 		<>

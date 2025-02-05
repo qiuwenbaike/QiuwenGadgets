@@ -5,28 +5,25 @@ import {sanitize} from '../util/sanitize';
 
 interface FooterNoticeProps {
 	id?: string;
-	children?: ReactElement | ReactElement[];
+	children?: ReactElement;
 }
 
-const FooterNotice = ({id, children = <></>}: FooterNoticeProps) => {
+const FooterNotice = ({id = OPTIONS.elementId, children = <></>}: FooterNoticeProps) => {
 	const {skin} = mw.config.get();
 
 	return (
 		<>
 			{skin === 'citizen' ? (
-				<section
-					id={id ?? OPTIONS.elementId}
-					className={[OPTIONS.elementId, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
-				>
-					{children ?? <></>}
+				<section id={id} className={[id, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
+					{children}
 				</section>
 			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
-				<li id={id ?? OPTIONS.elementId} className={[OPTIONS.elementId, 'noprint']}>
-					{children ?? <></>}
+				<li id={id} className={[id, 'noprint']}>
+					{children}
 				</li>
 			) : (
-				<div id={id ?? OPTIONS.elementId} className={[OPTIONS.elementId, 'noprint']}>
-					{children ?? <></>}
+				<div id={id} className={[id, 'noprint']}>
+					{children}
 				</div>
 			)}
 		</>

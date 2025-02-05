@@ -96,32 +96,34 @@ const ArchiveAndDeleteSectionLink = ({
 	arcLoc,
 }: ArchiveAndDeleteSectionLinkProps) => (
 	<SectionID>
-		{secArc === '1' ? (
-			<ArchiveSectionLink
-				sectionIdSpans={sectionIdSpans}
-				messageChannel={messageChannel}
-				refreshChannel={refreshChannel}
-				indexNo={indexNo}
-				anchor={anchor}
-				toastifyInstance={toastifyInstance}
-				archiveTo={arcLoc}
-			/>
-		) : (
-			<></>
-		)}
-		{secArc === '1' && secDel === '1' ? <Pipe /> : <></>}
-		{secDel === '1' ? (
-			<RemoveSectionLink
-				sectionIdSpans={sectionIdSpans}
-				messageChannel={messageChannel}
-				refreshChannel={refreshChannel}
-				indexNo={indexNo}
-				anchor={anchor}
-				toastifyInstance={toastifyInstance}
-			/>
-		) : (
-			<></>
-		)}
+		<>
+			{secArc === '1' ? (
+				<ArchiveSectionLink
+					sectionIdSpans={sectionIdSpans}
+					messageChannel={messageChannel}
+					refreshChannel={refreshChannel}
+					indexNo={indexNo}
+					anchor={anchor}
+					toastifyInstance={toastifyInstance}
+					archiveTo={arcLoc}
+				/>
+			) : (
+				<></>
+			)}
+			{secArc === '1' && secDel === '1' ? <Pipe /> : <></>}
+			{secDel === '1' ? (
+				<RemoveSectionLink
+					sectionIdSpans={sectionIdSpans}
+					messageChannel={messageChannel}
+					refreshChannel={refreshChannel}
+					indexNo={indexNo}
+					anchor={anchor}
+					toastifyInstance={toastifyInstance}
+				/>
+			) : (
+				<></>
+			)}
+		</>
 	</SectionID>
 );
 
