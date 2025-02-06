@@ -2,6 +2,11 @@ import {appendMarkerToUserLinks, appendMarkerToUserPage} from './util/appendMark
 import {getUserLinks} from './util/getUserLinks';
 
 const whoIsActiveUserLinks = ($content: JQuery<HTMLElement>): void => {
+	const {wgCanonicalSpecialPageName} = mw.config.get();
+	if (wgCanonicalSpecialPageName === 'Recentchanges') {
+		return;
+	}
+
 	const userLinks = getUserLinks($content);
 
 	for (const [userName, $elements] of Object.entries(userLinks)) {
