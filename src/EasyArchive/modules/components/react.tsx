@@ -35,58 +35,44 @@ const FooterNotice = ({id = OPTIONS.elementId, children = <></>}: FooterNoticePr
 };
 
 const InBlackList = () => (
-	<FooterNotice id="easy_archive_not_supported_notice">
-		<span>
-			{getMessage('Easy Archive not supported')}
-			<br />
-			{getMessage('Easy Archive not supported details')}
-		</span>
-	</FooterNotice>
+	<>
+		{getMessage('Easy Archive not supported')}
+		<br />
+		{getMessage('Easy Archive not supported details')}
+	</>
 );
 
-const NotAllowed = () => (
-	<FooterNotice id="easy_archive_not_allowed_notice">
-		<span>{getMessage('Easy Archive not allowed')}</span>
-	</FooterNotice>
-);
+const NotAllowed = () => <>{getMessage('Easy Archive not allowed')}</>;
 
 interface ArcLocNotAllowedProps {
 	arcLoc: string;
 }
 
 const ArcLocNotAllowed = ({arcLoc}: ArcLocNotAllowedProps) => (
-	<FooterNotice id="easy_archive_arc_loc_not_allowed_notice">
-		<span>
-			{getMessage('Archive Location not allowed').replace('$1', sanitize(arcLoc))}
-			<br />
-			{getMessage('Archive Location not allowed details')}
-		</span>
-	</FooterNotice>
+	<>
+		{getMessage('Archive Location not allowed').replace('$1', sanitize(arcLoc))}
+		<br />
+		{getMessage('Archive Location not allowed details')}
+	</>
 );
 
-const NoArcLoc = () => (
-	<FooterNotice id="easy_archive_no_arc_loc_notice">
-		<span>{getMessage('No Archive Location')}</span>
-	</FooterNotice>
-);
+const NoArcLoc = () => <>{getMessage('No Archive Location')}</>;
 
 interface EnabledProps {
 	arcLoc: string;
 }
 
 const Enabled = ({arcLoc}: EnabledProps) => (
-	<FooterNotice id="easy_archive_arc_loc_not_allowed_notice">
-		<span>
-			{getMessage('Easy Archive enabled')}
-			{getMessage('(')}
-			{getMessage('Archive location')}
-			<a title={sanitize(arcLoc)} href={`/wiki/${sanitize(arcLoc)}`}>
-				{arcLoc}
-			</a>
-			{getMessage(')')}
-			{getMessage('.')}
-		</span>
-	</FooterNotice>
+	<>
+		{getMessage('Easy Archive enabled')}
+		{getMessage('(')}
+		{getMessage('Archive location')}
+		<a title={sanitize(arcLoc)} href={`/wiki/${sanitize(arcLoc)}`}>
+			{arcLoc}
+		</a>
+		{getMessage(')')}
+		{getMessage('.')}
+	</>
 );
 
 interface OnClickProps {
