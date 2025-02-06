@@ -3,7 +3,7 @@ const getUserLinks = ($content: JQuery) => {
 
 	const {wgFormattedNamespaces} = mw.config.get();
 
-	const {2: localizedUserNamespace} = wgFormattedNamespaces;
+	const {2: localizedUserNamespace, 3: localizedUserTalkNamespace} = wgFormattedNamespaces;
 	for (const element of $content.find<HTMLAnchorElement>(
 		[
 			'a[title^="User:"]:not(.mw-changeslist-date):not([href*="undo"])',
@@ -12,14 +12,20 @@ const getUserLinks = ($content: JQuery) => {
 	)) {
 		const $element: JQuery<HTMLAnchorElement> = $(element);
 
-		const userRegex: RegExp = new RegExp(`((User)|(${localizedUserNamespace})):(.*?)(?=&|$)`);
+		const userRegex: RegExp = new RegExp(
+			`((User|User[_ ]talk)|(${localizedUserNamespace}|${localizedUserTalkNamespace})):(.*?)(?=&|$)`
+		);
 		const userNameMatchArray: RegExpMatchArray | null = decodeURI($element.attr('href') ?? '').match(userRegex);
 		if (!userNameMatchArray) {
 			continue;
 		}
 
 		let [userName] = userNameMatchArray;
-		userName = userName.replace(new RegExp(`^((User)|(${localizedUserNamespace})):`, 'i'), '');
+		userName = userName.replace(
+			new RegExp(`^((User|User[_ ]talk)|(${localizedUserNamespace}|${localizedUserTalkNamespace})):`, 'i'),
+			''
+		);
+		userName = userName.replace(/#.*$/i, '');
 		const index: number = userName.indexOf('/');
 		if (index === -1) {
 			userLinks[userName] ??= [];
