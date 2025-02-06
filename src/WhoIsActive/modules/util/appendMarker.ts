@@ -1,5 +1,5 @@
+import * as OPTIONS from '../../options.json';
 import {SYSTEM_SCRIPT_LIST} from '../constant';
-import {appendFooterNotice} from './appendFooterNotice';
 import {getLastActiveMarker} from './getLastActiveMarker';
 import {getTimestamp} from './getTimestamp';
 
@@ -31,7 +31,12 @@ const appendMarkerToUserPage = async (userName: string) => {
 		return;
 	}
 
-	appendFooterNotice(getLastActiveMarker(timestamp, false));
+	const mountPoint = document.querySelector<HTMLElement>(OPTIONS.mountPointSelector);
+	if (!mountPoint) {
+		return;
+	}
+
+	mountPoint.prepend(getLastActiveMarker(timestamp, false));
 };
 
 export {appendMarkerToUserLinks, appendMarkerToUserPage};
