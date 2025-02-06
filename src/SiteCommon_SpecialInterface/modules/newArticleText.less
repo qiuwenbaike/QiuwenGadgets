@@ -1,12 +1,13 @@
 @import (reference) '../variables.less';
 
 /**
- * [[MediaWiki:Uploadtext]]样式
+ * [[MediaWiki:Newarticletext]]样式
  *
  * @author WaitSpring
  */
-.mw-uploadtext {
-	&-core {
+.mw-newarticletext {
+	&-core,
+	&-inner {
 		display: flex;
 		flex-flow: row wrap;
 		align-items: flex-start;
@@ -20,9 +21,7 @@
 		gap: 1em;
 		word-break: break-all;
 
-		.client-darkmode &,
-		.skin-theme-clientpref-night &,
-		.client-darkmode.skin-theme-clientpref-night & {
+		.client-darkmode & {
 			background: @background-color-primary--light;
 			box-shadow:
 				0 1px 2px @background-color-primary--darker,
@@ -31,7 +30,8 @@
 	}
 
 	&-title,
-	&-subtitle {
+	&-left-title,
+	&-right-title {
 		display: block !important;
 		flex: 1 1 100%;
 		margin: 0.5em auto;
@@ -39,42 +39,18 @@
 		text-align: center;
 	}
 
-	&-req,
-	&-summary,
-	&-advice,
 	&-left,
 	&-right {
 		flex: 1 1 30em;
-	}
-
-	&-req,
-	&-summary,
-	&-advice {
-		margin: 0.5em;
-	}
-
-	&-desc {
-		display: flex;
-		flex-flow: row wrap;
-		gap: 1em;
-	}
-
-	&-ownnotice {
-		font-size: 105%;
-		text-align: center;
-	}
-
-	&-infotpl {
-		border: 0;
-		margin: 0;
-		background: transparent;
-	}
-
-	&-warn {
 		padding: 1em;
-		border: 1px solid @color--error;
-		margin-top: 0.25em;
-		background: #fee7e6;
-		text-align: center;
+	}
+
+	&-buttons {
+		display: flex;
+		flex: 1 1 100%;
+		flex-flow: row wrap;
+		justify-content: center;
+		padding: 0.5em;
+		gap: 1em;
 	}
 }
