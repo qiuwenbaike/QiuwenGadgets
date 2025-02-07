@@ -30,17 +30,17 @@ const showPagePatroller = async (): Promise<void> => {
 			const date: Date = new Date(timestamp);
 
 			if (action === 'patrol') {
-				footerElement.replaceWith(<Patrolled timestamp={date.toLocaleString()} user={user} />);
+				mountPoint.replaceChild(<Patrolled timestamp={date.toLocaleString()} user={user} />, footerElement);
 			} else {
-				footerElement.replaceWith(<Patrolled timestamp={''} user={''} />);
+				mountPoint.replaceChild(<Patrolled timestamp={''} user={''} />, footerElement);
 			}
 		} else {
-			footerElement.replaceWith(<Patrolled timestamp={''} user={''} />);
+			mountPoint.replaceChild(<Patrolled timestamp={''} user={''} />, footerElement);
 		}
 	} catch (error: unknown) {
 		// return error(s)
 		console.error('[PagePatroller]:', error);
-		footerElement.replaceWith(<ErrorMessage />);
+		mountPoint.replaceChild(<ErrorMessage />, footerElement);
 	}
 };
 
