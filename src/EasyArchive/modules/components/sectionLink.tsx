@@ -1,7 +1,29 @@
-import {OnClick, Pipe, SectionID} from './react';
+import React, {ReactElement} from 'ext.gadget.JSX';
 import {archiveOnClick, removeOnClick} from '../util/onClick';
-import React from 'ext.gadget.JSX';
 import {getMessage} from '../i18n';
+import {sectionIdSpan} from './EasyArchive.module.less';
+
+interface OnClickProps {
+	textContent: string;
+	className: string;
+	onClick?: (event: Event) => void;
+}
+
+interface SectionIDProps {
+	children?: ReactElement;
+}
+
+const OnClick = ({textContent, className, onClick}: OnClickProps) => (
+	<a
+		className={['gadget-easy_archive__link', `gadget-easy_archive__link-${className}`]}
+		onClick={onClick || (() => {})}
+		textContent={textContent}
+	/>
+);
+
+const SectionID = ({children = <></>}: SectionIDProps) => <span className={sectionIdSpan}>{children}</span>;
+
+const Pipe = () => <span className="mw-editsection-divider" textContent={'|'} />;
 
 interface ArchiveSectionLinkProps {
 	sectionIdSpans: Element[];

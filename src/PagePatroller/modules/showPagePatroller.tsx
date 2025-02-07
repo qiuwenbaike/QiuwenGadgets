@@ -1,5 +1,5 @@
 import * as OPTIONS from '../options.json';
-import {ErrorMessage, FooterNotice, Loading, NotPatrolledYet, Patrolled} from './components/react';
+import {ErrorMessage, Loading, NotPatrolledYet, Patrolled} from './components/footerNotices';
 import React from 'ext.gadget.JSX';
 import {getPatroller} from './util/getPatroller';
 
@@ -9,18 +9,16 @@ const showPagePatroller = async (): Promise<void> => {
 		return;
 	}
 
-	const footerElement = <FooterNotice />;
-	mountPoint.prepend(footerElement);
-
 	// if there is a patrol link, the page must be not patrolled
 	if (document.querySelector('.patrollink')) {
-		footerElement.append(<NotPatrolledYet />);
+		mountPoint.prepend(<NotPatrolledYet />);
 		return;
 	}
 
 	// Load patroller info
 	// add `Loading...`
-	footerElement.append(<Loading />);
+	const footerElement = <Loading />;
+	mountPoint.prepend(footerElement);
 
 	const {wgPageName} = mw.config.get();
 
@@ -32,17 +30,17 @@ const showPagePatroller = async (): Promise<void> => {
 			const date: Date = new Date(timestamp);
 
 			if (action === 'patrol') {
-				footerElement.replaceChildren(<Patrolled timestamp={date.toLocaleString()} user={user} />);
+				footerElement.replaceWith(<Patrolled timestamp={date.toLocaleString()} user={user} />);
 			} else {
-				footerElement.replaceChildren(<Patrolled />);
+				footerElement.replaceWith(<Patrolled timestamp={''} user={''} />);
 			}
 		} else {
-			footerElement.replaceChildren(<Patrolled />);
+			footerElement.replaceWith(<Patrolled timestamp={''} user={''} />);
 		}
 	} catch (error: unknown) {
 		// return error(s)
 		console.error('[PagePatroller]:', error);
-		footerElement.replaceChildren(<ErrorMessage />);
+		footerElement.replaceWith(<ErrorMessage />);
 	}
 };
 
