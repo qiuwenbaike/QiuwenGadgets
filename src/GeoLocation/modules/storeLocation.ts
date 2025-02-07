@@ -51,11 +51,7 @@ const storeLocation = async ({countryOrArea, region}: StoreGeoInfo): Promise<voi
 		const content = (data['query'].pages[0]?.revisions?.[0].slots.main.content as string) || '';
 		const response = JSON.parse(content) as Partial<StoreGeoInfo>;
 
-		if (!response.countryOrArea) {
-			return;
-		}
-
-		if (response.countryOrArea === countryOrArea) {
+		if (response.countryOrArea && response.countryOrArea === countryOrArea) {
 			if (!response.region || !region) {
 				return;
 			}

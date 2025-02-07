@@ -3,29 +3,32 @@ import React, {ReactElement} from 'ext.gadget.JSX';
 import {getMessage} from '../i18n';
 
 interface FooterNoticeProps {
-	id?: string;
 	children?: ReactElement;
 }
 
-const FooterNotice = ({id = OPTIONS.elementId, children = <></>}: FooterNoticeProps) => {
+const FooterNotice = ({children = <></>}: FooterNoticeProps) => {
 	const {skin} = mw.config.get();
+	const id = OPTIONS.elementId;
+	const className = OPTIONS.elementId;
+
+	if (skin === 'citizen') {
+		return (
+			<section id={id} className={[className, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
+				{children}
+			</section>
+		);
+	} else if (['gongbi', 'vector', 'vector-2022'].includes(skin) || document.querySelector('ul#footer-info')) {
+		return (
+			<li id={id} className={[className, 'noprint']}>
+				{children}
+			</li>
+		);
+	}
 
 	return (
-		<>
-			{skin === 'citizen' ? (
-				<section id={id} className={[id, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
-					{children}
-				</section>
-			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
-				<li id={id} className={[id, 'noprint']}>
-					{children}
-				</li>
-			) : (
-				<div id={id} className={[id, 'noprint']}>
-					{children}
-				</div>
-			)}
-		</>
+		<div id={id} className={[className, 'noprint']}>
+			{children}
+		</div>
 	);
 };
 
@@ -35,15 +38,9 @@ const NotPatrolledYet = () => (
 	</FooterNotice>
 );
 
-const Loading = () => (
-	<FooterNotice>
-		<span id="page_patroller__loading" textContent={getMessage('Loading...')} />
-	</FooterNotice>
-);
-
 interface PatrolledProps {
-	timestamp: string;
-	user: string;
+	timestamp?: string;
+	user?: string;
 }
 
 const Patrolled = ({timestamp, user}: PatrolledProps) => {
@@ -75,4 +72,4 @@ const ErrorMessage = () => (
 	</FooterNotice>
 );
 
-export {FooterNotice, NotPatrolledYet, Loading, Patrolled, ErrorMessage};
+export {FooterNotice, NotPatrolledYet, Patrolled, ErrorMessage};

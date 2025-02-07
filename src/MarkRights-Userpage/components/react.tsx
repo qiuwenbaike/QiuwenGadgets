@@ -10,19 +10,17 @@ const FooterNotice = ({spanClass, children = <></>}: FooterNoticeProps) => {
 	const {skin} = mw.config.get();
 	const classNames = ['gadget-markrights_userpage', `gadget-markrights_userpage__${spanClass}`];
 
-	return (
-		<>
-			{skin === 'citizen' ? (
-				<section className={[...classNames, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
-					{children}
-				</section>
-			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
-				<li className={[classNames, 'noprint']}>{children}</li>
-			) : (
-				<div className={[classNames, 'noprint']}>{children}</div>
-			)}
-		</>
-	);
+	if (skin === 'citizen') {
+		return (
+			<section className={[...classNames, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
+				{children}
+			</section>
+		);
+	} else if (['gongbi', 'vector', 'vector-2022'].includes(skin) || document.querySelector('ul#footer-info')) {
+		return <li className={[...classNames, 'noprint']}>{children}</li>;
+	}
+
+	return <div className={[...classNames, 'noprint']}>{children}</div>;
 };
 
 interface IndicatorProps {
