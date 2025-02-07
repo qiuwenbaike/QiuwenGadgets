@@ -30,35 +30,49 @@ const FooterNotice = ({id = OPTIONS.elementId, children = <></>}: FooterNoticePr
 };
 
 const NotPatrolledYet = () => (
-	<span id="page_patroller__not-patrolled" textContent={getMessage('This page has not been patrolled yet')} />
+	<FooterNotice>
+		<span id="page_patroller__not-patrolled" textContent={getMessage('This page has not been patrolled yet')} />
+	</FooterNotice>
 );
 
-const Loading = () => <span id="page_patroller__loading" textContent={getMessage('Loading...')} />;
+const Loading = () => (
+	<FooterNotice>
+		<span id="page_patroller__loading" textContent={getMessage('Loading...')} />
+	</FooterNotice>
+);
 
 interface PatrolledProps {
-	timestamp?: string;
-	user?: string;
+	timestamp: string;
+	user: string;
 }
 
-const Patrolled = ({timestamp, user}: PatrolledProps) => (
-	<>
-		{timestamp && user ? (
-			<span id="page_patroller__patrolled-by">
-				{getMessage('This page was patrolled at by').replace('$1', timestamp)}
-				<a href={mw.util.getUrl(`User:${user}`)}>{user}</a>
-				{getMessage('period')}
-			</span>
-		) : (
+const Patrolled = ({timestamp, user}: PatrolledProps) => {
+	if (timestamp && user) {
+		return (
+			<FooterNotice>
+				<span id="page_patroller__patrolled-by">
+					{getMessage('This page was patrolled at by').replace('$1', timestamp)}
+					<a href={mw.util.getUrl(`User:${user}`)}>{user}</a>
+					{getMessage('period')}
+				</span>
+			</FooterNotice>
+		);
+	}
+
+	return (
+		<FooterNotice>
 			<span
 				id="page_patroller__patrolled"
 				textContent={getMessage('This page has been patrolled, or has been marked as auto-patrolled')}
 			/>
-		)}
-	</>
-);
+		</FooterNotice>
+	);
+};
 
 const ErrorMessage = () => (
-	<span id="page_patroller__error" textContent={getMessage('Error occurs when finding patroller')} />
+	<FooterNotice>
+		<span id="page_patroller__error" textContent={getMessage('Error occurs when finding patroller')} />
+	</FooterNotice>
 );
 
 export {FooterNotice, NotPatrolledYet, Loading, Patrolled, ErrorMessage};

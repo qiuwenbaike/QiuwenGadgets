@@ -1,5 +1,5 @@
 import * as OPTIONS from '../options.json';
-import {ArcLocNotAllowed, Enabled, FooterNotice, InBlackList, NoArcLoc, NotAllowed} from './components/react';
+import {ArcLocNotAllowed, Enabled, InBlackList, NoArcLoc, NotAllowed} from './components/footerNotices';
 import {getSettings, ifArcLocNotAllowed, isInBlacklist, isNotAllowed, isNotSupported} from './util/getSettings';
 import React from 'ext.gadget.JSX';
 import {addLinks} from './addLinks';
@@ -15,40 +15,37 @@ const loadEasyArcive = () => {
 		return;
 	}
 
-	const footerElement = <FooterNotice />;
-	mountPoint.prepend(footerElement);
-
 	const inBlacklist = isInBlacklist();
 	if (inBlacklist) {
-		footerElement.append(<InBlackList />);
+		mountPoint.prepend(<InBlackList />);
 		return;
 	}
 
 	const notAllowed = isNotAllowed();
 	if (notAllowed) {
-		footerElement.append(<NotAllowed />);
+		mountPoint.prepend(<NotAllowed />);
 		return;
 	}
 
 	const settings = getSettings();
 	if (!settings) {
-		footerElement.append(<NoArcLoc />);
+		mountPoint.prepend(<NoArcLoc />);
 		return;
 	}
 
 	const {arcLoc} = settings;
 	if (!arcLoc) {
-		footerElement.append(<NoArcLoc />);
+		mountPoint.prepend(<NoArcLoc />);
 		return;
 	}
 
 	const arcLocNotAllowed = ifArcLocNotAllowed(arcLoc);
 	if (arcLocNotAllowed) {
-		footerElement.append(<ArcLocNotAllowed arcLoc={arcLoc} />);
+		mountPoint.prepend(<ArcLocNotAllowed arcLoc={arcLoc} />);
 		return;
 	}
 
-	footerElement.append(<Enabled arcLoc={arcLoc} />);
+	mountPoint.prepend(<Enabled arcLoc={arcLoc} />);
 
 	void addLinks(settings);
 };
