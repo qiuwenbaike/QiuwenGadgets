@@ -37,18 +37,22 @@ span[data-mw-comment-start] {
 	}
 }
 
-.discussiontools-ui-replyWidget-margin-left(@i) when (@i > 0) {
+.discussiontools-ui-replyWidget-margin-left(@i, @j) when (@i > 0) {
 	.ext-discussiontools-ui-replyWidget {
 		margin-left: (-10em + @i);
 	}
 
-	:is(dl, ul) {
-		.discussiontools-ui-replyWidget-margin-left((@i - 1));
+	@{j} {
+		.discussiontools-ui-replyWidget-margin-left(@i - 1, @j);
 	}
 }
 
 body .mw-parser-output {
-	& > :is(dl, ul) {
-		.discussiontools-ui-replyWidget-margin-left(15);
+	& > dl {
+		.discussiontools-ui-replyWidget-margin-left(10, dl);
+	}
+
+	& > ul {
+		.discussiontools-ui-replyWidget-margin-left(10, ul);
 	}
 }
