@@ -9,32 +9,27 @@ interface FooterNoticeProps {
 
 const FooterNotice = ({spanClass, children = <></>}: FooterNoticeProps) => {
 	const {skin} = mw.config.get();
+	const id = CLASS_NAME;
+	const classNames = [CLASS_NAME, `${CLASS_NAME}-${spanClass}`];
+
+	if (skin === 'citizen') {
+		return (
+			<section id={id} className={[...classNames, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
+				{children}
+			</section>
+		);
+	} else if (['gongbi', 'vector', 'vector-2022'].includes(skin) || document.querySelector('ul#footer-info')) {
+		return (
+			<li id={id} className={[...classNames, 'noprint']}>
+				{children}
+			</li>
+		);
+	}
 
 	return (
-		<>
-			{skin === 'citizen' ? (
-				<section
-					id={CLASS_NAME}
-					className={[
-						CLASS_NAME,
-						`${CLASS_NAME}-${spanClass}`,
-						'page-info__item',
-						'citizen-footer__pageinfo-item',
-						'noprint',
-					]}
-				>
-					{children}
-				</section>
-			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
-				<li id={CLASS_NAME} className={[CLASS_NAME, `${CLASS_NAME}-${spanClass}`, 'noprint']}>
-					{children}
-				</li>
-			) : (
-				<div id={CLASS_NAME} className={[CLASS_NAME, `${CLASS_NAME}-${spanClass}`, 'noprint']}>
-					{children}
-				</div>
-			)}
-		</>
+		<div id={id} className={[...classNames, 'noprint']}>
+			{children}
+		</div>
 	);
 };
 

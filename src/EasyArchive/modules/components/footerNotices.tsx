@@ -14,26 +14,26 @@ interface ArcLocProps {
 
 const FooterNotice = ({children = <></>}: FooterNoticeProps) => {
 	const {skin} = mw.config.get();
+	const id = OPTIONS.elementId;
+
+	if (skin === 'citizen') {
+		return (
+			<section id={id} className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}>
+				{children}
+			</section>
+		);
+	} else if (['gongbi', 'vector', 'vector-2022'].includes(skin) || document.querySelector('ul#footer-info')) {
+		return (
+			<li id={id} className={[footerNotice, 'noprint']}>
+				{children}
+			</li>
+		);
+	}
 
 	return (
-		<>
-			{skin === 'citizen' ? (
-				<section
-					id={OPTIONS.elementId}
-					className={[footerNotice, 'page-info__item', 'citizen-footer__pageinfo-item', 'noprint']}
-				>
-					{children}
-				</section>
-			) : ['vector', 'vector-2022', 'gongbi'].includes(skin) || document.querySelector('ul#footer-info') ? (
-				<li id={OPTIONS.elementId} className={[footerNotice, 'noprint']}>
-					{children}
-				</li>
-			) : (
-				<div id={OPTIONS.elementId} className={[footerNotice, 'noprint']}>
-					{children}
-				</div>
-			)}
-		</>
+		<div id={id} className={[footerNotice, 'noprint']}>
+			{children}
+		</div>
 	);
 };
 

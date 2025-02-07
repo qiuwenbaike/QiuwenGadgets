@@ -1,5 +1,5 @@
 import * as OPTIONS from '../options.json';
-import {ErrorMessage, Loading, NotPatrolledYet, Patrolled} from './components/footerNotices';
+import {ErrorMessage, NotPatrolledYet, Patrolled} from './components/footerNotices';
 import React from 'ext.gadget.JSX';
 import {getPatroller} from './util/getPatroller';
 
@@ -15,32 +15,29 @@ const showPagePatroller = async (): Promise<void> => {
 		return;
 	}
 
-	// Load patroller info
-	// add `Loading...`
-	const footerElement = <Loading />;
-	mountPoint.prepend(footerElement);
-
+	// Load patroller information
 	const {wgPageName} = mw.config.get();
 
 	try {
 		const log = await getPatroller(wgPageName);
-		const {action, user, timestamp} = log;
+		const {action, user} = log;
+		let {timestamp} = log;
 
 		if (action && user && timestamp) {
-			const date: Date = new Date(timestamp);
+			timestamp = new Date(timestamp).toLocaleString();
 
 			if (action === 'patrol') {
-				mountPoint.replaceChild(<Patrolled timestamp={date.toLocaleString()} user={user} />, footerElement);
+				mountPoint.prepend(<Patrolled timestamp={timestamp} user={user} />);
 			} else {
-				mountPoint.replaceChild(<Patrolled timestamp={''} user={''} />, footerElement);
+				mountPoint.prepend(<Patrolled />);
 			}
 		} else {
-			mountPoint.replaceChild(<Patrolled timestamp={''} user={''} />, footerElement);
+			mountPoint.prepend(<Patrolled />);
 		}
 	} catch (error: unknown) {
 		// return error(s)
-		console.error('[PagePatroller]:', error);
-		mountPoint.replaceChild(<ErrorMessage />, footerElement);
+		console.error('[PagePatroller] Ajax error:', error);
+		mountPoint.prepend(<ErrorMessage />);
 	}
 };
 

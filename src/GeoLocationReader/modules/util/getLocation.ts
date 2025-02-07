@@ -31,7 +31,11 @@ const getLocation = async (wgRelevantUserName: string) => {
 
 			const data = await api.get(params);
 
-			const content = (data['query']?.pages[0]?.revisions?.[0].slots.main.content as string) || '';
+			const content =
+				(data['query'].pages[0]?.missing
+					? ''
+					: (data['query']?.pages[0]?.revisions?.[0].slots.main.content as string)) || '';
+
 			const response = JSON.parse(content) as StoreGeoInfo & {
 				country?: string;
 			};
