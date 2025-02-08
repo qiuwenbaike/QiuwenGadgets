@@ -65,14 +65,22 @@ const getTimestamp = async (username: string): Promise<string | undefined> => {
 		timestamp = mw.storage.getObject(OPTIONS.storageKey + username) as string;
 	} else {
 		const ucTimestamp = await getUserContribsTimestamp(username);
-		const leTimestamp = await getLogEventsTimestamp(username);
+		let ucDate: Date | undefined;
 
-		if (ucTimestamp || leTimestamp) {
-			if (ucTimestamp && leTimestamp) {
-				timestamp =
-					Number.parseInt(ucTimestamp, 10) > Number.parseInt(leTimestamp, 10) ? ucTimestamp : leTimestamp;
-			} else {
-				timestamp = ucTimestamp || leTimestamp;
+		if (ucTimestamp) {
+			ucDate = new Date(ucTimestamp);
+			timestamp = ucTimestamp;
+		}
+
+		const leTimestamp = await getLogEventsTimestamp(username);
+		let leDate: Date | undefined;
+
+		if (leTimestamp) {
+			leDate = new Date(leTimestamp);
+
+			if (!ucDate || leDate > ucDate) {
+				ucDate = leDate;
+				timestamp = leTimestamp;
 			}
 		}
 	}
