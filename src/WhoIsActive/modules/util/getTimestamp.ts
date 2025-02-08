@@ -79,7 +79,6 @@ const getTimestamp = async (username: string): Promise<string | undefined> => {
 			leDate = new Date(leTimestamp);
 
 			if (!ucDate || leDate > ucDate) {
-				ucDate = leDate;
 				timestamp = leTimestamp;
 			}
 		}
