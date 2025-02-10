@@ -9,7 +9,8 @@
 		"ext.gadget.MarkRights",
 		"ext.gadget.Util",
 		"mediawiki.api",
-		"mediawiki.Title"
+		"mediawiki.Title",
+		"mediawiki.util"
 	],
 	"peers": ["MarkRights-Userpage-pagestyles"]
 }

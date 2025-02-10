@@ -10,6 +10,7 @@
 		"ext.gadget.Util",
 		"jquery.makeCollapsible",
 		"mediawiki.api",
+		"mediawiki.util",
 		"oojs-ui-core",
 		"oojs-ui-windows"
 	],

@@ -3,6 +3,6 @@
 	"description": "<span id=\"Gadget-DisamAssist\"></span> DisamAssist <small>消歧义修复辅助工具</small>",
 	"section": "edit",
 	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike"],
-	"dependencies": ["ext.gadget.Util", "mediawiki.api", "mediawiki.Title"],
+	"dependencies": ["ext.gadget.Util", "mediawiki.api", "mediawiki.Title", "mediawiki.util"],
 	"rights": ["skipcaptcha"]
 }

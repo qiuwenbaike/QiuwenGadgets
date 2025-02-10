@@ -4,7 +4,7 @@
 	"section": "appear",
 	"excludeSites": ["loginwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.Util"],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.util"],
 	"hidden": true,
 	"namespaces": [4, 10]
 }
