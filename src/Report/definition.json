@@ -2,7 +2,7 @@
 	"enable": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Report\"></span> 报告不良信息",
 	"section": "sysop",
-	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike", "testwiki"],
+	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike"],
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.JSX", "ext.gadget.Tippy", "ext.gadget.Util", "mediawiki.util"],
 	"peers": ["Report-pagestyles"]
