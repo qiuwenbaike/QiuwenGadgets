@@ -8,6 +8,7 @@
 		"ext.gadget.morebits",
 		"ext.gadget.Util",
 		"mediawiki.api",
+		"mediawiki.util",
 		"mediawiki.widgets.expiry",
 		"mediawiki.widgets.SelectWithInputWidget",
 		"oojs"
