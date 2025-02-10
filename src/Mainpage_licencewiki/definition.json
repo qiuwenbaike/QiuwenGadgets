@@ -2,7 +2,7 @@
 	"enable": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage_licencewiki\"></span> 首页样式相关变量",
 	"section": "appear",
-	"excludeSites": ["loginwiki", "mncqiuwenbaike", "testwiki", "zhqiuwenbaike"],
+	"excludeSites": ["loginwiki", "mncqiuwenbaike", "zhqiuwenbaike"],
 	"default": true,
 	"hidden": true,
 	"namespaces": [4, 10]

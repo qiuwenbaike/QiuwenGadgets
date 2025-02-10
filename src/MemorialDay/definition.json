@@ -2,7 +2,7 @@
 	"enable": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-MemorialDay\"></span> 特殊日期时自动调用页面样式",
 	"section": "compatibility",
-	"excludeSites": ["loginwiki", "testwiki"],
+	"excludeSites": ["loginwiki"],
 	"default": true,
 	"dependencies": ["ext.gadget.MemorialDay-settings", "ext.gadget.Util"],
 	"hidden": true
