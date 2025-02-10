@@ -3,6 +3,7 @@
 	"description": "<sup><abbr title=\"默认为所有注册用户启用\">U</abbr></sup><span id=\"Gadget-Editform_Attribution\"></span> 声明编辑含有第三方贡献",
 	"section": "edit",
 	"excludeSites": ["loginwiki", "mncqiuwenbaike"],
+	"default": true,
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.util", "oojs-ui-core"],
 	"rights": ["edit"]
 }

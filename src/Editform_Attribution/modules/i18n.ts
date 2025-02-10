@@ -24,8 +24,8 @@ const getI18nMessages = () => {
 		}),
 		'Please Claim Sources and Licenses': localize({
 			en: 'If edit content adds any third-party content, please add the source and license of the third-party content separately to the editing summary.',
-			'zh-hans': '若您向编辑内容中添加了第三方内容，请将第三方内容的来源、许可证在编辑摘要中分条声明',
-			'zh-hant': '若您向編輯內容中添加了第三方內容，請將第三方內容的來源、許可證在編輯摘要中分條聲明',
+			'zh-hans': '若您向编辑内容中添加了第三方撰写的内容，请将相关第三方内容的来源、许可条款在编辑摘要中分条声明',
+			'zh-hant': '若您向編輯內容中添加了第三方撰写的內容，請將相关第三方內容的來源、許可條款在編輯摘要中分條聲明',
 		}),
 		'Replace With License': localize({
 			en: ' (Replace with license name and URL)',
