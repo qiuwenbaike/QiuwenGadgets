@@ -55,7 +55,7 @@ const OnlineAdminsList = ({stewards, sysops, patrollers}: OnlineAdminsListProps)
 		<ListTitle />
 		{stewards.length && <GroupList groupName={getMessage('Stewards')} userNames={stewards} />}
 		{sysops.length && <GroupList groupName={getMessage('SysOps')} userNames={sysops} />}
-		{patrollers.length && <GroupList groupName={getMessage('Patrollers')} userNames={sysops} />}
+		{patrollers.length && <GroupList groupName={getMessage('Patrollers')} userNames={patrollers} />}
 	</div>
 );
 
