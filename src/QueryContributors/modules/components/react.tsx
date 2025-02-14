@@ -44,8 +44,10 @@ const UserList = ({userNames}: UserListProps) => (
 			<>
 				<a
 					href={
-						userName.includes('>')
-							? mw.util.getUrl(`Special:GoToInterWiki/${sanitize(userName.replace('>', ':User:'))}`)
+						/(>|&gt;)/.test(userName)
+							? mw.util.getUrl(
+									`Special:GoToInterWiki/${sanitize(userName.replace(/(>|&gt;)/, ':User:'))}`
+								)
 							: mw.util.getUrl(`User:${sanitize(userName)}`)
 					}
 					key={userName}
