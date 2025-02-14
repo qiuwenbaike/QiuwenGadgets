@@ -1,8 +1,7 @@
 {
 	"enable": true,
-	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage\"></span> 首页-{}-脚本",
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage_JS\"></span> 首页-{}-脚本",
 	"section": "appear",
-	"excludeSites": ["loginwiki"],
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.util"],
 	"hidden": true,
