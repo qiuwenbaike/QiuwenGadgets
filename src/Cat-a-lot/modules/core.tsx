@@ -72,7 +72,6 @@ const catALot = (): void => {
 
 		private static settings: NonNullable<typeof window.CatALotPrefs> = {};
 		private static variantCache: Record<string, string[]> = {};
-		private static variantCache2: Record<string, Record<string, string>> = {};
 
 		private static $counter: JQuery = $();
 		private static $progressDialog: JQuery = $();
@@ -306,8 +305,11 @@ const catALot = (): void => {
 			if (CAL.variantCache[category] !== undefined) {
 				return CAL.variantCache[category];
 			}
-			CAL.variantCache2[category] ??= {};
-			const results: string[] = [];
+			if (mw.storage.getObject(OPTIONS.storageKey + category)) {
+				CAL.variantCache[category] = mw.storage.getObject(OPTIONS.storageKey + category) as string[];
+				return CAL.variantCache[category];
+			}
+			let results: string[] = [];
 			const params: ApiParseParams = {
 				action: 'parse',
 				format: 'json',
@@ -316,11 +318,6 @@ const catALot = (): void => {
 				title: 'temp',
 			};
 			for (const variant of VARIANTS) {
-				const result2 = CAL.variantCache2[category]?.[variant];
-				if (result2) {
-					results[results.length] = result2;
-					continue;
-				}
 				try {
 					const {parse} = await CAL.api.get({
 						...params,
@@ -329,13 +326,12 @@ const catALot = (): void => {
 					const {text} = parse;
 					const result = $(text).eq(0).text().trim();
 					results[results.length] = result;
-					if (CAL.variantCache2[category]) {
-						CAL.variantCache2[category][variant] = result;
-					}
 				} catch {}
 			}
 			// De-duplicate
-			CAL.variantCache[category] = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
+			results = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
+			CAL.variantCache[category] = results;
+			mw.storage.setObject(OPTIONS.storageKey + category, results, 60 * 60 * 24); // 1 day
 			return results;
 		}
 
