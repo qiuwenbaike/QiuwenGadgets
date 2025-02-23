@@ -19,8 +19,13 @@ const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
 
 			if (field.supports('getValue')) {
 				const value = (field as OO.ui.TextInputWidget).getValue();
+				const label = (field as OO.ui.TextInputWidget).getLabel() as string | undefined;
 				if (value) {
-					attribution.source = getLinkValue(value);
+					if (label) {
+						attribution.source = getLinkValue(value, label);
+					} else {
+						attribution.source = getLinkValue(value);
+					}
 				}
 			} else if (field.supports('getMenu')) {
 				const value = getSelectedValue(field as OO.ui.DropdownWidget);
