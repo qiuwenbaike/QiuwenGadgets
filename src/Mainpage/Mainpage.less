@@ -428,6 +428,10 @@
 		}
 	}
 
+	&-fa-box {
+		align-content: flex-start;
+	}
+
 	.guidelist {
 		ul {
 			display: flex;
@@ -472,12 +476,14 @@
 		}
 	}
 
-	#mainpage-sns-box .guidelist {
-		display: flex;
-		flex-wrap: wrap;
-		place-content: space-around space-evenly;
-		align-items: flex-end;
-		gap: 1em;
+	#mainpage-sns-box {
+		.guidelist {
+			display: flex;
+			flex-wrap: wrap;
+			place-content: space-around space-evenly;
+			align-items: flex-end;
+			gap: 1em;
+		}
 	}
 
 	&-feedback {
