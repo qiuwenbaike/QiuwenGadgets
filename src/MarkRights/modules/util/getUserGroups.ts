@@ -66,8 +66,8 @@ const getLocalUserGroups = async (ususers: string[]): Promise<Record<string, str
 				}),
 			];
 
-			// Cache for 10 minutes
-			mw.storage.setObject(OPTIONS.storageKeyLocal + name, userGroups[name], 10 * 60);
+			// Cache for 1 hour
+			mw.storage.setObject(OPTIONS.storageKeyLocal + name, userGroups[name], 60 * 60);
 		}
 	} catch (error: unknown) {
 		console.error('[MarkRights] Ajax error:', error);
@@ -104,8 +104,8 @@ const getGlobalUserGroups = async (ususers: string[]): Promise<Record<string, st
 
 			userGroups[user] = [...userGroups[user], ...groups];
 
-			// Cache for 10 minutes
-			mw.storage.setObject(OPTIONS.storageKeyLocal + user, userGroups[user], 10 * 60);
+			// Cache for 1 hour
+			mw.storage.setObject(OPTIONS.storageKeyGlobal + user, userGroups[user], 60 * 60);
 		} catch (error: unknown) {
 			console.error('[MarkRights] Ajax error:', error);
 		}
