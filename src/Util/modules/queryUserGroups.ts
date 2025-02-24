@@ -57,8 +57,9 @@ async function queryUserGroups(users: string[]) {
 			groups = groups.filter((element) => {
 				return element !== '*';
 			});
-			// Cache for 10 minutes
-			mw.storage.setObject(CACHE_KEY_PREFIX + user.name, groups, 10 * 60);
+
+			// Cache for 1 hour
+			mw.storage.setObject(CACHE_KEY_PREFIX + user.name, groups, 60 * 60);
 		}
 	}
 
