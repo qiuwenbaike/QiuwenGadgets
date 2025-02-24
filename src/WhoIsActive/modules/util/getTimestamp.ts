@@ -85,8 +85,8 @@ const getTimestamp = async (username: string): Promise<string | undefined> => {
 	}
 
 	if (timestamp) {
-		// Cache for 10 minutes
-		mw.storage.setObject(OPTIONS.storageKey + username, timestamp, 10 * 60);
+		// Cache for 30 minutes
+		mw.storage.setObject(OPTIONS.storageKey + username, timestamp, 30 * 60);
 	}
 
 	return timestamp;
