@@ -4,11 +4,21 @@ import {getMessage} from '../i18n';
 const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
 	const attributions = [];
 
-	const getSelectedValue = (dropdown: OO.ui.DropdownWidget): string | undefined => {
+	const getSelectedItem = (dropdown: OO.ui.DropdownWidget): OO.ui.OptionWidget | null => {
 		const selectedItem: OO.ui.OptionWidget | null = dropdown
 			.getMenu()
 			.findSelectedItem() as OO.ui.OptionWidget | null;
+		return selectedItem;
+	};
+
+	const getSelectedValue = (dropdown: OO.ui.DropdownWidget): string | undefined => {
+		const selectedItem = getSelectedItem(dropdown);
 		return selectedItem ? (selectedItem.getData() as string) : undefined;
+	};
+
+	const getSelectedLabel = (dropdown: OO.ui.DropdownWidget): string | undefined => {
+		const selectedItem = getSelectedItem(dropdown);
+		return selectedItem ? (selectedItem.getLabel() as string) : undefined;
 	};
 
 	for (const attributionFieldset of fieldSetLayout.getItems() as OO.ui.FieldsetLayout[]) {
@@ -19,18 +29,18 @@ const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
 
 			if (field.supports('getValue')) {
 				const value = (field as OO.ui.TextInputWidget).getValue();
-				const label = (field as OO.ui.TextInputWidget).getLabel() as string | undefined;
 				if (value) {
+					attribution.source = getLinkValue(value);
+				}
+			} else if (field.supports('getMenu')) {
+				const value = getSelectedValue(field as OO.ui.DropdownWidget);
+				if (value) {
+					const label = getSelectedLabel(field as OO.ui.DropdownWidget);
 					if (label) {
 						attribution.source = getLinkValue(value, label);
 					} else {
 						attribution.source = getLinkValue(value);
 					}
-				}
-			} else if (field.supports('getMenu')) {
-				const value = getSelectedValue(field as OO.ui.DropdownWidget);
-				if (value) {
-					attribution.license = getLinkValue(value);
 				}
 			}
 		}
