@@ -4,5 +4,11 @@
 	"section": "compatibility",
 	"default": true,
 	"hidden": true,
-	"peers": ["SiteCommon_Filepage", "SiteCommon_Print", "SiteCommon_SpecialInterface", "SiteCommon_Talkpage"]
+	"peers": [
+		"SiteCommon_Filepage",
+		"SiteCommon_Print",
+		"SiteCommon_SpecialInterface",
+		"SiteCommon_Talkpage",
+		"SiteCommon_Templates"
+	]
 }
