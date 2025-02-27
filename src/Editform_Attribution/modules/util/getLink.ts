@@ -1,6 +1,6 @@
 import {VALID_INTERWIKI_PREFIX} from '../constant';
 
-const getLinkValue = (link: string, text?: string): string => {
+const getLink = ({link, text}: {link: string; text?: string}): string => {
 	const VALID_INTERWIKI_LINK_REGEX = new RegExp(`^:?(${VALID_INTERWIKI_PREFIX.join('|')})`, 'i');
 
 	if (VALID_INTERWIKI_LINK_REGEX.test(link)) {
@@ -14,4 +14,4 @@ const getLinkValue = (link: string, text?: string): string => {
 	return encodeURI(decodeURI(link));
 };
 
-export {getLinkValue};
+export {getLink};
