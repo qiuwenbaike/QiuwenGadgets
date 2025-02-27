@@ -83,9 +83,7 @@ const generateTextInputWithDropdown = ({$body, $wpSummary}: {$body: JQuery<HTMLE
 		$originwpAttribution.val(wpAttribution);
 
 		appendTextToSummary({
-			customSummary: $originwpAttribution.val()
-				? `［${getMessage('Source')}: ${$originwpAttribution.val()}］`
-				: '',
+			customSummary: $originwpAttribution.val() ? `[${$originwpAttribution.val()}]` : '',
 			$wpSummary,
 		});
 

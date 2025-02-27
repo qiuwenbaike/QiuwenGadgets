@@ -1,4 +1,4 @@
-import {getLinkValue} from './getLinkValue';
+import {getLink} from './getLink';
 import {getMessage} from '../i18n';
 
 const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
@@ -28,18 +28,20 @@ const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
 			const field = fieldLayout.getField();
 
 			if (field.supports('getValue')) {
-				const value = (field as OO.ui.TextInputWidget).getValue();
-				if (value) {
-					attribution.source = getLinkValue(value);
+				const link = (field as OO.ui.TextInputWidget).getValue();
+				if (link) {
+					attribution.source = getLink({link});
 				}
 			} else if (field.supports('getMenu')) {
-				const value = getSelectedValue(field as OO.ui.DropdownWidget);
-				if (value) {
-					const label = getSelectedLabel(field as OO.ui.DropdownWidget);
-					if (label) {
-						attribution.source = getLinkValue(value, label);
+				const link = getSelectedValue(field as OO.ui.DropdownWidget);
+
+				if (link) {
+					const text = getSelectedLabel(field as OO.ui.DropdownWidget);
+
+					if (text) {
+						attribution.license = getLink({link, text});
 					} else {
-						attribution.source = getLinkValue(value);
+						attribution.license = getLink({link});
 					}
 				}
 			}
@@ -47,7 +49,7 @@ const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
 
 		if (attribution.source && attribution.license) {
 			attributions[attributions.length] =
-				`${attribution.source} (${getMessage('License')}: ${attribution.license})`;
+				`${getMessage('Source')}: ${attribution.source} (${getMessage('License')}: ${attribution.license}) `;
 		}
 	}
 
