@@ -36,26 +36,29 @@ const UserLink = ({userName}: UserLinkProps) => (
 
 const onlineCountText: string = getMessage(' ($1 online):');
 
-const GroupList = ({groupName, userNames}: GroupListProps) => (
-	<div className={section}>
-		<span>{groupName}</span>
-		<span>{onlineCountText.replace('$1', String(userNames.length))}</span>
-		<ul className={sectionList}>
-			{userNames.map((user) => (
-				<UserLink key={user} userName={user} />
-			))}
-		</ul>
-	</div>
-);
+const GroupList = ({groupName, userNames}: GroupListProps) =>
+	groupName && userNames.length ? (
+		<div className={section}>
+			<span>{groupName}</span>
+			<span>{onlineCountText.replace('$1', String(userNames.length))}</span>
+			<ul className={sectionList}>
+				{userNames.map((user) => (
+					<UserLink key={user} userName={user} />
+				))}
+			</ul>
+		</div>
+	) : (
+		<></>
+	);
 
 const ListTitle = () => <p>{getMessage('OnlineWithin30Minutes')}</p>;
 
 const OnlineAdminsList = ({stewards, sysops, patrollers}: OnlineAdminsListProps) => (
 	<div>
 		<ListTitle />
-		{stewards.length && <GroupList groupName={getMessage('Stewards')} userNames={stewards} />}
-		{sysops.length && <GroupList groupName={getMessage('SysOps')} userNames={sysops} />}
-		{patrollers.length && <GroupList groupName={getMessage('Patrollers')} userNames={patrollers} />}
+		{stewards.length ? <GroupList groupName={getMessage('Stewards')} userNames={stewards} /> : <></>}
+		{sysops.length ? <GroupList groupName={getMessage('SysOps')} userNames={sysops} /> : <></>}
+		{patrollers.length ? <GroupList groupName={getMessage('Patrollers')} userNames={patrollers} /> : <></>}
 	</div>
 );
 
