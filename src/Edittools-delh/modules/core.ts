@@ -29,7 +29,6 @@ const edittoolsDelh = (): void => {
 					list: getList({
 						ir: window.wgULS('请求无效', '請求無效'),
 						rep: window.wgULS('重复提出，无效', '重複提出，無效'),
-						commons: window.wgULS('应在维基共享资源提请', '應在維基共享資源提請'),
 						ne: window.wgULS('目标页面或文件不存在，无效', '目標頁面或檔案不存在，無效'),
 						nq: window.wgULS('提删者未取得提删资格，无效', '提刪者未取得提刪資格，無效'),
 					}),
