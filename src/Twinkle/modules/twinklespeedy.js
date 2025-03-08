@@ -521,8 +521,7 @@ import {generateArray} from 'ext.gadget.Util';
 		}
 		// enlarge G7 radio/checkbox and its label
 		if (document.querySelector('input[value="g7"]') && Twinkle.getPref('enlargeG7Input')) {
-			document.querySelector('input[value="g7"]').style =
-				'height: 2em; width: 2em; height: -moz-initial; width: -moz-initial; -moz-transform: scale(2); -o-transform: scale(2);';
+			document.querySelector('input[value="g7"]').style = 'height: 2em; width: 2em;';
 			document.querySelector('input[value="g7"]').labels[0].style = 'font-size: 1.5em; line-height: 1.5em;';
 		}
 		if (!isSysopMode && mw.config.get('wgPageContentModel') !== 'wikitext') {
