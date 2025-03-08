@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-param-type */
 import {getObject} from '@bhsd/common';
 
 const {wgPageName: page, wgNamespaceNumber: ns, wgPageContentModel: contentmodel} = mw.config.get();

@@ -9,7 +9,6 @@ interface CodeMirror extends CodeMirror6 {
 type WikiplusPages = Record<number, {title: string; sectionCache: Record<string, string>}>;
 
 declare global {
-	// eslint-disable-next-line no-shadow
 	const CodeMirror6: {
 		fromTextArea(textarea: HTMLTextAreaElement, lang?: string, ns?: number, page?: string): Promise<CodeMirror>;
 	};
