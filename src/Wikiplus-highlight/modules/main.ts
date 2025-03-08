@@ -6,23 +6,22 @@
 import {CDN} from '@bhsd/common';
 import {renderEditor} from './core';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace mw.libs {
+declare namespace mediaWiki.libs {
 	let wphl: {version?: string; cmVersion?: string} | undefined;
 }
 
 (async () => {
-	const {libs} = mw,
+	const {libs} = mediaWiki,
 		{wphl} = libs;
 	if (!wphl?.version) {
 		const version = '3.2.5';
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
-		const MW_CDN = `npm/@bhsd/codemirror-mediawiki@${libs.wphl.cmVersion || 'latest'}/dist/wiki.min.js`,
+		const MW_CDN = `npm/@bhsd/codemirror-mediawiki@${libs.wphl.cmVersion ?? 'latest'}/dist/wiki.min.js`,
 			REPO_CDN = 'npm/wikiplus-highlight';
 
-		if (!('CodeMirror6' in globalThis)) {
+		if (typeof CodeMirror6 !== 'function') {
 			await $.ajax(`${CDN}/${MW_CDN}`, {dataType: 'script'});
 		}
 
@@ -39,6 +38,6 @@ declare namespace mw.libs {
 		});
 		observer.observe(document.body, {childList: true});
 
-		mediaWiki.loader.load(`${CDN}/${REPO_CDN}@${version}/styles.min.css`, 'text/css');
+		mw.loader.load(`${CDN}/${REPO_CDN}@${version}/styles.min.css`, 'text/css');
 	}
 })();
