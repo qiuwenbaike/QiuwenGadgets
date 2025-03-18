@@ -8,17 +8,17 @@ const fixSummary = (): void => {
 		const userNamePrefixInput = document.querySelector<HTMLInputElement>(
 			'#mw-import-upload-form input[name=usernamePrefix]'
 		);
+
 		if (userNamePrefixInput) {
 			userNamePrefixInput.addEventListener('input', () => {
 				const uploadLogCommentInput = document.querySelector<HTMLInputElement>(
 					'#mw-import-upload-form input[name=log-comment]'
 				);
-				if (!uploadLogCommentInput) {
-					return;
-				}
 
-				const importUploadPrefix = userNamePrefixInput?.value;
-				uploadLogCommentInput.value = `导入自[[${importUploadPrefix}:|此网站]]的同名页面［${importUploadPrefix === 'commons' ? defaultFileImportSummary : defaultSummary}］`;
+				if (uploadLogCommentInput) {
+					const importUploadPrefix = userNamePrefixInput?.value;
+					uploadLogCommentInput.value = `导入自[[${importUploadPrefix}:|此网站]]的同名页面［${importUploadPrefix === 'commons' ? defaultFileImportSummary : defaultSummary}］`;
+				}
 			});
 		}
 
@@ -26,12 +26,13 @@ const fixSummary = (): void => {
 		const interwikiLogCommentInput = document.querySelector<HTMLInputElement>(
 			'#mw-import-interwiki-form input[name=log-comment]'
 		);
-		const interwikiPrefixSelect = document.querySelector<HTMLSelectElement>(
-			'#mw-import-interwiki-form select[name=interwiki]'
-		);
 
 		if (interwikiLogCommentInput) {
 			interwikiLogCommentInput.value = defaultSummary;
+
+			const interwikiPrefixSelect = document.querySelector<HTMLSelectElement>(
+				'#mw-import-interwiki-form select[name=interwiki]'
+			);
 
 			if (interwikiPrefixSelect) {
 				interwikiPrefixSelect.addEventListener('change', () => {
