@@ -28,32 +28,32 @@ const fixCheckbox = () => {
 
 	const form = document.querySelector<HTMLFormElement>('#mw-import-interwiki-form');
 
-	if (form) {
-		form.addEventListener('submit', (event: SubmitEvent): void => {
-			event.preventDefault();
-			void (async () => {
-				if (!interwikiHistory || !interwikiHistory.checked) {
-					return;
-				}
+	if (!form) {
+		return;
+	}
+
+	form.addEventListener('submit', (event: SubmitEvent): void => {
+		event.preventDefault();
+		void (async () => {
+			if (interwikiHistory?.checked) {
 				const confirmed = await OO.ui.confirm('您是否要导入此页面的所有版本？');
 				if (!confirmed) {
 					interwikiHistory.checked = false;
 				}
-			})()
-				.then(async () => {
-					if (!interwikiTemplates || !interwikiTemplates.checked) {
-						return;
-					}
+			}
+		})()
+			.then(async () => {
+				if (interwikiTemplates?.checked) {
 					const confirmed = await OO.ui.confirm('您是否要导入此页面所包含的所有模板和其他页面？');
 					if (!confirmed) {
 						interwikiTemplates.checked = false;
 					}
-				})
-				.then(() => {
-					form.submit();
-				});
-		});
-	}
+				}
+			})
+			.then(() => {
+				form.submit();
+			});
+	});
 };
 
 export {fixCheckbox};
