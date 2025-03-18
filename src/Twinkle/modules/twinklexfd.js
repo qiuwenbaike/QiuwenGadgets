@@ -438,7 +438,9 @@
 						)} 的 ${type} 提删插入点，请勿更改或移除此行，除非不再于此页面提删 -->`;
 						let newText = `===[[:${Morebits.pageNameNorm}]]===`;
 						if (type === 'fame') {
-							newText += `\n{{Findsources|${Morebits.pageNameNorm}}}`;
+							newText += `\n{{Findsources|${
+								Morebits.pageNameNorm.includes('=') ? '1=' : ''
+							}${Morebits.pageNameNorm}}}`;
 						}
 						if (text.includes(commentText)) {
 							text = text.replace(commentText, `${newText}\n\n${commentText}`);
