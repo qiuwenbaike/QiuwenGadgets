@@ -80,6 +80,7 @@
 	"typescript.enablePromptUseWorkspaceTsdk": true,
 	"typescript.tsdk": "./node_modules/typescript/lib",
 	"cSpell.words": [
+		"bhsd",
 		"browserslistrc",
 		"contentmodel",
 		"corejs",
@@ -88,6 +89,7 @@
 		"fullpath",
 		"idents",
 		"jqueryui",
+		"KHTML",
 		"lightningcss",
 		"missingtitle",
 		"mrhenry",
@@ -104,8 +106,10 @@
 		"qiuwen",
 		"qiuwenbaike",
 		"sitewide",
+		"toastify",
 		"unorm",
 		"uselang",
+		"usergroup",
 		"wikitext"
 	]
 }
