@@ -351,3 +351,16 @@
 		}
 	}
 }
+
+/* NavboxV2 compatibility */
+table.navbox,
+table.navbox-inner {
+	display: table;
+	width: 100%;
+
+	@media screen and (max-width: 768px) {
+		max-width: 100% !important;
+		margin-left: 1px !important;
+		margin-right: 1px !important;
+	}
+}
