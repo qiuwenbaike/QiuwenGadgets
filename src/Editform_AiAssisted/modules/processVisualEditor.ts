@@ -1,4 +1,5 @@
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
+import {generateChangeTags} from './generateChangeTags';
 import {getMessage} from './i18n';
 
 const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
@@ -22,18 +23,13 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	checkbox.setInputId(OPTIONS.inputId);
 
 	checkbox.on('change', (): void => {
-		const changeTag: string = OPTIONS.changeTag;
-		const generateChangeTags = (originChangeTags: string): string => {
-			return checkbox.isSelected()
-				? `${originChangeTags},${changeTag}`
-				: originChangeTags.replace(`,${changeTag}`, '');
-		};
-
-		let changeTags: string = '';
 		const {saveFields} = window.ve.init.target;
-		changeTags = generateChangeTags(saveFields.wpChangeTags?.() ?? '');
 		saveFields.wpChangeTags = (): string => {
-			return changeTags;
+			return generateChangeTags({
+				checkbox,
+				originalChangeTags: saveFields.wpChangeTags?.() ?? '',
+				changeTag: OPTIONS.changeTag,
+			});
 		};
 	});
 

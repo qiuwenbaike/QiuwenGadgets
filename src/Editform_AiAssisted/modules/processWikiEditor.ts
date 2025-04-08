@@ -1,4 +1,5 @@
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
+import {generateChangeTags} from './generateChangeTags';
 import {getMessage} from './i18n';
 
 const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $editForm?: JQuery}): void => {
@@ -20,29 +21,25 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	checkbox.setInputId(OPTIONS.inputId);
 
-	checkbox.on('change', (): void => {
-		const changeTag: string = OPTIONS.changeTag;
-		const generateChangeTags = (originChangeTags: string): string => {
-			return checkbox.isSelected()
-				? `${originChangeTags},${changeTag}`
-				: originChangeTags.replace(`,${changeTag}`, '');
-		};
-
-		let changeTags: string = '';
-
-		const $wpChangeTags: JQuery = $('<input>').attr({
+	let $wpChangeTags: JQuery = $body.find('input[name=wpChangeTags]');
+	if (!$wpChangeTags.length) {
+		$wpChangeTags = $('<input>').attr({
 			id: 'wpChangeTags',
 			name: 'wpChangeTags',
 			type: 'hidden',
 			value: '',
 		});
-		$body = ($editForm as JQuery).parents('body');
-		const $originWpChangeTags: JQuery = $body.find('input[name=wpChangeTags]');
-		if (!$originWpChangeTags.length) {
-			$body.prepend($wpChangeTags);
-		}
-		changeTags = generateChangeTags($originWpChangeTags.val()?.toString() ?? '');
-		$originWpChangeTags.val(changeTags);
+		$body.prepend($wpChangeTags);
+	}
+
+	checkbox.on('change', (): void => {
+		$wpChangeTags.val(
+			generateChangeTags({
+				checkbox,
+				originalChangeTags: $wpChangeTags.val()?.toString() ?? '',
+				changeTag: OPTIONS.changeTag,
+			})
+		);
 	});
 
 	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
