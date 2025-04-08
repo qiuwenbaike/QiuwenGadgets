@@ -1,16 +1,14 @@
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
 import {getMessage} from './i18n';
 
-const processVisualEditor = (): void => {
+const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Guard against double inclusions
 	if (mw.config.get(OPTIONS.configKeyVe)) {
 		return;
 	}
 
-	const {target} = window.ve.init;
-	const {saveDialog, saveFields} = target;
-	const {$saveCheckboxes} = saveDialog;
-	if (!$saveCheckboxes.length) {
+	const $target: JQuery = $body.find(`.${OPTIONS.targetClassVe}`);
+	if (!$target.length) {
 		return;
 	}
 
@@ -32,6 +30,7 @@ const processVisualEditor = (): void => {
 		};
 
 		let changeTags: string = '';
+		const {saveFields} = window.ve.init.target;
 		changeTags = generateChangeTags(saveFields.wpChangeTags?.() ?? '');
 		saveFields.wpChangeTags = (): string => {
 			return changeTags;
@@ -43,8 +42,8 @@ const processVisualEditor = (): void => {
 		label: getMessage('AiAssisted'),
 	});
 
-	if (!saveDialog.$element.find(`#${OPTIONS.inputId}`).length) {
-		$saveCheckboxes.append(checkboxLayout.$element);
+	if (!$body.find(`#${OPTIONS.inputId}`).length) {
+		$target.append(checkboxLayout.$element);
 	}
 
 	// Reinitialization is required for switching between VisualEditor and New Wikitext Editor (2017)
