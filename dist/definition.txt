@@ -124,7 +124,7 @@
 * ToolsRedirect-courtesy-and-art-names[ResourceLoader|actions=view|dependencies=ext.gadget.ToolsRedirect,ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-courtesy-and-art-names.js
 * ToolsRedirect-opt-bolds[ResourceLoader|actions=view|dependencies=ext.gadget.ToolsRedirect,ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-opt-bolds.js
 * Wikiplus[ResourceLoader|dependencies=ext.gadget.Util,user.options|rights=skipcaptcha|requiresES6]|Wikiplus.js|Wikiplus.css
-* Wikiplus-highlight[ResourceLoader|actions=view|dependencies=ext.gadget.Util,ext.gadget.Wikiplus,user.options|rights=skipcaptcha|requiresES6]|Wikiplus-highlight.js
+* Wikiplus-highlight[ResourceLoader|actions=view|dependencies=ext.gadget.Util,ext.gadget.Wikiplus,user.options|rights=skipcaptcha|requiresES6]|Wikiplus-highlight.js|Wikiplus-highlight.css
 
 == skin ==
 * SkinCitizen[ResourceLoader|default|hidden|skins=citizen|requiresES6]|SkinCitizen.css
