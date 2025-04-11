@@ -46,7 +46,9 @@ const UserList = ({userNames}: UserListProps) => (
 					href={
 						/(>|&gt;)/.test(userName)
 							? mw.util.getUrl(
-									`Special:GoToInterWiki/${sanitize(userName.replace(/(>|&gt;)/, ':User:'))}`
+									`Special:GoToInterWiki/${sanitize(
+										userName.replace(/(>|&gt;)/, ':User:').replace(/(>|&gt;)/g, '&gt;')
+									)}`
 								)
 							: mw.util.getUrl(`User:${sanitize(userName)}`)
 					}
