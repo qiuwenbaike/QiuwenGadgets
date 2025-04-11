@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@types/oojs-ui': latest
-  '@typescript-eslint/utils': ^8.26.1
+  '@typescript-eslint/utils': ^8.29.1
   browserslist-config-wikimedia: latest
   emoji-regex: latest
   eslint-config-wikimedia: ^0.29.1
