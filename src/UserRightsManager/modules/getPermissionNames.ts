@@ -11,6 +11,7 @@ const getPermissionNames = (permission: UserRights): string | null => {
 		templateeditor: '模板编辑员',
 		bot: '机器人',
 		'rnrsverify-exempt': '实名制验证豁免',
+		'ipblock-exempt': 'IP封禁豁免',
 	} as const satisfies Partial<Record<UserRights, string>>;
 
 	let permissionName: string | null = null;
