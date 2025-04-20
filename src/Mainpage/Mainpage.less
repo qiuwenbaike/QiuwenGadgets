@@ -278,7 +278,8 @@
 	}
 
 	&-wide-box {
-		flex: 1 1 45vw;
+		flex: 1 1 30vw;
+		max-width: 100%;
 		min-width: 25em;
 	}
 
@@ -500,8 +501,9 @@
 
 		&-box,
 		&-wide-box {
-			flex: 1 1 45vw;
-			min-width: 25em;
+			flex: 1 1 25em;
+			max-width: 100%;
+			min-width: unset;
 		}
 
 		@not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
