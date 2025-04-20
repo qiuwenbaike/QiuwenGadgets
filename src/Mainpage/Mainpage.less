@@ -256,9 +256,8 @@
 	}
 
 	&-box {
-		flex: 1 1 20em;
-		flex: 1 1 calc(33% - 3.3em);
-		width: 33%;
+		flex: 1 1 30vw;
+		min-width: 20em;
 
 		img {
 			max-width: 20em;
@@ -279,8 +278,8 @@
 	}
 
 	&-wide-box {
-		flex: 1 1 33.3em;
-		flex: 1 1 calc(50% - 5em);
+		flex: 1 1 45vw;
+		min-width: 25em;
 	}
 
 	&-extra-box {
@@ -499,14 +498,10 @@
 			min-height: 125px;
 		}
 
-		&-header-box,
 		&-box,
-		&-footer-box {
-			margin: 0 auto;
-			flex: 1 1 45em;
-			flex: 1 1 calc(100% - 10em);
-			width: 100%;
-			max-width: 100%;
+		&-wide-box {
+			flex: 1 1 45vw;
+			min-width: 25em;
 		}
 
 		@not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
