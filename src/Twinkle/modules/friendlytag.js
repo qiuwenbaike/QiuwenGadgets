@@ -496,7 +496,7 @@
 						type: 'select',
 						list: [
 							{
-								label: `{{Notability}}：${window.wgULS('通用的关注度指引', '通用的關注度指引')}`,
+								label: `{{Notability}}：${window.wgULS('通用收录标准', '通用收錄標準')}`,
 								value: 'none',
 							},
 							{
@@ -552,7 +552,7 @@
 								value: 'Traffic',
 							},
 							{
-								label: `{{Notability|Web}}：${window.wgULS('网站、网络内容', '網站、網路內容')}（非正式指引）`,
+								label: `{{Notability|Web}}：${window.wgULS('网站、网络内容', '網站、網路內容')}（非正式标准）`,
 								value: 'Web',
 							},
 						],
@@ -902,14 +902,14 @@
 					value: [
 						{
 							tag: 'Notability',
-							description: window.wgULS('可能不符合通用关注度指引', '可能不符合通用關注度指引'),
+							description: window.wgULS('可能不符合通用收录标准', '可能不符合通用收錄標準'),
 							excludeMI: true,
 						},
 						{
 							tag: 'Notability Unreferenced',
 							description: window.wgULS(
-								'可能具备关注度，但需要来源加以彰显',
-								'可能具備關注度，但需要來源加以彰顯'
+								'可能具备收录标准，但需要来源加以彰显',
+								'可能具備收錄標準，但需要來源加以彰顯'
 							),
 						},
 					],
@@ -1258,10 +1258,10 @@
 					description: window.wgULS('引导简体至繁体，或繁体至简体', '引導簡體至繁體，或繁體至簡體'),
 				},
 				{
-					tag: window.wgULS('关注度重定向', '關注度重定向'),
+					tag: window.wgULS('收录标准重定向', '收錄標準重定向'),
 					description: window.wgULS(
-						'缺乏关注度的子主题向有关注度的母主题的重定向',
-						'缺乏關注度的子主題向有關注度的母主題的重定向'
+						'缺乏收录标准的子主题向有收录标准的母主题的重定向',
+						'缺乏收錄標準的子主題向有收錄標準的母主題的重定向'
 					),
 				},
 				{
@@ -1453,8 +1453,8 @@
 				},
 				{
 					label: `{{Rename media}}：${window.wgULS(
-						'文件应该根据文件名称指引被重命名',
-						'檔案應該根據檔案名稱指引被重新命名'
+						'文件应该根据文件使用方针重新命名',
+						'檔案應該根據檔案使用方針重新命名'
 					)}`,
 					value: 'Rename media',
 					subgroup: [
@@ -1742,6 +1742,7 @@
 						case 'Merge':
 						case 'Merge to':
 						case 'Merge from':
+							params.mergeTag = tagName;
 							if (params.mergeTarget) {
 								// normalize the merge target for now and later
 								params.mergeTarget = Morebits.string.toUpperCaseFirstChar(
@@ -1840,14 +1841,14 @@
 						(mw.config.get('wgNamespaceNumber') === 0 ||
 							confirm(
 								window.wgULS(
-									'该页面不是条目，您仍要提报到关注度提报吗？',
-									'該頁面不是條目，您仍要提報到關注度提報嗎？'
+									'该页面不是条目，您仍要提报到收录标准提报吗？',
+									'該頁面不是條目，您仍要提報到收錄標準提報嗎？'
 								)
 							))
 					) {
 						const qiuwen_page = new Morebits.wiki.page(
 							'Qiuwen_talk:存废讨论/关注度提报',
-							window.wgULS('加入关注度记录项', '加入關注度記錄項')
+							window.wgULS('加入收录标准记录项', '加入收錄標準記錄項')
 						);
 						qiuwen_page.setFollowRedirect(true);
 						qiuwen_page.setCallbackParameters(params);

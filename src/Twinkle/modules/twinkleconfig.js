@@ -176,7 +176,7 @@
 			delete: window.wgULS('删除', '刪除'),
 			merge: window.wgULS('合并', '合併'),
 			fwdcsd: window.wgULS('转交自快速删除候选', '轉交自快速刪除候選'),
-			fame: window.wgULS('批量关注度提删', '批次關注度提刪'),
+			fame: window.wgULS('批量收录标准提删', '批次收錄標準提刪'),
 			substub: window.wgULS('批量小小作品提删', '批次小小作品提刪'),
 			batch: window.wgULS('批量其他提删', '批次其他提刪'),
 		},
@@ -1004,7 +1004,7 @@
 				},
 				{
 					name: 'afdFameDefaultReason',
-					label: window.wgULS('默认关注度提删理由', '預設關注度提刪理由'),
+					label: window.wgULS('默认收录标准提删理由', '預設收錄標準提刪理由'),
 					helptip: window.wgULS('用于批量提删。', '用於批次提刪。'),
 					type: 'string',
 				},

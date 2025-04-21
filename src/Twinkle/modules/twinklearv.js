@@ -586,7 +586,7 @@
 				comment += `* ${input.reason}\n`;
 				comment = comment.trim();
 				comment = Morebits.string.appendPunctuation(comment);
-				reason += `${comment}\n* 提报人：~~`.concat('~~\n* 处理：');
+				reason += `${comment}\n* 提报人：~~`;
 				break;
 			}
 			// Report inappropriate username
@@ -742,7 +742,7 @@
 				}
 				comment = comment.trim();
 				comment = Morebits.string.appendPunctuation(comment);
-				reason += `${comment}\n* 发现人：~~`.concat('~~\n* 处理：');
+				reason += `${comment}\n* 发现人：~~`;
 				break;
 			}
 		}
