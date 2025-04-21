@@ -114,7 +114,7 @@
 					action: 'keep',
 				},
 				tk: {
-					label: window.wgULS('暂时保留，改挂维护模板（关注度等）', '暫時保留，改掛維護模板（關注度等）'),
+					label: window.wgULS('暂时保留，改挂维护模板（收录标准等）', '暫時保留，改掛維護模板（收錄標準等）'),
 					value: window.wgULS('暂时保留', '暫時保留'),
 					action: 'keep',
 				},
@@ -576,7 +576,7 @@
 			newtext = newtext.replace(/\{\{([rsaiftcmv]fd)(\|(?:\{\{[^{}]*\}\}|[^{}])*)?\}\}\s*/gi, '');
 			if (params.code !== 'tk') {
 				newtext = newtext.replace(
-					/{{(notability|fame|mair|知名度|重要性|显著性|顯著性|知名度不足|人物重要性|重要性不足|notable|关注度|关注度不足|關注度|關注度不足|重要|重要度)(\|(?:{{[^{}]*}}|[^{}])*)?}}\n*/gi,
+					/{{(notability|fame|mair|知名度|重要性|显著性|顯著性|知名度不足|人物重要性|重要性不足|notable|收录标准|收录标准不足|收錄標準|收錄標準不足|重要|重要度)(\|(?:{{[^{}]*}}|[^{}])*)?}}\n*/gi,
 					''
 				);
 				newtext = newtext.replace(

@@ -444,6 +444,16 @@
 							),
 						},
 					},
+					'uw-paid': {
+						level1: {
+							label: window.wgULS('未申报的有偿编辑', '未申報的有償編輯'),
+							summary: window.wgULS('注意：未申报的有偿编辑', '注意：未申報的有償編輯'),
+						},
+						level2: {
+							label: window.wgULS('未申报的有偿编辑', '未申報的有償編輯'),
+							summary: window.wgULS('警告：未申报的有偿编辑', '警告：未申報的有償編輯'),
+						},
+					},
 				},
 			},
 			{

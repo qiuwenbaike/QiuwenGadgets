@@ -202,7 +202,7 @@
 				}
 				afd_category.append({
 					type: 'option',
-					label: window.wgULS('批量关注度提删', '批次關注度提刪'),
+					label: window.wgULS('批量收录标准提删', '批次收錄標準提刪'),
 					value: 'fame',
 					selected: afd_cat === 'fame',
 				});
@@ -681,7 +681,7 @@
 					xfdCatName = window.wgULS('转交自快速删除候选', '轉交自快速刪除候選');
 					break;
 				case 'fame':
-					xfdCatName = window.wgULS('批量关注度提删', '批次關注度提刪');
+					xfdCatName = window.wgULS('批量收录标准提删', '批次收錄標準提刪');
 					break;
 				case 'substub':
 					xfdCatName = window.wgULS('批量小小作品提删', '批次小小作品提刪');
