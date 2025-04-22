@@ -1,0 +1,9 @@
+{
+	"enable": true,
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-SkinCitizen-addSidebarIcons\"></span> 为Citizen皮肤的菜单补充图标",
+	"section": "skin",
+	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike"],
+	"default": true,
+	"hidden": true,
+	"skins": ["citizen"]
+}
