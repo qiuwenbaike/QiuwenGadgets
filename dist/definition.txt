@@ -128,6 +128,7 @@
 
 == skin ==
 * SkinCitizen[ResourceLoader|default|hidden|skins=citizen|requiresES6]|SkinCitizen.css
+* SkinCitizen_AddSidebarIcons[ResourceLoader|default|hidden|skins=citizen|requiresES6]|SkinCitizen_AddSidebarIcons.css
 * SkinGongbi[ResourceLoader|default|hidden|skins=gongbi|requiresES6]|SkinGongbi.css
 * SkinVector[ResourceLoader|default|hidden|skins=vector,vector-2022|requiresES6]|SkinVector.css
 * SkinVector2022[ResourceLoader|default|hidden|skins=vector-2022|requiresES6]|SkinVector2022.css
