@@ -60,7 +60,7 @@
 	"explorer.fileNesting.enabled": true,
 	"explorer.fileNesting.expand": false,
 	"explorer.fileNesting.patterns": {
-		"package.json": ".*cache, .*ignore, .*rc, .editorconfig, .git*, .mailmap, pnpm-lock.yaml, svgo.config.cjs, tsconfig.json, tsconfig.tsbuildinfo",
+		"package.json": ".*cache, .*ignore, .*rc, .editorconfig, .git*, .mailmap, pnpm-lock.yaml, pnpm-workspace.yaml, svgo.config.cjs, tsconfig.json, tsconfig.tsbuildinfo",
 		"README*": "*.md, LICENSE"
 	},
 	"json.schemas": [
@@ -89,6 +89,7 @@
 		"fullpath",
 		"idents",
 		"jqueryui",
+		"jsxdom",
 		"KHTML",
 		"lightningcss",
 		"missingtitle",

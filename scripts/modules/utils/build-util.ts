@@ -489,7 +489,7 @@ const findSourceFile = () => {
 			 * @see {@link https://www.w3.org/TR/html4/types.html#type-id}
 			 */
 			console.log(
-				chalk.yellow(`The folder name ${chalk.bold(gadgetName)} contains illegal characters, skip it.`)
+				chalk.yellow(`The folder name ${chalk.bold(gadgetName)} contains illegal characters, skipping it.`)
 			);
 			continue;
 		}
