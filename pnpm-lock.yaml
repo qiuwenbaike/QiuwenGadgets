@@ -37,17 +37,17 @@ importers:
   .:
     dependencies:
       '@bhsd/codemirror-mediawiki':
-        specifier: ^2.24.2
-        version: 2.24.2(typescript@5.8.3)
+        specifier: ^2.25.3
+        version: 2.25.3(typescript@5.8.3)
       '@bhsd/common':
-        specifier: ^0.9.3
-        version: 0.9.3(stylelint@16.19.1(typescript@5.8.3))
+        specifier: ^0.10.2
+        version: 0.10.2(stylelint@16.19.1(typescript@5.8.3))
       '@types/toastify-js':
         specifier: ^1.12.3
         version: 1.12.3
       chinese-days:
-        specifier: ^1.5.0
-        version: 1.5.0
+        specifier: ^1.5.1
+        version: 1.5.1
       clipboard:
         specifier: ^2.0.11
         version: 2.0.11
@@ -802,11 +802,11 @@ packages:
     resolution: {integrity: sha512-H45s8fVLYjbhFH62dIJ3WtmJ6RSPt/3DRO0ZcT2SUiYiQyz3BLVb9ADEnLl91m74aQPS3AzzeajZHYOalWe3bg==}
     engines: {node: '>=6.9.0'}
 
-  '@bhsd/codemirror-mediawiki@2.24.2':
-    resolution: {integrity: sha512-pXY7SdkrTVu9r5V4YKgEdOkBRbgEd+7NTiCp7o8HOXdFB5i7efld76NoaTJCSuwoyZzTUnOXfEgz3NqY9Plyrg==}
+  '@bhsd/codemirror-mediawiki@2.25.3':
+    resolution: {integrity: sha512-j9Qr8SkxXNtvjX37z+d8Le1bGi7ag6QPmEX6vLebpu6Q8Hw3TTPSJdrOvOFGRBDqEZYfRaz0QxU4dLDb1mcUTA==}
 
-  '@bhsd/common@0.9.3':
-    resolution: {integrity: sha512-CwGeX1Ky6LtbcWPZV4d4AVwrpUwk7u3VjEV92Wtg55sJMMBvzUqZiTWp1gJ4RBPOuF2YV8OI6svqNIr3n6x6iQ==}
+  '@bhsd/common@0.10.2':
+    resolution: {integrity: sha512-iOV+LvQl7xkOSFAYzBT/XfniTa/DLWrfNhUXDgQnoe3o++XkfTdJ/NKqAEWbgR0BoECrpN8H6xMrhHNaj/dTWw==}
     hasBin: true
 
   '@codemirror/lint@6.8.5':
@@ -815,8 +815,8 @@ packages:
   '@codemirror/state@6.5.2':
     resolution: {integrity: sha512-FVqsPqtPWKVVL3dPSxy8wEF/ymIEuVzF1PK3VbUgrxXpJUSHQWWZz4JMToquRxnkw+36LTamCZG2iua2Ptq0fA==}
 
-  '@codemirror/view@6.36.6':
-    resolution: {integrity: sha512-uxugGLet+Nzp0Jcit8Hn3LypM8ioMLKTsdf8FRoT3HWvZtb9GhaWMe0Cc15rz90Ljab4YFJiAulmIVB74OY0IQ==}
+  '@codemirror/view@6.36.8':
+    resolution: {integrity: sha512-yoRo4f+FdnD01fFt4XpfpMCcCAo9QvZOtbrXExn4SqzH32YC6LgzqxfLZw/r6Ge65xyY03mK/UfUqrVw1gFiFg==}
 
   '@commander-js/extra-typings@13.1.0':
     resolution: {integrity: sha512-q5P52BYb1hwVWE6dtID7VvuJWrlfbCv4klj7BjUUOqMz4jbSZD4C9fJ9lRjL2jnBGTg+gDDlaXN51rkWcLk4fg==}
@@ -1426,36 +1426,42 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm-musl@2.5.1':
     resolution: {integrity: sha512-6E+m/Mm1t1yhB8X412stiKFG3XykmgdIOqhjWj+VL8oHkKABfu/gjFj8DvLrYVHSBNC+/u5PeNrujiSQ1zwd1Q==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-arm64-glibc@2.5.1':
     resolution: {integrity: sha512-LrGp+f02yU3BN9A+DGuY3v3bmnFUggAITBGriZHUREfNEzZh/GO06FF5u2kx8x+GBEUYfyTGamol4j3m9ANe8w==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm64-musl@2.5.1':
     resolution: {integrity: sha512-cFOjABi92pMYRXS7AcQv9/M1YuKRw8SZniCDw0ssQb/noPkRzA+HBDkwmyOJYp5wXcsTrhxO0zq1U11cK9jsFg==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-x64-glibc@2.5.1':
     resolution: {integrity: sha512-GcESn8NZySmfwlTsIur+49yDqSny2IhPeZfXunQi48DMugKeZ7uy1FX83pO0X22sHntJ4Ub+9k34XQCX+oHt2A==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-x64-musl@2.5.1':
     resolution: {integrity: sha512-n0E2EQbatQ3bXhcH2D1XIAANAcTZkQICBPVaxMeaCVBtOpBZpWJuf7LwyWPSBDITb7In8mqQgJ7gH8CILCURXg==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-win32-arm64@2.5.1':
     resolution: {integrity: sha512-RFzklRvmc3PkjKjry3hLF9wD7ppR4AKcWNzH7kXR7GUe0Igb3Nz8fyPwtZCSquGrhU5HhUNDr/mKBqj7tqA2Vw==}
@@ -2007,8 +2013,8 @@ packages:
   character-parser@2.2.0:
     resolution: {integrity: sha512-+UqJQjFEFaTAs3bNsF2j2kEN1baG/zghZbdqoYEDxGZtJo9LBzl1A+m0D4n3qKx8N2FNv8/Xp6yV9mQmBuptaw==}
 
-  chinese-days@1.5.0:
-    resolution: {integrity: sha512-itdSDf8nEio5cFj6EnuIWyQJen2uoXe2OM/EeaUZKOP5ytXD/7/2IauQbULpJDoK/sW00K5FC05MZgHsGafCNA==}
+  chinese-days@1.5.1:
+    resolution: {integrity: sha512-tMwllz6674sN9z/PexawTu7Ypiba0X7X4Qs8gvuZl+CIjyYrl8jOuYZQwAtPyjPNqwTwE2GqSSPJK218crbCWg==}
 
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
@@ -3401,24 +3407,28 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.29.3:
     resolution: {integrity: sha512-dxakOk66pf7KLS7VRYFO7B8WOJLecE5OPL2YOk52eriFd/yeyxt2Km5H0BjLfElokIaR+qWi33gB8MQLrdAY3A==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.29.3:
     resolution: {integrity: sha512-ySZTNCpbfbK8rqpKJeJR2S0g/8UqqV3QnzcuWvpI60LWxnFN91nxpSSwCbzfOXkzKfar9j5eOuOplf+klKtINg==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.29.3:
     resolution: {integrity: sha512-3pVZhIzW09nzi10usAXfIGTTSTYQ141dk88vGFNCgawIzayiIzZQxEcxVtIkdvlEq2YuFsL9Wcj/h61JHHzuFQ==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.29.3:
     resolution: {integrity: sha512-VRnkAvtIkeWuoBJeGOTrZxsNp4HogXtcaaLm8agmbYtLDOhQdpgxW6NjZZjDXbvGF+eOehGulXZ3C1TiwHY4QQ==}
@@ -4538,11 +4548,11 @@ packages:
     peerDependencies:
       stylelint: ^16.1.0
 
-  stylelint-config-recommended@15.0.0:
-    resolution: {integrity: sha512-9LejMFsat7L+NXttdHdTq94byn25TD+82bzGRiV1Pgasl99pWnwipXS5DguTpp3nP1XjvLXVnEJIuYBfsRjRkA==}
+  stylelint-config-recommended@16.0.0:
+    resolution: {integrity: sha512-4RSmPjQegF34wNcK1e1O3Uz91HN8P1aFdFzio90wNK9mjgAI19u5vsU868cVZboKzCaa5XbpvtTzAAGQAxpcXA==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
-      stylelint: ^16.13.0
+      stylelint: ^16.16.0
 
   stylelint-config-wikimedia@0.18.0:
     resolution: {integrity: sha512-Lr45NIe7pG8i7BPcMc6EddO1pRK8/KNG8gp4o/oOG1Ez10hglJuJb/QT17BlzX8NPkhtP2KdY63NS2f/Wcj6Ww==}
@@ -4894,8 +4904,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  wikiparser-node@1.20.0:
-    resolution: {integrity: sha512-u5+5Wk+ozz5JictfmsknZBfBEB8XXVbhDhPA+9LFlZgHguA/qQWMXYUt7OdLiueRuv6Pg96OCC1tKdjLOAUXgg==}
+  wikiparser-node@1.20.3:
+    resolution: {integrity: sha512-kN1lCEu9+aMhws9eLdsVhCPx3CzyWchYPSXE/GmN/x6aSK7tHD4GKEZ86Za/ns+NFYP6u8yldHnEQiJMCYvZTA==}
     engines: {node: '>=18.17.0'}
     hasBin: true
 
@@ -5618,34 +5628,34 @@ snapshots:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
-  '@bhsd/codemirror-mediawiki@2.24.2(typescript@5.8.3)':
+  '@bhsd/codemirror-mediawiki@2.25.3(typescript@5.8.3)':
     dependencies:
       '@codemirror/lint': 6.8.5
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.6
+      '@codemirror/view': 6.36.8
       '@lezer/common': 1.2.3
-      wikiparser-node: 1.20.0(typescript@5.8.3)
+      wikiparser-node: 1.20.3(typescript@5.8.3)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  '@bhsd/common@0.9.3(stylelint@16.19.1(typescript@5.8.3))':
+  '@bhsd/common@0.10.2(stylelint@16.19.1(typescript@5.8.3))':
     dependencies:
-      stylelint-config-recommended: 15.0.0(stylelint@16.19.1(typescript@5.8.3))
+      stylelint-config-recommended: 16.0.0(stylelint@16.19.1(typescript@5.8.3))
     transitivePeerDependencies:
       - stylelint
 
   '@codemirror/lint@6.8.5':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.6
+      '@codemirror/view': 6.36.8
       crelt: 1.0.6
 
   '@codemirror/state@6.5.2':
     dependencies:
       '@marijn/find-cluster-break': 1.0.2
 
-  '@codemirror/view@6.36.6':
+  '@codemirror/view@6.36.8':
     dependencies:
       '@codemirror/state': 6.5.2
       style-mod: 4.1.2
@@ -6926,7 +6936,7 @@ snapshots:
     dependencies:
       is-regex: 1.2.1
 
-  chinese-days@1.5.0: {}
+  chinese-days@1.5.1: {}
 
   chokidar@4.0.3:
     dependencies:
@@ -9641,7 +9651,7 @@ snapshots:
     dependencies:
       stylelint: 16.12.0(typescript@5.8.3)
 
-  stylelint-config-recommended@15.0.0(stylelint@16.19.1(typescript@5.8.3)):
+  stylelint-config-recommended@16.0.0(stylelint@16.19.1(typescript@5.8.3)):
     dependencies:
       stylelint: 16.19.1(typescript@5.8.3)
 
@@ -10144,9 +10154,9 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  wikiparser-node@1.20.0(typescript@5.8.3):
+  wikiparser-node@1.20.3(typescript@5.8.3):
     dependencies:
-      '@bhsd/common': 0.9.3(stylelint@16.19.1(typescript@5.8.3))
+      '@bhsd/common': 0.10.2(stylelint@16.19.1(typescript@5.8.3))
       vscode-languageserver-types: 3.17.5
     optionalDependencies:
       chalk: 4.1.2
