@@ -72,14 +72,14 @@
 					tooltip: window.wgULS('本文件并未注明原始出处', '本檔案並未註明原始出處'),
 				},
 				{
-					label: window.wgULS('未知著作权信息（CSD F3）', '未知著作權資訊（CSD F3）'),
+					label: window.wgULS('未知许可证信息（CSD F3）', '未知許可證資訊（CSD F3）'),
 					value: 'no license',
-					tooltip: window.wgULS('本文件缺少著作权信息', '本檔案缺少著作權資訊'),
+					tooltip: window.wgULS('本文件缺少许可证信息', '本檔案缺少許可證資訊'),
 				},
 				{
-					label: window.wgULS('著作权无法被查证（CSD F3）', '著作權無法被查證（CSD F3）'),
+					label: window.wgULS('许可证信息无法被查证（CSD F3）', '許可證資訊無法被查證（CSD F3）'),
 					value: 'no license',
-					tooltip: window.wgULS('本文件声称的著作权信息无法被查证', '本檔案聲稱的著作權資訊無法被查證'),
+					tooltip: window.wgULS('本文件声称的许可证信息无法被查证', '本檔案聲稱的許可證資訊無法被查證'),
 				},
 				{
 					label: window.wgULS('可被替代的非自由著作权文件（CSD F4）', '可被替代的非自由著作權檔案（CSD F4）'),
