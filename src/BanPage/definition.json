@@ -3,7 +3,7 @@
 	"description": "<sup><abbr title=\"默认为所有确认用户启用\">C</abbr></sup><span id=\"Gadget-BanPage\"></span> 一键禁用页面和文件",
 	"section": "sysop",
 	"excludeSites": ["loginwiki"],
-	"default": true,
+	"default": false,
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify", "ext.gadget.Util", "mediawiki.api", "mediawiki.util"],
-	"rights": ["skipcaptcha"]
+	"rights": ["patrol"]
 }
