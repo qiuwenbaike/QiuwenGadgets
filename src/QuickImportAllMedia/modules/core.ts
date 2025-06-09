@@ -77,6 +77,7 @@ const queryImages = async (titles: string | string[]) => {
 		formatversion: '2',
 		prop: 'images',
 		imlimit: 5000,
+		redirects: true,
 	};
 	const response = await api.get(params);
 
