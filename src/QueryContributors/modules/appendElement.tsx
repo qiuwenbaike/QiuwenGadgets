@@ -2,7 +2,7 @@ import * as OPTIONS from '../options.json';
 import {FooterUserList} from './components/react';
 import React from 'ext.gadget.JSX';
 
-const appendElement = (userNames: string[]): void => {
+const appendElement = (userNames: (string | number)[]): void => {
 	if (!userNames || !userNames.length) {
 		return;
 	}

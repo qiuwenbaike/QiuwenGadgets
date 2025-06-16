@@ -1,9 +1,8 @@
-import {getMessage} from '../i18n';
 import {queryContributors} from '../queryContributors';
 import {uniqueArray} from 'ext.gadget.Util';
 
 const getContributors = async (title: string) => {
-	let pclist: string[] = [];
+	let pclist: (string | number)[] = [];
 	let pccontinue: string | undefined;
 
 	const CACHE_KEY_PREFIX = 'ext.gadget.QueryContributors_getContributors-';
@@ -32,10 +31,7 @@ const getContributors = async (title: string) => {
 					}
 
 					if (page?.anoncontributors) {
-						pclist[pclist.length] = getMessage('Other anonymous contributors').replace(
-							'$1',
-							`${page.anoncontributors}`
-						);
+						pclist[pclist.length] = page.anoncontributors;
 					}
 				}
 			} else {
