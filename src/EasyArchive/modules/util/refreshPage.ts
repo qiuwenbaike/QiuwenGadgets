@@ -1,8 +1,6 @@
 import {getMessage} from '../i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
-const {wgScript} = mw.config.get();
-
 const refresh = ({
 	targetPage,
 	toastifyInstance,
@@ -20,11 +18,7 @@ const refresh = ({
 	);
 
 	const {wgPageName} = mw.config.get();
-	location.replace(
-		mw.util.getUrl(wgScript, {
-			title: targetPage ?? wgPageName,
-		})
-	);
+	location.replace(mw.util.getUrl(targetPage ?? wgPageName));
 };
 
 export {refresh};
