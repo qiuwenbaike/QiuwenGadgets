@@ -17,10 +17,10 @@ const refresh = ({
 		'success'
 	);
 
-	const {wgPageName} = mw.config.get();
 	if (targetPage) {
 		location.replace(mw.util.getUrl(targetPage));
 	} else {
+		const {wgPageName} = mw.config.get();
 		location.replace(mw.util.getUrl(wgPageName));
 	}
 };
