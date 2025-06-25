@@ -17,12 +17,8 @@ const refresh = ({
 		'success'
 	);
 
-	if (targetPage) {
-		location.replace(mw.util.getUrl(targetPage));
-	} else {
-		const {wgPageName} = mw.config.get();
-		location.replace(mw.util.getUrl(wgPageName));
-	}
+	const {wgPageName} = mw.config.get();
+	location.replace(mw.util.getUrl(targetPage ?? wgPageName));
 };
 
 export {refresh};

@@ -10,7 +10,11 @@ const refresh = (targetPage?: string): void => {
 		'success'
 	);
 
-	location.replace(mw.util.getUrl(targetPage));
+	if (targetPage) {
+		location.replace(mw.util.getUrl(targetPage));
+	} else {
+		location.reload();
+	}
 };
 
 export {refresh};
