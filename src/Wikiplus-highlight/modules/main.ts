@@ -14,7 +14,7 @@ declare namespace mediaWiki.libs {
 	const {libs} = mediaWiki,
 		{wphl} = libs;
 	if (!wphl?.version) {
-		const version = '3.2.5';
+		const version = '3.2.8';
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
@@ -22,19 +22,30 @@ declare namespace mediaWiki.libs {
 			REPO_CDN = 'npm/wikiplus-highlight';
 
 		if (typeof CodeMirror6 !== 'function') {
-			await $.ajax(`${CDN}/${MW_CDN}`, {dataType: 'script'});
+			await $.ajax(`${CDN}/${MW_CDN}`, {dataType: 'script', cache: true});
 		}
 
 		// 监视 Wikiplus 编辑框
 		const observer = new MutationObserver((records) => {
-			const $editArea = $(
-				records.flatMap(({addedNodes}) => {
-					return [...addedNodes];
-				})
-			).find<HTMLTextAreaElement>('#Wikiplus-Quickedit, #Wikiplus-Setting-Input');
-			if ($editArea.length > 0) {
-				void renderEditor($editArea, $editArea.attr('id') === 'Wikiplus-Setting-Input');
+			const selector = '#Wikiplus-Quickedit, #Wikiplus-Setting-Input',
+				[added] = $(
+					records.flatMap(({addedNodes}) => {
+						return [...addedNodes];
+					})
+				).find<HTMLTextAreaElement>(selector);
+			if (added) {
+				void renderEditor(added, added.id === 'Wikiplus-Setting-Input');
 			}
+			const [removed] = $(
+					records.flatMap(({removedNodes}) => {
+						return [...removedNodes];
+					})
+				).find<HTMLTextAreaElement>(selector),
+				cm = CodeMirror6.instances?.get(removed!);
+			if (typeof cm?.destroy === 'function') {
+				cm.destroy();
+			}
+			Object.assign(globalThis, {records});
 		});
 		observer.observe(document.body, {childList: true});
 
