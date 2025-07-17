@@ -384,17 +384,20 @@ import {generateArray} from 'ext.gadget.Util';
 				});
 				break;
 			case 2:
-				// user
+			case 118: {
+				// user and draft
+				const combinedList = [...Twinkle.speedy.userList, ...Twinkle.speedy.draftList];
 				work_area.append({
 					type: 'header',
-					label: window.wgULS('用户页', '使用者頁面'),
+					label: namespace === 2 ? window.wgULS('用户页', '使用者頁面') : '草稿',
 				});
 				work_area.append({
 					type: radioOrCheckbox,
 					name: 'csd',
-					list: Twinkle.speedy.generateCsdList(Twinkle.speedy.userList, mode),
+					list: Twinkle.speedy.generateCsdList(combinedList, mode),
 				});
 				break;
+			}
 			case 3:
 				// user talk
 				if (mw.util.isIPAddress(mw.config.get('wgRelevantUserName'))) {
@@ -440,18 +443,6 @@ import {generateArray} from 'ext.gadget.Util';
 					type: radioOrCheckbox,
 					name: 'csd',
 					list: Twinkle.speedy.generateCsdList(Twinkle.speedy.categoryList, mode),
-				});
-				break;
-			case 118:
-				// draft
-				work_area.append({
-					type: 'header',
-					label: '草稿',
-				});
-				work_area.append({
-					type: radioOrCheckbox,
-					name: 'csd',
-					list: Twinkle.speedy.generateCsdList(Twinkle.speedy.draftList, mode),
 				});
 				break;
 			case namespace % 2 === 1 && namespace !== 3:
