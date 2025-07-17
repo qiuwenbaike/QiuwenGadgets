@@ -12,7 +12,7 @@ import {getContributors} from './modules/util/getContributors';
 		return;
 	}
 
-	const contributors: string[] = await getContributors(wgPageName);
+	const contributors: (string | number)[] = await getContributors(wgPageName);
 
 	appendElement(contributors);
 })();

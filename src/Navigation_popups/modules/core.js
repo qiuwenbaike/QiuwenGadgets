@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-query-selector */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {api} from './api';
@@ -204,7 +205,7 @@ const popups = () => {
 		if (lTitle.toString(true) !== aTitle.toString(true)) {
 			return false;
 		}
-		let el = document.querySelector(`#${anch}`);
+		let el = document.getElementById(`${anch}`);
 		while (el && typeof el.nodeName === 'string') {
 			const nt = el.nodeName.toLowerCase();
 			if (nt === 'li') {
@@ -1574,10 +1575,10 @@ const popups = () => {
 	};
 	Insta.dump = function (from, to) {
 		if (typeof from === 'string') {
-			from = document.querySelector(`#${from}`);
+			from = document.getElementById(`${from}`);
 		}
 		if (typeof to === 'string') {
-			to = document.querySelector(`#${to}`);
+			to = document.getElementById(`${to}`);
 		}
 		to.innerHTML = this.convert(from.value);
 	};
@@ -3253,7 +3254,7 @@ const popups = () => {
 			// console.error('[Popups] popupId is not defined in setPopupHTML, html='+str.substring(0,100));
 			popupId = pg.idNumber;
 		}
-		const popupElement = document.querySelector(`#${elementId}${popupId}`);
+		const popupElement = document.getElementById(`${elementId}${popupId}`);
 		if (popupElement) {
 			if (!append) {
 				popupElement.innerHTML = '';
@@ -3427,7 +3428,7 @@ const popups = () => {
 	const popTipsSoonFn = (id, when, popData) => {
 		when ||= 250;
 		const popTips = () => {
-			setupTooltips(document.querySelector(`#${id}`), false, true, popData);
+			setupTooltips(document.getElementById(`${id}`), false, true, popData);
 		};
 		return () => {
 			setTimeout(popTips, when, popData);
@@ -5537,7 +5538,7 @@ const popups = () => {
 			}
 			let dragHandle;
 			if (handleName) {
-				dragHandle = document.querySelector(`#${handleName}`);
+				dragHandle = document.getElementById(`${handleName}`);
 			}
 			dragHandle ||= this.mainDiv;
 			const self = this;

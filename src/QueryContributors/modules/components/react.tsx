@@ -34,7 +34,7 @@ const FooterNotice = ({children = <></>}: FooterNoticeProps) => {
 };
 
 interface UserListProps {
-	userNames: string[];
+	userNames: (string | number)[];
 }
 
 const UserList = ({userNames}: UserListProps) => (
@@ -42,20 +42,28 @@ const UserList = ({userNames}: UserListProps) => (
 		<>{getMessage('Based on contributions of')}</>
 		{userNames.map((userName, index) => (
 			<>
-				<a
-					href={
-						/(>|&gt;)/.test(userName)
-							? mw.util.getUrl(
-									`Special:GoToInterWiki/${sanitize(
-										userName.replace(/(>|&gt;)/, ':User:').replace(/(>|&gt;)/g, '&gt;')
-									)}`
-								)
-							: mw.util.getUrl(`User:${sanitize(userName)}`)
-					}
-					key={userName}
-				>
-					{userName}
-				</a>
+				{typeof userName === 'number' ? (
+					<span key={`${userName}`}>
+						{getMessage('Other $1 anonymous contributors').replace('$1', `${userName}`)}
+					</span>
+				) : (
+					<a
+						href={
+							/(>|&gt;)/.test(userName)
+								? mw.util.getUrl(
+										`Special:GoToInterWiki/${sanitize(
+											userName.replace(/(>|&gt;)/, ':User:').replace(/(>|&gt;)/g, '&gt;')
+										)}`
+									)
+								: mw.util.getUrl(`User:${sanitize(userName)}`)
+						}
+						rel="noopener noreferrer"
+						target="_blank"
+						key={userName}
+					>
+						{userName}
+					</a>
+				)}
 				<>{index < userNames.length - 1 ? getMessage('Seperator') : getMessage('Period')}</>
 			</>
 		))}

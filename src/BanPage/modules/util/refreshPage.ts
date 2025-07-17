@@ -1,9 +1,7 @@
 import {getMessage} from '../i18n';
 import {toastify} from 'ext.gadget.Toastify';
 
-const {wgScript} = mw.config.get();
-
-const refresh = (targetPage: string): void => {
+const refresh = (targetPage?: string): void => {
 	toastify(
 		{
 			text: getMessage('Refreshing'),
@@ -12,11 +10,11 @@ const refresh = (targetPage: string): void => {
 		'success'
 	);
 
-	location.replace(
-		mw.util.getUrl(wgScript, {
-			title: targetPage,
-		})
-	);
+	if (targetPage) {
+		location.replace(mw.util.getUrl(targetPage));
+	} else {
+		location.reload();
+	}
 };
 
 export {refresh};
