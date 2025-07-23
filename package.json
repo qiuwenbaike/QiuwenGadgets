@@ -47,8 +47,8 @@
 		"MediaWiki Gadget"
 	],
 	"dependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.30.1",
-		"@bhsd/common": "^0.14.1",
+		"@bhsd/codemirror-mediawiki": "^2.30.3",
+		"@bhsd/common": "^0.14.2",
 		"@types/toastify-js": "^1.12.4",
 		"chinese-days": "^1.5.1",
 		"clipboard": "^2.0.11",
