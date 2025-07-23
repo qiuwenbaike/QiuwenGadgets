@@ -384,20 +384,17 @@ import {generateArray} from 'ext.gadget.Util';
 				});
 				break;
 			case 2:
-			case 118: {
-				// user and draft
-				const combinedList = [...Twinkle.speedy.userList, ...Twinkle.speedy.draftList];
+				// user
 				work_area.append({
 					type: 'header',
-					label: namespace === 2 ? window.wgULS('用户页', '使用者頁面') : '草稿',
+					label: window.wgULS('用户页', '使用者頁面'),
 				});
 				work_area.append({
 					type: radioOrCheckbox,
 					name: 'csd',
-					list: Twinkle.speedy.generateCsdList(combinedList, mode),
+					list: Twinkle.speedy.generateCsdList(Twinkle.speedy.userList, mode),
 				});
 				break;
-			}
 			case 3:
 				// user talk
 				if (mw.util.isIPAddress(mw.config.get('wgRelevantUserName'))) {
@@ -443,6 +440,18 @@ import {generateArray} from 'ext.gadget.Util';
 					type: radioOrCheckbox,
 					name: 'csd',
 					list: Twinkle.speedy.generateCsdList(Twinkle.speedy.categoryList, mode),
+				});
+				break;
+			case 118:
+				// draft
+				work_area.append({
+					type: 'header',
+					label: '草稿',
+				});
+				work_area.append({
+					type: radioOrCheckbox,
+					name: 'csd',
+					list: Twinkle.speedy.generateCsdList(Twinkle.speedy.draftList, mode),
 				});
 				break;
 			case namespace % 2 === 1 && namespace !== 3:
@@ -755,6 +764,11 @@ import {generateArray} from 'ext.gadget.Util';
 			label: 'O1：用户请求删除自己的用户页。',
 			value: 'o1',
 			tooltip: '管理员需查看编辑历史，确认该页面不是从其他名字空间移动而来。',
+		},
+		{
+			label: 'O3：废弃草稿。',
+			value: 'o3',
+			tooltip: '草稿名字空间内六个月内无编辑的页面。',
 		},
 	];
 	Twinkle.speedy.generalList = [
