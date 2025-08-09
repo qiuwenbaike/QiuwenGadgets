@@ -301,7 +301,7 @@
 		}
 		const outputMessage = document.querySelector('#twinkle-talkback-optout-message');
 		if (outputMessage) {
-			outputMessage.innerHTML = Twinkle.talkback.optout;
+			outputMessage.textContent = Twinkle.talkback.optout;
 		}
 	};
 	Twinkle.talkback.noticeboards = {
