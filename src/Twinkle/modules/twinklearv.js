@@ -119,7 +119,7 @@
 					if (block.partial) {
 						arvBlockWarning.style.color = 'black';
 					}
-					arvBlockWarning.innerHTML = message;
+					arvBlockWarning.textContent = message;
 				}
 			}
 		}).post();
@@ -140,7 +140,7 @@
 	Twinkle.arv.callback.set_sockmaster = (sockmaster) => {
 		const arvSockmaster = document.querySelector('code.tw-arv-sockmaster');
 		if (arvSockmaster) {
-			arvSockmaster.innerHTML = '{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`);
+			arvSockmaster.textContent = '{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`);
 		}
 	};
 	Twinkle.arv.callback.changeCategory = (e) => {

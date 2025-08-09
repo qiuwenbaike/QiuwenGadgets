@@ -1131,7 +1131,7 @@
 						},
 						{
 							tag: 'Unreliable sources',
-							description: wgULS('使用的来源可能不可靠', '使用的來源可能不可靠'),
+							description: window.wgULS('使用的来源可能不可靠', '使用的來源可能不可靠'),
 						},
 					],
 				},

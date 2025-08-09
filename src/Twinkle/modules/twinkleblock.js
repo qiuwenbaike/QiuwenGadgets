@@ -2393,7 +2393,7 @@ import {generateArray} from 'ext.gadget.Util';
 		const params = {
 			...formData,
 			messageData: Twinkle.block.blockPresetsInfo[formData.template],
-			usertalk_summary: Twinkle.block.blockPresetsInfo[formData.template].summary,
+			usertalk_summary: Twinkle.block.blockPresetsInfo[formData.preset || formData.template].summary,
 			reason: Twinkle.block.field_template_options.block_reason,
 			disabletalk: Twinkle.block.field_template_options.notalk,
 			noemail: Twinkle.block.field_template_options.noemail_template,
