@@ -3,7 +3,7 @@
 import {generateArray} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinklespeedy.js */
-(function twinklespeedy($) {
+(function twinklespeedy() {
 	const $body = $('body');
 	/**
 	 * twinklespeedy.js: CSD module
@@ -102,6 +102,7 @@ import {generateArray} from 'ext.gadget.Util';
 		dialog.addFooterLink(window.wgULS('快速删除方针', '快速刪除方針'), 'QW:CSD');
 		dialog.addFooterLink(window.wgULS('速删设置', '速刪設定'), 'H:TW/PREF#speedy');
 		dialog.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#speedy');
+		dialog.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(
 			callbackfunc,
 			Twinkle.getPref('speedySelectionStyle') === 'radioClick' ? 'change' : null
@@ -1766,6 +1767,6 @@ import {generateArray} from 'ext.gadget.Util';
 		qiuwen_page.load(Twinkle.speedy.callbacks.user.main);
 	};
 	Twinkle.addInitCallback(Twinkle.speedy, 'speedy');
-})(jQuery);
+})();
 
 export {};

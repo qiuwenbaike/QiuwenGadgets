@@ -3,7 +3,7 @@
 import {api} from './api';
 
 /*! Twinkle.js - twinkleprotect.js */
-(function twinkleprotect($) {
+(function twinkleprotect() {
 	const $body = $('body');
 	/**
 	 * twinkleprotect.js: Protect/RPP module
@@ -33,6 +33,7 @@ import {api} from './api';
 		Window.addFooterLink(window.wgULS('保护方针', '保護方針'), 'QW:PROT');
 		Window.addFooterLink(window.wgULS('保护设置', '保護設定'), 'H:TW/PREF#protect');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#protect');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.protect.callback.evaluate);
 		const actionfield = form.append({
 			type: 'field',
@@ -1477,12 +1478,7 @@ import {api} from './api';
 				Morebits.string.toUpperCaseFirstChar(words) +
 				(params.reason === '' ? '。' : `：${Morebits.string.formatReasonText(params.reason)}`)
 			}--~~`.concat('~~');
-			let reg;
-			if (params.category === 'unprotect') {
-				reg = /(==\s*请求解除保护\s*==)/;
-			} else {
-				reg = /({{\s*\/header\s*}})/;
-			}
+			const reg = /({{\s*\/header\s*}})/;
 			const originalTextLength = text.length;
 			text = text.replace(reg, `$1\n${newtag}\n`);
 			if (text.length === originalTextLength) {
@@ -1699,6 +1695,6 @@ import {api} from './api';
 		return protectionNode;
 	};
 	Twinkle.addInitCallback(Twinkle.protect, 'protect');
-})(jQuery);
+})();
 
 export {};

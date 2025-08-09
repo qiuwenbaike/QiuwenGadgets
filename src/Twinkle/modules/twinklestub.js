@@ -3,7 +3,7 @@
 import {generateArray} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinklestub.js */
-(function twinklestub($) {
+(function twinklestub() {
 	/**
 	 * twinklestub.js: Tag module
 	 * Mode of invocation: Tab ("Stub")
@@ -47,6 +47,7 @@ import {generateArray} from 'ext.gadget.Util';
 		Window.addFooterLink(window.wgULS('小作品說明', '小作品说明'), 'QW:小作品');
 		Window.addFooterLink(window.wgULS('小作品设置', '小作品設定'), 'H:TW/PREF#stub');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#stub');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.stub.callback.evaluate);
 		if (document.querySelector('.patrollink')) {
 			form.append({
@@ -420,6 +421,6 @@ import {generateArray} from 'ext.gadget.Util';
 		}
 	};
 	Twinkle.addInitCallback(Twinkle.stub, 'stub');
-})(jQuery);
+})();
 
 export {};

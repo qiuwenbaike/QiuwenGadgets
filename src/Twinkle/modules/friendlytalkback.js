@@ -2,8 +2,7 @@
 // @ts-nocheck
 
 /*! Twinkle.js - friendlytalkback.js */
-(function friendlytalkback($) {
-	const $body = $('body');
+(function friendlytalkback() {
 	/**
 	 * friendlytalkback.js: Talkback module
 	 * Mode of invocation: Tab ("TB")
@@ -34,6 +33,7 @@
 		Window.addFooterLink(window.wgULS('关于{{talkback}}', '關於{{talkback}}'), 'Template:Talkback');
 		Window.addFooterLink(window.wgULS('通告设置', '通告設定'), 'H:TW/PREF#talkback');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#talkback');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.talkback.evaluate);
 		form.append({
 			type: 'radio',
@@ -125,7 +125,10 @@
 			const reason = mw.util.getParamValue('reason', url);
 			Twinkle.talkback.optout += reason ? `：${Morebits.string.appendPunctuation(reason)}` : '。';
 		}
-		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
+		const outputMessage = document.querySelector('#twinkle-talkback-optout-message');
+		if (outputMessage) {
+			outputMessage.textContent = Twinkle.talkback.optout;
+		}
 	};
 	let prev_page = '';
 	let prev_section = '';
@@ -296,7 +299,10 @@
 		if (root.message) {
 			root.message.value = prev_message;
 		}
-		$body.find('#twinkle-talkback-optout-message').text(Twinkle.talkback.optout);
+		const outputMessage = document.querySelector('#twinkle-talkback-optout-message');
+		if (outputMessage) {
+			outputMessage.textContent = Twinkle.talkback.optout;
+		}
 	};
 	Twinkle.talkback.noticeboards = {
 		affp: {
@@ -453,6 +459,6 @@
 		return [text, title, content];
 	};
 	Twinkle.addInitCallback(Twinkle.talkback, 'talkback');
-})(jQuery);
+})();
 
 export {};

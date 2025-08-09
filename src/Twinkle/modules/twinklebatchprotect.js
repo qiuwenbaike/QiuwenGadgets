@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /*! Twinkle.js - twinklebatchprotect.js */
-(function twinklebatchprotect($) {
+(function twinklebatchprotect() {
 	/**
 	 * twinklebatchprotect.js: Batch protect module (sysops only)
 	 * Mode of invocation: Tab ("P-batch")
@@ -26,7 +26,7 @@
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink('保护方针', 'QW:PROT');
 		Window.addFooterLink(window.wgULS('帮助文档', '幫助文檔'), 'H:TW/DOC#保护');
-		Window.addFooterLink(window.wgULS('问题反馈', '問題反饋'), 'HT:TW');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.batchprotect.callback.evaluate);
 		form.append({
 			type: 'checkbox',
@@ -347,6 +347,6 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchprotect, 'batchprotect');
-})(jQuery);
+})();
 
 export {};

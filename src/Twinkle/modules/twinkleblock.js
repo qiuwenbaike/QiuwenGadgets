@@ -4,7 +4,7 @@ import {api} from './api';
 import {generateArray} from 'ext.gadget.Util';
 
 /*! Twinkle.js - twinkleblock.js */
-(function twinkleblock($) {
+(function twinkleblock() {
 	const $body = $('body');
 	let relevantUserName;
 	let blockedUserName;
@@ -17,6 +17,28 @@ import {generateArray} from 'ext.gadget.Util';
 		reblock: window.wgULS('重新封禁', '重新封鎖'),
 		unblock: window.wgULS('解除封禁', '解除封鎖'),
 	};
+	const actionOptions = [
+		{
+			type: 'option',
+			label: window.wgULS('上传文件（包括覆盖文件）', '上傳檔案（包括覆蓋檔案）'),
+			value: 'upload',
+		},
+		{
+			type: 'option',
+			label: window.wgULS('移动页面及文件', '移動頁面及檔案'),
+			value: 'move',
+		},
+		{
+			type: 'option',
+			label: window.wgULS('创建新页面及上传新文件', '建立新頁面及上傳新檔案'),
+			value: 'create',
+		},
+		{
+			type: 'option',
+			label: window.wgULS('发送感谢', '發送感謝'),
+			value: 'thanks',
+		},
+	];
 	/**
 	 * twinkleblock.js: Block module
 	 * Mode of invocation: Tab ("Block")
@@ -64,6 +86,7 @@ import {generateArray} from 'ext.gadget.Util';
 		Window.addFooterLink(window.wgULS('封禁方针', '封鎖方針'), 'QW:BLOCK');
 		Window.addFooterLink(window.wgULS('封禁设置', '封鎖設定'), 'H:TW/PREF#block');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#block');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.block.callback.evaluate);
 		const actionfield = form.append({
 			type: 'field',
@@ -589,6 +612,15 @@ import {generateArray} from 'ext.gadget.Util';
 						});
 					}
 				}
+				field_block_options.append({
+					type: 'select',
+					multiple: true,
+					name: 'actionrestrictions',
+					label: wgULS('操作封禁', '操作封鎖'),
+					value: '',
+					tooltip: wgULS('指定封禁的操作类型。', '指定封鎖的操作類型。'),
+					list: actionOptions,
+				});
 			}
 			const blockoptions = [
 				{
@@ -2487,6 +2519,15 @@ import {generateArray} from 'ext.gadget.Util';
 							makeSentence(namespaceNames)
 						}）`;
 					}
+					if (params.actionrestrictions.length) {
+						const actionNames = params.actionrestrictions.map((action) => {
+							const actionOption = actionOptions.find((opt) => {
+								return opt.value === action;
+							});
+							return actionOption ? actionOption.label : action;
+						});
+						text += `操作（${makeSentence(actionNames)}）`;
+					}
 				} else if (params.area) {
 					text += `|area=${params.area}`;
 				} else {
@@ -2556,6 +2597,6 @@ import {generateArray} from 'ext.gadget.Util';
 		pageobj.save();
 	};
 	Twinkle.addInitCallback(Twinkle.block, 'block');
-})(jQuery);
+})();
 
 export {};

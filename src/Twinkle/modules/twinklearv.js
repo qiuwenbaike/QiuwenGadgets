@@ -2,8 +2,7 @@
 // @ts-nocheck
 
 /*! Twinkle.js - twinklearv.js */
-(function twinklearv($) {
-	const $body = $('body');
+(function twinklearv() {
 	/**
 	 * twinklearv.js: ARV module
 	 * Mode of invocation: Tab ("ARV")
@@ -39,7 +38,8 @@
 		Window.setTitle(window.wgULS('报告用户给管理人员', '報告使用者給管理人員'));
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(window.wgULS('告状设置', '告狀設定'), 'H:TW/PREF#arv');
-		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW#告狀');
+		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW#arv');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.arv.callback.evaluate);
 		const categories = form.append({
 			type: 'select',
@@ -114,10 +114,13 @@
 					(block.partial ? '部分' : '');
 				// Start and end differ, range blocked
 				message += block.rangestart === (block.rangeend ? '段' : '') + window.wgULS('封禁。', '封鎖。');
-				if (block.partial) {
-					$body.find('#twinkle-arv-blockwarning').css('color', 'black'); // Less severe
+				const arvBlockWarning = document.querySelector('#twinkle-arv-blockwarning');
+				if (arvBlockWarning) {
+					if (block.partial) {
+						arvBlockWarning.style.color = 'black';
+					}
+					arvBlockWarning.textContent = message;
 				}
-				$body.find('#twinkle-arv-blockwarning').text(message);
 			}
 		}).post();
 		// We must init the
@@ -135,7 +138,10 @@
 		Twinkle.arv.callback.set_sockmaster(e.target.value);
 	};
 	Twinkle.arv.callback.set_sockmaster = (sockmaster) => {
-		$body.find('code.tw-arv-sockmaster').text('{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`));
+		const arvSockmaster = document.querySelector('code.tw-arv-sockmaster');
+		if (arvSockmaster) {
+			arvSockmaster.textContent = '{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster}}}`);
+		}
 	};
 	Twinkle.arv.callback.changeCategory = (e) => {
 		const value_ = e.target.value;
@@ -924,6 +930,6 @@
 		}
 	};
 	Twinkle.addInitCallback(Twinkle.arv, 'arv');
-})(jQuery);
+})();
 
 export {};

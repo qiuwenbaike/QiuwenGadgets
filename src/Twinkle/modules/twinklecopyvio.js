@@ -38,6 +38,7 @@
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(window.wgULS('侵权设置', '侵權設定'), 'H:TW/PREF#copyvio');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#copyvio');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.copyvio.callback.evaluate);
 		form.append({
 			type: 'textarea',
