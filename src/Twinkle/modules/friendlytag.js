@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - friendlytag.js */
-(function friendlytag($) {
+(function friendlytag() {
 	const $body = $('body');
 	/**
 	 * friendlytag.js: Tag module
@@ -61,6 +61,7 @@
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(window.wgULS('标记设置', '標記設定'), 'H:TW/PREF#tag');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#tag');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.tag.callback.evaluate);
 		form.append({
 			type: 'input',
@@ -1127,6 +1128,10 @@
 						{
 							tag: 'Unreferenced',
 							description: window.wgULS('没有列出任何参考或来源', '沒有列出任何參考或來源'),
+						},
+						{
+							tag: 'Unreliable sources',
+							description: wgULS('使用的来源可能不可靠', '使用的來源可能不可靠'),
 						},
 					],
 				},
@@ -2321,6 +2326,6 @@
 		qiuwen_page.load(Twinkle.tag.callbacks[Twinkle.tag.modeEn]);
 	};
 	Twinkle.addInitCallback(Twinkle.tag, 'tag');
-})(jQuery);
+})();
 
 export {};

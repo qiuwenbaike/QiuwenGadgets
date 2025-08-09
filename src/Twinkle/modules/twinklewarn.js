@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /*! Twinkle.js - twinklewarn.js */
-(function twinklewarn($) {
+(function twinklewarn() {
 	const $body = $('body');
 	/**
 	 * twinklewarn.js: Warn module
@@ -81,6 +81,7 @@
 		dialog.setScriptName('Twinkle');
 		dialog.addFooterLink(window.wgULS('警告设置', '警告設定'), 'H:TW/PREF#warn');
 		dialog.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#warn');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.warn.callback.evaluate);
 		const main_select = form.append({
 			type: 'field',
@@ -1426,6 +1427,6 @@
 		qiuwen_page.load(Twinkle.warn.callbacks.main);
 	};
 	Twinkle.addInitCallback(Twinkle.warn, 'warn');
-})(jQuery);
+})();
 
 export {};

@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - twinkleunlink.js */
-(function twinkleunlink($) {
+(function twinkleunlink() {
 	/**
 	 * twinkleunlink.js: Unlink module
 	 * Mode of invocation: Tab ("Unlink")
@@ -33,6 +33,7 @@
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(window.wgULS('链入设置', '連入設定'), 'H:TW/PREF#unlink');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#unlink');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.unlink.callback.evaluate);
 		// prepend some documentation: files are commented out, while any
 		// display text is preserved for links (otherwise the link itself is used)
@@ -389,6 +390,6 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.unlink, 'unlink');
-})(jQuery);
+})();
 
 export {};

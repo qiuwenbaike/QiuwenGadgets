@@ -52,6 +52,7 @@
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(window.wgULS('提删设置', '提刪設定'), 'H:TW/PREF#xfd');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#xfd');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.xfd.callback.evaluate);
 		const categories = form.append({
 			type: 'select',

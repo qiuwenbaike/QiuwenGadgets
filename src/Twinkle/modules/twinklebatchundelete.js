@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - twinklebatchundelete.js */
-(function twinklebatchundelete($) {
+(function twinklebatchundelete() {
 	/**
 	 * twinklebatchundelete.js: Batch undelete module
 	 * Mode of invocation: Tab ("Und-batch")
@@ -28,6 +28,7 @@
 		Window.setScriptName('Twinkle');
 		Window.setTitle(window.wgULS('批量反删除', '批次反刪除'));
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#batchundelete');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.batchundelete.callback.evaluate);
 		form.append({
 			type: 'checkbox',
@@ -236,6 +237,6 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchundelete, 'batchundelete');
-})(jQuery);
+})();
 
 export {};

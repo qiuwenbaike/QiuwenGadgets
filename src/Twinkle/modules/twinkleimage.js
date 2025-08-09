@@ -28,6 +28,7 @@
 		Window.addFooterLink(window.wgULS('快速删除方针', '快速刪除方針'), 'QW:CSD');
 		Window.addFooterLink(window.wgULS('图权设置', '圖權設定'), 'H:TW/PREF#image');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#image');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.image.callback.evaluate);
 		form.append({
 			type: 'checkbox',

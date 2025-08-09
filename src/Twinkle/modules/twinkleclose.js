@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /*! Twinkle.js - twinkleclose.js */
-(function twinkleclose($) {
+(function twinkleclose() {
 	const $body = $('body');
 	/**
 	 * twinkleclose.js: XFD closing module
@@ -212,8 +212,9 @@
 		const Window = new Morebits.simpleWindow(410, 200);
 		Window.setTitle(`关闭存废讨论 \u00B7 ${title}`);
 		Window.setScriptName('Twinkle');
-		Window.addFooterLink('存废讨论设置', 'H:TW/PREF#关闭存废讨论');
-		Window.addFooterLink('Twinkle帮助', 'H:TW/DOC#关闭存废讨论');
+		Window.addFooterLink('存废讨论设置', 'H:TW/PREF#close');
+		Window.addFooterLink('Twinkle帮助', 'H:TW/DOC#close');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.close.callback.evaluate);
 		form.append({
 			type: 'select',
@@ -663,6 +664,6 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.close, 'close');
-})(jQuery);
+})();
 
 export {};

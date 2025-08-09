@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /*! Twinkle.js - twinklebatchdelete.js */
-(function twinklebatchdelete($) {
+(function twinklebatchdelete() {
 	const $body = $('body');
 	/**
 	 * twinklebatchdelete.js: Batch delete module (sysops only)
@@ -33,6 +33,7 @@
 		Window.setTitle(window.wgULS('批量删除', '批次刪除'));
 		Window.setScriptName('Twinkle');
 		Window.addFooterLink(window.wgULS('Twinkle帮助', 'Twinkle說明'), 'H:TW/DOC#batchdelete');
+		Window.addFooterLink(window.wgULS('反馈意见', '回報意見'), 'HT:TW');
 		const form = new Morebits.quickForm(Twinkle.batchdelete.callback.evaluate);
 		form.append({
 			type: 'checkbox',
@@ -926,6 +927,6 @@
 		},
 	};
 	Twinkle.addInitCallback(Twinkle.batchdelete, 'batchdelete');
-})(jQuery);
+})();
 
 export {};
