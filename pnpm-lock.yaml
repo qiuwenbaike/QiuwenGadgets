@@ -36,12 +36,12 @@ importers:
 
   .:
     dependencies:
+      '@bhsd/browser':
+        specifier: ^0.0.1
+        version: 0.0.1
       '@bhsd/codemirror-mediawiki':
         specifier: ^2.30.3
         version: 2.30.3(stylelint@16.19.1(typescript@5.8.3))(typescript@5.8.3)
-      '@bhsd/common':
-        specifier: ^0.14.2
-        version: 0.14.2(stylelint@16.19.1(typescript@5.8.3))
       '@types/toastify-js':
         specifier: ^1.12.4
         version: 1.12.4
@@ -801,6 +801,9 @@ packages:
   '@babel/types@7.27.0':
     resolution: {integrity: sha512-H45s8fVLYjbhFH62dIJ3WtmJ6RSPt/3DRO0ZcT2SUiYiQyz3BLVb9ADEnLl91m74aQPS3AzzeajZHYOalWe3bg==}
     engines: {node: '>=6.9.0'}
+
+  '@bhsd/browser@0.0.1':
+    resolution: {integrity: sha512-IzHcol4aYv5L9SeJg7eunOzUQPu4YFcJ2mKqjeuTrDYHuuHhsNWeB71k7YD0dD4uO3UGGImUrONmy2BTYzJqJA==}
 
   '@bhsd/codemirror-css-color-picker@6.3.0':
     resolution: {integrity: sha512-B5DrVR1wWmamUK0lxvF2Lr779pI2ggMZLCcj+hMRS6/qhw0PPpuShnntkp2r3S1jGOg9kJDx7zbIrdtL/cfSzA==}
@@ -5718,6 +5721,8 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
+
+  '@bhsd/browser@0.0.1': {}
 
   '@bhsd/codemirror-css-color-picker@6.3.0(@codemirror/language@6.11.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)':
     dependencies:
