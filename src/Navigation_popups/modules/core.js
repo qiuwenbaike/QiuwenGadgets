@@ -7283,8 +7283,6 @@ const popups = () => {
 		void mw.notify(mw.message(messageName, title).parseDom(), {tag: 'popups'});
 	};
 	const magicHistoryLink = (l) => {
-		// FIXME use onclick change href trick to sort this out instead of window.open
-		let jsUrl = '';
 		let title = '';
 		let onClick = '';
 		switch (l.id) {
@@ -7313,10 +7311,8 @@ const popups = () => {
 				title = popupString('sinceMeHint');
 				break;
 		}
-		jsUrl = `javascript:${onClick}`; // jshint ignore:line
 		onClick += ';return false;';
 		return generalNavLink({
-			url: jsUrl,
 			newWin: false,
 			title,
 			text: l.text,
@@ -7325,12 +7321,9 @@ const popups = () => {
 		});
 	};
 	const popupMenuLink = (l) => {
-		// eslint-disable-next-line no-script-url
-		const jsUrl = simplePrintf('javascript:pg.fn.%s()', [l.id]); // jshint ignore:line
 		const title = popupString(simplePrintf('%sHint', [l.id]));
 		const onClick = simplePrintf('pg.fn.%s();return false;', [l.id]);
 		return generalNavLink({
-			url: jsUrl,
 			newWin: false,
 			title,
 			text: l.text,
@@ -7388,12 +7381,12 @@ const popups = () => {
 	};
 	const generalLink = (l) => {
 		// l.url, l.text, l.title, l.newWin, l.className, l.noPopup, l.onclick
-		if (l.url === undefined) {
-			return null;
+		let ret = '<a';
+		if (l.url) {
+			// only quotation marks in the url can screw us up now... I think
+			const url = l.url.split('"').join('%22');
+			ret += ` href="${url}"`;
 		}
-		// only quotation marks in the url can screw us up now... I think
-		const url = l.url.split('"').join('%22');
-		let ret = `<a href="${url}"`;
 		if (l.title !== undefined && l.title) {
 			ret += ` title="${pg.escapeQuotesHTML(l.title)}"`;
 		}
