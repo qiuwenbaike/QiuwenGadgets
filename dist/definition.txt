@@ -89,6 +89,7 @@
 * SiteCommon_Templates[ResourceLoader|default|hidden|requiresES6]|SiteCommon_Templates.css
 * SpecialWikitext[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.util|hidden|requiresES6]|SpecialWikitext.js|SpecialWikitext.css
 * Switcher[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util|hidden|requiresES6]|Switcher.js
+* TabbedWindow[ResourceLoader|default|dependencies=oojs-ui-widgets|hidden|requiresES6]|TabbedWindow.js
 * Tippy[ResourceLoader|hidden|requiresES6]|Tippy.js|Tippy.css
 * Toastify[ResourceLoader|hidden|requiresES6]|Toastify.js|Toastify.css
 * Util[ResourceLoader|dependencies=ext.gadget.JSX,jquery.textSelection,mediawiki.storage|hidden|requiresES6]|Util.js
