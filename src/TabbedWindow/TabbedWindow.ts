@@ -1,5 +1,5 @@
-(function () {
-	const trySettingTab = function (indexLayout: OO.ui.IndexLayout, hash: string | unknown[]) {
+(function tabbedWindows() {
+	const trySettingTab = (indexLayout: OO.ui.IndexLayout, hash: string | unknown[]) => {
 		const possiblePanelName = hash.slice(1) as string;
 		const possiblePanel = possiblePanelName && indexLayout.getTabPanel(possiblePanelName);
 		if (possiblePanel) {
@@ -15,7 +15,7 @@
 	 *
 	 * @param {jQuery} $tabbedWindows
 	 */
-	const makeTabWindow = function ($tabbedWindows: JQuery<Element>) {
+	const makeTabWindow = ($tabbedWindows: JQuery<Element>) => {
 		$tabbedWindows.each((_i: number, tabbedWindow: Element) => {
 			const indexLayout = new OO.ui.IndexLayout({
 				expanded: false,
