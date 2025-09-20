@@ -1,0 +1,9 @@
+{
+	"enable": true,
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-TabbedWindow\"></span> 实现选项卡切换功能 <small>{{tl|TabbedWindowBegin}}模板配套脚本（测试版本）</small>",
+	"section": "compatibility",
+	"excludeSites": ["loginwiki"],
+	"default": true,
+	"dependencies": ["oojs-ui-widgets"],
+	"hidden": true
+}
