@@ -2,7 +2,7 @@
  * 解析URL参数列表
  * Parse URL query.
  *
- * @param {string}} url
+ * @param {string} url
  * @param url
  */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
