@@ -1,14 +1,18 @@
 import {detectIfFileRedirect, refreshPage} from './modules/core';
+import {getIwPrefix} from './modules/getIwPrefix';
 
 (function quickImport(): void {
 	const {wgNamespaceNumber, wgPageName, wgWikiID} = mw.config.get();
 
-	const caViewForeignZhwiki = document.querySelector("#ca-view-foreign a[href*='zh.wikipedia.org']");
 	const redirectTextA = document.querySelector('.redirectText a');
 
 	const isFileNS: boolean = wgNamespaceNumber === 6;
 	const hasMwNoarticletext: boolean = !!document.querySelector('#mw-noarticletext');
-	const iwprefix: string = caViewForeignZhwiki ? 'zhwiki' : 'commons';
+	const iwprefix: string = getIwPrefix();
+
+	if (!iwprefix) {
+		return;
+	}
 
 	const label: string = isFileNS && !hasMwNoarticletext ? iwprefix : '';
 	const buttonLabel: string = isFileNS
