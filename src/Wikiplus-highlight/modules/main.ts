@@ -3,6 +3,7 @@
  * @author Bhsd <https://github.com/bhsd-harry>
  * @license GPL-3.0
  */
+import './style.less';
 import {CDN} from '@bhsd/browser';
 import {renderEditor} from './core';
 
@@ -11,15 +12,17 @@ declare namespace mediaWiki.libs {
 }
 
 (async () => {
+	if (!mw.config.get('wgIsArticle') || mw.config.get('wgAction') !== 'view') {
+		return;
+	}
 	const {libs} = mediaWiki,
 		{wphl} = libs;
 	if (!wphl?.version) {
-		const version = '3.2.9';
+		const version = '3.2.10';
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
-		const MW_CDN = `npm/@bhsd/codemirror-mediawiki@${libs.wphl.cmVersion ?? 'latest'}/dist/wiki.min.js`,
-			REPO_CDN = 'npm/wikiplus-highlight';
+		const MW_CDN = `npm/@bhsd/codemirror-mediawiki@${libs.wphl.cmVersion ?? 'latest'}/dist/wiki.min.js`;
 
 		if (typeof CodeMirror6 !== 'function') {
 			await $.ajax(`${CDN}/${MW_CDN}`, {dataType: 'script', cache: true});
@@ -47,8 +50,6 @@ declare namespace mediaWiki.libs {
 			}
 		});
 		observer.observe(document.body, {childList: true});
-
-		mw.loader.load(`${CDN}/${REPO_CDN}@${version}/styles.min.css`, 'text/css');
 	}
 })();
 
