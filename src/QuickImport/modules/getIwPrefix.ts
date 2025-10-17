@@ -11,7 +11,7 @@ const getIwPrefix = (): string => {
 		return 'enwiki';
 	}
 
-	return '';
+	return 'zhwiki';
 };
 
 export {getIwPrefix};
