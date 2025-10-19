@@ -24,12 +24,16 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 
 	checkbox.on('change', (): void => {
 		const {saveFields} = window.ve.init.target;
-		saveFields.wpChangeTags = (): string => {
+		const originalChangeTags = saveFields.wpChangeTags?.() ?? '';
+		const newChangeTags = () => {
 			return generateChangeTags({
 				checkbox,
-				originalChangeTags: saveFields.wpChangeTags?.() ?? '',
+				originalChangeTags,
 				changeTag: OPTIONS.changeTag,
 			});
+		};
+		saveFields.wpChangeTags = (): string => {
+			return newChangeTags?.() ?? '';
 		};
 	});
 

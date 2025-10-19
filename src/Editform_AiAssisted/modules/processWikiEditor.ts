@@ -29,7 +29,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 			type: 'hidden',
 			value: '',
 		});
-		$body.prepend($wpChangeTags);
+		$body.find('#editform').append($wpChangeTags);
 	}
 
 	checkbox.on('change', (): void => {
