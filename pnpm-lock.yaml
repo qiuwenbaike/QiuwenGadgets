@@ -40,8 +40,8 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1
       '@bhsd/codemirror-mediawiki':
-        specifier: ^3.5.1
-        version: 3.5.1(typescript@5.8.3)
+        specifier: ^3.6.0
+        version: 3.6.0(@lezer/highlight@1.2.2)(typescript@5.8.3)
       '@types/toastify-js':
         specifier: ^1.12.4
         version: 1.12.4
@@ -805,8 +805,8 @@ packages:
   '@bhsd/browser@0.0.1':
     resolution: {integrity: sha512-IzHcol4aYv5L9SeJg7eunOzUQPu4YFcJ2mKqjeuTrDYHuuHhsNWeB71k7YD0dD4uO3UGGImUrONmy2BTYzJqJA==}
 
-  '@bhsd/cm-util@0.0.1':
-    resolution: {integrity: sha512-UUBofmqZW19xyJfNaA4cVB4WRGCGRQSEIb/D0qkG6ddj8eiuZ1kKvoYJfp9YFqzVGzRTV4YoovW8n/naTizkCA==}
+  '@bhsd/cm-util@0.1.0':
+    resolution: {integrity: sha512-gqwObmIVosIH3WulV9p/IoO8Rm90QofFN44XoaitjN3uopAMt3E6ipPm3OegjvUqrUPAbwcUrwZoUCZ5cI+OqA==}
 
   '@bhsd/codemirror-css-color-picker@6.3.0':
     resolution: {integrity: sha512-B5DrVR1wWmamUK0lxvF2Lr779pI2ggMZLCcj+hMRS6/qhw0PPpuShnntkp2r3S1jGOg9kJDx7zbIrdtL/cfSzA==}
@@ -815,8 +815,8 @@ packages:
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
 
-  '@bhsd/codemirror-mediawiki@3.5.1':
-    resolution: {integrity: sha512-dyK7uVj8U6WlmdOUOQGyNwM0rJi6wo65yVhiOMuKeMuFkuvVtbvwr3Y3Igu/gZir8ruUQFAurcwwkwQIGClkjg==}
+  '@bhsd/codemirror-mediawiki@3.6.0':
+    resolution: {integrity: sha512-LN/pwnNAwqqpnR865th3zm1XzP0821TPfoX3JoIG+by4L5mC6QmibQriX//+ijJND97nKRIIN89lc08bGEBjbA==}
 
   '@bhsd/common@1.0.1':
     resolution: {integrity: sha512-BmSHLslcb8xq2XUnFmP2q4lu+dXX/JItv6exwSarH1a0DDnU4tvDWonPJv87pqHW+H/fT/hxJ2fO8rVXW/KP7A==}
@@ -1443,9 +1443,11 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@keyv/bigmap@1.0.3':
-    resolution: {integrity: sha512-jUEkNlnE9tYzX2AIBeoSe1gVUvSOfIOQ5EFPL5Un8cFHGvjD9L/fxpxlS1tEivRLHgapO2RZJ3D93HYAa049pg==}
+  '@keyv/bigmap@1.1.0':
+    resolution: {integrity: sha512-MX7XIUNwVRK+hjZcAbNJ0Z8DREo+Weu9vinBOjGU1thEi9F6vPhICzBbk4CCf3eEefKRz7n6TfZXwUFZTSgj8Q==}
     engines: {node: '>= 18'}
+    peerDependencies:
+      keyv: ^5.5.3
 
   '@keyv/serialize@1.0.3':
     resolution: {integrity: sha512-qnEovoOp5Np2JDGonIDL6Ayihw0RhnRh6vxPuHo4RDn1UOzwEo4AeIfpL6UGIrsceWrCMiVPgwRjbHu4vYFc3g==}
@@ -1453,14 +1455,14 @@ packages:
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
 
-  '@lezer/common@1.2.3':
-    resolution: {integrity: sha512-w7ojc8ejBqr2REPsWxJjrMFsA/ysDCFICn8zEOR9mrqzOu2amhITYuLD8ag6XZf0CFXDrhKqw7+tW8cX66NaDA==}
+  '@lezer/common@1.3.0':
+    resolution: {integrity: sha512-L9X8uHCYU310o99L3/MpJKYxPzXPOS7S0NmBaM7UO/x2Kb2WbmMLSkfvdr1KxRIFYOpbY0Jhn7CfLSUDzL8arQ==}
 
   '@lezer/css@1.3.0':
     resolution: {integrity: sha512-pBL7hup88KbI7hXnZV3PQsn43DHy6TWyzuyk2AO9UyoXcDltvIdqWKE1dLL/45JVZ+YZkHe1WVHqO6wugZZWcw==}
 
-  '@lezer/highlight@1.2.1':
-    resolution: {integrity: sha512-Z5duk4RN/3zuVO7Jq0pGLJ3qynpxUVsh7IbUbGj88+uV2ApSAn6kWg2au3iJb+0Zi7kKtqffIESgNcRXWZWmSA==}
+  '@lezer/highlight@1.2.2':
+    resolution: {integrity: sha512-z8TQwaBXXQIvG6i2g3e9cgMwUUXu9Ib7jo2qRRggdhwKpM56Dw3PM3wmexn+EGaaOZ7az0K7sjc3/gcGW7sz7A==}
 
   '@lezer/html@1.3.12':
     resolution: {integrity: sha512-RJ7eRWdaJe3bsiiLLHjCFT1JMk8m1YP9kaUbvu2rMLEoOnke9mcTVDyfOslsln0LtujdWespjJ39w6zo+RsQYw==}
@@ -2083,8 +2085,8 @@ packages:
   cacheable@1.8.10:
     resolution: {integrity: sha512-0ZnbicB/N2R6uziva8l6O6BieBklArWyiGx4GkwAhLKhSHyQtRfM9T1nx7HHuHDKkYB/efJQhz3QJ6x/YqoZzA==}
 
-  cacheable@2.1.0:
-    resolution: {integrity: sha512-zzL1BxdnqwD69JRT0dihnawAcLkBMwAH+hZSKjUzeBbPedVhk3qYPjRw9VOMYWwt5xRih5xd8S+3kEdGohZm/g==}
+  cacheable@2.1.1:
+    resolution: {integrity: sha512-LmF4AXiSNdiRbI2UjH8pAp9NIXxeQsTotpEaegPiDcnN0YPygDJDV3l/Urc0mL72JWdATEorKqIHEx55nDlONg==}
 
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
@@ -3141,8 +3143,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  hookified@1.12.1:
-    resolution: {integrity: sha512-xnKGl+iMIlhrZmGHB729MqlmPoWBznctSQTYCpFKqNsCgimJQmithcW0xSQMMFzYnV2iKUh25alswn6epgxS0Q==}
+  hookified@1.12.2:
+    resolution: {integrity: sha512-aokUX1VdTpI0DUsndvW+OiwmBpKCu/NgRsSSkuSY0zq8PY6Q6a+lmOfAFDXAAOtBqJELvcWY9L1EVtzjbQcMdg==}
 
   hookified@1.8.2:
     resolution: {integrity: sha512-5nZbBNP44sFCDjSoB//0N7m508APCgbQ4mGGo1KJGBYyCKNHfry1Pvd0JVHZIxjdnqn8nFRBAN/eFB6Rk/4w5w==}
@@ -4331,8 +4333,8 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  qified@0.5.0:
-    resolution: {integrity: sha512-Zj6Q/Vc/SQ+Fzc87N90jJUzBzxD7MVQ2ZvGyMmYtnl2u1a07CejAhvtk4ZwASos+SiHKCAIylyGHJKIek75QBw==}
+  qified@0.5.1:
+    resolution: {integrity: sha512-+BtFN3dCP+IaFA6IYNOu/f/uK1B8xD2QWyOeCse0rjtAebBmkzgd2d1OAXi3ikAzJMIBSdzZDNZ3wZKEUDQs5w==}
     engines: {node: '>=20'}
 
   querystringify@2.2.0:
@@ -4679,8 +4681,8 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  style-mod@4.1.2:
-    resolution: {integrity: sha512-wnD1HyVqpJUI2+eKZ+eo1UwghftP6yuFheBqqe+bWCotBjC2K1YnteJILRMs3SM4V/0dLEW1SC27MWP5y+mwmw==}
+  style-mod@4.1.3:
+    resolution: {integrity: sha512-i/n8VsZydrugj3Iuzll8+x/00GH2vnYsk1eomD8QiRrSAeW6ItbCQDtfXCeJHd0iwiNagqjQkvpvREEPtW3IoQ==}
 
   style-search@0.1.0:
     resolution: {integrity: sha512-Dj1Okke1C3uKKwQcetra4jSuk0DqbzbYtXipzFlFMZtowbF1x7BKJwB9AayVMyFARvU8EDrZdcax4At/452cAg==}
@@ -4967,8 +4969,8 @@ packages:
   vscode-html-languageservice@5.4.0:
     resolution: {integrity: sha512-9/cbc90BSYCghmHI7/VbWettHZdC7WYpz2g5gBK6UDUI1MkZbM773Q12uAYJx9jzAiNHPpyo6KzcwmcnugncAQ==}
 
-  vscode-html-languageservice@5.5.2:
-    resolution: {integrity: sha512-QpaUhCjvb7U/qThOzo4V6grwsRE62Jk/vf8BRJZoABlMw3oplLB5uovrvcrLO9vYhkeMiSjyqLnCxbfHzzZqmw==}
+  vscode-html-languageservice@5.6.0:
+    resolution: {integrity: sha512-FIVz83oGw2tBkOr8gQPeiREInnineCKGCz3ZD1Pi6opOuX3nSRkc4y4zLLWsuop+6ttYX//XZCI6SLzGhRzLmA==}
 
   vscode-json-languageservice@5.6.2:
     resolution: {integrity: sha512-miojUH15R/yKxgWkAw1zofv2LDn3Hv3nqIBK+11nGgvdieVClf6ZWOqybPeROruAAMOtX9R6hPptuWYzj3q9NA==}
@@ -5056,8 +5058,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  wikiparser-node@1.28.0:
-    resolution: {integrity: sha512-5EuUuhkLjM21Z5WRAIpiyFPQude8gfPlae1jh+Kb27AL0BH09sPfz4QrW4CRvYMRJg3qg0cIiAEUzZpi0HjCVg==}
+  wikiparser-node@1.28.1:
+    resolution: {integrity: sha512-X8R9z/5bl09oI+ftIfFDCNY9DTcmAgAkv4SsAV2ZBja/KaaSD8Pcs0YYi6iSEjYG0nfnjQGhZcxOlbfIOtRIRA==}
     engines: {node: '>=18.17.0'}
     hasBin: true
 
@@ -5782,7 +5784,7 @@ snapshots:
 
   '@bhsd/browser@0.0.1': {}
 
-  '@bhsd/cm-util@0.0.1': {}
+  '@bhsd/cm-util@0.1.0': {}
 
   '@bhsd/codemirror-css-color-picker@6.3.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.6)':
     dependencies:
@@ -5790,7 +5792,7 @@ snapshots:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
 
-  '@bhsd/codemirror-mediawiki@3.5.1(typescript@5.8.3)':
+  '@bhsd/codemirror-mediawiki@3.6.0(@lezer/highlight@1.2.2)(typescript@5.8.3)':
     dependencies:
       '@bhsd/browser': 0.0.1
       '@bhsd/codemirror-css-color-picker': 6.3.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.6)
@@ -5808,12 +5810,10 @@ snapshots:
       '@codemirror/search': 6.5.11
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
-      '@lezer/common': 1.2.3
-      '@lezer/highlight': 1.2.1
-      '@lezer/html': 1.3.12
-      cm6-theme-nord: 0.2.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.6)(@lezer/highlight@1.2.1)
-      wikiparser-node: 1.28.0(typescript@5.8.3)
+      cm6-theme-nord: 0.2.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.6)(@lezer/highlight@1.2.2)
+      wikiparser-node: 1.28.1(typescript@5.8.3)
     transitivePeerDependencies:
+      - '@lezer/highlight'
       - supports-color
       - typescript
 
@@ -5833,8 +5833,8 @@ snapshots:
     dependencies:
       '@cacheable/memoize': 2.0.3
       '@cacheable/utils': 2.1.0
-      '@keyv/bigmap': 1.0.3
-      hookified: 1.12.1
+      '@keyv/bigmap': 1.1.0(keyv@5.5.3)
+      hookified: 1.12.2
       keyv: 5.5.3
 
   '@cacheable/utils@2.1.0':
@@ -5846,21 +5846,21 @@ snapshots:
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
-      '@lezer/common': 1.2.3
+      '@lezer/common': 1.3.0
 
   '@codemirror/commands@6.9.0':
     dependencies:
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
-      '@lezer/common': 1.2.3
+      '@lezer/common': 1.3.0
 
   '@codemirror/lang-css@6.3.1':
     dependencies:
       '@codemirror/autocomplete': 6.19.0
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
-      '@lezer/common': 1.2.3
+      '@lezer/common': 1.3.0
       '@lezer/css': 1.3.0
 
   '@codemirror/lang-html@6.4.11':
@@ -5871,7 +5871,7 @@ snapshots:
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
-      '@lezer/common': 1.2.3
+      '@lezer/common': 1.3.0
       '@lezer/css': 1.3.0
       '@lezer/html': 1.3.12
 
@@ -5882,7 +5882,7 @@ snapshots:
       '@codemirror/lint': 6.9.0
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
-      '@lezer/common': 1.2.3
+      '@lezer/common': 1.3.0
       '@lezer/javascript': 1.5.4
 
   '@codemirror/lang-json@6.0.2':
@@ -5895,18 +5895,18 @@ snapshots:
       '@codemirror/lang-html': 6.4.11
       '@codemirror/lang-javascript': 6.2.4
       '@codemirror/language': 6.11.3
-      '@lezer/common': 1.2.3
-      '@lezer/highlight': 1.2.1
+      '@lezer/common': 1.3.0
+      '@lezer/highlight': 1.2.2
       '@lezer/lr': 1.4.2
 
   '@codemirror/language@6.11.3':
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
-      '@lezer/common': 1.2.3
-      '@lezer/highlight': 1.2.1
+      '@lezer/common': 1.3.0
+      '@lezer/highlight': 1.2.2
       '@lezer/lr': 1.4.2
-      style-mod: 4.1.2
+      style-mod: 4.1.3
 
   '@codemirror/legacy-modes@6.5.2':
     dependencies:
@@ -5932,7 +5932,7 @@ snapshots:
     dependencies:
       '@codemirror/state': 6.5.2
       crelt: 1.0.6
-      style-mod: 4.1.2
+      style-mod: 4.1.3
       w3c-keyname: 2.2.8
 
   '@commander-js/extra-typings@13.1.0(commander@13.1.0)':
@@ -6469,9 +6469,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@keyv/bigmap@1.0.3':
+  '@keyv/bigmap@1.1.0(keyv@5.5.3)':
     dependencies:
-      hookified: 1.12.1
+      hookified: 1.12.2
+      keyv: 5.5.3
 
   '@keyv/serialize@1.0.3':
     dependencies:
@@ -6479,39 +6480,39 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@lezer/common@1.2.3': {}
+  '@lezer/common@1.3.0': {}
 
   '@lezer/css@1.3.0':
     dependencies:
-      '@lezer/common': 1.2.3
-      '@lezer/highlight': 1.2.1
+      '@lezer/common': 1.3.0
+      '@lezer/highlight': 1.2.2
       '@lezer/lr': 1.4.2
 
-  '@lezer/highlight@1.2.1':
+  '@lezer/highlight@1.2.2':
     dependencies:
-      '@lezer/common': 1.2.3
+      '@lezer/common': 1.3.0
 
   '@lezer/html@1.3.12':
     dependencies:
-      '@lezer/common': 1.2.3
-      '@lezer/highlight': 1.2.1
+      '@lezer/common': 1.3.0
+      '@lezer/highlight': 1.2.2
       '@lezer/lr': 1.4.2
 
   '@lezer/javascript@1.5.4':
     dependencies:
-      '@lezer/common': 1.2.3
-      '@lezer/highlight': 1.2.1
+      '@lezer/common': 1.3.0
+      '@lezer/highlight': 1.2.2
       '@lezer/lr': 1.4.2
 
   '@lezer/json@1.0.3':
     dependencies:
-      '@lezer/common': 1.2.3
-      '@lezer/highlight': 1.2.1
+      '@lezer/common': 1.3.0
+      '@lezer/highlight': 1.2.2
       '@lezer/lr': 1.4.2
 
   '@lezer/lr@1.4.2':
     dependencies:
-      '@lezer/common': 1.2.3
+      '@lezer/common': 1.3.0
 
   '@marijn/find-cluster-break@1.0.2': {}
 
@@ -7226,14 +7227,14 @@ snapshots:
       hookified: 1.8.2
       keyv: 5.3.3
 
-  cacheable@2.1.0:
+  cacheable@2.1.1:
     dependencies:
       '@cacheable/memoize': 2.0.3
       '@cacheable/memory': 2.0.3
       '@cacheable/utils': 2.1.0
-      hookified: 1.12.1
+      hookified: 1.12.2
       keyv: 5.5.3
-      qified: 0.5.0
+      qified: 0.5.1
 
   call-bind-apply-helpers@1.0.2:
     dependencies:
@@ -7307,12 +7308,12 @@ snapshots:
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
 
-  cm6-theme-nord@0.2.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.6)(@lezer/highlight@1.2.1):
+  cm6-theme-nord@0.2.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.6)(@lezer/highlight@1.2.2):
     dependencies:
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
-      '@lezer/highlight': 1.2.1
+      '@lezer/highlight': 1.2.2
 
   color-convert@2.0.1:
     dependencies:
@@ -8248,9 +8249,9 @@ snapshots:
 
   flat-cache@6.1.18:
     dependencies:
-      cacheable: 2.1.0
+      cacheable: 2.1.1
       flatted: 3.3.3
-      hookified: 1.12.1
+      hookified: 1.12.2
 
   flat-cache@6.1.8:
     dependencies:
@@ -8460,7 +8461,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  hookified@1.12.1: {}
+  hookified@1.12.2: {}
 
   hookified@1.8.2: {}
 
@@ -9625,9 +9626,9 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  qified@0.5.0:
+  qified@0.5.1:
     dependencies:
-      hookified: 1.12.1
+      hookified: 1.12.2
 
   querystringify@2.2.0: {}
 
@@ -10018,7 +10019,7 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  style-mod@4.1.2: {}
+  style-mod@4.1.3: {}
 
   style-search@0.1.0: {}
 
@@ -10467,7 +10468,7 @@ snapshots:
       vscode-languageserver-types: 3.17.5
       vscode-uri: 3.1.0
 
-  vscode-html-languageservice@5.5.2:
+  vscode-html-languageservice@5.6.0:
     dependencies:
       '@vscode/l10n': 0.0.18
       vscode-languageserver-textdocument: 1.0.12
@@ -10585,9 +10586,9 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  wikiparser-node@1.28.0(typescript@5.8.3):
+  wikiparser-node@1.28.1(typescript@5.8.3):
     dependencies:
-      '@bhsd/cm-util': 0.0.1
+      '@bhsd/cm-util': 0.1.0
       '@bhsd/common': 1.0.1
       '@bhsd/stylelint-util': 0.1.0(stylelint@16.25.0(typescript@5.8.3))
       vscode-languageserver-types: 3.17.5
@@ -10598,7 +10599,7 @@ snapshots:
       mathjax: 3.2.2
       stylelint: 16.25.0(typescript@5.8.3)
       vscode-css-languageservice: 6.3.8
-      vscode-html-languageservice: 5.5.2
+      vscode-html-languageservice: 5.6.0
       vscode-json-languageservice: 5.6.2
     transitivePeerDependencies:
       - supports-color
