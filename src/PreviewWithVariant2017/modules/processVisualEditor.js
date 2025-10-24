@@ -196,12 +196,12 @@ const processVisualEditor = ($body) => {
 			classes: [OPTIONS.className],
 			options: [
 				{
-					optgroup: mw.msg('pwv-2017-caption'),
+					optgroup: mw.message('pwv-2017-caption').parse(),
 				},
 				...DATA.map((item) => {
 					return {
 						data: item.var,
-						label: mw.msg(item.msg) /* eslint-disable-line mediawiki/msg-doc */,
+						label: mw.message(item.msg).parse() /* eslint-disable-line mediawiki/msg-doc */,
 					};
 				}),
 			],
