@@ -1,4 +1,4 @@
-import {ApiQueryGlobalBlocksParamsRedefined} from '../types';
+import {ApiQueryGlobalBlocksParamsRedefined, GlobalLocksStorage, QueryGlobalLocksResponse} from '../types';
 import {api} from './api';
 
 const queryGlobalUserInfo = async (guiuser: string) => {
@@ -12,7 +12,24 @@ const queryGlobalUserInfo = async (guiuser: string) => {
 		maxage: 600,
 	};
 
-	return await api.get(params);
+	const {
+		query: {
+			globaluserinfo: {name, locked = false, missing = false},
+		},
+	} = (await api.get(params)) as QueryGlobalLocksResponse;
+
+	// Minify response object
+	const response: GlobalLocksStorage = {name};
+
+	if (locked) {
+		response.locked = locked;
+	}
+
+	if (missing) {
+		response.missing = missing;
+	}
+
+	return response;
 };
 
 const queryIPBlocks = async (bkip: string) => {
