@@ -1,5 +1,5 @@
 import * as OPTIONS from '../../options.json';
-import type {QueryGlobalLocksResponse, QueryLocalAndGlobalBlocksResponse} from '../types';
+import type {GlobalLocksStorage, QueryLocalAndGlobalBlocksResponse} from '../types';
 import {markGlobalBlocks, markGlobalLockedLinks, markLocalBlocks} from './markLinks';
 import {queryGlobalUserInfo, queryIPBlocks, queryUserBlocks} from './query';
 
@@ -19,9 +19,9 @@ const markGlobalLockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 		}
 
 		if (mw.storage.getObject(OPTIONS.storageKeyLocked + guiuser)) {
-			const response = mw.storage.getObject(OPTIONS.storageKeyLocked + guiuser) as QueryGlobalLocksResponse;
+			const response = mw.storage.getObject(OPTIONS.storageKeyLocked + guiuser) as GlobalLocksStorage;
 
-			if (response['query']?.globaluserinfo) {
+			if (response) {
 				markGlobalLockedLinks({response, userLinks});
 				continue;
 			}
@@ -29,10 +29,11 @@ const markGlobalLockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 
 		promises[promises.length] = async (): Promise<void> => {
 			try {
-				const response = (await queryGlobalUserInfo(guiuser)) as QueryGlobalLocksResponse;
+				const response = await queryGlobalUserInfo(guiuser);
 
 				markGlobalLockedLinks({response, userLinks});
 
+				// Cache for 1 day
 				mw.storage.setObject(OPTIONS.storageKeyLocked + guiuser, response, 60 * 60 * 24);
 			} catch (error: unknown) {
 				console.error('[MarkBlocked] Ajax error:', error);
@@ -96,7 +97,7 @@ const markBlockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 
 					for (const block of response['query'].blocks) {
 						if (block.user) {
-							mw.storage.setObject(OPTIONS.storageKeyLocked + block.user, response, 60 * 60);
+							mw.storage.setObject(OPTIONS.storageKeyBlocked + block.user, response, 60 * 60);
 						}
 					}
 				}
@@ -106,7 +107,7 @@ const markBlockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 
 					for (const block of response['query'].globalblocks) {
 						if (block.target) {
-							mw.storage.setObject(OPTIONS.storageKeyLocked + block.target, response, 60 * 60);
+							mw.storage.setObject(OPTIONS.storageKeyBlocked + block.target, response, 60 * 60);
 						}
 					}
 				}
@@ -175,7 +176,7 @@ const markBlockedIPLinks = (userLinks: Record<string, JQuery[]>) => {
 
 						for (const block of response['query'].blocks) {
 							if (block.user) {
-								mw.storage.setObject(OPTIONS.storageKeyLocked + block.user, response, 60 * 60);
+								mw.storage.setObject(OPTIONS.storageKeyBlocked + block.user, response, 60 * 60);
 							}
 						}
 					}
@@ -185,7 +186,7 @@ const markBlockedIPLinks = (userLinks: Record<string, JQuery[]>) => {
 
 						for (const block of response['query'].globalblocks) {
 							if (block.target) {
-								mw.storage.setObject(OPTIONS.storageKeyLocked + block.target, response, 60 * 60);
+								mw.storage.setObject(OPTIONS.storageKeyBlocked + block.target, response, 60 * 60);
 							}
 						}
 					}

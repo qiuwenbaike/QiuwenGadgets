@@ -1,4 +1,4 @@
-import type {QueryGlobalLocksResponse, QueryLocalAndGlobalBlocksResponse} from '../types';
+import type {GlobalLocksStorage, QueryLocalAndGlobalBlocksResponse} from '../types';
 import {inHours, parseTS} from './parseTime';
 import {userlinkIndef, userlinkLocked, userlinkPartial, userlinkTemp} from '../MarkBlocked.module.less';
 import {getMessage} from '../i18n';
@@ -11,16 +11,12 @@ const markGlobalLockedLinks = ({
 	response,
 	userLinks,
 }: {
-	response: QueryGlobalLocksResponse;
+	response: GlobalLocksStorage;
 	userLinks: Record<string, JQuery[]>;
 }): void => {
 	// Global locks
-	if (!response['query']?.globaluserinfo) {
-		return;
-	}
-
-	const user = response['query'].globaluserinfo?.name;
-	const locked = response['query'].globaluserinfo?.locked;
+	const user = response?.name;
+	const locked = response?.locked;
 
 	if (!locked || !user) {
 		return;
