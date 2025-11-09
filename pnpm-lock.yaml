@@ -54,6 +54,9 @@ importers:
       filter-altered-clicks:
         specifier: ^2.1.1
         version: 2.1.1
+      idb-plus:
+        specifier: ^0.2.0
+        version: 0.2.0
       jsx-dom:
         specifier: ^8.1.6
         version: 8.1.6
@@ -3177,6 +3180,9 @@ packages:
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
+
+  idb-plus@0.2.0:
+    resolution: {integrity: sha512-ZOPVlIn9uq2JS9xuRY7cxIp4jYiTPM1s+IIDfVSbNGmgegc0Qa/BHvBlFcauy0mwLb9wKjYH0beABXHK2AKCfw==}
 
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
@@ -8488,6 +8494,8 @@ snapshots:
   icss-utils@5.1.0(postcss@8.5.3):
     dependencies:
       postcss: 8.5.3
+
+  idb-plus@0.2.0: {}
 
   ieee754@1.2.1: {}
 
