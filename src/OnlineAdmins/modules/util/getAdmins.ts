@@ -84,6 +84,8 @@ const getAdmins = async () => {
 				await promise();
 			} catch {}
 		}
+
+		mw.storage.setObject(OPTIONS.storageKey, {stewards, sysops, patrollers}, 60); // Cache for 1 minute
 	}
 
 	return {stewards, sysops, patrollers};
