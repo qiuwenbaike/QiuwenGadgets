@@ -11,6 +11,7 @@ import {
 	unihanPopup,
 } from './modules/core';
 import {tippyForCitizenHeader, tippyForExtension} from './modules/tippy';
+import {clearExpiredLocalStorage} from './modules/clearExpiredLocalStorage';
 import {deprecatedFunctions} from './modules/deprecatedFunctions';
 import {getBody} from 'ext.gadget.Util';
 import {resizeJQueryUI} from './modules/resizeJQueryUI';
@@ -50,6 +51,9 @@ import {resizeJQueryUI} from './modules/resizeJQueryUI';
 
 	// Deprecated functions
 	deprecatedFunctions();
+
+	// Clear expired localStorage items
+	void clearExpiredLocalStorage();
 
 	// Tippy-related codes
 	if (!['vector-2022', 'citizen'].includes(skin)) {
