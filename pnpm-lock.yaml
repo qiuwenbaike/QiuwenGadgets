@@ -40,14 +40,14 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1
       '@bhsd/codemirror-mediawiki':
-        specifier: ^3.6.0
-        version: 3.6.0(@lezer/highlight@1.2.2)(typescript@5.8.3)
+        specifier: ^3.6.4
+        version: 3.6.4(@lezer/highlight@1.2.2)(typescript@5.8.3)
       '@types/toastify-js':
         specifier: ^1.12.4
         version: 1.12.4
       chinese-days:
-        specifier: ^1.5.3
-        version: 1.5.3
+        specifier: ^1.5.4
+        version: 1.5.4
       clipboard:
         specifier: ^2.0.11
         version: 2.0.11
@@ -818,8 +818,8 @@ packages:
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
 
-  '@bhsd/codemirror-mediawiki@3.6.0':
-    resolution: {integrity: sha512-LN/pwnNAwqqpnR865th3zm1XzP0821TPfoX3JoIG+by4L5mC6QmibQriX//+ijJND97nKRIIN89lc08bGEBjbA==}
+  '@bhsd/codemirror-mediawiki@3.6.4':
+    resolution: {integrity: sha512-BLSdhk4uXooUNViljWqcrpTkaNGwtIUeeLaHTC18qiApiUqdFJZxJL1x9PC7/Abs75ydRMCkHpD0DqGDp5OF0w==}
 
   '@bhsd/common@1.0.1':
     resolution: {integrity: sha512-BmSHLslcb8xq2XUnFmP2q4lu+dXX/JItv6exwSarH1a0DDnU4tvDWonPJv87pqHW+H/fT/hxJ2fO8rVXW/KP7A==}
@@ -838,11 +838,11 @@ packages:
   '@cacheable/utils@2.1.0':
     resolution: {integrity: sha512-ZdxfOiaarMqMj+H7qwlt5EBKWaeGihSYVHdQv5lUsbn8MJJOTW82OIwirQ39U5tMZkNvy3bQE+ryzC+xTAb9/g==}
 
-  '@codemirror/autocomplete@6.19.0':
-    resolution: {integrity: sha512-61Hfv3cF07XvUxNeC3E7jhG8XNi1Yom1G0lRC936oLnlF+jrbrv8rc/J98XlYzcsAoTVupfsf5fLej1aI8kyIg==}
+  '@codemirror/autocomplete@6.19.1':
+    resolution: {integrity: sha512-q6NenYkEy2fn9+JyjIxMWcNjzTL/IhwqfzOut1/G3PrIFkrbl4AL7Wkse5tLrQUUyqGoAKU5+Pi5jnnXxH5HGw==}
 
-  '@codemirror/commands@6.9.0':
-    resolution: {integrity: sha512-454TVgjhO6cMufsyyGN70rGIfJxJEjcqjBG2x2Y03Y/+Fm99d3O/Kv1QDYWuG6hvxsgmjXmBuATikIIYvERX+w==}
+  '@codemirror/commands@6.10.0':
+    resolution: {integrity: sha512-2xUIc5mHXQzT16JnyOFkh8PvfeXuIut3pslWGfsGOhxP/lpgRm9HOl/mpzLErgt5mXDovqA0d11P21gofRLb9w==}
 
   '@codemirror/lang-css@6.3.1':
     resolution: {integrity: sha512-kr5fwBGiGtmz6l0LSJIbno9QrifNMUusivHbnA1H6Dmqy4HZFte3UAICix1VuKo0lMPKQr2rqB+0BkKi/S3Ejg==}
@@ -865,8 +865,8 @@ packages:
   '@codemirror/legacy-modes@6.5.2':
     resolution: {integrity: sha512-/jJbwSTazlQEDOQw2FJ8LEEKVS72pU0lx6oM54kGpL8t/NJ2Jda3CZ4pcltiKTdqYSRk3ug1B3pil1gsjA6+8Q==}
 
-  '@codemirror/lint@6.9.0':
-    resolution: {integrity: sha512-wZxW+9XDytH3SKvS8cQzMyQCaaazH8XL1EMHleHe00wVzsv7NBQKVW2yzEHrRhmM7ZOhVdItPbvlRBvMp9ej7A==}
+  '@codemirror/lint@6.9.2':
+    resolution: {integrity: sha512-sv3DylBiIyi+xKwRCJAAsBZZZWo82shJ/RTMymLabAdtbkV5cSKwWDeCgtUq3v8flTaXS2y1kKkICuRYtUswyQ==}
 
   '@codemirror/search@6.5.11':
     resolution: {integrity: sha512-KmWepDE6jUdL6n8cAAqIpRmLPBZ5ZKnicE8oGU/s3QrAVID+0VhLFrzUucVKHG5035/BSykhExDL/Xm7dHthiA==}
@@ -2054,6 +2054,9 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
+  binary-search@1.3.6:
+    resolution: {integrity: sha512-nbE1WxOTTrUWIfsfZ4aHGYu5DOuNkbxGokjV6Z2kxfJK3uaAb8zNK1muzOeipoLHZjInT4Br88BHpzevc681xA==}
+
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
 
@@ -2124,8 +2127,8 @@ packages:
   character-parser@2.2.0:
     resolution: {integrity: sha512-+UqJQjFEFaTAs3bNsF2j2kEN1baG/zghZbdqoYEDxGZtJo9LBzl1A+m0D4n3qKx8N2FNv8/Xp6yV9mQmBuptaw==}
 
-  chinese-days@1.5.3:
-    resolution: {integrity: sha512-7c8Wb55lf9TVrBbG32QFxx2EF/qr01GDPHLzJJ1gQCyU0/7sb1dSfMSytklPRnteL9ABZztCiATUXP1jOCvKDQ==}
+  chinese-days@1.5.4:
+    resolution: {integrity: sha512-YAj/f4UhzNm7F5SbeyhVPZbS5gdGNcsaNy4TqIzknx5/fql0bHU+OY3wJEw75lMhfsZRQUCTvBNu88rcMoswmw==}
 
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
@@ -2458,8 +2461,8 @@ packages:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
 
-  entities@6.0.1:
-    resolution: {integrity: sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==}
+  entities@7.0.0:
+    resolution: {integrity: sha512-FDWG5cmEYf2Z00IkYRhbFrwIwvdFKH07uV8dvNy0omp/Qb1xcyCWp2UDtcwJF4QZZvk0sLudP6/hAu42TaqVhQ==}
     engines: {node: '>=0.12'}
 
   env-paths@2.2.1:
@@ -3692,11 +3695,12 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mathjax@3.2.2:
-    resolution: {integrity: sha512-Bt+SSVU8eBG27zChVewOicYs7Xsdt40qm4+UpHyX7k0/O9NliPc+x77k1/FEsPsjKPZGJvtRZM1vO+geW0OhGw==}
-
   mathml-tag-names@2.1.3:
     resolution: {integrity: sha512-APMBEanjybaPzUrfqU0IMU5I0AswKMH7k8OTLs0vvV4KZpExkTkY87nR/zpbuTPj+gARop7aGUbl11pnDfW6xg==}
+
+  mathoid-texvcjs@0.5.4:
+    resolution: {integrity: sha512-MGKGw2fyBroR0ruHbdAsVA8eN7TqVn7WS5Fc3xVP8eeHQAKDi0ZJV3obthbko5iiC7bEMWo1LTfdOqb/QaAKEA==}
+    hasBin: true
 
   mdn-data@2.0.28:
     resolution: {integrity: sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==}
@@ -5064,8 +5068,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  wikiparser-node@1.28.1:
-    resolution: {integrity: sha512-X8R9z/5bl09oI+ftIfFDCNY9DTcmAgAkv4SsAV2ZBja/KaaSD8Pcs0YYi6iSEjYG0nfnjQGhZcxOlbfIOtRIRA==}
+  wikiparser-node@1.30.0:
+    resolution: {integrity: sha512-uGsqTDURzYFz5GsVxwxSsbtC7rshr6+awdJJds0ePZKzcUWAKlQ9ZkKqo6P1PL9jk72eo+TwPqw8dWbTTqR7/w==}
     engines: {node: '>=18.17.0'}
     hasBin: true
 
@@ -5798,13 +5802,13 @@ snapshots:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
 
-  '@bhsd/codemirror-mediawiki@3.6.0(@lezer/highlight@1.2.2)(typescript@5.8.3)':
+  '@bhsd/codemirror-mediawiki@3.6.4(@lezer/highlight@1.2.2)(typescript@5.8.3)':
     dependencies:
       '@bhsd/browser': 0.0.1
       '@bhsd/codemirror-css-color-picker': 6.3.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.6)
       '@bhsd/common': 1.0.1
-      '@codemirror/autocomplete': 6.19.0
-      '@codemirror/commands': 6.9.0
+      '@codemirror/autocomplete': 6.19.1
+      '@codemirror/commands': 6.10.0
       '@codemirror/lang-css': 6.3.1
       '@codemirror/lang-html': 6.4.11
       '@codemirror/lang-javascript': 6.2.4
@@ -5812,12 +5816,12 @@ snapshots:
       '@codemirror/lang-vue': 0.1.3
       '@codemirror/language': 6.11.3
       '@codemirror/legacy-modes': 6.5.2
-      '@codemirror/lint': 6.9.0
+      '@codemirror/lint': 6.9.2
       '@codemirror/search': 6.5.11
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
       cm6-theme-nord: 0.2.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.6)(@lezer/highlight@1.2.2)
-      wikiparser-node: 1.28.1(typescript@5.8.3)
+      wikiparser-node: 1.30.0(typescript@5.8.3)
     transitivePeerDependencies:
       - '@lezer/highlight'
       - supports-color
@@ -5847,14 +5851,14 @@ snapshots:
     dependencies:
       keyv: 5.5.3
 
-  '@codemirror/autocomplete@6.19.0':
+  '@codemirror/autocomplete@6.19.1':
     dependencies:
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
       '@lezer/common': 1.3.0
 
-  '@codemirror/commands@6.9.0':
+  '@codemirror/commands@6.10.0':
     dependencies:
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
@@ -5863,7 +5867,7 @@ snapshots:
 
   '@codemirror/lang-css@6.3.1':
     dependencies:
-      '@codemirror/autocomplete': 6.19.0
+      '@codemirror/autocomplete': 6.19.1
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
       '@lezer/common': 1.3.0
@@ -5871,7 +5875,7 @@ snapshots:
 
   '@codemirror/lang-html@6.4.11':
     dependencies:
-      '@codemirror/autocomplete': 6.19.0
+      '@codemirror/autocomplete': 6.19.1
       '@codemirror/lang-css': 6.3.1
       '@codemirror/lang-javascript': 6.2.4
       '@codemirror/language': 6.11.3
@@ -5883,9 +5887,9 @@ snapshots:
 
   '@codemirror/lang-javascript@6.2.4':
     dependencies:
-      '@codemirror/autocomplete': 6.19.0
+      '@codemirror/autocomplete': 6.19.1
       '@codemirror/language': 6.11.3
-      '@codemirror/lint': 6.9.0
+      '@codemirror/lint': 6.9.2
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
       '@lezer/common': 1.3.0
@@ -5918,7 +5922,7 @@ snapshots:
     dependencies:
       '@codemirror/language': 6.11.3
 
-  '@codemirror/lint@6.9.0':
+  '@codemirror/lint@6.9.2':
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.6
@@ -7195,6 +7199,8 @@ snapshots:
 
   base64-js@1.5.1: {}
 
+  binary-search@1.3.6: {}
+
   boolbase@1.0.0: {}
 
   brace-expansion@1.1.11:
@@ -7281,7 +7287,7 @@ snapshots:
     dependencies:
       is-regex: 1.2.1
 
-  chinese-days@1.5.3: {}
+  chinese-days@1.5.4: {}
 
   chokidar@4.0.3:
     dependencies:
@@ -7602,7 +7608,7 @@ snapshots:
 
   entities@4.5.0: {}
 
-  entities@6.0.1:
+  entities@7.0.0:
     optional: true
 
   env-paths@2.2.1: {}
@@ -8935,10 +8941,12 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mathjax@3.2.2:
-    optional: true
-
   mathml-tag-names@2.1.3: {}
+
+  mathoid-texvcjs@0.5.4:
+    dependencies:
+      commander: 11.1.0
+    optional: true
 
   mdn-data@2.0.28: {}
 
@@ -10594,17 +10602,18 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  wikiparser-node@1.28.1(typescript@5.8.3):
+  wikiparser-node@1.30.0(typescript@5.8.3):
     dependencies:
       '@bhsd/cm-util': 0.1.0
       '@bhsd/common': 1.0.1
       '@bhsd/stylelint-util': 0.1.0(stylelint@16.25.0(typescript@5.8.3))
+      binary-search: 1.3.6
       vscode-languageserver-types: 3.17.5
     optionalDependencies:
       chalk: 4.1.2
       color-name: 2.0.2
-      entities: 6.0.1
-      mathjax: 3.2.2
+      entities: 7.0.0
+      mathoid-texvcjs: 0.5.4
       stylelint: 16.25.0(typescript@5.8.3)
       vscode-css-languageservice: 6.3.8
       vscode-html-languageservice: 5.6.0
