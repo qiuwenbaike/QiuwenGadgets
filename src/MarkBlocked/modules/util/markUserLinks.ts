@@ -91,13 +91,17 @@ const markBlockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 		promises[promises.length] = async (): Promise<void> => {
 			try {
 				const response = (await queryUserBlocks(bkusers)) as QueryLocalAndGlobalBlocksResponse;
+				const blockRecords: Record<string, QueryLocalAndGlobalBlocksResponse> = {};
+				for (const user of bkusers) {
+					blockRecords[user] = {query: {blocks: [], globalblocks: []}};
+				}
 
 				if (response['query']?.blocks) {
 					markLocalBlocks({response, userLinks});
 
 					for (const block of response['query'].blocks) {
 						if (block.user) {
-							mw.storage.setObject(OPTIONS.storageKeyBlocked + block.user, response, 60 * 60);
+							blockRecords[block.user]?.query.blocks!.push(block);
 						}
 					}
 				}
@@ -107,9 +111,13 @@ const markBlockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 
 					for (const block of response['query'].globalblocks) {
 						if (block.target) {
-							mw.storage.setObject(OPTIONS.storageKeyBlocked + block.target, response, 60 * 60);
+							blockRecords[block.target]?.query.globalblocks!.push(block);
 						}
 					}
+				}
+
+				for (const [user, value] of Object.entries(blockRecords)) {
+					mw.storage.setObject(OPTIONS.storageKeyBlocked + user, value, 60 * 60);
 				}
 			} catch (error: unknown) {
 				console.error('[MarkBlocked] Ajax error:', error);
