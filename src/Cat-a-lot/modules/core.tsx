@@ -302,15 +302,14 @@ const catALot = (): void => {
 			this.updateSelectionCounter();
 		}
 
-		private static findAllVariants(category: string): string[] {
+		private static async findAllVariants(category: string): Promise<string[]> {
+			if (mw.storage.getObject(OPTIONS.storageKey + category)) {
+				CAL.variantCache[category] = mw.storage.getObject(OPTIONS.storageKey + category) as string[];
+			}
 			if (CAL.variantCache[category]) {
 				return CAL.variantCache[category];
 			}
-			if (mw.storage.getObject(OPTIONS.storageKey + category)) {
-				CAL.variantCache[category] = mw.storage.getObject(OPTIONS.storageKey + category) as string[];
-				return CAL.variantCache[category];
-			}
-			let results: string[] = [];
+			const results: string[] = [];
 			const params: ApiParseParams = {
 				action: 'parse',
 				format: 'json',
@@ -318,46 +317,30 @@ const catALot = (): void => {
 				text: category,
 				title: 'temp',
 			};
-			const promises: (() => Promise<string | undefined>)[] = [];
 			for (const variant of VARIANTS) {
-				promises[promises.length] = async (): Promise<string | undefined> => {
-					try {
-						const {parse} = await CAL.api.get({
-							...params,
-							variant,
-						} as typeof params);
-						const {text} = parse;
-						const result = $(text).eq(0).text().trim();
-						return result;
-					} catch {
-						return undefined;
-					}
-				};
+				try {
+					const {parse} = await CAL.api.get({
+						...params,
+						variant,
+					} as typeof params);
+					const {text} = parse;
+					const result = $(text).eq(0).text().trim();
+					results[results.length] = result;
+				} catch {}
 			}
-			void (async () => {
-				for (const promise of promises) {
-					try {
-						const result = await promise();
-						if (result) {
-							results[results.length] = result;
-						}
-					} catch {}
-				}
-			})();
 			// De-duplicate
-			results = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
-			CAL.variantCache[category] = results;
-			mw.storage.setObject(OPTIONS.storageKey + category, results, 60 * 60 * 24); // 1 day
+			CAL.variantCache[category] = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
+			mw.storage.setObject(OPTIONS.storageKey + category, CAL.variantCache[category], 60 * 60 * 24); // 1 day
 			return CAL.variantCache[category];
 		}
 
-		private static regexBuilder(category: string): RegExp {
+		private static async regexBuilder(category: string): Promise<RegExp> {
 			// Build a regexp string for matching the given category:
 			const catName: string = CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category');
 			// trim leading/trailing whitespace and underscores
 			category = category.replace(/^[\s_]+/, '').replace(/[\s_]+$/, '');
 			// Find all variants
-			const variants: string[] = CAL.findAllVariants(category);
+			const variants: string[] = await CAL.findAllVariants(category);
 			// escape regexp metacharacters (= any ASCII punctuation except _)
 			const variantRegExps: string[] = [];
 			for (let variant of variants) {
@@ -540,13 +523,13 @@ const catALot = (): void => {
 				CAL.$counter.text(CAL.counterCurrent);
 			}
 		}
-		private editCategories(
+		private async editCategories(
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			result: Record<string, any>,
 			markedLabel: ReturnType<typeof this.getMarkedLabels>[0],
 			targetCategory: string,
 			mode: 'add' | 'copy' | 'move' | 'remove'
-		): void {
+		): Promise<void> {
 			const [markedLabelTitle, $markedLabel] = markedLabel;
 
 			if (!result?.['query']) {
@@ -568,7 +551,7 @@ const catALot = (): void => {
 
 			const sourcecat: string = CAL.CURRENT_CATEGROY;
 			// Check if that file is already in that category
-			const targeRegExp = CAL.regexBuilder(targetCategory);
+			const targeRegExp = await CAL.regexBuilder(targetCategory);
 			if (mode !== 'remove' && targeRegExp.test(originText) && mode !== 'move') {
 				CAL.alreadyThere[CAL.alreadyThere.length] = markedLabelTitle;
 				this.updateCounter();
@@ -578,7 +561,7 @@ const catALot = (): void => {
 			// Fix text
 			let text: string = originText;
 			let summary: string;
-			const sourceCatRegExp = CAL.regexBuilder(sourcecat);
+			const sourceCatRegExp = await CAL.regexBuilder(sourcecat);
 			switch (mode) {
 				case 'add':
 					text += `\n[[${CAL.localCatName}:${targetCategory}]]\n`;
@@ -841,7 +824,11 @@ const catALot = (): void => {
 						[{categories}] = pages;
 					}
 					for (const cat of categories) {
-						CAL.parentCats[CAL.parentCats.length] = cat.title.replace(/^[^:]+:/, '');
+						const catTitle = cat.title.replace(/^[^:]+:/, '');
+						CAL.parentCats[CAL.parentCats.length] = catTitle;
+						void (async () => {
+							await CAL.findAllVariants(catTitle);
+						})();
 					}
 					CAL.counterCat++;
 					if (CAL.counterCat === 2) {
@@ -863,7 +850,11 @@ const catALot = (): void => {
 					const cats: {title: string}[] = result?.query?.categorymembers || [];
 					CAL.subCats = [];
 					for (const cat of cats) {
-						CAL.subCats[CAL.subCats.length] = cat.title.replace(/^[^:]+:/, '');
+						const catTitle = cat.title.replace(/^[^:]+:/, '');
+						CAL.subCats[CAL.subCats.length] = catTitle;
+						void (async () => {
+							await CAL.findAllVariants(catTitle);
+						})();
 					}
 					CAL.counterCat++;
 					if (CAL.counterCat === 2) {
