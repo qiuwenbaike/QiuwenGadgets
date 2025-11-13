@@ -303,13 +303,14 @@ const catALot = (): void => {
 		}
 
 		private static async findAllVariants(category: string): Promise<string[]> {
-			if (mw.storage.getObject(OPTIONS.storageKey + category)) {
-				CAL.variantCache[category] = mw.storage.getObject(OPTIONS.storageKey + category) as string[];
-			}
 			if (CAL.variantCache[category]) {
 				return CAL.variantCache[category];
 			}
-			const results: string[] = [];
+			if (mw.storage.getObject(OPTIONS.storageKey + category)) {
+				CAL.variantCache[category] = mw.storage.getObject(OPTIONS.storageKey + category) as string[];
+				return CAL.variantCache[category];
+			}
+			const results: string[] = [category];
 			const params: ApiParseParams = {
 				action: 'parse',
 				format: 'json',
