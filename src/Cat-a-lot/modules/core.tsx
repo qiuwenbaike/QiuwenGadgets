@@ -949,6 +949,7 @@ const catALot = (): void => {
 		void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 			new CAL($body).buildElements();
 		});
+		CAL['variantCache'] ??= {};
 		CAL['variantCache'] = {...CAL['variantCache'], ...getCachedKeys()};
 	}
 };
