@@ -41,10 +41,14 @@ const getLocalUserGroups = async (ususers: string[]): Promise<Record<string, str
 			userGroups[username] = mw.storage.getObject(OPTIONS.storageKeyLocal + username) as string[];
 		}
 
-		return !userGroups?.[username]?.length;
+		return !Object.keys(userGroups).includes(username);
 	});
 
 	try {
+		if (ususers.length === 0) {
+			return userGroups;
+		}
+
 		const response = await queryUserGroups(ususers);
 		const {users: queryUsers} = response['query'] as {
 			users: {groups: string[]; name: string}[];
@@ -84,7 +88,7 @@ const getGlobalUserGroups = async (ususers: string[]): Promise<Record<string, st
 			userGroups[username] = mw.storage.getObject(OPTIONS.storageKeyGlobal + username) as string[];
 		}
 
-		return !userGroups?.[username]?.length;
+		return !Object.keys(userGroups).includes(username);
 	});
 
 	for (const user of ususers) {
