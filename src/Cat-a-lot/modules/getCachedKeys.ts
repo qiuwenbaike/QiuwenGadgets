@@ -16,9 +16,9 @@ const getCachedKeys = () => {
 	return variantCache;
 };
 
-const loadVariants = async () => {
+const loadVariants = async (category?: string) => {
 	let results: string[] = [];
-	const category = mw.config.get('wgTitle').replace(/^Category:/, '');
+	category ??= mw.config.get('wgTitle').replace(/^Category:/, '');
 	const params: ApiParseParams = {
 		action: 'parse',
 		format: 'json',

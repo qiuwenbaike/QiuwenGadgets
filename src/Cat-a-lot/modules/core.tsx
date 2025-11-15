@@ -309,7 +309,7 @@ const catALot = async (): Promise<void> => {
 				CAL.variantCache[category] = mw.storage.getObject(OPTIONS.storageKey + category) as string[];
 				return CAL.variantCache[category];
 			}
-			const resultObject: Record<string, string[]> = await loadVariants();
+			const resultObject: Record<string, string[]> = await loadVariants(category);
 			CAL.variantCache[category] = resultObject[category] ?? [category];
 			return CAL.variantCache[category];
 		}
