@@ -21,21 +21,20 @@ import {
 	CLASS_NAME_LABEL_DONE,
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
-	VARIANTS,
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
-import {getBody, uniqueArray} from 'ext.gadget.Util';
+import {getCachedKeys, loadVariants} from './getCachedKeys';
 import React from 'ext.gadget.JSX';
 import {api} from './api';
-import {getCachedKeys} from './getCachedKeys';
+import {getBody} from 'ext.gadget.Util';
 
 const {wgCanonicalSpecialPageName, wgFormattedNamespaces, wgNamespaceIds, wgNamespaceNumber, wgTitle} = mw.config.get();
 
 /**
  * Changes category of multiple files
  */
-const catALot = (): void => {
+const catALot = async (): Promise<void> => {
 	/*! Cat-a-lot | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 	class CAL {
 		public static isSearchMode = false;
@@ -303,35 +302,15 @@ const catALot = (): void => {
 		}
 
 		private static async findAllVariants(category: string): Promise<string[]> {
-			if (CAL.variantCache[category]) {
+			if (CAL.variantCache[category] !== undefined) {
 				return CAL.variantCache[category];
 			}
-			if (mw.storage.getObject(OPTIONS.storageKey + category)) {
+			if (mw.storage.getObject(OPTIONS.storageKey + category) !== undefined) {
 				CAL.variantCache[category] = mw.storage.getObject(OPTIONS.storageKey + category) as string[];
 				return CAL.variantCache[category];
 			}
-			const results: string[] = [category];
-			const params: ApiParseParams = {
-				action: 'parse',
-				format: 'json',
-				formatversion: '2',
-				text: category,
-				title: 'temp',
-			};
-			for (const variant of VARIANTS) {
-				try {
-					const {parse} = await CAL.api.get({
-						...params,
-						variant,
-					} as typeof params);
-					const {text} = parse;
-					const result = $(text).eq(0).text().trim();
-					results[results.length] = result;
-				} catch {}
-			}
-			// De-duplicate
-			CAL.variantCache[category] = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
-			mw.storage.setObject(OPTIONS.storageKey + category, CAL.variantCache[category], 60 * 60 * 24); // 1 day
+			const resultObject: Record<string, string[]> = await loadVariants();
+			CAL.variantCache[category] = resultObject[category] ?? [category];
 			return CAL.variantCache[category];
 		}
 
@@ -944,13 +923,22 @@ const catALot = (): void => {
 		if (wgNamespaceNumber === -1) {
 			CAL.isSearchMode = true;
 		}
+		CAL['variantCache'] ??= {};
+		CAL['variantCache'] = {
+			...CAL['variantCache'],
+			...getCachedKeys(),
+		};
+		if (wgNamespaceNumber === OPTIONS.targetNamespace) {
+			CAL['variantCache'] = {
+				...CAL['variantCache'],
+				...(await loadVariants()),
+			};
+		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 		setMessages();
 		void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 			new CAL($body).buildElements();
 		});
-		CAL['variantCache'] ??= {};
-		CAL['variantCache'] = {...CAL['variantCache'], ...getCachedKeys()};
 	}
 };
 
