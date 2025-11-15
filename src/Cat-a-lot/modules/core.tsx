@@ -21,13 +21,14 @@ import {
 	CLASS_NAME_LABEL_DONE,
 	CLASS_NAME_LABEL_SELECTED,
 	DEFAULT_SETTING,
+	VARIANTS,
 } from './constant';
 import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
-import {getCachedKeys, loadVariants} from './getCachedKeys';
+import {getBody, uniqueArray} from 'ext.gadget.Util';
 import React from 'ext.gadget.JSX';
 import {api} from './api';
-import {getBody} from 'ext.gadget.Util';
+import {getCachedKeys} from './getCachedKeys';
 
 const {wgCanonicalSpecialPageName, wgFormattedNamespaces, wgNamespaceIds, wgNamespaceNumber, wgTitle} = mw.config.get();
 
@@ -52,7 +53,7 @@ const catALot = async (): Promise<void> => {
 
 		private static isAutoCompleteInit = false;
 
-		private static api = api;
+		public static api = api;
 
 		private static alreadyThere: string[] = [];
 		private static connectionError: string[] = [];
@@ -301,16 +302,39 @@ const catALot = async (): Promise<void> => {
 			this.updateSelectionCounter();
 		}
 
-		private static async findAllVariants(category: string): Promise<string[]> {
-			if (CAL.variantCache[category] !== undefined) {
+		public static async findAllVariants(category: string): Promise<string[]> {
+			if (CAL.variantCache[category] !== undefined && Array.isArray(CAL.variantCache[category])) {
 				return CAL.variantCache[category];
 			}
-			if (mw.storage.getObject(OPTIONS.storageKey + category) !== undefined) {
+			if (
+				mw.storage.getObject(OPTIONS.storageKey + category) !== undefined &&
+				Array.isArray(mw.storage.getObject(OPTIONS.storageKey + category))
+			) {
 				CAL.variantCache[category] = mw.storage.getObject(OPTIONS.storageKey + category) as string[];
 				return CAL.variantCache[category];
 			}
-			const resultObject: Record<string, string[]> = await loadVariants(category);
-			CAL.variantCache[category] = resultObject[category] ?? [category];
+			const results: string[] = [category];
+			const params: ApiParseParams = {
+				action: 'parse',
+				format: 'json',
+				formatversion: '2',
+				text: category,
+				title: 'temp',
+			};
+			for (const variant of VARIANTS) {
+				try {
+					const {parse} = await CAL.api.get({
+						...params,
+						variant,
+					} as typeof params);
+					const {text} = parse;
+					const result = $(text).eq(0).text().trim();
+					results[results.length] = result;
+				} catch {}
+			}
+			// De-duplicate
+			CAL.variantCache[category] = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
+			mw.storage.setObject(OPTIONS.storageKey + category, CAL.variantCache[category], 60 * 60 * 24); // 1 day
 			return CAL.variantCache[category];
 		}
 
@@ -806,9 +830,6 @@ const catALot = async (): Promise<void> => {
 					for (const cat of categories) {
 						const catTitle = cat.title.replace(/^[^:]+:/, '');
 						CAL.parentCats[CAL.parentCats.length] = catTitle;
-						void (async () => {
-							await CAL.findAllVariants(catTitle);
-						})();
 					}
 					CAL.counterCat++;
 					if (CAL.counterCat === 2) {
@@ -832,9 +853,6 @@ const catALot = async (): Promise<void> => {
 					for (const cat of cats) {
 						const catTitle = cat.title.replace(/^[^:]+:/, '');
 						CAL.subCats[CAL.subCats.length] = catTitle;
-						void (async () => {
-							await CAL.findAllVariants(catTitle);
-						})();
 					}
 					CAL.counterCat++;
 					if (CAL.counterCat === 2) {
@@ -923,16 +941,10 @@ const catALot = async (): Promise<void> => {
 		if (wgNamespaceNumber === -1) {
 			CAL.isSearchMode = true;
 		}
-		CAL['variantCache'] ??= {};
-		CAL['variantCache'] = {
-			...CAL['variantCache'],
-			...getCachedKeys(),
-		};
+		CAL['variantCache'] = getCachedKeys();
 		if (wgNamespaceNumber === OPTIONS.targetNamespace) {
-			CAL['variantCache'] = {
-				...CAL['variantCache'],
-				...(await loadVariants()),
-			};
+			const category = mw.config.get('wgTitle').replace(/^Category:/, '');
+			CAL['variantCache'][category] = await CAL.findAllVariants(category);
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 		setMessages();
