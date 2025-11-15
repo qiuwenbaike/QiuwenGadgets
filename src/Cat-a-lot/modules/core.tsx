@@ -53,7 +53,7 @@ const catALot = async (): Promise<void> => {
 
 		private static isAutoCompleteInit = false;
 
-		public static api = api;
+		private static api = api;
 
 		private static alreadyThere: string[] = [];
 		private static connectionError: string[] = [];
@@ -944,7 +944,7 @@ const catALot = async (): Promise<void> => {
 		CAL['variantCache'] = getCachedKeys();
 		if (wgNamespaceNumber === OPTIONS.targetNamespace) {
 			const category = mw.config.get('wgTitle').replace(/^Category:/, '');
-			CAL['variantCache'][category] = await CAL.findAllVariants(category);
+			CAL['variantCache'][category] = [...(await CAL.findAllVariants(category))];
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 		setMessages();
