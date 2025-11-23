@@ -588,10 +588,6 @@ const ToolsRedirect = {
 								return;
 							}
 							titles[titles.length] = title;
-							if (IS_CATEGORY) {
-								const target = wgPageName.replace(/^Category:/, '');
-								setRedirectTextSuffix(title, '{{分类重定向|$1}}'.replace('$1', target));
-							}
 							// only set default suffix
 							setRedirectTextSuffix(title, '{{别名重定向}}', SUFFIX_SETDEFAULT);
 						}
