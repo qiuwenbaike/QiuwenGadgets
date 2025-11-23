@@ -1,4 +1,4 @@
-import './InPageEdit.less';
+import './InPageEdit-v2.less';
 
 (function inPageEditLoader(): void {
 	/**!
