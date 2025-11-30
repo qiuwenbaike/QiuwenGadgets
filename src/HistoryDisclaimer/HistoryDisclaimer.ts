@@ -1,7 +1,8 @@
 import {disclaimer} from './HistoryDisclaimer.module.less';
 import {getBackground} from './modules/getBackground';
+import {getBody} from 'ext.gadget.Util';
 
-(function historyDisclaimer(): void {
+void getBody().then(function historyDisclaimer(): void {
 	const {wgCurRevisionId, wgRevisionId} = mw.config.get();
 
 	if (!wgCurRevisionId || !wgRevisionId || wgCurRevisionId <= wgRevisionId) {
@@ -13,4 +14,4 @@ import {getBackground} from './modules/getBackground';
 	}
 
 	document.body.append(getBackground());
-})();
+});

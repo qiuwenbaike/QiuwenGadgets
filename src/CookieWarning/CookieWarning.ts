@@ -1,7 +1,8 @@
 import * as OPTIONS from './options.json';
 import {RootElement} from './components/RootElement';
+import {getBody} from 'ext.gadget.Util';
 
-(function cookieWarning(): void {
+void getBody().then(function cookieWarning(): void {
 	const {wgUserName} = mw.config.get();
 	const lastStorageValue: string | null = mw.storage.get(OPTIONS.storageKey) as string | null;
 	const urlConsentRead: string | null = mw.util.getParamValue(OPTIONS.readingPIPPKey);
@@ -23,4 +24,4 @@ import {RootElement} from './components/RootElement';
 	const rootElement = RootElement({agreeButtonOnClick: closeWarning});
 
 	document.body.append(rootElement);
-})();
+});

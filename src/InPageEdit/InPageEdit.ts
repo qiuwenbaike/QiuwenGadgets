@@ -1,4 +1,6 @@
-(function inPageEditLoader(): void {
+import {getBody} from 'ext.gadget.Util';
+
+void getBody().then(function inPageEditLoader(): void {
 	/**!
 	 * SPDX-License-Identifier: MIT
 	 *
@@ -14,4 +16,4 @@
 			type: 'module',
 		})
 	);
-})();
+});
