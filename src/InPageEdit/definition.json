@@ -3,5 +3,6 @@
 	"description": "<span id=\"Gadget-InPageEdit\"></span> [[zhqiuwenbaike:Help:InPageEdit|InPageEdit NEXT]]",
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
+	"dependencies": ["ext.gadget.Util"],
 	"rights": ["skipcaptcha"]
 }
