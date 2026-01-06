@@ -769,7 +769,7 @@ import {generateArray} from 'ext.gadget.Util';
 		{
 			label: 'O3：废弃草稿。',
 			value: 'o3',
-			tooltip: '草稿名字空间内六个月内无编辑的页面。',
+			tooltip: '使用条目创建向导创建的超过六个月未改善的用户页草稿。',
 		},
 	];
 	Twinkle.speedy.generalList = [
