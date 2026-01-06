@@ -70,7 +70,6 @@
 * GeoLocationReader-pagestyles[ResourceLoader|hidden|requiresES6]|GeoLocationReader-pagestyles.css
 * HistoryDisclaimer[ResourceLoader|default|dependencies=ext.gadget.JSX,ext.gadget.Util|hidden|requiresES6]|HistoryDisclaimer.js|HistoryDisclaimer.css
 * i18n[ResourceLoader|dependencies=ext.gadget.Util|hidden|requiresES6]|i18n.js
-* IDBPlus[ResourceLoader|hidden|requiresES6]|IDBPlus.js
 * JSX[ResourceLoader|hidden|requiresES6]|JSX.js
 * LoadRNRSCredentials[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.user|hidden|requiresES6]|LoadRNRSCredentials.js
 * MemorialDay[ResourceLoader|default|dependencies=ext.gadget.MemorialDay-settings,ext.gadget.Util|hidden|requiresES6]|MemorialDay.js|MemorialDay.css

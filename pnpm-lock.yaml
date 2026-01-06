@@ -37,11 +37,11 @@ importers:
   .:
     dependencies:
       '@bhsd/browser':
-        specifier: ^0.0.1
-        version: 0.0.1
+        specifier: ^0.2.1
+        version: 0.2.1
       '@bhsd/codemirror-mediawiki':
-        specifier: ^3.6.6
-        version: 3.6.6(@lezer/highlight@1.2.3)(typescript@5.8.3)(wikilint@2.32.0(typescript@5.8.3))
+        specifier: ^3.8.1
+        version: 3.8.1(@lezer/highlight@1.2.3)(typescript@5.8.3)(wikilint@2.33.0(typescript@5.8.3))
       '@types/toastify-js':
         specifier: ^1.12.4
         version: 1.12.4
@@ -54,9 +54,6 @@ importers:
       filter-altered-clicks:
         specifier: ^2.1.1
         version: 2.1.1
-      idb-plus:
-        specifier: ^0.2.0
-        version: 0.2.0
       jsx-dom:
         specifier: ^8.1.6
         version: 8.1.6
@@ -822,8 +819,8 @@ packages:
     resolution: {integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==}
     engines: {node: '>=6.9.0'}
 
-  '@bhsd/browser@0.0.1':
-    resolution: {integrity: sha512-IzHcol4aYv5L9SeJg7eunOzUQPu4YFcJ2mKqjeuTrDYHuuHhsNWeB71k7YD0dD4uO3UGGImUrONmy2BTYzJqJA==}
+  '@bhsd/browser@0.2.1':
+    resolution: {integrity: sha512-SATuQ817RYQS5XUkOHGO1MKMVWh7vjhJ18AaL+22Z0IIeBzfUS4aHS/QYDwpbfigEVfJn/INGkA9XXw9VJsaag==}
 
   '@bhsd/cm-util@0.1.0':
     resolution: {integrity: sha512-gqwObmIVosIH3WulV9p/IoO8Rm90QofFN44XoaitjN3uopAMt3E6ipPm3OegjvUqrUPAbwcUrwZoUCZ5cI+OqA==}
@@ -835,11 +832,11 @@ packages:
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
 
-  '@bhsd/codemirror-mediawiki@3.6.6':
-    resolution: {integrity: sha512-LZaleZXy7i3IkWHgP9iNovWMXZCQolIwrMXjgvO6d5cTMwsvOL0HBNWPzKCntB/fi56FdHaEE2J8E6WFif/psw==}
+  '@bhsd/codemirror-mediawiki@3.8.1':
+    resolution: {integrity: sha512-HGD2i3AEX7hrJ4sbVyzw/yL/1UgsTxcSqjJG8W5ozlu57YZ85m+dqvWsLy2SRv7c6bJio4Qhqa/78wpZkwDcxA==}
 
-  '@bhsd/common@1.0.1':
-    resolution: {integrity: sha512-BmSHLslcb8xq2XUnFmP2q4lu+dXX/JItv6exwSarH1a0DDnU4tvDWonPJv87pqHW+H/fT/hxJ2fO8rVXW/KP7A==}
+  '@bhsd/common@1.1.0':
+    resolution: {integrity: sha512-R8eLy+wEYWn7jCPbLEMLZ5hBwHhv45NqDkZTxBQul3mvzeYC+r5OQPTNkGrqzqQTN7FT+8p5OPA9disLmszTVw==}
     engines: {node: '>=18.17.0'}
 
   '@bhsd/stylelint-util@0.1.0':
@@ -855,8 +852,8 @@ packages:
   '@codemirror/autocomplete@6.20.0':
     resolution: {integrity: sha512-bOwvTOIJcG5FVo5gUUupiwYh8MioPLQ4UcqbcRf7UQ98X90tCa9E1kZ3Z7tqwpZxYyOvh1YTYbmZE9RTfTp5hg==}
 
-  '@codemirror/commands@6.10.0':
-    resolution: {integrity: sha512-2xUIc5mHXQzT16JnyOFkh8PvfeXuIut3pslWGfsGOhxP/lpgRm9HOl/mpzLErgt5mXDovqA0d11P21gofRLb9w==}
+  '@codemirror/commands@6.10.1':
+    resolution: {integrity: sha512-uWDWFypNdQmz2y1LaNJzK7fL7TYKLeUAU0npEC685OKTF3KcQ2Vu3klIM78D7I6wGhktme0lh3CuQLv0ZCrD9Q==}
 
   '@codemirror/lang-css@6.3.1':
     resolution: {integrity: sha512-kr5fwBGiGtmz6l0LSJIbno9QrifNMUusivHbnA1H6Dmqy4HZFte3UAICix1VuKo0lMPKQr2rqB+0BkKi/S3Ejg==}
@@ -873,8 +870,8 @@ packages:
   '@codemirror/lang-vue@0.1.3':
     resolution: {integrity: sha512-QSKdtYTDRhEHCfo5zOShzxCmqKJvgGrZwDQSdbvCRJ5pRLWBS7pD/8e/tH44aVQT6FKm0t6RVNoSUWHOI5vNug==}
 
-  '@codemirror/language@6.11.3':
-    resolution: {integrity: sha512-9HBM2XnwDj7fnu0551HkGdrUrrqmYq/WC5iv6nbY2WdicXdGbhR/gfbZOH73Aqj4351alY1+aoG9rCNfiwS1RA==}
+  '@codemirror/language@6.12.1':
+    resolution: {integrity: sha512-Fa6xkSiuGKc8XC8Cn96T+TQHYj4ZZ7RdFmXA3i9xe/3hLHfwPZdM+dqfX0Cp0zQklBKhVD8Yzc8LS45rkqcwpQ==}
 
   '@codemirror/legacy-modes@6.5.2':
     resolution: {integrity: sha512-/jJbwSTazlQEDOQw2FJ8LEEKVS72pU0lx6oM54kGpL8t/NJ2Jda3CZ4pcltiKTdqYSRk3ug1B3pil1gsjA6+8Q==}
@@ -885,11 +882,11 @@ packages:
   '@codemirror/search@6.5.11':
     resolution: {integrity: sha512-KmWepDE6jUdL6n8cAAqIpRmLPBZ5ZKnicE8oGU/s3QrAVID+0VhLFrzUucVKHG5035/BSykhExDL/Xm7dHthiA==}
 
-  '@codemirror/state@6.5.2':
-    resolution: {integrity: sha512-FVqsPqtPWKVVL3dPSxy8wEF/ymIEuVzF1PK3VbUgrxXpJUSHQWWZz4JMToquRxnkw+36LTamCZG2iua2Ptq0fA==}
+  '@codemirror/state@6.5.3':
+    resolution: {integrity: sha512-MerMzJzlXogk2fxWFU1nKp36bY5orBG59HnPiz0G9nLRebWa0zXuv2siH6PLIHBvv5TH8CkQRqjBs0MlxCZu+A==}
 
-  '@codemirror/view@6.39.4':
-    resolution: {integrity: sha512-xMF6OfEAUVY5Waega4juo1QGACfNkNF+aJLqpd8oUJz96ms2zbfQ9Gh35/tI3y8akEV31FruKfj7hBnIU/nkqA==}
+  '@codemirror/view@6.39.8':
+    resolution: {integrity: sha512-1rASYd9Z/mE3tkbC9wInRlCNyCkSn+nLsiQKZhEDUUJiUfs/5FHDpCUDaQpoTIaNGeDc6/bhaEAyLmeEucEFPw==}
 
   '@commander-js/extra-typings@13.1.0':
     resolution: {integrity: sha512-q5P52BYb1hwVWE6dtID7VvuJWrlfbCv4klj7BjUUOqMz4jbSZD4C9fJ9lRjL2jnBGTg+gDDlaXN51rkWcLk4fg==}
@@ -1485,8 +1482,8 @@ packages:
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
 
-  '@lezer/common@1.4.0':
-    resolution: {integrity: sha512-DVeMRoGrgn/k45oQNu189BoW4SZwgZFzJ1+1TV5j2NJ/KFC83oa/enRqZSGshyeMk5cPWMhsKs9nx+8o0unwGg==}
+  '@lezer/common@1.5.0':
+    resolution: {integrity: sha512-PNGcolp9hr4PJdXR4ix7XtixDrClScvtSCYW3rQG106oVMOOI+jFb+0+J3mbeL/53g1Zd6s0kJzaw6Ri68GmAA==}
 
   '@lezer/css@1.3.0':
     resolution: {integrity: sha512-pBL7hup88KbI7hXnZV3PQsn43DHy6TWyzuyk2AO9UyoXcDltvIdqWKE1dLL/45JVZ+YZkHe1WVHqO6wugZZWcw==}
@@ -1494,8 +1491,8 @@ packages:
   '@lezer/highlight@1.2.3':
     resolution: {integrity: sha512-qXdH7UqTvGfdVBINrgKhDsVTJTxactNNxLk7+UMwZhU13lMHaOBlJe9Vqp907ya56Y3+ed2tlqzys7jDkTmW0g==}
 
-  '@lezer/html@1.3.12':
-    resolution: {integrity: sha512-RJ7eRWdaJe3bsiiLLHjCFT1JMk8m1YP9kaUbvu2rMLEoOnke9mcTVDyfOslsln0LtujdWespjJ39w6zo+RsQYw==}
+  '@lezer/html@1.3.13':
+    resolution: {integrity: sha512-oI7n6NJml729m7pjm9lvLvmXbdoMoi2f+1pwSDJkl9d68zGr7a9Btz8NdHTGQZtW2DA25ybeuv/SyDb9D5tseg==}
 
   '@lezer/javascript@1.5.4':
     resolution: {integrity: sha512-vvYx3MhWqeZtGPwDStM2dwgljd5smolYD2lR2UyFcHfxbBQebqx8yjmFmxtJ/E6nN6u1D9srOiVWm3Rb4tmcUA==}
@@ -1503,8 +1500,8 @@ packages:
   '@lezer/json@1.0.3':
     resolution: {integrity: sha512-BP9KzdF9Y35PDpv04r0VeSTKDeox5vVr3efE7eBbx3r4s3oNLfunchejZhjArmeieBH+nVOpgIiBJpEAv8ilqQ==}
 
-  '@lezer/lr@1.4.5':
-    resolution: {integrity: sha512-/YTRKP5yPPSo1xImYQk7AZZMAgap0kegzqCSYHjAL9x1AZ0ZQW+IpcEzMKagCsbTsLnVeWkxYrCNeXG8xEPrjg==}
+  '@lezer/lr@1.4.6':
+    resolution: {integrity: sha512-u42yGuGBsHgodm86lwi0HAtUTNSs23yl9RoaI5em90B+OGm9/XuWkNiJ46sKkCgp8Tp4zgoBQbepcshfKLhFdw==}
 
   '@marijn/find-cluster-break@1.0.2':
     resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
@@ -3237,9 +3234,6 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
 
-  idb-plus@0.2.0:
-    resolution: {integrity: sha512-ZOPVlIn9uq2JS9xuRY7cxIp4jYiTPM1s+IIDfVSbNGmgegc0Qa/BHvBlFcauy0mwLb9wKjYH0beABXHK2AKCfw==}
-
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -4332,11 +4326,11 @@ packages:
     resolution: {integrity: sha512-4yf0QO/sllf/1zbZWYnvWw3NxCQwLXKzIj0G849LSufP15BXKM0rbD2Z3wVnkMfjdn/CB0Dpp444gYAACdsplg==}
     engines: {node: '>=18'}
 
-  prism-wiki@1.0.1:
-    resolution: {integrity: sha512-ow2MbXWWZycx0xwV+JrTK+bux2cUN1Xt1tlAyA/qhKnbywF+6SyIiuYjUJMirWCEuACq+L+ke0RlZkVEEpyDcw==}
+  prism-wiki@1.2.0:
+    resolution: {integrity: sha512-3wb6icpQ6Z7Qyl6C6tljo8e60iysD+QSSmobtoTW0bW2khvjRlc3BZIMydDvsbIJlOPLRhCTmhpHJBJwInXO9w==}
     peerDependencies:
       prismjs: ^1.30.0
-      wikilint: ^2.31.0
+      wikilint: ^2.32.0
 
   prismjs@1.30.0:
     resolution: {integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==}
@@ -5146,13 +5140,13 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  wikilint@2.32.0:
-    resolution: {integrity: sha512-UuN91Se4KoAJPZZh+hPCK6m9YrduXpwfzDkFfRGfv4zsalCSJEhaZdfy5SmRm82mH5qxGUNRFREaBFZLiJ3mPA==}
+  wikilint@2.33.0:
+    resolution: {integrity: sha512-6AVlhp3RDHjMMPyKKSiRvjGP6xHieqFkdK+jIEtMQ/G864uiVPfh3MEpEM0o4+WxSJTEUK4ibE7+gy5Yo8L/eQ==}
     engines: {node: '>=18.17.0'}
     hasBin: true
 
-  wikiparser-node@1.32.0:
-    resolution: {integrity: sha512-XaJxHHcYChuNSHAxCrMDjO/7eN7j1OdH1MrYbPmMqCT57oG+/UfYhNrbq18yd3z0x9996FI13D0Lz4BOA98C1A==}
+  wikiparser-node@1.33.0:
+    resolution: {integrity: sha512-0nsP4Jt4L1b540YqRyDBL4dbcR1ssy3ldtZiyC5gWp3O1+gJ9frxgYyzEn4wv3M9x800/7BscrF3/ELGZlYtnQ==}
     engines: {node: '>=18.17.0'}
     hasBin: true
 
@@ -5888,43 +5882,43 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@bhsd/browser@0.0.1': {}
+  '@bhsd/browser@0.2.1': {}
 
   '@bhsd/cm-util@0.1.0': {}
 
-  '@bhsd/codemirror-css-color-picker@6.3.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.39.4)':
+  '@bhsd/codemirror-css-color-picker@6.3.0(@codemirror/language@6.12.1)(@codemirror/state@6.5.3)(@codemirror/view@6.39.8)':
     dependencies:
-      '@codemirror/language': 6.11.3
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
+      '@codemirror/language': 6.12.1
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
 
-  '@bhsd/codemirror-mediawiki@3.6.6(@lezer/highlight@1.2.3)(typescript@5.8.3)(wikilint@2.32.0(typescript@5.8.3))':
+  '@bhsd/codemirror-mediawiki@3.8.1(@lezer/highlight@1.2.3)(typescript@5.8.3)(wikilint@2.33.0(typescript@5.8.3))':
     dependencies:
-      '@bhsd/browser': 0.0.1
-      '@bhsd/codemirror-css-color-picker': 6.3.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.39.4)
-      '@bhsd/common': 1.0.1
+      '@bhsd/browser': 0.2.1
+      '@bhsd/codemirror-css-color-picker': 6.3.0(@codemirror/language@6.12.1)(@codemirror/state@6.5.3)(@codemirror/view@6.39.8)
+      '@bhsd/common': 1.1.0
       '@codemirror/autocomplete': 6.20.0
-      '@codemirror/commands': 6.10.0
+      '@codemirror/commands': 6.10.1
       '@codemirror/lang-css': 6.3.1
       '@codemirror/lang-html': 6.4.11
       '@codemirror/lang-javascript': 6.2.4
       '@codemirror/lang-json': 6.0.2
       '@codemirror/lang-vue': 0.1.3
-      '@codemirror/language': 6.11.3
+      '@codemirror/language': 6.12.1
       '@codemirror/legacy-modes': 6.5.2
       '@codemirror/lint': 6.9.2
       '@codemirror/search': 6.5.11
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
-      cm6-theme-nord: 0.2.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.39.4)(@lezer/highlight@1.2.3)
-      wikiparser-node: 1.32.0(typescript@5.8.3)(wikilint@2.32.0(typescript@5.8.3))
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
+      cm6-theme-nord: 0.2.0(@codemirror/language@6.12.1)(@codemirror/state@6.5.3)(@codemirror/view@6.39.8)(@lezer/highlight@1.2.3)
+      wikiparser-node: 1.33.0(typescript@5.8.3)(wikilint@2.33.0(typescript@5.8.3))
     transitivePeerDependencies:
       - '@lezer/highlight'
       - supports-color
       - typescript
       - wikilint
 
-  '@bhsd/common@1.0.1': {}
+  '@bhsd/common@1.1.0': {}
 
   '@bhsd/stylelint-util@0.1.0(stylelint@16.26.1(typescript@5.8.3))':
     dependencies:
@@ -5946,24 +5940,24 @@ snapshots:
 
   '@codemirror/autocomplete@6.20.0':
     dependencies:
-      '@codemirror/language': 6.11.3
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
-      '@lezer/common': 1.4.0
+      '@codemirror/language': 6.12.1
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
+      '@lezer/common': 1.5.0
 
-  '@codemirror/commands@6.10.0':
+  '@codemirror/commands@6.10.1':
     dependencies:
-      '@codemirror/language': 6.11.3
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
-      '@lezer/common': 1.4.0
+      '@codemirror/language': 6.12.1
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
+      '@lezer/common': 1.5.0
 
   '@codemirror/lang-css@6.3.1':
     dependencies:
       '@codemirror/autocomplete': 6.20.0
-      '@codemirror/language': 6.11.3
-      '@codemirror/state': 6.5.2
-      '@lezer/common': 1.4.0
+      '@codemirror/language': 6.12.1
+      '@codemirror/state': 6.5.3
+      '@lezer/common': 1.5.0
       '@lezer/css': 1.3.0
 
   '@codemirror/lang-html@6.4.11':
@@ -5971,69 +5965,69 @@ snapshots:
       '@codemirror/autocomplete': 6.20.0
       '@codemirror/lang-css': 6.3.1
       '@codemirror/lang-javascript': 6.2.4
-      '@codemirror/language': 6.11.3
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
-      '@lezer/common': 1.4.0
+      '@codemirror/language': 6.12.1
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
+      '@lezer/common': 1.5.0
       '@lezer/css': 1.3.0
-      '@lezer/html': 1.3.12
+      '@lezer/html': 1.3.13
 
   '@codemirror/lang-javascript@6.2.4':
     dependencies:
       '@codemirror/autocomplete': 6.20.0
-      '@codemirror/language': 6.11.3
+      '@codemirror/language': 6.12.1
       '@codemirror/lint': 6.9.2
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
-      '@lezer/common': 1.4.0
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
+      '@lezer/common': 1.5.0
       '@lezer/javascript': 1.5.4
 
   '@codemirror/lang-json@6.0.2':
     dependencies:
-      '@codemirror/language': 6.11.3
+      '@codemirror/language': 6.12.1
       '@lezer/json': 1.0.3
 
   '@codemirror/lang-vue@0.1.3':
     dependencies:
       '@codemirror/lang-html': 6.4.11
       '@codemirror/lang-javascript': 6.2.4
-      '@codemirror/language': 6.11.3
-      '@lezer/common': 1.4.0
+      '@codemirror/language': 6.12.1
+      '@lezer/common': 1.5.0
       '@lezer/highlight': 1.2.3
-      '@lezer/lr': 1.4.5
+      '@lezer/lr': 1.4.6
 
-  '@codemirror/language@6.11.3':
+  '@codemirror/language@6.12.1':
     dependencies:
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
-      '@lezer/common': 1.4.0
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
+      '@lezer/common': 1.5.0
       '@lezer/highlight': 1.2.3
-      '@lezer/lr': 1.4.5
+      '@lezer/lr': 1.4.6
       style-mod: 4.1.3
 
   '@codemirror/legacy-modes@6.5.2':
     dependencies:
-      '@codemirror/language': 6.11.3
+      '@codemirror/language': 6.12.1
 
   '@codemirror/lint@6.9.2':
     dependencies:
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
       crelt: 1.0.6
 
   '@codemirror/search@6.5.11':
     dependencies:
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
       crelt: 1.0.6
 
-  '@codemirror/state@6.5.2':
+  '@codemirror/state@6.5.3':
     dependencies:
       '@marijn/find-cluster-break': 1.0.2
 
-  '@codemirror/view@6.39.4':
+  '@codemirror/view@6.39.8':
     dependencies:
-      '@codemirror/state': 6.5.2
+      '@codemirror/state': 6.5.3
       crelt: 1.0.6
       style-mod: 4.1.3
       w3c-keyname: 2.2.8
@@ -6597,39 +6591,39 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@lezer/common@1.4.0': {}
+  '@lezer/common@1.5.0': {}
 
   '@lezer/css@1.3.0':
     dependencies:
-      '@lezer/common': 1.4.0
+      '@lezer/common': 1.5.0
       '@lezer/highlight': 1.2.3
-      '@lezer/lr': 1.4.5
+      '@lezer/lr': 1.4.6
 
   '@lezer/highlight@1.2.3':
     dependencies:
-      '@lezer/common': 1.4.0
+      '@lezer/common': 1.5.0
 
-  '@lezer/html@1.3.12':
+  '@lezer/html@1.3.13':
     dependencies:
-      '@lezer/common': 1.4.0
+      '@lezer/common': 1.5.0
       '@lezer/highlight': 1.2.3
-      '@lezer/lr': 1.4.5
+      '@lezer/lr': 1.4.6
 
   '@lezer/javascript@1.5.4':
     dependencies:
-      '@lezer/common': 1.4.0
+      '@lezer/common': 1.5.0
       '@lezer/highlight': 1.2.3
-      '@lezer/lr': 1.4.5
+      '@lezer/lr': 1.4.6
 
   '@lezer/json@1.0.3':
     dependencies:
-      '@lezer/common': 1.4.0
+      '@lezer/common': 1.5.0
       '@lezer/highlight': 1.2.3
-      '@lezer/lr': 1.4.5
+      '@lezer/lr': 1.4.6
 
-  '@lezer/lr@1.4.5':
+  '@lezer/lr@1.4.6':
     dependencies:
-      '@lezer/common': 1.4.0
+      '@lezer/common': 1.5.0
 
   '@marijn/find-cluster-break@1.0.2': {}
 
@@ -7441,11 +7435,11 @@ snapshots:
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
 
-  cm6-theme-nord@0.2.0(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.39.4)(@lezer/highlight@1.2.3):
+  cm6-theme-nord@0.2.0(@codemirror/language@6.12.1)(@codemirror/state@6.5.3)(@codemirror/view@6.39.8)(@lezer/highlight@1.2.3):
     dependencies:
-      '@codemirror/language': 6.11.3
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.39.4
+      '@codemirror/language': 6.12.1
+      '@codemirror/state': 6.5.3
+      '@codemirror/view': 6.39.8
       '@lezer/highlight': 1.2.3
 
   color-convert@2.0.1:
@@ -8626,8 +8620,6 @@ snapshots:
     dependencies:
       postcss: 8.5.3
 
-  idb-plus@0.2.0: {}
-
   ignore@5.3.2: {}
 
   ignore@6.0.2: {}
@@ -9666,10 +9658,10 @@ snapshots:
     dependencies:
       parse-ms: 4.0.0
 
-  prism-wiki@1.0.1(prismjs@1.30.0)(wikilint@2.32.0(typescript@5.8.3)):
+  prism-wiki@1.2.0(prismjs@1.30.0)(wikilint@2.33.0(typescript@5.8.3)):
     dependencies:
       prismjs: 1.30.0
-      wikilint: 2.32.0(typescript@5.8.3)
+      wikilint: 2.33.0(typescript@5.8.3)
     optional: true
 
   prismjs@1.30.0:
@@ -10708,10 +10700,10 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  wikilint@2.32.0(typescript@5.8.3):
+  wikilint@2.33.0(typescript@5.8.3):
     dependencies:
       '@bhsd/cm-util': 0.1.0
-      '@bhsd/common': 1.0.1
+      '@bhsd/common': 1.1.0
       '@bhsd/stylelint-util': 0.1.0(stylelint@16.26.1(typescript@5.8.3))
       binary-search: 1.3.6
       vscode-languageserver-types: 3.17.5
@@ -10730,10 +10722,10 @@ snapshots:
       - typescript
     optional: true
 
-  wikiparser-node@1.32.0(typescript@5.8.3)(wikilint@2.32.0(typescript@5.8.3)):
+  wikiparser-node@1.33.0(typescript@5.8.3)(wikilint@2.33.0(typescript@5.8.3)):
     dependencies:
       '@bhsd/cm-util': 0.1.0
-      '@bhsd/common': 1.0.1
+      '@bhsd/common': 1.1.0
       '@bhsd/stylelint-util': 0.1.0(stylelint@16.26.1(typescript@5.8.3))
       binary-search: 1.3.6
       vscode-languageserver-types: 3.17.5
@@ -10742,7 +10734,7 @@ snapshots:
       color-name: 2.1.0
       entities: 7.0.0
       mathoid-texvcjs: 0.6.0
-      prism-wiki: 1.0.1(prismjs@1.30.0)(wikilint@2.32.0(typescript@5.8.3))
+      prism-wiki: 1.2.0(prismjs@1.30.0)(wikilint@2.33.0(typescript@5.8.3))
       prismjs: 1.30.0
       stylelint: 16.26.1(typescript@5.8.3)
       vscode-css-languageservice: 6.3.9

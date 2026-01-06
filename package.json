@@ -47,13 +47,12 @@
 		"MediaWiki Gadget"
 	],
 	"dependencies": {
-		"@bhsd/browser": "^0.0.1",
-		"@bhsd/codemirror-mediawiki": "^3.6.6",
+		"@bhsd/browser": "^0.2.1",
+		"@bhsd/codemirror-mediawiki": "^3.8.1",
 		"@types/toastify-js": "^1.12.4",
 		"chinese-days": "^1.5.4",
 		"clipboard": "^2.0.11",
 		"filter-altered-clicks": "^2.1.1",
-		"idb-plus": "^0.2.0",
 		"jsx-dom": "^8.1.6",
 		"monaco-editor": "^0.55.1",
 		"select2": "^4.0.13",
