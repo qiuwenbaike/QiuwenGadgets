@@ -1,0 +1,232 @@
+@import (reference) '../variables.less';
+
+body.rootpage-Qiuwen_2026年春节编辑松 {
+	/* Project:春节编辑马拉松/styles.css */
+
+	.sf-root {
+		--sf-red: @const-color-red;
+		--sf-darkred: @const-color-darkred;
+		--sf-gold: @const-color-orange;
+		--sf-bg-light: #fffaf0; /* 暖白背景 */
+		--sf-border: #e6e6e6;
+		--sf-text-main: #333;
+		font-family: sans-serif;
+		color: var(--sf-text-main);
+		background-color: var(--sf-bg-light);
+		border: 1px solid #ddd;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	/* 顶部 Header */
+	.sf-header {
+		--sf-red-1: #bd4708;
+		--sf-red-2: #e75a1c;
+		--sf-red-3: #950d4e;
+		--sf-red-4: #c5114a;
+		--sf-gradient-1: radial-gradient(circle at 35% 5% in oklch, var(--sf-red-1), transparent 60%);
+		--sf-gradient-2: radial-gradient(circle at 5% 95% in oklch, var(--sf-red-2), transparent 60%);
+		--sf-gradient-3: radial-gradient(circle at 95% 5% in oklch, var(--sf-red-3), transparent 60%);
+		--sf-gradient-4: radial-gradient(circle at 65% 95% in oklch, var(--sf-red-4), transparent 60%);
+		--sf-gradient-grid: repeating-linear-gradient(135deg, #fff1 0 8px, transparent 8px 16px);
+		--sf-gradient-base: linear-gradient(135deg, var(--sf-darkred), var(--sf-red));
+		--sf-gradient:
+			var(--sf-gradient-grid), var(--sf-gradient-1), var(--sf-gradient-2), var(--sf-gradient-3),
+			var(--sf-gradient-4), var(--sf-gradient-base);
+		background-image: var(--sf-gradient);
+		color: @const-color-white;
+		padding: 2rem;
+		text-align: center;
+		position: relative;
+		border-bottom: 4px solid var(--sf-gold);
+		border-radius: 4px 4px 0 0;
+	}
+
+	.sf-title {
+		font-family: 'Microsoft YaHei', 'SimHei', serif;
+		font-size: 2.5em;
+		font-weight: bold;
+		margin: 0;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+	}
+
+	.sf-subtitle {
+		font-size: 1.25em;
+		margin-top: 0.5em;
+		opacity: 0.9;
+	}
+
+	.sf-date {
+		display: inline-block;
+		background: rgba(255, 255, 255, 0.2);
+		padding: 0.2em 1em;
+		border-radius: 20px;
+		margin-top: 1em;
+		font-weight: bold;
+		backdrop-filter: blur(10px);
+	}
+
+	/* 导航栏 */
+	.sf-nav {
+		display: flex;
+		flex-wrap: wrap;
+		background: #fff;
+		border-bottom: 2px solid var(--sf-red);
+	}
+
+	.sf-nav-item {
+		flex: 1;
+		min-width: 120px;
+		text-align: center;
+		padding: 0;
+		background: #fff;
+		color: var(--sf-darkred);
+		font-weight: bold;
+		border-right: 1px solid #eee;
+	}
+
+	.sf-nav-item a {
+		color: var(--sf-darkred);
+		text-decoration: none;
+		display: block;
+		padding: 1em;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		transition: all 0.2s;
+	}
+
+	.sf-nav-item a:hover,
+	.sf-nav-item a:focus {
+		background: var(--sf-red);
+		color: @const-color-white;
+		text-decoration: none;
+	}
+
+	.sf-nav-item.active {
+		background: var(--sf-darkred);
+		color: @const-color-white;
+	}
+
+	.sf-nav-item.active a {
+		color: @const-color-white;
+		background: transparent;
+	}
+
+	/* 主内容网格 */
+	.sf-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1rem;
+		padding: 0.5rem;
+	}
+
+	/* 通用卡片样式 */
+	.sf-card {
+		background: @const-color-white;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+		border-top: 4px solid var(--sf-red);
+		padding: 1.5rem;
+		transition: transform 0.2s;
+	}
+
+	.sf-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+	}
+
+	.sf-card-title {
+		font-size: 1.5em;
+		color: var(--sf-darkred);
+		border-bottom: 1px dashed #ccc;
+		padding-bottom: 0.5em;
+		margin-bottom: 1em;
+		font-weight: bold;
+	}
+
+	/* 特殊卡片背景 */
+	.sf-card.primary {
+		background: #fff5f5;
+		border-color: var(--sf-darkred);
+	}
+
+	.sf-card.secondary {
+		background: #fffff0;
+		border-color: var(--sf-gold);
+	}
+
+	/* 双栏布局辅助类 */
+	.sf-col-2 {
+		grid-column: span 2;
+	}
+
+	@media (max-width: 768px) {
+		.sf-col-2 {
+			grid-column: span 1;
+		}
+
+		.sf-title {
+			font-size: 1.8em;
+		}
+	}
+
+	/* 提交表格优化样式 */
+	.sf-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1em 0;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	}
+
+	.sf-table th {
+		background: var(--sf-red);
+		color: @const-color-white;
+		padding: 12px 15px;
+		text-align: left;
+		font-weight: bold;
+		border-bottom: 3px solid var(--sf-darkred);
+	}
+
+	.sf-table td {
+		padding: 12px 15px;
+		border-bottom: 1px solid #eee;
+		color: #444;
+	}
+
+	.sf-table tr:hover td {
+		background-color: #fff5f5;
+	}
+
+	/* 状态标签样式 */
+	.sf-status-pending {
+		display: inline-block;
+		padding: 2px 8px;
+		background: #e6f7ff;
+		color: #1890ff;
+		border: 1px solid #91d5ff;
+		border-radius: 4px;
+		font-size: 0.9em;
+	}
+
+	.sf-status-success {
+		display: inline-block;
+		padding: 2px 8px;
+		background: #f6ffed;
+		color: #52c41a;
+		border: 1px solid #b7eb8f;
+		border-radius: 4px;
+		font-size: 0.9em;
+	}
+
+	.sf-status-error {
+		display: inline-block;
+		padding: 2px 8px;
+		background: #fff1f0;
+		color: #f5222d;
+		border: 1px solid #ffa39e;
+		border-radius: 4px;
+		font-size: 0.9em;
+	}
+}
