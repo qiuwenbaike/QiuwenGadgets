@@ -5,6 +5,11 @@ import {ajaxLogin} from './modules/core';
 import {windowManager} from './modules/initWindowManager';
 
 void getBody().then(function initAutoLogin($body: JQuery<HTMLBodyElement>): void {
+	// Guard against double inclusions
+	if (mw.config.get(OPTIONS.configKey)) {
+		return;
+	}
+
 	const {wgUserName} = mw.config.get();
 
 	if (wgUserName) {
@@ -31,4 +36,7 @@ void getBody().then(function initAutoLogin($body: JQuery<HTMLBodyElement>): void
 		ajaxLogin(fakeToastifyInstance);
 	};
 	addListener($loginElement, eventListener);
+
+	// Set guard
+	mw.config.set(OPTIONS.configKey, true);
 });
