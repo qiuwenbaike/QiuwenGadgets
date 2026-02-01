@@ -97,7 +97,7 @@ function checkThisPage(preferredVariant: Variant, pageVariant?: Variant): void {
 	redirect(preferredVariant, {link: redirectionURL.toString()});
 }
 
-function rewriteAnchors(variant: Variant): void {
+function rewriteNavigation(variant: Variant): void {
 	for (const name of ['click', 'auxclick', 'dragstart']) {
 		document.addEventListener(name, (ev) => {
 			const {target} = ev;
@@ -152,6 +152,37 @@ function rewriteAnchors(variant: Variant): void {
 			}
 		});
 	}
+
+	// Alter <form> submission actions, especially for edit forms
+	// to prevent a later refresh causing loss of the edit buffer
+	document.addEventListener('submit', (ev) => {
+		const {target} = ev;
+
+		if (target instanceof HTMLFormElement) {
+			// Use getAttribute & setAttribute to work around https://github.com/wikimedia-gadgets/VariantAlly/issues/14
+			const submitUrl = target.getAttribute('action');
+			if (submitUrl && isEligibleForRewriting(submitUrl)) {
+				const method = target.getAttribute('method') ?? 'get';
+
+				if (method === 'get') {
+					// In GET forms, query parameters in action are striped, so add it via a hidden <input>
+					// See https://stackoverflow.com/questions/1116019/when-submitting-a-get-form-the-query-string-is-removed-from-the-action-url
+
+					// Remove existing variant <input>'s, should only be caused by bfcache due to the special
+					// role of ?variant in MediaWiki
+					for (const elem of target.querySelectorAll('input[name="variant"]')) elem.remove();
+
+					const variantInput = document.createElement('input');
+					variantInput.type = 'hidden';
+					variantInput.name = 'variant';
+					variantInput.value = variant; // TODO: No normalization here, but should not be a big problem
+					target.append(variantInput);
+				} else {
+					target.setAttribute('action', rewriteLink(submitUrl, variant));
+				}
+			}
+		}
+	});
 }
 
 function showVariantPrompt(): void {
@@ -179,7 +210,7 @@ export {
 	rewriteLink,
 	redirect,
 	checkThisPage,
-	rewriteAnchors,
+	rewriteNavigation,
 	showVariantPrompt,
 	applyURLVariant,
 };

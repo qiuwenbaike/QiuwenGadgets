@@ -1,12 +1,19 @@
 import {
 	checkThisPage,
-	rewriteAnchors,
+	rewriteNavigation,
 	applyURLVariant,
 	showVariantPrompt,
 	isEligibleForRewriting,
 } from './modules/controller';
 import {calculatePreferredVariant, getPageVariant, isOptOuted, setLocalVariant} from './modules/model';
-import {isLoggedIn, isLangChinese, isWikitextPage, isViewingPage, isReferrerSelf} from './modules/utils';
+import {
+	isLoggedIn,
+	isLangChinese,
+	isReferrerBlocked,
+	isWikitextPage,
+	isViewingPage,
+	isReferrerSelf,
+} from './modules/utils';
 
 function main() {
 	// Manually opt outed users
@@ -40,7 +47,7 @@ function main() {
 		// Such page can't have variant, but preferred variant may be available
 		// So still rewrite links
 		if (preferredVariant !== null) {
-			rewriteAnchors(preferredVariant);
+			rewriteNavigation(preferredVariant);
 		}
 		return;
 	}
@@ -55,16 +62,21 @@ function main() {
 		return;
 	}
 
+	if (isReferrerBlocked()) {
+		rewriteNavigation(preferredVariant);
+		return;
+	}
+
 	// On-site navigation to links ineligible for writing
 	// The eligibility check is require because user may click on a link with variant intentionally
 	// e.g. variant dropdown and {{Variant-cnhktwsg}}
 	if (isReferrerSelf() && !isEligibleForRewriting(location.href)) {
-		rewriteAnchors(preferredVariant);
+		rewriteNavigation(preferredVariant);
 		return;
 	}
 
 	checkThisPage(preferredVariant, pageVariant);
-	rewriteAnchors(preferredVariant);
+	rewriteNavigation(preferredVariant);
 }
 
 main();
