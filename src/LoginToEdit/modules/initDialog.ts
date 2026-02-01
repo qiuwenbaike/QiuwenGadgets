@@ -34,7 +34,7 @@ const initDialog = ($body: JQuery<HTMLBodyElement>): void => {
 		messageDialog.getActionProcess = (action: string): OO.ui.Process => {
 			if (action === 'login') {
 				const $element: JQuery<HTMLAnchorElement> = $(OPTIONS.loginElementSelector);
-				if ($element.length) {
+				if ($element.length && mw.config.get(OPTIONS.configKey) === true) {
 					$element.trigger('click');
 				} else {
 					location.href = loginURL;
