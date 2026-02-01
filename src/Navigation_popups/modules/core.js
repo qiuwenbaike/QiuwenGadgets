@@ -4382,7 +4382,7 @@ const popups = () => {
 				return;
 			}
 			const content =
-				page && page.revisions && page.revisions[0].contentmodel === 'wikitext'
+				page && page.revisions && page.revisions[0] && page.revisions[0].content
 					? page.revisions[0].content
 					: null;
 			if (typeof content === 'string') {
