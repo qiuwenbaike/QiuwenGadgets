@@ -3,7 +3,7 @@ import {localize} from 'ext.gadget.i18n';
 const getI18nMessages = () => {
 	return {
 		'Based on contributions of': localize({
-			en: 'Based on contributions of',
+			en: 'Based on contributions of ',
 			'zh-hans': '基于下列用户的贡献：',
 			'zh-hant': '基于下列使用者的貢獻：',
 		}),
