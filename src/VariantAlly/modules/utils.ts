@@ -1,3 +1,5 @@
+const BLOCKED_REFERRER_HOST = /^([a-z]+\.)?(bkwz\.cn|qwbk\.cc|qwbk\.org)$/i;
+
 function isLoggedIn(): boolean {
 	return mw.config.exists('wgUserId');
 }
@@ -8,6 +10,15 @@ function isLoggedIn(): boolean {
 function isReferrerSelf(): boolean {
 	try {
 		return new URL(document.referrer).hostname === location.hostname;
+	} catch {
+		// Invalid URL
+		return false;
+	}
+}
+
+function isReferrerBlocked(): boolean {
+	try {
+		return BLOCKED_REFERRER_HOST.test(new URL(document.referrer).hostname);
 	} catch {
 		// Invalid URL
 		return false;
@@ -30,4 +41,4 @@ function isWikitextPage(): boolean {
 	return mw.config.get('wgCanonicalNamespace') !== 'Special' && mw.config.get('wgPageContentModel') === 'wikitext';
 }
 
-export {isLoggedIn, isReferrerSelf, isViewingPage, isLangChinese, isWikitextPage};
+export {isLoggedIn, isReferrerSelf, isReferrerBlocked, isViewingPage, isLangChinese, isWikitextPage};
