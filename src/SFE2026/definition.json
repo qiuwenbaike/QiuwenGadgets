@@ -1,6 +1,7 @@
 {
 	"enable": true,
 	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-SFE2026\"></span> 2026年春节编辑松活动页样式",
+	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike"],
 	"default": true,
 	"hidden": true,
 	"namespaces": [4]
