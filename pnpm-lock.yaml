@@ -839,8 +839,8 @@ packages:
     resolution: {integrity: sha512-R8eLy+wEYWn7jCPbLEMLZ5hBwHhv45NqDkZTxBQul3mvzeYC+r5OQPTNkGrqzqQTN7FT+8p5OPA9disLmszTVw==}
     engines: {node: '>=18.17.0'}
 
-  '@bhsd/common@1.3.0':
-    resolution: {integrity: sha512-TdanA2sRfCRHVabYWkuo0aAfnJmH5CgqO8Febme96Q8tguqVhnHofKUDELVXwndAtvbEFkCZoBsoqZQAJBRycA==}
+  '@bhsd/common@1.3.1':
+    resolution: {integrity: sha512-Kf5uIG4gPdNj51Eqy7PzZ1s0C8ERpv6olF9BeW7tNoPbvqWNlnYG3TQyo9s2OD5V0TsUuyTbEGI7cG7RAZ0Ouw==}
     engines: {node: '>=18.17.0'}
 
   '@bhsd/stylelint-util@0.1.0':
@@ -5921,7 +5921,7 @@ snapshots:
 
   '@bhsd/common@1.1.0': {}
 
-  '@bhsd/common@1.3.0':
+  '@bhsd/common@1.3.1':
     optional: true
 
   '@bhsd/stylelint-util@0.1.0(stylelint@16.26.1(typescript@5.8.3))':
@@ -10719,7 +10719,7 @@ snapshots:
   wikilint@2.33.0(typescript@5.8.3):
     dependencies:
       '@bhsd/cm-util': 0.1.0
-      '@bhsd/common': 1.3.0
+      '@bhsd/common': 1.3.1
       '@bhsd/stylelint-util': 0.1.0(stylelint@16.26.1(typescript@5.8.3))
       binary-search: 1.3.6
       vscode-languageserver-types: 3.17.5
