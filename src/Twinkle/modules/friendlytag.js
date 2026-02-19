@@ -1553,7 +1553,7 @@
 				const removedTags = params.tagsToRemove.map(makeTemplateLink);
 				if (addedTags.length) {
 					summaryText = `加入${makeSentence(addedTags)}`;
-					summaryText += removedTags.length ? `並移除${makeSentence(removedTags)}` : '';
+					summaryText += removedTags.length ? `并移除${makeSentence(removedTags)}` : '';
 				} else {
 					summaryText = `移除${makeSentence(removedTags)}`;
 				}
