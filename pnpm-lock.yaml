@@ -41,7 +41,7 @@ importers:
         version: 0.3.0
       '@bhsd/codemirror-mediawiki':
         specifier: ^3.11.3
-        version: 3.11.3(@lezer/highlight@1.2.3)(stylelint@17.4.0(typescript@5.8.3))(typescript@5.8.3)
+        version: 3.11.3(@lezer/highlight@1.2.3)(stylelint@16.26.1(typescript@5.8.3))(typescript@5.8.3)
       '@types/toastify-js':
         specifier: ^1.12.4
         version: 1.12.4
@@ -275,11 +275,11 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       stylelint:
-        specifier: ^17.0.0
-        version: 17.4.0(typescript@5.8.3)
+        specifier: ^16.26.1
+        version: 16.26.1(typescript@5.8.3)
       stylelint-config-css-modules:
         specifier: ^4.6.0
-        version: 4.6.0(stylelint@17.4.0(typescript@5.8.3))
+        version: 4.6.0(stylelint@16.26.1(typescript@5.8.3))
       stylelint-config-wikimedia:
         specifier: ^0.18.0
         version: 0.18.0(postcss-less@6.0.0(postcss@8.5.3))(typescript@5.8.3)
@@ -1594,36 +1594,42 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm-musl@2.5.1':
     resolution: {integrity: sha512-6E+m/Mm1t1yhB8X412stiKFG3XykmgdIOqhjWj+VL8oHkKABfu/gjFj8DvLrYVHSBNC+/u5PeNrujiSQ1zwd1Q==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-arm64-glibc@2.5.1':
     resolution: {integrity: sha512-LrGp+f02yU3BN9A+DGuY3v3bmnFUggAITBGriZHUREfNEzZh/GO06FF5u2kx8x+GBEUYfyTGamol4j3m9ANe8w==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm64-musl@2.5.1':
     resolution: {integrity: sha512-cFOjABi92pMYRXS7AcQv9/M1YuKRw8SZniCDw0ssQb/noPkRzA+HBDkwmyOJYp5wXcsTrhxO0zq1U11cK9jsFg==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-x64-glibc@2.5.1':
     resolution: {integrity: sha512-GcESn8NZySmfwlTsIur+49yDqSny2IhPeZfXunQi48DMugKeZ7uy1FX83pO0X22sHntJ4Ub+9k34XQCX+oHt2A==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-x64-musl@2.5.1':
     resolution: {integrity: sha512-n0E2EQbatQ3bXhcH2D1XIAANAcTZkQICBPVaxMeaCVBtOpBZpWJuf7LwyWPSBDITb7In8mqQgJ7gH8CILCURXg==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-win32-arm64@2.5.1':
     resolution: {integrity: sha512-RFzklRvmc3PkjKjry3hLF9wD7ppR4AKcWNzH7kXR7GUe0Igb3Nz8fyPwtZCSquGrhU5HhUNDr/mKBqj7tqA2Vw==}
@@ -3670,24 +3676,28 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.29.3:
     resolution: {integrity: sha512-dxakOk66pf7KLS7VRYFO7B8WOJLecE5OPL2YOk52eriFd/yeyxt2Km5H0BjLfElokIaR+qWi33gB8MQLrdAY3A==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.29.3:
     resolution: {integrity: sha512-ySZTNCpbfbK8rqpKJeJR2S0g/8UqqV3QnzcuWvpI60LWxnFN91nxpSSwCbzfOXkzKfar9j5eOuOplf+klKtINg==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.29.3:
     resolution: {integrity: sha512-3pVZhIzW09nzi10usAXfIGTTSTYQ141dk88vGFNCgawIzayiIzZQxEcxVtIkdvlEq2YuFsL9Wcj/h61JHHzuFQ==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.29.3:
     resolution: {integrity: sha512-VRnkAvtIkeWuoBJeGOTrZxsNp4HogXtcaaLm8agmbYtLDOhQdpgxW6NjZZjDXbvGF+eOehGulXZ3C1TiwHY4QQ==}
@@ -4891,6 +4901,11 @@ packages:
     engines: {node: '>=18.12.0'}
     hasBin: true
 
+  stylelint@16.26.1:
+    resolution: {integrity: sha512-v20V59/crfc8sVTAtge0mdafI3AdnzQ2KsWe6v523L4OA1bJO02S7MO2oyXDCS6iWb9ckIPnqAFVItqSBQr7jw==}
+    engines: {node: '>=18.12.0'}
+    hasBin: true
+
   stylelint@17.4.0:
     resolution: {integrity: sha512-3kQ2/cHv3Zt8OBg+h2B8XCx9evEABQIrv4hh3uXahGz/ZEHrTR80zxBiK2NfXNaSoyBzxO1pjsz1Vhdzwn5XSw==}
     engines: {node: '>=20.19.0'}
@@ -5993,14 +6008,14 @@ snapshots:
       '@codemirror/state': 6.5.4
       '@codemirror/view': 6.39.16
 
-  '@bhsd/codemirror-mediawiki@3.11.3(@lezer/highlight@1.2.3)(stylelint@17.4.0(typescript@5.8.3))(typescript@5.8.3)':
+  '@bhsd/codemirror-mediawiki@3.11.3(@lezer/highlight@1.2.3)(stylelint@16.26.1(typescript@5.8.3))(typescript@5.8.3)':
     dependencies:
       '@bhsd/browser': 0.3.0
       '@bhsd/cm-util': 0.1.0
       '@bhsd/codemirror-css-color-picker': 6.3.2(@codemirror/language@6.12.2)(@codemirror/state@6.5.4)(@codemirror/view@6.39.16)
       '@bhsd/common': 1.3.1
       '@bhsd/lezer-abusefilter': 0.1.2
-      '@bhsd/stylelint-util': 1.0.1(stylelint@17.4.0(typescript@5.8.3))
+      '@bhsd/stylelint-util': 1.0.1(stylelint@16.26.1(typescript@5.8.3))
       '@codemirror/autocomplete': 6.20.1
       '@codemirror/commands': 6.10.2
       '@codemirror/lang-css': 6.3.1
@@ -6029,6 +6044,12 @@ snapshots:
     dependencies:
       '@codemirror/language': 6.12.2
       '@codemirror/lint': 6.9.5
+
+  '@bhsd/stylelint-util@1.0.1(stylelint@16.26.1(typescript@5.8.3))':
+    dependencies:
+      stylelint-config-recommended: 18.0.0(stylelint@16.26.1(typescript@5.8.3))
+    transitivePeerDependencies:
+      - stylelint
 
   '@bhsd/stylelint-util@1.0.1(stylelint@17.4.0(typescript@5.8.3))':
     dependencies:
@@ -10359,15 +10380,19 @@ snapshots:
 
   style-search@0.1.0: {}
 
-  stylelint-config-css-modules@4.6.0(stylelint@17.4.0(typescript@5.8.3)):
+  stylelint-config-css-modules@4.6.0(stylelint@16.26.1(typescript@5.8.3)):
     dependencies:
-      stylelint: 17.4.0(typescript@5.8.3)
+      stylelint: 16.26.1(typescript@5.8.3)
     optionalDependencies:
-      stylelint-scss: 7.0.0(stylelint@17.4.0(typescript@5.8.3))
+      stylelint-scss: 7.0.0(stylelint@16.26.1(typescript@5.8.3))
 
   stylelint-config-recommended@14.0.1(stylelint@16.12.0(typescript@5.8.3)):
     dependencies:
       stylelint: 16.12.0(typescript@5.8.3)
+
+  stylelint-config-recommended@18.0.0(stylelint@16.26.1(typescript@5.8.3)):
+    dependencies:
+      stylelint: 16.26.1(typescript@5.8.3)
 
   stylelint-config-recommended@18.0.0(stylelint@17.4.0(typescript@5.8.3)):
     dependencies:
@@ -10393,7 +10418,7 @@ snapshots:
       postcss: 8.5.6
       stylelint: 16.12.0(typescript@5.8.3)
 
-  stylelint-scss@7.0.0(stylelint@17.4.0(typescript@5.8.3)):
+  stylelint-scss@7.0.0(stylelint@16.26.1(typescript@5.8.3)):
     dependencies:
       css-tree: 3.1.0
       is-plain-object: 5.0.0
@@ -10403,7 +10428,7 @@ snapshots:
       postcss-resolve-nested-selector: 0.1.6
       postcss-selector-parser: 7.1.1
       postcss-value-parser: 4.2.0
-      stylelint: 17.4.0(typescript@5.8.3)
+      stylelint: 16.26.1(typescript@5.8.3)
     optional: true
 
   stylelint@16.12.0(typescript@5.8.3):
@@ -10427,6 +10452,51 @@ snapshots:
       globjoin: 0.1.4
       html-tags: 3.3.1
       ignore: 6.0.2
+      imurmurhash: 0.1.4
+      is-plain-object: 5.0.0
+      known-css-properties: 0.37.0
+      mathml-tag-names: 2.1.3
+      meow: 13.2.0
+      micromatch: 4.0.8
+      normalize-path: 3.0.0
+      picocolors: 1.1.1
+      postcss: 8.5.6
+      postcss-resolve-nested-selector: 0.1.6
+      postcss-safe-parser: 7.0.1(postcss@8.5.6)
+      postcss-selector-parser: 7.1.1
+      postcss-value-parser: 4.2.0
+      resolve-from: 5.0.0
+      string-width: 4.2.3
+      supports-hyperlinks: 3.2.0
+      svg-tags: 1.0.0
+      table: 6.9.0
+      write-file-atomic: 5.0.1
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  stylelint@16.26.1(typescript@5.8.3):
+    dependencies:
+      '@csstools/css-parser-algorithms': 3.0.5(@csstools/css-tokenizer@3.0.4)
+      '@csstools/css-syntax-patches-for-csstree': 1.0.29
+      '@csstools/css-tokenizer': 3.0.4
+      '@csstools/media-query-list-parser': 4.0.3(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)
+      '@csstools/selector-specificity': 5.0.0(postcss-selector-parser@7.1.1)
+      '@dual-bundle/import-meta-resolve': 4.2.1
+      balanced-match: 2.0.0
+      colord: 2.9.3
+      cosmiconfig: 9.0.0(typescript@5.8.3)
+      css-functions-list: 3.3.3
+      css-tree: 3.1.0
+      debug: 4.4.3
+      fast-glob: 3.3.3
+      fastest-levenshtein: 1.0.16
+      file-entry-cache: 11.1.2
+      global-modules: 2.0.0
+      globby: 11.1.0
+      globjoin: 0.1.4
+      html-tags: 3.3.1
+      ignore: 7.0.5
       imurmurhash: 0.1.4
       is-plain-object: 5.0.0
       known-css-properties: 0.37.0
