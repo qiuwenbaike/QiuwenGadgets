@@ -1,9 +1,8 @@
 /**!
  * @name Wikiplus-highlight Wikiplus编辑器的CodeMirror语法高亮扩展
  * @author Bhsd <https://github.com/bhsd-harry>
- * @license GPL-3.0
+ * @license GPL-3.0-or-later
  */
-import './style.less';
 import {CDN} from '@bhsd/browser';
 import {renderEditor} from './core';
 
@@ -18,7 +17,7 @@ declare namespace mediaWiki.libs {
 	const {libs} = mediaWiki,
 		{wphl} = libs;
 	if (!wphl?.version) {
-		const version = '3.3.1';
+		const version = '3.4.1';
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
