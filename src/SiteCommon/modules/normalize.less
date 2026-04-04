@@ -1,7 +1,8 @@
 @import (reference) '../../variables.less';
 
 /* 变量 */
-:root {
+:root,
+html {
 	&,
 	&:lang(zh),
 	&:lang(zh-hans) {
@@ -39,11 +40,13 @@ q {
 	/* 双引号：“”；单引号：‘’ */
 	quotes: '“' '”' '‘' '’';
 
+	:root:lang(zh-hant) &,
 	html:lang(zh-hant) & {
 		/* 外引号：「」；内引号：『』 */
 		quotes: '「' '」' '『' '』';
 	}
 
+	:root:lang(en) &,
 	html:lang(en) & {
 		/* 外引号：""；内引号：'' */
 		quotes: '"' '"' "'" "'";
