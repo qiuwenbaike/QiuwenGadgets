@@ -5,11 +5,11 @@ const {wgPageName: page, wgNamespaceNumber: ns, wgPageContentModel: contentmodel
 const CONTENTMODELS: Record<string, string> = {
 		wikitext: 'mediawiki',
 	},
-	EXTS: Record<string, string> = {
-		css: 'css',
-		js: 'javascript',
-		json: 'json',
-	},
+	EXTS = new Map<string, string>([
+		['css', 'css'],
+		['js', 'javascript'],
+		['json', 'json'],
+	]),
 	NAMESPACES: Record<number, string> = {
 		828: 'lua',
 		274: 'html',
@@ -48,7 +48,7 @@ const getPageMode = async (value: string): Promise<[string, (number | undefined)
 				if (namespace % 2) {
 					return 'mediawiki';
 				}
-				const mode = EXTS[t.getExtension()?.toLowerCase() ?? ''] ?? NAMESPACES[namespace];
+				const mode = EXTS.get(t.getExtension()?.toLowerCase() ?? '') ?? NAMESPACES[namespace];
 				switch (mode) {
 					case 'javascript':
 						return namespace === 8 || namespace === 2300 ? 'gadget' : mode;

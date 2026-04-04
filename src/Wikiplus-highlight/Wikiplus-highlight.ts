@@ -1,3 +1,4 @@
+import './style.less';
 import {checkDependencies} from 'ext.gadget.Util';
 
 (function WikiplusHighlight() {
@@ -20,7 +21,7 @@ import {checkDependencies} from 'ext.gadget.Util';
 			await mw.loader.using('ext.visualEditor.core');
 		}
 
-		await import('./modules/main');
+		await import('./src/main');
 	};
 
 	void loader();
