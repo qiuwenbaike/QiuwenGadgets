@@ -1266,11 +1266,8 @@ import {generateArray} from 'ext.gadget.Util';
 			autoblock: true,
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('散发[[QW:SOAP|散发广告或宣传]]', '散發[[QW:SOAP|散發廣告或宣傳]]'),
-			summary: window.wgULS(
-				'封禁通知：散发[[QW:SOAP|散发广告或宣传]]',
-				'封鎖通知：散發[[QW:SOAP|散發廣告或宣傳]]'
-			),
+			reason: window.wgULS('[[QW:SOAP|散发广告或宣传]]', '[[QW:SOAP|散發廣告或宣傳]]'),
+			summary: window.wgULS('封禁通知：[[QW:SOAP|散发广告或宣传]]', '封鎖通知：[[QW:SOAP|散發廣告或宣傳]]'),
 		},
 		'uw-attackblock': {
 			autoblock: true,
