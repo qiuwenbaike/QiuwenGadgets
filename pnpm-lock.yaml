@@ -135,7 +135,7 @@ importers:
         version: 7.0.7
       '@types/oojs-ui':
         specifier: latest
-        version: 0.49.4
+        version: 0.50.0
       '@types/prompts':
         specifier: ^2.4.9
         version: 2.4.9
@@ -1791,8 +1791,8 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
-  '@types/oojs-ui@0.49.4':
-    resolution: {integrity: sha512-uSBQbpjL2EeuTgzt64j+LgfUv8OqK68FLebFYfS1tu+icBFhlj4NnAczmQ0uIZkQ+DnUvCkw5hDDShNyxevUWw==}
+  '@types/oojs-ui@0.50.0':
+    resolution: {integrity: sha512-ymTtszJuxtH2ojT9m8EbuLqBshBuqNTAWVc1RGlPr/iBq6xIWzPkuYxw5zGhlAcnSahvVx3UerN/0hA5Slfb3w==}
 
   '@types/oojs@7.0.7':
     resolution: {integrity: sha512-l99Ab1s+EhCWR/38z5VI3aimTT9QZNjpd3JlJnECHXq6uJ/osLchkkhVfY7ANeOMVT978LawYO4JyOYPQO7VLQ==}
@@ -7162,7 +7162,7 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
-  '@types/oojs-ui@0.49.4':
+  '@types/oojs-ui@0.50.0':
     dependencies:
       '@types/jquery': 3.5.32
       '@types/oojs': 7.0.7
@@ -11027,7 +11027,7 @@ snapshots:
   types-mediawiki@1.10.1(patch_hash=4957ddbd0fe611e2bd128d657a2ad085926e70f339264cb8a5527038c0a13cf3)(vue@3.4.27(typescript@5.8.3)):
     dependencies:
       '@types/jquery': 3.5.32
-      '@types/oojs-ui': 0.49.4
+      '@types/oojs-ui': 0.50.0
     optionalDependencies:
       vue: 3.4.27(typescript@5.8.3)
 
