@@ -95,6 +95,7 @@
 		"caniuse-api": "^3.0.0",
 		"chalk": "^5.4.1",
 		"core-js": "^3.49.0",
+		"fast-uri": ">=3.1.2",
 		"flatted": ">=3.4.2",
 		"esbuild": "^0.25.3",
 		"esbuild-css-modules-plugin": "^3.1.5",
