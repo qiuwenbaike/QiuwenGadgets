@@ -1,5 +1,5 @@
 diff --git a/index.d.ts b/index.d.ts
-index 6a0d495..deeb1fe 100644
+index 9e1ed1acf8d0e28e3e6919b2898d65bc9ded2c99..4dd6d5ab58b809b4051113c12f3ea55a69970621 100644
 --- a/index.d.ts
 +++ b/index.d.ts
 @@ -51,6 +51,7 @@ export interface ApiParams extends UnknownApiParams {
@@ -10,17 +10,15 @@ index 6a0d495..deeb1fe 100644
      errorformat?: "bc" | "html" | "none" | "plaintext" | "raw" | "wikitext";
      errorlang?: string;
      errorsuselocal?: boolean;
-@@ -473,19 +474,7 @@ export interface DiscussionToolsApiDiscussionToolsEditParams extends ApiParams {
+@@ -438,17 +439,7 @@ export interface DiscussionToolsApiDiscussionToolsEditParams extends ApiParams {
      summary?: string;
      sectiontitle?: string;
      allownosectiontitle?: boolean;
 -    useskin?:
 -        | "apioutput"
--        | "authentication-popup"
 -        | "cologneblue"
 -        | "contenttranslation"
 -        | "fallback"
--        | "json"
 -        | "minerva"
 -        | "modern"
 -        | "monobook"
@@ -31,17 +29,15 @@ index 6a0d495..deeb1fe 100644
      watchlist?: string;
      captchaid?: string;
      captchaword?: string;
-@@ -519,19 +508,7 @@ export interface DiscussionToolsApiDiscussionToolsPreviewParams extends ApiParam
+@@ -482,17 +473,7 @@ export interface DiscussionToolsApiDiscussionToolsPreviewParams extends ApiParam
      page?: string;
      wikitext?: string;
      sectiontitle?: string;
 -    useskin?:
 -        | "apioutput"
--        | "authentication-popup"
 -        | "cologneblue"
 -        | "contenttranslation"
 -        | "fallback"
--        | "json"
 -        | "minerva"
 -        | "modern"
 -        | "monobook"
@@ -51,8 +47,8 @@ index 6a0d495..deeb1fe 100644
 +    useskin?: string;
      mobileformat?: boolean;
  }
-
-@@ -982,17 +959,7 @@ export interface ApiImportParams extends ApiParams {
+ 
+@@ -915,17 +896,7 @@ export interface ApiImportParams extends ApiParams {
      summary?: string;
      xml?: upload;
      interwikiprefix?: string;
@@ -71,17 +67,15 @@ index 6a0d495..deeb1fe 100644
      interwikipage?: string;
      fullhistory?: boolean;
      templates?: boolean;
-@@ -1435,19 +1402,7 @@ export interface ApiParseParams extends ApiParams {
+@@ -1357,17 +1328,7 @@ export interface ApiParseParams extends ApiParams {
      preview?: boolean;
      sectionpreview?: boolean;
      disabletoc?: boolean;
 -    useskin?:
 -        | "apioutput"
--        | "authentication-popup"
 -        | "cologneblue"
 -        | "contenttranslation"
 -        | "fallback"
--        | "json"
 -        | "minerva"
 -        | "modern"
 -        | "monobook"
@@ -92,17 +86,15 @@ index 6a0d495..deeb1fe 100644
      contentformat?:
          | "application/json"
          | "application/octet-stream"
-@@ -2895,19 +2850,7 @@ export interface VisualEditorApiVisualEditorEditParams extends ApiParams {
+@@ -2764,17 +2725,7 @@ export interface VisualEditorApiVisualEditorEditParams extends ApiParams {
      returnto?: string;
      returntoquery?: string;
      returntoanchor?: string;
 -    useskin?:
 -        | "apioutput"
--        | "authentication-popup"
 -        | "cologneblue"
 -        | "contenttranslation"
 -        | "fallback"
--        | "json"
 -        | "minerva"
 -        | "modern"
 -        | "monobook"

@@ -3,5 +3,11 @@ allowBuilds:
   core-js: false
   esbuild: true
   vue-demi: false
+patchedDependencies:
+  alpha-sort: patches/alpha-sort.patch
+  esbuild-css-modules-plugin: patches/esbuild-css-modules-plugin.patch
+  eslint-config-wikimedia: patches/eslint-config-wikimedia.patch
+  eslint-plugin-no-jquery: patches/eslint-plugin-no-jquery.patch
+  types-mediawiki-api: patches/types-mediawiki-api.patch
 publicHoistPattern:
   - "*eslint-plugin*"

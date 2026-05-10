@@ -41,7 +41,7 @@ index f11432e6682a6dab37b7bcffe617f3090dc20c48..66724916b56356294125b43b98c7b2d3
  				return;
  			}
 @@ -79,8 +86,19 @@ module.exports = {
- 
+
  			context.report( {
  				node,
 -				message: 'Avoid queries which search the entire DOM. Keep DOM nodes in memory where possible.'
