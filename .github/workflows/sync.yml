@@ -12,10 +12,10 @@ jobs:
     if: ${{ github.event.repository.name != 'AwesomeGadgets' || github.event.repository.owner != 'AnYiEE' }}
     steps:
       - name: Checkout target repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Sync upstream changes (1/2)
         id: sync
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.3
         with:
           target_sync_branch: master
           target_repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -54,7 +54,7 @@ jobs:
         run: pnpm i
       - name: Sync upstream changes (2/2)
         if: ${{ steps.sync.conclusion == 'failure' }}
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.3
         with:
           target_sync_branch: master
           target_repo_token: ${{ secrets.GITHUB_TOKEN }}
