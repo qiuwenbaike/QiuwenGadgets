@@ -89,6 +89,7 @@
 		"@vue/eslint-config-typescript": "^13.0.0",
 		"@vue/language-plugin-pug": "^2.2.10",
 		"alpha-sort": "^5.0.0",
+		"ajv": "^8.18.0",
 		"axios": "^1.15.2",
 		"brace-expansion": "^1.1.13",
 		"broadcastchannel-polyfill": "^1.0.1",
