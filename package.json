@@ -125,6 +125,7 @@
 		"mwn": "^3.0.2",
 		"only-allow": "^1.2.1",
 		"p-queue": "^8.1.0",
+		"picomatch": ">=2.3.2",
 		"pinia": "2.2.4",
 		"postcss": "^8.5.10",
 		"postcss-import": "^16.1.0",
