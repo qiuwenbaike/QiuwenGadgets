@@ -369,12 +369,7 @@ const catALot = async (): Promise<void> => {
 		}
 
 		private doAPICall(
-			_params:
-				| Omit<ApiEditPageParams, 'format'>
-				| Omit<ApiOpenSearchParams, 'format'>
-				| Omit<ApiQueryCategoryMembersParams, 'format'>
-				| Omit<ApiQueryRevisionsParams, 'format'>
-				| Omit<ApiQueryTokensParams, 'format'>,
+			_params: Omit<ApiEditPageParams, 'format'>,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			callback: (data: any) => void
 		) {
@@ -612,11 +607,11 @@ const catALot = async (): Promise<void> => {
 					title: markedLabelTitle,
 					assert: 'user',
 					bot: true,
-					basetimestamp: timestamp as unknown as string,
+					basetimestamp: timestamp,
 					watchlist: CAL.settings.watchlist as never,
 					text,
 					summary,
-					starttimestamp: starttimestamp as unknown as string,
+					starttimestamp,
 				},
 				(): void => {
 					this.updateCounter();

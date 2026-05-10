@@ -26,7 +26,6 @@ const assignPermission = ({
 		action: 'userrights',
 		user: userName.replace(/ /g, '_'),
 		reason: fullSummary,
-		// @ts-expect-error TS2322
 		add: [permission],
 		expiry: expiry === '' ? 'infinity' : expiry,
 	};

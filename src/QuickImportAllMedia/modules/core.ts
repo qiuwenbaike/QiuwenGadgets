@@ -45,7 +45,12 @@ const getElementsFromParse = async (titles: string[]) => {
 				for (const {title: titleName} of response['parse'].links as {title: string}[]) {
 					if (regex.test(titleName)) {
 						const match: RegExpExecArray = regex.exec(titleName) as RegExpExecArray;
-						let [fileName] = match;
+						let [fileName] = match as string[];
+
+						if (!fileName || typeof fileName !== 'string') {
+							continue;
+						}
+
 						fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
 						fileNamesFromParse[fileNamesFromParse.length] = fileName;
 						if (fileName.includes('+')) {
@@ -106,7 +111,10 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 		let fileName: string | undefined;
 		if (articleRegex.test(href)) {
 			const match: RegExpExecArray = articleRegex.exec(href) as RegExpExecArray;
-			fileName = match[1] as string;
+			fileName = match[1];
+			if (!fileName || typeof fileName !== 'string') {
+				continue;
+			}
 			fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
 			fileNames[fileNames.length] = fileName;
 			if (fileName.includes('+')) {
@@ -116,7 +124,10 @@ const getImagesFromElements = (fileLinkElements: HTMLAnchorElement[]) => {
 
 		if (scriptRegex.test(href)) {
 			const match: RegExpExecArray = scriptRegex.exec(href) as RegExpExecArray;
-			fileName = match[1] as string;
+			fileName = match[1];
+			if (!fileName || typeof fileName !== 'string') {
+				continue;
+			}
 			fileName = decodeURIComponent(fileName).replace(/((File|Image):)((File|Image):)?/i, 'File:');
 			fileNames[fileNames.length] = fileName;
 			if (fileName.includes('+')) {

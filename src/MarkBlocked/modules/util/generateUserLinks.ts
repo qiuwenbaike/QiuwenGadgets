@@ -57,11 +57,15 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery[]> => {
 		let pageTitle: string | undefined;
 		if (articleRegex.test(href)) {
 			const match: RegExpExecArray = articleRegex.exec(href) as RegExpExecArray;
-			pageTitle = match[1] as string;
+			pageTitle = match[1];
 		} else if (scriptRegex.test(href)) {
 			const match: RegExpExecArray = scriptRegex.exec(href) as RegExpExecArray;
-			pageTitle = match[1] as string;
+			pageTitle = match[1];
 		} else {
+			continue;
+		}
+
+		if (!pageTitle || typeof pageTitle !== 'string') {
 			continue;
 		}
 

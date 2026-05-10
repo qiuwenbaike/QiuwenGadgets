@@ -21,10 +21,10 @@ const params: ApiQueryRevisionsParams = {
 
 const queryPageInfo = async (title: string): Promise<PageInfo> => {
 	try {
-		return (await api.get({
+		return await api.get({
 			...params,
 			titles: title,
-		} as typeof params)) as PageInfo;
+		} as typeof params);
 	} catch (error: unknown) {
 		console.error('[EditConflict] Ajax error:', error);
 		return {};

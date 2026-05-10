@@ -151,6 +151,7 @@ const generateTransformOptions = () => {
 						'web.url-search-params.delete',
 						'web.url-search-params.has',
 						'web.url-search-params.size',
+						'es.array.includes',
 						'es.array.push',
 						'es.array.unshift',
 						'es.iterator.constructor',

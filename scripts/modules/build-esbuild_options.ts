@@ -27,7 +27,7 @@ const loader = {
 } as const satisfies BuildOptions['loader'];
 
 const lessOptions: Less.Options = {
-	plugins: [new LessPluginPresetEnv() as unknown as Less.Plugin, new LessPluginNpmImport() as unknown as Less.Plugin],
+	plugins: [new LessPluginPresetEnv(), new LessPluginNpmImport()],
 };
 const postcssConfig = await postcssLoadConfig();
 const targets = browserslistToTargets(browserslist());

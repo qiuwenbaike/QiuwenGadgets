@@ -47,8 +47,8 @@
 		"MediaWiki Gadget"
 	],
 	"dependencies": {
-		"@bhsd/browser": "^0.3.0",
-		"@bhsd/codemirror-mediawiki": "^3.15.0",
+		"@bhsd/browser": "^0.3.1",
+		"@bhsd/codemirror-mediawiki": "^3.16.0",
 		"@types/toastify-js": "^1.12.4",
 		"chinese-days": "^1.5.7",
 		"clipboard": "^2.0.11",
@@ -61,10 +61,10 @@
 		"toastify-js": "^1.12.0"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.26.10",
-		"@babel/helper-compilation-targets": "^7.27.0",
-		"@babel/helper-plugin-utils": "^7.26.5",
-		"@babel/preset-env": "^7.26.9",
+		"@babel/core": "^7.29.0",
+		"@babel/helper-compilation-targets": "^7.28.6",
+		"@babel/helper-plugin-utils": "^7.28.6",
+		"@babel/preset-env": "^7.29.5",
 		"@babel/types": "^7.27.0",
 		"@commitlint/cli": "^20.2.0",
 		"@commitlint/config-conventional": "^19.8.0",
@@ -93,14 +93,14 @@
 		"browserslist": "^4.24.4",
 		"caniuse-api": "^3.0.0",
 		"chalk": "^5.4.1",
-		"core-js": "^3.41.0",
+		"core-js": "^3.49.0",
 		"esbuild": "^0.25.3",
-		"esbuild-css-modules-plugin": "^3.1.4",
+		"esbuild-css-modules-plugin": "^3.1.5",
 		"esbuild-plugin-less": "^1.3.21",
 		"esbuild-plugin-vue3": "^0.4.2",
 		"esbuild-postcss": "^0.0.4",
 		"eslint": "^8.57.1",
-		"eslint-config-prettier": "^10.1.2",
+		"eslint-config-prettier": "^10.1.8",
 		"eslint-config-wikimedia": "^0.29.1",
 		"eslint-plugin-es5": "^1.5.0",
 		"eslint-plugin-react": "^7.37.5",
@@ -108,7 +108,8 @@
 		"eslint-plugin-vue": "^9.33.0",
 		"git-pull-run": "^1.6.1",
 		"glob": "^11.1.0",
-		"happy-dom": "^20.8.9",
+		"globals": "^17.6.0",
+		"happy-dom": "^20.9.0",
 		"husky": "^9.1.7",
 		"less-plugin-npm-import": "^2.1.0",
 		"less-plugin-preset-env": "^2.0.2",
@@ -127,12 +128,12 @@
 		"prompts": "^2.4.2",
 		"proxy-polyfill": "^0.3.2",
 		"pug": "^3.0.3",
-		"rimraf": "^6.0.1",
-		"stylelint": "^16.26.1",
+		"rimraf": "^6.1.3",
+		"stylelint": "^17.11.0",
 		"stylelint-config-css-modules": "^4.6.0",
-		"stylelint-config-wikimedia": "^0.18.0",
+		"stylelint-config-wikimedia": "^0.19.2",
 		"tsx": "^4.19.3",
-		"types-mediawiki": "1.10.1",
+		"types-mediawiki": "^2.0.0",
 		"typescript": "^5.8.3",
 		"typescript-plugin-css-modules": "^5.1.0",
 		"unorm": "^1.6.0",
@@ -149,21 +150,18 @@
 		],
 		"overrides": {
 			"@types/oojs-ui": "latest",
-			"@typescript-eslint/utils": "$@typescript-eslint/eslint-plugin",
 			"browserslist-config-wikimedia": "latest",
 			"emoji-regex": "latest",
-			"eslint-config-wikimedia": "$eslint-config-wikimedia",
 			"eslint-plugin-unicorn": "$eslint-plugin-unicorn",
 			"eslint-plugin-vue@<9": "$eslint-plugin-vue",
-			"known-css-properties": "latest",
-			"stylelint-config-wikimedia": "$stylelint-config-wikimedia"
+			"known-css-properties": "latest"
 		},
 		"patchedDependencies": {
 			"alpha-sort": "patches/alpha-sort.patch",
 			"esbuild-css-modules-plugin": "patches/esbuild-css-modules-plugin.patch",
 			"eslint-config-wikimedia": "patches/eslint-config-wikimedia.patch",
 			"eslint-plugin-no-jquery": "patches/eslint-plugin-no-jquery.patch",
-			"types-mediawiki": "patches/types-mediawiki.patch"
+			"types-mediawiki-api": "patches/types-mediawiki-api.patch"
 		}
 	}
 }
