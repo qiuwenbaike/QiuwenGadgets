@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import {type BuildOptions, type Plugin} from 'esbuild';
+import {type BuildOptions} from 'esbuild';
 // @ts-expect-error TS7016
 import LessPluginNpmImport from 'less-plugin-npm-import';
 // @ts-expect-error TS7016
@@ -49,7 +49,7 @@ const esbuildOptions = {
 			enableDevTools: false,
 			postcss: postcssConfig,
 			preprocessorOptions: lessOptions,
-		}) as unknown as Plugin,
+		}),
 		esbuildPluginCssModules({
 			targets,
 			filter: /\.module\.(?:css|less)$/i,
