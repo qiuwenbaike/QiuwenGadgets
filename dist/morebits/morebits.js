@@ -4940,6 +4940,7 @@ var import_ext_gadget = require("ext.gadget.Util");
      * @returns {Morebits.wikitext.page}
      */
     commentOutImage(image, reason) {
+      this.text = this.text.replace(/--!>/g, "-->");
       const unbinder = new Morebits.unbinder(this.text);
       unbinder.unbind("<!--", "-->");
       reason = reason ? "".concat(reason, ": ") : "";
