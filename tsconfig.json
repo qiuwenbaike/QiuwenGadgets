@@ -53,7 +53,7 @@
 		"skipLibCheck": true
 	},
 	"exclude": ["node_modules/types-mediawiki/scripts"],
-	"include": ["node_modules/types-mediawiki", "scripts/**/*", "src/**/*", "src/**/*.vue"],
+	"include": ["node_modules/types-mediawiki", "eslint.config.mjs", "scripts/**/*", "src/**/*", "src/**/*.vue"],
 
 	"vueCompilerOptions": {
 		"plugins": ["@vue/language-plugin-pug"]

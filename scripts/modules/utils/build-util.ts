@@ -387,7 +387,6 @@ async function buildFiles(
 		licenseText: string | undefined;
 	}
 ): Promise<string[]>;
-// eslint-disable-next-line func-style
 async function buildFiles(
 	gadgetName: string,
 	type: 'script' | 'style',

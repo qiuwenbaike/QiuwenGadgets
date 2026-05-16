@@ -64,7 +64,7 @@ const writeFileContent = (filePath: number | string, fileContent: string) => {
  * @param {(T | U)[]} args The given arguments
  * @return {NonNullable<T>[]} The generated array
  */
-const generateArray = <T, U extends T extends Array<infer S> ? S : T>(...args: (T | U)[]): NonNullable<U>[] => {
+const generateArray = <T, U extends T extends (infer S)[] ? S : T>(...args: (T | U)[]): NonNullable<U>[] => {
 	return args.flatMap((arg) => {
 		if (arg === null || arg === undefined) {
 			return [];
@@ -170,7 +170,6 @@ const trim = (
 async function prompt<T = any>(message: Omit<PromptObject, 'name'>): Promise<T>;
 async function prompt(message: string, type?: Exclude<PromptType, 'confirm'>, initial?: string): Promise<string>;
 async function prompt(message: string, type: 'confirm', initial?: boolean): Promise<boolean>;
-// eslint-disable-next-line func-style
 async function prompt(
 	message: string | Omit<PromptObject, 'name'>,
 	type: PromptType = 'text',
