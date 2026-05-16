@@ -427,6 +427,8 @@ export default defineConfig([
 		},
 
 		rules: {
+			camelcase: 'off',
+			'no-new': 'off',
 			'mediawiki/class-doc': 'off',
 		},
 	},
@@ -534,6 +536,13 @@ export default defineConfig([
 			'jsdoc/require-param': 'off',
 			'jsdoc/require-param-type': 'off',
 			'jsdoc/require-returns': 'off',
+		},
+	},
+	{
+		files: ['src/TextSpacing/*', 'src/TextSpacing/**/*'],
+
+		rules: {
+			'@typescript-eslint/no-unsafe-unary-minus': 'off',
 		},
 	},
 	{

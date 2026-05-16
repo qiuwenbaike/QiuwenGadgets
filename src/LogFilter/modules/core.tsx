@@ -61,7 +61,6 @@ class LogFilter {
 		const inverted: boolean = URL_LIFILTER_INV === '1';
 
 		// Generate the form
-		// eslint-disable-next-line mediawiki/class-doc
 		const $fieldSet: JQuery = $('<fieldset>')
 			.attr('id', 'rightsFilter')
 			.addClass(rightsFilter as string)

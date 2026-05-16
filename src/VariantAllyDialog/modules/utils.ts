@@ -27,7 +27,7 @@ function getMountPoint(): Element {
 }
 
 const inferredVariant = computed(() => {
-	if ((VALID_VARIANTS as ReadonlyArray<string>).includes(wgUserVariant.value)) {
+	if ((VALID_VARIANTS as readonly string[]).includes(wgUserVariant.value)) {
 		return wgUserVariant.value as ValidVariant;
 	}
 	return null;
@@ -44,6 +44,7 @@ function shuffleVariant(last?: ValidVariant): ValidVariant {
 		return i !== last;
 	});
 	const randomIndex = Math.floor(Math.random() * targetArray.length);
+
 	return targetArray[randomIndex]!;
 }
 

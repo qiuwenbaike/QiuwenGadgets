@@ -10,15 +10,8 @@ const clearOldKeys = (): void => {
 				key.startsWith('ext.gadget.MarkBlocked_isLocked-') ||
 				key.startsWith('_EXPIRY_ext.gadget.MarkBlocked_isLocked-')
 			) {
-				localStorage.removeItem(key);
+				mw.storage.remove(key);
 			}
-
-			// if (
-			// 	key.startsWith('ext.gadget.MarkBlocked_isBlocked-') ||
-			// 	key.startsWith('_EXPIRY_ext.gadget.MarkBlocked_isBlocked-')
-			// ) {
-			// 	localStorage.removeItem(key);
-			// }
 		}
 	}
 

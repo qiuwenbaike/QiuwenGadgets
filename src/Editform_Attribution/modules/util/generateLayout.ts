@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, mediawiki/class-doc */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import * as OPTIONS from '~/Editform_Attribution/options.json';
 import {formWrap} from './Editform_Attribution.module.less';
 import {generateTextInputWithDropdown} from './generateTextInputWithDropdown';

@@ -29,6 +29,7 @@ const emit = defineEmits<{
 	(e: 'optout'): void;
 }>();
 
+// eslint-disable-next-line no-redeclare
 const prompt = ref<HTMLElement | null>(null);
 const titleId = useUniqueId();
 const descId = useUniqueId();

@@ -28,9 +28,7 @@ type WgUXS = (
 ) => string;
 
 declare global {
-	interface GetMessages<T> {
-		<K extends keyof T>(key: K): K | NonNullable<T[K]>;
-	}
+	type GetMessages<T> = <K extends keyof T>(key: K) => K | NonNullable<T[K]>;
 
 	interface Window {
 		wgUCS: WgUXS;

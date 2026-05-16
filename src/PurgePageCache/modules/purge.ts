@@ -24,7 +24,7 @@ const purge: Purge = async (title) => {
 		};
 
 		await api.post(params);
-		localStorage.removeItem(`MediaWikiModuleStore:${wgWikiID}`);
+		mw.storage.remove(`MediaWikiModuleStore:${wgWikiID}`);
 
 		toastifyInstance.hideToast();
 		toastify(

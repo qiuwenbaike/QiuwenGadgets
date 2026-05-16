@@ -30,7 +30,6 @@ const initGlobalMethods = ($body: JQuery<HTMLBodyElement>): typeof globalMethods
 				return;
 			}
 			$noteTATab = $(noteTATab);
-			// eslint-disable-next-line mediawiki/class-doc
 			$noteTATab
 				.removeClass(`mw-portlet-${portletId}`)
 				.addClass([`mw-portlet-${portletId.replace('p-', '')}`, 'vector-menu-tabs', 'vector-menu-tabs-legacy']);

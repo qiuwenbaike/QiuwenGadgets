@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {ref} from 'vue';
 import {type ValidVariant} from 'ext.gadget.VariantAlly';
 import VAButton from './VAButton.vue';
 import VASelect from './VASelect.vue';
@@ -26,7 +25,6 @@ const emit = defineEmits<{
 	(e: 'optout'): void;
 }>();
 
-const prompt = ref<HTMLElement | null>(null);
 const titleId = useUniqueId();
 const selectedVariant = useDefault(() => inferredVariant.value ?? shuffleVariant());
 const isOpen = useModelWrapper(props, emit, 'open');

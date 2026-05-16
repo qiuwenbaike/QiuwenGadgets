@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {citeFormTd} from '../Edittools-refToolbar.module.less';
 import {getMessage} from './util/getMessage';

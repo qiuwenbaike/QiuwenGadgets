@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import './modules/check';
 import {generateArray} from 'ext.gadget.Util';

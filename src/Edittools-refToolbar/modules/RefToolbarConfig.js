@@ -1,5 +1,3 @@
-/* eslint-disable camelcase, no-new */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 /**
  * Sitewide options for the the Cite toolbar button:

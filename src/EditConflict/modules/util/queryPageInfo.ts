@@ -2,12 +2,12 @@ import {api} from '../api';
 
 interface PageInfo {
 	query?: {
-		pages: Array<{
+		pages: {
 			missing?: boolean;
-			revisions: Array<{
+			revisions: {
 				revid: number;
-			}>;
-		}>;
+			}[];
+		}[];
 	};
 }
 
