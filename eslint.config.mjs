@@ -516,6 +516,15 @@ export default defineConfig([
 		},
 	},
 	{
+		files: ['src/UserRightsManager/*', 'src/UserRightsManager/**/*'],
+
+		languageOptions: {
+			globals: {
+				Morebits: true,
+			},
+		},
+	},
+	{
 		files: ['src/Util/*', 'src/Util/**/*'],
 
 		rules: {
