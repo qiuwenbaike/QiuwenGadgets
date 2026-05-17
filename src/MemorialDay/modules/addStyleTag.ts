@@ -16,7 +16,9 @@ const addStyleTag = () => {
 	];
 
 	for (const className of CLASS_LIST) {
-		// eslint-disable-next-line mediawiki/class-doc
+		// Messages that can be used here:
+		// * see above imported stylesheet
+		// * for more information
 		document.querySelector(className)?.classList.add(memorial as string);
 	}
 };

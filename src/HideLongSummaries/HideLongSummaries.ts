@@ -1,4 +1,3 @@
-/* eslint-disable mediawiki/class-doc */
 import * as OPTIONS from './options.json';
 import {CLASS_NAME_LONG, CLASS_NAME_SHORT, CLASS_NAME_SWITCH} from './modules/constant';
 import {getBody} from 'ext.gadget.Util';
@@ -12,13 +11,22 @@ void getBody().then(function hideLongSummaries($body: JQuery<HTMLBodyElement>): 
 			continue;
 		}
 
+		// Messages that can be used here:
+		// * see above imported constants
+		// * for more information
 		$(element).addClass(CLASS_NAME_LONG).hide();
 
+		// Messages that can be used here:
+		// * see above imported constants
+		// * for more information
 		$switches[$switches.length] = $('<a>')
 			.addClass(CLASS_NAME_SWITCH)
 			.text(`[${getMessage('Expand')}]`)
 			.insertAfter(element); // Replace Array#push to avoid core-js polyfilling
 
+		// Messages that can be used here:
+		// * see above imported constants
+		// * for more information
 		$('<span>')
 			.addClass(`comment comment--without-parentheses ${CLASS_NAME_SHORT}`)
 			.text(

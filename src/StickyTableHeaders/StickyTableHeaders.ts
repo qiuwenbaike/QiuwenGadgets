@@ -1,4 +1,3 @@
-/* eslint-disable mediawiki/class-doc */
 import {stickyheader, thead} from './StickyTableHeaders.module.less';
 import {getBody} from 'ext.gadget.Util';
 
@@ -17,7 +16,13 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 				: null;
 
 		if ($target && $trTd.length >= 5) {
+			// Messages that can be used here:
+			// * see above imported stylesheet
+			// * for more information
 			$table.addClass(stickyheader as string);
+			// Messages that can be used here:
+			// * see above imported stylesheet
+			// * for more information
 			$target.addClass(thead as string);
 		}
 	}

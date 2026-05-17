@@ -52,7 +52,7 @@ const refToolbar2 = ($body) => {
 				const dialogobj = {};
 				dialogobj[`cite-dialog-${sform}`] = {
 					resizeme: false,
-					// eslint-disable-next-line mediawiki/msg-doc
+
 					title: mw.message(`cite-dialog-${sform}`).parse(),
 					id: `citetoolbar-${sform}`,
 					init: () => {},

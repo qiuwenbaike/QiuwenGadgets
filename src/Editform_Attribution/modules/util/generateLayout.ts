@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, mediawiki/class-doc */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import * as OPTIONS from '~/Editform_Attribution/options.json';
 import {formWrap} from './Editform_Attribution.module.less';
 import {generateTextInputWithDropdown} from './generateTextInputWithDropdown';
@@ -11,6 +11,9 @@ const generateVisualEditorLayout = ({$body}: LayoutProps): JQuery<HTMLElement> =
 	const {target} = window.ve.init;
 	const $wpSummary = target.saveDialog.editSummaryInput.$input;
 	const textInputWithDropdown = generateTextInputWithDropdown({$body, $wpSummary});
+	// Messages that can be used here:
+	// * see above imported options.json
+	// * for more information
 	const $layout = $('<div>').attr('id', OPTIONS.inputId).addClass(formWrap);
 	$layout.append(textInputWithDropdown.$element);
 

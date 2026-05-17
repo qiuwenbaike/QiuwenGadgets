@@ -26,6 +26,7 @@ const emit = defineEmits<{
 	(e: 'optout'): void;
 }>();
 
+// @ts-expect-error TS6133
 const prompt = ref<HTMLElement | null>(null);
 const titleId = useUniqueId();
 const selectedVariant = useDefault(() => inferredVariant.value ?? shuffleVariant());

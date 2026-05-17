@@ -72,7 +72,7 @@ function getAccountVariant(): Variant | null {
 }
 
 function getLocalVariant(): Variant | null {
-	const result = localStorage.getItem(LOCAL_VARIANT_KEY);
+	const result = mw.storage.get(LOCAL_VARIANT_KEY) as string;
 	if (result === null || !isExtVariant(result)) {
 		return null;
 	}
@@ -132,17 +132,17 @@ function calculatePreferredVariant(): ValidVariant | null {
 type SetLocalVariant = typeof setLocalVariant;
 
 function setLocalVariant(variant: Variant): void {
-	localStorage.setItem(LOCAL_VARIANT_KEY, variant);
+	mw.storage.set(LOCAL_VARIANT_KEY, variant);
 }
 
 type SetOptOut = typeof setOptOut;
 
 function setOptOut(): void {
-	localStorage.setItem(OPTOUT_KEY, '');
+	mw.storage.set(OPTOUT_KEY, '');
 }
 
 function isOptOuted(): boolean {
-	return localStorage.getItem(OPTOUT_KEY) !== null;
+	return mw.storage.get(OPTOUT_KEY) !== null;
 }
 
 export {

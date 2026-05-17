@@ -4,6 +4,7 @@
  * @license GPL-3.0-or-later
  */
 import {CDN} from '@bhsd/browser';
+import {CodeMirror6} from '@bhsd/codemirror-mediawiki';
 import {renderEditor} from './core';
 
 declare namespace mediaWiki.libs {
@@ -26,7 +27,7 @@ declare namespace mediaWiki.libs {
 		if (typeof CodeMirror6 !== 'function') {
 			await $.ajax(`${wphl?.CDN || CDN}/${MW_CDN}`, {dataType: 'script', cache: true});
 		}
-		Object.assign(CodeMirror6!, {
+		Object.assign(CodeMirror6, {
 			CDN: wphl?.CDN,
 			monacoVersion: wphl?.monacoVersion,
 		});
@@ -47,6 +48,7 @@ declare namespace mediaWiki.libs {
 						return [...removedNodes];
 					})
 				).find<HTMLTextAreaElement>(selector),
+				// @ts-expect-error TS2339
 				cm = CodeMirror6.instances?.get(removed!);
 			if (typeof cm?.destroy === 'function') {
 				cm.destroy();

@@ -190,7 +190,9 @@ const processVisualEditor = ($body) => {
 		variant = wgUserVariant;
 		({target} = window.ve.init);
 		({saveDialog} = target);
-		// eslint-disable-next-line mediawiki/class-doc
+		// Messages that can be used here:
+		// * see above imported options and constants
+		// * for more information
 		dropdown = new OO.ui.DropdownInputWidget({
 			$overlay: saveDialog.$overlay,
 			classes: [OPTIONS.className],
@@ -201,7 +203,7 @@ const processVisualEditor = ($body) => {
 				...DATA.map((item) => {
 					return {
 						data: item.var,
-						label: mw.message(item.msg).parse() /* eslint-disable-line mediawiki/msg-doc */,
+						label: mw.message(item.msg).parse(),
 					};
 				}),
 			],
