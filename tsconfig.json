@@ -16,15 +16,15 @@
 		"strict": true,
 
 		"allowImportingTsExtensions": true,
-		"baseUrl": ".",
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
+		"noUncheckedSideEffectImports": true,
 		"paths": {
-			"~/*": ["src/*"]
+			"*": ["./*"],
+			"~/*": ["./src/*"]
 		},
 		"resolveJsonModule": true,
 
-		"downlevelIteration": true,
 		"newLine": "lf",
 		"noEmit": true,
 		"removeComments": false,
@@ -42,10 +42,11 @@
 			}
 		],
 
+		"erasableSyntaxOnly": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
 
-		"jsx": "react",
+		"jsx": "preserve",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"target": "ESNext",
 
@@ -53,9 +54,11 @@
 		"skipLibCheck": true
 	},
 	"exclude": ["node_modules/types-mediawiki/scripts"],
-	"include": ["node_modules/types-mediawiki", "scripts/**/*", "src/**/*", "src/**/*.vue"],
+	"include": ["node_modules/types-mediawiki", "eslint.config.mjs", "scripts/**/*", "src/**/*", "src/**/*.vue"],
 
 	"vueCompilerOptions": {
 		"plugins": ["@vue/language-plugin-pug"]
-	}
+	},
+
+	"types": ["*"]
 }

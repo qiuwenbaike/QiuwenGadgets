@@ -24,6 +24,7 @@
 "use strict";
 
 // dist/DefaultSummaries/DefaultSummaries.js
+//! src/DefaultSummaries/DefaultSummaries.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -67,7 +68,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/DefaultSummaries/DefaultSummaries.ts
 var import_ext_gadget = require("ext.gadget.Util");
 //! src/DefaultSummaries/options.json
 var configKey = "gadget-DefaultSummaries__Initialized";

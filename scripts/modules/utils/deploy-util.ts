@@ -39,6 +39,7 @@ const deployPages: Record<string, string[]> = {};
  * @private
  */
 const eslintOnlyAllowES5 = new ESLint({
+	// @ts-expect-error TS2322
 	overrideConfig: {
 		plugins: ['eslint-plugin-es5'],
 		extends: ['plugin:es5/no-es2015', 'plugin:es5/no-es2016'],
@@ -49,7 +50,7 @@ const eslintOnlyAllowES5 = new ESLint({
 			ecmaVersion: 5,
 		},
 	},
-	useEslintrc: false,
+	// useEslintrc: false,
 });
 
 /**
@@ -262,7 +263,6 @@ async function checkConfig(
 		isSkipAsk?: boolean;
 	}
 ): Promise<void>;
-// eslint-disable-next-line func-style
 async function checkConfig(
 	config: ReturnType<typeof loadConfig>,
 	{
@@ -369,7 +369,6 @@ async function makeEditSummary(
 		fallbackEditSummary?: string;
 	}
 ): Promise<string>;
-// eslint-disable-next-line func-style
 async function makeEditSummary(
 	isSkipAsk?: boolean,
 	{

@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import './processVisualEditor.less';
 import * as OPTIONS from '../options.json';
@@ -190,7 +189,6 @@ const processVisualEditor = ($body) => {
 		variant = wgUserVariant;
 		({target} = window.ve.init);
 		({saveDialog} = target);
-		// eslint-disable-next-line mediawiki/class-doc
 		dropdown = new OO.ui.DropdownInputWidget({
 			$overlay: saveDialog.$overlay,
 			classes: [OPTIONS.className],
@@ -201,7 +199,7 @@ const processVisualEditor = ($body) => {
 				...DATA.map((item) => {
 					return {
 						data: item.var,
-						label: mw.message(item.msg).parse() /* eslint-disable-line mediawiki/msg-doc */,
+						label: mw.message(item.msg).parse(),
 					};
 				}),
 			],

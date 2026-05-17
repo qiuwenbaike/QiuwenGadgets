@@ -24,6 +24,7 @@
 "use strict";
 
 // dist/ToolsRedirect-courtesy-and-art-names/ToolsRedirect-courtesy-and-art-names.js
+//! src/ToolsRedirect-courtesy-and-art-names/ToolsRedirect-courtesy-and-art-names.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -67,7 +68,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/ToolsRedirect-courtesy-and-art-names/ToolsRedirect-courtesy-and-art-names.ts
 var import_ext_gadget3 = require("ext.gadget.Util");
 //! src/ToolsRedirect-courtesy-and-art-names/modules/courtesy-and-art-names.ts
 var import_ext_gadget = require("ext.gadget.ToolsRedirect");

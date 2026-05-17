@@ -22,7 +22,6 @@ const toastify: ToastifyWithHideToast = (options, type) => {
 				className += ` ${className}--info`;
 		}
 	}
-	// eslint-disable-next-line mediawiki/class-doc
 	options.className = className;
 
 	options.gravity ||= 'bottom';

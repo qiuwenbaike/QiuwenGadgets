@@ -171,7 +171,6 @@ const getNextVisibleSibling = (node: Node): HTMLElement | Text | null => {
 
 const createSpacingWrapper = (str: string): [string, HTMLSpanElement] => {
 	const span: HTMLSpanElement = document.createElement('span');
-	// eslint-disable-next-line mediawiki/class-doc
 	span.className = WRAPPER_CLASS;
 	span.textContent = str.slice(-1);
 
