@@ -16,6 +16,7 @@
 "use strict";
 
 // dist/LoadRNRSCredentials/LoadRNRSCredentials.js
+//! src/LoadRNRSCredentials/modules/api.ts
 function asyncGeneratorStep(n, t, e, r, o, a, c) {
   try {
     var i = n[a](c), u = i.value;
@@ -39,7 +40,6 @@ function _asyncToGenerator(n) {
     });
   };
 }
-//! src/LoadRNRSCredentials/modules/api.ts
 var import_ext_gadget = require("ext.gadget.Util");
 var foreignApi = (0, import_ext_gadget.initMwApi)("LoadRNRSCredentials", "https://login.qiuwenbaike.cn/api.php");
 //! src/LoadRNRSCredentials/LoadRNRSCredentials.ts

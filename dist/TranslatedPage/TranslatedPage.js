@@ -24,6 +24,7 @@
 "use strict";
 
 // dist/TranslatedPage/TranslatedPage.js
+//! src/TranslatedPage/options.json
 function asyncGeneratorStep(n, t, e, r, o, a, c) {
   try {
     var i = n[a](c), u = i.value;
@@ -47,7 +48,6 @@ function _asyncToGenerator(n) {
     });
   };
 }
-//! src/TranslatedPage/options.json
 var version = "1.0";
 //! src/TranslatedPage/modules/api.ts
 var import_ext_gadget = require("ext.gadget.Util");

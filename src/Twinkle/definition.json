@@ -10,6 +10,7 @@
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.language",
+		"mediawiki.storage",
 		"mediawiki.util"
 	],
 	"peers": ["Twinkle-pagestyles"],

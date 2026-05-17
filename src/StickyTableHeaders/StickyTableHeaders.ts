@@ -1,4 +1,3 @@
-/* eslint-disable mediawiki/class-doc */
 import {stickyheader, thead} from './StickyTableHeaders.module.less';
 import {getBody} from 'ext.gadget.Util';
 

@@ -25,6 +25,7 @@
 "use strict";
 
 // dist/Edit0/Edit0.js
+//! src/Edit0/modules/core.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -68,7 +69,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/Edit0/modules/core.ts
 var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/Edit0/modules/i18n.ts
 var import_ext_gadget = require("ext.gadget.i18n");

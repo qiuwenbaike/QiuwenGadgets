@@ -25,6 +25,7 @@
 "use strict";
 
 // dist/FoldRef/FoldRef.js
+//! src/FoldRef/modules/FoldRef.module.less
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -68,7 +69,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/FoldRef/modules/FoldRef.module.less
 var expand = "FoldRef-module__expand_FNkcvW__4100";
 var refarea = "FoldRef-module__refarea_FNkcvW__4100";
 //! src/FoldRef/modules/i18n.ts

@@ -189,10 +189,10 @@ const showDialog = function showDialog({
 
 			Dialog.stackLayout.setItem(Dialog.submitPanel);
 		}
-		static pushPending() {
+		public static pushPending() {
 			throw new Error('Method not implemented.');
 		}
-		static popPending() {
+		public static popPending() {
 			throw new Error('Method not implemented.');
 		}
 

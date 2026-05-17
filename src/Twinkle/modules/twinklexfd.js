@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /*! Twinkle.js - twinklexfd.js */
 (function twinklexfd() {
@@ -175,10 +174,10 @@
 				});
 				let afd_cat = 'delete';
 				if (Twinkle.getPref('afdDefaultCategory') === 'same') {
-					if (localStorage.Twinkle_afdCategory === undefined) {
-						localStorage.Twinkle_afdCategory = 'delete';
+					if (mw.storage.getObject('Twinkle_afdCategory') === undefined) {
+						mw.storage.setObject('Twinkle_afdCategory', 'delete');
 					} else {
-						afd_cat = localStorage.Twinkle_afdCategory;
+						afd_cat = mw.storage.getObject('Twinkle_afdCategory');
 					}
 				}
 				afd_category.append({
@@ -297,7 +296,7 @@
 				e.target.form.fwdcsdreason.parentElement.setAttribute('hidden', '');
 		}
 		if (Twinkle.getPref('afdDefaultCategory') === 'same') {
-			localStorage.Twinkle_afdCategory = e.target.value;
+			mw.storage.setObject('Twinkle_afdCategory', e.target.value);
 		}
 	};
 	Twinkle.xfd.callbacks = {

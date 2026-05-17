@@ -1582,6 +1582,7 @@ var require_es_json_parse = __commonJS({
 });
 
 // dist/Navigation_popups/Navigation_popups.js
+//! src/Navigation_popups/modules/api.ts
 require_es_json_parse();
 var _templateObject;
 var _templateObject2;
@@ -1665,7 +1666,6 @@ function _arrayLikeToArray(r, a) {
 function _taggedTemplateLiteral(e, t) {
   return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } }));
 }
-//! src/Navigation_popups/modules/api.ts
 var import_ext_gadget = require("ext.gadget.Util");
 var api = (0, import_ext_gadget.initMwApi)("Navigation popups/1.0");
 //! src/Navigation_popups/modules/string.ts

@@ -23,6 +23,7 @@
 "use strict";
 
 // dist/Editform_Patch2017/Editform_Patch2017.js
+//! src/Editform_Patch2017/Editform_Patch2017.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -66,7 +67,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/Editform_Patch2017/Editform_Patch2017.ts
 var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/Editform_Patch2017/options.json
 var dialogLicenseId = "ve-ui-mwSaveDialog-license";

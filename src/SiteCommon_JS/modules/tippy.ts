@@ -4,7 +4,7 @@ const getContent = (reference: Element): string => {
 	const label: string | null = reference.getAttribute('aria-label');
 	const title: string | null = reference.getAttribute('alt') ?? reference.getAttribute('title');
 
-	return (label === title ? label : title || label) || reference.textContent;
+	return (label === title ? label : title || label) || reference.textContent || '';
 };
 
 const onCreateCallback = (instance: ReturnType<typeof tippy>[0]): void => {
