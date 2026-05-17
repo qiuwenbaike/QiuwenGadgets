@@ -188,7 +188,7 @@ importers:
         specifier: ^3.49.0
         version: 3.49.0
       dompurify:
-        specifier: ^3.4.0
+        specifier: ^3.4.3
         version: 3.4.3
       esbuild:
         specifier: ^0.28.0
