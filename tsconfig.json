@@ -16,15 +16,15 @@
 		"strict": true,
 
 		"allowImportingTsExtensions": true,
-		"baseUrl": ".",
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
+		"noUncheckedSideEffectImports": true,
 		"paths": {
-			"~/*": ["src/*"]
+			"*": ["./*"],
+			"~/*": ["./src/*"]
 		},
 		"resolveJsonModule": true,
 
-		"downlevelIteration": true,
 		"newLine": "lf",
 		"noEmit": true,
 		"removeComments": false,
@@ -42,10 +42,11 @@
 			}
 		],
 
+		"erasableSyntaxOnly": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
 
-		"jsx": "react",
+		"jsx": "preserve",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"target": "ESNext",
 
@@ -57,5 +58,7 @@
 
 	"vueCompilerOptions": {
 		"plugins": ["@vue/language-plugin-pug"]
-	}
+	},
+
+	"types": ["*"]
 }
