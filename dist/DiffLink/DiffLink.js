@@ -41,6 +41,7 @@
 "use strict";
 
 // dist/DiffLink/DiffLink.js
+//! src/DiffLink/modules/util/checkDiffPage.ts
 function asyncGeneratorStep(n, t, e, r, o, a, c) {
   try {
     var i = n[a](c), u = i.value;
@@ -64,7 +65,6 @@ function _asyncToGenerator(n) {
     });
   };
 }
-//! src/DiffLink/modules/util/checkDiffPage.ts
 var checkDiffPage = ($content) => {
   const {
     wgCurRevisionId

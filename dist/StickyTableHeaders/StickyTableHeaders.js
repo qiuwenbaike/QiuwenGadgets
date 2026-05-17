@@ -41,6 +41,7 @@
 "use strict";
 
 // dist/StickyTableHeaders/StickyTableHeaders.js
+//! src/StickyTableHeaders/StickyTableHeaders.module.less
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -84,7 +85,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/StickyTableHeaders/StickyTableHeaders.module.less
 var stickyheader = "StickyTableHeaders-module__stickyheader_eOk_LG__4100";
 var thead = "StickyTableHeaders-module__thead_eOk_LG__4100";
 //! src/StickyTableHeaders/StickyTableHeaders.ts

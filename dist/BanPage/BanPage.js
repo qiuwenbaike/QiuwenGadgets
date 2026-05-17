@@ -25,6 +25,7 @@
 "use strict";
 
 // dist/BanPage/BanPage.js
+//! src/BanPage/modules/i18n.ts
 function asyncGeneratorStep(n, t, e, r, o, a, c) {
   try {
     var i = n[a](c), u = i.value;
@@ -48,7 +49,6 @@ function _asyncToGenerator(n) {
     });
   };
 }
-//! src/BanPage/modules/i18n.ts
 var import_ext_gadget = require("ext.gadget.i18n");
 var getI18nMessages = () => {
   return {

@@ -25,6 +25,7 @@
 "use strict";
 
 // dist/AutoLink/AutoLink.js
+//! src/AutoLink/modules/util/isDiff.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -68,7 +69,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/AutoLink/modules/util/isDiff.ts
 var isDiff = () => {
   return !!mw.util.getParamValue("diff");
 };

@@ -55,6 +55,7 @@
 "use strict";
 
 // dist/HotCat/HotCat.js
+//! src/HotCat/modules/check.module.less
 var _templateObject;
 var _templateObject2;
 var _templateObject3;
@@ -110,7 +111,6 @@ function _arrayLikeToArray(r, a) {
 function _taggedTemplateLiteral(e, t) {
   return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } }));
 }
-//! src/HotCat/modules/check.module.less
 var catcheckInlineIcon = "check-module__catcheckInlineIcon_mJ5NDq__4100";
 //! src/HotCat/modules/api.ts
 var import_ext_gadget = require("ext.gadget.Util");

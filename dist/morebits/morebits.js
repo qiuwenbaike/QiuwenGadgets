@@ -1580,6 +1580,7 @@ var require_es_json_parse = __commonJS({
 });
 
 // dist/morebits/morebits.js
+//! src/morebits/morebits.js
 require_es_json_parse();
 var _templateObject;
 var _templateObject2;
@@ -1629,7 +1630,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/morebits/morebits.js
 var import_ext_gadget = require("ext.gadget.Util");
 /*! Twinkle.js - morebits.js */
 (function morebits($) {

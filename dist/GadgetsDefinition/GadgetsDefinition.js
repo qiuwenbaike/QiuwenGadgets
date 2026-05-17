@@ -24,6 +24,7 @@
 "use strict";
 
 // dist/GadgetsDefinition/GadgetsDefinition.js
+//! src/GadgetsDefinition/modules/util/generateGadgetId.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -67,7 +68,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/GadgetsDefinition/modules/util/generateGadgetId.ts
 var generateGadgetId = (gadgetName) => {
   return "Gadget-".concat(gadgetName);
 };

@@ -23,6 +23,7 @@
 "use strict";
 
 // dist/MemorialDay/MemorialDay.js
+//! src/MemorialDay/options.json
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -66,7 +67,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/MemorialDay/options.json
 var configKey = "gadget-MemorialDay__Initialized";
 //! src/MemorialDay/modules/MemorialDay.module.less
 var memorial = "MemorialDay-module__memorial_cnrRka__4100";

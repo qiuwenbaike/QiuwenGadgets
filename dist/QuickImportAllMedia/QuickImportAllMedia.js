@@ -24,6 +24,7 @@
 "use strict";
 
 // dist/QuickImportAllMedia/QuickImportAllMedia.js
+//! src/QuickImportAllMedia/QuickImportAllMedia.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -90,7 +91,6 @@ function _asyncToGenerator(n) {
     });
   };
 }
-//! src/QuickImportAllMedia/QuickImportAllMedia.ts
 var import_ext_gadget4 = require("ext.gadget.QuickImport");
 //! src/QuickImportAllMedia/modules/core.ts
 var import_ext_gadget = require("ext.gadget.Util");

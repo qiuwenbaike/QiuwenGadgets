@@ -42,8 +42,8 @@
 "use strict";
 
 // dist/VariantAllyDialog/VariantAllyDialog.js
-var _mw$config$get;
 //! src/VariantAllyDialog/VariantAllyDialog.ts
+var _mw$config$get;
 var import_vue21 = require("vue");
 var import_vue18 = require("vue");
 var import_vue19 = require("vue");

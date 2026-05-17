@@ -23,6 +23,7 @@
 "use strict";
 
 // dist/HideLongSummaries/HideLongSummaries.js
+//! src/HideLongSummaries/options.json
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -66,7 +67,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/HideLongSummaries/options.json
 var maxLength = 256;
 //! src/HideLongSummaries/modules/constant.ts
 var CLASS_NAME = "gadget-hide_long_summaries";
