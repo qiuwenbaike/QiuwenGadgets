@@ -4,12 +4,33 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@types/oojs-ui': latest
+  '@typescript-eslint/utils': ^8.59.3
+  browserslist-config-wikimedia: latest
+  emoji-regex: latest
+  eslint-config-wikimedia: 0.32.4
+  eslint-plugin-unicorn: ^56.0.1
+  eslint-plugin-vue@<9: ^9.33.0
+  known-css-properties: latest
+  stylelint-config-wikimedia: ^0.19.2
+
 patchedDependencies:
-  alpha-sort: c180a2c10bb672edd958072717b8c947ace596f4b53761ea9c069740b698bfb5
-  esbuild-css-modules-plugin: 9f3daeb694b1fb5ea78a24519389fa4ad0e520e748c1aed9d57f821c094c2a97
-  eslint-config-wikimedia: e3f8f1685c08a13dbd61a0cc3c1ef2a5e9f01404eae84e1a429d43c002b2ac3e
-  eslint-plugin-no-jquery: dbc96337f9e19b4499182f13a80d008e1721ddb9de7bf4185598b485c43d2d31
-  types-mediawiki-api: 77b5208f5758474758ff922378a42ecd8736dde7dcc3296064e81377dde5b7a3
+  alpha-sort:
+    hash: c180a2c10bb672edd958072717b8c947ace596f4b53761ea9c069740b698bfb5
+    path: patches/alpha-sort.patch
+  esbuild-css-modules-plugin:
+    hash: 9f3daeb694b1fb5ea78a24519389fa4ad0e520e748c1aed9d57f821c094c2a97
+    path: patches/esbuild-css-modules-plugin.patch
+  eslint-config-wikimedia:
+    hash: e3f8f1685c08a13dbd61a0cc3c1ef2a5e9f01404eae84e1a429d43c002b2ac3e
+    path: patches/eslint-config-wikimedia.patch
+  eslint-plugin-no-jquery:
+    hash: dbc96337f9e19b4499182f13a80d008e1721ddb9de7bf4185598b485c43d2d31
+    path: patches/eslint-plugin-no-jquery.patch
+  types-mediawiki-api:
+    hash: 77b5208f5758474758ff922378a42ecd8736dde7dcc3296064e81377dde5b7a3
+    path: patches/types-mediawiki-api.patch
 
 importers:
 
@@ -122,7 +143,7 @@ importers:
         specifier: ^7.0.7
         version: 7.0.7
       '@types/oojs-ui':
-        specifier: ^0.50.0
+        specifier: latest
         version: 0.50.0
       '@types/prompts':
         specifier: ^2.4.9
@@ -1705,42 +1726,36 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
-    libc: [glibc]
 
   '@parcel/watcher-linux-arm-musl@2.5.6':
     resolution: {integrity: sha512-Ve3gUCG57nuUUSyjBq/MAM0CzArtuIOxsBdQ+ftz6ho8n7s1i9E1Nmk/xmP323r2YL0SONs1EuwqBp2u1k5fxg==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
-    libc: [musl]
 
   '@parcel/watcher-linux-arm64-glibc@2.5.6':
     resolution: {integrity: sha512-f2g/DT3NhGPdBmMWYoxixqYr3v/UXcmLOYy16Bx0TM20Tchduwr4EaCbmxh1321TABqPGDpS8D/ggOTaljijOA==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@parcel/watcher-linux-arm64-musl@2.5.6':
     resolution: {integrity: sha512-qb6naMDGlbCwdhLj6hgoVKJl2odL34z2sqkC7Z6kzir8b5W65WYDpLB6R06KabvZdgoHI/zxke4b3zR0wAbDTA==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@parcel/watcher-linux-x64-glibc@2.5.6':
     resolution: {integrity: sha512-kbT5wvNQlx7NaGjzPFu8nVIW1rWqV780O7ZtkjuWaPUgpv2NMFpjYERVi0UYj1msZNyCzGlaCWEtzc+exjMGbQ==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@parcel/watcher-linux-x64-musl@2.5.6':
     resolution: {integrity: sha512-1JRFeC+h7RdXwldHzTsmdtYR/Ku8SylLgTU/reMuqdVD7CtLwf0VR1FqeprZ0eHQkO0vqsbvFLXUmYm/uNKJBg==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@parcel/watcher-win32-arm64@2.5.6':
     resolution: {integrity: sha512-3ukyebjc6eGlw9yRt678DxVF7rjXatWiHvTXqphZLvo7aC5NdEgFufVwjFfY51ijYEWpXbqF5jtrK275z52D4Q==}
@@ -1872,9 +1887,6 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
-  '@types/oojs-ui@0.46.0':
-    resolution: {integrity: sha512-Mo64/crjNLohFVV9fqHCJoE1asQDFeTG813UvIFJGbX6NaYnN3lqGw1YRU3D+4KeWBQg1A+aDXB055zq6TvCyw==}
-
   '@types/oojs-ui@0.50.0':
     resolution: {integrity: sha512-ymTtszJuxtH2ojT9m8EbuLqBshBuqNTAWVc1RGlPr/iBq6xIWzPkuYxw5zGhlAcnSahvVx3UerN/0hA5Slfb3w==}
 
@@ -1892,9 +1904,6 @@ packages:
 
   '@types/prompts@2.4.9':
     resolution: {integrity: sha512-qTxFi6Buiu8+50/+3DGIWLHM6QuWsEKugJnnP6iv2Mc4ncxE4A/OJkjuVOA+5X0X1S/nq5VJRa8Lu+nwcvbrKA==}
-
-  '@types/semver@7.7.1':
-    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
 
   '@types/sizzle@2.3.9':
     resolution: {integrity: sha512-xzLEyKB50yqCUPUJkIsrVvoWNfFUbIZI+RspLWt8u+tIW/BetMBZtgV2LY/2o+tYH8dRvQ+eoPf3NdhQCcLE2w==}
@@ -2060,19 +2069,6 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
-
-  '@typescript-eslint/utils@7.1.1':
-    resolution: {integrity: sha512-thOXM89xA03xAE0lW7alstvnyoBUbBX38YtY+zAUcpRPcq9EIhXPuJ0YTv948MbzmKh6e1AUszn5cBFK49Umqg==}
-    engines: {node: ^16.0.0 || >=18.0.0}
-    peerDependencies:
-      eslint: ^8.56.0
-
-  '@typescript-eslint/utils@8.54.0':
-    resolution: {integrity: sha512-9Cnda8GS57AQakvRyG0PTejJNlA2xhvyNtEVIMlDWOOeEyBkYWhGPnfrIAnqxLMTSTo6q8g12XVjjev5l1NvMA==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
-      typescript: '>=4.8.4 <6.0.0'
 
   '@typescript-eslint/utils@8.59.3':
     resolution: {integrity: sha512-JAvT14goBzRzzzZyqq3P9BLArIxTtQURUtFgQ/V7FO+eU+Gg6ES+5ymOPP1wRxXcxAYeivCk4uS3jCKWI1K8Zg==}
@@ -2754,12 +2750,6 @@ packages:
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
-
-  emoji-regex@8.0.0:
-    resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
-
-  emoji-regex@9.2.2:
-    resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
 
   end-of-stream@1.4.5:
     resolution: {integrity: sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==}
@@ -3823,28 +3813,24 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.32.0:
     resolution: {integrity: sha512-UpQkoenr4UJEzgVIYpI80lDFvRmPVg6oqboNHfoH4CQIfNA+HOrZ7Mo7KZP02dC6LjghPQJeBsvXhJod/wnIBg==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.32.0:
     resolution: {integrity: sha512-V7Qr52IhZmdKPVr+Vtw8o+WLsQJYCTd8loIfpDaMRWGUZfBOYEJeyJIkqGIDMZPwPx24pUMfwSxxI8phr/MbOA==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.32.0:
     resolution: {integrity: sha512-bYcLp+Vb0awsiXg/80uCRezCYHNg1/l3mt0gzHnWV9XP1W5sKa5/TCdGWaR/zBM2PeF/HbsQv/j2URNOiVuxWg==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.32.0:
     resolution: {integrity: sha512-8SbC8BR40pS6baCM8sbtYDSwEVQd4JlFTOlaD3gWGHfThTcABnNDBda6eTZeqbofalIJhFx0qKzgHJmcPTnGdw==}
@@ -6933,7 +6919,7 @@ snapshots:
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
-      string-width-cjs: string-width@4.2.0
+      string-width-cjs: string-width@4.2.3
       strip-ansi: 7.2.0
       strip-ansi-cjs: strip-ansi@6.0.1
       wrap-ansi: 8.1.0
@@ -7200,11 +7186,6 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
-  '@types/oojs-ui@0.46.0':
-    dependencies:
-      '@types/jquery': 4.0.0
-      '@types/oojs': 7.0.7
-
   '@types/oojs-ui@0.50.0':
     dependencies:
       '@types/jquery': 4.0.0
@@ -7227,8 +7208,6 @@ snapshots:
     dependencies:
       '@types/node': 25.7.0
       kleur: 3.0.3
-
-  '@types/semver@7.7.1': {}
 
   '@types/sizzle@2.3.9': {}
 
@@ -7253,7 +7232,7 @@ snapshots:
       '@typescript-eslint/parser': 7.1.1(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
       '@typescript-eslint/scope-manager': 7.1.1
       '@typescript-eslint/type-utils': 7.1.1(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
-      '@typescript-eslint/utils': 7.1.1(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
+      '@typescript-eslint/utils': 8.59.3(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
       '@typescript-eslint/visitor-keys': 7.1.1
       debug: 4.4.3
       eslint: 9.38.0(jiti@2.6.1)
@@ -7273,7 +7252,7 @@ snapshots:
       '@typescript-eslint/parser': 8.54.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
       '@typescript-eslint/scope-manager': 8.54.0
       '@typescript-eslint/type-utils': 8.54.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
-      '@typescript-eslint/utils': 8.54.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
+      '@typescript-eslint/utils': 8.59.3(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
       '@typescript-eslint/visitor-keys': 8.54.0
       eslint: 9.38.0(jiti@2.6.1)
       ignore: 7.0.5
@@ -7380,7 +7359,7 @@ snapshots:
   '@typescript-eslint/type-utils@7.1.1(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/typescript-estree': 7.1.1(typescript@5.9.2)
-      '@typescript-eslint/utils': 7.1.1(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
+      '@typescript-eslint/utils': 8.59.3(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
       debug: 4.4.3
       eslint: 9.38.0(jiti@2.6.1)
       ts-api-utils: 1.0.1(typescript@5.9.2)
@@ -7393,7 +7372,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.54.0
       '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.9.2)
-      '@typescript-eslint/utils': 8.54.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
+      '@typescript-eslint/utils': 8.59.3(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)
       debug: 4.4.3
       eslint: 9.38.0(jiti@2.6.1)
       ts-api-utils: 2.5.0(typescript@5.9.2)
@@ -7460,31 +7439,6 @@ snapshots:
       semver: 7.8.0
       tinyglobby: 0.2.16
       ts-api-utils: 2.5.0(typescript@5.9.2)
-      typescript: 5.9.2
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/utils@7.1.1(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)':
-    dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.38.0(jiti@2.6.1))
-      '@types/json-schema': 7.0.15
-      '@types/semver': 7.7.1
-      '@typescript-eslint/scope-manager': 7.1.1
-      '@typescript-eslint/types': 7.1.1
-      '@typescript-eslint/typescript-estree': 7.1.1(typescript@5.9.2)
-      eslint: 9.38.0(jiti@2.6.1)
-      semver: 7.8.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
-  '@typescript-eslint/utils@8.54.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2)':
-    dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.38.0(jiti@2.6.1))
-      '@typescript-eslint/scope-manager': 8.54.0
-      '@typescript-eslint/types': 8.54.0
-      '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.9.2)
-      eslint: 9.38.0(jiti@2.6.1)
       typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
@@ -8250,10 +8204,6 @@ snapshots:
   electron-to-chromium@1.5.353: {}
 
   emoji-regex@10.6.0: {}
-
-  emoji-regex@8.0.0: {}
-
-  emoji-regex@9.2.2: {}
 
   end-of-stream@1.4.5:
     dependencies:
@@ -10651,20 +10601,20 @@ snapshots:
 
   string-width@4.2.0:
     dependencies:
-      emoji-regex: 8.0.0
+      emoji-regex: 10.6.0
       is-fullwidth-code-point: 3.0.0
       strip-ansi: 6.0.1
 
   string-width@4.2.3:
     dependencies:
-      emoji-regex: 8.0.0
+      emoji-regex: 10.6.0
       is-fullwidth-code-point: 3.0.0
       strip-ansi: 6.0.1
 
   string-width@5.1.2:
     dependencies:
       eastasianwidth: 0.2.0
-      emoji-regex: 9.2.2
+      emoji-regex: 10.6.0
       strip-ansi: 7.2.0
 
   string-width@7.0.0:
@@ -11090,7 +11040,7 @@ snapshots:
   types-mediawiki@2.0.0(vue@3.4.27(typescript@5.9.2)):
     dependencies:
       '@types/jquery': 3.5.34
-      '@types/oojs-ui': 0.46.0
+      '@types/oojs-ui': 0.50.0
       types-mediawiki-api: 2.0.0(patch_hash=77b5208f5758474758ff922378a42ecd8736dde7dcc3296064e81377dde5b7a3)
     optionalDependencies:
       vue: 3.4.27(typescript@5.9.2)
