@@ -61,6 +61,7 @@
 * AdvancedSiteNotices-pagestyles[ResourceLoader|hidden|requiresES6]|AdvancedSiteNotices-pagestyles.css
 * ChineseDays[ResourceLoader|hidden|requiresES6]|ChineseDays.js
 * Clipboard[ResourceLoader|hidden|requiresES6]|Clipboard.js
+* codemirror-mediawiki[ResourceLoader|hidden|requiresES6]|codemirror-mediawiki.js
 * Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
 * ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,oojs-ui-windows|rights=edit|requiresES6]|ConfirmLogout.js
 * CookieWarning[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.storage,mediawiki.util|requiresES6]|CookieWarning.js|CookieWarning.css
@@ -129,7 +130,7 @@
 * ToolsRedirect-opt-bolds[ResourceLoader|actions=view|dependencies=ext.gadget.ToolsRedirect,ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-opt-bolds.js
 * TranslatedPage[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api|rights=edit|requiresES6]|TranslatedPage.js
 * Wikiplus[ResourceLoader|dependencies=ext.gadget.Util,user.options|rights=skipcaptcha|requiresES6]|Wikiplus.js|Wikiplus.css
-* Wikiplus-highlight[ResourceLoader|actions=view|dependencies=ext.gadget.Util,ext.gadget.Wikiplus,user.options|rights=skipcaptcha|requiresES6]|Wikiplus-highlight.js|Wikiplus-highlight.css
+* Wikiplus-highlight[ResourceLoader|actions=view|dependencies=ext.gadget.codemirror-mediawiki,ext.gadget.Util,ext.gadget.Wikiplus,user.options|rights=skipcaptcha|requiresES6]|Wikiplus-highlight.js|Wikiplus-highlight.css
 
 == skin ==
 * SkinCitizen[ResourceLoader|default|hidden|skins=citizen|requiresES6]|SkinCitizen.css

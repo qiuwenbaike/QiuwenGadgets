@@ -4,7 +4,7 @@
  * @license GPL-3.0-or-later
  */
 import {CDN} from '@bhsd/browser';
-import {CodeMirror6} from '@bhsd/codemirror-mediawiki';
+import {CodeMirror6} from 'ext.gadget.codemirror-mediawiki';
 import {renderEditor} from './core';
 
 declare namespace mediaWiki.libs {
