@@ -2511,8 +2511,8 @@ packages:
     resolution: {integrity: sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==}
     engines: {node: '>= 6'}
 
-  cssdb@8.8.0:
-    resolution: {integrity: sha512-QbLeyz2Bgso1iRlh7IpWk6OKa3lLNGXsujVjDMPl9rOZpxKeiG69icLpbLCFxeURwmcdIfZqQyhlooKJYM4f8Q==}
+  cssdb@8.9.0:
+    resolution: {integrity: sha512-J8jOU/hLjaXcO1LldOLraJSQpfLXRKof0I7mtbRyOy2AAXgqst0x9rlgi2qXeD6d0ou3ZLqcPAMqYVbpCbrxEw==}
 
   cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
@@ -7776,7 +7776,7 @@ snapshots:
 
   css-what@6.1.0: {}
 
-  cssdb@8.8.0: {}
+  cssdb@8.9.0: {}
 
   cssesc@3.0.0: {}
 
@@ -9764,7 +9764,7 @@ snapshots:
       css-blank-pseudo: 7.0.1(postcss@8.5.14)
       css-has-pseudo: 7.0.3(postcss@8.5.14)
       css-prefers-color-scheme: 10.0.0(postcss@8.5.14)
-      cssdb: 8.8.0
+      cssdb: 8.9.0
       postcss: 8.5.14
       postcss-attribute-case-insensitive: 7.0.1(postcss@8.5.14)
       postcss-clamp: 4.1.0(postcss@8.5.14)
