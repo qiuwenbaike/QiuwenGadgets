@@ -16,21 +16,11 @@ overrides:
   stylelint-config-wikimedia: ^0.19.2
 
 patchedDependencies:
-  alpha-sort:
-    hash: c180a2c10bb672edd958072717b8c947ace596f4b53761ea9c069740b698bfb5
-    path: patches/alpha-sort.patch
-  esbuild-css-modules-plugin:
-    hash: 9f3daeb694b1fb5ea78a24519389fa4ad0e520e748c1aed9d57f821c094c2a97
-    path: patches/esbuild-css-modules-plugin.patch
-  eslint-config-wikimedia:
-    hash: e3f8f1685c08a13dbd61a0cc3c1ef2a5e9f01404eae84e1a429d43c002b2ac3e
-    path: patches/eslint-config-wikimedia.patch
-  eslint-plugin-no-jquery:
-    hash: f159cb7e58efe8c63ec0e0f4080afb4e79367c2ae357eff1f9a65184c946c8f8
-    path: patches/eslint-plugin-no-jquery.patch
-  types-mediawiki-api:
-    hash: 77b5208f5758474758ff922378a42ecd8736dde7dcc3296064e81377dde5b7a3
-    path: patches/types-mediawiki-api.patch
+  alpha-sort: c180a2c10bb672edd958072717b8c947ace596f4b53761ea9c069740b698bfb5
+  esbuild-css-modules-plugin: 9f3daeb694b1fb5ea78a24519389fa4ad0e520e748c1aed9d57f821c094c2a97
+  eslint-config-wikimedia: e3f8f1685c08a13dbd61a0cc3c1ef2a5e9f01404eae84e1a429d43c002b2ac3e
+  eslint-plugin-no-jquery: f159cb7e58efe8c63ec0e0f4080afb4e79367c2ae357eff1f9a65184c946c8f8
+  types-mediawiki-api: 77b5208f5758474758ff922378a42ecd8736dde7dcc3296064e81377dde5b7a3
 
 importers:
 
@@ -293,7 +283,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1(jiti@2.6.1)(postcss@8.5.14)(tsx@4.22.0)(yaml@2.7.1)
       postcss-preset-env:
-        specifier: ^10.1.6
+        specifier: ^10.6.0
         version: 10.6.1(postcss@8.5.14)
       prettier:
         specifier: ^3.8.3
@@ -1693,36 +1683,42 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm-musl@2.5.1':
     resolution: {integrity: sha512-6E+m/Mm1t1yhB8X412stiKFG3XykmgdIOqhjWj+VL8oHkKABfu/gjFj8DvLrYVHSBNC+/u5PeNrujiSQ1zwd1Q==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-arm64-glibc@2.5.1':
     resolution: {integrity: sha512-LrGp+f02yU3BN9A+DGuY3v3bmnFUggAITBGriZHUREfNEzZh/GO06FF5u2kx8x+GBEUYfyTGamol4j3m9ANe8w==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm64-musl@2.5.1':
     resolution: {integrity: sha512-cFOjABi92pMYRXS7AcQv9/M1YuKRw8SZniCDw0ssQb/noPkRzA+HBDkwmyOJYp5wXcsTrhxO0zq1U11cK9jsFg==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-x64-glibc@2.5.1':
     resolution: {integrity: sha512-GcESn8NZySmfwlTsIur+49yDqSny2IhPeZfXunQi48DMugKeZ7uy1FX83pO0X22sHntJ4Ub+9k34XQCX+oHt2A==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-x64-musl@2.5.1':
     resolution: {integrity: sha512-n0E2EQbatQ3bXhcH2D1XIAANAcTZkQICBPVaxMeaCVBtOpBZpWJuf7LwyWPSBDITb7In8mqQgJ7gH8CILCURXg==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-win32-arm64@2.5.1':
     resolution: {integrity: sha512-RFzklRvmc3PkjKjry3hLF9wD7ppR4AKcWNzH7kXR7GUe0Igb3Nz8fyPwtZCSquGrhU5HhUNDr/mKBqj7tqA2Vw==}
@@ -3672,24 +3668,28 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.32.0:
     resolution: {integrity: sha512-UpQkoenr4UJEzgVIYpI80lDFvRmPVg6oqboNHfoH4CQIfNA+HOrZ7Mo7KZP02dC6LjghPQJeBsvXhJod/wnIBg==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.32.0:
     resolution: {integrity: sha512-V7Qr52IhZmdKPVr+Vtw8o+WLsQJYCTd8loIfpDaMRWGUZfBOYEJeyJIkqGIDMZPwPx24pUMfwSxxI8phr/MbOA==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.32.0:
     resolution: {integrity: sha512-bYcLp+Vb0awsiXg/80uCRezCYHNg1/l3mt0gzHnWV9XP1W5sKa5/TCdGWaR/zBM2PeF/HbsQv/j2URNOiVuxWg==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.32.0:
     resolution: {integrity: sha512-8SbC8BR40pS6baCM8sbtYDSwEVQd4JlFTOlaD3gWGHfThTcABnNDBda6eTZeqbofalIJhFx0qKzgHJmcPTnGdw==}
