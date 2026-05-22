@@ -175,10 +175,10 @@
 				});
 				let afd_cat = 'delete';
 				if (Twinkle.getPref('afdDefaultCategory') === 'same') {
-					if (localStorage.Twinkle_afdCategory === undefined) {
-						localStorage.Twinkle_afdCategory = 'delete';
+					if (mw.storage.get('Twinkle_afdCategory') === undefined) {
+						mw.storage.set('Twinkle_afdCategory', 'delete');
 					} else {
-						afd_cat = localStorage.Twinkle_afdCategory;
+						afd_cat = mw.storage.get('Twinkle_afdCategory');
 					}
 				}
 				afd_category.append({
@@ -297,7 +297,7 @@
 				e.target.form.fwdcsdreason.parentElement.setAttribute('hidden', '');
 		}
 		if (Twinkle.getPref('afdDefaultCategory') === 'same') {
-			localStorage.Twinkle_afdCategory = e.target.value;
+			mw.storage.set('Twinkle_afdCategory', e.target.value);
 		}
 	};
 	Twinkle.xfd.callbacks = {
@@ -606,7 +606,7 @@
 						'subst:',
 						`IfdItem|Filename=${mw.config.get('wgTitle')}|Uploader=${
 							params.creator
-						}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}}}--~~`.concat('~~')
+						}|Reason=${Morebits.string.formatReasonText(params.xfdreason)}}}~~`.concat('~~')
 					)
 				);
 				pageobj.setEditSummary(`加入[[${Morebits.pageNameNorm}]]`);
