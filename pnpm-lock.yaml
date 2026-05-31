@@ -51,7 +51,7 @@ importers:
         specifier: ^0.55.1
         version: 0.55.1
       select2:
-        specifier: ^4.0.13
+        specifier: 4.0.13
         version: 4.0.13
       svgo:
         specifier: ^4.0.1
