@@ -4,5 +4,6 @@
 	"section": "compatibility",
 	"excludeSites": ["licencewiki", "loginwiki", "mncqiuwenbaike"],
 	"default": true,
+	"dependencies": ["ext.gadget.Util"],
 	"hidden": true
 }
