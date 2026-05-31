@@ -1,4 +1,6 @@
-(function templateTabs(): void {
+import {getBody} from 'ext.gadget.Util';
+
+void getBody().then(function templateTabs(): void {
 	for (const container of document.querySelectorAll('.template-tabs-container')) {
 		const containerId = container.id;
 		const tabs = container.querySelectorAll<HTMLDivElement>('.mcTabs > div');
@@ -38,4 +40,4 @@
 			});
 		}
 	}
-})();
+});

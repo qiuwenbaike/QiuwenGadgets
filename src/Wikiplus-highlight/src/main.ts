@@ -4,7 +4,6 @@
  * @license GPL-3.0-or-later
  */
 import {CDN} from '@bhsd/browser';
-import {CodeMirror6} from 'ext.gadget.codemirror-mediawiki';
 import {renderEditor} from './core';
 
 declare namespace mediaWiki.libs {
@@ -48,7 +47,6 @@ declare namespace mediaWiki.libs {
 						return [...removedNodes];
 					})
 				).find<HTMLTextAreaElement>(selector),
-				// @ts-expect-error TS2339
 				cm = CodeMirror6.instances?.get(removed!);
 			if (typeof cm?.destroy === 'function') {
 				cm.destroy();

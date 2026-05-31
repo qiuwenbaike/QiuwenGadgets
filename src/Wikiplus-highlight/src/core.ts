@@ -1,4 +1,3 @@
-import {CodeMirror6} from 'ext.gadget.codemirror-mediawiki';
 import {getObject} from '@bhsd/browser';
 
 const {wgPageName: page, wgNamespaceNumber: ns, wgPageContentModel: contentmodel} = mw.config.get();
@@ -116,7 +115,6 @@ const submit = /** 提交编辑 */ (): true => {
  * @param setting 是否是Wikiplus设置（使用json语法）
  */
 export const renderEditor = async (target: HTMLTextAreaElement, setting: boolean): Promise<void> => {
-	// @ts-expect-error TS2339
 	const cm = await CodeMirror6.fromTextArea(
 		target,
 		...(setting ? (['json'] satisfies [string]) : await getPageMode(target.value))
