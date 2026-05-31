@@ -24,6 +24,7 @@ const purge: Purge = async (title) => {
 		};
 
 		await api.post(params);
+		// eslint-disable-next-line mediawiki/no-storage
 		localStorage.removeItem(`MediaWikiModuleStore:${wgWikiID}`);
 
 		toastifyInstance.hideToast();
