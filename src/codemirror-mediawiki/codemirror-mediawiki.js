@@ -2,5 +2,5 @@
 // @ts-nocheck
 
 (async function codemirrorMediawikiLoad() {
-	await import('../../node_modules/@bhsd/codemirror-mediawiki/dist/mw.min.js');
+	await import('../../node_modules/@bhsd/codemirror-mediawiki/dist/wiki.min.js');
 })();
