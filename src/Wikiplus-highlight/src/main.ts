@@ -3,7 +3,6 @@
  * @author Bhsd <https://github.com/bhsd-harry>
  * @license GPL-3.0-or-later
  */
-import {CDN} from '@bhsd/browser';
 import {renderEditor} from './core';
 
 declare namespace mediaWiki.libs {
@@ -21,13 +20,13 @@ declare namespace mediaWiki.libs {
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
-		const MW_CDN = `npm/@bhsd/codemirror-mediawiki@${libs.wphl.cmVersion ?? 'latest'}/dist/wiki.min.js`;
+		const WPHL_CDN =
+			'https://git.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/main.min.js';
 
 		if (typeof CodeMirror6 !== 'function') {
-			await $.ajax(`${wphl?.CDN || CDN}/${MW_CDN}`, {dataType: 'script', cache: true});
+			await $.ajax(WPHL_CDN, {dataType: 'script', cache: true});
 		}
 		Object.assign(CodeMirror6, {
-			CDN: wphl?.CDN,
 			monacoVersion: wphl?.monacoVersion,
 		});
 
