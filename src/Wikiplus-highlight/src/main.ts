@@ -20,11 +20,10 @@ declare namespace mediaWiki.libs {
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
-		const WPHL_CDN =
-			'https://git.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/main.min.js';
+		const CM_CDN = 'https://git.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js';
 
 		if (typeof CodeMirror6 !== 'function') {
-			await $.ajax(WPHL_CDN, {dataType: 'script', cache: true});
+			await $.ajax(CM_CDN, {dataType: 'script', cache: true});
 		}
 		Object.assign(CodeMirror6, {
 			monacoVersion: wphl?.monacoVersion,
