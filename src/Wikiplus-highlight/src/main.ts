@@ -20,7 +20,8 @@ declare namespace mediaWiki.libs {
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
-		const CM_CDN = 'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js';
+		const CM_CDN =
+			'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js?date=20260603';
 
 		if (typeof CodeMirror6 !== 'function') {
 			await $.ajax(CM_CDN, {dataType: 'script', cache: true});
