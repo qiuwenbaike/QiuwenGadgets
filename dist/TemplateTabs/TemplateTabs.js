@@ -23,6 +23,7 @@
 "use strict";
 
 // dist/TemplateTabs/TemplateTabs.js
+//! src/TemplateTabs/TemplateTabs.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -66,7 +67,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/TemplateTabs/TemplateTabs.ts
 var import_ext_gadget = require("ext.gadget.Util");
 void (0, import_ext_gadget.getBody)().then(function templateTabs() {
   var _iterator = _createForOfIteratorHelper(document.querySelectorAll(".template-tabs-container")), _step;

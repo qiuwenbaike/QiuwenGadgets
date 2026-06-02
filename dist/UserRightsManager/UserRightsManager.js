@@ -25,6 +25,7 @@
 "use strict";
 
 // dist/UserRightsManager/UserRightsManager.js
+//! src/UserRightsManager/UserRightsManager.ts
 function asyncGeneratorStep(n, t, e, r, o, a, c) {
   try {
     var i = n[a](c), u = i.value;
@@ -48,7 +49,6 @@ function _asyncToGenerator(n) {
     });
   };
 }
-//! src/UserRightsManager/UserRightsManager.ts
 var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/UserRightsManager/modules/getPagePermissions.ts
 var getPagePermissions = () => {

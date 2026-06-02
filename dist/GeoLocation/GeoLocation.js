@@ -1738,6 +1738,7 @@ var require_es_json_stringify = __commonJS({
 });
 
 // dist/GeoLocation/GeoLocation.js
+//! src/GeoLocation/modules/constant.ts
 require_es_json_parse();
 require_es_json_stringify();
 function asyncGeneratorStep(n, t, e, r, o, a, c) {
@@ -1763,7 +1764,6 @@ function _asyncToGenerator(n) {
     });
   };
 }
-//! src/GeoLocation/modules/constant.ts
 var SYSTEM_SCRIPT_LIST = ["滥用过滤器", "求闻编者", "求闻百科社区", "Example", "External contributors", "Maintenance script", "MediaWiki default", "MediaWiki message delivery", "New user page"];
 var WEBMASTER_LIST = ["QiuWen", "QiuWen for Accounts", "QiuwenSocialMedia"];
 //! src/GeoLocation/GeoLocation.ts

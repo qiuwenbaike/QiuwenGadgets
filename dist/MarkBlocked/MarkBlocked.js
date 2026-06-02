@@ -24,6 +24,7 @@
 "use strict";
 
 // dist/MarkBlocked/MarkBlocked.js
+//! src/MarkBlocked/options.json
 function asyncGeneratorStep(n, t, e, r, o, a, c) {
   try {
     var i = n[a](c), u = i.value;
@@ -90,7 +91,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/MarkBlocked/options.json
 var contributionsPageAlias = "Special:Contributions";
 var userNamespaceNumbers = [2, 3];
 var storageKeyBlocked = "ext.gadget.MarkBlocked_blocked-";

@@ -23,6 +23,7 @@
 "use strict";
 
 // dist/Editform_Attribution/Editform_Attribution.js
+//! src/Editform_Attribution/Editform_Attribution.ts
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -66,7 +67,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/Editform_Attribution/Editform_Attribution.ts
 var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/Editform_Attribution/options.json
 var configKey = "gadget-Editform_Attribution__Initialized";

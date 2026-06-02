@@ -1395,6 +1395,7 @@ var require_es_weak_map_get_or_insert_computed = __commonJS({
 });
 
 // dist/TextSpacing/TextSpacing.js
+//! src/TextSpacing/modules/util.ts
 require_es_map_get_or_insert();
 require_es_map_get_or_insert_computed();
 require_es_weak_map_get_or_insert();
@@ -1448,7 +1449,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/TextSpacing/modules/util.ts
 var import_ext_gadget = require("ext.gadget.Util");
 var isInlineHTMLElement = (node) => {
   return node instanceof HTMLElement && window.getComputedStyle(node).display.includes("inline");

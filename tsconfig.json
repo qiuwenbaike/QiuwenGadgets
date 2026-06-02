@@ -16,15 +16,15 @@
 		"strict": true,
 
 		"allowImportingTsExtensions": true,
-		"baseUrl": ".",
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
 		"paths": {
-			"~/*": ["src/*"]
+			"*": ["./*"],
+			"~/*": ["./src/*"],
+			"@/*": ["./src/*"]
 		},
 		"resolveJsonModule": true,
 
-		"downlevelIteration": true,
 		"newLine": "lf",
 		"noEmit": true,
 		"removeComments": false,

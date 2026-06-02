@@ -24,6 +24,7 @@
 "use strict";
 
 // dist/CopyCodeBlock/CopyCodeBlock.js
+//! src/CopyCodeBlock/modules/CopyCodeBlock.module.less
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
@@ -67,7 +68,6 @@ function _arrayLikeToArray(r, a) {
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
 }
-//! src/CopyCodeBlock/modules/CopyCodeBlock.module.less
 var button = "CopyCodeBlock-module__button_74i1Da__4100";
 var codeBlock = "CopyCodeBlock-module__codeBlock_74i1Da__4100";
 //! src/CopyCodeBlock/modules/addCopyListener.ts
