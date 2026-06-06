@@ -6,6 +6,8 @@
 		"jsdoc/require-param": "off",
 		"jsdoc/require-param-type": "off",
 		"jsdoc/require-returns": "off",
-		"jsdoc/require-returns-type": "off"
+		"jsdoc/require-returns-type": "off",
+
+		"@typescript-eslint/no-unsafe-argument": "off"
 	}
 }
