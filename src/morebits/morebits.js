@@ -1359,8 +1359,8 @@ import {generateArray} from 'ext.gadget.Util';
 		 * @param {string} end
 		 * @param {(string[]|string)} [skiplist]
 		 * @returns {string[]}
-		 * @throws If the `start` and `end` strings aren't of the same length.
-		 * @throws If `skiplist` isn't an array or string
+		 * @throws {Error} If the `start` and `end` strings aren't of the same length.
+		 * @throws {TypeError} If `skiplist` isn't an array or string
 		 */
 		splitWeightedByKeys: (str, start, end, skiplist) => {
 			if (start.length !== end.length) {
@@ -1544,7 +1544,7 @@ import {generateArray} from 'ext.gadget.Util';
 		 *
 		 * @param {Array} arr
 		 * @returns {Array} A copy of the array with duplicates removed.
-		 * @throws When provided a non-array.
+		 * @throws {Array} When provided a non-array.
 		 */
 		uniq: (arr) => {
 			if (!Array.isArray(arr)) {
@@ -1560,7 +1560,7 @@ import {generateArray} from 'ext.gadget.Util';
 		 * @param {Array} arr
 		 * @returns {Array} A copy of the array with the first instance of each value
 		 * removed; subsequent instances of those values (duplicates) remain.
-		 * @throws When provided a non-array.
+		 * @throws {Array} When provided a non-array.
 		 */
 		dups: (arr) => {
 			if (!Array.isArray(arr)) {
@@ -1576,7 +1576,7 @@ import {generateArray} from 'ext.gadget.Util';
 		 * @param {Array} arr
 		 * @param {number} size - Size of each chunk (except the last, which could be different).
 		 * @returns {Array[]} An array containing the smaller, chunked arrays.
-		 * @throws When provided a non-array.
+		 * @throws {Array} When provided a non-array.
 		 */
 		chunk: (arr, size) => {
 			if (!Array.isArray(arr)) {
@@ -1725,7 +1725,7 @@ import {generateArray} from 'ext.gadget.Util';
 		 *
 		 * @param {string} prefix
 		 * @param {string} postfix
-		 * @throws If either `prefix` or `postfix` is missing.
+		 * @throws {Error} If either `prefix` or `postfix` is missing.
 		 */
 		unbind(prefix, postfix) {
 			if (!prefix || !postfix) {
@@ -1928,7 +1928,7 @@ import {generateArray} from 'ext.gadget.Util';
 		 *
 		 * @param {number} number - Should be an integer.
 		 * @param {string} unit
-		 * @throws If invalid or unsupported unit is given.
+		 * @throws {TypeError} If invalid or unsupported unit is given.
 		 * @returns {Morebits.date}
 		 */
 		add(number, unit) {
@@ -1957,7 +1957,7 @@ import {generateArray} from 'ext.gadget.Util';
 		 *
 		 * @param {number} number - Should be an integer.
 		 * @param {string} unit
-		 * @throws If invalid or unsupported unit is given.
+		 * @throws {Error} If invalid or unsupported unit is given.
 		 * @returns {Morebits.date}
 		 */
 		subtract(number, unit) {
@@ -4972,7 +4972,7 @@ import {generateArray} from 'ext.gadget.Util';
 	 *
 	 * @memberof Morebits.status
 	 * @param {HTMLElement} root - Usually a div element.
-	 * @throws If `root` is not an `HTMLElement`.
+	 * @throws {TypeError} If `root` is not an `HTMLElement`.
 	 */
 	Morebits.status.init = (root) => {
 		if (!(root instanceof Element)) {
@@ -4988,7 +4988,7 @@ import {generateArray} from 'ext.gadget.Util';
 	/**
 	 * @memberof Morebits.status
 	 * @param {Function} handler - Function to execute on error.
-	 * @throws When `handler` is not a function.
+	 * @throws {TypeError} When `handler` is not a function.
 	 */
 	Morebits.status.onError = (handler) => {
 		if (typeof handler === 'function') {

@@ -1,4 +1,4 @@
-const getURL = () => {
+const getURL = (): string => {
 	const {wgCurRevisionId, wgPageName, wgRevisionId} = mw.config.get();
 	const URL: string = mw.util.getUrl('Special:Contact/Report', {
 		reporttitle: wgPageName,
