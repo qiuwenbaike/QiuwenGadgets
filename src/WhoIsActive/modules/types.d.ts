@@ -1,13 +1,13 @@
 type Usercontribs = {
-	usercontribs: Array<{
+	usercontribs: {
 		timestamp: string;
-	}>;
+	}[];
 };
 
 type Logevents = {
-	logevents: Array<{
+	logevents: {
 		timestamp: string;
-	}>;
+	}[];
 };
 
 export type {Usercontribs, Logevents};

@@ -56,7 +56,7 @@ const eslintOnlyAllowES5 = new ESLint({
  * Read `dist/definition.txt`
  *
  * @return {string|undefined} Gadget definitions (in the format of MediaWiki:Gadgets-definition item)
- * @throws If `dist/definition.txt` is not found
+ * @throws {Error} If `dist/definition.txt` is not found
  */
 const readDefinition = () => {
 	const definitionPath = path.join(__rootDir, 'dist/definition.txt');
@@ -254,6 +254,7 @@ async function checkConfig(
 async function checkConfig(config: ReturnType<typeof loadConfig>): Promise<void>;
 async function checkConfig(
 	config: ReturnType<typeof loadConfig>,
+	// eslint-disable-next-line @typescript-eslint/unified-signatures
 	{
 		isCheckApiUrlOnly,
 		isSkipAsk,
@@ -361,6 +362,7 @@ const loadConfig = () => {
 async function makeEditSummary(isSkipAsk?: boolean): Promise<string>;
 async function makeEditSummary(
 	isSkipAsk: boolean,
+	// eslint-disable-next-line @typescript-eslint/unified-signatures
 	{
 		filePath,
 		fallbackEditSummary,

@@ -28,15 +28,15 @@ type Variant = (typeof VARIANTS)[number];
 type ExtVariant = (typeof EXT_VARIANTS)[number];
 
 function isVariant(str: string): str is Variant {
-	return (VARIANTS as ReadonlyArray<string>).includes(str);
+	return (VARIANTS as readonly string[]).includes(str);
 }
 
 function isValidVariant(str: string): str is ValidVariant {
-	return (VALID_VARIANTS as ReadonlyArray<string>).includes(str);
+	return (VALID_VARIANTS as readonly string[]).includes(str);
 }
 
 function isExtVariant(str: string): str is ExtVariant {
-	return (EXT_VARIANTS as ReadonlyArray<string>).includes(str);
+	return (EXT_VARIANTS as readonly string[]).includes(str);
 }
 
 /**

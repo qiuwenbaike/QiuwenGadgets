@@ -36,7 +36,7 @@ const exec = promisify(_exec);
  *
  * @param {string} filePath The target file path
  * @return {string} The file content
- * @throws If the file is not found
+ * @throws {Error} If the file is not found
  */
 const readFileContent = (filePath: string) => {
 	const fileBuffer = readFileSync(filePath);
@@ -49,7 +49,7 @@ const readFileContent = (filePath: string) => {
  *
  * @param {number|string} filePath The file descriptor or target file path
  * @param {string} fileContent The file content
- * @throws If the file is not found
+ * @throws {Error} If the file is not found
  */
 const writeFileContent = (filePath: number | string, fileContent: string) => {
 	const fileDescriptor = typeof filePath === 'number' ? filePath : openSync(filePath, 'w');
@@ -64,7 +64,7 @@ const writeFileContent = (filePath: number | string, fileContent: string) => {
  * @param {(T | U)[]} args The given arguments
  * @return {NonNullable<T>[]} The generated array
  */
-const generateArray = <T, U extends T extends Array<infer S> ? S : T>(...args: (T | U)[]): NonNullable<U>[] => {
+const generateArray = <T, U extends T extends (infer S)[] ? S : T>(...args: (T | U)[]): NonNullable<U>[] => {
 	return args.flatMap((arg) => {
 		if (arg === null || arg === undefined) {
 			return [];

@@ -1,21 +1,21 @@
 // API request
 type QueryLocalAndGlobalBlocksResponse = {
 	query: {
-		blocks?: Array<{
+		blocks?: {
 			by: string;
 			expiry: string;
 			reason: string;
 			restrictions: string | string[];
 			timestamp: string;
 			user: string;
-		}>;
-		globalblocks?: Array<{
+		}[];
+		globalblocks?: {
 			by: string;
 			expiry: string;
 			reason: string;
 			timestamp: string;
 			target: string;
-		}>;
+		}[];
 	};
 };
 
