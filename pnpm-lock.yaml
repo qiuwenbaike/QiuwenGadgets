@@ -88,8 +88,8 @@ importers:
         specifier: ^1.2.5
         version: 1.2.5
       '@mrhenry/core-web':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/babel__core':
         specifier: ^7.20.5
         version: 7.20.5
@@ -1597,6 +1597,9 @@ packages:
   '@mrhenry/core-web@1.2.5':
     resolution: {integrity: sha512-4DR8qPjandFMR0B/xOuC5JuFDIRn1yME1byJz7HDNXbuDdTvVEt/9DMEdl2U+wqYOEgWFoU8yE3Ixtb6USZsNw==}
 
+  '@mrhenry/core-web@2.0.0':
+    resolution: {integrity: sha512-Fs0Fm+3HDjTm9WGUk2soR64FH64acwshimHkEyXiF9NkU7Rm8pA6QXsHeULTLtpEDgo6GojP9ZwiOT8sC8TXBw==}
+
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -2899,10 +2902,6 @@ packages:
   espree@9.6.1:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-
-  esquery@1.6.0:
-    resolution: {integrity: sha512-ca9pw9fomFcKPvFLXhBKUK90ZvGibiGOvRJNbjljY7s7uq/5YO4BOzcYtJqExdx99rF6aAcnRxHmcUHcz6sQsg==}
-    engines: {node: '>=0.10'}
 
   esquery@1.7.0:
     resolution: {integrity: sha512-Ap6G0WQwcU/LHsvLwON1fAQX9Zp0A2Y6Y/cJBl9r/JbW90Zyg4/zbG6zzKa2OTALELarYHmKu0GhpM5EO+7T0g==}
@@ -6642,6 +6641,11 @@ snapshots:
       browserslist: 4.28.2
       semver: 7.8.1
 
+  '@mrhenry/core-web@2.0.0':
+    dependencies:
+      browserslist: 4.28.2
+      semver: 7.8.1
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -6903,7 +6907,7 @@ snapshots:
 
   '@typescript-eslint/project-service@8.59.4(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.59.4(typescript@5.9.3)
+      '@typescript-eslint/tsconfig-utils': 8.60.1(typescript@5.9.3)
       '@typescript-eslint/types': 8.60.1
       debug: 4.4.3
       typescript: 5.9.3
@@ -8029,7 +8033,7 @@ snapshots:
       debug: 4.4.3
       escape-string-regexp: 4.0.0
       eslint: 8.57.1
-      esquery: 1.6.0
+      esquery: 1.7.0
       is-builtin-module: 3.2.1
       semver: 7.8.1
       spdx-expression-parse: 4.0.0
@@ -8245,10 +8249,6 @@ snapshots:
       acorn: 8.14.1
       acorn-jsx: 5.3.2(acorn@8.14.1)
       eslint-visitor-keys: 3.4.3
-
-  esquery@1.6.0:
-    dependencies:
-      estraverse: 5.3.0
 
   esquery@1.7.0:
     dependencies:
@@ -10492,7 +10492,7 @@ snapshots:
       eslint-visitor-keys: 5.0.1
       espree: 11.2.0
       esquery: 1.7.0
-      semver: 7.8.0
+      semver: 7.8.1
     transitivePeerDependencies:
       - supports-color
 

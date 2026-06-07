@@ -69,7 +69,7 @@
 		"@commitlint/cli": "^21.0.2",
 		"@commitlint/config-conventional": "^21.0.2",
 		"@mrhenry/babel-plugin-core-web": "^1.2.5",
-		"@mrhenry/core-web": "^1.2.5",
+		"@mrhenry/core-web": "^2.0.0",
 		"@types/babel__core": "^7.20.5",
 		"@types/babel__helper-plugin-utils": "^7.10.3",
 		"@types/babel__traverse": "^7.28.0",
