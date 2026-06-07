@@ -113,7 +113,7 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 					this.content.addItems(fieldLayouts);
 
 					this.panel.$element.append(this.content.$element);
-					this.panel.$element.appendTo(this.$body as JQuery);
+					this.panel.$element.appendTo(this.$body as JQuery<HTMLBodyElement>);
 
 					return this;
 				}

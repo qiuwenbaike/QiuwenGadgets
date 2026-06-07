@@ -36,7 +36,7 @@ const getTargets = (feature: Exclude<Features, 'normalize'>) => {
 	const browserSupport = getSupport(feature.toLowerCase());
 
 	return Object.entries(browserSupport).reduce<Record<string, string>>((accumulator, [browser, versions]) => {
-		const target = versions.y?.toString();
+		const target = versions['y']?.toString();
 		if (target) {
 			accumulator[browser] = target;
 		}

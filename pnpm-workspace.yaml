@@ -3,9 +3,6 @@ allowBuilds:
   core-js: false
   esbuild: true
   vue-demi: false
-minimumReleaseAgeExclude:
-  - '@bhsd/browser@0.4.0'
-  - '@bhsd/codemirror-mediawiki@3.18.1'
 overrides:
   "@types/oojs-ui": "latest"
   "@typescript-eslint/utils": "$@typescript-eslint/eslint-plugin"

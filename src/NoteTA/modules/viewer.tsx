@@ -55,7 +55,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			});
 
 			this.$realContent.appendTo(panelLayout.$element);
-			panelLayout.$element.appendTo(this.$body as JQuery);
+			panelLayout.$element.appendTo(this.$body as JQuery<HTMLBodyElement>);
 
 			return this;
 		}
@@ -276,15 +276,13 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 				})
 				.catch((error: ApiRetryFailError | Error | string): void => {
 					if (error instanceof ApiRetryFailError) {
-						// eslint-disable-next-line @typescript-eslint/only-throw-error
 						throw new OO.ui.Error(error.toJQuery(), {
 							recoverable: true,
-						});
+						}) as unknown as Error;
 					} else {
-						// eslint-disable-next-line @typescript-eslint/only-throw-error
 						throw new OO.ui.Error(String(error), {
 							recoverable: false,
-						});
+						}) as unknown as Error;
 					}
 				});
 		}
