@@ -1,5 +1,5 @@
 diff --git a/mediawiki/common.js b/mediawiki/common.js
-index b01f33abc3170d54586802982d9e292b549ac151..afb3467a43312be292b80af73a4e63514479be30 100644
+index f0ef640916c6929b95dd311cc43ae0d252c7ec83..e794b9c14b5df99cc83123604f199145bb7aa4fb 100644
 --- a/mediawiki/common.js
 +++ b/mediawiki/common.js
 @@ -38,10 +38,6 @@ const config = {

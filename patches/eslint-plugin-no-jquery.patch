@@ -1,8 +1,8 @@
 diff --git a/src/rules/no-global-selector.js b/src/rules/no-global-selector.js
-index f11432e6682a6dab37b7bcffe617f3090dc20c48..66724916b56356294125b43b98c7b2d313dac485 100644
+index 4263b99a08de5d2fe42425bcd486184d14b509af..946c11bbeed2eb25aa609213bba51af48338ee78 100644
 --- a/src/rules/no-global-selector.js
 +++ b/src/rules/no-global-selector.js
-@@ -13,12 +13,17 @@ module.exports = {
+@@ -13,12 +13,18 @@ module.exports = {
  		docs: {
  			description: 'Disallows global selectors which search the whole document. ' +
  			'Encourages users to keep references to DOM nodes in memory, instead of selecting them from the DOM each time. ' +
@@ -16,20 +16,17 @@ index f11432e6682a6dab37b7bcffe617f3090dc20c48..66724916b56356294125b43b98c7b2d3
  				type: 'object',
  				properties: {
 +					allowBody: {
-+						type: 'boolean'
++						type: 'boolean',
++						description: 'Allow single "body" selectors'
 +					},
  					allowIds: {
- 						type: 'boolean'
- 					}
-@@ -38,13 +43,15 @@ module.exports = {
- 			) {
- 				return;
+ 						type: 'boolean',
+ 						description: 'Allow single ID selectors'
+@@ -44,11 +50,13 @@ module.exports = {
  			}
--			const value = node.arguments[ 0 ].value;
--			const allowIds = context.options[ 0 ] && context.options[ 0 ].allowIds;
-+			const { value } = node.arguments[ 0 ];
-+			const options = context.options[ 0 ] ?? {};
-+			const { allowBody, allowIds } = options;
+ 			const value = node.arguments[ 0 ].value;
+ 			const allowIds = context.options[ 0 ] && context.options[ 0 ].allowIds;
++			const allowBody = context.options[ 0 ] && context.options[ 0 ].allowBody;
  			if (
  				typeof value !== 'string' ||
  					!value ||
@@ -40,8 +37,8 @@ index f11432e6682a6dab37b7bcffe617f3090dc20c48..66724916b56356294125b43b98c7b2d3
  			) {
  				return;
  			}
-@@ -79,8 +86,19 @@ module.exports = {
-
+@@ -83,8 +91,19 @@ module.exports = {
+ 
  			context.report( {
  				node,
 -				message: 'Avoid queries which search the entire DOM. Keep DOM nodes in memory where possible.'
