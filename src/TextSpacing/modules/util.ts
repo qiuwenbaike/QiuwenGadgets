@@ -19,7 +19,6 @@ const isVisible = (element: Element): boolean => {
 };
 
 const getNodeText = (node: HTMLElement | Text): string => {
-	// eslint-disable-next-line unicorn/prefer-dom-node-text-content
 	return node instanceof HTMLElement ? node.innerText : node.data;
 };
 

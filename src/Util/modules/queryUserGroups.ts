@@ -2,7 +2,6 @@ import {initMwApi} from './initMwApi';
 
 type QueryUserGroups = typeof queryUserGroups;
 
-// eslint-disable-next-line func-style
 async function queryUserGroups(users: string[]) {
 	const api: mw.Api = initMwApi('Util-QueryUserGroups');
 

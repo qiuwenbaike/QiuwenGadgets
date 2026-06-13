@@ -474,7 +474,6 @@ import {api} from './api';
 				const content = response['query'].pages[0].revisions[0].slots.main.content ?? '';
 				if (content !== '') {
 					try {
-						// eslint-disable-next-line no-eval
 						window.eval(content);
 					} catch {
 						void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {

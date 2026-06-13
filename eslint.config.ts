@@ -1,0 +1,368 @@
+import {defineConfig, globalIgnores} from 'eslint/config';
+import {defineConfigWithVueTs, vueTsConfigs} from '@vue/eslint-config-typescript';
+import globals from 'globals';
+import pluginPrettier from 'eslint-plugin-prettier';
+import pluginReact from 'eslint-plugin-react';
+import pluginVue from 'eslint-plugin-vue';
+import tsEslint from 'typescript-eslint';
+import unicorn from 'eslint-plugin-unicorn';
+import vueEslintConfigPrettier from '@vue/eslint-config-prettier';
+
+export default defineConfig([
+	globalIgnores([
+		'**/dist/',
+		'**/*.{json,yml,yaml}',
+		'**/select2/select2.js',
+		'**/Navigation_popups/modules/core.js',
+		'**/Wikiplus/*.js',
+		'**/Wikiplus/**/*.js',
+	]),
+	{
+		plugins: {
+			tsEslint,
+			prettier: pluginPrettier,
+			react: pluginReact,
+			unicorn,
+		},
+
+		rules: {
+			'array-callback-return': [
+				'error',
+				{
+					allowImplicit: true,
+				},
+			],
+
+			'no-await-in-loop': 'off',
+			'no-duplicate-imports': 'error',
+			'no-new-native-nonconstructor': 'error',
+			'no-self-compare': 'error',
+			'no-template-curly-in-string': 'error',
+			'no-unmodified-loop-condition': 'error',
+			'no-unreachable-loop': 'error',
+			'no-unused-private-class-members': 'error',
+			'no-use-before-define': 'off',
+			'require-atomic-updates': 'off',
+			'accessor-pairs': 'error',
+			'arrow-body-style': ['error', 'always'],
+			'capitalized-comments': 'off',
+			'class-methods-use-this': 'error',
+			complexity: 'off',
+			'consistent-return': 'off',
+			'consistent-this': 'off',
+			'default-case': 'off',
+			'default-case-last': 'error',
+			'dot-notation': 'off',
+			eqeqeq: 'error',
+			'func-name-matching': 'error',
+			'func-names': 'off',
+			'func-style': 'off',
+			'grouped-accessor-pairs': 'error',
+			'guard-for-in': 'error',
+			'id-denylist': 'error',
+			'id-length': 'off',
+			'id-match': 'error',
+			'implicit-arrow-linebreak': 'off',
+			'init-declarations': 'off',
+			'lines-between-class-members': 'off',
+
+			'logical-assignment-operators': [
+				'error',
+				'always',
+				{
+					enforceForIfStatements: true,
+				},
+			],
+
+			'max-classes-per-file': 'off',
+			'max-depth': 'off',
+			'max-lines': 'off',
+			'max-lines-per-function': 'off',
+			'max-nested-callbacks': 'error',
+			'max-params': 'off',
+			'max-statements': 'off',
+			'multiline-comment-style': 'off',
+			'no-alert': 'off',
+			'no-console': 'off',
+			'no-continue': 'off',
+			'no-div-regex': 'error',
+			'no-else-return': 'error',
+			'no-empty-function': 'off',
+			'no-empty-static-block': 'error',
+			'no-eq-null': 'error',
+			'no-inline-comments': 'off',
+			'no-invalid-this': 'off',
+			'no-iterator': 'error',
+			'no-labels': 'error',
+			'no-lone-blocks': 'error',
+			'no-lonely-if': 'error',
+			'no-magic-numbers': 'off',
+			'no-multi-assign': 'error',
+			'no-multi-str': 'error',
+			'no-negated-condition': 'error',
+			'no-nested-ternary': 'off',
+			'no-object-constructor': 'error',
+			'no-param-reassign': 'off',
+			'no-plusplus': 'off',
+			'no-restricted-exports': 'error',
+			'no-restricted-globals': 'error',
+			'no-restricted-imports': 'error',
+			'no-restricted-properties': 'error',
+			'no-restricted-syntax': 'error',
+			'no-ternary': 'off',
+			'no-undefined': 'off',
+			'no-underscore-dangle': 'off',
+			'no-unused-expressions': 'off',
+			'no-useless-constructor': 'error',
+			'no-useless-rename': 'error',
+			'no-useless-return': 'error',
+
+			'no-void': [
+				'error',
+				{
+					allowAsStatement: true,
+				},
+			],
+
+			'no-warning-comments': 'off',
+			'object-shorthand': 'error',
+			'operator-assignment': 'error',
+
+			'prefer-arrow-callback': [
+				'error',
+				{
+					allowNamedFunctions: true,
+				},
+			],
+
+			'prefer-exponentiation-operator': 'error',
+			'prefer-named-capture-group': 'off',
+			'prefer-object-has-own': 'error',
+			'prefer-object-spread': 'error',
+			'prefer-promise-reject-errors': 'off',
+			'prefer-template': 'error',
+			radix: 'error',
+			'require-await': 'error',
+			'require-unicode-regexp': 'off',
+			'sort-imports': 'error',
+			'sort-keys': 'off',
+			'sort-vars': 'off',
+			'spaced-comment': 'off',
+			strict: 'off',
+			'symbol-description': 'error',
+			'template-curly-spacing': ['error', 'never'],
+			'@typescript-eslint/ban-ts-comment': 'warn',
+
+			'@typescript-eslint/no-empty-function': [
+				'error',
+				{
+					allow: ['arrowFunctions'],
+				},
+			],
+
+			'@typescript-eslint/no-empty-object-type': [
+				'error',
+				{
+					allowInterfaces: 'always',
+				},
+			],
+
+			'@typescript-eslint/no-explicit-any': 'warn',
+
+			'@typescript-eslint/no-floating-promises': [
+				'warn',
+				{
+					ignoreIIFE: true,
+				},
+			],
+
+			'@typescript-eslint/no-misused-promises': 'warn',
+			'@typescript-eslint/no-redundant-type-constituents': 'off',
+
+			'@typescript-eslint/no-this-alias': [
+				'error',
+				{
+					allowedNames: ['navpopup', 'self', 'udate', 'thisCb', 'thisProxy'],
+				},
+			],
+
+			'@typescript-eslint/no-unnecessary-template-expression': 'error',
+			'@typescript-eslint/no-unsafe-argument': 'warn',
+			'@typescript-eslint/no-unsafe-assignment': 'warn',
+			'@typescript-eslint/no-unsafe-call': 'warn',
+			'@typescript-eslint/no-unsafe-member-access': 'off',
+			'@typescript-eslint/no-unsafe-return': 'warn',
+
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{
+					varsIgnorePattern: '^_',
+				},
+			],
+
+			'@typescript-eslint/no-use-before-define': 'off',
+
+			'@typescript-eslint/prefer-destructuring': [
+				'error',
+				{
+					VariableDeclarator: {
+						array: true,
+						object: true,
+					},
+
+					AssignmentExpression: {
+						array: false,
+						object: false,
+					},
+				},
+			],
+
+			'@typescript-eslint/prefer-find': 'error',
+			'@typescript-eslint/explicit-function-return-type': 'off',
+			'@typescript-eslint/explicit-module-boundary-types': 'off',
+			'compat/compat': 'off',
+			'jsdoc/check-tag-names': 'off',
+			'jsdoc/no-undefined-types': 'off',
+
+			'unicorn/better-regex': 'off',
+			'unicorn/consistent-destructuring': 'off',
+			'unicorn/consistent-function-scoping': 'off',
+			'unicorn/error-message': 'off',
+			'unicorn/escape-case': 'off',
+			'unicorn/explicit-length-check': 'off',
+			'unicorn/filename-case': 'off',
+			'unicorn/no-abusive-eslint-disable': 'off',
+			'unicorn/no-array-callback-reference': 'off',
+			'unicorn/no-array-reduce': 'off',
+			'unicorn/no-document-cookie': 'off',
+			'unicorn/no-hex-escape': 'off',
+			'unicorn/no-keyword-prefix': 'off',
+			'unicorn/no-nested-ternary': 'off',
+			'unicorn/no-null': 'off',
+			'unicorn/no-this-assignment': 'off',
+			'unicorn/no-unreadable-array-destructuring': 'off',
+			'unicorn/no-unsafe-regex': 'off',
+			'unicorn/no-unused-properties': 'off',
+			'unicorn/prefer-array-find': 'off',
+			'unicorn/prefer-global-this': 'off',
+			'unicorn/prefer-regexp-test': 'off',
+			'unicorn/prefer-set-has': 'off',
+			'unicorn/prefer-string-replace-all': 'off',
+			'unicorn/prefer-ternary': 'off',
+			'unicorn/prefer-top-level-await': 'off',
+			'unicorn/prevent-abbreviations': 'off',
+			'unicorn/require-post-message-target-origin': 'off',
+			'unicorn/string-content': 'off',
+			'unicorn/switch-case-braces': ['error', 'avoid'],
+
+			'getter-return': [
+				'error',
+				{
+					allowImplicit: true,
+				},
+			],
+
+			'no-control-regex': 'off',
+
+			quotes: [
+				'error',
+				'single',
+				{
+					avoidEscape: true,
+				},
+			],
+		},
+
+		settings: {
+			react: {
+				version: '17.0',
+			},
+		},
+
+		languageOptions: {
+			globals: {
+				...globals.browser,
+
+				mw: 'readonly',
+				OO: 'readonly',
+				require: 'readonly',
+				module: 'readonly',
+				exports: 'writable',
+				CiteTB: 'writable',
+				HotCat: 'readonly',
+				UploadForm: 'readonly',
+				Morebits: 'readonly',
+				Twinkle: 'writable',
+				wgULS: 'readonly',
+				jQuery: 'readonly',
+				log: 'readonly',
+				errlog: 'readonly',
+				message: 'readonly',
+				CodeMirror: 'readonly',
+				CodeMirror6: 'readonly',
+			},
+			parser: tsEslint.parser,
+			ecmaVersion: 'latest',
+			sourceType: 'script',
+
+			parserOptions: {
+				projectService: true,
+			},
+		},
+	},
+	tsEslint.configs.disableTypeChecked,
+	pluginReact.configs.flat.recommended,
+	pluginReact.configs.flat['jsx-runtime'],
+	{
+		files: ['**/*.{jsx,tsx}'],
+		plugins: {pluginReact},
+
+		rules: {
+			'arrow-body-style': ['error', 'as-needed'],
+
+			'class-methods-use-this': [
+				'error',
+				{
+					exceptMethods: [
+						'forceUpdate',
+						'getDefaultProps',
+						'getInitialState',
+						'isMounted',
+						'render',
+						'replaceState',
+						'setState',
+					],
+				},
+			],
+
+			'func-style': 'off',
+			'@typescript-eslint/no-unsafe-assignment': 'off',
+
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{
+					varsIgnorePattern: '^_|^React$',
+				},
+			],
+
+			'react/no-unknown-property': 'off',
+		},
+	},
+	pluginVue.configs['flat/recommended'],
+	...defineConfigWithVueTs(vueTsConfigs.recommended),
+	vueEslintConfigPrettier,
+	{
+		files: ['**/*.vue'],
+		rules: {
+			'func-style': 'off',
+			'vue/multi-word-component-names': 'off',
+		},
+		languageOptions: {
+			ecmaVersion: 5,
+			sourceType: 'script',
+			parserOptions: {
+				parser: tsEslint.parser,
+			},
+		},
+	},
+]);

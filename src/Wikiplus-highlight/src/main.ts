@@ -5,6 +5,7 @@
  */
 import {renderEditor} from './core';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace mediaWiki.libs {
 	let wphl: {version?: string; cmVersion?: string; monacoVersion?: string; CDN?: string} | undefined;
 }

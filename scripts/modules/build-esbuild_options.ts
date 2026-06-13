@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {type BuildOptions} from 'esbuild';
 // @ts-expect-error TS7016
 import LessPluginNpmImport from 'less-plugin-npm-import';

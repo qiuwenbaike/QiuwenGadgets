@@ -54,7 +54,7 @@ const addPortletLink = ({
 			`[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`,
 		]) {
 			$element.append(
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				new (mw as any).widgets.CopyTextLayout({
 					align: 'top',
 					copyText: value,

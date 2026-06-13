@@ -405,7 +405,6 @@ import {generateArray} from 'ext.gadget.Util';
 			case 'form':
 				node = document.createElement('form');
 				node.className = 'quickform';
-				// eslint-disable-next-line no-script-url
 				node.setAttribute('action', 'javascript:void(0);');
 				if (data.event) {
 					node.addEventListener(data.eventType || 'submit', data.event, false);

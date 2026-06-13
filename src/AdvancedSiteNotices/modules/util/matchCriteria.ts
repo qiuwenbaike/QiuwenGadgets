@@ -1,11 +1,9 @@
 const {wgUserGroups, wgGlobalGroups, wgUserLanguage} = mw.config.get();
 
-// eslint-disable-next-line camelcase
 const in_group = (group: string): boolean => {
 	return !!(wgUserGroups?.includes(group) || (wgGlobalGroups as string[])?.includes(group));
 };
 
-// eslint-disable-next-line camelcase
 const only_for = (userLanguage: string): boolean => {
 	return userLanguage === wgUserLanguage;
 };
@@ -20,7 +18,6 @@ const matchCriteria = ($notice: JQuery): boolean => {
 		// FIXME: This shouldn't be using eval on data entered in wikitext.
 		// If that data is malformed it will throw an exception e.g. criteria = "(false))"
 		try {
-			// eslint-disable-next-line no-eval
 			return window.eval(criteria) as boolean;
 		} catch {
 			return false;

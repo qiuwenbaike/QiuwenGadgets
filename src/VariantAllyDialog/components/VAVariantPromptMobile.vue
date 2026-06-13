@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {ref} from 'vue';
-import {type ValidVariant} from 'ext.gadget.VariantAlly';
+import {VALID_VARIANTS, inferredVariant, shuffleVariant} from '../modules/utils';
+import useI18n, {i18nVariant} from '../composables/useI18n';
 import VAButton from './VAButton.vue';
 import VASelect from './VASelect.vue';
-import useI18n, {i18nVariant} from '../composables/useI18n';
-import useUniqueId from '../composables/useUniqueId';
-import {VALID_VARIANTS, inferredVariant, shuffleVariant} from '../modules/utils';
+import {type ValidVariant} from 'ext.gadget.VariantAlly';
 import messages from '../messages.json';
-import useModelWrapper from '../composables/useModelWrapper';
+import {ref} from 'vue';
 import useDefault from '../composables/useDefault';
+import useModelWrapper from '../composables/useModelWrapper';
+import useUniqueId from '../composables/useUniqueId';
 
 const props = withDefaults(
 	defineProps<{

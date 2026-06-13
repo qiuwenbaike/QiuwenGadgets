@@ -3,7 +3,6 @@ import {uniqueArray} from './uniqueArray';
 
 type FindVariants = typeof findVariants;
 
-// eslint-disable-next-line func-style
 async function findVariants(text: string) {
 	const api: mw.Api = initMwApi('Util-FindVariants');
 

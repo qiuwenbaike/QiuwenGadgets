@@ -1670,7 +1670,6 @@ import {generateArray} from 'ext.gadget.Util';
 		},
 	];
 	Twinkle.block.callback.filtered_block_groups = (group, show_template) => {
-		// eslint-disable-next-line no-jquery/no-map-util
 		return $.map(group, (blockGroup) => {
 			// Add custom reason
 			if (blockGroup.custom) {
@@ -1696,7 +1695,6 @@ import {generateArray} from 'ext.gadget.Util';
 					});
 				}
 			}
-			// eslint-disable-next-line no-jquery/no-map-util
 			const list = $.map(blockGroup.list, (blockPreset) => {
 				if (!show_template && blockPreset.meta) {
 					return;

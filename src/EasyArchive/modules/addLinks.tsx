@@ -52,7 +52,6 @@ const addLinks = async ({
 	}
 
 	for (const {indexNo, anchor} of headingIndices) {
-		// eslint-disable-next-line unicorn/prefer-query-selector
 		const headline = document.getElementById(anchor);
 		if (!headline) {
 			continue;

@@ -7,7 +7,6 @@ type CheckDependencies = typeof checkDependencies;
 
 function checkDependencies(gadgetNames: string | string[]): Promise<void>;
 function checkDependencies(gadgetNames: string, option: Boolean): Promise<void>;
-// eslint-disable-next-line func-style
 async function checkDependencies(gadgetNames: string | string[], option?: Boolean): Promise<void> {
 	const api: mw.Api = initMwApi('Util-CheckDependencies');
 	const gadgets = uniqueArray(generateArray(gadgetNames));

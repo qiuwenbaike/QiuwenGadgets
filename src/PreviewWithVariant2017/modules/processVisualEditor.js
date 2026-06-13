@@ -47,7 +47,6 @@ const processVisualEditor = ($body) => {
 
 		// Make other things like Reference Tooltip function
 		mw.hook('wikipage.content').fire($result);
-		// eslint-disable-next-line no-undef
 		ve.targetLinksToNewWindow($result[0]);
 		return $result;
 	};
