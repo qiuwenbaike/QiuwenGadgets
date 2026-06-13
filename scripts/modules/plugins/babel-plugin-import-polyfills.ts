@@ -1,4 +1,3 @@
-/* eslint-disable camelcase, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
 /**
  * @file Automatically import any missing polyfills
  * @see {@link https://github.com/zloirock/core-js#missing-polyfills}

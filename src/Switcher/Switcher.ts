@@ -22,7 +22,6 @@ void getBody().then(function switcherJS(): void {
 				type: 'radio',
 				name: radioName,
 			});
-			// eslint-disable-next-line no-loop-func
 			$radio.on('click', (): void => {
 				$selectedSwitcher?.hide();
 				$switcher.show();

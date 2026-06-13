@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {ref} from 'vue';
-import {setLocalVariant, redirect, ValidVariant, setOptOut} from 'ext.gadget.VariantAlly';
+import {ValidVariant, redirect, setLocalVariant, setOptOut} from 'ext.gadget.VariantAlly';
+import {getMountPoint, isMobileDevice} from './modules/utils';
 import VAVariantPrompt from './components/VAVariantPrompt.vue';
 import VAVariantPromptMobile from './components/VAVariantPromptMobile.vue';
-import {getMountPoint, isMobileDevice} from './modules/utils';
+import {ref} from 'vue';
 
 const isOpen = ref(true);
 const isDisabled = ref(false);

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type {Setting} from './types';
 
 const CLASS_NAME: string = 'gadget-cat_a_lot';

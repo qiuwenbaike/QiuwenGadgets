@@ -1,6 +1,6 @@
 import {Ref, ref, watch} from 'vue';
-import {type ValidVariant} from 'ext.gadget.VariantAlly';
 import {inferredVariant, shuffleVariant} from '../modules/utils';
+import {type ValidVariant} from 'ext.gadget.VariantAlly';
 
 const INTERVAL = 3 * 1000;
 

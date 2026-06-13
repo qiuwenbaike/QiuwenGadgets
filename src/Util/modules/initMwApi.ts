@@ -8,7 +8,6 @@ type InitMwApi = typeof initMwApi;
  */
 function initMwApi(userAgent?: string): mw.Api;
 function initMwApi(userAgent: string, apiUri: string): mw.ForeignApi;
-// eslint-disable-next-line func-style
 function initMwApi(userAgent?: string, apiUri?: string): mw.Api | mw.ForeignApi {
 	const apiOptions = {
 		ajax: {

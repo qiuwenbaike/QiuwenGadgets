@@ -170,7 +170,6 @@ const trim = (
 async function prompt<T = any>(message: Omit<PromptObject, 'name'>): Promise<T>;
 async function prompt(message: string, type?: Exclude<PromptType, 'confirm'>, initial?: string): Promise<string>;
 async function prompt(message: string, type: 'confirm', initial?: boolean): Promise<boolean>;
-// eslint-disable-next-line func-style
 async function prompt(
 	message: string | Omit<PromptObject, 'name'>,
 	type: PromptType = 'text',

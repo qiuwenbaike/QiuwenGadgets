@@ -1,18 +1,18 @@
 import {
-	checkThisPage,
-	rewriteNavigation,
 	applyURLVariant,
-	showVariantPrompt,
+	checkThisPage,
 	isEligibleForRewriting,
+	rewriteNavigation,
+	showVariantPrompt,
 } from './modules/controller';
 import {calculatePreferredVariant, getPageVariant, isOptOuted, setLocalVariant} from './modules/model';
 import {
-	isLoggedIn,
 	isLangChinese,
+	isLoggedIn,
 	isReferrerBlocked,
-	isWikitextPage,
-	isViewingPage,
 	isReferrerSelf,
+	isViewingPage,
+	isWikitextPage,
 } from './modules/utils';
 
 function main() {

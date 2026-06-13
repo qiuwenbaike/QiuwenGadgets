@@ -50,7 +50,6 @@ import {mwApi} from './api';
 		if (storageItem === 'disabled') {
 			return true;
 		}
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const self = this;
 
 		const newVal = (self.wpTextbox1 as HTMLTextAreaElement).value?.replace(checkCategoriesRegExp, '');

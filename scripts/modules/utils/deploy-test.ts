@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import {type Mwn, type MwnOptions} from 'mwn';
 import type {ApiEditResponse} from 'mwn/build/api_response_types';
 import {type loadConfig} from './deploy-util';
@@ -34,7 +35,7 @@ class FakeApi implements Partial<Mwn> {
 		this.options = credentials;
 	}
 
-	// eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	public delete(title: string | number, summary: string, _options?: any) {
 		console.log('    [test] deleting', {
 			title,
@@ -43,20 +44,18 @@ class FakeApi implements Partial<Mwn> {
 		return Promise.resolve({});
 	}
 
-	// eslint-disable-next-line class-methods-use-this
 	public getTokensAndSiteInfo() {
 		return Promise.resolve();
 	}
 
-	// eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-empty-function
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	public initOAuth() {}
 
-	// eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	public parseWikitext(content: string, _additionalParams?: any) {
 		return Promise.resolve(content);
 	}
 
-	// eslint-disable-next-line class-methods-use-this
 	public save(
 		title: string | number,
 		content: string,
