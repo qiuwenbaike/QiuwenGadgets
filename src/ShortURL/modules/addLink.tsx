@@ -36,7 +36,7 @@ const addLink = (link: string, permaLink: string): void => {
 			const $element: JQuery = $('<div>');
 
 			$element.append(
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				new (mw as any).widgets.CopyTextLayout({
 					label: getMessage('Page URL'),
 					title: getMessage('Page URL'),
@@ -46,7 +46,7 @@ const addLink = (link: string, permaLink: string): void => {
 			);
 
 			$element.append(
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				new (mw as any).widgets.CopyTextLayout({
 					label: getMessage('Permanent URL'),
 					title: getMessage('Permanent URL'),
@@ -58,7 +58,7 @@ const addLink = (link: string, permaLink: string): void => {
 			if (wgUserName) {
 				for (const [i, domain] of domains.entries()) {
 					$element.append(
-						// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						new (mw as any).widgets.CopyTextLayout({
 							label: `${getMessage('Short URL')}${i + 1}`,
 							title: `${getMessage('Short URL')}${i + 1}`,

@@ -27,6 +27,7 @@ import alphaSort from 'alpha-sort';
 import {apiQueue} from '../deploy';
 import chalk from 'chalk';
 import {globSync} from 'glob';
+import globals from 'globals';
 import path from 'node:path';
 import {setTimeout} from 'node:timers/promises';
 
@@ -40,16 +41,15 @@ const deployPages: Record<string, string[]> = {};
  */
 const eslintOnlyAllowES5 = new ESLint({
 	overrideConfig: {
-		plugins: ['eslint-plugin-es5'],
-		extends: ['plugin:es5/no-es2015', 'plugin:es5/no-es2016'],
-		env: {
-			browser: true,
-		},
-		parserOptions: {
-			ecmaVersion: 5,
+		languageOptions: {
+			globals: globals.browser,
+			ecmaVersion: '2015',
+			sourceType: 'script',
+			parserOptions: {
+				projectService: true,
+			},
 		},
 	},
-	useEslintrc: false,
 });
 
 /**
@@ -254,7 +254,6 @@ async function checkConfig(
 async function checkConfig(config: ReturnType<typeof loadConfig>): Promise<void>;
 async function checkConfig(
 	config: ReturnType<typeof loadConfig>,
-	// eslint-disable-next-line @typescript-eslint/unified-signatures
 	{
 		isCheckApiUrlOnly,
 		isSkipAsk,
@@ -263,7 +262,6 @@ async function checkConfig(
 		isSkipAsk?: boolean;
 	}
 ): Promise<void>;
-// eslint-disable-next-line func-style
 async function checkConfig(
 	config: ReturnType<typeof loadConfig>,
 	{
@@ -362,7 +360,6 @@ const loadConfig = () => {
 async function makeEditSummary(isSkipAsk?: boolean): Promise<string>;
 async function makeEditSummary(
 	isSkipAsk: boolean,
-	// eslint-disable-next-line @typescript-eslint/unified-signatures
 	{
 		filePath,
 		fallbackEditSummary,
@@ -371,7 +368,6 @@ async function makeEditSummary(
 		fallbackEditSummary?: string;
 	}
 ): Promise<string>;
-// eslint-disable-next-line func-style
 async function makeEditSummary(
 	isSkipAsk?: boolean,
 	{

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {editPage, queryPage} from './util';
 
 const addTranslatedPageTemplate = async (): Promise<void> => {

@@ -15,7 +15,6 @@ import {foreignApi} from './modules/api';
 			formatversion: '2',
 		});
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const {groups, options}: {groups: string[]; options: {rnrsverifyhash?: string; rnrsverifytime?: string}} =
 			foreignUserdata?.['query']?.userinfo ?? {groups: [], options: {}};
 

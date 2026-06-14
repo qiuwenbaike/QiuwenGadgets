@@ -9,7 +9,6 @@ const checkMwConfig = (configKey: string, expectConfig: string | string[]): bool
 		return false;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-base-to-string
 	mwConfig = String(mwConfig).toLowerCase().trim();
 	if (!mwConfig) {
 		return false;

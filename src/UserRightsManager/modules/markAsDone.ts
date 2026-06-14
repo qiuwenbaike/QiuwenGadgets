@@ -20,7 +20,6 @@ const queryRevisions = async (titles: string | string[], rvsection: string) => {
 
 const markAsDone = ({userName, index, closingRemarks}: {userName: string; index: string; closingRemarks: string}) => {
 	const {wgPageName, wgUserName} = mw.config.get();
-	// eslint-disable-next-line unicorn/prefer-query-selector
 	const sectionNode = document.getElementById(
 		`User:${userName.replace(/"/g, '.22').replace(/ /g, '_')}${index ?? ''}`
 	);

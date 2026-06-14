@@ -83,7 +83,6 @@ const showDialog = function showDialog({
 					rightLogText.text(wgULS('没有任何日志', '沒有任何日誌'));
 				} else {
 					// @ts-expect-error TS2304
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-call, new-cap
 					const timestamp = new Morebits.date(logs[0].timestamp).calendar() as string;
 					const rights = logs[0].params.newgroups.join('、') || wgULS('（无）', '（無）');
 					rightLogText.text(
@@ -101,10 +100,10 @@ const showDialog = function showDialog({
 				value: '',
 				placeholder: '可留空',
 			});
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			Dialog.expiryInput = new (mw as any).widgets.ExpiryWidget({
 				$overlay: $body.find('.oo-ui-window'),
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				RelativeInputClass: (mw as any).widgets.SelectWithInputWidget,
 				relativeInput: {
 					or: true,

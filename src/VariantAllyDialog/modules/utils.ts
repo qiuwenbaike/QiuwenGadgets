@@ -1,5 +1,5 @@
-import {type ValidVariant} from 'ext.gadget.VariantAlly';
 import {computed, ref} from 'vue';
+import {type ValidVariant} from 'ext.gadget.VariantAlly';
 
 const VALID_VARIANTS = ['zh-cn', 'zh-sg', 'zh-my', 'zh-tw', 'zh-hk', 'zh-mo'] as const;
 

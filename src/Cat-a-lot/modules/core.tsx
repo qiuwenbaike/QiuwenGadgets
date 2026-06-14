@@ -636,7 +636,6 @@ const catALot = async (): Promise<void> => {
 					rvslots: 'main',
 				},
 				(result): void => {
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 					void this.editCategories(result, markedLabel, targetCategory, mode);
 				}
 			);
