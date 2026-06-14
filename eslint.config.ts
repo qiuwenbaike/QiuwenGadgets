@@ -301,11 +301,10 @@ export default defineConfig([
 				CodeMirror: 'readonly',
 				CodeMirror6: 'readonly',
 			},
-			parser: tsEslint.parser,
 			ecmaVersion: 'latest',
 			sourceType: 'script',
-
 			parserOptions: {
+				parser: tsEslint.parser,
 				projectService: true,
 			},
 		},
@@ -358,10 +357,12 @@ export default defineConfig([
 			'vue/multi-word-component-names': 'off',
 		},
 		languageOptions: {
-			ecmaVersion: 5,
+			globals: globals.browser,
+			ecmaVersion: 'latest',
 			sourceType: 'script',
 			parserOptions: {
 				parser: tsEslint.parser,
+				projectService: true,
 			},
 		},
 	},
