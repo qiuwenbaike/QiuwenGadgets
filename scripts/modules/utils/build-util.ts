@@ -198,7 +198,6 @@ const generateTransformOptions = () => {
 		],
 		compact: false,
 		plugins: [
-			'@mrhenry/core-web',
 			path.join(__rootDir, 'scripts/modules/plugins/babel-plugin-convert-comments.ts'),
 			path.join(__rootDir, 'scripts/modules/plugins/babel-plugin-import-polyfills.ts'),
 		],
