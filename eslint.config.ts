@@ -9,14 +9,7 @@ import unicorn from 'eslint-plugin-unicorn';
 import vueEslintConfigPrettier from '@vue/eslint-config-prettier';
 
 export default defineConfig([
-	globalIgnores([
-		'**/dist/',
-		'**/*.{json,yml,yaml}',
-		'**/select2/select2.js',
-		'**/Navigation_popups/modules/core.js',
-		'**/Wikiplus/*.js',
-		'**/Wikiplus/**/*.js',
-	]),
+	globalIgnores(['**/dist/', '**/*.{json,yml,yaml}', '**/select2/select2.js', '**/Wikiplus/{*.js,**/*.js}']),
 	{
 		plugins: {
 			tsEslint,
@@ -182,7 +175,7 @@ export default defineConfig([
 			'@typescript-eslint/no-this-alias': [
 				'error',
 				{
-					allowedNames: ['navpopup', 'self', 'udate', 'thisCb', 'thisProxy'],
+					allowedNames: ['self', 'udate', 'thisCb', 'thisProxy'],
 				},
 			],
 
@@ -364,6 +357,32 @@ export default defineConfig([
 				parser: tsEslint.parser,
 				projectService: true,
 			},
+		},
+	},
+	{
+		files: ['**/Navigation_popups/modules/core.js'],
+		rules: {
+			camelcase: 'off',
+			'@typescript-eslint/no-unused-vars': 'off',
+			'@typescript-eslint/no-this-alias': [
+				'error',
+				{
+					allowDestructuring: true,
+					allowedNames: ['self', 'navpopup'],
+				},
+			],
+			'jsdoc/check-param-names': 'off',
+			'jsdoc/valid-types': 'off',
+			'jsdoc/require-returns': 'off',
+			'jsdoc/require-returns-type': 'off',
+			'new-cap': 'off',
+			'no-extend-native': 'off',
+			'no-new': 'off',
+			'no-shadow': 'off',
+			'no-unused-vars': 'off',
+			'no-use-before-define': 'off',
+			'unicorn/prefer-add-event-listener': 'off',
+			'unicorn/prefer-string-slice': 'off',
 		},
 	},
 ]);
