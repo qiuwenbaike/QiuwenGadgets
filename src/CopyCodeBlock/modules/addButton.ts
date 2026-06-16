@@ -11,8 +11,6 @@ const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 		classes: [button as string],
 		framed: false,
 		icon: 'copy',
-		label: getMessage('Copy'),
-		invisibleLabel: true,
 	});
 	const $copyButton: JQuery = copyButton.$element;
 
