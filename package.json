@@ -71,7 +71,7 @@
 		"@eslint/compat": "^2.1.0",
 		"@eslint/eslintrc": "^3.3.5",
 		"@eslint/js": "^10.0.1",
-		"@mrhenry/babel-plugin-core-web": "^1.2.5",
+		"@mrhenry/babel-plugin-core-web": "^2.0.0",
 		"@mrhenry/core-web": "^2.0.0",
 		"@types/babel__core": "^7.20.5",
 		"@types/babel__helper-plugin-utils": "^7.10.3",
