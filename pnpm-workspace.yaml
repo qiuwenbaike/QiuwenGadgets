@@ -6,6 +6,7 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@vue/language-core@3.3.5'
   - vue-tsc@3.3.5
+  - happy-dom@20.10.6
 overrides:
   "@types/oojs-ui": "latest"
   "browserslist-config-wikimedia": "latest"
