@@ -43,11 +43,10 @@ const eslintOnlyAllowES5 = new ESLint({
 	overrideConfig: {
 		languageOptions: {
 			globals: globals.browser,
-			ecmaVersion: '2015',
-			sourceType: 'script',
-			parserOptions: {
-				projectService: true,
-			},
+			ecmaVersion: 5,
+		},
+		rules: {
+			'prettier/prettier': 'off',
 		},
 	},
 });

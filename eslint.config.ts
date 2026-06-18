@@ -144,6 +144,7 @@ export default defineConfig([
 			strict: 'off',
 			'symbol-description': 'error',
 			'template-curly-spacing': ['error', 'never'],
+			'prettier/prettier': 'off',
 			'@typescript-eslint/ban-ts-comment': 'warn',
 
 			'@typescript-eslint/no-empty-function': [
