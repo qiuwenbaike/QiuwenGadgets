@@ -1735,6 +1735,8 @@
 		"MediaWiki:Vector.js"
 	],
 	"loginwiki": [
+		"MediaWiki:Citizen.js",
+		"MediaWiki:Common.js",
 		"MediaWiki:Gadget-ChineseDays",
 		"MediaWiki:Gadget-ChineseDays.js",
 		"MediaWiki:Gadget-ChineseDays/zh",
@@ -2496,7 +2498,10 @@
 		"MediaWiki:Gadget-Util/zh-my",
 		"MediaWiki:Gadget-Util/zh-sg",
 		"MediaWiki:Gadget-Util/zh-tw",
-		"MediaWiki:Gadgets-definition"
+		"MediaWiki:Gadgets-definition",
+		"MediaWiki:Gongbi.js",
+		"MediaWiki:Vector-2022.js",
+		"MediaWiki:Vector.js"
 	],
 	"mncqiuwenbaike": [
 		"MediaWiki:Citizen.js",

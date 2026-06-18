@@ -232,5 +232,27 @@
 			"enable": true,
 			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector']);"
 		}
+	},
+	"loginwiki": {
+		"Citizen.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SkinCitizen']);"
+		},
+		"Common.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SiteCommon', 'ext.gadget.SiteCommon_JS']);"
+		},
+		"Gongbi.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SkinGongbi']);"
+		},
+		"Vector-2022.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector2022']);"
+		},
+		"Vector.js": {
+			"enable": true,
+			"sourceCode": "mw.loader.using(['ext.gadget.SkinVector']);"
+		}
 	}
 }
