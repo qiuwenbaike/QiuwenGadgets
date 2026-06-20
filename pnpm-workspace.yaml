@@ -12,6 +12,7 @@ overrides:
   "browserslist-config-wikimedia": "latest"
   "emoji-regex": "latest"
   "known-css-properties": "latest"
+  "dompurify": ">=3.4.11"
 patchedDependencies:
   alpha-sort: patches/alpha-sort.patch
   esbuild-css-modules-plugin: patches/esbuild-css-modules-plugin.patch
