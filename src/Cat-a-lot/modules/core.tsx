@@ -310,7 +310,7 @@ const catALot = async (): Promise<void> => {
 					const ul: string = initial.toUpperCase();
 					regexName += ll === ul ? initial : `[${ll}${ul}]`;
 				}
-				return regexName.replace(/([\$()*+.?\\^])/g, String.raw`\\$1`).replace(wikiTextBlankRE, wikiTextBlank);
+				return regexName.replace(/([$()*+.?\\^])/g, String.raw`\$1`).replace(wikiTextBlankRE, wikiTextBlank);
 			};
 			fallback = fallback.toLowerCase();
 			const canonical: string | undefined = CAL.wgFormattedNamespaces[namespaceNumber]?.toLowerCase();
@@ -404,7 +404,7 @@ const catALot = async (): Promise<void> => {
 			return new RegExp(
 				`\\[\\[[\\s_]*${catName}[\\s_]*:[\\s_]*(?:${variantRegExps.join(
 					'|'
-				)} )[\\s_]*(\\|[^\\]]*(?:\\][^\\]]+)*)?\\]\\]`,
+				)})[\\s_]*(\\|[^\\]]*(?:\\][^\\]]+)*)?\\]\\]`,
 				'g'
 			);
 		}
@@ -763,8 +763,8 @@ const catALot = async (): Promise<void> => {
 						<td>
 							<a
 								onClick={(event): void => {
-								const $element = $(event.currentTarget);
-								this.updateCats($element.closest('tr').data('category') as string);
+									const $element = $(event.currentTarget);
+									this.updateCats($element.closest('tr').data('category') as string);
 								}}
 							>
 								{category}
@@ -793,10 +793,10 @@ const catALot = async (): Promise<void> => {
 							<td>
 								<a
 									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
-									onClick={(event): void => {
-									const $element = $(event.currentTarget);
-									this.copyHere($element.closest('tr').data('category') as string);
-								}}
+										onClick={(event): void => {
+										const $element = $(event.currentTarget);
+										this.copyHere($element.closest('tr').data('category') as string);
+									}}
 								>
 									{CAL.msg('copy')}
 								</a>
@@ -805,9 +805,9 @@ const catALot = async (): Promise<void> => {
 								<a
 									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
 									onClick={(event): void => {
-									const $element = $(event.currentTarget);
-									this.moveHere($element.closest('tr').data('category') as string);
-								}}
+										const $element = $(event.currentTarget);
+										this.moveHere($element.closest('tr').data('category') as string);
+									}}
 								>
 									{CAL.msg('move')}
 								</a>
