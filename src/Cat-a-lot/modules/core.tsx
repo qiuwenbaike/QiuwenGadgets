@@ -793,7 +793,7 @@ const catALot = async (): Promise<void> => {
 							<td>
 								<a
 									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
-										onClick={(event): void => {
+									onClick={(event): void => {
 										const $element = $(event.currentTarget);
 										this.copyHere($element.closest('tr').data('category') as string);
 									}}
