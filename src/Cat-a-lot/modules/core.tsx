@@ -74,6 +74,45 @@ const catALot = async (): Promise<void> => {
 		private static settings: NonNullable<typeof window.CatALotPrefs> = {};
 		private static variantCache: Record<string, string[]> = {};
 
+		// Rate limiting: set to 1000 ms for ~1 request per second
+		private static requestDelay = 1000;
+		private static requestQueue: Array<{
+			fn: () => Promise<any>;
+			resolve: (v: any) => void;
+			reject: (e: any) => void;
+		}> = [];
+		private static processingQueue = false;
+		private static lastStart = 0;
+
+		private static enqueueApiCall(fn: () => Promise<any>): Promise<any> {
+			return new Promise((resolve, reject) => {
+				CAL.requestQueue.push({ fn, resolve, reject });
+				if (!CAL.processingQueue) {
+					CAL.processingQueue = true;
+					void CAL.processQueue();
+				}
+			});
+		}
+
+		private static async processQueue(): Promise<void> {
+			while (CAL.requestQueue.length) {
+				const { fn, resolve, reject } = CAL.requestQueue.shift()!;
+				const now = Date.now();
+				const wait = Math.max(0, CAL.requestDelay - (now - CAL.lastStart));
+				if (wait) {
+					await new Promise((r) => setTimeout(r, wait));
+				}
+				CAL.lastStart = Date.now();
+				try {
+					const res = await fn();
+					resolve(res);
+				} catch (e) {
+					reject(e);
+				}
+			}
+			CAL.processingQueue = false;
+		}
+
 		private static $counter: JQuery = $();
 		private static $progressDialog: JQuery = $();
 		private static $labels: JQuery = $();
@@ -271,7 +310,7 @@ const catALot = async (): Promise<void> => {
 					const ul: string = initial.toUpperCase();
 					regexName += ll === ul ? initial : `[${ll}${ul}]`;
 				}
-				return regexName.replace(/([$()*+.?\\^])/g, String.raw`\$1`).replace(wikiTextBlankRE, wikiTextBlank);
+				return regexName.replace(/([\$()*+.?\\^])/g, String.raw`\\$1`).replace(wikiTextBlankRE, wikiTextBlank);
 			};
 			fallback = fallback.toLowerCase();
 			const canonical: string | undefined = CAL.wgFormattedNamespaces[namespaceNumber]?.toLowerCase();
@@ -323,10 +362,12 @@ const catALot = async (): Promise<void> => {
 			};
 			for (const variant of VARIANTS) {
 				try {
-					const {parse} = await CAL.api.get({
-						...params,
-						variant,
-					} as typeof params);
+					const {parse} = await CAL.enqueueApiCall(() =>
+						CAL.api.get({
+							...params,
+							variant,
+						} as typeof params)
+					);
 					const {text} = parse;
 					const result = $(text).eq(0).text().trim();
 					results[results.length] = result;
@@ -363,7 +404,7 @@ const catALot = async (): Promise<void> => {
 			return new RegExp(
 				`\\[\\[[\\s_]*${catName}[\\s_]*:[\\s_]*(?:${variantRegExps.join(
 					'|'
-				)})[\\s_]*(\\|[^\\]]*(?:\\][^\\]]+)*)?\\]\\]`,
+				)} )[\\s_]*(\\|[^\\]]*(?:\\][^\\]]+)*)?\\]\\]`,
 				'g'
 			);
 		}
@@ -392,9 +433,9 @@ const catALot = async (): Promise<void> => {
 					}
 				};
 				if (params['action'] === 'query') {
-					CAL.api.get(params).then(callback).catch(handleError);
+					CAL.enqueueApiCall(() => CAL.api.get(params)).then(callback).catch(handleError);
 				} else {
-					CAL.api.post(params).then(callback).catch(handleError);
+					CAL.enqueueApiCall(() => CAL.api.post(params)).then(callback).catch(handleError);
 				}
 			};
 			doCall();
@@ -722,8 +763,8 @@ const catALot = async (): Promise<void> => {
 						<td>
 							<a
 								onClick={(event): void => {
-									const $element = $(event.currentTarget);
-									this.updateCats($element.closest('tr').data('category') as string);
+								const $element = $(event.currentTarget);
+								this.updateCats($element.closest('tr').data('category') as string);
 								}}
 							>
 								{category}
@@ -753,9 +794,9 @@ const catALot = async (): Promise<void> => {
 								<a
 									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
 									onClick={(event): void => {
-										const $element = $(event.currentTarget);
-										this.copyHere($element.closest('tr').data('category') as string);
-									}}
+									const $element = $(event.currentTarget);
+									this.copyHere($element.closest('tr').data('category') as string);
+								}}
 								>
 									{CAL.msg('copy')}
 								</a>
@@ -764,9 +805,9 @@ const catALot = async (): Promise<void> => {
 								<a
 									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
 									onClick={(event): void => {
-										const $element = $(event.currentTarget);
-										this.moveHere($element.closest('tr').data('category') as string);
-									}}
+									const $element = $(event.currentTarget);
+									this.moveHere($element.closest('tr').data('category') as string);
+								}}
 								>
 									{CAL.msg('move')}
 								</a>
