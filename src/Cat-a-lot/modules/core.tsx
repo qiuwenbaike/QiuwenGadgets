@@ -77,16 +77,20 @@ const catALot = async (): Promise<void> => {
 		// Rate limiting: set to 1000 ms for ~1 request per second
 		private static requestDelay = 1000;
 		private static requestQueue: Array<{
-			fn: () => Promise<any>;
-			resolve: (v: any) => void;
-			reject: (e: any) => void;
+			fn: () => Promise<unknown>;
+			resolve: (v: unknown) => void;
+			reject: (e: unknown) => void;
 		}> = [];
 		private static processingQueue = false;
 		private static lastStart = 0;
 
-		private static enqueueApiCall(fn: () => Promise<any>): Promise<any> {
-			return new Promise((resolve, reject) => {
-				CAL.requestQueue.push({ fn, resolve, reject });
+		private static enqueueApiCall<T>(fn: () => Promise<T>): Promise<T> {
+			return new Promise<T>((resolve, reject) => {
+				CAL.requestQueue.push({
+					fn,
+					resolve: resolve as (v: unknown) => void,
+					reject: reject as (e: unknown) => void,
+				});
 				if (!CAL.processingQueue) {
 					CAL.processingQueue = true;
 					void CAL.processQueue();
@@ -96,7 +100,7 @@ const catALot = async (): Promise<void> => {
 
 		private static async processQueue(): Promise<void> {
 			while (CAL.requestQueue.length) {
-				const { fn, resolve, reject } = CAL.requestQueue.shift()!;
+				const {fn, resolve, reject} = CAL.requestQueue.shift()!;
 				const now = Date.now();
 				const wait = Math.max(0, CAL.requestDelay - (now - CAL.lastStart));
 				if (wait) {
@@ -433,9 +437,13 @@ const catALot = async (): Promise<void> => {
 					}
 				};
 				if (params['action'] === 'query') {
-					CAL.enqueueApiCall(() => CAL.api.get(params)).then(callback).catch(handleError);
+					CAL.enqueueApiCall(() => CAL.api.get(params))
+						.then(callback)
+						.catch(handleError);
 				} else {
-					CAL.enqueueApiCall(() => CAL.api.post(params)).then(callback).catch(handleError);
+					CAL.enqueueApiCall(() => CAL.api.post(params))
+						.then(callback)
+						.catch(handleError);
 				}
 			};
 			doCall();
