@@ -77,9 +77,9 @@ const catALot = async (): Promise<void> => {
 		// Rate limiting: set to 1000 ms for ~1 request per second
 		private static requestDelay = 1000;
 		private static requestQueue: Array<{
-			fn: () => Promise<any>;
-			resolve: (v: any) => void;
-			reject: (e: any) => void;
+		    fn: () => Promise<unknown>;
+		    resolve: (value: unknown) => void;
+		    reject: (reason: unknown) => void;
 		}> = [];
 		private static processingQueue = false;
 		private static lastStart = 0;
