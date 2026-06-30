@@ -84,10 +84,10 @@ const catALot = async (): Promise<void> => {
 		private static processingQueue = false;
 		private static lastStart = 0;
 
-		private static enqueueApiCall<T>(fn: () => Promise<T>): Promise<T> {
-			return new Promise<T>((resolve, reject) => {
+		private static enqueueApiCall<T>(fn: () => T): Promise<Awaited<T>> {
+			return new Promise<Awaited<T>>((resolve, reject) => {
 				CAL.requestQueue.push({
-					fn,
+					fn: fn as unknown as () => Promise<unknown>,
 					resolve: resolve as (v: unknown) => void,
 					reject: reject as (e: unknown) => void,
 				});
