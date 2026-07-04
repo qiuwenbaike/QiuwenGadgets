@@ -1,6 +1,6 @@
-import {getObject} from '@bhsd/browser';
+import {getObject, isGlobal} from '@bhsd/browser';
 
-const {wgPageName: page, wgNamespaceNumber: ns, wgPageContentModel: contentmodel} = mw.config.get();
+const {wgPageName: pageName, wgNamespaceNumber: ns, wgPageContentModel: contentmodel} = mw.config.get();
 
 const CONTENTMODELS: Record<string, string> = {
 		wikitext: 'mediawiki',
@@ -17,25 +17,20 @@ const CONTENTMODELS: Record<string, string> = {
 
 /**
  * 检查页面语言类型
- *
  * @param value 页面内容
  */
-const getPageMode = async (value: string): Promise<[string, (number | undefined)?, (string | undefined)?]> => {
+const getPageMode = async (value: string): Promise<[string, (CodeMirrorOptions | undefined)?]> => {
 	let WikiplusPages;
-	if (typeof _WikiplusPages === 'object') {
+	if (typeof _WikiplusPages === 'object' && isGlobal('_WikiplusPages')) {
 		WikiplusPages = _WikiplusPages;
-	} else if (typeof Pages === 'object') {
+	} else if (typeof Pages === 'object' && isGlobal('Pages')) {
 		WikiplusPages = Pages;
 	}
 	if (WikiplusPages) {
-		const pages = Object.values(WikiplusPages).filter(({sectionCache}) => {
-			return Object.values(sectionCache).includes(value);
-		});
-		if (
-			pages.some(({title}) => {
-				return !title.endsWith('/doc');
-			})
-		) {
+		const pages = Object.values(WikiplusPages).filter(({sectionCache}) =>
+			Object.values(sectionCache).includes(value)
+		);
+		if (pages.some(({title}) => !title.endsWith('/doc'))) {
 			await mw.loader.using('mediawiki.Title');
 		}
 		const modes = new Set(
@@ -48,12 +43,13 @@ const getPageMode = async (value: string): Promise<[string, (number | undefined)
 				if (namespace % 2) {
 					return 'mediawiki';
 				}
-				const mode = EXTS.get(t.getExtension()?.toLowerCase() ?? '') ?? NAMESPACES[namespace];
+				const mode = EXTS.get(t.getExtension()?.toLowerCase() ?? '') ?? NAMESPACES[namespace],
+					isGadget = namespace === 8 || namespace === 2300;
 				switch (mode) {
 					case 'javascript':
-						return namespace === 8 || namespace === 2300 ? 'gadget' : mode;
+						return isGadget ? 'gadget' : mode;
 					case 'css':
-						return namespace === 2 || namespace === 8 || namespace === 2300 ? mode : 'sanitized-css';
+						return isGadget || namespace === 2 ? mode : 'sanitized-css';
 					case undefined:
 						return namespace === 10 || namespace === 2 ? 'template' : 'mediawiki';
 					default:
@@ -63,11 +59,11 @@ const getPageMode = async (value: string): Promise<[string, (number | undefined)
 		);
 		if (modes.size === 1) {
 			const [mode] = modes,
-				title = pages.length === 1 ? pages[0]!.title : undefined;
+				page = pages.length === 1 ? pages[0]!.title : undefined;
 			if (mode === 'gadget') {
-				return ['javascript', 8];
+				return ['javascript', {ns: 8}];
 			}
-			return mode === 'template' ? ['mediawiki', 10, title] : [mode!, undefined, title];
+			return mode === 'template' ? ['mediawiki', {ns: 10, page}] : [mode!, {page}];
 		} else if (modes.size === 2) {
 			if (modes.has('javascript') && modes.has('gadget')) {
 				return ['javascript'];
@@ -76,12 +72,12 @@ const getPageMode = async (value: string): Promise<[string, (number | undefined)
 			}
 		}
 	}
-	if ((ns !== 274 && contentmodel !== 'Scribunto') || page.endsWith('/doc')) {
-		return [CONTENTMODELS[contentmodel] ?? contentmodel, contentmodel === 'javascript' ? ns : undefined];
+	if ((ns !== 274 && contentmodel !== 'Scribunto') || pageName.endsWith('/doc')) {
+		return [CONTENTMODELS[contentmodel] ?? contentmodel, contentmodel === 'javascript' ? {ns} : undefined];
 	}
 	await mw.loader.using('oojs-ui-windows');
 	if (
-		await OO.ui.confirm(mw.message('cm-mw-contentmodel').parse(), {
+		await OO.ui.confirm(mw.msg('cm-mw-contentmodel'), {
 			actions: [{label: ns === 274 ? 'Widget' : 'Lua'}, {label: 'Wikitext', action: 'accept'}],
 		})
 	) {
@@ -91,7 +87,7 @@ const getPageMode = async (value: string): Promise<[string, (number | undefined)
 };
 
 const submit = /** 提交编辑 */ (): true => {
-		document.querySelector('#Wikiplus-Quickedit-Submit')!.dispatchEvent(new PointerEvent('click'));
+		document.getElementById('Wikiplus-Quickedit-Submit')!.dispatchEvent(new PointerEvent('click'));
 		return true;
 	},
 	submitMinor = /** 提交小编辑 */ (): true => {
@@ -102,7 +98,7 @@ const submit = /** 提交编辑 */ (): true => {
 		const settings: Record<string, unknown> | null = getObject('Wikiplus_Settings'),
 			escToExitQuickEdit = settings && (settings['esc_to_exit_quickedit'] || settings['escToExitQuickEdit']);
 		if (escToExitQuickEdit === true || escToExitQuickEdit === 'true') {
-			document.querySelector('#Wikiplus-Quickedit-Back')!.dispatchEvent(new PointerEvent('click'));
+			document.getElementById('Wikiplus-Quickedit-Back')!.dispatchEvent(new PointerEvent('click'));
 			return true;
 		}
 		return false;
@@ -110,7 +106,6 @@ const submit = /** 提交编辑 */ (): true => {
 
 /**
  * 渲染编辑器
- *
  * @param target 目标编辑框
  * @param setting 是否是Wikiplus设置（使用json语法）
  */

@@ -17,7 +17,7 @@ declare namespace mediaWiki.libs {
 	const {libs} = mediaWiki,
 		{wphl} = libs;
 	if (!wphl?.version) {
-		const version = '3.4.1';
+		const version = '3.5.0';
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
@@ -27,26 +27,20 @@ declare namespace mediaWiki.libs {
 		if (typeof CodeMirror6 !== 'function') {
 			await $.ajax(CM_CDN, {dataType: 'script', cache: true});
 		}
-		Object.assign(CodeMirror6, {
+		Object.assign(CodeMirror6!, {
 			monacoVersion: wphl?.monacoVersion,
 		});
 
 		// 监视 Wikiplus 编辑框
 		const observer = new MutationObserver((records) => {
 			const selector = '#Wikiplus-Quickedit, #Wikiplus-Setting-Input',
-				[added] = $(
-					records.flatMap(({addedNodes}) => {
-						return [...addedNodes];
-					})
-				).find<HTMLTextAreaElement>(selector);
+				[added] = $(records.flatMap(({addedNodes}) => [...addedNodes])).find<HTMLTextAreaElement>(selector);
 			if (added) {
 				void renderEditor(added, added.id === 'Wikiplus-Setting-Input');
 			}
-			const [removed] = $(
-					records.flatMap(({removedNodes}) => {
-						return [...removedNodes];
-					})
-				).find<HTMLTextAreaElement>(selector),
+			const [removed] = $(records.flatMap(({removedNodes}) => [...removedNodes])).find<HTMLTextAreaElement>(
+					selector
+				),
 				cm = CodeMirror6.instances?.get(removed!);
 			if (typeof cm?.destroy === 'function') {
 				cm.destroy();

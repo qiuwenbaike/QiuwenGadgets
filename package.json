@@ -48,7 +48,7 @@
 	],
 	"dependencies": {
 		"@bhsd/browser": "^1.0.0",
-		"@bhsd/codemirror-mediawiki": "^3.21.0",
+		"@bhsd/codemirror-mediawiki": "^4.1.0",
 		"@types/toastify-js": "^1.12.4",
 		"chinese-days": "^1.5.9",
 		"clipboard": "^2.0.11",
