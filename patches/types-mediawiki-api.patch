@@ -1,5 +1,5 @@
 diff --git a/index.d.ts b/index.d.ts
-index 9e1ed1acf8d0e28e3e6919b2898d65bc9ded2c99..4dd6d5ab58b809b4051113c12f3ea55a69970621 100644
+index 9f325ead3f8908e6465e2391b61af6037af61c6b..bef01b1432d67777196d6eb3d7718850785e4887 100644
 --- a/index.d.ts
 +++ b/index.d.ts
 @@ -51,6 +51,7 @@ export interface ApiParams extends UnknownApiParams {
@@ -10,15 +10,17 @@ index 9e1ed1acf8d0e28e3e6919b2898d65bc9ded2c99..4dd6d5ab58b809b4051113c12f3ea55a
      errorformat?: "bc" | "html" | "none" | "plaintext" | "raw" | "wikitext";
      errorlang?: string;
      errorsuselocal?: boolean;
-@@ -438,17 +439,7 @@ export interface DiscussionToolsApiDiscussionToolsEditParams extends ApiParams {
-     summary?: string;
-     sectiontitle?: string;
-     allownosectiontitle?: boolean;
+@@ -1364,19 +1365,7 @@ export interface DiscussionToolsApiDiscussionToolsEditParams extends ApiParams {
+     /**
+      * Apply the selected skin to the parser output. May affect the following properties: `text`, `langlinks`, `headitems`, `modules`, `jsconfigvars`, `indicators`.
+      */
 -    useskin?:
 -        | "apioutput"
+-        | "authentication-popup"
 -        | "cologneblue"
 -        | "contenttranslation"
 -        | "fallback"
+-        | "json"
 -        | "minerva"
 -        | "modern"
 -        | "monobook"
@@ -26,18 +28,20 @@ index 9e1ed1acf8d0e28e3e6919b2898d65bc9ded2c99..4dd6d5ab58b809b4051113c12f3ea55a
 -        | "vector"
 -        | "vector-2022";
 +    useskin?: string;
-     watchlist?: string;
-     captchaid?: string;
-     captchaword?: string;
-@@ -482,17 +473,7 @@ export interface DiscussionToolsApiDiscussionToolsPreviewParams extends ApiParam
-     page?: string;
-     wikitext?: string;
-     sectiontitle?: string;
+     /**
+      * Unconditionally add or remove the page from the current user's watchlist, use preferences (ignored for bot users) or do not change watch.
+      */
+@@ -1514,19 +1503,7 @@ export interface DiscussionToolsApiDiscussionToolsPreviewParams extends ApiParam
+     /**
+      * Apply the selected skin to the parser output. May affect the following properties: `text`, `langlinks`, `headitems`, `modules`, `jsconfigvars`, `indicators`.
+      */
 -    useskin?:
 -        | "apioutput"
+-        | "authentication-popup"
 -        | "cologneblue"
 -        | "contenttranslation"
 -        | "fallback"
+-        | "json"
 -        | "minerva"
 -        | "modern"
 -        | "monobook"
@@ -45,13 +49,13 @@ index 9e1ed1acf8d0e28e3e6919b2898d65bc9ded2c99..4dd6d5ab58b809b4051113c12f3ea55a
 -        | "vector"
 -        | "vector-2022";
 +    useskin?: string;
-     mobileformat?: boolean;
- }
- 
-@@ -915,17 +896,7 @@ export interface ApiImportParams extends ApiParams {
-     summary?: string;
-     xml?: upload;
-     interwikiprefix?: string;
+     /**
+      * Return parse output in a format suitable for mobile devices.
+      */
+@@ -2869,17 +2846,7 @@ export interface ApiImportParams extends ApiParams {
+     /**
+      * For interwiki imports: wiki to import from.
+      */
 -    interwikisource?:
 -        | "commons"
 -        | "de"
@@ -64,18 +68,20 @@ index 9e1ed1acf8d0e28e3e6919b2898d65bc9ded2c99..4dd6d5ab58b809b4051113c12f3ea55a
 -        | "pl"
 -        | "test2wiki";
 +    interwikisource?: string;
-     interwikipage?: string;
-     fullhistory?: boolean;
-     templates?: boolean;
-@@ -1357,17 +1328,7 @@ export interface ApiParseParams extends ApiParams {
-     preview?: boolean;
-     sectionpreview?: boolean;
-     disabletoc?: boolean;
+     /**
+      * For interwiki imports: page to import.
+      */
+@@ -4224,19 +4191,7 @@ export interface ApiParseParams extends ApiParams {
+     /**
+      * Apply the selected skin to the parser output. May affect the following properties: `text`, `langlinks`, `headitems`, `modules`, `jsconfigvars`, `indicators`.
+      */
 -    useskin?:
 -        | "apioutput"
+-        | "authentication-popup"
 -        | "cologneblue"
 -        | "contenttranslation"
 -        | "fallback"
+-        | "json"
 -        | "minerva"
 -        | "modern"
 -        | "monobook"
@@ -83,18 +89,20 @@ index 9e1ed1acf8d0e28e3e6919b2898d65bc9ded2c99..4dd6d5ab58b809b4051113c12f3ea55a
 -        | "vector"
 -        | "vector-2022";
 +    useskin?: string;
-     contentformat?:
-         | "application/json"
-         | "application/octet-stream"
-@@ -2764,17 +2725,7 @@ export interface VisualEditorApiVisualEditorEditParams extends ApiParams {
-     returnto?: string;
-     returntoquery?: string;
-     returntoanchor?: string;
+     /**
+      * Content serialization format used for the input text. Only valid when used with text.
+      */
+@@ -6538,19 +6493,7 @@ export interface VisualEditorApiVisualEditorEditParams extends ApiParams {
+     /**
+      * Apply the selected skin to the parser output. May affect the following properties: `text`, `langlinks`, `headitems`, `modules`, `jsconfigvars`, `indicators`.
+      */
 -    useskin?:
 -        | "apioutput"
+-        | "authentication-popup"
 -        | "cologneblue"
 -        | "contenttranslation"
 -        | "fallback"
+-        | "json"
 -        | "minerva"
 -        | "modern"
 -        | "monobook"
@@ -102,6 +110,6 @@ index 9e1ed1acf8d0e28e3e6919b2898d65bc9ded2c99..4dd6d5ab58b809b4051113c12f3ea55a
 -        | "vector"
 -        | "vector-2022";
 +    useskin?: string;
-     tags?: string | string[];
-     plugins?: string | string[];
-     mobileformat?: boolean;
+     /**
+      * Change tags to apply to the edit.
+      */
