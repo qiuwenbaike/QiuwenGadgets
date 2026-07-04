@@ -1,6 +1,6 @@
 type AddEventListenerWithRemover = <
 	Target extends Document | HTMLElement | Element | MediaQueryList | Window,
-	Type extends Target extends Document
+	Type extends (Target extends Document
 		? keyof DocumentEventMap
 		: Target extends HTMLElement
 			? keyof HTMLElementEventMap
@@ -8,8 +8,8 @@ type AddEventListenerWithRemover = <
 				? keyof MediaQueryListEventMap
 				: Target extends Window
 					? keyof WindowEventMap
-					: keyof GlobalEventHandlersEventMap,
-	Listener extends Target extends Document
+					: keyof GlobalEventHandlersEventMap),
+	Listener extends (Target extends Document
 		? Type extends keyof DocumentEventMap
 			? (this: Target, event: DocumentEventMap[Type]) => unknown
 			: (this: Target, event: Event) => unknown
@@ -29,7 +29,7 @@ type AddEventListenerWithRemover = <
 						? Type extends keyof WindowEventMap
 							? (this: Target, event: WindowEventMap[Type]) => unknown
 							: (this: Target, event: Event) => unknown
-						: (this: Target, event: Event) => unknown,
+						: (this: Target, event: Event) => unknown),
 >({
 	target,
 	type,

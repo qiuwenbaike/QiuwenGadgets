@@ -64,7 +64,7 @@ const writeFileContent = (filePath: number | string, fileContent: string) => {
  * @param {(T | U)[]} args The given arguments
  * @return {NonNullable<T>[]} The generated array
  */
-const generateArray = <T, U extends T extends (infer S)[] ? S : T>(...args: (T | U)[]): NonNullable<U>[] => {
+const generateArray = <T, U extends (T extends (infer S)[] ? S : T)>(...args: (T | U)[]): NonNullable<U>[] => {
 	return args.flatMap((arg) => {
 		if (arg === null || arg === undefined) {
 			return [];

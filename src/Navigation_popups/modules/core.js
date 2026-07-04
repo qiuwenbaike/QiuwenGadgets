@@ -1724,7 +1724,7 @@ const popups = () => {
 		};
 		const parse_table = () => {
 			endl(f('<table>', compareLineStringOrReg(/^{\|( .*)$/) ? r[1] : ''));
-			for (; remain(); ) {
+			for (; remain();) {
 				if (compareLineStringOrReg('|')) {
 					switch (charAtPoint(1)) {
 						case '}':
@@ -2113,7 +2113,7 @@ const popups = () => {
 			);
 		};
 		// begin parsing
-		for (; remain(); ) {
+		for (; remain();) {
 			if (compareLineStringOrReg(/^(={1,6})(.*)\1(.*)$/)) {
 				p = 0;
 				endl(f('<h?>?</h?>?', r[1].length, parse_inline_nowiki(r[2]), r[1].length, r[3]));
