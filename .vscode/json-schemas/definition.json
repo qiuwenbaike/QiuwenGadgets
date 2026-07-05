@@ -19,6 +19,16 @@
 			"examples": ["appear", "browser", "compatibility", "edit", "sysop"],
 			"minLength": 1
 		},
+		"includeSites": {
+			"type": "array",
+			"title": "在给定站点上启用当前小工具 / Enable the current gadget on given sites",
+			"default": [],
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"minItems": 1
+		},
 		"excludeSites": {
 			"type": "array",
 			"title": "在给定站点上禁用当前小工具 / Disable the current gadget on given sites",

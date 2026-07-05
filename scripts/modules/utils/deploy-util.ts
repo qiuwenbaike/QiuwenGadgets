@@ -94,13 +94,14 @@ const generateTargets = () => {
 		})
 	)) {
 		const definition = generateDefinition(gadgetName, false);
-		const {description, enable, excludeSites} = definition;
+		const {description, enable, includeSites, excludeSites} = definition;
 
 		if (enable === false) {
 			continue;
 		}
 
 		targets[gadgetName] = {
+			includeSites,
 			excludeSites,
 			description:
 				trim(description, {

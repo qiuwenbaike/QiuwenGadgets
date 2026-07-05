@@ -39,6 +39,7 @@ interface DefaultDefinition {
 	enable: boolean;
 	description: string;
 	section: string;
+	includeSites: string[];
 	excludeSites: string[];
 	externalPackages: string[];
 	actions: string[];
@@ -61,6 +62,7 @@ type DeploymentDirectTargets = [string, string][];
 
 interface DeploymentTargets {
 	[key: string]: {
+		includeSites: DefaultDefinition['includeSites'];
 		excludeSites: DefaultDefinition['excludeSites'];
 		description: DefaultDefinition['description'];
 		files: DeploymentDirectTargets;

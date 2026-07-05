@@ -1,8 +1,7 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-Credentials\"></span> 加载手机号验证参数",
+	"description": "<span id=\"Gadget-LoadRNRSCredentials\"></span> 加载手机号验证参数",
 	"section": "compatibility",
-	"excludeSites": ["loginwiki", "zhqiuwenbaike"],
 	"default": false,
 	"dependencies": ["ext.gadget.Util", "mediawiki.api", "mediawiki.user"],
 	"hidden": true
