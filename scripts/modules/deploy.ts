@@ -151,8 +151,12 @@ const deploy = async (isSkipAsk = false, isTest = false) => {
 		console.log(chalk.yellow(`    [${chalk.bold(site)}] deploying...`));
 
 		await Promise.all(
-			Object.entries(targets).map(async ([gadgetName, {description, excludeSites, files}]) => {
+			Object.entries(targets).map(async ([gadgetName, {description, includeSites, excludeSites, files}]) => {
 				if (excludeSites.includes(site)) {
+					return;
+				}
+
+				if (includeSites.length && !includeSites.includes(site)) {
 					return;
 				}
 

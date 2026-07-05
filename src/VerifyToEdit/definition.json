@@ -4,5 +4,6 @@
 	"excludeSites": ["loginwiki"],
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.util", "oojs-ui-windows"],
-	"hidden": true
+	"hidden": true,
+	"rights": ["edit"]
 }

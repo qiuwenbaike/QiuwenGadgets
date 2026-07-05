@@ -663,6 +663,7 @@ const generateDefinitionItem = (
 				'enable',
 				'description',
 				'section',
+				'includeSites',
 				'excludeSites',
 				'externalPackages',
 				// Keys that no need to be specified
