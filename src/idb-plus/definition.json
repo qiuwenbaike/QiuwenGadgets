@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-idb-plus\"></span> [https://github.com/inpageedit/inpageedit-next/tree/master/packages/idb-plus idb-plus]",
+	"section": "compatibility",
+	"excludeSites": ["loginwiki"],
+	"hidden": true
+}
