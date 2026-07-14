@@ -2,6 +2,6 @@
 	"enable": false,
 	"description": "<span id=\"Gadget-FetchVariants\"></span> 为小工具获取不同的汉语变体",
 	"section": "compatibility",
-	"excludeSites": ["loginwiki"],
+	"includeSites": ["licencewiki"],
 	"dependencies": ["ext.gadget.idb-plus", "ext.gadget.Util"]
 }
