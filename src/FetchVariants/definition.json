@@ -1,5 +1,5 @@
 {
-	"enable": false,
+	"enable": true,
 	"description": "<span id=\"Gadget-FetchVariants\"></span> 为小工具获取不同的汉语变体",
 	"section": "compatibility",
 	"includeSites": ["licencewiki"],
