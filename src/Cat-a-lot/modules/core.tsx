@@ -361,22 +361,31 @@ const catALot = async (): Promise<void> => {
 				action: 'parse',
 				format: 'json',
 				formatversion: '2',
-				text: category,
+				text: `<ul id="cal-variants">
+	<li id="cal-zh">-{zh|${category}}-</li>
+	<li id="cal-zh-hans">-{zh-hans|${category}}-</li>
+	<li id="cal-zh-hant">-{zh-hant|${category}}-</li>
+	<li id="cal-zh-cn">-{zh-cn|${category}}-</li>
+	<li id="cal-zh-hk">-{zh-hk|${category}}-</li>
+	<li id="cal-zh-mo">-{zh-mo|${category}}-</li>
+	<li id="cal-zh-my">-{zh-my|${category}}-</li>
+	<li id="cal-zh-sg">-{zh-sg|${category}}-</li>
+	<li id="cal-zh-tw">-{zh-tw|${category}}-</li>
+</ul>`,
 				title: 'temp',
+				variant: 'zh',
 			};
-			for (const variant of VARIANTS) {
-				try {
-					const {parse} = await CAL.enqueueApiCall(() =>
-						CAL.api.get({
-							...params,
-							variant,
-						} as typeof params)
-					);
-					const {text} = parse;
-					const result = $(text).eq(0).text().trim();
-					results[results.length] = result;
-				} catch {}
-			}
+			try {
+				const {parse} = await CAL.enqueueApiCall(() => CAL.api.get(params));
+				const {text} = parse;
+				const result = $(text).eq(0).text().trim();
+				const $result = $(result);
+				for (const variant of VARIANTS) {
+					if ($result.find(`#cal-${variant}`)) {
+						results[results.length] = $result.find(`#cal-${variant}`).text();
+					}
+				}
+			} catch {}
 			// De-duplicate
 			CAL.variantCache[category] = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
 			mw.storage.setObject(OPTIONS.storageKey + category, CAL.variantCache[category], 60 * 60 * 24); // 1 day
@@ -987,7 +996,7 @@ const catALot = async (): Promise<void> => {
 		CAL['variantCache'] = getCachedKeys();
 		if (wgNamespaceNumber === OPTIONS.targetNamespace) {
 			const category = mw.config.get('wgTitle').replace(/^Category:/, '');
-			CAL['variantCache'][category] = [...(await CAL.findAllVariants(category))];
+			CAL['variantCache'][category] ||= await CAL.findAllVariants(category);
 		}
 		/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 		setMessages();
