@@ -857,6 +857,15 @@ packages:
     resolution: {integrity: sha512-wbHAu+vsnMujhj5m6CrGjj/mLykFfBQpjoGMbN/UMEoy1kIoqqvhtqq1TmcdaNinUURS2DgJkcbtoXjCiJgxmg==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.11.0}
 
+  '@bhsd/common@4.0.0':
+    resolution: {integrity: sha512-A79Nj2b1bVfemT5JuRzLIkEgsMPv1c81nIbv1AtPqBke5FTfMnzC+2Jv+tXTC/CsUEEHY8p01EYOEiq4YCGD9g==}
+    engines: {node: ^20.19.0 || ^22.13.0 || >=24.11.0}
+    peerDependencies:
+      culori: ^4.0.0
+    peerDependenciesMeta:
+      culori:
+        optional: true
+
   '@bhsd/lezer-abusefilter@0.5.0':
     resolution: {integrity: sha512-yxjG26kDIVm74Ftpi+qXcfV1htDzjXamrY05kh4QTCYVL2LpO8IxCDZ4rNqOPRFhYU7rCGpWWiBouqYzpzZFsg==}
     peerDependencies:
@@ -2144,8 +2153,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  autoprefixer@10.5.2:
-    resolution: {integrity: sha512-rD5t5DwOjJdmSORcTq64j8MawTC+tbQ+HHqjR4NDumamy/ambn1UJrlKL+KdwujWxMkFjPM3pPHOEA9tl4767Q==}
+  autoprefixer@10.5.3:
+    resolution: {integrity: sha512-bJRzflk8GgE4JX+iZNEwz9f9p460NCHnU7bd+CZ9vIjIlZuTkt6F3WSl2oNO8StZBFx17nLEsiQ6H2wcZiY7nA==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
@@ -2537,8 +2546,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  electron-to-chromium@1.5.389:
-    resolution: {integrity: sha512-cEto7aeOqBfU1D+c5py5pE+ooscKE75JifxLBdFUZsqAxRS6y7kebtxAZvICszSl05gPjYHDTjY+lXpyGvpJbg==}
+  electron-to-chromium@1.5.392:
+    resolution: {integrity: sha512-1yQq3VQCZRwsnYc67Oc+1fge6Lwtn0hzi6zmEVkB61Zx21kTbwJAW4dFLadl5Rc1tKhG/kSpYXnfiAhu0f0a1g==}
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
@@ -4777,8 +4786,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  wikiparser-node@1.45.0:
-    resolution: {integrity: sha512-aFMfcRoEMCUca/JC36MZH9oD8QEhkzKDkfVWKWaZUF5eAq9aoTrYyHFBFNqm69NXU+jOm0a+xD4xw8oPHCHtnw==}
+  wikiparser-node@1.46.1:
+    resolution: {integrity: sha512-keYVvKIPboxauW8pQkHMPpLQ/ZaWzDO5sl8V5jgofgDvBERDJ8skxMdRhtDU9znte3ROw7DUD259lVQMCuCEng==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.11.0}
     hasBin: true
     peerDependencies:
@@ -4845,8 +4854,8 @@ packages:
     resolution: {integrity: sha512-OTIk8iR8/aCRWBqvxrzxR0hgxWpnYBblY1S5hDWBQfk/VFmJwzmJgQFN3WsoUKHISv2eAwe+PpbUzyL1CKTLXg==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  ws@8.21.0:
-    resolution: {integrity: sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==}
+  ws@8.21.1:
+    resolution: {integrity: sha512-+0NTnW77fFN/DjQi6k/Sq/Yvk4Sgajw7urW8V+asjXnRgDs9gyGkdb7EzgfhA4goXsRIZKE28fzIXBHEzhuiWw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -5593,7 +5602,7 @@ snapshots:
       '@codemirror/search': 6.7.1
       '@codemirror/state': 6.7.0
       '@codemirror/view': 6.43.4
-      wikiparser-node: 1.45.0(@codemirror/state@6.7.0)(@codemirror/view@6.43.4)(ajv@8.20.0)(monaco-editor@0.55.1)(stylelint-config-recommended@18.0.0(stylelint@17.14.0(typescript@5.9.3)))(stylelint@17.14.0(typescript@5.9.3))
+      wikiparser-node: 1.46.1(@codemirror/state@6.7.0)(@codemirror/view@6.43.4)(ajv@8.20.0)(monaco-editor@0.55.1)(stylelint-config-recommended@18.0.0(stylelint@17.14.0(typescript@5.9.3)))(stylelint@17.14.0(typescript@5.9.3))
     transitivePeerDependencies:
       - ajv
       - ajv-errors
@@ -5612,6 +5621,10 @@ snapshots:
 
   '@bhsd/common@3.0.0':
     dependencies:
+      culori: 4.0.2
+
+  '@bhsd/common@4.0.0(culori@4.0.2)':
+    optionalDependencies:
       culori: 4.0.2
 
   '@bhsd/lezer-abusefilter@0.5.0(@codemirror/language@6.12.4)(@codemirror/lint@6.9.7)(@codemirror/state@6.7.0)(@codemirror/view@6.43.4)(monaco-editor@0.55.1)':
@@ -7010,7 +7023,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  autoprefixer@10.5.2(postcss@8.5.19):
+  autoprefixer@10.5.3(postcss@8.5.19):
     dependencies:
       browserslist: 4.28.6
       caniuse-lite: 1.0.30001805
@@ -7096,7 +7109,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.10.43
       caniuse-lite: 1.0.30001805
-      electron-to-chromium: 1.5.389
+      electron-to-chromium: 1.5.392
       node-releases: 2.0.51
       update-browserslist-db: 1.2.3(browserslist@4.28.6)
 
@@ -7427,7 +7440,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.5.389: {}
+  electron-to-chromium@1.5.392: {}
 
   emoji-regex@10.6.0: {}
 
@@ -8046,7 +8059,7 @@ snapshots:
       buffer-image-size: 0.6.4
       entities: 7.0.1
       whatwg-mimetype: 3.0.0
-      ws: 8.21.0
+      ws: 8.21.1
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -9020,7 +9033,7 @@ snapshots:
       '@csstools/postcss-text-decoration-shorthand': 5.0.4(postcss@8.5.19)
       '@csstools/postcss-trigonometric-functions': 5.0.3(postcss@8.5.19)
       '@csstools/postcss-unset-value': 5.0.0(postcss@8.5.19)
-      autoprefixer: 10.5.2(postcss@8.5.19)
+      autoprefixer: 10.5.3(postcss@8.5.19)
       browserslist: 4.28.6
       css-blank-pseudo: 8.0.1(postcss@8.5.19)
       css-has-pseudo: 8.0.0(postcss@8.5.19)
@@ -10041,12 +10054,13 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  wikiparser-node@1.45.0(@codemirror/state@6.7.0)(@codemirror/view@6.43.4)(ajv@8.20.0)(monaco-editor@0.55.1)(stylelint-config-recommended@18.0.0(stylelint@17.14.0(typescript@5.9.3)))(stylelint@17.14.0(typescript@5.9.3)):
+  wikiparser-node@1.46.1(@codemirror/state@6.7.0)(@codemirror/view@6.43.4)(ajv@8.20.0)(monaco-editor@0.55.1)(stylelint-config-recommended@18.0.0(stylelint@17.14.0(typescript@5.9.3)))(stylelint@17.14.0(typescript@5.9.3)):
     dependencies:
       '@bhsd/cm-util': 2.3.0(@codemirror/state@6.7.0)(@codemirror/view@6.43.4)(monaco-editor@0.55.1)
-      '@bhsd/common': 3.0.0
+      '@bhsd/common': 4.0.0(culori@4.0.2)
       '@bhsd/nodejs': 1.2.1
       '@bhsd/stylelint-util': 1.1.0(stylelint-config-recommended@18.0.0(stylelint@17.14.0(typescript@5.9.3)))
+      culori: 4.0.2
       entities: 8.0.0
       vscode-languageserver-types: 3.18.0
     optionalDependencies:
@@ -10097,7 +10111,7 @@ snapshots:
     dependencies:
       signal-exit: 4.1.0
 
-  ws@8.21.0: {}
+  ws@8.21.1: {}
 
   xml-name-validator@4.0.0: {}
 
