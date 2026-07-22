@@ -14,8 +14,8 @@ async function checkDependencies(gadgetNames: string | string[], option?: Boolea
 
 	for (const gadget of gadgets) {
 		if (
-			(option === '0' && mw.user.options.get(`gadget-${gadget}`)) ||
-			(option === '1' && !mw.user.options.get(`gadget-${gadget}`))
+			(option === '0' && mw.user.options.get(`gadget-${gadget}`) === '1') ||
+			(option === '1' && mw.user.options.get(`gadget-${gadget}`) === '0')
 		) {
 			await api.postWithEditToken({
 				action: 'options',
