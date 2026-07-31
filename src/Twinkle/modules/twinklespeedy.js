@@ -875,6 +875,10 @@ import {generateArray} from 'ext.gadget.Util';
 						value: '间隔号使用错误。',
 					},
 					{
+						label: '草稿命名空间内的重定向',
+						value: '草稿命名空间内的重定向。',
+					},
+					{
 						label: '其他理由（请勾选上方“应用多个理由”，并填写自定义理由）',
 						value: '',
 					},
@@ -1456,7 +1460,7 @@ import {generateArray} from 'ext.gadget.Util';
 							);
 							let notifytext;
 							notifytext = '\n{{'.concat('subst:', `db-notice|target=${Morebits.pageNameNorm}`);
-							notifytext += "|nowelcome=yes'}}--~~".concat('~~');
+							notifytext += "|nowelcome=yes'}}——~~".concat('~~');
 							let editsummary = '通知：';
 							if (params.normalizeds.includes('g3')) {
 								editsummary += '一攻击性页面';

@@ -70,7 +70,6 @@ const addTranslatedPageTemplate = async (): Promise<void> => {
 			const editResult = editResponse['edit'];
 			if (editResult && editResult.result === 'Success') {
 				alert(`成功为${talk.getPrefixedText()}添加了{{Translated page}}模板！`);
-				location.reload(); // 刷新页面以显示更新内容
 			} else {
 				alert('添加模板失败，请稍后重试。');
 			}

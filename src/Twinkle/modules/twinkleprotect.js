@@ -1477,7 +1477,7 @@ import {api} from './api';
 				window.wgULS('请求', '請求') +
 				Morebits.string.toUpperCaseFirstChar(words) +
 				(params.reason === '' ? '。' : `：${Morebits.string.formatReasonText(params.reason)}`)
-			}--~~`.concat('~~');
+			}——~~`.concat('~~');
 			const reg = /({{\s*\/header\s*}})/;
 			const originalTextLength = text.length;
 			text = text.replace(reg, `$1\n${newtag}\n`);
@@ -1567,11 +1567,11 @@ import {api} from './api';
 				if (rppRe.exec(request)) {
 					request = request.trimEnd();
 					if (params.type === 'unprotect') {
-						request += '\n: {{RFPP|isun}}。--~~'.concat('~~\n');
+						request += '\n: {{RFPP|isun}}。——~~'.concat('~~\n');
 					} else {
 						request += `\n: {{RFPP|${params.type}|${
 							Morebits.string.isInfinity(params.expiry) ? 'infinity' : expiryText
-						}}}。--~~`.concat('~~\n');
+						}}}。——~~`.concat('~~\n');
 					}
 					found = true;
 					break;

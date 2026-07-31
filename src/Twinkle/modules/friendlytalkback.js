@@ -311,7 +311,7 @@
 			content: `${window.wgULS(
 				'您的[[Qiuwen_talk:过滤器处理/报告|过滤器错误报告]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:过滤器处理/报告|過濾器錯誤報告]]已有回應，請前往查看。'
-			)}--~~`.concat('~~'),
+			)}——~~`.concat('~~'),
 			editSummary: window.wgULS(
 				'有关[[Qiuwen_talk:过滤器处理/报告|过滤器错误报告]]的通知',
 				'有關[[Qiuwen_talk:过滤器处理/报告|過濾器錯誤報告]]的通知'
@@ -324,7 +324,7 @@
 			content: `${window.wgULS(
 				'您的[[Qiuwen_talk:管理员告示板|垃圾链接黑名单请求]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:管理员告示板|垃圾連結黑名單請求]]已有回應，請前往查看。'
-			)}--~~`.concat('~~'),
+			)}——~~`.concat('~~'),
 			editSummary: window.wgULS(
 				'有关[[Qiuwen_talk:管理员告示板|垃圾链接黑名单请求]]的通知',
 				'有關[[Qiuwen_talk:管理员告示板|垃圾連結黑名單請求]]的通知'
@@ -336,7 +336,7 @@
 			content: `${window.wgULS(
 				'您的[[Qiuwen_talk:管理员告示板|垃圾链接白名单请求]]已有回应，请前往查看。',
 				'您的[[Qiuwen_talk:管理员告示板|垃圾連結白名單請求]]已有回應，請前往查看。'
-			)}--~~`.concat('~~'),
+			)}——~~`.concat('~~'),
 			editSummary: window.wgULS(
 				'有关[[Qiuwen_talk:管理员告示板|垃圾链接白名单请求]]的通知',
 				'有關[[Qiuwen_talk:管理员告示板|垃圾連結白名單請求]]的通知'

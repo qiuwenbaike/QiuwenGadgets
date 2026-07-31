@@ -250,7 +250,7 @@
 				const noteData = document.createElement('pre');
 				noteData.appendChild(
 					document.createTextNode(
-						'{{'.concat('subst:', `Uploadvionotice|${Morebits.pageNameNorm}}}--~~`, '~~')
+						'{{'.concat('subst:', `Uploadvionotice|${Morebits.pageNameNorm}}}——~~`, '~~')
 					)
 				);
 				Morebits.status.info('提示', [
@@ -337,7 +337,7 @@
 				);
 				const notifytext = '\n{{'.concat(
 					'subst:',
-					`Di-${params.templatename}-notice|1=${Morebits.pageNameNorm}}}--~~`,
+					`Di-${params.templatename}-notice|1=${Morebits.pageNameNorm}}}——~~`,
 					'~~'
 				);
 				usertalkpage.setAppendText(notifytext);
@@ -361,7 +361,7 @@
 		imageList: (pageobj) => {
 			const text = pageobj.getPageText();
 			// const params = pageobj.getCallbackParameters();
-			pageobj.setPageText(`${text}\n* [[:${Morebits.pageNameNorm}]]--~~`.concat('~~'));
+			pageobj.setPageText(`${text}\n* [[:${Morebits.pageNameNorm}]]——~~`.concat('~~'));
 			pageobj.setEditSummary(`加入[[${Morebits.pageNameNorm}]]`);
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.setCreateOption('recreate');
