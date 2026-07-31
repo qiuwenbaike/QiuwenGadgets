@@ -639,7 +639,7 @@
 					comment += Morebits.string.toUpperCaseFirstChar(input.reason);
 				}
 				comment = Morebits.string.appendPunctuation(comment);
-				comment += '--~~'.concat('~~');
+				comment += '——~~'.concat('~~');
 				comment = comment.replace(/\r?\n/g, '\n*:'); // indent newlines
 				reason = `== 不当用户名报告（${
 					input.hidename ? window.wgULS('已隐藏用户名', '已隱藏使用者名稱') : uid

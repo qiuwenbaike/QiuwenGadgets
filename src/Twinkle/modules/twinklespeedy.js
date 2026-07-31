@@ -1460,7 +1460,7 @@ import {generateArray} from 'ext.gadget.Util';
 							);
 							let notifytext;
 							notifytext = '\n{{'.concat('subst:', `db-notice|target=${Morebits.pageNameNorm}`);
-							notifytext += "|nowelcome=yes'}}--~~".concat('~~');
+							notifytext += "|nowelcome=yes'}}——~~".concat('~~');
 							let editsummary = '通知：';
 							if (params.normalizeds.includes('g3')) {
 								editsummary += '一攻击性页面';

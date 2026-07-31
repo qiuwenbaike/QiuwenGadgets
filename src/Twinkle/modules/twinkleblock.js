@@ -2425,10 +2425,10 @@ import {generateArray} from 'ext.gadget.Util';
 				request = request.trimEnd();
 				let newText = request.replace(
 					/^(\*\s*处理：)[ \t]*(<!-- 非管理員僅可標記已執行的封禁，針對提報的意見請放在下一行 -->)?[ \t]*$/m,
-					`$1${comment}--~~`.concat('~~')
+					`$1${comment}——~~`.concat('~~')
 				);
 				if (request === newText) {
-					newText = `${request}\n* 处理：${comment}--~~`.concat('~~');
+					newText = `${request}\n* 处理：${comment}——~~`.concat('~~');
 				}
 				request = `${newText}\n`;
 				found = true;
