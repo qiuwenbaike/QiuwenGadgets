@@ -422,40 +422,51 @@ const catALot = async (): Promise<void> => {
 			);
 		}
 
+		private static async doAPICallAsync(_params: Omit<ApiEditPageParams, 'format'>): Promise<unknown> {
+			const params = {
+				..._params,
+				format: 'json',
+				formatversion: '2',
+			} as typeof _params & {
+				format: 'json';
+				title?: string;
+			};
+			let retryCount: number = 0;
+			while (true) {
+				try {
+					if (params['action'] === 'query') {
+						return await CAL.enqueueApiCall(() => CAL.api.get(params));
+					}
+					return await CAL.enqueueApiCall(() => CAL.api.post(params));
+				} catch (error) {
+					mw.log.error('[Cat-a-lot] Ajax error:', error);
+					if (retryCount < 4) {
+						retryCount++;
+						await new Promise((resolve) => setTimeout(resolve, 300));
+						continue;
+					}
+					throw error;
+				}
+			}
+		}
+
 		private doAPICall(
 			_params: Omit<ApiEditPageParams, 'format'>,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			callback: (data: any) => void
 		) {
-			const params = _params as typeof _params & {
-				format: 'json';
-				title?: string;
-			};
-			params['format'] = 'json';
-			params['formatversion'] = '2';
-			let i: number = 0;
-			const doCall = (): void => {
-				const handleError = (error: string): void => {
+			CAL.doAPICallAsync(_params)
+				.then(callback)
+				.catch((error) => {
 					mw.log.error('[Cat-a-lot] Ajax error:', error);
-					if (i < 4) {
-						setTimeout(doCall, 300);
-						i++;
-					} else if (params['title']) {
-						CAL.connectionError[CAL.connectionError.length] = params['title'];
+					const params = _params as typeof _params & {
+						title?: string;
+					};
+					if (params.title) {
+						CAL.connectionError[CAL.connectionError.length] = params.title;
 						this.updateCounter();
 					}
-				};
-				if (params['action'] === 'query') {
-					CAL.enqueueApiCall(() => CAL.api.get(params))
-						.then(callback)
-						.catch(handleError);
-				} else {
-					CAL.enqueueApiCall(() => CAL.api.post(params))
-						.then(callback)
-						.catch(handleError);
-				}
-			};
-			doCall();
+				});
 		}
 
 		private static markAsDone(
@@ -657,8 +668,8 @@ const catALot = async (): Promise<void> => {
 				text = CAL.doCleanup(CAL.removeUncat(text));
 			}
 
-			this.doAPICall(
-				{
+			try {
+				await CAL.doAPICallAsync({
 					action: 'edit',
 					token: CAL.editToken,
 					tags: CAL.API_TAG,
@@ -670,21 +681,21 @@ const catALot = async (): Promise<void> => {
 					text,
 					summary,
 					starttimestamp,
-				},
-				(): void => {
-					this.updateCounter();
-				}
-			);
-
-			CAL.markAsDone($markedLabel, targetCategory, mode);
+				});
+				this.updateCounter();
+				CAL.markAsDone($markedLabel, targetCategory, mode);
+			} catch {
+				CAL.connectionError[CAL.connectionError.length] = markedLabelTitle;
+				this.updateCounter();
+			}
 		}
-		private getContent(
+		private async getContent(
 			markedLabel: ReturnType<typeof this.getMarkedLabels>[0],
 			targetCategory: string,
 			mode: 'add' | 'copy' | 'move'
-		): void {
-			this.doAPICall(
-				{
+		): Promise<void> {
+			try {
+				const result = (await CAL.doAPICallAsync({
 					action: 'query',
 					formatversion: '2',
 					meta: 'tokens',
@@ -692,11 +703,12 @@ const catALot = async (): Promise<void> => {
 					prop: 'revisions',
 					rvprop: ['content', 'timestamp'],
 					rvslots: 'main',
-				},
-				(result): void => {
-					void this.editCategories(result, markedLabel, targetCategory, mode);
-				}
-			);
+				})) as Record<string, unknown>;
+				await this.editCategories(result, markedLabel, targetCategory, mode);
+			} catch {
+				CAL.connectionError[CAL.connectionError.length] = markedLabel[0];
+				this.updateCounter();
+			}
 		}
 		private static getTitleFromLink(href: string | undefined): string {
 			try {
@@ -744,7 +756,7 @@ const catALot = async (): Promise<void> => {
 			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-content`).height('auto');
 			CAL.$counter = this.$body.find(`.${CLASS_NAME_CURRENT_COUNTER}`);
 		}
-		private doSomething(targetCategory: string, mode: 'add' | 'copy' | 'move'): void {
+		private async doSomething(targetCategory: string, mode: 'add' | 'copy' | 'move'): Promise<void> {
 			const markedLabels: ReturnType<typeof this.getMarkedLabels> = this.getMarkedLabels();
 			if (!markedLabels.length) {
 				void mw.notify(CAL.msg('none-selected'), {
@@ -759,7 +771,7 @@ const catALot = async (): Promise<void> => {
 			CAL.counterNeeded = markedLabels.length;
 			this.showProgress();
 			for (const markedLabel of markedLabels) {
-				this.getContent(markedLabel, targetCategory, mode);
+				await this.getContent(markedLabel, targetCategory, mode);
 			}
 		}
 		private addHere(targetCategory: string): void {
