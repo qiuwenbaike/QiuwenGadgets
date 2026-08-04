@@ -11,7 +11,7 @@ const getI18nMessages = () => {
 		hideItems: wgULS('需隐藏的项目：', '需隱藏的項目：'),
 		hideContent: wgULS('编辑内容', '編輯內容'),
 		hideLog: wgULS('日志目标与参数', '日誌目標與參數'),
-		hideUsername: wgULS('编辑者用户名/IP地址', '編輯者用戶名/IP位址'),
+		hideUsername: wgULS('编辑者用户名', '編輯者用戶名'),
 		hideSummary: wgULS('编辑摘要', '編輯摘要'),
 		hideReason: wgULS('理据：', '理據：'),
 		hideReasonRD1: wgULS('RD1：条目中明显侵犯著作权的内容', 'RD1：條目中明顯侵犯著作權的內容'),
