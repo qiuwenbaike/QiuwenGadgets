@@ -49,7 +49,7 @@ const submit = async (ids: string[], toHide: string, reason: string, otherReason
 		// Replace Set with uniqueArray, avoiding core-js polyfilling
 		rrdArr[rrdArr.length] = `|id${index + 1} = ${id}`;
 	}
-	rrdArr[rrdArr.length] = '}}\n--~~'.concat('~~');
+	rrdArr[rrdArr.length] = '}}\n——~~'.concat('~~');
 
 	try {
 		const response = await queryRevisions(OPTIONS.rrdPage);
