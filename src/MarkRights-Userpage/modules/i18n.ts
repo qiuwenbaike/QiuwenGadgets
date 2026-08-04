@@ -14,8 +14,8 @@ const getI18nMessages = () => {
 		}),
 		checkuser: localize({
 			en: 'CheckUser',
-			'zh-hans': '用户查核',
-			'zh-hant': '用戶查核',
+			'zh-hans': '用户查核员',
+			'zh-hant': '用戶查核員',
 		}),
 		suppress: localize({
 			en: 'Oversighter',
@@ -50,7 +50,7 @@ const getI18nMessages = () => {
 		autoreviewer: localize({
 			en: 'Exempted from page patrol',
 			'zh-hans': '巡查豁免',
-			'zh-hant': '巡查豁免',
+			'zh-hant': '巡查豁免者',
 		}),
 		senioreditor: localize({
 			en: 'Senior Editor',
