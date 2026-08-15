@@ -1563,7 +1563,7 @@
 				}
 				// avoid truncated summaries
 				if (summaryText.length > 499) {
-					summaryText = summaryText.replace(/\[\[[^|]+\|([^\]]+)\]\]/g, '$1');
+					summaryText = summaryText.replace(/\[\[[^|]+\|([^\]]+)\]\]/g, '$1'); // 移除“[[...|...]]”的前半部分
 				}
 				pageobj.setPageText(pageText);
 				pageobj.setEditSummary(summaryText);
@@ -1812,7 +1812,12 @@
 						default:
 							break;
 					}
-					currentTag += '|time={{'.concat('subst:', '#time:c}}}}\n');
+					currentTag += '|time={{'.concat('subst:', '#time:c}}');
+					// 将原因参数添加
+					if (params.reason) {
+						currentTag += `|reason=${params.reason}`;
+					}
+					currentTag += '}}\n';
 					tagText += currentTag;
 				}
 			};
