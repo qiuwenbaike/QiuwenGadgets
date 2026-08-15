@@ -1806,8 +1806,8 @@ packages:
     peerDependencies:
       stylelint: ^17.6.0
 
-  '@stylistic/stylelint-plugin@5.2.1':
-    resolution: {integrity: sha512-BMRWJVtO16uADJmKcGi6mreei/QYdOviABXuaCeHEc3T3pxo4wFYYSvnxIoyiPVfDJqX+DxQdnGkuc6KxsRaSw==}
+  '@stylistic/stylelint-plugin@5.3.0':
+    resolution: {integrity: sha512-xbyxPeaO9Vns6A8/0MQV6PzZ5nNZCoGV4q1ERaNd5EBAKlWt+YcpaPapNYNUkZaiQg98+xPbikdA58ehquJG3g==}
     peerDependencies:
       stylelint: ^17.6.0
 
@@ -2070,10 +2070,6 @@ packages:
   ansi-escapes@7.3.0:
     resolution: {integrity: sha512-BvU8nYgGQBxcmMuEeUEmNTvrMVjJNSH7RgW24vXexN4Ven6qCvy4TntnvlnwnMLTVlcRQQdbRY8NKnaIoeWDNg==}
     engines: {node: '>=18'}
-
-  ansi-regex@5.0.1:
-    resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
-    engines: {node: '>=8'}
 
   ansi-regex@6.3.0:
     resolution: {integrity: sha512-WpDfL7NO6j7tH88IDBNVdUJxDh9nmCteAVW9dsep846XdwF4naCBK+/tGLX3KJgcpgMRXCFlTM2hKGoK9FsdrQ==}
@@ -6607,7 +6603,7 @@ snapshots:
 
   '@stylistic/stylelint-config@5.0.0(stylelint@17.6.0(supports-color@10.2.2)(typescript@5.9.3))':
     dependencies:
-      '@stylistic/stylelint-plugin': 5.2.1(stylelint@17.6.0(supports-color@10.2.2)(typescript@5.9.3))
+      '@stylistic/stylelint-plugin': 5.3.0(stylelint@17.6.0(supports-color@10.2.2)(typescript@5.9.3))
       stylelint: 17.6.0(supports-color@10.2.2)(typescript@5.9.3)
 
   '@stylistic/stylelint-plugin@5.1.0(stylelint@17.6.0(supports-color@10.2.2)(typescript@5.9.3))':
@@ -6621,7 +6617,7 @@ snapshots:
       style-search: 0.1.0
       stylelint: 17.6.0(supports-color@10.2.2)(typescript@5.9.3)
 
-  '@stylistic/stylelint-plugin@5.2.1(stylelint@17.6.0(supports-color@10.2.2)(typescript@5.9.3))':
+  '@stylistic/stylelint-plugin@5.3.0(stylelint@17.6.0(supports-color@10.2.2)(typescript@5.9.3))':
     dependencies:
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-tokenizer': 4.0.0
@@ -6981,8 +6977,6 @@ snapshots:
   ansi-escapes@7.3.0:
     dependencies:
       environment: 1.1.0
-
-  ansi-regex@5.0.1: {}
 
   ansi-regex@6.3.0: {}
 
@@ -9693,7 +9687,7 @@ snapshots:
 
   strip-ansi@6.0.1:
     dependencies:
-      ansi-regex: 5.0.1
+      ansi-regex: 6.3.0
 
   strip-ansi@7.2.0:
     dependencies:
