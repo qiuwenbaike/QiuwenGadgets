@@ -4,28 +4,28 @@ allowBuilds:
   esbuild: true
   vue-demi: false
 minimumReleaseAgeExclude:
-  - '@vue/language-core@3.3.5'
-  - vue-tsc@3.3.5
-  - happy-dom@20.10.6
-  - browserslist@4.28.6
   - '@bhsd/browser@1.1.0'
   - '@bhsd/cm-util@2.3.0'
   - '@bhsd/codemirror-mediawiki@4.2.0'
   - '@bhsd/lezer-abusefilter@0.5.0'
-  - postcss@8.5.17
-  - svgo@4.0.2
-  - stylelint-config-wikimedia@0.19.3
+  - '@vue/language-core@3.3.5'
+  - browserslist@4.28.6
   - browserslist-config-wikimedia@0.8.0
+  - happy-dom@20.10.6
+  - postcss@8.5.17
+  - stylelint-config-wikimedia@0.19.3
+  - svgo@4.0.2
+  - vue-tsc@3.3.5
 overrides:
-  "@types/oojs-ui": "latest"
-  "browserslist-config-wikimedia": "latest"
-  "emoji-regex": "latest"
-  "known-css-properties": "latest"
-  "dompurify": ">=3.4.11"
-  "ini": ">=1.3.6"
-  "fast-uri": ">=4.1.2"
-  "@adobe/css-tools": ">=4.3.2"
-  "ansi-regex": ">=5.0.1"
+  '@adobe/css-tools': '>=4.3.2'
+  '@types/oojs-ui': latest
+  ansi-regex: '>=5.0.1'
+  browserslist-config-wikimedia: latest
+  dompurify: '>=3.4.11'
+  emoji-regex: latest
+  fast-uri: '>=4.1.2'
+  known-css-properties: latest
+  ini: '>=1.3.6'
 patchedDependencies:
   alpha-sort: patches/alpha-sort.patch
   esbuild-css-modules-plugin: patches/esbuild-css-modules-plugin.patch
