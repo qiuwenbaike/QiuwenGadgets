@@ -5,7 +5,7 @@ const getVfdText = (code: string, comment: string) => {
 			type: 'encapsulate',
 			options: {
 				pre: `{{delh|${code}}}\n`,
-				post: `\n----\n: ${comment}。--~~`.concat('~~\n{', '{delf}}'),
+				post: `\n----\n: ${comment}。——~~`.concat('~~\n{', '{delf}}'),
 			},
 		},
 	};

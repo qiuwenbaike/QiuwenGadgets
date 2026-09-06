@@ -126,7 +126,7 @@ const showDialog = function showDialog({
 				},
 			}) as OO.ui.Widget;
 			Dialog.closingRemarksInput = new OO.ui.TextInputWidget({
-				value: '{{done}}--~~~~',
+				value: '{{done}}——~~~~',
 			});
 			Dialog.watchTalkPageCheckbox = new OO.ui.CheckboxInputWidget({
 				selected: false,
