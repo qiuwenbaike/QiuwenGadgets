@@ -110,6 +110,10 @@ const subgroupValues = reactive<Record<string, string>>({});
 // mirroring the legacy modeChanged behavior
 if (props.hasCSDReason) {
 	subgroupValues['reason_1'] = props.hasCSDReason;
+	// The legacy quickForm auto-expanded the custom rationale whenever a
+	// deletion reason was detected; select it so the prefilled input becomes
+	// visible immediately instead of requiring a manual click
+	selectedCsd.value = ['reason'];
 }
 
 const sysopMode = computed(() => props.isSysop && !tagOnly.value);
@@ -151,11 +155,11 @@ const toggleSelection = (value: string, modelValue: boolean | string[] | null) =
 };
 
 // Filtering logic (faithful port of generateCsdList, without the DOM parts)
-const filterCriteria = (list: SpeedyCriterion[]): SpeedyCriterion[] => {
+const filterCriteria = (list: SpeedyCriterion[] | undefined): SpeedyCriterion[] => {
 	const multipleMode = isMultiple.value;
 	const sysop = sysopMode.value;
 	const result: SpeedyCriterion[] = [];
-	for (const raw of list) {
+	for (const raw of list ?? []) {
 		const criterion: SpeedyCriterion = {...raw};
 		if (multipleMode) {
 			if (criterion.hideWhenMultiple) {
@@ -245,7 +249,8 @@ const criteriaGroups = computed<CriteriaSection[]>(() => {
 	if (props.isRedirect || props.isSysop) {
 		groups.push({title: uls('重定向', '重新導向'), items: filterCriteria(props.redirectList)});
 	}
-	return groups;
+	// Skip empty groups (e.g. talk pages currently have no dedicated criteria)
+	return groups.filter((group) => group.items.length > 0);
 });
 
 // A subgroup is visible for a selected criterion (or while the radio is open)
