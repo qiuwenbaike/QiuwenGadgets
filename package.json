@@ -10,6 +10,8 @@
 		"build:only": "tsx --no-deprecation scripts/run.ts --build",
 		"deploy:only": "tsx --no-deprecation scripts/run.ts --deploy",
 		"deploy:directly": "tsx --no-deprecation scripts/run.ts --deploy --skip-ask",
+		"deploy:gadget": "pnpm build && pnpm deploy:gadget:only",
+		"deploy:gadget:only": "tsx --no-deprecation scripts/run.ts --deploy --gadget",
 		"deploy:test": "tsx --no-deprecation scripts/run.ts --deploy --test",
 		"deploy:test:directly": "tsx --no-deprecation scripts/run.ts --deploy --test --skip-ask",
 		"sort": "tsx --no-deprecation scripts/run.ts --format-json",

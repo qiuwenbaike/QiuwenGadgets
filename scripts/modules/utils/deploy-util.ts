@@ -21,6 +21,7 @@ import {
 import {env, exit, stdout} from 'node:process';
 import {existsSync, open} from 'node:fs';
 import {ESLint} from 'eslint';
+import {type Mwn} from 'mwn';
 import {MwnError} from 'mwn/build/error';
 import {Window} from 'happy-dom';
 import alphaSort from 'alpha-sort';
@@ -72,9 +73,10 @@ const readDefinition = () => {
 /**
  * Generate deployment targets based on the definitions
  *
+ * @param {string[]} [gadgetFilter=[]] Only generate deployment targets for the given gadgets
  * @return {DeploymentTargets} Deployment targets
  */
-const generateTargets = () => {
+const generateTargets = (gadgetFilter: string[] = []) => {
 	const targets: DeploymentTargets = {};
 
 	const definitionText = readDefinition();
@@ -87,7 +89,27 @@ const generateTargets = () => {
 		return regExpMatchArray[1];
 	});
 
-	for (const gadgetName of gadgetNames.toSorted(
+	const missingGadgetNames = gadgetFilter.filter((gadgetName) => {
+		return !gadgetNames.includes(gadgetName);
+	});
+	if (missingGadgetNames.length) {
+		console.log(
+			chalk.yellow(
+				`━ Gadgets not found in ${chalk.italic('definition.txt')} and will be removed from it during partial deployment: ${missingGadgetNames.join(', ')}`
+			)
+		);
+	}
+	const matchedGadgetNames = gadgetFilter.length
+		? gadgetNames.filter((gadgetName) => {
+				return gadgetFilter.includes(gadgetName);
+			})
+		: gadgetNames;
+	if (gadgetFilter.length && !matchedGadgetNames.length) {
+		console.log(chalk.red('✘ No requested gadget found, please check the --gadget option, program terminated.'));
+		exit(1);
+	}
+
+	for (const gadgetName of matchedGadgetNames.toSorted(
 		alphaSort({
 			caseInsensitive: true,
 			natural: true,
@@ -523,58 +545,243 @@ const convertVariant = (pageTitle: string, content: string, api: Api, editSummar
 };
 
 /**
+ * Escape special characters of a string for usage in regular expressions
+ *
+ * @param {string} string The string to be escaped
+ * @return {string} The escaped string
+ */
+const escapeRegExp = (string: string): string => {
+	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+/**
+ * Read the current content of `MediaWiki:Gadgets-definition` from the target site
+ *
+ * @param {Mwn} apiInstance The api instance of the target site
+ * @return {Promise<string|null>} The current content; an empty string if the page does not exist; `null` if failed to read
+ */
+const readCurrentDefinitionText = async (apiInstance: Mwn): Promise<string | null> => {
+	try {
+		const page = new apiInstance.Page('MediaWiki:Gadgets-definition');
+		return await page.text();
+	} catch (error) {
+		if (error instanceof MwnError && error.code === 'missingtitle') {
+			return '';
+		}
+		console.error(error);
+		return null;
+	}
+};
+
+/**
+ * Merge the definition lines of the given gadgets into the current `MediaWiki:Gadgets-definition` content
+ *
+ * Only the definition lines of the given gadgets are added, updated or removed, keeping the rest intact, so that
+ * a partial deployment will not affect other gadgets
+ *
+ * @param {string} currentDefinitionText The current content of `MediaWiki:Gadgets-definition` on the target site
+ * @param {string} definitionText The content of `MediaWiki:Gadgets-definition` generated from the repository
+ * @param {string[]} updateGadgets Gadgets whose definition lines will be added or updated
+ * @param {string[]} removeGadgets Gadgets whose definition lines will be removed
+ * @return {string} The merged `MediaWiki:Gadgets-definition` content
+ */
+const mergeDefinitionText = (
+	currentDefinitionText: string,
+	definitionText: string,
+	updateGadgets: string[],
+	removeGadgets: string[]
+) => {
+	const getSectionName = (lineContent: string): string | undefined => {
+		const sectionMatch = lineContent.match(/^==\s*(.+?)\s*==$/);
+		return sectionMatch?.[1]?.trim();
+	};
+
+	// Extract the definition lines of the target gadgets and the section each belongs to
+	const targetLines: Record<string, string> = {};
+	const targetSections: Record<string, string> = {};
+	let currentSection = '';
+	for (const lineContent of definitionText.split('\n')) {
+		const section = getSectionName(lineContent);
+		if (section) {
+			currentSection = section;
+			continue;
+		}
+		const gadgetMatch = lineContent.match(/^\*\s(\S+?)\[/);
+		if (gadgetMatch && updateGadgets.includes(gadgetMatch[1]!)) {
+			targetLines[gadgetMatch[1]!] = lineContent;
+			targetSections[gadgetMatch[1]!] = currentSection || 'appear';
+		}
+	}
+
+	// Record the gadgets the definition lines of which already exist on the site and
+	// the ones the lines of which will be moved, to avoid inserting them again
+	const existingGadgetNames = new Set<string>();
+	for (const lineContent of currentDefinitionText.split('\n')) {
+		const gadgetMatch = lineContent.match(/^\*\s(\S+?)\[/);
+		if (gadgetMatch && updateGadgets.includes(gadgetMatch[1]!)) {
+			existingGadgetNames.add(gadgetMatch[1]!);
+		}
+	}
+
+	const mergedLines: string[] = [];
+	const mergedGadgetNames = new Set<string>();
+	const movedGadgetNames = new Set<string>();
+
+	let currentSectionName = '';
+	for (const lineContent of currentDefinitionText.split('\n')) {
+		const section = getSectionName(lineContent);
+		if (section) {
+			currentSectionName = section;
+		}
+
+		const gadgetMatch = lineContent.match(/^\*\s(\S+?)\[/);
+		if (gadgetMatch) {
+			const gadgetName = gadgetMatch[1]!;
+			if (updateGadgets.includes(gadgetName) && targetLines[gadgetName]) {
+				mergedGadgetNames.add(gadgetName);
+				if (targetSections[gadgetName] === currentSectionName) {
+					mergedLines.push(targetLines[gadgetName]!);
+				} else {
+					// The section of the gadget has been changed, the line will be dropped here
+					// and inserted under the correct section header below
+					movedGadgetNames.add(gadgetName);
+				}
+			} else if (!removeGadgets.includes(gadgetName)) {
+				mergedLines.push(lineContent);
+			}
+			continue;
+		}
+
+		mergedLines.push(lineContent);
+
+		if (section) {
+			for (const gadgetName of updateGadgets) {
+				if (
+					!mergedGadgetNames.has(gadgetName) &&
+					targetSections[gadgetName] === section &&
+					targetLines[gadgetName] &&
+					(!existingGadgetNames.has(gadgetName) || movedGadgetNames.has(gadgetName))
+				) {
+					mergedLines.push(targetLines[gadgetName]!);
+					mergedGadgetNames.add(gadgetName);
+				}
+			}
+		}
+	}
+
+	// Gadgets the sections of which do not exist in the current content yet
+	const appendedSections = new Set<string>();
+	for (const gadgetName of updateGadgets) {
+		if (
+			mergedGadgetNames.has(gadgetName) ||
+			!targetLines[gadgetName] ||
+			(existingGadgetNames.has(gadgetName) && !movedGadgetNames.has(gadgetName))
+		) {
+			continue;
+		}
+		const section = targetSections[gadgetName]!;
+		if (!appendedSections.has(section)) {
+			mergedLines.push('', `== ${section} ==`);
+			appendedSections.add(section);
+		}
+		mergedLines.push(targetLines[gadgetName]!);
+		mergedGadgetNames.add(gadgetName);
+	}
+
+	return mergedLines.join('\n');
+};
+
+/**
  * Save gadget definition
  *
  * @param {string} definitionText The MediaWiki:Gadgets-definition content
  * @param {string[]} enabledGadgets The enabled gadgets
  * @param {Api} api The api instance and the site name
  * @param {string} editSummary The editing summary used by this api instance
- * @return {string} The `MediaWiki:Gadgets-definition` content of the current site
+ * @param {Object} [object]
+ * @param {string[]} [object.updateGadgets] Gadgets to be added or updated during a partial deployment
+ * @param {string[]} [object.removeGadgets] Gadgets to be removed during a partial deployment
+ * @param {boolean} [object.isTest] Run in test mode or not
+ * @return {Promise<string|undefined>} The `MediaWiki:Gadgets-definition` content of the current site,
+ * `undefined` if the content failed to be generated
  */
-const saveDefinition = (definitionText: string, enabledGadgets: string[], api: Api, editSummary: string) => {
+const saveDefinition = async (
+	definitionText: string,
+	enabledGadgets: string[],
+	api: Api,
+	editSummary: string,
+	{
+		updateGadgets = [],
+		removeGadgets = [],
+		isTest = false,
+	}: {
+		updateGadgets?: string[];
+		removeGadgets?: string[];
+		isTest?: boolean;
+	} = {}
+) => {
 	const {apiInstance, site} = api;
 	const pageTitle = 'MediaWiki:Gadgets-definition';
 
 	deployPages[site] ??= [];
 	deployPages[site].push(pageTitle);
 
-	definitionText = definitionText
-		.split('\n')
-		.filter((lineContent) => {
-			const regex = /^\*\s(\S+?)\[ResourceLoader[|\]]/;
-			const regExpMatchArray = lineContent.match(regex);
-			if (regExpMatchArray && regExpMatchArray[1]) {
-				return enabledGadgets.includes(regExpMatchArray[1]);
+	if (updateGadgets.length || removeGadgets.length) {
+		// Partial deployment: only update or remove the definition lines of the target gadgets,
+		// keeping the definition lines of all other gadgets intact
+		if (isTest) {
+			definitionText = mergeDefinitionText(definitionText, definitionText, updateGadgets, removeGadgets);
+		} else {
+			const currentDefinitionText = await readCurrentDefinitionText(apiInstance);
+			if (currentDefinitionText === null) {
+				console.log(
+					chalk.red(
+						`✘ Failed to read ${chalk.underline(pageTitle)}, skipping saving it to avoid affecting other gadgets`
+					)
+				);
+				return;
 			}
-			return true;
-		})
-		.join('\n');
-
-	const removeEmptySection = (string: string) => {
-		const firstSectionIndex = string.search(/[=]=[\S\s]+?==/);
-		if (firstSectionIndex === -1) {
-			return string;
+			definitionText = mergeDefinitionText(currentDefinitionText, definitionText, updateGadgets, removeGadgets);
 		}
+	} else {
+		definitionText = definitionText
+			.split('\n')
+			.filter((lineContent) => {
+				const regex = /^\*\s(\S+?)\[ResourceLoader[|\]]/;
+				const regExpMatchArray = lineContent.match(regex);
+				if (regExpMatchArray && regExpMatchArray[1]) {
+					return enabledGadgets.includes(regExpMatchArray[1]);
+				}
+				return true;
+			})
+			.join('\n');
 
-		const keepString = string.slice(0, Math.max(0, firstSectionIndex));
-
-		string = string.slice(Math.max(0, firstSectionIndex));
-		string = string.replace(/\n{3,}/g, '\n\n');
-
-		const blocks = string.split(/([=]=[\S\s]+?==\n)/);
-		const newBlocks = [];
-		for (let i = 0; i < blocks.length; i++) {
-			const block = blocks[i] as string;
-			if (block.startsWith('==') && blocks[i + 1] && !(blocks[i + 1] as string).startsWith('*')) {
-				i++;
-				continue;
+		const removeEmptySection = (string: string) => {
+			const firstSectionIndex = string.search(/[=]=[\S\s]+?==/);
+			if (firstSectionIndex === -1) {
+				return string;
 			}
-			newBlocks.push(block);
-		}
 
-		return keepString + newBlocks.join('');
-	};
-	definitionText = removeEmptySection(definitionText);
+			const keepString = string.slice(0, Math.max(0, firstSectionIndex));
+
+			string = string.slice(Math.max(0, firstSectionIndex));
+			string = string.replace(/\n{3,}/g, '\n\n');
+
+			const blocks = string.split(/([=]=[\S\s]+?==\n)/);
+			const newBlocks = [];
+			for (let i = 0; i < blocks.length; i++) {
+				const block = blocks[i] as string;
+				if (block.startsWith('==') && blocks[i + 1] && !(blocks[i + 1] as string).startsWith('*')) {
+					i++;
+					continue;
+				}
+				newBlocks.push(block);
+			}
+
+			return keepString + newBlocks.join('');
+		};
+		definitionText = removeEmptySection(definitionText);
+	}
 
 	definitionText = trim(definitionText);
 
@@ -601,13 +808,39 @@ const saveDefinition = (definitionText: string, enabledGadgets: string[], api: A
  * @param {string} definitionText The MediaWiki:Gadgets-definition content
  * @param {Api} api The api instance and the site name
  * @param {string} editSummary The editing summary used by this api instance
+ * @param {string[]} [gadgetFilter=[]] Only save the sections containing the given gadgets during a partial deployment
  */
-const saveDefinitionSectionPage = (definitionText: string, api: Api, editSummary: string) => {
+const saveDefinitionSectionPage = (
+	definitionText: string,
+	api: Api,
+	editSummary: string,
+	gadgetFilter: string[] = []
+) => {
 	const {apiInstance, site} = api;
 
-	const sections = (definitionText.match(/^==([\S\s]+?)==$/gm) as RegExpMatchArray).map<string>((sectionHeader) => {
+	let sections = (definitionText.match(/^==([\S\s]+?)==$/gm) as RegExpMatchArray).map<string>((sectionHeader) => {
 		return sectionHeader.replace(/[=]=/g, '').trim();
 	});
+
+	if (gadgetFilter.length) {
+		const headerRegExp = /^==(.+?)==$/gm;
+		const headerMatches = [...definitionText.matchAll(headerRegExp)];
+		const targetSections = new Set<string>();
+		for (const [index, headerMatch] of headerMatches.entries()) {
+			const start = (headerMatch.index ?? 0) + headerMatch[0].length;
+			const end = headerMatches[index + 1]?.index ?? definitionText.length;
+			const sectionBody = definitionText.slice(start, end);
+			const hasTargetGadget = gadgetFilter.some((gadgetName) => {
+				return new RegExp(`^\\*\\s${escapeRegExp(gadgetName)}\\[`, 'm').test(sectionBody);
+			});
+			if (hasTargetGadget) {
+				targetSections.add(headerMatch[1]!.trim());
+			}
+		}
+		sections = sections.filter((section) => {
+			return targetSections.has(section);
+		});
+	}
 	const pageTitles = sections.map<string>((section) => {
 		return `MediaWiki:Gadget-section-${section}`;
 	});
@@ -845,4 +1078,6 @@ export {
 	saveFiles,
 	savePages,
 	deleteUnusedPages,
+	readCurrentDefinitionText,
+	mergeDefinitionText,
 };
