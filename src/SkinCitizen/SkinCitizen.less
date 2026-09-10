@@ -12,11 +12,12 @@
 
 /* 页面内容宽度 */
 @not_figure_selector: ~'figure, .mbox, .mw-halign-left, .mw-halign-none, .mw-halign-center';
+@not_citizen_overflow_wrapper_selector: ~'.citizen-overflow-wrapper';
 @not_infobox_selector: ~'.metadata, .infobox, .sidebar, .vertical-navbox';
 
 @media (min-width: 1440px) {
 	.ns-0 .mw-body-content .mw-parser-output {
-		& > *:not(@{not_figure_selector}) {
+		& > *:not(@{not_figure_selector}, @{not_citizen_overflow_wrapper_selector}) {
 			margin-right: 0;
 		}
 
