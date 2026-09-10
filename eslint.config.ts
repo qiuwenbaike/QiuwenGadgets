@@ -349,6 +349,12 @@ export default defineConfig([
 		rules: {
 			'func-style': 'off',
 			'vue/multi-word-component-names': 'off',
+			'vue/no-v-html': [
+				'warn',
+				{
+					ignorePattern: '^html',
+				},
+			],
 		},
 		languageOptions: {
 			globals: globals.browser,

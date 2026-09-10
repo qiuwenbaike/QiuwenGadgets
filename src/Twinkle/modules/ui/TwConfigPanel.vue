@@ -253,6 +253,7 @@ const editItemsLabel = uls('编辑项目', '編輯項目');
 					</cdx-button>
 				</template>
 				<div class="tw-config-side">
+					<!-- eslint-disable-next-line vue/no-v-html -- content comes from helptipHtml (already sanitized by helptipHtml or explicitly appended elements) -->
 					<div v-if="pref.helptip" class="tw-config-helptip" v-html="helptipHtml(pref.helptip)"></div>
 					<span class="tw-config-reset">
 						<a href="#tw-reset" @click.prevent="resetPref(pref)">{{ resetLabel }}</a>
