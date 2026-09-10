@@ -169,15 +169,15 @@ watch(open, (value) => {
 					</div>
 					<div @click="onShiftClick">
 						<cdx-checkbox
-							v-for="title in list.imageusage"
-							:key="title"
+							v-for="iuTitle in list.imageusage"
+							:key="iuTitle"
 							:model-value="selectedImageusage"
-							:input-value="title"
+							:input-value="iuTitle"
 							name="twinkle-unlink-imageusage"
 							:disabled="submitting"
-							@update:model-value="onToggle('imageusage', title, $event)"
+							@update:model-value="onToggle('imageusage', iuTitle, $event)"
 						>
-							<a :href="pageUrl(title)" target="_blank" rel="noopener noreferrer">{{ title }}</a>
+							<a :href="pageUrl(iuTitle)" target="_blank" rel="noopener noreferrer">{{ iuTitle }}</a>
 						</cdx-checkbox>
 					</div>
 				</template>
@@ -196,15 +196,15 @@ watch(open, (value) => {
 				</div>
 				<div @click="onShiftClick">
 					<cdx-checkbox
-						v-for="title in list.backlinks"
-						:key="title"
+						v-for="blTitle in list.backlinks"
+						:key="blTitle"
 						:model-value="selectedBacklinks"
-						:input-value="title"
+						:input-value="blTitle"
 						name="twinkle-unlink-backlinks"
 						:disabled="submitting"
-						@update:model-value="onToggle('backlinks', title, $event)"
+						@update:model-value="onToggle('backlinks', blTitle, $event)"
 					>
-						<a :href="pageUrl(title)" target="_blank" rel="noopener noreferrer">{{ title }}</a>
+						<a :href="pageUrl(blTitle)" target="_blank" rel="noopener noreferrer">{{ blTitle }}</a>
 					</cdx-checkbox>
 				</div>
 			</template>
