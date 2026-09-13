@@ -1,17 +1,16 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as OPTIONS from '../options.json';
+import {RedirectCallback, RedirectMethod, ToolsRedirectApi} from './types';
 import {SUFFIX_APPEND, SUFFIX_REPLACE, SUFFIX_SETDEFAULT, VARIANTS} from './constant';
 import {generateArray, uniqueArray} from 'ext.gadget.Util';
 import {api} from './api';
 import {fixNamespace} from './util/fixNamespace';
 import {getMessage} from './util/getMessage';
-
 const {wgNamespaceNumber, wgPageName} = mw.config.get();
 const IS_CATEGORY = wgNamespaceNumber === 14;
-let findRedirectCallbacks = [];
-const pageWithRedirectTextSuffix = {};
-const redirectExcludes = {};
+let findRedirectCallbacks: RedirectCallback[] = [];
+const pageWithRedirectTextSuffix: Record<string, string[]> = {};
+const redirectExcludes: Record<string, boolean> = {};
 
 /**
  * Add new custom callback for finding new potential redirect titles.
@@ -20,11 +19,15 @@ const redirectExcludes = {};
  * @param {...Function} args
  * @return {Object}
  */
-const findRedirectCallback = function (callback, ...args) {
+const findRedirectCallback = function (
+	this: ToolsRedirectApi,
+	callback: RedirectCallback,
+	...args: unknown[]
+): ToolsRedirectApi {
 	if (callback) {
 		findRedirectCallbacks[findRedirectCallbacks.length] = callback;
 	} else {
-		findRedirectCallbacks = generateArray(findRedirectCallbacks, callback, ...args);
+		findRedirectCallbacks = generateArray(findRedirectCallbacks, callback, ...args) as RedirectCallback[];
 	}
 	return this;
 };
@@ -35,17 +38,17 @@ const findRedirectCallback = function (callback, ...args) {
  * @param {string} selector
  * @return {Object}
  */
-const findRedirectBySelector = function (selector) {
+const findRedirectBySelector = function (this: ToolsRedirectApi, selector: string): ToolsRedirectApi {
 	/* A shortcut to add CSS selectors as rule to find new potential redirect titles. */
 	findRedirectCallbacks[findRedirectCallbacks.length] = () => {
 		return $(selector).map((_index, element) => {
 			return $(element).eq(0).text().trim() || null;
-		});
+		}) as JQuery<any>;
 	};
 	return this;
 };
 
-const setRedirectTextSuffix = (title, suffix, flag) => {
+const setRedirectTextSuffix = (title: string, suffix: string, flag?: number): void => {
 	let flag_set = false;
 	let flag_append = false;
 	flag ||= SUFFIX_APPEND; // default append
@@ -60,16 +63,13 @@ const setRedirectTextSuffix = (title, suffix, flag) => {
 	if (flag_set) {
 		pageWithRedirectTextSuffix[title] = generateArray(suffix);
 	} else if (flag_append) {
-		pageWithRedirectTextSuffix[title] = generateArray(pageWithRedirectTextSuffix[title], suffix);
+		pageWithRedirectTextSuffix[title] = generateArray(pageWithRedirectTextSuffix[title] ?? [], suffix) as string[];
 	}
 };
 
-const ToolsRedirect = {
-	tabselem: null,
-	tagselem: null,
+const ToolsRedirect: ToolsRedirectApi = {
 	variants: VARIANTS,
-	init($body) {
-		const self = this;
+	init($body, onOpen) {
 		const button = $('<li>')
 			.addClass('mw-list-item collapsible vector-tab-noicon')
 			.attr('id', 'ca-redirect')
@@ -77,63 +77,17 @@ const ToolsRedirect = {
 			.append($('<a>').attr('title', getMessage('btndesc')).text(getMessage('btntitle')));
 		button.on('click', (event) => {
 			event.preventDefault();
-			self.dialog();
+			onOpen();
 		});
 		$body.find('li#ca-history').after(button);
 	},
-	dialog() {
-		const dialog = $('<div>')
-			.attr('title', getMessage('dlgtitle'))
-			.addClass('dialog-redirect')
-			.dialog({
-				bgiframe: true,
-				resizable: false,
-				modal: true,
-				width: Math.round($(window).width() * 0.8),
-				position: 'center',
-			});
-		dialog.css('max-height', `${Math.round($(window).height() * 0.8)}px`);
-		this.tabselem = $('<div>').addClass('tab-redirect').appendTo(dialog);
-		this.tagselem = $('<ul>').appendTo(this.tabselem);
-		this.addTabs();
-		this.tabselem.tabs();
-	},
-	addTabs() {
-		for (const kname in this.tabs) {
-			if (Object.hasOwn(this.tabs, kname)) {
-				if (this.tabs[kname] === null) {
-					this.tabs[kname] = this[`_initTab${kname[0].charAt(0).toUpperCase()}${kname.slice(1)}`]();
-				}
-				const tab = this.tabs[kname];
-				this.tagselem.append(tab.tag);
-				this.tabselem.append(tab.cont);
-			}
-		}
-		// default tab, autoload when dialog initiate
-		this.loadView();
-	},
-	createTab(tabname, tabtitle, onClick) {
-		const self = this;
-		const tag = $('<li>').append($('<a>').attr('href', `#tab-${tabname}`).text(tabtitle));
-		const cont = $('<div>').attr('id', `tab-${tabname}`);
-		$('a', tag).on('click', () => {
-			onClick.call(self);
-		});
-		return {
-			tag,
-			cont,
-			loaded: false,
-		};
-	},
-	_initTabView() {
-		return this.createTab('view', getMessage('tabviewtitle'), this.loadView);
-	},
-	_initTabCreate() {
-		return this.createTab('create', getMessage('tabcreatetitle'), this.loadCreate);
+	attachContainers(viewContainer, createContainer) {
+		this.tabs.view = {cont: $(viewContainer), loaded: false};
+		this.tabs.create = {cont: $(createContainer), loaded: false};
 	},
 	tabs: {
-		view: null,
-		create: null,
+		view: {cont: $(), loaded: false},
+		create: {cont: $(), loaded: false},
 	},
 	fix(pagenames) {
 		const self = this;
@@ -172,7 +126,7 @@ const ToolsRedirect = {
 	},
 	addRedirectTextSuffix(title, text) {
 		if (title in pageWithRedirectTextSuffix) {
-			text += `\n${uniqueArray(pageWithRedirectTextSuffix[title]).join('\n')}`; // Replace Set with uniqueArray, avoiding core-js polyfilling
+			text += `\n${uniqueArray(pageWithRedirectTextSuffix[title] ?? []).join('\n')}`; // Replace Set with uniqueArray, avoiding core-js polyfilling
 		}
 		return text;
 	},
@@ -305,7 +259,7 @@ const ToolsRedirect = {
 		});
 	},
 	selectAction(cont, cb) {
-		const pagenames = [];
+		const pagenames: string[] = [];
 		$('input[type=checkbox]:checked', cont).each((_index, pagename) => {
 			pagenames[pagenames.length] = $(pagename).data('page-title');
 		});
@@ -337,7 +291,7 @@ const ToolsRedirect = {
 	addMethods($parent, methods) {
 		const self = this;
 		let $container = $parent.find('> .tools-redirect_methods');
-		const methodExist = ({href}) => {
+		const methodExist = ({href}: RedirectMethod): boolean => {
 			return $container.find(`a[href=${JSON.stringify(href)}]`).length > 0;
 		};
 		if ($container.length === 0) {
@@ -364,7 +318,7 @@ const ToolsRedirect = {
 		const $container = this.tabs.view.cont;
 		this.loadTabCont(
 			'view',
-			function () {
+			() => {
 				return this.loadRedirect(wgPageName, $container, 0);
 			},
 			reload
@@ -373,7 +327,7 @@ const ToolsRedirect = {
 	loadCreate(reload) {
 		this.loadTabCont(
 			'create',
-			function () {
+			() => {
 				return this.findRedirect(wgPageName);
 			},
 			reload
@@ -388,7 +342,7 @@ const ToolsRedirect = {
 			loaded = {};
 			loaded[pagename] = true;
 		}
-		const onClickFix = (event) => {
+		const onClickFix = (event: JQuery.Event): void => {
 			const entry = $(this).parents('dd, p').first();
 			event.preventDefault();
 			self.clickAction(entry, this.fix);
@@ -414,7 +368,7 @@ const ToolsRedirect = {
 							const rdtitle = title;
 							const ultitle = rdtitle.replace(/ /g, '_');
 							const entry = (deep ? $('<dd>') : $('<p>')).appendTo(top);
-							const methods = [
+							const methods: RedirectMethod[] = [
 								{
 									href: mw.util.getUrl(ultitle, {action: 'edit'}),
 									title: getMessage('rediedit'),
@@ -492,7 +446,7 @@ const ToolsRedirect = {
 	findVariants(pagename, titles) {
 		const self = this;
 		const suffixReg = /^.+?((（|[ _]\().+?([)）]))$/;
-		let retTitles = [];
+		let retTitles: string[] = [];
 		const deferreds = [];
 		for (const variant of VARIANTS) {
 			const xhr = api
@@ -517,7 +471,7 @@ const ToolsRedirect = {
 				});
 			deferreds[deferreds.length] = xhr;
 		}
-		return $.when(...deferreds).then((...args) => {
+		return $.when(...deferreds).then((...args: any[]) => {
 			const suffixes = [];
 			for (const title of args) {
 				let suffix;
@@ -549,7 +503,7 @@ const ToolsRedirect = {
 	findNotExists(titles) {
 		const deferreds = [];
 		const excludes = ['用字模式'];
-		let alltitles = [];
+		let alltitles: string[] = [];
 		for (const variant of VARIANTS) {
 			deferreds[deferreds.length] = api.get({
 				action: 'parse',
@@ -563,8 +517,8 @@ const ToolsRedirect = {
 				variant,
 			});
 		}
-		return $.when(...deferreds).then((...args) => {
-			for (const [{parse}] of args) {
+		return $.when(...deferreds).then((...args: any[]) => {
+			for (const [{parse}] of args as Array<[(typeof args)[number]]>) {
 				alltitles = [...alltitles, ...$(parse.text).text().trim().split('|')];
 			}
 			alltitles = alltitles.filter((v, i, arr) => {
@@ -585,7 +539,7 @@ const ToolsRedirect = {
 						if (page.missing && !excludes.includes(title)) {
 							if (title in redirectExcludes) {
 								// exclude special titles
-								return;
+								return [];
 							}
 							titles[titles.length] = title;
 							// only set default suffix
@@ -603,7 +557,7 @@ const ToolsRedirect = {
 		const $body = $('body');
 		const $content = $body.find('#mw-content-text > div.mw-parser-output');
 		const deferred = $.Deferred();
-		let titles = [];
+		let titles: string[] = [];
 		self.loading(container);
 		for (const callback of findRedirectCallbacks) {
 			const ret = callback(pagename, $content, titles);
@@ -617,10 +571,8 @@ const ToolsRedirect = {
 			}
 		}
 		// remove all empty titles
-		titles = titles.map((title) => {
-			return title || null;
-		});
-		const onClickCreate = function (event) {
+		titles = titles.map((title) => title || '').filter(Boolean);
+		const onClickCreate = function (this: HTMLElement, event: JQuery.Event): void {
 			const entry = $(this).parents('p:first');
 			event.preventDefault();
 			self.clickAction(entry, self.create);
