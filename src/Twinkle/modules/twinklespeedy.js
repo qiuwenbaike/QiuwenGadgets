@@ -847,6 +847,9 @@ import TwSpeedyDialog from './ui/TwSpeedyDialog.vue';
 						'请求快速删除',
 						'請求快速刪除'
 					)}（[[QW:CSD#${params.normalizeds[0].toUpperCase()}|CSD ${params.normalizeds[0].toUpperCase()}]]）`;
+					if (params.normalizeds[0] === 'g6' && params.templateParams[0]['1']) {
+						editsummary += '：'.concat(params.templateParams[0]['1']);
+					}
 				}
 				// Blank attack pages
 				if (params.blank) {
@@ -1023,6 +1026,14 @@ import TwSpeedyDialog from './ui/TwSpeedyDialog.vue';
 							return null;
 						}
 						currentParams.pagename = pagename;
+					}
+					break;
+				case 'g6':
+					if (subgroups.g6_rationale !== undefined) {
+						const g6rationale = subgroups.g6_rationale;
+						if (g6rationale && g6rationale.trim()) {
+							currentParams['1'] = g6rationale;
+						}
 					}
 					break;
 				case 'f2':

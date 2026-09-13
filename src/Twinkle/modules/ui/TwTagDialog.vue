@@ -129,7 +129,7 @@ const filterMatch = (text: string) => {
 };
 
 const filterGroup = (group: TagGroup): TagGroup | null => {
-	const items = group.items.filter((item) => filterMatch(item.label));
+	const items = group.items.filter((item) => !props.alreadyPresentTags.includes(item.tag) && filterMatch(item.label));
 	if (items.length === 0) {
 		return null;
 	}
@@ -149,7 +149,7 @@ const filteredCustomGroups = computed<TagGroup[]>(() =>
 );
 
 const filteredArticleGroups = computed<ArticleGroup[]>(() => {
-	if (sortorder.value !== 'cat' || !filterRegex.value) {
+	if (sortorder.value !== 'cat') {
 		return props.articleGroups;
 	}
 	return props.articleGroups
@@ -157,7 +157,11 @@ const filteredArticleGroups = computed<ArticleGroup[]>(() => {
 			const subgroups = group.subgroups
 				.map((subgroup) => ({
 					...subgroup,
-					items: subgroup.items.filter((item) => filterMatch(`{{${item.tag}}}: ${item.description}`)),
+					items: subgroup.items.filter(
+						(item) =>
+							!props.alreadyPresentTags.includes(item.tag) &&
+							(!filterRegex.value || filterMatch('{{'.concat(item.tag, '}}: ').concat(item.description)))
+					),
 				}))
 				.filter((subgroup) => subgroup.items.length > 0);
 			return subgroups.length > 0 ? {...group, subgroups} : null;
@@ -165,12 +169,13 @@ const filteredArticleGroups = computed<ArticleGroup[]>(() => {
 		.filter((g): g is ArticleGroup => g !== null);
 });
 
-const filteredAlphaTags = computed(() => {
-	if (!filterRegex.value) {
-		return props.alphaTags;
-	}
-	return props.alphaTags.filter((item) => filterMatch(`{{${item.tag}}}: ${item.description}`));
-});
+const filteredAlphaTags = computed(() =>
+	props.alphaTags.filter(
+		(item) =>
+			!props.alreadyPresentTags.includes(item.tag) &&
+			(!filterRegex.value || filterMatch('{{'.concat(item.tag, '}}: ').concat(item.description)))
+	)
+);
 
 const filteredAlreadyPresent = computed(() => {
 	if (!filterRegex.value) {
@@ -189,6 +194,10 @@ watch(
 		if (props.mode === 'article' && props.canRemove) {
 			existingChecked.value = [...tags];
 		}
+	},
+	{
+		deep: true,
+		immediate: true,
 	}
 );
 
