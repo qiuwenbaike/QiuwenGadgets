@@ -167,8 +167,7 @@
 	figure {
 		margin: 1em;
 
-		&[typeof~='mw:File/Thumb'],
-		&[typeof~='mw:File/Frame'] {
+		&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']) {
 			border: 0;
 			background: transparent;
 			box-shadow: none;
@@ -509,14 +508,11 @@
 			min-width: min(80vw, 20em);
 		}
 
-		@not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
+		@halign_selector: ~'.mw-halign-left, .mw-halign-right, .mw-halign-center, .mw-halign-none';
 
 		figure {
-			&[typeof~='mw:File/Thumb']:not(@{not_selector}),
-			&[typeof~='mw:File/Frame']:not(@{not_selector}),
-			&.mw-halign-left,
-			&.mw-halign-right,
-			&.mw-halign-center {
+			&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_selector}),
+			&:is(@{halign_selector}) {
 				margin: auto;
 				text-align: center;
 			}

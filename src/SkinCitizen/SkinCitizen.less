@@ -11,7 +11,7 @@
 }
 
 /* 页面内容宽度 */
-@not_figure_selector: ~'figure, .mbox, .mw-halign-left, .mw-halign-none, .mw-halign-center';
+@not_figure_selector: ~'figure, .mbox, .mw-halign-left, .mw-halign-right, .mw-halign-center, .mw-halign-none';
 @not_citizen_overflow_wrapper_selector: ~'.citizen-overflow-wrapper';
 @not_infobox_selector: ~'.metadata, .infobox, .sidebar, .vertical-navbox';
 
@@ -49,12 +49,7 @@
 
 /* [[Special:小工具]]标题 */
 .mw-special-Gadgets {
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
+	:is(h1, h2, h3, h4, h5, h6) {
 		display: block !important;
 	}
 }
