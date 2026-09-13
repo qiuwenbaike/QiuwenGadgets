@@ -5,12 +5,13 @@
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
 	"dependencies": [
+		"@wikimedia/codex",
 		"ext.gadget.Util",
-		"jquery.ui",
 		"mediawiki.api",
 		"mediawiki.jqueryMsg",
 		"mediawiki.util",
-		"user.options"
+		"user.options",
+		"vue"
 	],
 	"rights": ["edit"]
 }
