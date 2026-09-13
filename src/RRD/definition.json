@@ -4,12 +4,12 @@
 	"section": "sysop",
 	"excludeSites": ["loginwiki"],
 	"dependencies": [
+		"@wikimedia/codex",
 		"ext.gadget.i18n",
-		"ext.gadget.JSX",
 		"ext.gadget.Util",
-		"jquery.ui",
 		"mediawiki.api",
-		"mediawiki.util"
+		"mediawiki.util",
+		"vue"
 	],
 	"rights": ["skipcaptcha"]
 }
