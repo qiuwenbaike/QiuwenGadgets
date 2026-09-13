@@ -50,23 +50,24 @@ html {
 	&,
 	&:lang(zh),
 	&:lang(zh-hans) {
-		--fonts-sans: @sans-serif-zh-hans, @emoji-font, 'NospzGothic', @unihan-sans-serif, sans-serif;
-		--fonts-serif: @serif-zh-hans, @emoji-font, @unihan-serif, @unihan-serif, 'NospzGothic', serif;
-		--fonts-monospace: @monospace-zh-hans, @emoji-font, 'NospzGothic', @unihan-sans-serif, monospace;
-		font-family: var(--fonts-sans, sans-serif);
+		--fonts-sans-nospz: @sans-serif-zh-hans, @emoji-font, 'NospzGothic', @unihan-sans-serif, sans-serif;
+		--fonts-serif-nospz: @serif-zh-hans, @emoji-font, @unihan-serif, @unihan-serif, 'NospzGothic', serif;
+		--fonts-monospace-nospz: @monospace-zh-hans, @emoji-font, 'NospzGothic', @unihan-sans-serif, monospace;
+		font-family: var(--fonts-sans-nospz, sans-serif);
 	}
 
 	&:lang(zh-hant) {
-		--fonts-sans: @sans-serif-zh-hant, @emoji-font, 'NospzGothic', @unihan-sans-serif, sans-serif;
-		--fonts-serif: @serif-zh-hant, @emoji-font, @unihan-serif, @unihan-serif, 'NospzGothic', serif;
-		--fonts-monospace: @monospace-zh-hant, @emoji-font, 'NospzGothic', @unihan-sans-serif, monospace;
-		font-family: var(--fonts-sans, sans-serif);
+		--fonts-sans-nospz: @sans-serif-zh-hant, @emoji-font, 'NospzGothic', @unihan-sans-serif, sans-serif;
+		--fonts-serif-nospz: @serif-zh-hant, @emoji-font, @unihan-serif, @unihan-serif, 'NospzGothic', serif;
+		--fonts-monospace-nospz: @monospace-zh-hant, @emoji-font, 'NospzGothic', @unihan-sans-serif, monospace;
+		font-family: var(--fonts-sans-nospz, sans-serif);
 	}
 
 	i span[lang='ja' i],
 	[style*='italic'] span[lang='ja' i],
 	span[lang='ja' i] i,
 	span[lang='ja' i] [style*='italic'] {
-		font-family: @sans-serif-ja, @emoji-font, 'NospzGothic', @unihan-sans-serif, sans-serif;
+		--fonts-sans-nospz-ja: @sans-serif-ja, @emoji-font, 'NospzGothic', @unihan-sans-serif, sans-serif;
+		font-family: var(--fonts-sans-nospz-ja, sans-serif);
 	}
 }

@@ -167,8 +167,7 @@
 	figure {
 		margin: 1em;
 
-		&[typeof~='mw:File/Thumb'],
-		&[typeof~='mw:File/Frame'] {
+		&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']) {
 			border: 0;
 			background: transparent;
 			box-shadow: none;
@@ -256,8 +255,9 @@
 	}
 
 	&-box {
-		flex: 1 1 25vw;
-		min-width: 20em;
+		flex: 1 1 30vw;
+		max-width: 100%;
+		min-width: max(25vw, 20em);
 
 		img {
 			max-width: 20em;
@@ -277,10 +277,11 @@
 		width: 100%;
 	}
 
-	&-wide-box {
-		flex: 1 1 25vw;
+	&-wide-box,
+	&-editorial-box {
+		flex: 1 1 33vw;
 		max-width: 100%;
-		min-width: 25em;
+		min-width: max(30vw, 25em);
 	}
 
 	&-extra-box {
@@ -500,20 +501,18 @@
 		}
 
 		&-box,
-		&-wide-box {
+		&-wide-box,
+		&-editorial-box {
 			flex: 1 1 25em;
 			max-width: 100%;
-			min-width: unset;
+			min-width: min(80vw, 20em);
 		}
 
-		@not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
+		@halign_selector: ~'.mw-halign-left, .mw-halign-right, .mw-halign-center, .mw-halign-none';
 
 		figure {
-			&[typeof~='mw:File/Thumb']:not(@{not_selector}),
-			&[typeof~='mw:File/Frame']:not(@{not_selector}),
-			&.mw-halign-left,
-			&.mw-halign-right,
-			&.mw-halign-center {
+			&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_selector}),
+			&:is(@{halign_selector}) {
 				margin: auto;
 				text-align: center;
 			}
