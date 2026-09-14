@@ -7,11 +7,8 @@ import {setMessages} from './modules/messages';
 setMessages();
 
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
-	mountToolsRedirect(ToolsRedirect, () => undefined);
-	ToolsRedirect.init($body, () => {
-		const trigger = document.querySelector<HTMLButtonElement>('.tools-redirect-trigger button');
-		trigger?.click();
-	});
+	const {open} = mountToolsRedirect(ToolsRedirect);
+	ToolsRedirect.init($body, open);
 });
 
 export {findRedirectCallback, findRedirectBySelector, setRedirectTextSuffix} from './modules/core';
