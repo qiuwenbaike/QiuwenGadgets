@@ -14,6 +14,18 @@ const getI18nMessages = () => {
 			'zh-hans': '您确定要退出吗？',
 			'zh-hant': '您確定要登出嗎？',
 		}),
+		ConfirmAction: localize({
+			en: 'Confirm',
+			ja: '確認',
+			'zh-hans': '确认',
+			'zh-hant': '確認',
+		}),
+		Cancel: localize({
+			en: 'Cancel',
+			ja: 'キャンセル',
+			'zh-hans': '取消',
+			'zh-hant': '取消',
+		}),
 		Succeed: localize({
 			en: 'Logout succeed. Refreshing...',
 			ja: 'ログアウトに成功しました。再読み込みします...',
