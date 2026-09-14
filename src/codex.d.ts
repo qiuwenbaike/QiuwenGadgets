@@ -62,11 +62,19 @@ declare module '@wikimedia/codex' {
 		};
 	};
 
+	export const CdxIcon: new () => {
+		$props: {
+			icon: string | {path: string; shouldFlip?: boolean | undefined};
+			iconLabel?: string | undefined;
+			size?: 'medium' | 'small' | 'x-small' | undefined;
+		};
+	};
+
 	export const CdxButton: new () => {
 		$props: {
 			action?: 'default' | 'progressive' | 'destructive' | undefined;
 			weight?: 'normal' | 'primary' | 'quiet' | undefined;
-			size?: 'medium' | 'large' | undefined;
+			size?: 'medium' | 'large' | 'small' | undefined;
 			disabled?: boolean | undefined;
 		};
 		$emit: {

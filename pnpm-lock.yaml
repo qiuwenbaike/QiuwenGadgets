@@ -151,6 +151,9 @@ importers:
       '@wikimedia/codex':
         specifier: ^2.7.0
         version: 2.7.0(vue@3.5.42(typescript@5.9.3))
+      '@wikimedia/codex-icons':
+        specifier: ^2.7.0
+        version: 2.7.0
       alpha-sort:
         specifier: ^5.0.0
         version: 5.0.0(patch_hash=c180a2c10bb672edd958072717b8c947ace596f4b53761ea9c069740b698bfb5)
