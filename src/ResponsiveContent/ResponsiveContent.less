@@ -1,5 +1,6 @@
 @root_not_selector: ~'.ve-activated';
-@halign_not_selector: ~'.mw-halign-left, .mw-halign-center, .mw-halign-none';
+@citizen_overflow_wrapper_selector: ~'.citizen-overflow-wrapper';
+@not_halign_selector: ~'.mw-halign-left, .mw-halign-center, .mw-halign-none';
 
 @media (min-width: 1440px) {
 	:not(@{root_not_selector}) .ns-0 {
@@ -24,7 +25,7 @@
 				& > .sistersitebox,
 				& > .mbox-small,
 				& > .tright,
-				& > figure:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_not_selector}) {
+				& > figure:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{not_halign_selector}) {
 					margin-right: 0 !important;
 					margin-left: 2em !important;
 				}
@@ -47,7 +48,7 @@
 				& > .floatright,
 				& > .mw-halign-right,
 				& > .tright,
-				& > figure:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_not_selector}) img {
+				& > figure:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{not_halign_selector}) img {
 					min-width: 320px !important;
 				}
 
@@ -62,7 +63,7 @@
 				& > .tright .thumbimage,
 				& > .floatright img,
 				& > .mw-halign-right img,
-				& > figure:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_not_selector}) img {
+				& > figure:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{not_halign_selector}) img {
 					max-width: 100%;
 					height: auto;
 				}
@@ -78,6 +79,11 @@
 				& > .center,
 				& > .mw-halign-center {
 					max-width: calc(100% - 350px);
+				}
+
+				& > @{citizen_overflow_wrapper_selector} {
+					margin-right: auto !important;
+					margin-left: auto;
 				}
 			}
 
