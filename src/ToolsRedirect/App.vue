@@ -45,7 +45,9 @@ watch(isOpen, (open) => {
 </script>
 
 <template>
-	<cdx-button class="tools-redirect-trigger" @click="open">{{ getMessage('btntitle') }}</cdx-button>
+	<div class="tools-redirect-trigger">
+		<cdx-button @click="open">{{ getMessage('btntitle') }}</cdx-button>
+	</div>
 	<cdx-dialog v-model:open="isOpen" :title="getMessage('dlgtitle')" :use-close-button="true">
 		<div class="tools-redirect-tabs" role="tablist">
 			<cdx-button

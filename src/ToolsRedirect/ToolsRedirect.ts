@@ -9,7 +9,7 @@ setMessages();
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	mountToolsRedirect(ToolsRedirect, () => undefined);
 	ToolsRedirect.init($body, () => {
-		const trigger = document.querySelector<HTMLButtonElement>('.tools-redirect-trigger');
+		const trigger = document.querySelector<HTMLButtonElement>('.tools-redirect-trigger button');
 		trigger?.click();
 	});
 });
