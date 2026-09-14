@@ -174,7 +174,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 				titles,
 			})
 			.then(({query}) => {
-				const deferreds = [];
+				const deferreds: string | any[] = [];
 				for (const page of query.pages) {
 					const {content} = page.revisions[0].slots['main'];
 					const newContent = content.replace(regex, text);
