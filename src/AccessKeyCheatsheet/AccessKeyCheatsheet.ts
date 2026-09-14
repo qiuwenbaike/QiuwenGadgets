@@ -1,20 +1,31 @@
-import {addListener} from './modules/addListener';
-import {generateElements} from './modules/util/generateElements';
-import {generateMessageDialogProperty} from './modules/util/generateMessageDialogProperty';
+import App from './App.vue';
+import {createApp} from 'vue';
 import {getBody} from 'ext.gadget.Util';
-import {initWindowManager} from './modules/initWindowManager';
+
+interface AccessKeyItem {
+	key: string;
+	label: string;
+}
+
+const getAccessKeyItems = ($body: JQuery<HTMLBodyElement>): AccessKeyItem[] =>
+	[...$body.find('[accesskey]')].map((element) => ({
+		key: element.accessKey.toUpperCase(),
+		label: (
+			element.getAttribute('aria-label') ||
+			element.title ||
+			element.textContent ||
+			(element as HTMLInputElement).value ||
+			$body.find(`label[for="${element.id}"]`).text()
+		)
+			.replace(/\s*?\[.+?]$/, '')
+			.trim(),
+	}));
 
 /**
  * Adds alt+shift+? as an access key to show a list of all default access keys
  */
 void getBody().then(function accessKeyCheatsheet($body: JQuery<HTMLBodyElement>): void {
-	const {$table, $opener} = generateElements($body);
-	$opener.hide().appendTo($body);
-
-	const windowManager: OO.ui.WindowManager = initWindowManager();
-	windowManager.$element.appendTo($body);
-
-	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData = generateMessageDialogProperty($table);
-
-	addListener($opener, windowManager, messageDialogProperty);
+	const root = document.createElement('div');
+	$body.append(root);
+	createApp(App, {accessKeyItems: getAccessKeyItems($body)}).mount(root);
 });
