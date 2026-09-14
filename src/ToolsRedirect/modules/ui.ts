@@ -5,13 +5,16 @@ interface ToolsRedirectController {
 	attachContainers(viewContainer: HTMLElement, createContainer: HTMLElement): void;
 }
 
-let app: VueApp<Element> | undefined;
+interface ToolsRedirectInstance {
+	open: () => void;
+}
 
-const mountToolsRedirect = (controller: ToolsRedirectController, onOpen: () => void): void => {
+const mountToolsRedirect = (controller: ToolsRedirectController): ToolsRedirectInstance => {
 	const root = document.createElement('div');
 	document.body.append(root);
-	app = createApp(App, {controller, open: false, onOpen});
-	app.mount(root);
+	const app: VueApp<Element> = createApp(App, {controller});
+	const instance = app.mount(root) as unknown as ToolsRedirectInstance;
+	return instance;
 };
 
 export {mountToolsRedirect};

@@ -6,19 +6,18 @@ import {getMessage} from './modules/util/getMessage';
 
 const props = defineProps<{
 	controller: typeof ToolsRedirect;
-	open: boolean;
-	onOpen: () => void;
 }>();
 
-const isOpen = ref(props.open);
+const isOpen = ref(false);
 const activeTab = ref('view');
 const viewContainer = ref<HTMLElement>();
 const createContainer = ref<HTMLElement>();
 
 const open = () => {
 	isOpen.value = true;
-	props.onOpen();
 };
+
+defineExpose({open});
 
 const loadTab = async (tab: string, reload = false) => {
 	await nextTick();
@@ -45,9 +44,6 @@ watch(isOpen, (open) => {
 </script>
 
 <template>
-	<div class="tools-redirect-trigger">
-		<cdx-button @click="open">{{ getMessage('btntitle') }}</cdx-button>
-	</div>
 	<cdx-dialog v-model:open="isOpen" :title="getMessage('dlgtitle')" :use-close-button="true">
 		<div class="tools-redirect-tabs" role="tablist">
 			<cdx-button
@@ -83,10 +79,6 @@ watch(isOpen, (open) => {
 </template>
 
 <style lang="less">
-.tools-redirect-trigger {
-	display: none;
-}
-
 .tools-redirect-tabs {
 	display: flex;
 	gap: 4px;
