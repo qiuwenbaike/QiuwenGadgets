@@ -1,8 +1,7 @@
 import * as OPTIONS from './options.json';
+import {getBody, oouiConfirmWithStyle} from 'ext.gadget.Util';
 import {addListener} from './modules/addListener';
-import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './modules/i18n';
-import {showConfirmDialog} from './modules/showConfirmDialog';
 import {toastify} from 'ext.gadget.Toastify';
 import {tryLogout} from './modules/tryLogout';
 
@@ -18,20 +17,21 @@ void getBody().then(function confirmLogout($body: JQuery<HTMLBodyElement>): void
 		return;
 	}
 
-	const openConfirmDialog = showConfirmDialog(
-		(): void => {
-			const toastifyInstance: ToastifyInstance = toastify(
-				{
-					text: mw.message('logging-out-notify').parse(),
-					duration: -1,
-				},
-				'info'
-			);
-			void tryLogout(toastifyInstance);
-		},
-		$body,
-		getMessage('Confirm')
-	);
+	const openConfirmDialog = async () => {
+		const isConfirm: boolean = await oouiConfirmWithStyle(getMessage('Confirm'));
+		if (!isConfirm) {
+			return;
+		}
+
+		const toastifyInstance: ToastifyInstance = toastify(
+			{
+				text: mw.message('logging-out-notify').parse(),
+				duration: -1,
+			},
+			'info'
+		);
+		void tryLogout(toastifyInstance);
+	};
 
 	addListener($element, openConfirmDialog);
 });
