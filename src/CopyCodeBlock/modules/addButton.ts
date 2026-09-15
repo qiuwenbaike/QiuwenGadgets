@@ -1,33 +1,40 @@
 import {button, codeBlock} from './CopyCodeBlock.module.less';
+import App from '../App.vue';
 import {addCopyListener} from './addCopyListener';
+import {createApp} from 'vue';
 import {getMessage} from './i18n';
 import {tippy} from 'ext.gadget.Tippy';
 
 const addButton = ($pres: JQuery<HTMLPreElement>): void => {
-	// The following classes are used here:
-	// * see constant.ts
-	// * for more information
-	const copyButton: OO.ui.ButtonWidget = new OO.ui.ButtonWidget({
-		classes: [button as string],
-		framed: false,
-		icon: 'copy',
-	});
-	const $copyButton: JQuery = copyButton.$element;
+	for (const pre of $pres) {
+		pre.classList.add(codeBlock as string);
 
-	$copyButton.attr('aria-label', getMessage('Copy'));
+		if (pre.querySelector(`.${button}`)) {
+			continue;
+		}
 
-	// The following classes are used here:
-	// * see constant.ts
-	// * for more information
-	$pres.addClass(codeBlock as string).append($copyButton);
+		const wrapper: HTMLSpanElement = document.createElement('span');
+		wrapper.className = button as string;
+		pre.append(wrapper);
 
-	tippy($copyButton.get(0) as HTMLSpanElement, {
-		arrow: true,
-		content: $copyButton.attr('aria-label') as string,
-		placement: 'bottom',
-	});
+		const app = createApp(App);
+		app.mount(wrapper);
 
-	addCopyListener($pres);
+		const copyButton: HTMLButtonElement | null = wrapper.querySelector('button');
+		if (!copyButton) {
+			app.unmount();
+			wrapper.remove();
+			continue;
+		}
+
+		tippy(copyButton, {
+			arrow: true,
+			content: getMessage('Copy'),
+			placement: 'bottom',
+		});
+
+		addCopyListener(pre, copyButton);
+	}
 };
 
 export {addButton};

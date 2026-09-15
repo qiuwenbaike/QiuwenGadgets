@@ -93,6 +93,7 @@
 		"@vue/eslint-config-typescript": "^14.9.0",
 		"@vue/language-plugin-pug": "^3.3.11",
 		"@wikimedia/codex": "^2.7.0",
+		"@wikimedia/codex-icons": "^2.7.0",
 		"alpha-sort": "^5.0.0",
 		"broadcastchannel-polyfill": "^1.0.1",
 		"browserslist": "^4.28.9",
