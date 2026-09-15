@@ -76,9 +76,8 @@ import {getIwPrefix} from './modules/getIwPrefix';
 				pageNames[pageNames.length] = wgPageName3;
 			}
 			await detectIfFileRedirect(pageNames, isFileNS);
-		})().then(() => {
 			refreshPage(wgPageName3 ?? wgPageName2 ?? wgPageName);
-		});
+		})();
 	});
 })();
 
