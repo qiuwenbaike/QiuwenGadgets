@@ -18,13 +18,11 @@ import {getAllImages} from './modules/core';
 	element.addEventListener('click', (): void => {
 		void (async () => {
 			const fileNames = await getAllImages();
-			if (!fileNames.length) {
-				return;
+			if (fileNames.length) {
+				await detectIfFileRedirect(fileNames, true);
 			}
-			await detectIfFileRedirect(fileNames, true);
-		})().then(() => {
 			refreshPage();
-		});
+		})();
 	});
 })();
 
