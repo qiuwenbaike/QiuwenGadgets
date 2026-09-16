@@ -9,7 +9,7 @@
 * GadgetsDefinition[ResourceLoader|actions=view|default|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|GadgetsDefinition.js|GadgetsDefinition.css
 * HanSect[ResourceLoader|default|requiresES6]|HanSect.css
 * HideConversionTab[ResourceLoader|default|requiresES6]|HideConversionTab.css
-* LoginToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-windows|hidden|requiresES6]|LoginToEdit.js
+* LoginToEdit[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.util,vue|hidden|requiresES6]|LoginToEdit.js|LoginToEdit.css
 * Mainpage[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage.css
 * Mainpage-ChineseNewYear[ResourceLoader|requiresES6]|Mainpage-ChineseNewYear.css
 * Mainpage-ChineseNewYear_JS[ResourceLoader|default|dependencies=ext.gadget.ChineseDays|hidden|namespaces=4,10|requiresES6]|Mainpage-ChineseNewYear_JS.js
@@ -29,7 +29,7 @@
 * TOC3-gongbi[ResourceLoader|skins=gongbi|requiresES6]|TOC3-gongbi.css
 * VariantAlly[ResourceLoader|default|dependencies=mediawiki.storage,user.options|requiresES6]|VariantAlly.js
 * VariantAllyDialog[ResourceLoader|dependencies=ext.gadget.VariantAlly,vue|hidden|requiresES6]|VariantAllyDialog.js|VariantAllyDialog.css
-* VerifyToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-windows|hidden|rights=edit|requiresES6]|VerifyToEdit.js
+* VerifyToEdit[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.util,vue|hidden|rights=edit|requiresES6]|VerifyToEdit.js
 
 == browser ==
 * AddSectionPlus[ResourceLoader|dependencies=ext.gadget.Util|rights=edit|requiresES6]|AddSectionPlus.js|AddSectionPlus.css

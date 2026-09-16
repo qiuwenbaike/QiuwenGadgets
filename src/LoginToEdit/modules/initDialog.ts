@@ -1,7 +1,7 @@
 import * as OPTIONS from '~/AjaxLogin/options.json';
-import {generateMessageDialogProperty} from './util/generateMessageDialogProperty';
+import {type App as VueApp, createApp, reactive} from 'vue';
+import App from '../App.vue';
 import {getMessage} from './i18n';
-import {initWindowManager} from './initWindowManager';
 
 const {skin, wgAction, wgPageName} = mw.config.get();
 const isCitizen: boolean = skin === 'citizen';
@@ -12,43 +12,38 @@ const registerURL: string = mw.util.getUrl('Special:CreateAccount', {
 	returnto: wgPageName,
 });
 
-let messageDialog: OO.ui.MessageDialog;
+interface DialogState {
+	open: boolean;
+}
 
 const initDialog = ($body: JQuery<HTMLBodyElement>): void => {
-	const windowManager: OO.ui.WindowManager = initWindowManager();
-	windowManager.$element.appendTo($body);
+	const state: DialogState = reactive({open: false});
 
-	const messageDialogProperty: OO.ui.WindowManager.WindowOpeningData = generateMessageDialogProperty();
+	const root: HTMLElement = document.createElement('div');
+	$body.append(root);
+
+	const triggerLogin = (): void => {
+		const $element: JQuery<HTMLAnchorElement> = $(OPTIONS.loginElementSelector);
+		if ($element.length && mw.config.get(OPTIONS.configKey) === true) {
+			$element.trigger('click');
+		} else {
+			location.href = loginURL;
+		}
+	};
+
+	const app: VueApp<Element> = createApp(App, {
+		state,
+		loginURL,
+		registerURL,
+		triggerLogin,
+		'onUpdate:open': (open: boolean): void => {
+			state.open = open;
+		},
+	});
+	app.mount(root);
 
 	const openDialog = (): void => {
-		if (messageDialog) {
-			if (messageDialog.isOpened()) {
-				messageDialog.close();
-			} else {
-				messageDialog.open(messageDialogProperty);
-			}
-			return;
-		}
-
-		messageDialog = new OO.ui.MessageDialog();
-		messageDialog.getActionProcess = (action: string): OO.ui.Process => {
-			if (action === 'login') {
-				const $element: JQuery<HTMLAnchorElement> = $(OPTIONS.loginElementSelector);
-				if ($element.length && mw.config.get(OPTIONS.configKey) === true) {
-					$element.trigger('click');
-				} else {
-					location.href = loginURL;
-				}
-			} else if (action === 'register') {
-				location.href = registerURL;
-			}
-			return new OO.ui.Process((): void => {
-				void windowManager.closeWindow(messageDialog);
-			});
-		};
-
-		windowManager.addWindows([messageDialog]);
-		void windowManager.openWindow(messageDialog, messageDialogProperty);
+		state.open = !state.open;
 	};
 
 	const $caViewsource: JQuery = $body.find('#ca-viewsource');
