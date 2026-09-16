@@ -1,3 +1,5 @@
+import {oouiConfirmWithStyle} from 'ext.gadget.Util';
+
 const fixCheckbox = () => {
 	const {wgCanonicalSpecialPageName, wgWikiID} = mw.config.get();
 
@@ -33,7 +35,7 @@ const fixCheckbox = () => {
 			event.preventDefault();
 			void (async () => {
 				if (interwikiHistory?.checked) {
-					const confirmed = await OO.ui.confirm('您是否要导入此页面的所有版本？');
+					const confirmed = await oouiConfirmWithStyle('您是否要导入此页面的所有版本？');
 					if (!confirmed) {
 						interwikiHistory.checked = false;
 					}
@@ -41,7 +43,7 @@ const fixCheckbox = () => {
 			})()
 				.then(async () => {
 					if (interwikiTemplates?.checked) {
-						const confirmed = await OO.ui.confirm('您是否要导入此页面所包含的所有模板和其他页面？');
+						const confirmed = await oouiConfirmWithStyle('您是否要导入此页面所包含的所有模板和其他页面？');
 						if (!confirmed) {
 							interwikiTemplates.checked = false;
 						}

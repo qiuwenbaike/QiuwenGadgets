@@ -1,0 +1,54 @@
+/**
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * _addText: '{{Gadget Header|license=GPL-3.0-or-later}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Util}
+ * @author 安忆 <i@anyi.in>
+ * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
+ */
+
+/**
+ * Copyright (C)  安忆
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Util\modules\OouiConfirmWithStyle.vue?type=style&index=0 */
+.cdx-dialog[data-v-86ea89ad] .cdx-dialog__footer {
+  border-top: 0.1rem solid #0645ad;
+  display: flex;
+  justify-content: space-evenly;
+}
+.cdx-dialog[data-v-86ea89ad] .cdx-dialog__title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.8;
+  padding: 0.4em 0;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkQ6XFxHaXRSZXBvc2l0b3J5XFxRaXV3ZW5HYWRnZXRzXFxzcmNcXFV0aWxcXG1vZHVsZXNcXE9vdWlDb25maXJtV2l0aFN0eWxlLnZ1ZT90eXBlPXN0eWxlJmluZGV4PTAiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5jZHgtZGlhbG9nW2RhdGEtdi04NmVhODlhZF0gLmNkeC1kaWFsb2dfX2Zvb3RlciB7XG4gIGJvcmRlci10b3A6IDAuMXJlbSBzb2xpZCAjMDY0NWFkO1xuICBkaXNwbGF5OiBmbGV4O1xuICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWV2ZW5seTtcbn1cbi5jZHgtZGlhbG9nW2RhdGEtdi04NmVhODlhZF0gLmNkeC1kaWFsb2dfX3RpdGxlIHtcbiAgZm9udC1zaXplOiAxLjJyZW07XG4gIGZvbnQtd2VpZ2h0OiA1MDA7XG4gIGxpbmUtaGVpZ2h0OiAxLjg7XG4gIHBhZGRpbmc6IDAuNGVtIDA7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDLFVBQVUsQ0FBQyxpQkFBaUIsQ0FBQztBQUM1QixjQUFZLE9BQU8sTUFBTTtBQUN6QixXQUFTO0FBQ1QsbUJBQWlCO0FBQ25CO0FBQ0EsQ0FMQyxVQUtVLENBQUMsaUJBQWlCLENBQUM7QUFDNUIsYUFBVztBQUNYLGVBQWE7QUFDYixlQUFhO0FBQ2IsV0FBUyxNQUFNO0FBQ2pCOyIsCiAgIm5hbWVzIjogW10KfQo= */

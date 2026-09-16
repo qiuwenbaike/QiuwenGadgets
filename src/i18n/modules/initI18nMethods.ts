@@ -1,7 +1,7 @@
 import * as OPTIONS from '../options.json';
-import {isValidKey, uniqueArray} from 'ext.gadget.Util';
 import type {I18nCandidates} from './types';
 import {generateDefaultFallbackList} from './util/generateDefaultFallbackList';
+import {isValidKey} from './util/isValidKey';
 
 const initI18nMethods = (): typeof i18nMethods => {
 	const defaultFallbackList: string[] = generateDefaultFallbackList();
@@ -15,8 +15,7 @@ const initI18nMethods = (): typeof i18nMethods => {
 			}
 		}
 
-		// Replace Set with uniqueArray, avoiding core-js polyfilling
-		for (const key of uniqueArray([locale, ...fallbackList, ...defaultFallbackList])) {
+		for (const key of new Set([locale, ...fallbackList, ...defaultFallbackList])) {
 			if (isValidKey(candidates, key)) {
 				return candidates[key];
 			}
