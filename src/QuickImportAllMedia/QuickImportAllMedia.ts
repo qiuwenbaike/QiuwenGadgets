@@ -21,7 +21,6 @@ import {getAllImages} from './modules/core';
 			if (fileNames.length) {
 				await detectIfFileRedirect(fileNames, true);
 			}
-
 			refreshPage();
 		})();
 	});
