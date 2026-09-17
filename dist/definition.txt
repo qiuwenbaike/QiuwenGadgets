@@ -96,7 +96,7 @@
 * TemplateTabs[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|requiresES6]|TemplateTabs.js
 * Tippy[ResourceLoader|hidden|requiresES6]|Tippy.js|Tippy.css
 * Toastify[ResourceLoader|hidden|requiresES6]|Toastify.js|Toastify.css
-* Util[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.JSX,jquery.textSelection,mediawiki.storage,vue|hidden|requiresES6]|Util.js|Util.css
+* Util[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,jquery.textSelection,mediawiki.storage,vue|hidden|requiresES6]|Util.js|Util.css
 
 == edit ==
 * Cat-a-lot[ResourceLoader|actions=view|dependencies=ext.gadget.JSX,ext.gadget.Util,jquery.ui,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.util|peers=Cat-a-lot-pagestyles|rights=skipcaptcha|requiresES6]|Cat-a-lot.js
@@ -179,6 +179,6 @@
 * Group-sysop[ResourceLoader|default|hidden|rights=editprotected|requiresES6]|Group-sysop.css
 * Group-templateeditor[ResourceLoader|default|hidden|rights=templateeditor|requiresES6]|Group-templateeditor.css
 * Group-transwiki[ResourceLoader|default|hidden|rights=import|requiresES6]|Group-transwiki.css
-* Group-transwiki_JS[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.Util,oojs-ui-windows,vue|hidden|peers=Group-transwiki|rights=import|requiresES6]|Group-transwiki_JS.js
+* Group-transwiki_JS[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.Util,vue|hidden|peers=Group-transwiki|rights=import|requiresES6]|Group-transwiki_JS.js
 * Group-user[ResourceLoader|default|hidden|rights=edit|requiresES6]|Group-user.css
 * Group-user_JS[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,user.options|hidden|peers=Group-user|rights=edit|requiresES6]|Group-user_JS.js
