@@ -2,13 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-Util\"></span> 工具函数库",
 	"section": "compatibility",
-	"dependencies": [
-		"@wikimedia/codex",
-		"ext.gadget.i18n",
-		"ext.gadget.JSX",
-		"jquery.textSelection",
-		"mediawiki.storage",
-		"vue"
-	],
+	"dependencies": ["@wikimedia/codex", "ext.gadget.i18n", "jquery.textSelection", "mediawiki.storage", "vue"],
 	"hidden": true
 }
