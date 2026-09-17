@@ -3,8 +3,29 @@
 
 @shadow-color: rgba(0, 0, 0, 0.1);
 
-#floatTOC {
+// Vue transition shared by the opener button and the floating panel
+.float-toc-fade-enter-active,
+.float-toc-fade-leave-active {
+	transition: opacity 0.4s ease-in-out;
+}
+
+.float-toc-fade-enter-from,
+.float-toc-fade-leave-to {
+	opacity: 0;
+}
+
+// Floating TOC panel (replaces the former mw.notification based container)
+.float-toc {
+	position: fixed;
+	z-index: 13;
+	top: 1rem;
+	left: 1rem;
+	max-width: 20em;
 	padding: 0.5rem;
+	border: 1px solid @const-color-gray;
+	border-radius: 0.25rem;
+	background: @background-color-white--light;
+	box-shadow: 0 0 2px 2px @shadow-color;
 	cursor: auto;
 
 	.toc {
@@ -31,20 +52,13 @@
 		padding-right: 1rem;
 	}
 
-	#close {
-		position: relative;
-		top: 1em;
-		width: 1rem;
-		height: 1rem;
-		cursor: pointer;
-		float: right;
+	.float-toc__close {
+		position: absolute;
+		top: 0.25rem;
+		right: 0.25rem;
 
 		&:hover {
 			filter: drop-shadow(0 0 1px @const-color-black);
-		}
-
-		.skin-vector-legacy & {
-			top: 0;
 		}
 	}
 
@@ -55,7 +69,8 @@
 	.ve-activated-disabled('!important');
 }
 
-#floatToc-opener {
+// Floating TOC opener button
+.float-toc__opener {
 	position: fixed;
 	z-index: 13;
 	top: 12.5vh;
@@ -89,21 +104,22 @@
 		box-shadow: 0 0 4px 4px @shadow-color;
 	}
 
-	span {
+	.cdx-icon {
+		position: relative;
 		display: block;
 		margin: auto;
+		width: 2.5em;
+		height: 2.5em;
 		opacity: 0.6;
 		text-align: center;
+	}
 
-		&:first-child {
-			position: relative;
-			width: 2.5em;
-			height: 2.5em;
-		}
-
-		&:last-child {
-			color: @const-color-black;
-		}
+	.float-toc__opener-text {
+		display: block;
+		margin: auto;
+		color: @const-color-black;
+		opacity: 0.6;
+		text-align: center;
 	}
 
 	.ve-activated-disabled('!important');
@@ -118,12 +134,21 @@
 		flex: 1;
 	}
 
-	.oo-ui-indicatorElement-indicator {
+	.float-toc__toggler {
 		position: relative;
+		display: inline-block;
+		width: 1em;
+		height: 1em;
 		margin-left: -1.125rem;
+
+		svg {
+			width: 100%;
+			height: 100%;
+			fill: currentcolor;
+		}
 	}
 
-	.oo-ui-indicatorElement-indicator.collapse {
+	.float-toc__toggler.collapse {
 		transform: rotate(180deg);
 	}
 }
