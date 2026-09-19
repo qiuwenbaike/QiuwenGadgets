@@ -23,6 +23,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+/**
+ * SPDX-License-Identifier: MIT
+ *
+ * The "copy" icon from @wikimedia/codex-icons
+ *
+ * @license MIT
+ */
+
+/**
+ * Copyright (c) 2011-2022 Wikimedia Design & OOUI team and other contributors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 /**
  * +------------------------------------------------------------+
  * |            === WARNING: GLOBAL GADGET FILE ===             |
@@ -43,9 +74,11 @@
   gap: 0.75rem;
 }
 .diff-link-copy-item[data-v-ae265c6f] {
-  display: grid;
-  grid-gap: 0.5rem;
+  display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 .diff-link-copy-text[data-v-ae265c6f] {
   display: block;
@@ -56,8 +89,9 @@
   color: #202122;
   font-size: 0.875rem;
   word-break: break-all;
+  flex: 1 1 100%;
 }
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkQ6XFxHaXRSZXBvc2l0b3J5XFxRaXV3ZW5HYWRnZXRzXFxzcmNcXERpZmZMaW5rXFxBcHAudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLmRpZmYtbGluay1jb3B5LWxpc3RbZGF0YS12LWFlMjY1YzZmXSB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGdhcDogMC43NXJlbTtcbn1cbi5kaWZmLWxpbmstY29weS1pdGVtW2RhdGEtdi1hZTI2NWM2Zl0ge1xuICBkaXNwbGF5OiBncmlkO1xuICBncmlkLWdhcDogMC41cmVtO1xuICBnYXA6IDAuNXJlbTtcbn1cbi5kaWZmLWxpbmstY29weS10ZXh0W2RhdGEtdi1hZTI2NWM2Zl0ge1xuICBkaXNwbGF5OiBibG9jaztcbiAgcGFkZGluZzogMC41cmVtIDAuNzVyZW07XG4gIGJvcmRlcjogMXB4IHNvbGlkICNlYWVjZjA7XG4gIGJvcmRlci1yYWRpdXM6IDAuMjVyZW07XG4gIGJhY2tncm91bmQ6ICNmOGY5ZmE7XG4gIGNvbG9yOiAjMjAyMTIyO1xuICBmb250LXNpemU6IDAuODc1cmVtO1xuICB3b3JkLWJyZWFrOiBicmVhay1hbGw7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDLG1CQUFtQixDQUFDO0FBQ25CLFdBQVM7QUFDVCxrQkFBZ0I7QUFDaEIsT0FBSztBQUNQO0FBQ0EsQ0FBQyxtQkFBbUIsQ0FBQztBQUNuQixXQUFTO0FBQ1QsWUFBVTtBQUNWLE9BQUs7QUFDUDtBQUNBLENBQUMsbUJBQW1CLENBQUM7QUFDbkIsV0FBUztBQUNULFdBQVMsT0FBTztBQUNoQixVQUFRLElBQUksTUFBTTtBQUNsQixpQkFBZTtBQUNmLGNBQVk7QUFDWixTQUFPO0FBQ1AsYUFBVztBQUNYLGNBQVk7QUFDZDsiLAogICJuYW1lcyI6IFtdCn0K */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkQ6XFxHaXRSZXBvc2l0b3J5XFxRaXV3ZW5HYWRnZXRzXFxzcmNcXERpZmZMaW5rXFxBcHAudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLmRpZmYtbGluay1jb3B5LWxpc3RbZGF0YS12LWFlMjY1YzZmXSB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGdhcDogMC43NXJlbTtcbn1cbi5kaWZmLWxpbmstY29weS1pdGVtW2RhdGEtdi1hZTI2NWM2Zl0ge1xuICBkaXNwbGF5OiBmbGV4O1xuICBnYXA6IDAuNXJlbTtcbiAgZmxleC13cmFwOiB3cmFwO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG4uZGlmZi1saW5rLWNvcHktdGV4dFtkYXRhLXYtYWUyNjVjNmZdIHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIHBhZGRpbmc6IDAuNXJlbSAwLjc1cmVtO1xuICBib3JkZXI6IDFweCBzb2xpZCAjZWFlY2YwO1xuICBib3JkZXItcmFkaXVzOiAwLjI1cmVtO1xuICBiYWNrZ3JvdW5kOiAjZjhmOWZhO1xuICBjb2xvcjogIzIwMjEyMjtcbiAgZm9udC1zaXplOiAwLjg3NXJlbTtcbiAgd29yZC1icmVhazogYnJlYWstYWxsO1xuICBmbGV4OiAxIDEgMTAwJTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDLG1CQUFtQixDQUFDO0FBQ25CLFdBQVM7QUFDVCxrQkFBZ0I7QUFDaEIsT0FBSztBQUNQO0FBQ0EsQ0FBQyxtQkFBbUIsQ0FBQztBQUNuQixXQUFTO0FBQ1QsT0FBSztBQUNMLGFBQVc7QUFDWCxtQkFBaUI7QUFDakIsZUFBYTtBQUNmO0FBQ0EsQ0FBQyxtQkFBbUIsQ0FBQztBQUNuQixXQUFTO0FBQ1QsV0FBUyxPQUFPO0FBQ2hCLFVBQVEsSUFBSSxNQUFNO0FBQ2xCLGlCQUFlO0FBQ2YsY0FBWTtBQUNaLFNBQU87QUFDUCxhQUFXO0FBQ1gsY0FBWTtBQUNaLFFBQU0sRUFBRSxFQUFFO0FBQ1o7IiwKICAibmFtZXMiOiBbXQp9Cg== */

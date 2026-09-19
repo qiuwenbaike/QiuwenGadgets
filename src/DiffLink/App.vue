@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import {CdxButton, CdxDialog} from '@wikimedia/codex';
+import {CdxButton, CdxDialog, CdxIcon} from '@wikimedia/codex';
 import {ref, watch} from 'vue';
+import {copyText} from './modules/copyText';
 import {getMessage} from './modules/i18n';
 
 interface CopyItem {
@@ -40,31 +41,21 @@ const handleOpenChange = (value: boolean): void => {
 	}
 };
 
-const copyText = (text: string): void => {
-	(async () => {
-		try {
-			if (navigator.clipboard && window.isSecureContext) {
-				await navigator.clipboard.writeText(text);
-				return;
-			}
-		} catch {}
-
-		const helper = document.createElement('textarea');
-		helper.value = text;
-		helper.setAttribute('readonly', 'true');
-		helper.style.position = 'fixed';
-		helper.style.top = '-9999px';
-		helper.style.left = '-9999px';
-		document.body.append(helper);
-		helper.select();
-		document.execCommand('copy');
-		helper.remove();
-	})().then(() => {
-		void mw.notify(getMessage('Copied'), {
-			type: 'success',
-			tag: 'DiffLinks',
-		});
-	});
+/**
+ * SVG paths inlined from `@wikimedia/codex-icons` v2.7.0.
+ *
+ * MediaWiki does not ship a ResourceLoader module that bundles
+ * `@wikimedia/codex-icons` (see https://www.mediawiki.org/wiki/Codex),
+ * so the path data is copied here verbatim and rendered as inline SVG
+ * to keep the gadget self-contained while still sourcing the icons
+ * from `@wikimedia/codex-icons`.
+ *
+ * @see {@link https://doc.wikimedia.org/codex/latest/icons/}
+ */
+/** Path for `cdxIconCopy`. */
+const cdxIconCopy = {
+	path: 'M13 19H1V7h6V1h12v12h-6zm-6-6V9H3v8h8v-4zm2-2h8V3H9z',
+	shouldFlip: true,
 };
 </script>
 
@@ -80,7 +71,10 @@ const copyText = (text: string): void => {
 		<div class="diff-link-copy-list">
 			<div v-for="item in items" :key="item.text" class="diff-link-copy-item">
 				<code class="diff-link-copy-text">{{ item.text }}</code>
-				<cdx-button weight="primary" @click="copyText(item.text)">{{ getMessage('Copy') }}</cdx-button>
+				<cdx-button weight="normal" :aria-label="getMessage('Copy')" @click="copyText(item.text)">
+					<cdx-icon :icon="cdxIconCopy" />
+					{{ getMessage('Copy') }}
+				</cdx-button>
 			</div>
 		</div>
 	</cdx-dialog>
@@ -94,8 +88,11 @@ const copyText = (text: string): void => {
 }
 
 .diff-link-copy-item {
-	display: grid;
+	display: flex;
 	gap: 0.5rem;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .diff-link-copy-text {
@@ -107,5 +104,6 @@ const copyText = (text: string): void => {
 	color: #202122;
 	font-size: 0.875rem;
 	word-break: break-all;
+	flex: 1 1 100%;
 }
 </style>
