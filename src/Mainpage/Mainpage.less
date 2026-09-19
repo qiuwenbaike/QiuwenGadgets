@@ -255,8 +255,8 @@
 	}
 
 	&-box {
-		flex: 1 1 30vw;
 		max-width: 100%;
+		flex: 1 1 max(25vw, 20em);
 		min-width: max(25vw, 20em);
 
 		img {
@@ -279,9 +279,9 @@
 
 	&-wide-box,
 	&-editorial-box {
-		flex: 1 1 33vw;
 		max-width: 100%;
-		min-width: max(30vw, 25em);
+		flex: 1 1 max(30vw, 24em);
+		min-width: max(30vw, 24em);
 	}
 
 	&-extra-box {
@@ -503,9 +503,9 @@
 		&-box,
 		&-wide-box,
 		&-editorial-box {
-			flex: 1 1 25em;
+			flex: 1 1 max(85vw, 25rem);
 			max-width: 100%;
-			min-width: min(80vw, 20em);
+			min-width: max(85vw, 25rem);
 		}
 
 		@halign_selector: ~'.mw-halign-left, .mw-halign-right, .mw-halign-center, .mw-halign-none';
