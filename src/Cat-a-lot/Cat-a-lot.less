@@ -1,0 +1,160 @@
+@import (reference) '../variables.less';
+
+.background() {
+	backdrop-filter: saturate(50%) blur(16px);
+	background: @background-color-white--light;
+	border: 2px solid @color--primary;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.gadget-cat_a_lot {
+	&-container {
+		border-radius: @border-radius--medium;
+		.background();
+		display: block;
+		position: fixed !important;
+		bottom: 0;
+		right: 0;
+		margin: 0.2em;
+		padding: 0.2em;
+		z-index: 200;
+
+		a {
+			cursor: pointer;
+		}
+
+		&__data {
+			display: none;
+
+			&__search-input-container__input-suggestions {
+				background: @background-color-white--light;
+				border: 1px solid @color--primary;
+				list-style: none;
+				margin: 0;
+				max-height: 15em;
+				overflow: auto;
+				padding: 0;
+				position: absolute;
+				right: 0.5em;
+				left: 0.5em;
+				top: 4.5em;
+				z-index: 1;
+
+				li {
+					cursor: pointer;
+					padding: 0.25em 0.5em;
+
+					&.selected,
+					&:hover {
+						background-color: @background-color-primary;
+					}
+				}
+			}
+
+			ul {
+				list-style-image: none;
+				list-style-type: none;
+				margin: 0 0 0 0.5em;
+			}
+
+			&__category-list {
+				overflow: auto;
+
+				table {
+					border-collapse: collapse;
+				}
+
+				tr {
+					td {
+						padding: 0 0.5em 0.25em;
+					}
+
+					&:hover {
+						background-color: @background-color-primary;
+						border: 1px solid @color--primary;
+					}
+				}
+
+				&__action,
+				&--no-found {
+					font-weight: bold;
+				}
+			}
+
+			&__mark-counter {
+				display: none;
+				margin: 0.5em 0;
+			}
+
+			&__search-input-container {
+				&__input {
+					display: block;
+					font-size: 1em;
+					margin: 0.5em auto;
+					width: 95%;
+				}
+			}
+
+			&__selections {
+				margin: 0.5em 0;
+			}
+		}
+
+		.skin-vector & {
+			font-size: 0.75em;
+		}
+	}
+
+	&-overlay {
+		align-items: center;
+		background: rgba(0, 0, 0, 0.25);
+		display: flex;
+		inset: 0;
+		justify-content: center;
+		position: fixed;
+		z-index: 1000;
+
+		& > .gadget-cat_a_lot-feedback {
+			min-height: 90px;
+			width: min(450px, calc(100vw - 2em));
+		}
+	}
+
+	&-container-resize-handle {
+		cursor: ns-resize;
+		height: 8px;
+		left: 0;
+		position: absolute;
+		top: -4px;
+		width: 100%;
+		z-index: 1;
+	}
+
+	&-feedback {
+		.background();
+		border: 0;
+		padding: 0.5em 0.5em 0.5em 4em;
+
+		&--done {
+			background-image: data-uri('./images/check-constructive.svg');
+			background-size: 2em;
+			background-position: 1em 50%;
+			background-repeat: no-repeat;
+		}
+	}
+
+	&-label {
+		&--last-selected {
+			font-weight: bold;
+			outline: dotted 2px @color--primary;
+		}
+
+		&--selected {
+			background-color: @background-color-primary;
+		}
+
+		&--done {
+			background-color: @const-color-gray;
+		}
+	}
+}
