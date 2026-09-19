@@ -1,5 +1,6 @@
 import * as OPTIONS from './options.json';
-import {RootElement} from './components/RootElement';
+import App from './App.vue';
+import {createApp} from 'vue';
 import {getBody} from 'ext.gadget.Util';
 
 void getBody().then(function cookieWarning(): void {
@@ -21,7 +22,10 @@ void getBody().then(function cookieWarning(): void {
 	const broadcastChannel: BroadcastChannel = new BroadcastChannel(OPTIONS.storageKey);
 	broadcastChannel.addEventListener('message', closeWarning);
 
-	const rootElement = RootElement({agreeButtonOnClick: closeWarning});
-
+	const rootElement = document.createElement('div');
 	document.body.append(rootElement);
+	const app = createApp(App, {
+		agreeButtonOnClick: closeWarning,
+	});
+	app.mount(rootElement);
 });
