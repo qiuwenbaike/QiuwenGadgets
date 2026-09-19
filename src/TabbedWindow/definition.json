@@ -4,6 +4,6 @@
 	"section": "compatibility",
 	"excludeSites": ["loginwiki"],
 	"default": true,
-	"dependencies": ["oojs-ui-widgets"],
+	"dependencies": ["@wikimedia/codex", "vue"],
 	"hidden": true
 }

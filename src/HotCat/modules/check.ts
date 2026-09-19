@@ -1,4 +1,4 @@
-import {catcheckInlineIcon} from './check.module.less';
+import './check.less';
 import {mwApi} from './api';
 
 /**
@@ -29,14 +29,14 @@ import {mwApi} from './api';
 	 * @return {JQuery}
 	 */
 	const createjIcon = (iconClass: string): JQuery => {
-		return $('<span>').attr('class', `ui-icon ${iconClass} ${catcheckInlineIcon}`).text(' ');
+		return $('<span>').attr('class', `hotcat-check-icon ${iconClass}`).text(' ');
 	};
 	const createNotifyArea = (textNode: JQuery<JQuery.Node>, icon: string, state: string): JQuery<HTMLElement> => {
 		return $('<div>')
-			.addClass('ui-widget')
+			.addClass('hotcat-check-notice')
 			.append(
 				$('<div>')
-					.attr('class', `${state} ui-corner-all`)
+					.attr('class', `hotcat-check-notice-content ${state}`)
 					.css({
 						'margin-top': '20px',
 						padding: '0.7em',
@@ -53,14 +53,11 @@ import {mwApi} from './api';
 		const self = this;
 
 		const newVal = (self.wpTextbox1 as HTMLTextAreaElement).value?.replace(checkCategoriesRegExp, '');
-		const dlgButtons: {
-			'Yes, Remove'?: () => void;
-			'No, keep it'?: () => void;
-		} = {};
 		let $dialogCheckStorage: JQuery<HTMLElement>;
 		let $permaSaveHint: JQuery<HTMLElement>;
 		let $textHintNode;
 		let $dialog;
+		let $overlay: JQuery<HTMLElement>;
 		const doRemove = () => {
 			(self.wpSummary as HTMLInputElement).value =
 				`Removing [[Template:Check categories|{{Check categories}}]] ${(self.wpSummary as HTMLInputElement).value}`;
@@ -70,27 +67,25 @@ import {mwApi} from './api';
 		const writeStorage = (val: string) => {
 			mw.storage.set(storageItemName, val, 60 * 60 * 24 * 7); // 7 days
 		};
-		dlgButtons['Yes, Remove'] = function () {
-			doRemove();
-			if (($dialogCheckStorage[0] as HTMLInputElement)?.checked) {
-				writeStorage('auto');
-			}
-			$(this).dialog('close');
+		const closeDialog = () => {
+			$(document).off('keydown.hotcatCheck');
+			$overlay?.remove();
+			$('body').find('#hotcatCommitForm').trigger('submit');
 		};
-		dlgButtons['No, keep it'] = function () {
-			if (($dialogCheckStorage[0] as HTMLInputElement)?.checked) {
-				writeStorage('disabled');
+		const finishDialog = (storageValue?: string) => {
+			if (storageValue && ($dialogCheckStorage[0] as HTMLInputElement)?.checked) {
+				writeStorage(storageValue);
 			}
-			$(this).dialog('close');
+			closeDialog();
 		};
 		const _addToJS = function (this: HTMLElement, _e: JQuery.Event) {
 			_e.preventDefault();
-			if ($permaSaveHint.hasClass('ui-state-disabled')) {
+			if ($permaSaveHint.hasClass('hotcat-check-disabled')) {
 				return;
 			}
 			const $el: JQuery<HTMLElement> = $(this);
 			$el.off('click').text('Please wait.');
-			$permaSaveHint.addClass('ui-state-disabled');
+			$permaSaveHint.addClass('hotcat-check-disabled');
 			const params: ApiEditPageParams = {
 				action: 'edit',
 				format: 'json',
@@ -110,7 +105,7 @@ import {mwApi} from './api';
 					$el.text('Edit-Error!');
 				} else {
 					$el.text('Done.');
-					$permaSaveHint.fadeOut();
+					$permaSaveHint.hide();
 				}
 			};
 			void api.postWithToken('csrf', params).then(editDone);
@@ -128,9 +123,9 @@ import {mwApi} from './api';
 				})
 				.on('change', function () {
 					if ((this as HTMLInputElement).checked) {
-						$permaSaveHint.fadeIn();
+						$permaSaveHint.show();
 					} else {
-						$permaSaveHint.fadeOut();
+						$permaSaveHint.hide();
 					}
 				});
 			$textHintNode = $('<ul>');
@@ -154,8 +149,8 @@ import {mwApi} from './api';
 				.appendTo($textHintNode);
 			$permaSaveHint = createNotifyArea(
 				$('<span>').text('Save these setting in your common.js: ').append($textHintNode),
-				'ui-icon-info',
-				'ui-state-highlight'
+				'hotcat-check-icon-info',
+				'hotcat-check-highlight'
 			);
 			$dialog = $('<div>')
 				.append(
@@ -180,29 +175,43 @@ import {mwApi} from './api';
 					'<br>'
 				)
 				.append(mw.user.isAnon() ? '' : $permaSaveHint.hide());
-			$dialog.dialog({
-				modal: true,
-				closeOnEscape: true,
-				title: '{{check categories}} (−)?',
-				width: 450,
-				buttons: dlgButtons,
-				close: () => {
-					const $body = $('body');
-					$body.find('#hotcatCommitForm').trigger('submit');
-				},
-				open() {
-					const $buttons = $(this).parent().find('.ui-dialog-buttonpane button');
-					$buttons.eq(0).button({
-						icons: {
-							primary: 'ui-icon-circle-check',
-						},
-					});
-					$buttons.eq(1).button({
-						icons: {
-							primary: 'ui-icon-cancel',
-						},
-					});
-				},
+			$overlay = $('<div>').addClass('hotcat-check-overlay').attr('role', 'presentation');
+			$dialog = $('<div>')
+				.addClass('hotcat-check-dialog')
+				.attr({role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'hotcat-check-dialog-title'})
+				.prepend($('<h2>').attr('id', 'hotcat-check-dialog-title').text('{{check categories}} (−)?'))
+				.append($dialog)
+				.append(
+					$('<div>')
+						.addClass('hotcat-check-dialog-buttons')
+						.append(
+							$('<button>')
+								.attr('type', 'button')
+								.text('Yes, Remove')
+								.on('click', () => {
+									doRemove();
+									finishDialog('auto');
+								}),
+							$('<button>')
+								.attr('type', 'button')
+								.text('No, keep it')
+								.on('click', () => {
+									finishDialog('disabled');
+								})
+						)
+				);
+			$overlay.append($dialog).appendTo('body');
+			$dialog.find('button').first().trigger('focus');
+			$overlay.on('click', (event) => {
+				if (event.target === $overlay[0]) {
+					closeDialog();
+				}
+			});
+			$(document).on('keydown.hotcatCheck', (event) => {
+				if (event.key === 'Escape') {
+					$(document).off('keydown.hotcatCheck');
+					closeDialog();
+				}
 			});
 		};
 
@@ -263,7 +272,7 @@ import {mwApi} from './api';
 					$el.text('Edit Done.');
 				}
 				const $body = $('body');
-				$body.find('.checkcategories').fadeOut();
+				$body.find('.checkcategories').hide();
 			};
 			$el.text('Doing..');
 			void api.postWithToken('csrf', params).then(editDone);

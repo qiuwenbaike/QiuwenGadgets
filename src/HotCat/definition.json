@@ -7,7 +7,6 @@
 	"dependencies": [
 		"ext.gadget.i18n",
 		"ext.gadget.Util",
-		"jquery.ui",
 		"mediawiki.jqueryMsg",
 		"mediawiki.storage",
 		"mediawiki.user",
