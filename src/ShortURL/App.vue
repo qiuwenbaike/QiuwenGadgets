@@ -70,7 +70,7 @@ const cdxIconCopy = {
 	>
 		<div class="short-url-copy-list">
 			<div v-for="item in items" :key="item.text" class="short-url-copy-item">
-				<span>{{ item.label }}</span>
+				<div class="short-url-copy-label">{{ item.label }}</div>
 				<code class="short-url-copy-text">{{ item.text }}</code>
 				<cdx-button weight="normal" :aria-label="getMessage('Copy')" @click="copyText(item.text)">
 					<cdx-icon :icon="cdxIconCopy" />
@@ -90,9 +90,10 @@ const cdxIconCopy = {
 
 .short-url-copy-item {
 	display: flex;
-	grid-gap: 0.5rem;
 	gap: 0.5rem;
+	flex-wrap: wrap;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .short-url-copy-text {

@@ -89,9 +89,10 @@ const cdxIconCopy = {
 
 .diff-link-copy-item {
 	display: flex;
-	grid-gap: 0.5rem;
 	gap: 0.5rem;
+	flex-wrap: wrap;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .diff-link-copy-text {
