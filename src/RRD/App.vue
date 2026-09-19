@@ -162,7 +162,7 @@ const closeDialog = (): void => {
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
-	min-width: min(90vw, 32rem);
+	min-width: min(85vw, 25rem);
 }
 
 .rrd-dialog__section {
