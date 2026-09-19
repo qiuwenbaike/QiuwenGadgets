@@ -51,11 +51,11 @@
 			}
 
 			.mw-body {
-				padding: 1em;
+				padding: 1rem;
 			}
 
 			.mw-portlet-lang {
-				margin: 1em 1.5em;
+				margin: 1rem 1.5rem;
 				background-color: #fff;
 				border: 1px solid #ccc;
 			}
@@ -87,7 +87,7 @@
 
 /* 禁止删除首页及其相关模板 */
 .rootpage-Qiuwen_首页,
-.rootpage-Template_新版首页 {
+.rootpage-Tremplate_新版首页 {
 	#ca-delete,
 	#deleteconfirm {
 		display: none !important;
@@ -99,14 +99,14 @@
 	display: flex;
 	flex-flow: row wrap;
 	align-items: stretch;
-	gap: 0.5em;
+	gap: 0.5rem;
 	border-radius: @border-radius--small;
 	line-height: 1.5;
 	background: transparent;
 	place-content: center center;
 
 	.skin-gongbi & {
-		padding: 1em;
+		padding: 1rem;
 	}
 
 	.client-darkmode & {
@@ -121,13 +121,13 @@
 	h2 {
 		flex: 1 1 100%;
 		max-width: 100%;
-		padding: 0.5em;
+		padding: 0.5rem;
 		border: 0;
 		border-radius: @border-radius--small;
-		margin: 0 auto 0.5em;
+		margin: 0 auto 0.5rem;
 		background: var(--mp-color, @color--primary);
 		color: @const-color-white;
-		font-size: 1.25em;
+		font-size: 1.25rem;
 		font-weight: normal;
 		text-align: center;
 
@@ -143,12 +143,12 @@
 			}
 
 			&::before {
-				margin-right: 0.5em;
+				margin-right: 0.5rem;
 				content: '［';
 			}
 
 			&::after {
-				margin-left: 0.5em;
+				margin-left: 0.5rem;
 				content: '］';
 			}
 		}
@@ -165,13 +165,13 @@
 	}
 
 	figure {
-		margin: 1em;
+		margin: 1rem;
 
 		&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']) {
 			border: 0;
 			background: transparent;
 			box-shadow: none;
-			margin-bottom: 1.5em;
+			margin-bottom: 1.5rem;
 
 			& > a.mw-file-description::after {
 				display: none;
@@ -219,8 +219,8 @@
 	}
 
 	div.caption {
-		margin: 0.5em auto;
-		font-size: 0.95em;
+		margin: 0.5rem auto;
+		font-size: 0.95rem;
 		line-height: 1.2;
 		text-align: center;
 	}
@@ -232,7 +232,7 @@
 		flex-flow: row wrap;
 		place-content: space-between center;
 		align-items: center;
-		padding: 1em;
+		padding: 1rem;
 		border-radius: @border-radius--small;
 		background: var(--mp-background-white-color, @background-color-white--light);
 		box-shadow:
@@ -249,18 +249,18 @@
 		}
 
 		& > div {
-			padding: 0.5em;
+			padding: 0.5rem;
 			flex: 1 1 100%;
 		}
 	}
 
 	&-box {
 		max-width: 100%;
-		flex: 1 1 max(25vw, 20em);
-		min-width: max(25vw, 20em);
+		flex: 1 1 max(25vw, 20rem);
+		min-width: max(25vw, 20rem);
 
 		img {
-			max-width: 20em;
+			max-width: 20rem;
 			height: auto;
 		}
 
@@ -280,8 +280,8 @@
 	&-wide-box,
 	&-editorial-box {
 		max-width: 100%;
-		flex: 1 1 max(30vw, 24em);
-		min-width: max(30vw, 24em);
+		flex: 1 1 max(30vw, 25rem);
+		min-width: max(30vw, 25rem);
 	}
 
 	&-extra-box {
@@ -299,7 +299,7 @@
 		li {
 			display: flex;
 			align-items: center;
-			font-size: 1.1em;
+			font-size: 1.1rem;
 			list-style-type: none;
 			text-align: center;
 		}
@@ -316,7 +316,7 @@
 		.mainpage-header-bio {
 			display: flex;
 			flex: 1 1 100%;
-			gap: 1em;
+			gap: 1rem;
 			align-items: center;
 			place-content: center center;
 			flex-flow: column wrap;
@@ -331,7 +331,7 @@
 				align-items: center;
 				place-content: center center;
 				flex-wrap: wrap;
-				gap: 0.5em;
+				gap: 0.5rem;
 			}
 		}
 
@@ -342,7 +342,7 @@
 
 		.mainpage-slogan {
 			img {
-				margin-bottom: 0.25em;
+				margin-bottom: 0.25rem;
 			}
 		}
 
@@ -354,14 +354,14 @@
 		}
 
 		&-box {
-			padding: 1em;
+			padding: 1rem;
 			position: relative;
 
 			.mainpage-login-menu {
 				display: flex;
 				flex: 1 1 100%;
 				position: relative;
-				margin: 0 1em 0 auto;
+				margin: 0 1rem 0 auto;
 				padding: 0;
 				place-content: flex-end flex-end;
 				align-items: center;
@@ -369,13 +369,13 @@
 			}
 
 			& > div {
-				padding: 0.5em;
+				padding: 0.5rem;
 			}
 		}
 
 		.mainpage-articlecount {
 			color: @const-color-secondary;
-			font-size: 1.125em;
+			font-size: 1.125rem;
 			font-weight: normal;
 
 			.client-darkmode & {
@@ -440,11 +440,11 @@
 			place-content: center center;
 			align-items: center;
 			margin: auto;
-			gap: 0.5em 1em;
+			gap: 0.5rem 1rem;
 		}
 
 		li {
-			font-size: 1.125em;
+			font-size: 1.125rem;
 			list-style-type: none;
 			text-align: center;
 
@@ -458,17 +458,17 @@
 		.guidelist {
 			display: flex;
 			flex-flow: row wrap;
-			gap: 0.5em 1em;
+			gap: 0.5rem 1rem;
 			place-content: center space-around;
 			align-items: center;
 
-			.mainpage-sisterproject-item {
+			.mainpage-sisterproject-itrem {
 				display: flex;
 				flex-flow: row nowrap;
 				align-items: center;
 				justify-content: center;
-				gap: 0.5em 1em;
-				margin: 0.25em;
+				gap: 0.5rem 1rem;
+				margin: 0.25rem;
 
 				img {
 					max-width: 32px;
@@ -483,16 +483,16 @@
 			flex-wrap: wrap;
 			place-content: space-around space-evenly;
 			align-items: flex-end;
-			gap: 1em;
+			gap: 1rem;
 		}
 	}
 
 	&-feedback {
 		flex: 1 1 100%;
-		padding: 0.5em 2.5em;
+		padding: 0.5rem 2.5rem;
 		margin: 0 0 auto auto;
 		text-align: right;
-		font-size: 0.875em;
+		font-size: 0.875rem;
 	}
 
 	@media screen and (max-width: 1024px) {
@@ -503,9 +503,9 @@
 		&-box,
 		&-wide-box,
 		&-editorial-box {
-			flex: 1 1 max(85vw, 25rem);
+			flex: 1 1 min(85vw, 25rem);
 			max-width: 100%;
-			min-width: max(85vw, 25rem);
+			min-width: min(85vw, 25rem);
 		}
 
 		@halign_selector: ~'.mw-halign-left, .mw-halign-right, .mw-halign-center, .mw-halign-none';
