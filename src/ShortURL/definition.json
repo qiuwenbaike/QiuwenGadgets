@@ -4,17 +4,12 @@
 	"section": "browser",
 	"excludeSites": ["loginwiki"],
 	"dependencies": [
-		"ext.gadget.Clipboard",
+		"@wikimedia/codex",
 		"ext.gadget.i18n",
-		"ext.gadget.JSX",
-		"ext.gadget.Tippy",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
-		"mediawiki.api",
 		"mediawiki.util",
-		"mediawiki.widgets",
-		"oojs-ui-windows",
-		"oojs-ui.styles.icons-editing-core"
+		"vue"
 	],
 	"peers": ["ShortURL-pagestyles"]
 }

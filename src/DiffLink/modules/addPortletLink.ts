@@ -1,3 +1,5 @@
+import {type App as VueApp, createApp} from 'vue';
+import App from '../App.vue';
 import {addEventListenerWithRemover} from 'ext.gadget.Util';
 import {getMessage} from './i18n';
 
@@ -8,18 +10,35 @@ import {getMessage} from './i18n';
  *   window.DiffLink = ['', '固定版本'];
  */
 const defaultTextArray: [string, string] = [getMessage('DiffVersion'), getMessage('PermanentVersion')];
-if (window.DiffLink && Object.prototype.toString.call(window.DiffLink) === '[object Array]') {
-	const textArray = window.DiffLink as unknown[];
-	if (textArray[0] && Object.prototype.toString.call(textArray[0]) === '[object String]') {
-		[defaultTextArray[0]] = textArray as [string];
+
+const applyCustomText = (index: 0 | 1, value: unknown): void => {
+	if (typeof value === 'string' && value.length > 0) {
+		defaultTextArray[index] = value;
 	}
-	if (textArray[1] && Object.prototype.toString.call(textArray[1]) === '[object String]') {
-		[defaultTextArray[1]] = textArray as [string, string];
-	}
+};
+
+if (Array.isArray(window.DiffLink)) {
+	applyCustomText(0, window.DiffLink[0]);
+	applyCustomText(1, window.DiffLink[1]);
 }
 
 let eventListener: ReturnType<typeof addEventListenerWithRemover> = {
 	remove: (): void => {},
+};
+
+const openDialog = (items: {label: string; text: string}[]): void => {
+	const root = document.createElement('div');
+	document.body.append(root);
+
+	const app: VueApp<Element> | null = createApp(App, {
+		open: true,
+		items,
+		onClose: (): void => {
+			app?.unmount();
+			root.remove();
+		},
+	});
+	app.mount(root);
 };
 
 const addPortletLink = ({
@@ -46,24 +65,16 @@ const addPortletLink = ({
 
 	const clickListener = (event: MouseEvent): void => {
 		event.preventDefault();
-		const $element: JQuery = $('<div>');
 		const hash: string = isPermaLink ? decodeURIComponent(location.hash) : '';
-		for (const value of [
-			link,
-			`[[${link}${hash}]]`,
-			`[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`,
-		]) {
-			$element.append(
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				new (mw as any).widgets.CopyTextLayout({
-					align: 'top',
-					copyText: value,
-				}).$element as JQuery
-			);
-		}
-		void OO.ui.alert($element, {
-			size: 'medium',
-		});
+		const items = [
+			{label: link, text: link},
+			{label: `[[${link}${hash}]]`, text: `[[${link}${hash}]]`},
+			{
+				label: `[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`,
+				text: `[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`,
+			},
+		];
+		openDialog(items);
 	};
 
 	eventListener.remove();

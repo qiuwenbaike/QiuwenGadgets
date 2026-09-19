@@ -7,6 +7,22 @@ const getI18nMessages = () => {
 			'zh-hans': '网络异常',
 			'zh-hant': '網路異常',
 		}),
+		Close: localize({
+			en: 'Close',
+			ja: '閉じる',
+			'zh-hans': '关闭',
+			'zh-hant': '關閉',
+		}),
+		Copy: localize({
+			en: 'Copy',
+			'zh-hans': '复制',
+			'zh-hant': '復製',
+		}),
+		Copied: localize({
+			en: 'Copied.',
+			'zh-hans': '已复制',
+			'zh-hant': '已復製',
+		}),
 		CopyDiff: localize({
 			en: 'Copy the link to the diff version (wiki syntax)',
 			ja: '現在の版間の差分リンクをコピーします（ウィキ記法）',

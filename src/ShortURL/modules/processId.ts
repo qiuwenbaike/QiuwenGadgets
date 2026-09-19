@@ -1,4 +1,5 @@
-import {addLink} from './addLink';
+import {addHeaderLink} from './addHeaderLink';
+import {addPortletLink} from './addPortletLink';
 import {buildLink} from './buildLink';
 import {compareWithRemoteDiffId} from './compareWithRemoteDiffId';
 
@@ -22,9 +23,11 @@ const processId = (
 			void compareWithRemoteDiffId(diffId);
 		}
 	} else if (revisionId && isRevisionPage) {
-		addLink(`/p/${revisionId}`, `/wiki/Special:Permalink/${revisionId}`);
+		addHeaderLink(`/p/${revisionId}`, `/wiki/Special:Permalink/${revisionId}`);
+		addPortletLink(`/p/${revisionId}`, `/wiki/Special:Permalink/${revisionId}`);
 	} else if (articleId) {
-		addLink(`/c/${articleId}`, `/index.php?curid=${articleId}`);
+		addHeaderLink(`/c/${articleId}`, `/index.php?curid=${articleId}`);
+		addPortletLink(`/c/${articleId}`, `/index.php?curid=${articleId}`);
 	}
 };
 
