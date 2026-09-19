@@ -4,14 +4,12 @@
 	"section": "sysop",
 	"includeSites": ["zhqiuwenbaike"],
 	"dependencies": [
+		"@wikimedia/codex",
 		"ext.gadget.i18n",
-		"ext.gadget.morebits",
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.util",
-		"mediawiki.widgets.expiry",
-		"mediawiki.widgets.SelectWithInputWidget",
-		"oojs"
+		"vue"
 	],
 	"rights": ["protect"]
 }
