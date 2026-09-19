@@ -1,3 +1,4 @@
+import './Cat-a-lot.less';
 import {catALot} from './modules/core';
 import {extendJQueryPrototype} from './modules/extendJQueryPrototype';
 
