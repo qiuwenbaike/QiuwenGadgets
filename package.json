@@ -131,7 +131,7 @@
 		"postcss-import": "^16.2.0",
 		"postcss-load-config": "^6.0.1",
 		"postcss-preset-env": "^11.5.3",
-		"prettier": "^3.9.7",
+		"prettier": "^3.9.8",
 		"prompts": "^2.4.2",
 		"proxy-polyfill": "^0.3.2",
 		"pug": "^3.0.4",
@@ -145,7 +145,7 @@
 		"typescript-eslint": "^8.70.0",
 		"typescript-plugin-css-modules": "^5.2.0",
 		"unorm": "^1.6.0",
-		"vue": "^3.5.42",
+		"vue": "^3.5.43",
 		"vue-eslint-parser": "^10.4.1",
 		"vue-tsc": "^3.3.11"
 	}
