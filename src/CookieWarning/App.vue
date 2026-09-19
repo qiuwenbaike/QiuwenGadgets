@@ -29,43 +29,30 @@ const personalInfoPolicyUrl = `/wiki/QW:PIPP?${OPTIONS.readingPIPPKey}=1`;
 
 <style scoped lang="less">
 .cookie-warning {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 	position: fixed;
 	z-index: 101;
-	bottom: 1em;
+	bottom: 1rem;
 	right: 0;
 	left: 0;
-	max-width: 92.5%;
-	padding: 0.75em;
+	max-width: min(92.5%, 20rem);
+	padding: 1rem;
 	border: 1px solid #e6e6e6;
-	border-radius: 0.5em;
-	margin: 0.75em;
+	margin: 1rem;
 	background-color: #fff;
 	color: #191919;
-	font-size: 0.9em;
-	line-height: 1.25;
-	opacity: 1;
-	pointer-events: auto;
 
 	p {
-		margin: 0 auto 0.5rem;
+		margin-top: 0;
 	}
 
 	:deep(.cdx-button) {
-		display: block;
 		width: 100%;
-		padding: 0.5em 0;
-		border-color: #36c;
-		border-radius: 0.25em;
-		margin: 0 auto;
-		background-color: #36c;
-		color: #fff;
-		line-height: 1;
-		text-align: center;
 	}
 
 	@media screen and (min-width: 768px) {
-		width: 20em;
-		left: 0;
 		right: auto;
 	}
 }
