@@ -51,8 +51,6 @@ const catALot = async (): Promise<void> => {
 		private static readonly wgFormattedNamespaces: Record<number, string> = wgFormattedNamespaces;
 		private static readonly wgNamespaceIds: Record<string, number> = wgNamespaceIds;
 
-		private static isAutoCompleteInit = false;
-
 		private static api = api;
 
 		private static alreadyThere: string[] = [];
@@ -130,6 +128,7 @@ const catALot = async (): Promise<void> => {
 		private readonly $searchInput: JQuery<HTMLInputElement>;
 		private readonly $head: JQuery;
 		private readonly $link: JQuery<HTMLAnchorElement>;
+		private resizeCleanup?: (() => void) | undefined;
 
 		public constructor($body: JQuery<HTMLBodyElement>) {
 			if (!mw.message('cat-a-lot-loading').parse()) {
@@ -205,6 +204,38 @@ const catALot = async (): Promise<void> => {
 		public buildElements(): void {
 			const regexCat: RegExp = new RegExp(`^\\s*${CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category')}:`, '');
 			let isCompositionStart: boolean;
+			let autocompleteRequest = 0;
+			let selectedSuggestion = -1;
+			const $suggestions = $('<ul>').addClass(
+				`${CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT}-suggestions`
+			);
+			$suggestions.hide().appendTo(this.$container);
+			const hideSuggestions = (): void => {
+				selectedSuggestion = -1;
+				$suggestions.empty().hide();
+			};
+			const selectSuggestion = (category: string): void => {
+				this.$searchInput.val(category).trigger('focus');
+				hideSuggestions();
+			};
+			const showSuggestions = (categories: string[]): void => {
+				selectedSuggestion = -1;
+				$suggestions.empty();
+				for (const category of categories) {
+					$('<li>')
+						.text(category)
+						.on('mousedown', (event): void => {
+							event.preventDefault();
+							selectSuggestion(category);
+						})
+						.appendTo($suggestions);
+				}
+				if (categories.length) {
+					$suggestions.show();
+				} else {
+					hideSuggestions();
+				}
+			};
 
 			this.$searchInput.on('compositionstart', () => {
 				isCompositionStart = true;
@@ -224,44 +255,56 @@ const catALot = async (): Promise<void> => {
 				if (newVal !== oldVal) {
 					currentTarget.value = newVal;
 				}
-			});
-
-			const initAutocomplete = (): void => {
-				if (CAL.isAutoCompleteInit) {
+				if (event.type !== 'input') {
 					return;
 				}
-				CAL.isAutoCompleteInit = true;
-
-				// @ts-expect-error TS2339
-				this.$searchInput.autocomplete({
-					source: (request: {term: string}, response: (arg: JQuery<string>) => void): void => {
-						this.doAPICall(
-							{
-								action: 'opensearch',
-								namespace: CAL.TARGET_NAMESPACE,
-								redirects: 'resolve',
-								search: request.term,
-							},
-							(result): void => {
-								if (result[1]) {
-									response(
-										$(result[1]).map((_index, item: string): string => item.replace(regexCat, ''))
-									);
-								}
-							}
+				const requestId = ++autocompleteRequest;
+				const search = newVal.trim();
+				if (!search) {
+					hideSuggestions();
+					return;
+				}
+				this.doAPICall(
+					{
+						action: 'opensearch',
+						namespace: CAL.TARGET_NAMESPACE,
+						redirects: 'resolve',
+						search,
+					},
+					(result): void => {
+						if (requestId !== autocompleteRequest) {
+							return;
+						}
+						showSuggestions(
+							(result?.[1] || [])
+								.map((item: string) => item.replace(regexCat, ''))
+								.filter((item: string) => item.length > 0)
 						);
-					},
-					position: {
-						my: 'right bottom',
-						at: 'right top',
-						of: this.$searchInput,
-					},
-					appendTo: `.${CLASS_NAME_CONTAINER}`,
-				});
-			};
+					}
+				);
+			});
+			this.$searchInput.on('keydown', (event): void => {
+				const suggestions = $suggestions.children();
+				if (event.key === 'Escape') {
+					hideSuggestions();
+				} else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+					if (!suggestions.length) return;
+					event.preventDefault();
+					selectedSuggestion =
+						(event.key === 'ArrowDown'
+							? selectedSuggestion + 1
+							: selectedSuggestion - 1 + suggestions.length) % suggestions.length;
+					suggestions.removeClass('selected').eq(selectedSuggestion).addClass('selected');
+				} else if (event.key === 'Enter' && selectedSuggestion >= 0) {
+					event.preventDefault();
+					selectSuggestion(suggestions.eq(selectedSuggestion).text());
+				}
+			});
+			this.$searchInput.on('blur', () => {
+				window.setTimeout(hideSuggestions, 100);
+			});
 			this.$link.on('click', (event): void => {
 				$(event.currentTarget).toggleClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED);
-				initAutocomplete();
 				this.run();
 			});
 		}
@@ -737,26 +780,17 @@ const catALot = async (): Promise<void> => {
 				cursor: 'wait',
 				overflow: 'hidden',
 			});
-			CAL.$progressDialog = $(
-				<div>
+			const $overlay = $('<div>').addClass(`${CLASS_NAME}-overlay`);
+			const $dialog = $(
+				<div className={CLASS_NAME_FEEDBACK} role="status">
 					{CAL.msg('editing')}
 					<span className={CLASS_NAME_CURRENT_COUNTER}>{CAL.counterCurrent}</span>
 					{[CAL.msg('of'), CAL.counterNeeded]}
 				</div>
-				// @ts-expect-error TS2339
-			).dialog({
-				dialogClass: CLASS_NAME_FEEDBACK,
-				minHeight: 90,
-				height: 90,
-				width: 450,
-				modal: true,
-				closeOnEscape: false,
-				draggable: false,
-				resizable: false,
-			});
-			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-titlebar`).hide();
-			this.$body.find(`.${CLASS_NAME_FEEDBACK} .ui-dialog-content`).height('auto');
-			CAL.$counter = this.$body.find(`.${CLASS_NAME_CURRENT_COUNTER}`);
+			);
+			$overlay.append($dialog).appendTo(this.$body);
+			CAL.$progressDialog = $overlay;
+			CAL.$counter = $dialog.find(`.${CLASS_NAME_CURRENT_COUNTER}`);
 		}
 		private async doSomething(targetCategory: string, mode: 'add' | 'copy' | 'move'): Promise<void> {
 			const markedLabels: ReturnType<typeof this.getMarkedLabels> = this.getMarkedLabels();
@@ -969,23 +1003,7 @@ const catALot = async (): Promise<void> => {
 			if (this.$link.hasClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED)) {
 				this.makeClickable();
 				this.$dataContainer.show();
-				// @ts-expect-error TS2339
-				this.$container.resizable({
-					alsoResize: this.$resultList,
-					handles: 'n',
-					resize: (event: JQuery.TriggeredEvent): void => {
-						const $currentTarget = $(event.currentTarget);
-						$currentTarget.css({
-							left: '',
-							top: '',
-						});
-						CAL.dialogHeight = $currentTarget.height() ?? CAL.dialogHeight;
-						this.$resultList.css({
-							maxHeight: '',
-							width: '',
-						});
-					},
-				});
+				this.enableResize();
 				this.$resultList.css('max-height', '450px');
 				if (CAL.isSearchMode) {
 					this.updateCats('Pictures and images');
@@ -994,11 +1012,40 @@ const catALot = async (): Promise<void> => {
 				}
 			} else {
 				this.$dataContainer.hide();
-				// @ts-expect-error TS2339
-				this.$container.resizable('destroy');
+				this.resizeCleanup?.();
+				this.resizeCleanup = undefined;
 				this.$container.css('width', '');
 				CAL.$labels.off('click.catALot');
 			}
+		}
+
+		private enableResize(): void {
+			this.resizeCleanup?.();
+			const $handle = $('<div>').addClass(`${CLASS_NAME_CONTAINER}-resize-handle`).prependTo(this.$container);
+			const handle = $handle[0];
+			const container = this.$container[0];
+			if (!handle || !container) return;
+			const onPointerDown = (event: PointerEvent): void => {
+				const startHeight = container.getBoundingClientRect().height;
+				const startY = event.clientY;
+				const onPointerMove = (moveEvent: PointerEvent): void => {
+					const height = Math.max(90, startHeight + startY - moveEvent.clientY);
+					this.$container.height(height);
+					CAL.dialogHeight = height;
+					this.$resultList.css({maxHeight: `${Math.max(0, height - 100)}px`, width: ''});
+				};
+				const onPointerUp = (): void => {
+					document.removeEventListener('pointermove', onPointerMove);
+					document.removeEventListener('pointerup', onPointerUp);
+				};
+				document.addEventListener('pointermove', onPointerMove);
+				document.addEventListener('pointerup', onPointerUp, {once: true});
+			};
+			handle.addEventListener('pointerdown', onPointerDown);
+			this.resizeCleanup = () => {
+				handle.removeEventListener('pointerdown', onPointerDown);
+				$handle.remove();
+			};
 		}
 	}
 
