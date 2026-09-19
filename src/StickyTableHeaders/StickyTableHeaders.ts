@@ -23,7 +23,7 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 			// Messages that can be used here:
 			// * see above imported stylesheet
 			// * for more information
-			$target.addClass(thead as string);
+			($target as JQuery<HTMLElement>).addClass(thead as string);
 		}
 	}
 });

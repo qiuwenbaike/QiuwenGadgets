@@ -232,6 +232,7 @@ const catALot = async (): Promise<void> => {
 				}
 				CAL.isAutoCompleteInit = true;
 
+				// @ts-expect-error TS2339
 				this.$searchInput.autocomplete({
 					source: (request: {term: string}, response: (arg: JQuery<string>) => void): void => {
 						this.doAPICall(
@@ -742,6 +743,7 @@ const catALot = async (): Promise<void> => {
 					<span className={CLASS_NAME_CURRENT_COUNTER}>{CAL.counterCurrent}</span>
 					{[CAL.msg('of'), CAL.counterNeeded]}
 				</div>
+				// @ts-expect-error TS2339
 			).dialog({
 				dialogClass: CLASS_NAME_FEEDBACK,
 				minHeight: 90,
@@ -967,10 +969,11 @@ const catALot = async (): Promise<void> => {
 			if (this.$link.hasClass(CLASS_NAME_CONTAINER_HEAD_LINK_ENABLED)) {
 				this.makeClickable();
 				this.$dataContainer.show();
+				// @ts-expect-error TS2339
 				this.$container.resizable({
 					alsoResize: this.$resultList,
 					handles: 'n',
-					resize: (event): void => {
+					resize: (event: JQuery.TriggeredEvent): void => {
 						const $currentTarget = $(event.currentTarget);
 						$currentTarget.css({
 							left: '',
@@ -991,6 +994,7 @@ const catALot = async (): Promise<void> => {
 				}
 			} else {
 				this.$dataContainer.hide();
+				// @ts-expect-error TS2339
 				this.$container.resizable('destroy');
 				this.$container.css('width', '');
 				CAL.$labels.off('click.catALot');

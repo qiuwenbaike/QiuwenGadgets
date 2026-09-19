@@ -16,6 +16,7 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Set guard
 	mw.config.set(OPTIONS.configKeyVe, true);
 
+	// @ts-expect-error TS2304, TS2503
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,
 	});
@@ -37,6 +38,7 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 		};
 	});
 
+	// @ts-expect-error TS2304, TS2503
 	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
 		align: 'inline',
 		label: getMessage('AiAssisted'),

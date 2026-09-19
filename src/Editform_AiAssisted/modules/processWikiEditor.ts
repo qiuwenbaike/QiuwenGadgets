@@ -15,6 +15,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	mw.config.set(OPTIONS.configKey, true);
 
+	// @ts-expect-error TS2304, TS2503
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: false,
 	});
@@ -42,6 +43,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		);
 	});
 
+	// @ts-expect-error TS2304, TS2503
 	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
 		align: 'inline',
 		label: getMessage('AiAssisted'),
