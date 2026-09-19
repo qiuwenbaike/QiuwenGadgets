@@ -1,4 +1,5 @@
-import {addLink} from './addLink';
+import {addHeaderLink} from './addHeaderLink';
+import {addPortletLink} from './addPortletLink';
 
 const buildLink = (oldId: number | null, diffId: number): void => {
 	let link: string = '/d';
@@ -10,7 +11,8 @@ const buildLink = (oldId: number | null, diffId: number): void => {
 	link += `/${diffId}`;
 	permaLink += `/${diffId}`;
 
-	addLink(link, permaLink);
+	addHeaderLink(link, permaLink);
+	addPortletLink(link, permaLink);
 };
 
 export {buildLink};

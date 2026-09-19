@@ -38,7 +38,7 @@
 * CodeLinks[ResourceLoader|default|dependencies=ext.gadget.JSX,ext.gadget.Util,mediawiki.util|rights=edit|requiresES6]|CodeLinks.js
 * CopyCodeBlock[ResourceLoader|actions=view|default|dependencies=@wikimedia/codex,ext.gadget.Clipboard,ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Toastify,mediawiki.util,vue|requiresES6]|CopyCodeBlock.js|CopyCodeBlock.css
 * DidYouMean[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.Title|requiresES6]|DidYouMean.js
-* DiffLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,mediawiki.widgets,oojs-ui-windows|requiresES6]|DiffLink.js
+* DiffLink[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util,vue|requiresES6]|DiffLink.js|DiffLink.css
 * EnhancedSpecialSearch[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util|requiresES6]|EnhancedSpecialSearch.js
 * FloatTOC[ResourceLoader|actions=view|dependencies=@wikimedia/codex,ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,vue|skins=vector|requiresES6]|FloatTOC.js|FloatTOC.css
 * FullwidthSearchFix[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util|requiresES6]|FullwidthSearchFix.js
@@ -48,7 +48,7 @@
 * ScrollUpButton[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|peers=ScrollUpButton-pagestyles|requiresES6]|ScrollUpButton.js
 * ScrollUpButton-pagestyles[ResourceLoader|hidden|requiresES6]|ScrollUpButton-pagestyles.css
 * SearchShortcuts[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|SearchShortcuts.js
-* ShortURL[ResourceLoader|dependencies=ext.gadget.Clipboard,ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Tippy,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,mediawiki.widgets,oojs-ui-windows,oojs-ui.styles.icons-editing-core|peers=ShortURL-pagestyles|requiresES6]|ShortURL.js
+* ShortURL[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util,vue|peers=ShortURL-pagestyles|requiresES6]|ShortURL.js|ShortURL.css
 * ShortURL-pagestyles[ResourceLoader|hidden|requiresES6]|ShortURL-pagestyles.css
 * SmoothTOC[ResourceLoader|default|dependencies=ext.gadget.Util|skins=gongbi,vector,vector-2022|requiresES6]|SmoothTOC.js
 * TextSpacing[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|TextSpacing.js|TextSpacing.css
