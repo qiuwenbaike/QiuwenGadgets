@@ -25,6 +25,7 @@ const loader = {
 	'.svg': 'text',
 } as const satisfies BuildOptions['loader'];
 
+// @ts-expect-error TS2503
 const lessOptions: Less.Options = {
 	plugins: [new LessPluginPresetEnv(), new LessPluginNpmImport()],
 };

@@ -215,7 +215,9 @@ const ajaxLogin = (toastifyInstance: ToastifyInstance, isAgreeTos: boolean = fal
 	pwdInput.on('enter', (): void => {
 		void check();
 	});
-	messageDialog.getActionProcess = (action): OO.ui.Process =>
+	// @ts-expect-error TS2503
+	messageDialog.getActionProcess = (action: string): OO.ui.Process =>
+		// @ts-expect-error TS2304
 		new OO.ui.Process((): void => {
 			if (action === 'login') {
 				void check();

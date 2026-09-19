@@ -1,13 +1,17 @@
 import * as OPTIONS from '../../options.json';
 import {ARTICLE_SUMMARIES, COMMON_SUMMARIES, COMMON_SUMMARIES_LABEL, TALKPAGE_SUMMARIES} from '../messages';
 
+// @ts-expect-error TS2503
 const generateMenuOptionWidget = (label: string): OO.ui.MenuOptionWidget => {
+	// @ts-expect-error TS2304
 	return new OO.ui.MenuOptionWidget({
 		label,
 	});
 };
 
+// @ts-expect-error TS2503
 const addOptionsToDropdown = (dropdownWidget: OO.ui.DropdownWidget, summaries: string[]): void => {
+	// @ts-expect-error TS2503
 	const menuOptionWidgets: OO.ui.MenuOptionWidget[] = [];
 
 	for (const summary of summaries) {
@@ -17,6 +21,7 @@ const addOptionsToDropdown = (dropdownWidget: OO.ui.DropdownWidget, summaries: s
 	dropdownWidget.getMenu().addItems(menuOptionWidgets);
 };
 
+// @ts-expect-error TS2503
 const onSelectCallback = (optionWidget: OO.ui.OptionWidget, $wpSummary: JQuery): void => {
 	const originSummary: string = ($wpSummary.val() as string | undefined) ?? '';
 	const customSummary: string = optionWidget.getLabel() as string;
@@ -27,13 +32,16 @@ const onSelectCallback = (optionWidget: OO.ui.OptionWidget, $wpSummary: JQuery):
 const generateSummaryDropdown = ($wpSummary: JQuery): JQuery => {
 	const {wgNamespaceNumber} = mw.config.get();
 
+	// @ts-expect-error TS2503
 	const dropdownWidget: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
 		label: COMMON_SUMMARIES_LABEL,
 	});
 
 	dropdownWidget.setElementId(OPTIONS.dropdownId);
 
+	// @ts-expect-error TS2503
 	dropdownWidget.getMenu().on('select', (optionWidget: OO.ui.OptionWidget | OO.ui.OptionWidget[] | null): void => {
+		// @ts-expect-error TS2503
 		onSelectCallback(optionWidget as OO.ui.OptionWidget, $wpSummary);
 	});
 

@@ -3,6 +3,7 @@ const generateChangeTags = ({
 	originalChangeTags,
 	changeTag,
 }: {
+	// @ts-expect-error TS2503
 	checkbox: OO.ui.CheckboxInputWidget;
 	originalChangeTags: string;
 	changeTag: string;

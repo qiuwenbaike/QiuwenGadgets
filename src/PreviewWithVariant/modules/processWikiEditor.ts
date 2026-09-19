@@ -31,15 +31,19 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 
 	const uriVariant: string | null = mw.util.getParamValue('variant');
 
+	// @ts-expect-error TS2304, TS2503
 	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: Boolean(uriVariant),
 	});
 
+	// @ts-expect-error TS2304, TS2503
 	const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
 		$overlay: true,
 		disabled: !checkbox.isSelected(),
 		menu: {
+			// @ts-expect-error TS2503
 			items: VARIANTS.map(({data, label}): OO.ui.MenuOptionWidget => {
+				// @ts-expect-error TS2304
 				return new OO.ui.MenuOptionWidget({
 					data,
 					label,
@@ -58,8 +62,10 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 		if (!checkbox.isSelected()) {
 			return;
 		}
+		// @ts-expect-error TS2503
 		const selectedItem: OO.ui.OptionWidget | null = dropdown
 			.getMenu()
+			// @ts-expect-error TS2503
 			.findSelectedItem() as OO.ui.OptionWidget | null;
 		return selectedItem ? (selectedItem.getData() as string) : undefined;
 	};
@@ -91,11 +97,13 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 
 	dropdown.getMenu().on('select', manipulateVariantConfig);
 
+	// @ts-expect-error TS2304, TS2503
 	const checkboxField: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
 		align: 'inline',
 		label: window.wgULS('预览字词转换', '預覽字詞轉換'),
 	});
 
+	// @ts-expect-error TS2304, TS2503
 	const dropdownField: OO.ui.FieldLayout<OO.ui.DropdownWidget> = new OO.ui.FieldLayout(dropdown, {
 		align: 'top',
 		label: window.wgULS('使用该语言变体显示预览：', '使用該語言變體顯示預覽：'),

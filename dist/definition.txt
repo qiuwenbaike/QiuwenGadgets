@@ -91,7 +91,7 @@
 * SiteCommon_Templates[ResourceLoader|default|hidden|requiresES6]|SiteCommon_Templates.css
 * SpecialWikitext[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.util|hidden|requiresES6]|SpecialWikitext.js|SpecialWikitext.css
 * Switcher[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util|hidden|requiresES6]|Switcher.js
-* TabbedWindow[ResourceLoader|default|dependencies=oojs-ui-widgets|hidden|requiresES6]|TabbedWindow.js
+* TabbedWindow[ResourceLoader|default|dependencies=@wikimedia/codex,vue|hidden|requiresES6]|TabbedWindow.js|TabbedWindow.css
 * TemplateTabs[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|requiresES6]|TemplateTabs.js
 * Tippy[ResourceLoader|hidden|requiresES6]|Tippy.js|Tippy.css
 * Toastify[ResourceLoader|hidden|requiresES6]|Toastify.js|Toastify.css
@@ -110,14 +110,14 @@
 * EditForm[ResourceLoader|hidden|rights=edit|requiresES6]|EditForm.css
 * Editform_AiAssisted[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,oojs-ui-core|rights=edit|requiresES6]|Editform_AiAssisted.js
 * Editform_Attribution[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,oojs-ui-core|rights=edit|requiresES6]|Editform_Attribution.js|Editform_Attribution.css
-* EditForm_JS[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,oojs-ui-core|hidden|peers=EditForm|rights=edit|requiresES6]|EditForm_JS.js
+* EditForm_JS[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|hidden|peers=EditForm|rights=edit|requiresES6]|EditForm_JS.js
 * Editform_Patch2017[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.jqueryMsg|hidden|rights=edit|requiresES6]|Editform_Patch2017.js
 * Edittools-customizeToolbar[ResourceLoader|actions=edit|dependencies=ext.gadget.Util,ext.wikiEditor,user.options|hidden|requiresES6]|Edittools-customizeToolbar.js
 * Edittools-delh[ResourceLoader|actions=edit|dependencies=ext.gadget.Edittools-customizeToolbar,ext.gadget.i18n|rights=skipcaptcha|requiresES6]|Edittools-delh.js
 * Edittools-refToolbar[ResourceLoader|actions=edit|default|dependencies=ext.gadget.Util,ext.wikiEditor,mediawiki.jqueryMsg,mediawiki.util,user.options|rights=edit|requiresES6]|Edittools-refToolbar.js|Edittools-refToolbar.css
 * Edittools-vector[ResourceLoader|actions=edit|default|dependencies=ext.gadget.Edittools-customizeToolbar|rights=edit|requiresES6]|Edittools-vector.js
 * Edittools-vplus[ResourceLoader|actions=edit|default|dependencies=ext.gadget.Edittools-customizeToolbar,ext.gadget.i18n|rights=edit|requiresES6]|Edittools-vplus.js
-* HotCat[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,jquery.ui,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.user,mediawiki.util|rights=skipcaptcha|requiresES6]|HotCat.js|HotCat.css
+* HotCat[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.user,mediawiki.util|rights=skipcaptcha|requiresES6]|HotCat.js|HotCat.css
 * InPageEdit[ResourceLoader|dependencies=ext.gadget.Util|rights=skipcaptcha|requiresES6]|InPageEdit.js
 * InPageEdit-v2[ResourceLoader|rights=skipcaptcha|requiresES6]|InPageEdit-v2.js|InPageEdit-v2.css
 * Navigation_popups[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.user,mediawiki.util,user.options|requiresES6]|Navigation_popups.js|Navigation_popups.css

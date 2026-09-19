@@ -5,6 +5,7 @@ import {toastify} from 'ext.gadget.Toastify';
 import {windowManager} from '../initWindowManager';
 
 const checkValid = async (
+	// @ts-expect-error TS2503
 	[agreeTosCheckbox, nameInput, pwdInput]: [OO.ui.CheckboxInputWidget, OO.ui.TextInputWidget, OO.ui.TextInputWidget],
 	toastifyInstance: ToastifyInstance
 ): Promise<{

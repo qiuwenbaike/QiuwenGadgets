@@ -2,7 +2,9 @@ import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './modules/i18n';
 
 const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
+	// @ts-expect-error TS2503
 	let windowManager: OO.ui.WindowManager;
+	// @ts-expect-error TS2503
 	let printDialog: OO.ui.ProcessDialog;
 
 	const printOptions = {
@@ -34,8 +36,11 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 		},
 
 		createWindow: () => {
+			// @ts-expect-error TS2503
 			class PrintDialog extends OO.ui.ProcessDialog {
+				// @ts-expect-error TS2503
 				private panel: OO.ui.PanelLayout | undefined;
+				// @ts-expect-error TS2503
 				private content: OO.ui.FieldsetLayout | undefined;
 				private $body: JQuery | undefined;
 
@@ -44,6 +49,7 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 					type: string;
 					checked: boolean;
 					returnvalue: string;
+					// @ts-expect-error TS2503
 					widget?: OO.ui.CheckboxInputWidget;
 				}[] = [
 					{
@@ -84,27 +90,32 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 					},
 				];
 
+				// @ts-expect-error TS4112
 				public override initialize(): this {
 					let checkboxInputWidget;
 					const fieldLayouts = [];
 
 					super.initialize();
 
+					// @ts-expect-error TS2304
 					this.panel = new OO.ui.PanelLayout({
 						expanded: false,
 						padded: true,
 					});
 
+					// @ts-expect-error TS2304
 					this.content = new OO.ui.FieldsetLayout();
 					for (const question of this.questions) {
 						const {checked, label, type} = question;
 						if (type !== 'checkbox') {
 							continue;
 						}
+						// @ts-expect-error TS2304
 						checkboxInputWidget = new OO.ui.CheckboxInputWidget({
 							selected: checked,
 						});
 						question.widget = checkboxInputWidget;
+						// @ts-expect-error TS2304
 						fieldLayouts[fieldLayouts.length] = new OO.ui.FieldLayout(checkboxInputWidget, {
 							label,
 							align: 'inline',
@@ -118,9 +129,11 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 					return this;
 				}
 
+				// @ts-expect-error TS2503
 				public override getActionProcess(action?: string): OO.ui.Process {
 					const self = this;
 					if (action === 'print') {
+						// @ts-expect-error TS2304
 						return new OO.ui.Process(() => {
 							// Get values of checkboxes
 							for (const question of this.questions) {
@@ -132,7 +145,8 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 								}
 							}
 
-							void self.close({action}).closed.then(() => {
+							// @ts-expect-error TS2503
+							void (self as OO.ui.ProcessProcessDialog).close({action}).closed.then(() => {
 								printOptions.changePrintCSS();
 								printOptions.otherEnhancements();
 								window.print();
@@ -145,12 +159,17 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 			}
 
 			// OO.inheritClass(PrintDialog, OO.ui.ProcessDialog);
-			PrintDialog.static = {
+			// @ts-expect-error TS2503
+			(PrintDialog as OO.ui.ProcessDialog).static = {
+				// @ts-expect-error TS2304
 				...OO.ui.ProcessDialog.static,
 			};
-			PrintDialog.static.name = 'PrintDialog';
-			PrintDialog.static.title = getMessage('Print this page');
-			PrintDialog.static.actions = [
+			// @ts-expect-error TS2503
+			(PrintDialog as OO.ui.ProcessDialog).static.name = 'PrintDialog';
+			// @ts-expect-error TS2503
+			(PrintDialog as OO.ui.ProcessDialog).static.title = getMessage('Print this page');
+			// @ts-expect-error TS2503
+			(PrintDialog as OO.ui.ProcessDialog).static.actions = [
 				{
 					action: 'print',
 					label: getMessage('Print'),
@@ -163,11 +182,13 @@ const getPrintOptions = ($body: JQuery<HTMLBodyElement>) => {
 			];
 
 			if (!windowManager) {
+				// @ts-expect-error TS2304
 				windowManager = new OO.ui.WindowManager();
 				$body.append(windowManager.$element);
 			}
 
 			if (!printDialog) {
+				// @ts-expect-error TS2554
 				printDialog = new PrintDialog({
 					size: 'medium',
 				});

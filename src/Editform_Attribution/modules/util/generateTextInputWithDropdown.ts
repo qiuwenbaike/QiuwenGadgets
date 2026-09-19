@@ -4,6 +4,7 @@ import {appendTextToSummary} from './appendTextToSummary';
 import {getMessage} from '../i18n';
 
 const getTextInput = (...onChanges: (() => void)[]) => {
+	// @ts-expect-error TS2304
 	const textInput = new OO.ui.TextInputWidget({
 		placeholder: getMessage('Source'),
 	});
@@ -16,13 +17,16 @@ const getTextInput = (...onChanges: (() => void)[]) => {
 };
 
 const getDropDown = (...onSelects: (() => void)[]) => {
+	// @ts-expect-error TS2304
 	const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
 		label: getMessage('License'),
 	});
 
+	// @ts-expect-error TS2304
 	const menuOptions: OO.ui.MenuOptionWidget[] = [];
 
 	for (const {data, label} of LICENSES) {
+		// @ts-expect-error TS2304
 		menuOptions[menuOptions.length] = new OO.ui.MenuOptionWidget({
 			data,
 			label,
@@ -38,7 +42,9 @@ const getDropDown = (...onSelects: (() => void)[]) => {
 	return dropdown;
 };
 
+// @ts-expect-error TS2503
 const getAddItemButton = (...onClicks: (() => void)[]): OO.ui.ButtonInputWidget => {
+	// @ts-expect-error TS2304
 	const addItemButton = new OO.ui.ButtonInputWidget({
 		label: getMessage('Add to Edit Summary'),
 	});
@@ -51,7 +57,9 @@ const getAddItemButton = (...onClicks: (() => void)[]): OO.ui.ButtonInputWidget 
 };
 
 const generateTextInputWithDropdown = ({$body, $wpSummary}: {$body: JQuery<HTMLElement>; $wpSummary: JQuery}) => {
+	// @ts-expect-error TS2304
 	const initialFieldset = new OO.ui.FieldsetLayout();
+	// @ts-expect-error TS2304
 	const parentFieldSet = new OO.ui.FieldsetLayout({
 		label: getMessage('Please Claim Sources and Licenses'),
 	});
@@ -94,8 +102,11 @@ const generateTextInputWithDropdown = ({$body, $wpSummary}: {$body: JQuery<HTMLE
 	const addItemButton = getAddItemButton(addItemOnClick);
 
 	initialFieldset.addItems([
+		// @ts-expect-error TS2304
 		new OO.ui.FieldLayout(textInput, {label: getMessage('Source'), align: 'inline'}),
+		// @ts-expect-error TS2304
 		new OO.ui.FieldLayout(dropDown, {label: getMessage('License'), align: 'inline'}),
+		// @ts-expect-error TS2304
 		new OO.ui.FieldLayout(addItemButton, {align: 'inline'}),
 	]);
 
