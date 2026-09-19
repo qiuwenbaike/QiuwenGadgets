@@ -1,6 +1,5 @@
-import {type App as VueApp, createApp} from 'vue';
-import App from '../App.vue';
 import {addEventListenerWithRemover} from 'ext.gadget.Util';
+import {copyText} from './copyText';
 import {getMessage} from './i18n';
 import {getShortDomains} from './util/getShortDomains';
 
@@ -9,21 +8,6 @@ const domains = getShortDomains();
 
 let headerLinkEventListener: ReturnType<typeof addEventListenerWithRemover> = {
 	remove: (): void => {},
-};
-
-const openDialog = (items: {label: string; text: string}[]): void => {
-	const root = document.createElement('div');
-	document.body.append(root);
-
-	const app: VueApp<Element> | null = createApp(App, {
-		open: true,
-		items,
-		onClose: (): void => {
-			app?.unmount();
-			root.remove();
-		},
-	});
-	app.mount(root);
 };
 
 const addHeaderLink = (link: string, permaLink: string): void => {
@@ -47,12 +31,7 @@ const addHeaderLink = (link: string, permaLink: string): void => {
 
 	const headerLinkClickListener = (event: MouseEvent): void => {
 		event.preventDefault();
-		openDialog([
-			{
-				label: getMessage('Short URL'),
-				text: wgUserName ? `https://${domains[0]}${link}` : `https://${location.host}${permaLink}`,
-			},
-		]);
+		copyText(wgUserName ? `https://${domains[0]}${link}` : `https://${location.host}${permaLink}`);
 	};
 
 	headerLinkEventListener.remove();
