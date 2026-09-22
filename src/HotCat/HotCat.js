@@ -2120,6 +2120,10 @@ hotCatMessages();
 		textchange(dont_autocomplete, force) {
 			// Hide all other lists
 			makeActive(this);
+			// Abort if isCompositionStart
+			if (self.isCompositionStart) {
+				return;
+			}
 			// Get input value, omit sort key, if any
 			this.sanitizeInput();
 			let v = this.text.value;
