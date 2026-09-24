@@ -181,6 +181,16 @@
 		img {
 			border: 0;
 		}
+
+		@media screen and (max-width: 1024px) {
+			@halign_selector: ~'.mw-halign-left, .mw-halign-right, .mw-halign-center, .mw-halign-none';
+
+			&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_selector}),
+			&:is(@{halign_selector}) {
+				margin: auto;
+				text-align: center;
+			}
+		}
 	}
 
 	.thumbcaption,
@@ -252,12 +262,23 @@
 			padding: 0.5rem;
 			flex: 1 1 100%;
 		}
+
+		@media screen and (max-width: 1024px) {
+			width: auto;
+			flex: 1 1 100%;
+			min-width: min(50vw, 30rem);
+		}
 	}
 
 	&-box {
 		max-width: 100%;
 		flex: 1 1 max(25vw, 20rem);
 		min-width: max(25vw, 20rem);
+
+		@media screen and (min-width: 1120px) {
+			flex: 1 1 min(25vw, 20rem);
+			min-width: min(25vw, 20rem);
+		}
 
 		img {
 			max-width: 20rem;
@@ -282,6 +303,11 @@
 		max-width: 100%;
 		flex: 1 1 max(30vw, 25rem);
 		min-width: max(30vw, 25rem);
+
+		@media screen and (max-width: 1120px) {
+			flex: 1 1 min(30vw, 25rem);
+			min-width: min(30vw, 25rem);
+		}
 	}
 
 	&-extra-box {
@@ -313,7 +339,12 @@
 		max-width: 100%;
 		flex-flow: row wrap;
 		justify-content: space-between;
+		gap: 0.5rem;
 		padding: 0;
+
+		@media screen and (max-width: 1024px) {
+			min-height: 125px;
+		}
 	}
 
 	&-header {
@@ -324,6 +355,11 @@
 			align-items: center;
 			place-content: center center;
 			flex-flow: column wrap;
+
+			@media screen and (min-width: 1024px) {
+				width: 100%;
+				margin: 0 auto;
+			}
 		}
 
 		.mainpage-slogan,
@@ -370,6 +406,13 @@
 				place-content: flex-end flex-end;
 				align-items: center;
 				flex-flow: column wrap;
+
+				@media screen and (min-width: 1024px) {
+					position: absolute;
+					top: 0;
+					right: 0;
+					padding: 0;
+				}
 			}
 
 			& > div {
@@ -497,51 +540,5 @@
 		margin: 0 0 auto auto;
 		text-align: right;
 		font-size: 0.875rem;
-	}
-
-	@media screen and (max-width: 1024px) {
-		&-header,
-		&-main-content,
-		&-sub-content {
-			min-height: 125px;
-		}
-
-		&-box,
-		&-wide-box,
-		&-editorial-box {
-			flex: 1 1 100%;
-			width: auto;
-			min-width: min(50vw, 25rem);
-		}
-
-		@halign_selector: ~'.mw-halign-left, .mw-halign-right, .mw-halign-center, .mw-halign-none';
-
-		figure {
-			&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_selector}),
-			&:is(@{halign_selector}) {
-				margin: auto;
-				text-align: center;
-			}
-		}
-	}
-
-	@media screen and (min-width: 1024px) {
-		&-header-box {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-
-			.mainpage-login-menu {
-				position: absolute;
-				top: 0;
-				right: 0;
-				padding: 0;
-			}
-		}
-
-		.mainpage-header-bio {
-			width: 100%;
-			margin: 0 auto;
-		}
 	}
 }
