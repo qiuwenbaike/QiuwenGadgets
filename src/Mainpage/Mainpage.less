@@ -87,7 +87,7 @@
 
 /* 禁止删除首页及其相关模板 */
 .rootpage-Qiuwen_首页,
-.rootpage-Tremplate_新版首页 {
+.rootpage-Template_新版首页 {
 	#ca-delete,
 	#deleteconfirm {
 		display: none !important;
@@ -187,7 +187,7 @@
 
 			&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_selector}),
 			&:is(@{halign_selector}) {
-				margin: auto;
+				margin: 1rem auto;
 				text-align: center;
 			}
 		}
@@ -304,7 +304,7 @@
 		flex: 1 1 max(30vw, 25rem);
 		min-width: max(30vw, 25rem);
 
-		@media screen and (max-width: 1120px) {
+		@media screen and (min-width: 1024px) {
 			flex: 1 1 min(30vw, 25rem);
 			min-width: min(30vw, 25rem);
 		}
@@ -509,13 +509,14 @@
 			place-content: center space-around;
 			align-items: center;
 
-			.mainpage-sisterproject-itrem {
+			.mainpage-sisterproject-item {
 				display: flex;
 				flex-flow: row nowrap;
 				align-items: center;
 				justify-content: center;
 				gap: 0.5rem 1rem;
 				margin: 0.25rem;
+				font-size: 1.125rem;
 
 				img {
 					max-width: 32px;
