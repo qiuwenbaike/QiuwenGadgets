@@ -54,13 +54,8 @@ const markUserRights = ($content: JQuery): void => {
 		};
 	}
 
-	void (async () => {
-		for (const promise of promises) {
-			try {
-				await promise();
-			} catch {}
-		}
-	})();
+	// Errors are already caught inside each promise factory
+	void Promise.all(promises.map((promise) => promise()));
 };
 
 export {markUserRights};

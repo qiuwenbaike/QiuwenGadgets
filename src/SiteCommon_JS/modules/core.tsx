@@ -202,6 +202,7 @@ const unihanPopup = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 			continue;
 		}
 
+		// @ts-expect-error TS2304, TS2503
 		const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
 			$content: $(<p>{title}</p>) as JQuery,
 			label: getMessage('Note'),

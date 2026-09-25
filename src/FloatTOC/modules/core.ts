@@ -1,51 +1,58 @@
 import * as OPTIONS from '../options.json';
 import type {Config, State} from './types';
-import {checkA11yConfirmKey, scrollTop} from 'ext.gadget.Util';
+import {type App as VueApp, createApp, reactive} from 'vue';
+import App from '../App.vue';
 import {filterAlteredClicks} from 'ext.gadget.FilterAlteredClicks';
-import {generateElements} from './util/generateElements';
 import {generateTogglerElement} from './util/generateTogglerElement';
 import {getConfig} from './getConfig';
 import {getMessage} from './i18n';
-import {setMwNotifyStyle} from './setMwNotifyStyle';
+import {scrollTop} from 'ext.gadget.Util';
+
+interface FloatTocState {
+	open: boolean;
+	opener: boolean;
+}
 
 const floatTOC = ($originToc: JQuery): void => {
 	const {skin} = mw.config.get();
 	const originToc: HTMLElement = $originToc.get(0) as HTMLElement;
 	const $body: JQuery<HTMLBodyElement> = $originToc.parents('body');
 
-	const {$floatToc, $floatTocOpener} = generateElements(originToc);
-	$floatTocOpener.hide().appendTo($body);
+	// Clone the origin TOC and clean it up for the floating panel
+	const toc: HTMLElement = originToc.cloneNode(true) as HTMLElement;
+	toc.querySelector('input')?.remove();
+	toc.querySelector('.toctogglespan')?.remove();
+	toc.removeAttribute('id');
+	const tocHtml: string = toc.outerHTML;
 
 	const config: Config = getConfig(OPTIONS.elementId);
-	const mwNotifyStyle: HTMLStyleElement = setMwNotifyStyle();
 
-	let isShow: boolean = false;
-	const storeState = (target: keyof Config, state: State): void => {
-		config[target] = state;
+	const state: FloatTocState = reactive({
+		open: false,
+		opener: false,
+	});
+
+	const storeState = (target: keyof Config, value: State): void => {
+		config[target] = value;
 		mw.storage.setObject(OPTIONS.elementId, config);
 	};
 
-	let disableMwNotifyStyleTimer: ReturnType<typeof setTimeout>;
-	const disableMwNotifyStyle = (): void => {
-		if (disableMwNotifyStyleTimer) {
-			clearTimeout(disableMwNotifyStyleTimer);
-		}
-		disableMwNotifyStyleTimer = setTimeout((): void => {
-			if (!isShow) {
-				mwNotifyStyle.disabled = true;
-			}
-		}, 5 * 1000);
+	const showPanel = (): void => {
+		state.open = true;
+		state.opener = false;
 	};
 
-	let notification: ReturnType<typeof mw.notification.notify> | undefined;
-	const closeNotification = (currentNotification: NonNullable<typeof notification>): void => {
-		currentNotification.close();
-		$floatTocOpener.fadeIn();
-		storeState('floatTOC', 'close');
-		disableMwNotifyStyle();
+	const showOpener = (): void => {
+		state.open = false;
+		state.opener = true;
 	};
 
-	const smoothScroll = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
+	const hideAll = (): void => {
+		state.open = false;
+		state.opener = false;
+	};
+
+	const smoothScroll = (event: MouseEvent): void => {
 		if (skin === 'citizen') {
 			return;
 		}
@@ -66,84 +73,49 @@ const floatTOC = ($originToc: JQuery): void => {
 		scrollTop(`${anchorOffset.top}px`);
 	};
 
-	const toggleToc = (
-		currentIsShow: boolean | 'open' = true,
-		preNotification: typeof notification = undefined
-	): typeof notification => {
-		preNotification?.close();
-		isShow = !!currentIsShow;
+	// Ignore altered (Ctrl/Cmd/Shift/Alt or non-primary button) clicks so
+	// that they keep their native behavior (e.g. open in a new tab)
+	const triggerScroll = filterAlteredClicks(smoothScroll);
 
-		switch (currentIsShow) {
-			case true:
-				if (config.floatTOC === 'close') {
-					$floatTocOpener.fadeIn();
-					return;
-				}
-				break;
-			case 'open':
-				$floatTocOpener.fadeOut();
-				storeState('floatTOC', 'open');
-				break;
-			default:
-				$floatTocOpener.fadeOut();
-				disableMwNotifyStyle();
-				return;
-		}
-
-		mwNotifyStyle.disabled = false;
-
-		if (preNotification) {
-			preNotification.start();
-		} else {
-			preNotification = mw.notification.notify($floatToc, {
-				classes: 'noprint',
-				id: OPTIONS.elementId,
-				autoHide: false,
-			});
-			const notificationListener = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
-				event.stopPropagation();
-				if (!checkA11yConfirmKey(event)) {
-					return;
-				}
-				const target = event.target as HTMLElement;
-				if (target.id === 'close') {
-					closeNotification(preNotification as NonNullable<typeof preNotification>);
-				} else {
-					smoothScroll(event);
-				}
-			};
-			preNotification.$notification.on(
-				'click',
-				filterAlteredClicks((event: JQuery.ClickEvent): void => {
-					void notificationListener(event);
-				})
-			);
-			preNotification.$notification.on('keydown', notificationListener);
-		}
-
-		return preNotification;
+	const triggerOpen = (): void => {
+		storeState('floatTOC', 'open');
+		showPanel();
 	};
+
+	const triggerClose = (): void => {
+		storeState('floatTOC', 'close');
+		showOpener();
+	};
+
+	const root: HTMLElement = document.createElement('div');
+	$body.append(root);
+
+	const app: VueApp<Element> = createApp(App, {
+		state,
+		tocHtml,
+		triggerOpen,
+		triggerClose,
+		triggerScroll,
+	});
+	app.mount(root);
 
 	const observerCallback = (entries: IntersectionObserverEntry[]): void => {
 		const [entry] = entries;
 		if (!entry) {
 			return;
 		}
-		const {intersectionRatio} = entry;
-		notification = toggleToc(intersectionRatio === 0, notification);
+		if (entry.intersectionRatio === 0) {
+			if (config.floatTOC === 'close') {
+				showOpener();
+			} else {
+				showPanel();
+			}
+		} else {
+			hideAll();
+		}
 	};
 	const intersectionObserver: IntersectionObserver = new IntersectionObserver(observerCallback);
 	intersectionObserver.observe(originToc);
-
-	const openerListener = (event: JQuery.ClickEvent | JQuery.KeyDownEvent): void => {
-		event.preventDefault();
-		if (!checkA11yConfirmKey(event)) {
-			return;
-		}
-		notification = toggleToc('open');
-	};
-	$floatTocOpener.on('click', openerListener);
-	$floatTocOpener.on('keydown', openerListener);
 
 	const collapseOriginToc = (): void => {
 		if (skin !== 'citizen') {
@@ -159,7 +131,7 @@ const floatTOC = ($originToc: JQuery): void => {
 		$originTocTitle.append($toggler);
 
 		const collapseToggle = (): void => {
-			const $element: JQuery = $originTocTitle.find('.oo-ui-indicatorElement-indicator');
+			const $element: JQuery = $originTocTitle.find('.float-toc__toggler');
 			$element.toggleClass('collapse');
 			if (isCollapse) {
 				$element.attr('title', getMessage('Expand'));

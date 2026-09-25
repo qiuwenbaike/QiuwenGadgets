@@ -1,0 +1,37 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://zh.wikipedia.org/wiki/User:Xiplus/js/userRightsManager.js}
+ * @base {@link https://en.wikipedia.org/wiki/User:MusikAnimal/userRightsManager.js}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/UserRightsManager}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\UserRightsManager\App.vue?type=style&index=0 */
+.user-rights-manager__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: min(85vw, 25rem);
+}
+.user-rights-manager__log,
+.user-rights-manager__status {
+  margin: 0;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkQ6XFxHaXRSZXBvc2l0b3J5XFxRaXV3ZW5HYWRnZXRzXFxzcmNcXFVzZXJSaWdodHNNYW5hZ2VyXFxBcHAudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLnVzZXItcmlnaHRzLW1hbmFnZXJfX2JvZHkge1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICBnYXA6IDAuNzVyZW07XG4gIG1pbi13aWR0aDogbWluKDg1dncsIDI1cmVtKTtcbn1cbi51c2VyLXJpZ2h0cy1tYW5hZ2VyX19sb2csXG4udXNlci1yaWdodHMtbWFuYWdlcl9fc3RhdHVzIHtcbiAgbWFyZ2luOiAwO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDO0FBQ0MsV0FBUztBQUNULGtCQUFnQjtBQUNoQixPQUFLO0FBQ0wsYUFBVyxJQUFJLElBQUksRUFBRTtBQUN2QjtBQUNBLENBQUM7QUFDRCxDQUFDO0FBQ0MsVUFBUTtBQUNWOyIsCiAgIm5hbWVzIjogW10KfQo= */

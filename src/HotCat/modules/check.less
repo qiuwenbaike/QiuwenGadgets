@@ -1,0 +1,55 @@
+.hotcat-check-icon {
+	display: inline-block;
+	position: relative;
+	top: 2px;
+}
+
+.hotcat-check-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.45);
+}
+
+.hotcat-check-dialog {
+	box-sizing: border-box;
+	padding: 20px;
+	background: #fff;
+	border: 1px solid #a2a9b1;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+	width: min(450px, 90vw);
+}
+
+.hotcat-check-dialog h2 {
+	margin: 0 0 16px;
+	font-size: 1.25em;
+}
+
+.hotcat-check-dialog-buttons {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	margin-top: 16px;
+}
+
+.hotcat-check-dialog-buttons button {
+	padding: 6px 12px;
+}
+
+.hotcat-check-notice-content {
+	margin-top: 20px;
+	padding: 0.7em;
+	border: 1px solid #a2a9b1;
+}
+
+.hotcat-check-highlight {
+	background: #f8f9fa;
+}
+
+.hotcat-check-disabled {
+	opacity: 0.6;
+	pointer-events: none;
+}

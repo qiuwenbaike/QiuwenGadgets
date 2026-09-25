@@ -10,8 +10,7 @@
 }
 
 .ul_ol_marginLeft() {
-	& > ul,
-	& > ol {
+	& > :is(ul, ol) {
 		margin-left: 3em;
 
 		& > *:not(ul, ol, li) {
@@ -19,18 +18,15 @@
 		}
 	}
 
-	ul,
-	ol {
-		> li {
-			> ul,
-			> ol {
+	:is(ul, ol) {
+		& > li {
+			& > :is(ul, ol) {
 				margin-left: 1em;
 			}
 		}
 	}
 
-	& > ul,
-	& > ol {
+	& > :is(ul, ol) {
 		line-height: 1.75; /* 行距设置 */
 	}
 }

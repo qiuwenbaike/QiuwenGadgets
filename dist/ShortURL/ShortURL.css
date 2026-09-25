@@ -1,0 +1,97 @@
+/**
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * _addText: '{{Gadget Header|license=GPL-3.0-or-later}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ShortURL}
+ * @author 安忆 <i@anyi.in>; WaitSpring <me@waitspring.com>
+ * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
+ */
+
+/**
+ * Copyright (C)  安忆
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ * SPDX-License-Identifier: MIT
+ *
+ * The "copy" icon from @wikimedia/codex-icons
+ *
+ * @license MIT
+ */
+
+/**
+ * Copyright (c) 2011-2022 Wikimedia Design & OOUI team and other contributors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\ShortURL\App.vue?type=style&index=0 */
+.short-url-copy-list[data-v-c4a2153a] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.short-url-copy-item[data-v-c4a2153a] {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.short-url-copy-text[data-v-c4a2153a] {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #eaecf0;
+  border-radius: 0.25rem;
+  background: #f8f9fa;
+  color: #202122;
+  font-size: 0.875rem;
+  word-break: break-all;
+  flex: 1 1 100%;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkQ6XFxHaXRSZXBvc2l0b3J5XFxRaXV3ZW5HYWRnZXRzXFxzcmNcXFNob3J0VVJMXFxBcHAudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLnNob3J0LXVybC1jb3B5LWxpc3RbZGF0YS12LWM0YTIxNTNhXSB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGdhcDogMC43NXJlbTtcbn1cbi5zaG9ydC11cmwtY29weS1pdGVtW2RhdGEtdi1jNGEyMTUzYV0ge1xuICBkaXNwbGF5OiBmbGV4O1xuICBnYXA6IDAuNXJlbTtcbiAgZmxleC13cmFwOiB3cmFwO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG4uc2hvcnQtdXJsLWNvcHktdGV4dFtkYXRhLXYtYzRhMjE1M2FdIHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIHBhZGRpbmc6IDAuNXJlbSAwLjc1cmVtO1xuICBib3JkZXI6IDFweCBzb2xpZCAjZWFlY2YwO1xuICBib3JkZXItcmFkaXVzOiAwLjI1cmVtO1xuICBiYWNrZ3JvdW5kOiAjZjhmOWZhO1xuICBjb2xvcjogIzIwMjEyMjtcbiAgZm9udC1zaXplOiAwLjg3NXJlbTtcbiAgd29yZC1icmVhazogYnJlYWstYWxsO1xuICBmbGV4OiAxIDEgMTAwJTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDLG1CQUFtQixDQUFDO0FBQ25CLFdBQVM7QUFDVCxrQkFBZ0I7QUFDaEIsT0FBSztBQUNQO0FBQ0EsQ0FBQyxtQkFBbUIsQ0FBQztBQUNuQixXQUFTO0FBQ1QsT0FBSztBQUNMLGFBQVc7QUFDWCxtQkFBaUI7QUFDakIsZUFBYTtBQUNmO0FBQ0EsQ0FBQyxtQkFBbUIsQ0FBQztBQUNuQixXQUFTO0FBQ1QsV0FBUyxPQUFPO0FBQ2hCLFVBQVEsSUFBSSxNQUFNO0FBQ2xCLGlCQUFlO0FBQ2YsY0FBWTtBQUNaLFNBQU87QUFDUCxhQUFXO0FBQ1gsY0FBWTtBQUNaLFFBQU0sRUFBRSxFQUFFO0FBQ1o7IiwKICAibmFtZXMiOiBbXQp9Cg== */

@@ -41,7 +41,8 @@ mw.hook('wikipage.content').add(function noteTA($content): void {
 			}
 
 			event.preventDefault();
-			getViewer($body, hash).open();
+			// @ts-expect-error TS2503
+			(getViewer($body, hash) as OO.ui.ProcessDialog).open();
 		};
 		$element.on('click', openerListener);
 		$element.on('keydown', openerListener);

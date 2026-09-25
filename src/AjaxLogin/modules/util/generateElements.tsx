@@ -2,14 +2,17 @@ import React from 'ext.gadget.JSX';
 import {getMessage} from '../i18n';
 
 const generateElements = (isAgreeTos: boolean) => {
+	// @ts-expect-error TS2503
 	const messageDialog: OO.ui.MessageDialog = new OO.ui.MessageDialog();
 
+	// @ts-expect-error TS2503
 	const nameInput: OO.ui.TextInputWidget = new OO.ui.TextInputWidget({
 		icon: 'userAvatar',
 		placeholder: getMessage('Username'),
 		validate: 'non-empty',
 	});
 
+	// @ts-expect-error TS2503
 	const pwdInput: OO.ui.TextInputWidget = new OO.ui.TextInputWidget({
 		icon: 'key',
 		placeholder: getMessage('Password'),
@@ -17,15 +20,19 @@ const generateElements = (isAgreeTos: boolean) => {
 		validate: 'non-empty',
 	});
 
+	// @ts-expect-error TS2503
 	const agreeTosCheckbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
 		selected: isAgreeTos,
 	});
+	// @ts-expect-error TS2503
 	const agreeTosLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(agreeTosCheckbox, {
 		align: 'inline',
 		label: getMessage('I agree with the relevant terms'),
 	});
 
+	// @ts-expect-error TS2503
 	const keepLoginCheckbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget();
+	// @ts-expect-error TS2503
 	const keepLoginLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(keepLoginCheckbox, {
 		align: 'inline',
 		help: getMessage('SelectedOrNot'),

@@ -37,8 +37,10 @@ const apiQueue = new PQueue({
  *
  * @param {boolean} [isSkipAsk=false] Run the deploy process directly or not
  * @param {boolean} [isTest=false] Run the deploy process in test mode or not
+ * @param {string[]} [gadgetFilter=[]] Only deploy the given gadgets without affecting other gadgets,
+ * including skipping global pages and the deletion of unused pages
  */
-const deploy = async (isSkipAsk = false, isTest = false) => {
+const deploy = async (isSkipAsk = false, isTest = false, gadgetFilter: string[] = []) => {
 	// Note: The program may terminate due to an expected exception
 	const definitionText = readDefinition();
 
@@ -135,12 +137,32 @@ const deploy = async (isSkipAsk = false, isTest = false) => {
 		await prompt('> Confirm deployment?', 'confirm', true);
 	}
 
-	const targets = generateTargets();
+	const targets = generateTargets(gadgetFilter);
 	const fallbackEditSummary = await makeEditSummary(isSkipAsk);
 
 	for (const api of apis) {
 		const {site} = api;
 		const enabledGadgets: string[] = [];
+
+		// Gadgets in the filter that will be added or updated on the current site
+		const siteUpdateGadgets = gadgetFilter.filter((gadgetName) => {
+			const target = targets[gadgetName];
+			if (!target) {
+				return false;
+			}
+			if (target.excludeSites.includes(site)) {
+				return false;
+			}
+			if (target.includeSites.length && !target.includeSites.includes(site)) {
+				return false;
+			}
+			return true;
+		});
+		// Gadgets in the filter that are not enabled on the current site,
+		// the definition lines of which will be removed from the definition page
+		const siteRemoveGadgets = gadgetFilter.filter((gadgetName) => {
+			return !siteUpdateGadgets.includes(gadgetName);
+		});
 
 		const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 
@@ -188,30 +210,56 @@ const deploy = async (isSkipAsk = false, isTest = false) => {
 			fallbackEditSummary,
 			filePath: definitionFilePath,
 		});
-		const currentSiteDefinitionText = saveDefinition(definitionText, enabledGadgets, api, definitionEditSummary);
-		saveDefinitionSectionPage(currentSiteDefinitionText, api, definitionEditSummary);
+		const currentSiteDefinitionText = await saveDefinition(
+			definitionText,
+			enabledGadgets,
+			api,
+			definitionEditSummary,
+			{
+				updateGadgets: siteUpdateGadgets,
+				removeGadgets: siteRemoveGadgets,
+				isTest,
+			}
+		);
+		if (
+			currentSiteDefinitionText !== undefined &&
+			// In a partial deployment, skip the section pages if no gadget needs to be updated on the current site
+			(!gadgetFilter.length || siteUpdateGadgets.length)
+		) {
+			saveDefinitionSectionPage(currentSiteDefinitionText, api, definitionEditSummary, siteUpdateGadgets);
+		}
 
-		const globalTargets = await generateDirectTargets(site);
-		const globalTargetsFilePath = path.join(__rootDir, 'src/global.json');
-		const globalTargetsEditSummary = await makeEditSummary(isSkipAsk, {
-			fallbackEditSummary,
-			filePath: globalTargetsFilePath,
-		});
-		for (const [pageTitle, pageContent] of globalTargets) {
-			savePages(pageTitle, pageContent, api, globalTargetsEditSummary);
+		if (gadgetFilter.length) {
+			console.log(chalk.yellow(`    [${chalk.bold(site)}] partial deployment, skipping global pages.`));
+		} else {
+			const globalTargets = await generateDirectTargets(site);
+			const globalTargetsFilePath = path.join(__rootDir, 'src/global.json');
+			const globalTargetsEditSummary = await makeEditSummary(isSkipAsk, {
+				fallbackEditSummary,
+				filePath: globalTargetsFilePath,
+			});
+			for (const [pageTitle, pageContent] of globalTargets) {
+				savePages(pageTitle, pageContent, api, globalTargetsEditSummary);
+			}
 		}
 
 		await apiQueue.onIdle();
 
 		console.log(chalk.green(`    [${chalk.bold(site)}] deployment successful.`));
 
-		console.log(chalk.yellow(`    [${chalk.bold(site)}] deleting unused pages...`));
+		if (gadgetFilter.length) {
+			console.log(
+				chalk.yellow(`    [${chalk.bold(site)}] partial deployment, skipping deletion of unused pages.`)
+			);
+		} else {
+			console.log(chalk.yellow(`    [${chalk.bold(site)}] deleting unused pages...`));
 
-		await deleteUnusedPages(api, fallbackEditSummary, isSkipAsk);
+			await deleteUnusedPages(api, fallbackEditSummary, isSkipAsk);
 
-		await apiQueue.onIdle();
+			await apiQueue.onIdle();
 
-		console.log(chalk.green(`    [${chalk.bold(site)}] unused pages deleted successful.`));
+			console.log(chalk.green(`    [${chalk.bold(site)}] unused pages deleted successful.`));
+		}
 
 		const endTime = moment();
 		const endTimeFormatted = endTime.format(timeFormat);

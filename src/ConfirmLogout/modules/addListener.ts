@@ -1,33 +1,16 @@
 import * as OPTIONS from '../options.json';
-import {getMessage} from './i18n';
-import {oouiConfirmWithStyle} from 'ext.gadget.Util';
 import {refreshEventListener} from './util/refreshEventListener';
-import {toastify} from 'ext.gadget.Toastify';
-import {tryLogout} from './tryLogout';
 
 const {skin} = mw.config.get();
 
-const clickListener = async (event: JQuery.ClickEvent): Promise<void> => {
+const clickListener = (openConfirmDialog: () => void, event: JQuery.ClickEvent): void => {
 	event.preventDefault();
-
-	const isConfirm: boolean = await oouiConfirmWithStyle(getMessage('Confirm'));
-	if (!isConfirm) {
-		return;
-	}
-
-	const toastifyInstance: ToastifyInstance = toastify(
-		{
-			text: mw.message('logging-out-notify').parse(),
-			duration: -1,
-		},
-		'info'
-	);
-	void tryLogout(toastifyInstance);
+	openConfirmDialog();
 };
 
-const addListener = ($element: JQuery): void => {
+const addListener = ($element: JQuery, openConfirmDialog: () => void): void => {
 	refreshEventListener($element, (event: JQuery.ClickEvent): void => {
-		void clickListener(event);
+		clickListener(openConfirmDialog, event);
 	});
 
 	if (skin !== 'vector-2022') {
@@ -51,7 +34,7 @@ const addListener = ($element: JQuery): void => {
 		element.replaceWith(elementClone);
 
 		refreshEventListener($body.find(SELECTOR), (event: JQuery.ClickEvent): void => {
-			void clickListener(event);
+			clickListener(openConfirmDialog, event);
 		});
 		observer.disconnect();
 	};

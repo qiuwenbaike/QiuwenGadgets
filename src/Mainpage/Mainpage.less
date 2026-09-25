@@ -51,11 +51,11 @@
 			}
 
 			.mw-body {
-				padding: 1em;
+				padding: 1rem;
 			}
 
 			.mw-portlet-lang {
-				margin: 1em 1.5em;
+				margin: 1rem 1.5rem;
 				background-color: #fff;
 				border: 1px solid #ccc;
 			}
@@ -99,14 +99,14 @@
 	display: flex;
 	flex-flow: row wrap;
 	align-items: stretch;
-	gap: 0.5em;
+	gap: 0.5rem;
 	border-radius: @border-radius--small;
 	line-height: 1.5;
 	background: transparent;
 	place-content: center center;
 
 	.skin-gongbi & {
-		padding: 1em;
+		padding: 1rem;
 	}
 
 	.client-darkmode & {
@@ -121,13 +121,13 @@
 	h2 {
 		flex: 1 1 100%;
 		max-width: 100%;
-		padding: 0.5em;
+		padding: 0.5rem;
 		border: 0;
 		border-radius: @border-radius--small;
-		margin: 0 auto 0.5em;
+		margin: 0 auto 0.5rem;
 		background: var(--mp-color, @color--primary);
 		color: @const-color-white;
-		font-size: 1.25em;
+		font-size: 1.25rem;
 		font-weight: normal;
 		text-align: center;
 
@@ -143,12 +143,12 @@
 			}
 
 			&::before {
-				margin-right: 0.5em;
+				margin-right: 0.5rem;
 				content: '［';
 			}
 
 			&::after {
-				margin-left: 0.5em;
+				margin-left: 0.5rem;
 				content: '］';
 			}
 		}
@@ -165,14 +165,13 @@
 	}
 
 	figure {
-		margin: 1em;
+		margin: 1rem;
 
-		&[typeof~='mw:File/Thumb'],
-		&[typeof~='mw:File/Frame'] {
+		&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']) {
 			border: 0;
 			background: transparent;
 			box-shadow: none;
-			margin-bottom: 1.5em;
+			margin-bottom: 1.5rem;
 
 			& > a.mw-file-description::after {
 				display: none;
@@ -181,6 +180,16 @@
 
 		img {
 			border: 0;
+		}
+
+		@media screen and (max-width: 1024px) {
+			@halign_selector: ~'.mw-halign-left, .mw-halign-right, .mw-halign-center, .mw-halign-none';
+
+			&:is([typeof~='mw:File/Thumb'], [typeof~='mw:File/Frame']):not(@{halign_selector}),
+			&:is(@{halign_selector}) {
+				margin: 1rem auto;
+				text-align: center;
+			}
 		}
 	}
 
@@ -220,8 +229,8 @@
 	}
 
 	div.caption {
-		margin: 0.5em auto;
-		font-size: 0.95em;
+		margin: 0.5rem auto;
+		font-size: 0.95rem;
 		line-height: 1.2;
 		text-align: center;
 	}
@@ -233,7 +242,7 @@
 		flex-flow: row wrap;
 		place-content: space-between center;
 		align-items: center;
-		padding: 1em;
+		padding: 1rem;
 		border-radius: @border-radius--small;
 		background: var(--mp-background-white-color, @background-color-white--light);
 		box-shadow:
@@ -250,17 +259,29 @@
 		}
 
 		& > div {
-			padding: 0.5em;
+			padding: 0.5rem;
 			flex: 1 1 100%;
+		}
+
+		@media screen and (max-width: 1024px) {
+			width: auto;
+			flex: 1 1 100%;
+			min-width: min(50vw, 30rem);
 		}
 	}
 
 	&-box {
-		flex: 1 1 25vw;
-		min-width: 20em;
+		max-width: 100%;
+		flex: 1 1 max(25vw, 20rem);
+		min-width: max(25vw, 20rem);
+
+		@media screen and (min-width: 1120px) {
+			flex: 1 1 min(25vw, 20rem);
+			min-width: min(25vw, 20rem);
+		}
 
 		img {
-			max-width: 20em;
+			max-width: 20rem;
 			height: auto;
 		}
 
@@ -277,10 +298,16 @@
 		width: 100%;
 	}
 
-	&-wide-box {
-		flex: 1 1 25vw;
+	&-wide-box,
+	&-editorial-box {
 		max-width: 100%;
-		min-width: 25em;
+		flex: 1 1 max(30vw, 25rem);
+		min-width: max(30vw, 25rem);
+
+		@media screen and (min-width: 1024px) {
+			flex: 1 1 min(30vw, 25rem);
+			min-width: min(30vw, 25rem);
+		}
 	}
 
 	&-extra-box {
@@ -298,27 +325,41 @@
 		li {
 			display: flex;
 			align-items: center;
-			font-size: 1.1em;
+			font-size: 1.1rem;
 			list-style-type: none;
 			text-align: center;
 		}
 	}
 
-	&-header {
+	&-header,
+	&-main-content,
+	&-sub-content {
 		display: flex;
 		flex: 1 1 100%;
 		max-width: 100%;
 		flex-flow: row wrap;
 		justify-content: space-between;
+		gap: 0.5rem;
 		padding: 0;
 
+		@media screen and (max-width: 1024px) {
+			min-height: 125px;
+		}
+	}
+
+	&-header {
 		.mainpage-header-bio {
 			display: flex;
 			flex: 1 1 100%;
-			gap: 1em;
+			gap: 1rem;
 			align-items: center;
 			place-content: center center;
 			flex-flow: column wrap;
+
+			@media screen and (min-width: 1024px) {
+				width: 100%;
+				margin: 0 auto;
+			}
 		}
 
 		.mainpage-slogan,
@@ -330,7 +371,7 @@
 				align-items: center;
 				place-content: center center;
 				flex-wrap: wrap;
-				gap: 0.5em;
+				gap: 0.5rem;
 			}
 		}
 
@@ -341,7 +382,7 @@
 
 		.mainpage-slogan {
 			img {
-				margin-bottom: 0.25em;
+				margin-bottom: 0.25rem;
 			}
 		}
 
@@ -353,28 +394,35 @@
 		}
 
 		&-box {
-			padding: 1em;
+			padding: 1rem;
 			position: relative;
 
 			.mainpage-login-menu {
 				display: flex;
 				flex: 1 1 100%;
 				position: relative;
-				margin: 0 1em 0 auto;
+				margin: 0 1rem 0 auto;
 				padding: 0;
 				place-content: flex-end flex-end;
 				align-items: center;
 				flex-flow: column wrap;
+
+				@media screen and (min-width: 1024px) {
+					position: absolute;
+					top: 0;
+					right: 0;
+					padding: 0;
+				}
 			}
 
 			& > div {
-				padding: 0.5em;
+				padding: 0.5rem;
 			}
 		}
 
 		.mainpage-articlecount {
 			color: @const-color-secondary;
-			font-size: 1.125em;
+			font-size: 1.125rem;
 			font-weight: normal;
 
 			.client-darkmode & {
@@ -439,11 +487,11 @@
 			place-content: center center;
 			align-items: center;
 			margin: auto;
-			gap: 0.5em 1em;
+			gap: 0.5rem 1rem;
 		}
 
 		li {
-			font-size: 1.125em;
+			font-size: 1.125rem;
 			list-style-type: none;
 			text-align: center;
 
@@ -457,7 +505,7 @@
 		.guidelist {
 			display: flex;
 			flex-flow: row wrap;
-			gap: 0.5em 1em;
+			gap: 0.5rem 1rem;
 			place-content: center space-around;
 			align-items: center;
 
@@ -466,8 +514,9 @@
 				flex-flow: row nowrap;
 				align-items: center;
 				justify-content: center;
-				gap: 0.5em 1em;
-				margin: 0.25em;
+				gap: 0.5rem 1rem;
+				margin: 0.25rem;
+				font-size: 1.125rem;
 
 				img {
 					max-width: 32px;
@@ -482,61 +531,15 @@
 			flex-wrap: wrap;
 			place-content: space-around space-evenly;
 			align-items: flex-end;
-			gap: 1em;
+			gap: 1rem;
 		}
 	}
 
 	&-feedback {
 		flex: 1 1 100%;
-		padding: 0.5em 2.5em;
+		padding: 0.5rem 2.5rem;
 		margin: 0 0 auto auto;
 		text-align: right;
-		font-size: 0.875em;
-	}
-
-	@media screen and (max-width: 1024px) {
-		&-header {
-			min-height: 125px;
-		}
-
-		&-box,
-		&-wide-box {
-			flex: 1 1 25em;
-			max-width: 100%;
-			min-width: unset;
-		}
-
-		@not_selector: ~'.mw-halign-left, .mw-halign-none, .mw-halign-center';
-
-		figure {
-			&[typeof~='mw:File/Thumb']:not(@{not_selector}),
-			&[typeof~='mw:File/Frame']:not(@{not_selector}),
-			&.mw-halign-left,
-			&.mw-halign-right,
-			&.mw-halign-center {
-				margin: auto;
-				text-align: center;
-			}
-		}
-	}
-
-	@media screen and (min-width: 1024px) {
-		&-header-box {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-
-			.mainpage-login-menu {
-				position: absolute;
-				top: 0;
-				right: 0;
-				padding: 0;
-			}
-		}
-
-		.mainpage-header-bio {
-			width: 100%;
-			margin: 0 auto;
-		}
+		font-size: 0.875rem;
 	}
 }

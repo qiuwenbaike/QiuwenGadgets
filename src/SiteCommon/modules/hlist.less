@@ -15,9 +15,7 @@
 .hlist {
 	margin-left: 0;
 
-	dl,
-	ol,
-	ul,
+	:is(dl, ol, ul),
 	dl&,
 	ol&,
 	ul& {
@@ -42,12 +40,8 @@
 	}
 
 	/* Display nested lists inline */
-	dl,
-	ol,
-	ul {
-		dl,
-		ol,
-		ul {
+	:is(dl, ol, ul) {
+		:is(dl, ol, ul) {
 			display: inline;
 
 			/* Add parens around nested lists */
@@ -65,9 +59,7 @@
 
 	&.inline {
 		&,
-		dl,
-		ol,
-		ul {
+		:is(dl, ol, ul) {
 			display: inline;
 		}
 	}
@@ -79,15 +71,12 @@
 	}
 
 	/* Generate interpuncts */
-	dd,
-	dt,
-	li {
+	:is(dd, dt, li) {
 		display: inline;
 		margin: 0 !important;
 	}
 
-	dd,
-	li {
+	:is(dd, li) {
 		&::after {
 			content: ' · ';
 			content: var(--hlist-separator, ' · ');
@@ -111,24 +100,21 @@
 	}
 
 	&-pipe {
-		dd::after,
-		li::after {
+		:is(dd, li)::after {
 			content: ' | ';
 			font-weight: normal;
 		}
 	}
 
 	&-hyphen {
-		dd::after,
-		li::after {
+		:is(dd, li)::after {
 			content: ' - ';
 			font-weight: normal;
 		}
 	}
 
 	&-comma {
-		dd::after,
-		li::after {
+		:is(dd, li)::after {
 			content: '、';
 			font-weight: normal;
 		}
@@ -159,8 +145,7 @@
 /* Unbulleted lists */
 
 .plainlist {
-	ul,
-	ol,
+	:is(ul, ol),
 	ul&,
 	ol& {
 		margin-left: 0 !important;

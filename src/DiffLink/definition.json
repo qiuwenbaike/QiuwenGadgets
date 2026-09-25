@@ -4,12 +4,11 @@
 	"section": "browser",
 	"excludeSites": ["loginwiki"],
 	"dependencies": [
+		"@wikimedia/codex",
 		"ext.gadget.i18n",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
-		"mediawiki.api",
 		"mediawiki.util",
-		"mediawiki.widgets",
-		"oojs-ui-windows"
+		"vue"
 	]
 }

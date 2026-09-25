@@ -41,13 +41,8 @@ const markGlobalLockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 		};
 	}
 
-	void (async () => {
-		for (const promise of promises) {
-			try {
-				await promise();
-			} catch {}
-		}
-	})();
+	// Errors are already caught inside each promise factory
+	void Promise.all(promises.map((promise) => promise()));
 };
 
 const markBlockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
@@ -125,13 +120,8 @@ const markBlockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 		};
 	}
 
-	void (async () => {
-		for (const promise of promises) {
-			try {
-				await promise();
-			} catch {}
-		}
-	})();
+	// Errors are already caught inside each promise factory
+	void Promise.all(promises.map((promise) => promise()));
 };
 
 const markBlockedIPLinks = (userLinks: Record<string, JQuery[]>) => {
@@ -205,13 +195,8 @@ const markBlockedIPLinks = (userLinks: Record<string, JQuery[]>) => {
 		}
 	}
 
-	void (async () => {
-		for (const promise of promises) {
-			try {
-				await promise();
-			} catch {}
-		}
-	})();
+	// Errors are already caught inside each promise factory
+	void Promise.all(promises.map((promise) => promise()));
 };
 
 export {markGlobalLockedUserLinks, markBlockedUserLinks, markBlockedIPLinks};

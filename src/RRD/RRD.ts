@@ -1,5 +1,5 @@
-import ReportButton from './components/ReportButton';
 import {getBody} from 'ext.gadget.Util';
+import {reportButton} from './modules/reportButton';
 import {showDialog} from './modules/showDialog';
 
 void getBody().then(function rrd($body: JQuery<HTMLBodyElement>): void {
@@ -12,13 +12,11 @@ void getBody().then(function rrd($body: JQuery<HTMLBodyElement>): void {
 				'.editchangetags-log-submit.mw-log-editchangetags-button',
 			].join(',')
 		)) {
-			element.after(
-				ReportButton({
-					onClick: (): void => {
-						showDialog($body);
-					},
-				})
-			);
+			const appendElement = reportButton.cloneNode(true) as HTMLButtonElement;
+			element.after(appendElement);
+			appendElement.addEventListener('click', () => {
+				showDialog($body);
+			});
 		}
 	}
 });

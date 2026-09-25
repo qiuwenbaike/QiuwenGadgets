@@ -2,6 +2,12 @@ import {localize} from 'ext.gadget.i18n';
 
 const getI18nMessages = () => {
 	return {
+		Close: localize({
+			en: 'Close',
+			ja: '閉じる',
+			'zh-hans': '关闭',
+			'zh-hant': '關閉',
+		}),
 		'Network error': localize({
 			en: 'Network error',
 			ja: 'ネットワークエラー',
@@ -33,8 +39,13 @@ const getI18nMessages = () => {
 			'zh-hans': '显示该页链接',
 			'zh-hant': '顯示該頁網址',
 		}),
+		Copy: localize({
+			en: 'Copy',
+			'zh-hans': '复制',
+			'zh-hant': '復製',
+		}),
 		'URL copied to clipboard': localize({
-			en: 'The URL has been copied to clipboard:',
+			en: 'The URL has been copied to clipboard: ',
 			'zh-hans': '已复制本页链接：',
 			'zh-hant': '已復製本頁網址：',
 		}),

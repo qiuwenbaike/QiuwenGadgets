@@ -77,6 +77,7 @@ const getPageMode = async (value: string): Promise<[string, (CodeMirrorOptions |
 	}
 	await mw.loader.using('oojs-ui-windows');
 	if (
+		// @ts-expect-error TS2304
 		await OO.ui.confirm(mw.msg('cm-mw-contentmodel'), {
 			actions: [{label: ns === 274 ? 'Widget' : 'Lua'}, {label: 'Wikitext', action: 'accept'}],
 		})

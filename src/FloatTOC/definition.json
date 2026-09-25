@@ -5,14 +5,12 @@
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
 	"dependencies": [
+		"@wikimedia/codex",
 		"ext.gadget.FilterAlteredClicks",
 		"ext.gadget.i18n",
 		"ext.gadget.Util",
-		"mediawiki.notification",
 		"mediawiki.storage",
-		"oojs-ui.styles.icons-editing-citation",
-		"oojs-ui.styles.icons-interactions",
-		"oojs-ui.styles.icons-movement"
+		"vue"
 	],
 	"skins": ["vector"]
 }
