@@ -165,7 +165,7 @@ import {api} from './api';
 			value: 'all',
 		},
 		{
-			label: window.wgULS('仅允许自动确认用户', '僅允許自動確認使用者'),
+			label: window.wgULS('仅自动确认用户', '僅自動確認使用者'),
 			value: 'autoconfirmed',
 		},
 		{
@@ -178,7 +178,11 @@ import {api} from './api';
 			selected: true,
 		},
 		{
-			label: window.wgULS('仅允许档案理事员', '僅允許檔案理事員'),
+			label: window.wgULS('仅资深编者', '僅資深編者'),
+			value: 'revisionprotected',
+		},
+		{
+			label: window.wgULS('仅裁决委员', '僅裁決委員'),
 			value: 'officialprotected',
 		},
 	];
@@ -935,7 +939,7 @@ import {api} from './api';
 			const rppRe = new RegExp(
 				`===\\s*(\\[\\[)?\\s*:?\\s*${Morebits.string.escapeRegExp(Morebits.pageNameNorm)}\\s*(\\]\\])?\\s*===`,
 				'm'
-			);
+			); // 匹配标题
 			const tag = rppRe.exec(text);
 			const rppLink = document.createElement('a');
 			rppLink.setAttribute('href', mw.util.getUrl(rppPage.getPageName()));
@@ -976,23 +980,11 @@ import {api} from './api';
 				Morebits.string.toUpperCaseFirstChar(words) +
 				(params.reason === '' ? '。' : `：${Morebits.string.formatReasonText(params.reason)}`)
 			}——~~`.concat('~~');
-			const reg = /({{\s*\/header\s*}})/;
-			const originalTextLength = text.length;
-			text = text.replace(reg, `$1\n${newtag}\n`);
-			if (text.length === originalTextLength) {
-				const linknode = document.createElement('a');
-				linknode.setAttribute('href', mw.util.getUrl('Help:Twinkle/修复RFPP'));
-				linknode.appendChild(document.createTextNode(window.wgULS('如何修复RFPP', '如何修復RFPP')));
-				statusElement.error([
-					window.wgULS(
-						'无法在QW:RFPP上找到相关定位点标记，要修复此问题，请参见',
-						'無法在QW:RFPP上找到相關定位點標記，要修復此問題，請參見'
-					),
-					linknode,
-					'。',
-				]);
-				return;
+			// 不再寻找 {{/header}}，一律追加到页尾
+			if (!text.endsWith('\n')) {
+				text += '\n';
 			}
+			text += `${newtag}\n`; // 添加新提名
 			statusElement.status('加入新提名…');
 			rppPage.setEditSummary(
 				`/* ${Morebits.pageNameNorm} */ ${window.wgULS('请求对', '請求對')}[[${Morebits.pageNameNorm}]]${
@@ -1032,42 +1024,24 @@ import {api} from './api';
 			const params = rppPage.getCallbackParameters();
 			let text = rppPage.getPageText();
 			const statusElement = rppPage.getStatusElement();
-			const sections = text.split(/(?=\n==\s*请求解除保护\s*==)/);
-			if (sections.length !== 2) {
-				const linknode2 = document.createElement('a');
-				linknode2.setAttribute('href', mw.util.getUrl('Help:Twinkle/修复RFPP'));
-				linknode2.appendChild(document.createTextNode('如何修复RFPP'));
-				statusElement.error([
-					window.wgULS(
-						'无法在QW:RFPP上找到相关定位点标记，要修复此问题，请参见',
-						'無法在QW:RFPP上找到相關定位點標記，要修復此問題，請參見'
-					),
-					linknode2,
-					'。',
-				]);
-				return;
-			}
-			let sectionText;
 			let expiryText = '';
-			if (params.type === 'unprotect') {
-				[, sectionText] = sections;
-			} else {
-				[sectionText] = sections;
+			if (params.type !== 'unprotect') {
 				// ISO timestamps are shown as Beijing wall-clock time; relative
 				// values such as "1 week" pass through formatTime unchanged
 				expiryText = /^\d{4}-\d{2}-\d{2}T/.test(params.expiry)
 					? new Morebits.date(params.expiry).format('YYYY-MM-DD HH:mm', UTC8_OFFSET_MINUTES)
 					: Morebits.string.formatTime(params.expiry);
 			}
-			const requestList = sectionText.split(/(?=\n===.+===\s*\n)/);
+			// 不再区分「保护请求」/「解除保护请求」段落，直接在整个页面按 ===...=== 拆分
+			const requestList = text.split(/(?=\n===.+===\s*\n)/);
 			let found = false;
 			const rppRe = new RegExp(
 				`===\\s*(\\[\\[)?\\s*:?\\s*${Morebits.pageNameRegex(Morebits.pageNameNorm)}\\s*(\\]\\])?\\s*===`,
 				'm'
 			);
-			for (let request of requestList) {
-				if (rppRe.exec(request)) {
-					request = request.trimEnd();
+			for (let i = 0; i < requestList.length; i++) {
+				if (rppRe.exec(requestList[i])) {
+					let request = requestList[i].trimEnd();
 					if (params.type === 'unprotect') {
 						request += '\n: {{RFPP|isun}}。——~~'.concat('~~\n');
 					} else {
@@ -1075,6 +1049,7 @@ import {api} from './api';
 							Morebits.string.isInfinity(params.expiry) ? 'infinity' : expiryText
 						}}}。——~~`.concat('~~\n');
 					}
+					requestList[i] = request;
 					found = true;
 					break;
 				}
@@ -1083,17 +1058,8 @@ import {api} from './api';
 				statusElement.warn(window.wgULS('没有找到相关的请求', '沒有找到相關的請求'));
 				return;
 			}
-			if (params.type === 'unprotect') {
-				text = sections[0] + requestList.join('');
-			} else {
-				text = requestList.join('') + sections[1];
-			}
+			text = requestList.join('');
 			let summary = '';
-			if (params.type === 'unprotect') {
-				[, sectionText] = sections;
-			} else {
-				[sectionText] = sections;
-			}
 			switch (params.type) {
 				case 'semi':
 					summary = window.wgULS('半保护', '半保護');
@@ -1164,10 +1130,13 @@ import {api} from './api';
 			let level;
 			switch (settings.level) {
 				case 'officialprotected':
-					level = window.wgULS('仅允许档案理事员', '僅允許檔案理事員');
+					level = window.wgULS('仅裁决委员', '僅裁決委員');
+					break;
+				case 'revisionprotected':
+					level = window.wgULS('仅资深编者', '僅資深編者');
 					break;
 				case 'autoconfirmed':
-					level = window.wgULS('仅允许自动确认用户', '僅允許自動確認使用者');
+					level = window.wgULS('仅自动确认用户', '僅自動確認使用者');
 					break;
 				case 'templateeditor':
 					level = window.wgULS('仅模板编辑员和管理员', '僅模板編輯員和管理員');
