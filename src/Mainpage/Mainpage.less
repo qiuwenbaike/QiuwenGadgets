@@ -237,7 +237,9 @@
 
 	&-box,
 	&-header-box,
-	&-footer-box {
+	&-footer-box,
+	&-wide-box,
+	&-editorial-box {
 		display: flex;
 		flex-flow: row wrap;
 		place-content: space-between center;
@@ -261,12 +263,6 @@
 		& > div {
 			padding: 0.5rem;
 			flex: 1 1 100%;
-		}
-
-		@media screen and (max-width: 1024px) {
-			width: auto;
-			flex: 1 1 100%;
-			min-width: min(50vw, 30rem);
 		}
 	}
 
@@ -301,12 +297,13 @@
 	&-wide-box,
 	&-editorial-box {
 		max-width: 100%;
-		flex: 1 1 max(30vw, 25rem);
-		min-width: max(30vw, 25rem);
+		flex: 1 1 min(30vw, 25rem);
+		min-width: min(30vw, 25rem);
 
-		@media screen and (min-width: 1024px) {
-			flex: 1 1 min(30vw, 25rem);
-			min-width: min(30vw, 25rem);
+		@media screen and (max-width: 1024px) {
+			width: auto;
+			flex: 1 1 100% !important;
+			min-width: min(50vw, 30rem) !important;
 		}
 	}
 
