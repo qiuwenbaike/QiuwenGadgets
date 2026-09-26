@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+/* eslint-disable class-methods-use-this */
 class Notification {
 	constructor() {
 		this.init();
@@ -7,7 +6,7 @@ class Notification {
 	init() {
 		$('body').append('<div id="MoeNotification"></div>');
 	}
-	display(text = '喵~', type = 'success', callback = () => {}) {
+	display(text = '喵~', type = 'success', callback: (ele?: JQuery<HTMLElement>) => void = () => {}): void {
 		$('#MoeNotification').append(
 			$('<div>')
 				.addClass('MoeNotification-notice')
@@ -17,7 +16,9 @@ class Notification {
 		$('#MoeNotification').find('.MoeNotification-notice').last().fadeIn(300);
 		this.bind();
 		this.clear();
-		callback($('#MoeNotification').find('.MoeNotification-notice').last());
+		if (callback && typeof callback === 'function') {
+			callback($('#MoeNotification').find('.MoeNotification-notice').last());
+		}
 	}
 	bind() {
 		const self = this;
@@ -25,13 +26,13 @@ class Notification {
 			self.slideLeft($(this));
 		});
 	}
-	success(text, callback) {
+	success(text: string, callback?: () => void) {
 		this.display(text, 'success', callback);
 	}
-	warning(text, callback) {
+	warning(text: string, callback?: () => void) {
 		this.display(text, 'warning', callback);
 	}
-	error(text, callback) {
+	error(text: string, callback?: () => void) {
 		this.display(text, 'error', callback);
 	}
 	clear() {
@@ -45,7 +46,7 @@ class Notification {
 			setTimeout(this.clear, 300);
 		}
 	}
-	empty(f) {
+	empty(f: JQuery<HTMLElement> | ((ele: JQuery<HTMLElement>) => void)) {
 		$('.MoeNotification-notice').each(function (i) {
 			if (typeof f === 'function') {
 				const ele = $(this);
@@ -61,13 +62,13 @@ class Notification {
 			}
 		});
 	}
-	slideLeft(ele, speed) {
+	slideLeft(ele: JQuery<HTMLElement>, speed = 150) {
 		ele.css('position', 'relative');
 		ele.animate(
 			{
 				left: '-200%',
 			},
-			speed || 150,
+			speed,
 			function () {
 				$(this).fadeOut('fast', function () {
 					$(this).remove();

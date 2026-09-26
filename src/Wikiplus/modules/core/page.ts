@@ -1,27 +1,25 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import Wiki from '../services/wiki';
 import Log from '../utils/log';
+import Wiki from '../services/wiki';
 
 class Page {
-	timestamp;
-	editToken;
-	title;
-	revisionId;
+	timestamp: string = '';
+	editToken: string = '';
+	title: string;
+	revisionId: number;
 
 	inited = false;
 	isNewPage = false;
 
 	contentmodel = 'wikitext';
 
-	sectionCache = {};
+	sectionCache: Record<string, string> = {};
 
 	/**
 	 * @param {params.title} 页面标题 Page Name (optional)
 	 * @param {params.revisionId} 页面修订编号 Revision Id
 	 * @param {params.contentmodel} 页面内容模型 Content Model
 	 */
-	constructor({title, revisionId}) {
+	constructor({title, revisionId}: {title: string; revisionId: number}) {
 		this.title = title;
 		this.revisionId = revisionId;
 		this.isNewPage = !revisionId;
@@ -65,10 +63,13 @@ class Page {
 	 * Get Base Timestamp
 	 */
 	async getTimestamp() {
-		const {timestamp, revisionId} = await Wiki.getPageInfo({
+		const {timestamp, revisionId} = (await Wiki.getPageInfo({
 			revisionId: this.revisionId,
 			title: this.title,
-		});
+		})) as unknown as {
+			timestamp: string;
+			revisionId: number;
+		};
 		this.timestamp = timestamp;
 		if (revisionId) {
 			this.revisionId = revisionId;
@@ -94,11 +95,11 @@ class Page {
 	 * 获得 WikiText
 	 *
 	 * @param {Object} config
-	 * @param {string} config.section
+	 * @param {string|number} config.section
 	 * @param {string} config.revisionId
 	 */
-	async getWikiText({section = ''} = {}) {
-		const sec = section === -1 ? '' : section;
+	async getWikiText({section = ''}: {section?: number | '' | -1} = {}) {
+		const sec = section === -1 ? 0 : section;
 		if (this.sectionCache[sec]) {
 			return this.sectionCache[sec];
 		}
@@ -116,8 +117,8 @@ class Page {
 	 *
 	 * @param {string} wikitext
 	 */
-	async parseWikiText(wikitext) {
-		return Wiki.parseWikiText(wikitext, this.title);
+	async parseWikiText(wikitext: string) {
+		return await Wiki.parseWikiText(wikitext, this.title);
 	}
 
 	/**
@@ -126,7 +127,7 @@ class Page {
 	 * @param {*} config
 	 * @param payload
 	 */
-	async edit(payload) {
+	async edit(payload: ApiQueryParams | ApiParseParams | ApiEditPageParams) {
 		if (!this.editToken) {
 			Log.error('fail_to_get_edittoken');
 			return;
@@ -136,7 +137,7 @@ class Page {
 			Log.error('fail_to_get_timestamp');
 			return;
 		}
-		return Wiki.edit({
+		return await Wiki.edit({
 			title: this.title,
 			editToken: this.editToken,
 			...(this.timestamp ? {timestamp: this.timestamp} : {}),

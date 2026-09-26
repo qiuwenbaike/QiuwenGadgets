@@ -1,9 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import i18n from './i18n';
 
 class WikiplusError extends Error {
-	constructor(message, code) {
+	code: string | null;
+	constructor(message: string, code: string) {
 		super(message);
 		this.code = code;
 	}
@@ -16,7 +15,7 @@ const Log = {
 	info(message = '') {
 		console.info(`[Wikiplus-INFO] ${message}`);
 	},
-	error(errorCode, payloads = []) {
+	error(errorCode: string, payloads: string[] = []) {
 		let template = i18n.translate(errorCode);
 		if (payloads.length > 0) {
 			// Fill
@@ -28,5 +27,7 @@ const Log = {
 		throw new WikiplusError(`${template}`, errorCode);
 	},
 };
+
+export {type WikiplusError};
 
 export default Log;

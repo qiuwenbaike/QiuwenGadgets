@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 class Constants {
 	version = '4.1.0';
 	get isArticle() {

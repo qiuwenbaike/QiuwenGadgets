@@ -1,11 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import requests from '../utils/requests';
+/* eslint-disable class-methods-use-this */
 import Log from '../utils/log';
 import i18n from '../utils/i18n';
+import requests from '../utils/requests';
 
 class Wiki {
-	pageInfoCache = {};
+	pageInfoCache: Record<string, {timestamp?: string; revid?: number; contentmodel: string}> = {};
 	/**
 	 * 获得 Edit Token
 	 * Get Edit Token
@@ -37,11 +36,18 @@ class Wiki {
 	 * @param {params.string} title 页面名 / Pagename
 	 * @param {params.revisionId} revisionId 修订版本号 / Revision ID
 	 * @param {params.contentmodel} contentmodel 内容模型 / Content Model
-	 * @returns {Promise<string>}
+	 * @returns {Promise<{timestamp?: string; revisionId?: number; contentmodel: string;}>}
 	 */
-	async getPageInfo({title, revisionId}) {
+	async getPageInfo({
+		title,
+		revisionId,
+	}: {
+		title: string;
+		revisionId?: number;
+		// @ts-expect-error TS7030
+	}): Promise<{timestamp?: string; revisionId?: number; contentmodel: string}> {
 		try {
-			const params = {
+			const params: ApiQueryRevisionsParams & ApiQueryInfoParams = {
 				action: 'query',
 				prop: 'revisions|info',
 				rvprop: 'timestamp|ids',
@@ -53,8 +59,8 @@ class Wiki {
 				if (this.pageInfoCache[title]) {
 					// Hit cache
 					return {
-						timestamp: this.pageInfoCache[title].timestamp,
-						revisionId: this.pageInfoCache[title].revid,
+						timestamp: this.pageInfoCache[title].timestamp as string,
+						revisionId: this.pageInfoCache[title].revid as number,
 						contentmodel: this.pageInfoCache[title].contentmodel,
 					};
 				}
@@ -63,23 +69,23 @@ class Wiki {
 			const response = await requests.get(params);
 			if (response.query && response.query.pages) {
 				const pageKey = Object.keys(response.query.pages)[0];
-				const contentmodel = response.query.pages[pageKey].contentmodel;
+				const contentmodel = response.query.pages[pageKey as string].contentmodel;
 				if (pageKey === '-1') {
 					// 不存在这一页面
 					// Page not found.
 					this.pageInfoCache[title] = {contentmodel};
 					return {
-						contentmodel: contentmodel,
+						contentmodel,
 					};
 				}
-				const pageInfo = response.query.pages[pageKey].revisions[0];
+				const pageInfo = response.query.pages[pageKey as string].revisions[0];
 				if (title) {
 					this.pageInfoCache[title] = {...pageInfo, contentmodel};
 				}
 				return {
 					timestamp: pageInfo.timestamp,
 					revisionId: pageInfo.revid,
-					contentmodel: contentmodel,
+					contentmodel,
 				};
 			}
 		} catch {
@@ -90,15 +96,14 @@ class Wiki {
 	 * 获得页面的 Wikitext
 	 * Get wikitext of the page.
 	 *
-	 * @param {string} title title
 	 * @param {Object} config
-	 * @param {string} config.revisionId 版本号
+	 * @param {number} config.revisionId 版本号
 	 * @param {string} config.section 段落号
 	 * @return {Promise<string>} wikitext内容
 	 */
-	async getWikiText({section, revisionId}) {
+	async getWikiText({section, revisionId}: {section: number | string; revisionId: number}) {
 		try {
-			const params = {
+			const params: ApiQueryRevisionsParams = {
 				action: 'query',
 				prop: 'revisions',
 				rvprop: 'content',
@@ -118,7 +123,7 @@ class Wiki {
 					// Page not found.
 					return '';
 				}
-				const pageInfo = response.query.pages[Object.keys(response.query.pages)[0]].revisions[0];
+				const pageInfo = response.query.pages[Object.keys(response.query.pages)[0] as string].revisions[0];
 				return pageInfo['*'];
 			}
 		} catch {
@@ -133,7 +138,8 @@ class Wiki {
 	 * @param {Object} config 设置
 	 * @return {Promise<string>} 解析结果 HTML
 	 */
-	async parseWikiText(wikitext, title = '', config = {}) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async parseWikiText(wikitext: string, title = '', _config = {}) {
 		try {
 			const response = await requests.post({
 				format: 'json',
@@ -161,6 +167,7 @@ class Wiki {
 	 * @param root0.config
 	 * @param root0.additionalConfig
 	 */
+	// @ts-expect-error TS7030
 	async edit({title, content, editToken, timestamp, config = {}, additionalConfig = {}} = {}) {
 		let response;
 		try {
@@ -206,7 +213,7 @@ class Wiki {
 	 *
 	 * @param {*} title
 	 */
-	async getLatestRevisionIdForPage(title) {
+	async getLatestRevisionIdForPage(title: string) {
 		const {revisionId} = await this.getPageInfo({title});
 		return revisionId;
 	}
