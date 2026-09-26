@@ -101,7 +101,7 @@ class Wiki {
 	 * @param {string} config.section 段落号
 	 * @return {Promise<string>} wikitext内容
 	 */
-	async getWikiText({section, revisionId}: {section: number | string; revisionId: number}) {
+	async getWikiText({section, revisionId}: {section: string | number; revisionId: number}) {
 		try {
 			const params: ApiQueryRevisionsParams = {
 				action: 'query',
