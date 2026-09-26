@@ -1,7 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+/* eslint-disable class-methods-use-this */
 class Settings {
-	getSetting(key, object = {}) {
+	getSetting(key: string, object: Record<string, string> = {}) {
 		const w = object;
 		let settings;
 		try {
@@ -27,7 +26,7 @@ class Settings {
 			try {
 				let result = settings[key];
 				for (const key of Object.keys(object)) {
-					result = result.replace(`\${${key}}`, object[key]);
+					result = result.replace(`\${${key}}`, object[key] as string);
 				}
 				return result;
 			} catch {}

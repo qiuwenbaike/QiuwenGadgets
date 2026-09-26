@@ -1,22 +1,23 @@
 import './Wikiplus.less';
+import {getBody} from 'ext.gadget.Util';
+import {resizeWikiplus} from './resize';
 
-(function Wikiplus(): void {
+void getBody().then(async function Wikiplus($body: JQuery<HTMLBodyElement>): Promise<void> {
 	const {wgAction, wgIsArticle} = mw.config.get();
 	if (wgAction !== 'view' || !wgIsArticle) {
 		return;
 	}
 
-	const loader = async (): Promise<void> => {
-		const {'visualeditor-enable': isVeEnable} = mw.user.options.get() as Record<string, unknown>;
+	const {'visualeditor-enable': isVeEnable} = mw.user.options.get() as Record<string, unknown>;
 
-		/* see <https://github.com/Wikiplus/Wikiplus/issues/65> */
-		if (isVeEnable) {
-			await mw.loader.using('ext.visualEditor.core');
-		}
+	/* see <https://github.com/Wikiplus/Wikiplus/issues/65> */
+	if (isVeEnable) {
+		await mw.loader.using('ext.visualEditor.core');
+	}
 
-		await import('./modules/index');
-		await import('./resize');
-	};
+	// import main function
+	await import('./modules/index');
 
-	void loader();
-})();
+	// resize Wikiplus window
+	resizeWikiplus($body);
+});

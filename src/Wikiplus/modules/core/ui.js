@@ -32,7 +32,7 @@ class UI {
 			.addClass('Wikiplus-InterBox')
 			.css({
 				'margin-left': clientWidth / 2 - dialogWidth / 2,
-				top: $(document).scrollTop() + clientHeight * 0.2,
+				top: $(document).scrollTop() || 0 + clientHeight * 0.2,
 				display: 'none',
 			})
 			.append($('<div>').addClass('Wikiplus-InterBox-Header').html(title))
@@ -44,11 +44,11 @@ class UI {
 			$(this)
 				.parent()
 				.fadeOut('fast', function () {
-					window.addEventListener('close', (window.onbeforeunload = undefined)); // 取消页面关闭确认
+					window.addEventListener('close', () => (window.onbeforeunload = undefined)); // 取消页面关闭确认
 					$(this).remove();
 				});
 		});
-		//拖曳
+		// 拖曳
 		const bindDragging = function (element) {
 			element.mousedown((e) => {
 				const baseX = e.clientX;
@@ -224,9 +224,9 @@ class UI {
 								.attr('href', 'javascript:void(0)')
 								.text(i18n.translate('quickedit_sectionbtn'))
 						);
-		$('.mw-editsection').each(function (i) {
+		$('.mw-editsection').each(function () {
 			try {
-				const editURL = $(this).find("a[href*='action=edit']").first().attr('href');
+				const editURL = $(this).find("a[href*='action=edit']").first().attr('href') || '';
 				const sectionNumber = editURL
 					.match(/&[ve]*section\=([^&]+)/)[1] // `ve` for visual editor
 					.replace(/T-/gi, ''); // embedded pages use T-series section number
@@ -257,10 +257,10 @@ class UI {
 	 * @param {*} onClick
 	 */
 	insertLinkEditEntries(onClick = () => {}) {
-		$('#mw-content-text a.external').each(function (i) {
+		$('#mw-content-text a.external').each(function () {
 			const url = $(this).attr('href');
 			const params = parseQuery(url);
-			if (params.action === 'edit' && params.title !== undefined && params.section !== 'new') {
+			if (params['action'] === 'edit' && params['title'] !== undefined && params['section'] !== 'new') {
 				$(this).after(
 					$('<a>')
 						.attr({
@@ -270,8 +270,8 @@ class UI {
 						.text(`(${i18n.translate('quickedit_sectionbtn')})`)
 						.on('click', () => {
 							onClick({
-								targetPageName: params.title,
-								sectionNumber: params.section ?? -1,
+								targetPageName: params['title'],
+								sectionNumber: params['section'] ?? -1,
 							});
 						})
 				);
@@ -289,7 +289,7 @@ class UI {
 		escExit = false,
 	}) {
 		const self = this;
-		this.scrollTop = $(document).scrollTop();
+		this.scrollTop = $(document).scrollTop() || 0;
 		if (this.quickEditPanelVisible) {
 			this.hideQuickEditPanel();
 		}
@@ -401,7 +401,7 @@ class UI {
 				$('#Wikiplus-Quickedit-Preview-Output')
 					.find('.Wikiplus-Banner')
 					.text(`${i18n.translate('edit_success', [useTime.toString()])}`);
-				window.addEventListener('close', (window.onbeforeunload = undefined)); //取消页面关闭确认
+				window.addEventListener('close', () => (window.onbeforeunload = undefined)); // 取消页面关闭确认
 				setTimeout(() => {
 					location.reload();
 				}, 500);
@@ -416,7 +416,7 @@ class UI {
 				);
 			}
 		});
-		//Ctrl+S提交 Ctrl+Shift+S小编辑
+		// Ctrl+S提交 Ctrl+Shift+S小编辑
 		$('#Wikiplus-Quickedit,#Wikiplus-Quickedit-Summary-Input,#Wikiplus-Quickedit-MinorEdit').on('keydown', (e) => {
 			if (e.ctrlKey && e.which === 83) {
 				if (e.shiftKey) {
@@ -427,7 +427,7 @@ class UI {
 				e.stopPropagation();
 			}
 		});
-		//Esc退出
+		// Esc退出
 		if (escExit) {
 			$(document).on('keydown', (e) => {
 				if (e.which === 27) {
@@ -440,7 +440,7 @@ class UI {
 	hideQuickEditPanel() {
 		this.quickEditPanelVisible = false;
 		$('.Wikiplus-InterBox').fadeOut('fast', function () {
-			window.addEventListener('close', (window.onbeforeunload = undefined)); //取消页面关闭确认
+			window.addEventListener('close', () => (window.onbeforeunload = undefined)); // 取消页面关闭确认
 			$(this).remove();
 		});
 	}
@@ -474,7 +474,7 @@ class UI {
 			.append(summaryInput)
 			.append($('<hr>'))
 			.append(applyBtn)
-			.append(cancelBtn); //拼接
+			.append(cancelBtn); // 拼接
 		const dialog = this.createDialogBox(i18n.translate('redirect_desc'), content, 600);
 		applyBtn.on('click', async () => {
 			const title = $('#Wikiplus-SR-Title').val();
@@ -544,13 +544,13 @@ class UI {
 			.addClass('Wikiplus-InterBox-Btn')
 			.attr('id', 'Wikiplus-Setting-Cancel')
 			.text(i18n.translate('cancel'));
-		const content = $('<div>').append(input).append($('<hr>')).append(applyBtn).append(cancelBtn); //拼接
+		const content = $('<div>').append(input).append($('<hr>')).append(applyBtn).append(cancelBtn); // 拼接
 
 		const dialog = this.createDialogBox(i18n.translate('wikiplus_settings_desc'), content, 600, () => {
-			if (localStorage.Wikiplus_Settings) {
-				$('#Wikiplus-Setting-Input').val(localStorage.Wikiplus_Settings);
+			if (localStorage['Wikiplus_Settings']) {
+				$('#Wikiplus-Setting-Input').val(localStorage['Wikiplus_Settings']);
 				try {
-					const settings = JSON.parse(localStorage.Wikiplus_Settings);
+					const settings = JSON.parse(localStorage['Wikiplus_Settings']);
 					$('#Wikiplus-Setting-Input').val(JSON.stringify(settings, null, 2));
 				} catch {
 					// ignore

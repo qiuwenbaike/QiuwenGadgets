@@ -4,15 +4,15 @@
  */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import Page from './core/page';
-import UI from './core/ui';
-import Notification from './core/notification';
-import Wiki from './services/wiki';
-import Settings from './utils/settings';
-import Log from './utils/log';
-import Constants from './utils/constants';
-import i18n from './utils/i18n';
 import './wikiplus.less';
+import Constants from './utils/constants';
+import Log from './utils/log';
+import Notification from './core/notification';
+import Page from './core/page';
+import Settings from './utils/settings';
+import UI from './core/ui';
+import Wiki from './services/wiki';
+import i18n from './utils/i18n';
 
 $(async () => {
 	const Pages = {};
@@ -139,12 +139,12 @@ $(async () => {
 	};
 
 	const handleSimpleRedirectButtonClicked = async () => {
-		UI.showSimpleRedirectPanel({
+		await UI.showSimpleRedirectPanel({
 			onEdit: async ({title, summary, forceOverwrite = false}) => {
 				const page = await getPage({title});
 				const currentPageName = Constants.currentPageName;
 				const contentmodel = page.contentmodel;
-				if (summary == '') {
+				if (summary === '') {
 					summary = i18n.translate('redirect_from_summary', [title, currentPageName]);
 				}
 				const content = (() => {
@@ -175,7 +175,7 @@ $(async () => {
 					return content;
 				})();
 				const payload = {
-					content: content,
+					content,
 					config: {
 						summary,
 					},
@@ -192,7 +192,7 @@ $(async () => {
 	};
 
 	const handleSettingsButtonClicked = async () => {
-		UI.showSettingsPanel({
+		await UI.showSettingsPanel({
 			onSubmit: ({settings}) => {
 				JSON.parse(settings);
 				localStorage.setItem('Wikiplus_Settings', settings);
