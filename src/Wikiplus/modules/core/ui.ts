@@ -48,15 +48,13 @@ class UI {
 			$(this)
 				.parent()
 				.fadeOut('fast', () => {
-					window.addEventListener('close', () => {
-						window.onbeforeunload = () => {};
-					}); // 取消页面关闭确认
+					window.addEventListener('close', (window.onbeforeunload = () => undefined)); // 取消页面关闭确认
 					$(this).remove();
 				});
 		});
 		// 拖曳
 		const bindDragging = (element: JQuery<HTMLElement>) => {
-			element.mousedown((e) => {
+			element.on('mousedown', (e) => {
 				const baseX = e.clientX;
 				const baseY = e.clientY;
 				const baseOffsetX = element.parent().offset()?.left || 0;
@@ -347,7 +345,12 @@ class UI {
 		}
 		this.quickEditPanelVisible = true;
 		// 防止手滑关闭页面
-		window.addEventListener('close', (window.onbeforeunload = () => `${i18n.translate('onclose_confirm')}`));
+		window.addEventListener(
+			'close',
+			(window.onbeforeunload = function () {
+				return `${i18n.translate('onclose_confirm')}`;
+			})
+		);
 		const isNewPage = $('.noarticletext').length > 0;
 		// DOM 定义开始
 		const backBtn = $('<span>')
@@ -448,9 +451,7 @@ class UI {
 				$('#Wikiplus-Quickedit-Preview-Output')
 					.find('.Wikiplus-Banner')
 					.text(`${i18n.translate('edit_success', [useTime.toString()])}`);
-				window.addEventListener('close', () => {
-					window.onbeforeunload = () => {};
-				}); // 取消页面关闭确认
+				window.addEventListener('close', (window.onbeforeunload = () => undefined)); // 取消页面关闭确认
 				setTimeout(() => {
 					location.reload();
 				}, 500);
@@ -489,9 +490,7 @@ class UI {
 	hideQuickEditPanel() {
 		this.quickEditPanelVisible = false;
 		$('.Wikiplus-InterBox').fadeOut('fast', () => {
-			window.addEventListener('close', () => {
-				window.onbeforeunload = () => {};
-			}); // 取消页面关闭确认
+			window.addEventListener('close', (window.onbeforeunload = () => undefined)); // 取消页面关闭确认
 			$(this).remove();
 		});
 	}

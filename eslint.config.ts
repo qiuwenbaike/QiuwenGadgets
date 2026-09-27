@@ -39,7 +39,13 @@ export default defineConfig([
 			'accessor-pairs': 'error',
 			'arrow-body-style': ['error', 'always'],
 			'capitalized-comments': 'off',
-			'class-methods-use-this': 'error',
+			'class-methods-use-this': [
+				'error',
+				{
+					enforceForClassFields: false,
+					ignoreOverrideMethods: true,
+				},
+			],
 			complexity: 'off',
 			'consistent-return': 'off',
 			'consistent-this': 'off',

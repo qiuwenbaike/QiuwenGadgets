@@ -28,6 +28,6 @@ const Log = {
 	},
 };
 
-export {type WikiplusError};
+export {WikiplusError};
 
 export default Log;

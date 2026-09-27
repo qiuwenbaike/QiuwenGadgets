@@ -15,7 +15,7 @@ const Requests = {
 		});
 		return await response.json();
 	},
-	async post(payload: ApiQueryParams | ApiParseParams | ApiEditPageParams) {
+	async post(payload: ApiParseParams | ApiEditPageParams) {
 		const url = new URL(Requests.base);
 		const form = new FormData();
 		for (const [key, value] of Object.entries(payload)) {
