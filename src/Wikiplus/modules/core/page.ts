@@ -66,7 +66,7 @@ class Page {
 		const {timestamp, revisionId} = (await Wiki.getPageInfo({
 			revisionId: this.revisionId,
 			title: this.title,
-		})) as unknown as {
+		})) as {
 			timestamp: string;
 			revisionId: number;
 		};
@@ -87,7 +87,7 @@ class Page {
 		const {contentmodel} = (await Wiki.getPageInfo({
 			revisionId: this.revisionId,
 			title: this.title,
-		})) as {contentmodel: string};
+		})) as {timestamp?: string; revisionId?: number; contentmodel: string};
 		this.contentmodel = contentmodel || 'wikitext';
 	}
 
