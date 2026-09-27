@@ -7,8 +7,7 @@ class I18n {
 		try {
 			language = JSON.parse(localStorage['Wikiplus_Settings'])['language'] || navigator.language.toLowerCase();
 		} catch {
-			// @ts-expect-error TS2339
-			language = (navigator.language || navigator.browserLanguage)
+			language = navigator.language
 				.replace(/han[st]-?/i, '') // for languages like zh-Hans-CN
 				.toLowerCase();
 		}

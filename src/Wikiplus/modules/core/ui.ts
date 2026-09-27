@@ -47,15 +47,15 @@ class UI {
 		$('.Wikiplus-InterBox-Close').on('click', function () {
 			$(this)
 				.parent()
-				.fadeOut('fast', function () {
+				.fadeOut('fast', () => {
 					window.addEventListener('close', () => {
-						window.onbeforeunload = null;
+						window.onbeforeunload = () => {};
 					}); // 取消页面关闭确认
 					$(this).remove();
 				});
 		});
 		// 拖曳
-		const bindDragging = function (element: JQuery<HTMLElement>) {
+		const bindDragging = (element: JQuery<HTMLElement>) => {
 			element.mousedown((e) => {
 				const baseX = e.clientX;
 				const baseY = e.clientY;
@@ -89,8 +89,7 @@ class UI {
 	 * @param {string} id 按钮id Button id
 	 * @return {JQuery<HTMLElement>} button
 	 */
-	// @ts-expect-error TS7030
-	addFunctionButton(text, id) {
+	addFunctionButton(text: string, id: string): JQuery<HTMLElement> | void {
 		let button;
 		switch (Constants.skin) {
 			case 'minerva':
@@ -167,8 +166,15 @@ class UI {
 	 * @param onClick
 	 */
 	insertTopQuickEditEntry(onClick: {
-		(arg0?: {sectionNumber: number; sectionName: string; targetPageName: string}): Promise<void>;
-		(arg0: {sectionNumber: number; targetPageName: string}): void;
+		({
+			sectionNumber,
+			sectionName,
+			targetPageName,
+		}: {
+			sectionNumber: number;
+			sectionName?: string;
+			targetPageName: string;
+		}): void | Promise<void>;
 	}) {
 		const topBtn = $('<li>').attr('id', 'Wikiplus-Edit-TopBtn').attr('class', 'mw-list-item');
 		const topBtnLink = $('<a>')
@@ -219,12 +225,17 @@ class UI {
 	 * @param onClick
 	 */
 	insertSectionQuickEditEntries(
-		onClick: (onClick?: {
-			sectionNumber: string | number;
-			sectionName: string;
+		onClick: ({
+			sectionNumber,
+			sectionName,
+			targetPageName,
+		}: {
+			sectionNumber?: string | number;
+			sectionName?: string;
 			targetPageName: string;
-		}) => void = () => {}
+		}) => Promise<void> | void
 	) {
+		onClick ||= () => {};
 		const sectionBtn =
 			Constants.skin === 'minerva'
 				? $('<span>').append(
@@ -279,8 +290,17 @@ class UI {
 	 * @param {*} onClick
 	 */
 	insertLinkEditEntries(
-		onClick: (arg0: {targetPageName: string; sectionNumber: string | number}) => void = () => {}
+		onClick: ({
+			sectionNumber,
+			sectionName,
+			targetPageName,
+		}: {
+			sectionNumber?: string | number;
+			sectionName?: string;
+			targetPageName: string;
+		}) => Promise<void> | void
 	) {
+		onClick ||= () => {};
 		$('#mw-content-text a.external').each(function () {
 			const url = $(this).attr('href') || '';
 			const params = parseQuery(url);
@@ -308,16 +328,16 @@ class UI {
 		content = '',
 		summary = '',
 		onBack = () => {},
-		onParse = () => {},
-		onEdit = () => {},
+		onParse = async () => {},
+		onEdit = async () => {},
 		escExit = false,
 	}: {
 		title: string;
 		content: string;
 		summary: string;
 		onBack: () => void;
-		onParse: (wikitext: string) => void | Promise<void>;
-		onEdit: (arg0: {summary: string; content: string; isMinorEdit: boolean}) => void;
+		onParse: (wikitext: string) => Promise<void>;
+		onEdit: (arg0: {summary: string; content: string; isMinorEdit: boolean}) => Promise<void>;
 		escExit: boolean;
 	}) {
 		const self = this;
@@ -327,12 +347,7 @@ class UI {
 		}
 		this.quickEditPanelVisible = true;
 		// 防止手滑关闭页面
-		window.addEventListener(
-			'close',
-			(window.onbeforeunload = function () {
-				return `${i18n.translate('onclose_confirm')}`;
-			})
-		);
+		window.addEventListener('close', (window.onbeforeunload = () => `${i18n.translate('onclose_confirm')}`));
 		const isNewPage = $('.noarticletext').length > 0;
 		// DOM 定义开始
 		const backBtn = $('<span>')
@@ -434,7 +449,7 @@ class UI {
 					.find('.Wikiplus-Banner')
 					.text(`${i18n.translate('edit_success', [useTime.toString()])}`);
 				window.addEventListener('close', () => {
-					window.onbeforeunload = null;
+					window.onbeforeunload = () => {};
 				}); // 取消页面关闭确认
 				setTimeout(() => {
 					location.reload();
@@ -473,9 +488,9 @@ class UI {
 
 	hideQuickEditPanel() {
 		this.quickEditPanelVisible = false;
-		$('.Wikiplus-InterBox').fadeOut('fast', function () {
+		$('.Wikiplus-InterBox').fadeOut('fast', () => {
 			window.addEventListener('close', () => {
-				window.onbeforeunload = null;
+				window.onbeforeunload = () => {};
 			}); // 取消页面关闭确认
 			$(this).remove();
 		});
@@ -489,12 +504,12 @@ class UI {
 	 * @param root0.onSuccess
 	 */
 	showSimpleRedirectPanel({
-		onEdit = () => {},
+		onEdit = async () => {},
 		onSuccess = () => {},
 	}: {
-		onEdit?: (arg0: {title: string; summary: string; forceOverwrite: boolean}) => void;
+		onEdit?: (arg0: {title: string; summary: string; forceOverwrite: boolean}) => Promise<void>;
 		onSuccess?: (arg0: {title: string}) => void;
-	} = {}) {
+	}) {
 		const input = $('<input>').addClass('Wikiplus-InterBox-Input').attr('id', 'Wikiplus-SR-Title');
 		const summaryInputTitle = $('<p>').text(i18n.translate('redirect_summary_desc'));
 		const summaryInput = $('<input>').addClass('Wikiplus-InterBox-Input').attr('id', 'Wikiplus-SR-Summary');
@@ -630,8 +645,8 @@ class UI {
 		$('#toc')
 			.children('ul')
 			.find('a')
-			.each(function (i) {
-				$(this).on('mouseover', function () {
+			.each((i) => {
+				$(this).on('mouseover', () => {
 					$(this).off('mouseover');
 					onPreload({
 						sectionNumber: i + 1,

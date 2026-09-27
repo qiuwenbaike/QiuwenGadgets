@@ -19,7 +19,7 @@ class Page {
 	 * @param {params.revisionId} 页面修订编号 Revision Id
 	 * @param {params.contentmodel} 页面内容模型 Content Model
 	 */
-	constructor({title, revisionId}: {title: string; revisionId: number}) {
+	constructor({title, revisionId = 0}: {title: string; revisionId: number}) {
 		this.title = title;
 		this.revisionId = revisionId;
 		this.isNewPage = !revisionId;
@@ -31,7 +31,7 @@ class Page {
 	 *
 	 * @param {string} editToken (optional) 如果提供了editToken，将不会再获取
 	 */
-	async init({editToken = ''} = {}) {
+	async init({editToken}: {editToken: string} = {editToken: ''}) {
 		const promiseArr = [this.getTimestamp(), this.getContentModel()];
 		if (!editToken) {
 			promiseArr.push(this.getEditToken());
@@ -84,10 +84,10 @@ class Page {
 	 * @param {string} config.revisionId
 	 */
 	async getContentModel() {
-		const {contentmodel} = await Wiki.getPageInfo({
+		const {contentmodel} = (await Wiki.getPageInfo({
 			revisionId: this.revisionId,
 			title: this.title,
-		});
+		})) as {contentmodel: string};
 		this.contentmodel = contentmodel || 'wikitext';
 	}
 
@@ -98,7 +98,7 @@ class Page {
 	 * @param {string|number} config.section
 	 * @param {string} config.revisionId
 	 */
-	async getWikiText({section = ''}: {section?: number | '' | -1} = {}) {
+	async getWikiText({section = ''}: {section?: number | string} = {}) {
 		const sec = section === -1 ? 0 : section;
 		if (this.sectionCache[sec]) {
 			return this.sectionCache[sec];
@@ -125,9 +125,9 @@ class Page {
 	 * 编辑页面
 	 *
 	 * @param {*} config
-	 * @param payload
+	 * @param {ApiEditPageParams} payload
 	 */
-	async edit(payload: ApiQueryParams | ApiParseParams | ApiEditPageParams) {
+	async edit(payload: ApiEditPageParams) {
 		if (!this.editToken) {
 			Log.error('fail_to_get_edittoken');
 			return;
