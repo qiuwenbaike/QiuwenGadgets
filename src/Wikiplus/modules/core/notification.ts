@@ -46,9 +46,9 @@ class Notification {
 			setTimeout(this.clear, 300);
 		}
 	}
-	empty(f: JQuery<HTMLElement> | ((ele: JQuery<HTMLElement>) => void)) {
+	empty(f?: (ele: JQuery<HTMLElement>) => void) {
 		$('.MoeNotification-notice').each(function (i) {
-			if (typeof f === 'function') {
+			if (f && typeof f === 'function') {
 				const ele = $(this);
 				setTimeout(() => {
 					f(ele);

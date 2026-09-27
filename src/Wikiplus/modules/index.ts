@@ -2,8 +2,6 @@
  * Wikiplus
  * Eridanus Sora <sora@sound.moe>
  */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import './wikiplus.less';
 import Constants from './utils/constants';
 import Log from './utils/log';
@@ -15,7 +13,7 @@ import Wiki from './services/wiki';
 import i18n from './utils/i18n';
 
 $(async () => {
-	const Pages = {};
+	const Pages: Record<number, Page> = {};
 	const isCurrentPageEmpty = $('.noarticletext').length > 0 && Constants.articleId === 0;
 
 	/**
@@ -25,7 +23,7 @@ $(async () => {
 	 * @param {number} params.revisionId 页面修订版本号
 	 * @param {string} params.title 页面标题
 	 */
-	const getPage = async ({revisionId, title}) => {
+	const getPage = async ({revisionId = 0, title}: {revisionId?: number; title: string}) => {
 		if (Pages[revisionId]) {
 			return Pages[revisionId];
 		}
@@ -44,7 +42,7 @@ $(async () => {
 		console.log('Mediawiki JavaScript not loaded or not a Mediawiki website.');
 		return;
 	}
-	if (!Constants.userGroups.includes('autoconfirmed') && !Constants.userGroups.includes('confirmed')) {
+	if (!Constants.userGroups?.includes('autoconfirmed') && !Constants.userGroups?.includes('confirmed')) {
 		Notification.error(i18n.translate('not_autoconfirmed_user'));
 		Log.info(i18n.translate('not_autoconfirmed_user'));
 		return;
@@ -64,7 +62,15 @@ $(async () => {
 		title: currentPageName,
 	});
 
-	const handleQuickEditButtonClicked = async ({sectionNumber, sectionName, targetPageName} = {}) => {
+	const handleQuickEditButtonClicked = async ({
+		sectionNumber,
+		sectionName,
+		targetPageName,
+	}: {
+		sectionNumber?: string | number;
+		sectionName?: string;
+		targetPageName: string;
+	}): Promise<void> => {
 		const isOtherPage = targetPageName !== currentPageName;
 		if (isOtherPage && Constants.latestRevisionId !== Constants.revisionId) {
 			// 在历史版本编辑其他页面有问题 暂时不支持
@@ -75,8 +81,8 @@ $(async () => {
 
 		const page = await getPage({revisionId, title: targetPageName});
 		const customSummary = Settings.getSetting('defaultSummary', {
-			sectionName,
-			sectionNumber,
+			sectionName: sectionName as string,
+			sectionNumber: sectionNumber as number,
 			sectionTargetName: targetPageName,
 		});
 		const summary =
@@ -88,7 +94,7 @@ $(async () => {
 			Notification.success(i18n.translate('loading'));
 		}, 200);
 		const sectionContent = await page.getWikiText({
-			section: sectionNumber,
+			section: sectionNumber as number,
 		});
 		const isEditHistoryRevision = !isOtherPage && Constants.latestRevisionId !== Constants.revisionId;
 		const escToExit =
@@ -97,7 +103,7 @@ $(async () => {
 			Settings.getSetting('escToExitQuickEdit') === true ||
 			Settings.getSetting('escToExitQuickEdit') === 'true';
 		const customEditTags = Settings.getSetting('custom_edit_tags');
-		const defaultEditTags = [];
+		const defaultEditTags: string[] = [];
 		const editTags = customEditTags?.length ? customEditTags : defaultEditTags;
 		clearTimeout(timer);
 		Notification.empty();
@@ -119,7 +125,7 @@ $(async () => {
 				return page.parseWikiText(wikiText);
 			},
 			onEdit: async ({content, summary, isMinorEdit}) => {
-				const editPayload = {
+				const editPayload: ApiEditPageParams = {
 					content,
 					config: {
 						summary,
@@ -138,8 +144,8 @@ $(async () => {
 		});
 	};
 
-	const handleSimpleRedirectButtonClicked = async () => {
-		await UI.showSimpleRedirectPanel({
+	const handleSimpleRedirectButtonClicked = () => {
+		UI.showSimpleRedirectPanel({
 			onEdit: async ({title, summary, forceOverwrite = false}) => {
 				const page = await getPage({title});
 				const currentPageName = Constants.currentPageName;
@@ -174,7 +180,7 @@ $(async () => {
 					}
 					return content;
 				})();
-				const payload = {
+				const payload: ApiEditPageParams = {
 					content,
 					config: {
 						summary,
@@ -191,8 +197,8 @@ $(async () => {
 		});
 	};
 
-	const handleSettingsButtonClicked = async () => {
-		await UI.showSettingsPanel({
+	const handleSettingsButtonClicked = () => {
+		UI.showSettingsPanel({
 			onSubmit: ({settings}) => {
 				JSON.parse(settings);
 				localStorage.setItem('Wikiplus_Settings', settings);
@@ -200,7 +206,7 @@ $(async () => {
 		});
 	};
 
-	const handlePreload = async ({sectionNumber}) => {
+	const handlePreload = async ({sectionNumber}: {sectionNumber: number}) => {
 		await currentPage.getWikiText({
 			section: sectionNumber,
 		});

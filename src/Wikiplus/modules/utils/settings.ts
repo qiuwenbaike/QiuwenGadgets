@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 class Settings {
-	getSetting(key: string, object: Record<string, string> = {}) {
+	getSetting(key: string, object: Record<string, string | number> = {}) {
 		const w = object;
 		let settings;
 		try {

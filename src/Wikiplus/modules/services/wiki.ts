@@ -27,7 +27,7 @@ class Wiki {
 		) {
 			return response.query.tokens.csrftoken;
 		}
-		return Log.error('fail_to_get_edittoken');
+		Log.error('fail_to_get_edittoken');
 	}
 	/**
 	 * 获得页面上一版本时间戳
@@ -44,8 +44,7 @@ class Wiki {
 	}: {
 		title: string;
 		revisionId?: number;
-		// @ts-expect-error TS7030
-	}): Promise<{timestamp?: string; revisionId?: number; contentmodel: string}> {
+	}): Promise<{timestamp?: string; revisionId?: number; contentmodel: string} | void> {
 		try {
 			const params: ApiQueryRevisionsParams & ApiQueryInfoParams = {
 				action: 'query',
@@ -167,8 +166,21 @@ class Wiki {
 	 * @param root0.config
 	 * @param root0.additionalConfig
 	 */
-	// @ts-expect-error TS7030
-	async edit({title, content, editToken, timestamp, config = {}, additionalConfig = {}} = {}) {
+	async edit({
+		title,
+		content,
+		editToken,
+		timestamp,
+		config = {},
+		additionalConfig = {},
+	}: {
+		title: string;
+		content: string;
+		editToken: string;
+		timestamp: string;
+		config: Partial<ApiEditPageParams>;
+		additionalConfig: Partial<ApiEditPageParams>;
+	}): Promise<true | void> {
 		let response;
 		try {
 			response = await requests.post({
@@ -214,7 +226,9 @@ class Wiki {
 	 * @param {*} title
 	 */
 	async getLatestRevisionIdForPage(title: string) {
-		const {revisionId} = await this.getPageInfo({title});
+		const {revisionId} = (await this.getPageInfo({title})) as {
+			revisionId: number;
+		};
 		return revisionId;
 	}
 }
