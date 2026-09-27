@@ -19,7 +19,7 @@ $(async () => {
 	/**
 	 * Get page instance.
 	 *
-	 * @param {*} params
+	 * @param {Object} params
 	 * @param {number} params.revisionId 页面修订版本号
 	 * @param {string} params.title 页面标题
 	 */
@@ -66,11 +66,7 @@ $(async () => {
 		sectionNumber,
 		sectionName,
 		targetPageName,
-	}: {
-		sectionNumber?: string | number;
-		sectionName?: string;
-		targetPageName: string;
-	}): Promise<void> => {
+	}: OnClickParams): Promise<void> => {
 		const isOtherPage = targetPageName !== currentPageName;
 		if (isOtherPage && Constants.latestRevisionId !== Constants.revisionId) {
 			// 在历史版本编辑其他页面有问题 暂时不支持
@@ -219,5 +215,3 @@ $(async () => {
 	UI.insertSettingsPanelButton(handleSettingsButtonClicked);
 	UI.bindPreloadEvents(handlePreload);
 });
-
-export {};

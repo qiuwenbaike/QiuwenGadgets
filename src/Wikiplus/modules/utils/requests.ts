@@ -5,7 +5,11 @@ const Requests = {
 	async get(query: ApiQueryParams | ApiParseParams | ApiEditPageParams) {
 		const url = new URL(Requests.base);
 		for (const key of Object.keys(query)) {
-			url.searchParams.append(key, query[key]);
+			if (Array.isArray(query[key])) {
+				url.searchParams.append(key, query[key].join('|'));
+			} else {
+				url.searchParams.append(key, query[key]);
+			}
 		}
 		const response = await fetch(url, {
 			credentials: 'same-origin',
@@ -19,7 +23,11 @@ const Requests = {
 		const url = new URL(Requests.base);
 		const form = new FormData();
 		for (const [key, value] of Object.entries(payload)) {
-			form.append(key, value as string);
+			if (Array.isArray(value)) {
+				form.append(key, value.join('|'));
+			} else {
+				form.append(key, value as string);
+			}
 		}
 		const response = await fetch(url, {
 			method: 'POST',

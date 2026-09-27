@@ -4,14 +4,14 @@ import i18n from '../utils/i18n';
 import requests from '../utils/requests';
 
 class Wiki {
-	pageInfoCache: Record<string, {timestamp?: string; revid?: number; contentmodel: string}> = {};
+	pageInfoCache: Record<string, PageInfoCacheItem> = {};
 	/**
 	 * 获得 Edit Token
 	 * Get Edit Token
 	 *
-	 * @returns {Promise<string>}
+	 * @returns {Promise<string| void>}
 	 */
-	async getEditToken() {
+	async getEditToken(): Promise<string | void> {
 		// 尝试从 API 获得 EditToken
 		// Try to get EditToken from API
 		const response = await requests.get({
@@ -33,18 +33,13 @@ class Wiki {
 	 * 获得页面上一版本时间戳
 	 * Get the timestamp of the last revision of page specified.
 	 *
-	 * @param {params.string} title 页面名 / Pagename
-	 * @param {params.revisionId} revisionId 修订版本号 / Revision ID
-	 * @param {params.contentmodel} contentmodel 内容模型 / Content Model
+	 * @param {Object} param
+	 * @param {string} param.title 页面名 / Pagename
+	 * @param {number} param.revisionId 修订版本号 / Revision ID
+	 * @param {string} param.contentmodel 内容模型 / Content Model
 	 * @returns {Promise<{timestamp?: string; revisionId?: number; contentmodel: string;}>}
 	 */
-	async getPageInfo({
-		title,
-		revisionId,
-	}: {
-		title: string;
-		revisionId?: number;
-	}): Promise<{timestamp?: string; revisionId?: number; contentmodel: string} | void> {
+	async getPageInfo({title, revisionId}: {title: string; revisionId?: number}): Promise<PageInfo | void> {
 		try {
 			const params: ApiQueryRevisionsParams & ApiQueryInfoParams = {
 				action: 'query',
@@ -134,7 +129,7 @@ class Wiki {
 	 *
 	 * @param {string} wikitext wikitext
 	 * @param {string} title 页面标题
-	 * @param {Object} config 设置
+	 * @param {Object} _config 设置
 	 * @return {Promise<string>} 解析结果 HTML
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -158,13 +153,7 @@ class Wiki {
 	/**
 	 * 编辑页面
 	 *
-	 * @param root0
-	 * @param root0.title
-	 * @param root0.content
-	 * @param root0.editToken
-	 * @param root0.timestamp
-	 * @param root0.config
-	 * @param root0.additionalConfig
+	 * @param {EditParams} param
 	 */
 	async edit({
 		title,
@@ -173,14 +162,7 @@ class Wiki {
 		timestamp,
 		config = {},
 		additionalConfig = {},
-	}: {
-		title: string;
-		content: string;
-		editToken: string;
-		timestamp: string;
-		config: Partial<ApiEditPageParams>;
-		additionalConfig: Partial<ApiEditPageParams>;
-	}): Promise<true | void> {
+	}: EditParams): Promise<true | void> {
 		let response;
 		try {
 			response = await requests.post({
@@ -223,7 +205,7 @@ class Wiki {
 	 * 获得指定页面最新修订编号
 	 * Get latest revisionId of a page.
 	 *
-	 * @param {*} title
+	 * @param {string} title
 	 */
 	async getLatestRevisionIdForPage(title: string) {
 		const {revisionId} = (await this.getPageInfo({title})) as {

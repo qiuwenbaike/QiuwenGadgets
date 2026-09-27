@@ -13,7 +13,9 @@
 @red: #e71717;
 @brown: #b00e06;
 
-/*! Wikiplus - 4.0.11 | Eridanus Sora (妹空酱) | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
+.clear {
+	clear: both;
+}
 
 #Wikiplus-Quickedit {
 	width: 100%;
@@ -62,6 +64,7 @@
 	}
 
 	&-InterBox {
+		--fonts-sans: 'Arial', 'Tahoma', 'Microsoft YaHei', 'Hiragino Sans GB', 'Microsoft JhengHei', sans-serif;
 		position: absolute;
 		top: 20%;
 		z-index: 200;
@@ -100,6 +103,7 @@
 			vertical-align: middle;
 			text-align: center;
 			cursor: pointer;
+
 			&:hover {
 				background-color: @lightgray;
 			}
@@ -145,6 +149,7 @@
 }
 
 .MoeNotification-notice {
+	--fonts-sans: 'Arial', 'Tahoma', 'Microsoft YaHei', 'Hiragino Sans GB', 'Microsoft JhengHei', sans-serif;
 	position: relative;
 	display: none;
 	overflow: hidden;
