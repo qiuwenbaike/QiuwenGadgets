@@ -15,9 +15,9 @@ class Page {
 	sectionCache: Record<string, string> = {};
 
 	/**
-	 * @param {params.title} 页面标题 Page Name (optional)
-	 * @param {params.revisionId} 页面修订编号 Revision Id
-	 * @param {params.contentmodel} 页面内容模型 Content Model
+	 * @param {Object} params
+	 * @param {string} params.title 页面标题 Page Name (optional)
+	 * @param {number} params.revisionId 页面修订编号 Revision Id
 	 */
 	constructor({title, revisionId = 0}: {title: string; revisionId: number}) {
 		this.title = title;
@@ -55,7 +55,7 @@ class Page {
 		}
 		// 从API获得EditToken
 		// Get EditToken from MediaWiki API
-		this.editToken = await Wiki.getEditToken();
+		this.editToken = (await Wiki.getEditToken()) as string;
 	}
 
 	/**
@@ -66,11 +66,8 @@ class Page {
 		const {timestamp, revisionId} = (await Wiki.getPageInfo({
 			revisionId: this.revisionId,
 			title: this.title,
-		})) as {
-			timestamp: string;
-			revisionId: number;
-		};
-		this.timestamp = timestamp;
+		})) as Partial<PageInfo>;
+		this.timestamp = timestamp as string;
 		if (revisionId) {
 			this.revisionId = revisionId;
 			this.isNewPage = false;
@@ -87,7 +84,7 @@ class Page {
 		const {contentmodel} = (await Wiki.getPageInfo({
 			revisionId: this.revisionId,
 			title: this.title,
-		})) as {timestamp?: string; revisionId?: number; contentmodel: string};
+		})) as PageInfo;
 		this.contentmodel = contentmodel || 'wikitext';
 	}
 
@@ -124,7 +121,6 @@ class Page {
 	/**
 	 * 编辑页面
 	 *
-	 * @param {*} config
 	 * @param {ApiEditPageParams} payload
 	 */
 	async edit(payload: ApiEditPageParams) {

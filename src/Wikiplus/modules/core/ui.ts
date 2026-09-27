@@ -15,8 +15,8 @@ class UI {
 	 *
 	 * @param {string} title 窗口标题
 	 * @param {string | JQuery<HTMLElement>} content 内容
-	 * @param {*} width 宽度
-	 * @param {*} callback 回调函数
+	 * @param {number} width 宽度
+	 * @param {() => void} callback 回调函数
 	 */
 	createDialogBox(
 		title: string = 'Wikiplus',
@@ -136,9 +136,9 @@ class UI {
 	/**
 	 * 插入快速重定向按钮
 	 *
-	 * @param {*} onClick
+	 * @param {() => void} onClick
 	 */
-	insertSimpleRedirectButton(onClick = () => {}) {
+	insertSimpleRedirectButton(onClick: () => void = () => {}) {
 		const button = this.addFunctionButton(i18n.translate('redirect_from'), 'Wikiplus-SR-Intro');
 		if (button) {
 			button.on('click', onClick);
@@ -148,9 +148,9 @@ class UI {
 	/**
 	 * 插入设置面板按钮
 	 *
-	 * @param {*} onClick
+	 * @param {() => void} onClick
 	 */
-	insertSettingsPanelButton(onClick = () => {}) {
+	insertSettingsPanelButton(onClick: () => void = () => {}) {
 		const button = this.addFunctionButton(i18n.translate('wikiplus_settings'), 'Wikiplus-Settings-Intro');
 		if (button) {
 			button.on('click', onClick);
@@ -161,19 +161,9 @@ class UI {
 	 * 插入顶部快速编辑按钮
 	 * Insert QuickEdit button besides page edit button.
 	 *
-	 * @param onClick
+	 * @param {OnClick} onClick
 	 */
-	insertTopQuickEditEntry(onClick: {
-		({
-			sectionNumber,
-			sectionName,
-			targetPageName,
-		}: {
-			sectionNumber: number;
-			sectionName?: string;
-			targetPageName: string;
-		}): void | Promise<void>;
-	}) {
+	insertTopQuickEditEntry(onClick: OnClick) {
 		const topBtn = $('<li>').attr('id', 'Wikiplus-Edit-TopBtn').attr('class', 'mw-list-item');
 		const topBtnLink = $('<a>')
 			.attr('href', 'javascript:void(0)')
@@ -220,19 +210,9 @@ class UI {
 	 * 插入段落快速编辑按钮
 	 * Insert QuickEdit buttons for each section.
 	 *
-	 * @param onClick
+	 * @param {OnClick} onClick
 	 */
-	insertSectionQuickEditEntries(
-		onClick: ({
-			sectionNumber,
-			sectionName,
-			targetPageName,
-		}: {
-			sectionNumber?: string | number;
-			sectionName?: string;
-			targetPageName: string;
-		}) => Promise<void> | void
-	) {
+	insertSectionQuickEditEntries(onClick: OnClick) {
 		onClick ||= () => {};
 		const sectionBtn =
 			Constants.skin === 'minerva'
@@ -266,7 +246,7 @@ class UI {
 				const _sectionBtn = sectionBtn.clone();
 				_sectionBtn.find('.Wikiplus-Edit-SectionBtn').on('click', () => {
 					onClick({
-						sectionNumber: sectionNumber as string,
+						sectionNumber: Number.parseInt(sectionNumber as string, 10),
 						sectionName,
 						targetPageName: sectionTargetName,
 					});
@@ -285,19 +265,9 @@ class UI {
 	/**
 	 * 插入任意链接编辑入口
 	 *
-	 * @param {*} onClick
+	 * @param {OnClick} onClick
 	 */
-	insertLinkEditEntries(
-		onClick: ({
-			sectionNumber,
-			sectionName,
-			targetPageName,
-		}: {
-			sectionNumber?: string | number;
-			sectionName?: string;
-			targetPageName: string;
-		}) => Promise<void> | void
-	) {
+	insertLinkEditEntries(onClick: OnClick) {
 		onClick ||= () => {};
 		$('#mw-content-text a.external').each(function () {
 			const url = $(this).attr('href') || '';
@@ -313,7 +283,7 @@ class UI {
 						.on('click', () => {
 							onClick({
 								targetPageName: params['title'] as string,
-								sectionNumber: params['section'] ?? -1,
+								sectionNumber: Number.parseInt(params['section'] as string, 10) ?? -1,
 							});
 						})
 				);
@@ -498,17 +468,11 @@ class UI {
 	/**
 	 * 显示快速重定向弹窗
 	 *
-	 * @param root0
-	 * @param root0.onEdit
-	 * @param root0.onSuccess
+	 * @param {Object} param
+	 * @param {OnEdit} param.onEdit
+	 * @param {OnSuccess} param.onSuccess
 	 */
-	showSimpleRedirectPanel({
-		onEdit = async () => {},
-		onSuccess = () => {},
-	}: {
-		onEdit?: (arg0: {title: string; summary: string; forceOverwrite: boolean}) => Promise<void>;
-		onSuccess?: (arg0: {title: string}) => void;
-	}) {
+	showSimpleRedirectPanel({onEdit = async () => {}, onSuccess = () => {}}: {onEdit?: OnEdit; onSuccess?: OnSuccess}) {
 		const input = $('<input>').addClass('Wikiplus-InterBox-Input').attr('id', 'Wikiplus-SR-Title');
 		const summaryInputTitle = $('<p>').text(i18n.translate('redirect_summary_desc'));
 		const summaryInput = $('<input>').addClass('Wikiplus-InterBox-Input').attr('id', 'Wikiplus-SR-Summary');
@@ -584,9 +548,9 @@ class UI {
 	/**
 	 * 隐藏快速重定向弹窗
 	 *
-	 * @param {*} dialog
+	 * @param {JQuery<HTMLElement>} dialog
 	 */
-	hideSimpleRedirectPanel(dialog = $('body')) {
+	hideSimpleRedirectPanel(dialog: JQuery<HTMLElement> = $('body')) {
 		dialog.find('.Wikiplus-InterBox-Close').trigger('click');
 	}
 
