@@ -254,6 +254,12 @@ import TwSpeedyDialog from './ui/TwSpeedyDialog.vue';
 			value: 'g5',
 			tooltip:
 				'包括以下情形：因移动请求而删除页面；以覆盖删除重定向；删除无用的MediaWiki页面，及其他技术团队或界面管理员认为有必要执行的快速删除情形。',
+			subgroup: {
+				name: 'g5_rationale',
+				type: 'input',
+				label: '删除原因：',
+				size: 60,
+			},
 		},
 		{
 			label: 'G6：原作者提请删除或清空页面，且页面原作者仅有一人',
@@ -1028,6 +1034,14 @@ import TwSpeedyDialog from './ui/TwSpeedyDialog.vue';
 						currentParams.pagename = pagename;
 					}
 					break;
+				case 'g5':
+					if (subgroups.g5_rationale !== undefined) {
+						const g5rationale = subgroups.g5_rationale;
+						if (g5rationale && g5rationale.trim()) {
+							currentParams['1'] = g5rationale;
+						}
+					}
+					break;
 				case 'g6':
 					if (subgroups.g6_rationale !== undefined) {
 						const g6rationale = subgroups.g6_rationale;
@@ -1060,7 +1074,10 @@ import TwSpeedyDialog from './ui/TwSpeedyDialog.vue';
 						const redirtype = subgroups.r1_type;
 						if (redirtype && redirtype !== 'other') {
 							currentParams['1'] = redirtype;
-						} else if (!(subgroups.reason_1 && String(subgroups.reason_1).trim())) {
+						} else if (
+							!(subgroups.reason_1 && String(subgroups.reason_1).trim()) &&
+							redirtype !== 'other'
+						) {
 							void mw.notify(window.wgULS('CSD R1：请选择适用类型。', 'CSD R1：請選擇適用類別。'), {
 								type: 'warn',
 								tag: 'twinklespeedy',
@@ -1074,7 +1091,10 @@ import TwSpeedyDialog from './ui/TwSpeedyDialog.vue';
 						const redirtype = subgroups.r2_type;
 						if (redirtype && redirtype !== 'other') {
 							currentParams['1'] = redirtype;
-						} else if (!(subgroups.reason_1 && String(subgroups.reason_1).trim())) {
+						} else if (
+							!(subgroups.reason_1 && String(subgroups.reason_1).trim()) &&
+							redirtype !== 'other'
+						) {
 							void mw.notify(window.wgULS('CSD R2：请选择适用类型。', 'CSD R2：請選擇適用類別。'), {
 								type: 'warn',
 								tag: 'twinklespeedy',
