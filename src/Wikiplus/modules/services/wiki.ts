@@ -95,7 +95,7 @@ class Wiki {
 	 * @param {string} config.section 段落号
 	 * @return {Promise<string>} wikitext内容
 	 */
-	async getWikiText({section, revisionId}: {section: string | number; revisionId: number}) {
+	async getWikiText({section, revisionId}: {section: string | number; revisionId: number}): Promise<string | void> {
 		try {
 			const params: ApiQueryRevisionsParams = {
 				action: 'query',
@@ -133,7 +133,7 @@ class Wiki {
 	 * @return {Promise<string>} 解析结果 HTML
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async parseWikiText(wikitext: string, title = '', _config = {}) {
+	async parseWikiText(wikitext: string, title: string = '', _config: object = {}): Promise<string | void> {
 		try {
 			const response = await requests.post({
 				format: 'json',
@@ -207,7 +207,7 @@ class Wiki {
 	 *
 	 * @param {string} title
 	 */
-	async getLatestRevisionIdForPage(title: string) {
+	async getLatestRevisionIdForPage(title: string): Promise<number> {
 		const {revisionId} = (await this.getPageInfo({title})) as {
 			revisionId: number;
 		};

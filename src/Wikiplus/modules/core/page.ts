@@ -29,9 +29,10 @@ class Page {
 	 * 初始化 获得页面EditToken和初始TimeStamp
 	 * Initialization.
 	 *
-	 * @param {string} editToken (optional) 如果提供了editToken，将不会再获取
+	 * @param {Object} params
+	 * @param {string} params.editToken (optional) 如果提供了editToken，将不会再获取
 	 */
-	async init({editToken}: {editToken: string} = {editToken: ''}) {
+	async init({editToken}: {editToken: string} = {editToken: ''}): Promise<void> {
 		const promiseArr = [this.getTimestamp(), this.getContentModel()];
 		if (!editToken) {
 			promiseArr.push(this.getEditToken());
@@ -45,7 +46,7 @@ class Page {
 	 * 获得 EditToken
 	 * Get EditToken
 	 */
-	async getEditToken() {
+	async getEditToken(): Promise<string | void> {
 		await mw.loader.using('mediawiki.user');
 		if (mw.user.tokens.get('csrfToken') && mw.user.tokens.get('csrfToken') !== '+\\') {
 			// 如果 MediaWiki JavaScript API 可以直接获得 EditToken 则直接返回
@@ -62,7 +63,7 @@ class Page {
 	 * 获得编辑基准时间戳
 	 * Get Base Timestamp
 	 */
-	async getTimestamp() {
+	async getTimestamp(): Promise<string | void> {
 		const {timestamp, revisionId} = (await Wiki.getPageInfo({
 			revisionId: this.revisionId,
 			title: this.title,
@@ -80,7 +81,7 @@ class Page {
 	 * @param {Object} config
 	 * @param {string} config.revisionId
 	 */
-	async getContentModel() {
+	async getContentModel(): Promise<void> {
 		const {contentmodel} = (await Wiki.getPageInfo({
 			revisionId: this.revisionId,
 			title: this.title,
@@ -95,15 +96,15 @@ class Page {
 	 * @param {string|number} config.section
 	 * @param {string} config.revisionId
 	 */
-	async getWikiText({section = ''}: {section?: number | string} = {}) {
+	async getWikiText({section = ''}: {section?: number | string} = {}): Promise<string> {
 		const sec = section === -1 ? 0 : section;
 		if (this.sectionCache[sec]) {
 			return this.sectionCache[sec];
 		}
-		const wikiText = await Wiki.getWikiText({
+		const wikiText = (await Wiki.getWikiText({
 			section: sec,
 			revisionId: this.revisionId,
-		});
+		})) as string;
 		Log.info(`Wikitext of ${this.title}#${section} fetched.`);
 		this.sectionCache[sec] = wikiText;
 		return wikiText;
@@ -114,7 +115,7 @@ class Page {
 	 *
 	 * @param {string} wikitext
 	 */
-	async parseWikiText(wikitext: string) {
+	async parseWikiText(wikitext: string): Promise<string | void> {
 		return await Wiki.parseWikiText(wikitext, this.title);
 	}
 
@@ -123,7 +124,7 @@ class Page {
 	 *
 	 * @param {ApiEditPageParams} payload
 	 */
-	async edit(payload: ApiEditPageParams) {
+	async edit(payload: ApiEditPageParams): Promise<true | void> {
 		if (!this.editToken) {
 			Log.error('fail_to_get_edittoken');
 			return;

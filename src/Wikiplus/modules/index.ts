@@ -23,7 +23,7 @@ $(async () => {
 	 * @param {number} params.revisionId 页面修订版本号
 	 * @param {string} params.title 页面标题
 	 */
-	const getPage = async ({revisionId = 0, title}: {revisionId?: number; title: string}) => {
+	const getPage = async ({revisionId = 0, title}: {revisionId?: number; title: string}): Promise<Page> => {
 		if (Pages[revisionId]) {
 			return Pages[revisionId];
 		}
@@ -98,7 +98,7 @@ $(async () => {
 			Settings.getSetting('esc_to_exit_quickedit') === 'true' ||
 			Settings.getSetting('escToExitQuickEdit') === true ||
 			Settings.getSetting('escToExitQuickEdit') === 'true';
-		const customEditTags = Settings.getSetting('custom_edit_tags');
+		const customEditTags = Settings.getSetting('custom_edit_tags') as string[];
 		const defaultEditTags: string[] = [];
 		const editTags = customEditTags?.length ? customEditTags : defaultEditTags;
 		clearTimeout(timer);
@@ -115,7 +115,7 @@ $(async () => {
 				isEditHistoryRevision ? i18n.translate('history_edit_warning') : ''
 			}`,
 			content: shouldShowCreatePageTip ? i18n.translate('create_page_tip') : sectionContent,
-			summary,
+			summary: summary as string,
 			onBack: UI.hideQuickEditPanel,
 			onParse: (wikiText) => {
 				return page.parseWikiText(wikiText);
@@ -140,7 +140,7 @@ $(async () => {
 		});
 	};
 
-	const handleSimpleRedirectButtonClicked = () => {
+	const handleSimpleRedirectButtonClicked = (): void => {
 		UI.showSimpleRedirectPanel({
 			onEdit: async ({title, summary, forceOverwrite = false}) => {
 				const page = await getPage({title});
@@ -193,7 +193,7 @@ $(async () => {
 		});
 	};
 
-	const handleSettingsButtonClicked = () => {
+	const handleSettingsButtonClicked = (): void => {
 		UI.showSettingsPanel({
 			onSubmit: ({settings}) => {
 				JSON.parse(settings);
@@ -202,7 +202,7 @@ $(async () => {
 		});
 	};
 
-	const handlePreload = async ({sectionNumber}: {sectionNumber: number}) => {
+	const handlePreload = async ({sectionNumber}: {sectionNumber: number}): Promise<void> => {
 		await currentPage.getWikiText({
 			section: sectionNumber,
 		});
