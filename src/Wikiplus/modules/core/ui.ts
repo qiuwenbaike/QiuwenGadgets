@@ -23,7 +23,7 @@ class UI {
 		content: string | JQuery<HTMLElement> = '',
 		width: number = 600,
 		callback: () => void = () => {}
-	) {
+	): JQuery<HTMLElement> {
 		if ($('.Wikiplus-InterBox').length > 0) {
 			$('.Wikiplus-InterBox').each(function () {
 				$(this).remove();
@@ -53,7 +53,7 @@ class UI {
 				});
 		});
 		// 拖曳
-		const bindDragging = (element: JQuery<HTMLElement>) => {
+		const bindDragging = (element: JQuery<HTMLElement>): void => {
 			element.on('mousedown', (e) => {
 				const baseX = e.clientX;
 				const baseY = e.clientY;
@@ -66,7 +66,7 @@ class UI {
 					});
 				});
 				$(document).on('mouseup', () => {
-					element.unbind('mousedown');
+					element.off('mousedown');
 					$(document).off('mousemove');
 					$(document).off('mouseup');
 					bindDragging(element);
@@ -138,7 +138,7 @@ class UI {
 	 *
 	 * @param {() => void} onClick
 	 */
-	insertSimpleRedirectButton(onClick: () => void = () => {}) {
+	insertSimpleRedirectButton(onClick: () => void = () => {}): void {
 		const button = this.addFunctionButton(i18n.translate('redirect_from'), 'Wikiplus-SR-Intro');
 		if (button) {
 			button.on('click', onClick);
@@ -150,7 +150,7 @@ class UI {
 	 *
 	 * @param {() => void} onClick
 	 */
-	insertSettingsPanelButton(onClick: () => void = () => {}) {
+	insertSettingsPanelButton(onClick: () => void = () => {}): void {
 		const button = this.addFunctionButton(i18n.translate('wikiplus_settings'), 'Wikiplus-Settings-Intro');
 		if (button) {
 			button.on('click', onClick);
@@ -212,7 +212,7 @@ class UI {
 	 *
 	 * @param {OnClick} onClick
 	 */
-	insertSectionQuickEditEntries(onClick: OnClick) {
+	insertSectionQuickEditEntries(onClick: OnClick): void {
 		onClick ||= () => {};
 		const sectionBtn =
 			Constants.skin === 'minerva'
@@ -267,7 +267,7 @@ class UI {
 	 *
 	 * @param {OnClick} onClick
 	 */
-	insertLinkEditEntries(onClick: OnClick) {
+	insertLinkEditEntries(onClick: OnClick): void {
 		onClick ||= () => {};
 		$('#mw-content-text a.external').each(function () {
 			const url = $(this).attr('href') || '';
@@ -304,10 +304,10 @@ class UI {
 		content: string;
 		summary: string;
 		onBack: () => void;
-		onParse: (wikitext: string) => Promise<void>;
+		onParse: (wikitext: string) => Promise<string | void>;
 		onEdit: (arg0: {summary: string; content: string; isMinorEdit: boolean}) => Promise<void>;
 		escExit: boolean;
-	}) {
+	}): void {
 		const self = this;
 		this.scrollTop = $(document).scrollTop() || 0;
 		if (this.quickEditPanelVisible) {
@@ -315,12 +315,7 @@ class UI {
 		}
 		this.quickEditPanelVisible = true;
 		// 防止手滑关闭页面
-		window.addEventListener(
-			'close',
-			(window.onbeforeunload = function () {
-				return `${i18n.translate('onclose_confirm')}`;
-			})
-		);
+		window.addEventListener('close', (window.onbeforeunload = () => `${i18n.translate('onclose_confirm')}`));
 		const isNewPage = $('.noarticletext').length > 0;
 		// DOM 定义开始
 		const backBtn = $('<span>')

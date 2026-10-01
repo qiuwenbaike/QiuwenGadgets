@@ -64,7 +64,7 @@
 	}
 
 	&-InterBox {
-		--fonts-sans: 'Arial', 'Tahoma', 'Microsoft YaHei', 'Hiragino Sans GB', 'Microsoft JhengHei', sans-serif;
+		--fonts-default: 'Arial', 'Tahoma', 'Microsoft YaHei', 'Hiragino Sans GB', 'Microsoft JhengHei', sans-serif;
 		position: absolute;
 		top: 20%;
 		z-index: 200;
@@ -144,12 +144,12 @@
 		background: rgba(193, 222, 214, 0.51);
 		text-align: center;
 		font-size: 2rem;
-		font-family: var(--fonts-sans, sans-serif);
+		font-family: var(--fonts-sans, var(--fonts-default, sans-serif));
 	}
 }
 
 .MoeNotification-notice {
-	--fonts-sans: 'Arial', 'Tahoma', 'Microsoft YaHei', 'Hiragino Sans GB', 'Microsoft JhengHei', sans-serif;
+	--fonts-default: 'Arial', 'Tahoma', 'Microsoft YaHei', 'Hiragino Sans GB', 'Microsoft JhengHei', sans-serif;
 	position: relative;
 	display: none;
 	overflow: hidden;
@@ -165,7 +165,7 @@
 		color: @white;
 		text-align: left;
 		font-size: 1rem;
-		font-family: var(--fonts-sans, sans-serif);
+		font-family: var(--fonts-sans, var(--fonts-default, sans-serif));
 		line-height: 1.5;
 	}
 
