@@ -1,6 +1,8 @@
 const PWV2017messages = () => {
 	mw.messages.set({
 		'pwv-2017-caption': window.wgULS('选择语言变体', '選擇語言變體'),
+		'pwv-2017-loading': window.wgULS('正在加载预览…', '正在載入預覽…'),
+		'pwv-2017-retry': window.wgULS('重试', '重試'),
 		'pwv-2017-zh': window.wgULS('不转换', '不轉換'),
 		'pwv-2017-zh-hans': '简体',
 		'pwv-2017-zh-hant': '繁體',
