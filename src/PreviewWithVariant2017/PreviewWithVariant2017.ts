@@ -1,8 +1,8 @@
 import {getBody} from 'ext.gadget.Util';
-import {processVisualEditor} from './modules/processVisualEditor.js';
+import {processVisualEditor} from './modules/processVisualEditor';
 
-void getBody().then(function previewWithVariants2017($body: JQuery<HTMLBodyElement>): void {
+void getBody().then((): void => {
 	mw.hook('ve.saveDialog.stateChanged').add((): void => {
-		processVisualEditor($body);
+		processVisualEditor();
 	});
 });
