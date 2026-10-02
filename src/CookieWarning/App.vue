@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <script setup lang="ts">
 import * as OPTIONS from './options.json';
 import {CdxButton} from '@wikimedia/codex';
