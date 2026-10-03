@@ -70,7 +70,7 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			return super.getSetupProcess(data).next((): void => {
 				void this.doExecuteWrap();
 				// @ts-expect-error TS2503
-				void (NoteTAViewer as OO.ui.ProcessDialog).executeAction('main');
+				void (this as OO.ui.ProcessDialog).executeAction('main');
 			});
 		}
 
@@ -180,7 +180,10 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 								const variantsName: string = variants
 									.map((variant: string): string => `-{R|{{MediaWiki:Variantname-${variant}}}}-`)
 									.join('、');
-								multiTitle[multiTitle.length] = `${variantsName}：-{R|${text}}-`;
+								const variantTitleDesc: string = `${variantsName}：-{R|${text}}-`;
+								if (!multiTitle.includes(variantTitleDesc)) {
+									multiTitle[multiTitle.length] = variantTitleDesc;
+								}
 							}
 
 							const subItemSeparator: string = '\n** ';
