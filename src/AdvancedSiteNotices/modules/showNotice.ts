@@ -1,6 +1,5 @@
 import * as OPTIONS from '../options.json';
 import {CLASS_NAME_DISMISS, CLASS_NAME_NOTICE_CONTENT} from './constant';
-import React from 'ext.gadget.JSX';
 import {type RemoteNotices} from './util/queryApi';
 import {generateArea} from './util/generateArea';
 import {getMessage} from './i18n';
@@ -30,7 +29,8 @@ broadcastChannel.addEventListener('message', closeNotices);
 
 $dismiss.on('click', (): void => {
 	closeNotices();
-	void mw.notify($((<span innerHTML={getMessage('DismissNotice')} />) as HTMLElement), {
+	void mw.notify(getMessage('DismissNotice'), {
+		title: getMessage('DismissNoticeTitle'),
 		tag: 'AdvancedSiteNotices',
 	});
 });
