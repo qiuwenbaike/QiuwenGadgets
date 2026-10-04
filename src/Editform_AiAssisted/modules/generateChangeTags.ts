@@ -1,16 +1,13 @@
 const generateChangeTags = ({
-	checkbox,
+	selected,
 	originalChangeTags,
 	changeTag,
 }: {
-	// @ts-expect-error TS2503
-	checkbox: OO.ui.CheckboxInputWidget;
+	selected: boolean;
 	originalChangeTags: string;
 	changeTag: string;
 }): string => {
-	return checkbox.isSelected()
-		? `${originalChangeTags},${changeTag}`
-		: originalChangeTags.replace(`,${changeTag}`, '');
+	return selected ? `${originalChangeTags},${changeTag}` : originalChangeTags.replace(`,${changeTag}`, '');
 };
 
 export {generateChangeTags};

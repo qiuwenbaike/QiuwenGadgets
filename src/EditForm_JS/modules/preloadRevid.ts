@@ -3,7 +3,7 @@
  */
 import {api} from './util/api';
 import {getMessage} from './i18n';
-import {setWpTextbox1Content} from 'ext.gadget.Util';
+import {setWpTextbox1Content} from './setWpTextbox1Content';
 
 const preloadRevid = ($editForm: JQuery<HTMLElement>): void => {
 	const revid = mw.util.getParamValue('preloadrevid');

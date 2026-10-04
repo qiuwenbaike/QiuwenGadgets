@@ -4,6 +4,6 @@
 	"section": "edit",
 	"excludeSites": ["loginwiki", "mncqiuwenbaike"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "oojs-ui", "oojs-ui-core", "user.options"],
+	"dependencies": ["@wikimedia/codex", "ext.gadget.i18n", "ext.gadget.Util", "user.options", "vue"],
 	"rights": ["edit"]
 }
