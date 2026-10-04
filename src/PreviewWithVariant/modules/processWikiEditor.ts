@@ -50,6 +50,11 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 		selectLabel: getMessage('Preview using this variant: '),
 		onVariantChange: (selectedVariant: string): void => {
 			mw.config.set('wgUserVariant', selectedVariant);
+			// if (mw.user.options.get('uselivepreview')) {
+			// 	manipulateVariantConfig();
+			// } else {
+			// 	manipulateActionUrl();
+			// }
 		},
 	});
 	const controls = app.mount(root) as unknown as VariantControlsInstance;
