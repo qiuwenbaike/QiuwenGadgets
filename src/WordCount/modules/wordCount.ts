@@ -1,5 +1,4 @@
-import React from 'ext.gadget.JSX';
-import WordCount from '../components/WordCount';
+import {$wordCount} from '../components/WordCount';
 import {tip} from '../components/WordCount.module.less';
 
 const wordCount = ($body: JQuery<HTMLBodyElement>): void => {
@@ -10,7 +9,7 @@ const wordCount = ($body: JQuery<HTMLBodyElement>): void => {
 		return;
 	}
 
-	const $element = $(<WordCount text={text} />);
+	const $element = $wordCount(text);
 
 	$element.appendTo($body);
 

@@ -1,5 +1,5 @@
 import {delay, getBody} from 'ext.gadget.Util';
-import {NoticeMessage} from './noticeMessage';
+import {$noticeMessage} from './noticeMessage';
 import {getCurrentRevisionId} from './getCurrentRevisionId';
 import {toastify} from 'ext.gadget.Toastify';
 
@@ -21,7 +21,7 @@ const editConflict = async (): Promise<void> => {
 			isContinue = false;
 			toastify(
 				{
-					node: NoticeMessage(),
+					node: $noticeMessage.get(0),
 					close: true,
 					duration: -1,
 				},
