@@ -43,7 +43,7 @@
 * FloatTOC[ResourceLoader|actions=view|dependencies=@wikimedia/codex,ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,vue|skins=vector|requiresES6]|FloatTOC.js|FloatTOC.css
 * FullwidthSearchFix[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util|requiresES6]|FullwidthSearchFix.js
 * HideLongSummaries[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|HideLongSummaries.js
-* LinkSpacing[ResourceLoader|dependencies=ext.gadget.JSX|requiresES6]|LinkSpacing.js|LinkSpacing.css
+* LinkSpacing[ResourceLoader|requiresES6]|LinkSpacing.js|LinkSpacing.css
 * PurgePageCache[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=edit|requiresES6]|PurgePageCache.js
 * ScrollUpButton[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|peers=ScrollUpButton-pagestyles|requiresES6]|ScrollUpButton.js
 * ScrollUpButton-pagestyles[ResourceLoader|hidden|requiresES6]|ScrollUpButton-pagestyles.css
@@ -52,7 +52,7 @@
 * SmoothTOC[ResourceLoader|default|dependencies=ext.gadget.Util|skins=gongbi,vector,vector-2022|requiresES6]|SmoothTOC.js
 * TextSpacing[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|TextSpacing.js|TextSpacing.css
 * UTCLiveClock[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.PurgePageCache,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|UTCLiveClock.js|UTCLiveClock.css
-* WordCount[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util|requiresES6]|WordCount.js|WordCount.css
+* WordCount[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|WordCount.js|WordCount.css
 
 == compatibility ==
 * AccessKeyCheatsheet[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|requiresES6]|AccessKeyCheatsheet.js|AccessKeyCheatsheet.css
@@ -60,9 +60,9 @@
 * AdvancedSiteNotices-pagestyles[ResourceLoader|hidden|requiresES6]|AdvancedSiteNotices-pagestyles.css
 * ChineseDays[ResourceLoader|hidden|requiresES6]|ChineseDays.js
 * Clipboard[ResourceLoader|hidden|requiresES6]|Clipboard.js
-* Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
+* Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
 * ConfirmLogout[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=edit|requiresES6]|ConfirmLogout.js
-* CookieWarning[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.storage,mediawiki.util,vue|requiresES6]|CookieWarning.js|CookieWarning.css
+* CookieWarning[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,mediawiki.util,vue|requiresES6]|CookieWarning.js|CookieWarning.css
 * FetchVariants[ResourceLoader|dependencies=ext.gadget.idb-plus,ext.gadget.Util,mediawiki.api|requiresES6]|FetchVariants.js
 * FilterAlteredClicks[ResourceLoader|hidden|requiresES6]|FilterAlteredClicks.js
 * Geo[ResourceLoader|dependencies=mediawiki.storage|hidden|requiresES6]|Geo.js
@@ -104,10 +104,10 @@
 * DisambigLinks[ResourceLoader|requiresES6]|DisambigLinks.css
 * EasyArchive[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Toastify,ext.gadget.Util,mediawiki.Title,mediawiki.util|rights=skipcaptcha|requiresES6]|EasyArchive.js|EasyArchive.css
 * Edit0[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util|rights=edit|requiresES6]|Edit0.js|Edit0.css
-* EditConflict[ResourceLoader|actions=edit|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api|rights=edit|requiresES6]|EditConflict.js
+* EditConflict[ResourceLoader|actions=edit|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api|rights=edit|requiresES6]|EditConflict.js
 * EditCount[ResourceLoader|rights=edit|skins=gongbi,vector,vector-2022|requiresES6]|EditCount.js
 * EditForm[ResourceLoader|hidden|rights=edit|requiresES6]|EditForm.css
-* Editform_AiAssisted[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,oojs-ui-core|rights=edit|requiresES6]|Editform_AiAssisted.js
+* Editform_AiAssisted[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|rights=edit|requiresES6]|Editform_AiAssisted.js
 * Editform_Attribution[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,oojs-ui-core|rights=edit|requiresES6]|Editform_Attribution.js|Editform_Attribution.css
 * EditForm_JS[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|hidden|peers=EditForm|rights=edit|requiresES6]|EditForm_JS.js
 * Editform_Patch2017[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.jqueryMsg|hidden|rights=edit|requiresES6]|Editform_Patch2017.js
@@ -120,7 +120,7 @@
 * InPageEdit[ResourceLoader|dependencies=ext.gadget.Util|rights=skipcaptcha|requiresES6]|InPageEdit.js
 * InPageEdit-v2[ResourceLoader|rights=skipcaptcha|requiresES6]|InPageEdit-v2.js|InPageEdit-v2.css
 * Navigation_popups[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.user,mediawiki.util,user.options|requiresES6]|Navigation_popups.js|Navigation_popups.css
-* PreviewWithVariant[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,oojs-ui,oojs-ui-core,user.options|rights=edit|requiresES6]|PreviewWithVariant.js|PreviewWithVariant.css
+* PreviewWithVariant[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,user.options,vue|rights=edit|requiresES6]|PreviewWithVariant.js|PreviewWithVariant.css
 * PreviewWithVariant2017[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,user.options,vue|rights=edit|requiresES6]|PreviewWithVariant2017.js|PreviewWithVariant2017.css
 * QuickImport[ResourceLoader|dependencies=ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=import|requiresES6]|QuickImport.js
 * QuickImportAllMedia[ResourceLoader|dependencies=ext.gadget.QuickImport,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=import|requiresES6]|QuickImportAllMedia.js

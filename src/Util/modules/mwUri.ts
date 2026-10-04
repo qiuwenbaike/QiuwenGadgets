@@ -1,6 +1,9 @@
 type ClassMwUri = typeof MwUri;
 
 class MwUri extends URL {
+	constructor(url: string, base: string = `${location.protocol}//${location.host}`) {
+		super(url, base);
+	}
 	public extend(object: {[key: string]: string}): this {
 		for (const [key, value] of Object.entries(object)) {
 			this.searchParams.set(key, value);
