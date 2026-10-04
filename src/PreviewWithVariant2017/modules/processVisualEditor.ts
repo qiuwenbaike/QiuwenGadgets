@@ -48,7 +48,7 @@ const processVisualEditor = (): void => {
 		const {target} = visualEditor.init;
 		const {saveDialog} = target;
 		const root = document.createElement('div');
-		root.className = OPTIONS.className;
+		root.className = 'pwv-2017-variant';
 		saveDialog.previewPanel.$element.append(root);
 
 		const fetchPreview = async (requestedVariant: string): Promise<string> => {

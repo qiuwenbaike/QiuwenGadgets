@@ -1,3 +1,4 @@
+import './processWikiEditor.less';
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
 import AssistedCheckbox from './AssistedCheckbox.vue';
 import {createApp} from 'vue';
@@ -40,6 +41,7 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		const root = document.createElement('div');
+		root.id = 'mw-editpage-efaa';
 		$target.append(root);
 		createApp(AssistedCheckbox, {
 			inputId: OPTIONS.inputId,

@@ -40,7 +40,7 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 	const uriVariant: string | null = mw.util.getParamValue('variant');
 	const initialVariant = (wgUserVariant || uriVariant || mw.user.options.get('variant')) as string;
 	const root = document.createElement('div');
-	root.id = 'pwv-area';
+	root.id = 'mw-editpage-pwv';
 	$layout.append(root);
 	const app = createApp(VariantControls, {
 		initialEnabled: Boolean(uriVariant),

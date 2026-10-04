@@ -31,6 +31,7 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
 		const root = document.createElement('div');
+		root.id = 'mw-editpage-efaa';
 		$target.append(root);
 		createApp(AssistedCheckbox, {
 			inputId: OPTIONS.inputId,

@@ -27,9 +27,33 @@ defineExpose({getSelectedVariant});
 </script>
 
 <template>
-	<cdx-checkbox v-model="enabled">{{ checkboxLabel }}</cdx-checkbox>
-	<cdx-field class="pwv-variant-select">
-		<template #label>{{ selectLabel }}</template>
-		<cdx-select v-model:selected="selectedVariant" :menu-items="menuItems" :disabled="!enabled" />
-	</cdx-field>
+	<div id="pwv-area">
+		<cdx-checkbox v-model="enabled" class="pwv-variant-switch">{{ checkboxLabel }}</cdx-checkbox>
+		<cdx-field class="pwv-variant-select">
+			<template #label>{{ selectLabel }}</template>
+			<cdx-select v-model:selected="selectedVariant" :menu-items="menuItems" :disabled="!enabled" />
+		</cdx-field>
+	</div>
 </template>
+
+<style lang="less" scoped>
+#pwv-area {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: baseline;
+	gap: 0.75em;
+
+	.pwv-variant-switch,
+	.pwv-variant-select {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		margin: 0;
+		flex: 1 1 100%;
+	}
+
+	.cdx-checkbox {
+		margin-bottom: 0;
+	}
+}
+</style>
