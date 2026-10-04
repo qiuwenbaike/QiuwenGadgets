@@ -1,4 +1,3 @@
-import './processWikiEditor.less';
 import * as OPTIONS from '../options.json';
 import {MwUri} from 'ext.gadget.Util';
 import {VARIANTS} from './constant';
@@ -40,7 +39,6 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 	const uriVariant: string | null = mw.util.getParamValue('variant');
 	const initialVariant = (wgUserVariant || uriVariant || mw.user.options.get('variant')) as string;
 	const root = document.createElement('div');
-	root.id = 'pwv-area';
 	$layout.append(root);
 	const app = createApp(VariantControls, {
 		initialEnabled: Boolean(uriVariant),
