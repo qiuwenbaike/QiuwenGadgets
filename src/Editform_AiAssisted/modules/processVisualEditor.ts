@@ -1,4 +1,6 @@
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
+import AssistedCheckbox from './AssistedCheckbox.vue';
+import {createApp} from 'vue';
 import {generateChangeTags} from './generateChangeTags';
 import {getMessage} from './i18n';
 
@@ -16,36 +18,25 @@ const processVisualEditor = ($body: JQuery<HTMLBodyElement>): void => {
 	// Set guard
 	mw.config.set(OPTIONS.configKeyVe, true);
 
-	// @ts-expect-error TS2304, TS2503
-	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
-		selected: false,
-	});
-
-	checkbox.setInputId(OPTIONS.inputId);
-
-	checkbox.on('change', (): void => {
+	const onChange = (selected: boolean): void => {
 		const {saveFields} = window.ve.init.target;
 		const originalChangeTags = saveFields.wpChangeTags?.() ?? '';
-		const newChangeTags = () => {
-			return generateChangeTags({
-				checkbox,
+		saveFields.wpChangeTags = (): string =>
+			generateChangeTags({
+				selected,
 				originalChangeTags,
 				changeTag: OPTIONS.changeTag,
 			});
-		};
-		saveFields.wpChangeTags = (): string => {
-			return newChangeTags?.() ?? '';
-		};
-	});
-
-	// @ts-expect-error TS2304, TS2503
-	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
-		align: 'inline',
-		label: getMessage('AiAssisted'),
-	});
+	};
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$target.append(checkboxLayout.$element);
+		const root = document.createElement('div');
+		$target.append(root);
+		createApp(AssistedCheckbox, {
+			inputId: OPTIONS.inputId,
+			label: getMessage('AiAssisted'),
+			onChange,
+		}).mount(root);
 	}
 
 	// Reinitialization is required for switching between VisualEditor and New Wikitext Editor (2017)

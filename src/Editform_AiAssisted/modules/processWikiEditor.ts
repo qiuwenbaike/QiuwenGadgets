@@ -1,4 +1,6 @@
 import * as OPTIONS from '~/Editform_AiAssisted/options.json';
+import AssistedCheckbox from './AssistedCheckbox.vue';
+import {createApp} from 'vue';
 import {generateChangeTags} from './generateChangeTags';
 import {getMessage} from './i18n';
 
@@ -15,13 +17,6 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	// @ts-expect-error TS2304, TS2503
-	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
-		selected: false,
-	});
-
-	checkbox.setInputId(OPTIONS.inputId);
-
 	let $wpChangeTags: JQuery = $body.find('input[name=wpChangeTags]');
 	if (!$wpChangeTags.length) {
 		$wpChangeTags = $('<input>').attr({
@@ -33,24 +28,24 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		$body.find('#editform').append($wpChangeTags);
 	}
 
-	checkbox.on('change', (): void => {
+	const onChange = (selected: boolean): void => {
 		$wpChangeTags.val(
 			generateChangeTags({
-				checkbox,
+				selected,
 				originalChangeTags: $wpChangeTags.val()?.toString() ?? '',
 				changeTag: OPTIONS.changeTag,
 			})
 		);
-	});
-
-	// @ts-expect-error TS2304, TS2503
-	const checkboxLayout: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
-		align: 'inline',
-		label: getMessage('AiAssisted'),
-	});
+	};
 
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$target.append(checkboxLayout.$element);
+		const root = document.createElement('div');
+		$target.append(root);
+		createApp(AssistedCheckbox, {
+			inputId: OPTIONS.inputId,
+			label: getMessage('AiAssisted'),
+			onChange,
+		}).mount(root);
 	}
 };
 

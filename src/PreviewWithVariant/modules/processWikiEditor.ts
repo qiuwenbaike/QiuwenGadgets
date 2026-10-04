@@ -2,6 +2,14 @@ import './processWikiEditor.less';
 import * as OPTIONS from '../options.json';
 import {MwUri} from 'ext.gadget.Util';
 import {VARIANTS} from './constant';
+import VariantControls from './VariantControls.vue';
+import {createApp} from 'vue';
+import {getMessage} from './i18n.ts';
+
+interface VariantControlsInstance {
+	getSelectedVariant: () => string | undefined;
+}
+
 /**
  * @description Add a "Preview with variant" option to the edit form.
  *
@@ -30,48 +38,29 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 	mw.config.set(OPTIONS.configKey, true);
 
 	const uriVariant: string | null = mw.util.getParamValue('variant');
-
-	// @ts-expect-error TS2304, TS2503
-	const checkbox: OO.ui.CheckboxInputWidget = new OO.ui.CheckboxInputWidget({
-		selected: Boolean(uriVariant),
-	});
-
-	// @ts-expect-error TS2304, TS2503
-	const dropdown: OO.ui.DropdownWidget = new OO.ui.DropdownWidget({
-		$overlay: true,
-		disabled: !checkbox.isSelected(),
-		menu: {
-			// @ts-expect-error TS2503
-			items: VARIANTS.map(({data, label}): OO.ui.MenuOptionWidget => {
-				// @ts-expect-error TS2304
-				return new OO.ui.MenuOptionWidget({
-					data,
-					label,
-				});
-			}),
+	const initialVariant = (wgUserVariant || uriVariant || mw.user.options.get('variant')) as string;
+	const root = document.createElement('div');
+	root.id = 'pwv-area';
+	$layout.append(root);
+	const app = createApp(VariantControls, {
+		initialEnabled: Boolean(uriVariant),
+		initialVariant,
+		variants: VARIANTS.map(({data, label}) => ({value: data, label})),
+		checkboxLabel: getMessage('Preview Chinese variant conversion'),
+		selectLabel: getMessage('Preview using this variant: '),
+		onVariantChange: (selectedVariant: string): void => {
+			mw.config.set('wgUserVariant', selectedVariant);
+			// if (mw.user.options.get('uselivepreview')) {
+			// 	manipulateVariantConfig();
+			// } else {
+			// 	manipulateActionUrl();
+			// }
 		},
 	});
-
-	dropdown.getMenu().selectItemByData(wgUserVariant || uriVariant || mw.user.options.get('variant'));
-
-	checkbox.on('change', (selected: boolean | string): void => {
-		dropdown.setDisabled(!selected);
-	});
-
-	const getSelectedVariant = (): string | undefined => {
-		if (!checkbox.isSelected()) {
-			return;
-		}
-		// @ts-expect-error TS2503
-		const selectedItem: OO.ui.OptionWidget | null = dropdown
-			.getMenu()
-			// @ts-expect-error TS2503
-			.findSelectedItem() as OO.ui.OptionWidget | null;
-		return selectedItem ? (selectedItem.getData() as string) : undefined;
-	};
+	const controls = app.mount(root) as unknown as VariantControlsInstance;
 
 	const manipulateActionUrl = (): void => {
-		const selectedVariant: string | undefined = getSelectedVariant();
+		const selectedVariant: string | undefined = controls.getSelectedVariant();
 		const originalAction: string | undefined = $editForm.attr('action');
 		if (selectedVariant && originalAction) {
 			$editForm.attr(
@@ -86,7 +75,7 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 	};
 
 	const manipulateVariantConfig = (): void => {
-		mw.config.set('wgUserVariant', getSelectedVariant() || (mw.user.options.get('variant') as string));
+		mw.config.set('wgUserVariant', controls.getSelectedVariant() || (mw.user.options.get('variant') as string));
 	};
 
 	$editForm
@@ -94,23 +83,6 @@ const processWikiEditor = ($editForm: JQuery<HTMLElement>): void => {
 		.on('click', mw.user.options.get('uselivepreview') ? manipulateVariantConfig : manipulateActionUrl);
 
 	$templateSandboxPreview.on('click', manipulateActionUrl);
-
-	dropdown.getMenu().on('select', manipulateVariantConfig);
-
-	// @ts-expect-error TS2304, TS2503
-	const checkboxField: OO.ui.FieldLayout<OO.ui.CheckboxInputWidget> = new OO.ui.FieldLayout(checkbox, {
-		align: 'inline',
-		label: window.wgULS('预览字词转换', '預覽字詞轉換'),
-	});
-
-	// @ts-expect-error TS2304, TS2503
-	const dropdownField: OO.ui.FieldLayout<OO.ui.DropdownWidget> = new OO.ui.FieldLayout(dropdown, {
-		align: 'top',
-		label: window.wgULS('使用该语言变体显示预览：', '使用該語言變體顯示預覽：'),
-		invisibleLabel: true,
-	});
-
-	$layout.append($('<div>').attr('id', 'pwv-area').append(checkboxField.$element, dropdownField.$element));
 };
 
 export {processWikiEditor};
