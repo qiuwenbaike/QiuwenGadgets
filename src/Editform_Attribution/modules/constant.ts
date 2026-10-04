@@ -1,5 +1,7 @@
 import {getMessage} from './i18n';
 
+const {wgNamespaceIds} = mw.config.get();
+
 const LICENSES = [
 	{
 		label: 'CC BY-SA 4.0',
@@ -85,4 +87,13 @@ const VALID_INTERWIKI_PREFIX = [
 	'zhwikivoyage',
 ];
 
-export {LICENSES, VALID_INTERWIKI_PREFIX};
+const VALID_INTERNAL_PREFIX: string[] = [];
+
+for (const [namespaceName, id] of Object.entries(wgNamespaceIds)) {
+	if (id === 0) {
+		continue;
+	}
+	VALID_INTERNAL_PREFIX[VALID_INTERNAL_PREFIX.length] = namespaceName;
+}
+
+export {LICENSES, VALID_INTERWIKI_PREFIX, VALID_INTERNAL_PREFIX};

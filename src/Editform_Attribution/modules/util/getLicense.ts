@@ -1,9 +1,8 @@
 import {getLink} from './getLink';
-import {getMessage} from '../i18n';
 
 // @ts-expect-error TS2503
-const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
-	const attributions = [];
+const getLicense = (fieldSetLayout: OO.ui.FieldsetLayout) => {
+	let license: string = '';
 
 	// @ts-expect-error TS2503
 	const getSelectedItem = (dropdown: OO.ui.DropdownWidget): OO.ui.OptionWidget | null => {
@@ -29,19 +28,11 @@ const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
 
 	// @ts-expect-error TS2503
 	for (const attributionFieldset of fieldSetLayout.getItems() as OO.ui.FieldsetLayout[]) {
-		const attribution: {source?: string; license?: string} = {};
-
 		// @ts-expect-error TS2503
 		for (const fieldLayout of attributionFieldset.getItems() as OO.ui.FieldLayout[]) {
 			const field = fieldLayout.getField();
 
-			if (field.supports('getValue')) {
-				// @ts-expect-error TS2503
-				const link = (field as OO.ui.TextInputWidget).getValue();
-				if (link) {
-					attribution.source = getLink({link});
-				}
-			} else if (field.supports('getMenu')) {
+			if (field.supports('getMenu')) {
 				// @ts-expect-error TS2503
 				const link = getSelectedValue(field as OO.ui.DropdownWidget);
 
@@ -50,24 +41,19 @@ const getAttribution = (fieldSetLayout: OO.ui.FieldsetLayout) => {
 					const text = getSelectedLabel(field as OO.ui.DropdownWidget);
 
 					if (text) {
-						attribution.license = getLink({link, text});
+						license = getLink({link, text});
 					} else {
-						attribution.license = getLink({link});
+						license = getLink({link});
 					}
 				}
 			}
 		}
-
-		if (attribution.source && attribution.license) {
-			attributions[attributions.length] =
-				`${getMessage('Source')}: ${attribution.source} (${getMessage('License')}: ${attribution.license}) `;
-		}
 	}
 
-	return attributions.join(' ');
+	return license;
 };
 
-const updateWpAttribution = ({
+const updateWpLicense = ({
 	$body,
 	parentFieldSet,
 }: {
@@ -75,21 +61,21 @@ const updateWpAttribution = ({
 	// @ts-expect-error TS2503
 	parentFieldSet: OO.ui.FieldsetLayout;
 }) => {
-	let wpAttribution: string = '';
+	let wpLicense: string = '';
 
-	const $wpAttribution: JQuery = $('<input>').attr({
-		id: 'wpAttribution',
-		name: 'wpAttribution',
-		type: 'hidden',
-		value: '',
-	});
-	const $originwpAttribution: JQuery = $body.find('input[name=wpAttribution]');
-	if (!$originwpAttribution.length) {
-		$body.prepend($wpAttribution);
-	}
+	const $wpLicense: JQuery<HTMLInputElement> =
+		$body.find<HTMLInputElement>('input[name=wpLicense]') ||
+		$('<input>')
+			.attr({
+				id: 'wpLicense',
+				name: 'wpLicense',
+				type: 'hidden',
+				value: '',
+			})
+			.prependTo($body);
 
-	wpAttribution = getAttribution(parentFieldSet);
-	$originwpAttribution.val(wpAttribution);
+	wpLicense = getLicense(parentFieldSet);
+	$wpLicense.val(wpLicense);
 };
 
-export {getAttribution, updateWpAttribution};
+export {getLicense, updateWpLicense};

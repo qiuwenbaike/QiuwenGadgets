@@ -1,4 +1,5 @@
-import {getAttribution, updateWpAttribution} from './getAttribution';
+import {getLicense, updateWpLicense} from './getLicense';
+import {getSource, updateWpSource} from './getSource';
 import {LICENSES} from '../constant';
 import {appendTextToSummary} from './appendTextToSummary';
 import {getMessage} from '../i18n';
@@ -64,39 +65,70 @@ const generateTextInputWithDropdown = ({$body, $wpSummary}: {$body: JQuery<HTMLE
 		label: getMessage('Please Claim Sources and Licenses'),
 	});
 
-	const inputOnChange = () => {
-		updateWpAttribution({$body, parentFieldSet});
+	const textInputOnChange = () => {
+		updateWpSource({$body, parentFieldSet});
 	};
-
-	const textInput = getTextInput(inputOnChange);
-	const dropDown = getDropDown(inputOnChange);
+	const textInput = getTextInput(textInputOnChange);
+	const dropDownOnChange = () => {
+		updateWpLicense({$body, parentFieldSet});
+	};
+	const dropDown = getDropDown(dropDownOnChange);
 
 	const addItemOnClick = () => {
-		let wpAttribution: string = '';
+		let wpSource: string = '';
+		let wpLicense: string = '';
 
-		const $wpAttribution: JQuery = $('<input>').attr({
-			id: 'wpAttribution',
-			name: 'wpAttribution',
-			type: 'hidden',
-			value: '',
-		});
+		const $wpSource: JQuery<HTMLInputElement> =
+			$body.find<HTMLInputElement>('input[name=wpSource]') ||
+			$('<input>')
+				.attr({
+					id: 'wpSource',
+					name: 'wpSource',
+					type: 'hidden',
+					value: '',
+				})
+				.prependTo($body);
+		const $wpLicense: JQuery<HTMLInputElement> =
+			$body.find<HTMLInputElement>('input[name=wpLicense]') ||
+			$('<input>')
+				.attr({
+					id: 'wpLicense',
+					name: 'wpLicense',
+					type: 'hidden',
+					value: '',
+				})
+				.prependTo($body);
 
-		const $originwpAttribution: JQuery<HTMLInputElement> =
-			$body.find<HTMLInputElement>('input[name=wpAttribution]');
-		if (!$originwpAttribution.length) {
-			$body.prepend($wpAttribution);
+		wpSource = getSource(parentFieldSet);
+		wpLicense = getLicense(parentFieldSet);
+		$wpSource.val(wpSource);
+		$wpLicense.val(wpLicense);
+
+		if (wpSource.length && wpLicense.length) {
+			const attribution = `${getMessage('Source')}: ${wpSource} (${getMessage('License')}: ${wpLicense}) `;
+
+			if ([getMessage('Replace With License'), getMessage('Other License')].includes(wpLicense)) {
+				// @ts-expect-error TS2304
+				void OO.ui.alert(getMessage('Please replace placeholder with actual license'), {size: 'medium'});
+			}
+
+			appendTextToSummary({
+				customSummary: attribution ? `[${attribution}]` : '',
+				$wpSummary,
+			});
+
+			textInput.setValue('');
+			dropDown.getMenu().unselectItem();
+		} else if (!wpSource.length && wpLicense.length) {
+			// @ts-expect-error TS2304
+			void OO.ui.alert(getMessage('Source is missing'), {size: 'medium'});
+		} else if (wpSource.length && !wpLicense.length) {
+			// @ts-expect-error TS2304
+			void OO.ui.alert(getMessage('License is missing'), {size: 'medium'});
+		} else {
+			// @ts-expect-error TS2304
+			void OO.ui.alert(getMessage('Both source and License are missing'), {size: 'medium'});
 		}
-
-		wpAttribution = getAttribution(parentFieldSet);
-		$originwpAttribution.val(wpAttribution);
-
-		appendTextToSummary({
-			customSummary: $originwpAttribution.val() ? `[${$originwpAttribution.val()}]` : '',
-			$wpSummary,
-		});
-
-		textInput.setValue('');
-		dropDown.getMenu().unselectItem();
 	};
 
 	const addItemButton = getAddItemButton(addItemOnClick);
