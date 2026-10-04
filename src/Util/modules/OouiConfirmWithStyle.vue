@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {CdxDialog} from '@wikimedia/codex';
-import {getMessage} from './utils/i18n';
+import {getMessage} from './util/i18n';
 
 const props = defineProps<{
 	open: boolean;

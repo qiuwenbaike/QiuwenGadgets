@@ -10,7 +10,9 @@ type OouiConfirmWithStyle = (message: string) => Promise<boolean>;
  * @return {Promise<boolean>} Resolves to `true` when the user confirms, `false` when cancelled or closed
  */
 const oouiConfirmWithStyle: OouiConfirmWithStyle = (message) =>
-	new Promise((resolve) => {
+	new Promise(async (resolve) => {
+		await mw.loader.using(['@wikimedia/codex', 'vue']);
+
 		const root = document.createElement('div');
 		document.body.append(root);
 
