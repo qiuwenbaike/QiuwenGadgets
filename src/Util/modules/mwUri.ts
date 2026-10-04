@@ -1,7 +1,7 @@
 type ClassMwUri = typeof MwUri;
 
 class MwUri extends URL {
-	constructor(url: string, base: string = `${location.protocol}//${location.host}`) {
+	constructor(url: string, base: string = location.origin) {
 		super(url, base);
 	}
 	public extend(object: {[key: string]: string}): this {
