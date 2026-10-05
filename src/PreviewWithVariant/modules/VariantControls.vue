@@ -48,8 +48,8 @@ defineExpose({getSelectedVariant});
 		display: flex;
 		flex-wrap: wrap;
 		align-items: baseline;
+		flex-basis: content;
 		margin: 0;
-		flex: 1 1 100%;
 	}
 
 	.cdx-checkbox {
