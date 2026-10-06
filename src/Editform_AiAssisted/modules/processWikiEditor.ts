@@ -39,12 +39,11 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 		);
 	};
 
-	if (!$body.find(`#${OPTIONS.inputId}`).length) {
+	if (!$body.find('#mw-editpage-efaa').length) {
 		const root = document.createElement('div');
 		root.id = 'mw-editpage-efaa';
 		$target.append(root);
 		createApp(AssistedCheckbox, {
-			inputId: OPTIONS.inputId,
 			label: getMessage('AiAssisted'),
 			onChange,
 		}).mount(root);

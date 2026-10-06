@@ -29,7 +29,6 @@ var import_ext_gadget2 = require("ext.gadget.Util");
 var changeTag = "AI_assisted";
 var configKey = "gadget-Editform_AiAssisted__Initialized";
 var configKeyVe = "gadget-Editform_AiAssisted__Initialized__VE";
-var inputId = "editform_ai_assisted";
 var targetClassVe = "ve-ui-mwSaveDialog-checkboxes";
 var targetWikiEditor = ".editCheckboxes .oo-ui-horizontalLayout";
 var import_vue = require("vue");
@@ -38,10 +37,6 @@ var import_codex = require("@wikimedia/codex");
 var AssistedCheckbox_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
   __name: "AssistedCheckbox",
   props: {
-    inputId: {
-      type: String,
-      required: true
-    },
     label: {
       type: String,
       required: true
@@ -76,8 +71,7 @@ var import_vue3 = require("vue");
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0, import_vue3.openBlock)(), (0, import_vue3.createBlock)($setup["CdxCheckbox"], {
     modelValue: $setup.selected,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.selected = $event),
-    "input-id": $props.inputId
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.selected = $event)
   }, {
     default: (0, import_vue3.withCtx)(() => [(0, import_vue3.createTextVNode)(
       (0, import_vue3.toDisplayString)($props.label),
@@ -86,7 +80,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     )]),
     _: 1
     /* STABLE */
-  }, 8, ["modelValue", "input-id"]);
+  }, 8, ["modelValue"]);
 }
 //! src/Editform_AiAssisted/modules/AssistedCheckbox.vue
 AssistedCheckbox_default.render = render;
@@ -140,12 +134,11 @@ var processVisualEditor = ($body) => {
       changeTag
     });
   };
-  if (!$body.find("#".concat(inputId)).length) {
+  if (!$body.find("#mw-editpage-efaa").length) {
     const root = document.createElement("div");
     root.id = "mw-editpage-efaa";
     $target.append(root);
     (0, import_vue4.createApp)(AssistedCheckbox_default2, {
-      inputId,
       label: getMessage("AiAssisted"),
       onChange
     }).mount(root);
@@ -188,12 +181,11 @@ var processWikiEditor = ({
       changeTag
     }));
   };
-  if (!$body.find("#".concat(inputId)).length) {
+  if (!$body.find("#mw-editpage-efaa").length) {
     const root = document.createElement("div");
     root.id = "mw-editpage-efaa";
     $target.append(root);
     (0, import_vue5.createApp)(AssistedCheckbox_default2, {
-      inputId,
       label: getMessage("AiAssisted"),
       onChange
     }).mount(root);
