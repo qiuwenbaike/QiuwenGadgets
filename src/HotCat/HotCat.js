@@ -798,6 +798,9 @@ hotCatMessages();
 				action.name = action.value;
 			}
 		}
+		if (!conf.wgArticleId && changes > 0 && error === null) {
+			result.text = `{{Catnav|auto=1}}\n\n${result.text}`;
+		}
 		// Fill in the form and submit it
 		commitForm.wpMinoredit.checked = minorEdits;
 		commitForm.wpWatchthis.checked = (!conf.wgArticleId && watchCreate) || watchEdit || pageWatched;
