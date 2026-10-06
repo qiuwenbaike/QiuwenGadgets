@@ -700,7 +700,105 @@ const catALot = async (): Promise<void> => {
 					break;
 			}
 
+			// 如果没有修改任何内容
 			if (text === originText) {
+				// 如果该页面是模板（Template:）且要执行的从挨揍是移动分类或复制分类
+				if (markedLabelTitle.startsWith('Template:') && (mode === 'move' || mode === 'copy')) {
+					// 尝试在其文档页（/doc）中修改分类
+					const docTitle = `${markedLabelTitle}/doc`;
+					const docResult = (await CAL.doAPICallAsync({
+						action: 'query',
+						formatversion: '2',
+						meta: 'tokens',
+						titles: docTitle,
+						prop: 'revisions',
+						rvprop: ['content', 'timestamp'],
+						rvslots: 'main',
+					})) as Record<string, unknown>;
+
+					// 如果没有找到该文档页
+					if (!docResult?.['query']) {
+						CAL.connectionError[CAL.connectionError.length] = docTitle;
+						this.updateCounter();
+						return;
+					}
+
+					// 获取文档页的文本
+					const query = docResult?.['query'] as
+						| {
+								pages?: Array<{
+									starttimestamp?: string | number;
+									revisions?: Array<{
+										timestamp?: string;
+										slots?: {
+											main?: {content?: string};
+										};
+									}>;
+								}>;
+						  }
+						| undefined;
+					// 如果没有找到该文档页
+					if (!query) {
+						CAL.connectionError[CAL.connectionError.length] = docTitle;
+						this.updateCounter();
+						return;
+					}
+
+					const {pages: docPages = []} = query;
+					const [docPage] = docPages;
+					const docOriginText = docPage?.revisions?.[0]?.slots?.main?.content ?? '';
+					let docText = docOriginText;
+					const docCatRegExp = await CAL.regexBuilder(sourcecat); // 获取模板分类正则
+
+					// 如果模板文档页中存在该分类
+					if (docText.match(docCatRegExp)) {
+						if (mode === 'move') {
+							docText = docText.replace(docCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`); // 替换模板文档页中的分类
+						} else if (mode === 'copy') {
+							docText = docText.replace(
+								docCatRegExp,
+								`[[${CAL.localCatName}:${sourcecat}$1]]\n[[${CAL.localCatName}:${targetCategory}$1]]`
+							); // 复制分类
+						}
+					}
+
+					// 如果模板文档页中的文本有变化
+					if (docText !== docOriginText) {
+						text = docText;
+						const docStarttimestamp = docPage?.starttimestamp ?? 0;
+						const docTimestamp = docPage?.revisions?.[0]?.timestamp ?? 0;
+						try {
+							await CAL.doAPICallAsync({
+								action: 'edit',
+								token: CAL.editToken,
+								tags: CAL.API_TAG,
+								title: docTitle,
+								assert: 'user',
+								bot: true,
+								basetimestamp: docTimestamp,
+								watchlist: CAL.settings.watchlist as never,
+								text,
+								summary,
+								starttimestamp: docStarttimestamp,
+							});
+							this.updateCounter(); // 更新计数器
+							console.log(`[Cat-a-lot] Successfully edited template doc page: ${docTitle}`);
+							// 刷新模板页缓存
+							await CAL.doAPICallAsync({
+								action: 'purge',
+								formatversion: '2',
+								meta: 'tokens',
+								titles: markedLabelTitle,
+							});
+							console.log(`[Cat-a-lot] Successfully purged template doc page: ${docTitle}`);
+							CAL.markAsDone($markedLabel, targetCategory, mode);
+						} catch {
+							CAL.connectionError[CAL.connectionError.length] = docTitle;
+							this.updateCounter();
+						}
+					}
+				}
+
 				CAL.notFound[CAL.notFound.length] = markedLabelTitle;
 				this.updateCounter();
 				return;
