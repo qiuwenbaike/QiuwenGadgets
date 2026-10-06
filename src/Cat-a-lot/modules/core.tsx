@@ -693,6 +693,13 @@ const catALot = async (): Promise<void> => {
 				case 'move':
 					text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`);
 					summary = CAL.msg('summary-move').replace('$1', sourcecat).replace('$2', targetCategory);
+					text = text.replace(
+						new RegExp(
+							`(\\|[ \\t]*(?:cat|Cat|CAT)[ \\t]*=[ \\t]*)${String(sourcecat).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`,
+							'g'
+						),
+						(_m, p) => p + String(targetCategory)
+					);
 					break;
 				case 'remove':
 					text = text.replace(sourceCatRegExp, '');
