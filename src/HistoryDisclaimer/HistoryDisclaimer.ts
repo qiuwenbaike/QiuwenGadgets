@@ -1,5 +1,5 @@
+import {background} from './modules/getBackground';
 import {disclaimer} from './HistoryDisclaimer.module.less';
-import {getBackground} from './modules/getBackground';
 import {getBody} from 'ext.gadget.Util';
 
 void getBody().then(function historyDisclaimer(): void {
@@ -13,5 +13,5 @@ void getBody().then(function historyDisclaimer(): void {
 		return;
 	}
 
-	document.body.append(getBackground());
+	document.body.append(background());
 });
