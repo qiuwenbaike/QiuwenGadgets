@@ -4,5 +4,5 @@
 	"section": "browser",
 	"excludeSites": ["loginwiki"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.JSX", "ext.gadget.Util"]
+	"dependencies": ["@wikimedia/codex", "ext.gadget.i18n", "ext.gadget.Util", "vue"]
 }
