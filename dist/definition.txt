@@ -39,7 +39,7 @@
 * CopyCodeBlock[ResourceLoader|actions=view|default|dependencies=@wikimedia/codex,ext.gadget.Clipboard,ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Toastify,mediawiki.util,vue|requiresES6]|CopyCodeBlock.js|CopyCodeBlock.css
 * DidYouMean[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.Title|requiresES6]|DidYouMean.js
 * DiffLink[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util,vue|requiresES6]|DiffLink.js|DiffLink.css
-* EnhancedSpecialSearch[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util|requiresES6]|EnhancedSpecialSearch.js
+* EnhancedSpecialSearch[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|requiresES6]|EnhancedSpecialSearch.js|EnhancedSpecialSearch.css
 * FloatTOC[ResourceLoader|actions=view|dependencies=@wikimedia/codex,ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,vue|skins=vector|requiresES6]|FloatTOC.js|FloatTOC.css
 * FullwidthSearchFix[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util|requiresES6]|FullwidthSearchFix.js
 * HideLongSummaries[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|HideLongSummaries.js

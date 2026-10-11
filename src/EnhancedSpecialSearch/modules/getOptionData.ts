@@ -10,7 +10,7 @@ type OptionData = {
 const getOptionData = (): OptionData[] => {
 	return [
 		{
-			site: getMessage('Qiuwen'),
+			site: getMessage('In-site search'),
 			origin: true,
 		},
 		{

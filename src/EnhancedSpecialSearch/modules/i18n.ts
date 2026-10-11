@@ -22,11 +22,10 @@ const getI18nMessages = () => {
 			ja: 'Google',
 			zh: '谷歌',
 		}),
-		Qiuwen: localize({
-			en: 'Qiuwen Baike',
-			ja: '求聞百科',
-			'zh-hans': '求闻百科',
-			'zh-hant': '求聞百科',
+		'In-site search': localize({
+			en: 'In-site search',
+			'zh-hans': '站内搜索',
+			'zh-hant': '站內檢索',
 		}),
 		Sogou: localize({
 			en: 'Sogou',

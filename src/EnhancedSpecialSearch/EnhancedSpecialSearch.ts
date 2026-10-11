@@ -1,3 +1,4 @@
+import './EnhancedSpecialSearch.less';
 import {getBody} from 'ext.gadget.Util';
 import {processElement} from './modules/processElement';
 
