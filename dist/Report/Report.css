@@ -1,0 +1,48 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Report}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+
+/**
+ * Alert Mark (with blue color and white background)
+ *
+ * @source {@link https://www.qiuwenbaike.cn/wiki/File:Alert_Mark_(Blue).svg}
+ * @author WaitSpring
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* esbuild-css-modules-plugin-ns-css:src/Report/modules/reportButton.module.less */
+.reportButton-module__gadget-report-button_Fs7fda__4100 {
+  cursor: pointer;
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 13.229 13.229"><circle cx="6.615" cy="6.615" r="5.953" fill="%23fff" stroke="%2336c" stroke-width="1.322"/><path fill="%2336c" d="M7.409 8.097H5.808V2.644h1.601zm-.795.803q.403 0 .665.231.261.242.261.616t-.261.605-.665.231q-.414 0-.665-.231-.261-.231-.261-.605t.261-.616Q6.2 8.9 6.614 8.9"/></svg>');
+  opacity: .7;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 32px;
+  height: 32px;
+  position: fixed;
+  bottom: 211px;
+  right: 8px;
+}
+.client-darkmode .reportButton-module__gadget-report-button_Fs7fda__4100 {
+  transition: none;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9SZXBvcnQvbW9kdWxlcy9yZXBvcnRCdXR0b24ubW9kdWxlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi8qIDxzdGRpbj4gKi9cbi5yZXBvcnRCdXR0b24tbW9kdWxlX19nYWRnZXQtcmVwb3J0LWJ1dHRvbl9GczdmZGFfXzQxMDAge1xuICBjdXJzb3I6IHBvaW50ZXI7XG4gIGNvbnRlbnQ6IHVybCgnZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9XCJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z1wiIHdpZHRoPVwiNTBcIiBoZWlnaHQ9XCI1MFwiIHZpZXdCb3g9XCIwIDAgMTMuMjI5IDEzLjIyOVwiPjxjaXJjbGUgY3g9XCI2LjYxNVwiIGN5PVwiNi42MTVcIiByPVwiNS45NTNcIiBmaWxsPVwiJTIzZmZmXCIgc3Ryb2tlPVwiJTIzMzZjXCIgc3Ryb2tlLXdpZHRoPVwiMS4zMjJcIi8+PHBhdGggZmlsbD1cIiUyMzM2Y1wiIGQ9XCJNNy40MDkgOC4wOTdINS44MDhWMi42NDRoMS42MDF6bS0uNzk1LjgwM3EuNDAzIDAgLjY2NS4yMzEuMjYxLjI0Mi4yNjEuNjE2dC0uMjYxLjYwNS0uNjY1LjIzMXEtLjQxNCAwLS42NjUtLjIzMS0uMjYxLS4yMzEtLjI2MS0uNjA1dC4yNjEtLjYxNlE2LjIgOC45IDYuNjE0IDguOVwiLz48L3N2Zz4nKTtcbiAgb3BhY2l0eTogLjc7XG4gIC13ZWJraXQtdXNlci1zZWxlY3Q6IG5vbmU7XG4gIHVzZXItc2VsZWN0OiBub25lO1xuICB3aWR0aDogMzJweDtcbiAgaGVpZ2h0OiAzMnB4O1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGJvdHRvbTogMjExcHg7XG4gIHJpZ2h0OiA4cHg7XG59XG4uY2xpZW50LWRhcmttb2RlIC5yZXBvcnRCdXR0b24tbW9kdWxlX19nYWRnZXQtcmVwb3J0LWJ1dHRvbl9GczdmZGFfXzQxMDAge1xuICB0cmFuc2l0aW9uOiBub25lO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFDQSxDQUFDO0FBQ0MsVUFBUTtBQUNSLFdBQVM7QUFDVCxXQUFTO0FBQ1QsdUJBQXFCO0FBQ3JCLGVBQWE7QUFDYixTQUFPO0FBQ1AsVUFBUTtBQUNSLFlBQVU7QUFDVixVQUFRO0FBQ1IsU0FBTztBQUNUO0FBQ0EsQ0FBQyxnQkFBZ0IsQ0FaaEI7QUFhQyxjQUFZO0FBQ2Q7IiwKICAibmFtZXMiOiBbXQp9Cg== */

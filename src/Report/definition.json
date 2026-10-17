@@ -4,6 +4,5 @@
 	"section": "sysop",
 	"includeSites": ["zhqiuwenbaike"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.JSX", "ext.gadget.Tippy", "ext.gadget.Util", "mediawiki.util"],
-	"peers": ["Report-pagestyles"]
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Tippy", "ext.gadget.Util", "mediawiki.util"]
 }
