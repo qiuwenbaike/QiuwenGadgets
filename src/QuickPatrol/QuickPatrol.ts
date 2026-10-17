@@ -1,5 +1,6 @@
-import {patrolAllPages, patrolSinglePage} from './modules/patrolPages';
 import {getBody} from 'ext.gadget.Util';
+import {patrolAllPages} from './modules/patrolAllPages';
+import {patrolSinglePage} from './modules/patrolSinglePage';
 
 void getBody().then(function quickPatrol($body: JQuery<HTMLBodyElement>): void {
 	if (mw.config.get('wgCanonicalSpecialPageName') !== 'Newpages') {
@@ -7,6 +8,8 @@ void getBody().then(function quickPatrol($body: JQuery<HTMLBodyElement>): void {
 	}
 
 	/* Patrol single page */
+	const patrolSingleButtons = [];
+
 	for (const [index, element] of Object.entries($body.find('.not-patrolled'))) {
 		const $element: JQuery = $(element);
 
@@ -25,9 +28,11 @@ void getBody().then(function quickPatrol($body: JQuery<HTMLBodyElement>): void {
 			continue;
 		}
 
-		element.append(patrolSinglePage(index, revIds[1]));
+		const patrolSingleButton = patrolSinglePage(index, revIds[1]);
+		patrolSingleButtons[patrolSingleButtons.length] = patrolSingleButton;
+		element.append(patrolSingleButton);
 	}
 
 	/* Patrol all pages */
-	$body.find('#mw-content-text .mw-pager-body').append(patrolAllPages($body));
+	$body.find('#mw-content-text .mw-pager-body').append(patrolAllPages(patrolSingleButtons));
 });
