@@ -8,7 +8,6 @@ import {
 	removeTitleFromPermalink,
 	titleCleanUp,
 	toggleLink,
-	unihanPopup,
 } from './modules/core';
 import {tippyForCitizenHeader, tippyForExtension} from './modules/tippy';
 import {clearExpiredLocalStorage} from './modules/clearExpiredLocalStorage';
@@ -38,7 +37,6 @@ import {resizeJQueryUI} from './modules/resizeJQueryUI';
 		removeTitleFromPermalink($body);
 		openSearchInNewTab($body);
 		titleCleanUp($body);
-		void unihanPopup($body);
 		hideNewUsersLog($body);
 		toggleLink($body);
 		resizeJQueryUI($body);
