@@ -1,0 +1,23 @@
+.scroll-button {
+	position: fixed;
+	right: 8px;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+	opacity: 0.7;
+	user-select: none;
+
+	:global(.client-darkmode) & {
+		transition: none;
+	}
+}
+
+.scroll-button-down {
+	content: url('../images/scroll-button-down.svg');
+	bottom: 45px;
+}
+
+.scroll-button-up {
+	content: url('../images/scroll-button-up.svg');
+	bottom: 85px;
+}

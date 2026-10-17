@@ -1,16 +1,11 @@
-import {ScrollDownButton, ScrollUpButton} from '../components/scrollButton';
-import {changeOpacityWhenMouseEnterOrLeave} from 'ext.gadget.Util';
+import {scrollDownButton, scrollUpButton} from './scrollButton';
 import {tippy} from 'ext.gadget.Tippy';
 
 const insertElementandListener = ($body: JQuery<HTMLBodyElement>): void => {
-	const onMouseEnterMouseLeave = (event: MouseEvent): void => {
-		changeOpacityWhenMouseEnterOrLeave(event);
-	};
+	const downButton = scrollDownButton();
+	const upButton = scrollUpButton();
 
-	const scrollDownButton = ScrollDownButton(onMouseEnterMouseLeave);
-	const scrollUpButton = ScrollUpButton(onMouseEnterMouseLeave);
-
-	for (const element of [scrollDownButton, scrollUpButton]) {
+	for (const element of [downButton, upButton]) {
 		$body.append(element);
 
 		tippy(element, {
@@ -36,8 +31,8 @@ const insertElementandListener = ($body: JQuery<HTMLBodyElement>): void => {
 			upButtonButtom = '85px';
 		}
 
-		scrollDownButton.style.bottom = downButtonButtom;
-		scrollUpButton.style.bottom = upButtonButtom;
+		downButton.style.bottom = downButtonButtom;
+		upButton.style.bottom = upButtonButtom;
 	};
 	const scrollListenerWithThrottle: typeof scrollListener = mw.util.throttle(scrollListener, 200);
 
