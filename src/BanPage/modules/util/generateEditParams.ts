@@ -10,8 +10,8 @@ type EditParams = {
 const {wgNamespaceNumber, wgPageName} = mw.config.get();
 
 const generateEditParams = (): EditParams => {
-	let targetPage: string = 'Qiuwen:首页';
-	let redirectTemplate: string = '';
+	let targetPage;
+	let redirectTemplate;
 	let summary: string = getMessage('Ban the $1');
 
 	switch (wgNamespaceNumber) {
@@ -30,6 +30,8 @@ const generateEditParams = (): EditParams => {
 			summary = summary.replace('$1', getMessage('Template'));
 			break;
 		default:
+			targetPage = 'Qiuwen:首页';
+			redirectTemplate = '';
 			summary = summary.replace('$1', getMessage('Page'));
 			break;
 	}
