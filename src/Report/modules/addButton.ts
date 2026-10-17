@@ -1,5 +1,5 @@
-import ReportButton from '../components/ReportButton';
 import {changeOpacityWhenMouseEnterOrLeave} from 'ext.gadget.Util';
+import {reportButton} from './reportButton';
 import {tippy} from 'ext.gadget.Tippy';
 
 const addButton = ($body: JQuery<HTMLBodyElement>, URL: string): void => {
@@ -12,15 +12,15 @@ const addButton = ($body: JQuery<HTMLBodyElement>, URL: string): void => {
 		changeOpacityWhenMouseEnterOrLeave(event);
 	};
 
-	const reportButton = ReportButton(URL, onMouseEnterMouseLeave);
+	const button = reportButton(URL, onMouseEnterMouseLeave);
 
-	tippy(reportButton, {
+	tippy(button, {
 		arrow: true,
-		content: reportButton.getAttribute('alt') as string,
+		content: button.getAttribute('alt') as string,
 		placement: 'left',
 	});
 
-	$body.append(reportButton);
+	$body.append(button);
 
 	const scrollListener = (): void => {
 		let buttonBottom: string;
@@ -35,7 +35,7 @@ const addButton = ($body: JQuery<HTMLBodyElement>, URL: string): void => {
 			buttonBottom = '211px';
 		}
 
-		reportButton.style.bottom = buttonBottom;
+		button.style.bottom = buttonBottom;
 	};
 	const scrollListenerWithThrottle: typeof scrollListener = mw.util.throttle(scrollListener, 200);
 
