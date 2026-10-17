@@ -1,8 +1,7 @@
-import React from 'ext.gadget.JSX';
 import {checkElementExist} from './checkElementExist';
 
 // 将解析后的wikitext加入页面中
-const addParsedWikitext = (parsedWikitext: string | React.ReactElement): void => {
+const addParsedWikitext = (parsedWikitext: string | HTMLElement): void => {
 	const $body: JQuery<HTMLBodyElement> = $('body');
 	const $parsedWikitext: JQuery = $().html(parsedWikitext);
 
