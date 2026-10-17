@@ -13,6 +13,7 @@ import {getMessage} from './modules/i18n';
  *
  * @see {@link https://doc.wikimedia.org/codex/latest/icons/}
  */
+
 /** Path for `cdxIconCopy`. */
 const cdxIconCopy = {
 	path: 'M13 19H1V7h6V1h12v12h-6zm-6-6V9H3v8h8v-4zm2-2h8V3H9z',
