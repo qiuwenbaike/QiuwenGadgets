@@ -1,0 +1,72 @@
+/**
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * _addText: '{{Gadget Header|license=GPL-3.0-or-later}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/ScrollUpButton}
+ * @author 安忆 <i@anyi.in>
+ * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
+ */
+
+/**
+ * Copyright (C)  安忆
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Up Arrow (with blue color and white background)
+ *
+ * @source {@link https://www.qiuwenbaike.cn/wiki/File:Up_Arrow_(Blue,_White_BG).svg}
+ * @author WaitSpring
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* esbuild-css-modules-plugin-ns-css:src/ScrollUpButton/modules/scrollButton.module.less */
+.scrollButton-module__scroll-button_4YB4ba__4100 {
+  cursor: pointer;
+  opacity: .7;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 32px;
+  height: 32px;
+  position: fixed;
+  right: 8px;
+}
+.client-darkmode .scrollButton-module__scroll-button_4YB4ba__4100 {
+  transition: none;
+}
+.scrollButton-module__scroll-button-down_4YB4ba__4100 {
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 13.229 13.229"><circle cx="6.614" cy="-6.614" r="5.957" fill="%23fff" stroke="%2336c" stroke-width="1.315" transform="scale(1 -1)"/><path fill="%2336c" d="M5.867 2.964h1.497v5.094l1.94-2.177 1.016.89-3.674 3.81h-.061L2.91 6.773l1.027-.89 1.93 2.177z"/></svg>');
+  bottom: 45px;
+}
+.scrollButton-module__scroll-button-up_4YB4ba__4100 {
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 13.229 13.229"><circle cx="6.614" cy="6.614" r="5.957" fill="%23fff" stroke="%2336c" stroke-width="1.315"/><path fill="%2336c" d="M5.866 10.264h1.497V5.17l1.941 2.177 1.015-.89-3.674-3.81h-.061L2.91 6.456l1.027.89 1.93-2.177Z"/></svg>');
+  bottom: 85px;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9TY3JvbGxVcEJ1dHRvbi9tb2R1bGVzL3Njcm9sbEJ1dHRvbi5tb2R1bGUubGVzcyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLyogPHN0ZGluPiAqL1xuLnNjcm9sbEJ1dHRvbi1tb2R1bGVfX3Njcm9sbC1idXR0b25fNFlCNGJhX180MTAwIHtcbiAgY3Vyc29yOiBwb2ludGVyO1xuICBvcGFjaXR5OiAuNztcbiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTtcbiAgdXNlci1zZWxlY3Q6IG5vbmU7XG4gIHdpZHRoOiAzMnB4O1xuICBoZWlnaHQ6IDMycHg7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgcmlnaHQ6IDhweDtcbn1cbi5jbGllbnQtZGFya21vZGUgLnNjcm9sbEJ1dHRvbi1tb2R1bGVfX3Njcm9sbC1idXR0b25fNFlCNGJhX180MTAwIHtcbiAgdHJhbnNpdGlvbjogbm9uZTtcbn1cbi5zY3JvbGxCdXR0b24tbW9kdWxlX19zY3JvbGwtYnV0dG9uLWRvd25fNFlCNGJhX180MTAwIHtcbiAgY29udGVudDogdXJsKCdkYXRhOmltYWdlL3N2Zyt4bWwsPHN2ZyB4bWxucz1cImh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnXCIgd2lkdGg9XCI1MFwiIGhlaWdodD1cIjUwXCIgdmlld0JveD1cIjAgMCAxMy4yMjkgMTMuMjI5XCI+PGNpcmNsZSBjeD1cIjYuNjE0XCIgY3k9XCItNi42MTRcIiByPVwiNS45NTdcIiBmaWxsPVwiJTIzZmZmXCIgc3Ryb2tlPVwiJTIzMzZjXCIgc3Ryb2tlLXdpZHRoPVwiMS4zMTVcIiB0cmFuc2Zvcm09XCJzY2FsZSgxIC0xKVwiLz48cGF0aCBmaWxsPVwiJTIzMzZjXCIgZD1cIk01Ljg2NyAyLjk2NGgxLjQ5N3Y1LjA5NGwxLjk0LTIuMTc3IDEuMDE2Ljg5LTMuNjc0IDMuODFoLS4wNjFMMi45MSA2Ljc3M2wxLjAyNy0uODkgMS45MyAyLjE3N3pcIi8+PC9zdmc+Jyk7XG4gIGJvdHRvbTogNDVweDtcbn1cbi5zY3JvbGxCdXR0b24tbW9kdWxlX19zY3JvbGwtYnV0dG9uLXVwXzRZQjRiYV9fNDEwMCB7XG4gIGNvbnRlbnQ6IHVybCgnZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9XCJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z1wiIHdpZHRoPVwiNTBcIiBoZWlnaHQ9XCI1MFwiIHZpZXdCb3g9XCIwIDAgMTMuMjI5IDEzLjIyOVwiPjxjaXJjbGUgY3g9XCI2LjYxNFwiIGN5PVwiNi42MTRcIiByPVwiNS45NTdcIiBmaWxsPVwiJTIzZmZmXCIgc3Ryb2tlPVwiJTIzMzZjXCIgc3Ryb2tlLXdpZHRoPVwiMS4zMTVcIi8+PHBhdGggZmlsbD1cIiUyMzM2Y1wiIGQ9XCJNNS44NjYgMTAuMjY0aDEuNDk3VjUuMTdsMS45NDEgMi4xNzcgMS4wMTUtLjg5LTMuNjc0LTMuODFoLS4wNjFMMi45MSA2LjQ1NmwxLjAyNy44OSAxLjkzLTIuMTc3WlwiLz48L3N2Zz4nKTtcbiAgYm90dG9tOiA4NXB4O1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFDQSxDQUFDO0FBQ0MsVUFBUTtBQUNSLFdBQVM7QUFDVCx1QkFBcUI7QUFDckIsZUFBYTtBQUNiLFNBQU87QUFDUCxVQUFRO0FBQ1IsWUFBVTtBQUNWLFNBQU87QUFDVDtBQUNBLENBQUMsZ0JBQWdCLENBVmhCO0FBV0MsY0FBWTtBQUNkO0FBQ0EsQ0FBQztBQUNDLFdBQVM7QUFDVCxVQUFRO0FBQ1Y7QUFDQSxDQUFDO0FBQ0MsV0FBUztBQUNULFVBQVE7QUFDVjsiLAogICJuYW1lcyI6IFtdCn0K */
