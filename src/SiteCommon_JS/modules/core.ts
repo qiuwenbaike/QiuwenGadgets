@@ -1,5 +1,3 @@
-import React from 'ext.gadget.JSX';
-import {getMessage} from './i18n';
 import {uniqueArray} from 'ext.gadget.Util';
 
 const {wgAction, wgCanonicalSpecialPageName, wgNamespaceNumber, wgPageName, wgScript, wgUserName} = mw.config.get();
@@ -107,27 +105,20 @@ const addTargetBlank = ($body: JQuery<HTMLBodyElement>): void => {
 	/**
 	 * Add target="blank" to external links
 	 */
-	$body.find<HTMLAnchorElement>('a.external, a[rel="mw:ExtLink"]').filter((_index, element): boolean => {
-		const linkHref: string | undefined = $(element).attr('href');
-		if (linkHref) {
-			const hrefSplit: string[] = linkHref.split('/');
-			if (hrefSplit.length < 3 || hrefSplit[2] === location.host) {
-				return false;
-			}
+	const elements = $body.find<HTMLAnchorElement>('a.external, a[rel="mw:ExtLink"]');
+	for (const element of elements) {
+		if (!element.rel.includes('nofollow')) {
+			continue;
 		}
 
-		if (element.href.includes(`${location.protocol}//${location.hostname}`)) {
-			element.target = '_blank';
-			if (!element.rel.includes('noopener')) {
-				element.rel += ' noopener';
-			}
-			if (!element.rel.includes('noreferrer')) {
-				element.rel += ' noreferrer';
-			}
+		element.target = '_blank';
+		if (!element.rel.includes('noopener')) {
+			element.rel += ' noopener';
 		}
-
-		return true;
-	});
+		if (!element.rel.includes('noreferrer')) {
+			element.rel += ' noreferrer';
+		}
+	}
 };
 
 const removeTitleFromPermalink = ($body: JQuery<HTMLBodyElement>): void => {
@@ -182,43 +173,6 @@ const titleCleanUp = ($body: JQuery<HTMLBodyElement>): void => {
 	$firstHeading.text(replaceTitle(pageTitle));
 };
 
-const unihanPopup = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
-	/**
-	 * Display title=(.*) of <span class="inline-unihan"> after them.
-	 * (beta test)
-	 */
-	// Do not display on Special Pages
-	if (wgNamespaceNumber < 0) {
-		return;
-	}
-
-	await mw.loader.using('oojs-ui-core');
-
-	for (const element of $body.find('attr, .inline-unihan')) {
-		const $element: JQuery = $(element);
-
-		const title: string | undefined = $element.attr('title');
-		if (!title) {
-			continue;
-		}
-
-		// @ts-expect-error TS2304, TS2503
-		const popup: OO.ui.PopupWidget = new OO.ui.PopupWidget({
-			$content: $(<p>{title}</p>) as JQuery,
-			label: getMessage('Note'),
-			anchor: true,
-			head: true,
-			padded: true,
-		});
-
-		$body.append(popup.$element);
-
-		$element.on('click', (): void => {
-			popup.toggle();
-		});
-	}
-};
-
 const fixLocationHash = (): void => {
 	/* 修正折叠后定位变化 */
 	if (location.hash) {
@@ -258,7 +212,6 @@ export {
 	removeTitleFromPermalink,
 	openSearchInNewTab,
 	titleCleanUp,
-	unihanPopup,
 	fixLocationHash,
 	hideNewUsersLog,
 	toggleLink,
