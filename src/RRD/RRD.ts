@@ -1,4 +1,4 @@
-import ReportButton from './modules/ReportButton.vue';
+import ReportButton from './components/ReportButton.vue';
 import {createApp} from 'vue';
 import {getBody} from 'ext.gadget.Util';
 import {showDialog} from './modules/showDialog';
