@@ -4,14 +4,6 @@
 	"section": "sysop",
 	"excludeSites": ["loginwiki"],
 	"default": false,
-	"dependencies": [
-		"@wikimedia/codex",
-		"ext.gadget.i18n",
-		"ext.gadget.Toastify",
-		"ext.gadget.Util",
-		"mediawiki.api",
-		"mediawiki.util",
-		"vue"
-	],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Toastify", "ext.gadget.Util", "mediawiki.api", "mediawiki.util"],
 	"rights": ["patrol"]
 }

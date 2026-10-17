@@ -4,14 +4,12 @@
 	"section": "compatibility",
 	"default": true,
 	"dependencies": [
-		"@wikimedia/codex",
 		"ext.gadget.FilterAlteredClicks",
 		"ext.gadget.i18n",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
 		"mediawiki.api",
-		"mediawiki.util",
-		"vue"
+		"mediawiki.util"
 	],
 	"rights": ["edit"]
 }
