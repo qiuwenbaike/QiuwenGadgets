@@ -2,8 +2,8 @@
 import * as OPTIONS from '../options.json';
 import {CdxButton} from '@wikimedia/codex';
 import {computed} from 'vue';
-import {getMessage} from './i18n';
-import {isSpecialLog} from './isSpecialLog';
+import {getMessage} from '../modules/i18n';
+import {isSpecialLog} from '../modules/isSpecialLog';
 
 const props = defineProps<{
 	onClick: () => void;
