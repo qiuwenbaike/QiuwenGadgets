@@ -14,19 +14,19 @@ const fillSpecialPage = ($body: JQuery<HTMLBodyElement>): void => {
 
 	const $wpTitleElement: JQuery<HTMLInputElement> = $body.find<HTMLInputElement>('input[name="wpTitle"]');
 
-	const linkTilte: string = getMessage('Report');
-	const reportRevision: string =
-		mw.util.getParamValue('report_revision') || mw.util.getParamValue('reportrevision') || '0';
-	let reportTitle: string = mw.util.getParamValue('report_title') || mw.util.getParamValue('reporttitle') || '';
+	const {wgSiteName} = mw.config.get();
+	const linkTitle: string = getMessage('Report').replace('$1', wgSiteName);
+	const reportRevision: string = mw.util.getParamValue('reportrevision') || '0';
+	let reportTitle: string = mw.util.getParamValue('reporttitle') || '';
 	if (reportRevision !== '0') {
 		reportTitle += getMessage('(') + getMessage('Revision') + reportRevision + getMessage(')');
 	}
 
 	if (reportTitle) {
-		$wpSubjectElement.val(linkTilte + getMessage(':') + reportTitle);
+		$wpSubjectElement.val(linkTitle + getMessage(':') + reportTitle);
 		$wpTitleElement.val(reportTitle);
 	} else {
-		$wpSubjectElement.val(linkTilte);
+		$wpSubjectElement.val(linkTitle);
 	}
 };
 
