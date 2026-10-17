@@ -45,8 +45,7 @@
 * HideLongSummaries[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|HideLongSummaries.js
 * LinkSpacing[ResourceLoader|requiresES6]|LinkSpacing.js|LinkSpacing.css
 * PurgePageCache[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=edit|requiresES6]|PurgePageCache.js
-* ScrollUpButton[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|peers=ScrollUpButton-pagestyles|requiresES6]|ScrollUpButton.js
-* ScrollUpButton-pagestyles[ResourceLoader|hidden|requiresES6]|ScrollUpButton-pagestyles.css
+* ScrollUpButton[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|requiresES6]|ScrollUpButton.js|ScrollUpButton.css
 * SearchShortcuts[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|SearchShortcuts.js
 * ShortURL[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util,vue|peers=ShortURL-pagestyles|requiresES6]|ShortURL.js|ShortURL.css
 * SmoothTOC[ResourceLoader|default|dependencies=ext.gadget.Util|skins=gongbi,vector,vector-2022|requiresES6]|SmoothTOC.js
@@ -61,7 +60,7 @@
 * ChineseDays[ResourceLoader|hidden|requiresES6]|ChineseDays.js
 * Clipboard[ResourceLoader|hidden|requiresES6]|Clipboard.js
 * Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
-* ConfirmLogout[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=edit|requiresES6]|ConfirmLogout.js
+* ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=edit|requiresES6]|ConfirmLogout.js
 * CookieWarning[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,mediawiki.util,vue|requiresES6]|CookieWarning.js|CookieWarning.css
 * FetchVariants[ResourceLoader|dependencies=ext.gadget.idb-plus,ext.gadget.Util,mediawiki.api|requiresES6]|FetchVariants.js
 * FilterAlteredClicks[ResourceLoader|hidden|requiresES6]|FilterAlteredClicks.js
@@ -84,12 +83,12 @@
 * select2[ResourceLoader|dependencies=jquery|hidden|requiresES6]|select2.js|select2.css
 * SiteCommon[ResourceLoader|default|hidden|requiresES6]|SiteCommon.css
 * SiteCommon_Filepage[ResourceLoader|default|hidden|requiresES6]|SiteCommon_Filepage.css
-* SiteCommon_JS[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Tippy,ext.gadget.Util,mediawiki.Title,mediawiki.util|hidden|peers=SiteCommon|requiresES6]|SiteCommon_JS.js
+* SiteCommon_JS[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Util,mediawiki.Title,mediawiki.util|hidden|peers=SiteCommon|requiresES6]|SiteCommon_JS.js
 * SiteCommon_Print[ResourceLoader|default|hidden|requiresES6]|SiteCommon_Print.css
 * SiteCommon_SpecialInterface[ResourceLoader|default|hidden|requiresES6]|SiteCommon_SpecialInterface.css
 * SiteCommon_Talkpage[ResourceLoader|default|hidden|requiresES6]|SiteCommon_Talkpage.css
 * SiteCommon_Templates[ResourceLoader|default|hidden|requiresES6]|SiteCommon_Templates.css
-* SpecialWikitext[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.util|hidden|requiresES6]|SpecialWikitext.js|SpecialWikitext.css
+* SpecialWikitext[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|hidden|requiresES6]|SpecialWikitext.js|SpecialWikitext.css
 * Switcher[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util|hidden|requiresES6]|Switcher.js
 * TabbedWindow[ResourceLoader|default|dependencies=@wikimedia/codex,vue|hidden|requiresES6]|TabbedWindow.js|TabbedWindow.css
 * TemplateTabs[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|requiresES6]|TemplateTabs.js
@@ -140,7 +139,7 @@
 * SkinVector2022[ResourceLoader|default|hidden|skins=vector-2022|requiresES6]|SkinVector2022.css
 
 == sysop ==
-* BanPage[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=patrol|requiresES6]|BanPage.js
+* BanPage[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=patrol|requiresES6]|BanPage.js
 * HRTProtectLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|rights=protect|requiresES6]|HRTProtectLink.js
 * ListUsersLastActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|rights=protect|requiresES6]|ListUsersLastActive.js
 * LogFilter[ResourceLoader|dependencies=ext.gadget.JSX,ext.gadget.Util,mediawiki.util|rights=edit|requiresES6]|LogFilter.js|LogFilter.css
@@ -151,9 +150,8 @@
 * MarkRights-Userpage-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-Userpage-pagestyles.css
 * OnlineAdmins[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|OnlineAdmins.js|OnlineAdmins.css
 * PagePatroller[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=autopatrol,patrol|requiresES6]|PagePatroller.js
-* QuickPatrol[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.api|rights=patrol|requiresES6]|QuickPatrol.js
-* Report[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|peers=Report-pagestyles|requiresES6]|Report.js
-* Report-pagestyles[ResourceLoader|hidden|requiresES6]|Report-pagestyles.css
+* QuickPatrol[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|rights=patrol|requiresES6]|QuickPatrol.js
+* Report[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|requiresES6]|Report.js|Report.css
 * RightTopicons[ResourceLoader|requiresES6]|RightTopicons.js
 * RollbackSummary[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,mediawiki.util|rights=rollback|requiresES6]|RollbackSummary.js
 * RRD[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=skipcaptcha|requiresES6]|RRD.js|RRD.css
@@ -177,6 +175,6 @@
 * Group-sysop[ResourceLoader|default|hidden|rights=editprotected|requiresES6]|Group-sysop.css
 * Group-templateeditor[ResourceLoader|default|hidden|rights=templateeditor|requiresES6]|Group-templateeditor.css
 * Group-transwiki[ResourceLoader|default|hidden|rights=import|requiresES6]|Group-transwiki.css
-* Group-transwiki_JS[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.Util,vue|hidden|peers=Group-transwiki|rights=import|requiresES6]|Group-transwiki_JS.js
+* Group-transwiki_JS[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|peers=Group-transwiki|rights=import|requiresES6]|Group-transwiki_JS.js
 * Group-user[ResourceLoader|default|hidden|rights=edit|requiresES6]|Group-user.css
 * Group-user_JS[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,user.options|hidden|peers=Group-user|rights=edit|requiresES6]|Group-user_JS.js
