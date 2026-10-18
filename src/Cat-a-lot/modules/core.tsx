@@ -693,9 +693,14 @@ const catALot = async (): Promise<void> => {
 				case 'move':
 					text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`);
 					summary = CAL.msg('summary-move').replace('$1', sourcecat).replace('$2', targetCategory);
+					const escapedSourceCat = sourcecat.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // 将 sourcecat 转义为正则表达式安全的字符串
 					text = text.replace(
-						/(\{\{[ \t]*(?:消歧义模板|消歧义|消歧義|[Dd]isambig|[Dd]isamb|[Dd]ab|[Aa]imai)[ \t]*(?:\|[^|{}]*)*?\|[ \t]*[Cc]at[ \t]*=[ \t]*)(模板)([ \t]*(?=\||\}\}))/g,
-						`$1${targetCategory}$3`
+						new RegExp(
+							String.raw`(\{\{[ \t]*(?:消歧义模板|消歧义|消歧義|[Dd]isambig|[Dd]isamb|[Dd]ab|[Aa]imai)[ \t]*(?:\|[^|{}]*)*?\|[ \t]*[Cc]at[ \t]*=[ \t]*)(${escapedSourceCat})([ \t]*(?=\||\}\}))`,
+							'g'
+						),
+						(_match, prefix: string, _category: string, suffix: string) =>
+							`${prefix}${targetCategory}${suffix}`
 					);
 					break;
 				case 'remove':
