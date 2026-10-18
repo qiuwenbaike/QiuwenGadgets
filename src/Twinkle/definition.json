@@ -12,6 +12,7 @@
 		"mediawiki.language",
 		"mediawiki.storage",
 		"mediawiki.util",
+		"user.options",
 		"vue"
 	],
 	"peers": ["Twinkle-pagestyles"],

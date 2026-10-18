@@ -3,6 +3,13 @@
 	"description": "<span id=\"Gadget-RRD\"></span> [[zhqiuwenbaike:Project talk:版本删除提报|版本删除提报]]工具 <small>“页面历史”界面使用</small>",
 	"section": "sysop",
 	"excludeSites": ["loginwiki"],
-	"dependencies": ["@wikimedia/codex", "ext.gadget.i18n", "ext.gadget.Util", "mediawiki.util", "vue"],
+	"dependencies": [
+		"@wikimedia/codex",
+		"ext.gadget.i18n",
+		"ext.gadget.Util",
+		"mediawiki.api",
+		"mediawiki.util",
+		"vue"
+	],
 	"rights": ["skipcaptcha"]
 }

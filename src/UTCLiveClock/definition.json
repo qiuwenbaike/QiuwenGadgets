@@ -4,7 +4,6 @@
 	"section": "browser",
 	"excludeSites": ["loginwiki"],
 	"dependencies": [
-		"ext.gadget.i18n",
 		"ext.gadget.PurgePageCache",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",

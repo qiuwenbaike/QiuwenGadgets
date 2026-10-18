@@ -5,6 +5,13 @@
 	"excludeSites": ["loginwiki"],
 	"actions": ["edit"],
 	"default": true,
-	"dependencies": ["ext.gadget.Util", "ext.wikiEditor", "mediawiki.jqueryMsg", "mediawiki.util", "user.options"],
+	"dependencies": [
+		"ext.gadget.Util",
+		"ext.wikiEditor",
+		"mediawiki.api",
+		"mediawiki.jqueryMsg",
+		"mediawiki.util",
+		"user.options"
+	],
 	"rights": ["edit"]
 }
