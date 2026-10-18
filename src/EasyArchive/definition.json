@@ -9,6 +9,7 @@
 		"ext.gadget.JSX",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
+		"mediawiki.api",
 		"mediawiki.Title",
 		"mediawiki.util"
 	],

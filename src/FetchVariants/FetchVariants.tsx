@@ -2,6 +2,7 @@ import * as OPTIONS from './options.json';
 import {IDBPlus} from 'ext.gadget.idb-plus';
 import {type Langs} from './modules/constant';
 import {api} from './modules/api';
+import {generateText} from './modules/generateText';
 type VariantRecord = {string: string; variants: Record<Langs, string>};
 
 const variants = new IDBPlus<string, VariantRecord>(OPTIONS.storageKey, 'variants');
@@ -14,18 +15,7 @@ const fetchVariants = async (string: string): Promise<VariantRecord | undefined>
 	const params: ApiParseParams = {
 		action: 'parse',
 		format: 'json',
-		formatversion: '2',
-		text: `<ul id="findvariants">
-	<li id="zh">-{zh|${string}}-</li>
-	<li id="zh-hans">-{zh-hans|${string}}-</li>
-	<li id="zh-hant">-{zh-hant|${string}}-</li>
-	<li id="zh-cn">-{zh-cn|${string}}-</li>
-	<li id="zh-hk">-{zh-hk|${string}}-</li>
-	<li id="zh-mo">-{zh-mo|${string}}-</li>
-	<li id="zh-my">-{zh-my|${string}}-</li>
-	<li id="zh-sg">-{zh-sg|${string}}-</li>
-	<li id="zh-tw">-{zh-tw|${string}}-</li>
-</ul>`,
+		text: generateText(string),
 		title: 'temp',
 		variant: 'zh',
 	};

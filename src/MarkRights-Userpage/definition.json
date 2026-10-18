@@ -8,7 +8,6 @@
 		"ext.gadget.JSX",
 		"ext.gadget.MarkRights",
 		"ext.gadget.Util",
-		"mediawiki.api",
 		"mediawiki.Title",
 		"mediawiki.util"
 	],
