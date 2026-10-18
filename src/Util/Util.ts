@@ -3,14 +3,11 @@ export {changeOpacityWhenMouseEnterOrLeave} from './modules/changeOpacityWhenMou
 export {checkA11yConfirmKey} from './modules/checkA11yConfirmKey';
 export {checkDependencies} from './modules/checkDependencies';
 export {delay} from './modules/delay';
-export {findVariants} from './modules/findVariants';
 export {generateArray} from './modules/generateArray';
 export {getBody} from './modules/getBody';
 export {initMwApi} from './modules/initMwApi';
 export {MwUri} from './modules/mwUri';
 export {oouiConfirmWithStyle} from './modules/oouiConfirmWithStyle';
-export {queryGlobalUserGroups} from './modules/queryGlobalUserGroups';
-export {queryUserGroups} from './modules/queryUserGroups';
 export {scrollTop} from './modules/scrollTop';
 export {userIsInGroup} from './modules/userIsInGroup';
 export {uniqueArray} from './modules/uniqueArray';
