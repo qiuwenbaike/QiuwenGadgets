@@ -1,3 +1,4 @@
+import './addHeaderLink.less';
 import {addEventListenerWithRemover} from 'ext.gadget.Util';
 import {copyText} from './copyText';
 import {getMessage} from './i18n';
@@ -20,7 +21,7 @@ const addHeaderLink = (link: string, permaLink: string): void => {
 			wgUserName ? getMessage('Short URL') : getMessage('Share URL for the page')
 		);
 		const icon = document.createElement('span');
-		icon.className = 'gadget-short-link__icon';
+		icon.className = 'short-url-link-icon';
 		headerLink.append(icon);
 		const headerElement = document.createElement('div');
 		headerElement.className = 'mw-indicator';
