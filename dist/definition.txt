@@ -94,7 +94,7 @@
 * TemplateTabs[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|requiresES6]|TemplateTabs.js
 * Tippy[ResourceLoader|hidden|requiresES6]|Tippy.js|Tippy.css
 * Toastify[ResourceLoader|hidden|requiresES6]|Toastify.js|Toastify.css
-* Util[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,jquery.textSelection,mediawiki.storage,vue|hidden|requiresES6]|Util.js|Util.css
+* Util[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,vue|hidden|requiresES6]|Util.js|Util.css
 
 == edit ==
 * Cat-a-lot[ResourceLoader|actions=view|dependencies=ext.gadget.JSX,ext.gadget.Util,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.util|rights=skipcaptcha|requiresES6]|Cat-a-lot.js|Cat-a-lot.css
@@ -108,7 +108,7 @@
 * EditForm[ResourceLoader|hidden|rights=edit|requiresES6]|EditForm.css
 * Editform_AiAssisted[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|rights=edit|requiresES6]|Editform_AiAssisted.js|Editform_AiAssisted.css
 * Editform_Attribution[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,oojs-ui-core|rights=edit|requiresES6]|Editform_Attribution.js|Editform_Attribution.css
-* EditForm_JS[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|hidden|peers=EditForm|rights=edit|requiresES6]|EditForm_JS.js
+* EditForm_JS[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,jquery.textSelection,mediawiki.util|hidden|peers=EditForm|rights=edit|requiresES6]|EditForm_JS.js
 * Editform_Patch2017[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.jqueryMsg|hidden|rights=edit|requiresES6]|Editform_Patch2017.js
 * Edittools-customizeToolbar[ResourceLoader|actions=edit|dependencies=ext.gadget.Util,ext.wikiEditor,user.options|hidden|requiresES6]|Edittools-customizeToolbar.js
 * Edittools-delh[ResourceLoader|actions=edit|dependencies=ext.gadget.Edittools-customizeToolbar,ext.gadget.i18n|rights=skipcaptcha|requiresES6]|Edittools-delh.js
@@ -154,7 +154,7 @@
 * Report[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|requiresES6]|Report.js|Report.css
 * RightTopicons[ResourceLoader|requiresES6]|RightTopicons.js
 * RollbackSummary[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,mediawiki.util|rights=rollback|requiresES6]|RollbackSummary.js
-* RRD[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=skipcaptcha|requiresES6]|RRD.js|RRD.css
+* RRD[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.util,vue|rights=skipcaptcha|requiresES6]|RRD.js|RRD.css
 * TranslateVariants[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.diff.styles,mediawiki.util|rights=editinterface|requiresES6]|TranslateVariants.js|TranslateVariants.css
 * Twinkle[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.morebits,ext.gadget.Util,mediawiki.api,mediawiki.language,mediawiki.storage,mediawiki.util,vue|peers=Twinkle-pagestyles|rights=skipcaptcha|requiresES6]|Twinkle.js|Twinkle.css
 * Twinkle-pagestyles[ResourceLoader|hidden|rights=skipcaptcha|requiresES6]|Twinkle-pagestyles.css
