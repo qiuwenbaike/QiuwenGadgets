@@ -9,6 +9,8 @@ type InitMwApi = typeof initMwApi;
 function initMwApi(userAgent?: string): mw.Api;
 function initMwApi(userAgent: string, apiUri: string): mw.ForeignApi;
 function initMwApi(userAgent?: string, apiUri?: string): mw.Api | mw.ForeignApi {
+	void mw.loader.using('mediawiki.api');
+
 	const apiOptions = {
 		ajax: {
 			headers: {
