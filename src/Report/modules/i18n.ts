@@ -18,6 +18,12 @@ const getI18nMessages = () => {
 			zh: '）',
 		}),
 		Report: localize({
+			en: 'Report this page',
+			ja: 'このページを報告',
+			'zh-hans': '报告不良信息',
+			'zh-hant': '報告不良資訊',
+		}),
+		'Report Title': localize({
 			en: 'Report this page ($1) ',
 			ja: 'このページを報告（$1）',
 			'zh-hans': '报告不良信息（$1）',
