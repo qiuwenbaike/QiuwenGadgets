@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {CdxButton, CdxDialog, CdxIcon} from '@wikimedia/codex';
 import {ref, watch} from 'vue';
-import {copyText} from './modules/copyText';
-import {getMessage} from './modules/i18n';
+import {copyText} from './copyText';
+import {getMessage} from './i18n';
 
 interface CopyItem {
 	label: string;

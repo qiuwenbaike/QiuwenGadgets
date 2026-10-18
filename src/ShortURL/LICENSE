@@ -27,7 +27,8 @@
 /**
  * SPDX-License-Identifier: MIT
  *
- * The "copy" icon from @wikimedia/codex-icons
+ * - The "copy" icon from @wikimedia/codex-icons
+ * - The "link" icon from OOjs UI
  *
  * @license MIT
  */

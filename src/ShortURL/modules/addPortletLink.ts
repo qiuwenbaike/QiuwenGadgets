@@ -1,5 +1,5 @@
 import {type App as VueApp, createApp} from 'vue';
-import App from '../App.vue';
+import PortletLink from './PortletLink.vue';
 import {addEventListenerWithRemover} from 'ext.gadget.Util';
 import {getMessage} from './i18n';
 import {getShortDomains} from './util/getShortDomains';
@@ -15,7 +15,7 @@ const openDialog = (items: {label: string; text: string}[]): void => {
 	const root = document.createElement('div');
 	document.body.append(root);
 
-	const app: VueApp<Element> | null = createApp(App, {
+	const app: VueApp<Element> | null = createApp(PortletLink, {
 		open: true,
 		items,
 		onClose: (): void => {
