@@ -1,6 +1,6 @@
 import {getAdmins} from './util/getAdmins';
 import {getMessage} from './i18n';
-import {getOnlineAdminsList} from './components/groupList';
+import {onlineAdminsList} from './components/onlineAdminsList';
 
 const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<void> => {
 	event.preventDefault();
@@ -16,7 +16,7 @@ const doClick = async (event: JQuery.ClickEvent<HTMLAnchorElement>): Promise<voi
 		const {stewards, sysops, patrollers} = await getAdmins();
 
 		if (stewards.length + sysops.length + patrollers.length) {
-			notify($('<div>').append(getOnlineAdminsList({stewards, sysops, patrollers})));
+			notify($('<div>').append(onlineAdminsList({stewards, sysops, patrollers})));
 		} else {
 			notify(getMessage('NoOnline'), 'warn');
 		}

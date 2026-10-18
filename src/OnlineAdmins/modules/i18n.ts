@@ -2,6 +2,19 @@ import {localize} from 'ext.gadget.i18n';
 
 const getI18nMessages = () => {
 	return {
+		Talk: localize({
+			en: 'Talk',
+			ja: '留言',
+			zh: '留言',
+		}),
+		'(': localize({
+			en: ' (',
+			zh: '（',
+		}),
+		')': localize({
+			en: ')',
+			zh: '）',
+		}),
 		' ($1 online):': localize({
 			en: ' ($1 online):',
 			ja: '（$1人オンライン中）：',
