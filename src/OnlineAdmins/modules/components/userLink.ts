@@ -17,11 +17,11 @@ const userLink = ({userName}: UserLinkProps) => {
 	userTalkLink.href = mw.util.getUrl(`User_talk:${sanitize(userName)}`);
 	userTalkLink.target = '_blank';
 	userTalkLink.rel = ['noopener', 'noreferrer'].join(' ');
-	userTalkLink.textContent = getMessage('(') + getMessage('Talk') + getMessage(')');
+	userTalkLink.textContent = getMessage('Talk');
 
 	const userTalkLinkWrap = document.createElement('span');
 	userTalkLinkWrap.className = talkPageLink;
-	userTalkLinkWrap.append(userTalkLink);
+	userTalkLinkWrap.append(getMessage('('), userTalkLink, getMessage(')'));
 
 	const item = document.createElement('li');
 	item.append(userNameLink, ' ', userTalkLinkWrap);
