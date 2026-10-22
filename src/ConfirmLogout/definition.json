@@ -9,6 +9,7 @@
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
 		"mediawiki.api",
+		"mediawiki.jqueryMsg",
 		"mediawiki.util"
 	],
 	"rights": ["edit"]

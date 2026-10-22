@@ -60,7 +60,7 @@
 * ChineseDays[ResourceLoader|hidden|requiresES6]|ChineseDays.js
 * Clipboard[ResourceLoader|hidden|requiresES6]|Clipboard.js
 * Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
-* ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=edit|requiresES6]|ConfirmLogout.js
+* ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.util|rights=edit|requiresES6]|ConfirmLogout.js
 * CookieWarning[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,mediawiki.util,vue|requiresES6]|CookieWarning.js|CookieWarning.css
 * FetchVariants[ResourceLoader|dependencies=ext.gadget.idb-plus,ext.gadget.Util,mediawiki.api|requiresES6]|FetchVariants.js
 * FilterAlteredClicks[ResourceLoader|hidden|requiresES6]|FilterAlteredClicks.js
@@ -77,7 +77,7 @@
 * MemorialDay-settings[ResourceLoader|hidden|requiresES6]|MemorialDay-settings.js
 * morebits[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.select2,ext.gadget.Util,jquery.ui,mediawiki.Title,mediawiki.user,mediawiki.util|hidden|requiresES6]|morebits.js|morebits.css
 * NavFrame-pagestyles[ResourceLoader|hidden|requiresES6]|NavFrame-pagestyles.css
-* NoteTA[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,jquery.makeCollapsible,mediawiki.api,mediawiki.util,oojs-ui-core,oojs-ui-windows|hidden|peers=NoteTA-pagestyles|requiresES6]|NoteTA.js
+* NoteTA[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,jquery.makeCollapsible,mediawiki.api,mediawiki.jqueryMsg,mediawiki.util,oojs-ui-core,oojs-ui-windows|hidden|peers=NoteTA-pagestyles|requiresES6]|NoteTA.js
 * NoteTA-pagestyles[ResourceLoader|hidden|requiresES6]|NoteTA-pagestyles.css
 * PrintOptions[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|requiresES6]|PrintOptions.js|PrintOptions.css
 * select2[ResourceLoader|dependencies=jquery|hidden|requiresES6]|select2.js|select2.css
@@ -142,7 +142,7 @@
 * BanPage[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=patrol|requiresES6]|BanPage.js
 * HRTProtectLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|rights=protect|requiresES6]|HRTProtectLink.js
 * ListUsersLastActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|rights=protect|requiresES6]|ListUsersLastActive.js
-* LogFilter[ResourceLoader|dependencies=ext.gadget.JSX,ext.gadget.Util,mediawiki.util|rights=edit|requiresES6]|LogFilter.js|LogFilter.css
+* LogFilter[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.Util,mediawiki.util,vue|rights=edit|requiresES6]|LogFilter.js|LogFilter.css
 * MarkBlocked[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|requiresES6]|MarkBlocked.js|MarkBlocked.css
 * MarkRights[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|peers=MarkRights-pagestyles|requiresES6]|MarkRights.js
 * MarkRights-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-pagestyles.css
