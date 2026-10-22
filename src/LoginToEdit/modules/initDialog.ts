@@ -1,4 +1,3 @@
-import * as OPTIONS from '~/AjaxLogin/options.json';
 import {type App as VueApp, createApp, reactive} from 'vue';
 import App from '../App.vue';
 import {getMessage} from './i18n';
@@ -23,12 +22,7 @@ const initDialog = ($body: JQuery<HTMLBodyElement>): void => {
 	$body.append(root);
 
 	const triggerLogin = (): void => {
-		const $element: JQuery<HTMLAnchorElement> = $(OPTIONS.loginElementSelector);
-		if ($element.length && mw.config.get(OPTIONS.configKey) === true) {
-			$element.trigger('click');
-		} else {
-			location.href = loginURL;
-		}
+		location.href = loginURL;
 	};
 
 	const app: VueApp<Element> = createApp(App, {
