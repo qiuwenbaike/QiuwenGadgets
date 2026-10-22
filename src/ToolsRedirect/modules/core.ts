@@ -277,7 +277,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 				title,
 				href,
 				target: '_blank',
-				rel: 'noopener noreferrer',
+				rel: ['noopener', 'noreferrer'].join(' '),
 			})
 			.text(title);
 		if (click) {
