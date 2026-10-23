@@ -17,6 +17,21 @@ const getI18nMessages = () => {
 			'zh-hans': '字词转换',
 			'zh-hant': '字詞轉換',
 		}),
+		Close: localize({
+			en: 'Close',
+			'zh-hans': '关闭',
+			'zh-hant': '關閉',
+		}),
+		Retry: localize({
+			en: 'Retry',
+			'zh-hans': '重试',
+			'zh-hant': '重試',
+		}),
+		ExpandCollapse: localize({
+			en: 'Show or hide content',
+			'zh-hans': '显示/隐藏内容',
+			'zh-hant': '顯示/隱藏內容',
+		}),
 	};
 };
 
