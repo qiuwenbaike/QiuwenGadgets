@@ -1,5 +1,5 @@
 import * as OPTIONS from '~/Editform_Attribution/options.json';
-import {generateVisualEditorLayout} from './util/generateLayout';
+import {mountAttributionForm} from './util/mountAttributionForm';
 
 const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void => {
 	// Guard against double inclusions
@@ -17,10 +17,15 @@ const processVisualEditor = ({$body}: {$body: JQuery<HTMLBodyElement>}): void =>
 	// Set guard
 	mw.config.set(OPTIONS.configKeyVe, true);
 
-	const $layout = generateVisualEditorLayout({$body});
-
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$saveOptions.append($layout);
+		const root = document.createElement('div');
+		root.id = OPTIONS.inputId;
+		$saveOptions.append(root);
+		mountAttributionForm({
+			root,
+			$body,
+			$wpSummary: target.saveDialog.editSummaryInput.$input,
+		});
 	}
 
 	// Reinitialization is required for switching between VisualEditor and New Wikitext Editor (2017)

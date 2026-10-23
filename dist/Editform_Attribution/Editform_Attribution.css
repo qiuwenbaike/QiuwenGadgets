@@ -18,11 +18,18 @@
  */
 /* <nowiki> */
 
-/* esbuild-css-modules-plugin-ns-css:src/Editform_Attribution/modules/util/Editform_Attribution.module.less */
-.Editform-Attribution-module__formWrap_m5j2Ua__4100 {
-  padding: .7857em;
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Editform_Attribution\modules\AttributionForm.vue?type=style&index=0 */
+.editform-attribution[data-v-87a8a10e] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.7857em;
+}
+.editform-attribution > legend[data-v-87a8a10e] {
+  float: left;
+  width: 100%;
 }
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9FZGl0Zm9ybV9BdHRyaWJ1dGlvbi9tb2R1bGVzL3V0aWwvRWRpdGZvcm1fQXR0cmlidXRpb24ubW9kdWxlLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi8qIDxzdGRpbj4gKi9cbi5FZGl0Zm9ybS1BdHRyaWJ1dGlvbi1tb2R1bGVfX2Zvcm1XcmFwX201ajJVYV9fNDEwMCB7XG4gIHBhZGRpbmc6IC43ODU3ZW07XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFDQSxDQUFDO0FBQ0MsV0FBUztBQUNYOyIsCiAgIm5hbWVzIjogW10KfQo= */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkQ6XFxHaXRSZXBvc2l0b3J5XFxRaXV3ZW5HYWRnZXRzXFxzcmNcXEVkaXRmb3JtX0F0dHJpYnV0aW9uXFxtb2R1bGVzXFxBdHRyaWJ1dGlvbkZvcm0udnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLmVkaXRmb3JtLWF0dHJpYnV0aW9uW2RhdGEtdi04N2E4YTEwZV0ge1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICBnYXA6IDAuNXJlbTtcbiAgcGFkZGluZzogMC43ODU3ZW07XG59XG4uZWRpdGZvcm0tYXR0cmlidXRpb24gPiBsZWdlbmRbZGF0YS12LTg3YThhMTBlXSB7XG4gIGZsb2F0OiBsZWZ0O1xuICB3aWR0aDogMTAwJTtcbn1cbiJdLAogICJtYXBwaW5ncyI6ICI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUMsb0JBQW9CLENBQUM7QUFDcEIsV0FBUztBQUNULGtCQUFnQjtBQUNoQixPQUFLO0FBQ0wsV0FBUztBQUNYO0FBQ0EsQ0FOQyxxQkFNcUIsRUFBRSxNQUFNLENBQUM7QUFDN0IsU0FBTztBQUNQLFNBQU87QUFDVDsiLAogICJuYW1lcyI6IFtdCn0K */
