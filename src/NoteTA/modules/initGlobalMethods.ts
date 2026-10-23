@@ -1,5 +1,4 @@
-import * as OPTIONS from '../options.json';
-
+import './initGlobalMethods.less';
 let portletId: string | undefined;
 
 const initGlobalMethods = ($body: JQuery<HTMLBodyElement>): typeof globalMethods => {
@@ -51,7 +50,7 @@ const initGlobalMethods = ($body: JQuery<HTMLBodyElement>): typeof globalMethods
 		portletId = 'p-associated-pages';
 
 		globalMethods.deInit = (): void => {
-			$body.find(`.${OPTIONS.portletClass}`).remove();
+			$body.find('x-noteTA-viewer').remove();
 		};
 	}
 

@@ -1,11 +1,20 @@
-import * as OPTIONS from '../options.json';
 import {type ApiParseResponse, type ApiResponse, parseWikitext} from './parseWikitext';
+import {type App as VueApp, createApp, reactive} from 'vue';
 import {ApiRetryFailError} from './util/ApiRetryFailError';
-import React from 'ext.gadget.JSX';
+import NoteTADialog from './ViewerDialog.vue';
 import {assert} from './util/assert';
+import {convertCollapsibles} from './util/convertCollapsible.ts';
 import {getMessage} from './i18n';
 import {viewerMap} from './initViewMap';
-import {windowManager} from './initWindowManager';
+
+interface ViewerState {
+	open: boolean;
+	loading: boolean;
+	output: string;
+	errorMessage: string;
+	errors: string[];
+	retryable: boolean;
+}
 
 const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer => {
 	if (viewerMap.has(hash)) {
@@ -22,82 +31,46 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 
 	const {wgPageName, wgUserVariant} = mw.config.get();
 
-	// @ts-expect-error TS2503
-	class NoteTAViewer extends OO.ui.ProcessDialog {
+	class NoteTAViewer {
+		private readonly state: ViewerState;
+		private readonly app: VueApp<Element>;
+		private readonly root: HTMLElement;
 		private dataIsLoaded: boolean;
-		private executePromise?: ReturnType<typeof this.doExecute>;
-		private mutationObserver: MutationObserver;
-		private $realContent: JQuery;
-		private $body: JQuery | undefined;
-		// @ts-expect-error TS2503
-		private static lastError?: OO.ui.Error;
+		private executePromise?: JQuery.Promise<ApiResponse>;
 		private static noteTAParseText: string;
 
 		public constructor() {
-			super({
-				size: 'larger',
+			this.state = reactive<ViewerState>({
+				open: false,
+				loading: false,
+				output: '',
+				errorMessage: '',
+				errors: [],
+				retryable: false,
 			});
-
 			this.dataIsLoaded = false;
-			this.$realContent = $(<div />) as JQuery;
-
-			// @ts-expect-error TS2503
-			this.mutationObserver = new MutationObserver((this as OO.ui.ProcessDialog).updateSize.bind(this));
-			this.mutationObserver.observe(this.$realContent.get(0) as HTMLElement, {
-				childList: true,
-				subtree: true,
+			this.root = document.createElement('div');
+			$body.append(this.root);
+			this.app = createApp(NoteTADialog, {
+				state: this.state,
+				'onUpdate:open': (open: boolean): void => {
+					this.state.open = open;
+				},
+				onRetry: (): void => {
+					this.doExecuteWrap();
+				},
 			});
+			this.app.mount(this.root);
 		}
 
-		// @ts-expect-error TS4112
-		public override initialize(): this {
-			super.initialize();
-
-			// @ts-expect-error TS2503
-			const panelLayout: OO.ui.PanelLayout = new OO.ui.PanelLayout({
-				expanded: false,
-				padded: true,
-			});
-
-			this.$realContent.appendTo(panelLayout.$element);
-			panelLayout.$element.appendTo(this.$body as JQuery<HTMLBodyElement>);
-
-			return this;
-		}
-
-		// @ts-expect-error TS2503
-		public override getSetupProcess(data: OO.ui.Dialog.SetupDataMap): OO.ui.Process {
-			return super.getSetupProcess(data).next((): void => {
-				void this.doExecuteWrap();
-				// @ts-expect-error TS2503
-				void (this as OO.ui.ProcessDialog).executeAction('main');
-			});
-		}
-
-		// @ts-expect-error TS2503
-		public override getActionProcess(action?: string): OO.ui.Process {
-			const isMainAction: boolean = action === 'main';
-
-			return (
-				super
-					.getActionProcess(action)
-					// @ts-expect-error TS7030
-					.next(() => {
-						if (isMainAction) {
-							return this.doExecuteWrap();
-						}
-					})
-					.next(() => {
-						if (isMainAction && NoteTAViewer.lastError) {
-							return NoteTAViewer.lastError;
-						}
-						return super.getActionProcess(action).execute();
-					})
-			);
+		public open(): void {
+			this.state.open = true;
+			this.doExecuteWrap();
 		}
 
 		public destroy(): void {
-			this.mutationObserver.disconnect();
+			this.app.unmount();
+			this.root.remove();
 		}
 
 		private static getNoteTAParseText(): JQuery.Deferred<ApiResponse> {
@@ -255,14 +228,18 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 			return deferred;
 		}
 
-		private doExecute() {
+		private doExecute(): JQuery.Promise<ApiResponse> {
 			if (this.dataIsLoaded) {
 				return $.Deferred<ApiResponse>().resolve();
 			}
 
-			this.$realContent.empty().append(<p>{getMessage('Loading')}</p>);
+			const deferred = $.Deferred<ApiResponse>();
+			this.state.loading = true;
+			this.state.errorMessage = '';
+			this.state.errors = [];
+			this.state.retryable = false;
 
-			return NoteTAViewer.getNoteTAParseText()
+			NoteTAViewer.getNoteTAParseText()
 				.then((wikitext: ApiResponse) =>
 					parseWikitext(wikitext as ApiParseResponse, {
 						title: 'Template:CGroup/-',
@@ -270,104 +247,43 @@ const getViewer = ($body: JQuery<HTMLBodyElement>, hash: string): typeof viewer 
 					})
 				)
 				.then((parsedHtml: ApiResponse): void => {
-					// The following classes are used here:
-					// * see constant.ts
-					// * for more information
-					this.$realContent
-						.empty()
-						.html(parsedHtml as ApiParseResponse)
-						.addClass(`${OPTIONS.portletClass}-output`);
-
-					(
-						this.$realContent.find('.mw-collapsible') as JQuery & {makeCollapsible: () => JQuery}
-					).makeCollapsible();
-
-					// @ts-expect-error TS2503
-					(this as OO.ui.ProcessDialog).updateSize();
+					this.state.output = convertCollapsibles(parsedHtml as ApiParseResponse);
 					this.dataIsLoaded = true;
+					void deferred.resolve(parsedHtml);
 				})
 				.catch((error: ApiRetryFailError | Error | string): void => {
 					if (error instanceof ApiRetryFailError) {
-						// @ts-expect-error TS2304
-						throw new OO.ui.Error(error.toJQuery(), {
-							recoverable: true,
-						}) as unknown as Error;
+						this.state.errorMessage = getMessage('ApiRetryFailError').replace(
+							/\$1/g,
+							error.errors.length.toString()
+						);
+						this.state.errors = error.errors;
+						this.state.retryable = true;
 					} else {
-						// @ts-expect-error TS2304
-						throw new OO.ui.Error(String(error), {
-							recoverable: false,
-						}) as unknown as Error;
+						this.state.errorMessage = String(error);
 					}
-				});
-		}
-
-		private doExecuteWrap() {
-			if (this.executePromise === undefined) {
-				this.executePromise = this.doExecute();
-				delete NoteTAViewer.lastError;
-
-				const executeDeferred = $.Deferred<ApiResponse>();
-				void (this.executePromise as JQuery.Promise<ApiResponse>)
-					.then((response: ApiResponse): void => {
-						void executeDeferred.resolve(response);
-					})
-					// @ts-expect-error TS2503
-					.catch((error: Error | OO.ui.Error | string): void => {
-						// @ts-expect-error TS2503
-						if (error instanceof OO.ui.Error) {
-							NoteTAViewer.lastError = error;
-						} else {
-							void executeDeferred.reject(error);
-						}
-					})
-					.always((): void => {
-						delete this.executePromise;
-					});
-
-				return executeDeferred;
-			}
-
-			const deferred = $.Deferred<ApiResponse>();
-			void (this.executePromise as JQuery.Promise<ApiResponse>)
-				.then((response: ApiResponse): void => {
-					void deferred.resolve(response);
-				})
-				// @ts-expect-error TS2503
-				.catch((error: Error | OO.ui.Error | string): void => {
-					// @ts-expect-error TS2304
-					if (error instanceof OO.ui.Error) {
-						NoteTAViewer.lastError = error;
-					} else {
-						void deferred.reject(error);
-					}
+					void deferred.reject(error);
 				})
 				.always((): void => {
-					delete this.executePromise;
+					this.state.loading = false;
 				});
 
 			return deferred;
 		}
+
+		private doExecuteWrap(): void {
+			if (this.dataIsLoaded || this.executePromise) {
+				return;
+			}
+
+			this.executePromise = this.doExecute();
+			this.executePromise.always((): void => {
+				delete this.executePromise;
+			});
+		}
 	}
 
-	// @ts-expect-error TS2503
-	(NoteTAViewer as OO.ui.ProcessDialog).static = {
-		// @ts-expect-error TS2304
-		...OO.ui.ProcessDialog.static,
-	};
-	// @ts-expect-error TS2503
-	(NoteTAViewer as OO.ui.ProcessDialog).static.name = `NoteTAViewer-${hash}`;
-	// @ts-expect-error TS2503
-	(NoteTAViewer as OO.ui.ProcessDialog).static.title = getMessage('Title');
-	// @ts-expect-error TS2503
-	(NoteTAViewer as OO.ui.ProcessDialog).static.actions = [
-		{
-			label: mw.message('ooui-dialog-process-dismiss').parse(),
-			flags: 'safe',
-		},
-	];
-
 	const viewer: NoteTAViewer = new NoteTAViewer();
-	windowManager.addWindows([viewer]);
 	viewerMap.set(hash, viewer);
 
 	return viewer;
@@ -378,7 +294,6 @@ const resetAllViewer = (): void => {
 		viewer.destroy();
 	}
 	viewerMap.clear();
-	void windowManager.clearWindows();
 };
 
 export {getViewer, resetAllViewer};

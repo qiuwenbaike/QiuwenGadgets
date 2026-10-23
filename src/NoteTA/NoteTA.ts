@@ -1,18 +1,11 @@
+import './NoteTA.less';
 import {getViewer, resetAllViewer} from './modules/viewer';
 import {initGlobalMethods, portletId} from './modules/initGlobalMethods';
 import {checkA11yConfirmKey} from 'ext.gadget.Util';
 import {generatePortletLink} from './modules/util/generatePortletLink';
-import {windowManager} from './modules/initWindowManager';
-
-let isInit: boolean = false;
 
 mw.hook('wikipage.content').add(function noteTA($content): void {
 	const $body: JQuery<HTMLBodyElement> = $content.parents('body');
-
-	if (!isInit) {
-		isInit = true;
-		windowManager.$element.appendTo($body);
-	}
 
 	resetAllViewer();
 
@@ -41,8 +34,7 @@ mw.hook('wikipage.content').add(function noteTA($content): void {
 			}
 
 			event.preventDefault();
-			// @ts-expect-error TS2503
-			(getViewer($body, hash) as OO.ui.ProcessDialog).open();
+			getViewer($body, hash).open();
 		};
 		$element.on('click', openerListener);
 		$element.on('keydown', openerListener);

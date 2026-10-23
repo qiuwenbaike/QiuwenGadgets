@@ -1,0 +1,64 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-noteTA.js}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-noteTA.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/NoteTA}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/NoteTA/NoteTA.less */
+.mw-indicator[id^=mw-indicator-noteTA-] img {
+  cursor: pointer;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\NoteTA\modules\ViewerDialog.vue?type=style&index=0 */
+.x-noteTA-viewer-output .error[data-v-76b996d0] {
+  color: #b32424;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* src/NoteTA/modules/util/convertCollapsible.less */
+.x-noteTA-viewer-output summary dl {
+  display: inline;
+}
+
+/* src/NoteTA/modules/initGlobalMethods.less */
+.skin-vector-2022 #p-noteTA .ca-noteTA {
+  max-height: 32px;
+}
+.skin-vector-legacy #p-noteTA.vector-menu-tabs-legacy {
+  padding-left: 0;
+}
+
+/* src/NoteTA/modules/util/generatePortletLink.less */
+.x-noteTA-viewer__label {
+  height: 85%;
+  padding: 1px 3px;
+}
+.x-noteTA-viewer__label-hans {
+  background: #d3e3f4;
+  color: #000;
+}
+.x-noteTA-viewer__label-hant {
+  background: #e9e9e9;
+  color: #434343;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL05vdGVUQS9Ob3RlVEEubGVzcyIsICJzZmMtc3R5bGU6RDpcXEdpdFJlcG9zaXRvcnlcXFFpdXdlbkdhZGdldHNcXHNyY1xcTm90ZVRBXFxtb2R1bGVzXFxWaWV3ZXJEaWFsb2cudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCIsICIuLi8uLi9zcmMvTm90ZVRBL21vZHVsZXMvdXRpbC9jb252ZXJ0Q29sbGFwc2libGUubGVzcyIsICIuLi8uLi9zcmMvTm90ZVRBL21vZHVsZXMvaW5pdEdsb2JhbE1ldGhvZHMubGVzcyIsICIuLi8uLi9zcmMvTm90ZVRBL21vZHVsZXMvdXRpbC9nZW5lcmF0ZVBvcnRsZXRMaW5rLmxlc3MiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi5tdy1pbmRpY2F0b3JbaWRePSdtdy1pbmRpY2F0b3Itbm90ZVRBLSddIGltZyB7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cbiIsICIueC1ub3RlVEEtdmlld2VyLW91dHB1dCAuZXJyb3JbZGF0YS12LTc2Yjk5NmQwXSB7XG4gIGNvbG9yOiAjYjMyNDI0O1xuICBmb250LXNpemU6IDEuMmVtO1xuICBmb250LXdlaWdodDogYm9sZDtcbn1cbiIsICIueC1ub3RlVEEtdmlld2VyLW91dHB1dCBzdW1tYXJ5IGRsIHtcbiAgZGlzcGxheTogaW5saW5lO1xufVxuIiwgIi5za2luLXZlY3Rvci0yMDIyICNwLW5vdGVUQSAuY2Etbm90ZVRBIHtcbiAgbWF4LWhlaWdodDogMzJweDtcbn1cbi5za2luLXZlY3Rvci1sZWdhY3kgI3Atbm90ZVRBLnZlY3Rvci1tZW51LXRhYnMtbGVnYWN5IHtcbiAgcGFkZGluZy1sZWZ0OiAwO1xufVxuIiwgIi54LW5vdGVUQS12aWV3ZXJfX2xhYmVsIHtcbiAgaGVpZ2h0OiA4NSU7XG4gIHBhZGRpbmc6IDFweCAzcHg7XG59XG4ueC1ub3RlVEEtdmlld2VyX19sYWJlbC1oYW5zIHtcbiAgYmFja2dyb3VuZDogI2QzZTNmNDtcbiAgY29sb3I6ICMwMDA7XG59XG4ueC1ub3RlVEEtdmlld2VyX19sYWJlbC1oYW50IHtcbiAgYmFja2dyb3VuZDogI2U5ZTllOTtcbiAgY29sb3I6ICM0MzQzNDM7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLENBQUMsWUFBWSxDQUFDLDBCQUE0QjtBQUN4QyxVQUFRO0FBQ1Y7OztBQ0ZBLENBQUMsdUJBQXVCLENBQUMsS0FBSyxDQUFDO0FBQzdCLFNBQU87QUFDUCxhQUFXO0FBQ1gsZUFBYTtBQUNmOzs7QUNKQSxDQUFDLHVCQUF1QixRQUFRO0FBQzlCLFdBQVM7QUFDWDs7O0FDRkEsQ0FBQyxpQkFBaUIsQ0FBQyxTQUFTLENBQUM7QUFDM0IsY0FBWTtBQUNkO0FBQ0EsQ0FBQyxtQkFBbUIsQ0FIRCxRQUdVLENBQUM7QUFDNUIsZ0JBQWM7QUFDaEI7OztBQ0xBLENBQUM7QUFDQyxVQUFRO0FBQ1IsV0FBUyxJQUFJO0FBQ2Y7QUFDQSxDQUFDO0FBQ0MsY0FBWTtBQUNaLFNBQU87QUFDVDtBQUNBLENBQUM7QUFDQyxjQUFZO0FBQ1osU0FBTztBQUNUOyIsCiAgIm5hbWVzIjogW10KfQo= */
