@@ -15,7 +15,7 @@ const button = (props: Props) => {
 
 	const button = document.createElement('img');
 	button.className = [scrollButton, additionalClassName, 'noprint'].join(' ');
-	button.src = emptySvg;
+	button.src = `data:image/svg+xml,${encodeURI(emptySvg)}`;
 	button.width = 32;
 	button.height = 32;
 	button.draggable = false;

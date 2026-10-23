@@ -7,7 +7,7 @@ const element = (URL: string, onMouseEnterLeave: (event: MouseEvent) => void) =>
 
 	const button = document.createElement('img');
 	button.className = [gadgetReportButton, 'noprint'].join(' ');
-	button.src = emptySvg;
+	button.src = `data:image/svg+xml,${encodeURI(emptySvg)}`;
 	button.width = 32;
 	button.height = 32;
 	button.draggable = false;
