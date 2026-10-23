@@ -2,5 +2,5 @@
 	"configKey": "gadget-Editform_Attribution__Initialized",
 	"configKeyVe": "gadget-Editform_Attribution__Initialized__VE",
 	"inputId": "editform_attribution",
-	"targetWikiEditor": ".editCheckboxes .oo-ui-horizontalLayout"
+	"targetWikiEditor": ".editCheckboxes"
 }

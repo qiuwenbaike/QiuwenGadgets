@@ -1,5 +1,5 @@
 import * as OPTIONS from '~/Editform_Attribution/options.json';
-import {generateWikiEditorLayout} from './util/generateLayout';
+import {mountAttributionForm} from './util/mountAttributionForm';
 
 const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; $editForm: JQuery}): void => {
 	// Guard against double inclusions
@@ -14,10 +14,15 @@ const processWikiEditor = ({$body, $editForm}: {$body: JQuery<HTMLBodyElement>; 
 
 	mw.config.set(OPTIONS.configKey, true);
 
-	const $layout = generateWikiEditorLayout({$body, $editForm});
-
 	if (!$body.find(`#${OPTIONS.inputId}`).length) {
-		$target.after($layout);
+		const root = document.createElement('div');
+		root.id = OPTIONS.inputId;
+		$target.after(root);
+		mountAttributionForm({
+			root,
+			$body,
+			$wpSummary: $editForm.find('input[name=wpSummary]'),
+		});
 	}
 };
 
