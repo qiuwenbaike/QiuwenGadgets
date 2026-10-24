@@ -1,5 +1,4 @@
-/**
- * @preserve
+/*!
  * @author John Gruber
  * @copyright 2002–2023 The Daring Fireball Company LLC.
  * @see {@link https://daringfireball.net/2010/07/improved_regex_for_matching_urls}
