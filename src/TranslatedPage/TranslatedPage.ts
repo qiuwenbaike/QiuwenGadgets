@@ -1,3 +1,4 @@
+import {addMigratedPageTemplate} from './modules/addMigratedPageTemplate';
 import {addTranslatedPageTemplate} from './modules/addTranslatedPageTemplate';
 import {getBody} from 'ext.gadget.Util';
 
@@ -8,18 +9,33 @@ void getBody().then(function initTP(): void {
 		return;
 	}
 
-	const portletLink = mw.util.addPortletLink(
+	const portletLinkTP = mw.util.addPortletLink(
 		'p-cactions', // 工具栏位置
 		'#', // 链接地址
-		'添加导入模板', // 按钮名称
+		'添加导入模板（维基百科）', // 按钮名称
 		'add-translated-page', // ID
-		'为当前页面的讨论页添加{{Translated page}}模板' // 提示文字
+		'为当前页面的讨论页添加{{Translated page}}模板（适用于维基百科等）' // 提示文字
 	);
 
-	if (portletLink) {
-		$(portletLink).on('click', (e) => {
+	const portletLinkMP = mw.util.addPortletLink(
+		'p-cactions', // 工具栏位置
+		'#', // 链接地址
+		'添加导入模板（其他站点）', // 按钮名称
+		'add-migrated-page', // ID
+		'为当前页面的讨论页添加{{Migrated page}}模板（适用于其他站点）' // 提示文字
+	);
+
+	if (portletLinkTP) {
+		$(portletLinkTP).on('click', (e) => {
 			e.preventDefault();
 			void addTranslatedPageTemplate();
+		});
+	}
+
+	if (portletLinkMP) {
+		$(portletLinkMP).on('click', (e) => {
+			e.preventDefault();
+			void addMigratedPageTemplate();
 		});
 	}
 });
