@@ -1,24 +1,25 @@
-import {expand, refarea} from '../FoldRef.module.less';
-import {getMessage} from '../i18n';
+import ExpandButton from '../ExpandButton.vue';
+import {createApp} from 'vue';
+import {refarea} from '../FoldRef.module.less';
 
 // create a div, place {{Reflist}}s inside
-const processElement = ($element: JQuery): void => {
-	// The following classes are used here:
-	// * see constant.ts
-	// * for more information
-	const $refFolder: JQuery = $('<div>').addClass(refarea as string);
+const processElement = (element: Element): void => {
+	const refFolder = document.createElement('div');
+	refFolder.className = refarea as string;
+	element.before(refFolder);
+	refFolder.append(element);
 
-	$refFolder.insertBefore($element);
-	$element.appendTo($refFolder);
+	const expandRoot = document.createElement('div');
+	refFolder.after(expandRoot);
 
-	// add an expand button at the bottom
-	// The following classes are used here:
-	// * see constant.ts
-	// * for more information
-	const $expandButton: JQuery = $('<div>')
-		.addClass(expand as string)
-		.text(getMessage('Expand'));
-	$refFolder.after($expandButton);
+	const app = createApp(ExpandButton, {
+		onExpand: (): void => {
+			refFolder.classList.remove(refarea as string);
+			app.unmount();
+			expandRoot.remove();
+		},
+	});
+	app.mount(expandRoot);
 };
 
 export {processElement};
