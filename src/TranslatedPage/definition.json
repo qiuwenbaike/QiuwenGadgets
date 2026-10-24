@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<span id=\"Gadget-TranslatedPage\"></span> 为导入页面标记{{[[Template:Translated page|Translated page]]}}模板",
+	"description": "<span id=\"Gadget-TranslatedPage\"></span> 为导入页面标记{{[[Template:Translated page|Translated page]]}}或{{[[Template:Migrated page|Migrated page]]}}模板",
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
