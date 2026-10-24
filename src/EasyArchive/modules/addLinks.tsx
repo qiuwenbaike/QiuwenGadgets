@@ -20,13 +20,12 @@ const addLinks = async ({
 	const sectionsToArchive = await getSections(wgPageName);
 
 	const headings = document.querySelectorAll(`h${arcLevel}`);
-	const headlines = [];
-	const headingIndices = [];
+	const headlineIds = new Set<string>();
 
 	for (const heading of headings) {
 		const headline = heading.querySelector('.mw-headline');
 		if (headline) {
-			headlines[headlines.length] = headline.id;
+			headlineIds.add(headline.id);
 		}
 	}
 
@@ -39,19 +38,11 @@ const addLinks = async ({
 	const refreshChannel: BroadcastChannel = new BroadcastChannel(`${wgPageName}_refresh`);
 
 	for (const section of sectionsToArchive) {
-		if (section.level !== arcLevel) {
+		const {level, index: indexNo, anchor} = section;
+		if (level !== arcLevel || !headlineIds.has(anchor)) {
 			continue;
 		}
 
-		if (headlines.includes(section.anchor)) {
-			headingIndices[headingIndices.length] = {
-				indexNo: section.index,
-				anchor: section.anchor,
-			};
-		}
-	}
-
-	for (const {indexNo, anchor} of headingIndices) {
 		const headline = document.getElementById(anchor);
 		if (!headline) {
 			continue;
