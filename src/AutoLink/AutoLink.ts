@@ -3,12 +3,13 @@ import {getBody} from 'ext.gadget.Util';
 import {isInTargetSpecialPage} from './modules/util/isInTargetSpecialPage';
 import {processElement} from './modules/processElement';
 
-void getBody().then(function autoLink($body: JQuery<HTMLBodyElement>): void {
+void getBody().then(function autoLink(): void {
 	if (!isInTargetSpecialPage()) {
 		return; // Disabled in the other special pages
 	}
 
-	const targetElements: TargetElements = getTargetElements($body);
-
-	processElement(targetElements);
+	mw.hook('wikipage.content').add(function ($content): void {
+		const targetElements: TargetElements = getTargetElements($content);
+		processElement(targetElements);
+	});
 });

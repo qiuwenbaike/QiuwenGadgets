@@ -24,7 +24,7 @@ const processElement = ({color, targetElements}: TargetElements): void => {
 	let regexSubstinOtherPages: string = `$1<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$2</a>$3<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$4</a>$5<a class="autolink" style="color:${color}" href="/wiki/$2$4$6">$6</a>$7`;
 	// Templates in diff pages
 	let regexTemplate: RegExp =
-		/((?:[^{]|^){{2}\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?\s*(?:(?:[Ss][Uu][Bb][Ss][Tt]|[Mm][Ss][Gg]|[Mm][Ss][Gg][Nn][Ww])\s*:)?\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?)([^\n:<>[\]{|}]+)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n:<>[\]{|}]*)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n:<>[\]{|}]*)(\||}{2}|:)/gm;
+		/((?:[^{]|^){{2}\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?\s*(?:(?:[Ss][Uu][Bb][Ss][Tt]|[Mm][Ss][Gg]|[Mm][Ss][Gg][Nn][Ww])\s*:)?\s*(?:<\/span>)?\s*(?:<span class="diffchange">)?)(?![Ii][Nn][Tt]\s*:)([^\n:<>[\]{|}]+)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n:<>[\]{|}]*)((?:<\/span>)?(?:<span class="diffchange">)?)([^\n:<>[\]{|}]*)(\||}{2}|:)/gm;
 	let regexSubstinTemplate: string = `$1<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$2</a>$3<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$4</a>$5<a class="autolink" style="color:${color}" href="/wiki/Template:$2$4$6">$6</a>$7`;
 	// Wikilinks in diff pages
 	let regexWikilink1: RegExp =
@@ -48,7 +48,7 @@ const processElement = ({color, targetElements}: TargetElements): void => {
 		regexSubstinOtherPages = `$1<a class="autolink" style="color:${color}" href="/wiki/$2">$2</a>$3`;
 		// Templates in comments or code sections
 		regexTemplate =
-			/((?:[^{]|^){{2}\s*(?:(?:[Ss][Uu][Bb][Ss][Tt]|[Mm][Ss][Gg]|[Mm][Ss][Gg][Nn][Ww])\s*:)?\s*)([^\n:<>[\]{|}]+)(\||}{2}|:)/gm;
+			/((?:[^{]|^){{2}\s*(?:(?:[Ss][Uu][Bb][Ss][Tt]|[Mm][Ss][Gg]|[Mm][Ss][Gg][Nn][Ww])\s*:)?\s*)(?![Ii][Nn][Tt]\s*:)([^\n:<>[\]{|}]+)(\||}{2}|:)/gm;
 		regexSubstinTemplate = `$1<a class="autolink" style="color:${color}" href="/wiki/Template:$2">$2</a>$3`;
 		// Wikilinks in code sections, with label
 		regexWikilink1 = /\[{2}\s*([^\n<>[\]{|}]+?)\s*\|\s*(.+?)\s*]{2}/g;

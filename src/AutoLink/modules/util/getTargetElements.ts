@@ -6,7 +6,7 @@ interface TargetElements {
 	targetElements: HTMLElement[];
 }
 
-const getTargetElements = ($body: JQuery<HTMLBodyElement>): TargetElements => {
+const getTargetElements = ($content: JQuery<HTMLElement>): TargetElements => {
 	let color: string = ''; // links color (coloured links)
 	let targetElements: HTMLElement[] = [];
 	const {wgAction} = mw.config.get();
@@ -14,14 +14,14 @@ const getTargetElements = ($body: JQuery<HTMLBodyElement>): TargetElements => {
 	if (isDiff()) {
 		// in diff pages
 		color = 'inherit'; // not coloured links
-		targetElements = [...$body.find(['.diff', '.firstrevisionheader'].join(','))];
+		targetElements = [...$content.find(['.diff', '.firstrevisionheader'].join(','))];
 	} else if (['edit', 'submit', 'history'].includes(wgAction) || isTargetSpecialPage()) {
 		// in comments
-		targetElements = [...$body.find('.comment')];
+		targetElements = [...$content.find('.comment')];
 	} else {
 		// in code sections
 		targetElements = [
-			...$body.find(['source', '.css', '.source-css', '.javascript', '.source-javascript'].join(',')),
+			...$content.find(['source', '.css', '.source-css', '.javascript', '.source-javascript'].join(',')),
 		];
 	}
 
