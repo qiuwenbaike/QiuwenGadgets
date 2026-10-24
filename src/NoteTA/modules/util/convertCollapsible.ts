@@ -22,7 +22,7 @@ const convertCollapsibles = (html: string): string => {
 
 		const summary = document.createElement('summary');
 		const heading = collapsible.querySelector(
-			':scope > .mw-collapsible-heading, :scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > h5, :scope > h6, :scope > dl'
+			':scope > .mw-collapsible-heading, :scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > h5, :scope > h6, :scope > dl, :scope > dt'
 		);
 		if (heading) {
 			while (heading.firstChild) {
