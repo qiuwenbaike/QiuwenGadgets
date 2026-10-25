@@ -1,4 +1,3 @@
-import './convertCollapsible.less';
 import {getMessage} from '../i18n';
 
 const convertCollapsibles = (html: string): string => {

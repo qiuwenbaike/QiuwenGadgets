@@ -3,7 +3,7 @@ import {type App as VueApp, createApp, reactive} from 'vue';
 import {ApiRetryFailError} from './util/ApiRetryFailError';
 import NoteTADialog from './ViewerDialog.vue';
 import {assert} from './util/assert';
-import {convertCollapsibles} from './util/convertCollapsible.ts';
+import {convertCollapsibles} from './util/convertCollapsibles';
 import {getMessage} from './i18n';
 import {viewerMap} from './initViewMap';
 
