@@ -1,6 +1,6 @@
 {
 	"enable": true,
-	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage_JS\"></span> 首页-{}-脚本",
+	"description": "<sup><abbr title=\"默认为所有用户启用\">D</abbr></sup><span id=\"Gadget-Mainpage_JS\"></span> 首页<span class=\"break-word\"></span>脚本",
 	"section": "appear",
 	"default": true,
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.util"],

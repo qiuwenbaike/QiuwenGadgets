@@ -49,10 +49,21 @@ const close = (): void => {
 	</cdx-dialog>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import (reference) '../../variables.less';
 
 .x-noteTA-viewer-output {
+	details {
+		margin: 0.5em 0;
+	}
+
+	summary {
+		dl,
+		dt {
+			display: inline;
+		}
+	}
+
 	.error {
 		color: @color--error;
 		font-size: 1.2em;
