@@ -5,12 +5,5 @@
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
 	"default": true,
-	"dependencies": [
-		"@wikimedia/codex",
-		"ext.gadget.Clipboard",
-		"ext.gadget.i18n",
-		"ext.gadget.Tippy",
-		"ext.gadget.Toastify",
-		"vue"
-	]
+	"dependencies": ["@wikimedia/codex", "ext.gadget.i18n", "ext.gadget.Tippy", "vue"]
 }

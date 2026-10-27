@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import {CdxButton, CdxIcon} from '@wikimedia/codex';
+import {copyText} from './modules/copyText';
 import {getMessage} from './modules/i18n';
+
+const props = defineProps<{
+	text: string;
+}>();
 
 /**
  * SVG paths inlined from `@wikimedia/codex-icons` v2.7.0.
@@ -22,7 +27,7 @@ const cdxIconCopy = {
 </script>
 
 <template>
-	<cdx-button weight="quiet" :aria-label="getMessage('Copy')">
+	<cdx-button weight="quiet" :aria-label="getMessage('Copy')" @click="copyText(props.text)">
 		<cdx-icon :icon="cdxIconCopy" />
 	</cdx-button>
 </template>

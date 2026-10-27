@@ -1,8 +1,7 @@
 import {button, codeBlock} from './CopyCodeBlock.module.less';
 import App from '../App.vue';
-import {addCopyListener} from './addCopyListener';
 import {createApp} from 'vue';
-import {getMessage} from './i18n';
+import {getMessage} from './i18n.ts';
 import {tippy} from 'ext.gadget.Tippy';
 
 const addButton = ($pres: JQuery<HTMLPreElement>): void => {
@@ -17,23 +16,16 @@ const addButton = ($pres: JQuery<HTMLPreElement>): void => {
 		wrapper.className = button as string;
 		pre.append(wrapper);
 
-		const app = createApp(App);
+		const app = createApp(App, {
+			text: pre.textContent ?? '',
+		});
 		app.mount(wrapper);
 
-		const copyButton: HTMLButtonElement | null = wrapper.querySelector('button');
-		if (!copyButton) {
-			app.unmount();
-			wrapper.remove();
-			continue;
-		}
-
-		tippy(copyButton, {
+		tippy(wrapper, {
 			arrow: true,
 			content: getMessage('Copy'),
 			placement: 'bottom',
 		});
-
-		addCopyListener(pre, copyButton);
 	}
 };
 
