@@ -50,7 +50,7 @@ const cdxIconClose = {
 		<div class="gadget-advanced_site_notices__dismiss">
 			<cdx-button
 				weight="quiet"
-				:type="'button'"
+				type="button"
 				:aria-label="getMessage('Dismiss')"
 				:title="getMessage('Dismiss')"
 				@click="onDismiss"

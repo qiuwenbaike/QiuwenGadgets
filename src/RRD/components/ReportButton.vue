@@ -19,7 +19,7 @@ const buttonTitle = computed(() => getMessage('reportButtonTitle') + OPTIONS.rrd
 	<cdx-button
 		class="rrd__report"
 		weight="primary"
-		:type="'button'"
+		type="button"
 		:aria-label="buttonTitle"
 		:title="buttonTitle"
 		@click="props.onClick"
