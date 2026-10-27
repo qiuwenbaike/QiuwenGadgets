@@ -5,6 +5,12 @@
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
 	"default": true,
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Tippy", "ext.gadget.Util", "mediawiki.api", "mediawiki.storage"],
-	"peers": ["AdvancedSiteNotices-pagestyles"]
+	"dependencies": [
+		"@wikimedia/codex",
+		"ext.gadget.i18n",
+		"ext.gadget.Util",
+		"mediawiki.api",
+		"mediawiki.storage",
+		"vue"
+	]
 }

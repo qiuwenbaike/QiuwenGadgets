@@ -1,0 +1,120 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-AdvancedSiteNotices.js}
+ * @base {@link https://zh.wikipedia.org/wiki/MediaWiki:Gadget-AdvancedSiteNotices.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/AdvancedSiteNotices}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+
+/**
+ * SPDX-License-Identifier: MIT
+ *
+ * The "close" icon from @wikimedia/codex-icons
+ *
+ * @license MIT
+ */
+
+/**
+ * Copyright (c) 2011-2022 Wikimedia Design & OOUI team and other contributors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\AdvancedSiteNotices\modules\NoticeArea.vue?type=style&index=0 */
+.gadget-advanced_site_notices[data-v-c30bf60e] {
+  display: flex;
+  min-height: 4em;
+  align-items: center;
+  padding: 0 0.5em;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 0.5px 0 rgba(51, 102, 204, 0.25);
+  background-color: rgba(255, 255, 255, 0.75);
+  color: #191919;
+  line-height: 1;
+  overflow-y: hidden;
+  text-align: center;
+}
+.client-darkmode .gadget-advanced_site_notices[data-v-c30bf60e] {
+  background: #d9d9d9;
+}
+.gadget-advanced_site_notices__title[data-v-c30bf60e] {
+  order: 1;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  background: #36c;
+  color: #fff;
+  white-space: nowrap;
+}
+.gadget-advanced_site_notices__notice[data-v-c30bf60e] {
+  width: 100%;
+  order: 2;
+  margin: 0.5em;
+}
+.gadget-advanced_site_notices__notice__content[data-v-c30bf60e] {
+  word-break: break-word;
+  will-change: opacity;
+}
+.gadget-advanced_site_notices__dismiss[data-v-c30bf60e] {
+  min-width: 2em;
+  order: 3;
+}
+.gadget-advanced_site_notices__dismiss[data-v-c30bf60e] .cdx-button {
+  display: block;
+  min-width: 2em;
+  padding: 0.25em;
+  font-size: 150%;
+}
+.gadget-advanced_site_notices__dismiss[data-v-c30bf60e] .cdx-icon {
+  width: 1em;
+  height: 1em;
+}
+.ve-activated[data-v-c30bf60e] {
+  display: none !important;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\AdvancedSiteNotices\modules\NoticeArea.vue?type=style&index=1 */
+.gadget-advanced_site_notices .asn-notice-enter-from,
+.gadget-advanced_site_notices .asn-notice-appear-from,
+.gadget-advanced_site_notices .asn-notice-leave-to {
+  opacity: 0;
+}
+.gadget-advanced_site_notices .asn-notice-enter-active,
+.gadget-advanced_site_notices .asn-notice-appear-active,
+.gadget-advanced_site_notices .asn-notice-leave-active {
+  transition: opacity 0.4s ease-in-out;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkQ6XFxHaXRSZXBvc2l0b3J5XFxRaXV3ZW5HYWRnZXRzXFxzcmNcXEFkdmFuY2VkU2l0ZU5vdGljZXNcXG1vZHVsZXNcXE5vdGljZUFyZWEudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCIsICJzZmMtc3R5bGU6RDpcXEdpdFJlcG9zaXRvcnlcXFFpdXdlbkdhZGdldHNcXHNyY1xcQWR2YW5jZWRTaXRlTm90aWNlc1xcbW9kdWxlc1xcTm90aWNlQXJlYS52dWU/dHlwZT1zdHlsZSZpbmRleD0xIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIuZ2FkZ2V0LWFkdmFuY2VkX3NpdGVfbm90aWNlc1tkYXRhLXYtYzMwYmY2MGVdIHtcbiAgZGlzcGxheTogZmxleDtcbiAgbWluLWhlaWdodDogNGVtO1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBwYWRkaW5nOiAwIDAuNWVtO1xuICBib3JkZXI6IDFweCBzb2xpZCAjZTZlNmU2O1xuICBib3gtc2hhZG93OiAwIDAuNXB4IDAgcmdiYSg1MSwgMTAyLCAyMDQsIDAuMjUpO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuNzUpO1xuICBjb2xvcjogIzE5MTkxOTtcbiAgbGluZS1oZWlnaHQ6IDE7XG4gIG92ZXJmbG93LXk6IGhpZGRlbjtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuLmNsaWVudC1kYXJrbW9kZSAuZ2FkZ2V0LWFkdmFuY2VkX3NpdGVfbm90aWNlc1tkYXRhLXYtYzMwYmY2MGVdIHtcbiAgYmFja2dyb3VuZDogI2Q5ZDlkOTtcbn1cbi5nYWRnZXQtYWR2YW5jZWRfc2l0ZV9ub3RpY2VzX190aXRsZVtkYXRhLXYtYzMwYmY2MGVdIHtcbiAgb3JkZXI6IDE7XG4gIHBhZGRpbmc6IDAuMmVtIDAuNGVtO1xuICBib3JkZXItcmFkaXVzOiAwLjI1ZW07XG4gIGJhY2tncm91bmQ6ICMzNmM7XG4gIGNvbG9yOiAjZmZmO1xuICB3aGl0ZS1zcGFjZTogbm93cmFwO1xufVxuLmdhZGdldC1hZHZhbmNlZF9zaXRlX25vdGljZXNfX25vdGljZVtkYXRhLXYtYzMwYmY2MGVdIHtcbiAgd2lkdGg6IDEwMCU7XG4gIG9yZGVyOiAyO1xuICBtYXJnaW46IDAuNWVtO1xufVxuLmdhZGdldC1hZHZhbmNlZF9zaXRlX25vdGljZXNfX25vdGljZV9fY29udGVudFtkYXRhLXYtYzMwYmY2MGVdIHtcbiAgd29yZC1icmVhazogYnJlYWstd29yZDtcbiAgd2lsbC1jaGFuZ2U6IG9wYWNpdHk7XG59XG4uZ2FkZ2V0LWFkdmFuY2VkX3NpdGVfbm90aWNlc19fZGlzbWlzc1tkYXRhLXYtYzMwYmY2MGVdIHtcbiAgbWluLXdpZHRoOiAyZW07XG4gIG9yZGVyOiAzO1xufVxuLmdhZGdldC1hZHZhbmNlZF9zaXRlX25vdGljZXNfX2Rpc21pc3NbZGF0YS12LWMzMGJmNjBlXSAuY2R4LWJ1dHRvbiB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBtaW4td2lkdGg6IDJlbTtcbiAgcGFkZGluZzogMC4yNWVtO1xuICBmb250LXNpemU6IDE1MCU7XG59XG4uZ2FkZ2V0LWFkdmFuY2VkX3NpdGVfbm90aWNlc19fZGlzbWlzc1tkYXRhLXYtYzMwYmY2MGVdIC5jZHgtaWNvbiB7XG4gIHdpZHRoOiAxZW07XG4gIGhlaWdodDogMWVtO1xufVxuLnZlLWFjdGl2YXRlZFtkYXRhLXYtYzMwYmY2MGVdICB7XG4gIGRpc3BsYXk6IG5vbmUgIWltcG9ydGFudDtcbn1cbiIsICIuZ2FkZ2V0LWFkdmFuY2VkX3NpdGVfbm90aWNlcyAuYXNuLW5vdGljZS1lbnRlci1mcm9tLFxuLmdhZGdldC1hZHZhbmNlZF9zaXRlX25vdGljZXMgLmFzbi1ub3RpY2UtYXBwZWFyLWZyb20sXG4uZ2FkZ2V0LWFkdmFuY2VkX3NpdGVfbm90aWNlcyAuYXNuLW5vdGljZS1sZWF2ZS10byB7XG4gIG9wYWNpdHk6IDA7XG59XG4uZ2FkZ2V0LWFkdmFuY2VkX3NpdGVfbm90aWNlcyAuYXNuLW5vdGljZS1lbnRlci1hY3RpdmUsXG4uZ2FkZ2V0LWFkdmFuY2VkX3NpdGVfbm90aWNlcyAuYXNuLW5vdGljZS1hcHBlYXItYWN0aXZlLFxuLmdhZGdldC1hZHZhbmNlZF9zaXRlX25vdGljZXMgLmFzbi1ub3RpY2UtbGVhdmUtYWN0aXZlIHtcbiAgdHJhbnNpdGlvbjogb3BhY2l0eSAwLjRzIGVhc2UtaW4tb3V0O1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQyw0QkFBNEIsQ0FBQztBQUM1QixXQUFTO0FBQ1QsY0FBWTtBQUNaLGVBQWE7QUFDYixXQUFTLEVBQUU7QUFDWCxVQUFRLElBQUksTUFBTTtBQUNsQixjQUFZLEVBQUUsTUFBTSxFQUFFLEtBQUssRUFBRSxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7QUFDekMsb0JBQWtCLEtBQUssR0FBRyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7QUFDdEMsU0FBTztBQUNQLGVBQWE7QUFDYixjQUFZO0FBQ1osY0FBWTtBQUNkO0FBQ0EsQ0FBQyxnQkFBZ0IsQ0FiaEIsNEJBYTZDLENBQUM7QUFDN0MsY0FBWTtBQUNkO0FBQ0EsQ0FBQyxtQ0FBbUMsQ0FBQztBQUNuQyxTQUFPO0FBQ1AsV0FBUyxNQUFNO0FBQ2YsaUJBQWU7QUFDZixjQUFZO0FBQ1osU0FBTztBQUNQLGVBQWE7QUFDZjtBQUNBLENBQUMsb0NBQW9DLENBQUM7QUFDcEMsU0FBTztBQUNQLFNBQU87QUFDUCxVQUFRO0FBQ1Y7QUFDQSxDQUFDLDZDQUE2QyxDQUFDO0FBQzdDLGNBQVk7QUFDWixlQUFhO0FBQ2Y7QUFDQSxDQUFDLHFDQUFxQyxDQUFDO0FBQ3JDLGFBQVc7QUFDWCxTQUFPO0FBQ1Q7QUFDQSxDQUpDLHFDQUlxQyxDQUFDLGlCQUFpQixDQUFDO0FBQ3ZELFdBQVM7QUFDVCxhQUFXO0FBQ1gsV0FBUztBQUNULGFBQVc7QUFDYjtBQUNBLENBVkMscUNBVXFDLENBQUMsaUJBQWlCLENBQUM7QUFDdkQsU0FBTztBQUNQLFVBQVE7QUFDVjtBQUNBLENBQUMsWUFBWSxDQUFDO0FBQ1osV0FBUztBQUNYOzs7QUNqREEsQ0FBQyw2QkFBNkIsQ0FBQztBQUMvQixDQURDLDZCQUM2QixDQUFDO0FBQy9CLENBRkMsNkJBRTZCLENBQUM7QUFDN0IsV0FBUztBQUNYO0FBQ0EsQ0FMQyw2QkFLNkIsQ0FBQztBQUMvQixDQU5DLDZCQU02QixDQUFDO0FBQy9CLENBUEMsNkJBTzZCLENBQUM7QUFDN0IsY0FBWSxRQUFRLEtBQUs7QUFDM0I7IiwKICAibmFtZXMiOiBbXQp9Cg== */
