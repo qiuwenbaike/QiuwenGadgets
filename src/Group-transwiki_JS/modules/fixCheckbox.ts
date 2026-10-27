@@ -31,26 +31,24 @@ const fixCheckbox = () => {
 	const form = document.querySelector<HTMLFormElement>('#mw-import-interwiki-form');
 
 	if (form) {
-		form.addEventListener('submit', (event: SubmitEvent): void => {
+		form.addEventListener('submit', async (event: SubmitEvent): Promise<void> => {
 			event.preventDefault();
 
-			void (async () => {
-				if (interwikiHistory?.checked) {
-					const confirmed = await oouiConfirmWithStyle('您是否要导入此页面的所有版本？');
-					if (!confirmed) {
-						interwikiHistory.checked = false;
-					}
+			if (interwikiHistory?.checked) {
+				const confirmed = await oouiConfirmWithStyle('您是否要导入此页面的所有版本？');
+				if (!confirmed) {
+					interwikiHistory.checked = false;
 				}
+			}
 
-				if (interwikiTemplates?.checked) {
-					const confirmed = await oouiConfirmWithStyle('您是否要导入此页面所包含的所有模板和其他页面？');
-					if (!confirmed) {
-						interwikiTemplates.checked = false;
-					}
+			if (interwikiTemplates?.checked) {
+				const confirmed = await oouiConfirmWithStyle('您是否要导入此页面所包含的所有模板和其他页面？');
+				if (!confirmed) {
+					interwikiTemplates.checked = false;
 				}
+			}
 
-				form.submit();
-			})();
+			form.submit();
 		});
 	}
 };
