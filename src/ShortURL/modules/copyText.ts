@@ -29,7 +29,7 @@ const copyText = async (text: string): Promise<void> => {
 					copyWithExecCommand();
 					return;
 				} catch (fallbackError) {
-					console.error('[DiffLink] Clipboard API and fallback copy failed:', error, fallbackError);
+					console.error('[ShortURL] Clipboard API and fallback copy failed:', error, fallbackError);
 					throw fallbackError;
 				}
 			}
@@ -42,13 +42,13 @@ const copyText = async (text: string): Promise<void> => {
 		await copy();
 		void mw.notify(getMessage('URL copied to clipboard') + text, {
 			type: 'success',
-			tag: 'DiffLinks',
+			tag: 'ShortURL',
 		});
 	} catch (error) {
 		console.error('[ShortURL] Failed to copy text:', error);
 		void mw.notify(getMessage('Copy failed'), {
 			type: 'error',
-			tag: 'DiffLinks',
+			tag: 'ShortURL',
 		});
 	}
 };

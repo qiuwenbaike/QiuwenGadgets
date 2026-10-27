@@ -42,13 +42,13 @@ const copyText = async (text: string): Promise<void> => {
 		await copy();
 		void mw.notify(getMessage('Copied'), {
 			type: 'success',
-			tag: 'DiffLinks',
+			tag: 'DiffLink',
 		});
 	} catch (error) {
 		console.error('[DiffLink] Failed to copy text:', error);
 		void mw.notify(getMessage('Copy failed'), {
 			type: 'error',
-			tag: 'DiffLinks',
+			tag: 'DiffLink',
 		});
 	}
 };
