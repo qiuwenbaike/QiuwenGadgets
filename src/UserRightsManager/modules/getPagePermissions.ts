@@ -12,7 +12,7 @@ const getPagePermissions = (): UserRights | null => {
 		'Qiuwen_talk:权限申请/申请导入权': 'transwiki',
 		'Qiuwen_talk:权限申请/申请模板编辑权': 'templateeditor',
 		'Qiuwen_talk:权限申请/申请机器人权限': 'bot',
-		'Qiuwen_talk:权限申请/申请实名制验证豁免': 'rnrsverify-exempt',
+		'Qiuwen_talk:权限申请/申请手机号验证豁免': 'rnrsverify-exempt',
 		'Qiuwen_talk:权限申请/申请IP封禁豁免权': 'ipblock-exempt',
 	} as const satisfies Partial<Record<string, UserRights>>;
 
