@@ -78,9 +78,9 @@ const getI18nMessages = () => {
 			'zh-hant': '自動確認用戶',
 		}),
 		'rnrsverify-exempt': localize({
-			en: 'Exempted from real-name verification',
-			'zh-hans': '实名制验证豁免',
-			'zh-hant': '實名制驗證豁免',
+			en: 'Exempted from phone number verification',
+			'zh-hans': '手机号验证豁免',
+			'zh-hant': '手機號驗證豁免',
 		}),
 		bot: localize({
 			en: 'Bot',
