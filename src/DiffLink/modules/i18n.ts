@@ -23,6 +23,12 @@ const getI18nMessages = () => {
 			'zh-hans': '已复制',
 			'zh-hant': '已復製',
 		}),
+		'Copy failed': localize({
+			en: 'Failed to copy.',
+			ja: 'コピーに失敗しました。',
+			'zh-hans': '复制失败',
+			'zh-hant': '複製失敗',
+		}),
 		CopyDiff: localize({
 			en: 'Copy the link to the diff version (wiki syntax)',
 			ja: '現在の版間の差分リンクをコピーします（ウィキ記法）',

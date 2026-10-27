@@ -57,7 +57,6 @@
 * AdvancedSiteNotices[ResourceLoader|actions=view|default|dependencies=ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Util,mediawiki.api,mediawiki.storage|peers=AdvancedSiteNotices-pagestyles|requiresES6]|AdvancedSiteNotices.js
 * AdvancedSiteNotices-pagestyles[ResourceLoader|hidden|requiresES6]|AdvancedSiteNotices-pagestyles.css
 * ChineseDays[ResourceLoader|hidden|requiresES6]|ChineseDays.js
-* Clipboard[ResourceLoader|hidden|requiresES6]|Clipboard.js
 * Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
 * ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.util|rights=edit|requiresES6]|ConfirmLogout.js
 * CookieWarning[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,mediawiki.util,vue|requiresES6]|CookieWarning.js|CookieWarning.css
