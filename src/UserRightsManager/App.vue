@@ -156,7 +156,7 @@ onMounted(loadRightLog);
 	</cdx-dialog>
 </template>
 
-<style lang="less">
+<style scoped lang="less">
 .user-rights-manager__body {
 	display: flex;
 	flex-direction: column;

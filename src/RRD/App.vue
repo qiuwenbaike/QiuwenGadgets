@@ -157,7 +157,7 @@ const closeDialog = (): void => {
 	</cdx-dialog>
 </template>
 
-<style lang="less">
+<style scoped lang="less">
 .rrd-dialog__body {
 	display: flex;
 	flex-direction: column;

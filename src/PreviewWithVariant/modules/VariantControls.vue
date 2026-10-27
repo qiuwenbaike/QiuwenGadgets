@@ -36,7 +36,7 @@ defineExpose({getSelectedVariant});
 	</div>
 </template>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 #pwv-area {
 	display: flex;
 	flex-flow: row wrap;

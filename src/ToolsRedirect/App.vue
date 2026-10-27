@@ -78,7 +78,7 @@ watch(isOpen, (open) => {
 	</cdx-dialog>
 </template>
 
-<style lang="less">
+<style scoped lang="less">
 .tools-redirect-tabs {
 	display: flex;
 	gap: 4px;
@@ -89,11 +89,11 @@ watch(isOpen, (open) => {
 	max-height: 65vh;
 	overflow-y: auto;
 
-	.mw-ajax-loader {
+	:deep(.mw-ajax-loader) {
 		top: 0;
 	}
 
-	a {
+	:deep(a) {
 		color: #0645ad;
 
 		&:visited {
