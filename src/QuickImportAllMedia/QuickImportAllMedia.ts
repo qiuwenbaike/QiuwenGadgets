@@ -15,14 +15,12 @@ import {getAllImages} from './modules/core';
 		return;
 	}
 
-	element.addEventListener('click', (): void => {
-		void (async () => {
-			const fileNames = await getAllImages();
-			if (fileNames.length) {
-				await detectIfFileRedirect(fileNames, true);
-			}
-			refreshPage();
-		})();
+	element.addEventListener('click', async (): Promise<void> => {
+		const fileNames = await getAllImages();
+		if (fileNames.length) {
+			await detectIfFileRedirect(fileNames, true);
+		}
+		refreshPage();
 	});
 })();
 

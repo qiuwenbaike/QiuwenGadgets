@@ -65,19 +65,17 @@ import {getIwPrefix} from './modules/getIwPrefix';
 		} catch {}
 	}
 
-	element.addEventListener('click', (): void => {
-		void (async () => {
-			const pageName: string = redirectTextA ? redirectTextA.textContent || wgPageName : wgPageName;
-			const pageNames = [pageName];
-			if (wgPageName2) {
-				pageNames[pageNames.length] = wgPageName2;
-			}
-			if (wgPageName3) {
-				pageNames[pageNames.length] = wgPageName3;
-			}
-			await detectIfFileRedirect(pageNames, isFileNS);
-			refreshPage(wgPageName3 ?? wgPageName2 ?? wgPageName);
-		})();
+	element.addEventListener('click', async (): Promise<void> => {
+		const pageName: string = redirectTextA ? redirectTextA.textContent || wgPageName : wgPageName;
+		const pageNames = [pageName];
+		if (wgPageName2) {
+			pageNames[pageNames.length] = wgPageName2;
+		}
+		if (wgPageName3) {
+			pageNames[pageNames.length] = wgPageName3;
+		}
+		await detectIfFileRedirect(pageNames, isFileNS);
+		refreshPage(wgPageName3 ?? wgPageName2 ?? wgPageName);
 	});
 })();
 

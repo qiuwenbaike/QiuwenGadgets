@@ -32,10 +32,10 @@ import {foreignApi} from './modules/api';
 
 		const {rnrsverifyhash, rnrsverifytime} = options;
 
-		void (await foreignApi.postWithToken('csrf', {
+		await foreignApi.postWithToken('csrf', {
 			action: 'options',
 			change: [`rnrsverifyhash=${rnrsverifyhash}`, `rnrsverifytime=${rnrsverifytime}`],
 			global: 'update',
-		}));
+		});
 	} catch {}
 })();
