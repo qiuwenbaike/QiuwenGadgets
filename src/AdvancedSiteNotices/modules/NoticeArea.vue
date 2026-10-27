@@ -81,6 +81,18 @@ const cdxIconClose = {
 	.client-darkmode & {
 		background: @const-color-gray--dark;
 	}
+
+	:deep(.asn-notice-enter-from),
+	:deep(.asn-notice-appear-from),
+	:deep(.asn-notice-leave-to) {
+		opacity: 0;
+	}
+
+	:deep(.asn-notice-enter-active),
+	:deep(.asn-notice-appear-active),
+	:deep(.asn-notice-leave-active) {
+		transition: opacity 0.4s ease-in-out;
+	}
 }
 
 .gadget-advanced_site_notices__title {
@@ -110,31 +122,9 @@ const cdxIconClose = {
 
 	:deep(.cdx-button) {
 		display: block;
-		min-width: 2em;
 		padding: 0.25em;
-		font-size: 150%;
-	}
-
-	:deep(.cdx-icon) {
-		width: 1em;
-		height: 1em;
 	}
 }
 
 .ve-activated-disabled('!important');
-</style>
-<style lang="less">
-.gadget-advanced_site_notices {
-	.asn-notice-enter-from,
-	.asn-notice-appear-from,
-	.asn-notice-leave-to {
-		opacity: 0;
-	}
-
-	.asn-notice-enter-active,
-	.asn-notice-appear-active,
-	.asn-notice-leave-active {
-		transition: opacity 0.4s ease-in-out;
-	}
-}
 </style>

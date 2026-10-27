@@ -127,9 +127,9 @@ defineExpose({invalidate, preview});
 	</div>
 </template>
 
-<style lang="less">
+<style scoped lang="less">
 .pwv-2017-preview {
-	.pwv-2017-preview__content .firstHeading {
+	.pwv-2017-preview__content :deep(.firstHeading) {
 		margin-top: 0;
 	}
 }
