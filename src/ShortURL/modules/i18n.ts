@@ -49,6 +49,12 @@ const getI18nMessages = () => {
 			'zh-hans': '已复制本页链接：',
 			'zh-hant': '已復製本頁網址：',
 		}),
+		'Copy failed': localize({
+			en: 'Failed to copy.',
+			ja: 'コピーに失敗しました。',
+			'zh-hans': '复制失败',
+			'zh-hant': '複製失敗',
+		}),
 	};
 };
 
