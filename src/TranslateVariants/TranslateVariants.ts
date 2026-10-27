@@ -1,5 +1,8 @@
+import App from './components/TranslateVariantsView.vue';
+import {createApp} from 'vue';
 import {getBody} from 'ext.gadget.Util';
-import {translateVariants} from './modules/translateVariants';
+import {getLangQueue} from './modules/getLangQueue';
+import {translate} from './modules/util/translate';
 
 void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	const {wgPageName} = mw.config.get();
@@ -8,10 +11,17 @@ void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
 	}
 
 	const portletId: 'p-cactions' | 'p-tb' = $body.find('#p-cactions').length ? 'p-cactions' : 'p-tb';
-	const element: HTMLLIElement | null = mw.util.addPortletLink(portletId, '#', window.wgULS('转换变体', '轉換變體'));
+	const element: HTMLLIElement | null = mw.util.addPortletLink(portletId, '#', translate('转换变体', '轉換變體'));
 
-	element?.addEventListener('click', (): void => {
-		element.remove();
-		translateVariants(wgPageName);
-	});
+	if (element) {
+		element.addEventListener('click', (): void => {
+			element.remove();
+
+			const langQueue = getLangQueue();
+			const root = document.createElement('div');
+			document.querySelector('#bodyContent')?.prepend(root);
+
+			createApp(App, {wgPageName, langQueue}).mount(root);
+		});
+	}
 });

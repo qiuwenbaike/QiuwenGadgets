@@ -1,10 +1,8 @@
 import {Langs, langs} from './constant';
+import {translate} from './util/translate';
 
 const getLangQueue = (): Langs[] => {
-	const runLangs = prompt(
-		window.wgULS('转换以下语言（以逗号隔开）：', '轉換以下語言（以逗號隔開）：'),
-		langs.join(',')
-	);
+	const runLangs = prompt(translate('转换以下语言（以逗号隔开）：', '轉換以下語言（以逗號隔開）：'), langs.join(','));
 
 	const supportedLangs = new Set<string>(langs);
 	const langQueue: Langs[] = [
