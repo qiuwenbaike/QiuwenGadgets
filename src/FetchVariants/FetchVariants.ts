@@ -18,23 +18,24 @@ const fetchVariants = async (string: string): Promise<VariantRecord | undefined>
 		text: generateText(string),
 		title: 'temp',
 		variant: 'zh',
+		formatversion: '2',
 	};
 	try {
 		const {parse} = await api.get(params);
 		const {text} = parse;
-		const $result = $(text);
+		const result = new DOMParser().parseFromString(text, 'text/html');
 		const results = {
 			string,
 			variants: {
-				zh: $result.find('#zh').text(),
-				'zh-hans': $result.find('#zh-hans').text(),
-				'zh-hant': $result.find('#zh-hant').text(),
-				'zh-cn': $result.find('#zh-cn').text(),
-				'zh-hk': $result.find('#zh-hk').text(),
-				'zh-mo': $result.find('#zh-mo').text(),
-				'zh-my': $result.find('#zh-my').text(),
-				'zh-sg': $result.find('#zh-sg').text(),
-				'zh-tw': $result.find('#zh-tw').text(),
+				zh: result.querySelector('#zh')?.textContent ?? '',
+				'zh-hans': result.querySelector('#zh-hans')?.textContent ?? '',
+				'zh-hant': result.querySelector('#zh-hant')?.textContent ?? '',
+				'zh-cn': result.querySelector('#zh-cn')?.textContent ?? '',
+				'zh-hk': result.querySelector('#zh-hk')?.textContent ?? '',
+				'zh-mo': result.querySelector('#zh-mo')?.textContent ?? '',
+				'zh-my': result.querySelector('#zh-my')?.textContent ?? '',
+				'zh-sg': result.querySelector('#zh-sg')?.textContent ?? '',
+				'zh-tw': result.querySelector('#zh-tw')?.textContent ?? '',
 			},
 		};
 		await variants.set(string, results);
