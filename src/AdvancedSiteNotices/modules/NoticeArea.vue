@@ -123,6 +123,12 @@ const cdxIconClose = {
 	:deep(.cdx-button) {
 		display: block;
 		padding: 0.25em;
+
+		&:hover {
+			.cdx-icon {
+				fill: #36c;
+			}
+		}
 	}
 }
 
