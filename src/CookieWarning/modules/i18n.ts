@@ -29,7 +29,7 @@ const getI18nMessages = () => {
 			en: ` to learn how we handle your personal information.`,
 			ja: `をご参照ください。`,
 			'zh-hans': `，了解我们如何处理您的个人信息。`,
-			'zh-hant': `，了解我們如何處理您的個人資訊`,
+			'zh-hant': `，了解我們如何處理您的個人資訊。`,
 		}),
 	};
 };
