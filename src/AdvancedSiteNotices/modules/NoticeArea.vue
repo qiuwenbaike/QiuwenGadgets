@@ -125,7 +125,7 @@ const cdxIconClose = {
 		padding: 0.25em;
 
 		&:hover {
-			.cdx-icon {
+			.cdx-icon svg {
 				fill: #36c;
 			}
 		}
