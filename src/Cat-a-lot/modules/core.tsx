@@ -422,11 +422,11 @@ const catALot = async (): Promise<void> => {
 			try {
 				const {parse} = await CAL.enqueueApiCall(() => CAL.api.get(params));
 				const {text} = parse;
-				const $parsed = $(text);
+				const parsed = new DOMParser().parseFromString(text, 'text/html');
 				for (const variant of VARIANTS) {
-					const $variantNode = $parsed.find(`#cal-${variant}`);
-					if ($variantNode.length > 0) {
-						results[results.length] = $variantNode.text();
+					const variantNode = parsed.querySelector(`#cal-${variant}`);
+					if (variantNode) {
+						results[results.length] = variantNode.textContent;
 					}
 				}
 			} catch {}
