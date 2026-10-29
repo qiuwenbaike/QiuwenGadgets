@@ -1,10 +1,13 @@
 import {VALID_INTERNAL_PREFIX, VALID_INTERWIKI_PREFIX} from '../constant';
 import {getMessage} from '../i18n';
 
-const getLink = ({link, text}: {link: string; text?: string}): string => {
-	const VALID_INTERWIKI_LINK_REGEX = new RegExp(`^:?(${VALID_INTERWIKI_PREFIX.join('|')})`, 'i');
-	const VALID_INTERNAL_PREFIX_REGEX = new RegExp(`^:?(${VALID_INTERNAL_PREFIX.join('|')})`, 'i');
+const escapeRegex = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const createPrefixRegex = (prefixes: string[]): RegExp =>
+	new RegExp(`^:?(?:${prefixes.map(escapeRegex).join('|')}):`, 'i');
+const VALID_INTERWIKI_LINK_REGEX = createPrefixRegex(VALID_INTERWIKI_PREFIX);
+const VALID_INTERNAL_PREFIX_REGEX = createPrefixRegex(VALID_INTERNAL_PREFIX);
 
+const getLink = ({link, text}: {link: string; text?: string}): string => {
 	// 当许可证选择“自定义”，返回占位符
 	if (
 		[getMessage('Replace With License'), getMessage('Other License')].includes(link) ||

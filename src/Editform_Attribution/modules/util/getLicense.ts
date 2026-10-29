@@ -7,9 +7,9 @@ const getLicense = (license: string): string => {
 };
 
 const updateWpLicense = ({$body, license}: {$body: JQuery<HTMLElement>; license: string}): void => {
-	const $wpLicense =
-		$body.find<HTMLInputElement>('input[name=wpLicense]') ??
-		$('<input>')
+	let $wpLicense = $body.find<HTMLInputElement>('input[name=wpLicense]');
+	if (!$wpLicense.length) {
+		$wpLicense = $<HTMLInputElement>('<input>')
 			.attr({
 				id: 'wpLicense',
 				name: 'wpLicense',
@@ -17,6 +17,7 @@ const updateWpLicense = ({$body, license}: {$body: JQuery<HTMLElement>; license:
 				value: '',
 			})
 			.prependTo($body);
+	}
 	$wpLicense.val(getLicense(license));
 };
 
