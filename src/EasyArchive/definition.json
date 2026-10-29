@@ -5,13 +5,14 @@
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
 	"dependencies": [
+		"@wikimedia/codex",
 		"ext.gadget.i18n",
-		"ext.gadget.JSX",
 		"ext.gadget.Toastify",
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.Title",
-		"mediawiki.util"
+		"mediawiki.util",
+		"vue"
 	],
 	"rights": ["skipcaptcha"]
 }

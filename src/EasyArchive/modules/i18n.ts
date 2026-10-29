@@ -91,6 +91,11 @@ const getI18nMessages = () => {
 			'zh-hant':
 				'這些頁面不受 Easy Archive 支持：條目，File、Template、Module、MediaWiki、Category、Special、JavaScript、CSS、JSON。',
 		}),
+		'Easy Archive operation failed': localize({
+			en: 'Easy Archive could not complete the operation. Please check the browser console and refresh before trying again.',
+			'zh-hans': 'Easy Archive 无法完成操作。请检查浏览器控制台，并在重试前刷新页面。',
+			'zh-hant': 'Easy Archive 無法完成操作。請檢查瀏覽器主控台，並在重試前重新整理頁面。',
+		}),
 		'No Archive Location': localize({
 			en: 'Easy Archive can be used on this page if needed. To enable it, add {{Easy Archive|to=[Archive location]}} template to this page.',
 			'zh-hans':

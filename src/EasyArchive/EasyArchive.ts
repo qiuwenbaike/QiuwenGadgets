@@ -1,5 +1,5 @@
-import {loadEasyArcive} from './modules/loadEasyArcive';
+import {loadEasyArchive} from './modules/loadEasyArchive';
 
 (function easyArchive() {
-	loadEasyArcive();
+	loadEasyArchive();
 })();
