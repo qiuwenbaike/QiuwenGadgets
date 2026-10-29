@@ -22,7 +22,7 @@ const mountAttributionForm = ({
 
 	createApp(AttributionForm, {
 		onChange: updateHiddenFields,
-		onAdd: (source: string, license: string): void => {
+		onAdd: (source: string, license: string): boolean => {
 			updateHiddenFields(source, license);
 
 			const wpSource = getSource(source);
@@ -39,13 +39,18 @@ const mountAttributionForm = ({
 					customSummary: `[${attribution}]`,
 					$wpSummary,
 				});
-			} else if (!wpSource.length && wpLicense.length) {
+				return true;
+			}
+
+			if (!wpSource.length && wpLicense.length) {
 				void oouiConfirmWithStyle(getMessage('Source is missing'));
 			} else if (wpSource.length && !wpLicense.length) {
 				void oouiConfirmWithStyle(getMessage('License is missing'));
 			} else {
 				void oouiConfirmWithStyle(getMessage('Both source and License are missing'));
 			}
+
+			return false;
 		},
 	}).mount(root);
 };
