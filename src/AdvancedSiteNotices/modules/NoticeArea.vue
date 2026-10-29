@@ -93,6 +93,8 @@ const cdxIconClose = {
 	:deep(.asn-notice-leave-active) {
 		transition: opacity 0.4s ease-in-out;
 	}
+
+	.ve-activated-disabled('!important');
 }
 
 .gadget-advanced_site_notices__title {
@@ -131,6 +133,4 @@ const cdxIconClose = {
 		}
 	}
 }
-
-.ve-activated-disabled('!important');
 </style>
