@@ -1,37 +1,21 @@
-import * as OPTIONS from './options.json';
-import {IDBPlus} from 'ext.gadget.idb-plus';
-import {api} from './modules/api';
-import {generateText} from './modules/generateText';
-import {generateVariantResult} from './modules/generateVariants';
+import {getVariants} from './modules/getVariants';
+import {variants} from './modules/idb';
+
+const CACHE_DURATION = 24 * 60 * 60 * 1000;
 
 const fetchVariants = async (string: string): Promise<VariantRecord | undefined> => {
-	const variants = new IDBPlus<string, VariantRecord>(OPTIONS.storageKey, 'variants');
+	const time = Date.now();
+	const results = await variants.get(string);
 
-	if (await variants.get(string)) {
-		return variants.get(string);
-	}
-
-	const params: ApiParseParams = {
-		action: 'parse',
-		format: 'json',
-		text: generateText(string),
-		title: 'temp',
-		variant: 'zh',
-		formatversion: '2',
-	};
-	try {
-		const {parse} = await api.get(params);
-		const {text} = parse;
-		const result = new DOMParser().parseFromString(text, 'text/html');
-		const results = {
-			string,
-			variants: generateVariantResult(result),
-		};
-		await variants.set(string, results);
+	if (results?.time && time - results.time < CACHE_DURATION) {
 		return results;
-	} catch {
-		return undefined;
 	}
+
+	if (results) {
+		await variants.delete(string);
+	}
+
+	return getVariants(string);
 };
 
 export {fetchVariants};
