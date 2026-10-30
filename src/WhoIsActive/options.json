@@ -1,5 +1,7 @@
 {
+	"elementId": "gadget-whoisactive",
 	"mountPointSelector": "#footer-info,.page-info",
 	"storageKey": "ext.gadget.WhoIsActive_whoIsActive-",
-	"version": "2.1"
+	"userNameSpaceNumber": 2,
+	"version": "3.0"
 }

@@ -1,4 +1,6 @@
-import {appendMarkerToUserLinks, appendMarkerToUserPage} from './util/appendMarker';
+import * as OPTIONS from '../options.json';
+import {appendMarkerToUserLinks} from './util/appendMarkerToUserLinks';
+import {appendMarkerToUserPage} from './util/appendMarkerToUserPage';
 import {getUserLinks} from './util/getUserLinks';
 
 const whoIsActiveUserLinks = ($content: JQuery<HTMLElement>): void => {
@@ -7,21 +9,26 @@ const whoIsActiveUserLinks = ($content: JQuery<HTMLElement>): void => {
 		return;
 	}
 
-	const userLinks = getUserLinks($content);
+	const content: HTMLElement | undefined = $content[0];
+	if (!content) {
+		return;
+	}
 
-	for (const [userName, $elements] of Object.entries(userLinks)) {
-		void appendMarkerToUserLinks({userName, $elements});
+	const userLinks = getUserLinks(content);
+
+	for (const [userName, elements] of Object.entries(userLinks)) {
+		void appendMarkerToUserLinks({userName, elements});
 	}
 };
 
 const whoIsActiveUserPage = (): void => {
 	const {wgAction, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
 
-	if (!wgRelevantUserName || wgNamespaceNumber !== 2 || wgAction !== 'view') {
+	if (!wgRelevantUserName || wgNamespaceNumber !== OPTIONS.userNameSpaceNumber || wgAction !== 'view') {
 		return;
 	}
 
-	const relevantUserPageName: string = new mw.Title(wgRelevantUserName, 2).toText();
+	const relevantUserPageName: string = new mw.Title(wgRelevantUserName, OPTIONS.userNameSpaceNumber).toText();
 	const pageName: string = new mw.Title(wgPageName).toText();
 	if (relevantUserPageName !== pageName) {
 		return;

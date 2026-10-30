@@ -63,8 +63,7 @@
 * FilterAlteredClicks[ResourceLoader|hidden|requiresES6]|FilterAlteredClicks.js
 * Geo[ResourceLoader|dependencies=mediawiki.storage|hidden|requiresES6]|Geo.js
 * GeoLocation[ResourceLoader|dependencies=ext.gadget.Geo,ext.gadget.i18n,ext.gadget.Util,mediawiki.api|rights=edit|requiresES6]|GeoLocation.js
-* GeoLocationReader[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.MarkRights,ext.gadget.Util,mediawiki.api,mediawiki.Title|namespaces=2|peers=GeoLocationReader-pagestyles|rights=edit|requiresES6]|GeoLocationReader.js
-* GeoLocationReader-pagestyles[ResourceLoader|hidden|requiresES6]|GeoLocationReader-pagestyles.css
+* GeoLocationReader[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.MarkRights,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.Title,vue|namespaces=2|rights=edit|requiresES6]|GeoLocationReader.js|GeoLocationReader.css
 * HistoryDisclaimer[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|requiresES6]|HistoryDisclaimer.js|HistoryDisclaimer.css
 * i18n[ResourceLoader|hidden|requiresES6]|i18n.js
 * idb-plus[ResourceLoader|hidden|requiresES6]|idb-plus.js
@@ -142,8 +141,7 @@
 * MarkBlocked[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|requiresES6]|MarkBlocked.js|MarkBlocked.css
 * MarkRights[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|peers=MarkRights-pagestyles|requiresES6]|MarkRights.js
 * MarkRights-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-pagestyles.css
-* MarkRights-Userpage[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.MarkRights,ext.gadget.Util,mediawiki.Title,mediawiki.util|peers=MarkRights-Userpage-pagestyles|requiresES6]|MarkRights-Userpage.js
-* MarkRights-Userpage-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-Userpage-pagestyles.css
+* MarkRights-Userpage[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.MarkRights,ext.gadget.Util,mediawiki.Title,mediawiki.util,vue|requiresES6]|MarkRights-Userpage.js|MarkRights-Userpage.css
 * OnlineAdmins[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|OnlineAdmins.js|OnlineAdmins.css
 * PagePatroller[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|rights=autopatrol,patrol|requiresES6]|PagePatroller.js
 * QuickPatrol[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|rights=patrol|requiresES6]|QuickPatrol.js
@@ -155,8 +153,7 @@
 * Twinkle[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.morebits,ext.gadget.Util,mediawiki.api,mediawiki.language,mediawiki.storage,mediawiki.util,user.options,vue|peers=Twinkle-pagestyles|rights=skipcaptcha|requiresES6]|Twinkle.js|Twinkle.css
 * Twinkle-pagestyles[ResourceLoader|hidden|rights=skipcaptcha|requiresES6]|Twinkle-pagestyles.css
 * UserRightsManager[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=protect|requiresES6]|UserRightsManager.js|UserRightsManager.css
-* WhoIsActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.Title|peers=WhoIsActive-pagestyles|requiresES6]|WhoIsActive.js
-* WhoIsActive-pagestyles[ResourceLoader|hidden|requiresES6]|WhoIsActive-pagestyles.css
+* WhoIsActive[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.Title,vue|requiresES6]|WhoIsActive.js|WhoIsActive.css
 
 == usergroup ==
 * Group-autoreviewer[ResourceLoader|default|hidden|rights=autopatrol|requiresES6]|Group-autoreviewer.css

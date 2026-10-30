@@ -4,12 +4,12 @@
 	"section": "sysop",
 	"excludeSites": ["loginwiki"],
 	"dependencies": [
+		"@wikimedia/codex",
 		"ext.gadget.i18n",
-		"ext.gadget.JSX",
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.storage",
-		"mediawiki.Title"
-	],
-	"peers": ["WhoIsActive-pagestyles"]
+		"mediawiki.Title",
+		"vue"
+	]
 }

@@ -1,3 +1,4 @@
+import './WhoIsActive.less';
 import {whoIsActiveUserLinks, whoIsActiveUserPage} from './modules/core';
 
 (function whoIsActiveLoad() {

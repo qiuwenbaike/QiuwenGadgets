@@ -1,0 +1,121 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.js}
+ * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/WhoIsActive}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+
+/**
+ * SPDX-License-Identifier: MIT
+ *
+ * - The "userContributions" icon from @wikimedia/codex-icons
+ *
+ * @license MIT
+ */
+
+/**
+ * Copyright 2011-2022 Codex Team and other contributors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/WhoIsActive/WhoIsActive.less */
+.ve-activated .mw-footer .gadget-whoisactive {
+  display: none;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\WhoIsActive\modules\App.vue?type=style&index=0 */
+.gadget-whoisactive__badge[data-v-9d775533] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  margin: 0 0.25em !important;
+  padding: 0 0.5em !important;
+  border: 1px solid #e6e6e6;
+  font-size: 0.9em;
+  white-space: nowrap;
+  border-radius: 0.25em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.mw-footer .gadget-whoisactive__badge[data-v-9d775533] {
+  margin-bottom: 0.25em;
+}
+.gadget-whoisactive__badge--success[data-v-9d775533] {
+  border-color: #181;
+  color: #181;
+}
+.gadget-whoisactive__badge--info[data-v-9d775533] {
+  border-color: #36c;
+  color: #36c;
+}
+.gadget-whoisactive__badge--purple[data-v-9d775533] {
+  border-color: #800080;
+  color: #800080;
+}
+.gadget-whoisactive__badge--orange[data-v-9d775533] {
+  border-color: #f28500;
+  color: #f28500;
+}
+.gadget-whoisactive__badge--warning[data-v-9d775533] {
+  border-color: #a60;
+  color: #a60;
+}
+.gadget-whoisactive__badge--error[data-v-9d775533] {
+  border-color: #b32424;
+  color: #b32424;
+}
+.gadget-whoisactive__badge--compact .gadget-whoisactive__text[data-v-9d775533] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.gadget-whoisactive__icon[data-v-9d775533] {
+  width: 1em;
+  height: 1em;
+  color: inherit;
+}
+.gadget-whoisactive__icon[data-v-9d775533] svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL1dob0lzQWN0aXZlL1dob0lzQWN0aXZlLmxlc3MiLCAic2ZjLXN0eWxlOkQ6XFxHaXRSZXBvc2l0b3J5XFxRaXV3ZW5HYWRnZXRzXFxzcmNcXFdob0lzQWN0aXZlXFxtb2R1bGVzXFxBcHAudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLnZlLWFjdGl2YXRlZCAubXctZm9vdGVyIC5nYWRnZXQtd2hvaXNhY3RpdmUge1xuICBkaXNwbGF5OiBub25lIDtcbn1cbiIsICIuZ2FkZ2V0LXdob2lzYWN0aXZlX19iYWRnZVtkYXRhLXYtOWQ3NzU1MzNdIHtcbiAgZGlzcGxheTogaW5saW5lLWZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGdhcDogMC4yNWVtO1xuICBtYXJnaW46IDAgMC4yNWVtICFpbXBvcnRhbnQ7XG4gIHBhZGRpbmc6IDAgMC41ZW0gIWltcG9ydGFudDtcbiAgYm9yZGVyOiAxcHggc29saWQgI2U2ZTZlNjtcbiAgZm9udC1zaXplOiAwLjllbTtcbiAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbiAgYm9yZGVyLXJhZGl1czogMC4yNWVtO1xuICAtd2Via2l0LXVzZXItc2VsZWN0OiBub25lO1xuICAgICAtbW96LXVzZXItc2VsZWN0OiBub25lO1xuICAgICAgICAgIHVzZXItc2VsZWN0OiBub25lO1xuICAvKiBFZGl0ZWQgdGhpcyB3ZWVrOiBncmVlbiAqL1xuICAvKiBFZGl0ZWQgdGhpcyBtb250aDogYmx1ZSAqL1xuICAvKiBFZGl0ZWQgaW4gMyBtb250aHM6IHB1cnBsZSAqL1xuICAvKiBFZGl0ZWQgaW4gaGFsZiBhIHllYXI6IG9yYW5nZSAqL1xuICAvKiBFZGl0ZWQgdGhpcyB5ZWFyOiBicm93biAqL1xuICAvKiBFZGl0ZWQgb3ZlciBhIHllYXIgYWdvOiByZWQgKi9cbiAgLyogT25seSB0aGUgaWNvbiBpcyB2aXNpYmxlLCB0aGUgdGV4dCBpcyBrZXB0IGZvciBzY3JlZW4gcmVhZGVycyAqL1xufVxuLm13LWZvb3RlciAuZ2FkZ2V0LXdob2lzYWN0aXZlX19iYWRnZVtkYXRhLXYtOWQ3NzU1MzNdIHtcbiAgbWFyZ2luLWJvdHRvbTogMC4yNWVtO1xufVxuLmdhZGdldC13aG9pc2FjdGl2ZV9fYmFkZ2UtLXN1Y2Nlc3NbZGF0YS12LTlkNzc1NTMzXSB7XG4gIGJvcmRlci1jb2xvcjogIzE4MTtcbiAgY29sb3I6ICMxODE7XG59XG4uZ2FkZ2V0LXdob2lzYWN0aXZlX19iYWRnZS0taW5mb1tkYXRhLXYtOWQ3NzU1MzNdIHtcbiAgYm9yZGVyLWNvbG9yOiAjMzZjO1xuICBjb2xvcjogIzM2Yztcbn1cbi5nYWRnZXQtd2hvaXNhY3RpdmVfX2JhZGdlLS1wdXJwbGVbZGF0YS12LTlkNzc1NTMzXSB7XG4gIGJvcmRlci1jb2xvcjogIzgwMDA4MDtcbiAgY29sb3I6ICM4MDAwODA7XG59XG4uZ2FkZ2V0LXdob2lzYWN0aXZlX19iYWRnZS0tb3JhbmdlW2RhdGEtdi05ZDc3NTUzM10ge1xuICBib3JkZXItY29sb3I6ICNmMjg1MDA7XG4gIGNvbG9yOiAjZjI4NTAwO1xufVxuLmdhZGdldC13aG9pc2FjdGl2ZV9fYmFkZ2UtLXdhcm5pbmdbZGF0YS12LTlkNzc1NTMzXSB7XG4gIGJvcmRlci1jb2xvcjogI2E2MDtcbiAgY29sb3I6ICNhNjA7XG59XG4uZ2FkZ2V0LXdob2lzYWN0aXZlX19iYWRnZS0tZXJyb3JbZGF0YS12LTlkNzc1NTMzXSB7XG4gIGJvcmRlci1jb2xvcjogI2IzMjQyNDtcbiAgY29sb3I6ICNiMzI0MjQ7XG59XG4uZ2FkZ2V0LXdob2lzYWN0aXZlX19iYWRnZS0tY29tcGFjdCAuZ2FkZ2V0LXdob2lzYWN0aXZlX190ZXh0W2RhdGEtdi05ZDc3NTUzM10ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHdpZHRoOiAxcHg7XG4gIGhlaWdodDogMXB4O1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBjbGlwLXBhdGg6IGluc2V0KDUwJSk7XG59XG4uZ2FkZ2V0LXdob2lzYWN0aXZlX19pY29uW2RhdGEtdi05ZDc3NTUzM10ge1xuICB3aWR0aDogMWVtO1xuICBoZWlnaHQ6IDFlbTtcbiAgY29sb3I6IGluaGVyaXQ7XG59XG4uZ2FkZ2V0LXdob2lzYWN0aXZlX19pY29uW2RhdGEtdi05ZDc3NTUzM10gc3ZnIHtcbiAgd2lkdGg6IDEwMCU7XG4gIGhlaWdodDogMTAwJTtcbiAgZmlsbDogY3VycmVudENvbG9yO1xufVxuIl0sCiAgIm1hcHBpbmdzIjogIjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQ0FBQyxhQUFhLENBQUMsVUFBVSxDQUFDO0FBQ3hCLFdBQVM7QUFDWDs7O0FDRkEsQ0FBQyx5QkFBeUIsQ0FBQztBQUN6QixXQUFTO0FBQ1QsZUFBYTtBQUNiLE9BQUs7QUFDTCxVQUFRLEVBQUU7QUFDVixXQUFTLEVBQUU7QUFDWCxVQUFRLElBQUksTUFBTTtBQUNsQixhQUFXO0FBQ1gsZUFBYTtBQUNiLGlCQUFlO0FBQ2YsdUJBQXFCO0FBQ2xCLG9CQUFrQjtBQUNiLGVBQWE7QUFRdkI7QUFDQSxDQUFDLFVBQVUsQ0FyQlYseUJBcUJvQyxDQUFDO0FBQ3BDLGlCQUFlO0FBQ2pCO0FBQ0EsQ0FBQyxrQ0FBa0MsQ0FBQztBQUNsQyxnQkFBYztBQUNkLFNBQU87QUFDVDtBQUNBLENBQUMsK0JBQStCLENBQUM7QUFDL0IsZ0JBQWM7QUFDZCxTQUFPO0FBQ1Q7QUFDQSxDQUFDLGlDQUFpQyxDQUFDO0FBQ2pDLGdCQUFjO0FBQ2QsU0FBTztBQUNUO0FBQ0EsQ0FBQyxpQ0FBaUMsQ0FBQztBQUNqQyxnQkFBYztBQUNkLFNBQU87QUFDVDtBQUNBLENBQUMsa0NBQWtDLENBQUM7QUFDbEMsZ0JBQWM7QUFDZCxTQUFPO0FBQ1Q7QUFDQSxDQUFDLGdDQUFnQyxDQUFDO0FBQ2hDLGdCQUFjO0FBQ2QsU0FBTztBQUNUO0FBQ0EsQ0FBQyxtQ0FBbUMsQ0FBQyx3QkFBd0IsQ0FBQztBQUM1RCxZQUFVO0FBQ1YsU0FBTztBQUNQLFVBQVE7QUFDUixZQUFVO0FBQ1YsYUFBVyxNQUFNO0FBQ25CO0FBQ0EsQ0FBQyx3QkFBd0IsQ0FBQztBQUN4QixTQUFPO0FBQ1AsVUFBUTtBQUNSLFNBQU87QUFDVDtBQUNBLENBTEMsd0JBS3dCLENBQUMsaUJBQWlCO0FBQ3pDLFNBQU87QUFDUCxVQUFRO0FBQ1IsUUFBTTtBQUNSOyIsCiAgIm5hbWVzIjogW10KfQo= */
