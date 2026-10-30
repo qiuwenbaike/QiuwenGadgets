@@ -1,3 +1,4 @@
+import './GeoLocationReader.less';
 import * as OPTIONS from './options.json';
 import {SYSTEM_SCRIPT_LIST, WEBMASTER_LIST} from './modules/constant';
 import {addElement} from './modules/addElement';
