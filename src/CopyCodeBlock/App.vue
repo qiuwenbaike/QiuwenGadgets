@@ -31,3 +31,13 @@ const cdxIconCopy = {
 		<cdx-icon :icon="cdxIconCopy" />
 	</cdx-button>
 </template>
+
+<style scoped lang="less">
+.cdx-button {
+	&:hover {
+		.cdx-icon :deep(svg) {
+			fill: #36c;
+		}
+	}
+}
+</style>
