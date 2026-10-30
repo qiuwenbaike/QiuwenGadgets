@@ -1,6 +1,6 @@
 import * as OPTIONS from '../options.json';
-import {FooterUserList} from './components/react';
-import React from 'ext.gadget.JSX';
+import {createFooterRoot} from './util/createFooterRoot';
+import {footerUserList} from './util/getfooterUserList';
 
 const appendElement = (userNames: (string | number)[]): void => {
 	if (!userNames || !userNames.length) {
@@ -12,7 +12,8 @@ const appendElement = (userNames: (string | number)[]): void => {
 		return;
 	}
 
-	mountPoint.prepend(<FooterUserList userNames={userNames} />);
+	const footer = createFooterRoot(mountPoint);
+	footer.append(footerUserList({userNames}));
 };
 
 export {appendElement};

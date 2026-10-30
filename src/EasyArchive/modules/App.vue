@@ -8,18 +8,6 @@ import {getMessage} from './i18n';
 import {refresh} from './util/refreshPage';
 import {toastify} from 'ext.gadget.Toastify';
 
-interface SectionLink {
-	target: HTMLElement;
-	indexNo: string;
-	anchor: string;
-	archiveTo: string;
-	canArchive: boolean;
-	canDelete: boolean;
-}
-
-type FooterNoticeType = 'blacklist' | 'notAllowed' | 'noArcLoc' | 'arcLocNotAllowed' | 'enabled';
-type SectionAction = 'archive' | 'delete';
-
 const props = defineProps<{
 	noticeType: FooterNoticeType;
 	arcLoc: string;
@@ -193,10 +181,6 @@ const deleteLink = (section: SectionLink): void => {
 </template>
 
 <style scoped lang="less">
-:global(.ve-activated .easy-archive-footer-notice) {
-	display: none;
-}
-
 .gadget-easy_archive__section-id {
 	:global(.skin-citizen) & {
 		font-size: 0.875rem;

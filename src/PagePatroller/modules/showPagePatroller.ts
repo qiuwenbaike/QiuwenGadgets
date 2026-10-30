@@ -1,7 +1,7 @@
 import * as OPTIONS from '../options.json';
-import {ErrorMessage, NotPatrolledYet, Patrolled} from './components/footerNotices';
-import React from 'ext.gadget.JSX';
-import {getPatroller} from './util/getPatroller';
+import {errorMessage, notPatrolledYet, patrolledBy} from './util/getFooterNotices.ts';
+import {createFooterRoot} from './util/createFooterRoot.ts';
+import {getPatroller} from './util/getPatroller.ts';
 
 const showPagePatroller = async (): Promise<void> => {
 	const mountPoint = document.querySelector<HTMLElement>(OPTIONS.mountPointSelector);
@@ -9,9 +9,11 @@ const showPagePatroller = async (): Promise<void> => {
 		return;
 	}
 
+	const footer = createFooterRoot(mountPoint);
+
 	// if there is a patrol link, the page must be not patrolled
 	if (document.querySelector('.patrollink')) {
-		mountPoint.prepend(<NotPatrolledYet />);
+		footer.append(notPatrolledYet());
 		return;
 	}
 
@@ -23,21 +25,16 @@ const showPagePatroller = async (): Promise<void> => {
 		const {action, user} = log;
 		let {timestamp} = log;
 
-		if (action && user && timestamp) {
+		if (action && action === 'patrol' && user && timestamp) {
 			timestamp = new Date(timestamp).toLocaleString();
-
-			if (action === 'patrol') {
-				mountPoint.prepend(<Patrolled timestamp={timestamp} user={user} />);
-			} else {
-				mountPoint.prepend(<Patrolled />);
-			}
+			footer.append(patrolledBy({timestamp, user}));
 		} else {
-			mountPoint.prepend(<Patrolled />);
+			footer.append(patrolledBy());
 		}
 	} catch (error: unknown) {
 		// return error(s)
 		console.error('[PagePatroller] Ajax error:', error);
-		mountPoint.prepend(<ErrorMessage />);
+		footer.append(errorMessage());
 	}
 };
 
