@@ -35,7 +35,7 @@
  */
 
 /**
- * Copyright 2011-2022 Codex Team and other contributors.
+ * Copyright (c) 2011-2022 Wikimedia Design & OOUI team and other contributors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
