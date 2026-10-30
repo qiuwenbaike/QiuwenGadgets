@@ -1,5 +1,6 @@
 {
+	"elementId": "gadget-markrights_userpage",
 	"mountPointSelector": "#footer-info,.page-info",
 	"userNameSpaceNumber": 2,
-	"version": "2.0"
+	"version": "3.0"
 }

@@ -1,0 +1,128 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://www.mediawiki.org/wiki/MediaWiki:Gadget-whoisactive.css}
+ * @base {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/GeoLocationReader}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+
+/**
+ * SPDX-License-Identifier: MIT
+ *
+ * - The "check" icon from @wikimedia/codex-icons
+ * - The "checkAll" icon from @wikimedia/codex-icons
+ * - The "download" icon from @wikimedia/codex-icons
+ * - The "edit" icon from @wikimedia/codex-icons
+ * - The "eyeClosed" icon from @wikimedia/codex-icons
+ * - The "globe" icon from @wikimedia/codex-icons
+ * - The "home" icon from @wikimedia/codex-icons
+ * - The "key" icon from @wikimedia/codex-icons
+ * - The "layout" icon from @wikimedia/codex-icons
+ * - The "message" icon from @wikimedia/codex-icons
+ * - The "recentChanges" icon from @wikimedia/codex-icons
+ * - The "robot" icon from @wikimedia/codex-icons
+ * - The "search" icon from @wikimedia/codex-icons
+ * - The "settings" icon from @wikimedia/codex-icons
+ * - The "star" icon from @wikimedia/codex-icons
+ * - The "success" icon from @wikimedia/codex-icons
+ * - The "templateAdd" icon from @wikimedia/codex-icons
+ * - The "unFlag" icon from @wikimedia/codex-icons
+ * - The "unLock" icon from @wikimedia/codex-icons
+ * - The "update" icon from @wikimedia/codex-icons
+ *
+ * @license MIT
+ */
+
+/**
+ * Copyright 2011-2022 Codex Team and other contributors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/MarkRights-Userpage/MarkRights-Userpage.less */
+.ve-activated .gadget-markrights_userpage {
+  display: none;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\MarkRights-Userpage\modules\App.vue?type=style&index=0 */
+.gadget-markrights_userpage__badge[data-v-3a157625] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  margin: 0 0.25em !important;
+  padding: 0 0.5em !important;
+  border: 1px solid #e6e6e6;
+  font-size: 0.9em;
+  white-space: nowrap;
+  border-radius: 0.25em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.mw-footer .gadget-markrights_userpage__badge[data-v-3a157625] {
+  margin-bottom: 0.25em;
+}
+.gadget-markrights_userpage__badge--steward[data-v-3a157625] {
+  border-color: #800080;
+  color: #800080;
+}
+.gadget-markrights_userpage__badge--sysop[data-v-3a157625] {
+  border-color: #c71590;
+  color: #c71590;
+}
+.gadget-markrights_userpage__badge--patroller[data-v-3a157625] {
+  border-color: #a60;
+  color: #a60;
+}
+.gadget-markrights_userpage__badge--editor[data-v-3a157625] {
+  border-color: #36c;
+  color: #36c;
+}
+.gadget-markrights_userpage__badge--confirmed[data-v-3a157625] {
+  border-color: #181;
+  color: #181;
+}
+.gadget-markrights_userpage__icon[data-v-3a157625] {
+  width: 1em;
+  height: 1em;
+  color: inherit;
+}
+.gadget-markrights_userpage__icon[data-v-3a157625] svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* </nowiki> */
+
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL01hcmtSaWdodHMtVXNlcnBhZ2UvTWFya1JpZ2h0cy1Vc2VycGFnZS5sZXNzIiwgInNmYy1zdHlsZTpEOlxcR2l0UmVwb3NpdG9yeVxcUWl1d2VuR2FkZ2V0c1xcc3JjXFxNYXJrUmlnaHRzLVVzZXJwYWdlXFxtb2R1bGVzXFxBcHAudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLnZlLWFjdGl2YXRlZCAuZ2FkZ2V0LW1hcmtyaWdodHNfdXNlcnBhZ2Uge1xuICBkaXNwbGF5OiBub25lIDtcbn1cbiIsICIuZ2FkZ2V0LW1hcmtyaWdodHNfdXNlcnBhZ2VfX2JhZGdlW2RhdGEtdi0zYTE1NzYyNV0ge1xuICBkaXNwbGF5OiBpbmxpbmUtZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgZ2FwOiAwLjI1ZW07XG4gIG1hcmdpbjogMCAwLjI1ZW0gIWltcG9ydGFudDtcbiAgcGFkZGluZzogMCAwLjVlbSAhaW1wb3J0YW50O1xuICBib3JkZXI6IDFweCBzb2xpZCAjZTZlNmU2O1xuICBmb250LXNpemU6IDAuOWVtO1xuICB3aGl0ZS1zcGFjZTogbm93cmFwO1xuICBib3JkZXItcmFkaXVzOiAwLjI1ZW07XG4gIC13ZWJraXQtdXNlci1zZWxlY3Q6IG5vbmU7XG4gICAgIC1tb3otdXNlci1zZWxlY3Q6IG5vbmU7XG4gICAgICAgICAgdXNlci1zZWxlY3Q6IG5vbmU7XG4gIC8qIFRoZSB3ZWJtYXN0ZXIgYW5kIHRoZSBzdGV3YXJkczogdmlvbGV0ICovXG4gIC8qIEhpZ2gtbGV2ZWwgbWFuYWdlcnMgYW5kIGNoZWNrdXNlcnM6IGRhcmsgcGluayAqL1xuICAvKiBQYWdlIHBhdHJvbGxlcnMgYW5kIGV2ZW50IHNwb25zb3JzOiBicm93biAqL1xuICAvKiBFZGl0aW5nIHJlbGF0ZWQgcmlnaHRzOiBibHVlICovXG4gIC8qIENvbmZpcm1hdGlvbiBhbmQgZXhlbXB0aW9uIHJpZ2h0czogZ3JlZW4gKi9cbn1cbi5tdy1mb290ZXIgLmdhZGdldC1tYXJrcmlnaHRzX3VzZXJwYWdlX19iYWRnZVtkYXRhLXYtM2ExNTc2MjVdIHtcbiAgbWFyZ2luLWJvdHRvbTogMC4yNWVtO1xufVxuLmdhZGdldC1tYXJrcmlnaHRzX3VzZXJwYWdlX19iYWRnZS0tc3Rld2FyZFtkYXRhLXYtM2ExNTc2MjVdIHtcbiAgYm9yZGVyLWNvbG9yOiAjODAwMDgwO1xuICBjb2xvcjogIzgwMDA4MDtcbn1cbi5nYWRnZXQtbWFya3JpZ2h0c191c2VycGFnZV9fYmFkZ2UtLXN5c29wW2RhdGEtdi0zYTE1NzYyNV0ge1xuICBib3JkZXItY29sb3I6ICNjNzE1OTA7XG4gIGNvbG9yOiAjYzcxNTkwO1xufVxuLmdhZGdldC1tYXJrcmlnaHRzX3VzZXJwYWdlX19iYWRnZS0tcGF0cm9sbGVyW2RhdGEtdi0zYTE1NzYyNV0ge1xuICBib3JkZXItY29sb3I6ICNhNjA7XG4gIGNvbG9yOiAjYTYwO1xufVxuLmdhZGdldC1tYXJrcmlnaHRzX3VzZXJwYWdlX19iYWRnZS0tZWRpdG9yW2RhdGEtdi0zYTE1NzYyNV0ge1xuICBib3JkZXItY29sb3I6ICMzNmM7XG4gIGNvbG9yOiAjMzZjO1xufVxuLmdhZGdldC1tYXJrcmlnaHRzX3VzZXJwYWdlX19iYWRnZS0tY29uZmlybWVkW2RhdGEtdi0zYTE1NzYyNV0ge1xuICBib3JkZXItY29sb3I6ICMxODE7XG4gIGNvbG9yOiAjMTgxO1xufVxuLmdhZGdldC1tYXJrcmlnaHRzX3VzZXJwYWdlX19pY29uW2RhdGEtdi0zYTE1NzYyNV0ge1xuICB3aWR0aDogMWVtO1xuICBoZWlnaHQ6IDFlbTtcbiAgY29sb3I6IGluaGVyaXQ7XG59XG4uZ2FkZ2V0LW1hcmtyaWdodHNfdXNlcnBhZ2VfX2ljb25bZGF0YS12LTNhMTU3NjI1XSBzdmcge1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiAxMDAlO1xuICBmaWxsOiBjdXJyZW50Q29sb3I7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxDQUFDLGFBQWEsQ0FBQztBQUNiLFdBQVM7QUFDWDs7O0FDRkEsQ0FBQyxpQ0FBaUMsQ0FBQztBQUNqQyxXQUFTO0FBQ1QsZUFBYTtBQUNiLE9BQUs7QUFDTCxVQUFRLEVBQUU7QUFDVixXQUFTLEVBQUU7QUFDWCxVQUFRLElBQUksTUFBTTtBQUNsQixhQUFXO0FBQ1gsZUFBYTtBQUNiLGlCQUFlO0FBQ2YsdUJBQXFCO0FBQ2xCLG9CQUFrQjtBQUNiLGVBQWE7QUFNdkI7QUFDQSxDQUFDLFVBQVUsQ0FuQlYsaUNBbUI0QyxDQUFDO0FBQzVDLGlCQUFlO0FBQ2pCO0FBQ0EsQ0FBQywwQ0FBMEMsQ0FBQztBQUMxQyxnQkFBYztBQUNkLFNBQU87QUFDVDtBQUNBLENBQUMsd0NBQXdDLENBQUM7QUFDeEMsZ0JBQWM7QUFDZCxTQUFPO0FBQ1Q7QUFDQSxDQUFDLDRDQUE0QyxDQUFDO0FBQzVDLGdCQUFjO0FBQ2QsU0FBTztBQUNUO0FBQ0EsQ0FBQyx5Q0FBeUMsQ0FBQztBQUN6QyxnQkFBYztBQUNkLFNBQU87QUFDVDtBQUNBLENBQUMsNENBQTRDLENBQUM7QUFDNUMsZ0JBQWM7QUFDZCxTQUFPO0FBQ1Q7QUFDQSxDQUFDLGdDQUFnQyxDQUFDO0FBQ2hDLFNBQU87QUFDUCxVQUFRO0FBQ1IsU0FBTztBQUNUO0FBQ0EsQ0FMQyxnQ0FLZ0MsQ0FBQyxpQkFBaUI7QUFDakQsU0FBTztBQUNQLFVBQVE7QUFDUixRQUFNO0FBQ1I7IiwKICAibmFtZXMiOiBbXQp9Cg== */
