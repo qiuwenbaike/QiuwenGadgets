@@ -1,3 +1,4 @@
+import './MarkRights-Userpage.less';
 import * as OPTIONS from './options.json';
 import {getPermissions} from './modules/getPermissions';
 
