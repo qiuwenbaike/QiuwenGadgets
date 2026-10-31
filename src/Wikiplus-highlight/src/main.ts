@@ -17,12 +17,12 @@ declare namespace mediaWiki.libs {
 	const {libs} = mediaWiki,
 		{wphl} = libs;
 	if (!wphl?.version) {
-		const version = '3.5.0';
+		const version = '3.6.0';
 		libs.wphl = {version, ...wphl}; // 开始加载
 
 		// 路径
 		const CM_CDN =
-			'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js?date=20260809&version=f472cae890';
+			'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js?date=20261031&version=95b13c2208';
 
 		if (typeof CodeMirror6 !== 'function') {
 			await $.ajax(CM_CDN, {dataType: 'script', cache: true});
@@ -39,12 +39,9 @@ declare namespace mediaWiki.libs {
 				void renderEditor(added, added.id === 'Wikiplus-Setting-Input');
 			}
 			const [removed] = $(records.flatMap(({removedNodes}) => [...removedNodes])).find<HTMLTextAreaElement>(
-					selector
-				),
-				cm = CodeMirror6.instances?.get(removed!);
-			if (typeof cm?.destroy === 'function') {
-				cm.destroy();
-			}
+				selector
+			);
+			CodeMirror6.instances.get(removed!)?.destroy();
 		});
 		observer.observe(document.body, {childList: true});
 	}
