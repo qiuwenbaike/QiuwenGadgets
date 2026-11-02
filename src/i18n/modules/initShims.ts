@@ -1,4 +1,4 @@
-const initShims = (i18nMethods: typeof import('ext.gadget.i18n')): void => {
+const initShims = (i18nMethods: typeof import('ext.gadget.i18n')): Partial<typeof import('ext.gadget.i18n')> => {
 	const wgUXS = (
 		hans: unknown,
 		hant: unknown,
@@ -37,15 +37,54 @@ const initShims = (i18nMethods: typeof import('ext.gadget.i18n')): void => {
 		});
 	};
 
-	window.wgUCS = (hans, hant, cn, tw, hk, sg, zh, mo, my, en) => {
+	const wgUCS = (
+		hans: unknown,
+		hant: unknown,
+		cn: unknown,
+		tw: unknown,
+		hk: unknown,
+		sg: unknown,
+		zh: unknown,
+		mo: unknown,
+		my: unknown,
+		en: unknown
+	) => {
 		return wgUXS(hans, hant, cn, tw, hk, sg, zh, mo, my, en, 'content');
 	};
-	window.wgULS = (hans, hant, cn, tw, hk, sg, zh, mo, my, en) => {
+	const wgULS = (
+		hans: unknown,
+		hant: unknown,
+		cn: unknown,
+		tw: unknown,
+		hk: unknown,
+		sg: unknown,
+		zh: unknown,
+		mo: unknown,
+		my: unknown,
+		en: unknown
+	) => {
 		return wgUXS(hans, hant, cn, tw, hk, sg, zh, mo, my, en, 'localize');
 	};
-	window.wgUVS = (hans, hant, cn, tw, hk, sg, zh, mo, my, en) => {
+	const wgUVS = (
+		hans: unknown,
+		hant: unknown,
+		cn: unknown,
+		tw: unknown,
+		hk: unknown,
+		sg: unknown,
+		zh: unknown,
+		mo: unknown,
+		my: unknown,
+		en: unknown
+	) => {
 		return wgUXS(hans, hant, cn, tw, hk, sg, zh, mo, my, en, 'vary');
 	};
+
+	window.wgUCS = wgUCS;
+	window.wgULS = wgULS;
+	window.wgUVS = wgUVS;
+
+	return {wgUCS, wgULS, wgUVS};
 };
 
 export {initShims};

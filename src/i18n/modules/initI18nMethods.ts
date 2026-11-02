@@ -26,7 +26,7 @@ const initI18nMethods = (): typeof i18nMethods => {
 
 	const {wgContentLanguage, wgUserLanguage, wgUserVariant} = mw.config.get();
 
-	const i18nMethods: typeof import('ext.gadget.i18n') = {
+	const i18nMethods: Partial<typeof import('ext.gadget.i18n')> = {
 		content: (candidates) => {
 			return elect(candidates, wgContentLanguage);
 		},
