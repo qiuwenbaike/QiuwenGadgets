@@ -3,6 +3,7 @@
 /*! Twinkle.js - friendlytag.js */
 import {createApp, h, reactive} from 'vue';
 import TwTagDialog from './ui/TwTagDialog.vue';
+import {wgULS} from 'ext.gadget.i18n';
 
 (function friendlytag() {
 	const $body = $('body');
@@ -15,13 +16,13 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 	Twinkle.tag = () => {
 		// redirect tagging
 		if (Morebits.isPageRedirect()) {
-			Twinkle.tag.mode = window.wgULS('重定向', '重新導向');
+			Twinkle.tag.mode = wgULS('重定向', '重新導向');
 			Twinkle.tag.modeEn = 'redirect';
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
-				window.wgULS('标记', '標記'),
+				wgULS('标记', '標記'),
 				'friendly-tag',
-				window.wgULS('标记重定向', '標記重新導向')
+				wgULS('标记重定向', '標記重新導向')
 			);
 			// file tagging
 		} else if (
@@ -29,20 +30,20 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 			!document.querySelector('#mw-sharedupload') &&
 			document.querySelector('#mw-imagepage-section-filehistory')
 		) {
-			Twinkle.tag.mode = window.wgULS('文件', '檔案');
+			Twinkle.tag.mode = wgULS('文件', '檔案');
 			Twinkle.tag.modeEn = 'file';
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
-				window.wgULS('标记', '標記'),
+				wgULS('标记', '標記'),
 				'friendly-tag',
-				window.wgULS('标记文件', '標記檔案')
+				wgULS('标记文件', '標記檔案')
 			);
 			// article/draft tagging
 		} else if (
 			([0, 118].includes(mw.config.get('wgNamespaceNumber')) && mw.config.get('wgCurRevisionId')) ||
 			Morebits.pageNameNorm === Twinkle.getPref('sandboxPage')
 		) {
-			Twinkle.tag.mode = window.wgULS('条目', '條目');
+			Twinkle.tag.mode = wgULS('条目', '條目');
 			Twinkle.tag.modeEn = 'article';
 			// Can't remove tags when not viewing current version
 			Twinkle.tag.canRemove =
@@ -52,9 +53,9 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				!mw.config.get('wgDiffNewId');
 			Twinkle.addPortletLink(
 				Twinkle.tag.callback,
-				window.wgULS('标记', '標記'),
+				wgULS('标记', '標記'),
 				'friendly-tag',
-				window.wgULS('标记条目', '標記條目')
+				wgULS('标记条目', '標記條目')
 			);
 		}
 	};
@@ -149,7 +150,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				customGroups = Twinkle.getPref('customTagList').length
 					? [
 							{
-								key: window.wgULS('自定义模板', '自訂模板'),
+								key: wgULS('自定义模板', '自訂模板'),
 								items: Twinkle.getPref('customTagList').map((el) => {
 									return {
 										tag: el.value,
@@ -165,7 +166,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				customGroups = Twinkle.getPref('customFileTagList').length
 					? [
 							{
-								key: window.wgULS('自定义模板', '自訂模板'),
+								key: wgULS('自定义模板', '自訂模板'),
 								items: Twinkle.getPref('customFileTagList').map((el) => {
 									return {
 										tag: el.value,
@@ -181,7 +182,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				customGroups = Twinkle.getPref('customRedirectTagList').length
 					? [
 							{
-								key: window.wgULS('自定义模板', '自訂模板'),
+								key: wgULS('自定义模板', '自訂模板'),
 								items: Twinkle.getPref('customRedirectTagList').map((el) => {
 									return {
 										tag: el.value,
@@ -197,13 +198,13 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 		let title;
 		switch (Twinkle.tag.modeEn) {
 			case 'article':
-				title = window.wgULS('条目维护标记', '條目維護標記');
+				title = wgULS('条目维护标记', '條目維護標記');
 				break;
 			case 'file':
-				title = window.wgULS('文件维护标记', '檔案維護標記');
+				title = wgULS('文件维护标记', '檔案維護標記');
 				break;
 			default:
-				title = window.wgULS('重定向标记', '重新導向標記');
+				title = wgULS('重定向标记', '重新導向標記');
 				break;
 		}
 		const app = createApp({
@@ -229,8 +230,8 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					redirectGroups,
 					customGroups,
 					footerLinks: [
-						{text: window.wgULS('标记设置', '標記設定'), href: mw.util.getUrl('H:TW/PREF#tag')},
-						{text: window.wgULS('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#tag')},
+						{text: wgULS('标记设置', '標記設定'), href: mw.util.getUrl('H:TW/PREF#tag')},
+						{text: wgULS('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#tag')},
 					],
 					onSubmit: (params, statusContainer, restore) => {
 						Twinkle.tag.callback.evaluate(params, statusContainer, restore);
@@ -300,35 +301,35 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 	// Add new categories with discretion - the list is long enough as is!
 	Twinkle.tag.article.tagList = [
 		{
-			key: window.wgULS('清理和维护模板', '清理和維護模板'),
+			key: wgULS('清理和维护模板', '清理和維護模板'),
 			value: [
 				{
-					key: window.wgULS('常规清理', '常規清理'),
+					key: wgULS('常规清理', '常規清理'),
 					value: [
 						{
 							tag: 'Cleanup',
-							description: window.wgULS(
+							description: wgULS(
 								'可能需要进行清理，以符合求闻百科的质量标准',
 								'可能需要進行清理，以符合求聞百科的質量標準'
 							),
 						},
 						{
 							tag: 'Cleanup rewrite',
-							description: window.wgULS(
+							description: wgULS(
 								'不符合求闻百科的质量标准，需要完全重写',
 								'不符合求聞百科的質量標準，需要完全重寫'
 							),
 						},
 						{
 							tag: 'Cleanup-jargon',
-							description: window.wgULS(
+							description: wgULS(
 								'包含过多行话或专业术语，可能需要简化或提出进一步解释',
 								'包含過多行話或專業術語，可能需要簡化或提出進一步解釋'
 							),
 						},
 						{
 							tag: 'Copy edit',
-							description: window.wgULS(
+							description: wgULS(
 								'需要编修，以确保文法、用词、语气、格式、标点等使用恰当',
 								'需要編修，以確保文法、用詞、語氣、格式、標點等使用恰當'
 							),
@@ -336,25 +337,22 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					],
 				},
 				{
-					key: window.wgULS('可能多余的内容', '可能多餘的內容'),
+					key: wgULS('可能多余的内容', '可能多餘的內容'),
 					value: [
 						{
 							tag: 'Copypaste',
-							description: window.wgULS(
-								'内容可能是从某个来源处拷贝后粘贴',
-								'內容可能是從某個來源處拷貝後貼上'
-							),
+							description: wgULS('内容可能是从某个来源处拷贝后粘贴', '內容可能是從某個來源處拷貝後貼上'),
 						},
 						{
 							tag: 'External links',
-							description: window.wgULS(
+							description: wgULS(
 								'使用外部链接的方式可能不符合求闻百科的方针',
 								'使用外部連結的方式可能不符合求聞百科的方針'
 							),
 						},
 						{
 							tag: 'Non-free',
-							description: window.wgULS(
+							description: wgULS(
 								'可能过多或不当地使用了受著作权保护的文字、图像或多媒体文件',
 								'可能過多或不當地使用了受版權保護的文字、圖像或多媒體檔案'
 							),
@@ -362,54 +360,54 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					],
 				},
 				{
-					key: window.wgULS('结构和导言', '結構和導言'),
+					key: wgULS('结构和导言', '結構和導言'),
 					value: [
 						{
 							tag: 'Lead too long',
-							description: window.wgULS('导言部分也许过于冗长', '導言部分也許過於冗長'),
+							description: wgULS('导言部分也许过于冗长', '導言部分也許過於冗長'),
 						},
 						{
 							tag: 'Lead too short',
-							description: window.wgULS('导言部分也许不足以概括其内容', '導言部分也許不足以概括其內容'),
+							description: wgULS('导言部分也许不足以概括其内容', '導言部分也許不足以概括其內容'),
 						},
 						{
 							tag: 'Very long',
-							description: window.wgULS('可能过于冗长', '可能過於冗長'),
+							description: wgULS('可能过于冗长', '可能過於冗長'),
 						},
 					],
 				},
 				{
-					key: window.wgULS('虚构作品相关清理', '虛構作品相關清理'),
+					key: wgULS('虚构作品相关清理', '虛構作品相關清理'),
 					value: [
 						{
 							tag: 'In-universe',
-							description: window.wgULS(
+							description: wgULS(
 								'使用小说故事内的观点描述一个虚构事物',
 								'使用小說故事內的觀點描述一個虛構事物'
 							),
 						},
 						{
 							tag: 'Long plot',
-							description: window.wgULS('可能包含过于详细的剧情摘要', '可能包含過於詳細的劇情摘要'),
+							description: wgULS('可能包含过于详细的剧情摘要', '可能包含過於詳細的劇情摘要'),
 						},
 					],
 				},
 			],
 		},
 		{
-			key: window.wgULS('常规条目问题', '常規條目問題'),
+			key: wgULS('常规条目问题', '常規條目問題'),
 			value: [
 				{
 					key: '重要性和知名度',
 					value: [
 						{
 							tag: 'Notability',
-							description: window.wgULS('可能不符合通用收录标准', '可能不符合通用收錄標準'),
+							description: wgULS('可能不符合通用收录标准', '可能不符合通用收錄標準'),
 							excludeMI: true,
 						},
 						{
 							tag: 'Notability Unreferenced',
-							description: window.wgULS(
+							description: wgULS(
 								'可能具备收录标准，但需要来源加以彰显',
 								'可能具備收錄標準，但需要來源加以彰顯'
 							),
@@ -417,48 +415,45 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					],
 				},
 				{
-					key: window.wgULS('写作风格', '寫作風格'),
+					key: wgULS('写作风格', '寫作風格'),
 					value: [
 						{
 							tag: 'Advert',
-							description: window.wgULS('类似广告或宣传性内容', '類似廣告或宣傳性內容'),
+							description: wgULS('类似广告或宣传性内容', '類似廣告或宣傳性內容'),
 						},
 						{
 							tag: 'Fanpov',
-							description: window.wgULS('类似爱好者网页', '類似愛好者網頁'),
+							description: wgULS('类似爱好者网页', '類似愛好者網頁'),
 						},
 						{
 							tag: 'How-to',
-							description: window.wgULS('包含指南或教学内容', '包含指南或教學內容'),
+							description: wgULS('包含指南或教学内容', '包含指南或教學內容'),
 						},
 						{
 							tag: 'Inappropriate person',
-							description: window.wgULS(
-								'使用不适当的第一人称和第二人称',
-								'使用不適當的第一人稱和第二人稱'
-							),
+							description: wgULS('使用不适当的第一人称和第二人称', '使用不適當的第一人稱和第二人稱'),
 						},
 						{
 							tag: 'Newsrelease',
-							description: window.wgULS(
+							description: wgULS(
 								'阅读起来像是新闻稿及包含过度的宣传性语调',
 								'閱讀起來像是新聞稿及包含過度的宣傳性語調'
 							),
 						},
 						{
 							tag: 'Prose',
-							description: window.wgULS(
+							description: wgULS(
 								'使用了日期或时间列表式记述，需要改写为连贯的叙述性文字',
 								'使用了日期或時間列表式記述，需要改寫為連貫的敘述性文字'
 							),
 						},
 						{
 							tag: 'Review',
-							description: window.wgULS('阅读起来类似评论，需要清理', '閱讀起來類似評論，需要清理'),
+							description: wgULS('阅读起来类似评论，需要清理', '閱讀起來類似評論，需要清理'),
 						},
 						{
 							tag: 'Tone',
-							description: window.wgULS(
+							description: wgULS(
 								'语调或风格可能不适合百科全书的写作方式',
 								'語調或風格可能不適合百科全書的寫作方式'
 							),
@@ -466,96 +461,93 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					],
 				},
 				{
-					key: window.wgULS('内容', '內容'),
+					key: wgULS('内容', '內容'),
 					value: [
 						{tag: 'Missing information', description: '缺少必要的信息'}, // these three have a subgroup with several options
-						{tag: 'Substub', description: window.wgULS('过于短小', '過於短小'), excludeMI: true},
+						{tag: 'Substub', description: wgULS('过于短小', '過於短小'), excludeMI: true},
 						{
 							tag: 'Unencyclopedic',
-							description: window.wgULS('可能不适合写入百科全书', '可能不適合寫入百科全書'),
+							description: wgULS('可能不适合写入百科全书', '可能不適合寫入百科全書'),
 						},
 					],
 				},
 				{
-					key: window.wgULS('信息和细节', '資訊和細節'),
+					key: wgULS('信息和细节', '資訊和細節'),
 					value: [
 						{
 							tag: 'Expert needed',
-							description: window.wgULS(
+							description: wgULS(
 								'需要精通或熟悉本主题的专业人士（专家）参与及协助编辑',
 								'需要精通或熟悉本主題的專業人士（專家）參與及協助編輯'
 							),
 						},
 						{
 							tag: 'Overly detailed',
-							description: window.wgULS('包含太多过度细节内容', '包含太多過度細節內容'),
+							description: wgULS('包含太多过度细节内容', '包含太多過度細節內容'),
 						},
 						{
 							tag: 'Trivia',
-							description: window.wgULS(
-								'应避免有陈列杂项、琐碎资料的部分',
-								'應避免有陳列雜項、瑣碎資料的部分'
-							),
+							description: wgULS('应避免有陈列杂项、琐碎资料的部分', '應避免有陳列雜項、瑣碎資料的部分'),
 						},
 					],
 				},
 				{
-					key: window.wgULS('时间性', '時間性'),
+					key: wgULS('时间性', '時間性'),
 					value: [
 						{
 							tag: 'Current',
-							description: window.wgULS('记述新闻动态', '記述新聞動態'),
+							description: wgULS('记述新闻动态', '記述新聞動態'),
 							excludeMI: true,
 						},
 						{
 							tag: 'Update',
-							description: window.wgULS('当前条目或章节需要更新', '當前條目或章節需要更新'),
+							description: wgULS('当前条目或章节需要更新', '當前條目或章節需要更新'),
 						},
 					],
 				},
 				{
-					key: window.wgULS('客观性和事实准确性', '客觀性和事實準確性'),
+					key: wgULS('客观性和事实准确性', '客觀性和事實準確性'),
 					value: [
 						{
 							tag: 'Autobiography',
-							description: window.wgULS(
+							description: wgULS(
 								'类似一篇自传，或内容主要由条目描述的当事人或组织撰写、编辑',
 								'類似一篇自傳，或內容主要由條目描述的當事人或組織撰寫、編輯'
 							),
 						},
 						{
 							tag: 'COI',
-							description: window.wgULS(
+							description: wgULS(
 								'主要贡献者与本条目所宣扬的内容可能存在利益冲突',
 								'主要貢獻者與本條目所宣揚的內容可能存在利益衝突'
 							),
 						},
 						{
 							tag: 'Disputed',
-							description: window.wgULS('内容疑欠准确，有待查证', '內容疑欠準確，有待查證'),
+							description: wgULS('内容疑欠准确，有待查证', '內容疑欠準確，有待查證'),
 						},
 						{
 							tag: 'Globalize',
-							description: window.wgULS('仅具有一部分地区的信息或观点', '僅具有一部分地區的資訊或觀點'),
+							description: wgULS('仅具有一部分地区的信息或观点', '僅具有一部分地區的資訊或觀點'),
 						},
 						{
 							tag: 'Hoax',
-							description: window.wgULS('真实性被质疑', '真實性被質疑'),
+							description: wgULS('真实性被质疑', '真實性被質疑'),
 						},
 						{
 							tag: 'POV',
-							description: window.wgULS(
+							description: wgULS(
 								'客观性有争议。内容、语调可能带有明显的个人观点或地方色彩',
 								'客觀性有爭議。內容、語調可能帶有明顯的個人觀點或地方色彩'
 							),
 						},
 						{
 							tag: 'Self-contradictory',
-							description: window.wgULS('内容自相矛盾', '內容自相矛盾'),
+							description: wgULS('内容自相矛盾', '內容自相矛盾'),
 						},
 						{
 							tag: 'Weasel',
-							description: window.wgULS(
+							description: wgULS(
 								'语义模棱两可而损及其客观性或准确性',
 								'語意模棱兩可而損及其客觀性或準確性'
 							),
@@ -563,125 +555,113 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					],
 				},
 				{
-					key: window.wgULS('可供查证和来源', '可供查證和來源'),
+					key: wgULS('可供查证和来源', '可供查證和來源'),
 					value: [
 						{
 							tag: 'BLPdispute',
-							description: window.wgULS(
+							description: wgULS(
 								'可能违反了求闻百科关于生者传记的方针',
 								'可能違反了求聞百科關於生者傳記的方針'
 							),
 						},
 						{
 							tag: 'BLPsources',
-							description: window.wgULS(
+							description: wgULS(
 								'生者传记需要补充更多可供查证的来源',
 								'生者傳記需要補充更多可供查證的來源'
 							),
 						},
 						{
 							tag: 'BLP unsourced',
-							description: window.wgULS(
-								'生者传记没有列出任何参考或来源',
-								'生者傳記沒有列出任何參考或來源'
-							),
+							description: wgULS('生者传记没有列出任何参考或来源', '生者傳記沒有列出任何參考或來源'),
 						},
 						{
 							tag: 'Citecheck',
-							description: window.wgULS(
+							description: wgULS(
 								'可能包含不适用或被曲解的引用资料，部分内容的准确性无法被证实',
 								'可能包含不適用或被曲解的引用資料，部分內容的準確性無法被證實'
 							),
 						},
 						{
 							tag: 'More footnotes needed',
-							description: window.wgULS(
+							description: wgULS(
 								'因为文内引用不足，部分字句的来源仍然不明',
 								'因為文內引用不足，部分字句的來源仍然不明'
 							),
 						},
 						{
 							tag: 'No footnotes',
-							description: window.wgULS(
-								'因为没有内文引用而来源仍然不明',
-								'因為沒有內文引用而來源仍然不明'
-							),
+							description: wgULS('因为没有内文引用而来源仍然不明', '因為沒有內文引用而來源仍然不明'),
 						},
 						{
 							tag: 'Onesource',
-							description: window.wgULS(
-								'极大或完全地依赖于某个单一的来源',
-								'極大或完全地依賴於某個單一的來源'
-							),
+							description: wgULS('极大或完全地依赖于某个单一的来源', '極大或完全地依賴於某個單一的來源'),
 						},
 						{
 							tag: 'Original research',
-							description: window.wgULS('可能包含原创研究或未查证内容', '可能包含原創研究或未查證內容'),
+							description: wgULS('可能包含原创研究或未查证内容', '可能包含原創研究或未查證內容'),
 						},
 						{
 							tag: 'Primarysources',
-							description: window.wgULS('依赖第一手来源', '依賴第一手來源'),
+							description: wgULS('依赖第一手来源', '依賴第一手來源'),
 						},
 						{
 							tag: 'Refimprove',
-							description: window.wgULS('需要补充更多来源', '需要補充更多來源'),
+							description: wgULS('需要补充更多来源', '需要補充更多來源'),
 						},
 						{
 							tag: 'Unreferenced',
-							description: window.wgULS('没有列出任何参考或来源', '沒有列出任何參考或來源'),
+							description: wgULS('没有列出任何参考或来源', '沒有列出任何參考或來源'),
 						},
 						{
 							tag: 'Unreliable sources',
-							description: window.wgULS('使用的来源可能不可靠', '使用的來源可能不可靠'),
+							description: wgULS('使用的来源可能不可靠', '使用的來源可能不可靠'),
 						},
 					],
 				},
 			],
 		},
 		{
-			key: window.wgULS('具体内容问题', '具體內容問題'),
+			key: wgULS('具体内容问题', '具體內容問題'),
 			value: [
 				{
-					key: window.wgULS('语言', '語言'),
+					key: wgULS('语言', '語言'),
 					value: [
 						{
 							tag: 'NotMandarin',
-							description: window.wgULS(
-								'包含过多不是现代标准汉语的内容',
-								'包含過多不是現代標準漢語的內容'
-							),
+							description: wgULS('包含过多不是现代标准汉语的内容', '包含過多不是現代標準漢語的內容'),
 							excludeMI: true,
 						},
 						{
 							tag: 'Rough translation',
-							description: window.wgULS('翻译品质不佳', '翻譯品質不佳'),
+							description: wgULS('翻译品质不佳', '翻譯品質不佳'),
 						},
 					],
 				},
 				{
-					key: window.wgULS('链接', '連結'),
+					key: wgULS('链接', '連結'),
 					value: [
 						{
 							tag: 'Dead end',
-							description: window.wgULS(
+							description: wgULS(
 								'需要加上内部链接以构筑百科全书的链接网络',
 								'需要加上內部連結以構築百科全書的連結網絡'
 							),
 						},
 						{
 							tag: 'Orphan',
-							description: window.wgULS('没有或只有很少链入页面', '沒有或只有很少連入頁面'),
+							description: wgULS('没有或只有很少链入页面', '沒有或只有很少連入頁面'),
 						},
 						{
 							tag: 'Overlinked',
-							description: window.wgULS(
+							description: wgULS(
 								'含有过多、重复、或不必要的内部链接',
 								'含有過多、重複、或不必要的內部連結'
 							),
 						},
 						{
 							tag: 'Underlinked',
-							description: window.wgULS(
+							description: wgULS(
 								'需要更多内部链接以构筑百科全书的链接网络',
 								'需要更多內部連結以構築百科全書的連結網絡'
 							),
@@ -689,25 +669,25 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					],
 				},
 				{
-					key: window.wgULS('参考技术', '參考技術'),
+					key: wgULS('参考技术', '參考技術'),
 					value: [
 						{
 							tag: 'Citation style',
-							description: window.wgULS('引用需要进行清理', '引用需要進行清理'),
+							description: wgULS('引用需要进行清理', '引用需要進行清理'),
 						},
 					],
 				},
 				{
-					key: window.wgULS('分类', '分類'),
+					key: wgULS('分类', '分類'),
 					value: [
 						{
 							tag: 'Improve categories',
-							description: window.wgULS('需要更多页面分类', '需要更多頁面分類'),
+							description: wgULS('需要更多页面分类', '需要更多頁面分類'),
 							excludeMI: true,
 						},
 						{
 							tag: 'Uncategorized',
-							description: window.wgULS('缺少页面分类', '缺少頁面分類'),
+							description: wgULS('缺少页面分类', '缺少頁面分類'),
 							excludeMI: true,
 						},
 					],
@@ -715,31 +695,31 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 			],
 		},
 		{
-			key: window.wgULS('合并、拆分、移动', '合併、拆分、移動'),
+			key: wgULS('合并、拆分、移动', '合併、拆分、移動'),
 			value: [
 				{
 					tag: 'Merge from',
-					description: window.wgULS('建议将页面并入此页面', '建議將頁面併入此頁面'),
+					description: wgULS('建议将页面并入此页面', '建議將頁面併入此頁面'),
 					excludeMI: true,
 				},
 				{
 					tag: 'Merge to',
-					description: window.wgULS('建议将此页面并入页面', '建議將此頁面併入頁面'),
+					description: wgULS('建议将此页面并入页面', '建議將此頁面併入頁面'),
 					excludeMI: true,
 				},
 				{
 					tag: 'Merge',
-					description: window.wgULS('建议此页面与页面合并', '建議此頁面與頁面合併'),
+					description: wgULS('建议此页面与页面合并', '建議此頁面與頁面合併'),
 					excludeMI: true,
 				},
 				{
 					tag: 'Requested move',
-					description: window.wgULS('建议将此页面移动到新名称', '建議將此頁面移動到新名稱'),
+					description: wgULS('建议将此页面移动到新名称', '建議將此頁面移動到新名稱'),
 					excludeMI: true,
 				},
 				{
 					tag: 'Split',
-					description: window.wgULS('建议将此页面分割为多个页面', '建議將此頁面分割為多個頁面'),
+					description: wgULS('建议将此页面分割为多个页面', '建議將此頁面分割為多個頁面'),
 					excludeMI: true,
 				},
 			],
@@ -753,67 +733,58 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 			key: '常用模板',
 			value: [
 				{
-					tag: window.wgULS('合并重定向', '合併重定向'),
-					description: window.wgULS(
+					tag: wgULS('合并重定向', '合併重定向'),
+					description: wgULS(
 						'保持页面题名至相应主条目，令页面内容在合并后仍能保存其编辑历史',
 						'保持頁面題名至相應主條目，令頁面內容在合併後仍能儲存其編輯歷史'
 					),
 				},
 				{
-					tag: window.wgULS('简繁重定向', '簡繁重定向'),
-					description: window.wgULS('引导简体至繁体，或繁体至简体', '引導簡體至繁體，或繁體至簡體'),
+					tag: wgULS('简繁重定向', '簡繁重定向'),
+					description: wgULS('引导简体至繁体，或繁体至简体', '引導簡體至繁體，或繁體至簡體'),
 				},
 				{
-					tag: window.wgULS('收录标准重定向', '收錄標準重定向'),
-					description: window.wgULS(
+					tag: wgULS('收录标准重定向', '收錄標準重定向'),
+					description: wgULS(
 						'缺乏收录标准的子主题向有收录标准的母主题的重定向',
 						'缺乏收錄標準的子主題向有收錄標準的母主題的重定向'
 					),
 				},
 				{
 					tag: '模板重定向',
-					description: window.wgULS('指向模板的重定向页面', '指向模板的重定向頁面'),
+					description: wgULS('指向模板的重定向页面', '指向模板的重定向頁面'),
 				},
 				{
-					tag: window.wgULS('别名重定向', '別名重定向'),
-					description: window.wgULS(
-						'标题的其他名称、笔名、绰号、同义字等',
-						'標題的其他名稱、筆名、綽號、同義字等'
-					),
+					tag: wgULS('别名重定向', '別名重定向'),
+					description: wgULS('标题的其他名称、笔名、绰号、同义字等', '標題的其他名稱、筆名、綽號、同義字等'),
 				},
 				{
-					tag: window.wgULS('译名重定向', '譯名重定向'),
-					description: window.wgULS(
-						'人物、作品等各项事物的其他翻译名称',
-						'人物、作品等各項事物的其他翻譯名稱'
-					),
+					tag: wgULS('译名重定向', '譯名重定向'),
+					description: wgULS('人物、作品等各项事物的其他翻译名称', '人物、作品等各項事物的其他翻譯名稱'),
 				},
 				{
-					tag: window.wgULS('缩写重定向', '縮寫重定向'),
-					description: window.wgULS('标题缩写', '標題縮寫'),
+					tag: wgULS('缩写重定向', '縮寫重定向'),
+					description: wgULS('标题缩写', '標題縮寫'),
 				},
 				{
-					tag: window.wgULS('拼写重定向', '拼寫重定向'),
-					description: window.wgULS('标题的其他不同拼写', '標題的其他不同拼寫'),
+					tag: wgULS('拼写重定向', '拼寫重定向'),
+					description: wgULS('标题的其他不同拼写', '標題的其他不同拼寫'),
 				},
 				{
-					tag: window.wgULS('错字重定向', '錯字重定向'),
-					description: window.wgULS('纠正标题的常见错误拼写或误植', '糾正標題的常見錯誤拼寫或誤植'),
+					tag: wgULS('错字重定向', '錯字重定向'),
+					description: wgULS('纠正标题的常见错误拼写或误植', '糾正標題的常見錯誤拼寫或誤植'),
 				},
 				{
-					tag: window.wgULS('旧名重定向', '舊名重定向'),
-					description: window.wgULS(
-						'将事物早前的名称引导至更改后的主题',
-						'將事物早前的名稱引導至更改後的主題'
-					),
+					tag: wgULS('旧名重定向', '舊名重定向'),
+					description: wgULS('将事物早前的名称引导至更改后的主题', '將事物早前的名稱引導至更改後的主題'),
 				},
 				{
 					tag: '全名重定向',
-					description: window.wgULS('标题的完整或更完整名称', '標題的完整或更完整名稱'),
+					description: wgULS('标题的完整或更完整名称', '標題的完整或更完整名稱'),
 				},
 				{
 					tag: '短名重定向',
-					description: window.wgULS(
+					description: wgULS(
 						'完整标题名称或人物全名的部分、不完整的名称或简称',
 						'完整標題名稱或人物全名的部分、不完整的名稱或簡稱'
 					),
@@ -832,7 +803,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				},
 				{
 					tag: '非中文重定向',
-					description: window.wgULS('非中文标题', '非中文標題'),
+					description: wgULS('非中文标题', '非中文標題'),
 					subgroup: [
 						{
 							name: 'altLangFrom',
@@ -845,7 +816,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				},
 				{
 					tag: '日文重定向',
-					description: window.wgULS('日语名称', '日語名稱'),
+					description: wgULS('日语名称', '日語名稱'),
 				},
 			],
 		},
@@ -854,30 +825,27 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 			value: [
 				{
 					tag: '角色重定向',
-					description: window.wgULS('电视剧、电影、书籍等作品的角色', '電視劇、電影、書籍等作品的角色'),
+					description: wgULS('电视剧、电影、书籍等作品的角色', '電視劇、電影、書籍等作品的角色'),
 				},
 				{
-					tag: window.wgULS('章节重定向', '章節重定向'),
-					description: window.wgULS('导向至较高密度组织的页面', '導向至較高密度組織的頁面'),
+					tag: wgULS('章节重定向', '章節重定向'),
+					description: wgULS('导向至较高密度组织的页面', '導向至較高密度組織的頁面'),
 				},
 				{
 					tag: '列表重定向',
-					description: window.wgULS('导向至低密度的列表', '導向至低密度的列表'),
+					description: wgULS('导向至低密度的列表', '導向至低密度的列表'),
 				},
 				{
 					tag: '可能性重定向',
-					description: window.wgULS(
-						'导向至当前提供内容更为详尽的目标页面',
-						'導向至當前提供內容更為詳盡的目標頁面'
-					),
+					description: wgULS('导向至当前提供内容更为详尽的目标页面', '導向至當前提供內容更為詳盡的目標頁面'),
 				},
 				{
-					tag: window.wgULS('关联字重定向', '關聯字重定向'),
-					description: window.wgULS('标题名称关联字', '標題名稱關聯字'),
+					tag: wgULS('关联字重定向', '關聯字重定向'),
+					description: wgULS('标题名称关联字', '標題名稱關聯字'),
 				},
 				{
-					tag: window.wgULS('条目请求重定向', '條目請求重定向'),
-					description: window.wgULS('需要独立条目的页面', '需要獨立條目的頁面'),
+					tag: wgULS('条目请求重定向', '條目請求重定向'),
+					description: wgULS('需要独立条目的页面', '需要獨立條目的頁面'),
 					subgroup: [
 						{
 							name: 'reqArticleLang',
@@ -894,44 +862,44 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					],
 				},
 				{
-					tag: window.wgULS('快捷方式重定向', '捷徑重定向'),
-					description: window.wgULS('求闻百科快捷方式', '求聞百科快捷方式'),
+					tag: wgULS('快捷方式重定向', '捷徑重定向'),
+					description: wgULS('求闻百科快捷方式', '求聞百科快捷方式'),
 				},
 			],
 		},
 		{
-			key: window.wgULS('鲜用模板', '鮮用模板'),
+			key: wgULS('鲜用模板', '鮮用模板'),
 			value: [
 				{
-					tag: window.wgULS('词组重定向', '詞組重定向'),
-					description: window.wgULS(
+					tag: wgULS('词组重定向', '詞組重定向'),
+					description: wgULS(
 						'将词组/词组/成语指向切题的条目及恰当章节',
 						'將詞組/詞組/成語指向切題的條目及恰當章節'
 					),
 				},
 				{
-					tag: window.wgULS('消歧义页重定向', '消歧義頁重定向'),
-					description: window.wgULS('指向消歧义页', '指向消歧義頁'),
+					tag: wgULS('消歧义页重定向', '消歧義頁重定向'),
+					description: wgULS('指向消歧义页', '指向消歧義頁'),
 				},
 				{
 					tag: '域名重定向',
-					description: window.wgULS('域名', '網域名稱'),
+					description: wgULS('域名', '網域名稱'),
 				},
 				{
 					tag: '年代重定向',
-					description: window.wgULS('于年份条目导向至年代条目', '於年份條目導向至年代條目'),
+					description: wgULS('于年份条目导向至年代条目', '於年份條目導向至年代條目'),
 				},
 				{
-					tag: window.wgULS('用户框模板重定向', '用戶框模板重定向'),
-					description: window.wgULS('用户框模板', '用戶框模板'),
+					tag: wgULS('用户框模板重定向', '用戶框模板重定向'),
+					description: wgULS('用户框模板', '用戶框模板'),
 				},
 				{
 					tag: '重定向模板用重定向',
-					description: window.wgULS('导向至重定向模板', '導向至重定向模板'),
+					description: wgULS('导向至重定向模板', '導向至重定向模板'),
 				},
 				{
 					tag: 'EXIF重定向',
-					description: window.wgULS('JPEG图像文件包含EXIF信息', 'JPEG圖檔包含EXIF資訊'),
+					description: wgULS('JPEG图像文件包含EXIF信息', 'JPEG圖檔包含EXIF資訊'),
 				},
 			],
 		},
@@ -939,10 +907,10 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 	// maintenance tags for FILES start here
 	Twinkle.tag.fileList = [
 		{
-			key: window.wgULS('著作权和来源问题标签', '著作權和來源問題標籤'),
+			key: wgULS('著作权和来源问题标签', '著作權和來源問題標籤'),
 			value: [
 				{
-					label: `{{Non-free reduce}}：${window.wgULS(
+					label: `{{Non-free reduce}}：${wgULS(
 						'非低分辨率的合理使用图像（或过长的音频剪辑等）',
 						'非低解析度的合理使用圖像（或過長的音頻剪輯等）'
 					)}`,
@@ -951,14 +919,14 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 			],
 		},
 		{
-			key: window.wgULS('清理标签', '清理標籤'),
+			key: wgULS('清理标签', '清理標籤'),
 			value: [
 				{
-					label: `{{Watermark}}：${window.wgULS('图像包含了水印', '圖像包含了浮水印')}`,
+					label: `{{Watermark}}：${wgULS('图像包含了水印', '圖像包含了浮水印')}`,
 					value: 'Watermark',
 				},
 				{
-					label: `{{Rename media}}：${window.wgULS(
+					label: `{{Rename media}}：${wgULS(
 						'文件应该根据文件使用方针重新命名',
 						'檔案應該根據檔案使用方針重新命名'
 					)}`,
@@ -967,19 +935,19 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 						{
 							type: 'input',
 							name: 'renamemediaNewname',
-							label: window.wgULS('新名称：', '新名稱：'),
-							tooltip: window.wgULS('输入图像的新名称（可选）', '輸入圖像的新名稱（可選）'),
+							label: wgULS('新名称：', '新名稱：'),
+							tooltip: wgULS('输入图像的新名称（可选）', '輸入圖像的新名稱（可選）'),
 						},
 						{
 							type: 'input',
 							name: 'renamemediaReason',
 							label: '原因：',
-							tooltip: window.wgULS('输入重命名的原因（可选）', '輸入重新命名的原因（可選）'),
+							tooltip: wgULS('输入重命名的原因（可选）', '輸入重新命名的原因（可選）'),
 						},
 					],
 				},
 				{
-					label: `{{Should be SVG}}：${window.wgULS(
+					label: `{{Should be SVG}}：${wgULS(
 						'PNG、GIF、JPEG文件应该重制成矢量图形',
 						'PNG、GIF、JPEG檔案應該重製成向量圖形'
 					)}`,
@@ -988,14 +956,14 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 			],
 		},
 		{
-			key: window.wgULS('文件取代标签', '檔案取代標籤'),
+			key: wgULS('文件取代标签', '檔案取代標籤'),
 			value: [
 				{
-					label: `{{Obsolete}}：${window.wgULS('有新版本可用的过时文件', '有新版本可用的過時檔案')}`,
+					label: `{{Obsolete}}：${wgULS('有新版本可用的过时文件', '有新版本可用的過時檔案')}`,
 					value: 'Obsolete',
 				},
 				{
-					label: `{{Vector version available}}：${window.wgULS(
+					label: `{{Vector version available}}：${wgULS(
 						'有矢量图形可用的非矢量图形文件',
 						'有向量圖形可用的非向量圖形檔案'
 					)}`,
@@ -1058,7 +1026,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				} else {
 					summaryText = `移除${makeSentence(removedTags)}`;
 				}
-				summaryText += window.wgULS('标记', '標記');
+				summaryText += wgULS('标记', '標記');
 				if (params.reason) {
 					summaryText += `：${params.reason}`;
 				}
@@ -1078,7 +1046,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 						// post the rationale on the talk page (only operates in main namespace)
 						const talkpage = new Morebits.wiki.page(
 							`Talk:${params.discussArticle}`,
-							window.wgULS('将理由贴进讨论页', '將理由貼進討論頁')
+							wgULS('将理由贴进讨论页', '將理由貼進討論頁')
 						);
 						talkpage.setNewSectionText(`${params.mergeReason.trim()} ~~`.concat('~~'));
 						talkpage.setNewSectionTitle(`请求与[[${params.nonDiscussArticle}]]合并`);
@@ -1106,7 +1074,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 						};
 						const otherpage = new Morebits.wiki.page(
 							params.mergeTarget,
-							`${window.wgULS('标记其他页面（', '標記其他頁面（') + params.mergeTarget}）`
+							`${wgULS('标记其他页面（', '標記其他頁面（') + params.mergeTarget}）`
 						);
 						otherpage.setCallbackParameters(newParams);
 						otherpage.load(Twinkle.tag.callbacks.article);
@@ -1121,12 +1089,11 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 						moveTalkpageText += '}}';
 						const moveTalkpage = new Morebits.wiki.page(
 							`Talk:${params.discussArticle}`,
-							window.wgULS('将理由贴进讨论页', '將理由貼進討論頁')
+							wgULS('将理由贴进讨论页', '將理由貼進討論頁')
 						);
 						moveTalkpage.setAppendText(moveTalkpageText);
 						moveTalkpage.setEditSummary(
-							window.wgULS('请求移动', '請求移動') +
-								(params.moveTarget ? `至[[${params.moveTarget}]]` : '')
+							wgULS('请求移动', '請求移動') + (params.moveTarget ? `至[[${params.moveTarget}]]` : '')
 						);
 						moveTalkpage.setChangeTags(Twinkle.changeTags);
 						moveTalkpage.setCreateOption('recreate');
@@ -1147,8 +1114,8 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					return;
 				}
 				Morebits.status.info(
-					window.wgULS('信息', '資訊'),
-					window.wgULS('移除取消选择的已存在标记', '移除取消選擇的已存在標記')
+					wgULS('信息', '資訊'),
+					wgULS('移除取消选择的已存在标记', '移除取消選擇的已存在標記')
 				);
 				const getRedirectsFor = [];
 				// Remove the tags from the page text, if found in its proper name,
@@ -1168,7 +1135,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				}
 				// Remove tags which appear in page text as redirects
 				const api = new Morebits.wiki.api(
-					window.wgULS('获取模板重定向', '取得模板重新導向'),
+					wgULS('获取模板重定向', '取得模板重新導向'),
 					{
 						action: 'query',
 						prop: 'linkshere',
@@ -1201,10 +1168,10 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 
 								if (!removed) {
 									Morebits.status.warn(
-										window.wgULS('信息', '資訊'),
-										window.wgULS('无法在页面上找到{{', '無法在頁面上找到{{') +
+										wgULS('信息', '資訊'),
+										wgULS('无法在页面上找到{{', '無法在頁面上找到{{') +
 											$(page).attr('title').slice(9) +
-											window.wgULS('}}……跳过', '}}……跳過')
+											wgULS('}}……跳过', '}}……跳過')
 									);
 								}
 							});
@@ -1268,9 +1235,9 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 										params.nonDiscussArticle =
 											tagName === 'Merge to' ? mw.config.get('wgTitle') : params.mergeTarget;
 										params.talkDiscussionTitle =
-											window.wgULS('请求与', '請求與') +
+											wgULS('请求与', '請求與') +
 											params.nonDiscussArticle +
-											window.wgULS('合并', '合併');
+											wgULS('合并', '合併');
 									}
 									currentTag += `|discuss=Talk:${params.discussArticle}#${params.talkDiscussionTitle}`;
 								}
@@ -1351,7 +1318,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 						tag === 'Notability' &&
 						(mw.config.get('wgNamespaceNumber') === 0 ||
 							confirm(
-								window.wgULS(
+								wgULS(
 									'该页面不是条目，您仍要提报到收录标准提报吗？',
 									'該頁面不是條目，您仍要提報到收錄標準提報嗎？'
 								)
@@ -1359,7 +1326,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					) {
 						const qiuwen_page = new Morebits.wiki.page(
 							'Qiuwen_talk:存废讨论/关注度提报',
-							window.wgULS('加入收录标准记录项', '加入收錄標準記錄項')
+							wgULS('加入收录标准记录项', '加入收錄標準記錄項')
 						);
 						qiuwen_page.setFollowRedirect(true);
 						qiuwen_page.setCallbackParameters(params);
@@ -1376,8 +1343,8 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					tags[tags.length] = tag;
 				} else {
 					Morebits.status.warn(
-						window.wgULS('信息', '資訊'),
-						window.wgULS('在页面上找到{{', '在頁面上找到{{') + tag + window.wgULS('}}……跳过', '}}……跳過')
+						wgULS('信息', '資訊'),
+						wgULS('在页面上找到{{', '在頁面上找到{{') + tag + wgULS('}}……跳过', '}}……跳過')
 					);
 					// don't do anything else with merge tags
 					if (['Merge', 'Merge to'].includes(tag)) {
@@ -1400,11 +1367,8 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				);
 			if (miTest && groupableTags.length > 0) {
 				Morebits.status.info(
-					window.wgULS('信息', '資訊'),
-					window.wgULS(
-						'加入支持的标记入已存在的{{multiple issues}}',
-						'加入支援的標記入已存在的{{multiple issues}}'
-					)
+					wgULS('信息', '資訊'),
+					wgULS('加入支持的标记入已存在的{{multiple issues}}', '加入支援的標記入已存在的{{multiple issues}}')
 				);
 				tagText = '';
 				for (const tag of groupableTags) {
@@ -1419,8 +1383,8 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				addUngroupedTags();
 			} else if (params.group && !miTest && groupableExistingTags.length + groupableTags.length >= 2) {
 				Morebits.status.info(
-					window.wgULS('信息', '資訊'),
-					window.wgULS('加入支持的标记入{{multiple issues}}', '加入支援的標記入{{multiple issues}}')
+					wgULS('信息', '資訊'),
+					wgULS('加入支持的标记入{{multiple issues}}', '加入支援的標記入{{multiple issues}}')
 				);
 				tagText += '{{Multiple issues|\n';
 				/**
@@ -1450,7 +1414,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					return;
 				}
 				const api = new Morebits.wiki.api(
-					window.wgULS('获取模板重定向', '取得模板重新導向'),
+					wgULS('获取模板重定向', '取得模板重新導向'),
 					{
 						action: 'query',
 						prop: 'linkshere',
@@ -1482,10 +1446,10 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 
 								if (!found) {
 									Morebits.status.warn(
-										window.wgULS('信息', '資訊'),
-										window.wgULS('无法在页面上找到{{', '無法在頁面上找到{{') +
+										wgULS('信息', '資訊'),
+										wgULS('无法在页面上找到{{', '無法在頁面上找到{{') +
 											$(page).attr('title').slice(9) +
-											window.wgULS('}}……跳过', '}}……跳過')
+											wgULS('}}……跳过', '}}……跳過')
 									);
 								}
 							});
@@ -1517,10 +1481,8 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				tagRe = new RegExp(`(\\{\\{${params.tags[i]}(\\||\\}\\}))`, 'im');
 				if (tagRe.exec(pageText)) {
 					Morebits.status.warn(
-						window.wgULS('信息', '資訊'),
-						window.wgULS('在重定向上找到{{', '在重新導向上找到{{') +
-							params.tags[i] +
-							window.wgULS('}}……跳过', '}}……跳過')
+						wgULS('信息', '資訊'),
+						wgULS('在重定向上找到{{', '在重新導向上找到{{') + params.tags[i] + wgULS('}}……跳过', '}}……跳過')
 					);
 				} else {
 					tags[tags.length] = params.tags[i];
@@ -1552,10 +1514,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				summaryText += `{{[[:${tagName.includes(':') ? tagName : `Template:${tagName}|${tagName}`}]]}}`;
 			};
 			if (!tags.length) {
-				Morebits.status.warn(
-					window.wgULS('信息', '資訊'),
-					window.wgULS('没有标签可供标记', '沒有標籤可供標記')
-				);
+				Morebits.status.warn(wgULS('信息', '資訊'), wgULS('没有标签可供标记', '沒有標籤可供標記'));
 			}
 			tags.sort();
 			for (const tag of tags) {
@@ -1581,8 +1540,8 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				pageText += `\n{{Redirect category shell|${tagText}${oldPageTags}\n}}`;
 			}
 			summaryText +=
-				(tags.length > 0 ? window.wgULS('标记', '標記') : '{{Redirect category shell}}') +
-				window.wgULS('到重定向', '到重新導向');
+				(tags.length > 0 ? wgULS('标记', '標記') : '{{Redirect category shell}}') +
+				wgULS('到重定向', '到重新導向');
 			// avoid truncated summaries
 			if (summaryText.length > 499) {
 				summaryText = summaryText.replace(/\[\[[^|]+\|([^\]]+)\]\]/g, '$1'); // 移除“[[...|...]]”的前半部分
@@ -1667,7 +1626,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				if (!tagtext) {
 					pageobj
 						.getStatusElement()
-						.warn(window.wgULS('用户取消操作，没什么要做的', '使用者取消操作，沒什麼要做的'));
+						.warn(wgULS('用户取消操作，没什么要做的', '使用者取消操作，沒什麼要做的'));
 					return;
 				}
 				text = tagtext + text;
@@ -1692,7 +1651,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 				return (sum += params.tags.includes(tag));
 			}, 0);
 			if (count > 1) {
-				let message = `${window.wgULS('请在以下标签中择一使用', '請在以下標籤中擇一使用')}：{{${conflicts.join(
+				let message = `${wgULS('请在以下标签中择一使用', '請在以下標籤中擇一使用')}：{{${conflicts.join(
 					'}}、{{'
 				)}}}。`;
 				message += extra || '';
@@ -1707,7 +1666,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 		// Maybe just sock this away in each function???
 		const checkParameter = (tag, parameter, description = '理由') => {
 			if (params.tags.includes(tag) && (params[parameter] ?? '').trim() === '') {
-				void mw.notify(`${window.wgULS('您必须指定', '您必須指定')}{{${tag}}}的${description}。`, {
+				void mw.notify(`${wgULS('您必须指定', '您必須指定')}{{${tag}}}的${description}。`, {
 					type: 'warn',
 					tag: 'friendlytag',
 				});
@@ -1729,7 +1688,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					if (
 						checkIncompatible(
 							['Merge', 'Merge from', 'Merge to'],
-							window.wgULS(
+							wgULS(
 								'若需要多次合并，请使用{{Merge}}并用管道符分隔条目名（但在这种情形中Twinkle不能自动标记其他条目）。',
 								'若需要多次合併，請使用{{Merge}}並用管道符分隔條目名（但在這種情形中Twinkle不能自動標記其他條目）。'
 							)
@@ -1742,7 +1701,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					}
 					if (!params.mergeTarget) {
 						void mw.notify(
-							window.wgULS(
+							wgULS(
 								'请指定使用于merge模板中的另一个页面标题。',
 								'請指定使用於merge模板中的另一個頁面標題。'
 							),
@@ -1758,7 +1717,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 					}
 					if ((params.mergeTagOther || params.mergeReason) && params.mergeTarget.includes('|')) {
 						void mw.notify(
-							window.wgULS(
+							wgULS(
 								'当前还不支持在一次合并中标记多个条目，与开启关于多个条目的讨论。请不要勾选“标记其他条目”并清空“理由”框后再提交。',
 								'目前還不支援在一次合併中標記多個條目，與開啟關於多個條目的討論。請不要勾選「標記其他條目」並清空「理由」框後再提交。'
 							),
@@ -1773,19 +1732,13 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 						return;
 					}
 				}
-				if (
-					checkParameter(
-						'Missing information',
-						'missingInformation',
-						window.wgULS('缺少的内容', '缺少的內容')
-					)
-				) {
+				if (checkParameter('Missing information', 'missingInformation', wgULS('缺少的内容', '缺少的內容'))) {
 					if (restore) {
 						restore();
 					}
 					return;
 				}
-				if (checkParameter('Expert needed', 'expert', window.wgULS('专家领域', '專家領域'))) {
+				if (checkParameter('Expert needed', 'expert', wgULS('专家领域', '專家領域'))) {
 					if (restore) {
 						restore();
 					}
@@ -1795,11 +1748,11 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 			case 'file':
 				// Silly to provide the same string to each of these
 				if (
-					checkParameter('Obsolete', 'ObsoleteFile', window.wgULS('替换的文件名称', '替換的檔案名稱')) ||
+					checkParameter('Obsolete', 'ObsoleteFile', wgULS('替换的文件名称', '替換的檔案名稱')) ||
 					checkParameter(
 						'Vector version available',
 						'Vector_version_availableFile',
-						window.wgULS('替换的文件名称', '替換的檔案名稱')
+						wgULS('替换的文件名称', '替換的檔案名稱')
 					)
 				) {
 					if (restore) {
@@ -1826,7 +1779,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 		// File/redirect: return if no tags selected
 		// Article: return if no tag is selected and no already present tag is deselected
 		if (params.tags.length === 0 && (Twinkle.tag.modeEn !== 'article' || params.tagsToRemove.length === 0)) {
-			void mw.notify(window.wgULS('必须选择至少一个标记！', '必須選擇至少一個標記！'), {
+			void mw.notify(wgULS('必须选择至少一个标记！', '必須選擇至少一個標記！'), {
 				type: 'warn',
 				tag: 'friendlytag',
 			});
@@ -1837,7 +1790,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 		}
 		Morebits.status.init(statusContainer);
 		Morebits.wiki.actionCompleted.redirect = Morebits.pageNameNorm;
-		Morebits.wiki.actionCompleted.notice = window.wgULS(
+		Morebits.wiki.actionCompleted.notice = wgULS(
 			'标记完成，将在几秒内刷新页面',
 			'標記完成，將在幾秒內重新整理頁面'
 		);
@@ -1846,7 +1799,7 @@ import TwTagDialog from './ui/TwTagDialog.vue';
 		}
 		const qiuwen_page = new Morebits.wiki.page(
 			Morebits.pageNameNorm,
-			window.wgULS('正在标记', '正在標記') + Twinkle.tag.mode
+			wgULS('正在标记', '正在標記') + Twinkle.tag.mode
 		);
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.load(Twinkle.tag.callbacks[Twinkle.tag.modeEn]);

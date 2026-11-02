@@ -4,6 +4,7 @@ import {UTC8_OFFSET_MINUTES, normalizeExpiry} from './utc8';
 import {createApp, h, reactive} from 'vue';
 import TwBlockDialog from './ui/TwBlockDialog.vue';
 import {api} from './api';
+import {wgULS} from 'ext.gadget.i18n';
 
 /*! Twinkle.js - twinkleblock.js */
 (function twinkleblock() {
@@ -13,31 +14,31 @@ import {api} from './api';
 	const menuFormattedNamespaces = {
 		...mw.config.get('wgFormattedNamespaces'),
 	};
-	menuFormattedNamespaces[0] = window.wgULS('（条目）', '（條目）');
+	menuFormattedNamespaces[0] = wgULS('（条目）', '（條目）');
 	const blockActionText = {
-		block: window.wgULS('封禁', '封鎖'),
-		reblock: window.wgULS('重新封禁', '重新封鎖'),
-		unblock: window.wgULS('解除封禁', '解除封鎖'),
+		block: wgULS('封禁', '封鎖'),
+		reblock: wgULS('重新封禁', '重新封鎖'),
+		unblock: wgULS('解除封禁', '解除封鎖'),
 	};
 	const actionOptions = [
 		{
 			type: 'option',
-			label: window.wgULS('上传文件（包括覆盖文件）', '上傳檔案（包括覆蓋檔案）'),
+			label: wgULS('上传文件（包括覆盖文件）', '上傳檔案（包括覆蓋檔案）'),
 			value: 'upload',
 		},
 		{
 			type: 'option',
-			label: window.wgULS('移动页面及文件', '移動頁面及檔案'),
+			label: wgULS('移动页面及文件', '移動頁面及檔案'),
 			value: 'move',
 		},
 		{
 			type: 'option',
-			label: window.wgULS('创建新页面及上传新文件', '建立新頁面及上傳新檔案'),
+			label: wgULS('创建新页面及上传新文件', '建立新頁面及上傳新檔案'),
 			value: 'create',
 		},
 		{
 			type: 'option',
-			label: window.wgULS('发送感谢', '發送感謝'),
+			label: wgULS('发送感谢', '發送感謝'),
 			value: 'thanks',
 		},
 	];
@@ -58,9 +59,9 @@ import {api} from './api';
 		) {
 			Twinkle.addPortletLink(
 				Twinkle.block.callback,
-				window.wgULS('封禁', '封鎖'),
+				wgULS('封禁', '封鎖'),
 				'tw-block',
-				window.wgULS('封禁相关用户', '封鎖相關使用者')
+				wgULS('封禁相关用户', '封鎖相關使用者')
 			);
 		}
 	};
@@ -85,58 +86,55 @@ import {api} from './api';
 			const sameUser = blockedUserName === relevantUserName;
 			let statusStr = `${relevantUserName}已被${
 				Twinkle.block.currentBlockInfo.partial === ''
-					? window.wgULS('部分封禁', '部分封鎖')
-					: window.wgULS('全站封禁', '全站封鎖')
+					? wgULS('部分封禁', '部分封鎖')
+					: wgULS('全站封禁', '全站封鎖')
 			}`;
 			if (Twinkle.block.currentBlockInfo.rangestart !== Twinkle.block.currentBlockInfo.rangeend) {
 				if (sameUser) {
-					statusStr += window.wgULS('（段封禁）', '（段封鎖）');
+					statusStr += wgULS('（段封禁）', '（段封鎖）');
 				} else {
 					const rangeLabel =
 						Morebits.ip.get64(relevantUserName) === blockedUserName ? '/64' : blockedUserName;
-					statusStr +=
-						window.wgULS('（位于', '（位於') + rangeLabel + window.wgULS('段封禁内）', '段封鎖內）');
+					statusStr += wgULS('（位于', '（位於') + rangeLabel + wgULS('段封禁内）', '段封鎖內）');
 				}
 			}
 			if (Twinkle.block.currentBlockInfo.expiry === 'infinity') {
-				statusStr += window.wgULS('（无限期）', '（無限期）');
+				statusStr += wgULS('（无限期）', '（無限期）');
 			} else if (new Morebits.date(Twinkle.block.currentBlockInfo.expiry).isValid()) {
 				statusStr += `${
-					window.wgULS('（终止于', '（終止於') +
+					wgULS('（终止于', '（終止於') +
 					new Morebits.date(Twinkle.block.currentBlockInfo.expiry).calendar(UTC8_OFFSET_MINUTES)
 				}）`;
 			}
-			let infoStr = window.wgULS('此表单将', '此表單將');
+			let infoStr = wgULS('此表单将', '此表單將');
 			if (sameUser) {
-				infoStr += window.wgULS('更改封禁', '變更封鎖');
+				infoStr += wgULS('更改封禁', '變更封鎖');
 				infoStr += '。';
 			} else {
-				infoStr += window.wgULS('加上额外的', '加上額外的') + window.wgULS('封禁。', '封鎖。');
+				infoStr += wgULS('加上额外的', '加上額外的') + wgULS('封禁。', '封鎖。');
 			}
 			notices.currentBlock = statusStr;
 			notices.currentInfo = infoStr;
 		}
 		if (Twinkle.block.hasBlockLog) {
 			if (Twinkle.block.currentBlockInfo) {
-				notices.blockLog = window.wgULS('封禁详情', '封鎖詳情');
+				notices.blockLog = wgULS('封禁详情', '封鎖詳情');
 			} else {
 				const [lastBlockAction] = Twinkle.block.blockLog;
 				const blockAction = lastBlockAction.action === 'unblock' ? Twinkle.block.blockLog[1] : lastBlockAction;
 				let logText =
 					`此${
-						Morebits.ip.isRange(relevantUserName)
-							? window.wgULS('IP范围', 'IP範圍')
-							: window.wgULS('用户', '使用者')
+						Morebits.ip.isRange(relevantUserName) ? wgULS('IP范围', 'IP範圍') : wgULS('用户', '使用者')
 					}曾在` +
 					`${new Morebits.date(blockAction.timestamp).calendar(UTC8_OFFSET_MINUTES)}` +
-					`被${blockAction.user}${window.wgULS('封禁', '封鎖')}` +
+					`被${blockAction.user}${wgULS('封禁', '封鎖')}` +
 					`${Morebits.string.formatTime(blockAction.params.duration)}`;
 				if (lastBlockAction.action === 'unblock') {
 					logText += `，${new Morebits.date(lastBlockAction.timestamp).calendar(UTC8_OFFSET_MINUTES)}解封`;
 				} else {
 					logText += `，${new Morebits.date(blockAction.params.expiry).calendar(
 						UTC8_OFFSET_MINUTES
-					)}${window.wgULS('过期', '過期')}`;
+					)}${wgULS('过期', '過期')}`;
 				}
 				notices.blockLog = logText;
 			}
@@ -147,13 +145,13 @@ import {api} from './api';
 		// Add current block parameters as default preset
 		let blockGroup = partialBox ? Twinkle.block.blockGroupsPartial : Twinkle.block.blockGroups;
 		const prior = {
-			label: window.wgULS('当前封禁', '目前封鎖'),
+			label: wgULS('当前封禁', '目前封鎖'),
 		};
 		if (blockedUserName === relevantUserName && Twinkle.block.currentBlockInfo) {
 			Twinkle.block.blockPresetsInfo.prior = Twinkle.block.currentBlockInfo;
 			prior.list = [
 				{
-					label: window.wgULS('当前封禁设置', '目前封鎖設定'),
+					label: wgULS('当前封禁设置', '目前封鎖設定'),
 					value: 'prior',
 					selected: true,
 				},
@@ -194,10 +192,7 @@ import {api} from './api';
 		if (
 			relevantUserName === mw.config.get('wgUserName') &&
 			!confirm(
-				window.wgULS(
-					'您即将对自己执行封禁相关操作！确认要继续吗？',
-					'您即將對自己執行封鎖相關操作！確認要繼續嗎？'
-				)
+				wgULS('您即将对自己执行封禁相关操作！确认要继续吗？', '您即將對自己執行封鎖相關操作！確認要繼續嗎？')
 			)
 		) {
 			return;
@@ -233,10 +228,7 @@ import {api} from './api';
 				render: () => {
 					return h(TwBlockDialog, {
 						key: dialogEpoch,
-						title:
-							window.wgULS('封禁或向', '封鎖或向') +
-							relevantUserName +
-							window.wgULS('发出封禁模板', '發出封鎖模板'),
+						title: wgULS('封禁或向', '封鎖或向') + relevantUserName + wgULS('发出封禁模板', '發出封鎖模板'),
 						showBlock: Morebits.userIsSysop,
 						showTemplate: Morebits.userIsSysop,
 						showTag: Twinkle.block.isRegistered,
@@ -257,9 +249,9 @@ import {api} from './api';
 						userIsBot: dialogData.userIsBot,
 						notices: dialogData.notices,
 						footerLinks: [
-							{text: window.wgULS('封禁方针', '封鎖方針'), href: mw.util.getUrl('QW:BLOCK')},
-							{text: window.wgULS('封禁设置', '封鎖設定'), href: mw.util.getUrl('H:TW/PREF#block')},
-							{text: window.wgULS('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#block')},
+							{text: wgULS('封禁方针', '封鎖方針'), href: mw.util.getUrl('QW:BLOCK')},
+							{text: wgULS('封禁设置', '封鎖設定'), href: mw.util.getUrl('H:TW/PREF#block')},
+							{text: wgULS('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#block')},
 						],
 						onSubmit: (params, statusContainer, restore) => {
 							Twinkle.block.callback.evaluate(params, statusContainer, restore);
@@ -372,25 +364,25 @@ import {api} from './api';
 			},
 			(error) => {
 				Morebits.status.init($body.find('div[name="currentblock"] span').last()[0]);
-				Morebits.status.warn(window.wgULS('抓取用户信息出错', '抓取使用者資訊出錯'), error);
+				Morebits.status.warn(wgULS('抓取用户信息出错', '抓取使用者資訊出錯'), error);
 			}
 		);
 	};
 	// Expiry preset options for the block options field
 	Twinkle.block.expiryPresetOptions = [
-		{label: window.wgULS('自定义', '自訂'), value: 'custom'},
-		{label: window.wgULS('无限期', '無限期'), value: 'infinity'},
-		{label: window.wgULS('3小时', '3小時'), value: '3 hours'},
-		{label: window.wgULS('12小时', '12小時'), value: '12 hours'},
+		{label: wgULS('自定义', '自訂'), value: 'custom'},
+		{label: wgULS('无限期', '無限期'), value: 'infinity'},
+		{label: wgULS('3小时', '3小時'), value: '3 hours'},
+		{label: wgULS('12小时', '12小時'), value: '12 hours'},
 		{label: '1天', value: '1 day'},
-		{label: window.wgULS('31小时', '31小時'), value: '31 hours'},
+		{label: wgULS('31小时', '31小時'), value: '31 hours'},
 		{label: '2天', value: '2 days'},
 		{label: '3天', value: '3 days'},
-		{label: window.wgULS('1周', '1週'), value: '1 week'},
-		{label: window.wgULS('2周', '2週'), value: '2 weeks'},
-		{label: window.wgULS('1个月', '1個月'), value: '1 month'},
-		{label: window.wgULS('3个月', '3個月'), value: '3 months'},
-		{label: window.wgULS('6个月', '6個月'), value: '6 months'},
+		{label: wgULS('1周', '1週'), value: '1 week'},
+		{label: wgULS('2周', '2週'), value: '2 weeks'},
+		{label: wgULS('1个月', '1個月'), value: '1 month'},
+		{label: wgULS('3个月', '3個月'), value: '3 months'},
+		{label: wgULS('6个月', '6個月'), value: '6 months'},
 		{label: '1年', value: '1 year'},
 		{label: '2年', value: '2 years'},
 		{label: '3年', value: '3 years'},
@@ -446,7 +438,7 @@ import {api} from './api';
 			nocreate: true,
 			pageParam: true,
 			reasonParam: true,
-			summary: window.wgULS('封禁通知', '封鎖通知'),
+			summary: wgULS('封禁通知', '封鎖通知'),
 			suppressArticleInSummary: true,
 		},
 		'uw-blockindef': {
@@ -456,14 +448,14 @@ import {api} from './api';
 			nocreate: true,
 			pageParam: true,
 			reasonParam: true,
-			summary: window.wgULS('封禁通知', '封鎖通知'),
+			summary: wgULS('封禁通知', '封鎖通知'),
 			suppressArticleInSummary: true,
 		},
 		'uw-blocknotalk': {
 			disabletalk: true,
 			pageParam: true,
 			reasonParam: true,
-			summary: window.wgULS('封禁通知：禁止编辑讨论页', '封鎖通知：禁止編輯討論頁'),
+			summary: wgULS('封禁通知：禁止编辑讨论页', '封鎖通知：禁止編輯討論頁'),
 			suppressArticleInSummary: true,
 		},
 		'uw-3block': {
@@ -471,28 +463,22 @@ import {api} from './api';
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('违反[[QW:3RR|回退不过三原则]]', '違反[[QW:3RR|回退不過三原則]]'),
-			summary: window.wgULS('封禁通知：违反[[QW:3RR|回退不过三原则]]', '封鎖通知：違反[[QW:3RR|回退不過三原則]]'),
+			reason: wgULS('违反[[QW:3RR|回退不过三原则]]', '違反[[QW:3RR|回退不過三原則]]'),
+			summary: wgULS('封禁通知：违反[[QW:3RR|回退不过三原则]]', '封鎖通知：違反[[QW:3RR|回退不過三原則]]'),
 		},
 		'uw-adblock': {
 			autoblock: true,
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('散发[[QW:SOAP|散发广告或宣传]]', '散發[[QW:SOAP|散發廣告或宣傳]]'),
-			summary: window.wgULS(
-				'封禁通知：散发[[QW:SOAP|散发广告或宣传]]',
-				'封鎖通知：散發[[QW:SOAP|散發廣告或宣傳]]'
-			),
+			reason: wgULS('散发[[QW:SOAP|散发广告或宣传]]', '散發[[QW:SOAP|散發廣告或宣傳]]'),
+			summary: wgULS('封禁通知：散发[[QW:SOAP|散发广告或宣传]]', '封鎖通知：散發[[QW:SOAP|散發廣告或宣傳]]'),
 		},
 		'uw-attackblock': {
 			autoblock: true,
 			expiry: '1 day',
 			nocreate: true,
-			reason: window.wgULS(
-				'[[QW:CIV|行为无礼]]或[[QW:NPA|人身攻击]]',
-				'[[QW:CIV|行為無禮]]或[[QW:NPA|人身攻擊]]'
-			),
-			summary: window.wgULS(
+			reason: wgULS('[[QW:CIV|行为无礼]]或[[QW:NPA|人身攻击]]', '[[QW:CIV|行為無禮]]或[[QW:NPA|人身攻擊]]'),
+			summary: wgULS(
 				'封禁通知：[[QW:CIV|行为无礼]]或[[QW:NPA|人身攻击]]',
 				'封鎖通知：[[QW:CIV|行為無禮]]或[[QW:NPA|人身攻擊]]'
 			),
@@ -502,39 +488,39 @@ import {api} from './api';
 			expiry: 'infinity',
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('持续[[QW:COPYVIO|侵犯著作权]]', '持續[[QW:COPYVIO|侵犯著作權]]'),
-			summary: window.wgULS('封禁通知：持续[[QW:COPYVIO|侵犯著作权]]', '封鎖通知：持續[[QW:COPYVIO|侵犯著作權]]'),
+			reason: wgULS('持续[[QW:COPYVIO|侵犯著作权]]', '持續[[QW:COPYVIO|侵犯著作權]]'),
+			summary: wgULS('封禁通知：持续[[QW:COPYVIO|侵犯著作权]]', '封鎖通知：持續[[QW:COPYVIO|侵犯著作權]]'),
 			templateName: 'uw-blockindef',
 		},
 		'uw-dblock': {
 			autoblock: true,
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('持续[[QW:VAN|删除内容]]', '持續[[QW:VAN|刪除內容]]'),
-			summary: window.wgULS('封禁通知：持续[[QW:VAN|删除内容]]', '封鎖通知：持續[[QW:VAN|刪除內容]]'),
+			reason: wgULS('持续[[QW:VAN|删除内容]]', '持續[[QW:VAN|刪除內容]]'),
+			summary: wgULS('封禁通知：持续[[QW:VAN|删除内容]]', '封鎖通知：持續[[QW:VAN|刪除內容]]'),
 		},
 		'uw-hblock': {
 			autoblock: true,
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('[[QW:骚扰|骚扰]]其他用户', '[[QW:騷擾|騷擾]]其他使用者'),
-			summary: window.wgULS('封禁通知：[[QW:骚扰|骚扰]]其他用户', '封鎖通知：[[QW:騷擾|騷擾]]其他使用者'),
+			reason: wgULS('[[QW:骚扰|骚扰]]其他用户', '[[QW:騷擾|騷擾]]其他使用者'),
+			summary: wgULS('封禁通知：[[QW:骚扰|骚扰]]其他用户', '封鎖通知：[[QW:騷擾|騷擾]]其他使用者'),
 		},
 		'uw-vblock': {
 			autoblock: true,
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('[[QW:VAN|破坏]]', '[[QW:VAN|破壞]]'),
-			summary: window.wgULS('封禁通知：[[QW:VAN|破坏]]', '封鎖通知：[[QW:VAN|破壞]]'),
+			reason: wgULS('[[QW:VAN|破坏]]', '[[QW:VAN|破壞]]'),
+			summary: wgULS('封禁通知：[[QW:VAN|破坏]]', '封鎖通知：[[QW:VAN|破壞]]'),
 		},
 		'uw-illegalblock': {
 			autoblock: true,
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
-			summary: window.wgULS(
+			reason: wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
+			summary: wgULS(
 				'封禁通知：持续加入不符合中国价值观的非法内容',
 				'封鎖通知：持續加入不符合中國價值觀的非法內容'
 			),
@@ -544,16 +530,16 @@ import {api} from './api';
 			expiry: '1 week',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: window.wgULS('滥用[[QW:SOCK|多个账号]]', '濫用[[QW:SOCK|多個賬號]]'),
-			summary: window.wgULS('封禁通知：滥用[[QW:SOCK|多个账号]]', '封鎖通知：濫用[[QW:SOCK|多個賬號]]'),
+			reason: wgULS('滥用[[QW:SOCK|多个账号]]', '濫用[[QW:SOCK|多個賬號]]'),
+			summary: wgULS('封禁通知：滥用[[QW:SOCK|多个账号]]', '封鎖通知：濫用[[QW:SOCK|多個賬號]]'),
 			templateName: 'uw-block',
 		},
 		// uw-u-prefixed
 		'uw-ublock': {
 			expiry: 'infinity',
 			forRegisteredOnly: true,
-			reason: `{{uw-ublock}}<!-- ${window.wgULS('不当用户名、软封禁', '不當使用者名稱')} -->`,
-			summary: window.wgULS(
+			reason: `{{uw-ublock}}<!-- ${wgULS('不当用户名、软封禁', '不當使用者名稱')} -->`,
+			summary: wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名条例]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]'
 			),
@@ -563,8 +549,8 @@ import {api} from './api';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: `{{uw-ublock-illegal}}<!-- ${window.wgULS('不合规的用户名', '不合規的使用者名稱')} -->`,
-			summary: window.wgULS(
+			reason: `{{uw-ublock-illegal}}<!-- ${wgULS('不合规的用户名', '不合規的使用者名稱')} -->`,
+			summary: wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名条例]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]'
 			),
@@ -574,8 +560,8 @@ import {api} from './api';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: `{{uw-ublock-suggestive}}<!-- ${window.wgULS('误导、混淆性用户名', '誤導、混淆性使用者名稱')} -->`,
-			summary: window.wgULS(
+			reason: `{{uw-ublock-suggestive}}<!-- ${wgULS('误导、混淆性用户名', '誤導、混淆性使用者名稱')} -->`,
+			summary: wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名条例]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]'
 			),
@@ -585,8 +571,8 @@ import {api} from './api';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: `{{uw-ublock-spam}}<!-- ${window.wgULS('宣传性用户名或宣传性编辑', '宣傳性使用者名稱或宣傳性編輯')} -->`,
-			summary: window.wgULS(
+			reason: `{{uw-ublock-spam}}<!-- ${wgULS('宣传性用户名或宣传性编辑', '宣傳性使用者名稱或宣傳性編輯')} -->`,
+			summary: wgULS(
 				'封禁通知：您的用户名违反[[QW:U|用户名条例]]',
 				'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]'
 			),
@@ -637,8 +623,8 @@ import {api} from './api';
 		'Bot block message': {
 			expiry: 'infinity',
 			forRegisteredOnly: true,
-			reason: window.wgULS('机器人故障', '機器人故障'),
-			summary: window.wgULS('封禁通知：机器人故障', '封鎖通知：機器人故障'),
+			reason: wgULS('机器人故障', '機器人故障'),
+			summary: wgULS('封禁通知：机器人故障', '封鎖通知：機器人故障'),
 			sig: '~~'.concat('~~'),
 		},
 		// other block reasons
@@ -647,8 +633,8 @@ import {api} from './api';
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('违反生者传记条例', '違反生者傳記條例'),
-			summary: window.wgULS('封禁通知：违反生者传记条例', '封鎖通知：違反生者傳記條例'),
+			reason: wgULS('违反生者传记条例', '違反生者傳記條例'),
+			summary: wgULS('封禁通知：违反生者传记条例', '封鎖通知：違反生者傳記條例'),
 			templateName: 'uw-vblock',
 		},
 		ucblock: {
@@ -656,8 +642,8 @@ import {api} from './api';
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('屡次增加没有[[QW:RS|可靠来源]]的资料', '屢次增加沒有[[QW:RS|可靠來源]]的資料'),
-			summary: window.wgULS(
+			reason: wgULS('屡次增加没有[[QW:RS|可靠来源]]的资料', '屢次增加沒有[[QW:RS|可靠來源]]的資料'),
+			summary: wgULS(
 				'封禁通知：屡次增加没有[[QW:RS|可靠来源]]的资料',
 				'封鎖通知：屢次增加沒有[[QW:RS|可靠來源]]的資料'
 			),
@@ -668,8 +654,8 @@ import {api} from './api';
 			expiry: '1 day',
 			nocreate: true,
 			pageParam: true,
-			reason: window.wgULS('在条目中增加无意义文字', '在條目中增加無意義文字'),
-			summary: window.wgULS('封禁通知：在条目中增加无意义文字', '封鎖通知：在條目中增加無意義文字'),
+			reason: wgULS('在条目中增加无意义文字', '在條目中增加無意義文字'),
+			summary: wgULS('封禁通知：在条目中增加无意义文字', '封鎖通知：在條目中增加無意義文字'),
 			templateName: 'uw-vblock',
 		},
 		'point-block': {
@@ -678,8 +664,8 @@ import {api} from './api';
 			nocreate: true,
 			pageParam: true,
 			reasonParam: true,
-			reason: window.wgULS('持续打制度擦边球', '持續打制度擦邊球'),
-			summary: window.wgULS('封禁通知：持续打制度擦边球', '封鎖通知：持續打制度擦邊球'),
+			reason: wgULS('持续打制度擦边球', '持續打制度擦邊球'),
+			summary: wgULS('封禁通知：持续打制度擦边球', '封鎖通知：持續打制度擦邊球'),
 			templateName: 'uw-block',
 		},
 		'sock-contribs': {
@@ -688,14 +674,11 @@ import {api} from './api';
 			forRegisteredOnly: true,
 			nocreate: true,
 			reasonParam: true,
-			reason: window.wgULS(
+			reason: wgULS(
 				'确认为[[QW:SOCK|傀儡]]或真人傀儡 - 根据用户贡献确定',
 				'確認為[[QW:SOCK|傀儡]]或真人傀儡 - 根據使用者貢獻確定'
 			),
-			summary: window.wgULS(
-				'封禁通知：确认为[[QW:SOCK|傀儡]]或真人傀儡',
-				'封鎖通知：確認為[[QW:SOCK|傀儡]]或真人傀儡'
-			),
+			summary: wgULS('封禁通知：确认为[[QW:SOCK|傀儡]]或真人傀儡', '封鎖通知：確認為[[QW:SOCK|傀儡]]或真人傀儡'),
 			templateName: 'uw-blockindef',
 		},
 		'sock-cu': {
@@ -704,14 +687,11 @@ import {api} from './api';
 			forRegisteredOnly: true,
 			nocreate: true,
 			reasonParam: true,
-			reason: window.wgULS(
+			reason: wgULS(
 				'确认为[[QW:SOCK|傀儡]]或真人傀儡 - 用户查核确认',
 				'確認為[[QW:SOCK|傀儡]]或真人傀儡 - 使用者查核確認'
 			),
-			summary: window.wgULS(
-				'封禁通知：确认为[[QW:SOCK|傀儡]]或真人傀儡',
-				'封鎖通知：確認為[[QW:SOCK|傀儡]]或真人傀儡'
-			),
+			summary: wgULS('封禁通知：确认为[[QW:SOCK|傀儡]]或真人傀儡', '封鎖通知：確認為[[QW:SOCK|傀儡]]或真人傀儡'),
 			templateName: 'uw-blockindef',
 		},
 		'uw-ublock-attack': {
@@ -719,8 +699,8 @@ import {api} from './api';
 			expiry: 'infinity',
 			forRegisteredOnly: true,
 			nocreate: true,
-			reason: `{{uw-ublock-attack}}<!-- ${window.wgULS('攻击性用户名', '攻擊性使用者名稱')} -->`,
-			summary: window.wgULS('封禁通知：攻击性用户名', '封鎖通知：攻擊性使用者名稱'),
+			reason: `{{uw-ublock-attack}}<!-- ${wgULS('攻击性用户名', '攻擊性使用者名稱')} -->`,
+			summary: wgULS('封禁通知：攻击性用户名', '封鎖通知：攻擊性使用者名稱'),
 		},
 		// Begin partial block templates, accessed in Twinkle.block.blockGroupsPartial
 		'uw-pblock': {
@@ -729,10 +709,7 @@ import {api} from './api';
 			nocreate: false,
 			pageParam: false,
 			reasonParam: true,
-			summary: window.wgULS(
-				'封禁通知：您已被禁止编辑求闻百科的部分区域',
-				'封鎖通知：您已被禁止編輯求聞百科的部分區域'
-			),
+			summary: wgULS('封禁通知：您已被禁止编辑求闻百科的部分区域', '封鎖通知：您已被禁止編輯求聞百科的部分區域'),
 		},
 		'uw-pblockindef': {
 			autoblock: true,
@@ -740,7 +717,7 @@ import {api} from './api';
 			nocreate: false,
 			pageParam: false,
 			reasonParam: true,
-			summary: window.wgULS(
+			summary: wgULS(
 				'封禁通知：您已被永久禁止编辑求闻百科的部分区域',
 				'封鎖通知：您已被永久禁止編輯求聞百科的部分區域'
 			),
@@ -784,67 +761,64 @@ import {api} from './api';
 	//   meta: <boolean, show in templates only>
 	Twinkle.block.blockGroups = [
 		{
-			label: window.wgULS('普通封禁', '普通封鎖'),
+			label: wgULS('普通封禁', '普通封鎖'),
 			list: [
-				{label: window.wgULS('通用封禁（自定义理由）', '通用封鎖（自訂理由）'), value: 'uw-block'},
+				{label: wgULS('通用封禁（自定义理由）', '通用封鎖（自訂理由）'), value: 'uw-block'},
 				{
-					label: window.wgULS('无限期封禁（自定义理由）', '無限期封鎖（自訂理由）'),
+					label: wgULS('无限期封禁（自定义理由）', '無限期封鎖（自訂理由）'),
 					value: 'uw-blockindef',
 				},
-				{label: window.wgULS('禁止编辑讨论页', '禁止編輯討論頁'), value: 'uw-blocknotalk', meta: true},
-				{label: window.wgULS('违反回退不过三原则', '違反回退不過三原則'), value: 'uw-3block'},
-				{label: window.wgULS('散发广告或宣传', '散發廣告或宣傳'), value: 'uw-adblock'},
-				{label: window.wgULS('行为无礼或人身攻击', '行為無禮或人身攻擊'), value: 'uw-attackblock'},
+				{label: wgULS('禁止编辑讨论页', '禁止編輯討論頁'), value: 'uw-blocknotalk', meta: true},
+				{label: wgULS('违反回退不过三原则', '違反回退不過三原則'), value: 'uw-3block'},
+				{label: wgULS('散发广告或宣传', '散發廣告或宣傳'), value: 'uw-adblock'},
+				{label: wgULS('行为无礼或人身攻击', '行為無禮或人身攻擊'), value: 'uw-attackblock'},
 				{
-					label: window.wgULS('多次加入侵犯著作权的内容', '多次加入侵犯著作權的內容'),
+					label: wgULS('多次加入侵犯著作权的内容', '多次加入侵犯著作權的內容'),
 					value: 'uw-copyrightblock',
 				},
-				{label: window.wgULS('无故删除内容', '無故刪除內容'), value: 'uw-dblock'},
-				{label: window.wgULS('骚扰用户', '騷擾使用者'), value: 'uw-hblock'},
-				{label: window.wgULS('破坏', '破壞'), value: 'uw-vblock', selected: true},
+				{label: wgULS('无故删除内容', '無故刪除內容'), value: 'uw-dblock'},
+				{label: wgULS('骚扰用户', '騷擾使用者'), value: 'uw-hblock'},
+				{label: wgULS('破坏', '破壞'), value: 'uw-vblock', selected: true},
 				{
-					label: window.wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
+					label: wgULS('持续加入不符合中国价值观的非法内容', '持續加入不符合中國價值觀的非法內容'),
 					value: 'uw-illegalblock',
 				},
-				{label: window.wgULS('滥用多个账号', '濫用多個賬號'), value: 'uw-sockblock'},
+				{label: wgULS('滥用多个账号', '濫用多個賬號'), value: 'uw-sockblock'},
 				// other block reasons
-				{label: window.wgULS('违反生者传记条例', '違反生者傳記條例'), value: 'bioblock'},
-				{label: window.wgULS('屡次增加没有可靠来源的资料', '屢次增加沒有可靠來源的資料'), value: 'ucblock'},
-				{label: window.wgULS('在条目中增加无意义文字', '在條目中增加無意義文字'), value: 'npblock'},
-				{label: window.wgULS('持续打制度擦边球', '持續打制度擦邊球'), value: 'point-block'},
+				{label: wgULS('违反生者传记条例', '違反生者傳記條例'), value: 'bioblock'},
+				{label: wgULS('屡次增加没有可靠来源的资料', '屢次增加沒有可靠來源的資料'), value: 'ucblock'},
+				{label: wgULS('在条目中增加无意义文字', '在條目中增加無意義文字'), value: 'npblock'},
+				{label: wgULS('持续打制度擦边球', '持續打制度擦邊球'), value: 'point-block'},
 				{
-					label: window.wgULS(
+					label: wgULS(
 						'确认为傀儡或真人傀儡（根据用户贡献确定）',
 						'確認為傀儡或真人傀儡（根據使用者貢獻確定）'
 					),
 					value: 'sock-contribs',
 				},
 				{
-					label: window.wgULS(
-						'确认为傀儡或真人傀儡（用户查核确认）',
-						'確認為傀儡或真人傀儡（使用者查核確認）'
-					),
+					label: wgULS('确认为傀儡或真人傀儡（用户查核确认）', '確認為傀儡或真人傀儡（使用者查核確認）'),
 					value: 'sock-cu',
 				},
 				{
-					label: window.wgULS('机器人发生故障并必须紧急停止', '機器人發生故障並必須緊急停止'),
+					label: wgULS('机器人发生故障并必须紧急停止', '機器人發生故障並必須緊急停止'),
 					value: 'Bot block message',
 				},
 			],
 		},
 		{
 			custom: true,
-			label: window.wgULS('自定义封禁理由', '自訂封鎖理由'),
+			label: wgULS('自定义封禁理由', '自訂封鎖理由'),
 		},
 		{
-			label: window.wgULS('用户名封禁', '使用者名稱封鎖'),
+			label: wgULS('用户名封禁', '使用者名稱封鎖'),
 			list: [
-				{label: window.wgULS('违反用户名条例', '違反使用者名稱條例'), value: 'uw-ublock'},
-				{label: window.wgULS('不合规的用户名', '不合規的使用者名稱'), value: 'uw-ublock-illegal'},
-				{label: window.wgULS('宣传性用户名', '宣傳性使用者名稱'), value: 'uw-ublock-spam'},
-				{label: window.wgULS('攻击性用户名', '攻擊性使用者名稱'), value: 'uw-ublock-attack'},
+				{label: wgULS('违反用户名条例', '違反使用者名稱條例'), value: 'uw-ublock'},
+				{label: wgULS('不合规的用户名', '不合規的使用者名稱'), value: 'uw-ublock-illegal'},
+				{label: wgULS('宣传性用户名', '宣傳性使用者名稱'), value: 'uw-ublock-spam'},
+				{label: wgULS('攻击性用户名', '攻擊性使用者名稱'), value: 'uw-ublock-attack'},
 				{
-					label: window.wgULS('混淆性或误导性用户名', '混淆性或誤導性使用者名稱'),
+					label: wgULS('混淆性或误导性用户名', '混淆性或誤導性使用者名稱'),
 					value: 'uw-ublock-suggestive',
 				},
 			],
@@ -856,12 +830,12 @@ import {api} from './api';
 				{label: 'school block', value: 'school block', forAnonOnly: true},
 				{label: 'blocked proxy', value: 'blocked proxy', forAnonOnly: true},
 				{
-					label: window.wgULS('用户查核封禁（主用户）', '使用者查核封鎖（主使用者）'),
+					label: wgULS('用户查核封禁（主用户）', '使用者查核封鎖（主使用者）'),
 					value: 'checkuserblock',
 					forAnonOnly: true,
 				},
 				{
-					label: window.wgULS('用户查核封禁（子用户）', '使用者查核封鎖（子使用者）'),
+					label: wgULS('用户查核封禁（子用户）', '使用者查核封鎖（子使用者）'),
 					value: 'checkuserblock-account',
 					forRegisteredOnly: true,
 				},
@@ -870,15 +844,15 @@ import {api} from './api';
 	];
 	Twinkle.block.blockGroupsPartial = [
 		{
-			label: window.wgULS('常见部分封禁理由', '常見部分封鎖理由'),
+			label: wgULS('常见部分封禁理由', '常見部分封鎖理由'),
 			list: [
 				{
-					label: window.wgULS('通用部分封禁（自定义理由）', '通用部分封鎖（自訂理由）'),
+					label: wgULS('通用部分封禁（自定义理由）', '通用部分封鎖（自訂理由）'),
 					value: 'uw-pblock',
 					selected: true,
 				},
 				{
-					label: window.wgULS('无限期部分封禁（自定义理由）', '無限期部分封鎖（自訂理由）'),
+					label: wgULS('无限期部分封禁（自定义理由）', '無限期部分封鎖（自訂理由）'),
 					value: 'uw-pblockindef',
 				},
 			],
@@ -897,7 +871,7 @@ import {api} from './api';
 					templates = Morebits.array.uniq(templates);
 					blockGroup.list = Array.prototype.map.call(templates, (template) => {
 						return {
-							label: window.wgULS('自定义模板', '自訂模板'),
+							label: wgULS('自定义模板', '自訂模板'),
 							value: template,
 						};
 					});
@@ -1051,7 +1025,7 @@ import {api} from './api';
 				return (sum += params.tag.includes(tag));
 			}, 0);
 			if (count > 1) {
-				let message = `${window.wgULS('请在以下标签中择一使用', '請在以下標籤中擇一使用')}：{{${conflicts.join(
+				let message = `${wgULS('请在以下标签中择一使用', '請在以下標籤中擇一使用')}：{{${conflicts.join(
 					'}}、{{'
 				)}}}。`;
 				message += extra || '';
@@ -1064,7 +1038,7 @@ import {api} from './api';
 		};
 		if (toTag) {
 			if (params.tag.length === 0) {
-				void mw.notify(window.wgULS('请至少选择一个用户页标记！', '請至少選擇一個使用者頁面標記！'), {
+				void mw.notify(wgULS('请至少选择一个用户页标记！', '請至少選擇一個使用者頁面標記！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1076,7 +1050,7 @@ import {api} from './api';
 			if (
 				checkIncompatible(
 					['Blocked user', 'Sockpuppet'],
-					window.wgULS(
+					wgULS(
 						'{{Sockpuppet}}已涵盖{{Blocked user}}的功能。',
 						'{{Sockpuppet}}已涵蓋{{Blocked user}}的功能。'
 					)
@@ -1090,7 +1064,7 @@ import {api} from './api';
 			if (
 				checkIncompatible(
 					['Blocked user', 'Sockpuppeteer'],
-					window.wgULS(
+					wgULS(
 						'{{Sockpuppeteer}}已涵盖{{Blocked user}}的功能。',
 						'{{Sockpuppeteer}}已涵蓋{{Blocked user}}的功能。'
 					)
@@ -1104,7 +1078,7 @@ import {api} from './api';
 			if (
 				checkIncompatible(
 					['Sockpuppet', 'Sockpuppeteer'],
-					window.wgULS('请从主账号和分身账号中选择一个。', '請從主賬號和分身賬號中選擇一個。')
+					wgULS('请从主账号和分身账号中选择一个。', '請從主賬號和分身賬號中選擇一個。')
 				)
 			) {
 				if (restore) {
@@ -1113,7 +1087,7 @@ import {api} from './api';
 				return;
 			}
 			if (params.tag.includes('Sockpuppet') && params.sppUsername.trim() === '') {
-				void mw.notify(window.wgULS('请提供傀儡账号的主账号用户名！', '請提供傀儡賬號的主賬號使用者名稱！'), {
+				void mw.notify(wgULS('请提供傀儡账号的主账号用户名！', '請提供傀儡賬號的主賬號使用者名稱！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1127,7 +1101,7 @@ import {api} from './api';
 			if (blockoptions.partial) {
 				if (blockoptions.disabletalk && !blockoptions.namespacerestrictions.includes('3')) {
 					void mw.notify(
-						window.wgULS(
+						wgULS(
 							'部分封禁无法阻止编辑自己的讨论页，除非也封禁了User talk命名空间！',
 							'部分封鎖無法阻止編輯自己的討論頁，除非也封鎖了User talk命名空間！'
 						),
@@ -1145,7 +1119,7 @@ import {api} from './api';
 					if (!blockoptions.noemail && !blockoptions.nocreate) {
 						// Blank entries technically allowed
 						void mw.notify(
-							window.wgULS(
+							wgULS(
 								'没有选择页面或命名空间，也没有停用电子邮件或禁止创建账号；请选择至少一个选项以应用部分封禁！',
 								'沒有選擇頁面或命名空間，也沒有停用電子郵件或禁止建立賬號；請選擇至少一個選項以應用部分封鎖！'
 							),
@@ -1160,7 +1134,7 @@ import {api} from './api';
 						return;
 					} else if (
 						!confirm(
-							window.wgULS(
+							wgULS(
 								'您将要进行封禁，但没有阻止任何页面或命名空间的编辑，确定要继续？',
 								'您將要進行封鎖，但沒有阻止任何頁面或命名空間的編輯，確定要繼續？'
 							)
@@ -1171,7 +1145,7 @@ import {api} from './api';
 				}
 			}
 			if (!blockoptions.expiry) {
-				void mw.notify(window.wgULS('请提供过期时间！', '請提供過期時間！'), {
+				void mw.notify(wgULS('请提供过期时间！', '請提供過期時間！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1180,7 +1154,7 @@ import {api} from './api';
 				}
 				return;
 			} else if (Morebits.string.isInfinity(blockoptions.expiry) && !Twinkle.block.isRegistered) {
-				void mw.notify(window.wgULS('禁止无限期封禁IP地址！', '禁止無限期封鎖IP位址！'), {
+				void mw.notify(wgULS('禁止无限期封禁IP地址！', '禁止無限期封鎖IP位址！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1190,7 +1164,7 @@ import {api} from './api';
 				return;
 			}
 			if (!blockoptions.reason) {
-				void mw.notify(window.wgULS('请提供封禁理由！', '請提供封鎖理由！'), {
+				void mw.notify(wgULS('请提供封禁理由！', '請提供封鎖理由！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1200,7 +1174,7 @@ import {api} from './api';
 				return;
 			}
 			Morebits.status.init(statusContainer);
-			const statusElement = new Morebits.status(window.wgULS('执行封禁', '執行封鎖'));
+			const statusElement = new Morebits.status(wgULS('执行封禁', '執行封鎖'));
 			blockoptions.action = 'block';
 			blockoptions.user = relevantUserName;
 			// boolean-flipped options
@@ -1264,34 +1238,31 @@ import {api} from './api';
 				const user = data.query.users ? data.query.users[0] : null;
 				const logid = data.query.logevents.length ? logevents.logid : false;
 				if (logid !== Twinkle.block.blockLogId || !!block !== !!Twinkle.block.currentBlockInfo) {
-					let message = blockoptions.user + window.wgULS('的封禁状态已被修改。', '的封鎖狀態已被修改。');
+					let message = blockoptions.user + wgULS('的封禁状态已被修改。', '的封鎖狀態已被修改。');
 					if (block) {
-						message += window.wgULS('新状态：', '新狀態：');
+						message += wgULS('新状态：', '新狀態：');
 					} else {
-						message += window.wgULS('最新日志：', '最新日誌：');
+						message += wgULS('最新日志：', '最新日誌：');
 					}
 					let logExpiry = '';
 					if (logevents.params.duration) {
 						if (logevents.params.duration === 'infinity') {
-							logExpiry = window.wgULS('无限期', '無限期');
+							logExpiry = wgULS('无限期', '無限期');
 						} else {
 							const expiryDate = new Morebits.date(logevents.params.expiry);
 							logExpiry +=
-								(expiryDate.isBefore(new Date()) ? window.wgULS('过期于', '過期於') : '直到') +
+								(expiryDate.isBefore(new Date()) ? wgULS('过期于', '過期於') : '直到') +
 								expiryDate.calendar(UTC8_OFFSET_MINUTES);
 						}
 					} else {
 						// no duration, action=unblock, just show timestamp
 						logExpiry = `於${new Morebits.date(logevents.timestamp).calendar(UTC8_OFFSET_MINUTES)}`;
 					}
-					message += `由${logevents.user}${window.wgULS('以“', '以「')}${logevents.comment}${window.wgULS('”', '」')}${
+					message += `由${logevents.user}${wgULS('以“', '以「')}${logevents.comment}${wgULS('”', '」')}${
 						blockActionText[logevents.action]
-					}${logExpiry}${window.wgULS('，你想要以你的设置更改封禁吗？', '，你想要以你的設定變更封鎖嗎？')}`;
+					}${logExpiry}${wgULS('，你想要以你的设置更改封禁吗？', '，你想要以你的設定變更封鎖嗎？')}`;
 					if (!confirm(message)) {
-						Morebits.status.info(
-							window.wgULS('执行封禁', '執行封鎖'),
-							window.wgULS('用户取消操作', '使用者取消操作')
-						);
+						Morebits.status.info(wgULS('执行封禁', '執行封鎖'), wgULS('用户取消操作', '使用者取消操作'));
 						return;
 					}
 					blockoptions.reblock = 1; // Writing over a block will fail otherwise
@@ -1314,7 +1285,7 @@ import {api} from './api';
 				// execute block
 				blockoptions.tags = Twinkle.changeTags;
 				blockoptions.token = mw.user.tokens.get('csrfToken');
-				const mbApi = new Morebits.wiki.api(window.wgULS('执行封禁', '執行封鎖'), blockoptions, () => {
+				const mbApi = new Morebits.wiki.api(wgULS('执行封禁', '執行封鎖'), blockoptions, () => {
 					statusElement.info('完成');
 					if (toWarn) {
 						Twinkle.block.callback.issue_template(templateoptions);
@@ -1322,39 +1293,35 @@ import {api} from './api';
 					if (toClosevip) {
 						const vipPage = new Morebits.wiki.page(
 							'Qiuwen_talk:报告当前破坏',
-							window.wgULS('关闭请求', '關閉請求')
+							wgULS('关闭请求', '關閉請求')
 						);
 						vipPage.setFollowRedirect(true);
 						vipPage.setCallbackParameters(blockoptions);
 						vipPage.load(Twinkle.block.callback.closeRequest);
 					}
 					if (groupsToBeRemoved.length > 0) {
-						const rightStatusElement = new Morebits.status(window.wgULS('移除权限', '移除權限'));
+						const rightStatusElement = new Morebits.status(wgULS('移除权限', '移除權限'));
 						if (
 							confirm(
-								window.wgULS('该用户有以下权限：', '該使用者有以下權限：') +
+								wgULS('该用户有以下权限：', '該使用者有以下權限：') +
 									groupsToBeRemoved.join('、') +
-									window.wgULS('，您是否想要同时移除这些权限？', '，您是否想要同時移除這些權限？')
+									wgULS('，您是否想要同时移除这些权限？', '，您是否想要同時移除這些權限？')
 							)
 						) {
 							const revokeOptions = {
 								action: 'userrights',
 								user: blockoptions.user,
 								remove: groupsToBeRemoved.join('|'),
-								reason: window.wgULS('用户已被无限期封禁', '使用者已被無限期封鎖'),
+								reason: wgULS('用户已被无限期封禁', '使用者已被無限期封鎖'),
 								token: data.query.tokens.userrightstoken,
 								tags: Twinkle.changeTags,
 							};
-							const mrApi = new Morebits.wiki.api(
-								window.wgULS('移除权限', '移除權限'),
-								revokeOptions,
-								() => {
-									rightStatusElement.info(`已移除${groupsToBeRemoved.join('、')}`);
-								}
-							);
+							const mrApi = new Morebits.wiki.api(wgULS('移除权限', '移除權限'), revokeOptions, () => {
+								rightStatusElement.info(`已移除${groupsToBeRemoved.join('、')}`);
+							});
 							mrApi.post();
 						} else {
-							rightStatusElement.error(window.wgULS('用户取消操作。', '使用者取消操作。'));
+							rightStatusElement.error(wgULS('用户取消操作。', '使用者取消操作。'));
 						}
 					}
 				});
@@ -1367,16 +1334,13 @@ import {api} from './api';
 		if (toTag || toProtect) {
 			Morebits.status.init(statusContainer);
 			const userPage = `User:${mw.config.get('wgRelevantUserName')}`;
-			const qiuwen_page = new Morebits.wiki.page(
-				userPage,
-				window.wgULS('标记或保护用户页', '標記或保護使用者頁面')
-			);
+			const qiuwen_page = new Morebits.wiki.page(userPage, wgULS('标记或保护用户页', '標記或保護使用者頁面'));
 			qiuwen_page.setCallbackParameters(params);
 			qiuwen_page.load(Twinkle.block.callback.taguserpage);
 		}
 		if (toUnblock) {
 			if (!unblockoptions.reason) {
-				void mw.notify(window.wgULS('请提供解除封禁理由！', '請提供解除封鎖理由！'), {
+				void mw.notify(wgULS('请提供解除封禁理由！', '請提供解除封鎖理由！'), {
 					type: 'warn',
 					tag: 'twinkleblock',
 				});
@@ -1386,23 +1350,19 @@ import {api} from './api';
 				return;
 			}
 			Morebits.status.init(statusContainer);
-			const unblockStatusElement = new Morebits.status(window.wgULS('执行解除封禁', '執行解除封鎖'));
+			const unblockStatusElement = new Morebits.status(wgULS('执行解除封禁', '執行解除封鎖'));
 			unblockoptions.action = 'unblock';
 			unblockoptions.user = mw.config.get('wgRelevantUserName');
 			// execute unblock
 			unblockoptions.tags = Twinkle.changeTags;
 			unblockoptions.token = mw.user.tokens.get('csrfToken');
-			const unblockMbApi = new Morebits.wiki.api(
-				window.wgULS('执行解除封禁', '執行解除封鎖'),
-				unblockoptions,
-				() => {
-					unblockStatusElement.info('完成');
-				}
-			);
+			const unblockMbApi = new Morebits.wiki.api(wgULS('执行解除封禁', '執行解除封鎖'), unblockoptions, () => {
+				unblockStatusElement.info('完成');
+			});
 			unblockMbApi.post();
 		}
 		if (!toBlock && !toWarn && !toTag && !toProtect && !toUnblock) {
-			void mw.notify(window.wgULS('请给Twinkle点事做！', '請給Twinkle點事做！'), {
+			void mw.notify(wgULS('请给Twinkle点事做！', '請給Twinkle點事做！'), {
 				type: 'warn',
 				tag: 'twinkleblock',
 			});
@@ -1440,7 +1400,7 @@ import {api} from './api';
 						tagtext += '\n';
 						break;
 					default:
-						void mw.notify(window.wgULS('未知的用户页模板！', '未知的使用者頁面模板！'), {
+						void mw.notify(wgULS('未知的用户页模板！', '未知的使用者頁面模板！'), {
 							type: 'warn',
 							tag: 'twinkleblock',
 						});
@@ -1451,11 +1411,11 @@ import {api} from './api';
 			}
 			const text = tags.join('\n');
 			pageobj.setPageText(text);
-			pageobj.setEditSummary(window.wgULS('标记被永久封禁的用户页', '標記被永久封鎖的使用者頁面'));
+			pageobj.setEditSummary(wgULS('标记被永久封禁的用户页', '標記被永久封鎖的使用者頁面'));
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.save(() => {
-				Morebits.status.info(window.wgULS('标记用户页', '標記使用者頁面'), '完成');
-				statelem.status(window.wgULS('正在保护页面', '正在保護頁面'));
+				Morebits.status.info(wgULS('标记用户页', '標記使用者頁面'), '完成');
+				statelem.status(wgULS('正在保护页面', '正在保護頁面'));
 				pageobj.load(Twinkle.block.callback.protectuserpage);
 			});
 		} else {
@@ -1472,12 +1432,12 @@ import {api} from './api';
 			} else {
 				pageobj.setCreateProtection('sysop', 'indefinite');
 			}
-			pageobj.setEditSummary(window.wgULS('被永久封禁的用户页', '被永久封鎖的使用者頁面'));
+			pageobj.setEditSummary(wgULS('被永久封禁的用户页', '被永久封鎖的使用者頁面'));
 			pageobj.setChangeTags(Twinkle.changeTags);
 			pageobj.protect(() => {
 				Morebits.status.info(
-					window.wgULS('保护用户页', '保護使用者頁面'),
-					pageobj.exists() ? window.wgULS('已全保护', '已全保護') : window.wgULS('已白纸保护', '已白紙保護')
+					wgULS('保护用户页', '保護使用者頁面'),
+					pageobj.exists() ? wgULS('已全保护', '已全保護') : wgULS('已白纸保护', '已白紙保護')
 				);
 				statelem.info('全部完成');
 			});
@@ -1499,11 +1459,11 @@ import {api} from './api';
 			nocreate: formData.nocreate_template,
 		};
 		Morebits.wiki.actionCompleted.redirect = userTalkPage;
-		Morebits.wiki.actionCompleted.notice = window.wgULS(
+		Morebits.wiki.actionCompleted.notice = wgULS(
 			'完成，将在几秒后加载用户讨论页',
 			'完成，將在幾秒後載入使用者討論頁'
 		);
-		const qiuwen_page = new Morebits.wiki.page(userTalkPage, window.wgULS('用户讨论页修改', '使用者討論頁修改'));
+		const qiuwen_page = new Morebits.wiki.page(userTalkPage, wgULS('用户讨论页修改', '使用者討論頁修改'));
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.load(Twinkle.block.callback.main);
 	};
@@ -1540,19 +1500,19 @@ import {api} from './api';
 			}
 		}
 		if (!found) {
-			statusElement.warn(window.wgULS('没有找到相关的请求', '沒有找到相關的請求'));
+			statusElement.warn(wgULS('没有找到相关的请求', '沒有找到相關的請求'));
 			return;
 		}
 		text = requestList.join('');
 		let summary;
 		if (hidename) {
-			summary = window.wgULS('标记为已处理', '標記為已處理');
+			summary = wgULS('标记为已处理', '標記為已處理');
 		} else {
 			summary = `/* ${userName} */ `;
 			if (Morebits.string.isInfinity(params.expiry)) {
-				summary += window.wgULS('不限期封禁', '不限期封鎖');
+				summary += wgULS('不限期封禁', '不限期封鎖');
 			} else {
-				summary += window.wgULS('封禁', '封鎖') + expiryText;
+				summary += wgULS('封禁', '封鎖') + expiryText;
 			}
 		}
 		vipPage.setEditSummary(summary);
@@ -1614,7 +1574,7 @@ import {api} from './api';
 							return menuFormattedNamespaces[id];
 						});
 						text += `${
-							window.wgULS('[[Help:命名空间|命名空间]]（', '[[Help:命名空間|命名空間]]（') +
+							wgULS('[[Help:命名空间|命名空间]]（', '[[Help:命名空間|命名空間]]（') +
 							makeSentence(namespaceNames)
 						}）`;
 					}
@@ -1652,11 +1612,8 @@ import {api} from './api';
 		params.indefinite = Morebits.string.isInfinity(params.expiry);
 		if (Twinkle.getPref('blankTalkpageOnIndefBlock') && params.template !== 'uw-lblock' && params.indefinite) {
 			Morebits.status.info(
-				window.wgULS('信息', '資訊'),
-				window.wgULS(
-					'根据参数设置清空讨论页并为日期创建新2级标题',
-					'根據偏好設定清空討論頁並為日期建立新2級標題'
-				)
+				wgULS('信息', '資訊'),
+				wgULS('根据参数设置清空讨论页并为日期创建新2级标题', '根據偏好設定清空討論頁並為日期建立新2級標題')
 			);
 			text = `${date.monthHeader()}\n`;
 		} else {
@@ -1676,8 +1633,8 @@ import {api} from './api';
 			}
 			if (!dateHeaderRegexResult || dateHeaderRegexResult.index !== lastHeaderIndex) {
 				Morebits.status.info(
-					window.wgULS('信息', '資訊'),
-					window.wgULS('未找到当月的二级标题，将创建新的', '未找到當月的二級標題，將建立新的')
+					wgULS('信息', '資訊'),
+					wgULS('未找到当月的二级标题，将创建新的', '未找到當月的二級標題，將建立新的')
 				);
 				text += `${date.monthHeader()}\n`;
 			}
@@ -1687,7 +1644,7 @@ import {api} from './api';
 		// build the edit summary
 		let summary = params.usertalk_summary;
 		if (messageData.suppressArticleInSummary !== true && params.article) {
-			summary += `${window.wgULS('，于', '，於')}[[:${params.article}]]`;
+			summary += `${wgULS('，于', '，於')}[[:${params.article}]]`;
 		}
 		pageobj.setPageText(text);
 		pageobj.setEditSummary(summary);

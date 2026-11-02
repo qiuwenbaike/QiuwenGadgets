@@ -49,7 +49,7 @@
 		"MediaWiki Gadget"
 	],
 	"dependencies": {
-		"@bhsd/browser": "^2.1.1",
+		"@bhsd/browser": "^2.2.0",
 		"@bhsd/codemirror-mediawiki": "^4.8.0",
 		"@types/toastify-js": "^1.12.4",
 		"chinese-days": "^1.5.9",
@@ -90,7 +90,7 @@
 		"@types/prompts": "^2.4.9",
 		"@vue/eslint-config-prettier": "^10.2.0",
 		"@vue/eslint-config-typescript": "^14.9.0",
-		"@vue/language-plugin-pug": "^3.3.13",
+		"@vue/language-plugin-pug": "^3.3.14",
 		"@wikimedia/codex": "^2.7.0",
 		"@wikimedia/codex-icons": "^2.7.0",
 		"alpha-sort": "^5.0.0",
@@ -146,6 +146,6 @@
 		"unorm": "^1.6.0",
 		"vue": "^3.5.44",
 		"vue-eslint-parser": "^10.4.1",
-		"vue-tsc": "^3.3.13"
+		"vue-tsc": "^3.3.14"
 	}
 }

@@ -3,6 +3,7 @@
 /*! Twinkle.js - twinklexfd.js */
 import {createApp, h} from 'vue';
 import TwXfdDialog from './ui/TwXfdDialog.vue';
+import {wgULS} from 'ext.gadget.i18n';
 
 (function twinklexfd() {
 	/**
@@ -29,9 +30,9 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 		}
 		Twinkle.addPortletLink(
 			Twinkle.xfd.callback,
-			window.wgULS('提删', '提刪'),
+			wgULS('提删', '提刪'),
 			'tw-xfd',
-			window.wgULS('提交删除讨论', '提交刪除討論')
+			wgULS('提交删除讨论', '提交刪除討論')
 		);
 	};
 	Twinkle.xfd.currentRationale = null;
@@ -40,7 +41,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 		if (Twinkle.xfd.currentRationale) {
 			Morebits.status.printUserText(
 				Twinkle.xfd.currentRationale,
-				window.wgULS(
+				wgULS(
 					'您的理由已在下方提供，若您想重新提交，请将其复制到一新窗口中：',
 					'您的理由已在下方提供，若您想重新提交，請將其複製到一新視窗中：'
 				)
@@ -68,7 +69,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 		const app = createApp({
 			render: () => {
 				return h(TwXfdDialog, {
-					title: window.wgULS('提交存废讨论', '提交存廢討論'),
+					title: wgULS('提交存废讨论', '提交存廢討論'),
 					defaultCategory: mw.config.get('wgNamespaceNumber') === 6 ? 'ffd' : 'afd',
 					showFwdCsd: !!Twinkle.getPref('FwdCsdToXfd'),
 					initialXfdCat,
@@ -81,8 +82,8 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 						mw.config.get('wgPageContentModel') !== 'Scribunto',
 					noincludeDisabled: mw.config.get('wgPageContentModel') === 'Scribunto',
 					footerLinks: [
-						{text: window.wgULS('提删设置', '提刪設定'), href: mw.util.getUrl('H:TW/PREF#xfd')},
-						{text: window.wgULS('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#xfd')},
+						{text: wgULS('提删设置', '提刪設定'), href: mw.util.getUrl('H:TW/PREF#xfd')},
+						{text: wgULS('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#xfd')},
 					],
 					onSubmit: (params, statusContainer) => {
 						Twinkle.xfd.callback.evaluate(params, statusContainer);
@@ -104,7 +105,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				// Adding discussion
 				const discussion_page = new Morebits.wiki.page(
 					params.logpage,
-					window.wgULS('加入讨论到当日列表', '加入討論到當日列表')
+					wgULS('加入讨论到当日列表', '加入討論到當日列表')
 				);
 				discussion_page.setFollowRedirect(true);
 				discussion_page.setCallbackParameters(params);
@@ -114,15 +115,15 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 					// Disallow warning yourself
 					if (params.creator === mw.config.get('wgUserName')) {
 						Morebits.status.warn(
-							`${window.wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`,
-							window.wgULS('您创建了该页，跳过通知', '您建立了該頁，跳過通知')
+							`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`,
+							wgULS('您创建了该页，跳过通知', '您建立了該頁，跳過通知')
 						);
 						params.creator = null;
 					} else {
 						const talkPageName = `User talk:${params.creator}`;
 						const usertalkpage = new Morebits.wiki.page(
 							talkPageName,
-							`${window.wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
+							`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
 						);
 						const notifytext = '\n{{'
 							.concat('subst:')
@@ -168,9 +169,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				);
 				if (
 					text !== textNoSd &&
-					confirm(
-						window.wgULS('在页面上找到快速删除模板，要移除吗？', '在頁面上找到快速刪除模板，要移除嗎？')
-					)
+					confirm(wgULS('在页面上找到快速删除模板，要移除吗？', '在頁面上找到快速刪除模板，要移除嗎？'))
 				) {
 					text = textNoSd;
 				}
@@ -181,7 +180,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				if (
 					text !== textNoNotMandarin &&
 					confirm(
-						window.wgULS(
+						wgULS(
 							'在页面上找到非现代标准汉语模板，要移除吗？',
 							'在頁面上找到非現代標準漢語模板，要移除嗎？'
 						)
@@ -192,7 +191,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				const textNoAfc = text.replace(/{{\s*AFC submission\s*\|\s*\|[^}]*?}}\s*/gi, '');
 				if (
 					text !== textNoAfc &&
-					confirm(window.wgULS('在页面上找到AFC提交模板，要移除吗？', '在頁面上找到AFC提交模板，要移除嗎？'))
+					confirm(wgULS('在页面上找到AFC提交模板，要移除吗？', '在頁面上找到AFC提交模板，要移除嗎？'))
 				) {
 					text = textNoAfc;
 				}
@@ -205,7 +204,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				text = qiuwen_page.insertAfterTemplates(tag, Twinkle.hatnoteRegex).getText();
 				pageobj.setPageText(text);
 				pageobj.setEditSummary(
-					`${window.wgULS('页面存废讨论：[[', '頁面存廢討論：[[') + params.logpage}#${Morebits.pageNameNorm}]]`
+					`${wgULS('页面存废讨论：[[', '頁面存廢討論：[[') + params.logpage}#${Morebits.pageNameNorm}]]`
 				);
 				pageobj.setChangeTags(Twinkle.changeTags);
 				pageobj.setWatchlist(Twinkle.getPref('xfdWatchPage'));
@@ -294,7 +293,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				// Tagging page
 				const tagging_page = new Morebits.wiki.page(
 					mw.config.get('wgPageName'),
-					window.wgULS('加入存废讨论模板到页面', '加入存廢討論模板到頁面')
+					wgULS('加入存废讨论模板到页面', '加入存廢討論模板到頁面')
 				);
 				tagging_page.setFollowRedirect(false);
 				tagging_page.setCallbackParameters(params);
@@ -304,7 +303,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				const statelem = tagging_page.getStatusElement();
 				// defaults to /doc for lua modules, which may not exist
 				if (!tagging_page.exists()) {
-					statelem.error(window.wgULS('页面不存在，可能已被删除', '頁面不存在，可能已被刪除'));
+					statelem.error(wgULS('页面不存在，可能已被删除', '頁面不存在，可能已被刪除'));
 					return;
 				}
 				const text = tagging_page.getPageText();
@@ -312,20 +311,17 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				if (
 					xfd &&
 					!confirm(
-						window.wgULS('删除相关模板{{', '刪除相關模板{{') +
+						wgULS('删除相关模板{{', '刪除相關模板{{') +
 							xfd[1] +
-							window.wgULS(
-								'}}已被置于页面中，您是否仍想继续提报？',
-								'}}已被置於頁面中，您是否仍想繼續提報？'
-							)
+							wgULS('}}已被置于页面中，您是否仍想继续提报？', '}}已被置於頁面中，您是否仍想繼續提報？')
 					)
 				) {
-					statelem.error(window.wgULS('页面已被提交至存废讨论。', '頁面已被提交至存廢討論。'));
+					statelem.error(wgULS('页面已被提交至存废讨论。', '頁面已被提交至存廢討論。'));
 					return;
 				}
 				const copyvio = /(?:\{\{\s*(copyvio)[^{}]*?\}\})/i.exec(text);
 				if (copyvio) {
-					statelem.error(window.wgULS('页面中已有著作权验证模板。', '頁面中已有著作權驗證模板。'));
+					statelem.error(wgULS('页面中已有著作权验证模板。', '頁面中已有著作權驗證模板。'));
 					return;
 				}
 				Twinkle.xfd.callbacks.afd.main(tagging_page);
@@ -338,7 +334,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				// Adding discussion
 				const qiuwen_page = new Morebits.wiki.page(
 					params.logpage,
-					window.wgULS('加入讨论到当日列表', '加入討論到當日列表')
+					wgULS('加入讨论到当日列表', '加入討論到當日列表')
 				);
 				qiuwen_page.setFollowRedirect(true);
 				qiuwen_page.setCallbackParameters(params);
@@ -348,15 +344,15 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 					// Disallow warning yourself
 					if (params.creator === mw.config.get('wgUserName')) {
 						Morebits.status.warn(
-							`${window.wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`,
-							window.wgULS('您创建了该页，跳过通知', '您建立了該頁，跳過通知')
+							`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`,
+							wgULS('您创建了该页，跳过通知', '您建立了該頁，跳過通知')
 						);
 						return;
 					}
 					const talkPageName = `User talk:${params.creator}`;
 					const usertalkpage = new Morebits.wiki.page(
 						talkPageName,
-						`${window.wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
+						`${wgULS('通知页面创建者（', '通知頁面建立者（') + params.creator}）`
 					);
 					const notifytext = '\n{{'.concat('subst:', `idw|File:${mw.config.get('wgTitle')}}}`, '——~~', '~~');
 					usertalkpage.setAppendText(notifytext);
@@ -385,7 +381,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 					)
 				);
 				pageobj.setEditSummary(
-					`${window.wgULS('文件存废讨论：[[', '檔案存廢討論：[[') + params.logpage}#${Morebits.pageNameNorm}]]`
+					`${wgULS('文件存废讨论：[[', '檔案存廢討論：[[') + params.logpage}#${Morebits.pageNameNorm}]]`
 				);
 				pageobj.setChangeTags(Twinkle.changeTags);
 				pageobj.setWatchlist(Twinkle.getPref('xfdWatchPage'));
@@ -419,7 +415,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				// Tagging file
 				const tagging_page = new Morebits.wiki.page(
 					mw.config.get('wgPageName'),
-					window.wgULS('加入存废讨论模板到文件描述页', '加入存廢討論模板到檔案描述頁')
+					wgULS('加入存废讨论模板到文件描述页', '加入存廢討論模板到檔案描述頁')
 				);
 				tagging_page.setFollowRedirect(false);
 				tagging_page.setCallbackParameters(params);
@@ -428,7 +424,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 			tryTagging: (tagging_page) => {
 				const statelem = tagging_page.getStatusElement();
 				if (!tagging_page.exists()) {
-					statelem.error(window.wgULS('页面不存在，可能已被删除', '頁面不存在，可能已被刪除'));
+					statelem.error(wgULS('页面不存在，可能已被删除', '頁面不存在，可能已被刪除'));
 					return;
 				}
 				const text = tagging_page.getPageText();
@@ -436,15 +432,12 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				if (
 					xfd &&
 					!confirm(
-						window.wgULS('删除相关模板{{', '刪除相關模板{{') +
+						wgULS('删除相关模板{{', '刪除相關模板{{') +
 							xfd[1] +
-							window.wgULS(
-								'}}已被置于页面中，您是否仍想继续提报？',
-								'}}已被置於頁面中，您是否仍想繼續提報？'
-							)
+							wgULS('}}已被置于页面中，您是否仍想继续提报？', '}}已被置於頁面中，您是否仍想繼續提報？')
 					)
 				) {
-					statelem.error(window.wgULS('页面已被提交至存废讨论。', '頁面已被提交至存廢討論。'));
+					statelem.error(wgULS('页面已被提交至存废讨论。', '頁面已被提交至存廢討論。'));
 					return;
 				}
 				Twinkle.xfd.callbacks.ffd.main(tagging_page);
@@ -452,11 +445,9 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 		},
 		addToLog: (params, initialContrib) => {
 			const editsummary =
-				window.wgULS('记录对[[', '記錄對[[') +
-				Morebits.pageNameNorm +
-				window.wgULS(']]的存废讨论提名', ']]的存廢討論提名');
+				wgULS('记录对[[', '記錄對[[') + Morebits.pageNameNorm + wgULS(']]的存废讨论提名', ']]的存廢討論提名');
 			const usl = new Morebits.userspaceLogger(Twinkle.getPref('xfdLogPageName'));
-			usl.initialText = window.wgULS(
+			usl.initialText = wgULS(
 				`这是该用户使用[[H:TW|Twinkle]]的提删模块做出的[[QW:XFD|存废讨论]]提名列表。\n\n若您不再想保留此日志，请在[[${Twinkle.getPref(
 					'configPage'
 				)}|参数设置]]中关掉，并使用[[QW:CSD#O1|CSD O1]]提交快速删除。`,
@@ -467,25 +458,25 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 			let xfdCatName;
 			switch (params.xfdcat) {
 				case 'delete':
-					xfdCatName = window.wgULS('删除', '刪除');
+					xfdCatName = wgULS('删除', '刪除');
 					break;
 				case 'merge':
-					xfdCatName = window.wgULS('合并到', '合併到');
+					xfdCatName = wgULS('合并到', '合併到');
 					break;
 				case 'fwdcsd':
-					xfdCatName = window.wgULS('转交自快速删除候选', '轉交自快速刪除候選');
+					xfdCatName = wgULS('转交自快速删除候选', '轉交自快速刪除候選');
 					break;
 				case 'fame':
-					xfdCatName = window.wgULS('批量关注度提删', '批次關注度提刪');
+					xfdCatName = wgULS('批量关注度提删', '批次關注度提刪');
 					break;
 				case 'substub':
-					xfdCatName = window.wgULS('批量小小作品提删', '批次小小作品提刪');
+					xfdCatName = wgULS('批量小小作品提删', '批次小小作品提刪');
 					break;
 				case 'batch':
-					xfdCatName = window.wgULS('批量其他提删', '批次其他提刪');
+					xfdCatName = wgULS('批量其他提删', '批次其他提刪');
 					break;
 				default:
-					xfdCatName = window.wgULS('文件存废讨论', '檔案存廢討論');
+					xfdCatName = wgULS('文件存废讨论', '檔案存廢討論');
 					break;
 			}
 			// If a logged file is deleted but exists on remote repo, the wikilink will be blue, so provide a link to the log
@@ -493,7 +484,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 			if (mw.config.get('wgNamespaceNumber') === 6) {
 				appendText += `（[{{fullurl:Special:Log|page=${mw.util.wikiUrlencode(
 					mw.config.get('wgPageName')
-				)}}} ${window.wgULS('日志', '日誌')}]）`;
+				)}}} ${wgULS('日志', '日誌')}]）`;
 			}
 			appendText += `：${xfdCatName}`;
 			if (params.xfdcat === 'merge') {
@@ -502,13 +493,13 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 			appendText += '。';
 			if (params.xfdreason) {
 				appendText += `'''${
-					params.xfdcat === 'fwdcsd' ? window.wgULS('原删除理据', '原刪除理據') : window.wgULS('理据', '理據')
+					params.xfdcat === 'fwdcsd' ? wgULS('原删除理据', '原刪除理據') : wgULS('理据', '理據')
 				}'''：${Morebits.string.formatReasonForLog(params.xfdreason)}`;
 				appendText = Morebits.string.appendPunctuation(appendText);
 			}
 			if (params.fwdcsdreason) {
 				appendText += `'''${
-					params.xfdcat === 'fwdcsd' ? window.wgULS('转交理据', '轉交理據') : window.wgULS('理据', '理據')
+					params.xfdcat === 'fwdcsd' ? wgULS('转交理据', '轉交理據') : wgULS('理据', '理據')
 				}'''：${Morebits.string.formatReasonForLog(params.fwdcsdreason)}`;
 				appendText = Morebits.string.appendPunctuation(appendText);
 			}
@@ -522,7 +513,7 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 	};
 	Twinkle.xfd.callback.evaluate = (params, statusContainer) => {
 		if (params.xfdcat === 'merge' && params.mergeinto.trim() === '') {
-			void mw.notify(window.wgULS('请提供合并目标！', '請提供合併目標！'), {
+			void mw.notify(wgULS('请提供合并目标！', '請提供合併目標！'), {
 				type: 'warn',
 				tag: 'twinklexfd',
 			});
@@ -547,14 +538,11 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				Morebits.wiki.addCheckpoint();
 				// Updating data for the action completed event
 				Morebits.wiki.actionCompleted.redirect = params.logpage;
-				Morebits.wiki.actionCompleted.notice = window.wgULS(
-					'提名完成，重定向到讨论页',
-					'提名完成，重新導向到討論頁'
-				);
+				Morebits.wiki.actionCompleted.notice = wgULS('提名完成，重定向到讨论页', '提名完成，重新導向到討論頁');
 				// Lookup creation
 				target_page = new Morebits.wiki.page(
 					mw.config.get('wgPageName'),
-					window.wgULS('获取页面创建信息', '取得頁面建立資訊')
+					wgULS('获取页面创建信息', '取得頁面建立資訊')
 				);
 				target_page.setCallbackParameters(params);
 				if (mw.config.get('wgPageContentModel') === 'wikitext') {
@@ -572,14 +560,11 @@ import TwXfdDialog from './ui/TwXfdDialog.vue';
 				Morebits.wiki.addCheckpoint();
 				// Updating data for the action completed event
 				Morebits.wiki.actionCompleted.redirect = params.logpage;
-				Morebits.wiki.actionCompleted.notice = window.wgULS(
-					'提名完成，重定向到讨论页',
-					'提名完成，重新導向到討論頁'
-				);
+				Morebits.wiki.actionCompleted.notice = wgULS('提名完成，重定向到讨论页', '提名完成，重新導向到討論頁');
 				// Lookup creation
 				const qiuwen_page = new Morebits.wiki.page(
 					mw.config.get('wgPageName'),
-					window.wgULS('获取页面创建信息', '取得頁面建立資訊')
+					wgULS('获取页面创建信息', '取得頁面建立資訊')
 				);
 				qiuwen_page.setCallbackParameters(params);
 				qiuwen_page.setLookupNonRedirectCreator(true); // Look for author of first non-redirect revision
