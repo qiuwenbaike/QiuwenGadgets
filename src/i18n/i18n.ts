@@ -2,9 +2,9 @@ import {initI18nMethods} from './modules/initI18nMethods';
 import {initShims} from './modules/initShims';
 
 const i18nMethods: ReturnType<typeof initI18nMethods> = initI18nMethods();
-initShims(i18nMethods);
+const i18nShimMethods = initShims(i18nMethods);
 
-export const {content, localize, vary} = i18nMethods;
+export const {content, localize, vary, wgUCS, wgULS, wgUVS} = {...i18nMethods, ...i18nShimMethods};
 
 /*!
 // 仓库内用法

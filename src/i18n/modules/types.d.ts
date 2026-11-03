@@ -3,7 +3,7 @@ type I18nCandidatesKey =
 
 type I18nCandidates = Partial<Record<I18nCandidatesKey, string>>;
 
-type WgUXS = (
+type WgUXSCandicates = [
 	hans?: unknown,
 	hant?: unknown,
 	cn?: unknown,
@@ -13,8 +13,10 @@ type WgUXS = (
 	zh?: unknown,
 	mo?: unknown,
 	my?: unknown,
-	en?: unknown
-) => string;
+	en?: unknown,
+];
+
+type WgUXS = (...candidates: WgUXSCandicates) => string;
 
 declare global {
 	type GetMessages<T> = <K extends keyof T>(key: K) => K | NonNullable<T[K]>;
@@ -27,4 +29,4 @@ declare global {
 }
 
 export default global;
-export type {I18nCandidates};
+export type {I18nCandidates, WgUXSCandicates};
