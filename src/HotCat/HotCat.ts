@@ -3125,7 +3125,12 @@ hotCatMessages();
 					const new_cat = `[[${HC.category_canonical}:${t}${key ? `|${key}` : ''}]]`;
 					// Only add if not already present
 					const nowikiRegex = new RegExp('<no'.concat('wiki>', String.raw`(\s|\S)*?</no`, 'wiki', '>'), 'g');
-					const _cleanedText = eb.value.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
+					let _cleanedText = eb.value;
+					let previousCleanedText: string;
+					do {
+						previousCleanedText = _cleanedText;
+						_cleanedText = _cleanedText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
+					} while (_cleanedText !== previousCleanedText);
 					if (!find_category(_cleanedText, t, true)) {
 						eb.value += `\n${new_cat}`;
 						addedOne = true;
