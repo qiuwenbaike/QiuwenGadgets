@@ -3131,7 +3131,7 @@ hotCatMessages();
 						previousCleanedText = _cleanedText;
 						_cleanedText = _cleanedText
 							.replace(/<!--/g, '')
-							.replace(/-->/g, '')
+							.replace(/--!?>/g, '')
 							.replace(nowikiRegex, '');
 					} while (_cleanedText !== previousCleanedText);
 					if (!find_category(_cleanedText, t, true)) {
