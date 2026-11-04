@@ -1,14 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import './modules/check';
-import {generateArray} from 'ext.gadget.Util';
-import {getMessage} from './modules/getMessage';
-import {hotCatMessages} from './modules/messages';
-import {mwApi} from './modules/api';
-import pno from './images/P_no.png';
-import pyes from './images/P_yes.png';
-
-/**
+/*!
  * @description Ajax-based simple Category manager. Allows adding/removing/changing categories on a page view.
  * Supports multiple category changes, as well as redirect and disambiguation resolution. Also
  * plugs into the upload form. Search engines to use for the suggestion list are configurable, and
@@ -17,22 +7,40 @@ import pyes from './images/P_yes.png';
  * @see {@link https://commons.wikimedia.org/wiki/Help:Gadget-HotCat}
  * @author authors <https://commons.wikimedia.org/wiki/Help:Gadget-HotCat/Version_history>
  */
+import './modules/check';
+import type {
+	HotCatApiPage,
+	HotCatApiQueryResponse,
+	HotCatConfig,
+	HotCatMwConfig,
+	HotCatSuggestionCallback,
+	HotCatSuggestionConfig,
+	HotCatSuggestionEngine,
+	HotCatSuggestionTitles,
+} from './modules/types';
+import {generateArray} from 'ext.gadget.Util';
+import {getMessage} from './modules/getMessage';
+import {hotCatMessages} from './modules/messages';
+import {mwApi} from './modules/api';
+import pno from './images/P_no.svg';
+import pyes from './images/P_yes.svg';
+
 // Load translations locally
 hotCatMessages();
 
 // Main body
-(function hotCat() {
+(function hotCat(): void {
 	// Don't use mw.config.get() as that takes a copy of the config, and so doesn't
 	// account for values changing, e.g. wgCurRevisionId after a VE edit
-	const conf = mw.config.values;
+	const conf: HotCatMwConfig = mw.config['values'];
 	// Guard against double inclusions
-	if ((window.HotCat && !window.HotCat.nodeName) || conf.wgAction === 'edit') {
+	if ((window.HotCat && !(window.HotCat as unknown as {nodeName?: string}).nodeName) || conf.wgAction === 'edit') {
 		return; // Not on edit mode
 	}
 	// Initialize MediaWiki API
 	const api = mwApi('HotCat/3.0');
 	// Configuration stuff.
-	window.HotCat = {
+	const HC: HotCatConfig = {
 		// The little modification links displayed after category names. U+2212 is a minus sign; U+2193 and U+2191 are
 		// downward and upward pointing arrows. Do not use ↓ and ↑ in the code!
 		links: {
@@ -48,7 +56,7 @@ hotCatMessages();
 		// The HTML content of the "enter multi-mode" link at the front.
 		addmulti: '<span>+<sup>+</sup></span>',
 		// Return true to disable HotCat.
-		disable: () => {
+		disable: (): boolean => {
 			const ns = conf.wgNamespaceNumber;
 			const nsIds = conf.wgNamespaceIds;
 			return (
@@ -64,15 +72,16 @@ hotCatMessages();
 				// Non-existing file pages
 				(ns === 2 && /\.(js|css)$/.test(conf.wgTitle)) ||
 				// User scripts
-				(nsIds && (ns === nsIds.creator || ns === nsIds.timedtext || ns === nsIds.institution))
+				(nsIds && (ns === nsIds['creator'] || ns === nsIds['timedtext'] || ns === nsIds['institution'])) ||
+				false
 			);
 		},
 		// A regexp matching a templates used to mark uncategorized pages, if your wiki does have that.
 		// If not, set it to null.
 		uncat_regexp: /{{\s*[Uu]ncategorized\s*[^}]*}}\s*(<!--.*?-->\s*)?/g,
 		// The images used for the little indication icon. Should not need changing.
-		existsYes: pyes,
-		existsNo: pno,
+		existsYes: `data:image/svg+xml,${encodeURIComponent(pyes)}`,
+		existsNo: `data:image/svg+xml,${encodeURIComponent(pno)}`,
 		// a list of categories which can be removed by removing a template
 		// key: the category without namespace
 		// value: A regexp matching the template name, again without namespace
@@ -124,13 +133,13 @@ hotCatMessages();
 		// options in his or her preferences set.
 		dont_add_to_watchlist: false,
 		shortcuts: null,
-		addShortcuts: (map) => {
+		addShortcuts: (map?: Record<string, string> | null): void => {
 			if (!map) {
 				return;
 			}
-			window.HotCat.shortcuts ||= {};
+			HC.shortcuts ||= {};
 			for (let k in map) {
-				if (!Object.hasOwn(map, k) || typeof k !== 'string') {
+				if (!Object.hasOwn(map, k)) {
 					continue;
 				}
 				let v = map[k];
@@ -142,16 +151,20 @@ hotCatMessages();
 				if (k.length === 0 || v.length === 0) {
 					continue;
 				}
-				window.HotCat.shortcuts[k] = v;
+				HC.shortcuts[k] = v;
 			}
 		},
+		// Filled in below
+		category_canonical: '',
+		category_regexp: '',
+		template_regexp: '',
 	};
-	const HC = window.HotCat;
+	window.HotCat = HC;
 	// More backwards compatibility. We have a few places where we test for the browser: once for
 	// Safari < 3.0, and twice for WebKit (Chrome or Safari, any versions)
 	const ua = navigator.userAgent.toLowerCase();
 	const is_webkit = /applewebkit\/\d+/.test(ua) && !ua.includes('spoofer');
-	let cat_prefix = null;
+	let cat_prefix: RegExp | null = null;
 	let noSuggestions = false;
 	// No further changes should be necessary here.
 	// The following regular expression strings are used when searching for categories in wikitext.
@@ -176,10 +189,10 @@ hotCatMessages();
 	// First auto-localize the regexps for the category and the template namespaces.
 	const formattedNamespaces = conf.wgFormattedNamespaces;
 	const namespaceIds = conf.wgNamespaceIds;
-	const autoLocalize = (namespaceNumber, fallback) => {
-		const createRegexpStr = (name) => {
+	const autoLocalize = (namespaceNumber: number, fallback: string): string => {
+		const createRegexpStr = (name?: string): string => {
 			if (!name || name.length === 0) {
-				return;
+				return '';
 			}
 			let regex_name = '';
 			for (let i = 0; i < name.length; i++) {
@@ -191,7 +204,7 @@ hotCatMessages();
 			return regex_name.replace(/([$()*+.?\\^])/g, String.raw`\$1`).replace(wikiTextBlankRE, wikiTextBlank);
 		};
 		fallback = fallback.toLowerCase();
-		const canonical = formattedNamespaces[String(namespaceNumber)].toLowerCase();
+		const canonical = (formattedNamespaces[String(namespaceNumber)] ?? '').toLowerCase();
 		let regexp = createRegexpStr(canonical);
 		if (fallback && canonical !== fallback) {
 			regexp += `|${createRegexpStr(fallback)}`;
@@ -210,7 +223,7 @@ hotCatMessages();
 		}
 		return regexp;
 	};
-	HC.category_canonical = formattedNamespaces['14'];
+	HC.category_canonical = formattedNamespaces['14'] ?? '';
 	HC.category_regexp = autoLocalize(14, 'category');
 	if (formattedNamespaces['10']) {
 		HC.template_regexp = autoLocalize(10, 'template');
@@ -218,22 +231,31 @@ hotCatMessages();
 	// Utility functions. Yes, this duplicates some functionality that also exists in other places, but
 	// to keep this whole stuff in a single file not depending on any other on-wiki JavaScripts, we re-do
 	// these few operations here.
-	const make = (arg, literal) => {
+	/**
+	 * @param {string} arg
+	 * @param {boolean} [literal] Return a text node instead of an element
+	 * @return {Node|null}
+	 */
+	interface Make {
+		<K extends keyof HTMLElementTagNameMap>(arg: K): HTMLElementTagNameMap[K];
+		(arg: string, literal: true): Text;
+	}
+	const make = ((arg: string, literal?: boolean): Node | null => {
 		if (!arg) {
 			return null;
 		}
 		return literal ? document.createTextNode(arg) : document.createElement(arg);
-	};
-	const param = (name, uri) => {
+	}) as Make;
+	const param = (name: string, uri?: string): string | null => {
 		uri ||= document.location.href;
 		const re = new RegExp(`[&?]${name}=([^&#]*)`);
 		const m = re.exec(uri);
 		if (m && m.length > 1) {
-			return decodeURIComponent(m[1]);
+			return decodeURIComponent(m[1] as string);
 		}
 		return null;
 	};
-	const title = (href) => {
+	const title = (href?: string | null): string | null => {
 		if (!href) {
 			return null;
 		}
@@ -260,22 +282,38 @@ hotCatMessages();
 		}
 		return null;
 	};
-	const hasClass = ({className}, name) => {
+	const hasClass = ({className}: {className: string}, name: string): boolean => {
 		return ` ${className} `.includes(` ${name} `);
 	};
-	const capitalize = (str) => {
+	/**
+	 * Legacy style properties (such as `align`) are not part of `CSSStyleDeclaration` in TypeScript
+	 *
+	 * @param {HTMLElement} element
+	 * @param {string} property
+	 * @param {string} value
+	 */
+	const setStyleProperty = (element: HTMLElement, property: string, value: string): void => {
+		(element.style as unknown as Record<string, string>)[property] = value;
+	};
+	const capitalize = (str?: string | null): string => {
 		if (!str || str.length === 0) {
-			return str;
+			return '';
 		}
 		return str.slice(0, 1).toUpperCase() + str.slice(1);
 	};
-	const wikiPagePath = (pageName) => {
+	const wikiPagePath = (pageName: string): string => {
 		return conf.wgArticlePath.replace('$1', encodeURIComponent(pageName).replace(/%3A/g, ':').replace(/%2F/g, '/'));
 	};
-	const escapeRE = (str) => {
+	const escapeRE = (str: string): string => {
 		return str.replace(/([$()*+.?[\\\]^])/g, String.raw`\$1`);
 	};
-	const substituteFactory = (options) => {
+	interface SubstituteOptions {
+		indicator?: string;
+		lbrace?: string;
+		rbrace?: string;
+	}
+	type SubstituteMap = Record<string, string | ((match: string, key: string) => string) | undefined>;
+	const substituteFactory = (options?: SubstituteOptions): ((str: string, map?: SubstituteMap) => string) => {
 		options ||= {};
 		const lead = options.indicator || '$';
 		const indicator = escapeRE(lead);
@@ -293,11 +331,11 @@ hotCatMessages();
 			'g'
 		);
 		// Replace $1, $2, or ${key1}, ${key2}, or $key1, $key2 by values from map. $$ is replaced by a single $.
-		return (str, map) => {
+		return (str: string, map?: SubstituteMap): string => {
 			if (!map) {
 				return str;
 			}
-			return str.replace(re, (match, prefix, idx, key, alpha) => {
+			return str.replace(re, (match: string, prefix: string, idx: string, key: string, alpha: string): string => {
 				if (prefix === lead) {
 					return lead;
 				}
@@ -307,14 +345,14 @@ hotCatMessages();
 			});
 		};
 	};
-	const replaceShortcuts = (() => {
+	const replaceShortcuts = ((): ((str: string, map?: Record<string, string> | null) => string) => {
 		const replaceHash = substituteFactory({
 			indicator: '#',
 			lbrace: '[',
 			rbrace: ']',
 		});
-		return (str, map) => {
-			const s = replaceHash(str, map);
+		return (str: string, map?: Record<string, string> | null): string => {
+			const s = replaceHash(str, map ?? undefined);
 			return HC.capitalizePageNames ? capitalize(s) : s;
 		};
 	})();
@@ -323,14 +361,25 @@ hotCatMessages();
 		`\\[\\[${wikiTextBlankOrBidi}(?:${HC.category_regexp})${wikiTextBlankOrBidi}:[^\\]]+\\]\\]`,
 		'g'
 	);
-	const replaceByBlanks = (match) => {
+	const replaceByBlanks = (match: string): string => {
 		return match.replace(/(\s|\S)/g, ' ');
 	}; // /./ doesn't match linebreaks. /(\s|\S)/ does.
-	const find_category = (wikitext, category, once) => {
-		let cat_regex = null;
+	type HotCatCategoryMatches = {
+		match: RegExpExecArray;
+	}[] & {
+		re?: RegExp;
+	};
+	const find_category = (
+		wikitext: string,
+		category: string,
+		once?: boolean
+	): RegExpExecArray | HotCatCategoryMatches | null => {
+		let cat_regex: RegExp;
 		if (HC.template_categories[category]) {
 			cat_regex = new RegExp(
-				`\\{\\{${wikiTextBlankOrBidi}(${HC.template_regexp}(?=${wikiTextBlankOrBidi}:))?${wikiTextBlankOrBidi}(?:${HC.template_categories[category]})${wikiTextBlankOrBidi}(\\|.*?)?\\}\\}`,
+				`\\{\\{${wikiTextBlankOrBidi}(${HC.template_regexp}(?=${wikiTextBlankOrBidi}:))?${wikiTextBlankOrBidi}(?:${
+					HC.template_categories[category]
+				})${wikiTextBlankOrBidi}(\\|.*?)?\\}\\}`,
 				'g'
 			);
 		} else {
@@ -350,8 +399,8 @@ hotCatMessages();
 		}
 		const nowikiRegex = new RegExp('<no'.concat('wiki>', String.raw`(\s|\S)*?</no`, 'wiki', '>'), 'g');
 		const copiedtext = wikitext.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks).replace(nowikiRegex, replaceByBlanks);
-		const result = [];
-		let curr_match = null;
+		const result: HotCatCategoryMatches = [];
+		let curr_match: RegExpExecArray | null = null;
 		while ((curr_match = cat_regex.exec(copiedtext)) !== null) {
 			result[result.length] = {
 				match: curr_match,
@@ -360,9 +409,20 @@ hotCatMessages();
 		result.re = cat_regex;
 		return result; // An array containing all matches, with positions, in result[ i ].match
 	};
-	let interlanguageRE = null;
-	const change_category = (wikitext, toRemove, toAdd, key, is_hidden) => {
-		const find_insertionpoint = (_wikitext) => {
+	let interlanguageRE: RegExp | null = null;
+	interface HotCatChangeResult {
+		text: string;
+		summary: string[];
+		error: string | null;
+	}
+	const change_category = (
+		wikitext: string,
+		toRemove: string | null,
+		toAdd: string | null,
+		key: string | null,
+		is_hidden?: boolean
+	): HotCatChangeResult => {
+		const find_insertionpoint = (_wikitext: string): {idx: number; onCat: boolean} => {
 			const nowikiRegex = new RegExp('<no'.concat('wiki>', String.raw`(\s|\S)*?</no`, 'wiki', '>'), 'g');
 			const copiedtext = _wikitext
 				.replace(/<!--(\s|\S)*?-->/g, replaceByBlanks)
@@ -375,7 +435,7 @@ hotCatMessages();
 			}
 			if (index < 0) {
 				// Find the index of the first interlanguage link...
-				let match = null;
+				let match: RegExpExecArray | null = null;
 				if (interlanguageRE) {
 					match = interlanguageRE.exec(copiedtext);
 				} else {
@@ -387,7 +447,7 @@ hotCatMessages();
 					);
 				}
 				if (match) {
-					({index} = match);
+					index = match.index;
 				}
 				return {
 					idx: index,
@@ -399,11 +459,11 @@ hotCatMessages();
 				onCat: index >= 0,
 			};
 		};
-		const summary = [];
+		const summary: string[] = [];
 		const nameSpace = HC.category_canonical;
-		const // Position of removed category;
-			keyChange = toRemove && toAdd && toRemove === toAdd && toAdd.length > 0;
-		let matches;
+		// Position of removed category;
+		const keyChange = toRemove && toAdd && toRemove === toAdd && toAdd.length > 0;
+		let matches: RegExpExecArray | HotCatCategoryMatches | null;
 		let cat_point = -1;
 		key &&= `|${key}`;
 		// Remove
@@ -416,18 +476,20 @@ hotCatMessages();
 					error: getMessage('messages-cat_notFound', toRemove),
 				};
 			}
-			let before = wikitext.slice(0, Math.max(0, matches[0].match.index));
-			let after = wikitext.slice(Math.max(0, matches[0].match.index + matches[0].match[0].length));
-			if (matches.length > 1) {
+			const matchesArray = matches as HotCatCategoryMatches;
+			const firstMatch = matchesArray[0]!.match;
+			let before = wikitext.slice(0, Math.max(0, firstMatch.index));
+			let after = wikitext.slice(Math.max(0, firstMatch.index + firstMatch[0].length));
+			if (matchesArray.length > 1) {
 				// Remove all occurrences in after
-				matches.re.lastIndex = 0;
-				after = after.replace(matches.re, '');
+				matchesArray.re!.lastIndex = 0;
+				after = after.replace(matchesArray.re!, '');
 			}
 			if (
 				toAdd && // nameSpace = matches[ 0 ].match[ 1 ] || nameSpace; Canonical namespace should be always preferred
 				key === null
 			) {
-				[, , key] = matches[0].match;
+				key = firstMatch[2] ?? null;
 			}
 			// Remember the category key, if any.
 			// Remove whitespace (properly): strip whitespace, but only up to the next line feed.
@@ -529,7 +591,32 @@ hotCatMessages();
 		};
 	};
 	// The real HotCat UI
-	const evtKeys = ({ctrlKey, metaKey, shiftKey}) => {
+	interface HotCatUIEvent {
+		ctrlKey?: boolean;
+		metaKey?: boolean;
+		shiftKey?: boolean;
+		preventDefault?: () => void;
+		stopPropagation?: () => void;
+		cancelBubble?: boolean;
+	}
+	interface HotCatCommitForm extends HTMLFormElement {
+		wpTextbox1: HTMLTextAreaElement;
+		wpSummary: HTMLInputElement;
+		wpMinoredit: HTMLInputElement;
+		wpWatchthis: HTMLInputElement;
+		wpAutoSummary: HTMLInputElement;
+		wpChangeTags: HTMLInputElement;
+		wpStarttime: HTMLInputElement;
+		wpEdittime: HTMLInputElement;
+		oldid: HTMLInputElement;
+		wpEditToken: HTMLInputElement;
+		wpDiff: HTMLInputElement;
+		wpSave: HTMLInputElement;
+		hcCommit: HTMLInputElement;
+	}
+	type HotCatFailure = (message: string) => void;
+	const evtKeys = (event?: HotCatUIEvent): number => {
+		const {ctrlKey, metaKey, shiftKey} = event ?? {};
 		let code = 0;
 		if (ctrlKey) {
 			// All modern browsers
@@ -544,57 +631,58 @@ hotCatMessages();
 		}
 		return code;
 	};
-	const evtKill = (e) => {
-		if (e.preventDefault) {
-			e.preventDefault();
-			e.stopPropagation();
-		} else {
-			e.cancelBubble = true;
+	const evtKill = (event?: HotCatUIEvent): false => {
+		if (event?.preventDefault) {
+			event.preventDefault();
+			event.stopPropagation?.();
+		} else if (event) {
+			event.cancelBubble = true;
 		}
 		return false;
 	};
-	let catLine = null; // true if MediaWiki serves the new UL-LI DOM for categories
+	let catLine: HTMLElement | null = null; // true if MediaWiki serves the new UL-LI DOM for categories
 	let onUpload = false;
-	let editors = [];
-	let commitButton = null;
-	let commitForm = null;
-	let multiSpan = null;
-	let pageText = null;
-	let pageTime = null;
+	let editors: CategoryEditor[] = [];
+	let commitButton: HTMLInputElement | null = null;
+	let commitForm: HotCatCommitForm | null = null;
+	let multiSpan: HTMLElement | null = null;
+	let pageText: string | null = null;
+	let pageTime: string | null = null;
 	let pageWatched = false;
 	let watchCreate = false;
 	let watchEdit = false;
 	let minorEdits = false;
-	let editToken = null;
+	let editToken: string | null = null;
 	let is_rtl = false;
-	let serverTime = null;
-	let lastRevId = null;
-	let pageTextRevId = null;
-	let conflictingUser = null;
+	let serverTime: string | null = null;
+	let lastRevId: number | null = null;
+	let pageTextRevId: number | null = null;
+	let conflictingUser: string | null = null;
 	let newDOM = false;
 	const UNCHANGED = 0;
 	const OPEN = 1; // Open, but no input yet
 	const CHANGE_PENDING = 2; // Open, some input made
 	const CHANGED = 3;
 	const DELETED = 4;
-	const setPage = (data) => {
-		let startTime = null;
+	const setPage = (data: HotCatApiQueryResponse): void => {
+		let startTime: string | null = null;
 		if (data && data.query) {
 			if (data.query.pages) {
-				const [page] = data.query.pages;
+				const [page] = data.query.pages as HotCatApiPage[];
 				if (page) {
 					if (page.revisions && page.revisions.length > 0) {
 						// Revisions are sorted by revision ID, hence [0] is the one we asked for, and possibly there's a [1] if we're
 						// not on the latest revision (edit conflicts and such).
-						pageText = page.revisions[0].slots.main.content;
-						if (page.revisions[0].timestamp) {
-							pageTime = page.revisions[0].timestamp.replace(/\D/g, '');
+						const [latestRevision, conflictingRevision] = page.revisions;
+						pageText = latestRevision!.slots.main.content;
+						if (latestRevision!.timestamp) {
+							pageTime = latestRevision!.timestamp.replace(/\D/g, '');
 						}
-						if (page.revisions[0].revid) {
-							pageTextRevId = page.revisions[0].revid;
+						if (latestRevision!.revid) {
+							pageTextRevId = latestRevision!.revid;
 						}
-						if (page.revisions.length > 1) {
-							conflictingUser = page.revisions[1].user;
+						if (page.revisions.length > 1 && conflictingRevision) {
+							conflictingUser = conflictingRevision.user ?? null;
 						}
 					}
 					if (page.lastrevid) {
@@ -610,9 +698,9 @@ hotCatMessages();
 					if (page.langlinks && (!data['query-continue'] || !data['query-continue'].langlinks)) {
 						// We have interlanguage links, and we got them all.
 						let re = '';
-						for (let i = 0; i < page.langlinks.length; i++) {
+						for (const langlink of page.langlinks) {
 							re +=
-								(i > 0 ? '|' : '') + page.langlinks[i].lang.replace(/([$()*+.?\\^])/g, String.raw`\$1`);
+								(re.length > 0 ? '|' : '') + langlink.lang.replace(/([$()*+.?\\^])/g, String.raw`\$1`);
 						}
 						if (re.length > 0) {
 							interlanguageRE = new RegExp(`((^|\\n\\r?)(\\[\\[\\s*(${re})\\s*:[^\\]]+\\]\\]\\s*))+$`);
@@ -632,10 +720,11 @@ hotCatMessages();
 			}
 			serverTime = startTime;
 			// Userinfo
-			if (data.query.userinfo && data.query.userinfo.options) {
-				watchCreate = !HC.dont_add_to_watchlist && data.query.userinfo.options.watchcreations === '1';
-				watchEdit = !HC.dont_add_to_watchlist && data.query.userinfo.options.watchdefault === '1';
-				minorEdits = data.query.userinfo.options.minordefault === 1;
+			const {options} = data.query.userinfo ?? {};
+			if (options) {
+				watchCreate = !HC.dont_add_to_watchlist && options.watchcreations === '1';
+				watchEdit = !HC.dont_add_to_watchlist && options.watchdefault === '1';
+				minorEdits = options.minordefault === 1;
 				// If the user has the "All edits are minor" preference enabled, we should honor that
 				// for single category changes, no matter what the site configuration is.
 				if (minorEdits) {
@@ -645,25 +734,25 @@ hotCatMessages();
 		}
 	};
 	let saveInProgress = false;
-	const initiateEdit = (doEdit, failure) => {
+	const initiateEdit = (doEdit: (failure: HotCatFailure) => void, failure: HotCatFailure): void => {
 		if (saveInProgress) {
 			return;
 		}
 		saveInProgress = true;
-		let oldButtonState;
+		let oldButtonState: boolean | undefined;
 		if (commitButton) {
 			oldButtonState = commitButton.disabled;
 			commitButton.disabled = true;
 		}
-		const fail = function (...args) {
+		const fail = (message: string): void => {
 			saveInProgress = false;
 			if (commitButton) {
-				commitButton.disabled = oldButtonState;
+				commitButton.disabled = oldButtonState ?? false;
 			}
-			failure.apply(this, args);
+			failure(message);
 		};
 		// Must use Ajax here to get the user options and the edit token.
-		const params = {
+		const params: ApiQueryParams = {
 			action: 'query',
 			format: 'json',
 			formatversion: '2',
@@ -683,20 +772,21 @@ hotCatMessages();
 		};
 		api.get(params)
 			.done((data) => {
-				setPage(data);
+				setPage(data as HotCatApiQueryResponse);
 				doEdit(fail);
 			})
-			.fail(({status, statusText}) => {
-				fail(`${status} ${statusText}`);
+			.fail((error: unknown) => {
+				const {status, statusText} = (error ?? {}) as {status?: number; statusText?: string};
+				fail(`${status ?? ''} ${statusText ?? ''}`);
 			});
 	};
-	const multiChangeMsg = (count) => {
+	const multiChangeMsg = (count: number): string => {
 		return getMessage('messages-multi_change', String(count));
 	};
-	const currentTimestamp = () => {
+	const currentTimestamp = (): string => {
 		const now = new Date();
 		let ts = String(now.getUTCFullYear());
-		const two = (s) => {
+		const two = (s: string): string => {
 			return s.slice(-2);
 		};
 		ts +=
@@ -707,7 +797,7 @@ hotCatMessages();
 			two(`00${now.getUTCSeconds()}`);
 		return ts;
 	};
-	const performChanges = (failure, singleEditor) => {
+	const performChanges = (failure: HotCatFailure, singleEditor?: CategoryEditor): void => {
 		if (pageText === null) {
 			failure(getMessage('messages-multi_error'));
 			return;
@@ -719,46 +809,49 @@ hotCatMessages();
 		// Using the form, we can do (b) and (c), and we get (a) for free. And, of course, using the form
 		// automatically reloads the page with the updated categories on a successful submit, which
 		// we would have to do explicitly if we used the edit API.
-		let action;
+		let action: HTMLInputElement | undefined;
 		// Normally, we don't have to care about edit conflicts. If some other user edited the page in the meantime, the
 		// server will take care of it and merge the edit automatically or present an edit conflict screen. However, the
 		// server suppresses edit conflicts with oneself. Hence, if we have a conflict, and the conflicting user is the
 		// current user, then we set the "oldid" value and switch to diff, which gives the "you are editing an old version;
 		// if you save, any more recent changes will be lost" screen.
-		const selfEditConflict =
+		const selfEditConflict = !!(
 			((lastRevId !== null && lastRevId !== conf.wgCurRevisionId) ||
 				(pageTextRevId !== null && pageTextRevId !== conf.wgCurRevisionId)) &&
 			conflictingUser &&
-			conflictingUser === conf.wgUserName;
+			conflictingUser === conf.wgUserName
+		);
 		if (singleEditor && !singleEditor.noCommit && !HC.no_autocommit && editToken && !selfEditConflict) {
 			// If we do have an edit conflict, but not with ourself, that's no reason not to attempt to save: the server side may actually be able to
 			// merge the changes. We just need to make sure that we do present a diff view if it's a self edit conflict.
-			commitForm.wpEditToken.value = editToken;
-			action = commitForm.wpDiff;
+			commitForm!.wpEditToken.value = editToken;
+			action = commitForm!.wpDiff;
 			if (action) {
 				action.value = 'wpSave';
 				action.name = action.value;
 			}
 		} else {
-			action = commitForm.wpSave;
+			action = commitForm!.wpSave;
 			if (action) {
 				action.value = 'wpDiff';
 				action.name = action.value;
 			}
 		}
-		let result = {
+		let result: HotCatChangeResult = {
 			text: pageText,
+			summary: [],
+			error: null,
 		};
-		const changed = [];
-		const added = [];
-		const deleted = [];
+		const changed: {from: string; to: string}[] = [];
+		const added: string[] = [];
+		const deleted: string[] = [];
 		const toEdit = singleEditor ? [singleEditor] : editors;
-		let edit;
-		let i;
-		let error = null;
+		let edit: CategoryEditor;
+		let i: number;
+		let error: string | null = null;
 		let changes = 0;
 		for (i = 0; i < toEdit.length; i++) {
-			edit = toEdit[i];
+			edit = toEdit[i]!;
 			if (edit.state === CHANGED) {
 				result = change_category(
 					result.text,
@@ -792,7 +885,7 @@ hotCatMessages();
 		}
 		if (error !== null) {
 			// Do not commit if there were errors
-			action = commitForm.wpSave;
+			action = commitForm!.wpSave;
 			if (action) {
 				action.value = 'wpDiff';
 				action.name = action.value;
@@ -802,116 +895,117 @@ hotCatMessages();
 			result.text = `{{Catnav|auto=1}}\n\n${result.text}`;
 		}
 		// Fill in the form and submit it
-		commitForm.wpMinoredit.checked = minorEdits;
-		commitForm.wpWatchthis.checked = (!conf.wgArticleId && watchCreate) || watchEdit || pageWatched;
+		commitForm!.wpMinoredit.checked = minorEdits;
+		commitForm!.wpWatchthis.checked = (!conf.wgArticleId && watchCreate) || watchEdit || pageWatched;
 		if (conf.wgArticleId || !!singleEditor) {
 			// Prepare change-tag save
 			if (action && action.value === 'wpSave') {
 				if (HC.changeTag) {
-					commitForm.wpChangeTags.value = HC.changeTag;
+					commitForm!.wpChangeTags.value = HC.changeTag;
 				}
 			} else {
-				commitForm.wpAutoSummary.value = HC.changeTag;
+				commitForm!.wpAutoSummary.value = HC.changeTag;
 			}
 			if (changes === 1) {
 				if (result.summary && result.summary.length > 0) {
-					commitForm.wpSummary.value =
+					commitForm!.wpSummary.value =
 						(HC.changeTag ? '' : getMessage('messages-prefix')) +
 						result.summary.join(getMessage('messages-separator')) +
 						(HC.changeTag ? '' : getMessage('messages-using'));
 				}
-				commitForm.wpMinoredit.checked = HC.single_minor || minorEdits;
+				commitForm!.wpMinoredit.checked = HC.single_minor || minorEdits;
 			} else if (changes) {
-				let summary = [];
-				const shortSummary = [];
+				const summary: string[] = [];
+				const shortSummary: string[] = [];
 				// Deleted
 				for (i = 0; i < deleted.length; i++) {
-					summary[summary.length] = `−${getMessage('messages-short_catchange', deleted[i])}`;
+					summary[summary.length] = `−${getMessage('messages-short_catchange', deleted[i]!)}`;
 				}
 				if (deleted.length === 1) {
-					shortSummary[shortSummary.length] = `−${getMessage('messages-short_catchange', deleted[0])}`;
+					shortSummary[shortSummary.length] = `−${getMessage('messages-short_catchange', deleted[0]!)}`;
 				} else if (deleted.length > 0) {
 					shortSummary[shortSummary.length] = `− ${multiChangeMsg(deleted.length)}`;
 				}
 				// Added
 				for (i = 0; i < added.length; i++) {
-					summary[summary.length] = `+${getMessage('messages-short_catchange', added[i])}`;
+					summary[summary.length] = `+${getMessage('messages-short_catchange', added[i]!)}`;
 				}
 				if (added.length === 1) {
-					shortSummary[shortSummary.length] = `+${getMessage('messages-short_catchange', added[0])}`;
+					shortSummary[shortSummary.length] = `+${getMessage('messages-short_catchange', added[0]!)}`;
 				} else if (added.length > 0) {
 					shortSummary[shortSummary.length] = `+ ${multiChangeMsg(added.length)}`;
 				}
 				// Changed
 				const arrow = is_rtl ? '\u2190' : '\u2192'; // left and right arrows. Don't use ← and → in the code.
 				for (i = 0; i < changed.length; i++) {
-					if (changed[i].from === changed[i].to) {
-						summary[summary.length] = `±${getMessage('messages-short_catchange', changed[i].from)}`;
+					const change = changed[i]!;
+					if (change.from === change.to) {
+						summary[summary.length] = `±${getMessage('messages-short_catchange', change.from)}`;
 					} else {
 						summary[summary.length] =
-							`±${getMessage('messages-short_catchange', changed[i].from)}${arrow}${getMessage(
+							`±${getMessage('messages-short_catchange', change.from)}${arrow}${getMessage(
 								'messages-short_catchange',
-								changed[i].to
+								change.to
 							)}`;
 					}
 				}
 				if (changed.length === 1) {
-					if (changed[0].from === changed[0].to) {
-						shortSummary[shortSummary.length] =
-							`±${getMessage('messages-short_catchange', changed[0].from)}`;
+					const change = changed[0]!;
+					if (change.from === change.to) {
+						shortSummary[shortSummary.length] = `±${getMessage('messages-short_catchange', change.from)}`;
 					} else {
-						shortSummary[shortSummary.length] =
-							`±${getMessage('messages-short_catchange', changed[0].from)}${arrow}${getMessage(
-								'messages-short_catchange',
-								changed[0].to
-							)}`;
+						shortSummary[shortSummary.length] = `±${getMessage(
+							'messages-short_catchange',
+							change.from
+						)}${arrow}${getMessage('messages-short_catchange', change.to)}`;
 					}
 				} else if (changed.length > 0) {
 					shortSummary[shortSummary.length] = `± ${multiChangeMsg(changed.length)}`;
 				}
 				if (summary.length > 0) {
-					summary = summary.join(getMessage('messages-separator'));
-					if (
-						summary.length >
+					const joinedSummary = summary.join(getMessage('messages-separator'));
+					const finalSummary =
+						joinedSummary.length >
 						200 -
 							(HC.changeTag ? '' : getMessage('messages-prefix')).length -
 							(HC.changeTag ? '' : getMessage('messages-using')).length
-					) {
-						summary = shortSummary.join(getMessage('messages-separator'));
-					}
-					commitForm.wpSummary.value =
+							? shortSummary.join(getMessage('messages-separator'))
+							: joinedSummary;
+					commitForm!.wpSummary.value =
 						(HC.changeTag ? '' : getMessage('messages-prefix')) +
-						summary +
+						finalSummary +
 						(HC.changeTag ? '' : getMessage('messages-using'));
 				}
 			}
 		}
-		commitForm.wpTextbox1.value = result.text;
-		commitForm.wpStarttime.value = serverTime || currentTimestamp();
-		commitForm.wpEdittime.value = pageTime || commitForm.wpStarttime.value;
+		commitForm!.wpTextbox1.value = result.text;
+		commitForm!.wpStarttime.value = serverTime || currentTimestamp();
+		commitForm!.wpEdittime.value = pageTime || commitForm!.wpStarttime.value;
 		if (selfEditConflict) {
-			commitForm.oldid.value = String(pageTextRevId || conf.wgCurRevisionId);
+			commitForm!.oldid.value = String(pageTextRevId || conf.wgCurRevisionId);
 		}
 		// Submit the form in a way that triggers onsubmit events: commitForm.submit() doesn't.
-		commitForm.hcCommit.click();
+		commitForm!.hcCommit.click();
 	};
-	const resolveOne = (page, toResolve) => {
+	const resolveOne = (page: HotCatApiPage, toResolve: CategoryEditor[]): void => {
 		const cats = page.categories;
 		const {links} = page;
 		let is_dab = false; // Hard redirect?
 		let is_redir = typeof page.redirect === 'string';
-		let i;
+		let i: number;
 		const is_hidden = page.categoryinfo && typeof page.categoryinfo.hidden === 'string';
 		const is_missing = typeof page.missing === 'string';
+		const pageTitle = page.title.slice(Math.max(0, page.title.indexOf(':') + 1));
 		for (i = 0; i < toResolve.length; i++) {
-			if (i && toResolve[i].dabInputCleaned !== page.title.slice(Math.max(0, page.title.indexOf(':') + 1))) {
+			const editor = toResolve[i]!;
+			if (i && editor.dabInputCleaned !== pageTitle) {
 				continue;
 			}
 			// Note: the server returns in page an NFC normalized Unicode title. If our input was not NFC normalized, we may not find
 			// any entry here. If we have only one editor to resolve (the most common case, I presume), we may simply skip the check.
-			toResolve[i].currentHidden = is_hidden;
-			toResolve[i].inputExists = !is_missing;
-			toResolve[i].icon.src = is_missing ? HC.existsNo : HC.existsYes;
+			editor.currentHidden = is_hidden;
+			editor.inputExists = !is_missing;
+			editor.icon!.src = is_missing ? HC.existsNo : HC.existsYes;
 		}
 		if (is_missing) {
 			return;
@@ -938,18 +1032,17 @@ hotCatMessages();
 		if (!links || links.length === 0) {
 			return;
 		}
-		const titles = [];
-		for (i = 0; i < links.length; i++) {
+		const titles: string[] = [];
+		for (const link of links) {
 			if (
 				// Category namespace -- always true since we ask only for the category links
-				links[i].ns === 14 &&
+				link.ns === 14 &&
 				// Name not empty
-				links[i].title &&
-				links[i].title.length > 0
+				link.title &&
+				link.title.length > 0
 			) {
 				// Internal link to existing thingy. Extract the page name and remove the namespace.
-				let match = links[i].title;
-				match = match.slice(Math.max(0, match.indexOf(':') + 1));
+				const match = link.title.slice(Math.max(0, link.title.indexOf(':') + 1));
 				// Exclude blacklisted categories.
 				if (!HC.blacklist || !HC.blacklist.test(match)) {
 					titles[titles.length] = match;
@@ -960,59 +1053,61 @@ hotCatMessages();
 			return;
 		}
 		for (i = 0; i < toResolve.length; i++) {
-			if (i && toResolve[i].dabInputCleaned !== page.title.slice(Math.max(0, page.title.indexOf(':') + 1))) {
+			const editor = toResolve[i]!;
+			if (i && editor.dabInputCleaned !== pageTitle) {
 				continue;
 			}
-			toResolve[i].inputExists = true; // Might actually be wrong if it's a redirect pointing to a non-existing category
-			toResolve[i].icon.src = HC.existsYes;
+			editor.inputExists = true; // Might actually be wrong if it's a redirect pointing to a non-existing category
+			editor.icon!.src = HC.existsYes;
 			if (titles.length > 1) {
-				toResolve[i].dab = titles;
+				editor.dab = titles;
 			} else {
-				toResolve[i].text.value =
-					titles[0] + (toResolve[i].currentKey === null ? '' : `|${toResolve[i].currentKey}`);
+				editor.text!.value = titles[0]! + (editor.currentKey === null ? '' : `|${editor.currentKey}`);
 			}
 		}
 	};
-	const resolveRedirects = (toResolve, params) => {
+	const resolveRedirects = (toResolve: CategoryEditor[], params?: HotCatApiQueryResponse): void => {
 		if (!params || !params.query || !params.query.pages) {
 			return;
 		}
-		for (const p in params.query.pages) {
-			if (!Object.hasOwn(params.query.pages, p)) {
+		const {pages} = params.query;
+		for (const p in pages) {
+			if (!Object.hasOwn(pages, p)) {
 				continue;
 			}
-			resolveOne(params.query.pages[p], toResolve);
+			resolveOne((pages as Record<string, HotCatApiPage>)[p]!, toResolve);
 		}
 	};
-	const resolveMulti = (toResolve, callback) => {
-		let i;
+	const resolveMulti = (toResolve: CategoryEditor[], callback: (resolved: CategoryEditor[]) => void): void => {
+		let i: number;
 		for (i = 0; i < toResolve.length; i++) {
-			toResolve[i].dab = null;
-			toResolve[i].dabInput = toResolve[i].lastInput;
+			const editor = toResolve[i]!;
+			editor.dab = null;
+			editor.dabInput = editor.lastInput;
 		}
 		if (noSuggestions) {
 			callback(toResolve);
 			return;
 		}
-		const params = {
+		const params: ApiQueryParams = {
 			action: 'query',
 			format: 'json',
 			prop: 'info|links|categories|categoryinfo',
 			plnamespace: '14',
-			pllimit: toResolve.length * 10,
-			cllimit: toResolve.length * 10,
+			pllimit: String(toResolve.length * 10),
+			cllimit: String(toResolve.length * 10),
 		};
-		const titles = [];
+		const titles: string[] = [];
 		for (i = 0; i < toResolve.length; i++) {
-			let v = toResolve[i].dabInput;
-			v = replaceShortcuts(v, HC.shortcuts);
-			toResolve[i].dabInputCleaned = v;
+			const editor = toResolve[i]!;
+			const v = replaceShortcuts(editor.dabInput!, HC.shortcuts);
+			editor.dabInputCleaned = v;
 			titles[titles.length] = `Category:${v}`;
 		}
 		params.titles = titles.join('|');
 		api.get(params)
 			.done((json) => {
-				resolveRedirects(toResolve, json);
+				resolveRedirects(toResolve, json as HotCatApiQueryResponse);
 				callback(toResolve);
 			})
 			.fail((req) => {
@@ -1022,7 +1117,7 @@ hotCatMessages();
 				callback(toResolve);
 			});
 	};
-	const makeActive = (which) => {
+	const makeActive = (which: CategoryEditor): void => {
 		if (which.is_active) {
 			return;
 		}
@@ -1037,7 +1132,7 @@ hotCatMessages();
 		} else {
 			// Check for programmatic value changes.
 			const expectedInput = which.lastRealInput || which.lastInput || '';
-			const actualValue = which.text.value || '';
+			const actualValue = which.text!.value || '';
 			if (
 				(expectedInput.length === 0 && actualValue.length > 0) ||
 				(expectedInput.length > 0 && actualValue.indexOf(expectedInput))
@@ -1046,27 +1141,28 @@ hotCatMessages();
 				// cursor at the end of the category, and do not display the old suggestion list.
 				which.showsList = false;
 				const v = actualValue.split('|');
-				[which.lastInput] = v;
+				[which.lastInput] = v as [string];
 				which.lastRealInput = which.lastInput;
 				if (v.length > 1) {
-					[, which.currentKey] = v;
+					which.currentKey = v[1]!;
 				}
 				which.lastSelection &&= {
-					start: v[0].length,
-					end: v[0].length,
+					start: v[0]!.length,
+					end: v[0]!.length,
 				};
 			}
 			if (which.showsList) {
 				which.displayList();
 			}
 			if (which.lastSelection) {
+				const {lastSelection} = which;
 				setTimeout(() => {
-					which.setSelection(which.lastSelection.start, which.lastSelection.end);
+					which.setSelection(lastSelection.start, lastSelection.end);
 				}, 0);
 			}
 		}
 	};
-	const showDab = (which) => {
+	const showDab = (which: CategoryEditor): void => {
 		if (which.is_active) {
 			which.showSuggestions(which.dab, false, null, null); // do autocompletion, no key, no engine selector
 			which.dab = null;
@@ -1074,8 +1170,8 @@ hotCatMessages();
 			makeActive(which);
 		}
 	};
-	const multiSubmit = () => {
-		const toResolve = [];
+	const multiSubmit = (): void => {
+		const toResolve: CategoryEditor[] = [];
 		for (const editor of editors) {
 			if (editor.state === CHANGE_PENDING || editor.state === OPEN) {
 				toResolve[toResolve.length] = editor;
@@ -1093,7 +1189,7 @@ hotCatMessages();
 			return;
 		}
 		resolveMulti(toResolve, (resolved) => {
-			let firstDab = null;
+			let firstDab: CategoryEditor | null = null;
 			let dontChange = false;
 			for (const element of resolved) {
 				if (element.lastInput === element.dabInput) {
@@ -1122,7 +1218,7 @@ hotCatMessages();
 			}
 		});
 	};
-	const setMultiInput = () => {
+	const setMultiInput = (): void => {
 		if (commitButton || onUpload) {
 			return;
 		}
@@ -1133,10 +1229,10 @@ hotCatMessages();
 		if (multiSpan) {
 			multiSpan.replaceWith(commitButton);
 		} else {
-			catLine.append(commitButton);
+			catLine!.append(commitButton);
 		}
 	};
-	const checkMultiInput = () => {
+	const checkMultiInput = (): void => {
 		if (!commitButton) {
 			return;
 		}
@@ -1149,24 +1245,46 @@ hotCatMessages();
 		}
 		commitButton.disabled = !hasChanges;
 	};
-	const suggestionEngines = {
+	interface HotCatCategoryMember {
+		title: string;
+	}
+	interface HotCatSuggestionQueryResponse {
+		query?: {
+			allpages?: HotCatCategoryMember[];
+			categorymembers?: HotCatCategoryMember[];
+			pages?: Record<string, {title: string; categories?: HotCatCategoryMember[]}>;
+		};
+	}
+	/**
+	 * Remove the namespace prefix from a list of page titles
+	 *
+	 * @param {HotCatCategoryMember[]} members
+	 * @return {HotCatSuggestionTitles}
+	 */
+	const toCategoryTitles = (members: HotCatCategoryMember[]): HotCatSuggestionTitles => {
+		return members.map((member) => {
+			return member.title.slice(Math.max(0, member.title.indexOf(':') + 1));
+		}) as HotCatSuggestionTitles;
+	};
+	const suggestionEngines: Record<string, HotCatSuggestionEngine> = {
 		opensearch: {
 			uri: `${mw.config.get(
 				'wgScriptPath'
 			)}/api.php?format=json&action=opensearch&namespace=14&limit=30&search=Category:$1`,
 			// $1 = search term
 			// Function to convert result of uri into an array of category names
-			handler: (queryResult, queryKey) => {
-				if (queryResult && queryResult.length >= 2) {
-					const key = queryResult[0].slice(Math.max(0, queryResult[0].indexOf(':') + 1));
-					const [, titles] = queryResult;
+			handler: (queryResult: unknown, queryKey?: string): HotCatSuggestionTitles | null => {
+				const result = queryResult as [string, HotCatSuggestionTitles] | null;
+				if (result && result.length >= 2) {
+					const key = String(result[0]).slice(Math.max(0, String(result[0]).indexOf(':') + 1));
+					const titles = result[1];
 					let exists = false;
 					cat_prefix ||= new RegExp(`^(${HC.category_regexp}):`);
 					for (let i = 0; i < titles.length; i++) {
 						cat_prefix.lastIndex = 0;
-						const m = cat_prefix.exec(titles[i]);
+						const m = cat_prefix.exec(titles[i]!);
 						if (m && m.length > 1) {
-							titles[i] = titles[i].slice(Math.max(0, titles[i].indexOf(':') + 1)); // rm namespace
+							titles[i] = titles[i]!.slice(Math.max(0, titles[i]!.indexOf(':') + 1)); // rm namespace
 							if (key === titles[i]) {
 								exists = true;
 							}
@@ -1189,36 +1307,32 @@ hotCatMessages();
 			uri: `${mw.config.get(
 				'wgScriptPath'
 			)}/api.php?format=json&action=query&list=allpages&apnamespace=14&aplimit=30&apfrom=$1&apprefix=$1`,
-			handler: (queryResult) => {
-				if (queryResult && queryResult.query && queryResult.query.allpages) {
-					const titles = queryResult.query.allpages;
-					for (let i = 0; i < titles.length; i++) {
-						titles[i] = titles[i].title.slice(Math.max(0, titles[i].title.indexOf(':') + 1));
-					} // rm namespace
-					return titles;
-				}
-				return null;
+			handler: (queryResult: unknown): HotCatSuggestionTitles | null => {
+				const allpages = (queryResult as HotCatSuggestionQueryResponse | null)?.query?.allpages;
+				return allpages ? toCategoryTitles(allpages) : null;
 			},
 		},
 		exists: {
 			uri: `${mw.config.get('wgScriptPath')}/api.php?format=json&action=query&prop=info&titles=Category:$1`,
-			handler: (queryResult, queryKey) => {
-				if (queryResult && queryResult.query && queryResult.query.pages && !queryResult.query.pages[-1]) {
-					// Should have exactly 1
-					for (const p in queryResult.query.pages) {
-						if (!Object.hasOwn(queryResult.query.pages, p)) {
-							continue;
-						}
-						let _title = queryResult.query.pages[p].title;
-						_title = _title.slice(Math.max(0, _title.indexOf(':') + 1));
-						const titles = [_title];
-						titles.exists = true;
-						if (queryKey !== _title) {
-							titles.normalized = _title;
-						}
-						// NFC
-						return titles;
+			handler: (queryResult: unknown, queryKey?: string): HotCatSuggestionTitles | null => {
+				const {pages} = (queryResult as HotCatSuggestionQueryResponse | null)?.query ?? {};
+				if (!pages || pages['-1']) {
+					return null;
+				}
+				// Should have exactly 1
+				for (const p in pages) {
+					if (!Object.hasOwn(pages, p)) {
+						continue;
 					}
+					let _title: string = pages[p]!.title;
+					_title = _title.slice(Math.max(0, _title.indexOf(':') + 1));
+					const titles: HotCatSuggestionTitles = [_title];
+					titles.exists = true;
+					if (queryKey !== _title) {
+						titles.normalized = _title;
+					}
+					// NFC
+					return titles;
 				}
 				return null;
 			},
@@ -1227,38 +1341,34 @@ hotCatMessages();
 			uri: `${mw.config.get(
 				'wgScriptPath'
 			)}/api.php?format=json&action=query&list=categorymembers&cmtype=subcat&cmlimit=max&cmtitle=Category:$1`,
-			handler: (queryResult) => {
-				if (queryResult && queryResult.query && queryResult.query.categorymembers) {
-					const titles = queryResult.query.categorymembers;
-					for (let i = 0; i < titles.length; i++) {
-						titles[i] = titles[i].title.slice(Math.max(0, titles[i].title.indexOf(':') + 1));
-					} // rm namespace
-					return titles;
-				}
-				return null;
+			handler: (queryResult: unknown): HotCatSuggestionTitles | null => {
+				const categorymembers = (queryResult as HotCatSuggestionQueryResponse | null)?.query?.categorymembers;
+				return categorymembers ? toCategoryTitles(categorymembers) : null;
 			},
 		},
 		parentcategories: {
 			uri: `${mw.config.get(
 				'wgScriptPath'
 			)}/api.php?format=json&action=query&prop=categories&titles=Category:$1&cllimit=max`,
-			handler: (queryResult) => {
-				if (queryResult && queryResult.query && queryResult.query.pages) {
-					for (const p in queryResult.query.pages) {
-						if (queryResult.query.pages[p].categories) {
-							const titles = queryResult.query.pages[p].categories;
-							for (let i = 0; i < titles.length; i++) {
-								titles[i] = titles[i].title.slice(Math.max(0, titles[i].title.indexOf(':') + 1));
-							} // rm namespace
-							return titles;
-						}
+			handler: (queryResult: unknown): HotCatSuggestionTitles | null => {
+				const {pages} = (queryResult as HotCatSuggestionQueryResponse | null)?.query ?? {};
+				if (!pages) {
+					return null;
+				}
+				for (const p in pages) {
+					if (!Object.hasOwn(pages, p)) {
+						continue;
+					}
+					const {categories} = pages[p]!;
+					if (categories) {
+						return toCategoryTitles(categories);
 					}
 				}
 				return null;
 			},
 		},
 	};
-	const suggestionConfigs = {
+	const suggestionConfigs: Record<string, HotCatSuggestionConfig> = {
 		searchindex: {
 			name: 'Search index',
 			engines: ['opensearch'],
@@ -1313,11 +1423,72 @@ hotCatMessages();
 	const DEL = 46;
 	const IME = 229;
 	class CategoryEditor {
-		constructor(...args) {
-			this.initialize(...args);
-		}
 		isCompositionStart = false;
-		initialize(line, span, after, key, is_hidden) {
+		isAddCategory = false;
+		catLink: HTMLAnchorElement | null = null;
+		originalCategory = '';
+		originalKey: string | null = null;
+		originalExists = false;
+		originalHidden: boolean | undefined;
+		originalState = UNCHANGED;
+		linkSpan!: HTMLSpanElement;
+		normalLinks: HTMLSpanElement | null = null;
+		undelLink: HTMLSpanElement | null = null;
+		upDownLinks: HTMLSpanElement | undefined;
+		undoLink: HTMLSpanElement | null = null;
+		line: HTMLElement | null = null;
+		span!: HTMLElement;
+		engine = '';
+		engineName: string | null = null;
+		engineSelector: HTMLSelectElement | undefined;
+		form: HTMLFormElement | undefined;
+		text: HTMLInputElement | undefined;
+		icon: HTMLImageElement | undefined;
+		list: HTMLSelectElement | null = null;
+		ok: HTMLInputElement | undefined;
+		cancelButton: HTMLInputElement | undefined;
+		currentCategory = '';
+		currentExists = false;
+		currentHidden: boolean | undefined;
+		currentKey: string | null = null;
+		state = UNCHANGED;
+		lastSavedState = UNCHANGED;
+		lastSavedCategory = '';
+		lastSavedKey: string | null = null;
+		lastSavedExists = false;
+		lastSavedHidden: boolean | undefined;
+		lastInput = '';
+		lastRealInput = '';
+		lastSelection: {start: number; end: number} | undefined;
+		lastQuery: string | null | undefined = null;
+		showsList = false;
+		inputExists = false;
+		ime = false;
+		usesComposition = false;
+		lastKey: string | number = 0;
+		keyCount = 0;
+		dab: string[] | null = null;
+		dabInput: string | undefined;
+		dabInputCleaned: string | undefined;
+		callbackObj: HotCatSuggestionCallback | null = null;
+		is_active = false;
+		noCommit = false;
+		constructor(
+			line: HTMLElement | null,
+			span: HTMLElement | null,
+			after: string | HTMLElement | null,
+			key?: string | boolean | null,
+			is_hidden?: boolean
+		) {
+			this.initialize(line, span, after, key, is_hidden);
+		}
+		initialize(
+			line: HTMLElement | null,
+			span: HTMLElement | null,
+			after: string | HTMLElement | null,
+			key?: string | boolean | null,
+			is_hidden?: boolean
+		): void {
 			// If a span is given, 'after' is the category title, otherwise it may be an element after which to
 			// insert the new span. 'key' is likewise overloaded; if a span is given, it is the category key (if
 			// known), otherwise it is a boolean indicating whether a bar shall be prepended.
@@ -1326,9 +1497,9 @@ hotCatMessages();
 					span.dir = 'rtl';
 				}
 				this.isAddCategory = false;
-				this.catLink = span.firstChild;
-				this.originalCategory = after;
-				this.originalKey = key && key.length > 1 ? key.slice(1) : null; // > 1 because it includes the leading bar
+				this.catLink = span.firstChild as HTMLAnchorElement;
+				this.originalCategory = after as string;
+				this.originalKey = typeof key === 'string' && key.length > 1 ? key.slice(1) : null; // > 1 because it includes the leading bar
 				this.originalExists = !hasClass(this.catLink, 'new');
 				// Create change and del links
 				this.makeLinkSpan();
@@ -1342,20 +1513,21 @@ hotCatMessages();
 				this.originalCategory = '';
 				this.originalKey = null;
 				this.originalExists = false;
+				let afterElement = after as HTMLElement | null;
 				if (!newDOM) {
-					span = make('span');
-					span.className = 'noprint';
+					const addSpan = make('span');
+					addSpan.className = 'noprint';
 					if (key) {
-						span.append(make(' | ', true));
-						if (after) {
-							after.parentNode.insertBefore(span, after.nextSibling);
-							after = after.nextSibling;
+						addSpan.append(make(' | ', true));
+						if (afterElement) {
+							afterElement.parentNode!.insertBefore(addSpan, afterElement.nextSibling);
+							afterElement = afterElement.nextSibling as HTMLElement;
 						} else if (line) {
-							line.append(span);
+							line.append(addSpan);
 						}
 					} else if (line && line.firstChild) {
-						span.append(make(' ', true));
-						line.append(span);
+						addSpan.append(make(' ', true));
+						line.append(addSpan);
 					}
 				}
 				this.linkSpan = make('span');
@@ -1366,17 +1538,18 @@ hotCatMessages();
 				link.append(make(HC.links.add, true));
 				link.title = getMessage('tooltips-add');
 				this.linkSpan.append(link);
-				span = make(newDOM ? 'li' : 'span');
-				span.className = 'noprint';
+				const outerSpan = make(newDOM ? 'li' : 'span');
+				outerSpan.className = 'noprint';
 				if (is_rtl) {
-					span.dir = 'rtl';
+					outerSpan.dir = 'rtl';
 				}
-				span.append(this.linkSpan);
-				if (after) {
-					after.parentNode.insertBefore(span, after.nextSibling);
+				outerSpan.append(this.linkSpan);
+				if (afterElement) {
+					afterElement.parentNode!.insertBefore(outerSpan, afterElement.nextSibling);
 				} else if (line) {
-					line.append(span);
+					line.append(outerSpan);
 				}
+				span = outerSpan;
 				this.normalLinks = null;
 				this.undelLink = null;
 				this.catLink = null;
@@ -1384,7 +1557,7 @@ hotCatMessages();
 			this.originalHidden = is_hidden;
 			this.line = line;
 			this.engine = HC.suggestions;
-			this.span = span;
+			this.span = span!;
 			this.currentCategory = this.originalCategory;
 			this.currentExists = this.originalExists;
 			this.currentHidden = this.originalHidden;
@@ -1400,9 +1573,9 @@ hotCatMessages();
 			}
 			editors[editors.length] = this;
 		}
-		makeLinkSpan() {
+		makeLinkSpan(): void {
 			this.normalLinks = make('span');
-			let link = null;
+			let link: HTMLAnchorElement | null = null;
 			if (this.originalCategory && this.originalCategory.length > 0) {
 				link = make('a');
 				link.href = '#catlinks';
@@ -1454,11 +1627,11 @@ hotCatMessages();
 			this.undelLink.append(link);
 			this.linkSpan.append(this.undelLink);
 		}
-		invokeSuggestions(dont_autocomplete) {
+		invokeSuggestions(dont_autocomplete?: boolean): void {
 			if (
 				this.engine &&
 				suggestionConfigs[this.engine] &&
-				suggestionConfigs[this.engine].temp &&
+				suggestionConfigs[this.engine]!.temp &&
 				!dont_autocomplete
 			) {
 				this.engine = HC.suggestions;
@@ -1469,7 +1642,7 @@ hotCatMessages();
 				self.textchange(dont_autocomplete);
 			}, HC.suggest_delay);
 		}
-		makeForm() {
+		makeForm(): void {
 			const form = make('form');
 			form.method = 'POST';
 			form.addEventListener('submit', this.accept.bind(this));
@@ -1490,7 +1663,7 @@ hotCatMessages();
 				//   first keyDown !== IME is certainly after the end of the composition. Typically, composition end can also be
 				//   detected by a keyDown IME with a keyUp of space, tab, escape, or return.
 				text.addEventListener('keyup', (event) => {
-					const key = event.key || 0;
+					const key: string | number = event.key || 0;
 					if (
 						self.ime &&
 						self.lastKey === IME &&
@@ -1523,7 +1696,7 @@ hotCatMessages();
 					return true;
 				});
 				text.addEventListener('keydown', (event) => {
-					const key = event.key || 0;
+					const key: string | number = event.key || 0;
 					self.lastKey = key;
 					self.keyCount = 0;
 					// DOM Level < 3 IME input
@@ -1533,7 +1706,11 @@ hotCatMessages();
 					} else if (
 						self.ime &&
 						key !== IME &&
-						!((key >= 16 && key <= 20) || (key >= 91 && key <= 93) || key === 144)
+						!(
+							(Number(key) >= 16 && Number(key) <= 20) ||
+							(Number(key) >= 91 && Number(key) <= 93) ||
+							key === 144
+						)
 					) {
 						// Ignore control keys: ctrl, shift, alt, alt gr, caps lock, windows/apple cmd keys, num lock. Only the windows keys
 						// terminate IME (apple cmd doesn't), but they also cause a blur, so it's OK to ignore them here.
@@ -1593,7 +1770,7 @@ hotCatMessages();
 			}
 			this.text = text;
 			this.icon = make('img');
-			let list = null;
+			let list: HTMLSelectElement | null = null;
 			if (!noSuggestions) {
 				list = make('select');
 				list.addEventListener('click', () => {
@@ -1608,57 +1785,51 @@ hotCatMessages();
 				});
 				list.addEventListener('change', () => {
 					self.highlightSuggestion(0);
-					self.text.focus();
+					self.text!.focus();
 				});
 				list.addEventListener('keyup', (event) => {
-					if (event.key === ESC) {
+					const key: string | number = event.key || 0;
+					if (key === ESC) {
 						self.resetKeySelection();
-						self.text.focus();
+						self.text!.focus();
 						setTimeout(() => {
 							self.textchange(true);
 						}, HC.suggest_delay);
-					} else if (event.key === RET) {
+					} else if (key === RET) {
 						self.accept(event);
 					}
 				});
 				if (!HC.fixed_search) {
 					const engineSelector = make('select');
 					for (const key in suggestionConfigs) {
-						if (suggestionConfigs[key].show) {
+						if (suggestionConfigs[key]!.show) {
 							const opt = make('option');
 							opt.value = key;
 							if (key === this.engine) {
 								opt.selected = true;
 							}
-							opt.append(make(suggestionConfigs[key].name, true));
+							opt.append(make(suggestionConfigs[key]!.name, true));
 							engineSelector.append(opt);
 						}
 					}
 					engineSelector.addEventListener('change', () => {
-						self.engine = self.engineSelector.options[self.engineSelector.selectedIndex].value;
-						self.text.focus();
+						self.engine = self.engineSelector!.options[self.engineSelector!.selectedIndex]!.value;
+						self.text!.focus();
 						self.textchange(true, true); // Don't autocomplete, force re-display of list
 					});
 					this.engineSelector = engineSelector;
 				}
 			}
 			this.list = list;
-			const button_label = (_id, defaultText) => {
-				const label = null;
-				if (!label || !label.data) {
-					return defaultText;
-				}
-				return label.data;
-			};
 			// Do not use type 'submit'; we cannot detect modifier keys if we do
 			const OK = make('input');
 			OK.type = 'button';
-			OK.value = button_label('wpOkUploadLbl', getMessage('messages-ok'));
+			OK.value = getMessage('messages-ok');
 			OK.addEventListener('click', this.accept.bind(this));
 			this.ok = OK;
 			const cancel = make('input');
 			cancel.type = 'button';
-			cancel.value = button_label('wpCancelUploadLbl', getMessage('messages-cancel'));
+			cancel.value = getMessage('messages-cancel');
 			cancel.addEventListener('click', this.cancel.bind(this));
 			this.cancelButton = cancel;
 			const span = make('span');
@@ -1681,7 +1852,7 @@ hotCatMessages();
 			form.style.display = 'none';
 			this.span.append(form);
 		}
-		display(event) {
+		display(event?: HotCatUIEvent): false {
 			if (this.isAddCategory && !onUpload && this.line) {
 				new CategoryEditor(this.line, null, this.span, true); // Create a new one
 			}
@@ -1706,8 +1877,8 @@ hotCatMessages();
 			this.currentExists = this.lastSavedExists;
 			this.currentHidden = this.lastSavedHidden;
 			this.currentKey = this.lastSavedKey;
-			this.icon.src = this.currentExists ? HC.existsYes : HC.existsNo;
-			this.text.value = this.currentCategory + (this.currentKey === null ? '' : `|${this.currentKey}`);
+			this.icon!.src = this.currentExists ? HC.existsYes : HC.existsNo;
+			this.text!.value = this.currentCategory + (this.currentKey === null ? '' : `|${this.currentKey}`);
 			this.originalState = this.state;
 			this.lastInput = this.currentCategory;
 			this.inputExists = this.currentExists;
@@ -1722,43 +1893,43 @@ hotCatMessages();
 				this.catLink.style.display = 'none';
 			}
 			this.linkSpan.style.display = 'none';
-			this.form.style.display = 'inline';
-			this.ok.disabled = false;
+			this.form!.style.display = 'inline';
+			this.ok!.disabled = false;
 			// Kill the event before focusing, otherwise IE will kill the onfocus event!
 			const result = evtKill(event);
-			this.text.focus();
-			this.text.readOnly = false;
+			this.text!.focus();
+			this.text!.readOnly = false;
 			checkMultiInput();
 			return result;
 		}
-		show(event, engine, readOnly) {
+		show(event: HotCatUIEvent | undefined, engine?: string, readOnly?: boolean): false {
 			const result = this.display(event);
 			const v = this.lastSavedCategory;
 			if (v.length === 0) {
 				return result;
 			}
-			this.text.readOnly = !!readOnly;
-			this.engine = engine;
+			this.text!.readOnly = !!readOnly;
+			this.engine = engine ?? '';
 			this.textchange(false, true); // do autocompletion, force display of suggestions
 			return result;
 		}
-		open(event) {
-			return this.show(event, this.engine && suggestionConfigs[this.engine].temp ? HC.suggestions : this.engine);
+		open(event?: HotCatUIEvent): false {
+			return this.show(event, this.engine && suggestionConfigs[this.engine]!.temp ? HC.suggestions : this.engine);
 		}
-		down(event) {
+		down(event?: HotCatUIEvent): false {
 			return this.show(event, 'subcat', true);
 		}
-		up(event) {
+		up(event?: HotCatUIEvent): false {
 			return this.show(event, 'parentcat');
 		}
-		cancel() {
+		cancel(): void {
 			if (this.isAddCategory && !onUpload) {
 				this.removeEditor(); // We added a new adder when opening
 				return;
 			}
 			// Close, re-display link
 			this.inactivate();
-			this.form.style.display = 'none';
+			this.form!.style.display = 'none';
 			if (this.catLink) {
 				this.catLink.style.display = '';
 			}
@@ -1777,14 +1948,14 @@ hotCatMessages();
 				}
 			} else if (!onUpload) {
 				try {
-					this.catLink.style.backgroundColor = HC.bg_changed;
+					this.catLink!.style.backgroundColor = HC.bg_changed;
 				} catch {
 					/* empty */
 				}
 			}
 			checkMultiInput();
 		}
-		removeEditor() {
+		removeEditor(): void {
 			if (!newDOM) {
 				const next = this.span.nextSibling;
 				if (next) {
@@ -1802,8 +1973,8 @@ hotCatMessages();
 			}
 			checkMultiInput();
 		}
-		rollback(event) {
-			this.undoLink.remove();
+		rollback(event?: HotCatUIEvent): false {
+			this.undoLink!.remove();
 			this.undoLink = null;
 			this.currentCategory = this.originalCategory;
 			this.currentKey = this.originalKey;
@@ -1819,12 +1990,12 @@ hotCatMessages();
 				this.removeEditor();
 			} else {
 				// Redisplay the link...
-				this.catLink.firstChild.remove();
-				this.catLink.append(make(this.currentCategory, true));
-				this.catLink.href = wikiPagePath(`${HC.category_canonical}:${this.currentCategory}`);
-				this.catLink.title = this.currentKey || '';
-				this.catLink.className = this.currentExists ? '' : 'new';
-				this.catLink.style.backgroundColor = 'transparent';
+				this.catLink!.firstChild!.remove();
+				this.catLink!.append(make(this.currentCategory, true));
+				this.catLink!.href = wikiPagePath(`${HC.category_canonical}:${this.currentCategory}`);
+				this.catLink!.title = this.currentKey || '';
+				this.catLink!.className = this.currentExists ? '' : 'new';
+				this.catLink!.style.backgroundColor = 'transparent';
 				if (this.upDownLinks) {
 					this.upDownLinks.style.display = this.currentExists ? '' : 'none';
 				}
@@ -1832,7 +2003,7 @@ hotCatMessages();
 			}
 			return evtKill(event);
 		}
-		inactivate() {
+		inactivate(): void {
 			if (this.list) {
 				this.list.style.display = 'none';
 			}
@@ -1841,14 +2012,14 @@ hotCatMessages();
 			}
 			this.is_active = false;
 		}
-		acceptCheck(dontCheck) {
+		acceptCheck(dontCheck?: boolean): boolean {
 			this.sanitizeInput();
-			const value = this.text.value.split('|');
-			let key = null;
+			const value = this.text!.value.split('|');
+			let key: string | null = null;
 			if (value.length > 1) {
-				[, key] = value;
+				key = value[1]!;
 			}
-			let v = value[0].replace(/_/g, ' ').trim();
+			let v = value[0]!.replace(/_/g, ' ').trim();
 			if (HC.capitalizePageNames) {
 				v = capitalize(v);
 			}
@@ -1870,37 +2041,33 @@ hotCatMessages();
 			this.currentExists = this.inputExists;
 			return true;
 		}
-		accept(event) {
+		accept(event?: HotCatUIEvent): false {
 			// (evtKeys(event) & 1) !== 0
 			// 当且仅当evtKeys(event)为1时，整个判别式才为true
 			this.noCommit = evtKeys(event) === 1;
 			const result = evtKill(event);
 			if (this.acceptCheck()) {
 				const toResolve = [this];
-				const original = this.currentCategory;
 				resolveMulti(toResolve, (resolved) => {
-					if (resolved[0].dab) {
-						showDab(resolved[0]);
-					} else if (resolved[0].acceptCheck(true)) {
-						resolved[0].commit(
-							resolved[0].currentCategory === original
-								? null
-								: getMessage('messages-cat_resolved', original)
-						);
+					const editor = resolved[0]!;
+					if (editor.dab) {
+						showDab(editor);
+					} else if (editor.acceptCheck(true)) {
+						editor.commit();
 					}
 				});
 			}
 			return result;
 		}
-		close() {
+		close(): void {
 			if (!this.catLink) {
 				// Create a catLink
 				this.catLink = make('a');
 				this.catLink.append(make('foo', true));
 				this.catLink.style.display = 'none';
-				this.span.insertBefore(this.catLink, this.span.firstChild.nextSibling);
+				this.span.insertBefore(this.catLink, this.span.firstChild!.nextSibling);
 			}
-			this.catLink.firstChild.remove();
+			this.catLink.firstChild!.remove();
 			this.catLink.append(make(this.currentCategory, true));
 			this.catLink.href = wikiPagePath(`${HC.category_canonical}:${this.currentCategory}`);
 			this.catLink.className = this.currentExists ? '' : 'new';
@@ -1910,7 +2077,7 @@ hotCatMessages();
 			this.lastSavedHidden = this.currentHidden;
 			// Close form and redisplay category
 			this.inactivate();
-			this.form.style.display = 'none';
+			this.form!.style.display = 'none';
 			this.catLink.title = this.currentKey || '';
 			this.catLink.style.display = '';
 			if (this.isAddCategory) {
@@ -1932,7 +2099,7 @@ hotCatMessages();
 				link.title = getMessage('tooltips-undo');
 				span.append(make(' ', true));
 				span.append(link);
-				this.normalLinks.append(span);
+				this.normalLinks!.append(span);
 				this.undoLink = span;
 				if (!onUpload) {
 					try {
@@ -1949,12 +2116,12 @@ hotCatMessages();
 			this.state = CHANGED;
 			checkMultiInput();
 		}
-		commit() {
+		commit(): void {
 			// Check again to catch problem cases after redirect resolution
 			if (
 				(this.currentCategory === this.originalCategory &&
 					(this.currentKey === this.originalKey ||
-						(this.currentKey === null && this.originalKey.length === 0))) ||
+						(this.currentKey === null && this.originalKey!.length === 0))) ||
 				(conf.wgNamespaceNumber === 14 && this.currentCategory === conf.wgTitle) ||
 				(HC.blacklist && HC.blacklist.test(this.currentCategory))
 			) {
@@ -1974,13 +2141,13 @@ hotCatMessages();
 				);
 			}
 		}
-		remove(event) {
+		remove(event?: HotCatUIEvent): false {
 			// (evtKeys(event) & 1)
 			// 当且仅当evtKeys(event)为1时，整个判别式才为1，否则都是0
 			this.doRemove(evtKeys(event) === 1);
 			return evtKill(event);
 		}
-		doRemove(noCommit) {
+		doRemove(noCommit?: boolean): void {
 			if (this.isAddCategory) {
 				// Empty input on adding a new category
 				this.cancel();
@@ -1995,17 +2162,17 @@ hotCatMessages();
 				}
 			}
 			if (commitButton) {
-				this.catLink.title = '';
-				this.catLink.style.cssText += '; text-decoration : line-through !important;';
+				this.catLink!.title = '';
+				this.catLink!.style.cssText += '; text-decoration : line-through !important;';
 				try {
-					this.catLink.style.backgroundColor = HC.bg_changed;
+					this.catLink!.style.backgroundColor = HC.bg_changed;
 				} catch {
 					/* empty */
 				}
 				this.originalState = this.state;
 				this.state = DELETED;
-				this.normalLinks.style.display = 'none';
-				this.undelLink.style.display = '';
+				this.normalLinks!.style.display = 'none';
+				this.undelLink!.style.display = '';
 				checkMultiInput();
 			} else if (onUpload) {
 				// Remove this editor completely
@@ -2013,7 +2180,7 @@ hotCatMessages();
 			} else {
 				this.originalState = this.state;
 				this.state = DELETED;
-				this.noCommit = noCommit || HC.del_needs_diff;
+				this.noCommit = !!noCommit || HC.del_needs_diff;
 				const self = this;
 				initiateEdit(
 					(failure) => {
@@ -2026,36 +2193,36 @@ hotCatMessages();
 				);
 			}
 		}
-		restore(event) {
+		restore(event?: HotCatUIEvent): false {
 			// Can occur only if we do have a commit button and are not on the upload form
-			this.catLink.title = this.currentKey || '';
-			this.catLink.style.textDecoration = '';
+			this.catLink!.title = this.currentKey || '';
+			this.catLink!.style.textDecoration = '';
 			this.state = this.originalState;
 			if (this.state === UNCHANGED) {
-				this.catLink.style.backgroundColor = 'transparent';
+				this.catLink!.style.backgroundColor = 'transparent';
 			} else {
 				try {
-					this.catLink.style.backgroundColor = HC.bg_changed;
+					this.catLink!.style.backgroundColor = HC.bg_changed;
 				} catch {
 					/* empty */
 				}
 			}
-			this.normalLinks.style.display = '';
-			this.undelLink.style.display = 'none';
+			this.normalLinks!.style.display = '';
+			this.undelLink!.style.display = 'none';
 			checkMultiInput();
 			return evtKill(event);
 		}
 		// Internal operations
-		selectEngine(engineName) {
+		selectEngine(engineName: string): void {
 			if (!this.engineSelector) {
 				return;
 			}
 			for (let i = 0; i < this.engineSelector.options.length; i++) {
-				this.engineSelector.options[i].selected = this.engineSelector.options[i].value === engineName;
+				this.engineSelector.options[i]!.selected = this.engineSelector.options[i]!.value === engineName;
 			}
 		}
-		sanitizeInput() {
-			let v = this.text.value || '';
+		sanitizeInput(): void {
+			let v = this.text!.value || '';
 			v = v.replace(/^(\s|_)+/, ''); // Trim leading blanks and underscores
 			const re = new RegExp(`^(${HC.category_regexp}):`);
 			if (re.test(v)) {
@@ -2067,47 +2234,54 @@ hotCatMessages();
 			}
 			// Only update the input field if there is a difference. Various browsers otherwise
 			// reset the selection and cursor position after each value re-assignment.
-			if (this.text.value !== null && this.text.value !== v) {
-				this.text.value = v;
+			if (this.text!.value !== null && this.text!.value !== v) {
+				this.text!.value = v;
 			}
 		}
-		makeCall(url, callbackObj, engine, queryKey, cleanKey) {
-			let cb = callbackObj;
+		makeCall(
+			url: string,
+			callbackObj: HotCatSuggestionCallback,
+			engine: HotCatSuggestionEngine,
+			queryKey: string,
+			cleanKey: string
+		): void {
+			let cb: HotCatSuggestionCallback | null = callbackObj;
 			const e = engine;
 			const v = queryKey;
 			const z = cleanKey;
 			const self = this;
-			const done = () => {
-				cb.callsMade++;
-				if (cb.callsMade === cb.nofCalls) {
-					if (cb.exists) {
-						cb.allTitles.exists = true;
+			const done = (): void => {
+				cb!.callsMade++;
+				if (cb!.callsMade === cb!.nofCalls) {
+					if (cb!.exists) {
+						cb!.allTitles!.exists = true;
 					}
-					if (cb.normalized) {
-						cb.allTitles.normalized = cb.normalized;
+					if (cb!.normalized) {
+						cb!.allTitles!.normalized = cb!.normalized;
 					}
-					if (!cb.dontCache && !suggestionConfigs[cb.engineName].cache[z]) {
-						suggestionConfigs[cb.engineName].cache[z] = cb.allTitles;
+					const suggestionConfig = suggestionConfigs[cb!.engineName]!;
+					if (!cb!.dontCache && !suggestionConfig.cache[z]) {
+						suggestionConfig.cache[z] = cb!.allTitles!;
 					}
-					self.text.readOnly = false;
-					if (!cb.cancelled) {
-						self.showSuggestions(cb.allTitles, cb.noCompletion, v, cb.engineName);
+					self.text!.readOnly = false;
+					if (!cb!.cancelled) {
+						self.showSuggestions(cb!.allTitles, cb!.noCompletion, v, cb!.engineName);
 					}
 					if (cb === self.callbackObj) {
 						self.callbackObj = null;
 					}
-					cb = undefined;
+					cb = null;
 				}
 			};
 			$.getJSON(url, (json) => {
 				const titles = e.handler(json, z);
 				if (titles && titles.length > 0) {
-					cb.allTitles = cb.allTitles === null ? titles : [...cb.allTitles, ...generateArray(titles)];
+					cb!.allTitles = cb!.allTitles === null ? titles : [...cb!.allTitles, ...generateArray(titles)];
 					if (titles.exists) {
-						cb.exists = true;
+						cb!.exists = true;
 					}
 					if (titles.normalized) {
-						cb.normalized = titles.normalized;
+						cb!.normalized = titles.normalized;
 					}
 				}
 				done();
@@ -2115,21 +2289,20 @@ hotCatMessages();
 				if (!req) {
 					noSuggestions = true;
 				}
-				cb.dontCache = true;
+				cb!.dontCache = true;
 				done();
 			});
 		}
-		callbackObj = null;
-		textchange(dont_autocomplete, force) {
+		textchange(dont_autocomplete?: boolean, force?: boolean): void {
 			// Hide all other lists
 			makeActive(this);
 			// Abort if isCompositionStart
-			if (self.isCompositionStart) {
+			if (this.isCompositionStart) {
 				return;
 			}
 			// Get input value, omit sort key, if any
 			this.sanitizeInput();
-			let v = this.text.value;
+			let v = this.text!.value;
 			// Disregard anything after a pipe.
 			const pipe = v.indexOf('|');
 			if (pipe === -1) {
@@ -2147,7 +2320,7 @@ hotCatMessages();
 			this.lastInput = v;
 			this.lastRealInput = v;
 			// Mark blacklisted inputs.
-			this.ok.disabled = v.length > 0 && HC.blacklist && HC.blacklist.test(v);
+			this.ok!.disabled = v.length > 0 && !!HC.blacklist && HC.blacklist.test(v);
 			if (noSuggestions) {
 				// No Ajax: just make sure the list is hidden
 				if (this.list) {
@@ -2176,12 +2349,13 @@ hotCatMessages();
 				this.callbackObj.cancelled = true;
 			}
 			const engineName = suggestionConfigs[this.engine] ? this.engine : 'combined';
-			dont_autocomplete ||= suggestionConfigs[engineName].noCompletion;
-			if (suggestionConfigs[engineName].cache[cleanKey]) {
-				this.showSuggestions(suggestionConfigs[engineName].cache[cleanKey], dont_autocomplete, v, engineName);
+			dont_autocomplete ||= suggestionConfigs[engineName]!.noCompletion;
+			const cachedTitles = suggestionConfigs[engineName]!.cache[cleanKey];
+			if (cachedTitles) {
+				this.showSuggestions(cachedTitles, dont_autocomplete, v, engineName);
 				return;
 			}
-			const {engines} = suggestionConfigs[engineName];
+			const {engines} = suggestionConfigs[engineName]!;
 			this.callbackObj = {
 				allTitles: null,
 				callsMade: 0,
@@ -2191,15 +2365,20 @@ hotCatMessages();
 			};
 			this.makeCalls(engines, this.callbackObj, v, cleanKey);
 		}
-		makeCalls(engines, cb, v, cleanKey) {
+		makeCalls(engines: string[], cb: HotCatSuggestionCallback, v: string, cleanKey: string): void {
 			for (const engine_ of engines) {
-				const engine = suggestionEngines[engine_];
+				const engine = suggestionEngines[engine_]!;
 				const url = conf.wgScriptPath + engine.uri.replace(/\$1/g, encodeURIComponent(cleanKey));
 				this.makeCall(url, cb, engine, v, cleanKey);
 			}
 		}
-		showSuggestions(titles, dontAutocomplete, queryKey, engineName) {
-			this.text.readOnly = false;
+		showSuggestions(
+			titles: HotCatSuggestionTitles | null,
+			dontAutocomplete?: boolean,
+			queryKey?: string | null,
+			engineName?: string | null
+		): void {
+			this.text!.readOnly = false;
 			this.dab = null;
 			this.showsList = false;
 			if (!this.list) {
@@ -2218,7 +2397,7 @@ hotCatMessages();
 				this.inputExists = true; // Default...
 				return;
 			}
-			this.engineName = engineName;
+			this.engineName = engineName ?? null;
 			if (engineName) {
 				if (!this.engineSelector) {
 					this.engineName = null;
@@ -2226,13 +2405,14 @@ hotCatMessages();
 			} else if (this.engineSelector) {
 				this.engineSelector.style.display = 'none';
 			}
+			const inputValue = this.lastInput;
 			if (queryKey) {
-				if (this.lastInput.indexOf(queryKey)) {
+				if (inputValue.indexOf(queryKey)) {
 					return;
 				}
 				if (
 					this.lastQuery &&
-					this.lastInput.indexOf(this.lastQuery) === 0 &&
+					inputValue.indexOf(this.lastQuery) === 0 &&
 					this.lastQuery.length > queryKey.length
 				) {
 					return;
@@ -2240,28 +2420,28 @@ hotCatMessages();
 			}
 			this.lastQuery = queryKey;
 			// Get current input text
-			let v = this.text.value.split('|');
+			const v = this.text!.value.split('|');
 			const key = v.length > 1 ? `|${v[1]}` : '';
-			v = HC.capitalizePageNames ? capitalize(v[0]) : v[0];
-			let vNormalized = v;
+			const categoryName = HC.capitalizePageNames ? capitalize(v[0]) : v[0]!;
+			let vNormalized = categoryName;
 			const knownToExist = titles && titles.exists;
-			let i;
+			let i: number;
 			if (titles) {
-				if (titles.normalized && v.indexOf(queryKey) === 0) {
+				if (titles.normalized && categoryName.indexOf(queryKey ?? '') === 0) {
 					// We got back a different normalization than what is in the input field
-					vNormalized = titles.normalized + v.slice(queryKey.length);
+					vNormalized = titles.normalized + categoryName.slice((queryKey ?? '').length);
 				}
 				const vLow = vNormalized.toLowerCase();
 				// Strip blacklisted categories
 				if (HC.blacklist) {
 					for (i = 0; i < titles.length; i++) {
-						if (HC.blacklist.test(titles[i])) {
+						if (HC.blacklist.test(titles[i]!)) {
 							titles.splice(i, 1);
 							i--;
 						}
 					}
 				}
-				titles.sort((a, b) => {
+				titles.sort((a: string, b: string) => {
 					if (a === b) {
 						return 0;
 					}
@@ -2313,7 +2493,7 @@ hotCatMessages();
 				if (this.engineSelector) {
 					this.engineSelector.style.display = 'none';
 				}
-				if (engineName && suggestionConfigs[engineName] && !suggestionConfigs[engineName].temp) {
+				if (engineName && suggestionConfigs[engineName] && !suggestionConfigs[engineName]!.temp) {
 					if (this.icon) {
 						this.icon.src = HC.existsNo;
 					}
@@ -2322,14 +2502,14 @@ hotCatMessages();
 				return;
 			}
 			const [firstTitle] = titles;
-			const completed = this.autoComplete(firstTitle, v, vNormalized, key, dontAutocomplete);
-			const existing = completed || knownToExist || firstTitle === replaceShortcuts(v, HC.shortcuts);
-			if (engineName && suggestionConfigs[engineName] && !suggestionConfigs[engineName].temp) {
-				this.icon.src = existing ? HC.existsYes : HC.existsNo;
-				this.inputExists = existing;
+			const completed = this.autoComplete(firstTitle!, categoryName, vNormalized, key, dontAutocomplete);
+			const existing = completed || knownToExist || firstTitle === replaceShortcuts(categoryName, HC.shortcuts);
+			if (engineName && suggestionConfigs[engineName] && !suggestionConfigs[engineName]!.temp) {
+				this.icon!.src = existing ? HC.existsYes : HC.existsNo;
+				this.inputExists = !!existing;
 			}
 			if (completed) {
-				this.lastInput = firstTitle;
+				this.lastInput = firstTitle!;
 				if (titles.length === 1) {
 					this.list.style.display = 'none';
 					if (this.engineSelector) {
@@ -2344,53 +2524,53 @@ hotCatMessages();
 			}
 			for (i = 0; i < titles.length; i++) {
 				const opt = make('option');
-				opt.append(make(titles[i], true));
+				opt.append(make(titles[i]!, true));
 				opt.selected = completed && i === 0;
 				this.list.append(opt);
 			}
 			this.displayList();
 		}
-		displayList() {
+		displayList(): void {
 			this.showsList = true;
 			if (!this.is_active) {
-				this.list.style.display = 'none';
+				this.list!.style.display = 'none';
 				if (this.engineSelector) {
 					this.engineSelector.style.display = 'none';
 				}
 				return;
 			}
-			let nofItems = Math.min(this.list.options.length, HC.listSize);
+			let nofItems = Math.min(this.list!.options.length, HC.listSize);
 			if (nofItems <= 1) {
 				nofItems = 2;
 			}
-			this.list.size = nofItems;
-			this.list.style.align = is_rtl ? 'right' : 'left';
-			this.list.style.zIndex = 5;
-			this.list.style.position = 'absolute';
+			this.list!.size = nofItems;
+			setStyleProperty(this.list!, 'align', is_rtl ? 'right' : 'left');
+			this.list!.style.zIndex = '5';
+			this.list!.style.position = 'absolute';
 			// Compute initial list position. First the height.
 			const anchor = is_rtl ? 'right' : 'left';
 			let listh = 0;
-			if (this.list.style.display === 'none') {
+			if (this.list!.style.display === 'none') {
 				// Off-screen display to get the height
-				this.list.style.top = `${this.text.offsetTop}px`;
-				this.list.style[anchor] = '-10000px';
-				this.list.style.display = '';
-				listh = this.list.offsetHeight;
-				this.list.style.display = 'none';
+				this.list!.style.top = `${this.text!.offsetTop}px`;
+				this.list!.style[anchor] = '-10000px';
+				this.list!.style.display = '';
+				listh = this.list!.offsetHeight;
+				this.list!.style.display = 'none';
 			} else {
-				listh = this.list.offsetHeight;
+				listh = this.list!.offsetHeight;
 			}
 			// Approximate calculation of maximum list size
 			let maxListHeight = listh;
 			if (nofItems < HC.listSize) {
 				maxListHeight = (listh / nofItems) * HC.listSize;
 			}
-			const viewport = (what) => {
-				const s = `client${what}`;
+			const viewport = (what: 'Width' | 'Height'): number => {
+				const s = `client${what}` as 'clientWidth' | 'clientHeight';
 				return document.documentElement ? document.documentElement[s] : 0;
 			};
-			const scroll_offset = (what) => {
-				const s = `scroll${what}`;
+			const scroll_offset = (what: 'Left' | 'Top' | 'Width'): number => {
+				const s = `scroll${what}` as 'scrollLeft' | 'scrollTop' | 'scrollWidth';
 				let result = document.documentElement ? document.documentElement[s] : 0;
 				if (is_rtl && what === 'Left') {
 					// RTL inconsistencies.
@@ -2408,86 +2588,73 @@ hotCatMessages();
 				}
 				return result;
 			};
-			const position = (node) => {
+			const position = (node: HTMLElement): {x: number; y: number} => {
 				// Stripped-down simplified position function. It's good enough for our purposes.
-				if (node.getBoundingClientRect) {
-					const box = node.getBoundingClientRect();
-					return {
-						x: Math.round(box.left + scroll_offset('Left')),
-						y: Math.round(box.top + scroll_offset('Top')),
-					};
-				}
-				let t = 0;
-				let l = 0;
-				do {
-					t += node.offsetTop || 0;
-					l += node.offsetLeft || 0;
-					node = node.offsetParent;
-				} while (node);
+				const box = node.getBoundingClientRect();
 				return {
-					x: l,
-					y: t,
+					x: Math.round(box.left + scroll_offset('Left')),
+					y: Math.round(box.top + scroll_offset('Top')),
 				};
 			};
-			const textPos = position(this.text);
+			const textPos = position(this.text!);
 			const nl = 0;
 			let nt = 0;
 			// Opera 9.5 somehow has offsetWidth = 0 here?? Use the next best value...
 			let offset = 0;
-			const textBoxWidth = this.text.offsetWidth || this.text.clientWidth;
+			const textBoxWidth = this.text!.offsetWidth || this.text!.clientWidth;
 			if (this.engineName) {
-				this.engineSelector.style.zIndex = 5;
-				this.engineSelector.style.position = 'absolute';
-				this.engineSelector.style.width = `${textBoxWidth}px`;
+				this.engineSelector!.style.zIndex = '5';
+				this.engineSelector!.style.position = 'absolute';
+				this.engineSelector!.style.width = `${textBoxWidth}px`;
 				// Figure out the height of this selector: display it off-screen, then hide it again.
-				if (this.engineSelector.style.display === 'none') {
-					this.engineSelector.style[anchor] = '-10000px';
-					this.engineSelector.style.top = '0';
-					this.engineSelector.style.display = '';
-					offset = this.engineSelector.offsetHeight;
-					this.engineSelector.style.display = 'none';
+				if (this.engineSelector!.style.display === 'none') {
+					this.engineSelector!.style[anchor] = '-10000px';
+					this.engineSelector!.style.top = '0';
+					this.engineSelector!.style.display = '';
+					offset = this.engineSelector!.offsetHeight;
+					this.engineSelector!.style.display = 'none';
 				} else {
-					offset = this.engineSelector.offsetHeight;
+					offset = this.engineSelector!.offsetHeight;
 				}
-				this.engineSelector.style[anchor] = `${nl}px`;
+				this.engineSelector!.style[anchor] = `${nl}px`;
 			}
 			if (textPos.y < maxListHeight + offset + 1) {
 				// The list might extend beyond the upper border of the page. Let's avoid that by placing it
 				// below the input text field.
-				nt = this.text.offsetHeight + offset + 1;
+				nt = this.text!.offsetHeight + offset + 1;
 				if (this.engineName) {
-					this.engineSelector.style.top = `${this.text.offsetHeight}px`;
+					this.engineSelector!.style.top = `${this.text!.offsetHeight}px`;
 				}
 			} else {
 				nt = -listh - offset - 1;
 				if (this.engineName) {
-					this.engineSelector.style.top = `${-(offset + 1)}px`;
+					this.engineSelector!.style.top = `${-(offset + 1)}px`;
 				}
 			}
-			this.list.style.top = `${nt}px`;
-			this.list.style.width = ''; // No fixed width (yet)
-			this.list.style[anchor] = `${nl}px`;
+			this.list!.style.top = `${nt}px`;
+			this.list!.style.width = ''; // No fixed width (yet)
+			this.list!.style[anchor] = `${nl}px`;
 			if (this.engineName) {
 				this.selectEngine(this.engineName);
-				this.engineSelector.style.display = '';
+				this.engineSelector!.style.display = '';
 			}
-			this.list.style.display = 'block';
+			this.list!.style.display = 'block';
 			// Set the width of the list
-			if (this.list.offsetWidth < textBoxWidth) {
-				this.list.style.width = `${textBoxWidth}px`;
+			if (this.list!.offsetWidth < textBoxWidth) {
+				this.list!.style.width = `${textBoxWidth}px`;
 				return;
 			}
 			// If the list is wider than the textbox: make sure it fits horizontally into the browser window
 			const scroll = scroll_offset('Left');
 			const view_w = viewport('Width');
-			let w = this.list.offsetWidth;
-			const l_pos = position(this.list);
+			let w = this.list!.offsetWidth;
+			const l_pos = position(this.list!);
 			let left = l_pos.x;
 			let right = left + w;
 			if (left < scroll || right > scroll + view_w) {
 				if (w > view_w) {
 					w = view_w;
-					this.list.style.width = `${w}px`;
+					this.list!.style.width = `${w}px`;
 					if (is_rtl) {
 						left = right - w;
 					} else {
@@ -2504,11 +2671,17 @@ hotCatMessages();
 					relative_offset = -relative_offset;
 				}
 				if (relative_offset) {
-					this.list.style[anchor] = `${nl + relative_offset}px`;
+					this.list!.style[anchor] = `${nl + relative_offset}px`;
 				}
 			}
 		}
-		autoComplete(newVal, actVal, normalizedActVal, key, dontModify) {
+		autoComplete(
+			newVal: string,
+			actVal: string,
+			normalizedActVal: string | null,
+			key: string,
+			dontModify?: boolean
+		): boolean {
 			if (newVal === actVal) {
 				return true;
 			}
@@ -2529,54 +2702,40 @@ hotCatMessages();
 			}
 			// Actual input is a prefix of the new text. Fill in new text, selecting the newly added suffix
 			// such that it can be easily removed by typing backspace if the suggestion is unwanted.
-			this.text.focus();
-			this.text.value = newVal + key;
+			this.text!.focus();
+			this.text!.value = newVal + key;
 			this.setSelection(actVal.length, newVal.length);
 			return true;
 		}
-		canSelect() {
-			return (
-				this.text.setSelectionRange ||
-				(this.text.selectionStart !== undefined && this.text.selectionEnd !== undefined)
-			);
+		canSelect(): boolean {
+			return !!this.text!.setSelectionRange || this.text!.selectionStart !== null;
 		}
-		setSelection(from, to) {
+		setSelection(from: number, to: number): void {
 			// this.text must be focused (at least on IE)
-			if (!this.text.value) {
+			if (!this.text!.value) {
 				return;
 			}
-			if (this.text.setSelectionRange) {
-				// e.g. khtml
-				this.text.setSelectionRange(from, to);
-			} else if (this.text.selectionStart !== undefined) {
-				if (from > this.text.selectionStart) {
-					this.text.selectionEnd = to;
-					this.text.selectionStart = from;
-				} else {
-					this.text.selectionStart = from;
-					this.text.selectionEnd = to;
-				}
-			}
+			this.text!.setSelectionRange(from, to);
 		}
-		getSelection() {
+		getSelection(): {start: number; end: number} {
 			let from = 0;
 			// this.text must be focused (at least on IE)
 			let to = 0;
-			if (!this.text.value) {
+			if (!this.text!.value) {
 				// No text.
-			} else if (this.text.selectionStart !== undefined) {
-				from = this.text.selectionStart;
-				to = this.text.selectionEnd;
+			} else if (this.text!.selectionStart !== null) {
+				from = this.text!.selectionStart;
+				to = this.text!.selectionEnd ?? to;
 			}
 			return {
 				start: from,
 				end: to,
 			};
 		}
-		saveView() {
+		saveView(): void {
 			this.lastSelection = this.getSelection();
 		}
-		processKey(event) {
+		processKey(event: HotCatUIEvent): boolean {
 			let dir = 0;
 			switch (this.lastKey) {
 				case UP:
@@ -2596,7 +2755,7 @@ hotCatMessages();
 					return evtKill(event);
 			}
 			if (dir) {
-				if (this.list.style.display !== 'none') {
+				if (this.list!.style.display !== 'none') {
 					// List is visible, so there are suggestions
 					this.highlightSuggestion(dir);
 					// Kill the event, otherwise some browsers (e.g., Firefox) may additionally treat an up-arrow
@@ -2612,7 +2771,7 @@ hotCatMessages();
 			}
 			return true;
 		}
-		highlightSuggestion(dir) {
+		highlightSuggestion(dir: number): boolean {
 			if (noSuggestions || !this.list || this.list.style.display === 'none') {
 				return false;
 			}
@@ -2632,20 +2791,21 @@ hotCatMessages();
 			}
 			if (tgt !== curr || dir === 0) {
 				if (curr >= 0 && curr < this.list.options.length && dir !== 0) {
-					this.list.options[curr].selected = false;
+					this.list.options[curr]!.selected = false;
 				}
-				this.list.options[tgt].selected = true;
+				this.list.options[tgt]!.selected = true;
 				// Get current input text
-				const v = this.text.value.split('|');
+				const v = this.text!.value.split('|');
 				const key = v.length > 1 ? `|${v[1]}` : '';
-				const completed = this.autoComplete(this.list.options[tgt].text, this.lastRealInput, null, key, false);
-				if (!completed || this.list.options[tgt].text === this.lastRealInput) {
-					this.text.value = this.list.options[tgt].text + key;
+				const optionText = this.list.options[tgt]!.text;
+				const completed = this.autoComplete(optionText, this.lastRealInput, null, key, false);
+				if (!completed || optionText === this.lastRealInput) {
+					this.text!.value = optionText + key;
 					if (this.canSelect()) {
-						this.setSelection(this.list.options[tgt].text.length, this.list.options[tgt].text.length);
+						this.setSelection(optionText.length, optionText.length);
 					}
 				}
-				this.lastInput = this.list.options[tgt].text;
+				this.lastInput = optionText;
 				this.inputExists = true; // Might be wrong if from a dab list...
 				if (this.icon) {
 					this.icon.src = HC.existsYes;
@@ -2654,21 +2814,21 @@ hotCatMessages();
 			}
 			return true;
 		}
-		resetKeySelection() {
+		resetKeySelection(): boolean {
 			if (noSuggestions || !this.list || this.list.style.display === 'none') {
 				return false;
 			}
 			const curr = this.list.selectedIndex;
 			if (curr >= 0 && curr < this.list.options.length) {
-				this.list.options[curr].selected = false;
+				this.list.options[curr]!.selected = false;
 				// Get current input text
-				const v = this.text.value.split('|');
+				const v = this.text!.value.split('|');
 				const key = v.length > 1 ? `|${v[1]}` : '';
 				// ESC is handled strangely by some browsers (e.g., FF); somehow it resets the input value before
 				// our event handlers ever get a chance to run.
 				let result = v[0] !== this.lastInput;
 				if (v[0] !== this.lastRealInput) {
-					this.text.value = this.lastRealInput + key;
+					this.text!.value = this.lastRealInput + key;
 					result = true;
 				}
 				this.lastInput = this.lastRealInput;
@@ -2677,10 +2837,24 @@ hotCatMessages();
 			return false;
 		}
 	}
-	const initialize = () => {
+	interface HotCatUserConfig {
+		HotCatDontAddToWatchlist?: boolean;
+		HotCatNoAutoCommit?: boolean;
+		HotCatDelNeedsDiff?: boolean;
+		HotCatSuggestionDelay?: number;
+		HotCatEditBoxWidth?: number;
+		HotCatSuggestions?: string;
+		HotCatFixedSuggestions?: boolean;
+		HotCatMinorSingleChanges?: boolean;
+		HotCatChangedBackground?: string;
+		HotCatUseCategoryLinks?: boolean;
+		HotCatListSize?: number;
+		HotCatChangeTag?: string;
+	}
+	const initialize = (): void => {
 		// User configurations: Do this here, called from the onload handler, so that users can
 		// override it easily in their own user script files by just declaring variables.
-		const config = {};
+		const config: HotCatUserConfig = {};
 		HC.dont_add_to_watchlist =
 			window.hotcat_dont_add_to_watchlist === undefined
 				? config.HotCatDontAddToWatchlist === undefined
@@ -2732,28 +2906,26 @@ hotCatMessages();
 		if (HC.changeTag) {
 			const eForm = document.editform;
 			const catRegExp = new RegExp(`^\\[\\[(${HC.category_regexp}):`);
-			let oldTxt;
+			let oldTxt = '';
 			// Returns true if minor change
-			const isMinorChange = () => {
-				let newTxt = eForm.wpTextbox1;
-				if (!newTxt) {
+			const isMinorChange = (): boolean | undefined => {
+				const textbox = eForm?.wpTextbox1;
+				if (!textbox) {
 					return;
 				}
-				newTxt = newTxt.value;
-				const oldLines = oldTxt.match(/^.*$/gm);
-				const newLines = newTxt.match(/^.*$/gm);
-				let cArr; // changes
-				const except = (aArr, bArr) => {
-					const result = [];
-					let lArr; // smaller
-					let // larger
-						sArr;
+				const newTxt = textbox.value;
+				const oldLines = oldTxt.match(/^.*$/gm) ?? [];
+				const newLines = newTxt.match(/^.*$/gm) ?? [];
+				const except = (aArr: string[], bArr: string[]): string[] => {
+					const result: string[] = [];
+					let lArr: string[]; // larger
+					let sArr: string[]; // smaller
 					if (aArr.length < bArr.length) {
 						lArr = bArr;
-						sArr = aArr;
+						sArr = [...aArr];
 					} else {
 						lArr = aArr;
-						sArr = bArr;
+						sArr = [...bArr];
 					}
 					for (const item of lArr) {
 						const ind = sArr.indexOf(item);
@@ -2765,17 +2937,18 @@ hotCatMessages();
 					}
 					return [...result, ...sArr];
 				};
-				cArr = except(oldLines, newLines);
+				let cArr = except(oldLines, newLines); // changes
 				if (cArr.length > 0) {
-					cArr = cArr.filter((c) => {
-						c = c.trim();
-						return c && !catRegExp.test(c);
+					cArr = cArr.filter((c: string) => {
+						const trimmed = c.trim();
+						return !!trimmed && !catRegExp.test(trimmed);
 					});
 				}
 				if (cArr.length === 0) {
 					oldTxt = newTxt;
 					return true;
 				}
+				return undefined;
 			};
 			if (
 				conf.wgAction === 'submit' &&
@@ -2786,7 +2959,7 @@ hotCatMessages();
 			) {
 				const sum = eForm.wpSummary;
 				const sumA = eForm.wpAutoSummary;
-				if (sum.value && sumA.value === HC.changeTag) {
+				if (sum.value && sumA && sumA.value === HC.changeTag) {
 					// HotCat diff
 					// MD5 hash of the empty string, as HotCat edit is based on empty sum
 					sumA.value = sumA.value.replace(HC.changeTag, 'd41d8cd98f00b204e9800998ecf8427e');
@@ -2798,7 +2971,7 @@ hotCatMessages();
 						})
 						.val(HC.changeTag);
 					$(eForm).append($ct);
-					oldTxt = eForm.wpTextbox1.value;
+					oldTxt = eForm.wpTextbox1?.value ?? '';
 					const $body = $('body');
 					$body.find('input[name=wpSave]').one('click', () => {
 						if ($ct.val()) {
@@ -2808,8 +2981,8 @@ hotCatMessages();
 							);
 						}
 					});
-					const removeChangeTag = () => {
-						$(eForm.wpTextbox1)
+					const removeChangeTag = (): void => {
+						$(eForm.wpTextbox1!)
 							.add(sum)
 							.one('input', () => {
 								setTimeout(() => {
@@ -2826,7 +2999,7 @@ hotCatMessages();
 			}
 		}
 		// Numeric input, make sure we have a numeric value
-		HC.listSize = Number.parseInt(HC.listSize, 10);
+		HC.listSize = Number.parseInt(String(HC.listSize), 10);
 		if (Number.isNaN(HC.listSize) || HC.listSize < 5) {
 			HC.listSize = 5;
 		}
@@ -2842,63 +3015,62 @@ hotCatMessages();
 			}
 		}
 		// Catch both native RTL and "faked" RTL through [[MediaWiki:Rtl.js]]
-		is_rtl = hasClass(document.querySelector('body'), 'rtl');
+		const body = document.querySelector<HTMLElement>('body')!;
+		is_rtl = hasClass(body, 'rtl');
 		if (!is_rtl) {
-			if (document.defaultView && document.defaultView.getComputedStyle) {
-				// Gecko etc.
-				is_rtl = document.defaultView
-					.getComputedStyle(document.querySelector('body'), null)
-					.getPropertyValue('direction');
-			} else {
-				// Not exactly right, but best effort
-				is_rtl = $('body')[0].style.direction;
-			}
-			is_rtl = is_rtl === 'rtl';
+			const direction = document.defaultView
+				? // Gecko etc.
+					document.defaultView.getComputedStyle(body, null).getPropertyValue('direction')
+				: // Not exactly right, but best effort
+					$('body')[0]!.style.direction;
+			is_rtl = direction === 'rtl';
 		}
 	};
-	const can_edit = () => {
+	const can_edit = (): boolean => {
 		return document.querySelector('#ca-edit') !== null;
 	};
 	// Legacy stuff
-	const closeForm = function () {
+	const closeForm = (): void => {
 		// Close all open editors without redirect resolution and other asynchronous stuff.
 		for (const edit of editors) {
 			if (edit.state === OPEN) {
 				edit.cancel();
 			} else if (edit.state === CHANGE_PENDING) {
 				edit.sanitizeInput();
-				const value = edit.text.value.split('|');
-				let key = null;
+				const value = edit.text!.value.split('|');
+				let key: string | null = null;
 				if (value.length > 1) {
-					[, key] = value;
+					key = value[1]!;
 				}
-				const v = value[0].replace(/_/g, ' ').trim();
+				const v = value[0]!.replace(/_/g, ' ').trim();
 				if (v.length === 0) {
 					edit.cancel();
 				} else {
 					edit.currentCategory = v;
 					edit.currentKey = key;
-					edit.currentExists = this.inputExists;
+					edit.currentExists = edit.inputExists;
 					edit.close();
 				}
 			}
 		}
 	};
-	const setup_upload = () => {
+	const setup_upload = (): void => {
 		onUpload = true;
 		// Add an empty category bar at the end of the table containing the description, and change the onsubmit handler.
-		let ip = document.querySelector('#mw-htmlform-description') || document.querySelector('input[name=wpDestFile]');
+		let ip: HTMLElement | null =
+			document.querySelector<HTMLElement>('#mw-htmlform-description') ??
+			document.querySelector<HTMLElement>('input[name=wpDestFile]');
 		if (!ip) {
-			ip = document.querySelector('input[name=wpDestFile]');
+			ip = document.querySelector<HTMLElement>('input[name=wpDestFile]');
 			while (ip && ip.nodeName.toLowerCase() !== 'table') {
-				ip = ip.parentNode;
+				ip = ip.parentNode as HTMLElement | null;
 			}
 		}
 		if (!ip) {
 			return;
 		}
-		const reupload = document.querySelector('input[name=wpForReUpload]');
-		const destFile = document.querySelector('input[name=wpDestFile]');
+		const reupload = document.querySelector<HTMLInputElement>('input[name=wpForReUpload]');
+		const destFile = document.querySelector<HTMLInputElement>('input[name=wpDestFile]');
 		if ((reupload && !!reupload.value) || (destFile && (destFile.disabled || destFile.readOnly))) {
 			return; // re-upload form...
 		}
@@ -2915,7 +3087,7 @@ hotCatMessages();
 		catLine.style.border = 'none';
 		lineCell.append(catLine);
 		// Create the label
-		const label = null;
+		const label: HTMLElement | null = null;
 		if (label) {
 			labelCell.id = 'hotcatLabelTranslated';
 			labelCell.append(label);
@@ -2927,64 +3099,58 @@ hotCatMessages();
 		labelCell.style.textAlign = 'right';
 		labelCell.style.verticalAlign = 'middle';
 		// Change the onsubmit handler
-		const form = document.querySelector('#upload') || document.querySelector('#mw-upload-form');
+		const form =
+			document.querySelector<HTMLFormElement>('#upload') ??
+			document.querySelector<HTMLFormElement>('#mw-upload-form');
 		if (form) {
-			const newRow = ip.insertRow(-1);
+			const newRow = (ip as HTMLTableElement).insertRow(-1);
 			newRow.append(labelCell);
 			newRow.append(lineCell);
-			form.addEventListener('submit', (oldSubmit, ...args) => {
-				return (() => {
-					let do_submit = true;
-					if (oldSubmit) {
-						if (typeof oldSubmit === 'string') {
-							do_submit = window.eval(oldSubmit);
-						} else if (oldSubmit instanceof Function) {
-							do_submit = oldSubmit.apply(form, [oldSubmit, ...args]);
-						}
-					}
-					if (!do_submit) {
-						return false;
-					}
-					closeForm();
-					// Copy the categories
-					const eb =
-						document.querySelector('textarea[name=wpUploadDescription]') ||
-						document.querySelector('#wpDesc');
-					let addedOne = false;
-					for (const editor of editors) {
-						const t = editor.currentCategory;
-						if (!t) {
-							continue;
-						}
-						const key = editor.currentKey;
-						const new_cat = `[[${HC.category_canonical}:${t}${key ? `|${key}` : ''}]]`;
-						// Only add if not already present
-						const nowikiRegex = new RegExp(
-							'<no'.concat('wiki>', String.raw`(\s|\S)*?</no`, 'wiki', '>'),
-							'g'
-						);
-						const _cleanedText = eb.value.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex);
-						if (!find_category(_cleanedText, t, true)) {
-							eb.value += `\n${new_cat}`;
-							addedOne = true;
-						}
-					}
-					if (addedOne) {
-						// Remove "subst:unc" added by Flinfo if it didn't find categories
-						const regex = new RegExp('{{$'.concat('subst:').concat('unc}}'), 'g');
-						eb.value = eb.value.replace(regex, '');
-					}
+			form.addEventListener('submit', () => {
+				closeForm();
+				// Copy the categories
+				const eb =
+					document.querySelector<HTMLTextAreaElement>('textarea[name=wpUploadDescription]') ??
+					document.querySelector<HTMLTextAreaElement>('#wpDesc');
+				if (!eb) {
 					return true;
-				})(form.onsubmit);
+				}
+				let addedOne = false;
+				for (const editor of editors) {
+					const t = editor.currentCategory;
+					if (!t) {
+						continue;
+					}
+					const key = editor.currentKey;
+					const new_cat = `[[${HC.category_canonical}:${t}${key ? `|${key}` : ''}]]`;
+					// Only add if not already present
+					const nowikiRegex = new RegExp('<no'.concat('wiki>', String.raw`(\s|\S)*?</no`, 'wiki', '>'), 'g');
+					const _cleanedText = eb.value.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
+					if (!find_category(_cleanedText, t, true)) {
+						eb.value += `\n${new_cat}`;
+						addedOne = true;
+					}
+				}
+				if (addedOne) {
+					// Remove "subst:unc" added by Flinfo if it didn't find categories
+					const regex = new RegExp('{{$'.concat('subst:').concat('unc}}'), 'g');
+					eb.value = eb.value.replace(regex, '');
+				}
+				return true;
 			});
 		}
 	};
-	let cleanedText = null;
-	const isOnPage = ({firstChild}) => {
-		if (firstChild.nodeType !== Node.ELEMENT_NODE) {
+	let cleanedText: string | null = null;
+	interface HotCatOnPageResult {
+		title: string;
+		match: RegExpExecArray | HotCatCategoryMatches | string[] | null;
+	}
+	const isOnPage = (element: Element): HotCatOnPageResult | null => {
+		const {firstChild} = element;
+		if (!firstChild || firstChild.nodeType !== Node.ELEMENT_NODE) {
 			return null;
 		}
-		let catTitle = title(firstChild.getAttribute('href'));
+		let catTitle = title((firstChild as Element).getAttribute('href'));
 		if (!catTitle) {
 			return null;
 		}
@@ -2992,7 +3158,7 @@ hotCatMessages();
 		if (HC.blacklist && HC.blacklist.test(catTitle)) {
 			return null;
 		}
-		const result = {
+		const result: HotCatOnPageResult = {
 			title: catTitle,
 			match: ['', '', ''],
 		};
@@ -3007,12 +3173,12 @@ hotCatMessages();
 		return result;
 	};
 	let initialized = false;
-	let setupTimeout = null;
-	const findByClass = (scope, tag, className) => {
+	let setupTimeout: ReturnType<typeof setTimeout> | null = null;
+	const findByClass = (scope: ParentNode, tag: string, className: string): HTMLElement | null => {
 		const result = $(scope).find(`${tag}.${className}`);
-		return result && result.length > 0 ? result[0] : null;
+		return result && result.length > 0 ? (result[0] as HTMLElement) : null;
 	};
-	const setup = (additionalWork) => {
+	const setup = (additionalWork?: () => void): void => {
 		if (initialized) {
 			return;
 		}
@@ -3023,10 +3189,10 @@ hotCatMessages();
 		}
 		// Find the category bar, or create an empty one if there isn't one. Then add -/+- links after
 		// each category, and add the + link.
-		catLine ||= document.querySelector('#mw-normal-catlinks'); // Special:Upload
-		const hiddenCats = document.querySelector('#mw-hidden-catlinks');
+		catLine ||= document.querySelector<HTMLElement>('#mw-normal-catlinks'); // Special:Upload
+		const hiddenCats = document.querySelector<HTMLElement>('#mw-hidden-catlinks');
 		if (!catLine) {
-			let footer = null;
+			let footer: HTMLElement | null = null;
 			if (!hiddenCats) {
 				footer = findByClass(document, 'div', 'printfooter');
 				if (!footer) {
@@ -3044,11 +3210,12 @@ hotCatMessages();
 			catLine.append(label);
 			catLine.append(make(':', true));
 			// Insert the new category line
-			let container = hiddenCats ? hiddenCats.parentNode : document.querySelector('#catlinks');
+			let container: HTMLElement | null =
+				(hiddenCats?.parentNode as HTMLElement | null) ?? document.querySelector<HTMLElement>('#catlinks');
 			if (!container) {
 				container = make('div');
 				container.id = 'catlinks';
-				footer.parentNode.insertBefore(container, footer.nextSibling);
+				footer!.parentNode!.insertBefore(container, footer!.nextSibling);
 			}
 			container.className = 'catlinks noprint';
 			container.style.display = '';
@@ -3062,33 +3229,33 @@ hotCatMessages();
 			catLine.dir = 'rtl';
 		}
 		// Create editors for all existing categories
-		const createEditors = (line, is_hidden) => {
-			let i;
-			let cats = line.querySelectorAll('li');
+		const createEditors = (line: HTMLElement, is_hidden?: boolean): HTMLElement | null => {
+			let cats: NodeListOf<HTMLElement> | HTMLElement[] = line.querySelectorAll<HTMLElement>('li');
 			if (cats.length > 0) {
 				newDOM = true;
-				line = cats[0].parentNode;
+				line = cats[0]!.parentNode as HTMLElement;
 			} else {
-				cats = line.querySelectorAll('span');
+				cats = line.querySelectorAll<HTMLElement>('span');
 			}
 			// Copy cats, otherwise it'll also magically contain our added spans as it is a live collection!
-			const copyCats = Array.from({
-				length: cats.length,
-			});
-			for (i = 0; i < cats.length; i++) {
-				copyCats[i] = cats[i];
-			}
-			for (i = 0; i < copyCats.length; i++) {
-				const test = isOnPage(copyCats[i]);
+			const copyCats = Array.from(cats);
+			for (const cat of copyCats) {
+				const test = isOnPage(cat);
 				if (test !== null && test.match !== null && line) {
-					new CategoryEditor(line, copyCats[i], test.title, test.match[2], is_hidden);
+					new CategoryEditor(line, cat, test.title, (test.match as string[])[2], is_hidden);
 				}
 			}
-			return copyCats.length > 0 ? copyCats.at(-1) : null;
+			return copyCats.length > 0 ? copyCats.at(-1)! : null;
 		};
 		const lastSpan = createEditors(catLine, false);
 		// Create one to add a new category
-		new CategoryEditor(newDOM ? catLine.querySelectorAll('ul')[0] : catLine, null, null, lastSpan !== null, false);
+		new CategoryEditor(
+			newDOM ? catLine.querySelectorAll<HTMLElement>('ul')[0]! : catLine,
+			null,
+			null,
+			lastSpan !== null,
+			false
+		);
 		if (!onUpload) {
 			if (pageText !== null && hiddenCats) {
 				if (is_rtl) {
@@ -3102,19 +3269,19 @@ hotCatMessages();
 			if (is_rtl) {
 				enableMulti.dir = 'rtl';
 			}
-			catLine.insertBefore(enableMulti, catLine.firstChild.nextSibling);
+			catLine.insertBefore(enableMulti, catLine.firstChild!.nextSibling);
 			enableMulti.append(make('\u00A0', true)); // nbsp
 			multiSpan = make('span');
 			enableMulti.append(multiSpan);
 			multiSpan.innerHTML = `(<a>${HC.addmulti}</a>)`;
-			const [link] = multiSpan.querySelectorAll('a');
-			link.addEventListener('click', (event) => {
+			const [link] = multiSpan.querySelectorAll<HTMLAnchorElement>('a');
+			link!.addEventListener('click', (event) => {
 				setMultiInput();
 				checkMultiInput();
 				return evtKill(event);
 			});
-			link.title = getMessage('multi_tooltip');
-			link.style.cursor = 'pointer';
+			link!.title = getMessage('multi_tooltip');
+			link!.style.cursor = 'pointer';
 		}
 		cleanedText = null;
 		if (additionalWork instanceof Function) {
@@ -3123,13 +3290,13 @@ hotCatMessages();
 		mw.hook('hotcat.ready').fire(); // Execute registered callback functions
 		$('body').trigger('hotcatSetupCompleted');
 	};
-	const createCommitForm = () => {
+	const createCommitForm = (): void => {
 		if (commitForm) {
 			return;
 		}
 		const formContainer = make('div');
 		formContainer.style.display = 'none';
-		document.querySelector('body').append(formContainer);
+		document.querySelector('body')!.append(formContainer);
 		formContainer.innerHTML = `<form id="hotcatCommitForm" method="post" enctype="multipart/form-data" action="${
 			conf.wgScript
 		}?title=${encodeURIComponent(conf.wgPageName)}&action=submit">
@@ -3150,12 +3317,12 @@ hotCatMessages();
 		<input type="hidden" name="wpChangeTags">
 		<input type="hidden" value="ℳ𝒲♥𝓊𝓃𝒾𝒸ℴ𝒹ℯ" name="wpUnicodeCheck">
 		</form>`;
-		commitForm = document.querySelector('#hotcatCommitForm');
+		commitForm = document.querySelector<HotCatCommitForm>('#hotcatCommitForm');
 	};
-	const getPage = () => {
+	const getPage = (): void => {
 		// We know we have an article here.
 		if (conf.wgArticleId) {
-			const params = {
+			const params: ApiQueryParams = {
 				action: 'query',
 				format: 'json',
 				formatversion: '2',
@@ -3168,12 +3335,12 @@ hotCatMessages();
 				rvslots: 'main',
 				meta: ['siteinfo'],
 			};
-			HC.start = (data) => {
+			HC.start = (data: HotCatApiQueryResponse): void => {
 				setPage(data);
 				setup(createCommitForm);
 			};
-			api.get(params).then((data) => {
-				HC.start(data);
+			void api.get(params).then((data) => {
+				HC.start!(data as HotCatApiQueryResponse);
 			});
 			setupTimeout = setTimeout(() => {
 				setup(createCommitForm);
@@ -3188,54 +3355,54 @@ hotCatMessages();
 			setup(createCommitForm);
 		}
 	};
-	const setState = (state) => {
+	const setState = (state: string): null => {
 		const cats = state.split('\n');
 		if (cats.length === 0) {
 			return null;
 		}
-		if (initialized && editors.length === 1 && editors[0].isAddCategory) {
+		if (initialized && editors.length === 1 && editors[0]!.isAddCategory) {
 			// Insert new spans and create new editors for them.
-			const newSpans = [];
-			const before = editors.length === 1 ? editors[0].span : null;
-			let i;
+			const newSpans: {element: HTMLElement; title: string; key: string | null}[] = [];
+			const before = editors.length === 1 ? editors[0]!.span : null;
+			let i: number;
 			for (i = 0; i < cats.length; i++) {
-				if (cats[i].length === 0) {
+				if (cats[i]!.length === 0) {
 					continue;
 				}
-				let cat = cats[i].split('|');
-				const key = cat.length > 1 ? cat[1] : null;
-				[cat] = cat;
+				const cat = cats[i]!.split('|');
+				const key = cat.length > 1 ? cat[1]! : null;
+				const catName = cat[0]!;
 				const link = make('a');
-				link.href = wikiPagePath(`${HC.category_canonical}:${cat}`);
-				link.append(make(cat, true));
-				link.title = cat;
+				link.href = wikiPagePath(`${HC.category_canonical}:${catName}`);
+				link.append(make(catName, true));
+				link.title = catName;
 				const span = make('span');
 				span.append(link);
 				if (!i) {
-					catLine.insertBefore(make(' ', true), before);
+					catLine!.insertBefore(make(' ', true), before);
 				}
-				before.before(span);
+				before!.before(span);
 				if (before && i + 1 < cats.length) {
-					parent.insertBefore(make(' | ', true), before);
+					before.parentNode!.insertBefore(make(' | ', true), before);
 				}
 				newSpans[newSpans.length] = {
 					element: span,
-					title: cat,
+					title: catName,
 					key,
 				};
 			}
 			// And change the last one...
 			if (before) {
-				before.parentNode.insertBefore(make(' | ', true), before);
+				before.parentNode!.insertBefore(make(' | ', true), before);
 			}
-			for (i = 0; i < newSpans.length; i++) {
-				new CategoryEditor(catLine, newSpans[i].element, newSpans[i].title, newSpans[i].key);
+			for (const newSpan of newSpans) {
+				new CategoryEditor(catLine!, newSpan.element, newSpan.title, newSpan.key);
 			}
 		}
 		return null;
 	};
-	const getState = () => {
-		let result = null;
+	const getState = (): string | null => {
+		let result: string | null = null;
 		for (const editor of editors) {
 			let text = editor.currentCategory;
 			const key = editor.currentKey;
@@ -3252,7 +3419,7 @@ hotCatMessages();
 		}
 		return result;
 	};
-	const really_run = () => {
+	const really_run = (): void => {
 		initialize();
 		if (
 			!HC.upload_disabled &&
@@ -3263,8 +3430,8 @@ hotCatMessages();
 			setup_upload();
 			setup(() => {
 				// Check for state restoration once the setup is done otherwise, but before signalling setup completion
-				if (window.UploadForm && UploadForm.previous_hotcat_state) {
-					UploadForm.previous_hotcat_state = setState(UploadForm.previous_hotcat_state);
+				if (window.UploadForm && window.UploadForm.previous_hotcat_state) {
+					window.UploadForm.previous_hotcat_state = setState(window.UploadForm.previous_hotcat_state);
 				}
 			});
 		} else {
@@ -3281,7 +3448,7 @@ hotCatMessages();
 			getPage();
 		}
 	};
-	const run = () => {
+	const run = (): void => {
 		if (HC.started) {
 			return;
 		}
@@ -3289,16 +3456,16 @@ hotCatMessages();
 		really_run();
 	};
 	// Export legacy functions
-	window.hotcat_get_state = () => {
+	window.hotcat_get_state = (): string | null => {
 		return getState();
 	};
-	window.hotcat_set_state = (state) => {
+	window.hotcat_set_state = (state: string): null => {
 		return setState(state);
 	};
-	window.hotcat_close_form = () => {
+	window.hotcat_close_form = (): void => {
 		closeForm();
 	};
-	HC.runWhenReady = (callback) => {
+	HC.runWhenReady = (callback: () => void): void => {
 		// run user-registered code once HotCat is fully set up and ready.
 		mw.hook('hotcat.ready').add(callback);
 	};
