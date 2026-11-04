@@ -119,8 +119,15 @@ form.quickform {
 }
 
 .morebits-ui-tooltip {
+	position: fixed;
+	z-index: 99999;
+	max-width: 300px;
 	padding: 4px 6px;
+	border: 1px solid #a2a9b1;
+	background-color: #f8f9fa;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
 	font-size: 1em;
+	white-space: normal;
 }
 
 /* Scrollbox styles, for use within Morebits.simpleWindow */
@@ -172,10 +179,14 @@ div.morebits-usertext {
 
 /* Morebits.simpleWindow */
 
-.morebits-dialog {
+div.morebits-dialog {
+	position: fixed;
+	z-index: 200;
+	box-sizing: border-box;
 	border: 1px #666 solid;
 	background-color: #f0f8ff;
 	background-image: none;
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
 	font-family: var(--fonts-sans, sans-serif);
 
 	/* px translations in comments are w.r.t standard browser settings,
@@ -189,48 +200,89 @@ div.morebits-usertext {
 	}
 }
 
-body .ui-dialog.morebits-dialog .ui-dialog-titlebar {
+/* Modal overlay (formerly jQuery UI's .ui-widget-overlay) */
+
+div.morebits-dialog-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 199;
+	background: #666;
+	opacity: 0.4;
+}
+
+/* Dialog chrome formerly provided by jQuery UI's dialog feature */
+
+div.morebits-dialog-titlebar {
 	overflow: hidden;
-	padding: 0.4em 0.3em 0.5em !important;
-	background-color: #bccadf !important;
-	background-image: none !important;
+	padding: 0.4em 0.3em 0.5em;
+	background-color: #bccadf;
+	background-image: none;
 	font: bold 108% var(--fonts-sans, sans-serif); /* 100% is 12px (from above) → 108% is 12.96px */
 	white-space: nowrap;
+	cursor: move;
+}
+
+.morebits-dialog-title {
+	display: block;
+	overflow: hidden;
+	padding-right: 2em;
+	text-overflow: ellipsis;
 }
 
 .morebits-dialog-scriptname {
 	font-weight: normal;
 }
 
-.ui-dialog.morebits-dialog {
-	.ui-dialog-titlebar-close {
-		top: auto;
-		right: 0;
-		width: 2em;
-		height: 100%;
-		margin: -0.5em -0.15em 0;
+button.morebits-dialog-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 2em;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	margin: 0;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	line-height: inherit;
+
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.1);
 	}
+}
 
-	.ui-dialog-titlebar-close span {
-		margin: 0.33em;
-	}
+.morebits-dialog-content {
+	position: relative;
+	padding: 0;
+	overflow: auto;
+}
 
-	.morebits-dialog-content {
-		padding: 0;
-	}
+.morebits-dialog-buttonpane {
+	min-height: 0.5em;
+	padding-left: 1.2em;
+	margin: 0;
+	background-color: #bccadf;
+	text-align: left;
 
-	body & {
-		.ui-dialog-buttonpane {
-			min-height: 0.5em;
-			padding-left: 1.2em !important;
-			margin: 0;
-			background-color: #bccadf;
+	button {
+		padding: 0.2em 0.6em;
+		border: 1px solid #a2a9b1;
+		border-radius: 2px;
+		margin: 0.2em 0 -0.1em;
+		background: #f8f9fa;
+		color: #222;
+		cursor: pointer;
+		float: none;
 
-			button {
-				margin: 0.2em 0 -0.1em;
-				cursor: auto;
-				float: none;
-			}
+		&:hover {
+			background: #e9edf1;
+		}
+
+		&:disabled {
+			opacity: 0.4;
+			cursor: default;
 		}
 	}
 }
@@ -244,7 +296,7 @@ body .ui-dialog.morebits-dialog .ui-dialog-titlebar {
 	float: right;
 	font-size: 97%; /* 100% is 12px (from above) → 97% is 11.64px */
 
-	body .ui-dialog.morebits-dialog & {
+	div.morebits-dialog & {
 		a {
 			color: #3062ad;
 		}
@@ -252,14 +304,6 @@ body .ui-dialog.morebits-dialog .ui-dialog-titlebar {
 
 	.morebits-dialog-buttons[data-empty] + & {
 		margin: 0.1em 0.4em -0.2em 0;
-	}
-}
-
-.ui-icon {
-	vertical-align: -3px;
-
-	&-inline {
-		display: inline-block;
 	}
 }
 
