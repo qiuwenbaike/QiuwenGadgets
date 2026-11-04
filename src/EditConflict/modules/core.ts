@@ -1,15 +1,13 @@
-import {delay, getBody} from 'ext.gadget.Util';
 import {$noticeMessage} from './noticeMessage';
+import {delay} from 'ext.gadget.Util';
 import {getCurrentRevisionId} from './getCurrentRevisionId';
 import {toastify} from 'ext.gadget.Toastify';
 
-const editConflict = async (): Promise<void> => {
+const editConflict = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 	let isContinue: boolean = true;
 
-	void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
-		$body.find('input[name="wpSave"]').on('click', (): void => {
-			isContinue = false;
-		});
+	$body.find('input[name="wpSave"]').on('click', (): void => {
+		isContinue = false;
 	});
 
 	const checkEditConflict = async (): Promise<void> => {

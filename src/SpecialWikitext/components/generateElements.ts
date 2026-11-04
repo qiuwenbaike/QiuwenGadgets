@@ -1,11 +1,11 @@
 import {previewLoadingContent, previewLoadingInner} from './SpecialWikitext.module.less';
 import ajaxLoader from '../images/Ajax-loader.gif';
-import alert from '../images/Alert.png';
+import alert from '../images/alert.svg';
 import {getMessage} from '../modules/i18n';
 
 const failedElement = () => {
 	const loadingIcon = document.createElement('img');
-	loadingIcon.src = alert;
+	loadingIcon.src = `data:image/svg+xml,${encodeURIComponent(alert)}`;
 	loadingIcon.decoding = 'async';
 	loadingIcon.width = 32;
 	loadingIcon.height = 32;
