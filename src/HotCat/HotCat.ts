@@ -3167,7 +3167,12 @@ hotCatMessages();
 		}
 		if (cleanedText === null) {
 			const nowikiRegex = new RegExp('<no'.concat('wiki>', String.raw`(\s|\S)*?</no`, 'wiki', '>'), 'g');
-			cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
+			let previous: string;
+			cleanedText = pageText;
+			do {
+				previous = cleanedText;
+				cleanedText = cleanedText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
+			} while (cleanedText !== previous);
 		}
 		result.match = find_category(cleanedText, catTitle, true);
 		return result;
