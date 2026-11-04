@@ -1,11 +1,28 @@
 /**
- * SPDX-License-Identifier: CC-BY-SA-4.0
- * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * _addText: '{{Gadget Header|license=GPL-3.0-or-later}}'
  *
  * @base {@link https://en.wikipedia.org/wiki/User:Nardog/CopyCodeBlock.js}
  * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/CopyCodeBlock}
- * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ * @author Nardog (main author); 安忆 <i@anyi.in> (copyText.ts)
+ * @license GPL-3.0-or-later {@link https://www.qiuwenbaike.cn/wiki/H:GPL-3.0}
  */
+
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 /**
  * SPDX-License-Identifier: MIT
@@ -67,4 +84,4 @@
 
 /* </nowiki> */
 
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9Db3B5Q29kZUJsb2NrL21vZHVsZXMvQ29weUNvZGVCbG9jay5tb2R1bGUubGVzcyIsICJzZmMtc3R5bGU6RDpcXEdpdFJlcG9zaXRvcnlcXFFpdXdlbkdhZGdldHNcXHNyY1xcQ29weUNvZGVCbG9ja1xcQXBwLnZ1ZT90eXBlPXN0eWxlJmluZGV4PTAiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi8qIDxzdGRpbj4gKi9cbi5Db3B5Q29kZUJsb2NrLW1vZHVsZV9fY29kZUJsb2NrXzc0aTFEYV9fNDEwMCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbn1cbi5Db3B5Q29kZUJsb2NrLW1vZHVsZV9fYnV0dG9uXzc0aTFEYV9fNDEwMCB7XG4gIHRvcDogMDtcbiAgcmlnaHQ6IDA7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50O1xufVxuIiwgIi5jZHgtYnV0dG9uOmhvdmVyIC5jZHgtaWNvbltkYXRhLXYtM2M5NjJlNTFdIHN2ZyB7XG4gIGZpbGw6ICMzNmM7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUNBLENBQUM7QUFDQyxZQUFVO0FBQ1o7QUFDQSxDQUFDO0FBQ0MsT0FBSztBQUNMLFNBQU87QUFDUCxZQUFVO0FBQ1o7OztBQ1JBLENBQUMsVUFBVSxPQUFPLENBQUMsUUFBUSxDQUFDLGlCQUFpQjtBQUMzQyxRQUFNO0FBQ1I7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiZXNidWlsZC1jc3MtbW9kdWxlcy1wbHVnaW4tbnMtY3NzOnNyYy9Db3B5Q29kZUJsb2NrL21vZHVsZXMvQ29weUNvZGVCbG9jay5tb2R1bGUubGVzcyIsICJzZmMtc3R5bGU6RDpcXEdpdFJlcG9zaXRvcnlcXFFpdXdlbkdhZGdldHNcXHNyY1xcQ29weUNvZGVCbG9ja1xcQXBwLnZ1ZT90eXBlPXN0eWxlJmluZGV4PTAiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIi8qIDxzdGRpbj4gKi9cbi5Db3B5Q29kZUJsb2NrLW1vZHVsZV9fY29kZUJsb2NrXzc0aTFEYV9fNDEwMCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbn1cbi5Db3B5Q29kZUJsb2NrLW1vZHVsZV9fYnV0dG9uXzc0aTFEYV9fNDEwMCB7XG4gIHRvcDogMDtcbiAgcmlnaHQ6IDA7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50O1xufVxuIiwgIi5jZHgtYnV0dG9uOmhvdmVyIC5jZHgtaWNvbltkYXRhLXYtM2M5NjJlNTFdIHN2ZyB7XG4gIGZpbGw6ICMzNmM7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQ0EsQ0FBQztBQUNDLFlBQVU7QUFDWjtBQUNBLENBQUM7QUFDQyxPQUFLO0FBQ0wsU0FBTztBQUNQLFlBQVU7QUFDWjs7O0FDUkEsQ0FBQyxVQUFVLE9BQU8sQ0FBQyxRQUFRLENBQUMsaUJBQWlCO0FBQzNDLFFBQU07QUFDUjsiLAogICJuYW1lcyI6IFtdCn0K */

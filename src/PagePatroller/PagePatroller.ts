@@ -2,7 +2,7 @@ import {showPagePatroller} from './modules/showPagePatroller';
 
 const {wgNamespaceNumber, wgArticleId, wgIsMainPage} = mw.config.get();
 
-(function () {
+(function pagePatroller() {
 	if (wgNamespaceNumber < 0) {
 		return;
 	}

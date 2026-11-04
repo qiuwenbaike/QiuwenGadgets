@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as OPTIONS from '../options.json';
 import {RedirectCallback, RedirectMethod, ToolsRedirectApi} from './types';
 import {SUFFIX_APPEND, SUFFIX_REPLACE, SUFFIX_SETDEFAULT, VARIANTS} from './constant';
 import {generateArray, uniqueArray} from 'ext.gadget.Util';
+import {ApiResponse} from 'types-mediawiki/mw/Api';
 import {api} from './api';
 import {fixNamespace} from './util/fixNamespace';
 import {getMessage} from './util/getMessage';
@@ -43,7 +43,7 @@ const findRedirectBySelector = function (this: ToolsRedirectApi, selector: strin
 	findRedirectCallbacks[findRedirectCallbacks.length] = () => {
 		return $(selector).map((_index, element) => {
 			return $(element).eq(0).text().trim() || null;
-		}) as JQuery<any>;
+		});
 	};
 	return this;
 };
@@ -174,7 +174,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 				titles,
 			})
 			.then(({query}) => {
-				const deferreds: string | any[] = [];
+				const deferreds: JQuery.Promise<unknown>[] = [];
 				for (const page of query.pages) {
 					const {content} = page.revisions[0].slots['main'];
 					const newContent = content.replace(regex, text);
@@ -471,7 +471,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 				});
 			deferreds[deferreds.length] = xhr;
 		}
-		return $.when(...deferreds).then((...args: any[]) => {
+		return $.when(...deferreds).then((...args: string[]) => {
 			const suffixes = [];
 			for (const title of args) {
 				let suffix;
@@ -517,8 +517,9 @@ const ToolsRedirect: ToolsRedirectApi = {
 				variant,
 			});
 		}
-		return $.when(...deferreds).then((...args: any[]) => {
-			for (const [{parse}] of args as Array<[(typeof args)[number]]>) {
+		return $.when(...deferreds).then((...responses: ApiResponse[]) => {
+			// `action=parse&prop=text` resolves to `{parse: {text: string}}`
+			for (const {parse} of responses as Array<{parse: {text: string}}>) {
 				alltitles = [...alltitles, ...$(parse.text).text().trim().split('|')];
 			}
 			alltitles = alltitles.filter((v, i, arr) => {
@@ -579,8 +580,8 @@ const ToolsRedirect: ToolsRedirectApi = {
 		};
 		// handles the deferred callbacks
 		void $.when(...frcDeferreds)
-			.then((...args) => {
-				for (const ret of args) {
+			.then((...responses) => {
+				for (const ret of responses) {
 					if (typeof ret === 'string') {
 						titles[titles.length] = ret;
 					} else {
