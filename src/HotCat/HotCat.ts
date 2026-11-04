@@ -3129,7 +3129,10 @@ hotCatMessages();
 					let previousCleanedText: string;
 					do {
 						previousCleanedText = _cleanedText;
-						_cleanedText = _cleanedText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
+						_cleanedText = _cleanedText
+							.replace(/<!--/g, '')
+							.replace(/-->/g, '')
+							.replace(nowikiRegex, '');
 					} while (_cleanedText !== previousCleanedText);
 					if (!find_category(_cleanedText, t, true)) {
 						eb.value += `\n${new_cat}`;
