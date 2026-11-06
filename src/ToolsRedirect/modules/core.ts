@@ -2,7 +2,6 @@ import * as OPTIONS from '../options.json';
 import {RedirectCallback, RedirectMethod, ToolsRedirectApi} from './types';
 import {SUFFIX_APPEND, SUFFIX_REPLACE, SUFFIX_SETDEFAULT, VARIANTS} from './constant';
 import {generateArray, uniqueArray} from 'ext.gadget.Util';
-import {ApiResponse} from 'types-mediawiki/mw/Api';
 import {api} from './api';
 import {fixNamespace} from './util/fixNamespace';
 import {getMessage} from './util/getMessage';
@@ -505,22 +504,25 @@ const ToolsRedirect: ToolsRedirectApi = {
 		const excludes = ['用字模式'];
 		let alltitles: string[] = [];
 		for (const variant of VARIANTS) {
-			deferreds[deferreds.length] = api.get({
-				action: 'parse',
-				format: 'json',
-				formatversion: '2',
-				text: titles,
-				prop: 'text',
-				title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
-				contentmodel: 'wikitext',
-				uselang: variant,
-				variant,
-			});
+			deferreds[deferreds.length] = api
+				.get({
+					action: 'parse',
+					format: 'json',
+					formatversion: '2',
+					text: titles,
+					prop: 'text',
+					title: 'MediaWiki:Gadget-ToolsRedirect.js/-',
+					contentmodel: 'wikitext',
+					uselang: variant,
+					variant,
+				})
+				.then(({parse}) => {
+					return $(parse.text).text().trim().split('|');
+				});
 		}
-		return $.when(...deferreds).then((...responses: ApiResponse[]) => {
-			// `action=parse&prop=text` resolves to `{parse: {text: string}}`
-			for (const {parse} of responses as Array<{parse: {text: string}}>) {
-				alltitles = [...alltitles, ...$(parse.text).text().trim().split('|')];
+		return $.when(...deferreds).then((...titlesArr: string[][]) => {
+			for (const titles of titlesArr) {
+				alltitles = [...alltitles].concat(titles);
 			}
 			alltitles = alltitles.filter((v, i, arr) => {
 				return arr.indexOf(v) === i;
