@@ -62,6 +62,15 @@ const processElement = ({color, targetElements}: TargetElements): void => {
 		const {innerHTML: originHtml} = element;
 		let html: string = originHtml;
 
+		// Extract existing <a> tags (e.g. autocomment links) as placeholders before parsing
+		// wikicode. Their href/title attributes or text may contain templates ({{...}}),
+		// and re-parsing them would generate nested <a> tags, breaking the summary
+		const existingAnchors: string[] = [];
+		html = html.replace(/<a\b[^>]*>[\s\S]*?<\/a>/gi, (anchor: string): string => {
+			existingAnchors.push(anchor);
+			return `<!--autolink${existingAnchors.length - 1}-->`;
+		});
+
 		html = html.replace(/&lt;/g, '&shy;<&shy;');
 		html = html.replace(/&gt;/g, '&shy;>&shy;');
 		// &amp;lt; to &amp;shy;<&amp;shy; and &amp;gt; to &amp;shy;>&amp;shy; (&amp;shy; is a marker)
@@ -94,6 +103,11 @@ const processElement = ({color, targetElements}: TargetElements): void => {
 			`$1$2<a class="autolink" style="color:${color}" href="/wiki/$3">$3</a>$4`
 		);
 		// Parse ImportScript
+		html = html.replace(
+			/<!--autolink(\d+)-->/g,
+			(_, index: string): string => existingAnchors[Number(index)] ?? ''
+		);
+		// Restore the protected <a> tags
 		html = html.replace(/&shy;<&shy;/g, '&lt;');
 		html = html.replace(/&shy;>&shy;/g, '&gt;');
 		// &amp;shy;<&amp;shy; to &amp;lt; and &amp;shy;>&amp;shy; to &amp;gt; (revert)
