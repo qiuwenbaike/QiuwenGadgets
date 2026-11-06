@@ -1,5 +1,4 @@
 import * as OPTIONS from '../options.json';
-import {ApiResponse} from 'types-mediawiki/mw/Api';
 import {UserRights} from '~/MarkRights/modules/types';
 import {api} from './api';
 import {getPermissionNames} from './getPermissionNames';
@@ -13,7 +12,7 @@ const issueTemplate = ({
 	userName: string;
 	permission: UserRights;
 	watch: boolean | 'watch' | 'unwatch';
-}): JQuery.Promise<ApiResponse> | void => {
+}) => {
 	const permissionTemplate = getPermissionTemplate(permission);
 	if (!permissionTemplate) {
 		return;
