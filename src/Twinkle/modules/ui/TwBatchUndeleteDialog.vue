@@ -3,6 +3,7 @@ import {CdxButton, CdxCheckbox, CdxField, CdxTextInput} from '@wikimedia/codex';
 import {
 	Morebits,
 	type MorebitsBatchOperation,
+	type MorebitsWikiApi,
 	type MorebitsWikiApiWithParams,
 	type MorebitsWikiPage,
 	newParamsApi,
@@ -146,10 +147,11 @@ watch(open, (value) => {
 // Faithful port of Twinkle.batchundelete.callbacks / .callback.evaluate from here on
 
 const callbacks = {
-	// In the original this inspected `thingWithParameters.parent`, but
-	// doExtras is only ever called with a Morebits.wiki.page, so the
-	// callback parameters are read from it directly.
-	doExtras: (pageobj: MorebitsWikiPage): void => {
+	doExtras: (thingWithParameters: MorebitsWikiApi | MorebitsWikiPage): void => {
+		const pageobj =
+			thingWithParameters instanceof Morebits.wiki.api
+				? (thingWithParameters.parent as MorebitsWikiPage)
+				: thingWithParameters;
 		const params = pageobj.getCallbackParameters() as BatchUndeleteWorkerParams;
 		// the initial batch operation's job is to delete the page, and that has
 		// succeeded by now

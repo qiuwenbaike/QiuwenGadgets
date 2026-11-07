@@ -3,6 +3,7 @@ import {CdxButton, CdxCheckbox, CdxField, CdxSelect, CdxTextInput, type MenuItem
 import {
 	Morebits,
 	type MorebitsBatchOperation,
+	type MorebitsWikiApi,
 	type MorebitsWikiApiWithParams,
 	type MorebitsWikiPage,
 	type MutableTitle,
@@ -271,10 +272,11 @@ watch(open, (value) => {
 let unlinkCache: Record<string, string> = {};
 
 const callbacks = {
-	// In the original this inspected `thingWithParameters.parent`, but
-	// doExtras is only ever called with a Morebits.wiki.page, so the
-	// callback parameters are read from it directly.
-	doExtras: (pageobj: MorebitsWikiPage): void => {
+	doExtras: (thingWithParameters: MorebitsWikiApi | MorebitsWikiPage): void => {
+		const pageobj =
+			thingWithParameters instanceof Morebits.wiki.api
+				? (thingWithParameters.parent as MorebitsWikiPage)
+				: thingWithParameters;
 		const params = pageobj.getCallbackParameters() as BatchDeleteWorkerParams;
 		// the initial batch operation's job is to delete the page, and that has
 		// succeeded by now

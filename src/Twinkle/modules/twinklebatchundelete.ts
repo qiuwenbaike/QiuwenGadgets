@@ -99,10 +99,13 @@ twinklebatchundelete.callback = () => {
 				const title = $page.attr('title') ?? '';
 				const $editprot = $page.find('pr[type="create"][level="sysop"]');
 				const isProtected = $editprot.length > 0;
+				const expiry = $editprot.attr('expiry');
 				const expiryLabel =
-					$editprot.attr('expiry') === 'infinity'
+					expiry === 'infinity'
 						? uls('无限期', '無限期')
-						: `${new Morebits.date($editprot.attr('expiry') ?? '').calendar(UTC8_OFFSET_MINUTES)} (UTC+8)${uls('过期', '過期')}`;
+						: expiry
+							? `${new Morebits.date(expiry).calendar(UTC8_OFFSET_MINUTES)} (UTC+8)${uls('过期', '過期')}`
+							: uls('过期时间未知', '過期時間未知');
 				list.push({
 					title,
 					label: title + (isProtected ? `（${uls('全保护，', '全保護，')}${expiryLabel}）` : ''),
