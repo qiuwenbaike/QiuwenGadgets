@@ -5,7 +5,7 @@
  * and displays all absolute dates in Beijing time, so that "September 10"
  * means September 10, 00:00 Beijing time for both the UI and the API.
  */
-export const UTC8_OFFSET_MINUTES = 8 * 60;
+const UTC8_OFFSET_MINUTES = 8 * 60;
 
 /**
  * Convert a `yyyymmddhhmm` compact string (previously interpreted as UTC)
@@ -14,7 +14,7 @@ export const UTC8_OFFSET_MINUTES = 8 * 60;
  *
  * @param input
  */
-export const beijingCompactToISO = (input: string): string => {
+const beijingCompactToISO = (input: string): string => {
 	const match = /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})$/.exec(input.trim());
 	if (!match) {
 		return input;
@@ -40,7 +40,7 @@ export const beijingCompactToISO = (input: string): string => {
  *
  * @param input
  */
-export const beijingDateToISO = (input: string): string => {
+const beijingDateToISO = (input: string): string => {
 	const match = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(input.trim());
 	if (!match) {
 		return input;
@@ -59,7 +59,9 @@ export const beijingDateToISO = (input: string): string => {
  *
  * @param value
  */
-export const normalizeExpiry = (value: string): string => {
+const normalizeExpiry = (value: string): string => {
 	const trimmed = value.trim();
 	return /^\d{12}$/.test(trimmed) ? beijingCompactToISO(trimmed) : value;
 };
+
+export {UTC8_OFFSET_MINUTES, beijingCompactToISO, beijingDateToISO, normalizeExpiry};

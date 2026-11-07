@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import {CdxCheckbox, CdxField, CdxSelect, type MenuItemData} from '@wikimedia/codex';
+import {Morebits, type MorebitsWikiPage} from './morebits';
 import {computed, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
-import {uls} from './useUls';
+import type {TwStatusExposed} from './types';
+import {uls} from '../utils/useUls';
 
-interface TwStatusExposed {
-	getStatusRoot: () => HTMLElement | null;
-}
+declare const Twinkle: {
+	changeTags: string[];
+	getPref: (key: string) => string | boolean;
+};
 
 interface TagItem {
 	value: string;
@@ -23,8 +26,16 @@ interface TagGroup {
 	}[];
 }
 
+interface StubParams {
+	patrol: boolean;
+	tags: string[];
+	group: boolean;
+}
+
 const props = defineProps<{
 	title: string;
+	/** Display label of the tagging mode, e.g. 条目 (set by the module entry). */
+	mode: string;
 	initialSortOrder: 'cat' | 'alpha';
 	showPatrol: boolean;
 	initialPatrol: boolean;
@@ -38,7 +49,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	submit: [params: {patrol: boolean; tags: string[]}, statusContainer: HTMLElement | null];
 	close: [];
 }>();
 
@@ -93,21 +103,17 @@ const submit = () => {
 	if (submitting.value) {
 		return;
 	}
-	if (selectedTags.value.length === 0) {
-		void mw.notify('必须选择至少一个标记！', {
-			type: 'warn',
-			tag: 'twinklestub',
-		});
-		return;
-	}
 	submitting.value = true;
-	emit(
-		'submit',
+	evaluate(
 		{
 			patrol: patrol.value,
 			tags: [...selectedTags.value],
+			group: false,
 		},
-		statusRef.value?.getStatusRoot() ?? null
+		statusRef.value?.getStatusRoot() ?? null,
+		() => {
+			submitting.value = false;
+		}
 	);
 };
 
@@ -116,6 +122,95 @@ watch(open, (value) => {
 		emit('close');
 	}
 });
+
+const callbacks = {
+	main: (pageobj: MorebitsWikiPage): void => {
+		const params = pageobj.getCallbackParameters() as StubParams;
+		let summaryText = '加入';
+		let tags: string[] = [];
+		// Remove tags that become superfluous with this action
+		let pageText = pageobj.getPageText() ?? '';
+		// Check for preexisting tags
+		for (const tag of params.tags) {
+			const tagRe = new RegExp(`(\\{\\{${tag}(\\||\\}\\}))`, 'im');
+			if (tagRe.exec(pageText)) {
+				Morebits.status.info(
+					uls('信息', '資訊'),
+					uls(`在页面上找到{{${tag}}}……跳过`, `在頁面上找到{{${tag}}}……跳過`)
+				);
+			} else {
+				tags = tags.concat(tag);
+			}
+		}
+		tags.sort();
+		const totalTags = tags.length;
+		const addTag = (tagName: string, tagIndex: number): void => {
+			pageText += `\n{{${tagName}}}`;
+			if (tagIndex > 0) {
+				if (tagIndex === totalTags - 1) {
+					summaryText += '和';
+				} else if (tagIndex < totalTags - 1) {
+					summaryText += '、';
+				}
+			}
+			summaryText += '{{[[';
+			summaryText += tagName.includes(':') ? tagName : `Template:${tagName}|${tagName}`;
+			summaryText += ']]}}';
+		};
+		// Faithful port of Twinkle.stub.callbacks.main; the index lets the
+		// 、/和 separators in addTag actually kick in (they never fired in the
+		// original since addTag was called without the index argument)
+		tags.forEach((tag, tagIndex) => {
+			addTag(tag, tagIndex);
+		});
+		summaryText += uls('标记到', '標記到') + props.mode;
+		pageobj.setPageText(pageText);
+		pageobj.setEditSummary(summaryText);
+		pageobj.setChangeTags(Twinkle.changeTags);
+		pageobj.setWatchlist(Twinkle.getPref('watchStubbedPages') === true);
+		pageobj.setMinorEdit(Twinkle.getPref('markStubbedPagesAsMinor') === true);
+		pageobj.setCreateOption('nocreate');
+		pageobj.save();
+		if (params.patrol) {
+			pageobj.patrol();
+		}
+	},
+};
+
+const evaluate = (params: StubParams, statusContainer: HTMLElement | null, restore?: () => void): void => {
+	switch (props.mode) {
+		case '條目':
+		case '条目':
+			params.group = false;
+			break;
+		default:
+			void mw.notify(`Twinkle.stub：未知模式 ${props.mode}`, {
+				type: 'warn',
+				tag: 'twinklestub',
+			});
+			if (restore) {
+				restore();
+			}
+			return;
+	}
+	// Duplicate tags are tolerated by callbacks.main, which skips preexisting ones
+	if (params.tags.length === 0) {
+		void mw.notify(uls('必须选择至少一个标记！', '必須選擇至少一個標記！'), {
+			type: 'warn',
+			tag: 'twinklestub',
+		});
+		if (restore) {
+			restore();
+		}
+		return;
+	}
+	Morebits.status.init(statusContainer);
+	Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
+	Morebits.wiki.actionCompleted.notice = uls('标记完成，将在几秒内刷新页面', '標記完成，將在幾秒內重新整理頁面');
+	const qiuwen_page = new Morebits.wiki.page(mw.config.get('wgPageName'), uls('正在标记', '正在標記') + props.mode);
+	qiuwen_page.setCallbackParameters(params);
+	qiuwen_page.load(callbacks.main);
+};
 </script>
 
 <template>

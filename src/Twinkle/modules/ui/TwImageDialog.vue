@@ -1,17 +1,42 @@
 <script setup lang="ts">
 import {CdxCheckbox, CdxField, CdxRadio, CdxSelect, CdxTextArea, type MenuItemData} from '@wikimedia/codex';
+import {Morebits, type MorebitsWikiPage} from './morebits';
 import {computed, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
-import {uls} from './useUls';
+import type {TwStatusExposed} from './types';
+import {uls} from '../utils/useUls';
 
-interface TwStatusExposed {
-	getStatusRoot: () => HTMLElement | null;
-}
+declare const Twinkle: {
+	changeTags: string[];
+	getPref: {
+		(key: 'notifyUserOnDeli' | 'deliWatchPage' | 'deliWatchUser' | 'logSpeedyNominations'): boolean;
+		(key: 'noLogOnSpeedyNomination'): string[];
+		(key: string): string | boolean;
+	};
+	speedy?: {
+		callbacks: {
+			user: {
+				addToLog: (params: ImageParams, initialContrib: string | null) => void;
+			};
+		};
+	};
+};
 
 interface TypeOption {
 	value: string;
 	label: string;
+}
+
+interface ImageParams {
+	type: string;
+	notify: boolean;
+	f1_source: string;
+	f4_type: string;
+	templatename?: string;
+	normalized?: string;
+	lognomination?: boolean;
+	fromDI?: boolean;
 }
 
 const props = defineProps<{
@@ -24,15 +49,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	submit: [
-		params: {
-			type: string;
-			notify: boolean;
-			f1_source: string;
-			f4_type: string;
-		},
-		statusContainer: HTMLElement | null,
-	];
 	close: [];
 }>();
 
@@ -108,23 +124,18 @@ const submit = () => {
 	if (submitting.value) {
 		return;
 	}
-	if (showF4Type.value && !f4Type.value) {
-		void mw.notify(uls('CSD F4：请选择适用类型。', 'CSD F4：請選擇適用類別。'), {
-			type: 'warn',
-			tag: 'twinkleimage',
-		});
-		return;
-	}
 	submitting.value = true;
-	emit(
-		'submit',
+	evaluate(
 		{
 			type: selectedType.value,
 			notify: notify.value,
 			f1_source: f1Source.value,
 			f4_type: f4Type.value,
 		},
-		statusRef.value?.getStatusRoot() ?? null
+		statusRef.value?.getStatusRoot() ?? null,
+		() => {
+			submitting.value = false;
+		}
 	);
 };
 
@@ -133,6 +144,189 @@ watch(open, (value) => {
 		emit('close');
 	}
 });
+
+// Faithful port of Twinkle.image.callback.evaluate from here on
+
+const callbacks = {
+	taggingImage: (pageobj: MorebitsWikiPage): void => {
+		const params = pageobj.getCallbackParameters() as ImageParams;
+		let text = pageobj.getPageText() ?? '';
+		// remove tag - deletion-tagged files cannot be moved
+		text = text.replace(
+			/\{\{(mtc|(copy |move )?to ?(share|commons)|move to (qiuwen share|wikimedia commons)|copy to (qiuwen share|wikimedia commons))[^}]*\}\}/gi,
+			''
+		);
+		// Adding discussion
+		if (params.type !== 'orphaned fair use') {
+			const qiuwen_page = new Morebits.wiki.page(
+				'Qiuwen_talk:存废讨论/文件快速删除提报',
+				uls('加入快速删除记录项', '加入快速刪除記錄項')
+			);
+			qiuwen_page.setFollowRedirect(true);
+			qiuwen_page.setCallbackParameters(params);
+			qiuwen_page.load(callbacks.imageList);
+		}
+		let tag: string;
+		switch (params.type) {
+			case 'orphaned fair use':
+				tag = '{{'.concat('subst:', 'orphaned fair use}}\n');
+				break;
+			case 'no permission':
+				tag = '{{'.concat(
+					'subst:',
+					`${params.templatename}/auto|1=${params.f1_source
+						.replace(/http/g, '&#104;ttp')
+						.replace(/\n+/g, '\n')
+						.replace(/^\s*([^*])/gm, '* $1')
+						.replace(/^\* $/m, '')}}}\n`
+				);
+				break;
+			case 'replaceable fair use':
+				tag = '{{'.concat('subst:', `${params.templatename}/auto|1=${params.f4_type}}}\n`);
+				break;
+			default:
+				tag = '{{'.concat('subst:', `${params.templatename}/auto}}\n`);
+				break;
+		}
+		const textNoSd = text.replace(
+			/\{\{\s*(db(-\w*)?|d|delete|(?:hang|hold)[- ]?on)\s*(\|(?:\{\{[^{}]*\}\}|[^{}])*)?\}\}\s*/gi,
+			''
+		);
+		if (
+			text !== textNoSd &&
+			confirm(uls('在页面上找到快速删除模板，要移除吗？', '在頁面上找到快速刪除模板，要移除嗎？'))
+		) {
+			text = textNoSd;
+		}
+		pageobj.setPageText(tag + text);
+		let editSummary = uls('请求快速删除（', '請求快速刪除（');
+		editSummary += `[[QW:CSD#${(params.normalized ?? '').toUpperCase()}|CSD ${(params.normalized ?? '').toUpperCase()}]]`;
+		editSummary += '）';
+		pageobj.setEditSummary(editSummary);
+		pageobj.setChangeTags(Twinkle.changeTags);
+		pageobj.setWatchlist(Twinkle.getPref('deliWatchPage') === true);
+		pageobj.setCreateOption('nocreate');
+		pageobj.save();
+	},
+	userNotification: (pageobj: MorebitsWikiPage): void => {
+		const params = pageobj.getCallbackParameters() as ImageParams;
+		const initialContrib = pageobj.getCreator() ?? '';
+		// disallow warning yourself
+		if (initialContrib === mw.config.get('wgUserName')) {
+			pageobj
+				.getStatusElement()
+				.warn(`您（${initialContrib}）${uls('创建了该页，跳过通知', '建立了該頁，跳過通知')}`);
+		} else {
+			const talkPageName = `User talk:${initialContrib}`;
+			const usertalkpage = new Morebits.wiki.page(
+				talkPageName,
+				`${uls('通知上传者', '通知上傳者')}（${initialContrib}）`
+			);
+			const notifytext = '\n{{'.concat(
+				'subst:',
+				`Di-${params.templatename}-notice|1=${Morebits.pageNameNorm}}}——~~`,
+				'~~'
+			);
+			usertalkpage.setAppendText(notifytext);
+			usertalkpage.setEditSummary(
+				uls('通知：文件[[', '通知：檔案[[') + Morebits.pageNameNorm + uls(']]快速删除提名', ']]快速刪除提名')
+			);
+			usertalkpage.setChangeTags(Twinkle.changeTags);
+			usertalkpage.setCreateOption('recreate');
+			usertalkpage.setWatchlist(Twinkle.getPref('deliWatchUser') === true);
+			usertalkpage.setFollowRedirect(true, false);
+			usertalkpage.append();
+		}
+		// add this nomination to the user's userspace log, if the user has enabled it
+		if (params.lognomination) {
+			params.fromDI = true;
+			Twinkle.speedy?.callbacks.user.addToLog(params, initialContrib);
+		}
+	},
+	imageList: (pageobj: MorebitsWikiPage): void => {
+		const text = pageobj.getPageText() ?? '';
+		// const params = pageobj.getCallbackParameters();
+		pageobj.setPageText(`${text}\n* [[:${Morebits.pageNameNorm}]]——~~`.concat('~~'));
+		pageobj.setEditSummary(`加入[[${Morebits.pageNameNorm}]]`);
+		pageobj.setChangeTags(Twinkle.changeTags);
+		pageobj.setCreateOption('recreate');
+		pageobj.save();
+	},
+};
+
+const evaluate = (params: ImageParams, statusContainer: HTMLElement | null, restore?: () => void): void => {
+	let {notify} = params;
+	const {type} = params;
+	let csdcrit: string;
+	switch (type) {
+		case 'no source':
+			csdcrit = 'f3';
+			break;
+		case 'no license':
+			csdcrit = 'f3';
+			break;
+		case 'orphaned fair use':
+			csdcrit = 'f5';
+			notify = false;
+			break;
+		case 'no permission':
+			csdcrit = 'f1';
+			break;
+		case 'no fair use rationale':
+			csdcrit = 'f5';
+			break;
+		case 'replaceable fair use':
+			csdcrit = 'f4';
+			break;
+		default:
+			throw new Error('Twinkle.image.callback.evaluate：未知条款');
+	}
+	const lognomination =
+		Twinkle.getPref('logSpeedyNominations') === true &&
+		!Twinkle.getPref('noLogOnSpeedyNomination').includes(csdcrit.toLowerCase());
+	const templatename = type;
+	params.templatename = templatename;
+	params.normalized = csdcrit;
+	params.lognomination = lognomination;
+	if (csdcrit === 'f4' && !params.f4_type) {
+		void mw.notify(uls('CSD F4：请选择适用类型。', 'CSD F4：請選擇適用類別。'), {
+			type: 'warn',
+			tag: 'twinkleimage',
+		});
+		if (restore) {
+			restore();
+		}
+		return;
+	}
+	Morebits.status.init(statusContainer);
+	Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
+	Morebits.wiki.actionCompleted.notice = uls('标记完成', '標記完成');
+	// Tagging image
+	const qiuwen_page = new Morebits.wiki.page(mw.config.get('wgPageName'), uls('加入删除标记', '加入刪除標記'));
+	qiuwen_page.setCallbackParameters(params);
+	qiuwen_page.load(callbacks.taggingImage);
+	// Notifying uploader
+	if (notify) {
+		qiuwen_page.lookupCreation(callbacks.userNotification);
+	} else {
+		// add to CSD log if desired
+		if (lognomination) {
+			params.fromDI = true;
+			Twinkle.speedy?.callbacks.user.addToLog(params, null);
+		}
+		// No auto-notification, display what was going to be added.
+		if (type !== 'orphaned fair use') {
+			const noteData = document.createElement('pre');
+			noteData.appendChild(
+				document.createTextNode('{{'.concat('subst:', `Uploadvionotice|${Morebits.pageNameNorm}}}——~~`, '~~'))
+			);
+			Morebits.status.info('提示', [
+				uls('这些内容应贴进上传者对话页：', '這些內容應貼進上傳者討論頁：'),
+				noteData,
+			] as unknown as string);
+		}
+	}
+};
 </script>
 
 <template>

@@ -1,24 +1,46 @@
 <script setup lang="ts">
 import {CdxButton, CdxCheckbox, CdxField, CdxSelect, CdxTextInput, type MenuItemData} from '@wikimedia/codex';
+import {Morebits, type MorebitsBatchOperation, type MorebitsWikiApiWithParams, newParamsApi} from './morebits';
+import type {PageItem, TwStatusExposed} from './types';
 import {computed, reactive, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
-import {uls} from './useUls';
-import {useShiftClick} from './useShiftClick';
+import {normalizeExpiry} from '../utils/utc8';
+import {uls} from '../utils/useUls';
+import {useShiftClick} from '../utils/useShiftClick.ts';
 
-interface TwStatusExposed {
-	getStatusRoot: () => HTMLElement | null;
-}
-
-interface PageItem {
-	title: string;
-	label: string;
-	isProtected: boolean;
-}
+declare const Twinkle: {
+	changeTags: string[];
+	getPref: {
+		(key: 'batchChunks'): string;
+		(key: string): string | boolean;
+	};
+};
 
 interface ProtectListData {
 	pages: PageItem[];
 	loaded: boolean;
+}
+
+interface BatchProtectParams {
+	reason: string;
+	pages: string[];
+	protectedCount: number;
+	editmodify: boolean;
+	editlevel: string;
+	editexpiry: string;
+	movemodify: boolean;
+	movelevel: string;
+	moveexpiry: string;
+	createmodify: boolean;
+	createlevel: string;
+	createexpiry: string;
+}
+
+/** Parameters carried through the per-page protection workers. */
+interface BatchProtectWorkerParams extends BatchProtectParams {
+	page: string;
+	batchOperation: MorebitsBatchOperation;
 }
 
 type ExpiryKind = 'edit' | 'move' | 'create';
@@ -45,23 +67,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	submit: [
-		params: {
-			reason: string;
-			pages: string[];
-			protectedCount: number;
-			editmodify: boolean;
-			editlevel: string;
-			editexpiry: string;
-			movemodify: boolean;
-			movelevel: string;
-			moveexpiry: string;
-			createmodify: boolean;
-			createlevel: string;
-			createexpiry: string;
-		},
-		statusContainer: HTMLElement | null,
-	];
 	close: [];
 }>();
 
@@ -80,6 +85,15 @@ const selectedPages = ref<string[]>([]);
 const submitting = ref(false);
 const statusRef = ref<TwStatusExposed | null>(null);
 const {onShiftClick} = useShiftClick();
+
+// Exposed so the module entry can init Morebits.status before the page
+// list arrives (the original accessed `dialogInstance?.exposed`, which
+// was never populated by the dialog)
+defineExpose({
+	getStatusRoot: (): HTMLElement | null => {
+		return statusRef.value?.getStatusRoot() ?? null;
+	},
+});
 
 const customExpiries = reactive<Record<ExpiryKind, MenuItemData[]>>({
 	edit: [],
@@ -193,8 +207,7 @@ const submit = () => {
 		return;
 	}
 	submitting.value = true;
-	emit(
-		'submit',
+	evaluate(
 		{
 			reason: reason.value.trim(),
 			pages: [...selectedPages.value],
@@ -209,7 +222,10 @@ const submit = () => {
 			createlevel: createlevel.value,
 			createexpiry: createexpiry.value,
 		},
-		statusRef.value?.getStatusRoot() ?? null
+		statusRef.value?.getStatusRoot() ?? null,
+		() => {
+			submitting.value = false;
+		}
 	);
 };
 
@@ -218,6 +234,104 @@ watch(open, (value) => {
 		emit('close');
 	}
 });
+
+// Faithful port of Twinkle.batchprotect.callbacks / .callback.evaluate from here on
+
+const callbacks = {
+	main: (apiobj: MorebitsWikiApiWithParams<BatchProtectWorkerParams>): void => {
+		const query = apiobj.getResponse() as unknown as {
+			query?: {normalized?: {to: string}[]; pages: {missing?: boolean | ''}[]};
+		};
+		const queryResult = query.query ?? {pages: []};
+		if (queryResult.normalized) {
+			apiobj.params.page = queryResult.normalized[0]?.to ?? apiobj.params.page;
+		}
+		const exists = !queryResult.pages[0]?.missing;
+		const page = new Morebits.wiki.page(apiobj.params.page, `正在保护${apiobj.params.page}`);
+		let takenAction = false;
+		if (exists && apiobj.params.editmodify) {
+			page.setEditProtection(apiobj.params.editlevel, apiobj.params.editexpiry);
+			takenAction = true;
+		}
+		if (exists && apiobj.params.movemodify) {
+			page.setMoveProtection(apiobj.params.movelevel, apiobj.params.moveexpiry);
+			takenAction = true;
+		}
+		if (!exists && apiobj.params.createmodify) {
+			page.setCreateProtection(apiobj.params.createlevel, apiobj.params.createexpiry);
+			takenAction = true;
+		}
+		if (!takenAction) {
+			Morebits.status.warn(
+				`正在保护“${apiobj.params.page}`,
+				`”页面${exists ? '存在' : '不存在'}；无事可做，跳过`
+			);
+			apiobj.params.batchOperation.workerFailure();
+			return;
+		}
+		page.setEditSummary(apiobj.params.reason);
+		page.setChangeTags(Twinkle.changeTags);
+		page.protect(apiobj.params.batchOperation.workerSuccess, apiobj.params.batchOperation.workerFailure);
+	},
+};
+
+const evaluate = (params: BatchProtectParams, statusContainer: HTMLElement | null, restore?: () => void): void => {
+	Morebits.wiki.actionCompleted.notice = '批量保护完成';
+	// Interpret absolute custom expiries (yyyymmddhhmm) as Beijing time (UTC+8)
+	params.editexpiry = normalizeExpiry(params.editexpiry);
+	params.moveexpiry = normalizeExpiry(params.moveexpiry);
+	params.createexpiry = normalizeExpiry(params.createexpiry);
+	if (
+		params.protectedCount > 0 &&
+		!confirm(`您即将对${mw.language.convertNumber(params.protectedCount)}个全保护页面进行操作。您确定吗？`)
+	) {
+		if (restore) {
+			restore();
+		}
+		return;
+	}
+	if (!params.reason) {
+		void mw.notify('您必须给出一个理由。', {
+			type: 'warn',
+			tag: 'twinklebatchprotect',
+		});
+		if (restore) {
+			restore();
+		}
+		return;
+	}
+	Morebits.status.init(statusContainer);
+	if (params.pages.length === 0) {
+		Morebits.status.error('Error', '待保护页面不存在，程序终止');
+		if (restore) {
+			restore();
+		}
+		return;
+	}
+	const batchOperation = new Morebits.batchOperation('应用保护设置');
+	batchOperation.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+	batchOperation.setOption('preserveIndividualStatusLines', true);
+	batchOperation.setPageList(params.pages);
+	batchOperation.run((pageName) => {
+		const query = {
+			action: 'query',
+			titles: pageName,
+			format: 'json',
+		};
+		const qiuwen_api = newParamsApi(
+			`正在检查页面“${pageName}”是否存在`,
+			query,
+			callbacks.main,
+			batchOperation.workerFailure
+		);
+		qiuwen_api.params = {
+			page: pageName,
+			batchOperation,
+			...params,
+		};
+		qiuwen_api.post();
+	});
+};
 </script>
 
 <template>

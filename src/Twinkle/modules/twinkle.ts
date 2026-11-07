@@ -1,11 +1,205 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import {api} from './api';
-/*! Twinkle.js - twinkle.js */
-(function twinkle() {
+import './twinkle.less';
+import {api} from './utils/api';
+import {uls} from './utils/useUls';
+
+/*! Twinkle.js - twinkle.ts */
+
+/** Item stored in {@linkcode TwinkleObject.initCallbacks} */
+interface TwinkleInitCallbackItem {
+	func: () => void;
+	name?: string | undefined;
+}
+
+/** Element sortable by namespace, as consumed by {@linkcode TwinkleObject.sortByNamespace} */
+interface TwinkleSortablePage {
+	ns: number;
+	title: string;
+}
+
+/** Element of the `customRevertSummary` preference */
+interface TwinkleRevertSummaryItem {
+	label: string;
+	value: string;
+}
+
+/**
+ * The set of Twinkle preferences.
+ *
+ * Must stay in sync with `Twinkle.config.sections` in twinkleconfig.js,
+ * where all of these are made configurable via the preferences panel.
+ */
+interface TwinkleConfig {
+	// General
+	userTalkPageMode: string;
+	dialogLargeFont: boolean;
+	disabledModules: string[];
+	disabledSysopModules: string[];
+	// ARV
+	spiWatchReport: string;
+	// Block
+	defaultToBlock64: boolean;
+	defaultToPartialBlocks: boolean;
+	blankTalkpageOnIndefBlock: boolean;
+	watchBlockNotices: string;
+	customBlockReasonList: unknown[];
+	// Fluff (revert and rollback)
+	openTalkPage: string[];
+	openTalkPageOnAutoRevert: boolean;
+	rollbackInPlace: boolean;
+	markRevertedPagesAsMinor: string[];
+	watchRevertedPages: string[];
+	watchRevertedExpiry: string;
+	offerReasonOnNormalRevert: boolean;
+	confirmOnFluff: boolean;
+	showRollbackLinks: string[];
+	customRevertSummary: TwinkleRevertSummaryItem[];
+	// DI (twinkleimage)
+	notifyUserOnDeli: boolean;
+	deliWatchPage: string;
+	deliWatchUser: string;
+	// Protect
+	watchRequestedPages: string;
+	watchPPTaggedPages: string;
+	watchProtectedPages: string;
+	// CSD
+	speedySelectionStyle: string;
+	watchSpeedyPages: string[];
+	watchSpeedyExpiry: string;
+	markSpeedyPagesAsPatrolled: boolean;
+	watchSpeedyUser: string;
+	notifyUserOnSpeedyDeletionNomination: string[];
+	warnUserOnSpeedyDelete: string[];
+	promptForSpeedyDeletionSummary: unknown[];
+	openUserTalkPageOnSpeedyDelete: unknown[];
+	deleteTalkPageOnDelete: boolean;
+	deleteRedirectsOnDelete: boolean;
+	deleteSysopDefaultToDelete: boolean;
+	speedyWindowHeight: number;
+	speedyWindowWidth: number;
+	logSpeedyNominations: boolean;
+	speedyLogPageName: string;
+	noLogOnSpeedyNomination: string[];
+	enlargeG7Input: boolean;
+	// Unlink
+	unlinkNamespaces: string[];
+	// Warn
+	defaultWarningGroup: string;
+	combinedSingletMenus: boolean;
+	watchWarnings: string;
+	oldSelect: boolean;
+	customWarningList: unknown[];
+	autoMenuAfterRollback: boolean;
+	// XfD
+	logXfdNominations: boolean;
+	xfdLogPageName: string;
+	noLogOnXfdNomination: string[];
+	xfdWatchDiscussion: string;
+	xfdWatchPage: string;
+	xfdWatchUser: string;
+	markXfdPagesAsPatrolled: boolean;
+	FwdCsdToXfd: boolean;
+	afdDefaultCategory: string;
+	afdFameDefaultReason: string;
+	afdSubstubDefaultReason: string;
+	XfdClose: string;
+	// Copyvio
+	copyvioWatchPage: string;
+	copyvioWatchUser: string;
+	markCopyvioPagesAsPatrolled: boolean;
+	// Hidden preferences
+	autolevelStaleDays: number;
+	revertMaxRevisions: number;
+	// intentionally limited
+	batchMax: number;
+	batchChunks: number;
+	configPage: string;
+	projectNamespaceName: string;
+	sandboxPage: string;
+	// Deprecated options, as a fallback for add-on scripts/modules
+	summaryAd: string;
+	deletionSummaryAd: string;
+	protectionSummaryAd: string;
+	blockSummaryAd: string;
+	// Tag
+	groupByDefault: boolean;
+	watchTaggedPages: string;
+	watchMergeDiscussions: string;
+	markTaggedPagesAsMinor: boolean;
+	markTaggedPagesAsPatrolled: boolean;
+	tagArticleSortOrder: string;
+	customTagList: unknown[];
+	customFileTagList: unknown[];
+	customRedirectTagList: unknown[];
+	// Stub
+	watchStubbedPages: boolean;
+	markStubbedPagesAsMinor: boolean;
+	markStubbedPagesAsPatrolled: boolean;
+	stubArticleSortOrder: string;
+	customStubList: unknown[];
+	// Talkback
+	markTalkbackAsMinor: boolean;
+	insertTalkbackSignature: boolean;
+	// always sign talkback templates
+	talkbackHeading: string;
+	mailHeading: string;
+	// Skin-dependent portlet settings, filled in below
+	portletArea?: string | null;
+	portletId?: string;
+	portletName?: string | null;
+	portletType?: string | null;
+	portletNext?: string | null;
+}
+
+/**
+ * The Twinkle global object shared by all modules.
+ *
+ * Other modules attach themselves to it (e.g. `Twinkle.fluff`); only the
+ * members defined by this file are declared here.
+ */
+interface TwinkleObject {
+	changeTags: string;
+	summaryAd: string;
+	hatnoteRegex: string;
+	initCallbacks: TwinkleInitCallbackItem[];
+	addInitCallback(func: () => void, name?: string): void;
+	defaultConfig: TwinkleConfig;
+	prefs?: Partial<TwinkleConfig>;
+	getPref<K extends keyof TwinkleConfig>(name: K): TwinkleConfig[K];
+	addPortlet(navigation: string, id: string, text: string, type: string | null, nextnodeid?: string): Element | null;
+	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): HTMLLIElement | null;
+	load: () => void;
+	userAgent?: string;
+	disabledModules?: string[];
+	sortByNamespace(first: TwinkleSortablePage, second: TwinkleSortablePage): number;
+	generateBatchPageLinks(checkbox: HTMLInputElement): void;
+}
+
+interface MorebitsGlobal {
+	userIsInGroup(group: string): boolean;
+	userIsSysop: boolean;
+	htmlNode(tag: string, content: string): HTMLElement;
+	wiki: {
+		api: {
+			setApiUserAgent(ua: string): void;
+		};
+	};
+}
+
+declare global {
+	interface Window {
+		Twinkle?: TwinkleObject;
+		TwinkleConfig?: Partial<TwinkleConfig>;
+	}
+}
+
+const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
+
+(function twinkle(): void {
 	const $body = $('body');
-	const Twinkle = {};
-	window.Twinkle ||= Twinkle; // allow global access
+	const Twinkle = {} as TwinkleObject;
+	// The JS-inferred global Twinkle type (from not-yet-converted modules,
+	// e.g. twinklexfd.js) leaks into this property's type; bypass it here
+	(window as {Twinkle?: TwinkleObject}).Twinkle ||= Twinkle; // allow global access
 	// Wrap with anonymous function
 	// Check if account is experienced enough to use Twinkle
 	if (!Morebits.userIsInGroup('autoconfirmed') && !Morebits.userIsInGroup('confirmed')) {
@@ -27,17 +221,16 @@ import {api} from './api';
 	/**
 	 * Adds a callback to execute when Twinkle has loaded.
 	 *
-	 * @param {Function} func
-	 * @param {string} [name] - name of module used to check if is disabled.
+	 * @param func
+	 * @param [name] - name of module used to check if is disabled.
 	 * If name is not given, module is loaded unconditionally.
 	 */
-	Twinkle.addInitCallback = (func, name) => {
+	Twinkle.addInitCallback = (func, name): void => {
 		Twinkle.initCallbacks[Twinkle.initCallbacks.length] = {
 			func,
 			name,
 		};
 	};
-	Twinkle.defaultConfig = {};
 	/**
 	 * This holds the default set of preferences used by Twinkle.
 	 * It is important that all new preferences added here, especially admin-only ones, are also added to
@@ -181,7 +374,7 @@ import {api} from './api';
 		batchMax: 5000,
 		batchChunks: 50,
 		configPage: 'Help:Twinkle/参数设置',
-		projectNamespaceName: mw.config.get('wgFormattedNamespaces')[4],
+		projectNamespaceName: mw.config.get('wgFormattedNamespaces')[4] ?? '',
 		sandboxPage: 'Qiuwen:沙盒',
 		// Deprecated options, as a fallback for add-on scripts/modules
 		summaryAd: '（[[H:TW|Twinkle]]）',
@@ -208,8 +401,8 @@ import {api} from './api';
 		markTalkbackAsMinor: true,
 		insertTalkbackSignature: true,
 		// always sign talkback templates
-		talkbackHeading: window.wgULS('回复通告', '回覆通告'),
-		mailHeading: window.wgULS('您有新邮件！', '您有新郵件！'),
+		talkbackHeading: uls('回复通告', '回覆通告'),
+		mailHeading: uls('您有新邮件！', '您有新郵件！'),
 	};
 	// now some skin dependent config.
 	switch (mw.config.get('skin')) {
@@ -246,13 +439,14 @@ import {api} from './api';
 			Twinkle.defaultConfig.portletType = null;
 			Twinkle.defaultConfig.portletNext = null;
 	}
-	Twinkle.getPref = (name) => {
+	Twinkle.getPref = <K extends keyof TwinkleConfig>(name: K): TwinkleConfig[K] => {
 		if (typeof Twinkle.prefs === 'object' && Twinkle.prefs[name] !== undefined) {
-			return Twinkle.prefs[name];
+			return Twinkle.prefs[name] as TwinkleConfig[K];
 		}
 		// Old preferences format, used before twinkleoptions.js was a thing
-		if (typeof window.TwinkleConfig === 'object' && window.TwinkleConfig[name] !== undefined) {
-			return window.TwinkleConfig[name];
+		const legacyPrefs = window.TwinkleConfig;
+		if (typeof legacyPrefs === 'object' && legacyPrefs[name] !== undefined) {
+			return legacyPrefs[name] as TwinkleConfig[K];
 		}
 		return Twinkle.defaultConfig[name];
 	};
@@ -271,15 +465,15 @@ import {api} from './api';
 	 * - "right-navigation", outer nav class contains "vector-menu-tabs" or "vector-menu-dropdown". Existing portlets: "p-views", "p-cactions" (menu), "p-search"
 	 * - Special layout of p-personal portlet (part of "head") through specialized styles.
 	 *
-	 * @param {string} navigation -- id of the target navigation area (skin dependant, on vector either of "left-navigation", "right-navigation", or "mw-panel")
-	 * @param {string} id -- id of the portlet menu to create, preferably start with "p-".
-	 * @param {string} text -- name of the portlet menu to create. Visibility depends on the class used.
-	 * @param {string} type -- type of portlet. Currently only used for the vector non-sidebar portlets, pass "menu" to make this portlet a drop down menu.
-	 * @param {Node} nextnodeid -- the id of the node before which the new item should be added, should be another item in the same list, or undefined to place it at the end.
+	 * @param navigation -- id of the target navigation area (skin dependant, on vector either of "left-navigation", "right-navigation", or "mw-panel")
+	 * @param id -- id of the portlet menu to create, preferably start with "p-".
+	 * @param text -- name of the portlet menu to create. Visibility depends on the class used.
+	 * @param type -- type of portlet. Currently only used for the vector non-sidebar portlets, pass "menu" to make this portlet a drop down menu.
+	 * @param [nextnodeid] -- the id of the node before which the new item should be added, should be another item in the same list, or undefined to place it at the end.
 	 *
-	 * @return {Node} -- the DOM node of the new item (a DIV element) or null
+	 * @return -- the DOM node of the new item (a DIV element) or null
 	 */
-	Twinkle.addPortlet = (navigation, id, text, type, nextnodeid) => {
+	Twinkle.addPortlet = (navigation, id, text, type, nextnodeid): Element | null => {
 		// sanity checks, and get required DOM nodes
 		const root = document.querySelector(/^(?:#|\.)/.test(navigation) ? navigation : `#${navigation}`);
 		if (!root) {
@@ -292,9 +486,9 @@ import {api} from './api';
 			}
 			return null;
 		}
-		let nextnode;
+		let nextnode: Element | undefined;
 		if (nextnodeid) {
-			nextnode = document.querySelector(`#${nextnodeid}`);
+			nextnode = document.querySelector(`#${nextnodeid}`) ?? undefined;
 		}
 		// verify/normalize input
 		const skin = mw.config.get('skin');
@@ -304,9 +498,9 @@ import {api} from './api';
 		) {
 			type = null; // menu supported only in vector's #left-navigation & #right-navigation
 		}
-		let outerNavClass;
-		let innerDivClass;
-		let ulClassName;
+		let outerNavClass: string;
+		let innerDivClass: string | undefined;
+		let ulClassName: string | undefined;
 		switch (skin) {
 			case 'vector':
 			case 'vector-2022':
@@ -340,8 +534,8 @@ import {api} from './api';
 				break;
 		}
 		// Build the DOM elements.
-		let outerNav;
-		let heading;
+		let outerNav: HTMLElement;
+		let heading: HTMLElement;
 		if (skin === 'vector-2022') {
 			outerNav = document.createElement('div');
 			heading = document.createElement('label');
@@ -416,31 +610,32 @@ import {api} from './api';
 	 * **************** Twinkle.addPortletLink() ****************
 	 * Builds a portlet menu if it doesn't exist yet, and add the portlet link.
 	 *
-	 * @param {string|Function} task -- Either a URL for the portlet link or a function to execute.
-	 * @param {string} text
-	 * @param {string} id
-	 * @param {string} tooltip
-	 * @return {Object} link
+	 * @param task -- Either a URL for the portlet link or a function to execute.
+	 * @param text
+	 * @param id
+	 * @param [tooltip]
+	 * @return -- the added portlet link, or null
 	 */
-	Twinkle.addPortletLink = (task, text, id, tooltip) => {
-		if (Twinkle.getPref('portletArea') !== null) {
+	Twinkle.addPortletLink = (task, text, id, tooltip): HTMLLIElement | null => {
+		const portletArea = Twinkle.getPref('portletArea');
+		if (portletArea !== null && portletArea !== undefined) {
 			Twinkle.addPortlet(
-				Twinkle.getPref('portletArea'),
-				Twinkle.getPref('portletId'),
-				Twinkle.getPref('portletName'),
-				Twinkle.getPref('portletType'),
-				Twinkle.getPref('portletNext')
+				portletArea,
+				Twinkle.getPref('portletId') ?? '',
+				Twinkle.getPref('portletName') ?? '',
+				Twinkle.getPref('portletType') ?? null,
+				Twinkle.getPref('portletNext') ?? undefined
 			);
 		}
 		const link = mw.util.addPortletLink(
-			Twinkle.getPref('portletId'),
+			Twinkle.getPref('portletId') ?? '',
 			typeof task === 'string' ? task : '#',
 			text,
 			id,
 			tooltip
 		);
 		$body.find('.client-js .skin-vector #p-cactions').css('margin-right', 'initial');
-		if (typeof task === 'function') {
+		if (typeof task === 'function' && link) {
 			$(link)
 				.find('a')
 				.on('click', (ev) => {
@@ -476,7 +671,7 @@ import {api} from './api';
 					try {
 						window.eval(content);
 					} catch {
-						void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
+						void mw.notify(uls('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
 							type: 'error',
 							tag: 'twinkle',
 						});
@@ -485,7 +680,7 @@ import {api} from './api';
 			}
 		})
 		.fail(() => {
-			void mw.notify(window.wgULS('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
+			void mw.notify(uls('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
 				type: 'error',
 				tag: 'twinkle',
 			});
@@ -495,7 +690,7 @@ import {api} from './api';
 		});
 	// Developers: you can import custom Twinkle modules here
 	// For example, mw.loader.load(scriptpathbefore + "User:UncleDouggie/morebits-test.js" + scriptpathafter);
-	Twinkle.load = () => {
+	Twinkle.load = (): void => {
 		// Don't activate on special pages other than those listed here, so
 		// that others load faster, especially the watchlist.
 		let activeSpecialPageList = ['Block', 'Contributions', 'AbuseLog', 'Recentchanges', 'Recentchangeslinked']; // wgRelevantUserName defined for non-sysops on Special:Block
@@ -507,9 +702,10 @@ import {api} from './api';
 				'BrokenRedirects',
 			];
 		}
+		const canonicalSpecialPageName = mw.config.get('wgCanonicalSpecialPageName');
 		if (
 			mw.config.get('wgNamespaceNumber') === -1 &&
-			!activeSpecialPageList.includes(mw.config.get('wgCanonicalSpecialPageName'))
+			(canonicalSpecialPageName === false || !activeSpecialPageList.includes(canonicalSpecialPageName))
 		) {
 			return;
 		}
@@ -523,8 +719,8 @@ import {api} from './api';
 		Twinkle.disabledModules = [...Twinkle.getPref('disabledModules'), ...Twinkle.getPref('disabledSysopModules')];
 		// Redefine addInitCallback so that any modules being loaded now on are directly
 		// initialised rather than added to initCallbacks array
-		Twinkle.addInitCallback = (func, name) => {
-			if (!name || !Twinkle.disabledModules.includes(name)) {
+		Twinkle.addInitCallback = (func, name): void => {
+			if (!name || !Twinkle.disabledModules?.includes(name)) {
 				func();
 			}
 		};
@@ -546,24 +742,21 @@ import {api} from './api';
 	};
 	/**
 	 * Twinkle-specific utility functions shared by multiple modules
-	 *
-	 * @param {*} first
-	 * @param {*} second
 	 */
 	// Used in batch, unlink, and deprod to sort pages by namespace, as
 	// json formatversion=2 sorts by pageid instead (#1251)
-	Twinkle.sortByNamespace = (first, second) => {
+	Twinkle.sortByNamespace = (first, second): number => {
 		return first.ns - second.ns || (first.title > second.title ? 1 : -1);
 	};
 	// Used in unlink listings to link the page title
-	Twinkle.generateBatchPageLinks = (checkbox) => {
+	Twinkle.generateBatchPageLinks = (checkbox: HTMLInputElement): void => {
 		const $checkbox = $(checkbox);
-		const link = Morebits.htmlNode('a', $checkbox.val());
+		const link = Morebits.htmlNode('a', $checkbox.val() ?? '');
 		link.setAttribute('class', 'tw-batchpage-link');
 		link.setAttribute('href', mw.util.getUrl($checkbox.val()));
 		link.setAttribute('target', '_blank');
 		link.setAttribute('rel', 'noopener noreferrer');
-		$checkbox.next().prepend([link, ' ']);
+		$checkbox.next().prepend(link, document.createTextNode(' '));
 	};
 })();
 

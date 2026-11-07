@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {CdxButton, CdxDialog, CdxTextInput} from '@wikimedia/codex';
 import {computed, ref, watch} from 'vue';
-import {uls} from './useUls';
+import {uls} from '../utils/useUls';
 
 interface CustomRow {
 	value: string;

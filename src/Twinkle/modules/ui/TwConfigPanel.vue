@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import {CdxButton, CdxCheckbox, CdxSelect, CdxTextInput, type MenuItemData} from '@wikimedia/codex';
+import {Morebits, type MorebitsWikiPage} from './morebits';
 import {reactive, ref} from 'vue';
 import TwConfigListDialog from './TwConfigListDialog.vue';
 import TwStatus from './TwStatus.vue';
-import {uls} from './useUls';
+import type {TwStatusExposed} from './types';
+import {uls} from '../utils/useUls';
 
-interface TwStatusExposed {
-	getStatusRoot: () => HTMLElement | null;
-}
+declare const Twinkle: {
+	changeTags: string;
+	defaultConfig: Record<string, unknown>;
+	prefs?: Record<string, unknown>;
+};
 
 interface CustomRow {
 	value: string;
@@ -16,7 +20,7 @@ interface CustomRow {
 
 interface PrefDef {
 	name: string;
-	label: string;
+	label?: string;
 	helptip?: string;
 	adminOnly?: boolean;
 	type: 'string' | 'boolean' | 'integer' | 'enum' | 'set' | 'customList';
@@ -29,18 +33,24 @@ interface PrefDef {
 
 interface SectionDef {
 	title: string;
-	module: string;
+	module?: string;
+	adminOnly?: boolean;
+	hidden?: boolean;
 	preferences: PrefDef[];
+}
+
+/** Parameters stashed on the twinkleoptions.js save page. */
+interface ConfigSaveParams {
+	values: Record<string, unknown>;
+	restore: () => void;
 }
 
 const props = defineProps<{
 	sections: SectionDef[];
+	/** The full section list (including hidden/admin-only sections) used when serializing preferences. */
+	allSections: SectionDef[];
 	defaults: Record<string, unknown>;
 	initialValues: Record<string, unknown>;
-}>();
-
-const emit = defineEmits<{
-	submit: [values: Record<string, unknown>, statusContainer: HTMLElement | null, restore: () => void];
 }>();
 
 const values = reactive<Record<string, unknown>>({});
@@ -171,7 +181,7 @@ const submit = () => {
 		return;
 	}
 	submitting.value = true;
-	emit('submit', values, statusRef.value?.getStatusRoot() ?? null, () => {
+	saveConfig(values, statusRef.value?.getStatusRoot() ?? null, () => {
 		submitting.value = false;
 	});
 };
@@ -180,6 +190,174 @@ const resetLabel = uls('复位', '復位');
 const restoreDefaultsLabel = uls('恢复默认', '恢復預設');
 const saveLabel = uls('保存修改', '儲存修改');
 const editItemsLabel = uls('编辑项目', '編輯項目');
+
+const saveConfig = (
+	values: Record<string, unknown>,
+	statusContainer: HTMLElement | null,
+	restore: () => void
+): void => {
+	Morebits.status.init(statusContainer);
+	const userjs = `${mw.config.get('wgFormattedNamespaces')[mw.config.get('wgNamespaceIds')['user'] as number]}:${mw.config.get(
+		'wgUserName'
+	)}/twinkleoptions.js`;
+	const qiuwen_page = new Morebits.wiki.page(userjs, uls('保存参数设置到 ', '儲存偏好設定到 ') + userjs);
+	qiuwen_page.setCallbackParameters({values, restore} satisfies ConfigSaveParams);
+	qiuwen_page.load(writePrefs);
+};
+
+const writePrefs = (pageobj: MorebitsWikiPage): void => {
+	const {values: savedValues, restore} = pageobj.getCallbackParameters() as ConfigSaveParams;
+	// this is the object which gets serialized into JSON; only
+	// preferences that this script knows about are kept
+	const newConfig: Record<string, unknown> = {
+		optionsVersion: 2.1,
+	};
+	// a comparison function is needed later on
+	// it is just enough for our purposes (i.e. comparing strings, numbers, booleans,
+	// arrays of strings, and arrays of { value, label })
+	// and it is not very robust: e.g. compare([2], ["2"]) === true, and
+	// compare({}, {}) === false, but it's good enough for our purposes here
+	const compare = (a: unknown, b: unknown): boolean => {
+		if (Array.isArray(a)) {
+			const arrB = Array.isArray(b) ? b : [];
+			if (a.length !== arrB.length) {
+				return false;
+			}
+			a.sort();
+			arrB.sort();
+			for (const [i, element] of a.entries()) {
+				const other = arrB[i];
+				if (other === undefined) {
+					return false;
+				}
+				// comparison of the two properties of custom lists
+				if (element !== null && typeof element === 'object') {
+					if (
+						(element as CustomRow).label !== (other as CustomRow).label ||
+						(element as CustomRow).value !== (other as CustomRow).value
+					) {
+						return false;
+					}
+				} else if (String(element) !== String(other)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return a === b;
+	};
+	for (const section of props.allSections) {
+		if (section.adminOnly && !Morebits.userIsSysop) {
+			continue; // i.e. "continue" in this context
+		}
+		// reach each of the preferences from the form
+		for (const pref of section.preferences) {
+			let userValue: unknown; // = undefined
+			// only read form values for those prefs that have them
+			if (!pref.adminOnly || Morebits.userIsSysop) {
+				if (!section.hidden) {
+					switch (pref.type) {
+						case 'boolean':
+							userValue = savedValues[pref.name] === true;
+							break;
+						case 'string': // read from the input box or combo box
+						case 'enum':
+							userValue = String(savedValues[pref.name] ?? '');
+							break;
+						case 'integer': {
+							// read from the input box
+							const parsed = Number.parseInt(String(savedValues[pref.name] ?? ''), 10);
+							if (Number.isNaN(parsed)) {
+								Morebits.status.warn(
+									uls('保存', '儲存'),
+									`${uls('您为 ', '您為 ') + pref.name} 指定的值（${String(
+										savedValues[pref.name] ?? ''
+									)}${uls(
+										'）不合法，会继续保存操作，但此值将会跳过。',
+										'）不合法，會繼續儲存操作，但此值將會跳過。'
+									)}`
+								);
+								userValue = null;
+							} else {
+								userValue = parsed;
+							}
+							break;
+						}
+						case 'set':
+							// read from the set of check boxes
+							userValue = Array.isArray(savedValues[pref.name])
+								? [...(savedValues[pref.name] as unknown[])]
+								: [];
+							break;
+						case 'customList':
+							userValue = savedValues[pref.name];
+							break;
+						default:
+							void mw.notify(`twinkleconfig: 未知数据类型，属性 ${pref.name}`, {
+								type: 'warn',
+								tag: 'twinkleconfig',
+							});
+							break;
+					}
+				} else if (Twinkle.prefs) {
+					// Retain the hidden preferences that may have customised by the user from twinkleoptions.js
+					// undefined if not set
+					userValue = Twinkle.prefs[pref.name];
+				}
+			}
+			// only save those preferences that are *different* from the default
+			if (userValue !== undefined && !compare(userValue, Twinkle.defaultConfig[pref.name])) {
+				newConfig[pref.name] = userValue;
+			}
+		}
+	}
+	const nowiki = 'nowiki';
+	let text = `// <${nowiki}>\n${uls(
+		`// twinkleoptions.js：用户Twinkle参数设置文件\n//\n// 注：修改您的参数设置最简单的办法是使用\n// Twinkle参数设置面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 这个文件是自动生成的，您所做的任何修改（除了\n// 以一种合法的JavaScript的方式来修改这些属性值）会\n// 在下一次您点击“保存”时被覆盖。\n// 修改此文件时，请记得使用合法的JavaScript。\n`,
+		`// twinkleoptions.js：使用者Twinkle參數設定檔案\n//\n// 註：修改您的參數設定最簡單的辦法是使用\n// Twinkle參數設定面板，在[[${Morebits.pageNameNorm}]]。\n//\n// 這個檔案是自動產生的，您所做的任何修改（除了\n// 以一種合法的JavaScript的方式來修改這些屬性值）會\n// 在下一次您點擊「儲存」時被覆蓋。\n// 修改此檔案時，請記得使用合法的JavaScript。\n`
+	)}`;
+	text +=
+		'\nwindow.Twinkle = window.Twinkle || {};\nwindow.Twinkle.prefs = window.Twinkle.prefs || {};\nwindow.Twinkle.prefs = ';
+	text += JSON.stringify(newConfig, null, 2);
+	text += `;\n\n${uls('// twinkleoptions.js到此为止\n', '// twinkleoptions.js到此為止\n')}// </${nowiki}>`;
+	pageobj.setPageText(text);
+	pageobj.setEditSummary(
+		uls('保存Twinkle参数设置：来自[[', '儲存Twinkle偏好設定：來自[[') +
+			Morebits.pageNameNorm +
+			uls(']]的自动编辑', ']]的自動編輯')
+	);
+	pageobj.setChangeTags(Twinkle.changeTags);
+	pageobj.setCreateOption('recreate');
+	pageobj.save(
+		() => {
+			saveSuccess(pageobj);
+			restore();
+		},
+		() => {
+			restore();
+		}
+	);
+};
+
+const saveSuccess = (pageobj: MorebitsWikiPage): void => {
+	pageobj.getStatusElement().info('成功');
+	const noticebox = document.createElement('div');
+	noticebox.className = 'mw-message-box mw-message-box-success';
+	noticebox.style.fontSize = '100%';
+	noticebox.style.marginTop = '2em';
+	noticebox.innerHTML = `<p><b>${uls(
+		'您的Twinkle参数设置已被保存。',
+		'您的Twinkle偏好設定已被儲存。'
+	)}</b></p><p>${uls('要看到这些更改，您可能需要', '要看到這些更改，您可能需要')}<a href="${mw.util.getUrl(
+		'QW:BYPASS'
+	)}" title="QW:BYPASS"><b>${uls('绕过浏览器缓存', '繞過瀏覽器快取')}</b></a>。</p>`;
+	if (Morebits.status.root) {
+		Morebits.status.root.appendChild(noticebox);
+		const noticeclear = document.createElement('br');
+		noticeclear.style.clear = 'both';
+		Morebits.status.root.appendChild(noticeclear);
+	}
+};
 </script>
 
 <template>
@@ -274,7 +452,7 @@ const editItemsLabel = uls('编辑项目', '編輯項目');
 	<tw-config-list-dialog
 		v-if="listPref"
 		v-model:open="listDialogOpen"
-		:title="listPref.label"
+		:title="listPref.label ?? ''"
 		:value-title="listPref.customListValueTitle ?? uls('数值', '數值')"
 		:label-title="listPref.customListLabelTitle ?? uls('标签', '標籤')"
 		:initial-rows="getCustom(listPref.name)"
@@ -368,6 +546,41 @@ const editItemsLabel = uls('编辑项目', '編輯項目');
 	.tw-config-side {
 		grid-column: 1 / -1;
 		align-items: flex-start;
+	}
+}
+</style>
+
+<style lang="less">
+/**
+ * The additional box on user skin.js and twinkleoptions.js pages
+ * see [[H:TW/PREF]]
+ *
+ * Global (not scoped): the notice boxes are created by twinkleconfig.ts
+ * outside this component's tree, and this component is mounted inside
+ * #twinkle-config-content on the twinkleoptions.js page.
+ */
+#twinkle-config {
+	&-headerbox {
+		padding: 0.6em;
+		border: 1px #f60 solid;
+		margin: 0.5em auto;
+		background: #fed;
+		text-align: center;
+
+		&.config-twopt-box {
+			width: 80%;
+			border-width: 2px;
+			font-weight: bold;
+		}
+
+		&.config-userskin-box {
+			/* Skin-specific JS */
+			width: 60%;
+		}
+	}
+
+	&-content input[type='checkbox'] {
+		margin-right: 2px;
 	}
 }
 </style>
