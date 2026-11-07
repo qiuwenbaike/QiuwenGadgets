@@ -1,23 +1,17 @@
 <script setup lang="ts">
 import {CdxCheckbox, CdxField, CdxSelect, CdxTextArea, CdxTextInput, type MenuItemData} from '@wikimedia/codex';
+import {Morebits, type MorebitsWikiPage} from './morebits';
 import {computed, reactive, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
+import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
-
-// Typed access to the Morebits global (provided by `ext.gadget.morebits`).
-const Morebits = window.Morebits;
-type MorebitsWikiPage = InstanceType<(typeof Morebits.wiki)['page']>;
 
 declare const Twinkle: {
 	changeTags: string[];
 	getPref: (key: string) => string;
 	hatnoteRegex: string;
 };
-
-interface TwStatusExposed {
-	getStatusRoot: () => HTMLElement | null;
-}
 
 interface SubgroupItem {
 	type: 'input' | 'textarea' | 'select' | 'checkbox';

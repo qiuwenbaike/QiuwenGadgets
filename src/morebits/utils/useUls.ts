@@ -1,3 +1,4 @@
+import {wgULS} from 'ext.gadget.i18n';
 /**
  * Bridge for `wgULS` (simplified/traditional Chinese interface switch)
  * inside Vue components.
@@ -8,10 +9,6 @@
  * reactivity is required: call `uls()` during `setup()`.
  */
 
-declare global {
-	const wgULS: (simplified: string, traditional: string) => string;
-}
-
-export const uls = (simplified: string, traditional: string): string => {
-	return typeof wgULS === 'function' ? wgULS(simplified, traditional) : simplified;
+export const uls = (simplified: unknown, traditional: unknown): string => {
+	return typeof wgULS === 'function' ? wgULS(simplified, traditional) : (simplified as string);
 };

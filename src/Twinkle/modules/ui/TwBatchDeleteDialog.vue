@@ -1,26 +1,61 @@
 <script setup lang="ts">
 import {CdxButton, CdxCheckbox, CdxField, CdxSelect, CdxTextInput, type MenuItemData} from '@wikimedia/codex';
+import {
+	Morebits,
+	type MorebitsBatchOperation,
+	type MorebitsWikiApiWithParams,
+	type MorebitsWikiPage,
+	type MutableTitle,
+	newParamsApi,
+} from './morebits';
+import type {PageItem, TwStatusExposed} from './types';
 import {computed, ref, watch} from 'vue';
-import TwDialog from './TwDialog.vue';
-import TwStatus from './TwStatus.vue';
-import {uls} from './useUls';
-import {useShiftClick} from './useShiftClick';
+import {uls} from '../utils/useUls';
+import {useShiftClick} from '../utils/useShiftClick.ts';
 
-interface TwStatusExposed {
-	getStatusRoot: () => HTMLElement | null;
-}
-
-interface PageItem {
-	title: string;
-	label: string;
-	isProtected: boolean;
-	subpages?: PageItem[];
-}
+declare const Twinkle: {
+	changeTags: string[];
+	getPref: {
+		(key: 'batchChunks'): string;
+		(key: string): string | boolean;
+	};
+};
 
 interface BatchDeleteListData {
 	pages: PageItem[];
 	loaded: boolean;
 	subpagesLoading: boolean;
+}
+
+interface BatchDeleteParams {
+	reason: string;
+	pages: string[];
+	subpages: string[];
+	protectedCount: number;
+	delete_page: boolean;
+	delete_talk: boolean;
+	delete_redirects: boolean;
+	delete_subpages: boolean;
+	delete_subpage_redirects: boolean;
+	delete_subpage_talks: boolean;
+	unlink_subpages: boolean;
+	unlink_page: boolean;
+	unlink_file: boolean;
+}
+
+/** Parameters carried through the deletion/unlinking workers. */
+interface BatchDeleteWorkerParams {
+	page: string;
+	delete_page: boolean;
+	delete_talk: boolean;
+	delete_redirects: boolean;
+	unlink_page: boolean;
+	unlink_file: boolean;
+	reason: string;
+	pageDeleter: MorebitsBatchOperation;
+	title?: string;
+	unlinker?: MorebitsBatchOperation;
+	talkPage?: string;
 }
 
 const props = defineProps<{
@@ -38,24 +73,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	submit: [
-		params: {
-			reason: string;
-			pages: string[];
-			subpages: string[];
-			protectedCount: number;
-			delete_page: boolean;
-			delete_talk: boolean;
-			delete_redirects: boolean;
-			delete_subpages: boolean;
-			delete_subpage_redirects: boolean;
-			delete_subpage_talks: boolean;
-			unlink_subpages: boolean;
-			unlink_page: boolean;
-			unlink_file: boolean;
-		},
-		statusContainer: HTMLElement | null,
-	];
 	loadSubpages: [titles: string[]];
 	close: [];
 }>();
@@ -76,6 +93,15 @@ const selectedPages = ref<string[]>([]);
 const selectedSubpages = ref<string[]>([]);
 const submitting = ref(false);
 const statusRef = ref<TwStatusExposed | null>(null);
+
+// Exposed so the module entry can init Morebits.status before the page
+// list arrives (the original accessed `dialogInstance?.exposed`, which
+// was never populated by the dialog)
+defineExpose({
+	getStatusRoot: (): HTMLElement | null => {
+		return statusRef.value?.getStatusRoot() ?? null;
+	},
+});
 const {onShiftClick: onMainShiftClick} = useShiftClick();
 const subpageShiftClickers = new Map<string, ReturnType<typeof useShiftClick>>();
 
@@ -207,8 +233,7 @@ const submit = () => {
 		return;
 	}
 	submitting.value = true;
-	emit(
-		'submit',
+	evaluate(
 		{
 			reason: reason.value.trim(),
 			pages: [...selectedPages.value],
@@ -224,7 +249,10 @@ const submit = () => {
 			unlink_page: unlinkPage.value,
 			unlink_file: unlinkFile.value,
 		},
-		statusRef.value?.getStatusRoot() ?? null
+		statusRef.value?.getStatusRoot() ?? null,
+		() => {
+			submitting.value = false;
+		}
 	);
 };
 
@@ -233,6 +261,388 @@ watch(open, (value) => {
 		emit('close');
 	}
 });
+
+// Faithful port of Twinkle.batchdelete.callbacks / .callback.evaluate from here on
+
+// Cache of fetched page texts shared by the unlink workers, invalidated
+// at the start of each backlink-unlinking run
+let unlinkCache: Record<string, string> = {};
+
+const callbacks = {
+	// In the original this inspected `thingWithParameters.parent`, but
+	// doExtras is only ever called with a Morebits.wiki.page, so the
+	// callback parameters are read from it directly.
+	doExtras: (pageobj: MorebitsWikiPage): void => {
+		const params = pageobj.getCallbackParameters() as BatchDeleteWorkerParams;
+		// the initial batch operation's job is to delete the page, and that has
+		// succeeded by now
+		params.pageDeleter.workerSuccess(pageobj);
+		let query: Record<string, unknown>;
+		if (params.unlink_page) {
+			unlinkCache = {};
+			query = {
+				action: 'query',
+				list: 'backlinks',
+				blfilterredir: 'nonredirects',
+				blnamespace: [0],
+				bltitle: params.page,
+				bllimit: 'max', // 500 is max for normal users, 5000 for bots and sysops
+			};
+			const qiuwen_api = newParamsApi(uls('正在获取链入', '正在取得連入'), query, callbacks.unlinkBacklinksMain);
+			qiuwen_api.params = params;
+			qiuwen_api.post();
+		}
+		if (params.unlink_file) {
+			query = {
+				action: 'query',
+				list: 'imageusage',
+				iutitle: params.page,
+				iulimit: 'max', // 500 is max for normal users, 5000 for bots and sysops
+			};
+			const qiuwen_api = newParamsApi(
+				uls('正在获取文件链入', '正在取得檔案連入'),
+				query,
+				callbacks.unlinkImageInstancesMain
+			);
+			qiuwen_api.params = params;
+			qiuwen_api.post();
+		}
+		if (params.delete_page) {
+			if (params.delete_redirects) {
+				query = {
+					action: 'query',
+					titles: params.page,
+					prop: 'redirects',
+					rdlimit: 'max', // 500 is max for normal users, 5000 for bots and sysops
+				};
+				const qiuwen_api = newParamsApi(
+					uls('正在获取重定向', '正在取得重新導向'),
+					query,
+					callbacks.deleteRedirectsMain
+				);
+				qiuwen_api.params = params;
+				qiuwen_api.post();
+			}
+			if (params.delete_talk) {
+				const pageTitle = mw.Title.newFromText(params.page) as MutableTitle | null;
+				if (pageTitle && pageTitle.namespace % 2 === 0 && pageTitle.namespace !== 2) {
+					pageTitle.namespace++; // now pageTitle is the talk page title!
+					query = {
+						action: 'query',
+						titles: pageTitle.toText(),
+					};
+					const qiuwen_api = newParamsApi(
+						uls('正在检查讨论页面是否存在', '正在檢查討論頁面是否存在'),
+						query,
+						callbacks.deleteTalk
+					);
+					qiuwen_api.params = params;
+					qiuwen_api.params.talkPage = pageTitle.toText();
+					qiuwen_api.post();
+				}
+			}
+		}
+	},
+	deleteRedirectsMain: (apiobj: MorebitsWikiApiWithParams<BatchDeleteWorkerParams>): void => {
+		const xml = apiobj.getResponse() as unknown as XMLDocument;
+		const pages = $(xml)
+			.find('rd')
+			.map((_index, element) => {
+				return $(element).attr('title');
+			})
+			.get()
+			.filter((title): title is string => !!title);
+		if (!pages.length) {
+			return;
+		}
+		const redirectDeleter = new Morebits.batchOperation(
+			uls('正在删除到 ', '正在刪除到 ') + apiobj.params.page + uls(' 的重定向', ' 的重新導向')
+		);
+		redirectDeleter.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+		redirectDeleter.setPageList(pages);
+		redirectDeleter.run((pageName) => {
+			const qiuwen_page = new Morebits.wiki.page(pageName, uls('正在删除 ', '正在刪除 ') + pageName);
+			qiuwen_page.setEditSummary(
+				`[[QW:CSD#G9|G9]]: ${uls('指向已删页面“', '指向已刪頁面「')}${apiobj.params.page}${uls(
+					'”的重定向',
+					'」的重新導向'
+				)}`
+			);
+			qiuwen_page.setChangeTags(Twinkle.changeTags);
+			qiuwen_page.deletePage(redirectDeleter.workerSuccess, redirectDeleter.workerFailure);
+		});
+	},
+	deleteTalk: (apiobj: MorebitsWikiApiWithParams<BatchDeleteWorkerParams>): void => {
+		const xml = apiobj.getResponse() as unknown as XMLDocument;
+		const exists = $(xml).find('page:not([missing])').length > 0;
+		if (!exists) {
+			// no talk page; forget about it
+			return;
+		}
+		const page = new Morebits.wiki.page(
+			apiobj.params.talkPage ?? '',
+			uls('正在删除页面 ', '正在刪除頁面 ') + apiobj.params.page + uls(' 的讨论页', ' 的討論頁')
+		);
+		page.setEditSummary(
+			`[[QW:CSD#G9|G9]]: ${uls('已删页面“', '已刪頁面「')}${apiobj.params.page}${uls(
+				'”的[[Help:讨论页|讨论页]]',
+				'」的[[Help:討論頁|討論頁]]'
+			)}`
+		);
+		page.setChangeTags(Twinkle.changeTags);
+		page.deletePage();
+	},
+	unlinkBacklinksMain: (apiobj: MorebitsWikiApiWithParams<BatchDeleteWorkerParams>): void => {
+		const xml = apiobj.getResponse() as unknown as XMLDocument;
+		const pages = $(xml)
+			.find('bl')
+			.map((_index, element) => {
+				return $(element).attr('title');
+			})
+			.get()
+			.filter((title): title is string => !!title);
+		if (!pages.length) {
+			return;
+		}
+		const unlinker = new Morebits.batchOperation(`正在取消到 ${apiobj.params.page}${uls(' 的链入', ' 的連入')}`);
+		unlinker.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+		unlinker.setPageList(pages);
+		unlinker.run((pageName) => {
+			const qiuwen_page = new Morebits.wiki.page(
+				pageName,
+				`正在取消 ${pageName}${uls(' 上的链入', ' 上的連入')}`
+			);
+			const params: BatchDeleteWorkerParams = {
+				...apiobj.params,
+			};
+			params.title = pageName;
+			params.unlinker = unlinker;
+			qiuwen_page.setCallbackParameters(params);
+			qiuwen_page.load(callbacks.unlinkBacklinks);
+		});
+	},
+	unlinkBacklinks: (pageobj: MorebitsWikiPage): void => {
+		const params = pageobj.getCallbackParameters() as BatchDeleteWorkerParams;
+		const unlinker = params.unlinker;
+		if (!unlinker) {
+			return;
+		}
+		if (!pageobj.exists()) {
+			// we probably just deleted it, as a recursive backlink
+			unlinker.workerSuccess(pageobj);
+			return;
+		}
+		let text;
+		if (params.title !== undefined && params.title in unlinkCache) {
+			text = unlinkCache[params.title] ?? '';
+		} else {
+			text = pageobj.getPageText() ?? '';
+		}
+		const old_text = text;
+		const wikitextPage = new Morebits.wikitext.page(text);
+		text = wikitextPage.removeLink(params.page).getText();
+		if (params.title !== undefined) {
+			unlinkCache[params.title] = text;
+		}
+		if (text === old_text) {
+			// Nothing to do, return
+			unlinker.workerSuccess(pageobj);
+			return;
+		}
+		pageobj.setEditSummary(uls('取消到已删页面', '取消到已刪頁面') + params.page + uls('的链入', '的連入'));
+		pageobj.setChangeTags(Twinkle.changeTags);
+		pageobj.setPageText(text);
+		pageobj.setCreateOption('nocreate');
+		pageobj.setMaxConflictRetries(10);
+		pageobj.save(unlinker.workerSuccess, unlinker.workerFailure);
+	},
+	unlinkImageInstancesMain: (apiobj: MorebitsWikiApiWithParams<BatchDeleteWorkerParams>): void => {
+		const xml = apiobj.getResponse() as unknown as XMLDocument;
+		const pages = $(xml)
+			.find('iu')
+			.map((_index, element) => {
+				return $(element).attr('title');
+			})
+			.get()
+			.filter((title): title is string => !!title);
+		if (!pages.length) {
+			return;
+		}
+		const unlinker = new Morebits.batchOperation(`正在取消到 ${apiobj.params.page}${uls(' 的链入', ' 的連入')}`);
+		unlinker.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+		unlinker.setPageList(pages);
+		unlinker.run((pageName) => {
+			const qiuwen_page = new Morebits.wiki.page(
+				pageName,
+				`取消 ${pageName}${uls(' 的文件使用', ' 的檔案使用')}`
+			);
+			const params: BatchDeleteWorkerParams = {
+				...apiobj.params,
+			};
+			params.title = pageName;
+			params.unlinker = unlinker;
+			qiuwen_page.setCallbackParameters(params);
+			qiuwen_page.load(callbacks.unlinkImageInstances);
+		});
+	},
+	unlinkImageInstances: (pageobj: MorebitsWikiPage): void => {
+		const params = pageobj.getCallbackParameters() as BatchDeleteWorkerParams;
+		const unlinker = params.unlinker;
+		if (!unlinker) {
+			return;
+		}
+		if (!pageobj.exists()) {
+			// we probably just deleted it, as a recursive backlink
+			unlinker.workerSuccess(pageobj);
+			return;
+		}
+		const image = params.page.replace(new RegExp(`^${Morebits.namespaceRegex(6)}:`), '');
+		let text;
+		if (params.title !== undefined && params.title in unlinkCache) {
+			text = unlinkCache[params.title] ?? '';
+		} else {
+			text = pageobj.getPageText() ?? '';
+		}
+		const old_text = text;
+		const wikitextPage = new Morebits.wikitext.page(text);
+		text = wikitextPage.commentOutImage(image, uls('因文件已删，故注解', '因檔案已刪，故註解')).getText();
+		if (params.title !== undefined) {
+			unlinkCache[params.title] = text;
+		}
+		if (text === old_text) {
+			pageobj
+				.getStatusElement()
+				.error(`在 ${pageobj.getPageName()} 上取消 ${image}${uls(' 的文件使用失败', ' 的檔案使用失敗')}`);
+			unlinker.workerFailure();
+			return;
+		}
+		pageobj.setEditSummary(
+			uls('取消使用已被删除文件', '取消使用已被刪除檔案') + image + uls('，因为：', '，因為：') + params.reason
+		);
+		pageobj.setChangeTags(Twinkle.changeTags);
+		pageobj.setPageText(text);
+		pageobj.setCreateOption('nocreate');
+		pageobj.setMaxConflictRetries(10);
+		pageobj.save(unlinker.workerSuccess, unlinker.workerFailure);
+	},
+};
+
+const evaluate = (params: BatchDeleteParams, statusContainer: HTMLElement | null, restore?: () => void): void => {
+	Morebits.wiki.actionCompleted.notice = uls('批量删除已完成', '批次刪除已完成');
+	if (
+		params.protectedCount > 0 &&
+		!confirm(
+			uls('您正要删除 ', '您正要刪除 ') +
+				mw.language.convertNumber(params.protectedCount) +
+				uls(' 个全保护页面，您确定吗？', ' 個全保護頁面，您確定嗎？')
+		)
+	) {
+		if (restore) {
+			restore();
+		}
+		return;
+	}
+	const {pages} = params;
+	const {subpages} = params;
+	const {reason} = params;
+	const delete_page = params.delete_page;
+	let delete_talk = false;
+	let delete_redirects = false;
+	let delete_subpages = false;
+	let delete_subpage_redirects = false;
+	let delete_subpage_talks = false;
+	let unlink_subpages = false;
+	if (delete_page) {
+		delete_talk = params.delete_talk;
+		delete_redirects = params.delete_redirects;
+		delete_subpages = params.delete_subpages;
+		if (delete_subpages) {
+			delete_subpage_redirects = params.delete_subpage_redirects;
+			delete_subpage_talks = params.delete_subpage_talks;
+			unlink_subpages = params.unlink_subpages;
+		}
+	}
+	const unlink_page = params.unlink_page;
+	const unlink_file = params.unlink_file;
+	if (!reason) {
+		void mw.notify(uls('您需要给出一个理由', '您需要給出一個理由'), {
+			type: 'warn',
+			tag: 'twinklebatchdelete',
+		});
+		if (restore) {
+			restore();
+		}
+		return;
+	}
+	Morebits.status.init(statusContainer);
+	if (pages.length === 0) {
+		Morebits.status.error(uls('错误', '錯誤'), uls('没有要删除的内容，中止', '沒有要刪除的內容，中止'));
+		if (restore) {
+			restore();
+		}
+		return;
+	}
+	const pageDeleter = new Morebits.batchOperation(
+		delete_page ? uls('正在删除页面', '正在刪除頁面') : uls('正在启动要求的任务', '正在啟動要求的任務')
+	);
+	pageDeleter.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+	// we only need the initial status lines if we're deleting the pages in the pages array
+	pageDeleter.setOption('preserveIndividualStatusLines', delete_page);
+	pageDeleter.setPageList(pages);
+	pageDeleter.run(
+		(pageName) => {
+			const workerParams: BatchDeleteWorkerParams = {
+				page: pageName,
+				delete_page,
+				delete_talk,
+				delete_redirects,
+				unlink_page,
+				unlink_file: unlink_file && new RegExp(`^${Morebits.namespaceRegex(6)}:`, 'i').test(pageName),
+				reason,
+				pageDeleter,
+			};
+			const qiuwen_page = new Morebits.wiki.page(pageName, uls('正在删除页面 ', '正在刪除頁面 ') + pageName);
+			qiuwen_page.setCallbackParameters(workerParams);
+			if (delete_page) {
+				qiuwen_page.setEditSummary(`${reason}（批量）`);
+				qiuwen_page.setChangeTags(Twinkle.changeTags);
+				qiuwen_page.suppressProtectWarning();
+				qiuwen_page.deletePage(callbacks.doExtras, pageDeleter.workerFailure);
+			} else {
+				callbacks.doExtras(qiuwen_page);
+			}
+		},
+		() => {
+			if (delete_subpages) {
+				const subpageDeleter = new Morebits.batchOperation(uls('正在删除子页面', '正在刪除子頁面'));
+				subpageDeleter.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+				subpageDeleter.setOption('preserveIndividualStatusLines', true);
+				subpageDeleter.setPageList(subpages);
+				subpageDeleter.run((pageName) => {
+					const workerParams: BatchDeleteWorkerParams = {
+						page: pageName,
+						delete_page: true,
+						delete_talk: delete_subpage_talks,
+						delete_redirects: delete_subpage_redirects,
+						unlink_page: unlink_subpages,
+						unlink_file: false,
+						reason,
+						pageDeleter: subpageDeleter,
+					};
+					const qiuwen_page = new Morebits.wiki.page(
+						pageName,
+						uls('正在删除子页面 ', '正在刪除子頁面 ') + pageName
+					);
+					qiuwen_page.setCallbackParameters(workerParams);
+					qiuwen_page.setEditSummary(`${reason}（批量）`);
+					qiuwen_page.setChangeTags(Twinkle.changeTags);
+					qiuwen_page.suppressProtectWarning();
+					qiuwen_page.deletePage(callbacks.doExtras, pageDeleter.workerFailure);
+				});
+			}
+		}
+	);
+};
 </script>
 
 <template>

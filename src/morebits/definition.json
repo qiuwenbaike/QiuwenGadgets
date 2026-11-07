@@ -3,6 +3,6 @@
 	"description": "<span id=\"Gadget-morebits\"></span> morebits.js",
 	"section": "compatibility",
 	"excludeSites": ["loginwiki", "mncqiuwenbaike"],
-	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.Title", "mediawiki.user", "mediawiki.util"],
+	"dependencies": ["ext.gadget.i18n", "mediawiki.Title", "mediawiki.user", "mediawiki.util"],
 	"hidden": true
 }

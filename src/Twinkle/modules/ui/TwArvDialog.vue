@@ -11,11 +11,55 @@ import {
 import {computed, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
-import {uls} from './useUls';
+import type {TwStatusExposed} from './types';
+import {uls} from '../utils/useUls';
 
-interface TwStatusExposed {
-	getStatusRoot: () => HTMLElement | null;
+interface MorebitsStatusElement {
+	error: (text: string) => void;
+	status: (text: string) => void;
 }
+
+interface MorebitsWikiPage {
+	setFollowRedirect: (flag: boolean) => MorebitsWikiPage;
+	load: (callback: () => void) => MorebitsWikiPage;
+	getPageText: () => string;
+	getStatusElement: () => MorebitsStatusElement;
+	setPageSection: (section: number) => MorebitsWikiPage;
+	setEditSummary: (summary: string) => MorebitsWikiPage;
+	setChangeTags: (tags: string[]) => MorebitsWikiPage;
+	setAppendText: (text: string) => MorebitsWikiPage;
+	setWatchlist: (option: string | boolean) => MorebitsWikiPage;
+	append: () => MorebitsWikiPage;
+}
+
+declare const Twinkle: {
+	changeTags: string[];
+	getPref: (key: string) => string;
+};
+
+declare const Morebits: {
+	status: {
+		init: (container: HTMLElement | null) => void;
+		printUserText: (text: string, message: string) => void;
+	};
+	array: {
+		uniq: <T>(array: T[]) => T[];
+	};
+	string: {
+		appendPunctuation: (text: string) => string;
+		toUpperCaseFirstChar: (text: string) => string;
+		toLowerCaseFirstChar: (text: string) => string;
+		escapeRegExp: (text: string) => string;
+	};
+	wiki: {
+		actionCompleted: {redirect: string; notice: string};
+		page: new (title: string, status?: string) => MorebitsWikiPage;
+		preview: new (box: HTMLElement) => {
+			beginRender: (text: string, title?: string) => void;
+			closePreview: () => void;
+		};
+	};
+};
 
 interface ArvParams {
 	category: 'aiv' | 'ewip' | 'username' | 'spi';
@@ -47,8 +91,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	submit: [params: ArvParams, statusContainer: HTMLElement | null, restore: () => void];
-	preview: [params: ArvParams, previewBox: HTMLElement | null];
 	close: [];
 }>();
 
@@ -72,6 +114,10 @@ const goodid = ref(mw.util.getParamValue('vanarticlegoodrevid') || '');
 
 const statusRef = ref<TwStatusExposed | null>(null);
 const previewBox = ref<HTMLElement | null>(null);
+let previewer: {
+	beginRender: (text: string, title?: string) => void;
+	closePreview: () => void;
+} | null = null;
 
 const categoryItems: MenuItemData[] = [
 	{value: 'aiv', label: uls('破坏（QW:VIP）', '破壞（QW:VIP）')},
@@ -216,7 +262,30 @@ const primaryAction = computed(() => ({
 }));
 
 const onPreview = () => {
-	emit('preview', buildParams(), previewBox.value);
+	const params = buildParams();
+	const reason = getReportWikitext(params);
+	if (reason === undefined || !previewBox.value) {
+		return;
+	}
+	if (previewer) {
+		previewer.closePreview();
+	}
+	previewer = new Morebits.wiki.preview(previewBox.value);
+	let title;
+	switch (params.category) {
+		case 'aiv':
+			title = 'Qiuwen_talk:报告当前破坏';
+			break;
+		case 'ewip':
+		case 'username':
+		case 'spi':
+			title = 'Qiuwen_talk:管理员告示板';
+			break;
+		default:
+			title = mw.config.get('wgPageName');
+			break;
+	}
+	previewer.beginRender(`__NOTOC__${reason[0]}`, title);
 };
 
 const submit = () => {
@@ -224,7 +293,7 @@ const submit = () => {
 		return;
 	}
 	submitting.value = true;
-	emit('submit', buildParams(), statusRef.value?.getStatusRoot() ?? null, () => {
+	evaluate(buildParams(), statusRef.value?.getStatusRoot() ?? null, () => {
 		submitting.value = false;
 	});
 };
@@ -234,6 +303,418 @@ watch(open, (value) => {
 		emit('close');
 	}
 });
+
+const getReportWikitext = (input: ArvParams): [string, string] | undefined => {
+	let reason = '';
+	let comment = '';
+	const {uid} = input;
+	const checkTitle = (title: string, revid: boolean | string | number): mw.Title | false => {
+		if (/https?:\/\//.test(title)) {
+			void mw.notify(uls('页面名称不能使用网址。', '頁面名稱不能使用網址。'), {
+				type: 'warn',
+				tag: 'twinklearv',
+			});
+			return false;
+		}
+		let page: mw.Title;
+		try {
+			page = new mw.Title(title);
+		} catch {
+			void mw.notify(
+				`${
+					uls('“', '「') +
+					title +
+					uls(
+						'”不是一个有效的页面名称，如要使用差异链接请放在“评论”',
+						'」不是一個有效的頁面名稱，如要使用差異連結請放在「評論」'
+					) +
+					(revid ? uls('，或正确输入“修订版本”', '，或正確輸入「修訂版本」') : '')
+				}。`,
+				{
+					type: 'warn',
+					tag: 'twinklearv',
+				}
+			);
+			return false;
+		}
+		if (page.getNamespaceId() === -1) {
+			void mw.notify(
+				`${
+					uls('“', '「') +
+					title +
+					uls(
+						'”属于特殊页面，如要使用差异链接请放在“评论”',
+						'」屬於特殊頁面，如要使用差異連結請放在「評論」'
+					) +
+					(revid ? uls('，或正确输入“修订版本”', '，或正確輸入「修訂版本」') : '')
+				}。`,
+				{
+					type: 'warn',
+					tag: 'twinklearv',
+				}
+			);
+			return false;
+		}
+		return page;
+	};
+	let page;
+	switch (input.category) {
+		// Report 3RR
+		case 'ewip': {
+			if (input.reason === '') {
+				void mw.notify(uls('您必须指定理由', '您必須指定理由'), {
+					type: 'warn',
+					tag: 'twinklearv',
+				});
+				return;
+			}
+			reason += `== 编辑战举报（${uid}） ==\n`;
+			reason += `* '''{{vandal|${/[=]/.test(uid) ? '1=' : ''}${uid}}}'''\n`;
+			const pages = input.pages.map((value) => {
+				return value || null;
+			});
+			for (const pageTitle of pages) {
+				page = checkTitle(pageTitle as string, false);
+				if (!page) {
+					return;
+				}
+				comment += `* {{pagelinks|${
+					page.getPrefixedText().includes('=') ? '1=' : ''
+				}${page.getPrefixedText()}}}\n`;
+			}
+			input.reason = input.reason.replace(/\n\n+/g, '\n');
+			input.reason = input.reason.replace(/\r?\n/g, '\n*:'); // indent newlines
+			comment += `* ${input.reason}\n`;
+			comment = comment.trim();
+			comment = Morebits.string.appendPunctuation(comment);
+			reason += `${comment}\n* 提报人：~~`.concat('~~\n* 处理：');
+			break;
+		}
+		// Report inappropriate username
+		case 'username': {
+			const types = input.arvtype.map(Morebits.string.toLowerCaseFirstChar);
+			const hasShared = types.includes('shared');
+			if (hasShared) {
+				types.splice(types.indexOf('shared'), 1);
+			}
+			if (
+				types.includes('侮辱性') &&
+				!confirm(
+					uls(
+						'警告：严重的侮辱性用户名和针对特定个人的侮辱性用户名不应在公开页面报告，而是应当私下联系监督员处理。是否继续？',
+						'警告：嚴重的侮辱性使用者名稱和針對特定個人的侮辱性使用者名稱不應在公開頁面報告，而是應當私下聯絡監督員處理。是否繼續？'
+					)
+				)
+			) {
+				return;
+			}
+			let typeText: string;
+			if (types.length <= 2) {
+				typeText = types.join('和');
+			} else {
+				typeText = [types.slice(0, -1).join('、'), types.slice(-1)].join('和');
+			}
+			comment += `*{{user-uaa|1=${uid}`;
+			if (input.hidename) {
+				comment += '|hidename=1';
+			}
+			comment += '}} &ndash; ';
+			if (typeText.length) {
+				comment += typeText + uls('用户名', '使用者名稱');
+			}
+			if (typeText.length && hasShared) {
+				comment += '，';
+			}
+			if (hasShared) {
+				comment += uls('暗示该账号并非由一人拥有', '暗示該賬號並非由一人擁有');
+			}
+			if (types.length || hasShared) {
+				comment += '。';
+			}
+			if (input.reason) {
+				comment += Morebits.string.toUpperCaseFirstChar(input.reason);
+			}
+			comment = Morebits.string.appendPunctuation(comment);
+			comment += '——~~'.concat('~~');
+			comment = comment.replace(/\r?\n/g, '\n*:'); // indent newlines
+			reason = `== 不当用户名报告（${input.hidename ? uls('已隐藏用户名', '已隱藏使用者名稱') : uid}） ==\n`;
+			reason += comment;
+			break;
+		}
+		// QW:SPI
+		case 'spi': {
+			if (!input.reason) {
+				void mw.notify(uls('请输入证据。', '請輸入證據。'), {
+					type: 'warn',
+					tag: 'twinklearv',
+				});
+				return;
+			}
+			const sockpuppets = Morebits.array.uniq(
+				input.sockpuppets.map((o) => {
+					return o.trim() || null;
+				})
+			);
+			if (!sockpuppets[0]) {
+				void mw.notify(uls('您没有指定任何傀儡。', '您沒有指定任何傀儡。'), {
+					type: 'warn',
+					tag: 'twinklearv',
+				});
+				return;
+			}
+			comment += '{{'.concat('subst:', 'SPI report|');
+			if (!sockpuppets.includes(input.sockmaster)) {
+				comment += '1={{'.concat('subst:', '#ifexist:{{', 'subst:', `FULLPAGENAME}}||${input.sockmaster}}}|`);
+			}
+			comment += `${sockpuppets
+				.map((sock, index) => {
+					return `${index + 2}=${sock}`;
+				})
+				.join('|')}\n|evidence=${Morebits.string.appendPunctuation(input.reason)}\n`;
+			if (input.checkuser) {
+				comment += '|checkuser=yes';
+			}
+			comment += '}}';
+			reason = comment;
+			break;
+		}
+
+		// Report user for vandalism
+		/* case 'aiv': */
+		/* falls through */
+		default: {
+			if (!input.arvtype.length && input.reason === '') {
+				void mw.notify(uls('您必须指定理由', '您必須指定理由'), {
+					type: 'warn',
+					tag: 'twinklearv',
+				});
+				return;
+			}
+			reason += `== ${input.hidename ? uls('已隐藏用户名', '已隱藏使用者名稱') : uid} ==\n`;
+			reason += `* '''{{vandal|${/[=]/.test(uid) ? '1=' : ''}${uid}`;
+			if (input.hidename) {
+				reason += '|hidename=1';
+			}
+			reason += "}}'''\n";
+			const types = input.arvtype
+				.map((v) => {
+					switch (v) {
+						case 'final':
+							return '已发出最后警告';
+						case 'postblock':
+							return '封禁过期后随即破坏';
+						case 'spambot':
+							return '显而易见的spambot或失窃账号';
+						case 'vandalonly':
+							return '显而易见的纯破坏用户';
+						case 'promoonly':
+							return '仅用来散发广告宣传的用户';
+						default:
+							return '未知理由';
+					}
+				})
+				.join('，');
+			if (input.page !== '') {
+				page = checkTitle(input.page, true);
+				if (!page) {
+					return;
+				}
+				comment += `* {{pagelinks|${
+					page.getPrefixedText().includes('=') ? '1=' : ''
+				}${page.getPrefixedText()}}}`;
+				if (input.badid) {
+					comment += `（{{diff|${page.getPrefixedText()}|${input.badid}|${input.goodid ?? ''}|diff}}）`;
+				}
+				comment += '\n';
+			}
+			if (types) {
+				comment += `* ${types}`;
+			}
+			if (input.reason !== '') {
+				input.reason = input.reason.replace(/\n\n+/g, '\n');
+				input.reason = input.reason.replace(/\r?\n/g, '\n*:'); // indent newlines
+				comment += (types ? '。' : '* ') + input.reason;
+			}
+			comment = comment.trim();
+			comment = Morebits.string.appendPunctuation(comment);
+			reason += `${comment}\n* 发现人：~~`.concat('~~\n* 处理：');
+			break;
+		}
+	}
+	return [reason, comment];
+};
+
+const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore?: () => void): void => {
+	const {uid} = input;
+	let summary = '';
+	switch (input.category) {
+		// Report 3RR
+		case 'ewip': {
+			const report = getReportWikitext(input);
+			if (report === undefined) {
+				if (restore) {
+					restore();
+				}
+				return;
+			}
+			summary = `${uls('报告', '報告')}[[Special:Contribs/${uid}|${uid}]]`;
+			Morebits.status.init(statusContainer);
+			Morebits.wiki.actionCompleted.redirect = 'Qiuwen_talk:管理员告示板';
+			Morebits.wiki.actionCompleted.notice = uls('报告完成', '報告完成');
+			const ewipPage = new Morebits.wiki.page('Qiuwen_talk:管理员告示板', uls('处理EWIP请求', '處理EWIP請求'));
+			ewipPage.setFollowRedirect(true);
+			ewipPage.load(() => {
+				const text = ewipPage.getPageText();
+				const $ewipLink = '<a rel="noopener" target="_blank" href="/wiki/QW:EWIP">QW:EWIP</a>';
+				// check if user has already been reported
+				if (
+					new RegExp(
+						`===\\s*\\{\\{\\s*(?:[Vv]andal)\\s*\\|\\s*(?:1=)?\\s*${Morebits.string.escapeRegExp(
+							uid
+						)}\\s*\\}\\}\\s*===`
+					).test(text)
+				) {
+					ewipPage.getStatusElement().error(uls('报告已存在，将不会加入新的', '報告已存在，將不會加入新的'));
+					Morebits.status.printUserText(
+						report[1],
+						uls(
+							'您输入的评论已在下方提供，您可以将其加入到',
+							'您輸入的評論已在下方提供，您可以將其加入到'
+						) +
+							$ewipLink +
+							uls('已存在的小节中：', '已存在的小節中：')
+					);
+					return;
+				}
+				ewipPage.setPageSection(0);
+				ewipPage.getStatusElement().status(uls('加入新报告…', '加入新報告…'));
+				ewipPage.setEditSummary(summary);
+				ewipPage.setChangeTags(Twinkle.changeTags);
+				ewipPage.setAppendText(`\n${report[0]}`);
+				ewipPage.append();
+			});
+			break;
+		}
+		// Report inappropriate username
+		case 'username': {
+			const report = getReportWikitext(input);
+			if (report === undefined) {
+				if (restore) {
+					restore();
+				}
+				return;
+			}
+			Morebits.status.init(statusContainer);
+			Morebits.wiki.actionCompleted.redirect = 'Qiuwen_talk:管理员告示板';
+			Morebits.wiki.actionCompleted.notice = uls('报告完成', '報告完成');
+			const uaaPage = new Morebits.wiki.page('Qiuwen_talk:管理员告示板', uls('处理UAA请求', '處理UAA請求'));
+			uaaPage.setFollowRedirect(true);
+			uaaPage.load(() => {
+				const text = uaaPage.getPageText();
+				// check if user has already been reported
+				if (
+					new RegExp(
+						`\\{\\{\\s*user-uaa\\s*\\|\\s*(1\\s*=\\s*)?${Morebits.string.escapeRegExp(uid)}\\s*(\\||\\})`
+					).test(text)
+				) {
+					uaaPage.getStatusElement().error(uls('用户已被列入。', '使用者已被列入。'));
+					const $uaaLink = '<a rel="noopener" target="_blank" href="/wiki/QW:UAA">QW:UAA</a>';
+					Morebits.status.printUserText(
+						report[1],
+						uls(
+							'您输入的评论已在下方提供，您可以将其手工加入',
+							'您輸入的評論已在下方提供，您可以將其手工加入'
+						) +
+							$uaaLink +
+							uls('上该用户的报告中：', '上該使用者的報告中：')
+					);
+					return;
+				}
+				uaaPage.getStatusElement().status(uls('加入新报告…', '加入新報告…'));
+				uaaPage.setEditSummary(uls('新提报', '新提報'));
+				uaaPage.setChangeTags(Twinkle.changeTags);
+				uaaPage.setAppendText(`\n\n${report[0]}`);
+				uaaPage.append();
+			});
+			break;
+		}
+		// QW:SPI
+		case 'spi': {
+			const report = getReportWikitext(input);
+			if (report === undefined) {
+				if (restore) {
+					restore();
+				}
+				return;
+			}
+			Morebits.status.init(statusContainer);
+			const reportpage = 'Qiuwen_talk:管理员告示板';
+			Morebits.wiki.actionCompleted.redirect = reportpage;
+			Morebits.wiki.actionCompleted.notice = uls('报告完成', '報告完成');
+			const spiPage = new Morebits.wiki.page(reportpage, uls('抓取讨论页面', '抓取討論頁面'));
+			spiPage.setFollowRedirect(true);
+			spiPage.setEditSummary(uls('加入新提报', '加入新提報'));
+			spiPage.setChangeTags(Twinkle.changeTags);
+			spiPage.setAppendText(report[0]);
+			spiPage.setWatchlist(Twinkle.getPref('spiWatchReport'));
+			spiPage.append();
+			break;
+		}
+
+		// Report user for vandalism
+		/* case 'aiv': */
+		/* falls through */
+		default: {
+			const report = getReportWikitext(input);
+			if (report === undefined) {
+				if (restore) {
+					restore();
+				}
+				return;
+			}
+			summary = `${uls('报告', '報告')}[[Special:Contribs/${uid}|${uid}]]`;
+			if (input.hidename) {
+				summary = uls('报告一名用户', '報告一名使用者');
+			}
+			Morebits.status.init(statusContainer);
+			Morebits.wiki.actionCompleted.redirect = 'Qiuwen_talk:报告当前破坏';
+			Morebits.wiki.actionCompleted.notice = uls('报告完成', '報告完成');
+			const aivPage = new Morebits.wiki.page('Qiuwen_talk:报告当前破坏', uls('处理VIP请求', '處理VIP請求'));
+			aivPage.setFollowRedirect(true);
+			aivPage.load(() => {
+				const text = aivPage.getPageText();
+				const $aivLink = '<a rel="noopener" target="_blank" href="/wiki/QW:VIP">QW:VIP</a>';
+				// check if user has already been reported
+				if (
+					new RegExp(
+						`===\\s*\\{\\{\\s*(?:[Vv]andal)\\s*\\|\\s*(?:1=)?\\s*${Morebits.string.escapeRegExp(
+							uid
+						)}\\s*\\}\\}\\s*===`
+					).test(text)
+				) {
+					aivPage.getStatusElement().error(uls('报告已存在，将不会加入新的', '報告已存在，將不會加入新的'));
+					Morebits.status.printUserText(
+						report[1],
+						uls(
+							'您输入的评论已在下方提供，您可以将其加入到',
+							'您輸入的評論已在下方提供，您可以將其加入到'
+						) +
+							$aivLink +
+							uls('已存在的小节中：', '已存在的小節中：')
+					);
+					return;
+				}
+				aivPage.setPageSection(0);
+				aivPage.getStatusElement().status(uls('加入新报告…', '加入新報告…'));
+				aivPage.setEditSummary(summary);
+				aivPage.setChangeTags(Twinkle.changeTags);
+				aivPage.setAppendText(`\n${report[0]}`);
+				aivPage.append();
+			});
+			break;
+		}
+	}
+};
 </script>
 
 <template>
