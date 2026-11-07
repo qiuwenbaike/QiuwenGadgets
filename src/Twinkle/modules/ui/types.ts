@@ -3,6 +3,8 @@
 /** Contract of the `TwStatus` child component (via defineExpose). */
 export interface TwStatusExposed {
 	getStatusRoot: () => HTMLElement | null;
+	/** Remove all status lines currently shown (used after transient queries finish). */
+	clear: () => void;
 }
 
 /** Row of a selectable page list in the batch dialogs. */

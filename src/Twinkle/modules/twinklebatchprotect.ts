@@ -129,56 +129,53 @@ twinklebatchprotect.callback = () => {
 		query['titles'] = mw.config.get('wgPageName');
 		query['gpllimit'] = Twinkle.getPref('batchMax');
 	}
-	const statelem = new Morebits.status('抓取页面列表');
-	const qiuwen_api = new Morebits.wiki.api(
-		'加载中……',
-		query,
-		(apiobj: MorebitsWikiApi) => {
-			const queryResult = apiobj.getResponse() as unknown as {query?: {pages?: ApiQueryPage[]}};
-			const pages = queryResult.query?.pages ?? [];
-			pages.sort(Twinkle.sortByNamespace);
-			for (const page of pages) {
-				const metadata: string[] = [];
-				const missing = !!page.missing;
-				let editProt;
-				if (missing) {
-					metadata[metadata.length] = '页面不存在';
-					// findLast, avoided for lib compatibility
-					editProt = [...page.protection].reverse().find((protection) => {
-						return protection.type === 'create' && protection.level === 'sysop';
-					});
+	const qiuwen_api = new Morebits.wiki.api(uls('抓取页面列表', '抓取頁面列表'), query, (apiobj: MorebitsWikiApi) => {
+		const queryResult = apiobj.getResponse() as unknown as {query?: {pages?: ApiQueryPage[]}};
+		const pages = queryResult.query?.pages ?? [];
+		pages.sort(Twinkle.sortByNamespace);
+		for (const page of pages) {
+			const metadata: string[] = [];
+			const missing = !!page.missing;
+			let editProt;
+			if (missing) {
+				metadata[metadata.length] = '页面不存在';
+				// findLast, avoided for lib compatibility
+				editProt = [...page.protection].reverse().find((protection) => {
+					return protection.type === 'create' && protection.level === 'sysop';
+				});
+			} else {
+				if (page.redirect) {
+					metadata[metadata.length] = '重定向';
+				}
+				if (page.ns === 6) {
+					metadata[metadata.length] =
+						`上传者：${page.imageinfo?.[0]?.user}，最后编辑者：${page.revisions?.[0]?.user}`;
 				} else {
-					if (page.redirect) {
-						metadata[metadata.length] = '重定向';
-					}
-					if (page.ns === 6) {
-						metadata[metadata.length] =
-							`上传者：${page.imageinfo?.[0]?.user}，最后编辑者：${page.revisions?.[0]?.user}`;
-					} else {
-						metadata[metadata.length] = `${mw.language.convertNumber(page.revisions?.[0]?.size ?? 0)}字节`;
-					}
-					editProt = [...page.protection].reverse().find((protection) => {
-						return protection.type === 'edit' && protection.level === 'sysop';
-					});
+					metadata[metadata.length] = `${mw.language.convertNumber(page.revisions?.[0]?.size ?? 0)}字节`;
 				}
-				if (editProt) {
-					metadata[metadata.length] = `${missing ? '白纸' : ''}全保护${
-						editProt.expiry === 'infinity'
-							? '（永久）'
-							: `（${new Morebits.date(editProt.expiry).calendar(UTC8_OFFSET_MINUTES)} (UTC+8)过期）`
-					}`;
-				}
-				const {title} = page;
-				listData.pages.push({
-					title,
-					label: title + (metadata.length > 0 ? ` (${metadata.join('; ')})` : ''),
-					isProtected: !!editProt,
+				editProt = [...page.protection].reverse().find((protection) => {
+					return protection.type === 'edit' && protection.level === 'sysop';
 				});
 			}
-			listData.loaded = true;
-		},
-		statelem
-	);
+			if (editProt) {
+				metadata[metadata.length] = `${missing ? '白纸' : ''}全保护${
+					editProt.expiry === 'infinity'
+						? '（永久）'
+						: `（${new Morebits.date(editProt.expiry).calendar(UTC8_OFFSET_MINUTES)} (UTC+8)过期）`
+				}`;
+			}
+			const {title} = page;
+			listData.pages.push({
+				title,
+				label: title + (metadata.length > 0 ? ` (${metadata.join('; ')})` : ''),
+				isProtected: !!editProt,
+			});
+		}
+		listData.loaded = true;
+		// The page-list query is done; drop the transient status messages
+		dialogInstance.current?.clear();
+	});
+	qiuwen_api.statelem.status(uls('加载中……', '載入中……'));
 	qiuwen_api.post();
 };
 

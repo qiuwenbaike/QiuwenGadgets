@@ -104,6 +104,9 @@ defineExpose({
 	getStatusRoot: (): HTMLElement | null => {
 		return statusRef.value?.getStatusRoot() ?? null;
 	},
+	clear: (): void => {
+		statusRef.value?.clear();
+	},
 });
 const {onShiftClick: onMainShiftClick} = useShiftClick();
 const subpageShiftClickers = new Map<string, ReturnType<typeof useShiftClick>>();

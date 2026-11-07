@@ -93,6 +93,9 @@ defineExpose({
 	getStatusRoot: (): HTMLElement | null => {
 		return statusRef.value?.getStatusRoot() ?? null;
 	},
+	clear: (): void => {
+		statusRef.value?.clear();
+	},
 });
 
 const customExpiries = reactive<Record<ExpiryKind, MenuItemData[]>>({

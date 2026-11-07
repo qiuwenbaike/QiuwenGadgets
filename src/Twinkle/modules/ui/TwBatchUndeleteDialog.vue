@@ -67,6 +67,9 @@ defineExpose({
 	getStatusRoot: (): HTMLElement | null => {
 		return statusRef.value?.getStatusRoot() ?? null;
 	},
+	clear: (): void => {
+		statusRef.value?.clear();
+	},
 });
 
 // When the list arrives asynchronously, select everything by default.

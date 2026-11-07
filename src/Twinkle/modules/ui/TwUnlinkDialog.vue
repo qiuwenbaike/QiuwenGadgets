@@ -61,6 +61,9 @@ defineExpose({
 	getStatusRoot: (): HTMLElement | null => {
 		return statusRef.value?.getStatusRoot() ?? null;
 	},
+	clear: (): void => {
+		statusRef.value?.clear();
+	},
 });
 
 watch(

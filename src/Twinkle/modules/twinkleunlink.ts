@@ -158,6 +158,8 @@ twinkleunlink.callback = (presetReason?: string) => {
 			})
 		);
 		list.loaded = true;
+		// The backlink/usage queries are done; drop the transient status messages
+		dialogInstance.current?.clear();
 	};
 	const qiuwen_api = new Morebits.wiki.api(
 		uls('抓取链入', '抓取連入'),

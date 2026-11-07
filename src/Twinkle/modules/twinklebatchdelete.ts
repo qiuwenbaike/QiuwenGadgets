@@ -26,7 +26,7 @@ interface TwinkleBatchDeleteModule {
 	deletereasonlist: DeleteReasonOption[];
 }
 
-let dialogInstance: TwStatusExposed | null = null;
+const dialogInstance: {current: TwStatusExposed | null} = {current: null};
 
 declare const Twinkle: {
 	addInitCallback(func: () => void, name?: string): void;
@@ -66,7 +66,7 @@ twinklebatchdelete.callback = () => {
 		render: () => {
 			return h(TwBatchDeleteDialog, {
 				ref: (instance: unknown) => {
-					dialogInstance = (instance as TwStatusExposed) ?? null;
+					dialogInstance.current = (instance as TwStatusExposed) ?? null;
 				},
 				title: uls('批量删除', '批次刪除'),
 				reasonList: twinklebatchdelete.deletereasonlist,
@@ -181,7 +181,7 @@ twinklebatchdelete.callback = () => {
 	});
 	app.mount(root);
 	// Init Morebits.status in the dialog before the page list arrives
-	const statusRoot = dialogInstance?.getStatusRoot() ?? null;
+	const statusRoot = dialogInstance.current?.getStatusRoot() ?? null;
 	if (statusRoot) {
 		Morebits.status.init(statusRoot);
 	}
@@ -230,53 +230,50 @@ twinklebatchdelete.callback = () => {
 		query['titles'] = mw.config.get('wgPageName');
 		query['gpllimit'] = Twinkle.getPref('batchMax');
 	}
-	const statelem = new Morebits.status(uls('抓取页面列表', '抓取頁面列表'));
-	const qiuwen_api = new Morebits.wiki.api(
-		uls('加载中…', '載入中…'),
-		query,
-		(apiobj: MorebitsWikiApi) => {
-			const xml = apiobj.getResponse() as unknown as XMLDocument;
-			const $pages = $(xml).find('page').filter(':not([missing])'); // :not([imagerepository="shared"])
-			$pages.each((_index, page) => {
-				const $page = $(page);
-				const ns = $page.attr('ns');
-				const title = $page.attr('title');
-				const isRedir = $page.attr('redirect') === '';
-				const $editprot = $page.find('pr[type="edit"][level="sysop"]');
-				const isProtected = $editprot.length > 0;
-				const size = $page.find('rev').attr('size');
-				const metadata: string[] = [];
-				if (isRedir) {
-					metadata[metadata.length] = uls('重定向', '重新導向');
-				}
-				if (isProtected) {
-					metadata[metadata.length] =
-						uls('全保护，', '全保護，') +
-						($editprot.attr('expiry') === 'infinity'
-							? uls('无限期', '無限期')
-							: `${new Morebits.date($editprot.attr('expiry') ?? '').calendar(
-									UTC8_OFFSET_MINUTES
-								)} (UTC+8)`) +
-						uls('过期', '過期');
-				}
-				if (ns === '6') {
-					// mimic what delimages used to show for files
-					metadata[metadata.length] = `${
-						uls('上传者：', '上傳者：') + $page.find('ii').attr('user')
-					}，${uls('最后编辑：', '最後編輯：')}${$page.find('rev').attr('user')}`;
-				} else {
-					metadata[metadata.length] = mw.language.convertNumber(Number(size ?? 0)) + uls('字节', '位元組');
-				}
-				listData.pages.push({
-					title: title ?? '',
-					label: (title ?? '') + (metadata.length ? `（${metadata.join('，')}）` : ''),
-					isProtected,
-				});
+	const qiuwen_api = new Morebits.wiki.api(uls('加载中…', '載入中…'), query, (apiobj: MorebitsWikiApi) => {
+		const xml = apiobj.getResponse() as unknown as XMLDocument;
+		const $pages = $(xml).find('page').filter(':not([missing])'); // :not([imagerepository="shared"])
+		$pages.each((_index, page) => {
+			const $page = $(page);
+			const ns = $page.attr('ns');
+			const title = $page.attr('title');
+			const isRedir = $page.attr('redirect') === '';
+			const $editprot = $page.find('pr[type="edit"][level="sysop"]');
+			const isProtected = $editprot.length > 0;
+			const size = $page.find('rev').attr('size');
+			const metadata: string[] = [];
+			if (isRedir) {
+				metadata[metadata.length] = uls('重定向', '重新導向');
+			}
+			if (isProtected) {
+				metadata[metadata.length] =
+					uls('全保护，', '全保護，') +
+					($editprot.attr('expiry') === 'infinity'
+						? uls('无限期', '無限期')
+						: `${new Morebits.date($editprot.attr('expiry') ?? '').calendar(
+								UTC8_OFFSET_MINUTES
+							)} (UTC+8)`) +
+					uls('过期', '過期');
+			}
+			if (ns === '6') {
+				// mimic what delimages used to show for files
+				metadata[metadata.length] = `${
+					uls('上传者：', '上傳者：') + $page.find('ii').attr('user')
+				}，${uls('最后编辑：', '最後編輯：')}${$page.find('rev').attr('user')}`;
+			} else {
+				metadata[metadata.length] = mw.language.convertNumber(Number(size ?? 0)) + uls('字节', '位元組');
+			}
+			listData.pages.push({
+				title: title ?? '',
+				label: (title ?? '') + (metadata.length ? `（${metadata.join('，')}）` : ''),
+				isProtected,
 			});
-			listData.loaded = true;
-		},
-		statelem
-	);
+		});
+		listData.loaded = true;
+		// The page-list query is done; drop the transient status messages
+		dialogInstance.current?.clear();
+	});
+	qiuwen_api.statelem.status(uls('加载中……', '載入中……'));
 	qiuwen_api.post();
 };
 

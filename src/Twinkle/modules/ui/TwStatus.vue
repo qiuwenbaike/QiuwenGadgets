@@ -114,6 +114,14 @@ onBeforeUnmount(() => {
 
 const exposed = {
 	getStatusRoot: () => raw.value,
+	// Remove all status lines (e.g. transient "loading" messages once the
+	// queries they describe have finished); the observer syncs the mirror.
+	clear: () => {
+		messages.value = [];
+		if (raw.value) {
+			raw.value.replaceChildren();
+		}
+	},
 };
 defineExpose(exposed);
 </script>
