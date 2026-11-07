@@ -1,7 +1,7 @@
 import {button, codeBlock} from './CopyCodeBlock.module.less';
 import App from '../App.vue';
 import {createApp} from 'vue';
-import {getMessage} from './i18n.ts';
+import {getMessage} from './i18n';
 import {tippy} from 'ext.gadget.Tippy';
 
 const addButton = ($pres: JQuery<HTMLPreElement>): void => {

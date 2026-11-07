@@ -4,7 +4,7 @@
 /*! Twinkle.js - twinklewarn.js */
 import {createApp, h, reactive} from 'vue';
 import TwWarnDialog from './ui/TwWarnDialog.vue';
-import {wgULS} from 'ext.gadget.i18n';
+import {uls} from './utils/useUls';
 
 (function twinklewarn() {
 	const $body = $('body');
@@ -17,12 +17,7 @@ import {wgULS} from 'ext.gadget.i18n';
 	const relevantUserName = mw.config.get('wgRelevantUserName');
 	Twinkle.warn = () => {
 		if (relevantUserName) {
-			Twinkle.addPortletLink(
-				Twinkle.warn.callback,
-				'警告',
-				'tw-warn',
-				wgULS('警告或提醒用户', '警告或提醒使用者')
-			);
+			Twinkle.addPortletLink(Twinkle.warn.callback, '警告', 'tw-warn', uls('警告或提醒用户', '警告或提醒使用者'));
 			if (
 				Twinkle.getPref('autoMenuAfterRollback') &&
 				mw.config.get('wgNamespaceNumber') === 3 &&
@@ -56,7 +51,7 @@ import {wgULS} from 'ext.gadget.i18n';
 		$vandalTalkLink.wrapInner(
 			$('<span>').attr(
 				'title',
-				wgULS(
+				uls(
 					'如果合适，您可以用Twinkle在该用户讨论页上做出警告。',
 					'如果合適，您可以用Twinkle在該使用者討論頁上做出警告。'
 				)
@@ -77,7 +72,7 @@ import {wgULS} from 'ext.gadget.i18n';
 	Twinkle.warn.callback = () => {
 		if (
 			relevantUserName === mw.config.get('wgUserName') &&
-			!confirm(wgULS('您将要警告自己！您确定要继续吗？', '您將要警告自己！您確定要繼續嗎？'))
+			!confirm(uls('您将要警告自己！您确定要继续吗？', '您將要警告自己！您確定要繼續嗎？'))
 		) {
 			return;
 		}
@@ -98,7 +93,7 @@ import {wgULS} from 'ext.gadget.i18n';
 				const mainGroupOptions = [
 					{
 						value: 'autolevel',
-						label: wgULS('自动选择层级', '自動選擇層級'),
+						label: uls('自动选择层级', '自動選擇層級'),
 						selected: defaultGroup === 7,
 					},
 					{value: 'level1', label: '1：提醒', selected: defaultGroup === 1},
@@ -107,19 +102,19 @@ import {wgULS} from 'ext.gadget.i18n';
 				if (Twinkle.getPref('combinedSingletMenus')) {
 					mainGroupOptions.push({
 						value: 'singlecombined',
-						label: wgULS('单层级消息', '單層級訊息'),
+						label: uls('单层级消息', '單層級訊息'),
 						selected: defaultGroup === 3 || defaultGroup === 4,
 					});
 				} else {
 					mainGroupOptions.push(
 						{
 							value: 'singlenotice',
-							label: wgULS('单层级提醒', '單層級提醒'),
+							label: uls('单层级提醒', '單層級提醒'),
 							selected: defaultGroup === 3,
 						},
 						{
 							value: 'singlewarn',
-							label: wgULS('单层级警告', '單層級警告'),
+							label: uls('单层级警告', '單層級警告'),
 							selected: defaultGroup === 4,
 						}
 					);
@@ -127,7 +122,7 @@ import {wgULS} from 'ext.gadget.i18n';
 				if (Twinkle.getPref('customWarningList').length) {
 					mainGroupOptions.push({
 						value: 'custom',
-						label: wgULS('自定义警告', '自訂警告'),
+						label: uls('自定义警告', '自訂警告'),
 						selected: defaultGroup === 5,
 					});
 				}
@@ -141,7 +136,7 @@ import {wgULS} from 'ext.gadget.i18n';
 						return option.selected;
 					})?.value ?? 'autolevel';
 				return h(TwWarnDialog, {
-					title: wgULS('警告、提醒用户', '警告、提醒使用者'),
+					title: uls('警告、提醒用户', '警告、提醒使用者'),
 					mainGroupOptions,
 					initialMainGroup,
 					initialArticle: mw.util.getParamValue('vanarticle') || '',
@@ -150,8 +145,8 @@ import {wgULS} from 'ext.gadget.i18n';
 					notice,
 					autolevelInfo: autolevelInfo.data,
 					footerLinks: [
-						{text: wgULS('警告设置', '警告設定'), href: mw.util.getUrl('H:TW/PREF#warn')},
-						{text: wgULS('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#warn')},
+						{text: uls('警告设置', '警告設定'), href: mw.util.getUrl('H:TW/PREF#warn')},
+						{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#warn')},
 					],
 					onSubmit: (params, statusContainer, restore) => {
 						Twinkle.warn.callback.evaluate(params, statusContainer, restore);
@@ -175,7 +170,7 @@ import {wgULS} from 'ext.gadget.i18n';
 						} else {
 							const usertalk_page = new Morebits.wiki.page(
 								`User_talk:${relevantUserName}`,
-								wgULS('加载上次警告', '載入上次警告')
+								uls('加载上次警告', '載入上次警告')
 							);
 							usertalk_page.setFollowRedirect(true, false);
 							usertalk_page.load((pageobj) => {
@@ -213,26 +208,22 @@ import {wgULS} from 'ext.gadget.i18n';
 					rvdir: 'newer',
 					rvprop: 'user',
 				};
-				new Morebits.wiki.api(
-					wgULS('检查您是否成功回退该页面', '檢查您是否成功回退該頁面'),
-					query,
-					(apiobj) => {
-						const revertUser = $(apiobj.getResponse()).find('revisions rev')[1].getAttribute('user');
-						if (revertUser && revertUser !== mw.config.get('wgUserName')) {
-							message += wgULS(
-								'其他人回退了该页面，并可能已经警告该用户。',
-								'其他人回退了該頁面，並可能已經警告該使用者。'
-							);
-							notice.text = `警告：${message}`;
-						}
+				new Morebits.wiki.api(uls('检查您是否成功回退该页面', '檢查您是否成功回退該頁面'), query, (apiobj) => {
+					const revertUser = $(apiobj.getResponse()).find('revisions rev')[1].getAttribute('user');
+					if (revertUser && revertUser !== mw.config.get('wgUserName')) {
+						message += uls(
+							'其他人回退了该页面，并可能已经警告该用户。',
+							'其他人回退了該頁面，並可能已經警告該使用者。'
+						);
+						notice.text = `警告：${message}`;
 					}
-				).post();
+				}).post();
 			}
 			// Confirm edit wasn't too old for a warning
 			const checkStale = (vantimestamp_) => {
 				const revDate = new Morebits.date(vantimestamp_);
 				if (vantimestamp_ && revDate.isValid() && revDate.add(24, 'hours').isBefore(new Date())) {
-					message += wgULS(
+					message += uls(
 						'这笔编辑是在24小时前做出的，现在警告可能已过时。',
 						'這筆編輯是在24小時前做出的，現在警告可能已過時。'
 					);
@@ -250,7 +241,7 @@ import {wgULS} from 'ext.gadget.i18n';
 					rvprop: 'timestamp',
 					revids: vanrevid,
 				};
-				new Morebits.wiki.api(wgULS('获取版本时间戳', '取得版本時間戳'), query, (apiobj) => {
+				new Morebits.wiki.api(uls('获取版本时间戳', '取得版本時間戳'), query, (apiobj) => {
 					vantimestamp = $(apiobj.getResponse()).find('revisions rev').attr('timestamp');
 					checkStale(vantimestamp);
 				}).post();
@@ -265,49 +256,49 @@ import {wgULS} from 'ext.gadget.i18n';
 	Twinkle.warn.messages = {
 		levels: [
 			{
-				category: wgULS('不同类型的非建设编辑', '不同類別的非建設編輯'),
+				category: uls('不同类型的非建设编辑', '不同類別的非建設編輯'),
 				list: {
 					'uw-paid': {
 						level1: {
-							label: wgULS('未申报的有偿编辑', '未申報的有償編輯'),
-							summary: wgULS('注意：未申报的有偿编辑', '注意：未申報的有償編輯'),
+							label: uls('未申报的有偿编辑', '未申報的有償編輯'),
+							summary: uls('注意：未申报的有偿编辑', '注意：未申報的有償編輯'),
 						},
 						level2: {
-							label: wgULS('未申报的有偿编辑', '未申報的有償編輯'),
-							summary: wgULS('警告：未申报的有偿编辑', '警告：未申報的有償編輯'),
+							label: uls('未申报的有偿编辑', '未申報的有償編輯'),
+							summary: uls('警告：未申报的有偿编辑', '警告：未申報的有償編輯'),
 						},
 					},
 					'uw-copyright': {
 						level1: {
-							label: wgULS('侵犯著作权', '侵犯版權'),
-							summary: wgULS('注意：侵犯著作权', '注意：侵犯版權'),
+							label: uls('侵犯著作权', '侵犯版權'),
+							summary: uls('注意：侵犯著作权', '注意：侵犯版權'),
 						},
 						level2: {
-							label: wgULS('多次侵犯著作权', '多次侵犯版權'),
-							summary: wgULS('警告：多次侵犯著作权', '警告：多次侵犯版權'),
+							label: uls('多次侵犯著作权', '多次侵犯版權'),
+							summary: uls('警告：多次侵犯著作权', '警告：多次侵犯版權'),
 						},
 					},
 					'uw-crystal': {
 						level1: {
-							label: wgULS('加入臆测或未确认的消息', '加入臆測或未確認的訊息'),
-							summary: wgULS('注意：加入臆测或未确认的消息', '注意：加入臆測或未確認的訊息'),
+							label: uls('加入臆测或未确认的消息', '加入臆測或未確認的訊息'),
+							summary: uls('注意：加入臆测或未确认的消息', '注意：加入臆測或未確認的訊息'),
 						},
 						level2: {
-							label: wgULS('多次加入臆测或未确认的消息', '多次加入臆測或未確認的訊息'),
-							summary: wgULS('警告：多次加入臆测或未确认的消息', '警告：多次加入臆測或未確認的訊息'),
+							label: uls('多次加入臆测或未确认的消息', '多次加入臆測或未確認的訊息'),
+							summary: uls('警告：多次加入臆测或未确认的消息', '警告：多次加入臆測或未確認的訊息'),
 						},
 					},
 					'uw-delete': {
 						level1: {
-							label: wgULS('不恰当地移除页面内容、模板或资料', '不恰當地移除頁面內容、模板或資料'),
-							summary: wgULS(
+							label: uls('不恰当地移除页面内容、模板或资料', '不恰當地移除頁面內容、模板或資料'),
+							summary: uls(
 								'注意：不恰当地移除页面内容、模板或资料',
 								'注意：不恰當地移除頁面內容、模板或資料'
 							),
 						},
 						level2: {
-							label: wgULS('不恰当地移除页面内容、模板或资料', '不恰當地移除頁面內容、模板或資料'),
-							summary: wgULS(
+							label: uls('不恰当地移除页面内容、模板或资料', '不恰當地移除頁面內容、模板或資料'),
+							summary: uls(
 								'警告：不恰当地移除页面内容、模板或资料',
 								'警告：不恰當地移除頁面內容、模板或資料'
 							),
@@ -315,137 +306,131 @@ import {wgULS} from 'ext.gadget.i18n';
 					},
 					'uw-image': {
 						level1: {
-							label: wgULS('在页面中加入不当图片', '在頁面中加入不當圖片'),
-							summary: wgULS('注意：在页面中加入不当图片', '注意：在頁面中加入不當圖片'),
+							label: uls('在页面中加入不当图片', '在頁面中加入不當圖片'),
+							summary: uls('注意：在页面中加入不当图片', '注意：在頁面中加入不當圖片'),
 						},
 						level2: {
-							label: wgULS('在页面中加入不当图片', '在頁面中加入不當圖片'),
-							summary: wgULS('警告：在页面中加入不当图片', '警告：在頁面中加入不當圖片'),
+							label: uls('在页面中加入不当图片', '在頁面中加入不當圖片'),
+							summary: uls('警告：在页面中加入不当图片', '警告：在頁面中加入不當圖片'),
 						},
 					},
 					'uw-newpage': {
 						level1: {
-							label: wgULS('创建不当页面', '建立不當頁面'),
-							summary: wgULS('注意：创建不当页面', '注意：建立不當頁面'),
+							label: uls('创建不当页面', '建立不當頁面'),
+							summary: uls('注意：创建不当页面', '注意：建立不當頁面'),
 						},
 						level2: {
-							label: wgULS('创建不当页面', '建立不當頁面'),
-							summary: wgULS('警告：创建不当页面', '警告：建立不當頁面'),
+							label: uls('创建不当页面', '建立不當頁面'),
+							summary: uls('警告：创建不当页面', '警告：建立不當頁面'),
 						},
 					},
 					'uw-nor': {
 						level1: {
-							label: wgULS('在条目中加入原创研究', '在條目中加入原創研究'),
-							summary: wgULS('注意：在条目中加入原创研究', '注意：在條目中加入原創研究'),
+							label: uls('在条目中加入原创研究', '在條目中加入原創研究'),
+							summary: uls('注意：在条目中加入原创研究', '注意：在條目中加入原創研究'),
 						},
 						level2: {
-							label: wgULS('在条目中加入原创研究', '在條目中加入原創研究'),
-							summary: wgULS('警告：在条目中加入原创研究', '警告：在條目中加入原創研究'),
+							label: uls('在条目中加入原创研究', '在條目中加入原創研究'),
+							summary: uls('警告：在条目中加入原创研究', '警告：在條目中加入原創研究'),
 						},
 					},
 					'uw-opov': {
 						level1: {
-							label: wgULS('违反客观原则', '違反客觀原則'),
-							summary: wgULS('注意：违反客观原则', '注意：違反客觀原則'),
+							label: uls('违反客观原则', '違反客觀原則'),
+							summary: uls('注意：违反客观原则', '注意：違反客觀原則'),
 						},
 						level2: {
-							label: wgULS('违反客观原则', '違反客觀原則'),
-							summary: wgULS('警告：违反客观原则', '警告：違反客觀原則'),
+							label: uls('违反客观原则', '違反客觀原則'),
+							summary: uls('警告：违反客观原则', '警告：違反客觀原則'),
 						},
 					},
 					'uw-redirect': {
 						level1: {
-							label: wgULS('创建破坏性的重定向', '建立破壞性的重定向'),
-							summary: wgULS('注意：创建破坏性的重定向', '注意：建立破壞性的重定向'),
+							label: uls('创建破坏性的重定向', '建立破壞性的重定向'),
+							summary: uls('注意：创建破坏性的重定向', '注意：建立破壞性的重定向'),
 						},
 						level2: {
-							label: wgULS('创建恶意重定向', '建立惡意重定向'),
-							summary: wgULS('警告：创建恶意重定向', '警告：建立惡意重定向'),
+							label: uls('创建恶意重定向', '建立惡意重定向'),
+							summary: uls('警告：创建恶意重定向', '警告：建立惡意重定向'),
 						},
 					},
 					'uw-upload': {
 						level1: {
-							label: wgULS('上传不当图像', '上傳不當圖像'),
-							summary: wgULS('注意：上传不当图像', '注意：上傳不當圖像'),
+							label: uls('上传不当图像', '上傳不當圖像'),
+							summary: uls('注意：上传不当图像', '注意：上傳不當圖像'),
 						},
 						level2: {
-							label: wgULS('上传不当图像', '上傳不當圖像'),
-							summary: wgULS('警告：上传不当图像', '警告：上傳不當圖像'),
+							label: uls('上传不当图像', '上傳不當圖像'),
+							summary: uls('警告：上传不当图像', '警告：上傳不當圖像'),
 						},
 					},
 					'uw-vandalism': {
 						level1: {
-							label: wgULS('明显的破坏', '明顯的破壞'),
-							summary: wgULS('注意：明显破坏', '注意：明顯破壞'),
+							label: uls('明显的破坏', '明顯的破壞'),
+							summary: uls('注意：明显破坏', '注意：明顯破壞'),
 						},
 						level2: {
-							label: wgULS('明显的破坏', '明顯的破壞'),
-							summary: wgULS('警告：明显破坏', '警告：明顯破壞'),
+							label: uls('明显的破坏', '明顯的破壞'),
+							summary: uls('警告：明显破坏', '警告：明顯破壞'),
 						},
 					},
 					'uw-tdel': {
 						level1: {
-							label: wgULS(
-								'在问题仍未解决的情况下移除维护性模板',
-								'在問題仍未解決的情況下移除維護性模板'
-							),
-							summary: wgULS('注意：移除维护性模板', '注意：移除維護性模板'),
+							label: uls('在问题仍未解决的情况下移除维护性模板', '在問題仍未解決的情況下移除維護性模板'),
+							summary: uls('注意：移除维护性模板', '注意：移除維護性模板'),
 						},
 						level2: {
-							label: wgULS(
-								'在问题仍未解决的情况下移除维护性模板',
-								'在問題仍未解決的情況下移除維護性模板'
-							),
-							summary: wgULS('警告：移除维护性模板', '警告：移除維護性模板'),
+							label: uls('在问题仍未解决的情况下移除维护性模板', '在問題仍未解決的情況下移除維護性模板'),
+							summary: uls('警告：移除维护性模板', '警告：移除維護性模板'),
 						},
 					},
 				},
 			},
 			{
-				category: wgULS('增加广告', '增加廣告'),
+				category: uls('增加广告', '增加廣告'),
 				list: {
 					'uw-spam': {
 						level1: {
-							label: wgULS('增加不合适的外部链接', '增加不合適的外部連結'),
-							summary: wgULS('注意：增加不合适的外部链接', '注意：增加不合適的外部連結'),
+							label: uls('增加不合适的外部链接', '增加不合適的外部連結'),
+							summary: uls('注意：增加不合适的外部链接', '注意：增加不合適的外部連結'),
 						},
 						level2: {
-							label: wgULS('增加垃圾链接', '增加垃圾連結'),
-							summary: wgULS('警告：增加垃圾链接', '警告：增加垃圾連結'),
+							label: uls('增加垃圾链接', '增加垃圾連結'),
+							summary: uls('警告：增加垃圾链接', '警告：增加垃圾連結'),
 						},
 					},
 					'uw-advert': {
 						level1: {
-							label: wgULS('利用求闻百科来发布广告或推广', '利用求聞百科來發布廣告或推廣'),
-							summary: wgULS('注意：利用求闻百科来发布广告或推广', '注意：利用求聞百科來發布廣告或推廣'),
+							label: uls('利用求闻百科来发布广告或推广', '利用求聞百科來發布廣告或推廣'),
+							summary: uls('注意：利用求闻百科来发布广告或推广', '注意：利用求聞百科來發布廣告或推廣'),
 						},
 						level2: {
-							label: wgULS('利用求闻百科来发布广告或推广', '利用求聞百科來發布廣告或推廣'),
-							summary: wgULS('警告：利用求闻百科来发布广告或推广', '警告：利用求聞百科來發布廣告或推廣'),
+							label: uls('利用求闻百科来发布广告或推广', '利用求聞百科來發布廣告或推廣'),
+							summary: uls('警告：利用求闻百科来发布广告或推广', '警告：利用求聞百科來發布廣告或推廣'),
 						},
 					},
 				},
 			},
 			{
-				category: wgULS('加插不实、诽谤文字', '加插不實、誹謗文字'),
+				category: uls('加插不实、诽谤文字', '加插不實、誹謗文字'),
 				list: {
 					'uw-biog': {
 						level1: {
-							label: wgULS(
+							label: uls(
 								'在人物传记中加入没有可靠来源佐证而且可能引发争议的内容',
 								'在人物傳記中加入沒有可靠來源佐證而且可能引發爭議的內容'
 							),
-							summary: wgULS(
+							summary: uls(
 								'注意：在人物传记中加入没有可靠来源佐证而且可能引发争议的内容',
 								'注意：在人物傳記中加入沒有可靠來源佐證而且可能引發爭議的內容'
 							),
 						},
 						level2: {
-							label: wgULS(
+							label: uls(
 								'在人物传记中加入没有可靠来源佐证而且可能引发争议的内容',
 								'在人物傳記中加入沒有可靠來源佐證而且可能引發爭議的內容'
 							),
-							summary: wgULS(
+							summary: uls(
 								'警告：在人物传记中加入没有可靠来源佐证而且可能引发争议的内容',
 								'警告：在人物傳記中加入沒有可靠來源佐證而且可能引發爭議的內容'
 							),
@@ -453,55 +438,55 @@ import {wgULS} from 'ext.gadget.i18n';
 					},
 					'uw-error': {
 						level1: {
-							label: wgULS('故意加入不实内容', '故意加入不實內容'),
-							summary: wgULS('注意：故意加入不实内容', '注意：故意加入不實內容'),
+							label: uls('故意加入不实内容', '故意加入不實內容'),
+							summary: uls('注意：故意加入不实内容', '注意：故意加入不實內容'),
 						},
 						level2: {
-							label: wgULS('故意加入不实内容', '故意加入不實內容'),
-							summary: wgULS('警告：故意加入不实内容', '警告：故意加入不實內容'),
+							label: uls('故意加入不实内容', '故意加入不實內容'),
+							summary: uls('警告：故意加入不实内容', '警告：故意加入不實內容'),
 						},
 					},
 					'uw-unsourced': {
 						level1: {
-							label: wgULS('加入没有可靠来源佐证的内容', '加入沒有可靠來源佐證的內容'),
-							summary: wgULS('注意：加入没有可靠来源佐证的内容', '注意：加入沒有可靠來源佐證的內容'),
+							label: uls('加入没有可靠来源佐证的内容', '加入沒有可靠來源佐證的內容'),
+							summary: uls('注意：加入没有可靠来源佐证的内容', '注意：加入沒有可靠來源佐證的內容'),
 						},
 						level2: {
-							label: wgULS('加入没有可靠来源佐证的内容', '加入沒有可靠來源佐證的內容'),
-							summary: wgULS('警告：加入没有可靠来源佐证的内容', '警告：加入沒有可靠來源佐證的內容'),
+							label: uls('加入没有可靠来源佐证的内容', '加入沒有可靠來源佐證的內容'),
+							summary: uls('警告：加入没有可靠来源佐证的内容', '警告：加入沒有可靠來源佐證的內容'),
 						},
 					},
 				},
 			},
 			{
-				category: wgULS('翻译品质', '翻譯品質'),
+				category: uls('翻译品质', '翻譯品質'),
 				list: {
 					'uw-roughtranslation': {
 						level1: {
-							label: wgULS('您翻译的质量有待改善', '您翻譯的質量有待改善'),
-							summary: wgULS('注意：您翻译的质量有待改善', '注意：您翻譯的質量有待改善'),
+							label: uls('您翻译的质量有待改善', '您翻譯的質量有待改善'),
+							summary: uls('注意：您翻译的质量有待改善', '注意：您翻譯的質量有待改善'),
 						},
 						level2: {
-							label: wgULS('粗劣翻译', '粗劣翻譯'),
-							summary: wgULS('警告：粗劣翻译', '警告：粗劣翻譯'),
+							label: uls('粗劣翻译', '粗劣翻譯'),
+							summary: uls('警告：粗劣翻译', '警告：粗劣翻譯'),
 						},
 					},
 				},
 			},
 			{
-				category: wgULS('非能接受且违反条例的单方面行为或操作', '非能接受且違反條例的單方面行為或操作'),
+				category: uls('非能接受且违反条例的单方面行为或操作', '非能接受且違反條例的單方面行為或操作'),
 				list: {
 					'uw-afd': {
 						level1: {
-							label: wgULS('移除{{afd}}（页面存废讨论）模板', '移除{{afd}}（頁面存廢討論）模板'),
-							summary: wgULS(
+							label: uls('移除{{afd}}（页面存废讨论）模板', '移除{{afd}}（頁面存廢討論）模板'),
+							summary: uls(
 								'注意：移除{{afd}}（页面存废讨论）模板',
 								'注意：移除{{afd}}（頁面存廢討論）模板'
 							),
 						},
 						level2: {
-							label: wgULS('移除{{afd}}（页面存废讨论）模板', '移除{{afd}}（頁面存廢討論）模板'),
-							summary: wgULS(
+							label: uls('移除{{afd}}（页面存废讨论）模板', '移除{{afd}}（頁面存廢討論）模板'),
+							summary: uls(
 								'警告：移除{{afd}}（页面存废讨论）模板',
 								'警告：移除{{afd}}（頁面存廢討論）模板'
 							),
@@ -509,15 +494,15 @@ import {wgULS} from 'ext.gadget.i18n';
 					},
 					'uw-mos': {
 						level1: {
-							label: wgULS('不恰当的条目格式、日期、语言等', '不恰當的條目格式、日期、語言等'),
-							summary: wgULS(
+							label: uls('不恰当的条目格式、日期、语言等', '不恰當的條目格式、日期、語言等'),
+							summary: uls(
 								'注意：不恰当的条目格式、日期、语言等',
 								'注意：不恰當的條目格式、日期、語言等'
 							),
 						},
 						level2: {
-							label: wgULS('不恰当的条目格式、日期、语言等', '不恰當的條目格式、日期、語言等'),
-							summary: wgULS(
+							label: uls('不恰当的条目格式、日期、语言等', '不恰當的條目格式、日期、語言等'),
+							summary: uls(
 								'警告：不恰当的条目格式、日期、语言等',
 								'警告：不恰當的條目格式、日期、語言等'
 							),
@@ -525,28 +510,28 @@ import {wgULS} from 'ext.gadget.i18n';
 					},
 					'uw-move': {
 						level1: {
-							label: wgULS('无故移动条目/新名称不符合命名规范', '無故移動條目/新名稱不符合命名規範'),
-							summary: wgULS('注意：不恰当地移动页面', '注意：不恰當地移動頁面'),
+							label: uls('无故移动条目/新名称不符合命名规范', '無故移動條目/新名稱不符合命名規範'),
+							summary: uls('注意：不恰当地移动页面', '注意：不恰當地移動頁面'),
 						},
 						level2: {
-							label: wgULS(
+							label: uls(
 								'把页面移动到不恰当、违反命名常规或违反共识的标题',
 								'把頁面移動到不恰當、違反命名常規或違反共識的標題'
 							),
-							summary: wgULS('警告：不恰当地移动页面', '警告：不恰當地移動頁面'),
+							summary: uls('警告：不恰当地移动页面', '警告：不恰當地移動頁面'),
 						},
 					},
 					'uw-speedy': {
 						level1: {
-							label: wgULS('移除{{delete}}（快速删除）模板', '移除{{delete}}（快速刪除）模板'),
-							summary: wgULS(
+							label: uls('移除{{delete}}（快速删除）模板', '移除{{delete}}（快速刪除）模板'),
+							summary: uls(
 								'注意：移除{{delete}}（快速删除）模板',
 								'注意：移除{{delete}}（快速刪除）模板'
 							),
 						},
 						level2: {
-							label: wgULS('移除{{delete}}（快速删除）模板', '移除{{delete}}（快速刪除）模板'),
-							summary: wgULS(
+							label: uls('移除{{delete}}（快速删除）模板', '移除{{delete}}（快速刪除）模板'),
+							summary: uls(
 								'警告：移除{{delete}}（快速删除）模板',
 								'警告：移除{{delete}}（快速刪除）模板'
 							),
@@ -554,12 +539,12 @@ import {wgULS} from 'ext.gadget.i18n';
 					},
 					'uw-talkpage': {
 						level1: {
-							label: wgULS('违反讨论页规范', '違反討論頁規範'),
-							summary: wgULS('注意：违反讨论页规范', '注意：違反討論頁規範'),
+							label: uls('违反讨论页规范', '違反討論頁規範'),
+							summary: uls('注意：违反讨论页规范', '注意：違反討論頁規範'),
 						},
 						level2: {
-							label: wgULS('违反讨论页规范', '違反討論頁規範'),
-							summary: wgULS('警告：违反讨论页规范', '警告：違反討論頁規範'),
+							label: uls('违反讨论页规范', '違反討論頁規範'),
+							summary: uls('警告：违反讨论页规范', '警告：違反討論頁規範'),
 						},
 					},
 					'uw-tpv': {
@@ -575,36 +560,36 @@ import {wgULS} from 'ext.gadget.i18n';
 				},
 			},
 			{
-				category: wgULS('对其他用户和条目的态度', '對其他用戶和條目的態度'),
+				category: uls('对其他用户和条目的态度', '對其他用戶和條目的態度'),
 				list: {
 					'uw-illegal': {
 						level1: {
-							label: wgULS('加入不符合中国价值观的内容', '加入不符合中國價值觀的內容'),
-							summary: wgULS('注意：加入不符合中国价值观的内容', '注意：加入不符合中國價值觀的內容'),
+							label: uls('加入不符合中国价值观的内容', '加入不符合中國價值觀的內容'),
+							summary: uls('注意：加入不符合中国价值观的内容', '注意：加入不符合中國價值觀的內容'),
 						},
 						level2: {
-							label: wgULS('加入不符合中国价值观的内容', '加入不符合中國價值觀的內容'),
-							summary: wgULS('警告：加入不符合中国价值观的内容', '警告：加入不符合中國價值觀的內容'),
+							label: uls('加入不符合中国价值观的内容', '加入不符合中國價值觀的內容'),
+							summary: uls('警告：加入不符合中国价值观的内容', '警告：加入不符合中國價值觀的內容'),
 						},
 					},
 					'uw-own': {
 						level1: {
-							label: wgULS('主张条目所有权', '主張條目所有權'),
-							summary: wgULS('注意：主张条目所有权', '注意：主張條目所有權'),
+							label: uls('主张条目所有权', '主張條目所有權'),
+							summary: uls('注意：主张条目所有权', '注意：主張條目所有權'),
 						},
 						level2: {
-							label: wgULS('主张条目的所有权', '主張條目的所有權'),
-							summary: wgULS('警告：主张条目的所有权', '警告：主張條目的所有權'),
+							label: uls('主张条目的所有权', '主張條目的所有權'),
+							summary: uls('警告：主张条目的所有权', '警告：主張條目的所有權'),
 						},
 					},
 					'uw-socialmedia': {
 						level1: {
-							label: wgULS('将求闻百科当作社交媒体使用', '將求聞百科當作社交媒體使用'),
-							summary: wgULS('注意：将求闻百科当作社交媒体使用', '注意：將求聞百科當作社交媒體使用'),
+							label: uls('将求闻百科当作社交媒体使用', '將求聞百科當作社交媒體使用'),
+							summary: uls('注意：将求闻百科当作社交媒体使用', '注意：將求聞百科當作社交媒體使用'),
 						},
 						level2: {
-							label: wgULS('将求闻百科当作社交媒体使用', '將求聞百科當作社交媒體使用'),
-							summary: wgULS('警告：将求闻百科当作社交媒体使用', '警告：將求聞百科當作社交媒體使用'),
+							label: uls('将求闻百科当作社交媒体使用', '將求聞百科當作社交媒體使用'),
+							summary: uls('警告：将求闻百科当作社交媒体使用', '警告：將求聞百科當作社交媒體使用'),
 						},
 					},
 				},
@@ -612,94 +597,94 @@ import {wgULS} from 'ext.gadget.i18n';
 		],
 		singlenotice: {
 			'uw-2redirect': {
-				label: wgULS('在移动页面后应该修复双重重定向', '在移動頁面後應該修復雙重重定向'),
-				summary: wgULS('注意：在移动页面后应该修复双重重定向', '注意：在移動頁面後應該修復雙重重定向'),
+				label: uls('在移动页面后应该修复双重重定向', '在移動頁面後應該修復雙重重定向'),
+				summary: uls('注意：在移动页面后应该修复双重重定向', '注意：在移動頁面後應該修復雙重重定向'),
 			},
 			'uw-aiv': {
-				label: wgULS('举报事项并不是破坏行为', '舉報事項並不是破壞行为'),
-				summary: wgULS('注意：不恰当地举报破坏', '注意：不恰當地舉報破壞'),
+				label: uls('举报事项并不是破坏行为', '舉報事項並不是破壞行为'),
+				summary: uls('注意：不恰当地举报破坏', '注意：不恰當地舉報破壞'),
 			},
 			'uw-articlesig': {
-				label: wgULS('在条目中签名', '在條目中簽名'),
-				summary: wgULS('注意：在条目中签名', '注意：在條目中簽名'),
+				label: uls('在条目中签名', '在條目中簽名'),
+				summary: uls('注意：在条目中签名', '注意：在條目中簽名'),
 			},
 			'uw-autobiography': {
-				label: wgULS('创建自传', '建立自傳'),
-				summary: wgULS('注意：创建自传', '注意：建立自傳'),
+				label: uls('创建自传', '建立自傳'),
+				summary: uls('注意：创建自传', '注意：建立自傳'),
 			},
 			'uw-badcat': {
-				label: wgULS('加入错误的页面分类', '加入錯誤的頁面分類'),
-				summary: wgULS('注意：加入错误的页面分类', '注意：加入錯誤的頁面分類'),
+				label: uls('加入错误的页面分类', '加入錯誤的頁面分類'),
+				summary: uls('注意：加入错误的页面分类', '注意：加入錯誤的頁面分類'),
 			},
 			'uw-bite': {
-				label: wgULS('伤害新手', '傷害新手'),
-				summary: wgULS('注意：伤害新手', '注意：傷害新手'),
+				label: uls('伤害新手', '傷害新手'),
+				summary: uls('注意：伤害新手', '注意：傷害新手'),
 			},
 			'uw-chinese': {
-				label: wgULS('请使用标准汉语沟通', '請使用標準漢語溝通'),
-				summary: wgULS('注意：请使用标准汉语沟通', '注意：請使用標準漢語溝通'),
+				label: uls('请使用标准汉语沟通', '請使用標準漢語溝通'),
+				summary: uls('注意：请使用标准汉语沟通', '注意：請使用標準漢語溝通'),
 			},
 			'uw-cpmove': {
-				label: wgULS('剪贴移动', '剪貼移動'),
-				summary: wgULS('注意：剪贴移动', '注意：剪貼移動'),
+				label: uls('剪贴移动', '剪貼移動'),
+				summary: uls('注意：剪贴移动', '注意：剪貼移動'),
 			},
 			'uw-dab': {
-				label: wgULS('消歧义页格式错误', '消歧義頁格式錯誤'),
-				summary: wgULS('注意：消歧义页格式错误', '注意：消歧義頁格式錯誤'),
+				label: uls('消歧义页格式错误', '消歧義頁格式錯誤'),
+				summary: uls('注意：消歧义页格式错误', '注意：消歧義頁格式錯誤'),
 			},
 			'uw-newpage-draft': {
-				label: wgULS('最近创建的页面被移动到草稿', '最近建立的頁面被移動到草稿'),
-				summary: wgULS('注意：最近创建的页面被移动到草稿', '注意：最近建立的頁面被移動到草稿'),
+				label: uls('最近创建的页面被移动到草稿', '最近建立的頁面被移動到草稿'),
+				summary: uls('注意：最近创建的页面被移动到草稿', '注意：最近建立的頁面被移動到草稿'),
 			},
 			'uw-selfrevert': {
-				label: wgULS(
+				label: uls(
 					'感谢您自行回退自己的测试，以后不要再这样做了',
 					'感謝您自行回退自己的測試，以後不要再這樣做了'
 				),
-				summary: wgULS('注意：回退个人的测试', '注意：回退個人的測試'),
+				summary: uls('注意：回退个人的测试', '注意：回退個人的測試'),
 			},
 			'uw-substub': {
-				label: wgULS('创建小小作品', '建立小小作品'),
-				summary: wgULS('警告：创建小小作品', '警告：建立小小作品'),
+				label: uls('创建小小作品', '建立小小作品'),
+				summary: uls('警告：创建小小作品', '警告：建立小小作品'),
 			},
 			'uw-talkinarticle': {
-				label: wgULS('在条目页中留下意见', '在條目頁中留下意見'),
-				summary: wgULS('注意：在条目页中留下意见', '注意：在條目頁中留下意見'),
+				label: uls('在条目页中留下意见', '在條目頁中留下意見'),
+				summary: uls('注意：在条目页中留下意见', '注意：在條目頁中留下意見'),
 			},
 			'uw-unsigned': {
-				label: wgULS('没有在讨论页上签名', '沒有在討論頁上簽名'),
-				summary: wgULS('注意：没有在讨论页上签名', '注意：沒有在討論頁上簽名'),
+				label: uls('没有在讨论页上签名', '沒有在討論頁上簽名'),
+				summary: uls('注意：没有在讨论页上签名', '注意：沒有在討論頁上簽名'),
 			},
 			'uw-wrongcsd': {
-				label: wgULS('快速删除理由不当', '快速刪除理由不當'),
-				summary: wgULS('注意：快速删除理由不当', '注意：快速刪除理由不當'),
+				label: uls('快速删除理由不当', '快速刪除理由不當'),
+				summary: uls('注意：快速删除理由不当', '注意：快速刪除理由不當'),
 			},
 			'uw-wrongsummary': {
-				label: wgULS('在编辑摘要制造不适当的内容', '在編輯摘要製造不適當的內容'),
-				summary: wgULS('警告：在编辑摘要制造不适当的内容', '警告：在編輯摘要製造不適當的內容'),
+				label: uls('在编辑摘要制造不适当的内容', '在編輯摘要製造不適當的內容'),
+				summary: uls('警告：在编辑摘要制造不适当的内容', '警告：在編輯摘要製造不適當的內容'),
 			},
 		},
 		singlewarn: {
 			'uw-3rr': {
-				label: wgULS('用户潜在违反回退不过三原则的可能性', '用戶潛在違反回退不過三原則的可能性'),
-				summary: wgULS('警告：用户潜在违反回退不过三原则的可能性', '警告：用戶潛在違反回退不過三原則的可能性'),
+				label: uls('用户潜在违反回退不过三原则的可能性', '用戶潛在違反回退不過三原則的可能性'),
+				summary: uls('警告：用户潜在违反回退不过三原则的可能性', '警告：用戶潛在違反回退不過三原則的可能性'),
 			},
 			'uw-attack': {
-				label: wgULS('人身攻击', '人身攻擊'),
-				summary: wgULS('警告：人身攻击', '警告：人身攻擊'),
+				label: uls('人身攻击', '人身攻擊'),
+				summary: uls('警告：人身攻击', '警告：人身攻擊'),
 				suppressArticleInSummary: true,
 			},
 			'uw-coi': {
-				label: wgULS('利益冲突', '利益衝突'),
-				summary: wgULS('注意：利益冲突', '注意：利益衝突'),
+				label: uls('利益冲突', '利益衝突'),
+				summary: uls('注意：利益冲突', '注意：利益衝突'),
 			},
 			'uw-fakesource': {
-				label: wgULS('虚构数据源或引文', '虛構資料來源或引文'),
-				summary: wgULS('警告：虚构数据源或引文', '警告：虛構資料來源或引文'),
+				label: uls('虚构数据源或引文', '虛構資料來源或引文'),
+				summary: uls('警告：虚构数据源或引文', '警告：虛構資料來源或引文'),
 			},
 			'uw-pinfo': {
-				label: wgULS('张贴他人隐私', '張貼他人隱私'),
-				summary: wgULS('警告：张贴他人隐私', '警告：張貼他人隱私'),
+				label: uls('张贴他人隐私', '張貼他人隱私'),
+				summary: uls('警告：张贴他人隐私', '警告：張貼他人隱私'),
 			},
 		},
 	};
@@ -746,7 +731,7 @@ import {wgULS} from 'ext.gadget.i18n';
 				// Always get a new, updated talkpage for autolevel processing
 				const usertalk_page = new Morebits.wiki.page(
 					`User_talk:${relevantUserName}`,
-					wgULS('加载上次警告', '載入上次警告')
+					uls('加载上次警告', '載入上次警告')
 				);
 				usertalk_page.setFollowRedirect(true, false);
 				usertalk_page.load((pageobj) => {
@@ -844,7 +829,7 @@ import {wgULS} from 'ext.gadget.i18n';
 				level = 1;
 			} else if (level > 2 || level < 1) {
 				// Shouldn't happen
-				const message = wgULS(
+				const message = uls(
 					'无法解析上次的警告层级，请手动选择一个警告层级。',
 					'無法解析上次的警告層級，請手動選擇一個警告層級。'
 				);
@@ -948,12 +933,12 @@ import {wgULS} from 'ext.gadget.i18n';
 				if (
 					params.sub_group !== parsed.template &&
 					!confirm(
-						wgULS('将发送给用户{{', '將發送給使用者{{') +
+						uls('将发送给用户{{', '將發送給使用者{{') +
 							parsed.template +
-							wgULS('}}模板，好吗？', '}}模板，好嗎？')
+							uls('}}模板，好吗？', '}}模板，好嗎？')
 					)
 				) {
-					statelem.error(wgULS('用户取消', '使用者取消'));
+					statelem.error(uls('用户取消', '使用者取消'));
 					return;
 				}
 				// Update params now that we've selected a warning
@@ -963,24 +948,24 @@ import {wgULS} from 'ext.gadget.i18n';
 				params.sub_group in history &&
 				new Morebits.date(history[params.sub_group]).add(1, 'day').isAfter(now) &&
 				!confirm(
-					wgULS('近24小时内一个同样的 ', '近24小時內一個同樣的 ') +
+					uls('近24小时内一个同样的 ', '近24小時內一個同樣的 ') +
 						params.sub_group +
-						wgULS(' 模板已被发出。\n是否继续？', ' 模板已被發出。\n是否繼續？')
+						uls(' 模板已被发出。\n是否继续？', ' 模板已被發出。\n是否繼續？')
 				)
 			) {
-				statelem.error(wgULS('用户取消', '使用者取消'));
+				statelem.error(uls('用户取消', '使用者取消'));
 				return;
 			}
 			latest.date.add(1, 'minute'); // after long debate, one minute is max
 			if (
 				latest.date.isAfter(now) &&
 				!confirm(
-					wgULS('近1分钟内 ', '近1分鐘內 ') +
+					uls('近1分钟内 ', '近1分鐘內 ') +
 						latest.type +
-						wgULS(' 模板已被发出。\n是否继续？', ' 模板已被發出。\n是否繼續？')
+						uls(' 模板已被发出。\n是否继续？', ' 模板已被發出。\n是否繼續？')
 				)
 			) {
-				statelem.error(wgULS('用户取消', '使用者取消'));
+				statelem.error(uls('用户取消', '使用者取消'));
 				return;
 			}
 			// build the edit summary
@@ -1025,12 +1010,12 @@ import {wgULS} from 'ext.gadget.i18n';
 				if (messageData.suppressArticleInSummary !== true && params.article) {
 					if (params.sub_group === 'uw-aiv') {
 						// these templates require a username
-						summary += `（${wgULS('对于', '對於')}[[User:${params.article}]]）`;
+						summary += `（${uls('对于', '對於')}[[User:${params.article}]]）`;
 					} else if (params.sub_group === 'uw-bite') {
 						// this template requires a username
-						summary += `，${wgULS('于', '於')}[[User talk:${params.article}]]`;
+						summary += `，${uls('于', '於')}[[User talk:${params.article}]]`;
 					} else {
-						summary += `${wgULS('，于[[', '，於[[') + params.article}]]`;
+						summary += `${uls('，于[[', '，於[[') + params.article}]]`;
 					}
 				}
 			}
@@ -1075,8 +1060,8 @@ import {wgULS} from 'ext.gadget.i18n';
 					pageobj.setNewSectionTitle(messageData.heading);
 				} else {
 					Morebits.status.info(
-						wgULS('信息', '資訊'),
-						wgULS('未找到当月的二级标题，将创建新的', '未找到當月的二級標題，將建立新的')
+						uls('信息', '資訊'),
+						uls('未找到当月的二级标题，将创建新的', '未找到當月的二級標題，將建立新的')
 					);
 					pageobj.setNewSectionTitle(now.monthHeader(0));
 				}
@@ -1089,7 +1074,7 @@ import {wgULS} from 'ext.gadget.i18n';
 		const userTalkPage = `User_talk:${relevantUserName}`;
 		if (params.article) {
 			if (/https?:\/\//.test(params.article)) {
-				void mw.notify(wgULS('“页面链接”不能使用网址。', '「頁面連結」不能使用網址。'), {
+				void mw.notify(uls('“页面链接”不能使用网址。', '「頁面連結」不能使用網址。'), {
 					type: 'warn',
 					tag: 'warn',
 				});
@@ -1106,7 +1091,7 @@ import {wgULS} from 'ext.gadget.i18n';
 				}
 			} catch {
 				alert(
-					wgULS(
+					uls(
 						'“页面链接”不合法，仅能输入一个页面名称，勿使用网址、[[ ]]，可使用Special:Diff。',
 						'「頁面連結」不合法，僅能輸入一個頁面名稱，勿使用網址、[[ ]]，可使用Special:Diff。'
 					)
@@ -1124,7 +1109,7 @@ import {wgULS} from 'ext.gadget.i18n';
 		// *don't* want to actually issue a warning, so the error handling
 		// after the form is submitted is probably preferable
 		if (params.messageData === undefined) {
-			void mw.notify(wgULS('请选择警告模板。', '請選擇警告模板。'), {
+			void mw.notify(uls('请选择警告模板。', '請選擇警告模板。'), {
 				type: 'warn',
 				tag: 'warn',
 			});
@@ -1135,8 +1120,8 @@ import {wgULS} from 'ext.gadget.i18n';
 		}
 		Morebits.status.init(statusContainer);
 		Morebits.wiki.actionCompleted.redirect = userTalkPage;
-		Morebits.wiki.actionCompleted.notice = wgULS('警告完成，将在几秒后刷新', '警告完成，將在幾秒後重新整理');
-		const qiuwen_page = new Morebits.wiki.page(userTalkPage, wgULS('用户讨论页修改', '使用者討論頁修改'));
+		Morebits.wiki.actionCompleted.notice = uls('警告完成，将在几秒后刷新', '警告完成，將在幾秒後重新整理');
+		const qiuwen_page = new Morebits.wiki.page(userTalkPage, uls('用户讨论页修改', '使用者討論頁修改'));
 		qiuwen_page.setCallbackParameters(params);
 		qiuwen_page.setFollowRedirect(true, false);
 		qiuwen_page.load(Twinkle.warn.callbacks.main);

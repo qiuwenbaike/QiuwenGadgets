@@ -3,7 +3,7 @@ import * as OPTIONS from '../options.json';
 import {createApp, reactive} from 'vue';
 import {getSettings, ifArcLocNotAllowed, isInBlacklist, isNotAllowed, isNotSupported} from './util/getSettings';
 import App from './App.vue';
-import {createFooterRoot} from './util/createFooterRoot.ts';
+import {createFooterRoot} from './util/createFooterRoot';
 import {getMessage} from './i18n';
 import {getSections} from './util/getSection';
 import {toastify} from 'ext.gadget.Toastify';

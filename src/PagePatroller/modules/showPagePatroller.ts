@@ -1,7 +1,7 @@
 import * as OPTIONS from '../options.json';
-import {errorMessage, notPatrolledYet, patrolledBy} from './util/getFooterNotices.ts';
-import {createFooterRoot} from './util/createFooterRoot.ts';
-import {getPatroller} from './util/getPatroller.ts';
+import {errorMessage, notPatrolledYet, patrolledBy} from './util/getFooterNotices';
+import {createFooterRoot} from './util/createFooterRoot';
+import {getPatroller} from './util/getPatroller';
 
 const showPagePatroller = async (): Promise<void> => {
 	const mountPoint = document.querySelector<HTMLElement>(OPTIONS.mountPointSelector);

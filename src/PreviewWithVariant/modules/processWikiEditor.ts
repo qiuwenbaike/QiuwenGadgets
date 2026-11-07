@@ -4,7 +4,7 @@ import {MwUri} from 'ext.gadget.Util';
 import {VARIANTS} from './constant';
 import VariantControls from './VariantControls.vue';
 import {createApp} from 'vue';
-import {getMessage} from './i18n.ts';
+import {getMessage} from './i18n';
 
 interface VariantControlsInstance {
 	getSelectedVariant: () => string | undefined;
