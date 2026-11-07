@@ -6,7 +6,7 @@ import {computed, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
 import {uls} from '../utils/useUls';
-import {useShiftClick} from '../utils/useShiftClick.ts';
+import {useShiftClick} from '../utils/useShiftClick';
 
 declare const Twinkle: {
 	changeTags: string[];
