@@ -145,14 +145,35 @@ twinklebatchprotect.callback = () => {
 			let editProt: ApiQueryPage['protection'][number] | undefined;
 			for (let index = page.protection.length - 1; index >= 0; index--) {
 				const protection = page.protection[index];
-				if (protection?.type === protectionType && protection.level === 'sysop') {
+				if (protection?.type === protectionType && protection.level) {
 					editProt = protection;
 					break;
 				}
 			}
 			if (editProt) {
+				let level = '';
+				switch (editProt.level) {
+					case 'autoconfirmed':
+						level = uls('半保护', '半保護');
+						break;
+					case 'templateeditor':
+						level = uls('模板保护', '模板保護');
+						break;
+					case 'sysop':
+						level = uls('全保护', '全保護');
+						break;
+					case 'revisionprotected':
+						level = uls('版本保护', '版本保護');
+						break;
+					case 'officialprotected':
+						level = uls('裁委会保护', '裁委會保護');
+						break;
+					default:
+						level = uls('未知保护类型', '未知保護類別');
+						break;
+				}
 				metadata.push(
-					`${missing ? '白纸' : ''}全保护${
+					`${missing ? '白纸' : ''}${level}${
 						editProt.expiry === 'infinity'
 							? '（永久）'
 							: `（${new Morebits.date(editProt.expiry).calendar(UTC8_OFFSET_MINUTES)} (UTC+8)过期）`
