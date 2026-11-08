@@ -1,58 +1,57 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import {DisamAssistUI, Link, PageChange, PageData, PendingSave, Redirect, SaveArgs, SaveFunction} from './types';
 import {api} from './api';
 import {cfg} from './config';
 import {messages} from './messages';
 
-let startLink;
-let ui;
-let links;
-let pageChanges;
-let currentPageTitle;
-let currentPageParameters;
-let currentLink;
-let possibleBacklinkDestinations;
+let startLink!: JQuery<HTMLElement>;
+let ui!: DisamAssistUI;
+let links: string[] = [];
+let pageChanges: PageChange[] = [];
+let currentPageTitle: string;
+let currentPageParameters: PageData;
+let currentLink: Link | undefined;
+let possibleBacklinkDestinations: string[] = [];
 let forceSamePage = false;
 let running = false;
 let choosing = false;
 let canMarkIntentionalLinks = false;
-let displayedPages = {};
+let displayedPages: Record<string, boolean> = {};
 let editCount = 0;
-let editLimit;
-const pendingSaves = [];
-let pendingEditBox;
-let pendingEditBoxText;
+let editLimit: boolean | undefined;
+const pendingSaves: PendingSave[] = [];
+let pendingEditBox: JQuery<HTMLElement> | undefined;
+let pendingEditBoxText: JQuery<HTMLElement> | undefined;
 let lastEditMillis = 0;
 let runningSaves = false;
 
 /* Entry point. Check whether we are in a disambiguation page. If so, add a link to start the tool */
-const install = () => {
+const install = (): void => {
 	const {wgAction} = mw.config.get();
 	if (wgAction !== 'view' || !isDisam()) {
 		return;
 	}
-	$(() => {
-		const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
-		// This is a " (disambiguation)" page
-		if (new RegExp(cfg.disamRegExp).test(getTitle())) {
-			const startMainLink = $(
-				mw.util.addPortletLink(portletId, '#', messages.startMain, 'ca-disamassist-main')
-			).on('click', startMain);
-			const startSameLink = $(
-				mw.util.addPortletLink(portletId, '#', messages.startSame, 'ca-disamassist-same')
-			).on('click', startSame);
-			startLink = startMainLink.add(startSameLink);
-		} else {
-			startLink = $(mw.util.addPortletLink(portletId, '#', messages.start, 'ca-disamassist-page')).on(
-				'click',
-				start
-			);
-		}
-	});
+	const portletId = document.querySelector('#p-cactions') ? 'p-cactions' : 'p-tb';
+	// This is a " (disambiguation)" page
+	if (new RegExp(cfg.disamRegExp).test(getTitle())) {
+		const startMainLink = $(mw.util.addPortletLink(portletId, '#', messages.startMain, 'ca-disamassist-main')!).on(
+			'click',
+			startMain
+		);
+		const startSameLink = $(mw.util.addPortletLink(portletId, '#', messages.startSame, 'ca-disamassist-same')!).on(
+			'click',
+			startSame
+		);
+		startLink = startMainLink.add(startSameLink);
+	} else {
+		startLink = $(mw.util.addPortletLink(portletId, '#', messages.start, 'ca-disamassist-page')!).on(
+			'click',
+			start
+		);
+	}
 };
 
 /* Start the tool. Display the UI and begin looking for links to fix */
-const start = () => {
+const start = (): void => {
 	if (running) {
 		return;
 	}
@@ -74,19 +73,19 @@ const start = () => {
 };
 
 /* Start DisamAssist. Disambiguate incoming links to the current page, regardless of the title. */
-const startSame = () => {
+const startSame = (): void => {
 	forceSamePage = true;
 	start();
 };
 
 /* Start DisamAssist. If the page title ends with " (disambiguation)", disambiguate links to the primary topic article. Otherwise, disambiguate links to the current page. */
-const startMain = () => {
+const startMain = (): void => {
 	forceSamePage = false;
 	start();
 };
 
 /* Create and show the user interface. */
-const createUI = () => {
+const createUI = (): void => {
 	const $body = $('body');
 	ui = {
 		display: $('<div>').addClass('disamassist-box disamassist-mainbox'),
@@ -130,23 +129,28 @@ const createUI = () => {
 };
 
 /* If there are pending changes, show a confirm dialog before closing */
-const addUnloadConfirm = () => {
-	$(window).on('beforeunload', () => {
+const addUnloadConfirm = (): void => {
+	$(window).on('beforeunload', (): string | undefined => {
 		if (running && checkActualChanges()) {
 			return messages.pending;
-		} else if (editCount !== 0) {
+		}
+		if (editCount !== 0) {
 			return messages.editInProgress;
 		}
+		return undefined;
 	});
 };
 
 /* Mark the disambiguation options as such */
-const markDisamOptions = () => {
-	const optionPageTitles = [];
-	const optionMarkers = [];
+const markDisamOptions = (): void => {
+	const optionPageTitles: string[] = [];
+	const optionMarkers: JQuery<HTMLElement>[] = [];
 	getDisamOptions().each((_index, element) => {
 		const link = $(element);
 		const title = extractPageName(link);
+		if (!title) {
+			return;
+		}
 		const optionMarker = $('<a>')
 			.attr('href', '#')
 			.addClass('disamassist-optionmarker')
@@ -156,31 +160,31 @@ const markDisamOptions = () => {
 				chooseReplacement(title);
 			});
 		link.after(optionMarker);
-		optionMarkers[optionMarkers.length] = optionMarker;
-		optionPageTitles[optionPageTitles.length] = title;
+		optionMarkers.push(optionMarker);
+		optionPageTitles.push(title);
 	});
 	// Now check the disambiguation options and display a different message for those that are
 	// actually the same as the target page where the links go, as choosing those options doesn't really
 	// accomplish anything (except bypassing redirects, which might be useful in some cases)
 	const targetPage = getTargetPage();
-	fetchRedirects([...optionPageTitles, ...targetPage])
+	fetchRedirects([...optionPageTitles, targetPage])
 		.done((redirects) => {
 			const endTargetPage = resolveRedirect(targetPage, redirects);
 			for (const [ii, optionPageTitle] of optionPageTitles.entries()) {
 				const endOptionTitle = resolveRedirect(optionPageTitle, redirects);
 				if (isSamePage(optionPageTitle, targetPage)) {
-					optionMarkers[ii].text(messages.targetOptionMarker).addClass('disamassist-curroptionmarker');
+					optionMarkers[ii]?.text(messages.targetOptionMarker).addClass('disamassist-curroptionmarker');
 				} else if (isSamePage(endOptionTitle, endTargetPage)) {
-					optionMarkers[ii].text(messages.redirectOptionMarker).addClass('disamassist-curroptionmarker');
+					optionMarkers[ii]?.text(messages.redirectOptionMarker).addClass('disamassist-curroptionmarker');
 				}
 			}
 		})
 		.fail(error);
 };
 
-/* Check whether intentional links to disambiguation pages can be explicitly marked/* * as such in this wiki. If so, ensure that a "Foo (disambiguation)" page exists./* * Returns a jQuery promise */
-const ensureDABExists = () => {
-	const deferred = new $.Deferred();
+/* Check whether intentional links to disambiguation pages can be explicitly marked as such in this wiki. If so, ensure that a "Foo (disambiguation)" page exists. Returns a jQuery promise */
+const ensureDABExists = (): JQuery.Promise<boolean> => {
+	const deferred = $.Deferred<boolean>();
 	const title = getTitle();
 	// That concept doesn't exist in this wiki.
 	if (!cfg.intentionalLinkOption) {
@@ -218,9 +222,9 @@ const ensureDABExists = () => {
 	return deferred.promise();
 };
 
-/* Check whether the edit cooldown applies and sets editLimit accordingly./* * Returns a jQuery promise */
-const checkEditLimit = () => {
-	const deferred = new $.Deferred();
+/* Check whether the edit cooldown applies and sets editLimit accordingly. Returns a jQuery promise */
+const checkEditLimit = (): JQuery.Promise<void> => {
+	const deferred = $.Deferred<void>();
 	if (cfg.editCooldown <= 0) {
 		editLimit = false;
 		deferred.resolve();
@@ -240,16 +244,20 @@ const checkEditLimit = () => {
 	return deferred.promise();
 };
 
-/* Find and ask the user to fix all the incoming links to the disambiguation ("target")/* * page from a single "origin" page */
-const doPage = () => {
+/* Find and ask the user to fix all the incoming links to the disambiguation ("target") page from a single "origin" page */
+const doPage = (): void => {
 	if (pageChanges.length > cfg.historySize) {
-		applyChange(pageChanges.shift());
+		const oldestChange = pageChanges.shift();
+		if (oldestChange) {
+			applyChange(oldestChange);
+		}
 	}
-	if (links.length) {
-		currentPageTitle = links.shift();
-		displayedPages[currentPageTitle] = true;
+	const pageTitle = links.shift();
+	if (pageTitle) {
+		currentPageTitle = pageTitle;
+		displayedPages[pageTitle] = true;
 		toggleActionButtons(false);
-		loadPage(currentPageTitle)
+		loadPage(pageTitle)
 			.done((data) => {
 				currentPageParameters = data;
 				currentLink = undefined;
@@ -260,9 +268,9 @@ const doPage = () => {
 		const targetPage = getTargetPage();
 		getBacklinks(targetPage)
 			.done((backlinks, pageTitles) => {
-				const pending = {};
+				const pending: Record<string, boolean> = {};
 				for (const el of pendingSaves) {
-					pending[el[0]] = true;
+					pending[el.args[0]] = true;
 				}
 				possibleBacklinkDestinations = pageTitles.filter((t) => {
 					if (t === targetPage) {
@@ -287,8 +295,8 @@ const doPage = () => {
 	}
 };
 
-/* Find and ask the user to fix a single incoming link to the disambiguation ("target")/* * page */
-const doLink = () => {
+/* Find and ask the user to fix a single incoming link to the disambiguation ("target") page */
+const doLink = (): void => {
 	currentLink = extractLinkToPage(
 		currentPageParameters.content,
 		possibleBacklinkDestinations,
@@ -301,32 +309,33 @@ const doLink = () => {
 	}
 };
 
-/* Replace the target of a link with a different one/* * pageTitle: New link target/* * extra: Additional text after the link (optional)/* * summary: Change summary (optional) */
-const chooseReplacement = (pageTitle, extra, summary) => {
-	if (choosing) {
-		choosing = false;
-		summary ||= pageTitle ? messages.summaryChanged.replace('$1', pageTitle) : messages.summaryOmitted;
-		addChange(currentPageTitle, currentPageParameters, currentPageParameters.content, currentLink, summary);
-		if (pageTitle && (pageTitle !== getTargetPage() || extra)) {
-			currentPageParameters.content = replaceLink(
-				currentPageParameters.content,
-				pageTitle,
-				currentLink,
-				extra || ''
-			);
-		}
-		doLink();
+/* Replace the target of a link with a different one
+ * pageTitle: New link target
+ * extra: Additional text after the link (optional)
+ * summary: Change summary (optional)
+ */
+const chooseReplacement = (pageTitle?: string, extra?: string, summary?: string): void => {
+	if (!choosing || !currentLink) {
+		return;
 	}
+	choosing = false;
+	const changeSummary =
+		summary || (pageTitle ? messages.summaryChanged.replace('$1', pageTitle) : messages.summaryOmitted);
+	addChange(currentPageTitle, currentPageParameters, currentPageParameters.content, currentLink, changeSummary);
+	if (pageTitle && (pageTitle !== getTargetPage() || extra)) {
+		currentPageParameters.content = replaceLink(currentPageParameters.content, pageTitle, currentLink, extra ?? '');
+	}
+	doLink();
 };
 
 /* Replace the link with an explicit link to the disambiguation page */
-const chooseIntentionalLink = () => {
+const chooseIntentionalLink = (): void => {
 	const disamTitle = cfg.disamFormat.replace('$1', getTargetPage());
 	chooseReplacement(disamTitle, '', messages.summaryIntentional);
 };
 
 /* Prompt for an alternative link target and use it as a replacement */
-const chooseTitleFromPrompt = () => {
+const chooseTitleFromPrompt = (): void => {
 	const title = prompt(messages.titleAsTextPrompt);
 	if (title !== null) {
 		chooseReplacement(title);
@@ -334,52 +343,60 @@ const chooseTitleFromPrompt = () => {
 };
 
 /* Remove the current link, leaving the text unchanged */
-const chooseLinkRemoval = () => {
-	if (choosing) {
+const chooseLinkRemoval = (): void => {
+	if (choosing && currentLink) {
 		const summary = messages.summaryRemoved;
 		addChange(currentPageTitle, currentPageParameters, currentPageParameters.content, currentLink, summary);
-		currentPageParameters.content = removeLink(currentPageParameters.content, currentLink);
+		currentPageParameters.content = removeLinkText(currentPageParameters.content, currentLink);
 		doLink();
 	}
 };
 
 /* Add a "disambiguation needed" template after the link */
-const chooseDisamNeeded = () => {
-	chooseReplacement(currentLink.title, cfg.disamNeededText, messages.summaryHelpNeeded);
-};
-
-/* Undo the last change */
-const undo = () => {
-	if (pageChanges.length) {
-		const lastPage = pageChanges.at(-1);
-		if (currentPageTitle !== lastPage.title) {
-			links.unshift(currentPageTitle);
-			currentPageTitle = lastPage.title;
-		}
-		currentPageParameters = lastPage.page;
-		currentPageParameters.content = lastPage.contentBefore.pop();
-		currentLink = lastPage.links.pop();
-		lastPage.summary.pop();
-		if (!lastPage.contentBefore.length) {
-			pageChanges.pop();
-		}
-		updateContext();
+const chooseDisamNeeded = (): void => {
+	if (currentLink) {
+		chooseReplacement(currentLink.title, cfg.disamNeededText, messages.summaryHelpNeeded);
 	}
 };
 
+/* Undo the last change */
+const undo = (): void => {
+	const lastPage = pageChanges.at(-1);
+	if (!lastPage) {
+		return;
+	}
+	if (currentPageTitle !== lastPage.title) {
+		links.unshift(currentPageTitle);
+		currentPageTitle = lastPage.title;
+	}
+	currentPageParameters = lastPage.page;
+	const contentBefore = lastPage.contentBefore.pop();
+	if (contentBefore !== undefined) {
+		currentPageParameters.content = contentBefore;
+	}
+	currentLink = lastPage.links.pop();
+	lastPage.summary.pop();
+	if (!lastPage.contentBefore.length) {
+		pageChanges.pop();
+	}
+	updateContext();
+};
+
 /* Omit the current link without making a change */
-const omit = () => {
+const omit = (): void => {
 	chooseReplacement();
 };
 
 /* Save all the pending changes and restart the tool. */
-const refresh = () => {
+const refresh = (): void => {
 	saveAndEnd();
 	start();
 };
 
-/* Enable or disable the buttons that can perform actions on a page or change the current link./* * enabled: Whether to enable or disable the buttons */
-const toggleActionButtons = (enabled) => {
+/* Enable or disable the buttons that can perform actions on a page or change the current link.
+ * enabled: Whether to enable or disable the buttons
+ */
+const toggleActionButtons = (enabled: boolean): void => {
 	const affectedButtons = [
 		ui.omitButton,
 		ui.titleAsTextButton,
@@ -393,8 +410,10 @@ const toggleActionButtons = (enabled) => {
 	}
 };
 
-/* Show or hide the 'no more links' message/* * show: Whether to show or hide the message */
-const toggleFinishedMessage = (show) => {
+/* Show or hide the 'no more links' message
+ * show: Whether to show or hide the message
+ */
+const toggleFinishedMessage = (show: boolean): void => {
 	toggleActionButtons(!show);
 	ui.undoButton.prop('disabled', !pageChanges.length);
 	ui.finishedMessage.toggle(show);
@@ -402,9 +421,9 @@ const toggleFinishedMessage = (show) => {
 	ui.context.toggle(!show);
 };
 
-const togglePendingEditBox = (show) => {
+const togglePendingEditBox = (show: boolean): void => {
 	const $body = $('body');
-	if (!pendingEditBox) {
+	if (!pendingEditBox || !pendingEditBoxText) {
 		pendingEditBox = $('<div>').addClass('disamassist-box disamassist-pendingeditbox');
 		pendingEditBoxText = $('<div>');
 		pendingEditBox.append(pendingEditBoxText).hide();
@@ -421,7 +440,7 @@ const togglePendingEditBox = (show) => {
 	}
 };
 
-const notifyCompletion = () => {
+const notifyCompletion = (): void => {
 	const $body = $('body');
 	const oldTitle = document.title;
 	document.title = messages.notifyCharacter + document.title;
@@ -430,8 +449,8 @@ const notifyCompletion = () => {
 	});
 };
 
-/* Update the displayed information to match the current link/* * or lack thereof */
-const updateContext = () => {
+/* Update the displayed information to match the current link or lack thereof */
+const updateContext = (): void => {
 	updateEditCounter();
 	if (currentLink) {
 		ui.pageTitleLine.html(
@@ -450,7 +469,7 @@ const updateContext = () => {
 			.append($('<span>').text(context[0]))
 			.append($('<span>').text(context[1]).addClass('disamassist-inclink'))
 			.append($('<span>').text(context[2]));
-		const numLines = Math.ceil(ui.context.height() / Number.parseFloat(ui.context.css('line-height')));
+		const numLines = Math.ceil((ui.context.height() ?? 0) / Number.parseFloat(ui.context.css('line-height')));
 		if (numLines < cfg.numContextLines) {
 			// Add cfg.numContextLines - numLines + 1 line breaks, so that the total number
 			// of lines is cfg.numContextLines
@@ -472,34 +491,38 @@ const updateContext = () => {
 };
 
 /* Update the count of pending changes */
-const updateEditCounter = () => {
+const updateEditCounter = (): void => {
 	if (ui.pendingEditCounter) {
 		ui.pendingEditCounter.text(
-			messages.pendingEditCounter.replace('$1', editCount).replace('$2', countActuallyChangedFullyCheckedPages())
+			messages.pendingEditCounter
+				.replace('$1', editCount.toString())
+				.replace('$2', countActuallyChangedFullyCheckedPages().toString())
 		);
 	}
-	if (pendingEditBox) {
+	if (pendingEditBox && pendingEditBoxText) {
 		if (editCount === 0 && !running) {
 			togglePendingEditBox(false);
 			notifyCompletion();
 		}
-		let textContent = editCount;
+		let textContent = editCount.toString();
 		if (editLimit) {
 			textContent = messages.pendingEditBoxTimeEstimation
-				.replace('$1', editCount)
+				.replace('$1', textContent)
 				.replace('$2', secondsToHHMMSS(cfg.editCooldown * editCount));
 		}
 		pendingEditBoxText.text(messages.pendingEditBox.replace('$1', textContent));
 	}
 };
 
-/* Apply the changes made to an "origin" page/* * pageChange: Change that will be saved */
-const applyChange = (pageChange) => {
+/* Apply the changes made to an "origin" page
+ * pageChange: Change that will be saved
+ */
+const applyChange = (pageChange: PageChange): void => {
 	if (pageChange.page.content !== pageChange.contentBefore[0]) {
 		editCount++;
 		const changeSummaries = pageChange.summary.join(messages.summarySeparator);
 		const summary = messages.summary.replace('$1', getTargetPage()).replace('$2', changeSummaries);
-		const save = editLimit ? saveWithCooldown : savePage;
+		const save: SaveFunction = editLimit ? saveWithCooldown : savePage;
 		save(pageChange.title, pageChange.page, summary, true, true)
 			.always(() => {
 				if (editCount > 0) {
@@ -513,37 +536,46 @@ const applyChange = (pageChange) => {
 };
 
 /* Save all the pending changes */
-const applyAllChanges = () => {
+const applyAllChanges = (): void => {
 	for (const pageChange of pageChanges) {
 		applyChange(pageChange);
 	}
 	pageChanges = [];
 };
 
-/* Record a new pending change/* * pageTitle: Title of the page/* * page: Content of the page/* * oldContent: Content of the page before the change/* * link: Link that has been changed/* * summary: Change summary */
-const addChange = (pageTitle, page, oldContent, link, summary) => {
-	if (!pageChanges.length || pageChanges.at(-1).title !== pageTitle) {
-		pageChanges[pageChanges.length] = {
+/* Record a new pending change
+ * pageTitle: Title of the page
+ * page: Content of the page
+ * oldContent: Content of the page before the change
+ * link: Link that has been changed
+ * summary: Change summary
+ */
+const addChange = (pageTitle: string, page: PageData, oldContent: string, link: Link, summary: string): void => {
+	if (!pageChanges.length || pageChanges.at(-1)?.title !== pageTitle) {
+		pageChanges.push({
 			title: pageTitle,
 			page,
 			contentBefore: [],
 			links: [],
 			summary: [],
-		};
+		});
 	}
 	const lastPageChange = pageChanges.at(-1);
-	lastPageChange.contentBefore[lastPageChange.contentBefore.length] = oldContent;
-	lastPageChange.links[lastPageChange.links.length] = link;
-	lastPageChange.summary[lastPageChange.summary.length] = summary;
+	if (!lastPageChange) {
+		return;
+	}
+	lastPageChange.contentBefore.push(oldContent);
+	lastPageChange.links.push(link);
+	lastPageChange.summary.push(summary);
 };
 
 /* Check whether actual changes are stored in the history array */
-const checkActualChanges = () => {
+const checkActualChanges = (): boolean => {
 	return countActualChanges() !== 0;
 };
 
 /* Return the number of entries in the history array that represent actual changes */
-const countActualChanges = () => {
+const countActualChanges = (): number => {
 	let changeCount = 0;
 	for (const pageChange of pageChanges) {
 		if (pageChange.page.content !== pageChange.contentBefore[0]) {
@@ -553,38 +585,37 @@ const countActualChanges = () => {
 	return changeCount;
 };
 
-/* Return the number of changed pages in the history array, ignoring the last entry/* * if we aren't done with that page yet */
-const countActuallyChangedFullyCheckedPages = () => {
+/* Return the number of changed pages in the history array, ignoring the last entry if we aren't done with that page yet */
+const countActuallyChangedFullyCheckedPages = (): number => {
 	let changeCount = countActualChanges();
-	if (pageChanges.length) {
-		const lastChange = pageChanges.at(-1);
-		if (
-			lastChange.title === currentPageTitle &&
-			currentLink &&
-			lastChange.page.content !== lastChange.contentBefore[0]
-		) {
-			changeCount--;
-		}
+	const lastChange = pageChanges.at(-1);
+	if (
+		lastChange &&
+		lastChange.title === currentPageTitle &&
+		currentLink &&
+		lastChange.page.content !== lastChange.contentBefore[0]
+	) {
+		changeCount--;
 	}
 	return changeCount;
 };
 
 /* Find the links to disambiguation options in a disambiguation page */
-const getDisamOptions = () => {
+const getDisamOptions = (): JQuery<HTMLElement> => {
 	const $body = $('body');
 	return $body.find('#mw-content-text a').filter((_index, element) => {
-		return !!extractPageName($(element));
+		return Boolean(extractPageName($(element)));
 	});
 };
 
 /* Save all the pending changes and close the tool */
-const saveAndEnd = () => {
+const saveAndEnd = (): void => {
 	applyAllChanges();
 	end();
 };
 
 /* Close the tool */
-const end = () => {
+const end = (): void => {
 	const $body = $('body');
 	const currentToolUI = ui.display;
 	choosing = false;
@@ -602,7 +633,7 @@ const end = () => {
 };
 
 /* Display an error message */
-const error = (errorDescription) => {
+const error = (errorDescription: string): void => {
 	const $body = $('body');
 	const errorBox = $('<div>').addClass('disamassist-box disamassist-errorbox');
 	errorBox.text(messages.error.replace('$1', errorDescription));
@@ -611,14 +642,19 @@ const error = (errorDescription) => {
 			errorBox.fadeOut();
 		}).addClass('disamassist-errorbutton')
 	);
-	const uiIsInPlace = ui && $.contains(document.documentElement, ui.display[0]);
+	const uiIsInPlace = ui && $.contains(document.documentElement, ui.display[0]!);
 	const nextElement = uiIsInPlace ? ui.display : $body.find('#mw-content-text');
 	nextElement.before(errorBox);
 	errorBox.hide().fadeIn();
 };
 
-/* Change a link so that it points to the title/* * text: The wikitext of the whole page/* * title: The new destination of the link/* * link: The link that will be modified/* * extra: Text that will be added after the link (optional) */
-const replaceLink = (text, title, link, extra) => {
+/* Change a link so that it points to the title
+ * text: The wikitext of the whole page
+ * title: The new destination of the link
+ * link: The link that will be modified
+ * extra: Text that will be added after the link (optional)
+ */
+const replaceLink = (text: string, title: string, link: Link, extra: string): string => {
 	let newContent;
 	if (isSamePage(title, link.description)) {
 		newContent = link.description;
@@ -627,18 +663,24 @@ const replaceLink = (text, title, link, extra) => {
 	}
 	const linkStart = text.slice(0, Math.max(0, link.start));
 	const linkEnd = text.slice(Math.max(0, link.end));
-	return `${linkStart}[[${newContent}]]${link.afterDescription}${extra || ''}${linkEnd}`;
+	return `${linkStart}[[${newContent}]]${link.afterDescription}${extra}${linkEnd}`;
 };
 
-/* Remove a link from the text/* * text: The wikitext of the whole page/* * link: The link that will be removed */
-const removeLink = (text, link) => {
+/* Remove a link from the text
+ * text: The wikitext of the whole page
+ * link: The link that will be removed
+ */
+const removeLinkText = (text: string, link: Link): string => {
 	const linkStart = text.slice(0, Math.max(0, link.start));
 	const linkEnd = text.slice(Math.max(0, link.end));
 	return linkStart + link.description + link.afterDescription + linkEnd;
 };
 
-/* Extract a link from a string in wiki format,/* * starting from a given index. Return a link if one can be found,/* * otherwise return null. The "link" includes "disambiguation needed"/* * templates inmediately following the link proper/* * text: Text from which the link will be extracted/* * lastIndex: Index from which the search will start */
-const extractLink = (text, lastIndex) => {
+/* Extract a link from a string in wiki format, starting from a given index. Return a link if one can be found, otherwise return null. The "link" includes "disambiguation needed" templates inmediately following the link proper
+ * text: Text from which the link will be extracted
+ * lastIndex: Index from which the search will start
+ */
+const extractLink = (text: string, lastIndex: number): Link | undefined => {
 	// FIXME: Not an actual title regex (lots of false positives
 	// and some false negatives), but hopefully good enough.
 	const titleRegex = /\[\[(.*?)(?:\|(.*?))?]]/g;
@@ -647,88 +689,93 @@ const extractLink = (text, lastIndex) => {
 	const templateRegex = /^(\w*[\s!),.:;?}]*){{\s*([^{|}]+?)\s*(?:\|[^{]*?)?}}/;
 	titleRegex.lastIndex = lastIndex;
 	const match = titleRegex.exec(text);
-	if (match && match.index !== -1) {
-		let possiblyAmbiguous = true;
-		let hasDisamTemplate = false;
-		let _end = match.index + 4 + match[1].length + (match[2] ? 1 + match[2].length : 0);
-		let afterDescription = '';
-		const rest = text.slice(Math.max(0, _end));
-		const templateMatch = templateRegex.exec(rest);
-		if (templateMatch) {
-			const templateTitle = getCanonicalTitle(templateMatch[2]);
-			const {disamLinkTemplates} = cfg;
-			const {disamLinkIgnoreTemplates} = cfg;
-			if (disamLinkTemplates.includes(templateTitle)) {
-				_end += templateMatch[0].length;
-				afterDescription = templateMatch[1].replace(/\s$/, '');
-				hasDisamTemplate = true;
-			} else if (disamLinkIgnoreTemplates.includes(templateTitle)) {
-				possiblyAmbiguous = false;
-			}
-		}
-		return {
-			start: match.index,
-			end: _end,
-			possiblyAmbiguous,
-			hasDisamTemplate,
-			title: match[1],
-			description: match[2] ?? match[1],
-			afterDescription,
-		};
+	if (!match) {
+		return;
 	}
+	const matchTitle = match[1] ?? '';
+	const matchDescription = match[2];
+	let end = match.index + 4 + matchTitle.length + (matchDescription ? 1 + matchDescription.length : 0);
+	let afterDescription = '';
+	let possiblyAmbiguous = true;
+	let hasDisamTemplate = false;
+	const rest = text.slice(Math.max(0, end));
+	const templateMatch = templateRegex.exec(rest);
+	if (templateMatch) {
+		const templateTitle = getCanonicalTitle(templateMatch[2] ?? '');
+		const {disamLinkTemplates, disamLinkIgnoreTemplates} = cfg;
+		if (disamLinkTemplates.includes(templateTitle)) {
+			end += templateMatch[0].length;
+			afterDescription = (templateMatch[1] ?? '').replace(/\s$/, '');
+			hasDisamTemplate = true;
+		} else if (disamLinkIgnoreTemplates.includes(templateTitle)) {
+			possiblyAmbiguous = false;
+		}
+	}
+	return {
+		start: match.index,
+		end,
+		possiblyAmbiguous,
+		hasDisamTemplate,
+		title: matchTitle,
+		description: matchDescription ?? matchTitle,
+		afterDescription,
+	};
 };
 
-/* Extract a link to one of a number of destination pages from a string/* * ("text") in wiki format, starting from a given index ("lastIndex")./* * "Disambiguation needed" templates are included as part of the links./* * text: Page in wiki format/* * destinations: Array of page titles to look for/* * lastIndex: Index from which the search will start */
-const extractLinkToPage = (text, destinations, lastIndex) => {
-	let link;
-	let title;
+/* Extract a link to one of a number of destination pages from a string ("text") in wiki format, starting from a given index ("lastIndex"). "Disambiguation needed" templates are included as part of the links.
+ * text: Page in wiki format
+ * destinations: Array of page titles to look for
+ * lastIndex: Index from which the search will start
+ */
+const extractLinkToPage = (text: string, destinations: string[], lastIndex: number): Link | undefined => {
+	let link: Link | undefined;
 	do {
 		link = extractLink(text, lastIndex);
 		if (link) {
 			lastIndex = link.end;
-			title = getCanonicalTitle(link.title);
 		}
-	} while (link && (!link.possiblyAmbiguous || !destinations?.includes(title)));
+	} while (link && (!link.possiblyAmbiguous || !destinations.includes(getCanonicalTitle(link.title))));
 	return link;
 };
 
-/* Find the "target" page: either the one we are in or the "main" one found by extracting/* * the title from ".* (disambiguation)" or whatever the appropiate local format is */
-const getTargetPage = () => {
+/* Find the "target" page: either the one we are in or the "main" one found by extracting the title from ".* (disambiguation)" or whatever the appropiate local format is */
+const getTargetPage = (): string => {
 	const title = getTitle();
 	return forceSamePage ? title : removeDisam(title);
 };
 
 /* Get the page title, with the namespace prefix if any. */
-const getTitle = () => {
+const getTitle = (): string => {
 	const {wgPageName} = mw.config.get();
 	return wgPageName.replace(/_/g, ' ');
 };
 
 /* Extract a "main" title from ".* (disambiguation)" or whatever the appropiate local format is */
-const removeDisam = (title) => {
+const removeDisam = (title: string): string => {
 	const match = new RegExp(cfg.disamRegExp).exec(title);
 	return match?.[1] ?? title;
 };
 
 /* Check whether two page titles are the same */
-const isSamePage = (title1, title2) => {
+const isSamePage = (title1: string, title2: string): boolean => {
 	return getCanonicalTitle(title1) === getCanonicalTitle(title2);
 };
 
 /* Return the 'canonical title' of a page */
-const getCanonicalTitle = (title) => {
+const getCanonicalTitle = (title: string): string => {
+	let canonicalTitle = title;
 	try {
 		// mw.Title seems to be buggy, and some valid titles are rejected
 		// FIXME: This may cause false negatives
-		title = new mw.Title(title).getPrefixedText();
+		canonicalTitle = new mw.Title(title).getPrefixedText();
 	} catch {
 		/* empty */
 	}
-	return title;
+	return canonicalTitle;
 };
 
 /* Extract the context around a given link in a text string */
-const extractContext = (text, link) => {
+const extractContext = (text: string, link: Link): [string, string, string] => {
 	const contextStart = link.start - cfg.radius;
 	const contextEnd = link.end + cfg.radius;
 	let contextPrev = text.slice(contextStart, link.start);
@@ -743,82 +790,84 @@ const extractContext = (text, link) => {
 };
 
 /* Extract the prefixed page name from a link */
-const extractPageName = (link) => {
-	let pageName = extractPageNameRaw(link);
-	if (pageName) {
-		const sectionPos = pageName.indexOf('#');
-		let section = '';
-		if (sectionPos !== -1) {
-			section = pageName.slice(Math.max(0, sectionPos));
-			pageName = pageName.slice(0, Math.max(0, sectionPos));
-		}
-		return getCanonicalTitle(pageName) + section;
+const extractPageName = (link: JQuery<HTMLElement>): string | undefined => {
+	const pageName = extractPageNameRaw(link);
+	if (!pageName) {
+		return;
 	}
+	const sectionPos = pageName.indexOf('#');
+	let section = '';
+	let title = pageName;
+	if (sectionPos !== -1) {
+		section = pageName.slice(Math.max(0, sectionPos));
+		title = pageName.slice(0, Math.max(0, sectionPos));
+	}
+	return getCanonicalTitle(title) + section;
 };
 
 /* Extract the page name from a link, as is */
-const extractPageNameRaw = (link) => {
+const extractPageNameRaw = (link: JQuery<HTMLElement>): string | null | undefined => {
 	const {wgScript, wgArticlePath} = mw.config.get();
-	if (!link.hasClass('image')) {
-		const href = link.attr('href');
-		if (link.hasClass('new')) {
-			// "Red" link
-			if (href.includes(wgScript)) {
-				return mw.util.getParamValue('title', href);
-			}
-		} else {
-			const regex = wgArticlePath.replace('$1', '(.*)');
-			const regexResult = new RegExp(`^${regex}$`).exec(href);
-			if (Array.isArray(regexResult) && regexResult.length) {
-				return decodeURIComponent(regexResult[1]);
-			}
-		}
+	if (link.hasClass('image')) {
+		return;
 	}
+	const href = link.attr('href');
+	if (link.hasClass('new')) {
+		// "Red" link
+		if (href && href.includes(wgScript)) {
+			return mw.util.getParamValue('title', href);
+		}
+		return;
+	}
+	if (!href) {
+		return;
+	}
+	const regex = wgArticlePath.replace('$1', '(.*)');
+	const regexResult = new RegExp(`^${regex}$`).exec(href);
+	const pageName = regexResult?.[1];
+	if (pageName === undefined) {
+		return;
+	}
+	return decodeURIComponent(pageName);
 };
 
 /* Check whether this is a disambiguation page */
-const isDisam = () => {
+const isDisam = (): boolean => {
 	const {wgCategories} = mw.config.get();
-	const categories = wgCategories ?? [];
-	for (const category of categories) {
-		const {disamCategories} = cfg;
-		if (disamCategories.includes(category)) {
-			return true;
-		}
-	}
-	return false;
+	return cfg.disamCategories.some((category) => {
+		return wgCategories.includes(category);
+	});
 };
 
-const secondsToHHMMSS = (totalSeconds) => {
+const secondsToHHMMSS = (totalSeconds: number): string => {
 	let hhmmss = '';
 	const hours = Math.floor(totalSeconds / 3600);
 	const minutes = Math.floor((totalSeconds % 3600) / 60);
 	const seconds = Math.floor((totalSeconds % 3600) % 60);
 	if (hours >= 1) {
-		hhmmss = `${pad(hours, '0', 2)}:`;
+		hhmmss = `${pad(hours, 2)}:`;
 	}
-	hhmmss += `${pad(minutes, '0', 2)}:${pad(seconds, '0', 2)}`;
+	hhmmss += `${pad(minutes, 2)}:${pad(seconds, 2)}`;
 	return hhmmss;
 };
 
-const pad = (str, z, width) => {
-	str = str.toString();
-	if (str.length >= width) {
-		return str;
+const pad = (value: number, width: number): string => {
+	const text = value.toString();
+	if (text.length >= width) {
+		return text;
 	}
 	return (
 		Array.from({
-			length: width - str.length + 1,
-		}).join(z) + str
+			length: width - text.length + 1,
+		}).join('0') + text
 	);
 };
 
 /* Create a new button
  * text: Text that will be displayed on the button
- * onClick: Function that will be called when the
- * button is clicked
+ * onClick: Function that will be called when the button is clicked
  */
-const createButton = (text, onClick) => {
+const createButton = (text: string, onClick: () => void): JQuery<HTMLElement> => {
 	const button = $('<input>').attr({
 		type: 'button',
 		value: text,
@@ -827,10 +876,10 @@ const createButton = (text, onClick) => {
 	return button;
 };
 
-/* Given a page title and an array of possible redirects {from, to} ("canonical titles"), find the page/* * at the end of the redirect chain, if there is one. Otherwise, return the page title that was passed */
-const resolveRedirect = (pageTitle, possibleRedirects) => {
+/* Given a page title and an array of possible redirects {from, to} ("canonical titles"), find the page at the end of the redirect chain, if there is one. Otherwise, return the page title that was passed */
+const resolveRedirect = (pageTitle: string, possibleRedirects: Redirect[]): string => {
 	let appliedRedirect = true;
-	const visitedPages = {};
+	const visitedPages: Record<string, boolean> = {};
 	let currentPage = getCanonicalTitle(pageTitle);
 	while (appliedRedirect) {
 		appliedRedirect = false;
@@ -851,9 +900,11 @@ const resolveRedirect = (pageTitle, possibleRedirects) => {
 	return currentPage;
 };
 
-/* Fetch the incoming links to a page. Returns a jQuery promise/* * (success - array of titles of pages that contain links to the target page and/* * array of "canonical titles" of possible destinations of the backlinks (either/* * the target page or redirects to the target page), failure - error description)/* * page: Target page */
-const getBacklinks = (page) => {
-	const deferred = new $.Deferred();
+/* Fetch the incoming links to a page. Returns a jQuery promise (success - array of titles of pages that contain links to the target page and array of "canonical titles" of possible destinations of the backlinks (either the target page or redirects to the target page), failure - error description)
+ * page: Target page
+ */
+const getBacklinks = (page: string): JQuery.Promise<string[]> => {
+	const deferred = $.Deferred<string[]>();
 	const params = {
 		action: 'query',
 		list: 'backlinks',
@@ -866,18 +917,18 @@ const getBacklinks = (page) => {
 		.done(({query}) => {
 			// There might be duplicate entries in some corner cases. We don't care,
 			// since we are going to check later, anyway
-			const backlinks = [];
-			const linkTitles = [getCanonicalTitle(page)];
+			const backlinks: string[] = [];
+			const linkTitles: string[] = [getCanonicalTitle(page)];
 			const backlinksQuery = query.backlinks;
 			for (const element of backlinksQuery) {
-				backlinks[backlinks.length] = element.title;
+				backlinks.push(element.title as string);
 				if (!element.redirlinks) {
 					continue;
 				}
-				linkTitles[linkTitles.length] = element.title;
+				linkTitles.push(element.title as string);
 				const {redirlinks} = element;
 				for (const {title} of redirlinks) {
-					backlinks[backlinks.length] = title;
+					backlinks.push(title as string);
 				}
 			}
 			deferred.resolve(backlinks, linkTitles);
@@ -888,9 +939,11 @@ const getBacklinks = (page) => {
 	return deferred.promise();
 };
 
-/* Download a list of redirects for some pages. Returns a jQuery callback (success -/* * array of redirects ({from, to}), failure - error description )/* * pageTitles: Array of page titles */
-const fetchRedirects = (pageTitles) => {
-	const deferred = new $.Deferred();
+/* Download a list of redirects for some pages. Returns a jQuery callback (success - array of redirects ({from, to}), failure - error description)
+ * pageTitles: Array of page titles
+ */
+const fetchRedirects = (pageTitles: string[]): JQuery.Promise<Redirect[]> => {
+	const deferred = $.Deferred<Redirect[]>();
 	const currentTitles = pageTitles.slice(0, cfg.queryTitleLimit);
 	const restTitles = pageTitles.slice(cfg.queryTitleLimit);
 	const params = {
@@ -900,7 +953,7 @@ const fetchRedirects = (pageTitles) => {
 	};
 	api.get(params)
 		.done(({query}) => {
-			const theseRedirects = query.redirects ?? [];
+			const theseRedirects: Redirect[] = query.redirects ?? [];
 			if (restTitles.length) {
 				fetchRedirects(restTitles)
 					.done((redirects) => {
@@ -919,9 +972,9 @@ const fetchRedirects = (pageTitles) => {
 	return deferred.promise();
 };
 
-/* Download the list of user rights for the current user. Returns a/* * jQuery promise (success - array of right names, error - error description) */
-const fetchRights = () => {
-	const deferred = $.Deferred();
+/* Download the list of user rights for the current user. Returns a jQuery promise (success - array of right names, error - error description) */
+const fetchRights = (): JQuery.Promise<string[]> => {
+	const deferred = $.Deferred<string[]>();
 	const params = {
 		action: 'query',
 		meta: 'userinfo',
@@ -937,9 +990,11 @@ const fetchRights = () => {
 	return deferred.promise();
 };
 
-/* Load the raw page text for a given title. Returns a jQuery promise (success - page/* * content, failure - error description)/* * pageTitle: Title of the page */
-const loadPage = (pageTitle) => {
-	const deferred = new $.Deferred();
+/* Load the raw page text for a given title. Returns a jQuery promise (success - page content, failure - error description)
+ * pageTitle: Title of the page
+ */
+const loadPage = (pageTitle: string): JQuery.Promise<PageData> => {
+	const deferred = $.Deferred<PageData>();
 	const params = {
 		action: 'query',
 		format: 'json',
@@ -954,18 +1009,19 @@ const loadPage = (pageTitle) => {
 	api.get(params)
 		.done(({query}) => {
 			const [rawPage] = query.pages;
-			const page = {};
-			page.redirect = rawPage.redirect !== undefined;
-			page.missing = rawPage.missing !== undefined;
+			const page: PageData = {
+				content: '',
+				baseTimeStamp: undefined,
+				startTimeStamp: undefined,
+				editToken: query.tokens.csrftoken,
+				redirect: rawPage.redirect !== undefined,
+				missing: rawPage.missing !== undefined,
+			};
 			if (rawPage.revisions) {
 				page.content = rawPage.revisions[0].slots.main.content;
 				page.baseTimeStamp = rawPage.revisions[0].timestamp;
-			} else {
-				page.content = '';
-				page.baseTimeStamp = undefined;
 			}
 			page.startTimeStamp = rawPage.starttimestamp;
-			page.editToken = query.tokens.csrftoken;
 			deferred.resolve(page);
 		})
 		.fail((code) => {
@@ -974,21 +1030,21 @@ const loadPage = (pageTitle) => {
 	return deferred.promise();
 };
 
-/* Register changes to a page, to be saved later. Returns a jQuery promise/* * (success - no params, failure - error description). Takes the same parameters/* * as savePage */
-const saveWithCooldown = (...args) => {
-	const deferred = new $.Deferred();
-	pendingSaves[pendingSaves.length] = {
+/* Register changes to a page, to be saved later. Returns a jQuery promise (success - no params, failure - error description). Takes the same parameters as savePage */
+const saveWithCooldown = (...args: SaveArgs): JQuery.Promise<void> => {
+	const deferred = $.Deferred<void>();
+	pendingSaves.push({
 		args,
 		dfd: deferred,
-	};
+	});
 	if (!runningSaves) {
 		checkAndSave();
 	}
 	return deferred.promise();
 };
 
-/* Save the first set of changes in the list of pending changes, providing that/* * enough time has passed since the last edit */
-const checkAndSave = function () {
+/* Save the first set of changes in the list of pending changes, providing that enough time has passed since the last edit */
+const checkAndSave = (): void => {
 	if (!pendingSaves.length) {
 		runningSaves = false;
 		return;
@@ -1000,8 +1056,10 @@ const checkAndSave = function () {
 	} else {
 		// The last edit started at least cfg.editCooldown seconds ago
 		const save = pendingSaves.shift();
-		savePage
-			.apply(this, save.args)
+		if (!save) {
+			return;
+		}
+		savePage(...save.args)
 			.done(() => {
 				checkAndSave();
 				save.dfd.resolve();
@@ -1015,9 +1073,21 @@ const checkAndSave = function () {
 	}
 };
 
-/* Save the changes made to a page. Returns a jQuery promise (success - no params,/* * failure - error description)/* * pageTitle: Title of the page/* * page: Page data/* * summary: Summary of the changes made to the page/* * minorEdit: Whether to mark the edit as 'minor'/* * botEdit: Whether to mark the edit as 'bot' */
-const savePage = (pageTitle, {editToken, content, baseTimeStamp, startTimeStamp}, summary, minorEdit, botEdit) => {
-	const deferred = new $.Deferred();
+/* Save the changes made to a page. Returns a jQuery promise (success - no params, failure - error description)
+ * pageTitle: Title of the page
+ * page: Page data
+ * summary: Summary of the changes made to the page
+ * minorEdit: Whether to mark the edit as 'minor'
+ * botEdit: Whether to mark the edit as 'bot'
+ */
+const savePage = (
+	pageTitle: string,
+	{editToken, content, baseTimeStamp, startTimeStamp}: PageData,
+	summary: string,
+	minorEdit: boolean,
+	botEdit: boolean
+): JQuery.Promise<void> => {
+	const deferred = $.Deferred<void>();
 	const params = {
 		action: 'edit',
 		title: pageTitle,

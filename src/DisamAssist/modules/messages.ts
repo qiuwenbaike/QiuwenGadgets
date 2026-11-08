@@ -1,4 +1,6 @@
-const messages = {
+import type {Messages} from './types';
+
+const messages: Messages = {
 	start: '为链接消歧义',
 	startMain: '为链至主条目的链接消歧义',
 	startSame: '为链至消歧义页的链接消歧义',
