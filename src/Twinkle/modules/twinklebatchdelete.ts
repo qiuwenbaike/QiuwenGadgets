@@ -1,9 +1,10 @@
 /*! Twinkle.js - twinklebatchdelete.ts */
 import {Morebits, type MorebitsWikiApi, type MutableTitle} from './ui/morebits';
 import type {PageItem, TwStatusExposed} from './ui/types';
-import {createApp, h, reactive} from 'vue';
 import TwBatchDeleteDialog from './ui/TwBatchDeleteDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -20,7 +21,7 @@ interface DeleteReasonOption {
 	value: string;
 }
 
-interface TwinkleBatchDeleteModule {
+export interface TwinkleBatchDeleteModule {
 	(): void;
 	callback: () => void;
 	deletereasonlist: DeleteReasonOption[];
@@ -28,13 +29,11 @@ interface TwinkleBatchDeleteModule {
 
 const dialogInstance: {current: TwStatusExposed | null} = {current: null};
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: {
-		(key: 'batchChunks' | 'batchMax'): string;
-		(key: string): string | boolean;
-	};
-	batchdelete?: TwinkleBatchDeleteModule;
-};
+declare global {
+	interface TwinkleModules {
+		batchdelete?: TwinkleBatchDeleteModule;
+	}
+}
 
 const twinklebatchdelete = ((): void => {
 	if (
@@ -53,131 +52,120 @@ const twinklebatchdelete = ((): void => {
 }) as TwinkleBatchDeleteModule;
 
 twinklebatchdelete.callback = () => {
-	const root = document.createElement('div');
-	document.body.append(root);
 	const listData = reactive({
 		pages: [] as PageItem[],
 		loaded: false,
 		subpagesLoading: false,
 	});
-	const app = createApp({
-		render: () => {
-			return h(TwBatchDeleteDialog, {
-				ref: (instance: unknown) => {
-					dialogInstance.current = (instance as TwStatusExposed) ?? null;
-				},
-				title: uls('批量删除', '批次刪除'),
-				reasonList: twinklebatchdelete.deletereasonlist,
-				appendPunctuation: Morebits.string.appendPunctuation,
-				list: listData,
-				footerLinks: [
-					{
-						text: uls('Twinkle帮助', 'Twinkle說明'),
-						href: mw.util.getUrl('H:TW/DOC#batchdelete'),
-					},
-				],
-				onLoadSubpages: (titles: string[]) => {
-					listData.subpagesLoading = true;
-					const subpageLister = new Morebits.batchOperation();
-					subpageLister.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
-					subpageLister.setPageList(titles);
-					subpageLister.run(
-						(pageName) => {
-							const pageTitle = mw.Title.newFromText(pageName) as MutableTitle | null;
-							if (!pageTitle) {
-								subpageLister.workerSuccess(pageName);
-								return;
-							}
-							// No need to look for subpages in main/file/mediawiki space
-							if ([0, 6, 8].includes(pageTitle.namespace)) {
-								subpageLister.workerSuccess(pageName);
-								return;
-							}
-							const subpageApi = new Morebits.wiki.api(
-								uls('正在获取 ', '正在取得 ') + pageName + uls(' 的子页面', ' 的子頁面'),
-								{
-									action: 'query',
-									prop: 'revisions|info|imageinfo',
-									generator: 'allpages',
-									rvprop: 'size',
-									inprop: 'protection',
-									gapprefix: `${pageTitle.title}/`,
-									gapnamespace: pageTitle.namespace,
-									gaplimit: 'max',
-									// Not used by API, but added for access in onSuccess()
-									pageNameFull: pageName,
-								},
-								(apiobj: MorebitsWikiApi) => {
-									const xml = apiobj.getResponse() as unknown as XMLDocument;
-									const $pages = $(xml).find('page');
-									const subpageList: PageItem[] = [];
-									$pages.each((_index, page) => {
-										const $page = $(page);
-										const ns = $page.attr('ns');
-										const title = $page.attr('title');
-										const isRedir = $page.attr('redirect') === '';
-										const $editprot = $page.find('pr[type="edit"][level="sysop"]');
-										const isProtected = $editprot.length > 0;
-										const size = $page.find('rev').attr('size');
-										const metadata: string[] = [];
-										if (isRedir) {
-											metadata[metadata.length] = 'redirect';
-										}
-										if (isProtected) {
-											metadata[metadata.length] =
-												uls('全保护，', '全保護，') +
-												($editprot.attr('expiry') === 'infinity'
-													? uls('无限期', '無限期')
-													: `${new Morebits.date($editprot.attr('expiry') ?? '').calendar(
-															UTC8_OFFSET_MINUTES
-														)} (UTC+8)`) +
-												uls('过期', '過期');
-										}
-										if (ns === '6') {
-											// mimic what delimages used to show for files
-											metadata[metadata.length] = `${
-												uls('上传者：', '上傳者：') + $page.find('ii').attr('user')
-											}，${uls('最后编辑：', '最後編輯：')}${$page.find('rev').attr('user')}`;
-										} else {
-											metadata[metadata.length] =
-												mw.language.convertNumber(Number(size ?? 0)) + uls('字节', '位元組');
-										}
-										subpageList[subpageList.length] = {
-											title: title ?? '',
-											label: (title ?? '') + (metadata.length ? ` (${metadata.join('; ')})` : ''),
-											isProtected,
-										};
-									});
-									if (subpageList.length) {
-										const item = listData.pages.find((pageItem) => {
-											return pageItem.title === apiobj.query['pageNameFull'];
-										});
-										if (item) {
-											item.subpages = subpageList;
-										}
-									}
-									subpageLister.workerSuccess(pageName);
-								},
-								undefined /* statusElement */,
-								() => {
-									subpageLister.workerFailure();
-								}
-							);
-							subpageApi.post();
+	mountDialog(TwBatchDeleteDialog, {
+		ref: (instance: unknown) => {
+			dialogInstance.current = (instance as TwStatusExposed) ?? null;
+		},
+		title: uls('批量删除', '批次刪除'),
+		reasonList: twinklebatchdelete.deletereasonlist,
+		appendPunctuation: Morebits.string.appendPunctuation,
+		list: listData,
+		footerLinks: [
+			{
+				text: uls('Twinkle帮助', 'Twinkle說明'),
+				href: mw.util.getUrl('H:TW/DOC#batchdelete'),
+			},
+		],
+		onLoadSubpages: (titles: string[]) => {
+			listData.subpagesLoading = true;
+			const subpageLister = new Morebits.batchOperation();
+			subpageLister.setOption('chunkSize', Number(Twinkle.getPref('batchChunks')));
+			subpageLister.setPageList(titles);
+			subpageLister.run(
+				(pageName) => {
+					const pageTitle = mw.Title.newFromText(pageName) as MutableTitle | null;
+					if (!pageTitle) {
+						subpageLister.workerSuccess(pageName);
+						return;
+					}
+					// No need to look for subpages in main/file/mediawiki space
+					if ([0, 6, 8].includes(pageTitle.namespace)) {
+						subpageLister.workerSuccess(pageName);
+						return;
+					}
+					const subpageApi = new Morebits.wiki.api(
+						uls('正在获取 ', '正在取得 ') + pageName + uls(' 的子页面', ' 的子頁面'),
+						{
+							action: 'query',
+							prop: 'revisions|info|imageinfo',
+							generator: 'allpages',
+							rvprop: 'size',
+							inprop: 'protection',
+							gapprefix: `${pageTitle.title}/`,
+							gapnamespace: pageTitle.namespace,
+							gaplimit: 'max',
+							// Not used by API, but added for access in onSuccess()
+							pageNameFull: pageName,
 						},
+						(apiobj: MorebitsWikiApi) => {
+							const xml = apiobj.getResponse() as unknown as XMLDocument;
+							const $pages = $(xml).find('page');
+							const subpageList: PageItem[] = [];
+							$pages.each((_index, page) => {
+								const $page = $(page);
+								const ns = $page.attr('ns');
+								const title = $page.attr('title');
+								const isRedir = $page.attr('redirect') === '';
+								const $editprot = $page.find('pr[type="edit"][level="sysop"]');
+								const isProtected = $editprot.length > 0;
+								const size = $page.find('rev').attr('size');
+								const metadata: string[] = [];
+								if (isRedir) {
+									metadata[metadata.length] = 'redirect';
+								}
+								if (isProtected) {
+									metadata[metadata.length] =
+										uls('全保护，', '全保護，') +
+										($editprot.attr('expiry') === 'infinity'
+											? uls('无限期', '無限期')
+											: `${new Morebits.date($editprot.attr('expiry') ?? '').calendar(
+													UTC8_OFFSET_MINUTES
+												)} (UTC+8)`) +
+										uls('过期', '過期');
+								}
+								if (ns === '6') {
+									// mimic what delimages used to show for files
+									metadata[metadata.length] = `${
+										uls('上传者：', '上傳者：') + $page.find('ii').attr('user')
+									}，${uls('最后编辑：', '最後編輯：')}${$page.find('rev').attr('user')}`;
+								} else {
+									metadata[metadata.length] =
+										mw.language.convertNumber(Number(size ?? 0)) + uls('字节', '位元組');
+								}
+								subpageList[subpageList.length] = {
+									title: title ?? '',
+									label: (title ?? '') + (metadata.length ? ` (${metadata.join('; ')})` : ''),
+									isProtected,
+								};
+							});
+							if (subpageList.length) {
+								const item = listData.pages.find((pageItem) => {
+									return pageItem.title === apiobj.query['pageNameFull'];
+								});
+								if (item) {
+									item.subpages = subpageList;
+								}
+							}
+							subpageLister.workerSuccess(pageName);
+						},
+						undefined /* statusElement */,
 						() => {
-							listData.subpagesLoading = false;
+							subpageLister.workerFailure();
 						}
 					);
+					subpageApi.post();
 				},
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
+				() => {
+					listData.subpagesLoading = false;
+				}
+			);
 		},
 	});
-	app.mount(root);
 	// Init Morebits.status in the dialog before the page list arrives
 	const statusRoot = dialogInstance.current?.getStatusRoot() ?? null;
 	if (statusRoot) {

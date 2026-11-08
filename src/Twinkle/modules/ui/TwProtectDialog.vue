@@ -14,16 +14,6 @@ import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: (key: string) => string;
-	hatnoteRegex: string;
-	protect: {
-		/** Whether the page is watched (set by `twinkleprotect.ts` when fetching protection levels). */
-		watched?: boolean;
-	};
-};
-
 interface ProtectParams {
 	actiontype: 'protect' | 'request' | 'tag';
 	category: string;
@@ -588,7 +578,7 @@ const callbacks = {
 					token: mw.user.tokens.get('watchToken'),
 				};
 				// Only add the expiry if page is unwatched or already temporarily watched
-				if (Twinkle.protect.watched !== true && watchPref !== 'default' && watchPref !== 'yes') {
+				if (Twinkle.protect?.watched !== true && watchPref !== 'default' && watchPref !== 'yes') {
 					watch_query.expiry = watchPref;
 				}
 				new Morebits.wiki.api(

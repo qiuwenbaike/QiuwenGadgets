@@ -1,9 +1,11 @@
 /*! Twinkle.js - twinkleprotect.ts */
 import type {ProtectionInfo, ProtectionOptionGroup, ProtectionOptionItem, ProtectionPresetInfo} from './ui/types';
-import {createApp, h, reactive} from 'vue';
 import TwProtectDialog from './ui/TwProtectDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
 import {api} from './utils/api';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -47,7 +49,7 @@ interface ProtectionApiResponse {
 	};
 }
 
-interface TwinkleProtectModule {
+export interface TwinkleProtectModule {
 	(): void;
 	callback: () => void;
 	fetchProtectionLevel: () => void;
@@ -67,9 +69,11 @@ interface TwinkleProtectModule {
 	formatProtectionDescription: (protectionLevels: ProtectionLevels) => string;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	protect?: TwinkleProtectModule;
-};
+declare global {
+	interface TwinkleModules {
+		protect?: TwinkleProtectModule;
+	}
+}
 
 const twinkleprotect = (() => {
 	if (mw.config.get('wgNamespaceNumber') < 0 || mw.config.get('wgNamespaceNumber') === 8) {
@@ -92,8 +96,6 @@ const isTemplate = mw.config.get('wgNamespaceNumber') === 10 || mw.config.get('w
 let protectionInfo: ProtectionInfo | null = null;
 
 twinkleprotect.callback = (): void => {
-	const root = document.createElement('div');
-	document.body.append(root);
 	const info = reactive<ProtectionInfo>({
 		previousNotice: null,
 		logLink: mw.util.getUrl('Special:Log', {
@@ -104,37 +106,26 @@ twinkleprotect.callback = (): void => {
 		currentStatus: null,
 	});
 	protectionInfo = info;
-	const app = createApp({
-		render: () => {
-			return h(TwProtectDialog, {
-				isSysop: window.Morebits.userIsSysop,
-				pageExists: mw.config.get('wgArticleId') !== 0,
-				isScribunto: mw.config.get('wgPageContentModel') === 'Scribunto',
-				isTemplate,
-				protectionInfo: info,
-				title: window.Morebits.userIsSysop
-					? uls('施行或请求保护页面', '施行或請求保護頁面')
-					: uls('请求保护页面', '請求保護頁面'),
-				footerLinks: [
-					{text: uls('保护方针', '保護方針'), href: mw.util.getUrl('QW:PROT')},
-					{text: uls('保护设置', '保護設定'), href: mw.util.getUrl('H:TW/PREF#protect')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#protect')},
-				],
-				protectionLevels: twinkleprotect.protectionLevels,
-				protectionLengths: twinkleprotect.protectionLengths,
-				protectionTypesAdmin: twinkleprotect.protectionTypesAdmin,
-				protectionTypesCreateOnly: twinkleprotect.protectionTypesCreateOnly,
-				protectionTypesCreate: twinkleprotect.protectionTypesCreate,
-				protectionTags: twinkleprotect.protectionTags,
-				protectionPresetsInfo: twinkleprotect.protectionPresetsInfo,
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwProtectDialog, {
+		isSysop: window.Morebits.userIsSysop,
+		pageExists: mw.config.get('wgArticleId') !== 0,
+		isScribunto: mw.config.get('wgPageContentModel') === 'Scribunto',
+		isTemplate,
+		protectionInfo: info,
+		title: window.Morebits.userIsSysop
+			? uls('施行或请求保护页面', '施行或請求保護頁面')
+			: uls('请求保护页面', '請求保護頁面'),
+		footerLinks: footerLinks('protect', uls('保护设置', '保護設定'), [
+			{text: uls('保护方针', '保護方針'), href: mw.util.getUrl('QW:PROT')},
+		]),
+		protectionLevels: twinkleprotect.protectionLevels,
+		protectionLengths: twinkleprotect.protectionLengths,
+		protectionTypesAdmin: twinkleprotect.protectionTypesAdmin,
+		protectionTypesCreateOnly: twinkleprotect.protectionTypesCreateOnly,
+		protectionTypesCreate: twinkleprotect.protectionTypesCreate,
+		protectionTags: twinkleprotect.protectionTags,
+		protectionPresetsInfo: twinkleprotect.protectionPresetsInfo,
 	});
-	app.mount(root);
 	// get current protection level asynchronously
 	twinkleprotect.fetchProtectionLevel();
 };

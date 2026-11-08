@@ -1,7 +1,9 @@
 /*! Twinkle.js - twinklewarn.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
-import {createApp, h, reactive} from 'vue';
 import TwWarnDialog from './ui/TwWarnDialog.vue';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -30,28 +32,18 @@ interface WarnMessages {
 	singlewarn: Record<string, WarnMessageItem>;
 }
 
-interface TwinkleWarnModule {
+export interface TwinkleWarnModule {
 	(): void;
 	callback: () => void;
 	makeVandalTalkLink($vandalTalkLink: JQuery<HTMLElement>, pagename: string): void;
 	messages: WarnMessages;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: {
-		(key: 'autoMenuAfterRollback' | 'combinedSingletMenus'): boolean;
-		(key: 'customWarningList'): {
-			value: string;
-			label: string;
-		}[];
-		(key: 'defaultWarningGroup'): string;
-		(key: string): string | boolean;
-	};
-	arv?: {
-		callback: (uid: string, isIP?: boolean) => void;
-	};
-	warn?: TwinkleWarnModule;
-};
+declare global {
+	interface TwinkleModules {
+		warn?: TwinkleWarnModule;
+	}
+}
 
 const $body = $('body');
 const relevantUserName = mw.config.get('wgRelevantUserName') ?? '';
@@ -117,87 +109,70 @@ twinklewarn.callback = () => {
 	) {
 		return;
 	}
-	const root = document.createElement('div');
-	document.body.append(root);
 	const notice = reactive({text: ''});
-	const closeDialog = () => {
-		app.unmount();
-		root.remove();
-	};
-	const app = createApp({
-		render: () => {
-			// Assemble the main group options (mirrors the legacy quickForm)
-			const defaultGroup = Number.parseInt(Twinkle.getPref('defaultWarningGroup'), 6);
-			const mainGroupOptions = [
-				{
-					value: 'autolevel',
-					label: uls('自动选择层级', '自動選擇層級'),
-					selected: defaultGroup === 7,
-				},
-				{value: 'level1', label: '1：提醒', selected: defaultGroup === 1},
-				{value: 'level2', label: '2：警告', selected: defaultGroup === 2},
-			];
-			if (Twinkle.getPref('combinedSingletMenus') === true) {
-				mainGroupOptions.push({
-					value: 'singlecombined',
-					label: uls('单层级消息', '單層級訊息'),
-					selected: defaultGroup === 3 || defaultGroup === 4,
-				});
-			} else {
-				mainGroupOptions.push(
-					{
-						value: 'singlenotice',
-						label: uls('单层级提醒', '單層級提醒'),
-						selected: defaultGroup === 3,
-					},
-					{
-						value: 'singlewarn',
-						label: uls('单层级警告', '單層級警告'),
-						selected: defaultGroup === 4,
-					}
-				);
+	// Assemble the main group options (mirrors the legacy quickForm)
+	const defaultGroup = Number.parseInt(Twinkle.getPref('defaultWarningGroup'), 10);
+	const mainGroupOptions = [
+		{
+			value: 'autolevel',
+			label: uls('自动选择层级', '自動選擇層級'),
+			selected: defaultGroup === 7,
+		},
+		{value: 'level1', label: '1：提醒', selected: defaultGroup === 1},
+		{value: 'level2', label: '2：警告', selected: defaultGroup === 2},
+	];
+	if (Twinkle.getPref('combinedSingletMenus') === true) {
+		mainGroupOptions.push({
+			value: 'singlecombined',
+			label: uls('单层级消息', '單層級訊息'),
+			selected: defaultGroup === 3 || defaultGroup === 4,
+		});
+	} else {
+		mainGroupOptions.push(
+			{
+				value: 'singlenotice',
+				label: uls('单层级提醒', '單層級提醒'),
+				selected: defaultGroup === 3,
+			},
+			{
+				value: 'singlewarn',
+				label: uls('单层级警告', '單層級警告'),
+				selected: defaultGroup === 4,
 			}
-			if (Twinkle.getPref('customWarningList').length) {
-				mainGroupOptions.push({
-					value: 'custom',
-					label: uls('自定义警告', '自訂警告'),
-					selected: defaultGroup === 5,
-				});
-			}
-			mainGroupOptions.push({
-				value: 'kitchensink',
-				label: '所有警告模板',
-				selected: defaultGroup === 6,
-			});
-			const initialMainGroup =
-				mainGroupOptions.find((option) => {
-					return option.selected;
-				})?.value ?? 'autolevel';
-			return h(TwWarnDialog, {
-				title: uls('警告、提醒用户', '警告、提醒使用者'),
-				relevantUserName,
-				mainGroupOptions,
-				initialMainGroup,
-				initialArticle: mw.util.getParamValue('vanarticle') || '',
-				messages: twinklewarn.messages,
-				customWarningList: Twinkle.getPref('customWarningList'),
-				notice,
-				footerLinks: [
-					{text: uls('警告设置', '警告設定'), href: mw.util.getUrl('H:TW/PREF#warn')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#warn')},
-				],
-				onOpenArv: () => {
-					Morebits.wiki.actionCompleted.redirect = null;
-					closeDialog();
-					Twinkle.arv?.callback(relevantUserName);
-				},
-				onClose: () => {
-					closeDialog();
-				},
-			});
+		);
+	}
+	if (Twinkle.getPref('customWarningList').length) {
+		mainGroupOptions.push({
+			value: 'custom',
+			label: uls('自定义警告', '自訂警告'),
+			selected: defaultGroup === 5,
+		});
+	}
+	mainGroupOptions.push({
+		value: 'kitchensink',
+		label: '所有警告模板',
+		selected: defaultGroup === 6,
+	});
+	const initialMainGroup =
+		mainGroupOptions.find((option) => {
+			return option.selected;
+		})?.value ?? 'autolevel';
+	const {close: closeDialog} = mountDialog(TwWarnDialog, {
+		title: uls('警告、提醒用户', '警告、提醒使用者'),
+		relevantUserName,
+		mainGroupOptions,
+		initialMainGroup,
+		initialArticle: mw.util.getParamValue('vanarticle') || '',
+		messages: twinklewarn.messages,
+		customWarningList: Twinkle.getPref('customWarningList'),
+		notice,
+		footerLinks: footerLinks('warn', uls('警告设置', '警告設定')),
+		onOpenArv: () => {
+			Morebits.wiki.actionCompleted.redirect = null;
+			closeDialog();
+			Twinkle.arv?.callback(relevantUserName);
 		},
 	});
-	app.mount(root);
 	// Potential notices for staleness and missed reverts
 	let message = '';
 	let query: Record<string, unknown> = {};

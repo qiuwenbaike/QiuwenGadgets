@@ -1,9 +1,10 @@
 /*! Twinkle.js - twinklebatchundelete.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
 import type {PageItem, TwStatusExposed} from './ui/types';
-import {createApp, h, reactive} from 'vue';
 import TwBatchUndeleteDialog from './ui/TwBatchUndeleteDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -15,18 +16,16 @@ import {uls} from './utils/useUls';
  * `ui/TwBatchUndeleteDialog.vue`; this file provides the module entry and
  * the page-list loading.
  */
-interface TwinkleBatchUndeleteModule {
+export interface TwinkleBatchUndeleteModule {
 	(): void;
 	callback: () => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: {
-		(key: 'batchMax'): string;
-		(key: string): string | boolean;
-	};
-	batchundelete?: TwinkleBatchUndeleteModule;
-};
+declare global {
+	interface TwinkleModules {
+		batchundelete?: TwinkleBatchUndeleteModule;
+	}
+}
 
 const twinklebatchundelete = ((): void => {
 	if (
@@ -46,32 +45,21 @@ const twinklebatchundelete = ((): void => {
 }) as TwinkleBatchUndeleteModule;
 
 twinklebatchundelete.callback = () => {
-	const root = document.createElement('div');
-	document.body.append(root);
 	const list = reactive<PageItem[]>([]);
 	const dialogInstance: {current: TwStatusExposed | null} = {current: null};
-	const app = createApp({
-		render: () => {
-			return h(TwBatchUndeleteDialog, {
-				ref: (instance: unknown) => {
-					dialogInstance.current = (instance as TwStatusExposed) ?? null;
-				},
-				title: uls('批量反删除', '批次反刪除'),
-				list,
-				footerLinks: [
-					{
-						text: uls('Twinkle帮助', 'Twinkle說明'),
-						href: mw.util.getUrl('H:TW/DOC#batchundelete'),
-					},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
+	mountDialog(TwBatchUndeleteDialog, {
+		ref: (instance: unknown) => {
+			dialogInstance.current = (instance as TwStatusExposed) ?? null;
 		},
+		title: uls('批量反删除', '批次反刪除'),
+		list,
+		footerLinks: [
+			{
+				text: uls('Twinkle帮助', 'Twinkle說明'),
+				href: mw.util.getUrl('H:TW/DOC#batchundelete'),
+			},
+		],
 	});
-	app.mount(root);
 	// Init Morebits.status in the dialog before the page list arrives
 	const statusRoot = dialogInstance.current?.getStatusRoot() ?? null;
 	if (statusRoot) {

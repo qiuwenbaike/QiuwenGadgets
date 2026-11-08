@@ -7,21 +7,6 @@ import TwStatus from './TwStatus.vue';
 import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	hatnoteRegex: string;
-	getPref: {
-		(key: 'xfdWatchUser' | 'xfdWatchPage' | 'xfdWatchDiscussion' | 'xfdLogPageName' | 'configPage'): string;
-		(key: 'markXfdPagesAsPatrolled' | 'logXfdNominations'): boolean;
-		(key: 'noLogOnXfdNomination'): string[];
-		(key: string): string | boolean;
-	};
-	xfd: {
-		currentRationale: string | null;
-		printRationale: () => void;
-	};
-};
-
 /** Parameters carried through the nomination workers. */
 interface XfdParams {
 	category: string;
@@ -351,7 +336,7 @@ const callbacks = {
 			} else {
 				pageobj.save();
 			}
-			Twinkle.xfd.currentRationale = null;
+			Twinkle.xfd!.currentRationale = null;
 		},
 		lookupCreation: (targetPage: MorebitsWikiPage): void => {
 			targetPage.getStatusElement().info('完成');
@@ -473,7 +458,7 @@ const ffdCallbacks = {
 		pageobj.setWatchlist(Twinkle.getPref('xfdWatchDiscussion'));
 		pageobj.setCreateOption('recreate');
 		pageobj.append(() => {
-			Twinkle.xfd.currentRationale = null; // any errors from now on do not need to print the rationale, as it is safely saved on-wiki
+			Twinkle.xfd!.currentRationale = null; // any errors from now on do not need to print the rationale, as it is safely saved on-wiki
 		});
 	},
 
@@ -593,8 +578,8 @@ const evaluate = (params: XfdParams, statusContainer: HTMLElement | null, restor
 		return;
 	}
 	Morebits.status.init(statusContainer);
-	Twinkle.xfd.currentRationale = params.xfdreason;
-	Morebits.status.onError(Twinkle.xfd.printRationale);
+	Twinkle.xfd!.currentRationale = params.xfdreason;
+	Morebits.status.onError(Twinkle.xfd!.printRationale);
 	if (!params.category) {
 		Morebits.status.error('错误', '未定义的动作');
 		if (restore) {

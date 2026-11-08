@@ -1,7 +1,8 @@
 /*! Twinkle.js - twinklecopyvio.ts */
-import {createApp, h} from 'vue';
 import {Morebits} from './ui/morebits';
 import TwCopyvioDialog from './ui/TwCopyvioDialog.vue';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
 import {uls} from './utils/useUls';
 
 /**
@@ -15,14 +16,16 @@ import {uls} from './utils/useUls';
  * `callbacks`) live in `ui/TwCopyvioDialog.vue`; this file provides the
  * module entry and the portlet link.
  */
-interface TwinkleCopyvio {
+export interface TwinkleCopyvio {
 	(): void;
 	callback: () => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	copyvio?: TwinkleCopyvio;
-};
+declare global {
+	interface TwinkleModules {
+		copyvio?: TwinkleCopyvio;
+	}
+}
 
 const twinklecopyvio = (() => {
 	// Disable on:
@@ -48,25 +51,10 @@ const twinklecopyvio = (() => {
 }) as TwinkleCopyvio;
 
 twinklecopyvio.callback = () => {
-	const root = document.createElement('div');
-	document.body.append(root);
-	const app = createApp({
-		render: () => {
-			return h(TwCopyvioDialog, {
-				title: uls('提报侵权页面', '提報侵權頁面'),
-				footerLinks: [
-					{text: uls('侵权设置', '侵權設定'), href: mw.util.getUrl('H:TW/PREF#copyvio')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#copyvio')},
-					{text: uls('反馈意见', '回報意見'), href: mw.util.getUrl('HT:TW')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwCopyvioDialog, {
+		title: uls('提报侵权页面', '提報侵權頁面'),
+		footerLinks: footerLinks('copyvio', uls('侵权设置', '侵權設定'), [], true),
 	});
-	app.mount(root);
 };
 
 Twinkle.copyvio = twinklecopyvio;

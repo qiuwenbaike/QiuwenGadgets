@@ -1,6 +1,8 @@
 /*! Twinkle.js - twinklestub.ts */
-import {createApp, h} from 'vue';
+import {Morebits} from './ui/morebits';
 import TwStubDialog from './ui/TwStubDialog.vue';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
 import {uls} from './utils/useUls';
 
 /**
@@ -42,35 +44,18 @@ interface StubArticleData {
 	tagCategories: Record<string, string[] | Record<string, string[]>>;
 }
 
-interface TwinkleStubModule {
+export interface TwinkleStubModule {
 	(): void;
 	callback: () => void;
 	mode: string;
 	article: StubArticleData;
 }
 
-interface MorebitsGlobal {
-	isPageRedirect(): boolean;
-	pageNameNorm: string;
-	string: {
-		toUpperCaseFirstChar(text: string): string;
-	};
+declare global {
+	interface TwinkleModules {
+		stub?: TwinkleStubModule;
+	}
 }
-
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: {
-		(key: 'customStubList'): {
-			value: string;
-			label: string;
-		}[];
-		(key: 'sandboxPage'): string;
-		(key: 'stubArticleSortOrder'): string;
-		(key: string): string | boolean;
-	};
-	stub?: TwinkleStubModule;
-};
-
-const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 
 const twinklestub = ((): void => {
 	if (Morebits.isPageRedirect()) {
@@ -86,8 +71,6 @@ const twinklestub = ((): void => {
 }) as TwinkleStubModule;
 
 twinklestub.callback = () => {
-	const root = document.createElement('div');
-	document.body.append(root);
 	const tagUrl = (tag: string): string => {
 		return mw.util.getUrl(`Template:${Morebits.string.toUpperCaseFirstChar(tag)}`);
 	};
@@ -121,31 +104,22 @@ twinklestub.callback = () => {
 		};
 	});
 	const alphaTags = makeItems(Object.keys(twinklestub.article.tags));
-	const app = createApp({
-		render: () => {
-			return h(TwStubDialog, {
-				title: uls('条目小作品标记', '條目小作品標記'),
-				mode: twinklestub.mode,
-				initialSortOrder: Twinkle.getPref('stubArticleSortOrder') === 'alpha' ? 'alpha' : 'cat',
-				showPatrol: !!document.querySelector('.patrollink'),
-				initialPatrol: Twinkle.getPref('markStubbedPagesAsPatrolled') === true,
-				customTags,
-				catGroups,
-				alphaTags,
-				footerLinks: [
-					{text: uls('小作品說明', '小作品说明'), href: mw.util.getUrl('QW:小作品')},
-					{text: uls('小作品设置', '小作品設定'), href: mw.util.getUrl('H:TW/PREF#stub')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#stub')},
-					{text: uls('反馈意见', '回報意見'), href: mw.util.getUrl('HT:TW')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwStubDialog, {
+		title: uls('条目小作品标记', '條目小作品標記'),
+		mode: twinklestub.mode,
+		initialSortOrder: Twinkle.getPref('stubArticleSortOrder') === 'alpha' ? 'alpha' : 'cat',
+		showPatrol: !!document.querySelector('.patrollink'),
+		initialPatrol: Twinkle.getPref('markStubbedPagesAsPatrolled') === true,
+		customTags,
+		catGroups,
+		alphaTags,
+		footerLinks: footerLinks(
+			'stub',
+			uls('小作品设置', '小作品設定'),
+			[{text: uls('小作品说明', '小作品說明'), href: mw.util.getUrl('QW:小作品')}],
+			true
+		),
 	});
-	app.mount(root);
 };
 
 // Tags for ARTICLES start here

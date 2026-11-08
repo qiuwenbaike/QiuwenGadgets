@@ -1,7 +1,8 @@
 /*! Twinkle.js - friendlytalkback.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
-import {createApp, h} from 'vue';
 import TwTalkbackDialog from './ui/TwTalkbackDialog.vue';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
 import {uls} from './utils/useUls';
 
 /**
@@ -14,15 +15,17 @@ import {uls} from './utils/useUls';
  * `getNoticeWikitext`) live in `ui/TwTalkbackDialog.vue`; this file provides
  * the module entry and the opt-out status check.
  */
-interface TwinkleTalkback {
+export interface TwinkleTalkback {
 	(): void;
 	callback: () => void;
 	optout: string;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	talkback?: TwinkleTalkback;
-};
+declare global {
+	interface TwinkleModules {
+		talkback?: TwinkleTalkback;
+	}
+}
 
 const talkback = (() => {
 	if (!mw.config.get('wgRelevantUserName')) {
@@ -38,28 +41,15 @@ talkback.callback = () => {
 	) {
 		return;
 	}
-	const root = document.createElement('div');
-	document.body.append(root);
-	const app = createApp({
-		render: () => {
-			return h(TwTalkbackDialog, {
-				title: uls('回复通告', '回覆通告'),
-				footerLinks: [
-					{
-						text: uls('关于{{talkback}}', '關於{{talkback}}'),
-						href: mw.util.getUrl('Template:Talkback'),
-					},
-					{text: uls('通告设置', '通告設定'), href: mw.util.getUrl('H:TW/PREF#talkback')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#talkback')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwTalkbackDialog, {
+		title: uls('回复通告', '回覆通告'),
+		footerLinks: footerLinks('talkback', uls('通告设置', '通告設定'), [
+			{
+				text: uls('关于{{talkback}}', '關於{{talkback}}'),
+				href: mw.util.getUrl('Template:Talkback'),
+			},
+		]),
 	});
-	app.mount(root);
 	// Check whether the user has opted out from talkback
 	const query = {
 		action: 'query',

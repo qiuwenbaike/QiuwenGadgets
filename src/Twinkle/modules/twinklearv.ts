@@ -1,6 +1,7 @@
 /*! Twinkle.js - twinklearv.ts */
-import {createApp, h, reactive} from 'vue';
 import TwArvDialog from './ui/TwArvDialog.vue';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -15,7 +16,7 @@ interface TwinkleArvCallback {
 	(uid: string, isIP?: boolean): void;
 }
 
-interface TwinkleArvModule {
+export interface TwinkleArvModule {
 	(): void;
 	callback: TwinkleArvCallback;
 }
@@ -36,9 +37,11 @@ interface ArvBlockQuery {
 	[key: string]: unknown;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	arv?: TwinkleArvModule;
-};
+declare global {
+	interface TwinkleModules {
+		arv?: TwinkleArvModule;
+	}
+}
 
 const twinklearv = (() => {
 	const username = mw.config.get('wgRelevantUserName');
@@ -65,31 +68,20 @@ twinklearv.callback = (uid: string, isIP?: boolean): void => {
 		});
 		return;
 	}
-	const root = document.createElement('div');
-	document.body.append(root);
 	const blockNotice = reactive({
 		text: '',
 		severe: true,
 	});
-	const app = createApp({
-		render: () => {
-			return h(TwArvDialog, {
-				uid,
-				isIP: Boolean(isIP),
-				blockNotice,
-				title: uls('报告用户给管理人员', '報告使用者給管理人員'),
-				footerLinks: [
-					{text: uls('告状设置', '告狀設定'), href: mw.util.getUrl('H:TW/PREF#arv')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW#告狀')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwArvDialog, {
+		uid,
+		isIP: Boolean(isIP),
+		blockNotice,
+		title: uls('报告用户给管理人员', '報告使用者給管理人員'),
+		footerLinks: [
+			{text: uls('告状设置', '告狀設定'), href: mw.util.getUrl('H:TW/PREF#arv')},
+			{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW#告狀')},
+		],
 	});
-	app.mount(root);
 	// Check if the user is blocked, update notice
 	const query: ArvBlockQuery = {
 		action: 'query',

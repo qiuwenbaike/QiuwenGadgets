@@ -1,177 +1,9 @@
 import './twinkle.less';
-import type {TwinkleGlobalBase} from './ui/twinkleGlobal';
+import type {TwinkleConfig, TwinkleFull} from './ui/twinkleGlobal';
 import {api} from './utils/api';
 import {uls} from './utils/useUls';
 
 /*! Twinkle.js - twinkle.ts */
-
-/** Item stored in {@linkcode TwinkleObject.initCallbacks} */
-interface TwinkleInitCallbackItem {
-	func: () => void;
-	name?: string | undefined;
-}
-
-/** Element sortable by namespace, as consumed by {@linkcode TwinkleObject.sortByNamespace} */
-interface TwinkleSortablePage {
-	ns: number;
-	title: string;
-}
-
-/** Element of the `customRevertSummary` preference */
-interface TwinkleRevertSummaryItem {
-	label: string;
-	value: string;
-}
-
-/**
- * The set of Twinkle preferences.
- *
- * Must stay in sync with `Twinkle.config.sections` in twinkleconfig.js,
- * where all of these are made configurable via the preferences panel.
- */
-interface TwinkleConfig {
-	// General
-	userTalkPageMode: string;
-	dialogLargeFont: boolean;
-	disabledModules: string[];
-	disabledSysopModules: string[];
-	// ARV
-	spiWatchReport: string;
-	// Block
-	defaultToBlock64: boolean;
-	defaultToPartialBlocks: boolean;
-	blankTalkpageOnIndefBlock: boolean;
-	watchBlockNotices: string;
-	customBlockReasonList: unknown[];
-	// Fluff (revert and rollback)
-	openTalkPage: string[];
-	openTalkPageOnAutoRevert: boolean;
-	rollbackInPlace: boolean;
-	markRevertedPagesAsMinor: string[];
-	watchRevertedPages: string[];
-	watchRevertedExpiry: string;
-	offerReasonOnNormalRevert: boolean;
-	confirmOnFluff: boolean;
-	showRollbackLinks: string[];
-	customRevertSummary: TwinkleRevertSummaryItem[];
-	// DI (twinkleimage)
-	notifyUserOnDeli: boolean;
-	deliWatchPage: string;
-	deliWatchUser: string;
-	// Protect
-	watchRequestedPages: string;
-	watchPPTaggedPages: string;
-	watchProtectedPages: string;
-	// CSD
-	speedySelectionStyle: string;
-	watchSpeedyPages: string[];
-	watchSpeedyExpiry: string;
-	markSpeedyPagesAsPatrolled: boolean;
-	watchSpeedyUser: string;
-	notifyUserOnSpeedyDeletionNomination: string[];
-	warnUserOnSpeedyDelete: string[];
-	promptForSpeedyDeletionSummary: unknown[];
-	openUserTalkPageOnSpeedyDelete: unknown[];
-	deleteTalkPageOnDelete: boolean;
-	deleteRedirectsOnDelete: boolean;
-	deleteSysopDefaultToDelete: boolean;
-	speedyWindowHeight: number;
-	speedyWindowWidth: number;
-	logSpeedyNominations: boolean;
-	speedyLogPageName: string;
-	noLogOnSpeedyNomination: string[];
-	enlargeG7Input: boolean;
-	// Unlink
-	unlinkNamespaces: string[];
-	// Warn
-	defaultWarningGroup: string;
-	combinedSingletMenus: boolean;
-	watchWarnings: string;
-	oldSelect: boolean;
-	customWarningList: unknown[];
-	autoMenuAfterRollback: boolean;
-	// XfD
-	logXfdNominations: boolean;
-	xfdLogPageName: string;
-	noLogOnXfdNomination: string[];
-	xfdWatchDiscussion: string;
-	xfdWatchPage: string;
-	xfdWatchUser: string;
-	markXfdPagesAsPatrolled: boolean;
-	FwdCsdToXfd: boolean;
-	afdDefaultCategory: string;
-	afdFameDefaultReason: string;
-	afdSubstubDefaultReason: string;
-	XfdClose: string;
-	// Copyvio
-	copyvioWatchPage: string;
-	copyvioWatchUser: string;
-	markCopyvioPagesAsPatrolled: boolean;
-	// Hidden preferences
-	autolevelStaleDays: number;
-	revertMaxRevisions: number;
-	// intentionally limited
-	batchMax: number;
-	batchChunks: number;
-	configPage: string;
-	projectNamespaceName: string;
-	sandboxPage: string;
-	// Deprecated options, as a fallback for add-on scripts/modules
-	summaryAd: string;
-	deletionSummaryAd: string;
-	protectionSummaryAd: string;
-	blockSummaryAd: string;
-	// Tag
-	groupByDefault: boolean;
-	watchTaggedPages: string;
-	watchMergeDiscussions: string;
-	markTaggedPagesAsMinor: boolean;
-	markTaggedPagesAsPatrolled: boolean;
-	tagArticleSortOrder: string;
-	customTagList: unknown[];
-	customFileTagList: unknown[];
-	customRedirectTagList: unknown[];
-	// Stub
-	watchStubbedPages: boolean;
-	markStubbedPagesAsMinor: boolean;
-	markStubbedPagesAsPatrolled: boolean;
-	stubArticleSortOrder: string;
-	customStubList: unknown[];
-	// Talkback
-	markTalkbackAsMinor: boolean;
-	insertTalkbackSignature: boolean;
-	// always sign talkback templates
-	talkbackHeading: string;
-	mailHeading: string;
-	// Skin-dependent portlet settings, filled in below
-	portletArea?: string | null;
-	portletId?: string;
-	portletName?: string | null;
-	portletType?: string | null;
-	portletNext?: string | null;
-}
-
-/**
- * The Twinkle global object shared by all modules.
- *
- * Other modules attach themselves to it (e.g. `Twinkle.fluff`); only the
- * members defined by this file are declared here.
- */
-interface TwinkleObject extends TwinkleGlobalBase {
-	changeTags: string;
-	summaryAd: string;
-	hatnoteRegex: string;
-	initCallbacks: TwinkleInitCallbackItem[];
-	defaultConfig: TwinkleConfig;
-	prefs?: Partial<TwinkleConfig>;
-	getPref<K extends keyof TwinkleConfig>(name: K): TwinkleConfig[K];
-	addPortlet(navigation: string, id: string, text: string, type: string | null, nextnodeid?: string): Element | null;
-	load: () => void;
-	userAgent?: string;
-	disabledModules?: string[];
-	sortByNamespace(first: TwinkleSortablePage, second: TwinkleSortablePage): number;
-	generateBatchPageLinks(checkbox: HTMLInputElement): void;
-}
 
 interface MorebitsGlobal {
 	userIsInGroup(group: string): boolean;
@@ -186,7 +18,7 @@ interface MorebitsGlobal {
 
 declare global {
 	interface Window {
-		Twinkle?: TwinkleObject;
+		Twinkle?: TwinkleFull;
 		TwinkleConfig?: Partial<TwinkleConfig>;
 	}
 }
@@ -195,10 +27,8 @@ const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 
 (function twinkle(): void {
 	const $body = $('body');
-	const Twinkle = {} as TwinkleObject;
-	// The JS-inferred global Twinkle type (from not-yet-converted modules,
-	// e.g. twinklexfd.js) leaks into this property's type; bypass it here
-	(window as {Twinkle?: TwinkleObject}).Twinkle ||= Twinkle; // allow global access
+	const Twinkle = {} as TwinkleFull;
+	(window as {Twinkle?: TwinkleFull}).Twinkle ||= Twinkle; // allow global access
 	// Wrap with anonymous function
 	// Check if account is experienced enough to use Twinkle
 	if (!Morebits.userIsInGroup('autoconfirmed') && !Morebits.userIsInGroup('confirmed')) {
@@ -745,7 +575,7 @@ const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 	// Used in batch, unlink, and deprod to sort pages by namespace, as
 	// json formatversion=2 sorts by pageid instead (#1251)
 	Twinkle.sortByNamespace = (first, second): number => {
-		return first.ns - second.ns || (first.title > second.title ? 1 : -1);
+		return (first.ns ?? 0) - (second.ns ?? 0) || (first.title > second.title ? 1 : -1);
 	};
 	// Used in unlink listings to link the page title
 	Twinkle.generateBatchPageLinks = (checkbox: HTMLInputElement): void => {

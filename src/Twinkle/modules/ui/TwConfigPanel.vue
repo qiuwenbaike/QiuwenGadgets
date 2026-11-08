@@ -7,12 +7,6 @@ import TwConfigListDialog from './TwConfigListDialog.vue';
 import TwStatus from './TwStatus.vue';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string;
-	defaultConfig: Record<string, unknown>;
-	prefs?: Record<string, unknown>;
-};
-
 interface PrefDef {
 	name: string;
 	label?: string;

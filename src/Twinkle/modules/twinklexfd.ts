@@ -1,23 +1,22 @@
 /*! Twinkle.js - twinklexfd.ts */
-import {createApp, h} from 'vue';
 import {Morebits} from './ui/morebits';
 import TwXfdDialog from './ui/TwXfdDialog.vue';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
 import {uls} from './utils/useUls';
 
-interface TwinkleXfdModule {
+export interface TwinkleXfdModule {
 	(): void;
 	callback: () => void;
 	currentRationale: string | null;
 	printRationale: () => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: {
-		(key: 'afdDefaultCategory' | 'afdFameDefaultReason' | 'afdSubstubDefaultReason'): string;
-		(key: string): string | boolean;
-	};
-	xfd?: TwinkleXfdModule;
-};
+declare global {
+	interface TwinkleModules {
+		xfd?: TwinkleXfdModule;
+	}
+}
 
 /**
  * twinklexfd.ts: XFD module
@@ -72,8 +71,6 @@ twinklexfd.printRationale = () => {
 };
 
 twinklexfd.callback = () => {
-	const root = document.createElement('div');
-	document.body.append(root);
 	const afdDefaultCategory = Twinkle.getPref('afdDefaultCategory');
 	let initialXfdCat = 'delete';
 	if (afdDefaultCategory === 'same') {
@@ -88,32 +85,19 @@ twinklexfd.callback = () => {
 	const fwdcsdReason = deleteReasonElement
 		? decodeURIComponent(deleteReasonElement.textContent ?? '').replace(/\+/g, ' ')
 		: '';
-	const app = createApp({
-		render: () => {
-			return h(TwXfdDialog, {
-				title: uls('提交存废讨论', '提交存廢討論'),
-				defaultCategory: mw.config.get('wgNamespaceNumber') === 6 ? 'ffd' : 'afd',
-				showFwdCsd: !!Twinkle.getPref('FwdCsdToXfd'),
-				initialXfdCat,
-				rememberCategory: afdDefaultCategory === 'same',
-				fameDefaultReason: Twinkle.getPref('afdFameDefaultReason'),
-				substubDefaultReason: Twinkle.getPref('afdSubstubDefaultReason'),
-				fwdcsdReason,
-				showNoinclude:
-					mw.config.get('wgNamespaceNumber') === 10 && mw.config.get('wgPageContentModel') !== 'Scribunto',
-				noincludeDisabled: mw.config.get('wgPageContentModel') === 'Scribunto',
-				footerLinks: [
-					{text: uls('提删设置', '提刪設定'), href: mw.util.getUrl('H:TW/PREF#xfd')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#xfd')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwXfdDialog, {
+		title: uls('提交存废讨论', '提交存廢討論'),
+		defaultCategory: mw.config.get('wgNamespaceNumber') === 6 ? 'ffd' : 'afd',
+		showFwdCsd: !!Twinkle.getPref('FwdCsdToXfd'),
+		initialXfdCat,
+		rememberCategory: afdDefaultCategory === 'same',
+		fameDefaultReason: Twinkle.getPref('afdFameDefaultReason'),
+		substubDefaultReason: Twinkle.getPref('afdSubstubDefaultReason'),
+		fwdcsdReason,
+		showNoinclude: mw.config.get('wgNamespaceNumber') === 10 && mw.config.get('wgPageContentModel') !== 'Scribunto',
+		noincludeDisabled: mw.config.get('wgPageContentModel') === 'Scribunto',
+		footerLinks: footerLinks('xfd', uls('提删设置', '提刪設定')),
 	});
-	app.mount(root);
 };
 
 Twinkle.xfd = twinklexfd;

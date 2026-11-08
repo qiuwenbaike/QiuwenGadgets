@@ -1,6 +1,7 @@
 /*! Twinkle.js - twinkleimage.ts */
-import {createApp, h} from 'vue';
 import TwImageDialog from './ui/TwImageDialog.vue';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
 import {uls} from './utils/useUls';
 
 /**
@@ -12,18 +13,16 @@ import {uls} from './utils/useUls';
  * `callbacks.userNotification`, `callbacks.imageList`) lives in
  * `ui/TwImageDialog.vue`; this file only provides the module entry.
  */
-interface TwinkleImageModule {
+export interface TwinkleImageModule {
 	(): void;
 	callback: () => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: {
-		(key: 'notifyUserOnDeli'): boolean;
-		(key: string): string | boolean;
-	};
-	image?: TwinkleImageModule;
-};
+declare global {
+	interface TwinkleModules {
+		image?: TwinkleImageModule;
+	}
+}
 
 const twinkleimage = ((): void => {
 	if (
@@ -41,27 +40,16 @@ const twinkleimage = ((): void => {
 }) as TwinkleImageModule;
 
 twinkleimage.callback = () => {
-	const root = document.createElement('div');
-	document.body.append(root);
-	const app = createApp({
-		render: () => {
-			return h(TwImageDialog, {
-				title: uls('文件快速删除候选', '檔案快速刪除候選'),
-				initialNotify: Twinkle.getPref('notifyUserOnDeli'),
-				footerLinks: [
-					{text: uls('快速删除方针', '快速刪除方針'), href: mw.util.getUrl('QW:CSD')},
-					{text: uls('图权设置', '圖權設定'), href: mw.util.getUrl('H:TW/PREF#image')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#image')},
-					{text: uls('反馈意见', '回報意見'), href: mw.util.getUrl('HT:TW')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwImageDialog, {
+		title: uls('文件快速删除候选', '檔案快速刪除候選'),
+		initialNotify: Twinkle.getPref('notifyUserOnDeli'),
+		footerLinks: footerLinks(
+			'image',
+			uls('图权设置', '圖權設定'),
+			[{text: uls('快速删除方针', '快速刪除方針'), href: mw.util.getUrl('QW:CSD')}],
+			true
+		),
 	});
-	app.mount(root);
 };
 
 Twinkle.image = twinkleimage;

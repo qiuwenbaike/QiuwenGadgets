@@ -9,57 +9,11 @@ import {
 	type MenuItemData,
 } from '@wikimedia/codex';
 import {computed, ref, watch} from 'vue';
+import {Morebits} from './morebits';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
 import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
-
-interface MorebitsStatusElement {
-	error: (text: string) => void;
-	status: (text: string) => void;
-}
-
-interface MorebitsWikiPage {
-	setFollowRedirect: (flag: boolean) => MorebitsWikiPage;
-	load: (callback: () => void) => MorebitsWikiPage;
-	getPageText: () => string;
-	getStatusElement: () => MorebitsStatusElement;
-	setPageSection: (section: number) => MorebitsWikiPage;
-	setEditSummary: (summary: string) => MorebitsWikiPage;
-	setChangeTags: (tags: string[]) => MorebitsWikiPage;
-	setAppendText: (text: string) => MorebitsWikiPage;
-	setWatchlist: (option: string | boolean) => MorebitsWikiPage;
-	append: () => MorebitsWikiPage;
-}
-
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: (key: string) => string;
-};
-
-declare const Morebits: {
-	status: {
-		init: (container: HTMLElement | null) => void;
-		printUserText: (text: string, message: string) => void;
-	};
-	array: {
-		uniq: <T>(array: T[]) => T[];
-	};
-	string: {
-		appendPunctuation: (text: string) => string;
-		toUpperCaseFirstChar: (text: string) => string;
-		toLowerCaseFirstChar: (text: string) => string;
-		escapeRegExp: (text: string) => string;
-	};
-	wiki: {
-		actionCompleted: {redirect: string; notice: string};
-		page: new (title: string, status?: string) => MorebitsWikiPage;
-		preview: new (box: HTMLElement) => {
-			beginRender: (text: string, title?: string) => void;
-			closePreview: () => void;
-		};
-	};
-};
 
 interface ArvParams {
 	category: 'aiv' | 'ewip' | 'username' | 'spi';
@@ -572,7 +526,7 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 						`===\\s*\\{\\{\\s*(?:[Vv]andal)\\s*\\|\\s*(?:1=)?\\s*${Morebits.string.escapeRegExp(
 							uid
 						)}\\s*\\}\\}\\s*===`
-					).test(text)
+					).test(text ?? '')
 				) {
 					ewipPage.getStatusElement().error(uls('报告已存在，将不会加入新的', '報告已存在，將不會加入新的'));
 					Morebits.status.printUserText(
@@ -615,7 +569,7 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 				if (
 					new RegExp(
 						`\\{\\{\\s*user-uaa\\s*\\|\\s*(1\\s*=\\s*)?${Morebits.string.escapeRegExp(uid)}\\s*(\\||\\})`
-					).test(text)
+					).test(text ?? '')
 				) {
 					uaaPage.getStatusElement().error(uls('用户已被列入。', '使用者已被列入。'));
 					const $uaaLink = '<a rel="noopener" target="_blank" href="/wiki/QW:UAA">QW:UAA</a>';
@@ -690,7 +644,7 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 						`===\\s*\\{\\{\\s*(?:[Vv]andal)\\s*\\|\\s*(?:1=)?\\s*${Morebits.string.escapeRegExp(
 							uid
 						)}\\s*\\}\\}\\s*===`
-					).test(text)
+					).test(text ?? '')
 				) {
 					aivPage.getStatusElement().error(uls('报告已存在，将不会加入新的', '報告已存在，將不會加入新的'));
 					Morebits.status.printUserText(

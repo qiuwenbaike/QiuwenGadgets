@@ -15,14 +15,6 @@ import TwStatus from './TwStatus.vue';
 import {uls} from '../utils/useUls';
 import {useShiftClick} from '../utils/useShiftClick';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: {
-		(key: 'batchChunks'): string;
-		(key: string): string | boolean;
-	};
-};
-
 interface BatchUndeleteParams {
 	undel_talk: boolean;
 	reason: string;
@@ -240,7 +232,7 @@ const evaluate = (params: BatchUndeleteParams, statusContainer: HTMLElement | nu
 		return;
 	}
 	const pageUndeleter = new Morebits.batchOperation(uls('反删除页面', '反刪除頁面'));
-	pageUndeleter.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+	pageUndeleter.setOption('chunkSize', Number(Twinkle.getPref('batchChunks')));
 	pageUndeleter.setOption('preserveIndividualStatusLines', true);
 	pageUndeleter.setPageList(pages);
 	pageUndeleter.run((pageName) => {

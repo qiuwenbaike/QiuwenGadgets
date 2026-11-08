@@ -7,11 +7,6 @@ import TwStatus from './TwStatus.vue';
 import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: (key: string) => string | boolean;
-};
-
 interface CopyvioParams {
 	source: string;
 	g4: boolean;

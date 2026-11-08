@@ -16,14 +16,6 @@ import TwStatus from './TwStatus.vue';
 import {uls} from '../utils/useUls';
 import {useShiftClick} from '../utils/useShiftClick';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: {
-		(key: 'batchChunks'): string;
-		(key: string): string | boolean;
-	};
-};
-
 interface BatchDeleteListData {
 	pages: PageItem[];
 	loaded: boolean;
@@ -365,7 +357,7 @@ const callbacks = {
 		const redirectDeleter = new Morebits.batchOperation(
 			uls('正在删除到 ', '正在刪除到 ') + apiobj.params.page + uls(' 的重定向', ' 的重新導向')
 		);
-		redirectDeleter.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+		redirectDeleter.setOption('chunkSize', Number(Twinkle.getPref('batchChunks')));
 		redirectDeleter.setPageList(pages);
 		redirectDeleter.run((pageName) => {
 			const qiuwen_page = new Morebits.wiki.page(pageName, uls('正在删除 ', '正在刪除 ') + pageName);
@@ -412,7 +404,7 @@ const callbacks = {
 			return;
 		}
 		const unlinker = new Morebits.batchOperation(`正在取消到 ${apiobj.params.page}${uls(' 的链入', ' 的連入')}`);
-		unlinker.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+		unlinker.setOption('chunkSize', Number(Twinkle.getPref('batchChunks')));
 		unlinker.setPageList(pages);
 		unlinker.run((pageName) => {
 			const qiuwen_page = new Morebits.wiki.page(
@@ -476,7 +468,7 @@ const callbacks = {
 			return;
 		}
 		const unlinker = new Morebits.batchOperation(`正在取消到 ${apiobj.params.page}${uls(' 的链入', ' 的連入')}`);
-		unlinker.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+		unlinker.setOption('chunkSize', Number(Twinkle.getPref('batchChunks')));
 		unlinker.setPageList(pages);
 		unlinker.run((pageName) => {
 			const qiuwen_page = new Morebits.wiki.page(
@@ -592,7 +584,7 @@ const evaluate = (params: BatchDeleteParams, statusContainer: HTMLElement | null
 	const pageDeleter = new Morebits.batchOperation(
 		delete_page ? uls('正在删除页面', '正在刪除頁面') : uls('正在启动要求的任务', '正在啟動要求的任務')
 	);
-	pageDeleter.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+	pageDeleter.setOption('chunkSize', Number(Twinkle.getPref('batchChunks')));
 	// we only need the initial status lines if we're deleting the pages in the pages array
 	pageDeleter.setOption('preserveIndividualStatusLines', delete_page);
 	pageDeleter.setPageList(pages);
@@ -622,7 +614,7 @@ const evaluate = (params: BatchDeleteParams, statusContainer: HTMLElement | null
 		() => {
 			if (delete_subpages) {
 				const subpageDeleter = new Morebits.batchOperation(uls('正在删除子页面', '正在刪除子頁面'));
-				subpageDeleter.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+				subpageDeleter.setOption('chunkSize', Number(Twinkle.getPref('batchChunks')));
 				subpageDeleter.setOption('preserveIndividualStatusLines', true);
 				subpageDeleter.setPageList(subpages);
 				subpageDeleter.run((pageName) => {

@@ -15,15 +15,6 @@ import TwStatus from './TwStatus.vue';
 import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: {
-		(key: 'autolevelStaleDays'): string;
-		(key: 'watchWarnings'): string | boolean;
-		(key: string): string | boolean;
-	};
-};
-
 interface SubEntry {
 	value: string;
 	label: string;
@@ -461,10 +452,7 @@ const autolevelParse = (
 		return;
 	} else {
 		date ||= new Date();
-		const autoTimeout = new Morebits.date(latest.date.getTime()).add(
-			Number.parseInt(Twinkle.getPref('autolevelStaleDays'), 10),
-			'day'
-		);
+		const autoTimeout = new Morebits.date(latest.date.getTime()).add(Twinkle.getPref('autolevelStaleDays'), 'day');
 		if (autoTimeout.isAfter(date)) {
 			if (level === 2) {
 				level = 2;
@@ -693,7 +681,7 @@ const main = (pageobj: MorebitsWikiPage): void => {
 	}
 	pageobj.setEditSummary(summary);
 	pageobj.setChangeTags(Twinkle.changeTags);
-	pageobj.setWatchlist(Twinkle.getPref('watchWarnings') === true);
+	pageobj.setWatchlist(Twinkle.getPref('watchWarnings'));
 	// Get actual warning text
 	const warningText = getWarningWikitext(
 		params.sub_group,

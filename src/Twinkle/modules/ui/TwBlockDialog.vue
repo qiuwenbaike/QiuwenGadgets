@@ -17,14 +17,6 @@ import type {TwStatusExposed} from './types';
 import {api} from '../utils/api';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: {
-		(key: 'blankTalkpageOnIndefBlock'): boolean;
-		(key: string): string | boolean;
-	};
-};
-
 interface PresetOption {
 	label: string;
 	value: string;
@@ -1251,7 +1243,7 @@ const evaluate = (params: BlockParams, statusContainer: HTMLElement | null, rest
 				});
 			}
 			// execute block
-			blockoptions.tags = Twinkle.changeTags;
+			blockoptions.tags = Twinkle.changeTags.split('|');
 			blockoptions.token = mw.user.tokens.get('csrfToken');
 			const mbApi = new Morebits.wiki.api(uls('执行封禁', '執行封鎖'), blockoptions, () => {
 				statusElement.info('完成');
@@ -1318,7 +1310,7 @@ const evaluate = (params: BlockParams, statusContainer: HTMLElement | null, rest
 		unblockoptions['user'] = mw.config.get('wgRelevantUserName') ?? '';
 		// execute unblock
 		// execute unblock
-		unblockoptions['tags'] = Twinkle.changeTags.join('|');
+		unblockoptions['tags'] = Twinkle.changeTags;
 		unblockoptions['token'] = mw.user.tokens.get('csrfToken');
 		const unblockMbApi = new Morebits.wiki.api(uls('执行解除封禁', '執行解除封鎖'), unblockoptions, () => {
 			unblockStatusElement.info('完成');
