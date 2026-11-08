@@ -645,9 +645,6 @@ const callbacks = {
 			case 'temp':
 				summary = uls('模板保护', '模板保護');
 				break;
-			case 'ecp':
-				summary = uls('延伸确认保护', '延伸確認保護');
-				break;
 			case 'full':
 				summary = uls('全保护', '全保護');
 				break;
