@@ -2335,7 +2335,7 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 				? // Gecko etc.
 					document.defaultView.getComputedStyle(body, null).getPropertyValue('direction')
 				: // Not exactly right, but best effort
-					$('body')[0]!.style.direction;
+					document.dir;
 			is_rtl = direction === 'rtl';
 		}
 	};
