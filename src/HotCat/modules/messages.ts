@@ -1,4 +1,4 @@
-const hotCatMessages = (): void => {
+(function hotCatMessages() {
 	const {wgUserLanguage} = mw.config.get();
 
 	if (['zh-hant', 'zh-hk', 'zh-mo', 'zh-tw'].includes(wgUserLanguage)) {
@@ -135,6 +135,4 @@ const hotCatMessages = (): void => {
 			'hotcat-multi_tooltip': '修改多个分类',
 		});
 	}
-};
-
-export {hotCatMessages};
+})();

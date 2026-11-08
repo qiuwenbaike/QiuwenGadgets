@@ -1,7 +1,8 @@
 import './check.less';
+import {getBody} from 'ext.gadget.Util';
 import {mwApi} from './api';
 
-/**
+/*!
  * CheckCategories HotCat Extension –
  * removes the template when categorizing (prompts before) with HotCat and
  * adds a link "Categories are OK" to the category-section
@@ -9,7 +10,7 @@ import {mwApi} from './api';
  * @rev 2 (2014-03-20)
  * @author Rillke, 2012
  */
-(function hotCatCheck() {
+void getBody().then(function hotCatCheck($body: JQuery<HTMLBodyElement>): void {
 	if (
 		mw.config.get('wgNamespaceNumber') !== 6 ||
 		window.HotCatAutoRemoveCheckCatOptOut ||
@@ -46,7 +47,7 @@ import {mwApi} from './api';
 	};
 	// Remove "check categories" when using HotCat
 	// Only executed on first submit
-	$('body').one('submit.checkCatListener', '#hotcatCommitForm', function (e) {
+	$body.one('submit.checkCatListener', '#hotcatCommitForm', function (e) {
 		if (storageItem === 'disabled') {
 			return true;
 		}
@@ -70,7 +71,7 @@ import {mwApi} from './api';
 		const closeDialog = () => {
 			$(document).off('keydown.hotcatCheck');
 			$overlay?.remove();
-			$('body').find('#hotcatCommitForm').trigger('submit');
+			$body.find('#hotcatCommitForm').trigger('submit');
 		};
 		const finishDialog = (storageValue?: string) => {
 			if (storageValue && ($dialogCheckStorage[0] as HTMLInputElement)?.checked) {
@@ -271,7 +272,6 @@ import {mwApi} from './api';
 				} else {
 					$el.text('Edit Done.');
 				}
-				const $body = $('body');
 				$body.find('.checkcategories').hide();
 			};
 			$el.text('Doing..');
@@ -293,8 +293,6 @@ import {mwApi} from './api';
 			cache: false,
 		});
 	});
-	$(function loadHotCatCheck() {
-		const $body = $('body');
-		$body.find('#catlinks').find('ul:first').append($('<li>').append($okLink));
-	});
-})();
+	// Load
+	$body.find('#catlinks').find('ul:first').append($('<li>').append($okLink));
+});
