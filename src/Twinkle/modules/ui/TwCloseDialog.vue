@@ -12,21 +12,6 @@ type MorebitsTalkCheckApi = MorebitsWikiApiWithParams<SubmitParams & {talkPage: 
 /** Matches the `onSuccess` parameter of the `Morebits.wiki.api` constructor. */
 type ApiSuccessCallback = NonNullable<ConstructorParameters<(typeof Morebits.wiki)['api']>[2]>;
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	hatnoteRegex: string;
-	getPref: {
-		(key: 'XfdClose'): string;
-		(key: 'batchdeleteChunks'): number;
-		(key: string): string | boolean | number;
-	};
-	speedy: {
-		callbacks: {
-			parseWikitext: (title: string, wikitext: string, callback: (reason: string) => void) => void;
-		};
-	};
-};
-
 interface CloseOption {
 	value: string;
 	label: string;
@@ -377,7 +362,7 @@ const callbacks = {
 		Morebits.wiki.addCheckpoint();
 		const page = new Morebits.wiki.page(params.title, '删除页面');
 		if (params.code === 'sd') {
-			Twinkle.speedy.callbacks.parseWikitext(params.title, `{{delete|${params.sdreason}}}`, (reason) => {
+			Twinkle.speedy?.callbacks.parseWikitext(params.title, `{{delete|${params.sdreason}}}`, (reason) => {
 				const prompted = prompt('输入删除理由，或点击确定以接受自动生成的：', reason);
 				if (prompted === null) {
 					page.getStatusElement().warn('没有执行删除');

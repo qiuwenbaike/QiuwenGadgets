@@ -1,9 +1,10 @@
 /*! Twinkle.js - twinklebatchprotect.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
-import type {PageItem, ProtectionOptionItem, TwStatusExposed} from './ui/types';
-import {createApp, h, reactive} from 'vue';
+import type {PageItem, TwStatusExposed} from './ui/types';
 import TwBatchProtectDialog from './ui/TwBatchProtectDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -26,23 +27,16 @@ interface ApiQueryPage {
 	protection: {type: string; level: string; expiry: string}[];
 }
 
-interface TwinkleBatchProtectModule {
+export interface TwinkleBatchProtectModule {
 	(): void;
 	callback: () => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: {
-		(key: 'batchChunks' | 'batchMax'): string;
-		(key: string): string | boolean;
-	};
-	protect?: {
-		protectionLevels: ProtectionOptionItem[];
-		protectionLengths: ProtectionOptionItem[];
-	};
-	sortByNamespace: (a: ApiQueryPage, b: ApiQueryPage) => number;
-	batchprotect?: TwinkleBatchProtectModule;
-};
+declare global {
+	interface TwinkleModules {
+		batchprotect?: TwinkleBatchProtectModule;
+	}
+}
 
 const twinklebatchprotect = ((): void => {
 	if (
@@ -56,39 +50,28 @@ const twinklebatchprotect = ((): void => {
 }) as TwinkleBatchProtectModule;
 
 twinklebatchprotect.callback = () => {
-	const root = document.createElement('div');
-	document.body.append(root);
 	const listData = reactive({
 		pages: [] as PageItem[],
 		loaded: false,
 	});
 	const dialogInstance: {current: TwStatusExposed | null} = {current: null};
-	const app = createApp({
-		render: () => {
-			return h(TwBatchProtectDialog, {
-				ref: (instance: unknown) => {
-					dialogInstance.current = (instance as TwStatusExposed) ?? null;
-				},
-				title: '批保',
-				levels: Twinkle.protect?.protectionLevels ?? [],
-				moveLevels: (Twinkle.protect?.protectionLevels ?? []).filter((level) => {
-					return level.value !== 'autoconfirmed';
-				}),
-				lengths: Twinkle.protect?.protectionLengths ?? [],
-				list: listData,
-				footerLinks: [
-					{text: '保护方针', href: mw.util.getUrl('QW:PROT')},
-					{text: uls('帮助文档', '幫助文檔'), href: mw.util.getUrl('H:TW/DOC#保护')},
-					{text: uls('问题反馈', '問題反饋'), href: mw.util.getUrl('HT:TW')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
+	mountDialog(TwBatchProtectDialog, {
+		ref: (instance: unknown) => {
+			dialogInstance.current = (instance as TwStatusExposed) ?? null;
 		},
+		title: '批保',
+		levels: Twinkle.protect?.protectionLevels ?? [],
+		moveLevels: (Twinkle.protect?.protectionLevels ?? []).filter((level) => {
+			return level.value !== 'autoconfirmed';
+		}),
+		lengths: Twinkle.protect?.protectionLengths ?? [],
+		list: listData,
+		footerLinks: [
+			{text: '保护方针', href: mw.util.getUrl('QW:PROT')},
+			{text: uls('帮助文档', '幫助文檔'), href: mw.util.getUrl('H:TW/DOC#保护')},
+			{text: uls('问题反馈', '問題反饋'), href: mw.util.getUrl('HT:TW')},
+		],
 	});
-	app.mount(root);
 	// Init Morebits.status in the dialog before the page list arrives
 	const statusRoot = dialogInstance.current?.getStatusRoot() ?? null;
 	if (statusRoot) {

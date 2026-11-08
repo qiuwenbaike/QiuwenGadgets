@@ -7,22 +7,6 @@ import TwStatus from './TwStatus.vue';
 import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: {
-		(key: 'notifyUserOnDeli' | 'deliWatchPage' | 'deliWatchUser' | 'logSpeedyNominations'): boolean;
-		(key: 'noLogOnSpeedyNomination'): string[];
-		(key: string): string | boolean;
-	};
-	speedy?: {
-		callbacks: {
-			user: {
-				addToLog: (params: ImageParams, initialContrib: string | null) => void;
-			};
-		};
-	};
-};
-
 interface TypeOption {
 	value: string;
 	label: string;
@@ -204,7 +188,7 @@ const callbacks = {
 		editSummary += '）';
 		pageobj.setEditSummary(editSummary);
 		pageobj.setChangeTags(Twinkle.changeTags);
-		pageobj.setWatchlist(Twinkle.getPref('deliWatchPage') === true);
+		pageobj.setWatchlist(Twinkle.getPref('deliWatchPage'));
 		pageobj.setCreateOption('nocreate');
 		pageobj.save();
 	},
@@ -233,7 +217,7 @@ const callbacks = {
 			);
 			usertalkpage.setChangeTags(Twinkle.changeTags);
 			usertalkpage.setCreateOption('recreate');
-			usertalkpage.setWatchlist(Twinkle.getPref('deliWatchUser') === true);
+			usertalkpage.setWatchlist(Twinkle.getPref('deliWatchUser'));
 			usertalkpage.setFollowRedirect(true, false);
 			usertalkpage.append();
 		}

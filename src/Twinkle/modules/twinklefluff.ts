@@ -1,5 +1,4 @@
 /*! Twinkle.js - twinklefluff.ts */
-import type {TwinkleGlobalBase} from './ui/twinkleGlobal';
 import {uls} from './utils/useUls';
 
 /**
@@ -103,7 +102,7 @@ interface TwinkleFluffAddLinks {
 	oldid(): void;
 }
 
-interface TwinkleFluffModule {
+export interface TwinkleFluffModule {
 	(): void;
 	trustedBots: string[];
 	skipTalk: boolean | null;
@@ -122,13 +121,11 @@ interface TwinkleFluffModule {
 	formatSummary(builtInString: string, userName: string | null, customString?: string): string;
 }
 
-interface TwinkleGlobal extends TwinkleGlobalBase {
-	changeTags?: string;
-	getPref<T = unknown>(name: string): T;
-	fluff?: TwinkleFluffModule;
+declare global {
+	interface TwinkleModules {
+		fluff?: TwinkleFluffModule;
+	}
 }
-
-declare const Twinkle: TwinkleGlobal;
 
 const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 const $body = $('body');

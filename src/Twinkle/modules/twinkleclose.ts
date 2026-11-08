@@ -1,6 +1,6 @@
 /*! Twinkle.js - twinkleclose.ts */
-import {createApp, h} from 'vue';
 import TwCloseDialog from './ui/TwCloseDialog.vue';
+import {mountDialog} from './utils/mountDialog';
 import {uls} from './utils/useUls';
 
 /**
@@ -13,15 +13,16 @@ import {uls} from './utils/useUls';
  * `ui/TwCloseDialog.vue`; this file provides the module entry, the close link
  * setup and the dialog data preparation.
  */
-interface TwinkleClose {
+export interface TwinkleClose {
 	(): void;
 	callback: (title: string, section: string, noop: boolean) => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: (key: string) => string;
-	close?: TwinkleClose;
-};
+declare global {
+	interface TwinkleModules {
+		close?: TwinkleClose;
+	}
+}
 
 const $body = $('body');
 
@@ -98,27 +99,16 @@ const addLinks = (): void => {
 };
 
 twinkleclose.callback = (title, section, noop) => {
-	const root = document.createElement('div');
-	document.body.append(root);
-	const app = createApp({
-		render: () => {
-			return h(TwCloseDialog, {
-				title,
-				section: section ?? '',
-				initialNoop: noop,
-				footerLinks: [
-					{text: '存废讨论设置', href: mw.util.getUrl('H:TW/PREF#close')},
-					{text: 'Twinkle帮助', href: mw.util.getUrl('H:TW/DOC#close')},
-					{text: uls('反馈意见', '回報意見'), href: mw.util.getUrl('HT:TW')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwCloseDialog, {
+		title,
+		section: section ?? '',
+		initialNoop: noop,
+		footerLinks: [
+			{text: '存废讨论设置', href: mw.util.getUrl('H:TW/PREF#close')},
+			{text: 'Twinkle帮助', href: mw.util.getUrl('H:TW/DOC#close')},
+			{text: uls('反馈意见', '回報意見'), href: mw.util.getUrl('HT:TW')},
+		],
 	});
-	app.mount(root);
 };
 
 Twinkle.close = twinkleclose;

@@ -1,8 +1,10 @@
 /*! Twinkle.js - twinklespeedy.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
 import type {SpeedyCriterion, SpeedyLogParams} from './ui/types';
-import {createApp, h, reactive} from 'vue';
 import TwSpeedyDialog from './ui/TwSpeedyDialog.vue';
+import {footerLinks} from './utils/footerLinks.ts';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -24,7 +26,7 @@ type SpeedyCallback = (() => void) & {
 	priorDeletionCount: (dialogData: SpeedyDialogData) => void;
 };
 
-interface TwinkleSpeedyModule {
+export interface TwinkleSpeedyModule {
 	(): void;
 	callback: SpeedyCallback;
 	closeDialog: () => void;
@@ -41,19 +43,18 @@ interface TwinkleSpeedyModule {
 	redirectList: SpeedyCriterion[];
 	normalizeHash: Record<string, string>;
 	callbacks: {
+		parseWikitext: (title: string, wikitext: string, callback: (reason: string) => void) => void;
 		user: {
 			addToLog: (params: SpeedyLogParams, initialContrib: string | null) => void;
 		};
 	};
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: {
-		(key: string): string | boolean;
-	};
-	speedy?: TwinkleSpeedyModule;
-};
+declare global {
+	interface TwinkleModules {
+		speedy?: TwinkleSpeedyModule;
+	}
+}
 
 const twinklespeedy = ((): void => {
 	// Disable on:
@@ -81,55 +82,42 @@ twinklespeedy.callback = (() => {
 		priorCountText: null,
 		priorCountColor: 'inherit',
 	}) as SpeedyDialogData;
-	const root = document.createElement('div');
-	document.body.append(root);
-	let app: ReturnType<typeof createApp> | null = null;
-	const closeDialog = () => {
-		twinklespeedy.closeDialog = () => {};
-		if (app) {
-			app.unmount();
-			app = null;
-		}
-		root.remove();
-	};
-	twinklespeedy.closeDialog = closeDialog;
-	app = createApp({
-		render: () => {
-			return h(TwSpeedyDialog, {
-				isSysop: Morebits.userIsSysop,
-				hasCSD: twinklespeedy.hasCSD,
-				namespace: mw.config.get('wgNamespaceNumber'),
-				isRedirect: mw.config.get('wgIsRedirect'),
-				isIPUserTalk: mw.util.isIPAddress(mw.config.get('wgRelevantUserName') as string),
-				pageContentModel: mw.config.get('wgPageContentModel'),
-				radioClick: Twinkle.getPref('speedySelectionStyle') === 'radioClick',
-				deleteSysopDefaultToDelete: Twinkle.getPref('deleteSysopDefaultToDelete') === true,
-				deleteTalkPageOnDelete: Twinkle.getPref('deleteTalkPageOnDelete') === true,
-				deleteRedirectsOnDelete: Twinkle.getPref('deleteRedirectsOnDelete') === true,
-				hasCSDReason: twinklespeedy.hasCSD
-					? decodeURIComponent(document.querySelector('#delete-reason')?.textContent ?? '').replace(
-							/\+/g,
-							' '
-						)
-					: '',
-				enlargeG7: Twinkle.getPref('enlargeG7Input') === true,
-				priorCountText: dialogData.priorCountText,
-				priorCountColor: dialogData.priorCountColor,
-				customList: twinklespeedy.customRationale,
-				articleList: twinklespeedy.articleList,
-				userList: twinklespeedy.userList,
-				usertalkList: twinklespeedy.usertalkList,
-				fileList: twinklespeedy.fileList,
-				categoryList: twinklespeedy.categoryList,
-				draftList: twinklespeedy.draftList,
-				talkList: twinklespeedy.talkList,
-				generalList: twinklespeedy.generalList,
-				redirectList: twinklespeedy.redirectList,
-				onClose: closeDialog,
-			});
-		},
+	const {close} = mountDialog(TwSpeedyDialog, {
+		isSysop: Morebits.userIsSysop,
+		hasCSD: twinklespeedy.hasCSD,
+		namespace: mw.config.get('wgNamespaceNumber'),
+		isRedirect: mw.config.get('wgIsRedirect'),
+		isIPUserTalk: mw.util.isIPAddress(mw.config.get('wgRelevantUserName') as string),
+		pageContentModel: mw.config.get('wgPageContentModel'),
+		radioClick: Twinkle.getPref('speedySelectionStyle') === 'radioClick',
+		deleteSysopDefaultToDelete: Twinkle.getPref('deleteSysopDefaultToDelete') === true,
+		deleteTalkPageOnDelete: Twinkle.getPref('deleteTalkPageOnDelete') === true,
+		deleteRedirectsOnDelete: Twinkle.getPref('deleteRedirectsOnDelete') === true,
+		hasCSDReason: twinklespeedy.hasCSD
+			? decodeURIComponent(document.querySelector('#delete-reason')?.textContent ?? '').replace(/\+/g, ' ')
+			: '',
+		enlargeG7: Twinkle.getPref('enlargeG7Input') === true,
+		priorCountText: dialogData.priorCountText,
+		priorCountColor: dialogData.priorCountColor,
+		customList: twinklespeedy.customRationale,
+		articleList: twinklespeedy.articleList,
+		userList: twinklespeedy.userList,
+		usertalkList: twinklespeedy.usertalkList,
+		fileList: twinklespeedy.fileList,
+		categoryList: twinklespeedy.categoryList,
+		draftList: twinklespeedy.draftList,
+		talkList: twinklespeedy.talkList,
+		generalList: twinklespeedy.generalList,
+		redirectList: twinklespeedy.redirectList,
+		footerLinks: footerLinks('speedy', uls('速删设置', '速刪設定'), [
+			{text: uls('快速删除方针', '快速刪除方針'), href: mw.util.getUrl('QW:CSD')},
+		]),
 	});
-	app.mount(root);
+	// Used by the post-deletion tool links (protect/unlink) to close the dialog
+	twinklespeedy.closeDialog = () => {
+		twinklespeedy.closeDialog = () => {};
+		close();
+	};
 	// Check for prior deletions.  Just once, upon init
 	twinklespeedy.callback.priorDeletionCount(dialogData);
 }) as SpeedyCallback;
@@ -449,10 +437,39 @@ twinklespeedy.normalizeHash = {
 // the params used are:
 //   for CSD: params.values, params.normalizeds  (note: normalizeds is an array)
 //   for DI: params.fromDI = true, params.templatename, params.normalized  (note: normalized is a string)
+// Shared with twinkleclose: parse a deletion template into a plain-text reason
 twinklespeedy.callbacks = {
+	parseWikitext: (title: string, wikitext: string, callback: (reason: string) => void): void => {
+		const query = {
+			action: 'parse',
+			prop: 'text',
+			pst: 'true',
+			text: wikitext,
+			contentmodel: 'wikitext',
+			title,
+		};
+		const statusIndicator = new Morebits.status(uls('构造删除理由', '構造刪除理由'));
+		const api = new Morebits.wiki.api(
+			uls('解析删除模板', '解析刪除模板'),
+			query,
+			(apiObj: MorebitsWikiApi) => {
+				const xmlDoc = apiObj.getXML() as unknown as XMLDocument;
+				const raw = xmlDoc.querySelector('text')?.childNodes[0]?.nodeValue ?? '';
+				const reason = decodeURIComponent($(raw).find('#delete-reason').text().replace(/\+/g, ' '));
+				if (reason) {
+					statusIndicator.info('完成');
+				} else {
+					statusIndicator.warn(uls('未能从删除模板生成删除理由', '未能從刪除模板生成刪除理由'));
+				}
+				callback(reason);
+			},
+			statusIndicator
+		);
+		api.post();
+	},
 	user: {
 		addToLog: (params: SpeedyLogParams, initialContrib: string | null): void => {
-			const usl = new Morebits.userspaceLogger(Twinkle.getPref('speedyLogPageName') as string);
+			const usl = new Morebits.userspaceLogger(Twinkle.getPref('speedyLogPageName'));
 			usl.initialText = `这是该用户使用[[H:TW|Twinkle]]的速删模块做出的[[QW:CSD|快速删除]]提名列表。\n\n若您不再想保留此日志，请在[[${Twinkle.getPref(
 				'configPage'
 			)}|参数设置]]中关掉，并使用[[QW:CSD#O1|CSD O1]]提交快速删除。${
@@ -481,7 +498,7 @@ twinklespeedy.callbacks = {
 				appendText += `；通知{{user|${initialContrib}}}`;
 			}
 			appendText += ' ~~'.concat('~', '~~\n');
-			usl.changeTags = Twinkle.changeTags as unknown as string;
+			usl.changeTags = Twinkle.changeTags;
 			usl.log(
 				appendText,
 				uls('记录对[[', '記錄對[[') + Morebits.pageNameNorm + uls(']]的快速删除提名', ']]的快速刪除提名')

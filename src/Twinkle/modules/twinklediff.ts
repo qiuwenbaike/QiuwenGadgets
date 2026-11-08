@@ -1,5 +1,5 @@
 /*! Twinkle.js - twinklediff.ts */
-import type {TwinkleGlobalBase} from './ui/twinkleGlobal';
+import {Morebits, type MorebitsWikiApiWithParams, newParamsApi} from './ui/morebits';
 import {uls} from './utils/useUls';
 
 /**
@@ -12,47 +12,19 @@ interface DiffApiParams {
 	user: string | null;
 }
 
-interface MorebitsStatusElement {
-	error(message: string): void;
-	info(message?: string): void;
-	status(message: string): void;
-}
-
-interface MorebitsApi<TParams> {
-	params: TParams;
-	statelem: MorebitsStatusElement;
-	responseXML: Document;
-	post(): void;
-}
-
-interface MorebitsGlobal {
-	status: {
-		init(element?: HTMLElement | null): void;
-	};
-	wiki: {
-		api: new <TParams>(
-			statusText: string,
-			query: Record<string, unknown>,
-			callback?: (apiobj: MorebitsApi<TParams>) => void
-		) => MorebitsApi<TParams>;
-	};
-}
-
-interface TwinkleDiffModule {
+export interface TwinkleDiffModule {
 	(): void;
 	evaluate(me: boolean): void;
 	callbacks: {
-		main(apiobj: MorebitsApi<DiffApiParams>): void;
+		main(apiobj: MorebitsWikiApiWithParams<DiffApiParams>): void;
 	};
 }
 
-interface TwinkleGlobal extends TwinkleGlobalBase {
-	diff?: TwinkleDiffModule;
+declare global {
+	interface TwinkleModules {
+		diff?: TwinkleDiffModule;
+	}
 }
-
-declare const Twinkle: TwinkleGlobal;
-
-const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 
 const twinklediff = ((): void => {
 	if (mw.config.get('wgNamespaceNumber') < 0 || !mw.config.get('wgArticleId')) {
@@ -119,7 +91,7 @@ twinklediff.evaluate = (me) => {
 		rvuser: user,
 	};
 	Morebits.status.init(document.querySelector<HTMLElement>('#mw-content-text'));
-	const api = new Morebits.wiki.api(
+	const api = newParamsApi<DiffApiParams>(
 		uls('抓取最初贡献者信息', '抓取最初貢獻者資訊'),
 		query,
 		twinklediff.callbacks.main
@@ -132,8 +104,12 @@ twinklediff.evaluate = (me) => {
 
 twinklediff.callbacks = {
 	main: (self) => {
-		const xmlDoc = self.responseXML;
-		const revid = $(xmlDoc).find('rev').attr('revid');
+		const xmlDoc = self.getXML();
+		const revid = xmlDoc
+			? $(xmlDoc as XMLDocument)
+					.find('rev')
+					.attr('revid')
+			: undefined;
 		if (!revid) {
 			self.statelem.error(
 				uls('未找到合适的早期版本，或 ', '未找到合適的早期版本，或 ') +

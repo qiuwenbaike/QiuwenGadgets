@@ -5,34 +5,7 @@ import type {SpeedyCriterion, SubgroupDef, TwStatusExposed} from './types';
 import {computed, reactive, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
-import {twinkle} from './twinkleGlobal';
 import {uls} from '../utils/useUls';
-
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	hatnoteRegex: string;
-	closeDialog: () => void;
-	protect?: {callback: () => void};
-	unlink?: {callback: (reason?: string) => void};
-	getPref: {
-		(
-			key:
-				| 'watchSpeedyPages'
-				| 'notifyUserOnSpeedyDeletionNomination'
-				| 'noLogOnSpeedyNomination'
-				| 'promptForSpeedyDeletionSummary'
-		): string[];
-		(key: 'watchSpeedyExpiry'): string;
-		(key: string): string | boolean;
-	};
-	speedy?: {
-		callbacks: {
-			user: {
-				addToLog: (params: SpeedyWorkParams, initialContrib: string | null) => void;
-			};
-		};
-	};
-};
 
 interface CriteriaSection {
 	title: string;
@@ -103,6 +76,10 @@ const props = defineProps<{
 	talkList: SpeedyCriterion[];
 	generalList: SpeedyCriterion[];
 	redirectList: SpeedyCriterion[];
+	footerLinks: {
+		text: string;
+		href: string;
+	}[];
 }>();
 
 const emit = defineEmits<{
@@ -347,8 +324,8 @@ const onSelectionChange = (value: string, modelValue: string | number | boolean 
 		// Faithful port of the sysop single-select linkage: checking a criterion
 		// updates the "open user talk page" option from the preference
 		if (sysopMode.value && !isMultiple.value) {
-			const normalized = twinkle.speedy.normalizeHash[value] ?? value;
-			const prefs = twinkle.getPref('openUserTalkPageOnSpeedyDelete');
+			const normalized = Twinkle.speedy?.normalizeHash[value] ?? value;
+			const prefs = Twinkle.getPref('openUserTalkPageOnSpeedyDelete');
 			openusertalk.value = Array.isArray(prefs) && prefs.includes(normalized);
 		}
 		if (props.radioClick && !isMultiple.value && !hasSubgroup(findCriterion(value))) {
@@ -406,11 +383,6 @@ const resolvedPrimaryAction = computed(() => (usePrimaryAction.value ? primaryAc
 const openUserTalkLinkLabel = uls('开启用户讨论页', '開啟使用者討論頁');
 
 // URLs computed in script scope (template cannot access `mw` directly)
-const footerLinks = computed(() => [
-	{text: uls('快速删除方针', '快速刪除方針'), href: mw.util.getUrl('QW:CSD')},
-	{text: uls('速删设置', '速刪設定'), href: mw.util.getUrl('H:TW/PREF#speedy')},
-	{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#speedy')},
-]);
 const specialSdUrl = computed(() => mw.util.getUrl('QW:SPECIALSD'));
 const priorLogUrl = computed(() => mw.util.getUrl('Special:Log', {page: mw.config.get('wgPageName')}));
 
@@ -596,35 +568,6 @@ const getTemplateCodeAndParams = (params: SpeedyWorkParams): [code: string, utpa
 	return [code, params.utparams];
 };
 
-const parseWikitext = (title: string, wikitext: string, callback: (reason: string) => void): void => {
-	const query = {
-		action: 'parse',
-		prop: 'text',
-		pst: 'true',
-		text: wikitext,
-		contentmodel: 'wikitext',
-		title,
-	};
-	const statusIndicator = new Morebits.status(uls('构造删除理由', '構造刪除理由'));
-	const api = new Morebits.wiki.api(
-		uls('解析删除模板', '解析刪除模板'),
-		query,
-		(apiObj: MorebitsWikiApi) => {
-			const xmlDoc = apiObj.getXML() as unknown as XMLDocument;
-			const raw = xmlDoc.querySelector('text')?.childNodes[0]?.nodeValue ?? '';
-			const reason = decodeURIComponent($(raw).find('#delete-reason').text().replace(/\+/g, ' '));
-			if (reason) {
-				statusIndicator.info('完成');
-			} else {
-				statusIndicator.warn(uls('未能从删除模板生成删除理由', '未能從刪除模板生成刪除理由'));
-			}
-			callback(reason);
-		},
-		statusIndicator
-	);
-	api.post();
-};
-
 const sysopCallbacks = {
 	main: (params: SpeedyWorkParams): void => {
 		let reason;
@@ -635,7 +578,7 @@ const sysopCallbacks = {
 			sysopCallbacks.deletePage(reason, params);
 		} else {
 			const [code] = getTemplateCodeAndParams(params);
-			parseWikitext(mw.config.get('wgPageName') ?? '', code, (deleteReason) => {
+			Twinkle.speedy?.callbacks.parseWikitext(mw.config.get('wgPageName') ?? '', code, (deleteReason) => {
 				let reason: string | null = deleteReason;
 				if (params.promptForSummary) {
 					reason =
@@ -1085,7 +1028,7 @@ const userCallbacks = {
 const evaluate = (params: SpeedyParams, statusContainer: HTMLElement | null, restore?: () => void): void => {
 	const values = params.values;
 	const normalizeds = values.map((value) => {
-		return twinkle.speedy.normalizeHash[value] ?? value;
+		return Twinkle.speedy?.normalizeHash[value] ?? value;
 	});
 	let watchPage: string | boolean | undefined;
 	if (params.tagOnly) {

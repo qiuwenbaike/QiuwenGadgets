@@ -9,14 +9,6 @@ import {normalizeExpiry} from '../utils/utc8';
 import {uls} from '../utils/useUls';
 import {useShiftClick} from '../utils/useShiftClick';
 
-declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: {
-		(key: 'batchChunks'): string;
-		(key: string): string | boolean;
-	};
-};
-
 interface ProtectListData {
 	pages: PageItem[];
 	loaded: boolean;
@@ -312,7 +304,7 @@ const evaluate = (params: BatchProtectParams, statusContainer: HTMLElement | nul
 		return;
 	}
 	const batchOperation = new Morebits.batchOperation('应用保护设置');
-	batchOperation.setOption('chunkSize', Number.parseInt(Twinkle.getPref('batchChunks'), 10));
+	batchOperation.setOption('chunkSize', Number(Twinkle.getPref('batchChunks')));
 	batchOperation.setOption('preserveIndividualStatusLines', true);
 	batchOperation.setPageList(params.pages);
 	batchOperation.run((pageName) => {

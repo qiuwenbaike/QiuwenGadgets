@@ -47,19 +47,18 @@ interface CommonSets {
 	namespacesNoSpecial: Record<string, string>;
 }
 
-interface TwinkleConfigModule {
+export interface TwinkleConfigModule {
 	watchlistEnums: Record<string, string>;
 	commonSets: CommonSets;
 	sections: ConfigSection[];
 	init: () => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string;
-	defaultConfig: Record<string, unknown>;
-	getPref: (key: string) => unknown;
-	config?: TwinkleConfigModule;
-};
+declare global {
+	interface TwinkleModules {
+		config?: TwinkleConfigModule;
+	}
+}
 
 const watchlistEnums: Record<string, string> = {
 	yes: uls('永久加入到监视列表', '永久加入到監視清單'),

@@ -1,6 +1,8 @@
 /*! Twinkle.js - friendlytag.ts */
-import {createApp, h, reactive} from 'vue';
 import TwTagDialog from './ui/TwTagDialog.vue';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -97,15 +99,16 @@ interface CustomTagItem {
 	subgroup?: SubgroupItem[];
 }
 
-interface TwinkleTagModule {
+export interface TwinkleTagModule {
 	(): void;
 	callback: () => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: (key: string) => string | boolean | CustomTagItem[];
-	tag?: TwinkleTagModule;
-};
+declare global {
+	interface TwinkleModules {
+		tag?: TwinkleTagModule;
+	}
+}
 
 const $body = $('body');
 // Page mode, determined once at init and passed to the dialog as props
@@ -153,8 +156,6 @@ friendlytag.callback = (): void => {
 		return;
 	}
 	const currentMode: 'article' | 'file' | 'redirect' = modeEn;
-	const root = document.createElement('div');
-	document.body.append(root);
 	// Build sorting and lookup object flatObject, which is always
 	// needed but also used to generate the alphabetical list
 	const flatObject: Record<string, {description: string; excludeMI: boolean}> = {};
@@ -274,45 +275,33 @@ friendlytag.callback = (): void => {
 			title = uls('重定向标记', '重新導向標記');
 			break;
 	}
-	const app = createApp({
-		render: () => {
-			return h(TwTagDialog, {
-				mode: currentMode,
-				title,
-				canRemove,
-				isMainspace: mw.config.get('wgNamespaceNumber') === 0,
-				initialSortOrder: Twinkle.getPref('tagArticleSortOrder') === 'alpha' ? 'alpha' : 'cat',
-				initialGroup: !!Twinkle.getPref('groupByDefault'),
-				showPatrol: !!document.querySelector('.patrollink'),
-				initialPatrol: !!Twinkle.getPref('markTaggedPagesAsPatrolled'),
-				articleGroups,
-				alphaTags,
-				alreadyPresentTags: alreadyPresent,
-				flatDescriptions: Object.fromEntries(
-					Object.entries(flatObject).map(([tag, info]) => {
-						return [tag, info.description];
-					})
-				),
-				flatExcludeMI: Object.fromEntries(
-					Object.entries(flatObject).map(([tag, info]) => {
-						return [tag, info.excludeMI];
-					})
-				),
-				fileGroups,
-				redirectGroups,
-				customGroups,
-				footerLinks: [
-					{text: uls('标记设置', '標記設定'), href: mw.util.getUrl('H:TW/PREF#tag')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#tag')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
-		},
+	mountDialog(TwTagDialog, {
+		mode: currentMode,
+		title,
+		canRemove,
+		isMainspace: mw.config.get('wgNamespaceNumber') === 0,
+		initialSortOrder: Twinkle.getPref('tagArticleSortOrder') === 'alpha' ? 'alpha' : 'cat',
+		initialGroup: !!Twinkle.getPref('groupByDefault'),
+		showPatrol: !!document.querySelector('.patrollink'),
+		initialPatrol: !!Twinkle.getPref('markTaggedPagesAsPatrolled'),
+		articleGroups,
+		alphaTags,
+		alreadyPresentTags: alreadyPresent,
+		flatDescriptions: Object.fromEntries(
+			Object.entries(flatObject).map(([tag, info]) => {
+				return [tag, info.description];
+			})
+		),
+		flatExcludeMI: Object.fromEntries(
+			Object.entries(flatObject).map(([tag, info]) => {
+				return [tag, info.excludeMI];
+			})
+		),
+		fileGroups,
+		redirectGroups,
+		customGroups,
+		footerLinks: footerLinks('tag', uls('标记设置', '標記設定')),
 	});
-	app.mount(root);
 	if (currentMode === 'article') {
 		const presentTags: string[] = [];
 		if (canRemove) {

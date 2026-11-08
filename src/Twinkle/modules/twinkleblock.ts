@@ -1,9 +1,11 @@
 /*! Twinkle.js - twinkleblock.ts */
-import {createApp, h, reactive} from 'vue';
 import {Morebits} from './ui/morebits';
 import TwBlockDialog from './ui/TwBlockDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
 import {api} from './utils/api';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -131,7 +133,7 @@ interface DialogData {
 	templateCheck?: boolean;
 }
 
-interface TwinkleBlock {
+export interface TwinkleBlock {
 	(): void;
 	callback: () => void;
 	fetchedData: Record<string, UserInfoResponse>;
@@ -151,18 +153,11 @@ interface TwinkleBlock {
 	blockGroupsPartial: BlockGroup[];
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	changeTags: string[];
-	getPref: {
-		(key: 'customBlockReasonList'): {
-			value: string;
-			label: string;
-		}[];
-		(key: 'defaultToPartialBlocks' | 'defaultToBlock64'): boolean;
-		(key: string): string | boolean;
-	};
-	block?: TwinkleBlock;
-};
+declare global {
+	interface TwinkleModules {
+		block?: TwinkleBlock;
+	}
+}
 
 const $body = $('body');
 
@@ -411,17 +406,11 @@ twinkleblock.callback = () => {
 		return;
 	}
 	currentBlockInfo = undefined;
-	let app: ReturnType<typeof createApp> | null = null;
-	let root: HTMLElement | null = null;
-	const mountDialog = () => {
+	let dialog: {close: () => void} | null = null;
+	const mountBlockDialog = () => {
 		// Clean up preset data (defaults, etc.), done exactly once
 		twinkleblock.transformBlockPresets();
-		if (root) {
-			app?.unmount();
-			root.remove();
-		}
-		root = document.createElement('div');
-		document.body.append(root);
+		dialog?.close();
 		const partialChecked =
 			blockedUserName === relevantUserName && currentBlockInfo
 				? currentBlockInfo.partial === ''
@@ -438,70 +427,56 @@ twinkleblock.callback = () => {
 		const data = dialogData;
 		const sixtyFour = Morebits.ip.get64(mw.config.get('wgRelevantUserName') ?? '');
 		const sixtyFourAvailable = !!sixtyFour && sixtyFour !== mw.config.get('wgRelevantUserName');
-		app = createApp({
-			render: () => {
-				return h(TwBlockDialog, {
-					key: dialogEpoch,
-					title: uls('封禁或向', '封鎖或向') + relevantUserName + uls('发出封禁模板', '發出封鎖模板'),
-					showBlock: Morebits.userIsSysop,
-					showTemplate: Morebits.userIsSysop,
-					showTag: isRegistered,
-					showProtect: isRegistered && Morebits.userIsSysop,
-					showUnblock: Morebits.userIsSysop,
-					initialBlock: Morebits.userIsSysop,
-					initialTemplate:
-						Morebits.userIsSysop && !Morebits.ip.isRange(mw.config.get('wgRelevantUserName') ?? ''),
-					initialPartial: partialChecked,
-					initialUnblock: false,
-					sixtyFourAvailable,
-					initialBlock64: Twinkle.getPref('defaultToBlock64'),
-					presetGroups: data.presetGroups,
-					templateGroups: data.templateGroups,
-					presetsInfo: twinkleblock.blockPresetsInfo,
-					expiryPresetOptions: twinkleblock.expiryPresetOptions,
-					namespaces: twinkleblock.namespaceOptions,
-					isRegistered: data.isRegistered,
-					userIsBot: data.userIsBot,
-					notices: data.notices,
-					relevantUserName,
-					blockLogId,
-					currentBlockInfo,
-					footerLinks: [
-						{text: uls('封禁方针', '封鎖方針'), href: mw.util.getUrl('QW:BLOCK')},
-						{text: uls('封禁设置', '封鎖設定'), href: mw.util.getUrl('H:TW/PREF#block')},
-						{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#block')},
-					],
-					onBlock64Changed: (checked: boolean) => {
-						// Faithful port of Twinkle.block.callback.change_block64
-						const wgRelevantName = mw.config.get('wgRelevantUserName') ?? '';
-						const originalIsRange = Morebits.ip.isRange(wgRelevantName);
-						relevantUserName = checked
-							? Morebits.ip.get64(wgRelevantName) || wgRelevantName
-							: wgRelevantName;
-						const regenerate = () => {
-							dialogEpoch += 1;
-							mountDialog();
-						};
-						const cached = twinkleblock.fetchedData[relevantUserName];
-						if (cached) {
-							twinkleblock.processUserInfo(cached, regenerate);
-						} else {
-							twinkleblock.fetchUserInfo(regenerate);
-						}
-						if (!checked && dialogData) {
-							dialogData.templateCheck = originalIsRange;
-						}
-					},
-					onClose: () => {
-						app?.unmount();
-						root?.remove();
-					},
-				});
+		dialog = mountDialog(TwBlockDialog, {
+			key: dialogEpoch,
+			title: uls('封禁或向', '封鎖或向') + relevantUserName + uls('发出封禁模板', '發出封鎖模板'),
+			showBlock: Morebits.userIsSysop,
+			showTemplate: Morebits.userIsSysop,
+			showTag: isRegistered,
+			showProtect: isRegistered && Morebits.userIsSysop,
+			showUnblock: Morebits.userIsSysop,
+			initialBlock: Morebits.userIsSysop,
+			initialTemplate: Morebits.userIsSysop && !Morebits.ip.isRange(mw.config.get('wgRelevantUserName') ?? ''),
+			initialPartial: partialChecked,
+			initialUnblock: false,
+			sixtyFourAvailable,
+			initialBlock64: Twinkle.getPref('defaultToBlock64'),
+			presetGroups: data.presetGroups,
+			templateGroups: data.templateGroups,
+			presetsInfo: twinkleblock.blockPresetsInfo,
+			expiryPresetOptions: twinkleblock.expiryPresetOptions,
+			namespaces: twinkleblock.namespaceOptions,
+			isRegistered: data.isRegistered,
+			userIsBot: data.userIsBot,
+			notices: data.notices,
+			relevantUserName,
+			blockLogId,
+			currentBlockInfo,
+			footerLinks: footerLinks('block', uls('封禁设置', '封鎖設定'), [
+				{text: uls('封禁方针', '封鎖方針'), href: mw.util.getUrl('QW:BLOCK')},
+			]),
+			onBlock64Changed: (checked: boolean) => {
+				// Faithful port of Twinkle.block.callback.change_block64
+				const wgRelevantName = mw.config.get('wgRelevantUserName') ?? '';
+				const originalIsRange = Morebits.ip.isRange(wgRelevantName);
+				relevantUserName = checked ? Morebits.ip.get64(wgRelevantName) || wgRelevantName : wgRelevantName;
+				const regenerate = () => {
+					dialogEpoch += 1;
+					mountBlockDialog();
+				};
+				const cached = twinkleblock.fetchedData[relevantUserName];
+				if (cached) {
+					twinkleblock.processUserInfo(cached, regenerate);
+				} else {
+					twinkleblock.fetchUserInfo(regenerate);
+				}
+				if (!checked && dialogData) {
+					dialogData.templateCheck = originalIsRange;
+				}
 			},
 		});
-		app.mount(root);
 	};
-	twinkleblock.fetchUserInfo(mountDialog);
+	twinkleblock.fetchUserInfo(mountBlockDialog);
 };
 
 // Store fetched user data, only relevant if switching IPv6 to a /64

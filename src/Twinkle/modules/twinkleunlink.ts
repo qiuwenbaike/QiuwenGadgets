@@ -1,8 +1,10 @@
 /*! Twinkle.js - twinkleunlink.ts */
 import {Morebits, type MorebitsWikiApi, type MorebitsWikiApiWithParams} from './ui/morebits';
 import type {TwStatusExposed, UnlinkListData} from './ui/types';
-import {createApp, h, reactive} from 'vue';
 import TwUnlinkDialog from './ui/TwUnlinkDialog.vue';
+import {footerLinks} from './utils/footerLinks';
+import {mountDialog} from './utils/mountDialog';
+import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
 /**
@@ -18,20 +20,16 @@ interface ApiListTitle {
 	title: string;
 }
 
-interface TwinkleUnlinkModule {
+export interface TwinkleUnlinkModule {
 	(): void;
 	callback: (presetReason?: string) => void;
 }
 
-declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
-	getPref: {
-		(key: 'sandboxPage'): string;
-		(key: 'unlinkNamespaces'): string[];
-		(key: string): string | boolean;
-	};
-	sortByNamespace: (a: ApiListTitle, b: ApiListTitle) => number;
-	unlink?: TwinkleUnlinkModule;
-};
+declare global {
+	interface TwinkleModules {
+		unlink?: TwinkleUnlinkModule;
+	}
+}
 
 const twinkleunlink = ((): void => {
 	if (
@@ -54,8 +52,6 @@ const twinkleunlink = ((): void => {
 // the parameter is used when invoking unlink from admin speedy
 twinkleunlink.callback = (presetReason?: string) => {
 	const fileSpace = mw.config.get('wgNamespaceNumber') === 6;
-	const root = document.createElement('div');
-	document.body.append(root);
 	const listData = reactive<UnlinkListData>({
 		backlinks: [],
 		imageusage: [],
@@ -82,29 +78,17 @@ twinkleunlink.callback = (presetReason?: string) => {
 		`<code>{{${escape(mw.config.get('wgTitle') ?? '')}}}</code>` +
 		`${uls('将会被移除', '將會被移除')}${uls('。请小心使用。', '。請小心使用。')}`;
 	const dialogInstance: {current: TwStatusExposed | null} = {current: null};
-	const app = createApp({
-		render: () => {
-			return h(TwUnlinkDialog, {
-				ref: (instance: unknown) => {
-					dialogInstance.current = (instance as TwStatusExposed) ?? null;
-				},
-				title: uls('取消链入', '取消連入') + (fileSpace ? uls('和模板、文件使用', '和模板、檔案使用') : ''),
-				fileSpace,
-				presetReason: presetReason || '',
-				docHtml,
-				list: listData,
-				footerLinks: [
-					{text: uls('链入设置', '連入設定'), href: mw.util.getUrl('H:TW/PREF#unlink')},
-					{text: uls('Twinkle帮助', 'Twinkle說明'), href: mw.util.getUrl('H:TW/DOC#unlink')},
-				],
-				onClose: () => {
-					app.unmount();
-					root.remove();
-				},
-			});
+	mountDialog(TwUnlinkDialog, {
+		ref: (instance: unknown) => {
+			dialogInstance.current = (instance as TwStatusExposed) ?? null;
 		},
+		title: uls('取消链入', '取消連入') + (fileSpace ? uls('和模板、文件使用', '和模板、檔案使用') : ''),
+		fileSpace,
+		presetReason: presetReason || '',
+		docHtml,
+		list: listData,
+		footerLinks: footerLinks('unlink', uls('链入设置', '連入設定')),
 	});
-	app.mount(root);
 	// Init Morebits.status in the dialog before the page list arrives
 	const statusRoot = dialogInstance.current?.getStatusRoot() ?? null;
 	if (statusRoot) {
