@@ -52,7 +52,7 @@
 		"incremental": true,
 		"skipLibCheck": true
 	},
-	"exclude": ["node_modules/types-mediawiki/scripts"],
+	"exclude": ["node_modules/types-mediawiki/scripts", "src/select2/select2.js"],
 	"include": ["node_modules/types-mediawiki", "scripts/**/*", "src/**/*", "src/**/*.vue"],
 
 	"vueCompilerOptions": {
