@@ -1599,7 +1599,7 @@ function AsyncFromSyncIterator(r) {
     var n = this.s.return;
     return void 0 === n ? Promise.resolve({ value: r2, done: true }) : AsyncFromSyncIteratorContinuation(n.apply(this.s, arguments));
   }, throw: function(r2) {
-    var n = this.s.return;
+    var n = this.s.throw;
     return void 0 === n ? Promise.reject(r2) : AsyncFromSyncIteratorContinuation(n.apply(this.s, arguments));
   } }, new AsyncFromSyncIterator(r);
 }
