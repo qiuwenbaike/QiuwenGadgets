@@ -9,7 +9,7 @@ import {normalizeExpiry} from '../utils/utc8';
 import {uls} from '../utils/useUls';
 import {useShiftClick} from '../utils/useShiftClick';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	getPref: {
 		(key: 'batchChunks'): string;
@@ -321,18 +321,18 @@ const evaluate = (params: BatchProtectParams, statusContainer: HTMLElement | nul
 			titles: pageName,
 			format: 'json',
 		};
-		const qiuwen_api = newParamsApi(
+		const api = newParamsApi(
 			`正在检查页面“${pageName}”是否存在`,
 			query,
 			callbacks.main,
 			batchOperation.workerFailure
 		);
-		qiuwen_api.params = {
+		api.params = {
 			page: pageName,
 			batchOperation,
 			...params,
 		};
-		qiuwen_api.post();
+		api.post();
 	});
 };
 </script>

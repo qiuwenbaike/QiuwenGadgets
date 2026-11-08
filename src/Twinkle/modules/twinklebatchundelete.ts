@@ -20,9 +20,7 @@ interface TwinkleBatchUndeleteModule {
 	callback: () => void;
 }
 
-declare const Twinkle: {
-	addInitCallback(func: () => void, name?: string): void;
-	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	getPref: {
 		(key: 'batchMax'): string;
 		(key: string): string | boolean;
@@ -87,7 +85,7 @@ twinklebatchundelete.callback = () => {
 		titles: mw.config.get('wgPageName'),
 		gpllimit: Twinkle.getPref('batchMax'),
 	};
-	const qiuwen_api = new Morebits.wiki.api(uls('抓取页面列表', '抓取頁面列表'), query, (apiobj: MorebitsWikiApi) => {
+	const api = new Morebits.wiki.api(uls('抓取页面列表', '抓取頁面列表'), query, (apiobj: MorebitsWikiApi) => {
 		const xml = apiobj.getResponse() as unknown as XMLDocument;
 		const $pages = $(xml).find('page[missing]');
 		for (const page of $pages.toArray()) {
@@ -111,8 +109,8 @@ twinklebatchundelete.callback = () => {
 		// The page-list query is done; drop the transient status messages
 		dialogInstance.current?.clear();
 	});
-	qiuwen_api.statelem.status(uls('加载中……', '載入中……'));
-	qiuwen_api.post();
+	api.statelem.status(uls('加载中……', '載入中……'));
+	api.post();
 };
 
 Twinkle.batchundelete = twinklebatchundelete;

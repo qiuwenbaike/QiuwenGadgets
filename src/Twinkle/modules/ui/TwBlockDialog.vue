@@ -17,7 +17,7 @@ import type {TwStatusExposed} from './types';
 import {api} from '../utils/api';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	getPref: {
 		(key: 'blankTalkpageOnIndefBlock'): boolean;

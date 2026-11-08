@@ -23,9 +23,7 @@ interface TwinkleUnlinkModule {
 	callback: (presetReason?: string) => void;
 }
 
-declare const Twinkle: {
-	addInitCallback(func: () => void, name?: string): void;
-	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	getPref: {
 		(key: 'sandboxPage'): string;
 		(key: 'unlinkNamespaces'): string[];
@@ -161,17 +159,17 @@ twinkleunlink.callback = (presetReason?: string) => {
 		// The backlink/usage queries are done; drop the transient status messages
 		dialogInstance.current?.clear();
 	};
-	const qiuwen_api = new Morebits.wiki.api(
+	const api = new Morebits.wiki.api(
 		uls('抓取链入', '抓取連入'),
 		query,
 		displayBacklinks as unknown as (apiobj: MorebitsWikiApi) => void
 	) as MorebitsWikiApiWithParams<{list: UnlinkListData; image: boolean}>;
-	qiuwen_api.params = {
+	api.params = {
 		list: listData,
 		image: fileSpace,
 	};
-	qiuwen_api.statelem.status(uls('加载中……', '載入中……'));
-	qiuwen_api.post();
+	api.statelem.status(uls('加载中……', '載入中……'));
+	api.post();
 };
 
 Twinkle.unlink = twinkleunlink;

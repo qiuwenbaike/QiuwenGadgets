@@ -1,6 +1,6 @@
 /*! Twinkle.js - twinklebatchprotect.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
-import type {PageItem, TwStatusExposed} from './ui/types';
+import type {PageItem, ProtectionOptionItem, TwStatusExposed} from './ui/types';
 import {createApp, h, reactive} from 'vue';
 import TwBatchProtectDialog from './ui/TwBatchProtectDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
@@ -16,11 +16,6 @@ import {uls} from './utils/useUls';
  * `ui/TwBatchProtectDialog.vue`; this file provides the module entry and
  * the page-list loading.
  */
-interface ProtectionOptionItem {
-	label: string;
-	value: string;
-}
-
 interface ApiQueryPage {
 	title: string;
 	ns: number;
@@ -36,9 +31,7 @@ interface TwinkleBatchProtectModule {
 	callback: () => void;
 }
 
-declare const Twinkle: {
-	addInitCallback(func: () => void, name?: string): void;
-	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	getPref: {
 		(key: 'batchChunks' | 'batchMax'): string;
 		(key: string): string | boolean;
@@ -129,40 +122,42 @@ twinklebatchprotect.callback = () => {
 		query['titles'] = mw.config.get('wgPageName');
 		query['gpllimit'] = Twinkle.getPref('batchMax');
 	}
-	const qiuwen_api = new Morebits.wiki.api(uls('抓取页面列表', '抓取頁面列表'), query, (apiobj: MorebitsWikiApi) => {
+	const api = new Morebits.wiki.api(uls('抓取页面列表', '抓取頁面列表'), query, (apiobj: MorebitsWikiApi) => {
 		const queryResult = apiobj.getResponse() as unknown as {query?: {pages?: ApiQueryPage[]}};
 		const pages = queryResult.query?.pages ?? [];
 		pages.sort(Twinkle.sortByNamespace);
 		for (const page of pages) {
 			const metadata: string[] = [];
 			const missing = !!page.missing;
-			let editProt;
 			if (missing) {
-				metadata[metadata.length] = '页面不存在';
-				// findLast, avoided for lib compatibility
-				editProt = [...page.protection].reverse().find((protection) => {
-					return protection.type === 'create' && protection.level === 'sysop';
-				});
+				metadata.push('页面不存在');
 			} else {
 				if (page.redirect) {
-					metadata[metadata.length] = '重定向';
+					metadata.push('重定向');
 				}
 				if (page.ns === 6) {
-					metadata[metadata.length] =
-						`上传者：${page.imageinfo?.[0]?.user}，最后编辑者：${page.revisions?.[0]?.user}`;
+					metadata.push(`上传者：${page.imageinfo?.[0]?.user}，最后编辑者：${page.revisions?.[0]?.user}`);
 				} else {
-					metadata[metadata.length] = `${mw.language.convertNumber(page.revisions?.[0]?.size ?? 0)}字节`;
+					metadata.push(`${mw.language.convertNumber(page.revisions?.[0]?.size ?? 0)}字节`);
 				}
-				editProt = [...page.protection].reverse().find((protection) => {
-					return protection.type === 'edit' && protection.level === 'sysop';
-				});
+			}
+			const protectionType = missing ? 'create' : 'edit';
+			let editProt: ApiQueryPage['protection'][number] | undefined;
+			for (let index = page.protection.length - 1; index >= 0; index--) {
+				const protection = page.protection[index];
+				if (protection?.type === protectionType && protection.level === 'sysop') {
+					editProt = protection;
+					break;
+				}
 			}
 			if (editProt) {
-				metadata[metadata.length] = `${missing ? '白纸' : ''}全保护${
-					editProt.expiry === 'infinity'
-						? '（永久）'
-						: `（${new Morebits.date(editProt.expiry).calendar(UTC8_OFFSET_MINUTES)} (UTC+8)过期）`
-				}`;
+				metadata.push(
+					`${missing ? '白纸' : ''}全保护${
+						editProt.expiry === 'infinity'
+							? '（永久）'
+							: `（${new Morebits.date(editProt.expiry).calendar(UTC8_OFFSET_MINUTES)} (UTC+8)过期）`
+					}`
+				);
 			}
 			const {title} = page;
 			listData.pages.push({
@@ -175,8 +170,8 @@ twinklebatchprotect.callback = () => {
 		// The page-list query is done; drop the transient status messages
 		dialogInstance.current?.clear();
 	});
-	qiuwen_api.statelem.status(uls('加载中……', '載入中……'));
-	qiuwen_api.post();
+	api.statelem.status(uls('加载中……', '載入中……'));
+	api.post();
 };
 
 Twinkle.batchprotect = twinklebatchprotect;

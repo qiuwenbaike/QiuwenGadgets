@@ -20,9 +20,7 @@ interface TwinkleTalkback {
 	optout: string;
 }
 
-declare const Twinkle: {
-	addInitCallback: (func: () => void, name?: string) => void;
-	addPortletLink: (task: string | (() => void), text: string, id: string, tooltip?: string) => void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	talkback?: TwinkleTalkback;
 };
 
@@ -70,8 +68,8 @@ talkback.callback = () => {
 		elquery: 'userjs.invalid/noTalkback',
 		ellimit: '1',
 	};
-	const qiuwen_api = new Morebits.wiki.api(uls('抓取退出通告信息', '抓取退出通告資訊'), query, optoutStatus);
-	qiuwen_api.post();
+	const api = new Morebits.wiki.api(uls('抓取退出通告信息', '抓取退出通告資訊'), query, optoutStatus);
+	api.post();
 };
 
 talkback.optout = '';

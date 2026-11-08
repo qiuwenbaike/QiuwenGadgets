@@ -28,9 +28,7 @@ interface TwinkleBatchDeleteModule {
 
 const dialogInstance: {current: TwStatusExposed | null} = {current: null};
 
-declare const Twinkle: {
-	addInitCallback(func: () => void, name?: string): void;
-	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	getPref: {
 		(key: 'batchChunks' | 'batchMax'): string;
 		(key: string): string | boolean;
@@ -230,7 +228,7 @@ twinklebatchdelete.callback = () => {
 		query['titles'] = mw.config.get('wgPageName');
 		query['gpllimit'] = Twinkle.getPref('batchMax');
 	}
-	const qiuwen_api = new Morebits.wiki.api(uls('加载中…', '載入中…'), query, (apiobj: MorebitsWikiApi) => {
+	const api = new Morebits.wiki.api(uls('加载中…', '載入中…'), query, (apiobj: MorebitsWikiApi) => {
 		const xml = apiobj.getResponse() as unknown as XMLDocument;
 		const $pages = $(xml).find('page').filter(':not([missing])'); // :not([imagerepository="shared"])
 		$pages.each((_index, page) => {
@@ -273,8 +271,8 @@ twinklebatchdelete.callback = () => {
 		// The page-list query is done; drop the transient status messages
 		dialogInstance.current?.clear();
 	});
-	qiuwen_api.statelem.status(uls('加载中……', '載入中……'));
-	qiuwen_api.post();
+	api.statelem.status(uls('加载中……', '載入中……'));
+	api.post();
 };
 
 twinklebatchdelete.deletereasonlist = [

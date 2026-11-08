@@ -7,7 +7,7 @@ import TwStatus from './TwStatus.vue';
 import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	getPref: {
 		(key: 'mailHeading' | 'talkbackHeading'): string;

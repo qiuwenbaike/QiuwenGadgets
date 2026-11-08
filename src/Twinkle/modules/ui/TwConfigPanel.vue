@@ -1,22 +1,17 @@
 <script setup lang="ts">
 import {CdxButton, CdxCheckbox, CdxSelect, CdxTextInput, type MenuItemData} from '@wikimedia/codex';
+import type {CustomConfigRow, TwStatusExposed} from './types';
 import {Morebits, type MorebitsWikiPage} from './morebits';
 import {reactive, ref} from 'vue';
 import TwConfigListDialog from './TwConfigListDialog.vue';
 import TwStatus from './TwStatus.vue';
-import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string;
 	defaultConfig: Record<string, unknown>;
 	prefs?: Record<string, unknown>;
 };
-
-interface CustomRow {
-	value: string;
-	label: string;
-}
 
 interface PrefDef {
 	name: string;
@@ -79,12 +74,12 @@ const getSet = (name: string): string[] => {
 	return Array.isArray(value) ? (value as string[]).filter((item) => typeof item === 'string') : [];
 };
 
-const getCustom = (name: string): CustomRow[] => {
+const getCustom = (name: string): CustomConfigRow[] => {
 	const value = values[name];
 	if (!Array.isArray(value)) {
 		return [];
 	}
-	return (value as CustomRow[]).filter(
+	return (value as CustomConfigRow[]).filter(
 		(row) =>
 			typeof row === 'object' && row !== null && typeof row.value === 'string' && typeof row.label === 'string'
 	);
@@ -149,7 +144,7 @@ const resetPref = (pref: PrefDef) => {
 			break;
 		case 'customList':
 			values[pref.name] = Array.isArray(defaultValue)
-				? (defaultValue as CustomRow[]).map((row) => ({...row}))
+				? (defaultValue as CustomConfigRow[]).map((row) => ({...row}))
 				: [];
 			break;
 		default:
@@ -170,7 +165,7 @@ const openListDialog = (pref: PrefDef) => {
 	listDialogOpen.value = true;
 };
 
-const onListSave = (rows: CustomRow[]) => {
+const onListSave = (rows: CustomConfigRow[]) => {
 	if (listPref.value) {
 		values[listPref.value.name] = rows;
 	}
@@ -233,8 +228,8 @@ const writePrefs = (pageobj: MorebitsWikiPage): void => {
 				// comparison of the two properties of custom lists
 				if (element !== null && typeof element === 'object') {
 					if (
-						(element as CustomRow).label !== (other as CustomRow).label ||
-						(element as CustomRow).value !== (other as CustomRow).value
+						(element as CustomConfigRow).label !== (other as CustomConfigRow).label ||
+						(element as CustomConfigRow).value !== (other as CustomConfigRow).value
 					) {
 						return false;
 					}
@@ -456,7 +451,7 @@ const saveSuccess = (pageobj: MorebitsWikiPage): void => {
 		:value-title="listPref.customListValueTitle ?? uls('数值', '數值')"
 		:label-title="listPref.customListLabelTitle ?? uls('标签', '標籤')"
 		:initial-rows="getCustom(listPref.name)"
-		:default-rows="Array.isArray(defaults[listPref.name]) ? (defaults[listPref.name] as CustomRow[]) : []"
+		:default-rows="Array.isArray(defaults[listPref.name]) ? (defaults[listPref.name] as CustomConfigRow[]) : []"
 		@save="onListSave"
 	/>
 </template>

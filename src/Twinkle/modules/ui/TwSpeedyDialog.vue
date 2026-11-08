@@ -8,7 +8,7 @@ import TwStatus from './TwStatus.vue';
 import {twinkle} from './twinkleGlobal';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	hatnoteRegex: string;
 	closeDialog: () => void;
@@ -720,14 +720,14 @@ const sysopCallbacks = {
 				prop: 'redirects',
 				rdlimit: 5000, // 500 is max for normal users, 5000 for bots and sysops
 			};
-			const qiuwen_api = new Morebits.wiki.api(
+			const api = new Morebits.wiki.api(
 				uls('获取重定向列表…', '取得重新導向列表…'),
 				query,
 				sysopCallbacks.deleteRedirectsMain as unknown as (apiobj: MorebitsWikiApi) => void,
 				new Morebits.status(uls('删除重定向', '刪除重新導向'))
 			) as MorebitsWikiApi & {params: SpeedyWorkParams};
-			qiuwen_api.params = params;
-			qiuwen_api.post();
+			api.params = params;
+			api.post();
 		}
 		// prompt for protect on G7
 		let $link;

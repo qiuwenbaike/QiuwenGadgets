@@ -7,6 +7,46 @@ export interface TwStatusExposed {
 	clear: () => void;
 }
 
+/** A row in one of Twinkle's user-configurable value/label lists. */
+export interface CustomConfigRow {
+	value: string;
+	label: string;
+}
+
+/** One option in a protection selector. */
+export interface ProtectionOptionItem {
+	label: string;
+	value: string;
+	selected?: boolean;
+}
+
+/** A grouped protection selector option. */
+export interface ProtectionOptionGroup {
+	label: string;
+	value?: string;
+	list?: ProtectionOptionItem[];
+}
+
+/** A preset for the protection dialog. */
+export interface ProtectionPresetInfo {
+	edit?: string;
+	move?: string;
+	create?: string;
+	expiry?: string;
+	reason?: string | null;
+	template?: string;
+}
+
+/** Protection information displayed by the protection dialog. */
+export interface ProtectionInfo {
+	previousNotice: string | null;
+	logLink: string;
+	currentStatus: {
+		severe: boolean;
+		text: string;
+	} | null;
+}
+
 /** Row of a selectable page list in the batch dialogs. */
 export interface PageItem {
 	title: string;

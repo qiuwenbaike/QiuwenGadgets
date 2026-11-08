@@ -1,4 +1,5 @@
 /*! Twinkle.js - twinklediff.ts */
+import type {TwinkleGlobalBase} from './ui/twinkleGlobal';
 import {uls} from './utils/useUls';
 
 /**
@@ -45,9 +46,7 @@ interface TwinkleDiffModule {
 	};
 }
 
-interface TwinkleGlobal {
-	addInitCallback(func: () => void, name?: string): void;
-	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): void;
+interface TwinkleGlobal extends TwinkleGlobalBase {
 	diff?: TwinkleDiffModule;
 }
 
@@ -120,15 +119,15 @@ twinklediff.evaluate = (me) => {
 		rvuser: user,
 	};
 	Morebits.status.init(document.querySelector<HTMLElement>('#mw-content-text'));
-	const qiuwen_api = new Morebits.wiki.api(
+	const api = new Morebits.wiki.api(
 		uls('抓取最初贡献者信息', '抓取最初貢獻者資訊'),
 		query,
 		twinklediff.callbacks.main
 	);
-	qiuwen_api.params = {
+	api.params = {
 		user,
 	};
-	qiuwen_api.post();
+	api.post();
 };
 
 twinklediff.callbacks = {

@@ -32,7 +32,7 @@ interface MorebitsWikiPage {
 	append: () => MorebitsWikiPage;
 }
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	getPref: (key: string) => string;
 };

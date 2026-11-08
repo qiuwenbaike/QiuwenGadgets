@@ -1,4 +1,5 @@
 /*! Twinkle.js - twinkleprotect.ts */
+import type {ProtectionInfo, ProtectionOptionGroup, ProtectionOptionItem, ProtectionPresetInfo} from './ui/types';
 import {createApp, h, reactive} from 'vue';
 import TwProtectDialog from './ui/TwProtectDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
@@ -16,27 +17,6 @@ import {uls} from './utils/useUls';
  *
  * Note: a lot of code in this module is re-used/called by batchprotect.
  */
-interface ProtectionOptionItem {
-	label: string;
-	value: string;
-	selected?: boolean;
-}
-
-interface ProtectionOptionGroup {
-	label: string;
-	value?: string;
-	list?: ProtectionOptionItem[];
-}
-
-interface ProtectionPresetInfo {
-	edit?: string;
-	move?: string;
-	create?: string;
-	expiry?: string;
-	reason?: string | null;
-	template?: string;
-}
-
 interface ProtectionLevel {
 	level: string;
 	expiry: string;
@@ -67,15 +47,6 @@ interface ProtectionApiResponse {
 	};
 }
 
-interface ProtectionInfo {
-	previousNotice: string | null;
-	logLink: string;
-	currentStatus: {
-		severe: boolean;
-		text: string;
-	} | null;
-}
-
 interface TwinkleProtectModule {
 	(): void;
 	callback: () => void;
@@ -96,9 +67,7 @@ interface TwinkleProtectModule {
 	formatProtectionDescription: (protectionLevels: ProtectionLevels) => string;
 }
 
-declare const Twinkle: {
-	addInitCallback: (func: () => void, name?: string) => void;
-	addPortletLink: (task: string | (() => void), text: string, id: string, tooltip?: string) => void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	protect?: TwinkleProtectModule;
 };
 

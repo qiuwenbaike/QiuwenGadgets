@@ -8,7 +8,7 @@ import TwStatus from './TwStatus.vue';
 import {uls} from '../utils/useUls';
 import {useShiftClick} from '../utils/useShiftClick';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	getPref: {
 		(key: 'unlinkNamespaces'): string[];

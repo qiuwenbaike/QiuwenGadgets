@@ -54,8 +54,7 @@ interface TwinkleConfigModule {
 	init: () => void;
 }
 
-declare const Twinkle: {
-	addInitCallback: (func: () => void, name?: string) => void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string;
 	defaultConfig: Record<string, unknown>;
 	getPref: (key: string) => unknown;

@@ -15,7 +15,7 @@ import TwStatus from './TwStatus.vue';
 import {uls} from '../utils/useUls';
 import {useShiftClick} from '../utils/useShiftClick';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	getPref: {
 		(key: 'batchChunks'): string;
@@ -170,14 +170,14 @@ const callbacks = {
 					drvlimit: 1,
 					titles: talkpagename,
 				};
-				const qiuwen_api = newParamsApi(
+				const api = newParamsApi(
 					uls('检查讨论页的已删版本', '檢查討論頁的已刪版本'),
 					query,
 					callbacks.undeleteTalk
 				);
-				qiuwen_api.params = params;
-				qiuwen_api.params.talkPage = talkpagename;
-				qiuwen_api.post();
+				api.params = params;
+				api.params.talkPage = talkpagename;
+				api.post();
 			}
 		}
 	},

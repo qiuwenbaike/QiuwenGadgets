@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import {CdxCheckbox, CdxField, CdxRadio, CdxSelect, CdxTextArea, type MenuItemData} from '@wikimedia/codex';
 import {Morebits, type MorebitsWikiPage} from './morebits';
+import type {
+	ProtectionInfo,
+	ProtectionOptionGroup,
+	ProtectionOptionItem,
+	ProtectionPresetInfo,
+	TwStatusExposed,
+} from './types';
 import {UTC8_OFFSET_MINUTES, beijingDateToISO, normalizeExpiry} from '../utils/utc8';
 import {computed, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
-import type {TwStatusExposed} from './types';
 import {uls} from '../utils/useUls';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	getPref: (key: string) => string;
 	hatnoteRegex: string;
@@ -17,27 +23,6 @@ declare const Twinkle: {
 		watched?: boolean;
 	};
 };
-
-interface OptionItem {
-	value: string;
-	label: string;
-	selected?: boolean;
-}
-
-interface OptionGroup {
-	label: string;
-	value?: string;
-	list?: OptionItem[];
-}
-
-interface PresetInfo {
-	edit?: string;
-	move?: string;
-	create?: string;
-	expiry?: string;
-	reason?: string | null;
-	template?: string;
-}
 
 interface ProtectParams {
 	actiontype: 'protect' | 'request' | 'tag';
@@ -66,25 +51,18 @@ const props = defineProps<{
 	isScribunto: boolean;
 	isTemplate: boolean;
 	title: string;
-	protectionInfo: {
-		previousNotice: string | null;
-		logLink: string;
-		currentStatus: {
-			severe: boolean;
-			text: string;
-		} | null;
-	};
+	protectionInfo: ProtectionInfo;
 	footerLinks: {
 		text: string;
 		href: string;
 	}[];
-	protectionLevels: OptionItem[];
-	protectionLengths: OptionItem[];
-	protectionTypesAdmin: OptionGroup[];
-	protectionTypesCreateOnly: OptionGroup[];
-	protectionTypesCreate: OptionGroup[];
-	protectionTags: OptionGroup[];
-	protectionPresetsInfo: Record<string, PresetInfo>;
+	protectionLevels: ProtectionOptionItem[];
+	protectionLengths: ProtectionOptionItem[];
+	protectionTypesAdmin: ProtectionOptionGroup[];
+	protectionTypesCreateOnly: ProtectionOptionGroup[];
+	protectionTypesCreate: ProtectionOptionGroup[];
+	protectionTags: ProtectionOptionGroup[];
+	protectionPresetsInfo: Record<string, ProtectionPresetInfo>;
 }>();
 
 const emit = defineEmits<{
@@ -157,7 +135,7 @@ const showProtectField = computed(() => actiontype.value === 'protect');
 const showRequestField = computed(() => actiontype.value === 'request');
 const showShowexpiry = computed(() => actiontype.value !== 'tag');
 
-const flattenGroups = (groups: OptionGroup[]): MenuItemData[] => {
+const flattenGroups = (groups: ProtectionOptionGroup[]): MenuItemData[] => {
 	const items: MenuItemData[] = [];
 	for (const [groupIndex, group] of groups.entries()) {
 		if (group.list) {
@@ -183,7 +161,7 @@ const flattenGroups = (groups: OptionGroup[]): MenuItemData[] => {
 };
 
 const categoryOptions = computed<MenuItemData[]>(() => {
-	let list: OptionGroup[];
+	let list: ProtectionOptionGroup[];
 	if (actiontype.value === 'request') {
 		list = props.pageExists
 			? [...props.protectionTypesAdmin, ...props.protectionTypesCreateOnly]

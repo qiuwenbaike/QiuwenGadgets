@@ -12,7 +12,7 @@ type MorebitsTalkCheckApi = MorebitsWikiApiWithParams<SubmitParams & {talkPage: 
 /** Matches the `onSuccess` parameter of the `Morebits.wiki.api` constructor. */
 type ApiSuccessCallback = NonNullable<ConstructorParameters<(typeof Morebits.wiki)['api']>[2]>;
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	hatnoteRegex: string;
 	getPref: {
@@ -406,13 +406,13 @@ const callbacks = {
 				prop: 'redirects',
 				rdlimit: 'max', // 500 is max for normal users, 5000 for bots and sysops
 			};
-			const qiuwen_api = new Morebits.wiki.api(
+			const api = new Morebits.wiki.api(
 				'正在获取重定向',
 				query,
 				callbacks.deleteRedirectsMain as unknown as ApiSuccessCallback
 			) as MorebitsWikiApi;
-			qiuwen_api.params = params;
-			qiuwen_api.post();
+			api.params = params;
+			api.post();
 		}
 		if (params.talkpage) {
 			const pageTitle = mw.Title.newFromText(params.title);
@@ -423,17 +423,17 @@ const callbacks = {
 					action: 'query',
 					titles: talkTitle.toText(),
 				};
-				const qiuwen_api = new Morebits.wiki.api(
+				const api = new Morebits.wiki.api(
 					'正在检查讨论页面是否存在',
 					query,
 					callbacks.deleteTalk as unknown as ApiSuccessCallback
 				) as MorebitsTalkCheckApi;
 				// The legacy implementation mounted `talkPage` through the
-				// non-existent `qiuwen_api.apiobj` property, which threw a
+				// non-existent `api.apiobj` property, which threw a
 				// TypeError at runtime. Attach it to the callback parameters
 				// directly so that `deleteTalk` can read it as intended.
-				qiuwen_api.params = {...params, talkPage: talkTitle.toText()};
-				qiuwen_api.post();
+				api.params = {...params, talkPage: talkTitle.toText()};
+				api.post();
 			}
 		}
 		Morebits.wiki.removeCheckpoint();

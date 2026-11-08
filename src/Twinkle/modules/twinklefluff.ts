@@ -1,4 +1,5 @@
 /*! Twinkle.js - twinklefluff.ts */
+import type {TwinkleGlobalBase} from './ui/twinkleGlobal';
 import {uls} from './utils/useUls';
 
 /**
@@ -121,8 +122,7 @@ interface TwinkleFluffModule {
 	formatSummary(builtInString: string, userName: string | null, customString?: string): string;
 }
 
-interface TwinkleGlobal {
-	addInitCallback(func: () => void, name?: string): void;
+interface TwinkleGlobal extends TwinkleGlobalBase {
 	changeTags?: string;
 	getPref<T = unknown>(name: string): T;
 	fluff?: TwinkleFluffModule;
@@ -526,13 +526,13 @@ twinklefluff.revert = (type: RevertType, vandal: string | null, rev?: number, pa
 		meta: 'tokens',
 		type: 'csrf',
 	};
-	const qiuwen_api = new Morebits.wiki.api<RevertParams>(
+	const api = new Morebits.wiki.api<RevertParams>(
 		uls('抓取较早修订版本信息', '抓取較早修訂版本資訊'),
 		query,
 		twinklefluff.callbacks.main
 	);
-	qiuwen_api.params = params;
-	qiuwen_api.post();
+	api.params = params;
+	api.post();
 };
 
 twinklefluff.revertToRevision = (oldrev: number): void => {
@@ -550,16 +550,16 @@ twinklefluff.revertToRevision = (oldrev: number): void => {
 		meta: 'tokens',
 		type: 'csrf',
 	};
-	const qiuwen_api = new Morebits.wiki.api<RevertToRevisionParams>(
+	const api = new Morebits.wiki.api<RevertToRevisionParams>(
 		uls('抓取较早修订版本信息', '抓取較早修訂版本資訊'),
 		query,
 		twinklefluff.callbacks.toRevision
 	);
-	qiuwen_api.params = {
+	api.params = {
 		rev: oldrev,
 		summary,
 	};
-	qiuwen_api.post();
+	api.post();
 };
 
 twinklefluff.callbacks = {
@@ -621,14 +621,14 @@ twinklefluff.callbacks = {
 		}
 		Morebits.wiki.actionCompleted.redirect = mw.config.get('wgPageName');
 		Morebits.wiki.actionCompleted.notice = '回退完成';
-		const qiuwen_api = new Morebits.wiki.api<RevertToRevisionParams>(
+		const api = new Morebits.wiki.api<RevertToRevisionParams>(
 			uls('保存回退内容', '儲存回退內容'),
 			query,
 			twinklefluff.callbacks.complete,
 			apiobj.statelem
 		);
-		qiuwen_api.params = apiobj.params;
-		qiuwen_api.post();
+		api.params = apiobj.params;
+		api.post();
 	},
 	main: (apiobj: MorebitsApi<RevertParams>): void => {
 		const xmlDoc = apiobj.responseXML;
@@ -948,14 +948,14 @@ twinklefluff.callbacks = {
 			Morebits.wiki.actionCompleted.redirect = params.pagename;
 		}
 		Morebits.wiki.actionCompleted.notice = '回退完成';
-		const qiuwen_api = new Morebits.wiki.api<RevertParams>(
+		const api = new Morebits.wiki.api<RevertParams>(
 			uls('保存回退内容', '儲存回退內容'),
 			query,
 			twinklefluff.callbacks.complete,
 			statelem
 		);
-		qiuwen_api.params = params;
-		qiuwen_api.post();
+		api.params = params;
+		api.post();
 	},
 	complete: (apiobj: MorebitsApi<RevertParams | RevertToRevisionParams>): void => {
 		// TODO Most of this is copy-pasted from Morebits.wiki.page#fnSaveSuccess. Unify it

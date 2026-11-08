@@ -1,4 +1,5 @@
 import './twinkle.less';
+import type {TwinkleGlobalBase} from './ui/twinkleGlobal';
 import {api} from './utils/api';
 import {uls} from './utils/useUls';
 
@@ -156,17 +157,15 @@ interface TwinkleConfig {
  * Other modules attach themselves to it (e.g. `Twinkle.fluff`); only the
  * members defined by this file are declared here.
  */
-interface TwinkleObject {
+interface TwinkleObject extends TwinkleGlobalBase {
 	changeTags: string;
 	summaryAd: string;
 	hatnoteRegex: string;
 	initCallbacks: TwinkleInitCallbackItem[];
-	addInitCallback(func: () => void, name?: string): void;
 	defaultConfig: TwinkleConfig;
 	prefs?: Partial<TwinkleConfig>;
 	getPref<K extends keyof TwinkleConfig>(name: K): TwinkleConfig[K];
 	addPortlet(navigation: string, id: string, text: string, type: string | null, nextnodeid?: string): Element | null;
-	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): HTMLLIElement | null;
 	load: () => void;
 	userAgent?: string;
 	disabledModules?: string[];

@@ -37,9 +37,7 @@ interface TwinkleWarnModule {
 	messages: WarnMessages;
 }
 
-declare const Twinkle: {
-	addInitCallback(func: () => void, name?: string): void;
-	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	getPref: {
 		(key: 'autoMenuAfterRollback' | 'combinedSingletMenus'): boolean;
 		(key: 'customWarningList'): {

@@ -1,29 +1,25 @@
 <script setup lang="ts">
 import {CdxButton, CdxDialog, CdxTextInput} from '@wikimedia/codex';
 import {computed, ref, watch} from 'vue';
+import type {CustomConfigRow} from './types';
 import {uls} from '../utils/useUls';
-
-interface CustomRow {
-	value: string;
-	label: string;
-}
 
 const props = defineProps<{
 	open: boolean;
 	title: string;
 	valueTitle: string;
 	labelTitle: string;
-	initialRows: CustomRow[];
-	defaultRows: CustomRow[];
+	initialRows: CustomConfigRow[];
+	defaultRows: CustomConfigRow[];
 }>();
 
 const emit = defineEmits<{
 	'update:open': [value: boolean];
-	save: [rows: CustomRow[]];
+	save: [rows: CustomConfigRow[]];
 }>();
 
 const panelOpen = ref(props.open);
-const rows = ref<CustomRow[]>([]);
+const rows = ref<CustomConfigRow[]>([]);
 
 watch(
 	() => props.open,

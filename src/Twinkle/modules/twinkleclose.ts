@@ -18,8 +18,7 @@ interface TwinkleClose {
 	callback: (title: string, section: string, noop: boolean) => void;
 }
 
-declare const Twinkle: {
-	addInitCallback: (func: () => void, name?: string) => void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	getPref: (key: string) => string;
 	close?: TwinkleClose;
 };

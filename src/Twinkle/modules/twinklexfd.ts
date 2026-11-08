@@ -11,9 +11,7 @@ interface TwinkleXfdModule {
 	printRationale: () => void;
 }
 
-declare const Twinkle: {
-	addInitCallback(func: () => void, name?: string): void;
-	addPortletLink(task: string | (() => void), text: string, id: string, tooltip?: string): void;
+declare const Twinkle: import('./ui/twinkleGlobal').TwinkleGlobalBase & {
 	getPref: {
 		(key: 'afdDefaultCategory' | 'afdFameDefaultReason' | 'afdSubstubDefaultReason'): string;
 		(key: string): string | boolean;

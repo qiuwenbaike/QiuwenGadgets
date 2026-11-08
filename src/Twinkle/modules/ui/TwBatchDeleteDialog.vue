@@ -16,7 +16,7 @@ import TwStatus from './TwStatus.vue';
 import {uls} from '../utils/useUls';
 import {useShiftClick} from '../utils/useShiftClick';
 
-declare const Twinkle: {
+declare const Twinkle: import('./twinkleGlobal').TwinkleGlobalBase & {
 	changeTags: string[];
 	getPref: {
 		(key: 'batchChunks'): string;
@@ -295,9 +295,9 @@ const callbacks = {
 				bltitle: params.page,
 				bllimit: 'max', // 500 is max for normal users, 5000 for bots and sysops
 			};
-			const qiuwen_api = newParamsApi(uls('正在获取链入', '正在取得連入'), query, callbacks.unlinkBacklinksMain);
-			qiuwen_api.params = params;
-			qiuwen_api.post();
+			const api = newParamsApi(uls('正在获取链入', '正在取得連入'), query, callbacks.unlinkBacklinksMain);
+			api.params = params;
+			api.post();
 		}
 		if (params.unlink_file) {
 			query = {
@@ -306,13 +306,13 @@ const callbacks = {
 				iutitle: params.page,
 				iulimit: 'max', // 500 is max for normal users, 5000 for bots and sysops
 			};
-			const qiuwen_api = newParamsApi(
+			const api = newParamsApi(
 				uls('正在获取文件链入', '正在取得檔案連入'),
 				query,
 				callbacks.unlinkImageInstancesMain
 			);
-			qiuwen_api.params = params;
-			qiuwen_api.post();
+			api.params = params;
+			api.post();
 		}
 		if (params.delete_page) {
 			if (params.delete_redirects) {
@@ -322,13 +322,13 @@ const callbacks = {
 					prop: 'redirects',
 					rdlimit: 'max', // 500 is max for normal users, 5000 for bots and sysops
 				};
-				const qiuwen_api = newParamsApi(
+				const api = newParamsApi(
 					uls('正在获取重定向', '正在取得重新導向'),
 					query,
 					callbacks.deleteRedirectsMain
 				);
-				qiuwen_api.params = params;
-				qiuwen_api.post();
+				api.params = params;
+				api.post();
 			}
 			if (params.delete_talk) {
 				const pageTitle = mw.Title.newFromText(params.page) as MutableTitle | null;
@@ -338,14 +338,14 @@ const callbacks = {
 						action: 'query',
 						titles: pageTitle.toText(),
 					};
-					const qiuwen_api = newParamsApi(
+					const api = newParamsApi(
 						uls('正在检查讨论页面是否存在', '正在檢查討論頁面是否存在'),
 						query,
 						callbacks.deleteTalk
 					);
-					qiuwen_api.params = params;
-					qiuwen_api.params.talkPage = pageTitle.toText();
-					qiuwen_api.post();
+					api.params = params;
+					api.params.talkPage = pageTitle.toText();
+					api.post();
 				}
 			}
 		}
