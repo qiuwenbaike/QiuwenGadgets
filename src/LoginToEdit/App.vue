@@ -15,6 +15,8 @@ const emit = defineEmits<{
 	'update:open': [value: boolean];
 }>();
 
+const helpURL: string = 'https://www.qiuwenbaike.cn/wiki/H:LOGIN';
+
 const close = (): void => {
 	emit('update:open', false);
 };
@@ -34,24 +36,34 @@ const register = (): void => {
 	<cdx-dialog
 		:open="state.open"
 		:title="getMessage('DialogTitle')"
-		:primary-action="{label: getMessage('Login'), actionType: 'progressive'}"
 		:default-action="{label: getMessage('Cancel')}"
+		:primary-action="undefined"
 		:use-close-button="true"
-		@primary="login"
-		@default="close"
 		@update:open="emit('update:open', $event)"
+		@default="close"
+		@primary="undefined"
 	>
 		<p>{{ getMessage('DialogMessage') }}</p>
 		<div class="login-to-edit__register">
 			<cdx-button weight="normal" action="progressive" @click="register">
 				{{ getMessage('Register') }}
 			</cdx-button>
+			<cdx-button weight="normal" action="progressive" @click="login">
+				{{ getMessage('Login') }}
+			</cdx-button>
 		</div>
+		<template #footer-text>
+			<a :href="helpURL">{{ getMessage('Help') }}</a>
+		</template>
 	</cdx-dialog>
 </template>
 
 <style scoped lang="less">
 .login-to-edit__register {
 	margin-top: 0.75rem;
+	display: flex;
+	flex-flow: row wrap;
+	place-content: space-between center;
+	gap: 1em;
 }
 </style>

@@ -15,11 +15,11 @@ interface DialogState {
 	open: boolean;
 }
 
-const initDialog = ($body: JQuery<HTMLBodyElement>): void => {
+const initDialog = (): void => {
 	const state: DialogState = reactive({open: false});
 
 	const root: HTMLElement = document.createElement('div');
-	$body.append(root);
+	document.body.append(root);
 
 	const triggerLogin = (): void => {
 		location.href = loginURL;
@@ -40,18 +40,27 @@ const initDialog = ($body: JQuery<HTMLBodyElement>): void => {
 		state.open = !state.open;
 	};
 
-	const $caViewsource: JQuery = $body.find('#ca-viewsource');
-	if ($caViewsource.length) {
-		const editIcon: string = isCitizen ? '<span class="citizen-ui-icon mw-ui-icon-wikimedia-edit"></span>' : '';
-		$caViewsource
-			.attr('id', 'ca-edit')
-			.find('a')
-			.attr('aria-label', getMessage('DialogMessage'))
-			.html(editIcon + getMessage('Edit'))
-			.on('click', (event: JQuery.ClickEvent): void => {
+	const caViewsource: HTMLElement | null = document.querySelector('#ca-viewsource');
+	if (caViewsource) {
+		caViewsource.id = 'ca-edit';
+
+		const link: HTMLAnchorElement | null = caViewsource.querySelector('a');
+		if (link) {
+			link.replaceChildren();
+			link.setAttribute('aria-label', getMessage('DialogMessage'));
+
+			if (isCitizen) {
+				const editIcon: HTMLSpanElement = document.createElement('span');
+				editIcon.className = 'citizen-ui-icon mw-ui-icon-wikimedia-edit';
+				link.append(editIcon);
+			}
+
+			link.append(getMessage('Edit'));
+			link.addEventListener('click', (event: MouseEvent): void => {
 				event.preventDefault();
 				openDialog();
 			});
+		}
 	}
 
 	if (['edit', 'submit'].includes(wgAction)) {

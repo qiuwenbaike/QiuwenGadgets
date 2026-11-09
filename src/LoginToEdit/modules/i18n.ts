@@ -5,14 +5,19 @@ const getI18nMessages = () => {
 		Cancel: localize({
 			en: 'Cancel',
 			ja: 'キャンセル',
-			'zh-hans': '暂不登录账号',
-			'zh-hant': '暫不登入賬號',
+			'zh-hans': '暂不登录或注册账号',
+			'zh-hant': '暫不登入或註冊賬號',
 		}),
 		Edit: localize({
 			en: 'Edit',
 			ja: '編集',
 			'zh-hans': '编辑',
 			'zh-hant': '編輯',
+		}),
+		Help: localize({
+			en: 'Get help',
+			'zh-hans': '了解详情',
+			'zh-hant': '了解詳情',
 		}),
 		Login: localize({
 			en: 'Login',
