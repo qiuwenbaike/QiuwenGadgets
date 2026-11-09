@@ -1,7 +1,7 @@
 import {getBody, userIsInGroup} from 'ext.gadget.Util';
 import {initDialog} from './modules/initDialog';
 
-void getBody().then(function loginToEdit($body: JQuery<HTMLBodyElement>): void {
+void getBody().then(function loginToEdit(): void {
 	const {wgUserName} = mw.config.get();
 
 	if (!wgUserName) {
@@ -12,5 +12,5 @@ void getBody().then(function loginToEdit($body: JQuery<HTMLBodyElement>): void {
 		return;
 	}
 
-	initDialog($body);
+	initDialog();
 });
