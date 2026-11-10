@@ -134,6 +134,19 @@ const VARIANTS = [
 const GLOBAL_REQUIRES_ES6 = true satisfies boolean;
 
 /**
+ * 部署目标站点所使用的 MediaWiki 版本（大版本.小版本，如`1.43`）
+ *
+ * 用于决定 Babel 语法降级的范围：MediaWiki 1.43 起 JS 压缩器（wikimedia/minify 2.9.0）已支持 for-of、模板字符串、async/await、`??` 等语法；
+ * 更早版本的压缩器对这些语法的支持不完整，需要全量降级。站点升级后应同步更新此值
+ *
+ * The MediaWiki version (major.minor, e.g. `1.43`) used by the target site for deployment
+ *
+ * It determines the scope of Babel syntax downgrades: since MediaWiki 1.43, the JS minifier (wikimedia/minify 2.9.0) supports for-of, template literals, async/await, `??`, etc.;
+ * the minifiers in earlier versions do not fully support these syntaxes, which require full downgrades. Update this value accordingly after the site upgrades
+ */
+const SITE_MEDIAWIKI_VERSION = '1.43' satisfies string;
+
+/**
  * 部署时请求目标 MediaWiki 网站 API 的最大并发数，上限为 256
  *
  * The maximum concurrency number of requests to the API during deployment, the upper limit is 256
@@ -149,7 +162,7 @@ const MAX_CONCURRENCY = 1 satisfies number;
  *
  * Note: You need to append the `debug=1` parameter in the URL for it to have an actual effect when debugging in the browser console. This is because inline source mapping is treated as a type of comment, and MediaWiki's JavaScript minifier will delete comments by default
  */
-const SOURCE_MAP = true satisfies boolean;
+const SOURCE_MAP = false satisfies boolean;
 
 export {
 	BANNER,
@@ -161,5 +174,6 @@ export {
 	VARIANTS,
 	GLOBAL_REQUIRES_ES6,
 	MAX_CONCURRENCY,
+	SITE_MEDIAWIKI_VERSION,
 	SOURCE_MAP,
 };
