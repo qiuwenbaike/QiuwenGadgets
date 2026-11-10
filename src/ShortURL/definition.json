@@ -11,6 +11,5 @@
 		"mediawiki.api",
 		"mediawiki.util",
 		"vue"
-	],
-	"peers": ["ShortURL-pagestyles"]
+	]
 }
