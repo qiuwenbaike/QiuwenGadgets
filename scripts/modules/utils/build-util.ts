@@ -1,5 +1,5 @@
 import * as PACKAGE from '../../../package.json';
-import {BANNER, GLOBAL_REQUIRES_ES6, SOURCE_MAP} from '../../constant';
+import {BANNER, GLOBAL_REQUIRES_ES6, SITE_MEDIAWIKI_VERSION, SOURCE_MAP} from '../../constant';
 import {type BabelFileResult, type TransformOptions, transformAsync} from '@babel/core';
 import type {BuiltFile, DefaultDefinition, SourceFiles} from '../types';
 import {type OutputFile, build as esbuild} from 'esbuild';
@@ -240,26 +240,48 @@ const generateTransformOptions = () => {
 	} as const satisfies TransformOptions;
 
 	if (GLOBAL_REQUIRES_ES6) {
-		// 以下关键字和运算符无法被 MediaWiki（>= 1.39）的 JavaScript 压缩器良好支持，即使设置了 requiresES6 标识
-		// The following keywords and operators are not well supported by MediaWiki's (>= 1.39) JavaScript minifier, even if the `requiresES6` flag is true
-		options.presets[0][1].include.push(
-			// keywords
-			// ES2015
-			'transform-for-of', // transform for-of loops
-			'transform-template-literals', // `foo${bar}` -> 'foo'.concat(bar)
-			// ES2017
-			'transform-async-to-generator', // transform async/await to generator
-			// ES2018
-			'transform-async-generator-functions', // transform async generator to normal generator
-			// ES2020
-			'transform-optional-chaining', // foo?.bar
-			// operators
-			// ES2020
-			'transform-nullish-coalescing-operator', // foo ?? bar
-			// ES2021
-			'transform-logical-assignment-operators', // foo ??= bar
-			'transform-numeric-separator' // 1_000 -> 1000
-		);
+		// 各 MediaWiki 版本内置的 JavaScript 压缩器（wikimedia/minify）对 ES 语法的支持情况：
+		// The support status of ES syntaxes by the JavaScript minifier (wikimedia/minify) bundled with each MediaWiki version:
+		// - ES6（for-of、模板字符串）：minify 2.2.0（MW 1.39 及以上） / ES6 (for-of, template literals): minify 2.2.0 (MW >= 1.39)
+		// - async/await：minify 2.7.0（MW 1.41 及以上）/ async/await: minify 2.7.0 (MW >= 1.41)
+		// - `??`：minify 2.8.0（MW 1.42 及以上）/ `??`: minify 2.8.0 (MW >= 1.42)
+		// - 对象属性中的 async 方法：minify 2.9.0（MW 1.43 及以上）/ async methods as property values: minify 2.9.0 (MW >= 1.43)
+		// - `?.`、`??=`、`||=`、`&&=`、数字分隔符：minify 2.11.0（MW 1.45 及以上）才支持；2.9.0 及更早版本会把 `?.` 误解析为三元运算符
+		//   `?.`, `??=`, `||=`, `&&=` and numeric separators are supported since minify 2.11.0 (MW >= 1.45); versions <= 2.9.0 mis-parse `?.` as a ternary operator
+		const [majorVersion = 0, minorVersion = 0] = SITE_MEDIAWIKI_VERSION.split('.').map(Number);
+		const isMediaWiki143OrLater = majorVersion > 1 || (majorVersion === 1 && minorVersion >= 43);
+		if (isMediaWiki143OrLater) {
+			// MediaWiki >= 1.43（minify 2.9.0）：仅降级压缩器尚不支持的语法
+			// MediaWiki >= 1.43 (minify 2.9.0): only downgrade syntaxes that are still unsupported by the minifier
+			options.presets[0][1].include.push(
+				// ES2020
+				'transform-optional-chaining', // foo?.bar
+				// ES2021
+				'transform-logical-assignment-operators', // foo ??= bar
+				'transform-numeric-separator' // 1_000 -> 1000
+			);
+		} else {
+			// MediaWiki < 1.43（minify < 2.9.0）：压缩器对以下语法支持不完整，需全量降级
+			// MediaWiki < 1.43 (minify < 2.9.0): the minifier does not fully support the following syntaxes, which require full downgrades
+			options.presets[0][1].include.push(
+				// keywords
+				// ES2015
+				'transform-for-of', // transform for-of loops
+				'transform-template-literals', // `foo${bar}` -> 'foo'.concat(bar)
+				// ES2017
+				'transform-async-to-generator', // transform async/await to generator
+				// ES2018
+				'transform-async-generator-functions', // transform async generator to normal generator
+				// ES2020
+				'transform-optional-chaining', // foo?.bar
+				// operators
+				// ES2020
+				'transform-nullish-coalescing-operator', // foo ?? bar
+				// ES2021
+				'transform-logical-assignment-operators', // foo ??= bar
+				'transform-numeric-separator' // 1_000 -> 1000
+			);
+		}
 	} else {
 		// 以下关键字无法被旧版本的 MediaWiki（< 1.39）的 JavaScript 压缩器良好支持
 		// The following keywords are not well supported by the JavaScript minifier in older versions of MediaWiki (< 1.39)
