@@ -151,6 +151,7 @@
 * RRD[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=skipcaptcha|requiresES6]|RRD.js|RRD.css
 * TranslateVariants[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.diff.styles,mediawiki.util,vue|rights=editinterface|requiresES6]|TranslateVariants.js|TranslateVariants.css
 * Twinkle[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.morebits,ext.gadget.Util,mediawiki.api,mediawiki.language,mediawiki.storage,mediawiki.util,user.options,vue|rights=skipcaptcha|requiresES6]|Twinkle.js|Twinkle.css
+* TwinkleDialogs[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.morebits,ext.gadget.Util,mediawiki.api,mediawiki.language,mediawiki.storage,mediawiki.util,user.options,vue|hidden|requiresES6]|TwinkleDialogs.js|TwinkleDialogs.css
 * UserRightsManager[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=protect|requiresES6]|UserRightsManager.js|UserRightsManager.css
 * WhoIsActive[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.Title,vue|requiresES6]|WhoIsActive.js|WhoIsActive.css
 

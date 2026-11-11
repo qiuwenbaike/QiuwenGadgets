@@ -435,6 +435,24 @@ const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 		}
 		return outerNav;
 	};
+	// #p-cactions only needs its margin restored once, no matter how many
+	// portlet links are added
+	let cactionsAdjusted = false;
+	// `$.collapsibleTabs.handleResize()` is expensive; queue it once per tick
+	// instead of running it for every single portlet link
+	let resizeQueued = false;
+	const queueCollapsibleTabsResize = (): void => {
+		if (resizeQueued) {
+			return;
+		}
+		resizeQueued = true;
+		window.setTimeout(() => {
+			resizeQueued = false;
+			if ($.collapsibleTabs) {
+				$.collapsibleTabs.handleResize();
+			}
+		}, 0);
+	};
 	/**
 	 * **************** Twinkle.addPortletLink() ****************
 	 * Builds a portlet menu if it doesn't exist yet, and add the portlet link.
@@ -463,7 +481,13 @@ const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 			id,
 			tooltip
 		);
-		$body.find('.client-js .skin-vector #p-cactions').css('margin-right', 'initial');
+		if (!cactionsAdjusted) {
+			const $cactions = $body.find('.client-js .skin-vector #p-cactions');
+			if ($cactions.length) {
+				$cactions.css('margin-right', 'initial');
+				cactionsAdjusted = true;
+			}
+		}
 		if (typeof task === 'function' && link) {
 			$(link)
 				.find('a')
@@ -472,14 +496,31 @@ const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 					ev.preventDefault();
 				});
 		}
-		if ($.collapsibleTabs) {
-			$.collapsibleTabs.handleResize();
-		}
+		queueCollapsibleTabsResize();
 		return link;
 	};
 	/**
 	 * **************** General initialization code ****************
 	 */
+	// Parse the JSON preferences embedded in a generated `twinkleoptions.js`
+	// page (`window.Twinkle.prefs = {...};`) without executing the page
+	const parseTwinkleOptions = (content: string): Partial<TwinkleConfig> | undefined => {
+		const match = /window\.Twinkle\.prefs\s*=\s*(\{[\s\S]*\})\s*;/.exec(content);
+		if (!match) {
+			return;
+		}
+		try {
+			return JSON.parse(match[1] ?? '') as Partial<TwinkleConfig>;
+		} catch {
+			return undefined;
+		}
+	};
+	const notifyPreferencesError = (): void => {
+		void mw.notify(uls('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
+			type: 'error',
+			tag: 'twinkle',
+		});
+	};
 	// Retrieve the user's Twinkle preferences (window.Twinkle.prefs)
 	Twinkle.prefs ||= {};
 	void api
@@ -497,22 +538,17 @@ const Morebits = (window as unknown as {Morebits: MorebitsGlobal}).Morebits;
 			if (!response['query'].pages[0].missing) {
 				const content = response['query'].pages[0].revisions[0].slots.main.content ?? '';
 				if (content !== '') {
-					try {
-						window.eval(content);
-					} catch {
-						void mw.notify(uls('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
-							type: 'error',
-							tag: 'twinkle',
-						});
+					const prefs = parseTwinkleOptions(content);
+					if (prefs) {
+						Twinkle.prefs = prefs;
+					} else {
+						notifyPreferencesError();
 					}
 				}
 			}
 		})
 		.fail(() => {
-			void mw.notify(uls('未能加载您的Twinkle参数设置', '未能載入您的Twinkle偏好設定'), {
-				type: 'error',
-				tag: 'twinkle',
-			});
+			notifyPreferencesError();
 		})
 		.always(() => {
 			$(Twinkle.load);

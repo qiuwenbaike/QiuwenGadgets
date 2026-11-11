@@ -1,6 +1,6 @@
 /*! Twinkle.js - twinkleconfig.ts */
 import {createApp, h} from 'vue';
-import TwConfigPanel from './ui/TwConfigPanel.vue';
+import {getDialogComponent} from './utils/lazyDialogs';
 import {uls} from './utils/useUls';
 
 /**
@@ -1189,23 +1189,33 @@ const init = (): void => {
 		}
 		const root = document.createElement('div');
 		contentdiv.appendChild(root);
-		const app = createApp({
-			render: () => {
-				return h(TwConfigPanel, {
-					sections: visibleSections,
-					allSections: sections,
-					defaults: Twinkle.defaultConfig,
-					initialValues,
+		void (async () => {
+			try {
+				const component = await getDialogComponent('TwConfigPanel');
+				const app = createApp({
+					render: () => {
+						return h(component, {
+							sections: visibleSections,
+							allSections: sections,
+							defaults: Twinkle.defaultConfig,
+							initialValues,
+						});
+					},
 				});
-			},
-		});
-		app.mount(root);
-		// since all the section headers exist now, we can try going to the requested anchor
-		if (window.location.hash) {
-			const loc = window.location.hash;
-			window.location.hash = '';
-			window.location.hash = loc;
-		}
+				app.mount(root);
+				// since all the section headers exist now, we can try going to the requested anchor
+				if (window.location.hash) {
+					const loc = window.location.hash;
+					window.location.hash = '';
+					window.location.hash = loc;
+				}
+			} catch {
+				void mw.notify(uls('未能加载Twinkle参数设置面板', '未能載入Twinkle偏好設定面板'), {
+					type: 'error',
+					tag: 'twinkle',
+				});
+			}
+		})();
 	} else if (
 		mw.config.get('wgNamespaceNumber') === mw.config.get('wgNamespaceIds')['user'] &&
 		mw.config.get('wgTitle').indexOf(mw.config.get('wgUserName') ?? '') === 0 &&

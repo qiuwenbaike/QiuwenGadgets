@@ -1,9 +1,8 @@
 /*! Twinkle.js - twinklebatchprotect.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
 import type {PageItem, TwStatusExposed} from './ui/types';
-import TwBatchProtectDialog from './ui/TwBatchProtectDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -55,7 +54,7 @@ twinklebatchprotect.callback = () => {
 		loaded: false,
 	});
 	const dialogInstance: {current: TwStatusExposed | null} = {current: null};
-	mountDialog(TwBatchProtectDialog, {
+	mountLazyDialog('TwBatchProtectDialog', {
 		ref: (instance: unknown) => {
 			dialogInstance.current = (instance as TwStatusExposed) ?? null;
 		},

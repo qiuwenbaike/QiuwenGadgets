@@ -1,9 +1,8 @@
 /*! Twinkle.js - twinkleunlink.ts */
 import {Morebits, type MorebitsWikiApi, type MorebitsWikiApiWithParams} from './ui/morebits';
 import type {TwStatusExposed, UnlinkListData} from './ui/types';
-import TwUnlinkDialog from './ui/TwUnlinkDialog.vue';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -78,7 +77,7 @@ twinkleunlink.callback = (presetReason?: string) => {
 		`<code>{{${escape(mw.config.get('wgTitle') ?? '')}}}</code>` +
 		`${uls('将会被移除', '將會被移除')}${uls('。请小心使用。', '。請小心使用。')}`;
 	const dialogInstance: {current: TwStatusExposed | null} = {current: null};
-	mountDialog(TwUnlinkDialog, {
+	mountLazyDialog('TwUnlinkDialog', {
 		ref: (instance: unknown) => {
 			dialogInstance.current = (instance as TwStatusExposed) ?? null;
 		},

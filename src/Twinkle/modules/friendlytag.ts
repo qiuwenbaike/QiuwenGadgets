@@ -1,7 +1,6 @@
 /*! Twinkle.js - friendlytag.ts */
-import TwTagDialog from './ui/TwTagDialog.vue';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -275,7 +274,7 @@ friendlytag.callback = (): void => {
 			title = uls('重定向标记', '重新導向標記');
 			break;
 	}
-	mountDialog(TwTagDialog, {
+	mountLazyDialog('TwTagDialog', {
 		mode: currentMode,
 		title,
 		canRemove,

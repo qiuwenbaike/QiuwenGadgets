@@ -1,6 +1,5 @@
 /*! Twinkle.js - twinkleclose.ts */
-import TwCloseDialog from './ui/TwCloseDialog.vue';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {uls} from './utils/useUls';
 
 /**
@@ -99,7 +98,7 @@ const addLinks = (): void => {
 };
 
 twinkleclose.callback = (title, section, noop) => {
-	mountDialog(TwCloseDialog, {
+	mountLazyDialog('TwCloseDialog', {
 		title,
 		section: section ?? '',
 		initialNoop: noop,

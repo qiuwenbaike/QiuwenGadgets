@@ -1,9 +1,8 @@
 /*! Twinkle.js - twinklebatchdelete.ts */
 import {Morebits, type MorebitsWikiApi, type MutableTitle} from './ui/morebits';
 import type {PageItem, TwStatusExposed} from './ui/types';
-import TwBatchDeleteDialog from './ui/TwBatchDeleteDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -57,7 +56,7 @@ twinklebatchdelete.callback = () => {
 		loaded: false,
 		subpagesLoading: false,
 	});
-	mountDialog(TwBatchDeleteDialog, {
+	mountLazyDialog('TwBatchDeleteDialog', {
 		ref: (instance: unknown) => {
 			dialogInstance.current = (instance as TwStatusExposed) ?? null;
 		},

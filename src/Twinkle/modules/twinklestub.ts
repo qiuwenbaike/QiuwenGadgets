@@ -1,8 +1,7 @@
 /*! Twinkle.js - twinklestub.ts */
 import {Morebits} from './ui/morebits';
-import TwStubDialog from './ui/TwStubDialog.vue';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {uls} from './utils/useUls';
 
 /**
@@ -104,7 +103,7 @@ twinklestub.callback = () => {
 		};
 	});
 	const alphaTags = makeItems(Object.keys(twinklestub.article.tags));
-	mountDialog(TwStubDialog, {
+	mountLazyDialog('TwStubDialog', {
 		title: uls('条目小作品标记', '條目小作品標記'),
 		mode: twinklestub.mode,
 		initialSortOrder: Twinkle.getPref('stubArticleSortOrder') === 'alpha' ? 'alpha' : 'cat',

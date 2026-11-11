@@ -1,0 +1,344 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://git.qiuwen.net.cn/Mirror/xiplus-twinkle}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/Twinkle}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwDialog.vue?type=style&index=0 */
+.cdx-dialog {
+  max-height: calc(100vh - 16px);
+  max-height: calc(100dvh - 16px);
+}
+.cdx-dialog .cdx-dialog__body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.cdx-dialog .cdx-menu__listbox {
+  max-height: 18em;
+}
+@media (max-width: 767px) {
+  .cdx-dialog {
+    width: calc(100% - 16px);
+  }
+  .cdx-dialog .cdx-dialog__header {
+    padding: 12px 16px;
+  }
+  .cdx-dialog .cdx-dialog__body {
+    padding: 12px 16px;
+  }
+  .cdx-dialog .cdx-dialog__footer {
+    padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwStatus.vue?type=style&index=0 */
+.tw-status-messages[data-v-dc2c89b3] {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwArvDialog.vue?type=style&index=0 */
+.tw-arv-blockwarning[data-v-90e99a11] {
+  margin-bottom: 0.5em;
+}
+.tw-arv-dyninput[data-v-90e99a11] {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  margin-bottom: 0.25em;
+}
+.tw-arv-dyninput[data-v-90e99a11] .cdx-text-input {
+  flex: 1;
+}
+.tw-arv-spinotice[data-v-90e99a11],
+.tw-arv-aiv-notice[data-v-90e99a11] {
+  margin: 0.5em 0;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwBatchDeleteDialog.vue?type=style&index=0 */
+.tw-dbatch-subgroup[data-v-f1b435c4] {
+  margin-left: 1.5em;
+}
+.tw-batch-protected[data-v-f1b435c4] {
+  color: #f00;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwBatchProtectDialog.vue?type=style&index=0 */
+.tw-batch-protected[data-v-2046f0ba] {
+  color: #f00;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwBatchUndeleteDialog.vue?type=style&index=0 */
+.tw-batch-protected[data-v-e53e84a1] {
+  color: #f00;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwBlockDialog.vue?type=style&index=0 */
+.tw-block-notice[data-v-8d257111] {
+  margin: 0.5em 0;
+  color: #a00;
+}
+.tw-block-64-note[data-v-8d257111] {
+  margin: 0.25em 0 0.5em;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwConfigListDialog.vue?type=style&index=0 */
+.tw-config-list-table[data-v-0d7248c9] {
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+.tw-config-list-table .tw-config-list-remove-col[data-v-0d7248c9] {
+  width: 5em;
+}
+.tw-config-list-table td[data-v-0d7248c9] {
+  padding: 0.25em 0.5em;
+}
+.tw-config-list-add[data-v-0d7248c9] {
+  display: block;
+  margin-left: auto;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwConfigPanel.vue?type=style&index=0 */
+.tw-config-toc[data-v-b5e8a01f] {
+  margin-left: 0.4em;
+}
+.tw-config-pref[data-v-b5e8a01f] {
+  display: grid;
+  grid-template-columns: minmax(10em, 22em) minmax(12em, 1fr) minmax(8em, auto);
+  align-items: center;
+  grid-gap: 0.5em 0.8em;
+  gap: 0.5em 0.8em;
+  padding: 0.4em 0;
+  border-bottom: 1px solid #c8ccd1;
+  border-bottom: 1px solid var(--border-color-subtle, #c8ccd1);
+}
+.tw-config-pref[data-v-b5e8a01f]:nth-child(odd) {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+.tw-config-label[data-v-b5e8a01f] {
+  text-align: right;
+}
+.tw-config-boolean[data-v-b5e8a01f] {
+  grid-column: 1 / 3;
+}
+.tw-config-side[data-v-b5e8a01f] {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25em;
+}
+.tw-config-helptip[data-v-b5e8a01f] {
+  font-size: 90%;
+  color: #54595d;
+  color: var(--color-subtle, #54595d);
+}
+.tw-config-reset[data-v-b5e8a01f] {
+  text-align: right;
+  font-size: 90%;
+}
+.tw-config-set[data-v-b5e8a01f] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.7em;
+}
+.tw-config-set[data-v-b5e8a01f] .cdx-checkbox {
+  margin-right: 0.4em;
+}
+.tw-config-section h4[data-v-b5e8a01f] {
+  border-bottom: 1px solid #808080;
+  margin: 0.8em 0 0.2em;
+}
+.tw-config-buttonpane[data-v-b5e8a01f] {
+  display: flex;
+  align-items: baseline;
+  gap: 2em;
+  margin-top: 1em;
+  padding: 0.5em;
+  background-color: #bccadf;
+}
+@media (max-width: 767px) {
+  .tw-config-pref[data-v-b5e8a01f] {
+    grid-template-columns: 1fr auto;
+  }
+  .tw-config-label[data-v-b5e8a01f] {
+    text-align: left;
+    grid-column: 1 / -1;
+  }
+  .tw-config-control[data-v-b5e8a01f],
+  .tw-config-boolean[data-v-b5e8a01f] {
+    grid-column: 1;
+  }
+  .tw-config-side[data-v-b5e8a01f] {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+  }
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwConfigPanel.vue?type=style&index=1 */
+#twinkle-config-headerbox {
+  padding: 0.6em;
+  border: 1px #f60 solid;
+  margin: 0.5em auto;
+  background: #fed;
+  text-align: center;
+}
+#twinkle-config-headerbox.config-twopt-box {
+  width: 80%;
+  border-width: 2px;
+  font-weight: bold;
+}
+#twinkle-config-headerbox.config-userskin-box {
+  width: 60%;
+}
+#twinkle-config-content input[type=checkbox] {
+  margin-right: 2px;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwProtectDialog.vue?type=style&index=0 */
+.tw-protect-loginfo[data-v-acd37781] {
+  margin-bottom: 0.5em;
+}
+.tw-protect-current[data-v-acd37781] {
+  color: #000;
+}
+.tw-protect-current-warn[data-v-acd37781] {
+  color: #c00;
+}
+.tw-protect-custom-date[data-v-acd37781] {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 32px;
+  margin-top: 4px;
+  padding: 4px 8px;
+  border: 1px solid #a2a9b1;
+  border: 1px solid var(--border-color-base, #a2a9b1);
+  border-radius: 2px;
+  background-color: #fff;
+  background-color: var(--background-color-base, #fff);
+  color: #202122;
+  color: var(--color-base, #202122);
+  font-size: 1rem;
+}
+.tw-protect-custom-date[data-v-acd37781]:focus {
+  border-color: #36c;
+  border-color: var(--border-color-progressive, #36c);
+  box-shadow: inset 0 0 0 1px #36c;
+  box-shadow: inset 0 0 0 1px var(--box-shadow-color-progressive--focus, #36c);
+  outline: 0;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwSpeedyDialog.vue?type=style&index=0 */
+.tw-speedy-header[data-v-ffa653d5] {
+  border-bottom: 1px solid #808080;
+  margin: 0.8em 0 0.4em;
+}
+.tw-speedy-tooltip[data-v-ffa653d5] {
+  font-size: 85%;
+  color: #54595d;
+  color: var(--color-subtle, #54595d);
+  margin-left: 1.75em;
+}
+.tw-speedy-subgroup[data-v-ffa653d5] {
+  margin-left: 1.75em;
+  margin-bottom: 0.6em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+.tw-speedy-subgroup label[data-v-ffa653d5] {
+  font-weight: bold;
+}
+.tw-speedy-prior[data-v-ffa653d5] {
+  margin-top: 0.6em;
+}
+.tw-speedy-hint[data-v-ffa653d5] {
+  margin-top: 0.6em;
+  font-size: 90%;
+}
+.tw-speedy-g7[data-v-ffa653d5] {
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwStubDialog.vue?type=style&index=0 */
+.tw-stub-group-header[data-v-ffa9486f] {
+  margin: 0.5em 0 0;
+}
+.tw-stub-template-link[data-v-ffa9486f] {
+  margin-left: 0.25em;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwTagDialog.vue?type=style&index=0 */
+.tw-tag-workarea[data-v-e69c50d0] {
+  max-height: 28em;
+  overflow-y: auto;
+  margin-bottom: 0.5em;
+}
+.tw-tag-workarea h5[data-v-e69c50d0] {
+  font-size: 110%;
+  margin: 0.25em 0;
+}
+.tw-tag-workarea h5[data-v-e69c50d0]:not(:first-child) {
+  margin-top: 1em;
+}
+.tw-tag-subgroup[data-v-e69c50d0] {
+  margin-left: 1em;
+}
+.tw-tag-template-link[data-v-e69c50d0] {
+  margin-left: 0.25em;
+  -webkit-text-decoration: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+.tw-tag-untagnotice[data-v-e69c50d0] {
+  margin-bottom: 0.5em;
+}
+.tw-tag-sort-tooltip[data-v-e69c50d0] {
+  display: block;
+  font-size: 90%;
+  color: #555;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwTalkbackDialog.vue?type=style&index=0 */
+.tw-talkback-optout[data-v-cba7caa1] {
+  color: #f00;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwUnlinkDialog.vue?type=style&index=0 */
+.tw-unlink-doc[data-v-37ffaf81] {
+  margin-bottom: 0.5em;
+}
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\Twinkle\modules\ui\TwWarnDialog.vue?type=style&index=0 */
+.tw-warn-notice[data-v-9fc64c53] {
+  color: #f00;
+  margin: 0.5em 0;
+}
+.tw-warn-autolevel[data-v-9fc64c53] {
+  color: #f00;
+  margin: 0.5em 0;
+}
+.tw-warn-autolevel .tw-warn-arv-link[data-v-9fc64c53] {
+  font-weight: bold;
+}
+
+/* </nowiki> */
+

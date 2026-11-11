@@ -1,9 +1,8 @@
 /*! Twinkle.js - twinklespeedy.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
 import type {SpeedyCriterion, SpeedyLogParams} from './ui/types';
-import TwSpeedyDialog from './ui/TwSpeedyDialog.vue';
 import {footerLinks} from './utils/footerLinks.ts';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -82,7 +81,7 @@ twinklespeedy.callback = (() => {
 		priorCountText: null,
 		priorCountColor: 'inherit',
 	}) as SpeedyDialogData;
-	const {close} = mountDialog(TwSpeedyDialog, {
+	const {close} = mountLazyDialog('TwSpeedyDialog', {
 		isSysop: Morebits.userIsSysop,
 		hasCSD: twinklespeedy.hasCSD,
 		namespace: mw.config.get('wgNamespaceNumber'),

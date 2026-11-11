@@ -1,0 +1,19 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-TwinkleDialogs\"></span> Twinkle 对话框组件，由 Gadget-Twinkle 按需加载",
+	"section": "sysop",
+	"includeSites": ["zhqiuwenbaike"],
+	"dependencies": [
+		"@wikimedia/codex",
+		"ext.gadget.i18n",
+		"ext.gadget.morebits",
+		"ext.gadget.Util",
+		"mediawiki.api",
+		"mediawiki.language",
+		"mediawiki.storage",
+		"mediawiki.util",
+		"user.options",
+		"vue"
+	],
+	"hidden": true
+}

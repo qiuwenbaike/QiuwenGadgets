@@ -1,10 +1,9 @@
 /*! Twinkle.js - twinkleprotect.ts */
 import type {ProtectionInfo, ProtectionOptionGroup, ProtectionOptionItem, ProtectionPresetInfo} from './ui/types';
-import TwProtectDialog from './ui/TwProtectDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
 import {api} from './utils/api';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -106,7 +105,7 @@ twinkleprotect.callback = (): void => {
 		currentStatus: null,
 	});
 	protectionInfo = info;
-	mountDialog(TwProtectDialog, {
+	mountLazyDialog('TwProtectDialog', {
 		isSysop: window.Morebits.userIsSysop,
 		pageExists: mw.config.get('wgArticleId') !== 0,
 		isScribunto: mw.config.get('wgPageContentModel') === 'Scribunto',

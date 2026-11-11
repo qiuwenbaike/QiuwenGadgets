@@ -1,8 +1,7 @@
 /*! Twinkle.js - twinklecopyvio.ts */
 import {Morebits} from './ui/morebits';
-import TwCopyvioDialog from './ui/TwCopyvioDialog.vue';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {uls} from './utils/useUls';
 
 /**
@@ -51,7 +50,7 @@ const twinklecopyvio = (() => {
 }) as TwinkleCopyvio;
 
 twinklecopyvio.callback = () => {
-	mountDialog(TwCopyvioDialog, {
+	mountLazyDialog('TwCopyvioDialog', {
 		title: uls('提报侵权页面', '提報侵權頁面'),
 		footerLinks: footerLinks('copyvio', uls('侵权设置', '侵權設定'), [], true),
 	});

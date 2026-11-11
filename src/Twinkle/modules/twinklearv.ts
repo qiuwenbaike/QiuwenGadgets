@@ -1,6 +1,5 @@
 /*! Twinkle.js - twinklearv.ts */
-import TwArvDialog from './ui/TwArvDialog.vue';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -72,7 +71,7 @@ twinklearv.callback = (uid: string, isIP?: boolean): void => {
 		text: '',
 		severe: true,
 	});
-	mountDialog(TwArvDialog, {
+	mountLazyDialog('TwArvDialog', {
 		uid,
 		isIP: Boolean(isIP),
 		blockNotice,

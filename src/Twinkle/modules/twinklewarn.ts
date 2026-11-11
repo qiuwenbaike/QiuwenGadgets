@@ -1,8 +1,7 @@
 /*! Twinkle.js - twinklewarn.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
-import TwWarnDialog from './ui/TwWarnDialog.vue';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -157,7 +156,7 @@ twinklewarn.callback = () => {
 		mainGroupOptions.find((option) => {
 			return option.selected;
 		})?.value ?? 'autolevel';
-	const {close: closeDialog} = mountDialog(TwWarnDialog, {
+	const {close: closeDialog} = mountLazyDialog('TwWarnDialog', {
 		title: uls('警告、提醒用户', '警告、提醒使用者'),
 		relevantUserName,
 		mainGroupOptions,

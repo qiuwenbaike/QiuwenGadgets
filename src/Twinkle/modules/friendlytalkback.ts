@@ -1,8 +1,7 @@
 /*! Twinkle.js - friendlytalkback.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
-import TwTalkbackDialog from './ui/TwTalkbackDialog.vue';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {uls} from './utils/useUls';
 
 /**
@@ -41,7 +40,7 @@ talkback.callback = () => {
 	) {
 		return;
 	}
-	mountDialog(TwTalkbackDialog, {
+	mountLazyDialog('TwTalkbackDialog', {
 		title: uls('回复通告', '回覆通告'),
 		footerLinks: footerLinks('talkback', uls('通告设置', '通告設定'), [
 			{

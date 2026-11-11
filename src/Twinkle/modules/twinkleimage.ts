@@ -1,7 +1,6 @@
 /*! Twinkle.js - twinkleimage.ts */
-import TwImageDialog from './ui/TwImageDialog.vue';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {uls} from './utils/useUls';
 
 /**
@@ -40,7 +39,7 @@ const twinkleimage = ((): void => {
 }) as TwinkleImageModule;
 
 twinkleimage.callback = () => {
-	mountDialog(TwImageDialog, {
+	mountLazyDialog('TwImageDialog', {
 		title: uls('文件快速删除候选', '檔案快速刪除候選'),
 		initialNotify: Twinkle.getPref('notifyUserOnDeli'),
 		footerLinks: footerLinks(

@@ -1,10 +1,9 @@
 /*! Twinkle.js - twinkleblock.ts */
 import {Morebits} from './ui/morebits';
-import TwBlockDialog from './ui/TwBlockDialog.vue';
 import {UTC8_OFFSET_MINUTES} from './utils/utc8';
 import {api} from './utils/api';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
 
@@ -427,7 +426,7 @@ twinkleblock.callback = () => {
 		const data = dialogData;
 		const sixtyFour = Morebits.ip.get64(mw.config.get('wgRelevantUserName') ?? '');
 		const sixtyFourAvailable = !!sixtyFour && sixtyFour !== mw.config.get('wgRelevantUserName');
-		dialog = mountDialog(TwBlockDialog, {
+		dialog = mountLazyDialog('TwBlockDialog', {
 			key: dialogEpoch,
 			title: uls('封禁或向', '封鎖或向') + relevantUserName + uls('发出封禁模板', '發出封鎖模板'),
 			showBlock: Morebits.userIsSysop,

@@ -1,8 +1,7 @@
 /*! Twinkle.js - twinklexfd.ts */
 import {Morebits} from './ui/morebits';
-import TwXfdDialog from './ui/TwXfdDialog.vue';
 import {footerLinks} from './utils/footerLinks';
-import {mountDialog} from './utils/mountDialog';
+import {mountLazyDialog} from './utils/lazyDialogs';
 import {uls} from './utils/useUls';
 
 export interface TwinkleXfdModule {
@@ -85,7 +84,7 @@ twinklexfd.callback = () => {
 	const fwdcsdReason = deleteReasonElement
 		? decodeURIComponent(deleteReasonElement.textContent ?? '').replace(/\+/g, ' ')
 		: '';
-	mountDialog(TwXfdDialog, {
+	mountLazyDialog('TwXfdDialog', {
 		title: uls('提交存废讨论', '提交存廢討論'),
 		defaultCategory: mw.config.get('wgNamespaceNumber') === 6 ? 'ffd' : 'afd',
 		showFwdCsd: !!Twinkle.getPref('FwdCsdToXfd'),
