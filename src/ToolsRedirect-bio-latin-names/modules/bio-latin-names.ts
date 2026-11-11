@@ -1,5 +1,4 @@
 import {findRedirectCallback, setRedirectTextSuffix} from 'ext.gadget.ToolsRedirect';
-import {uniqueArray} from 'ext.gadget.Util';
 
 const checkRedirect = (): void => {
 	const REGEX_PREFIX: RegExp = /[学學]名\s*[:：]?\s*$/;
@@ -27,7 +26,7 @@ const checkRedirect = (): void => {
 			}
 		}
 
-		return uniqueArray(titles); // Replace Set with uniqueArray, avoiding core-js polyfilling
+		return [...new Set(titles)]; // Replace Set with uniqueArray, avoiding core-js polyfilling
 	});
 };
 

@@ -25,10 +25,9 @@
 
 // dist/ToolsRedirect-bio-latin-names/ToolsRedirect-bio-latin-names.js
 //! src/ToolsRedirect-bio-latin-names/ToolsRedirect-bio-latin-names.ts
-var import_ext_gadget3 = require("ext.gadget.Util");
+var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/ToolsRedirect-bio-latin-names/modules/bio-latin-names.ts
 var import_ext_gadget = require("ext.gadget.ToolsRedirect");
-var import_ext_gadget2 = require("ext.gadget.Util");
 var checkRedirect = () => {
   const REGEX_PREFIX = /[学學]名\s*[:：]?\s*$/;
   const REGEX_COLON = /^\s*[:：]?\s*$/;
@@ -53,12 +52,12 @@ var checkRedirect = () => {
         (0, import_ext_gadget.setRedirectTextSuffix)(title, "{{学名重定向}}");
       }
     }
-    return (0, import_ext_gadget2.uniqueArray)(titles);
+    return [...new Set(titles)];
   });
 };
 //! src/ToolsRedirect-bio-latin-names/ToolsRedirect-bio-latin-names.ts
 (function toolsRedirectBioLatinNames() {
-  void (0, import_ext_gadget3.checkDependencies)("ToolsRedirect").then(checkRedirect);
+  void (0, import_ext_gadget2.checkDependencies)("ToolsRedirect").then(checkRedirect);
 })();
 
 })();

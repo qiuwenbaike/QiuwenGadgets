@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type MessageKey =
 	| 'toolsredirect-btntitle'
 	| 'toolsredirect-btndesc'
@@ -36,7 +35,7 @@ type RedirectCallback = (
 	pageName: string,
 	content: JQuery,
 	titles?: string[]
-) => string[] | JQuery<any> | JQuery.Promise<any>;
+) => string[] | JQuery<string> | JQuery.Promise<string[]>;
 type RedirectTabName = 'view' | 'create';
 type RedirectTab = {cont: JQuery; loaded: boolean};
 type RedirectMethod = {
@@ -55,9 +54,9 @@ interface ToolsRedirectApi {
 	fix(pagenames: string[]): void;
 	create(pagenames: string[]): void;
 	addRedirectTextSuffix(title: string, text: string): string;
-	bulkEdit(titles: string[], text: string, summary: string): JQuery.Promise<any>;
-	bulkEditByRegex(titles: string[], regex: RegExp, text: string, summary: string): JQuery.Promise<any>;
-	loadTabCont(tabname: RedirectTabName, callback: () => JQuery.Promise<any>, reload?: boolean): void;
+	bulkEdit(titles: string[], text: string, summary: string): JQuery.Promise<unknown>;
+	bulkEditByRegex(titles: string[], regex: RegExp, text: string, summary: string): JQuery.Promise<unknown>;
+	loadTabCont(tabname: RedirectTabName, callback: () => JQuery.Promise<unknown>, reload?: boolean): void;
 	loading(container: JQuery): void;
 	loaded(container: JQuery): void;
 	selectAll(cont: JQuery): void;
@@ -69,7 +68,7 @@ interface ToolsRedirectApi {
 	buildSelection(main: RedirectMethod, methods: RedirectMethod[], pageTitle: string, disabled: boolean): JQuery;
 	loadView(reload?: boolean): void;
 	loadCreate(reload?: boolean): void;
-	loadRedirect(pagename: string, container: JQuery, deep: number, loaded?: RedirectLoaded): JQuery.Promise<any>;
+	loadRedirect(pagename: string, container: JQuery, deep: number, loaded?: RedirectLoaded): JQuery.Promise<unknown>;
 	findVariants(pagename: string, titles: string[]): JQuery.Promise<string[]>;
 	findNotExists(titles: string[]): JQuery.Promise<string[]>;
 	findRedirect(pagename: string): JQuery.Promise<string[]>;

@@ -1,7 +1,6 @@
 import * as OPTIONS from '../options.json';
 import {RedirectCallback, RedirectMethod, ToolsRedirectApi} from './types';
 import {SUFFIX_APPEND, SUFFIX_REPLACE, SUFFIX_SETDEFAULT, VARIANTS} from './constant';
-import {generateArray, uniqueArray} from 'ext.gadget.Util';
 import {api} from './api';
 import {fixNamespace} from './util/fixNamespace';
 import {getMessage} from './util/getMessage';
@@ -26,7 +25,7 @@ const findRedirectCallback = function (
 	if (callback) {
 		findRedirectCallbacks[findRedirectCallbacks.length] = callback;
 	} else {
-		findRedirectCallbacks = generateArray(findRedirectCallbacks, callback, ...args) as RedirectCallback[];
+		findRedirectCallbacks = findRedirectCallbacks.concat(callback, ...(args as RedirectCallback[]));
 	}
 	return this;
 };
@@ -41,7 +40,7 @@ const findRedirectBySelector = function (this: ToolsRedirectApi, selector: strin
 	/* A shortcut to add CSS selectors as rule to find new potential redirect titles. */
 	findRedirectCallbacks[findRedirectCallbacks.length] = () => {
 		return $(selector).map((_index, element) => {
-			return $(element).eq(0).text().trim() || null;
+			return $(element).eq(0).text().trim(); // empty strings are filtered in findRedirect
 		});
 	};
 	return this;
@@ -60,9 +59,9 @@ const setRedirectTextSuffix = (title: string, suffix: string, flag?: number): vo
 		flag_set = true;
 	}
 	if (flag_set) {
-		pageWithRedirectTextSuffix[title] = generateArray(suffix);
+		pageWithRedirectTextSuffix[title] = ([] as string[]).concat(suffix);
 	} else if (flag_append) {
-		pageWithRedirectTextSuffix[title] = generateArray(pageWithRedirectTextSuffix[title] ?? [], suffix) as string[];
+		pageWithRedirectTextSuffix[title] = (pageWithRedirectTextSuffix[title] ?? []).concat(suffix);
 	}
 };
 
@@ -125,7 +124,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 	},
 	addRedirectTextSuffix(title, text) {
 		if (title in pageWithRedirectTextSuffix) {
-			text += `\n${uniqueArray(pageWithRedirectTextSuffix[title] ?? []).join('\n')}`; // Replace Set with uniqueArray, avoiding core-js polyfilling
+			text += `\n${[...new Set(pageWithRedirectTextSuffix[title] ?? [])].join('\n')}`; // Replace Set with uniqueArray, avoiding core-js polyfilling
 		}
 		return text;
 	},
@@ -486,7 +485,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 				suffixes[suffixes.length] = suffix;
 			}
 			// append suffixes
-			for (const suffix of uniqueArray(suffixes)) {
+			for (const suffix of new Set(suffixes)) {
 				retTitles = [
 					...retTitles,
 					...titles.map((title) => {
@@ -496,7 +495,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 				];
 			}
 
-			return self.findNotExists(uniqueArray(retTitles)); // Replace Set with uniqueArray, avoiding core-js polyfilling
+			return self.findNotExists([...new Set(retTitles)]); // Replace Set with uniqueArray, avoiding core-js polyfilling
 		});
 	},
 	findNotExists(titles) {
@@ -570,7 +569,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 				// is Deferred
 				frcDeferreds[frcDeferreds.length] = ret;
 			} else {
-				titles = uniqueArray([...titles, ...ret]); // Replace Set with uniqueArray, avoiding core-js polyfilling
+				titles = [...new Set([...titles, ...ret])]; // Replace Set with uniqueArray, avoiding core-js polyfilling
 			}
 		}
 		// remove all empty titles
@@ -587,7 +586,7 @@ const ToolsRedirect: ToolsRedirectApi = {
 					if (typeof ret === 'string') {
 						titles[titles.length] = ret;
 					} else {
-						titles = uniqueArray([...titles, ...ret]); // Replace Set with uniqueArray, avoiding core-js polyfilling
+						titles = [...new Set([...titles, ...ret])]; // Replace Set with uniqueArray, avoiding core-js polyfilling
 					}
 				}
 				return self.findVariants(pagename, titles);

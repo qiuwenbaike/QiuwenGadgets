@@ -73,8 +73,6 @@ var SUFFIX_APPEND = 0;
 var SUFFIX_REPLACE = 1;
 var SUFFIX_SETDEFAULT = 2;
 var VARIANTS = ["zh-hans", "zh-hant", "zh-cn", "zh-hk", "zh-mo", "zh-sg", "zh-my", "zh-tw"];
-//! src/ToolsRedirect/modules/core.ts
-var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/ToolsRedirect/modules/api.ts
 var import_ext_gadget = require("ext.gadget.Util");
 var api = (0, import_ext_gadget.initMwApi)(`ToolsRedirect/${version}`);
@@ -125,14 +123,14 @@ var findRedirectCallback = function(callback, ...args) {
   if (callback) {
     findRedirectCallbacks[findRedirectCallbacks.length] = callback;
   } else {
-    findRedirectCallbacks = (0, import_ext_gadget2.generateArray)(findRedirectCallbacks, callback, ...args);
+    findRedirectCallbacks = findRedirectCallbacks.concat(callback, ...args);
   }
   return this;
 };
 var findRedirectBySelector = function(selector) {
   findRedirectCallbacks[findRedirectCallbacks.length] = () => {
     return $(selector).map((_index, element) => {
-      return $(element).eq(0).text().trim() || null;
+      return $(element).eq(0).text().trim();
     });
   };
   return this;
@@ -149,9 +147,9 @@ var setRedirectTextSuffix = (title, suffix, flag) => {
     flag_set = true;
   }
   if (flag_set) {
-    pageWithRedirectTextSuffix[title] = (0, import_ext_gadget2.generateArray)(suffix);
+    pageWithRedirectTextSuffix[title] = [].concat(suffix);
   } else if (flag_append) {
-    pageWithRedirectTextSuffix[title] = (0, import_ext_gadget2.generateArray)(pageWithRedirectTextSuffix[title] ?? [], suffix);
+    pageWithRedirectTextSuffix[title] = (pageWithRedirectTextSuffix[title] ?? []).concat(suffix);
   }
 };
 var ToolsRedirect = {
@@ -212,7 +210,7 @@ var ToolsRedirect = {
   addRedirectTextSuffix(title, text) {
     if (title in pageWithRedirectTextSuffix) {
       text += `
-${(0, import_ext_gadget2.uniqueArray)(pageWithRedirectTextSuffix[title] ?? []).join("\n")}`;
+${[...new Set(pageWithRedirectTextSuffix[title] ?? [])].join("\n")}`;
     }
     return text;
   },
@@ -549,13 +547,13 @@ ${(0, import_ext_gadget2.uniqueArray)(pageWithRedirectTextSuffix[title] ?? []).j
         retTitles[retTitles.length] = title;
         suffixes[suffixes.length] = suffix;
       }
-      for (const suffix of (0, import_ext_gadget2.uniqueArray)(suffixes)) {
+      for (const suffix of new Set(suffixes)) {
         retTitles = [...retTitles, ...titles.map((title) => {
           const modifiedTitle = fixNamespace(title);
           return suffixReg.test(modifiedTitle) ? modifiedTitle : modifiedTitle + suffix;
         })];
       }
-      return self.findNotExists((0, import_ext_gadget2.uniqueArray)(retTitles));
+      return self.findNotExists([...new Set(retTitles)]);
     });
   },
   findNotExists(titles) {
@@ -628,7 +626,7 @@ ${(0, import_ext_gadget2.uniqueArray)(pageWithRedirectTextSuffix[title] ?? []).j
       } else if ("done" in ret) {
         frcDeferreds[frcDeferreds.length] = ret;
       } else {
-        titles = (0, import_ext_gadget2.uniqueArray)([...titles, ...ret]);
+        titles = [.../* @__PURE__ */ new Set([...titles, ...ret])];
       }
     }
     titles = titles.map((title) => title || "").filter(Boolean);
@@ -642,7 +640,7 @@ ${(0, import_ext_gadget2.uniqueArray)(pageWithRedirectTextSuffix[title] ?? []).j
         if (typeof ret === "string") {
           titles[titles.length] = ret;
         } else {
-          titles = (0, import_ext_gadget2.uniqueArray)([...titles, ...ret]);
+          titles = [.../* @__PURE__ */ new Set([...titles, ...ret])];
         }
       }
       return self.findVariants(pagename, titles);
@@ -697,7 +695,7 @@ ${(0, import_ext_gadget2.uniqueArray)(pageWithRedirectTextSuffix[title] ?? []).j
   }
 };
 //! src/ToolsRedirect/ToolsRedirect.ts
-var import_ext_gadget3 = require("ext.gadget.Util");
+var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/ToolsRedirect/modules/ui.ts
 var import_vue4 = require("vue");
 var import_vue = require("vue");
@@ -917,7 +915,7 @@ var setMessages = () => {
 };
 //! src/ToolsRedirect/ToolsRedirect.ts
 setMessages();
-void (0, import_ext_gadget3.getBody)().then(($body) => {
+void (0, import_ext_gadget2.getBody)().then(($body) => {
   const {
     open
   } = mountToolsRedirect(ToolsRedirect);
