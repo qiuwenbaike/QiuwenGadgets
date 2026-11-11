@@ -3,7 +3,6 @@
 	"description": "<span id=\"Gadget-UserRightsManager\"></span> 用户权限管理器 <small>用于[[zhqiuwenbaike:Project talk:权限申请|权限申请]]页面</small>",
 	"section": "sysop",
 	"includeSites": ["zhqiuwenbaike"],
-	"namespaces": [5],
 	"dependencies": [
 		"@wikimedia/codex",
 		"ext.gadget.i18n",
@@ -12,5 +11,6 @@
 		"mediawiki.util",
 		"vue"
 	],
+	"namespaces": [5],
 	"rights": ["protect"]
 }

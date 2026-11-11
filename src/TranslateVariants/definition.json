@@ -2,7 +2,6 @@
 	"enable": true,
 	"description": "<span id=\"Gadget-TranslateVariants\"></span> TranslateVariants <small>面向界面管理员的界面文字繁简自动转换工具</small>",
 	"section": "sysop",
-	"namespaces": [8],
 	"dependencies": [
 		"@wikimedia/codex",
 		"ext.gadget.i18n",
@@ -12,5 +11,6 @@
 		"mediawiki.util",
 		"vue"
 	],
+	"namespaces": [8],
 	"rights": ["editinterface"]
 }

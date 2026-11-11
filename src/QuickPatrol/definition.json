@@ -3,7 +3,7 @@
 	"description": "<span id=\"Gadget-QuickPatrol\"></span> 在“[[Special:最新页面|新页面]]”界面中快速巡查页面",
 	"section": "sysop",
 	"excludeSites": ["loginwiki"],
-	"namespaces": [-1],
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.api"],
+	"namespaces": [-1],
 	"rights": ["patrol"]
 }
