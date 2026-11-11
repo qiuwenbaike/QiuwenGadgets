@@ -215,3 +215,5 @@ $(async () => {
 	UI.insertSettingsPanelButton(handleSettingsButtonClicked);
 	UI.bindPreloadEvents(handlePreload);
 });
+
+export {};

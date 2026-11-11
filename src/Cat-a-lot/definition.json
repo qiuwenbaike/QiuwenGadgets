@@ -12,5 +12,6 @@
 		"mediawiki.storage",
 		"mediawiki.util"
 	],
+	"namespaces": [-1, 14],
 	"rights": ["skipcaptcha"]
 }
