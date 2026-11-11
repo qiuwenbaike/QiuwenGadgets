@@ -919,31 +919,13 @@ var require_es_regexp_flags = __commonJS({
 // dist/Navigation_popups/Navigation_popups.js
 //! src/Navigation_popups/modules/domdrag.ts
 require_es_regexp_flags();
-var Drag = class _Drag {
+var Drag = class {
   obj = null;
   startCondition;
   endHook;
   constructor() {
     this.startCondition = null;
     this.endHook = null;
-  }
-  /**
-   * Gets an event in a cross-browser manner.
-   *
-   * @param {Event} e
-   * @private
-   */
-  static fixE(e) {
-    if (e === void 0) {
-      e = window.event;
-    }
-    if (e.layerX === void 0) {
-      e.layerX = e.offsetX;
-    }
-    if (e.layerY === void 0) {
-      e.layerY = e.offsetY;
-    }
-    return e;
   }
   /**
    * Initialises the Drag instance by telling it which object you want to be draggable, and what
@@ -984,7 +966,6 @@ var Drag = class _Drag {
    */
   start(e) {
     const o = this.obj;
-    e = _Drag.fixE(e);
     if (this.startCondition && !this.startCondition(e)) {
       return void 0;
     }
@@ -1012,7 +993,6 @@ var Drag = class _Drag {
    * @private
    */
   drag(e) {
-    e = _Drag.fixE(e);
     const o = this.obj;
     const root = o.root;
     const ey = e.clientY;
@@ -1127,31 +1107,8 @@ var Mousetracker = class {
    * @param {Event} e Mousemove event
    */
   track(e) {
-    e || (e = window.event);
-    let x;
-    let y;
     if (e) {
-      if (e.pageX) {
-        x = e.pageX;
-        y = e.pageY;
-      } else if (e.clientX === void 0) {
-        return;
-      } else {
-        let left;
-        let top;
-        const docElt = document.documentElement;
-        if (docElt) {
-          left = docElt.scrollLeft;
-        }
-        left || (left = document.querySelector("body").scrollLeft || document.scrollLeft || 0);
-        if (docElt) {
-          top = docElt.scrollTop;
-        }
-        top || (top = document.querySelector("body").scrollTop || document.scrollTop || 0);
-        x = e.clientX + left;
-        y = e.clientY + top;
-      }
-      this.setPosition(x, y);
+      this.setPosition(e.pageX, e.pageY);
     }
   }
   /**
@@ -2432,11 +2389,7 @@ var Title = class _Title extends Stringwrapper {
         m[2] = m[2].split("+").join("_");
       }
       const extracted = m[2] + (m[3] ? `#${m[3]}` : "");
-      if (pg.flag.isSafari && /%25[\dA-Fa-f]{2}/.test(extracted)) {
-        this.setUtf(decodeURIComponent(unescape(extracted)));
-      } else {
-        this.setUtf(_Title.decodeNasties(extracted));
-      }
+      this.setUtf(_Title.decodeNasties(extracted));
     }
     return this;
   }
@@ -2712,6 +2665,12 @@ var stubCount = (data, article) => {
 };
 var isValidImageName = (str) => {
   return !str.includes("{");
+};
+var isInStrippableNamespace = (article) => {
+  return article.namespaceId() !== 0;
+};
+var isInMainNamespace = (article) => {
+  return article.namespaceId() === 0;
 };
 var anchorContainsImage = (a) => {
   if (a === null) {
@@ -3619,12 +3578,7 @@ var wiki2html = (txt, baseurl) => {
 //! src/Navigation_popups/modules/shortcutkeys.ts
 var lastPopupLinkSelected = null;
 var popupHandleKeypress = function popupHandleKeypress2(evt) {
-  let keyCode;
-  if (window.event) {
-    keyCode = window.event.keyCode;
-  } else {
-    keyCode = evt.keyCode ?? evt.which;
-  }
+  const keyCode = evt.keyCode;
   if (!keyCode || !pg.current.link || !pg.current.link.navpopup) {
     return;
   }
@@ -3668,14 +3622,11 @@ var addPopupShortcuts = () => {
 };
 var rmPopupShortcuts = () => {
   lastPopupLinkSelected = null;
-  try {
-    if (document.oldPopupOnkeypress && document.oldPopupOnkeypress === popupHandleKeypress) {
-      document.onkeypress = null;
-      return;
-    }
-    document.onkeypress = document.oldPopupOnkeypress;
-  } catch {
+  if (document.oldPopupOnkeypress && document.oldPopupOnkeypress === popupHandleKeypress) {
+    document.onkeypress = null;
+    return;
   }
+  document.onkeypress = document.oldPopupOnkeypress;
 };
 var addLinkProperty = (html, property) => {
   const i = html.indexOf(">");
@@ -3779,165 +3730,6 @@ var runStopPopupTimer = (navpop) => {
     }, "hide", "before");
   }
 };
-//! src/Navigation_popups/modules/htmloutput.ts
-var setPopupHTML = function setPopupHTML2(str, elementId, popupId, onSuccess, append) {
-  if (popupId === void 0) {
-    popupId = pg.idNumber;
-  }
-  const popupElement = document.getElementById(`${elementId}${popupId}`);
-  if (popupElement) {
-    if (!append) {
-      popupElement.innerHTML = "";
-    }
-    if (isString(str)) {
-      popupElement.innerHTML += str;
-    } else {
-      popupElement.append(str);
-    }
-    if (onSuccess) {
-      onSuccess();
-    }
-    setTimeout(checkPopupPosition, 100);
-    return true;
-  }
-  setTimeout(() => {
-    setPopupHTML2(str, elementId, popupId, onSuccess);
-  }, 600);
-  return null;
-};
-var setPopupTrailer = (str, id) => {
-  return setPopupHTML(str, "popupData", id);
-};
-var fillEmptySpans = (args) => {
-  let redir = true;
-  let rcid;
-  if (typeof args !== "object" || args.redir === void 0 || !args.redir) {
-    redir = false;
-  }
-  const a = args.navpopup.parentAnchor;
-  let article;
-  let hint;
-  let oldid;
-  let params = {};
-  if (redir && typeof args.redirTarget === typeof {}) {
-    article = args.redirTarget;
-  } else {
-    article = new Title().fromAnchor(a);
-    hint = a.originalTitle || article.hintValue();
-    params = parseParams(a.href);
-    oldid = getValueOf("popupHistoricalLinks") ? params.oldid : null;
-    ({
-      rcid
-    } = params);
-  }
-  const x = {
-    article,
-    hint,
-    oldid,
-    rcid,
-    navpop: args.navpopup,
-    params
-  };
-  const structure = pg.structures[getValueOf("popupStructure")];
-  if (typeof structure !== "object") {
-    setPopupHTML("popupError", `Unknown structure (this should never happen): ${pg.option.popupStructure}`, args.navpopup.idNumber);
-    return;
-  }
-  const spans = flatten(pg.misc.layout);
-  const numspans = spans.length;
-  const redirs = pg.misc.redirSpans;
-  for (let i = 0; i < numspans; ++i) {
-    const found = redirs && redirs.includes(spans[i]);
-    if (found && !redir || !found && redir) {
-      continue;
-    }
-    const structurefn = structure[spans[i]];
-    if (structurefn === void 0) {
-      continue;
-    }
-    let setfn = setPopupHTML;
-    if (getValueOf("popupActiveNavlinks") && (spans[i].indexOf("popupTopLinks") === 0 || spans[i].indexOf("popupRedirTopLinks") === 0)) {
-      setfn = setPopupTipsAndHTML;
-    }
-    switch (typeof structurefn) {
-      case "function":
-        log(`running ${spans[i]}({
-						article:${x.article}, hint:${x.hint}, oldid: ${x.oldid}})`);
-        setfn(structurefn(x), spans[i], args.navpopup.idNumber);
-        break;
-      case "string":
-        setfn(structurefn, spans[i], args.navpopup.idNumber);
-        break;
-      default:
-        errlog(`unknown thing with label ${spans[i]} (span index was ${i})`);
-        break;
-    }
-  }
-};
-var flatten = function flatten2(list, start) {
-  const ret = [];
-  if (start === void 0) {
-    start = 0;
-  }
-  for (let i = start; i < list.length; ++i) {
-    if (typeof list[i] === typeof []) {
-      return [...ret, ...flatten2(list[i]), ...flatten2(list, i + 1)];
-    }
-    ret.push(list[i]);
-  }
-  return ret;
-};
-var popupHTML = function popupHTML2(a) {
-  getValueOf("popupStructure");
-  const structure = pg.structures[pg.option.popupStructure];
-  if (typeof structure !== "object") {
-    pg.option.popupStructure = pg.optionDefault.popupStructure;
-    return popupHTML2(a);
-  }
-  if (typeof structure.popupLayout !== "function") {
-    return "Bad layout";
-  }
-  pg.misc.layout = structure.popupLayout();
-  pg.misc.redirSpans = typeof structure.popupRedirSpans === "function" ? structure.popupRedirSpans() : [];
-  return makeEmptySpans(pg.misc.layout, a.navpopup);
-};
-var makeEmptySpans = function makeEmptySpans2(list, navpop) {
-  let ret = "";
-  for (const element of list) {
-    if (typeof element === "string") {
-      ret += emptySpanHTML(element, navpop.idNumber, "div");
-    } else if (typeof element === typeof [] && element.length > 0) {
-      ret = ret.split(/(<\/[^>]*?>$)/).join(makeEmptySpans2(element, navpop));
-    } else if (typeof element === typeof {} && element.nodeType) {
-      ret += emptySpanHTML(element.name, navpop.idNumber, element.nodeType);
-    }
-  }
-  return ret;
-};
-var emptySpanHTML = function emptySpanHTML2(name, id, tag, classname) {
-  tag || (tag = "span");
-  classname || (classname = emptySpanHTML2.classAliases[name]);
-  classname || (classname = name);
-  if (name === getValueOf("popupDragHandle")) {
-    classname += " popupDragHandle";
-  }
-  return simplePrintf('<%s id="%s" class="%s"></%s>', [tag, name + id, classname, tag]);
-};
-emptySpanHTML.classAliases = {
-  popupSecondPreview: "popupPreview"
-};
-var popTipsSoonFn = (id, when, popData) => {
-  when || (when = 250);
-  const popTips = () => {
-    setupTooltips(document.getElementById(`${id}`), false, true, popData);
-  };
-  return () => {
-    setTimeout(popTips, when, popData);
-  };
-};
-var setPopupTipsAndHTML = (html, divname, idnumber, popData) => {
-  setPopupHTML(html, divname, idnumber, getValueOf("popupSubpopups") ? popTipsSoonFn(divname + idnumber, null, popData) : null);
-};
 //! src/Navigation_popups/modules/downloader.ts
 var Downloader = class {
   http;
@@ -3952,9 +3744,7 @@ var Downloader = class {
   data;
   owner;
   constructor(url) {
-    if (typeof XMLHttpRequest !== "undefined") {
-      this.http = new XMLHttpRequest();
-    }
+    this.http = new XMLHttpRequest();
     this.url = url;
     this.id = null;
     this.lastModified = null;
@@ -4117,180 +3907,19 @@ var abortAllDownloads = () => {
     }
   }
 };
-//! src/Navigation_popups/modules/getpage.ts
-var getPageWithCaching = (url, onComplete, owner) => {
-  log(`getPageWithCaching, url=${url}`);
-  const i = findInPageCache(url);
-  let d;
-  if (i > -1) {
-    d = fakeDownload(url, owner.idNumber, onComplete, pg.cache.pages[i].data, pg.cache.pages[i].lastModified, owner);
-  } else {
-    d = getPage(url, onComplete, owner);
-    if (d && owner && owner.addDownload) {
-      owner.addDownload(d);
-      d.owner = owner;
-    }
-  }
-};
-var getPage = (url, onComplete, owner) => {
-  log("getPage");
-  const callback = (d) => {
-    if (!d.aborted) {
-      addPageToCache(d);
-      onComplete(d);
-    }
-  };
-  return startDownload(url, owner.idNumber, callback);
-};
-var findInPageCache = (url) => {
-  for (let i = 0; i < pg.cache.pages.length; ++i) {
-    if (url === pg.cache.pages[i].url) {
-      return i;
-    }
-  }
-  return -1;
-};
-var addPageToCache = (download) => {
-  log(`addPageToCache ${download.url}`);
-  const page = {
-    url: download.url,
-    data: download.data,
-    lastModified: download.lastModified
-  };
-  return pg.cache.pages.push(page);
-};
-//! src/Navigation_popups/modules/images.ts
-var loadImage = (image, navpop) => {
-  if (typeof image.stripNamespace !== "function") {
-    void mw.notify("loadImages bad", {
-      tag: "popups",
-      type: "error"
-    });
-  }
-  if (!getValueOf("popupImages")) {
-    return;
-  }
-  if (!isValidImageName(image.toString())) {
-    return false;
-  }
-  const art = image.urlString();
-  let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query`;
-  url += `&prop=imageinfo&iiprop=url|mime&iiurlwidth=${getValueOf("popupImageSizeLarge")}`;
-  url += `&titles=${art}`;
-  pendingNavpopTask(navpop);
-  const callback = (d) => {
-    popupsInsertImage(navpop.idNumber, navpop, d);
-  };
-  const go = () => {
-    getPageWithCaching(url, callback, navpop);
-    return true;
-  };
-  if (navpop.visible || !getValueOf("popupLazyDownloads")) {
-    go();
-  } else {
-    navpop.addHook(go, "unhide", "after", "DOWNLOAD_IMAGE_QUERY_DATA");
-  }
-  return false;
-};
-var popupsInsertImage = (id, _navpop, download) => {
-  log("popupsInsertImage");
-  let imageinfo;
-  try {
-    const jsObj = getJsObj(download.data);
-    const imagepage = anyChild(jsObj.query.pages);
-    if (imagepage.imageinfo === void 0) {
-      return;
-    }
-    [imageinfo] = imagepage.imageinfo;
-  } catch {
-    log("popupsInsertImage failed :(");
-    return;
-  }
-  const popupImage = document.querySelector(`#popupImg${id}`);
-  if (!popupImage) {
-    log("could not find insertion point for image");
-    return;
-  }
-  popupImage.width = getValueOf("popupImageSize");
-  popupImage.style.display = "inline";
-  if (imageinfo.thumburl) {
-    popupImage.src = imageinfo.thumburl;
-  } else if (imageinfo.mime.indexOf("image") === 0) {
-    popupImage.src = imageinfo.url;
-    log("a thumb could not be found, using original image");
-  } else {
-    log("fullsize imagethumb, but not sure if it's an image");
-  }
-  const a = document.querySelector(`#popupImageLink${id}`);
-  if (a === null) {
-    return null;
-  }
-  const thumbAction = getValueOf("popupThumbAction");
-  if (thumbAction === "imagepage" && pg.current.article.namespaceId() !== pg.nsImageId) {
-    a.href = imageinfo.descriptionurl;
-    popTipsSoonFn(`popupImage${id}`)();
-    return null;
-  }
-  switch (thumbAction) {
-    case "imagepage":
-    case "sizetoggle":
-      a.onclick = toggleSize;
-      a.title = popupString("Toggle image size");
-      return;
-    case "linkfull":
-      a.href = imageinfo.url;
-      a.title = popupString("Open full-size image");
-  }
-  return null;
-};
-var toggleSize = function toggleSize2() {
-  const self2 = this;
-  if (!self2) {
-    void mw.notify("self is null :/", {
-      tag: "popups",
-      type: "error"
-    });
-    return;
-  }
-  const img = self2.firstChild;
-  if (!img) {
-    void mw.notify("img is null :/", {
-      tag: "popups",
-      type: "error"
-    });
-    return;
-  }
-  img.style.width = !img.style.width || img.style.width === "" ? "100%" : "";
-};
-var getValidImageFromWikiText = (wikiText) => {
-  let matched;
-  let match;
-  const t = removeMatchesUnless(wikiText, /(<!--[\S\s]*?-->)/, 1, /^<!--[^[]*popup/i);
-  while ((match = pg.re.image.exec(t)) !== null) {
-    const m = match[2] || match[6];
-    if (isValidImageName(m)) {
-      matched = m;
-      break;
-    }
-  }
-  pg.re.image.lastIndex = 0;
-  if (!matched) {
-    return null;
-  }
-  return `${mw.config.get("wgFormattedNamespaces")[pg.nsImageId]}:${upcaseFirst(matched)}`;
-};
-var removeMatchesUnless = (str, re1, parencount, re2) => {
-  const split = str.split(re1);
-  const c = parencount + 1;
-  for (let i = 0; i < split.length; ++i) {
-    if (i % c === 0 || re2.test(split[i])) {
-      continue;
-    }
-    split[i] = "";
-  }
-  return split.join("");
-};
 //! src/Navigation_popups/modules/links.ts
+var titledDiffLink = (l) => {
+  return titledWikiLink({
+    article: l.article,
+    action: `${l.to}&oldid=${l.from}`,
+    newWin: l.newWin,
+    noPopup: l.noPopup,
+    text: l.text,
+    title: l.title,
+    /* hack: no oldid here */
+    actionName: "diff"
+  });
+};
 var wikiLink = (l) => {
   if (!(typeof l.article === typeof {} && typeof l.action === "string" && typeof l.text === "string")) {
     return null;
@@ -4492,6 +4121,10 @@ pg.fn.togglePreviews = () => {
   pg.option.simplePopups = !pg.option.simplePopups;
   abortAllDownloads();
 };
+var magicWatchLink = function magicWatchLink2(l) {
+  l.onclick = simplePrintf("pg.fn.modifyWatchlist('%s','%s');return false;", [l.article.toString(true).split("\\").join("\\\\").split("'").join(String.raw`\'`), this.id]);
+  return wikiLink(l);
+};
 pg.fn.modifyWatchlist = async (title, action) => {
   const reqData = {
     action: "watch",
@@ -4513,6 +4146,86 @@ pg.fn.modifyWatchlist = async (title, action) => {
   await getMwApi().loadMessagesIfMissing([messageName]);
   void mw.notify(mw.message(messageName, title).parseDom(), {
     tag: "popups"
+  });
+};
+var magicHistoryLink = (l) => {
+  let title = "";
+  let onClick = "";
+  switch (l.id) {
+    case "lastContrib":
+      onClick = simplePrintf("pg.fn.getLastContrib('%s',%s)", [l.article.toString(true).split("\\").join("\\\\").split("'").join(String.raw`\'`), l.newWin]);
+      title = popupString("lastContribHint");
+      break;
+    case "sinceMe":
+      onClick = simplePrintf("pg.fn.getDiffSinceMyEdit('%s',%s)", [l.article.toString(true).split("\\").join("\\\\").split("'").join(String.raw`\'`), l.newWin]);
+      title = popupString("sinceMeHint");
+      break;
+  }
+  onClick += ";return false;";
+  return generalNavLink({
+    newWin: false,
+    title,
+    text: l.text,
+    noPopup: l.noPopup,
+    onclick: onClick
+  });
+};
+var popupMenuLink = (l) => {
+  const title = popupString(simplePrintf("%sHint", [l.id]));
+  const onClick = simplePrintf("pg.fn.%s();return false;", [l.id]);
+  return generalNavLink({
+    newWin: false,
+    title,
+    text: l.text,
+    noPopup: l.noPopup,
+    onclick: onClick
+  });
+};
+var specialLink = (l) => {
+  if (l.specialpage === void 0 || !l.specialpage) {
+    return null;
+  }
+  const base = `${pg.wiki.titlebase + mw.config.get("wgFormattedNamespaces")[pg.nsSpecialId]}:${l.specialpage}`;
+  l.sep ?? (l.sep = "&target=");
+  let article = l.article.urlString({
+    keepSpaces: l.specialpage === "Search"
+  });
+  let hint = popupString(`${l.specialpage}Hint`);
+  switch (l.specialpage) {
+    case "Log":
+      switch (l.sep) {
+        case "&user=":
+          hint = popupString("userLogHint");
+          break;
+        case "&type=block&page=":
+          hint = popupString("blockLogHint");
+          break;
+        case "&page=":
+          hint = popupString("pageLogHint");
+          break;
+        case "&type=protect&page=":
+          hint = popupString("protectLogHint");
+          break;
+        case "&type=delete&page=":
+          hint = popupString("deleteLogHint");
+          break;
+        default:
+          log(`Unknown log type, sep=${l.sep}`);
+          hint = "Missing hint (FIXME)";
+      }
+      break;
+    case "PrefixIndex":
+      article += "/";
+      break;
+  }
+  hint = hint ? simplePrintf(hint, [safeDecodeURI(l.article)]) : safeDecodeURI(`${l.specialpage}:${l.article}`);
+  const url = base + l.sep + article;
+  return generalNavLink({
+    url,
+    title: hint,
+    text: l.text,
+    newWin: l.newWin,
+    noPopup: l.noPopup
   });
 };
 var generalLink = (l) => {
@@ -4650,6 +4363,77 @@ var redirLink = (redirMatch, article) => {
     title: popupString("Bypass redirect")
   })}`;
 };
+var arinLink = (l) => {
+  if (!saneLinkCheck(l)) {
+    return null;
+  }
+  if (!l.article.isIpUser() || !pg.wiki.wikimedia) {
+    return null;
+  }
+  const uN = l.article.userName();
+  return generalNavLink({
+    url: `http://ws.arin.net/cgi-bin/whois.pl?queryinput=${encodeURIComponent(uN)}`,
+    newWin: l.newWin,
+    title: tprintf("Look up %s in ARIN whois database", [uN]),
+    text: l.text,
+    noPopup: 1
+  });
+};
+var toolDbName = (cookieStyle) => {
+  let ret = mw.config.get("wgDBname");
+  if (!cookieStyle) {
+    ret += "_p";
+  }
+  return ret;
+};
+var saneLinkCheck = (l) => {
+  if (typeof l.article !== typeof {} || typeof l.text !== "string") {
+    return false;
+  }
+  return true;
+};
+var editCounterLink = (l) => {
+  if (!saneLinkCheck(l)) {
+    return null;
+  }
+  if (!pg.wiki.wikimedia) {
+    return null;
+  }
+  const uN = l.article.userName();
+  const tool = getValueOf("popupEditCounterTool");
+  let url;
+  const defaultToolUrl = "//tools.wmflabs.org/supercount/index.php?user=$1&project=$2.$3";
+  switch (tool) {
+    case "custom":
+      url = simplePrintf(getValueOf("popupEditCounterUrl"), [encodeURIComponent(uN), toolDbName()]);
+      break;
+    default: {
+      const theWiki = pg.wiki.hostname.split(".");
+      url = simplePrintf(defaultToolUrl, [encodeURIComponent(uN), theWiki[0], theWiki[1]]);
+    }
+  }
+  return generalNavLink({
+    url,
+    title: tprintf("editCounterLinkHint", [uN]),
+    newWin: l.newWin,
+    text: l.text,
+    noPopup: 1
+  });
+};
+var editorListLink = (l) => {
+  if (!saneLinkCheck(l)) {
+    return null;
+  }
+  const article = l.article.articleFromTalkPage() || l.article;
+  const url = `https://xtools.wmflabs.org/articleinfo/${encodeURI(pg.wiki.hostname)}/${article.urlString()}?uselang=${mw.config.get("wgUserLanguage")}`;
+  return generalNavLink({
+    url,
+    title: tprintf("editorListHint", [article]),
+    newWin: l.newWin,
+    text: l.text,
+    noPopup: 1
+  });
+};
 var generalNavLink = (l) => {
   l.className = l.className === null ? "popupNavLink" : l.className;
   return generalLink(l);
@@ -4707,6 +4491,1001 @@ var finishProcessHistory = (edits, userName) => {
     }
   }
   return histInfo;
+};
+//! src/Navigation_popups/modules/navlinks.ts
+var defaultNavlinkSpec = () => {
+  let str = "";
+  str += "<b><<mainlink|shortcut= >></b>";
+  if (getValueOf("popupLastEditLink")) {
+    str += "*<<lastEdit|shortcut=/>>|<<lastContrib>>|<<sinceMe>>if(oldid){|<<oldEdit>>|<<diffCur>>}";
+  }
+  str += "if(user){<br><<contribs|shortcut=c>>*<<userlog|shortcut=L|log>>";
+  str += "if(ipuser){*<<arin>>}if(wikimedia){*<<count|shortcut=#>>}";
+  str += "if(ipuser){}else{*<<email|shortcut=E>>}if(admin){*<<block|shortcut=b>>|<<blocklog|log>>}}";
+  const editstr = "<<edit|shortcut=e>>";
+  const editOldidStr = `if(oldid){<<editOld|shortcut=e>>|<<revert|shortcut=v|rv>>|<<edit|cur>>}else{${editstr}}`;
+  const historystr = "<<history|shortcut=h>>|<<editors|shortcut=E|>>";
+  const watchstr = "<<unwatch|unwatchShort>>|<<watch|shortcut=w|watchThingy>>";
+  str += `<br>if(talk){${editOldidStr}|<<new|shortcut=+>>*${historystr}*${watchstr}*<b><<article|shortcut=a>></b>|<<editArticle|edit>>}else{${// not a talk page
+  editOldidStr}*${historystr}*${watchstr}*<b><<talk|shortcut=t>></b>|<<editTalk|edit>>|<<newTalk|shortcut=+|new>>}`;
+  str += "<br><<whatLinksHere|shortcut=l>>*<<relatedChanges|shortcut=r>>*<<move|shortcut=m>>";
+  str += "if(admin){<br><<unprotect|unprotectShort>>|<<protect|shortcut=p>>|<<protectlog|log>>*<<undelete|undeleteShort>>|<<delete|shortcut=d>>|<<deletelog|log>>}";
+  return str;
+};
+var navLinksHTML = (article, _hint, params) => {
+  const str = `<span class="popupNavLinks">${defaultNavlinkSpec()}</span>`;
+  return navlinkStringToHTML(str, article, params);
+};
+var expandConditionalNavlinkString = function expandConditionalNavlinkString2(s, article, z, recursionCount) {
+  const {
+    oldid
+  } = z;
+  const {
+    rcid
+  } = z;
+  const {
+    diff: diff2
+  } = z;
+  recursionCount || (recursionCount = 0);
+  const conditionalSplitRegex = /(;?\s*if\s*\(\s*(\w*)\s*\)\s*{([^{}]*)}(\s*else\s*{([^{}]*?)}|))/i;
+  const splitted = s.split(conditionalSplitRegex);
+  const numParens = 5;
+  let ret = splitted[0];
+  for (let i = 1; i < splitted.length; i = i + numParens + 1) {
+    const testString = splitted[i + 1];
+    const trueString = splitted[i + 2];
+    let falseString = splitted[i + 4];
+    if (falseString === void 0 || !falseString) {
+      falseString = "";
+    }
+    let testResult;
+    switch (testString) {
+      case "user":
+        testResult = !!article.userName();
+        break;
+      case "talk":
+        testResult = !article.talkPage();
+        break;
+      case "admin":
+        testResult = !!getValueOf("popupAdminLinks");
+        break;
+      case "oldid":
+        testResult = !!(oldid !== void 0 && oldid);
+        break;
+      case "rcid":
+        testResult = !!(rcid !== void 0 && rcid);
+        break;
+      case "ipuser":
+        testResult = !!article.isIpUser();
+        break;
+      case "mainspace_en":
+        testResult = isInMainNamespace(article) && pg.wiki.hostname === "en.wikipedia.org";
+        break;
+      case "wikimedia":
+        testResult = !!pg.wiki.wikimedia;
+        break;
+      case "diff":
+        testResult = !!(diff2 !== void 0 && diff2);
+        break;
+    }
+    switch (testResult) {
+      case null:
+        ret += splitted[i];
+        break;
+      case true:
+        ret += trueString;
+        break;
+      case false:
+        ret += falseString;
+        break;
+    }
+    ret += splitted[i + numParens];
+  }
+  if (conditionalSplitRegex.test(ret) && recursionCount < 10) {
+    return expandConditionalNavlinkString2(ret, article, z, recursionCount + 1);
+  }
+  return ret;
+};
+var navlinkStringToArray = (s, article, params) => {
+  s = expandConditionalNavlinkString(s, article, params);
+  const splitted = s.split(/<<(.*?)>>/);
+  const ret = [];
+  for (const [i, element] of splitted.entries()) {
+    if (i % 2) {
+      const t = new navlinkTag();
+      const ss = element.split("|");
+      [t.id] = ss;
+      for (let j = 1; j < ss.length; ++j) {
+        const sss = ss[j].split("=");
+        if (sss.length > 1) {
+          [, t[sss[0]]] = sss;
+        } else {
+          t.text = popupString(sss[0]);
+        }
+      }
+      t.article = article;
+      const {
+        oldid
+      } = params;
+      const {
+        rcid
+      } = params;
+      const {
+        diff: diff2
+      } = params;
+      if (oldid !== void 0 && oldid !== null) {
+        t.oldid = oldid;
+      }
+      if (rcid !== void 0 && rcid !== null) {
+        t.rcid = rcid;
+      }
+      if (diff2 !== void 0 && diff2 !== null) {
+        t.diff = diff2;
+      }
+      if (!t.text && t.id !== "mainlink") {
+        t.text = popupString(t.id);
+      }
+      ret.push(t);
+    } else {
+      ret.push(element);
+    }
+  }
+  return ret;
+};
+var navlinkSubstituteHTML = (s) => {
+  return s.split("*").join(getValueOf("popupNavLinkSeparator")).split("<menurow>").join('<li class="popup_menu_row">').split("</menurow>").join("</li>").split("<menu>").join('<ul class="popup_menu">').split("</menu>").join("</ul>");
+};
+var navlinkDepth = (magic, s) => {
+  return s.split(`<${magic}>`).length - s.split(`</${magic}>`).length;
+};
+var navlinkStringToHTML = (s, article, params) => {
+  const p = navlinkStringToArray(s, article, params);
+  let html = "";
+  let menudepth = 0;
+  let menurowdepth = 0;
+  for (const element of p) {
+    if (typeof element === "string") {
+      html += navlinkSubstituteHTML(element);
+      menudepth += navlinkDepth("menu", element);
+      menurowdepth += navlinkDepth("menurow", element);
+    } else if (element instanceof navlinkTag) {
+      html += menudepth > 0 && menurowdepth === 0 ? `<li class="popup_menu_item">${element.html()}</li>` : element.html();
+    }
+  }
+  return html;
+};
+var navlinkTag = class {
+  type;
+  id;
+  text;
+  title;
+  shortcut;
+  article;
+  print;
+  specialpage;
+  sep;
+  action;
+  oldid;
+  rcid;
+  diff;
+  newWin;
+  noPopup;
+  from;
+  to;
+  constructor() {
+    this.type = "navlinkTag";
+  }
+  html() {
+    this.getNewWin();
+    this.getPrintFunction();
+    let html = "";
+    let opening;
+    let closing;
+    const tagType = "span";
+    if (tagType) {
+      opening = `<${tagType} class="popup_${this.id}">`;
+      closing = `</${tagType}>`;
+    } else {
+      opening = "";
+      closing = "";
+    }
+    if (typeof this.print === "function") {
+      html = this.print(this);
+      if (typeof html !== "string") {
+        html = "";
+      } else if (this.shortcut !== void 0) {
+        html = addPopupShortcut(html, this.shortcut);
+      }
+    } else {
+      errlog(`Oh dear - invalid print function for a navlinkTag, id=${this.id}`);
+    }
+    return opening + html + closing;
+  }
+  getNewWin() {
+    getValueOf("popupLinksNewWindow");
+    if (pg.option.popupLinksNewWindow[this.id] === void 0) {
+      this.newWin = null;
+    }
+    this.newWin = pg.option.popupLinksNewWindow[this.id];
+  }
+  getPrintFunction() {
+    if (typeof this.id !== "string" || typeof this.article !== typeof {}) {
+      return;
+    }
+    this.noPopup = 1;
+    switch (this.id) {
+      case "contribs":
+      case "history":
+      case "whatLinksHere":
+      case "userPage":
+      case "userTalk":
+      case "talk":
+      case "article":
+      case "lastEdit":
+        this.noPopup = null;
+    }
+    switch (this.id) {
+      case "email":
+      case "contribs":
+      case "block":
+      case "unblock":
+      case "userlog":
+      case "userSpace":
+      case "deletedContribs":
+        this.article = this.article.userName();
+    }
+    switch (this.id) {
+      case "userTalk":
+      case "newUserTalk":
+      case "editUserTalk":
+      case "userPage":
+      case "blocklog":
+        this.article = this.article.userName(true);
+        delete this.oldid;
+        break;
+      case "pagelog":
+      case "deletelog":
+      case "protectlog":
+        delete this.oldid;
+    }
+    if (this.id !== "mainlink") {
+      this.article = this.article.removeAnchor();
+    }
+    switch (this.id) {
+      case "undelete":
+        this.print = specialLink;
+        this.specialpage = "Undelete";
+        this.sep = "/";
+        break;
+      case "whatLinksHere":
+        this.print = specialLink;
+        this.specialpage = "Whatlinkshere";
+        break;
+      case "relatedChanges":
+        this.print = specialLink;
+        this.specialpage = "Recentchangeslinked";
+        break;
+      case "move":
+        this.print = specialLink;
+        this.specialpage = "Movepage";
+        break;
+      case "contribs":
+        this.print = specialLink;
+        this.specialpage = "Contributions";
+        break;
+      case "deletedContribs":
+        this.print = specialLink;
+        this.specialpage = "Deletedcontributions";
+        break;
+      case "email":
+        this.print = specialLink;
+        this.specialpage = "EmailUser";
+        this.sep = "/";
+        break;
+      case "block":
+        this.print = specialLink;
+        this.specialpage = "Blockip";
+        this.sep = "&ip=";
+        break;
+      case "unblock":
+        this.print = specialLink;
+        this.specialpage = "Ipblocklist";
+        this.sep = "&action=unblock&ip=";
+        break;
+      case "userlog":
+        this.print = specialLink;
+        this.specialpage = "Log";
+        this.sep = "&user=";
+        break;
+      case "blocklog":
+        this.print = specialLink;
+        this.specialpage = "Log";
+        this.sep = "&type=block&page=";
+        break;
+      case "pagelog":
+        this.print = specialLink;
+        this.specialpage = "Log";
+        this.sep = "&page=";
+        break;
+      case "protectlog":
+        this.print = specialLink;
+        this.specialpage = "Log";
+        this.sep = "&type=protect&page=";
+        break;
+      case "deletelog":
+        this.print = specialLink;
+        this.specialpage = "Log";
+        this.sep = "&type=delete&page=";
+        break;
+      case "userSpace":
+        this.print = specialLink;
+        this.specialpage = "PrefixIndex";
+        this.sep = "&namespace=2&prefix=";
+        break;
+      case "search":
+        this.print = specialLink;
+        this.specialpage = "Search";
+        this.sep = "&fulltext=Search&search=";
+        break;
+      case "thank":
+        this.print = specialLink;
+        this.specialpage = "Thanks";
+        this.sep = "/";
+        this.article.value = this.diff === "prev" ? this.oldid : this.diff;
+        break;
+      case "unwatch":
+      case "watch":
+        this.print = magicWatchLink;
+        this.action = `${this.id}&autowatchlist=1&autoimpl=${popupString("autoedit_version")}&actoken=${autoClickToken()}`;
+        break;
+      case "history":
+      case "historyfeed":
+      case "unprotect":
+      case "protect":
+        this.print = wikiLink;
+        this.action = this.id;
+        break;
+      case "delete":
+        this.print = wikiLink;
+        this.action = "delete";
+        if (this.article.namespaceId() === pg.nsImageId) {
+          const img = this.article.stripNamespace();
+          this.action += `&image=${img}`;
+        }
+        break;
+      case "markpatrolled":
+      case "edit":
+        delete this.oldid;
+        this.print = wikiLink;
+        this.action = this.id;
+        break;
+      case "view":
+      case "purge":
+      case "render":
+        this.print = wikiLink;
+        this.action = this.id;
+        break;
+      case "raw":
+        this.print = wikiLink;
+        this.action = "raw";
+        break;
+      case "new":
+        this.print = wikiLink;
+        this.action = "edit&section=new";
+        break;
+      case "mainlink":
+        if (this.text === void 0) {
+          this.text = this.article.toString().entify();
+        }
+        if (getValueOf("popupSimplifyMainLink") && isInStrippableNamespace(this.article)) {
+          const s = this.text.split("/");
+          this.text = s.at(-1);
+          if (this.text === "" && s.length > 1) {
+            this.text = s.at(-2);
+          }
+        }
+        this.print = titledWikiLink;
+        if (this.title === void 0 && pg.current.link && pg.current.link.href !== void 0) {
+          this.title = safeDecodeURI(pg.current.link.originalTitle ?? this.article);
+          if (this.oldid !== void 0 && this.oldid) {
+            this.title = tprintf("Revision %s of %s", [this.oldid, this.title]);
+          }
+        }
+        this.action = "view";
+        break;
+      case "userPage":
+      case "article":
+      case "editArticle":
+        delete this.oldid;
+        this.article = this.article.articleFromTalkOrArticle();
+        this.print = wikiLink;
+        this.action = this.id.indexOf("edit") === 0 ? "edit" : "view";
+        break;
+      case "userTalk":
+      case "talk":
+        this.article = this.article.talkPage();
+        delete this.oldid;
+        this.print = wikiLink;
+        this.action = "view";
+        break;
+      case "arin":
+        this.print = arinLink;
+        break;
+      case "count":
+        this.print = editCounterLink;
+        break;
+      case "editors":
+        this.print = editorListLink;
+        break;
+      case "lastEdit":
+        this.print = titledDiffLink;
+        this.title = popupString("Show the last edit");
+        this.from = "prev";
+        this.to = "cur";
+        break;
+      case "oldEdit":
+        this.print = titledDiffLink;
+        this.title = `${popupString("Show the edit made to get revision")} ${this.oldid}`;
+        this.from = "prev";
+        this.to = this.oldid;
+        break;
+      case "editOld":
+        this.print = wikiLink;
+        this.action = "edit";
+        break;
+      case "undo":
+        this.print = wikiLink;
+        this.action = "edit&undo=";
+        break;
+      case "revert":
+        this.print = wikiLink;
+        this.action = "revert";
+        break;
+      case "nullEdit":
+        this.print = wikiLink;
+        this.action = "nullEdit";
+        break;
+      case "diffCur":
+        this.print = titledDiffLink;
+        this.title = tprintf("Show changes since revision %s", [this.oldid]);
+        this.from = this.oldid;
+        this.to = "cur";
+        break;
+      case "editUserTalk":
+      case "editTalk":
+        delete this.oldid;
+        this.article = this.article.talkPage();
+        this.action = "edit";
+        this.print = wikiLink;
+        break;
+      case "newUserTalk":
+      case "newTalk":
+        this.article = this.article.talkPage();
+        this.action = "edit&section=new";
+        this.print = wikiLink;
+        break;
+      case "lastContrib":
+      case "sinceMe":
+        this.print = magicHistoryLink;
+        break;
+      case "togglePreviews":
+      case "disablePopups":
+      case "purgePopups":
+        if (this.id === "togglePreviews") {
+          this.text = popupString(pg.option.simplePopups ? "enable previews" : "disable previews");
+        }
+        this.print = popupMenuLink;
+        break;
+      default:
+        this.print = () => `Unknown navlink type: ${this.id}`;
+    }
+  }
+};
+//! src/Navigation_popups/modules/structures.ts
+pg.structures.original = {};
+pg.structures.original.popupLayout = () => {
+  return ["popupError", "popupImage", "popupTopLinks", "popupTitle", "popupUserData", "popupData", "popupOtherLinks", "popupRedir", ["popupWarnRedir", "popupRedirTopLinks", "popupRedirTitle", "popupRedirData", "popupRedirOtherLinks"], "popupMiscTools", ["popupRedlink"], "popupPrePreviewSep", "popupPreview", "popupSecondPreview", "popupPreviewMore", "popupPostPreview", "popupFixDab"];
+};
+pg.structures.original.popupRedirSpans = () => {
+  return ["popupRedir", "popupWarnRedir", "popupRedirTopLinks", "popupRedirTitle", "popupRedirData", "popupRedirOtherLinks"];
+};
+pg.structures.original.popupTitle = (x) => {
+  log("defaultstructure.popupTitle");
+  if (!getValueOf("popupNavLinks")) {
+    return navlinkStringToHTML("<b><<mainlink>></b>", x.article, x.params);
+  }
+  return "";
+};
+pg.structures.original.popupTopLinks = (x) => {
+  log("defaultstructure.popupTopLinks");
+  if (getValueOf("popupNavLinks")) {
+    return navLinksHTML(x.article, x.hint, x.params);
+  }
+  return "";
+};
+pg.structures.original.popupImage = (x) => {
+  log(`original.popupImage, x.article=${x.article}, x.navpop.idNumber=${x.navpop.idNumber}`);
+  return imageHTML(x.article, x.navpop.idNumber);
+};
+pg.structures.original.popupRedirTitle = pg.structures.original.popupTitle;
+pg.structures.original.popupRedirTopLinks = pg.structures.original.popupTopLinks;
+var copyStructure = (oldStructure, newStructure) => {
+  pg.structures[newStructure] = {};
+  for (const prop in pg.structures[oldStructure]) {
+    if (!Object.hasOwn(pg.structures[oldStructure], prop)) {
+      continue;
+    }
+    pg.structures[newStructure][prop] = pg.structures[oldStructure][prop];
+  }
+};
+copyStructure("original", "nostalgia");
+pg.structures.nostalgia.popupTopLinks = (x) => {
+  let str = "";
+  str += "<b><<mainlink|shortcut= >></b>";
+  str += "if(user){<br><<contribs|shortcut=c>>";
+  str += "if(wikimedia){*<<count|shortcut=#>>}";
+  str += "if(ipuser){}else{*<<email|shortcut=E>>}if(admin){*<<block|shortcut=b>>}}";
+  const editstr = "<<edit|shortcut=e>>";
+  const editOldidStr = `if(oldid){<<editOld|shortcut=e>>|<<revert|shortcut=v|rv>>|<<edit|cur>>}else{${editstr}}`;
+  const historystr = "<<history|shortcut=h>>";
+  const watchstr = "<<unwatch|unwatchShort>>|<<watch|shortcut=w|watchThingy>>";
+  str += `<br>if(talk){${editOldidStr}|<<new|shortcut=+>>*${historystr}*${watchstr}*<b><<article|shortcut=a>></b>|<<editArticle|edit>>}else{${// not a talk page
+  editOldidStr}*${historystr}*${watchstr}*<b><<talk|shortcut=t>></b>|<<editTalk|edit>>|<<newTalk|shortcut=+|new>>}`;
+  str += "<br><<whatLinksHere|shortcut=l>>*<<relatedChanges|shortcut=r>>";
+  str += "if(admin){<br>}else{*}<<move|shortcut=m>>";
+  str += "if(admin){*<<unprotect|unprotectShort>>|<<protect|shortcut=p>>*<<undelete|undeleteShort>>|<<delete|shortcut=d>>}";
+  return navlinkStringToHTML(str, x.article, x.params);
+};
+pg.structures.nostalgia.popupRedirTopLinks = pg.structures.nostalgia.popupTopLinks;
+copyStructure("original", "fancy");
+pg.structures.fancy.popupTitle = (x) => {
+  return navlinkStringToHTML("<font size=+0><<mainlink>></font>", x.article, x.params);
+};
+pg.structures.fancy.popupTopLinks = (x) => {
+  const hist = "<<history|shortcut=h|hist>>|<<lastEdit|shortcut=/|last>>|<<editors|shortcut=E|eds>>";
+  const watch = "<<unwatch|unwatchShort>>|<<watch|shortcut=w|watchThingy>>";
+  const move = "<<move|shortcut=m|move>>";
+  return navlinkStringToHTML(`if(talk){<<edit|shortcut=e>>|<<new|shortcut=+|+>>*${hist}*<<article|shortcut=a>>|<<editArticle|edit>>*${watch}*${move}}else{<<edit|shortcut=e>>*${hist}*<<talk|shortcut=t|>>|<<editTalk|edit>>|<<newTalk|shortcut=+|new>>*${watch}*${move}}<br>`, x.article, x.params);
+};
+pg.structures.fancy.popupOtherLinks = (x) => {
+  const admin = "<<unprotect|unprotectShort>>|<<protect|shortcut=p>>*<<undelete|undeleteShort>>|<<delete|shortcut=d|del>>";
+  let user = "<<contribs|shortcut=c>>if(wikimedia){|<<count|shortcut=#|#>>}";
+  user += `if(ipuser){|<<arin>>}else{*<<email|shortcut=E|${popupString("email")}>>}if(admin){*<<block|shortcut=b>>}`;
+  const normal = "<<whatLinksHere|shortcut=l|links here>>*<<relatedChanges|shortcut=r|related>>";
+  return navlinkStringToHTML(`<br>if(user){${user}*}if(admin){${admin}if(user){<br>}else{*}}${normal}`, x.article, x.params);
+};
+pg.structures.fancy.popupRedirTitle = pg.structures.fancy.popupTitle;
+pg.structures.fancy.popupRedirTopLinks = pg.structures.fancy.popupTopLinks;
+pg.structures.fancy.popupRedirOtherLinks = pg.structures.fancy.popupOtherLinks;
+copyStructure("fancy", "fancy2");
+pg.structures.fancy2.popupTopLinks = // hack out the <br> at the end and put one at the beginning
+(x) => {
+  return `<br>${pg.structures.fancy.popupTopLinks(x).replace(/<br>$/i, "")}`;
+};
+pg.structures.fancy2.popupLayout = () => {
+  return ["popupError", "popupImage", "popupTitle", "popupUserData", "popupData", "popupTopLinks", "popupOtherLinks", "popupRedir", ["popupWarnRedir", "popupRedirTopLinks", "popupRedirTitle", "popupRedirData", "popupRedirOtherLinks"], "popupMiscTools", ["popupRedlink"], "popupPrePreviewSep", "popupPreview", "popupSecondPreview", "popupPreviewMore", "popupPostPreview", "popupFixDab"];
+};
+copyStructure("original", "menus");
+pg.structures.menus.popupLayout = () => {
+  return ["popupError", "popupImage", "popupTopLinks", "popupTitle", "popupOtherLinks", "popupRedir", ["popupWarnRedir", "popupRedirTopLinks", "popupRedirTitle", "popupRedirData", "popupRedirOtherLinks"], "popupUserData", "popupData", "popupMiscTools", ["popupRedlink"], "popupPrePreviewSep", "popupPreview", "popupSecondPreview", "popupPreviewMore", "popupPostPreview", "popupFixDab"];
+};
+pg.structures.menus.popupTopLinks = (x, shorter) => {
+  const s = [];
+  const dropdiv = '<div class="popup_drop">';
+  const enddiv = "</div>";
+  let hist = "<<history|shortcut=h>>";
+  if (!shorter) {
+    hist = `<menurow>${hist}|<<historyfeed|rss>>|<<editors|shortcut=E>></menurow>`;
+  }
+  const lastedit = "<<lastEdit|shortcut=/|show last edit>>";
+  const thank = "if(diff){<<thank|send thanks>>}";
+  const jsHistory = "<<lastContrib|last set of edits>><<sinceMe|changes since mine>>";
+  const linkshere = "<<whatLinksHere|shortcut=l|what links here>>";
+  const related = "<<relatedChanges|shortcut=r|related changes>>";
+  const search = "<menurow><<search|shortcut=s>></menurow>";
+  const watch = "<menurow><<unwatch|unwatchShort>>|<<watch|shortcut=w|watchThingy>></menurow>";
+  const protect = "<menurow><<unprotect|unprotectShort>>|<<protect|shortcut=p>>|<<protectlog|log>></menurow>";
+  const del = "<menurow><<undelete|undeleteShort>>|<<delete|shortcut=d>>|<<deletelog|log>></menurow>";
+  const move = "<<move|shortcut=m|move page>>";
+  const nullPurge = "<menurow><<nullEdit|shortcut=n|null edit>>|<<purge|shortcut=P>></menurow>";
+  const viewOptions = "<menurow><<view|shortcut=v>>|<<render|shortcut=S>>|<<raw>></menurow>";
+  const editRow = "if(oldid){<menurow><<edit|shortcut=e>>|<<editOld|shortcut=e|this&nbsp;revision>></menurow><menurow><<revert|shortcut=v>>|<<undo>></menurow>}else{<<edit|shortcut=e>>}";
+  const markPatrolled = "if(rcid){<<markpatrolled|mark patrolled>>}";
+  const newTopic = "if(talk){<<new|shortcut=+|new topic>>}";
+  const protectDelete = `if(admin){${protect}${del}}`;
+  if (getValueOf("popupActionsMenu")) {
+    s.push(`<<mainlink>>*${dropdiv}${menuTitle("actions")}`);
+  } else {
+    s.push(`${dropdiv}<<mainlink>>`);
+  }
+  s.push("<menu>", editRow + markPatrolled + newTopic + hist + lastedit + thank);
+  if (!shorter) {
+    s.push(jsHistory);
+  }
+  s.push(move + linkshere + related);
+  if (!shorter) {
+    s.push(nullPurge + search);
+  }
+  if (!shorter) {
+    s.push(viewOptions);
+  }
+  s.push(`<hr>${watch}${protectDelete}`, `<hr>if(talk){<<article|shortcut=a|view article>><<editArticle|edit article>>}else{<<talk|shortcut=t|talk page>><<editTalk|edit talk>><<newTalk|shortcut=+|new topic>>}</menu>${enddiv}`);
+  const email = "<<email|shortcut=E|email user>>";
+  const contribs = "if(wikimedia){<menurow>}<<contribs|shortcut=c|contributions>>if(wikimedia){</menurow>}if(admin){<menurow><<deletedContribs>></menurow>}";
+  s.push(`if(user){*${dropdiv}${menuTitle("user")}`, "<menu>", "<menurow><<userPage|shortcut=u|user&nbsp;page>>|<<userSpace|space>></menurow>", "<<userTalk|shortcut=t|user talk>><<editUserTalk|edit user talk>><<newUserTalk|shortcut=+|leave comment>>");
+  if (shorter) {
+    s.push(`if(ipuser){}else{${email}}`);
+  } else {
+    s.push(`if(ipuser){<<arin>>}else{${email}}`);
+  }
+  s.push(`<hr>${contribs}<<userlog|shortcut=L|user log>>`, "if(wikimedia){<<count|shortcut=#|edit counter>>}", "if(admin){<menurow><<unblock|unblockShort>>|<<block|shortcut=b|block user>></menurow>}", "<<blocklog|shortcut=B|block log>>", `</menu>${enddiv}}`);
+  if (getValueOf("popupSetupMenu") && !x.navpop.hasPopupMenu) {
+    x.navpop.hasPopupMenu = true;
+    s.push(`*${dropdiv}${menuTitle("popupsMenu")}<menu>`, "<<togglePreviews|toggle previews>>", "<<purgePopups|reset>>", "<<disablePopups|disable>>", `</menu>${enddiv}`);
+  }
+  return navlinkStringToHTML(s.join(""), x.article, x.params);
+};
+var menuTitle = (s) => {
+  return `<a href="#" noPopup=1>${popupString(s)}</a>`;
+};
+pg.structures.menus.popupRedirTitle = pg.structures.menus.popupTitle;
+pg.structures.menus.popupRedirTopLinks = pg.structures.menus.popupTopLinks;
+copyStructure("menus", "shortmenus");
+pg.structures.shortmenus.popupTopLinks = (x) => {
+  return pg.structures.menus.popupTopLinks(x, true);
+};
+pg.structures.shortmenus.popupRedirTopLinks = pg.structures.shortmenus.popupTopLinks;
+pg.structures.lite = {};
+pg.structures.lite.popupLayout = () => {
+  return ["popupTitle", "popupPreview"];
+};
+pg.structures.lite.popupTitle = (x) => {
+  log(`${x.article}: structures.lite.popupTitle`);
+  return `<div><span class="popup_mainlink"><b>${x.article.toString()}</b></span></div>`;
+};
+var getPgStructures = () => {
+  return pg.structures;
+};
+//! src/Navigation_popups/modules/htmloutput.ts
+pg.structures = getPgStructures();
+var setPopupHTML = function setPopupHTML2(str, elementId, popupId, onSuccess, append) {
+  if (popupId === void 0) {
+    popupId = pg.idNumber;
+  }
+  const popupElement = document.getElementById(`${elementId}${popupId}`);
+  if (popupElement) {
+    if (!append) {
+      popupElement.innerHTML = "";
+    }
+    if (isString(str)) {
+      popupElement.innerHTML += str;
+    } else {
+      popupElement.append(str);
+    }
+    if (onSuccess) {
+      onSuccess();
+    }
+    setTimeout(checkPopupPosition, 100);
+    return true;
+  }
+  setTimeout(() => {
+    setPopupHTML2(str, elementId, popupId, onSuccess);
+  }, 600);
+  return null;
+};
+var setPopupTrailer = (str, id) => {
+  return setPopupHTML(str, "popupData", id);
+};
+var fillEmptySpans = (args) => {
+  let redir = true;
+  let rcid;
+  if (typeof args !== "object" || args.redir === void 0 || !args.redir) {
+    redir = false;
+  }
+  const a = args.navpopup.parentAnchor;
+  let article;
+  let hint;
+  let oldid;
+  let params = {};
+  if (redir && typeof args.redirTarget === typeof {}) {
+    article = args.redirTarget;
+  } else {
+    article = new Title().fromAnchor(a);
+    hint = a.originalTitle || article.hintValue();
+    params = parseParams(a.href);
+    oldid = getValueOf("popupHistoricalLinks") ? params.oldid : null;
+    ({
+      rcid
+    } = params);
+  }
+  const x = {
+    article,
+    hint,
+    oldid,
+    rcid,
+    navpop: args.navpopup,
+    params
+  };
+  const structure = pg.structures[getValueOf("popupStructure")];
+  if (typeof structure !== "object") {
+    setPopupHTML("popupError", `Unknown structure (this should never happen): ${pg.option.popupStructure}`, args.navpopup.idNumber);
+    return;
+  }
+  const spans = flatten(pg.misc.layout);
+  const numspans = spans.length;
+  const redirs = pg.misc.redirSpans;
+  for (let i = 0; i < numspans; ++i) {
+    const found = redirs && redirs.includes(spans[i]);
+    if (found && !redir || !found && redir) {
+      continue;
+    }
+    const structurefn = structure[spans[i]];
+    if (structurefn === void 0) {
+      continue;
+    }
+    let setfn = setPopupHTML;
+    if (getValueOf("popupActiveNavlinks") && (spans[i].indexOf("popupTopLinks") === 0 || spans[i].indexOf("popupRedirTopLinks") === 0)) {
+      setfn = setPopupTipsAndHTML;
+    }
+    switch (typeof structurefn) {
+      case "function":
+        log(`running ${spans[i]}({
+						article:${x.article}, hint:${x.hint}, oldid: ${x.oldid}})`);
+        setfn(structurefn(x), spans[i], args.navpopup.idNumber);
+        break;
+      case "string":
+        setfn(structurefn, spans[i], args.navpopup.idNumber);
+        break;
+      default:
+        errlog(`unknown thing with label ${spans[i]} (span index was ${i})`);
+        break;
+    }
+  }
+};
+var flatten = function flatten2(list, start) {
+  const ret = [];
+  if (start === void 0) {
+    start = 0;
+  }
+  for (let i = start; i < list.length; ++i) {
+    if (typeof list[i] === typeof []) {
+      return [...ret, ...flatten2(list[i]), ...flatten2(list, i + 1)];
+    }
+    ret.push(list[i]);
+  }
+  return ret;
+};
+var popupHTML = function popupHTML2(a) {
+  let structureName = getValueOf("popupStructure");
+  let structure = pg.structures[structureName];
+  if (!structure || typeof structure !== "object") {
+    structureName = pg.optionDefault.popupStructure;
+    structure = pg.structures[structureName];
+    if (!structure || typeof structure !== "object") {
+      structureName = "original";
+      structure = pg.structures[structureName];
+    }
+    pg.option.popupStructure = structureName;
+  }
+  if (!structure || typeof structure.popupLayout !== "function") {
+    return "Bad layout";
+  }
+  pg.misc.layout = structure.popupLayout();
+  pg.misc.redirSpans = typeof structure.popupRedirSpans === "function" ? structure.popupRedirSpans() : [];
+  return makeEmptySpans(pg.misc.layout, a.navpopup);
+};
+var makeEmptySpans = function makeEmptySpans2(list, navpop) {
+  let ret = "";
+  for (const element of list) {
+    if (typeof element === "string") {
+      ret += emptySpanHTML(element, navpop.idNumber, "div");
+    } else if (typeof element === typeof [] && element.length > 0) {
+      ret = ret.split(/(<\/[^>]*?>$)/).join(makeEmptySpans2(element, navpop));
+    } else if (typeof element === typeof {} && element.nodeType) {
+      ret += emptySpanHTML(element.name, navpop.idNumber, element.nodeType);
+    }
+  }
+  return ret;
+};
+var emptySpanHTML = function emptySpanHTML2(name, id, tag, classname) {
+  tag || (tag = "span");
+  classname || (classname = emptySpanHTML2.classAliases[name]);
+  classname || (classname = name);
+  if (name === getValueOf("popupDragHandle")) {
+    classname += " popupDragHandle";
+  }
+  return simplePrintf('<%s id="%s" class="%s"></%s>', [tag, name + id, classname, tag]);
+};
+emptySpanHTML.classAliases = {
+  popupSecondPreview: "popupPreview"
+};
+var imageHTML = (_article, idNumber) => {
+  return simplePrintf('<a id="popupImageLink$1"><img align="right" valign="top" id="popupImg$1" style="display:none"></img></a>', [idNumber]);
+};
+var popTipsSoonFn = (id, when, popData) => {
+  when || (when = 250);
+  const popTips = () => {
+    setupTooltips(document.getElementById(`${id}`), false, true, popData);
+  };
+  return () => {
+    setTimeout(popTips, when, popData);
+  };
+};
+var setPopupTipsAndHTML = (html, divname, idnumber, popData) => {
+  setPopupHTML(html, divname, idnumber, getValueOf("popupSubpopups") ? popTipsSoonFn(divname + idnumber, null, popData) : null);
+};
+//! src/Navigation_popups/modules/getpage.ts
+var getPageWithCaching = (url, onComplete, owner) => {
+  log(`getPageWithCaching, url=${url}`);
+  const i = findInPageCache(url);
+  let d;
+  if (i > -1) {
+    d = fakeDownload(url, owner.idNumber, onComplete, pg.cache.pages[i].data, pg.cache.pages[i].lastModified, owner);
+  } else {
+    d = getPage(url, onComplete, owner);
+    if (d && owner && owner.addDownload) {
+      owner.addDownload(d);
+      d.owner = owner;
+    }
+  }
+};
+var getPage = (url, onComplete, owner) => {
+  log("getPage");
+  const callback = (d) => {
+    if (!d.aborted) {
+      addPageToCache(d);
+      onComplete(d);
+    }
+  };
+  return startDownload(url, owner.idNumber, callback);
+};
+var findInPageCache = (url) => {
+  for (let i = 0; i < pg.cache.pages.length; ++i) {
+    if (url === pg.cache.pages[i].url) {
+      return i;
+    }
+  }
+  return -1;
+};
+var addPageToCache = (download) => {
+  log(`addPageToCache ${download.url}`);
+  const page = {
+    url: download.url,
+    data: download.data,
+    lastModified: download.lastModified
+  };
+  return pg.cache.pages.push(page);
+};
+//! src/Navigation_popups/modules/images.ts
+var loadImage = (image, navpop) => {
+  if (typeof image.stripNamespace !== "function") {
+    void mw.notify("loadImages bad", {
+      tag: "popups",
+      type: "error"
+    });
+  }
+  if (!getValueOf("popupImages")) {
+    return;
+  }
+  if (!isValidImageName(image.toString())) {
+    return false;
+  }
+  const art = image.urlString();
+  let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query`;
+  url += `&prop=imageinfo&iiprop=url|mime&iiurlwidth=${getValueOf("popupImageSizeLarge")}`;
+  url += `&titles=${art}`;
+  pendingNavpopTask(navpop);
+  const callback = (d) => {
+    popupsInsertImage(navpop.idNumber, navpop, d);
+  };
+  const go = () => {
+    getPageWithCaching(url, callback, navpop);
+    return true;
+  };
+  if (navpop.visible || !getValueOf("popupLazyDownloads")) {
+    go();
+  } else {
+    navpop.addHook(go, "unhide", "after", "DOWNLOAD_IMAGE_QUERY_DATA");
+  }
+  return false;
+};
+var popupsInsertImage = (id, _navpop, download) => {
+  log("popupsInsertImage");
+  let imageinfo;
+  try {
+    const jsObj = getJsObj(download.data);
+    const imagepage = anyChild(jsObj.query.pages);
+    if (imagepage.imageinfo === void 0) {
+      return;
+    }
+    [imageinfo] = imagepage.imageinfo;
+  } catch {
+    log("popupsInsertImage failed :(");
+    return;
+  }
+  const popupImage = document.querySelector(`#popupImg${id}`);
+  if (!popupImage) {
+    log("could not find insertion point for image");
+    return;
+  }
+  popupImage.width = getValueOf("popupImageSize");
+  popupImage.style.display = "inline";
+  if (imageinfo.thumburl) {
+    popupImage.src = imageinfo.thumburl;
+  } else if (imageinfo.mime.indexOf("image") === 0) {
+    popupImage.src = imageinfo.url;
+    log("a thumb could not be found, using original image");
+  } else {
+    log("fullsize imagethumb, but not sure if it's an image");
+  }
+  const a = document.querySelector(`#popupImageLink${id}`);
+  if (a === null) {
+    return null;
+  }
+  const thumbAction = getValueOf("popupThumbAction");
+  if (thumbAction === "imagepage" && pg.current.article.namespaceId() !== pg.nsImageId) {
+    a.href = imageinfo.descriptionurl;
+    popTipsSoonFn(`popupImage${id}`)();
+    return null;
+  }
+  switch (thumbAction) {
+    case "imagepage":
+    case "sizetoggle":
+      a.onclick = toggleSize;
+      a.title = popupString("Toggle image size");
+      return;
+    case "linkfull":
+      a.href = imageinfo.url;
+      a.title = popupString("Open full-size image");
+  }
+  return null;
+};
+var toggleSize = function toggleSize2() {
+  const self2 = this;
+  if (!self2) {
+    void mw.notify("self is null :/", {
+      tag: "popups",
+      type: "error"
+    });
+    return;
+  }
+  const img = self2.firstChild;
+  if (!img) {
+    void mw.notify("img is null :/", {
+      tag: "popups",
+      type: "error"
+    });
+    return;
+  }
+  img.style.width = !img.style.width || img.style.width === "" ? "100%" : "";
+};
+var getValidImageFromWikiText = (wikiText) => {
+  let matched;
+  let match;
+  const t = removeMatchesUnless(wikiText, /(<!--[\S\s]*?-->)/, 1, /^<!--[^[]*popup/i);
+  while ((match = pg.re.image.exec(t)) !== null) {
+    const m = match[2] || match[6];
+    if (isValidImageName(m)) {
+      matched = m;
+      break;
+    }
+  }
+  pg.re.image.lastIndex = 0;
+  if (!matched) {
+    return null;
+  }
+  return `${mw.config.get("wgFormattedNamespaces")[pg.nsImageId]}:${upcaseFirst(matched)}`;
+};
+var removeMatchesUnless = (str, re1, parencount, re2) => {
+  const split = str.split(re1);
+  const c = parencount + 1;
+  for (let i = 0; i < split.length; ++i) {
+    if (i % c === 0 || re2.test(split[i])) {
+      continue;
+    }
+    split[i] = "";
+  }
+  return split.join("");
 };
 //! src/Navigation_popups/modules/dab.ts
 var retargetDab = (newTarget, oldTarget, friendlyCurrentArticleName, titleToEdit) => {
@@ -5210,9 +5989,6 @@ var getEditboxSelection = () => {
   } catch {
     return;
   }
-  if (document.selection) {
-    return document.selection.createRange().text;
-  }
   const selStart = editbox.selectionStart;
   const selEnd = editbox.selectionEnd;
   return editbox.value.substring(selStart, selEnd);
@@ -5373,9 +6149,6 @@ var getTimeZone = () => {
   return pg.user.timeZone;
 };
 var useTimeOffset = () => {
-  if (Intl.DateTimeFormat.prototype.formatToParts === void 0) {
-    return true;
-  }
   const tz = mw.user.options.get("timecorrection");
   if (tz && !tz.includes("ZoneInfo|")) {
     return true;
@@ -6350,10 +7123,6 @@ var removeModifierKeyListener = (a) => {
   document.removeEventListener("keyup", a.modifierKeyListener, false);
 };
 var mouseOverWikiLink = function mouseOverWikiLink3(evt) {
-  let e = evt;
-  if (!e && window.event) {
-    e = window.event;
-  }
   if (getValueOf("popupModifier")) {
     const action = getValueOf("popupModifierAction");
     const key = action === "disable" ? "keyup" : "keydown";
@@ -6363,7 +7132,7 @@ var mouseOverWikiLink = function mouseOverWikiLink3(evt) {
     };
     document.addEventListener(key, self2.modifierKeyListener, false);
   }
-  return mouseOverWikiLink2(this, e);
+  return mouseOverWikiLink2(this, evt);
 };
 var footnoteTarget = (a) => {
   const aTitle = Title.fromAnchor(a);
@@ -6394,15 +7163,11 @@ var footnotePreview = (x, navpop) => {
   setPopupHTML(`<hr>${x.innerHTML}`, "popupPreview", navpop.idNumber);
 };
 var modifierPressed = (evt) => {
-  let e = evt;
   const mod = getValueOf("popupModifier");
   if (!mod) {
     return false;
   }
-  if (!e && window.event) {
-    e = window.event;
-  }
-  return e && mod && e[`${mod.toLowerCase()}Key`];
+  return evt && evt[`${mod.toLowerCase()}Key`];
 };
 var isCorrectModifier = (_a, evt) => {
   if (!getValueOf("popupModifier")) {

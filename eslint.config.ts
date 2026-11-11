@@ -373,9 +373,10 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/Navigation_popups/modules/core.js'],
+		files: ['**/Navigation_popups/modules/*.ts'],
 		rules: {
 			camelcase: 'off',
+			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/no-unused-vars': 'off',
 			'@typescript-eslint/no-this-alias': [
 				'error',
