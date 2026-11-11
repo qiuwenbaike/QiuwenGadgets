@@ -4,6 +4,7 @@
 	"section": "sysop",
 	"excludeSites": ["loginwiki"],
 	"default": true,
+	"actions": ["view", "history"],
 	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "mediawiki.api", "mediawiki.storage", "mediawiki.util"],
 	"rights": ["autopatrol", "patrol"]
 }

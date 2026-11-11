@@ -32,7 +32,7 @@
 * VerifyToEdit[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.util,vue|hidden|rights=edit|requiresES6]|VerifyToEdit.js
 
 == browser ==
-* AddSectionPlus[ResourceLoader|dependencies=ext.gadget.Util|rights=edit|requiresES6]|AddSectionPlus.js|AddSectionPlus.css
+* AddSectionPlus[ResourceLoader|actions=view|dependencies=ext.gadget.Util|rights=edit|requiresES6]|AddSectionPlus.js|AddSectionPlus.css
 * AutoLink[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|AutoLink.js
 * CodeLinks[ResourceLoader|default|dependencies=ext.gadget.Util,mediawiki.util|rights=edit|requiresES6]|CodeLinks.js
 * CopyCodeBlock[ResourceLoader|actions=view|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Tippy,vue|requiresES6]|CopyCodeBlock.js|CopyCodeBlock.css
@@ -43,7 +43,7 @@
 * FullwidthSearchFix[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util|requiresES6]|FullwidthSearchFix.js
 * HideLongSummaries[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util|requiresES6]|HideLongSummaries.js
 * LinkSpacing[ResourceLoader|requiresES6]|LinkSpacing.js|LinkSpacing.css
-* PurgePageCache[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=edit|requiresES6]|PurgePageCache.js
+* PurgePageCache[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=edit|requiresES6]|PurgePageCache.js
 * ScrollUpButton[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|requiresES6]|ScrollUpButton.js|ScrollUpButton.css
 * SearchShortcuts[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|SearchShortcuts.js
 * ShortURL[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|requiresES6]|ShortURL.js|ShortURL.css
@@ -94,7 +94,7 @@
 == edit ==
 * Cat-a-lot[ResourceLoader|actions=view|dependencies=ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.util|rights=skipcaptcha|requiresES6]|Cat-a-lot.js|Cat-a-lot.css
 * DefaultSummaries[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|rights=edit|requiresES6]|DefaultSummaries.js
-* DisamAssist[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.Title,mediawiki.util|rights=skipcaptcha|requiresES6]|DisamAssist.js|DisamAssist.css
+* DisamAssist[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.Title,mediawiki.util|rights=skipcaptcha|requiresES6]|DisamAssist.js|DisamAssist.css
 * DisambigLinks[ResourceLoader|requiresES6]|DisambigLinks.css
 * EasyArchive[ResourceLoader|actions=view|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.Title,mediawiki.util,vue|rights=skipcaptcha|requiresES6]|EasyArchive.js|EasyArchive.css
 * Edit0[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Util|rights=edit|requiresES6]|Edit0.js|Edit0.css
@@ -116,14 +116,14 @@
 * Navigation_popups[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.user,mediawiki.util,user.options|requiresES6]|Navigation_popups.js|Navigation_popups.css
 * PreviewWithVariant[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.util,user.options,vue|rights=edit|requiresES6]|PreviewWithVariant.js|PreviewWithVariant.css
 * PreviewWithVariant2017[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|rights=edit|requiresES6]|PreviewWithVariant2017.js|PreviewWithVariant2017.css
-* QuickImport[ResourceLoader|dependencies=ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=import|requiresES6]|QuickImport.js
+* QuickImport[ResourceLoader|actions=view|dependencies=ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=import|requiresES6]|QuickImport.js
 * QuickImportAllMedia[ResourceLoader|dependencies=ext.gadget.QuickImport,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util|rights=import|requiresES6]|QuickImportAllMedia.js
 * ToolsRedirect[ResourceLoader|actions=view|dependencies=@wikimedia/codex,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.util,user.options,vue|rights=edit|requiresES6]|ToolsRedirect.js|ToolsRedirect.css
 * ToolsRedirect-bio-latin-names[ResourceLoader|actions=view|dependencies=ext.gadget.ToolsRedirect,ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-bio-latin-names.js
 * ToolsRedirect-courtesy-and-art-names[ResourceLoader|actions=view|dependencies=ext.gadget.ToolsRedirect,ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-courtesy-and-art-names.js
 * ToolsRedirect-opt-bolds[ResourceLoader|actions=view|dependencies=ext.gadget.ToolsRedirect,ext.gadget.Util,mediawiki.api,user.options|rights=edit|requiresES6]|ToolsRedirect-opt-bolds.js
 * TranslatedPage[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.Title,mediawiki.util|rights=edit|requiresES6]|TranslatedPage.js
-* Wikiplus[ResourceLoader|dependencies=ext.gadget.Util,mediawiki.util,user.options|rights=skipcaptcha|requiresES6]|Wikiplus.js|Wikiplus.css
+* Wikiplus[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.util,user.options|rights=skipcaptcha|requiresES6]|Wikiplus.js|Wikiplus.css
 * Wikiplus-highlight[ResourceLoader|actions=view|dependencies=ext.gadget.Util,ext.gadget.Wikiplus,mediawiki.Title,user.options|rights=skipcaptcha|requiresES6]|Wikiplus-highlight.js|Wikiplus-highlight.css
 
 == skin ==
@@ -134,25 +134,25 @@
 * SkinVector2022[ResourceLoader|default|hidden|skins=vector-2022|requiresES6]|SkinVector2022.css
 
 == sysop ==
-* BanPage[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=patrol|requiresES6]|BanPage.js
-* HRTProtectLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|rights=protect|requiresES6]|HRTProtectLink.js
-* ListUsersLastActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|rights=protect|requiresES6]|ListUsersLastActive.js
+* BanPage[ResourceLoader|actions=view,history|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=patrol|requiresES6]|BanPage.js
+* HRTProtectLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|namespaces=10,828|rights=protect|requiresES6]|HRTProtectLink.js
+* ListUsersLastActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|namespaces=-1|rights=protect|requiresES6]|ListUsersLastActive.js
 * LogFilter[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.Util,mediawiki.util,vue|rights=edit|requiresES6]|LogFilter.js|LogFilter.css
 * MarkBlocked[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|requiresES6]|MarkBlocked.js|MarkBlocked.css
 * MarkRights[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|peers=MarkRights-pagestyles|requiresES6]|MarkRights.js
 * MarkRights-pagestyles[ResourceLoader|hidden|requiresES6]|MarkRights-pagestyles.css
-* MarkRights-Userpage[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.MarkRights,ext.gadget.Util,mediawiki.Title,mediawiki.util,vue|requiresES6]|MarkRights-Userpage.js|MarkRights-Userpage.css
+* MarkRights-Userpage[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.MarkRights,ext.gadget.Util,mediawiki.Title,mediawiki.util,vue|namespaces=2,3|requiresES6]|MarkRights-Userpage.js|MarkRights-Userpage.css
 * OnlineAdmins[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|OnlineAdmins.js|OnlineAdmins.css
-* PagePatroller[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|rights=autopatrol,patrol|requiresES6]|PagePatroller.js
-* QuickPatrol[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|rights=patrol|requiresES6]|QuickPatrol.js
+* PagePatroller[ResourceLoader|actions=view,history|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.util|rights=autopatrol,patrol|requiresES6]|PagePatroller.js
+* QuickPatrol[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|namespaces=-1|rights=patrol|requiresES6]|QuickPatrol.js
 * Report[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|requiresES6]|Report.js|Report.css
 * RightTopicons[ResourceLoader|requiresES6]|RightTopicons.js
 * RollbackSummary[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,mediawiki.util|rights=rollback|requiresES6]|RollbackSummary.js
 * RRD[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=skipcaptcha|requiresES6]|RRD.js|RRD.css
-* TranslateVariants[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.diff.styles,mediawiki.util,vue|rights=editinterface|requiresES6]|TranslateVariants.js|TranslateVariants.css
+* TranslateVariants[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.diff.styles,mediawiki.util,vue|namespaces=8|rights=editinterface|requiresES6]|TranslateVariants.js|TranslateVariants.css
 * Twinkle[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.morebits,ext.gadget.Util,mediawiki.api,mediawiki.language,mediawiki.storage,mediawiki.util,user.options,vue|rights=skipcaptcha|requiresES6]|Twinkle.js|Twinkle.css
 * TwinkleDialogs[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.morebits,ext.gadget.Util,mediawiki.api,mediawiki.language,mediawiki.storage,mediawiki.util,user.options,vue|hidden|requiresES6]|TwinkleDialogs.js|TwinkleDialogs.css
-* UserRightsManager[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|rights=protect|requiresES6]|UserRightsManager.js|UserRightsManager.css
+* UserRightsManager[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|namespaces=5|rights=protect|requiresES6]|UserRightsManager.js|UserRightsManager.css
 * WhoIsActive[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,mediawiki.Title,vue|requiresES6]|WhoIsActive.js|WhoIsActive.css
 
 == usergroup ==

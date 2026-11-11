@@ -78,6 +78,7 @@
 var elementId = "gadget-markrights_userpage";
 var mountPointSelector = "#footer-info,.page-info";
 var userNameSpaceNumber = 2;
+var userTalkNameSpaceNumber = 3;
 //! src/GeoLocation/modules/constant.ts
 var SYSTEM_SCRIPT_LIST = ["滥用过滤器", "求闻编者", "求闻百科社区", "Example", "External contributors", "Maintenance script", "MediaWiki default", "MediaWiki message delivery", "New user page"];
 var WEBMASTER_LIST = ["QiuWen", "QiuWen for Accounts", "QiuwenSocialMedia"];
@@ -445,7 +446,7 @@ var getPermissions = async (wgRelevantUserName) => {
     wgPageName,
     wgRelevantUserName
   } = mw.config.get();
-  if (!wgRelevantUserName || !(wgNamespaceNumber === userNameSpaceNumber) || !(wgAction === "view")) {
+  if (!wgRelevantUserName || ![userNameSpaceNumber, userTalkNameSpaceNumber].includes(wgNamespaceNumber) || !(wgAction === "view")) {
     return;
   }
   if (mw.util.isIPv4Address(wgRelevantUserName) || mw.util.isIPv6Address(wgRelevantUserName)) {

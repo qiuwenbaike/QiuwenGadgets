@@ -4,7 +4,11 @@ import {getPermissions} from './modules/getPermissions';
 
 (function markRightsUserPage(): void {
 	const {wgAction, wgNamespaceNumber, wgPageName, wgRelevantUserName} = mw.config.get();
-	if (!wgRelevantUserName || !(wgNamespaceNumber === OPTIONS.userNameSpaceNumber) || !(wgAction === 'view')) {
+	if (
+		!wgRelevantUserName ||
+		![OPTIONS.userNameSpaceNumber, OPTIONS.userTalkNameSpaceNumber].includes(wgNamespaceNumber) ||
+		!(wgAction === 'view')
+	) {
 		return;
 	}
 
