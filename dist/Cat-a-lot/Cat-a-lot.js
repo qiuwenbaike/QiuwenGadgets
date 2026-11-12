@@ -95,32 +95,6 @@
 "use strict";
 
 // dist/Cat-a-lot/Cat-a-lot.js
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from)) if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
-      get: () => from[key],
-      enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
-    });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
-    value: mod,
-    enumerable: true
-  }) : target,
-  mod
-));
 //! src/Cat-a-lot/options.json
 var apiTag = "Cat-a-lot";
 var targetNamespace = 14;
@@ -322,9 +296,6 @@ var setMessages = () => {
     });
   }
 };
-//! src/Cat-a-lot/modules/core.tsx
-var import_ext_gadget2 = require("ext.gadget.Util");
-var import_ext_gadget3 = __toESM(require("ext.gadget.JSX"), 1);
 //! src/Cat-a-lot/modules/api.ts
 var import_ext_gadget = require("ext.gadget.Util");
 var api = (0, import_ext_gadget.initMwApi)(`Cat-a-lot/${version}`);
@@ -339,7 +310,7 @@ var getCachedKeys = () => {
   }
   return variantCache;
 };
-//! src/Cat-a-lot/modules/core.tsx
+//! src/Cat-a-lot/modules/core.ts
 var {
   wgCanonicalSpecialPageName,
   wgFormattedNamespaces,
@@ -347,7 +318,7 @@ var {
   wgNamespaceNumber,
   wgTitle
 } = mw.config.get();
-var catALot = async () => {
+var catALot = async ($body) => {
   /*! Cat-a-lot | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
   class CAL {
     static isSearchMode = false;
@@ -426,53 +397,30 @@ var catALot = async () => {
     $head;
     $link;
     resizeCleanup;
-    constructor($body) {
+    constructor($body2) {
       if (!mw.message("cat-a-lot-loading").parse()) {
         mw.messages.set(CAL.MESSAGES);
       }
-      this.$body = $body;
+      this.$body = $body2;
       CAL.initSettings();
-      const container = /* @__PURE__ */ import_ext_gadget3.default.createElement("div", {
-        className: [CLASS_NAME, CLASS_NAME_CONTAINER, "noprint"]
-      }, /* @__PURE__ */ import_ext_gadget3.default.createElement("div", {
-        className: CLASS_NAME_CONTAINER_DATA
-      }, /* @__PURE__ */ import_ext_gadget3.default.createElement("div", {
-        className: CLASS_NAME_CONTAINER_DATA_MARK_COUNTER
-      }), /* @__PURE__ */ import_ext_gadget3.default.createElement("div", {
-        className: CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST
-      }), /* @__PURE__ */ import_ext_gadget3.default.createElement("div", null, /* @__PURE__ */ import_ext_gadget3.default.createElement("input", {
-        className: CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT,
+      const $container = $("<div>").addClass([CLASS_NAME, CLASS_NAME_CONTAINER, "noprint"]).append($("<div>").addClass(CLASS_NAME_CONTAINER_DATA).append($("<div>").addClass(CLASS_NAME_CONTAINER_DATA_MARK_COUNTER), $("<div>").addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST), $("<div>").append($("<input>").addClass(CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT).attr({
         placeholder: CAL.msg("enter-name"),
         type: "text",
-        value: CAL.isSearchMode ? mw.util.getParamValue("search") ?? "" : "",
-        onKeyDown: (event) => {
-          const $element = $(event.currentTarget);
-          if (event.key === "Enter") {
-            var _$element$val;
-            const cat = ((_$element$val = $element.val()) === null || _$element$val === void 0 ? void 0 : _$element$val.trim()) ?? "";
-            if (cat) {
-              this.updateCats(cat);
-            }
+        value: CAL.isSearchMode ? mw.util.getParamValue("search") ?? "" : ""
+      }).on("keydown", (event) => {
+        const $element = $(event.currentTarget);
+        if (event.key === "Enter") {
+          const cat = `${$element.val()}`.trim() ?? "";
+          if (cat) {
+            this.updateCats(cat);
           }
         }
-      })), /* @__PURE__ */ import_ext_gadget3.default.createElement("div", {
-        className: CLASS_NAME_CONTAINER_DATA_SELECTIONS
-      }, [CAL.msg("select"), " "], /* @__PURE__ */ import_ext_gadget3.default.createElement("a", {
-        className: CLASS_NAME_CONTAINER_DATA_SELECTIONS_ALL,
-        onClick: () => {
-          this.toggleAll(true);
-        }
-      }, CAL.msg("all")), " • ", /* @__PURE__ */ import_ext_gadget3.default.createElement("a", {
-        className: CLASS_NAME_CONTAINER_DATA_SELECTIONS_NONE,
-        onClick: () => {
-          this.toggleAll(false);
-        }
-      }, CAL.msg("none")))), /* @__PURE__ */ import_ext_gadget3.default.createElement("div", {
-        className: CLASS_NAME_CONTAINER_HEAD
-      }, /* @__PURE__ */ import_ext_gadget3.default.createElement("a", {
-        className: CLASS_NAME_CONTAINER_HEAD_LINK
-      }, "Cat-a-lot")));
-      this.$container = $(container);
+      })), $("<div>").addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS).append(`${CAL.msg("select")} `, $("<a>").addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS_ALL).on("click", () => {
+        this.toggleAll(true);
+      }).text(CAL.msg("all")), " • ", $("<a>").addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS_NONE).on("click", () => {
+        this.toggleAll(false);
+      }).text(CAL.msg("none")))), $("<div>").addClass(CLASS_NAME_CONTAINER_HEAD).append($("<a>").addClass(CLASS_NAME_CONTAINER_HEAD_LINK).text("Cat-a-lot")));
+      this.$container = $container;
       this.$container.appendTo(this.$body);
       this.$dataContainer = this.$container.find(`.${CLASS_NAME_CONTAINER_DATA}`);
       this.$markCounter = this.$dataContainer.find(`.${CLASS_NAME_CONTAINER_DATA_MARK_COUNTER}`);
@@ -673,12 +621,12 @@ var catALot = async () => {
         for (const variant of VARIANTS) {
           const variantNode = parsed.querySelector(`#cal-${variant}`);
           if (variantNode) {
-            results[results.length] = variantNode.textContent;
+            results.push(variantNode.textContent);
           }
         }
       } catch {
       }
-      CAL.variantCache[category] = (0, import_ext_gadget2.uniqueArray)(results);
+      CAL.variantCache[category] = [...new Set(results)];
       mw.storage.setObject(storageKey + category, CAL.variantCache[category], 60 * 60 * 24);
       return CAL.variantCache[category];
     }
@@ -694,7 +642,7 @@ var catALot = async () => {
         if (first.toUpperCase() !== first.toLowerCase()) {
           variant = `[${first.toUpperCase()}${first.toLowerCase()}]${variant.slice(1)}`;
         }
-        variantRegExps[variantRegExps.length] = variant;
+        variantRegExps.push(variant);
       }
       return new RegExp(`\\[\\[[\\s_]*${catName}[\\s_]*:[\\s_]*(?:${variantRegExps.join("|")})[\\s_]*(\\|[^\\]]*(?:\\][^\\]]+)*)?\\]\\]`, "g");
     }
@@ -723,11 +671,13 @@ var catALot = async () => {
       }
     }
     doAPICall(_params, callback) {
-      CAL.doAPICallAsync(_params).then(callback).catch((error) => {
+      CAL.doAPICallAsync(_params).then((data) => {
+        callback(data);
+      }).catch((error) => {
         mw.log.error("[Cat-a-lot] Ajax error:", error);
         const params = _params;
         if (params.title) {
-          CAL.connectionError[CAL.connectionError.length] = params.title;
+          CAL.connectionError.push(params.title);
           this.updateCounter();
         }
       });
@@ -736,16 +686,16 @@ var catALot = async () => {
       $markedLabel.addClass(CLASS_NAME_LABEL_DONE);
       switch (mode) {
         case "add":
-          $markedLabel.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, /* @__PURE__ */ import_ext_gadget3.default.createElement("br", null), CAL.msg("added-cat", targetCategory)));
+          $markedLabel.append($("<br>"), CAL.msg("added-cat", targetCategory));
           break;
         case "copy":
-          $markedLabel.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, /* @__PURE__ */ import_ext_gadget3.default.createElement("br", null), CAL.msg("copied-cat", targetCategory)));
+          $markedLabel.append($("<br>"), CAL.msg("copied-cat", targetCategory));
           break;
         case "move":
-          $markedLabel.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, /* @__PURE__ */ import_ext_gadget3.default.createElement("br", null), CAL.msg("moved-cat", targetCategory)));
+          $markedLabel.append($("<br>"), CAL.msg("moved-cat", targetCategory));
           break;
         case "remove":
-          $markedLabel.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, /* @__PURE__ */ import_ext_gadget3.default.createElement("br", null), CAL.msg("removed-cat", targetCategory)));
+          $markedLabel.append($("<br>"), CAL.msg("removed-cat", targetCategory));
           break;
       }
     }
@@ -763,28 +713,20 @@ var catALot = async () => {
       });
       this.$body.find(`.${CLASS_NAME_FEEDBACK}`).addClass(CLASS_NAME_FEEDBACK_DONE);
       const $parent = CAL.$counter.parent();
-      $parent.html(/* @__PURE__ */ import_ext_gadget3.default.createElement("h3", null, CAL.msg("done")));
-      $parent.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, CAL.msg("all-done"), /* @__PURE__ */ import_ext_gadget3.default.createElement("br", null)));
-      $parent.append(/* @__PURE__ */ import_ext_gadget3.default.createElement("a", {
-        onClick: () => {
-          CAL.$progressDialog.remove();
-          this.toggleAll(false);
-        }
-      }, CAL.msg("return-to-page")));
+      $parent.empty().append($("<h3>").text(CAL.msg("done")));
+      $parent.append(CAL.msg("all-done"), $("<br>"));
+      $parent.append($("<a>").on("click", () => {
+        CAL.$progressDialog.remove();
+        this.toggleAll(false);
+      }).text(CAL.msg("return-to-page")));
       if (CAL.alreadyThere.length) {
-        $parent.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, /* @__PURE__ */ import_ext_gadget3.default.createElement("h5", null, CAL.msg("skipped-already", CAL.alreadyThere.length.toString())), CAL.alreadyThere.reduce((pre, cur, index) => index < CAL.alreadyThere.length - 1 ? [...pre, cur, /* @__PURE__ */ import_ext_gadget3.default.createElement("br", {
-          key: index
-        })] : [...pre, cur], [])));
+        $parent.append($("<h5>").text(CAL.msg("skipped-already", CAL.alreadyThere.length.toString())), ...CAL.alreadyThere.reduce((pre, cur, index) => index < CAL.alreadyThere.length - 1 ? [...pre, cur, $("<br>")] : [...pre, cur], []));
       }
       if (CAL.notFound.length) {
-        $parent.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, /* @__PURE__ */ import_ext_gadget3.default.createElement("h5", null, CAL.msg("skipped-not-found", CAL.notFound.length.toString())), CAL.notFound.reduce((pre, cur, index) => index < CAL.notFound.length - 1 ? [...pre, cur, /* @__PURE__ */ import_ext_gadget3.default.createElement("br", {
-          key: index
-        })] : [...pre, cur], [])));
+        $parent.append($("<h5>").text(CAL.msg("skipped-not-found", CAL.notFound.length.toString())), ...CAL.notFound.reduce((pre, cur, index) => index < CAL.notFound.length - 1 ? [...pre, cur, $("<br>")] : [...pre, cur], []));
       }
       if (CAL.connectionError.length) {
-        $parent.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, /* @__PURE__ */ import_ext_gadget3.default.createElement("h5", null, CAL.msg("skipped-server", CAL.connectionError.length.toString())), CAL.connectionError.reduce((pre, cur, index) => index < CAL.connectionError.length - 1 ? [...pre, cur, /* @__PURE__ */ import_ext_gadget3.default.createElement("br", {
-          key: index
-        })] : [...pre, cur], [])));
+        $parent.append($("<h5>").text(CAL.msg("skipped-server", CAL.connectionError.length.toString())), ...CAL.connectionError.reduce((pre, cur, index) => index < CAL.connectionError.length - 1 ? [...pre, cur, $("<br>")] : [...pre, cur], []));
       }
     }
     updateCounter() {
@@ -799,7 +741,7 @@ var catALot = async () => {
       var _page$revisions;
       const [markedLabelTitle, $markedLabel] = markedLabel;
       if (!(result !== null && result !== void 0 && result["query"])) {
-        CAL.connectionError[CAL.connectionError.length] = markedLabelTitle;
+        CAL.connectionError.push(markedLabelTitle);
         this.updateCounter();
         return;
       }
@@ -811,17 +753,17 @@ var catALot = async () => {
         pages
       } = result["query"];
       const [page] = pages;
-      originText = page === null || page === void 0 || (_page$revisions = page.revisions) === null || _page$revisions === void 0 ? void 0 : _page$revisions[0].slots.main.content;
-      ({
-        starttimestamp
-      } = page);
-      [{
-        timestamp
-      }] = page.revisions;
+      const revision = page === null || page === void 0 || (_page$revisions = page.revisions) === null || _page$revisions === void 0 ? void 0 : _page$revisions[0];
+      if (!page || !revision) {
+        throw new Error("[Cat-a-lot] No revision returned for the page");
+      }
+      originText = revision.slots.main.content;
+      starttimestamp = page.starttimestamp ?? 0;
+      timestamp = revision.timestamp ?? 0;
       const sourcecat = CAL.CURRENT_CATEGROY;
       const targeRegExp = await CAL.regexBuilder(targetCategory);
       if (mode !== "remove" && targeRegExp.test(originText) && mode !== "move") {
-        CAL.alreadyThere[CAL.alreadyThere.length] = markedLabelTitle;
+        CAL.alreadyThere.push(markedLabelTitle);
         this.updateCounter();
         return;
       }
@@ -869,13 +811,13 @@ var catALot = async () => {
             rvslots: "main"
           });
           if (!(docResult !== null && docResult !== void 0 && docResult["query"])) {
-            CAL.connectionError[CAL.connectionError.length] = docTitle;
+            CAL.connectionError.push(docTitle);
             this.updateCounter();
             return;
           }
           const query = docResult === null || docResult === void 0 ? void 0 : docResult["query"];
           if (!query) {
-            CAL.connectionError[CAL.connectionError.length] = docTitle;
+            CAL.connectionError.push(docTitle);
             this.updateCounter();
             return;
           }
@@ -924,12 +866,12 @@ var catALot = async () => {
               console.log(`[Cat-a-lot] Successfully purged template doc page: ${docTitle}`);
               CAL.markAsDone($markedLabel, targetCategory, mode);
             } catch {
-              CAL.connectionError[CAL.connectionError.length] = docTitle;
+              CAL.connectionError.push(docTitle);
               this.updateCounter();
             }
           }
         }
-        CAL.notFound[CAL.notFound.length] = markedLabelTitle;
+        CAL.notFound.push(markedLabelTitle);
         this.updateCounter();
         return;
       }
@@ -953,7 +895,7 @@ var catALot = async () => {
         this.updateCounter();
         CAL.markAsDone($markedLabel, targetCategory, mode);
       } catch {
-        CAL.connectionError[CAL.connectionError.length] = markedLabelTitle;
+        CAL.connectionError.push(markedLabelTitle);
         this.updateCounter();
       }
     }
@@ -970,7 +912,7 @@ var catALot = async () => {
         });
         await this.editCategories(result, markedLabel, targetCategory, mode);
       } catch {
-        CAL.connectionError[CAL.connectionError.length] = markedLabel[0];
+        CAL.connectionError.push(markedLabel[0]);
         this.updateCounter();
       }
     }
@@ -990,7 +932,7 @@ var catALot = async () => {
         const $label = $(label);
         const $labelLink = $label.find("a:not(.CategoryTreeToggle)[title]");
         const title = ((_$labelLink$attr = $labelLink.attr("title")) === null || _$labelLink$attr === void 0 ? void 0 : _$labelLink$attr.trim()) || CAL.getTitleFromLink($labelLink.attr("href")) || CAL.getTitleFromLink($label.find("a:not(.CategoryTreeToggle)").attr("href"));
-        markedLabels[markedLabels.length] = [title, $label];
+        markedLabels.push([title, $label]);
       });
       return markedLabels;
     }
@@ -1000,12 +942,7 @@ var catALot = async () => {
         overflow: "hidden"
       });
       const $overlay = $("<div>").addClass(`${CLASS_NAME}-overlay`);
-      const $dialog = $(/* @__PURE__ */ import_ext_gadget3.default.createElement("div", {
-        className: CLASS_NAME_FEEDBACK,
-        role: "status"
-      }, CAL.msg("editing"), /* @__PURE__ */ import_ext_gadget3.default.createElement("span", {
-        className: CLASS_NAME_CURRENT_COUNTER
-      }, CAL.counterCurrent), [CAL.msg("of"), CAL.counterNeeded]));
+      const $dialog = $("<div>").addClass(CLASS_NAME_FEEDBACK).attr("role", "status").append(CAL.msg("editing"), $("<span>").addClass(CLASS_NAME_CURRENT_COUNTER).text(`${CAL.counterCurrent}`), `${CAL.msg("of")}${CAL.counterNeeded}`);
       $overlay.append($dialog).appendTo(this.$body);
       CAL.$progressDialog = $overlay;
       CAL.$counter = $dialog.find(`.${CLASS_NAME_CURRENT_COUNTER}`);
@@ -1040,38 +977,23 @@ var catALot = async () => {
     createCatLinks(symbol, categories) {
       categories.sort();
       for (const category of categories) {
-        const $tr = $(/* @__PURE__ */ import_ext_gadget3.default.createElement("tr", {
-          dataset: {
-            category
-          }
-        }, /* @__PURE__ */ import_ext_gadget3.default.createElement("td", null, symbol), /* @__PURE__ */ import_ext_gadget3.default.createElement("td", null, /* @__PURE__ */ import_ext_gadget3.default.createElement("a", {
-          onClick: (event) => {
-            const $element = $(event.currentTarget);
-            this.updateCats($element.closest("tr").data("category"));
-          }
-        }, category))));
+        const $tr = $("<tr>").data("category", category).append($("<td>").text(symbol), $("<td>").append($("<a>").on("click", (event) => {
+          const $element = $(event.currentTarget);
+          this.updateCats($element.closest("tr").data("category"));
+        }).text(category)));
         if (category !== CAL.CURRENT_CATEGROY && CAL.isSearchMode) {
-          $tr.append(/* @__PURE__ */ import_ext_gadget3.default.createElement("td", null, /* @__PURE__ */ import_ext_gadget3.default.createElement("a", {
-            className: CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION,
-            onClick: (event) => {
-              const $element = $(event.currentTarget);
-              this.addHere($element.closest("tr").data("category"));
-            }
-          }, CAL.msg("add"))));
+          $tr.append($("<td>").append($("<a>").addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION).on("click", (event) => {
+            const $element = $(event.currentTarget);
+            this.addHere($element.closest("tr").data("category"));
+          }).text(CAL.msg("add"))));
         } else if (category !== CAL.CURRENT_CATEGROY && !CAL.isSearchMode) {
-          $tr.append(/* @__PURE__ */ import_ext_gadget3.default.createElement(import_ext_gadget3.default.Fragment, null, /* @__PURE__ */ import_ext_gadget3.default.createElement("td", null, /* @__PURE__ */ import_ext_gadget3.default.createElement("a", {
-            className: CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION,
-            onClick: (event) => {
-              const $element = $(event.currentTarget);
-              this.copyHere($element.closest("tr").data("category"));
-            }
-          }, CAL.msg("copy"))), /* @__PURE__ */ import_ext_gadget3.default.createElement("td", null, /* @__PURE__ */ import_ext_gadget3.default.createElement("a", {
-            className: CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION,
-            onClick: (event) => {
-              const $element = $(event.currentTarget);
-              this.moveHere($element.closest("tr").data("category"));
-            }
-          }, CAL.msg("move")))));
+          $tr.append($("<td>").append($("<a>").addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION).on("click", (event) => {
+            const $element = $(event.currentTarget);
+            this.copyHere($element.closest("tr").data("category"));
+          }).text(CAL.msg("copy")), $("<td>").append($("<a>").addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION).on("click", (event) => {
+            const $element = $(event.currentTarget);
+            this.moveHere($element.closest("tr").data("category"));
+          }).text(CAL.msg("move")))));
         }
         this.$resultList.find("table").append($tr);
       }
@@ -1080,7 +1002,7 @@ var catALot = async () => {
       this.$body.css("cursor", "");
       const currentCategories = [CAL.currentCategory];
       this.$resultList.empty();
-      this.$resultList.append(/* @__PURE__ */ import_ext_gadget3.default.createElement("table", null));
+      this.$resultList.append($("<table>"));
       this.createCatLinks("↑", CAL.parentCats);
       this.createCatLinks("→", currentCategories);
       this.createCatLinks("↓", CAL.subCats);
@@ -1108,21 +1030,17 @@ var catALot = async () => {
         } = result.query;
         if ((_pages$ = pages[0]) !== null && _pages$ !== void 0 && _pages$.missing) {
           this.$body.css("cursor", "");
-          this.$resultList.html(/* @__PURE__ */ import_ext_gadget3.default.createElement("span", {
-            className: CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND
-          }, CAL.msg("cat-not-found")));
+          this.$resultList.empty().append($("<span>").addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND).text(CAL.msg("cat-not-found")));
           this.createCatLinks("→", [CAL.currentCategory]);
           return;
         }
         let categories = [];
         if ((_pages$2 = pages[0]) !== null && _pages$2 !== void 0 && _pages$2.categories) {
-          [{
-            categories
-          }] = pages;
+          categories = pages[0].categories;
         }
         for (const cat of categories) {
           const catTitle = cat.title.replace(/^[^:]+:/, "");
-          CAL.parentCats[CAL.parentCats.length] = catTitle;
+          CAL.parentCats.push(catTitle);
         }
         CAL.counterCat++;
         if (CAL.counterCat === 2) {
@@ -1143,7 +1061,7 @@ var catALot = async () => {
         CAL.subCats = [];
         for (const cat of cats) {
           const catTitle = cat.title.replace(/^[^:]+:/, "");
-          CAL.subCats[CAL.subCats.length] = catTitle;
+          CAL.subCats.push(catTitle);
         }
         CAL.counterCat++;
         if (CAL.counterCat === 2) {
@@ -1159,7 +1077,7 @@ var catALot = async () => {
     updateCats(cat) {
       this.$body.css("cursor", "wait");
       CAL.currentCategory = cat;
-      this.$resultList.html(/* @__PURE__ */ import_ext_gadget3.default.createElement("div", null, CAL.msg("loading")));
+      this.$resultList.empty().append($("<div>").text(CAL.msg("loading")));
       this.getCategoryList();
     }
     findAllLabels() {
@@ -1247,11 +1165,7 @@ var catALot = async () => {
       const category = mw.config.get("wgTitle").replace(/^Category:/, "");
       (_CAL$variantCache = CAL["variantCache"])[category] || (_CAL$variantCache[category] = await CAL.findAllVariants(category));
     }
-    /*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
-    setMessages();
-    void (0, import_ext_gadget2.getBody)().then(($body) => {
-      new CAL($body).buildElements();
-    });
+    new CAL($body).buildElements();
   }
 };
 //! src/Cat-a-lot/modules/extendJQueryPrototype.ts
@@ -1283,9 +1197,15 @@ var extendJQueryPrototype = () => {
   });
 };
 //! src/Cat-a-lot/Cat-a-lot.ts
-/*! Cat-a-lot | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
-extendJQueryPrototype();
-void catALot();
+var import_ext_gadget2 = require("ext.gadget.Util");
+void (0, import_ext_gadget2.getBody)().then(($body) => {
+  /*! jQuery checkboxShiftClick | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
+  extendJQueryPrototype();
+  /*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
+  setMessages();
+  /*! Cat-a-lot | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
+  void catALot($body);
+});
 
 })();
 

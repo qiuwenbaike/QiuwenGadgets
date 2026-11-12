@@ -4,14 +4,7 @@
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
-	"dependencies": [
-		"ext.gadget.JSX",
-		"ext.gadget.Util",
-		"mediawiki.api",
-		"mediawiki.jqueryMsg",
-		"mediawiki.storage",
-		"mediawiki.util"
-	],
+	"dependencies": ["ext.gadget.Util", "mediawiki.api", "mediawiki.jqueryMsg", "mediawiki.storage", "mediawiki.util"],
 	"namespaces": [-1, 14],
 	"rights": ["skipcaptcha"]
 }

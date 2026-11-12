@@ -23,19 +23,30 @@ import {
 	DEFAULT_SETTING,
 	VARIANTS,
 } from './constant';
-import {DEFAULT_MESSAGES, setMessages} from './messages';
 import type {MessageKey, Setting} from './types';
-import {getBody, uniqueArray} from 'ext.gadget.Util';
-import React from 'ext.gadget.JSX';
+import {DEFAULT_MESSAGES} from './messages';
 import {api} from './api';
 import {getCachedKeys} from './getCachedKeys';
 
 const {wgCanonicalSpecialPageName, wgFormattedNamespaces, wgNamespaceIds, wgNamespaceNumber, wgTitle} = mw.config.get();
 
+type OpenSearchResponse = [query: string, titles: string[], redirects: string[]];
+type CategoriesQueryResponse = {query: {pages: {missing?: boolean; categories?: {title: string}[]}[]}};
+type CategoryMembersQueryResponse = {query: {categorymembers?: {title: string}[]}};
+type RevisionsQueryResponse = {
+	query: {
+		tokens: {csrftoken: string};
+		pages: {
+			starttimestamp?: string | number;
+			revisions?: {timestamp?: string | number; slots: {main: {content: string}}}[];
+		}[];
+	};
+};
+
 /**
  * Changes category of multiple files
  */
-const catALot = async (): Promise<void> => {
+const catALot = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 	/*! Cat-a-lot | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
 	class CAL {
 		public static isSearchMode = false;
@@ -74,11 +85,11 @@ const catALot = async (): Promise<void> => {
 
 		// Rate limiting: set to 1000 ms for ~1 request per second
 		private static requestDelay = 1000;
-		private static requestQueue: Array<{
+		private static requestQueue: {
 			fn: () => Promise<unknown>;
 			resolve: (value: unknown) => void;
 			reject: (reason: unknown) => void;
-		}> = [];
+		}[] = [];
 		private static processingQueue = false;
 		private static lastStart = 0;
 
@@ -138,56 +149,57 @@ const catALot = async (): Promise<void> => {
 			this.$body = $body;
 			CAL.initSettings();
 
-			const container = (
-				<div className={[CLASS_NAME, CLASS_NAME_CONTAINER, 'noprint']}>
-					<div className={CLASS_NAME_CONTAINER_DATA}>
-						<div className={CLASS_NAME_CONTAINER_DATA_MARK_COUNTER} />
-						<div className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST} />
-						<div>
-							<input
-								className={CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT}
-								placeholder={CAL.msg('enter-name')}
-								type="text"
-								value={CAL.isSearchMode ? (mw.util.getParamValue('search') ?? '') : ''}
-								onKeyDown={(event): void => {
-									const $element = $<HTMLInputElement>(event.currentTarget);
-									if (event.key === 'Enter') {
-										const cat: string = $element.val()?.trim() ?? '';
-										if (cat) {
-											this.updateCats(cat);
+			const $container = $('<div>')
+				.addClass([CLASS_NAME, CLASS_NAME_CONTAINER, 'noprint'])
+				.append(
+					$('<div>')
+						.addClass(CLASS_NAME_CONTAINER_DATA)
+						.append(
+							$('<div>').addClass(CLASS_NAME_CONTAINER_DATA_MARK_COUNTER),
+							$('<div>').addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST),
+							$('<div>').append(
+								$('<input>')
+									.addClass(CLASS_NAME_CONTAINER_DATA_SEARCH_INPUT_CONTAINER_INPUT)
+									.attr({
+										placeholder: CAL.msg('enter-name'),
+										type: 'text',
+										value: CAL.isSearchMode ? (mw.util.getParamValue('search') ?? '') : '',
+									})
+									.on('keydown', (event): void => {
+										const $element = $(event.currentTarget);
+										if (event.key === 'Enter') {
+											const cat: string = `${$element.val()}`.trim() ?? '';
+											if (cat) {
+												this.updateCats(cat);
+											}
 										}
-									}
-								}}
-							/>
-						</div>
-						<div className={CLASS_NAME_CONTAINER_DATA_SELECTIONS}>
-							{[CAL.msg('select'), ' ']}
-							<a
-								className={CLASS_NAME_CONTAINER_DATA_SELECTIONS_ALL}
-								onClick={(): void => {
-									this.toggleAll(true);
-								}}
-							>
-								{CAL.msg('all')}
-							</a>
-							{' • '}
-							<a
-								className={CLASS_NAME_CONTAINER_DATA_SELECTIONS_NONE}
-								onClick={(): void => {
-									this.toggleAll(false);
-								}}
-							>
-								{CAL.msg('none')}
-							</a>
-						</div>
-					</div>
-					<div className={CLASS_NAME_CONTAINER_HEAD}>
-						<a className={CLASS_NAME_CONTAINER_HEAD_LINK}>Cat-a-lot</a>
-					</div>
-				</div>
-			);
+									})
+							),
+							$('<div>')
+								.addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS)
+								.append(
+									`${CAL.msg('select')} `,
+									$('<a>')
+										.addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS_ALL)
+										.on('click', (): void => {
+											this.toggleAll(true);
+										})
+										.text(CAL.msg('all')),
+									' • ',
+									$('<a>')
+										.addClass(CLASS_NAME_CONTAINER_DATA_SELECTIONS_NONE)
+										.on('click', (): void => {
+											this.toggleAll(false);
+										})
+										.text(CAL.msg('none'))
+								)
+						),
+					$('<div>')
+						.addClass(CLASS_NAME_CONTAINER_HEAD)
+						.append($('<a>').addClass(CLASS_NAME_CONTAINER_HEAD_LINK).text('Cat-a-lot'))
+				);
 
-			this.$container = $(container) as JQuery;
+			this.$container = $container;
 			this.$container.appendTo(this.$body);
 
 			this.$dataContainer = this.$container.find(`.${CLASS_NAME_CONTAINER_DATA}`);
@@ -271,7 +283,7 @@ const catALot = async (): Promise<void> => {
 						redirects: 'resolve',
 						search,
 					},
-					(result): void => {
+					(result: OpenSearchResponse): void => {
 						if (requestId !== autocompleteRequest) {
 							return;
 						}
@@ -426,12 +438,12 @@ const catALot = async (): Promise<void> => {
 				for (const variant of VARIANTS) {
 					const variantNode = parsed.querySelector(`#cal-${variant}`);
 					if (variantNode) {
-						results[results.length] = variantNode.textContent;
+						results.push(variantNode.textContent);
 					}
 				}
 			} catch {}
 			// De-duplicate
-			CAL.variantCache[category] = uniqueArray(results); // Replace Set with uniqueArray, avoiding core-js polyfilling
+			CAL.variantCache[category] = [...new Set(results)];
 			mw.storage.setObject(OPTIONS.storageKey + category, CAL.variantCache[category], 60 * 60 * 24); // 1 day
 			return CAL.variantCache[category];
 		}
@@ -454,7 +466,7 @@ const catALot = async (): Promise<void> => {
 				if (first.toUpperCase() !== first.toLowerCase()) {
 					variant = `[${first.toUpperCase()}${first.toLowerCase()}]${variant.slice(1)}`;
 				}
-				variantRegExps[variantRegExps.length] = variant;
+				variantRegExps.push(variant);
 			}
 			// Compile it into a RegExp that matches MediaWiki category syntax (yeah, it looks ugly):
 			// XXX: the first capturing parens are assumed to match the sortkey, if present, including the | but excluding the ]]
@@ -494,20 +506,18 @@ const catALot = async (): Promise<void> => {
 			}
 		}
 
-		private doAPICall(
-			_params: Omit<ApiEditPageParams, 'format'>,
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			callback: (data: any) => void
-		) {
+		private doAPICall<T>(_params: Omit<ApiEditPageParams, 'format'>, callback: (data: T) => void) {
 			CAL.doAPICallAsync(_params)
-				.then(callback)
+				.then((data) => {
+					callback(data as T);
+				})
 				.catch((error) => {
 					mw.log.error('[Cat-a-lot] Ajax error:', error);
 					const params = _params as typeof _params & {
 						title?: string;
 					};
 					if (params.title) {
-						CAL.connectionError[CAL.connectionError.length] = params.title;
+						CAL.connectionError.push(params.title);
 						this.updateCounter();
 					}
 				});
@@ -522,36 +532,16 @@ const catALot = async (): Promise<void> => {
 
 			switch (mode) {
 				case 'add':
-					$markedLabel.append(
-						<>
-							<br />
-							{CAL.msg('added-cat', targetCategory)}
-						</>
-					);
+					$markedLabel.append($('<br>'), CAL.msg('added-cat', targetCategory));
 					break;
 				case 'copy':
-					$markedLabel.append(
-						<>
-							<br />
-							{CAL.msg('copied-cat', targetCategory)}
-						</>
-					);
+					$markedLabel.append($('<br>'), CAL.msg('copied-cat', targetCategory));
 					break;
 				case 'move':
-					$markedLabel.append(
-						<>
-							<br />
-							{CAL.msg('moved-cat', targetCategory)}
-						</>
-					);
+					$markedLabel.append($('<br>'), CAL.msg('moved-cat', targetCategory));
 					break;
 				case 'remove':
-					$markedLabel.append(
-						<>
-							<br />
-							{CAL.msg('removed-cat', targetCategory)}
-						</>
-					);
+					$markedLabel.append($('<br>'), CAL.msg('removed-cat', targetCategory));
 					break;
 			}
 		}
@@ -569,61 +559,46 @@ const catALot = async (): Promise<void> => {
 			this.$body.find(`.${CLASS_NAME_FEEDBACK}`).addClass(CLASS_NAME_FEEDBACK_DONE);
 
 			const $parent: JQuery = CAL.$counter.parent();
-			$parent.html(<h3>{CAL.msg('done')}</h3>);
-			$parent.append(
-				<>
-					{CAL.msg('all-done')}
-					<br />
-				</>
-			);
+			$parent.empty().append($('<h3>').text(CAL.msg('done')));
+			$parent.append(CAL.msg('all-done'), $('<br>'));
 
 			$parent.append(
-				<a
-					onClick={(): void => {
+				$('<a>')
+					.on('click', (): void => {
 						CAL.$progressDialog.remove();
 						this.toggleAll(false);
-					}}
-				>
-					{CAL.msg('return-to-page')}
-				</a>
+					})
+					.text(CAL.msg('return-to-page'))
 			);
 
 			if (CAL.alreadyThere.length) {
 				$parent.append(
-					<>
-						<h5>{CAL.msg('skipped-already', CAL.alreadyThere.length.toString())}</h5>
-						{CAL.alreadyThere.reduce<(string | React.ReactElement)[]>(
-							(pre, cur, index) =>
-								index < CAL.alreadyThere.length - 1 ? [...pre, cur, <br key={index} />] : [...pre, cur],
-							[]
-						)}
-					</>
+					$('<h5>').text(CAL.msg('skipped-already', CAL.alreadyThere.length.toString())),
+					...CAL.alreadyThere.reduce<(string | JQuery<HTMLElement>)[]>(
+						(pre, cur, index) =>
+							index < CAL.alreadyThere.length - 1 ? [...pre, cur, $('<br>')] : [...pre, cur],
+						[]
+					)
 				);
 			}
 			if (CAL.notFound.length) {
 				$parent.append(
-					<>
-						<h5>{CAL.msg('skipped-not-found', CAL.notFound.length.toString())}</h5>
-						{CAL.notFound.reduce<(string | React.ReactElement)[]>(
-							(pre, cur, index) =>
-								index < CAL.notFound.length - 1 ? [...pre, cur, <br key={index} />] : [...pre, cur],
-							[]
-						)}
-					</>
+					$('<h5>').text(CAL.msg('skipped-not-found', CAL.notFound.length.toString())),
+					...CAL.notFound.reduce<(string | JQuery<HTMLElement>)[]>(
+						(pre, cur, index) =>
+							index < CAL.notFound.length - 1 ? [...pre, cur, $('<br>')] : [...pre, cur],
+						[]
+					)
 				);
 			}
 			if (CAL.connectionError.length) {
 				$parent.append(
-					<>
-						<h5>{CAL.msg('skipped-server', CAL.connectionError.length.toString())}</h5>
-						{CAL.connectionError.reduce<(string | React.ReactElement)[]>(
-							(pre, cur, index) =>
-								index < CAL.connectionError.length - 1
-									? [...pre, cur, <br key={index} />]
-									: [...pre, cur],
-							[]
-						)}
-					</>
+					$('<h5>').text(CAL.msg('skipped-server', CAL.connectionError.length.toString())),
+					...CAL.connectionError.reduce<(string | JQuery<HTMLElement>)[]>(
+						(pre, cur, index) =>
+							index < CAL.connectionError.length - 1 ? [...pre, cur, $('<br>')] : [...pre, cur],
+						[]
+					)
 				);
 			}
 		}
@@ -636,8 +611,7 @@ const catALot = async (): Promise<void> => {
 			}
 		}
 		private async editCategories(
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			result: Record<string, any>,
+			result: RevisionsQueryResponse,
 			markedLabel: ReturnType<typeof this.getMarkedLabels>[0],
 			targetCategory: string,
 			mode: 'add' | 'copy' | 'move' | 'remove'
@@ -645,27 +619,32 @@ const catALot = async (): Promise<void> => {
 			const [markedLabelTitle, $markedLabel] = markedLabel;
 
 			if (!result?.['query']) {
-				CAL.connectionError[CAL.connectionError.length] = markedLabelTitle;
+				CAL.connectionError.push(markedLabelTitle);
 				this.updateCounter();
 				return;
 			}
 
 			let originText: string = '';
-			let starttimestamp: number = 0;
-			let timestamp: number = 0;
+			let starttimestamp: string | number = 0;
+			let timestamp: string | number = 0;
 			CAL.editToken = result['query'].tokens.csrftoken;
 			const {pages} = result['query'];
 
 			const [page] = pages;
-			originText = page?.revisions?.[0].slots.main.content;
-			({starttimestamp} = page);
-			[{timestamp}] = page.revisions;
+			const revision = page?.revisions?.[0];
+			if (!page || !revision) {
+				// 页面或修订缺失时向上抛出，由 getContent 的 catch 记入连接错误（与原解构抛错行为一致）
+				throw new Error('[Cat-a-lot] No revision returned for the page');
+			}
+			originText = revision.slots.main.content;
+			starttimestamp = page.starttimestamp ?? 0;
+			timestamp = revision.timestamp ?? 0;
 
 			const sourcecat: string = CAL.CURRENT_CATEGROY;
 			// Check if that file is already in that category
 			const targeRegExp = await CAL.regexBuilder(targetCategory);
 			if (mode !== 'remove' && targeRegExp.test(originText) && mode !== 'move') {
-				CAL.alreadyThere[CAL.alreadyThere.length] = markedLabelTitle;
+				CAL.alreadyThere.push(markedLabelTitle);
 				this.updateCounter();
 				return;
 			}
@@ -727,7 +706,7 @@ const catALot = async (): Promise<void> => {
 
 					// 如果没有找到该文档页
 					if (!docResult?.['query']) {
-						CAL.connectionError[CAL.connectionError.length] = docTitle;
+						CAL.connectionError.push(docTitle);
 						this.updateCounter();
 						return;
 					}
@@ -735,20 +714,20 @@ const catALot = async (): Promise<void> => {
 					// 获取文档页的文本
 					const query = docResult?.['query'] as
 						| {
-								pages?: Array<{
+								pages?: {
 									starttimestamp?: string | number;
-									revisions?: Array<{
+									revisions?: {
 										timestamp?: string;
 										slots?: {
 											main?: {content?: string};
 										};
-									}>;
-								}>;
+									}[];
+								}[];
 						  }
 						| undefined;
 					// 如果没有找到该文档页
 					if (!query) {
-						CAL.connectionError[CAL.connectionError.length] = docTitle;
+						CAL.connectionError.push(docTitle);
 						this.updateCounter();
 						return;
 					}
@@ -802,13 +781,13 @@ const catALot = async (): Promise<void> => {
 							console.log(`[Cat-a-lot] Successfully purged template doc page: ${docTitle}`);
 							CAL.markAsDone($markedLabel, targetCategory, mode);
 						} catch {
-							CAL.connectionError[CAL.connectionError.length] = docTitle;
+							CAL.connectionError.push(docTitle);
 							this.updateCounter();
 						}
 					}
 				}
 
-				CAL.notFound[CAL.notFound.length] = markedLabelTitle;
+				CAL.notFound.push(markedLabelTitle);
 				this.updateCounter();
 				return;
 			}
@@ -836,7 +815,7 @@ const catALot = async (): Promise<void> => {
 				this.updateCounter();
 				CAL.markAsDone($markedLabel, targetCategory, mode);
 			} catch {
-				CAL.connectionError[CAL.connectionError.length] = markedLabelTitle;
+				CAL.connectionError.push(markedLabelTitle);
 				this.updateCounter();
 			}
 		}
@@ -854,10 +833,10 @@ const catALot = async (): Promise<void> => {
 					prop: 'revisions',
 					rvprop: ['content', 'timestamp'],
 					rvslots: 'main',
-				})) as Record<string, unknown>;
+				})) as RevisionsQueryResponse;
 				await this.editCategories(result, markedLabel, targetCategory, mode);
 			} catch {
-				CAL.connectionError[CAL.connectionError.length] = markedLabel[0];
+				CAL.connectionError.push(markedLabel[0]);
 				this.updateCounter();
 			}
 		}
@@ -878,7 +857,7 @@ const catALot = async (): Promise<void> => {
 					$labelLink.attr('title')?.trim() ||
 					CAL.getTitleFromLink($labelLink.attr('href')) ||
 					CAL.getTitleFromLink($label.find('a:not(.CategoryTreeToggle)').attr('href'));
-				markedLabels[markedLabels.length] = [title, $label];
+				markedLabels.push([title, $label]);
 			});
 			return markedLabels;
 		}
@@ -888,13 +867,14 @@ const catALot = async (): Promise<void> => {
 				overflow: 'hidden',
 			});
 			const $overlay = $('<div>').addClass(`${CLASS_NAME}-overlay`);
-			const $dialog = $(
-				<div className={CLASS_NAME_FEEDBACK} role="status">
-					{CAL.msg('editing')}
-					<span className={CLASS_NAME_CURRENT_COUNTER}>{CAL.counterCurrent}</span>
-					{[CAL.msg('of'), CAL.counterNeeded]}
-				</div>
-			);
+			const $dialog = $('<div>')
+				.addClass(CLASS_NAME_FEEDBACK)
+				.attr('role', 'status')
+				.append(
+					CAL.msg('editing'),
+					$('<span>').addClass(CLASS_NAME_CURRENT_COUNTER).text(`${CAL.counterCurrent}`),
+					`${CAL.msg('of')}${CAL.counterNeeded}`
+				);
 			$overlay.append($dialog).appendTo(this.$body);
 			CAL.$progressDialog = $overlay;
 			CAL.$counter = $dialog.find(`.${CLASS_NAME_CURRENT_COUNTER}`);
@@ -929,62 +909,52 @@ const catALot = async (): Promise<void> => {
 		private createCatLinks(symbol: string, categories: string[]): void {
 			categories.sort();
 			for (const category of categories) {
-				const $tr = $(
-					<tr dataset={{category}}>
-						<td>{symbol}</td>
-						<td>
-							<a
-								onClick={(event): void => {
+				const $tr = $('<tr>')
+					.data('category', category)
+					.append(
+						$('<td>').text(symbol),
+						$('<td>').append(
+							$('<a>')
+								.on('click', (event): void => {
 									const $element = $(event.currentTarget);
 									this.updateCats($element.closest('tr').data('category') as string);
-								}}
-							>
-								{category}
-							</a>
-						</td>
-					</tr>
-				);
+								})
+								.text(category)
+						)
+					);
 				// Can't move to source category
 				if (category !== CAL.CURRENT_CATEGROY && CAL.isSearchMode) {
 					$tr.append(
-						<td>
-							<a
-								className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
-								onClick={(event): void => {
+						$('<td>').append(
+							$('<a>')
+								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
+								.on('click', (event): void => {
 									const $element = $(event.currentTarget);
 									this.addHere($element.closest('tr').data('category') as string);
-								}}
-							>
-								{CAL.msg('add')}
-							</a>
-						</td>
+								})
+								.text(CAL.msg('add'))
+						)
 					);
 				} else if (category !== CAL.CURRENT_CATEGROY && !CAL.isSearchMode) {
 					$tr.append(
-						<>
-							<td>
-								<a
-									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
-									onClick={(event): void => {
-										const $element = $(event.currentTarget);
-										this.copyHere($element.closest('tr').data('category') as string);
-									}}
-								>
-									{CAL.msg('copy')}
-								</a>
-							</td>
-							<td>
-								<a
-									className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION}
-									onClick={(event): void => {
+						$('<td>').append(
+							$('<a>')
+								.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
+								.on('click', (event): void => {
+									const $element = $(event.currentTarget);
+									this.copyHere($element.closest('tr').data('category') as string);
+								})
+								.text(CAL.msg('copy')),
+							$('<td>').append(
+								$('<a>')
+									.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_ACTION)
+									.on('click', (event): void => {
 										const $element = $(event.currentTarget);
 										this.moveHere($element.closest('tr').data('category') as string);
-									}}
-								>
-									{CAL.msg('move')}
-								</a>
-							</td>
-						</>
+									})
+									.text(CAL.msg('move'))
+							)
+						)
 					);
 				}
 				this.$resultList.find('table').append($tr);
@@ -994,7 +964,7 @@ const catALot = async (): Promise<void> => {
 			this.$body.css('cursor', '');
 			const currentCategories: string[] = [CAL.currentCategory];
 			this.$resultList.empty();
-			this.$resultList.append(<table />);
+			this.$resultList.append($('<table>'));
 			this.createCatLinks('↑', CAL.parentCats);
 			this.createCatLinks('→', currentCategories);
 			this.createCatLinks('↓', CAL.subCats);
@@ -1014,7 +984,7 @@ const catALot = async (): Promise<void> => {
 					titles: `Category:${CAL.currentCategory}`,
 					prop: 'categories',
 				},
-				(result): void => {
+				(result: CategoriesQueryResponse): void => {
 					if (!result) {
 						return;
 					}
@@ -1022,21 +992,23 @@ const catALot = async (): Promise<void> => {
 					const {pages} = result.query;
 					if (pages[0]?.missing) {
 						this.$body.css('cursor', '');
-						this.$resultList.html(
-							<span className={CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND}>
-								{CAL.msg('cat-not-found')}
-							</span>
-						);
+						this.$resultList
+							.empty()
+							.append(
+								$('<span>')
+									.addClass(CLASS_NAME_CONTAINER_DATA_CATEGORY_LIST_NO_FOUND)
+									.text(CAL.msg('cat-not-found'))
+							);
 						this.createCatLinks('→', [CAL.currentCategory]);
 						return;
 					}
 					let categories: {title: string}[] = [];
 					if (pages[0]?.categories) {
-						[{categories}] = pages;
+						categories = pages[0].categories;
 					}
 					for (const cat of categories) {
 						const catTitle = cat.title.replace(/^[^:]+:/, '');
-						CAL.parentCats[CAL.parentCats.length] = catTitle;
+						CAL.parentCats.push(catTitle);
 					}
 					CAL.counterCat++;
 					if (CAL.counterCat === 2) {
@@ -1054,12 +1026,12 @@ const catALot = async (): Promise<void> => {
 					cmlimit: CAL.settings.subcatcount as never,
 					cmtitle: `Category:${CAL.currentCategory}`,
 				},
-				(result): void => {
+				(result: CategoryMembersQueryResponse): void => {
 					const cats: {title: string}[] = result?.query?.categorymembers || [];
 					CAL.subCats = [];
 					for (const cat of cats) {
 						const catTitle = cat.title.replace(/^[^:]+:/, '');
-						CAL.subCats[CAL.subCats.length] = catTitle;
+						CAL.subCats.push(catTitle);
 					}
 					CAL.counterCat++;
 					if (CAL.counterCat === 2) {
@@ -1076,7 +1048,7 @@ const catALot = async (): Promise<void> => {
 		private updateCats(cat: string): void {
 			this.$body.css('cursor', 'wait');
 			CAL.currentCategory = cat;
-			this.$resultList.html(<div>{CAL.msg('loading')}</div>);
+			this.$resultList.empty().append($('<div>').text(CAL.msg('loading')));
 			this.getCategoryList();
 		}
 
@@ -1168,11 +1140,7 @@ const catALot = async (): Promise<void> => {
 			const category = mw.config.get('wgTitle').replace(/^Category:/, '');
 			CAL['variantCache'][category] ||= await CAL.findAllVariants(category);
 		}
-		/*! Cat-a-lot messages | CC-BY-SA-4.0 <https://qwbk.cc/H:CC-BY-SA-4.0> */
-		setMessages();
-		void getBody().then(($body: JQuery<HTMLBodyElement>): void => {
-			new CAL($body).buildElements();
-		});
+		new CAL($body).buildElements();
 	}
 };
 

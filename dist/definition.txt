@@ -92,7 +92,7 @@
 * Util[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,mediawiki.api,user.options,vue|hidden|requiresES6]|Util.js|Util.css
 
 == edit ==
-* Cat-a-lot[ResourceLoader|actions=view|dependencies=ext.gadget.JSX,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.util|namespaces=-1,14|rights=skipcaptcha|requiresES6]|Cat-a-lot.js|Cat-a-lot.css
+* Cat-a-lot[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.util|namespaces=-1,14|rights=skipcaptcha|requiresES6]|Cat-a-lot.js|Cat-a-lot.css
 * DefaultSummaries[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|rights=edit|requiresES6]|DefaultSummaries.js
 * DisamAssist[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.Title,mediawiki.util|rights=skipcaptcha|requiresES6]|DisamAssist.js|DisamAssist.css
 * DisambigLinks[ResourceLoader|requiresES6]|DisambigLinks.css
