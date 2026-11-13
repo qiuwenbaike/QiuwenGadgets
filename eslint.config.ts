@@ -175,7 +175,7 @@ export default defineConfig([
 			'@typescript-eslint/no-this-alias': [
 				'error',
 				{
-					allowedNames: ['self', 'udate', 'thisCb'],
+					allowedNames: ['self'],
 				},
 			],
 
@@ -365,14 +365,20 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/Navigation_popups/modules/*.ts'],
+		files: ['**/morebits/*.ts', '**/morebits/**/*.ts', '**/Twinkle/*.ts', '**/Twinkle/**/*.ts'],
 		rules: {
-			'@typescript-eslint/no-unused-vars': [
-				'warn',
+			'@typescript-eslint/no-this-alias': [
+				'error',
 				{
-					varsIgnorePattern: '^_',
+					allowDestructuring: true,
+					allowedNames: ['self', 'udate', 'thisCb'],
 				},
 			],
+		},
+	},
+	{
+		files: ['**/Navigation_popups/modules/*.ts'],
+		rules: {
 			'@typescript-eslint/no-this-alias': [
 				'error',
 				{
