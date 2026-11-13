@@ -129,11 +129,10 @@ class Wiki {
 	 *
 	 * @param {string} wikitext wikitext
 	 * @param {string} title 页面标题
-	 * @param {Object} _config 设置
+	 * @param {Object} config 设置
 	 * @return {Promise<string>} 解析结果 HTML
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async parseWikiText(wikitext: string, title: string = '', _config: object = {}): Promise<string | void> {
+	async parseWikiText(wikitext: string, title: string = '', config = {}): Promise<string | void> {
 		try {
 			const response = await requests.post({
 				format: 'json',
@@ -141,6 +140,7 @@ class Wiki {
 				text: wikitext,
 				title,
 				pst: 'true',
+				...config,
 			});
 			if (response.parse && response.parse.text) {
 				return response.parse.text['*'];

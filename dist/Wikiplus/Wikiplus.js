@@ -464,18 +464,18 @@ var init_wiki = __esm({
        *
        * @param {string} wikitext wikitext
        * @param {string} title 页面标题
-       * @param {Object} _config 设置
+       * @param {Object} config 设置
        * @return {Promise<string>} 解析结果 HTML
        */
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      async parseWikiText(wikitext, title = "", _config = {}) {
+      async parseWikiText(wikitext, title = "", config = {}) {
         try {
           const response = await requests_default.post({
             format: "json",
             action: "parse",
             text: wikitext,
             title,
-            pst: "true"
+            pst: "true",
+            ...config
           });
           if (response.parse && response.parse.text) {
             return response.parse.text["*"];
