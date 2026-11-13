@@ -3,11 +3,11 @@ import type {DiffData, Dow} from './types';
 import {Drag} from './domdrag';
 import type {Title} from './titles';
 
-type MousetrackerHook = (x: any, y: any) => boolean | void;
+type MousetrackerHook = (x?: number, y?: number) => boolean | void;
 
 class Mousetracker {
 	loopDelay: number;
-	timer: any;
+	timer: ReturnType<typeof setInterval> | null;
 	active: boolean;
 	dirty: boolean;
 	hooks: MousetrackerHook[];
@@ -15,7 +15,7 @@ class Mousetracker {
 	y?: number;
 	lastHook_x?: number;
 	lastHook_y?: number;
-	savedListener?: any;
+	savedListener?: typeof document.onmousemove;
 	constructor() {
 		/**
 		 * Interval to regularly run the hooks anyway, in milliseconds.
@@ -54,7 +54,7 @@ class Mousetracker {
 	 * <code>f(x,y)</code>. It should return <code>true</code> when it
 	 * wants to be removed, and <code>false</code> otherwise.
 	 */
-	addHook(f: any) {
+	addHook(f: MousetrackerHook) {
 		this.hooks.push(f);
 	}
 	/**
@@ -94,8 +94,8 @@ class Mousetracker {
 	 * @param {Object} removeObj An object whose keys are the index
 	 * numbers of functions for removal, with values that evaluate to true
 	 */
-	removeHooks(removeObj: any) {
-		const newHooks = [];
+	removeHooks(removeObj: Record<number, boolean>) {
+		const newHooks: MousetrackerHook[] = [];
 		const len = this.hooks.length;
 		for (let i = 0; i < len; ++i) {
 			if (!removeObj[i]) {
@@ -125,7 +125,7 @@ class Mousetracker {
 	 * @param {number} x
 	 * @param {number} y
 	 */
-	setPosition(x: any, y: any) {
+	setPosition(x: number, y: number) {
 		this.x = x;
 		this.y = y;
 		if (this.dirty || this.hooks.length === 0) {
@@ -193,7 +193,8 @@ class Mousetracker {
 	}
 }
 type NavpopupHook = {
-	hook: (...args: any[]) => boolean | void;
+	// hook 以无参形态被 Reflect.apply 调用，返回 true 表示移除
+	hook: () => boolean | void;
 	when: string;
 	hookId?: string | undefined;
 };
@@ -219,19 +220,19 @@ class Navpopup {
 	maxWidth?: number;
 	stable_x?: number;
 	stable_y?: number;
-	showSoonStableTimer?: any;
+	showSoonStableTimer?: ReturnType<typeof setInterval>;
 	className?: string;
 	idNumber?: number;
 	delay?: number;
 	hasPopupMenu?: boolean;
 	parentAnchor?: HTMLAnchorElement;
-	parentPopup?: any;
+	parentPopup?: Navpopup | undefined;
 	article!: Title;
 	redir!: number;
 	originalArticle!: Title;
 	redirTarget!: Title;
 	mouseLeavingTime?: number | null;
-	stopPopupTimer?: any;
+	stopPopupTimer?: ReturnType<typeof setInterval>;
 	diffData!: DiffData;
 
 	static uid = 0;
@@ -437,7 +438,7 @@ class Navpopup {
 	 *
 	 * @param {integer} time The minimum time (ms) before the popup may be shown.
 	 */
-	showSoonIfStable(time: any) {
+	showSoonIfStable(time: number) {
 		log(`showSoonIfStable, time=${time}`);
 		if (this.visible) {
 			return;
@@ -518,7 +519,7 @@ class Navpopup {
 	 * @param {string} uid A truthy string identifying the hook function; if it matches another hook
 	 * in this position, it won't be added again.
 	 */
-	addHook(hook: (...args: any[]) => boolean | void, key: 'create' | 'unhide' | 'hide', when?: string, uid?: string) {
+	addHook(hook: () => boolean | void, key: 'create' | 'unhide' | 'hide', when?: string, uid?: string) {
 		when ||= 'after';
 		if (!this.hooks[key]) {
 			return;
@@ -580,13 +581,13 @@ class Navpopup {
 	 * @param {string} handleName
 	 * @private
 	 */
-	makeDraggable(handleName: any) {
+	makeDraggable(handleName?: string) {
 		if (!this.mainDiv) {
 			this.createMainDiv();
 		}
 		const drag = new Drag();
 		if (!handleName) {
-			drag.startCondition = (e: any) => {
+			drag.startCondition = (e: MouseEvent) => {
 				try {
 					if (!e.shiftKey) {
 						return false;
@@ -603,7 +604,7 @@ class Navpopup {
 		}
 		dragHandle ||= this.mainDiv;
 		const self = this;
-		drag.endHook = (x: any, y: any) => {
+		drag.endHook = (x: number, y: number) => {
 			Navpopup.tracker.dirty = true;
 			self.reposition(x, y);
 		};
@@ -664,7 +665,7 @@ class Navpopup {
 	 * @param {integer} y y-coordinate (px)
 	 * @type boolean
 	 */
-	isWithin(x: number, y: number, fuzzArg?: number, _element?: HTMLElement) {
+	isWithin(x: number, y: number, fuzzArg?: number) {
 		// ~ If we're not even visible, no point should be considered as
 		// ~ being within the popup.
 		if (!this.visible) {

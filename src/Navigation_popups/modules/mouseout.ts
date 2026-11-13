@@ -4,7 +4,7 @@ import {Navpopup} from './navpopup';
 import {getValueOf} from './options';
 import {pg} from './pg';
 
-const fuzzyCursorOffMenus = (_x: any, _y: any, _fuzz: any, parent: any) => {
+const fuzzyCursorOffMenus = (_x: number | undefined, _y: number | undefined, _fuzz: number, parent: HTMLElement) => {
 	if (!parent) {
 		return null;
 	}
@@ -23,9 +23,10 @@ const checkPopupPosition = () => {
 		pg.current.link.navpopup.limitHorizontalPosition();
 	}
 };
-const mouseOutWikiLink = function mouseOutWikiLink(this: any) {
+const mouseOutWikiLink = function mouseOutWikiLink(this: GlobalEventHandlers) {
 	// console ('mouseOutWikiLink');
-	const self = this;
+	// 实际绑定于 <a> 元素（见 actions.ts 的 a.onmouseout），此处收窄以访问扩展属性
+	const self = this as HTMLAnchorElement;
 	removeModifierKeyListener(self);
 	if (self.navpopup === null || self.navpopup === undefined) {
 		return;
@@ -48,7 +49,7 @@ const posCheckerHook = (navpop: Navpopup) => {
 		const {x} = Navpopup.tracker;
 		const {y} = Navpopup.tracker;
 		const mouseOverNavpop =
-			navpop.isWithin(x as number, y as number, navpop.fuzz, navpop.mainDiv) ||
+			navpop.isWithin(x as number, y as number, navpop.fuzz) ||
 			!fuzzyCursorOffMenus(x, y, navpop.fuzz, navpop.mainDiv);
 		// FIXME it'd be prettier to do this internal to the Navpopup objects
 		let t = getValueOf('popupHideDelay');

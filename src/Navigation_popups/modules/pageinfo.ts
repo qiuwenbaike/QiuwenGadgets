@@ -6,22 +6,25 @@ import {getValueOf} from './options';
 import {pg} from './pg';
 import {upcaseFirst} from './tools';
 
-const popupFilterPageSize = (data: any) => {
+// 过滤器统一签名：data 为页面 wikitext，注册于 options.ts 的 popupFilters/extraPopupFilters
+type PopupFilter = (data: string, download: Dow, article: Title) => string;
+
+const popupFilterPageSize = (data: string) => {
 	return formatBytes(data.length);
 };
-const popupFilterCountLinks = (data: any) => {
+const popupFilterCountLinks = (data: string) => {
 	const num = countLinks(data);
 	return `${String(num)}&nbsp;${num === 1 ? popupString('wikiLink') : popupString('wikiLinks')}`;
 };
-const popupFilterCountImages = (data: any) => {
+const popupFilterCountImages = (data: string) => {
 	const num = countImages(data);
 	return `${String(num)}&nbsp;${num === 1 ? popupString('image') : popupString('images')}`;
 };
-const popupFilterCountCategories = (data: any) => {
+const popupFilterCountCategories = (data: string) => {
 	const num = countCategories(data);
 	return `${String(num)}&nbsp;${num === 1 ? popupString('category') : popupString('categories')}`;
 };
-const popupFilterLastModified = (_data: any, download: Dow) => {
+const popupFilterLastModified = (_data: string, download: Dow) => {
 	const lastmod = download.lastModified;
 	const now = new Date();
 	if (lastmod && getValueOf('popupLastModified')) {
@@ -30,7 +33,7 @@ const popupFilterLastModified = (_data: any, download: Dow) => {
 	}
 	return '';
 };
-const formatAge = (age: any) => {
+const formatAge = (age: number) => {
 	// coerce into a number
 	let a = 0 + age;
 	const aa = a;
@@ -77,14 +80,14 @@ const formatAge = (age: any) => {
 	}
 	return ssecs;
 };
-const addunit = (num: any, str: string) => {
+const addunit = (num: number, str: string) => {
 	return `${num} ${num === 1 ? popupString(str) : popupString(`${str}s`)}`;
 };
-const runPopupFilters = (list: any, data: any, download: Dow) => {
-	const ret = [];
+const runPopupFilters = (list: PopupFilter[], data: string, download: Dow) => {
+	const ret: string[] = [];
 	for (const element of list) {
 		if (element && typeof element === 'function') {
-			const s = element(data, download, download.owner.article);
+			const s = element(data, download, download.owner!.article);
 			if (s) {
 				ret.push(s);
 			}
@@ -92,7 +95,7 @@ const runPopupFilters = (list: any, data: any, download: Dow) => {
 	}
 	return ret;
 };
-const getPageInfo = (data: any, download: Dow) => {
+const getPageInfo = (data: string, download: Dow) => {
 	if (!data || data.length === 0) {
 		return popupString('Empty page');
 	}
@@ -114,7 +117,7 @@ const countImages = (wikiText: string) => {
 const countCategories = (wikiText: string) => {
 	return (wikiText.split(pg.re.category).length - 1) / (pg.re.categoryBracketCount + 1);
 };
-const popupFilterStubDetect = (data: any, _download: any, article: Title) => {
+const popupFilterStubDetect = (data: string, _download: Dow, article: Title) => {
 	const counts = stubCount(data, article) as {real?: number; sect?: number};
 	if (counts.real) {
 		return popupString('stub');
@@ -124,13 +127,13 @@ const popupFilterStubDetect = (data: any, _download: any, article: Title) => {
 	}
 	return '';
 };
-const popupFilterDisambigDetect = (data: any, _download: any, article: Title) => {
+const popupFilterDisambigDetect = (data: string, _download: Dow, article: Title) => {
 	if (!getValueOf('popupAllDabsStubs') && article.namespace()) {
 		return '';
 	}
 	return isDisambig(data, article) ? popupString('disambig') : '';
 };
-const formatBytes = (num: any) => {
+const formatBytes = (num: number) => {
 	return num > 949 ? Math.round(num / 100) / 10 + popupString('kB') : `${num}&nbsp;${popupString('bytes')}`;
 };
 

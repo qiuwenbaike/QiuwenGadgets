@@ -4,7 +4,8 @@ import {getValueOf} from './options';
 import {pg} from './pg';
 
 class Stringwrapper {
-	value: any;
+	// null 表示“未设置/已失效”（fromURL 失败、toTalkPage 转换失败等），其余为标题字符串
+	value: string | null = null;
 	/**
 	 * Wrapper for this.toString().indexOf()
 	 *
@@ -20,7 +21,8 @@ class Stringwrapper {
 	 * @type String
 	 */
 	toString(): string {
-		return this.value;
+		// 调用方保证 setUtf 已执行（否则原版行为即为返回 null）
+		return this.value as string;
 	}
 	/**
 	 * Wrapper for {@source String#parenSplit} applied to this.toString()
@@ -57,10 +59,11 @@ class Stringwrapper {
 }
 class Title extends Stringwrapper {
 	anchor: string;
-	ns: any;
-	oldid?: any;
-	title?: any;
-	static fromURL = (h: any) => {
+	ns?: null;
+	oldid?: string | null;
+	// 目前全仓库无写入点，读取点（diffpreview 的 fromtitle 分支）恒为 undefined
+	title?: string | undefined;
+	static fromURL = (h: unknown) => {
 		return new Title().fromURL(h);
 	};
 	static fromAnchor = (a: HTMLAnchorElement) => {
@@ -69,7 +72,7 @@ class Title extends Stringwrapper {
 	static fromWikiText = (txt: string) => {
 		return new Title().fromWikiText(txt);
 	};
-	constructor(val?: any) {
+	constructor(val?: string | Title | null) {
 		super();
 		/**
 		 * The canonical article title. This must be in UTF-8 with no
@@ -105,7 +108,7 @@ class Title extends Stringwrapper {
 		}
 		const split = this.anchor.split(/((?:\.[\dA-F]{2})+)/);
 		const len = split.length;
-		let value: any;
+		let value = '';
 		for (let j = 1; j < len; j += 2) {
 			// FIXME s/decodeURI/decodeURIComponent/g ?
 			value = split[j]!.split('.').join('%');
@@ -135,7 +138,7 @@ class Title extends Stringwrapper {
 			.split('%')
 			.join('.');
 	}
-	fromURL(h: any) {
+	fromURL(h: unknown) {
 		if (typeof h !== 'string') {
 			this.value = null;
 			return this;
@@ -143,8 +146,8 @@ class Title extends Stringwrapper {
 		// NOTE: fix up & in the query string, just in case.
 		const splitted = h.split('?');
 		splitted[0] = splitted[0]!.split('&').join('%26');
-		h = splitted.join('?');
-		const contribs = pg.re.contribs.exec(h);
+		const url = splitted.join('?');
+		const contribs = pg.re.contribs.exec(url);
 		if (contribs) {
 			if (contribs[1] === 'title=') {
 				contribs[3] = contribs[3]!.split('+').join(' ');
@@ -155,7 +158,7 @@ class Title extends Stringwrapper {
 			);
 			return this;
 		}
-		const email = pg.re.email.exec(h);
+		const email = pg.re.email.exec(url);
 		if (email) {
 			this.setUtf(
 				Title.decodeNasties(
@@ -164,13 +167,13 @@ class Title extends Stringwrapper {
 			);
 			return this;
 		}
-		const backlinks = pg.re.backlinks.exec(h);
+		const backlinks = pg.re.backlinks.exec(url);
 		if (backlinks) {
 			this.setUtf(Title.decodeNasties(new Title(backlinks[3]!)));
 			return this;
 		}
 		// A dummy title object for a Special:Diff link.
-		const specialdiff = pg.re.specialdiff.exec(h);
+		const specialdiff = pg.re.specialdiff.exec(url);
 		if (specialdiff) {
 			this.setUtf(
 				Title.decodeNasties(new Title(`${mw.config.get('wgFormattedNamespaces')[pg.nsSpecialId!]}:Diff`))
@@ -180,11 +183,11 @@ class Title extends Stringwrapper {
 		// no more special cases to check --
 		// hopefully it's not a disguised user-related or specially treated special page
 		// Includes references
-		const m = pg.re.main.exec(h);
+		const m = pg.re.main.exec(url);
 		if (m === null) {
 			this.value = null;
 		} else {
-			const fromBotInterface = /\?(.+&)?title=/.test(h);
+			const fromBotInterface = /\?(.+&)?title=/.test(url);
 			if (fromBotInterface) {
 				m[2] = m[2]!.split('+').join('_');
 			}
@@ -193,19 +196,20 @@ class Title extends Stringwrapper {
 		}
 		return this;
 	}
-	static decodeNasties(txt: any) {
+	static decodeNasties(txt: string | Title) {
 		// myDecodeURI uses decodeExtras, which removes _,
 		// thus ruining citations previews, which are formated as "cite_note-1"
+		// Title 实参先归一化（原版经鸭子类型调用其 split 方法，等价）
 		try {
-			let ret = decodeURI(Title.decodeEscapes(txt));
+			let ret = decodeURI(Title.decodeEscapes(txt.toString()));
 			ret = ret.replace(/[ _]*$/, '');
 			return ret;
 		} catch {
-			return txt; // cannot decode
+			return txt.toString(); // cannot decode
 		}
 	}
 	// Decode valid %-encodings, otherwise escape them
-	static decodeEscapes(txt: any) {
+	static decodeEscapes(txt: string) {
 		const split = txt.split(/((?:%[\dA-Fa-f]{2})+)/);
 		const len = split.length;
 		// No %-encoded items found, so replace the literal %
@@ -236,16 +240,16 @@ class Title extends Stringwrapper {
 		}
 		return safeDecodeURI(this.value);
 	}
-	toUserName(withNs: any) {
+	toUserName(withNs: unknown) {
 		if (this.namespaceId() !== pg.nsUserId && this.namespaceId() !== pg.nsUsertalkId) {
 			this.value = null;
 			return;
 		}
 		this.value =
 			(withNs ? `${mw.config.get('wgFormattedNamespaces')[pg.nsUserId!]}:` : '') +
-			this.stripNamespace().split('/')[0];
+			this.stripNamespace().split('/')[0]!;
 	}
-	userName(withNs?: any) {
+	userName(withNs?: unknown) {
 		const t = new Title(this.value);
 		t.toUserName(withNs);
 		if (t.value) {
@@ -284,12 +288,14 @@ class Title extends Stringwrapper {
 		return mw.config.get('wgFormattedNamespaces')[this.namespaceId()];
 	}
 	namespaceId() {
-		const n = this.value.indexOf(':');
+		// 调用方保证 setUtf 已执行，value 此时为字符串
+		const value = this.value!;
+		const n = value.indexOf(':');
 		if (n === -1) {
 			return 0; // mainspace
 		}
 		const namespaceId =
-			mw.config.get('wgNamespaceIds')[this.value.slice(0, Math.max(0, n)).split(' ').join('_').toLowerCase()];
+			mw.config.get('wgNamespaceIds')[value.slice(0, Math.max(0, n)).split(' ').join('_').toLowerCase()];
 		if (namespaceId === undefined) {
 			return 0; // mainspace
 		}
@@ -345,42 +351,47 @@ class Title extends Stringwrapper {
 		return this;
 	}
 	isIpUser() {
-		return pg.re.ipUser.test(this.userName() as any);
+		// userName() 为 null 时与原版隐式转 "null" 一样不会匹配 IP 正则
+		return pg.re.ipUser.test(this.userName()?.toString() ?? '');
 	}
 
 	stripNamespace() {
 		// returns a string, not a Title
-		const n = this.value.indexOf(':');
+		const value = this.value!;
+		const n = value.indexOf(':');
 		if (n === -1) {
-			return this.value;
+			return value;
 		}
 		const namespaceId = this.namespaceId();
 		if (namespaceId === pg.nsMainspaceId!) {
-			return this.value;
+			return value;
 		}
-		return this.value.slice(Math.max(0, n + 1));
+		return value.slice(Math.max(0, n + 1));
 	}
-	setUtf(value: any) {
-		if (!value) {
+	setUtf(value: string | Title | null | undefined) {
+		// Title 实参先归一化为字符串：原版通过鸭子类型调用其字符串方法，
+		// 但 Title 无 slice 方法，含锚点时会运行时崩溃——归一化后各路径行为一致且更健壮
+		const val = typeof value === 'string' ? value : (value?.toString() ?? '');
+		if (!val) {
 			this.value = '';
 			return;
 		}
-		const anch = value.indexOf('#');
+		const anch = val.indexOf('#');
 		if (anch === -1) {
-			this.value = value.split('_').join(' ');
+			this.value = val.split('_').join(' ');
 			this.anchor = '';
 			return;
 		}
-		this.value = value.slice(0, Math.max(0, anch)).split('_').join(' ');
-		this.anchor = value.slice(Math.max(0, anch + 1));
+		this.value = val.slice(0, Math.max(0, anch)).split('_').join(' ');
+		this.anchor = val.slice(Math.max(0, anch + 1));
 		this.ns = null; // wait until namespace() is called
 	}
-	setUrl(urlfrag: any) {
+	setUrl(urlfrag: string) {
 		const anch = urlfrag.indexOf('#');
 		this.value = safeDecodeURI(urlfrag.slice(0, Math.max(0, anch)));
 		this.anchor = this.value.slice(Math.max(0, anch + 1));
 	}
-	append(x: any) {
+	append(x: string) {
 		this.setUtf(this.value + x);
 	}
 	urlString(x?: {omitAnchor?: boolean; keepSpaces?: boolean}) {
@@ -407,13 +418,13 @@ const parseParams = (url: string): WikiParams => {
 		const split = specialDiff[1]!.split('/');
 		if (split.length === 1) {
 			return {
-				oldid: split[0],
+				oldid: split[0]!,
 				diff: 'prev',
 			};
 		} else if (split.length === 2) {
 			return {
-				oldid: split[0],
-				diff: split[1],
+				oldid: split[0]!,
+				diff: split[1]!,
 			};
 		}
 	}
@@ -425,9 +436,10 @@ const parseParams = (url: string): WikiParams => {
 	const s = url.split('?').slice(1).join(',');
 	const t = s.split('&');
 	for (const element of t) {
-		const z = element.split('=');
-		z.push(null as any);
-		ret[z[0] as string] = z[1];
+		const z: (string | null)[] = element.split('=');
+		// 补一个 null 占位：无 '=' 的参数段取 z[1] 时得到 null 而非 undefined
+		z.push(null);
+		ret[z[0]!] = z[1];
 	}
 	// Diff revision with no oldid is interpreted as a diff to the previous revision by MediaWiki
 	if (ret.diff && ret.oldid === undefined) {
@@ -461,13 +473,13 @@ const safeDecodeURI = (str: string) => {
 	const ret = myDecodeURI(str);
 	return ret || str;
 };
-const isDisambig = (data: any, article: Title) => {
+const isDisambig = (data: string, article: Title) => {
 	if (!getValueOf('popupAllDabsStubs') && article.namespace()) {
 		return false;
 	}
 	return !article.isTalkPage() && pg.re.disambig.test(data);
 };
-const stubCount = (data: any, article: Title) => {
+const stubCount = (data: string, article: Title) => {
 	if (!getValueOf('popupAllDabsStubs') && article.namespace()) {
 		return false;
 	}

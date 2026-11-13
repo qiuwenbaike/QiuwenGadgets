@@ -1545,7 +1545,7 @@ var Navpopup = class _Navpopup {
    * @param {integer} y y-coordinate (px)
    * @type boolean
    */
-  isWithin(x, y, fuzzArg, _element) {
+  isWithin(x, y, fuzzArg) {
     if (!this.visible) {
       return false;
     }
@@ -1600,11 +1600,12 @@ var getJsObj = (json) => {
   }
 };
 var anyChild = (obj) => {
-  for (const p in obj) {
-    if (!Object.hasOwn(obj, p)) {
+  const record = obj;
+  for (const p in record) {
+    if (!Object.hasOwn(record, p)) {
       continue;
     }
-    return obj[p];
+    return record[p];
   }
   return null;
 };
@@ -1617,8 +1618,8 @@ var upcaseFirst = (str) => {
 var literalizeRegex = (str) => {
   return mw.util.escapeRegExp(str);
 };
-String.prototype.entify = function() {
-  return this.split("&").join("&amp;").split("<").join("&lt;").split(">").join(
+var entify = (str) => {
+  return str.split("&").join("&amp;").split("<").join("&lt;").split(">").join(
     "&gt;"
     /* +shy */
   ).split('"').join("&quot;");
@@ -1681,12 +1682,12 @@ var zeroFill = (s, min) => {
   const t = s.toString();
   return repeatString("0", min - t.length) + t;
 };
-var map = (f, o) => {
+function map(f, o) {
   if (isArray(o)) {
     return map_array(f, o);
   }
   return map_object(f, o);
-};
+}
 var map_array = (f, o) => {
   const ret = [];
   for (const element of o) {
@@ -1700,7 +1701,7 @@ var map_object = (f, o) => {
     if (!Object.hasOwn(o, i)) {
       continue;
     }
-    ret[o] = f(o[i]);
+    ret[i] = f(o[i]);
   }
   return ret;
 };
@@ -1938,7 +1939,7 @@ var message = {
   markpatrolledHint: (0, import_ext_gadget.wgULS)("标记该编辑为已巡查", "標記該編輯為已巡查"),
   "Could not marked this edit as patrolled": (0, import_ext_gadget.wgULS)("无法标记该编辑为已巡查", "無法標記該編輯為已巡查"),
   defaultpopupReviewedSummary: (0, import_ext_gadget.wgULS)("标记从版本%s到%s间的编辑为已巡查", "標記從版本%s到%s間的編輯為已巡查"),
-  "Image from Commons": (0, import_ext_gadget.wgULS)("来自维基共享的图片", "來自維基共用的圖片"),
+  "Image from Qiuwen Baike": (0, import_ext_gadget.wgULS)("共享图片", "共用圖片"),
   "Description page": (0, import_ext_gadget.wgULS)("图片描述页", "圖片描述頁"),
   "Alt text:": (0, import_ext_gadget.wgULS)("替换文本（Alt）：", "替換文字（Alt）："),
   revdel: (0, import_ext_gadget.wgULS)("历史版本被隐藏", "歷史版本被隱藏"),
@@ -2161,7 +2162,7 @@ pg.string = {
   "No image links found": "No image links found",
   "File links": "File links",
   "No image found": "No image found",
-  "Image from Commons": "Image from Commons",
+  "Image from Qiuwen Baike": "Image from Qiuwen Baike",
   "Description page": "Description page",
   "Alt text:": "Alt text:",
   revdel: "Hidden revision",
@@ -2232,14 +2233,13 @@ var popupString = (str) => {
   return str;
 };
 var tprintf = (str, subs) => {
-  if (typeof subs !== typeof []) {
-    subs = [subs];
-  }
-  return simplePrintf(popupString(str), subs);
+  const list = Array.isArray(subs) ? subs : [subs];
+  return simplePrintf(popupString(str), list);
 };
 //! src/Navigation_popups/modules/titles.ts
 var Stringwrapper = class {
-  value;
+  // null 表示“未设置/已失效”（fromURL 失败、toTalkPage 转换失败等），其余为标题字符串
+  value = null;
   /**
    * Wrapper for this.toString().indexOf()
    *
@@ -2294,6 +2294,7 @@ var Title = class _Title extends Stringwrapper {
   anchor;
   ns;
   oldid;
+  // 目前全仓库无写入点，读取点（diffpreview 的 fromtitle 分支）恒为 undefined
   title;
   static fromURL = (h) => {
     return new _Title().fromURL(h);
@@ -2326,7 +2327,7 @@ var Title = class _Title extends Stringwrapper {
     }
     const split = this.anchor.split(/((?:\.[\dA-F]{2})+)/);
     const len = split.length;
-    let value;
+    let value = "";
     for (let j = 1; j < len; j += 2) {
       value = split[j].split(".").join("%");
       try {
@@ -2355,8 +2356,8 @@ var Title = class _Title extends Stringwrapper {
     }
     const splitted = h.split("?");
     splitted[0] = splitted[0].split("&").join("%26");
-    h = splitted.join("?");
-    const contribs = pg.re.contribs.exec(h);
+    const url = splitted.join("?");
+    const contribs = pg.re.contribs.exec(url);
     if (contribs) {
       if (contribs[1] === "title=") {
         contribs[3] = contribs[3].split("+").join(" ");
@@ -2365,26 +2366,26 @@ var Title = class _Title extends Stringwrapper {
       this.setUtf(_Title.decodeNasties(`${mw.config.get("wgFormattedNamespaces")[pg.nsUserId]}:${u.stripNamespace()}`));
       return this;
     }
-    const email = pg.re.email.exec(h);
+    const email = pg.re.email.exec(url);
     if (email) {
       this.setUtf(_Title.decodeNasties(`${mw.config.get("wgFormattedNamespaces")[pg.nsUserId]}:${new _Title(email[3]).stripNamespace()}`));
       return this;
     }
-    const backlinks = pg.re.backlinks.exec(h);
+    const backlinks = pg.re.backlinks.exec(url);
     if (backlinks) {
       this.setUtf(_Title.decodeNasties(new _Title(backlinks[3])));
       return this;
     }
-    const specialdiff = pg.re.specialdiff.exec(h);
+    const specialdiff = pg.re.specialdiff.exec(url);
     if (specialdiff) {
       this.setUtf(_Title.decodeNasties(new _Title(`${mw.config.get("wgFormattedNamespaces")[pg.nsSpecialId]}:Diff`)));
       return this;
     }
-    const m = pg.re.main.exec(h);
+    const m = pg.re.main.exec(url);
     if (m === null) {
       this.value = null;
     } else {
-      const fromBotInterface = /\?(.+&)?title=/.test(h);
+      const fromBotInterface = /\?(.+&)?title=/.test(url);
       if (fromBotInterface) {
         m[2] = m[2].split("+").join("_");
       }
@@ -2395,11 +2396,11 @@ var Title = class _Title extends Stringwrapper {
   }
   static decodeNasties(txt) {
     try {
-      let ret = decodeURI(_Title.decodeEscapes(txt));
+      let ret = decodeURI(_Title.decodeEscapes(txt.toString()));
       ret = ret.replace(/[ _]*$/, "");
       return ret;
     } catch {
-      return txt;
+      return txt.toString();
     }
   }
   // Decode valid %-encodings, otherwise escape them
@@ -2467,11 +2468,12 @@ var Title = class _Title extends Stringwrapper {
     return mw.config.get("wgFormattedNamespaces")[this.namespaceId()];
   }
   namespaceId() {
-    const n = this.value.indexOf(":");
+    const value = this.value;
+    const n = value.indexOf(":");
     if (n === -1) {
       return 0;
     }
-    const namespaceId = mw.config.get("wgNamespaceIds")[this.value.slice(0, Math.max(0, n)).split(" ").join("_").toLowerCase()];
+    const namespaceId = mw.config.get("wgNamespaceIds")[value.slice(0, Math.max(0, n)).split(" ").join("_").toLowerCase()];
     if (namespaceId === void 0) {
       return 0;
     }
@@ -2522,32 +2524,35 @@ var Title = class _Title extends Stringwrapper {
     return this;
   }
   isIpUser() {
-    return pg.re.ipUser.test(this.userName());
+    var _this$userName;
+    return pg.re.ipUser.test(((_this$userName = this.userName()) === null || _this$userName === void 0 ? void 0 : _this$userName.toString()) ?? "");
   }
   stripNamespace() {
-    const n = this.value.indexOf(":");
+    const value = this.value;
+    const n = value.indexOf(":");
     if (n === -1) {
-      return this.value;
+      return value;
     }
     const namespaceId = this.namespaceId();
     if (namespaceId === pg.nsMainspaceId) {
-      return this.value;
+      return value;
     }
-    return this.value.slice(Math.max(0, n + 1));
+    return value.slice(Math.max(0, n + 1));
   }
   setUtf(value) {
-    if (!value) {
+    const val = typeof value === "string" ? value : (value === null || value === void 0 ? void 0 : value.toString()) ?? "";
+    if (!val) {
       this.value = "";
       return;
     }
-    const anch = value.indexOf("#");
+    const anch = val.indexOf("#");
     if (anch === -1) {
-      this.value = value.split("_").join(" ");
+      this.value = val.split("_").join(" ");
       this.anchor = "";
       return;
     }
-    this.value = value.slice(0, Math.max(0, anch)).split("_").join(" ");
-    this.anchor = value.slice(Math.max(0, anch + 1));
+    this.value = val.slice(0, Math.max(0, anch)).split("_").join(" ");
+    this.anchor = val.slice(Math.max(0, anch + 1));
     this.ns = null;
   }
   setUrl(urlfrag) {
@@ -2668,9 +2673,6 @@ var isValidImageName = (str) => {
 };
 var isInStrippableNamespace = (article) => {
   return article.namespaceId() !== 0;
-};
-var isInMainNamespace = (article) => {
-  return article.namespaceId() === 0;
 };
 var anchorContainsImage = (a) => {
   if (a === null) {
@@ -2855,7 +2857,8 @@ var formatBytes = (num) => {
 //! src/Navigation_popups/modules/options.ts
 var defaultize = (x) => {
   var _pg$option;
-  (_pg$option = pg.option)[x] ?? (_pg$option[x] = window[x] === void 0 ? pg.optionDefault[x] : window[x]);
+  const userValue = window[x];
+  (_pg$option = pg.option)[x] ?? (_pg$option[x] = userValue === void 0 ? pg.optionDefault[x] : userValue);
 };
 var newOption = (x, def) => {
   pg.optionDefault[x] = def;
@@ -3056,8 +3059,8 @@ var setRedirs = () => {
   pg.re.redirect = new RegExp(`^\\s*[#](${redirList.join("|")}).*?\\[{2}([^\\|\\]]*)(|[^\\]]*)?\\]{2}\\s*(.*)`, "i");
 };
 var setInterwiki = () => {
-  if (pg.wiki.wikimedia) {
-    pg.wiki.interwiki = "aa|ab|ace|af|ak|als|am|an|ang|ar|arc|arz|as|ast|av|ay|az|ba|bar|bat-smg|bcl|be|be-x-old|bg|bh|bi|bjn|bm|bn|bo|bpy|br|bs|bug|bxr|ca|cbk-zam|cdo|ce|ceb|ch|cho|chr|chy|ckb|co|cr|crh|cs|csb|cu|cv|cy|da|de|diq|dsb|dv|dz|ee|el|eml|en|eo|es|et|eu|ext|fa|ff|fi|fiu-vro|fj|fo|fr|frp|frr|fur|fy|ga|gag|gan|gd|gl|glk|gn|got|gu|gv|ha|hak|haw|he|hi|hif|ho|hr|hsb|ht|hu|hy|hz|ia|id|ie|ig|ii|ik|ilo|io|is|it|iu|ja|jbo|jv|ka|kaa|kab|kbd|kg|ki|kj|kk|kl|km|kn|ko|koi|kr|krc|ks|ksh|ku|kv|kw|ky|la|lad|lb|lbe|lg|li|lij|lmo|ln|lo|lt|ltg|lv|map-bms|mdf|mg|mh|mhr|mi|mk|ml|mn|mo|mr|mrj|ms|mt|mus|mwl|my|myv|mzn|na|nah|nap|nds|nds-nl|ne|new|ng|nl|nn|no|nov|nrm|nv|ny|oc|om|or|os|pa|pag|pam|pap|pcd|pdc|pfl|pi|pih|pl|pms|pnb|pnt|ps|pt|qu|rm|rmy|rn|ro|roa-rup|roa-tara|ru|rue|rw|sa|sah|sc|scn|sco|sd|se|sg|sh|si|simple|sk|sl|sm|sn|so|sq|sr|srn|ss|st|stq|su|sv|sw|szl|ta|te|tet|tg|th|ti|tk|tl|tn|to|tpi|tr|ts|tt|tum|tw|ty|udm|ug|uk|ur|uz|ve|vec|vi|vls|vo|wa|war|wo|wuu|xal|xh|yi|yo|za|zea|zh|zh-classical|zh-min-nan|zh-yue|zu";
+  if (pg.wiki.qiuwen) {
+    pg.wiki.interwiki = "zh|mnc";
     pg.re.interwiki = new RegExp(`^${pg.wiki.interwiki}:`);
   } else {
     pg.wiki.interwiki = null;
@@ -3104,7 +3107,10 @@ var setupLivePreview = () => {
   var _Insta$conf$user;
   Insta.conf = {
     baseUrl: "",
-    user: {},
+    user: {
+      name: "",
+      signature: ""
+    },
     wiki: {
       lang: pg.wiki.lang,
       interwiki: pg.wiki.interwiki,
@@ -3155,21 +3161,21 @@ Insta.convert = (wiki) => {
   const f = function f2(...args) {
     let i = 1;
     const a = args;
-    let [f3] = a;
+    let fmt = a[0];
     let o2 = "";
     let c;
     let p2;
     for (; i < a.length; i++) {
-      if ((p2 = f3.indexOf("?")) + 1) {
-        c = f3.charAt(p2 + 1) === "?" ? 1 : 0;
+      if ((p2 = fmt.indexOf("?")) + 1) {
+        c = fmt.charAt(p2 + 1) === "?" ? 1 : 0;
         i -= c;
-        o2 += f3.slice(0, Math.max(0, p2)) + (c ? "?" : a[i]);
-        f3 = f3.slice(p2 + 1 + c);
+        o2 += fmt.slice(0, Math.max(0, p2)) + (c ? "?" : String(a[i]));
+        fmt = fmt.slice(p2 + 1 + c);
       } else {
         break;
       }
     }
-    return o2 + f3;
+    return o2 + fmt;
   };
   const html_entities = (s) => {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -3248,7 +3254,7 @@ Insta.convert = (wiki) => {
         case ":":
           ps(`<dd>${parse_inline_nowiki(l_match[2])}`);
       }
-      [, prev] = l_match;
+      prev = l_match[2];
     }
     for (let i = prev.length - 1; i >= 0; i--) {
       ps(f("</?>", prev.charAt(i) === "*" ? "ul" : prev.charAt(i) === "#" ? "ol" : "dl"));
@@ -3335,11 +3341,11 @@ Insta.convert = (wiki) => {
     let _width;
     let attr = [];
     let _filename;
-    let _caption = "";
+    let _caption;
     let _thumb = 0;
     let _frame = 0;
     let _center = 0;
-    let _align = "";
+    let _align;
     if (/\|/.test(tag)) {
       let nesting = 0;
       let last_attr;
@@ -3537,7 +3543,8 @@ Insta.convert = (wiki) => {
   for (; remain(); ) {
     if (compareLineStringOrReg(/^(={1,6})(.*)\1(.*)$/)) {
       p = 0;
-      endl(f("<h?>?</h?>?", r[1].length, parse_inline_nowiki(r[2]), r[1].length, r[3]));
+      const heading = r;
+      endl(f("<h?>?</h?>?", heading[1].length, parse_inline_nowiki(heading[2]), heading[1].length, heading[3]));
     } else if (compareLineStringOrReg(/^[#*:;]/)) {
       p = 0;
       parse_list();
@@ -3583,7 +3590,7 @@ var popupHandleKeypress = function popupHandleKeypress2(evt) {
     return;
   }
   if (keyCode === 27) {
-    killPopup();
+    killPopup.call(void 0);
     return false;
   }
   const letter = String.fromCodePoint(keyCode);
@@ -3626,7 +3633,7 @@ var rmPopupShortcuts = () => {
     document.onkeypress = null;
     return;
   }
-  document.onkeypress = document.oldPopupOnkeypress;
+  document.onkeypress = document.oldPopupOnkeypress ?? null;
 };
 var addLinkProperty = (html, property) => {
   const i = html.indexOf(">");
@@ -3690,7 +3697,7 @@ var posCheckerHook = (navpop) => {
     const {
       y
     } = Navpopup.tracker;
-    const mouseOverNavpop = navpop.isWithin(x, y, navpop.fuzz, navpop.mainDiv) || !fuzzyCursorOffMenus(x, y, navpop.fuzz, navpop.mainDiv);
+    const mouseOverNavpop = navpop.isWithin(x, y, navpop.fuzz) || !fuzzyCursorOffMenus(x, y, navpop.fuzz, navpop.mainDiv);
     let t = getValueOf("popupHideDelay");
     if (t) {
       t *= 1e3;
@@ -3735,12 +3742,13 @@ var Downloader = class {
   http;
   url;
   id = null;
-  lastModified = null;
+  lastModified;
   callbackFunction = null;
   onFailure = null;
   aborted = false;
   method = "GET";
   async = true;
+  // f 回调路径中 http 恒存在，getData 的 null 分支运行时不可达，故以 undefined 归一
   data;
   owner;
   constructor(url) {
@@ -3853,23 +3861,23 @@ var newDownload = function newDownload2(url, id, callback, onfailure) {
   if (!d.http) {
     return "ohdear";
   }
-  d.id = id;
+  d.id = id ?? null;
   d.setTarget();
   onfailure || (onfailure = 2);
-  const f = function() {
+  const f = function f2() {
     if (d.getReadyState() === 4) {
-      delete pg.misc.downloadsInProgress[this.id];
+      delete pg.misc.downloadsInProgress[this.id ?? ""];
       try {
         if (d.getStatus() === 200) {
-          d.data = d.getData();
+          d.data = d.getData() ?? void 0;
           d.lastModified = d.getLastModifiedDate();
-          callback(d);
+          callback === null || callback === void 0 || callback(d);
         } else if (typeof onfailure === "number") {
           if (onfailure > 0) {
             newDownload2(url, id, callback, onfailure - 1);
           }
         } else if (typeof onfailure === "function") {
-          onfailure(d, url, id, callback);
+          onfailure(d, url, id ?? null, callback);
         }
       } catch {
       }
@@ -3879,9 +3887,9 @@ var newDownload = function newDownload2(url, id, callback, onfailure) {
   return d;
 };
 var fakeDownload = (url, id, callback, data, lastModified, owner) => {
-  const d = newDownload(url, callback);
+  const d = newDownload(url, void 0, callback);
   d.owner = owner;
-  d.id = id;
+  d.id = id ?? null;
   d.data = data;
   d.lastModified = lastModified;
   return callback(d);
@@ -3921,7 +3929,7 @@ var titledDiffLink = (l) => {
   });
 };
 var wikiLink = (l) => {
-  if (!(typeof l.article === typeof {} && typeof l.action === "string" && typeof l.text === "string")) {
+  if (!(typeof l.article === "object" && typeof l.action === "string" && typeof l.text === "string")) {
     return null;
   }
   if (l.oldid === void 0) {
@@ -3932,7 +3940,7 @@ var wikiLink = (l) => {
     l.oldid = null;
   }
   let hint = popupString(`${l.action}Hint`);
-  const oldidData = [l.oldid, safeDecodeURI(l.article)];
+  const oldidData = [l.oldid, safeDecodeURI(String(l.article))];
   let revisionString = tprintf("revision %s of %s", oldidData);
   log(`revisionString=${revisionString}`);
   switch (l.action) {
@@ -3976,7 +3984,7 @@ var wikiLink = (l) => {
       l.action = `markpatrolled&rcid=${l.rcid}`;
   }
   if (hint) {
-    hint = l.oldid ? simplePrintf(hint, [revisionString]) : simplePrintf(hint, [safeDecodeURI(l.article)]);
+    hint = l.oldid ? simplePrintf(hint, [revisionString]) : simplePrintf(hint, [safeDecodeURI(String(l.article))]);
   } else {
     hint = safeDecodeURI(`${l.article}&action=${l.action}`) + l.oldid ? `&oldid=${l.oldid}` : "";
   }
@@ -4144,7 +4152,7 @@ pg.fn.modifyWatchlist = async (title, action) => {
   }
   await getMwApi().postWithToken("watch", reqData);
   await getMwApi().loadMessagesIfMissing([messageName]);
-  void mw.notify(mw.message(messageName, title).parseDom(), {
+  void mw.notify(mw.message(messageName, title), {
     tag: "popups"
   });
 };
@@ -4218,7 +4226,7 @@ var specialLink = (l) => {
       article += "/";
       break;
   }
-  hint = hint ? simplePrintf(hint, [safeDecodeURI(l.article)]) : safeDecodeURI(`${l.specialpage}:${l.article}`);
+  hint = hint ? simplePrintf(hint, [safeDecodeURI(l.article.toString())]) : safeDecodeURI(`${l.specialpage}:${l.article}`);
   const url = base + l.sep + article;
   return generalNavLink({
     url,
@@ -4315,8 +4323,8 @@ var changeLinkTargetLink = (x) => {
   }
   cmd = `autoedit=${encodeURIComponent(cmd)}`;
   cmd += `&autoclick=${encodeURIComponent(x.clickButton)}&actoken=${encodeURIComponent(autoClickToken())}`;
-  cmd += x.minor === null ? "" : `&autominor=${encodeURIComponent(x.minor)}`;
-  cmd += x.watch === null ? "" : `&autowatch=${encodeURIComponent(x.watch)}`;
+  cmd += x.minor === null ? "" : `&autominor=${encodeURIComponent(String(x.minor))}`;
+  cmd += x.watch === null ? "" : `&autowatch=${encodeURIComponent(String(x.watch))}`;
   cmd += `&autosummary=${encodeURIComponent(x.summary)}`;
   cmd += `&autoimpl=${encodeURIComponent(popupString("autoedit_version"))}`;
   return appendParamsToLink(lk, cmd);
@@ -4328,16 +4336,20 @@ var redirLink = (redirMatch, article) => {
     if (getValueOf("popupFixRedirs")) {
       ret += popupString("Redirects to: (Fix ");
       log(`redirLink: newTarget=${redirMatch}`);
-      ret += addPopupShortcut(changeLinkTargetLink({
-        newTarget: redirMatch,
-        text: popupString("target"),
-        hint: popupString("Fix this redirect, changing just the link target"),
-        summary: simplePrintf(getValueOf("popupFixRedirsSummary"), [article.toString(), redirMatch]),
-        oldTarget: article.toString(),
-        clickButton: getValueOf("popupRedirAutoClick"),
-        minor: true,
-        watch: getValueOf("popupWatchRedirredPages")
-      }), "R");
+      ret += addPopupShortcut(
+        // appendParamsToLink 失败返回 null 时与原版一样会在下游崩溃
+        changeLinkTargetLink({
+          newTarget: redirMatch,
+          text: popupString("target"),
+          hint: popupString("Fix this redirect, changing just the link target"),
+          summary: simplePrintf(getValueOf("popupFixRedirsSummary"), [article.toString(), redirMatch]),
+          oldTarget: article.toString(),
+          clickButton: getValueOf("popupRedirAutoClick"),
+          minor: true,
+          watch: getValueOf("popupWatchRedirredPages")
+        }),
+        "R"
+      );
       ret += popupString(" or ");
       ret += addPopupShortcut(changeLinkTargetLink({
         newTarget: redirMatch,
@@ -4367,12 +4379,12 @@ var arinLink = (l) => {
   if (!saneLinkCheck(l)) {
     return null;
   }
-  if (!l.article.isIpUser() || !pg.wiki.wikimedia) {
+  if (!l.article.isIpUser() || !pg.wiki.qiuwen) {
     return null;
   }
   const uN = l.article.userName();
   return generalNavLink({
-    url: `http://ws.arin.net/cgi-bin/whois.pl?queryinput=${encodeURIComponent(uN)}`,
+    url: `http://ws.arin.net/cgi-bin/whois.pl?queryinput=${encodeURIComponent(String(uN))}`,
     newWin: l.newWin,
     title: tprintf("Look up %s in ARIN whois database", [uN]),
     text: l.text,
@@ -4387,7 +4399,7 @@ var toolDbName = (cookieStyle) => {
   return ret;
 };
 var saneLinkCheck = (l) => {
-  if (typeof l.article !== typeof {} || typeof l.text !== "string") {
+  if (typeof l.article !== "object" || typeof l.text !== "string") {
     return false;
   }
   return true;
@@ -4396,7 +4408,7 @@ var editCounterLink = (l) => {
   if (!saneLinkCheck(l)) {
     return null;
   }
-  if (!pg.wiki.wikimedia) {
+  if (!pg.wiki.qiuwen) {
     return null;
   }
   const uN = l.article.userName();
@@ -4405,11 +4417,11 @@ var editCounterLink = (l) => {
   const defaultToolUrl = "//tools.wmflabs.org/supercount/index.php?user=$1&project=$2.$3";
   switch (tool) {
     case "custom":
-      url = simplePrintf(getValueOf("popupEditCounterUrl"), [encodeURIComponent(uN), toolDbName()]);
+      url = simplePrintf(getValueOf("popupEditCounterUrl"), [encodeURIComponent(String(uN)), toolDbName()]);
       break;
     default: {
       const theWiki = pg.wiki.hostname.split(".");
-      url = simplePrintf(defaultToolUrl, [encodeURIComponent(uN), theWiki[0], theWiki[1]]);
+      url = simplePrintf(defaultToolUrl, [encodeURIComponent(String(uN)), theWiki[0], theWiki[1]]);
     }
   }
   return generalNavLink({
@@ -4512,7 +4524,7 @@ var defaultNavlinkSpec = () => {
   str += "if(admin){<br><<unprotect|unprotectShort>>|<<protect|shortcut=p>>|<<protectlog|log>>*<<undelete|undeleteShort>>|<<delete|shortcut=d>>|<<deletelog|log>>}";
   return str;
 };
-var navLinksHTML = (article, _hint, params) => {
+var navLinksHTML = (article, _hint, params = {}) => {
   const str = `<span class="popupNavLinks">${defaultNavlinkSpec()}</span>`;
   return navlinkStringToHTML(str, article, params);
 };
@@ -4558,11 +4570,8 @@ var expandConditionalNavlinkString = function expandConditionalNavlinkString2(s,
       case "ipuser":
         testResult = !!article.isIpUser();
         break;
-      case "mainspace_en":
-        testResult = isInMainNamespace(article) && pg.wiki.hostname === "en.wikipedia.org";
-        break;
-      case "wikimedia":
-        testResult = !!pg.wiki.wikimedia;
+      case "qiuwen":
+        testResult = !!pg.wiki.qiuwen;
         break;
       case "diff":
         testResult = !!(diff2 !== void 0 && diff2);
@@ -4661,6 +4670,7 @@ var navlinkTag = class {
   title;
   shortcut;
   article;
+  // print 回调以 NavlinkPrintArgs（links.ts 的字段视图）为签名，各 print 函数可直接赋入
   print;
   specialpage;
   sep;
@@ -4672,6 +4682,9 @@ var navlinkTag = class {
   noPopup;
   from;
   to;
+  actionName;
+  className;
+  onclick;
   constructor() {
     this.type = "navlinkTag";
   }
@@ -4690,11 +4703,11 @@ var navlinkTag = class {
       closing = "";
     }
     if (typeof this.print === "function") {
-      html = this.print(this);
-      if (typeof html !== "string") {
+      const printed = this.print(this);
+      if (typeof printed === "string") {
+        html = this.shortcut === void 0 ? printed : addPopupShortcut(printed, this.shortcut);
+      } else {
         html = "";
-      } else if (this.shortcut !== void 0) {
-        html = addPopupShortcut(html, this.shortcut);
       }
     } else {
       errlog(`Oh dear - invalid print function for a navlinkTag, id=${this.id}`);
@@ -4831,7 +4844,7 @@ var navlinkTag = class {
         this.print = specialLink;
         this.specialpage = "Thanks";
         this.sep = "/";
-        this.article.value = this.diff === "prev" ? this.oldid : this.diff;
+        this.article.value = this.diff === "prev" ? String(this.oldid) : String(this.diff);
         break;
       case "unwatch":
       case "watch":
@@ -4875,7 +4888,7 @@ var navlinkTag = class {
         break;
       case "mainlink":
         if (this.text === void 0) {
-          this.text = this.article.toString().entify();
+          this.text = entify(this.article.toString());
         }
         if (getValueOf("popupSimplifyMainLink") && isInStrippableNamespace(this.article)) {
           const s = this.text.split("/");
@@ -4886,7 +4899,7 @@ var navlinkTag = class {
         }
         this.print = titledWikiLink;
         if (this.title === void 0 && pg.current.link && pg.current.link.href !== void 0) {
-          this.title = safeDecodeURI(pg.current.link.originalTitle ?? this.article);
+          this.title = safeDecodeURI(pg.current.link.originalTitle ?? this.article.toString());
           if (this.oldid !== void 0 && this.oldid) {
             this.title = tprintf("Revision %s of %s", [this.oldid, this.title]);
           }
@@ -5060,7 +5073,8 @@ pg.structures.fancy.popupRedirOtherLinks = pg.structures.fancy.popupOtherLinks;
 copyStructure("fancy", "fancy2");
 pg.structures.fancy2.popupTopLinks = // hack out the <br> at the end and put one at the beginning
 (x) => {
-  return `<br>${pg.structures.fancy.popupTopLinks(x).replace(/<br>$/i, "")}`;
+  const fancyTopLinks = pg.structures.fancy.popupTopLinks;
+  return `<br>${fancyTopLinks(x).replace(/<br>$/i, "")}`;
 };
 pg.structures.fancy2.popupLayout = () => {
   return ["popupError", "popupImage", "popupTitle", "popupUserData", "popupData", "popupTopLinks", "popupOtherLinks", "popupRedir", ["popupWarnRedir", "popupRedirTopLinks", "popupRedirTitle", "popupRedirData", "popupRedirOtherLinks"], "popupMiscTools", ["popupRedlink"], "popupPrePreviewSep", "popupPreview", "popupSecondPreview", "popupPreviewMore", "popupPostPreview", "popupFixDab"];
@@ -5149,10 +5163,8 @@ var getPgStructures = () => {
 //! src/Navigation_popups/modules/htmloutput.ts
 pg.structures = getPgStructures();
 var setPopupHTML = function setPopupHTML2(str, elementId, popupId, onSuccess, append) {
-  if (popupId === void 0) {
-    popupId = pg.idNumber;
-  }
-  const popupElement = document.getElementById(`${elementId}${popupId}`);
+  const id = popupId ?? pg.idNumber;
+  const popupElement = document.getElementById(`${elementId}${id}`);
   if (popupElement) {
     if (!append) {
       popupElement.innerHTML = "";
@@ -5169,7 +5181,7 @@ var setPopupHTML = function setPopupHTML2(str, elementId, popupId, onSuccess, ap
     return true;
   }
   setTimeout(() => {
-    setPopupHTML2(str, elementId, popupId, onSuccess);
+    setPopupHTML2(str, elementId, id, onSuccess);
   }, 600);
   return null;
 };
@@ -5187,7 +5199,7 @@ var fillEmptySpans = (args) => {
   let hint;
   let oldid;
   let params = {};
-  if (redir && typeof args.redirTarget === typeof {}) {
+  if (redir && typeof args.redirTarget === "object") {
     article = args.redirTarget;
   } else {
     article = new Title().fromAnchor(a);
@@ -5215,29 +5227,33 @@ var fillEmptySpans = (args) => {
   const numspans = spans.length;
   const redirs = pg.misc.redirSpans;
   for (let i = 0; i < numspans; ++i) {
-    const found = redirs && redirs.includes(spans[i]);
+    const span = spans[i];
+    if (typeof span !== "string") {
+      continue;
+    }
+    const found = redirs && redirs.includes(span);
     if (found && !redir || !found && redir) {
       continue;
     }
-    const structurefn = structure[spans[i]];
+    const structurefn = structure[span];
     if (structurefn === void 0) {
       continue;
     }
     let setfn = setPopupHTML;
-    if (getValueOf("popupActiveNavlinks") && (spans[i].indexOf("popupTopLinks") === 0 || spans[i].indexOf("popupRedirTopLinks") === 0)) {
+    if (getValueOf("popupActiveNavlinks") && (span.startsWith("popupTopLinks") || span.startsWith("popupRedirTopLinks"))) {
       setfn = setPopupTipsAndHTML;
     }
     switch (typeof structurefn) {
       case "function":
-        log(`running ${spans[i]}({
+        log(`running ${span}({
 						article:${x.article}, hint:${x.hint}, oldid: ${x.oldid}})`);
-        setfn(structurefn(x), spans[i], args.navpopup.idNumber);
+        setfn(structurefn(x), span, args.navpopup.idNumber);
         break;
       case "string":
-        setfn(structurefn, spans[i], args.navpopup.idNumber);
+        setfn(structurefn, span, args.navpopup.idNumber);
         break;
       default:
-        errlog(`unknown thing with label ${spans[i]} (span index was ${i})`);
+        errlog(`unknown thing with label ${span} (span index was ${i})`);
         break;
     }
   }
@@ -5248,10 +5264,11 @@ var flatten = function flatten2(list, start) {
     start = 0;
   }
   for (let i = start; i < list.length; ++i) {
-    if (typeof list[i] === typeof []) {
-      return [...ret, ...flatten2(list[i]), ...flatten2(list, i + 1)];
+    const element = list[i];
+    if (Array.isArray(element)) {
+      return [...ret, ...flatten2(element), ...flatten2(list, i + 1)];
     }
-    ret.push(list[i]);
+    ret.push(element);
   }
   return ret;
 };
@@ -5279,24 +5296,22 @@ var makeEmptySpans = function makeEmptySpans2(list, navpop) {
   for (const element of list) {
     if (typeof element === "string") {
       ret += emptySpanHTML(element, navpop.idNumber, "div");
-    } else if (typeof element === typeof [] && element.length > 0) {
+    } else if (element.length > 0) {
       ret = ret.split(/(<\/[^>]*?>$)/).join(makeEmptySpans2(element, navpop));
-    } else if (typeof element === typeof {} && element.nodeType) {
-      ret += emptySpanHTML(element.name, navpop.idNumber, element.nodeType);
     }
   }
   return ret;
 };
 var emptySpanHTML = function emptySpanHTML2(name, id, tag, classname) {
   tag || (tag = "span");
-  classname || (classname = emptySpanHTML2.classAliases[name]);
+  classname || (classname = emptySpanHTMLClassAliases[name]);
   classname || (classname = name);
   if (name === getValueOf("popupDragHandle")) {
     classname += " popupDragHandle";
   }
   return simplePrintf('<%s id="%s" class="%s"></%s>', [tag, name + id, classname, tag]);
 };
-emptySpanHTML.classAliases = {
+var emptySpanHTMLClassAliases = {
   popupSecondPreview: "popupPreview"
 };
 var imageHTML = (_article, idNumber) => {
@@ -5312,7 +5327,7 @@ var popTipsSoonFn = (id, when, popData) => {
   };
 };
 var setPopupTipsAndHTML = (html, divname, idnumber, popData) => {
-  setPopupHTML(html, divname, idnumber, getValueOf("popupSubpopups") ? popTipsSoonFn(divname + idnumber, null, popData) : null);
+  setPopupHTML(html, divname, idnumber, getValueOf("popupSubpopups") ? popTipsSoonFn(`${divname}${idnumber}`, null, popData) : null);
 };
 //! src/Navigation_popups/modules/getpage.ts
 var getPageWithCaching = (url, onComplete, owner) => {
@@ -5320,12 +5335,13 @@ var getPageWithCaching = (url, onComplete, owner) => {
   const i = findInPageCache(url);
   let d;
   if (i > -1) {
-    d = fakeDownload(url, owner.idNumber, onComplete, pg.cache.pages[i].data, pg.cache.pages[i].lastModified, owner);
+    fakeDownload(url, owner.idNumber, onComplete, pg.cache.pages[i].data, pg.cache.pages[i].lastModified, owner);
   } else {
     d = getPage(url, onComplete, owner);
     if (d && owner && owner.addDownload) {
-      owner.addDownload(d);
-      d.owner = owner;
+      const download = d;
+      owner.addDownload(download);
+      download.owner = owner;
     }
   }
 };
@@ -5465,7 +5481,7 @@ var getValidImageFromWikiText = (wikiText) => {
   const t = removeMatchesUnless(wikiText, /(<!--[\S\s]*?-->)/, 1, /^<!--[^[]*popup/i);
   while ((match = pg.re.image.exec(t)) !== null) {
     const m = match[2] || match[6];
-    if (isValidImageName(m)) {
+    if (m && isValidImageName(m)) {
       matched = m;
       break;
     }
@@ -5497,7 +5513,8 @@ var retargetDab = (newTarget, oldTarget, friendlyCurrentArticleName, titleToEdit
     summary: simplePrintf(getValueOf("popupFixDabsSummary"), [friendlyCurrentArticleName, newTarget]),
     clickButton: getValueOf("popupDabsAutoClick"),
     minor: true,
-    oldTarget,
+    // 原版传 Title 经 escapeRegExp/decodeURIComponent 隐式字符串化，等价于 toString()
+    oldTarget: oldTarget.toString(),
     watch: getValueOf("popupWatchDisambiggedPages"),
     title: titleToEdit
   });
@@ -5510,8 +5527,9 @@ var listLinks = (wikitext, oldTarget, titleToEdit) => {
   const friendlyCurrentArticleName = oldTarget.toString();
   const wikPos = getValueOf("popupDabWiktionary");
   for (let i = 1; i < splitted.length; i += 3) {
-    if (typeof splitted[i] === "string" && splitted[i].length > 0 && !omitRegex.test(splitted[i])) {
-      ret.push(retargetDab(splitted[i], oldTarget, friendlyCurrentArticleName, titleToEdit));
+    const s = splitted[i];
+    if (typeof s === "string" && s.length > 0 && !omitRegex.test(s)) {
+      ret.push(retargetDab(s, oldTarget, friendlyCurrentArticleName, titleToEdit));
     }
   }
   ret = rmDupesFromSortedList(ret.sort());
@@ -5525,7 +5543,7 @@ var listLinks = (wikitext, oldTarget, titleToEdit) => {
     text: popupString("remove this link").split(" ").join("&nbsp;"),
     hint: popupString("remove all links to this disambig page from this article"),
     clickButton: getValueOf("popupDabsAutoClick"),
-    oldTarget,
+    oldTarget: oldTarget.toString(),
     summary: simplePrintf(getValueOf("popupRmDabLinkSummary"), [friendlyCurrentArticleName]),
     watch: getValueOf("popupWatchDisambiggedPages"),
     title: titleToEdit
@@ -5554,7 +5572,7 @@ var makeFixDab = (data, navpop) => {
 };
 var makeFixDabs = (wikiText, navpop) => {
   if (getValueOf("popupFixDabs") && isDisambig(wikiText, navpop.article) && Title.fromURL(location.href).namespaceId() !== pg.nsSpecialId && navpop.article.talkPage()) {
-    setPopupHTML(makeFixDab(wikiText, navpop), "popupFixDab", navpop.idNumber);
+    setPopupHTML(makeFixDab(wikiText, navpop) ?? "", "popupFixDab", navpop.idNumber);
   }
 };
 var popupRedlinkHTML = (article) => {
@@ -5691,7 +5709,7 @@ var Previewmaker = class _Previewmaker {
     } else if (isRegExp(x)) {
       let s = x.toString().slice(1);
       const sp = s.split("/");
-      flags = sp.at(-1);
+      flags = sp.at(-1) ?? "";
       sp[sp.length - 1] = "";
       s = sp.join("/");
       s = s.slice(0, Math.max(0, s.length - 1));
@@ -5790,15 +5808,15 @@ var Previewmaker = class _Previewmaker {
       }
       d = d.replace(/(==+[^=]*==+)\s*/g, "$1\n\n");
     }
-    d = d.split(/([!.?]+["']*\s)/g);
-    d[0] = d[0].replace(/^\s*/, "");
+    let sentences = d.split(/([!.?]+["']*\s)/g);
+    sentences[0] = sentences[0].replace(/^\s*/, "");
     const notSentenceEnds = /([^.][a-z]\. *[a-z]|etc|sic|dr|mr|mrs|ms|st|no|op|cit|\[[^\]]*|\s[a-z])$/i;
-    d = this.fixSentenceEnds(d, notSentenceEnds);
-    this.fullLength = d.join("").length;
+    sentences = this.fixSentenceEnds(sentences, notSentenceEnds);
+    this.fullLength = sentences.join("").length;
     let n = this.maxSentences;
-    let dd = _Previewmaker.firstSentences(d, n);
+    let dd = _Previewmaker.firstSentences(sentences, n);
     do {
-      dd = _Previewmaker.firstSentences(d, n);
+      dd = _Previewmaker.firstSentences(sentences, n);
       --n;
     } while (dd.length > this.maxCharacters && n !== 0);
     this.data = dd;
@@ -6042,6 +6060,7 @@ var doSeparateSelectionPopup = (str, article) => {
 };
 //! src/Navigation_popups/modules/querypreview.ts
 var loadAPIPreview = (queryType, article, navpop) => {
+  var _Title$userName;
   const art = new Title(article).urlString();
   let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query&`;
   let htmlGenerator = () => {
@@ -6049,6 +6068,7 @@ var loadAPIPreview = (queryType, article, navpop) => {
       tag: "popups",
       type: "error"
     });
+    return void 0;
   };
   let usernameart = "";
   switch (queryType) {
@@ -6062,13 +6082,13 @@ var loadAPIPreview = (queryType, article, navpop) => {
       break;
     case "userinfo": {
       const username = new Title(article).userName();
-      usernameart = encodeURIComponent(username);
-      url += pg.re.ipUser.test(username) ? `list=blocks&bkprop=range|restrictions&bkip=${usernameart}` : `list=users|usercontribs&usprop=blockinfo|groups|editcount|registration|gender&ususers=${usernameart}&meta=globaluserinfo&guiprop=groups|unattached&guiuser=${usernameart}&uclimit=1&ucprop=timestamp&ucuser=${usernameart}`;
+      usernameart = encodeURIComponent((username === null || username === void 0 ? void 0 : username.toString()) ?? "");
+      url += pg.re.ipUser.test((username === null || username === void 0 ? void 0 : username.toString()) ?? "") ? `list=blocks&bkprop=range|restrictions&bkip=${usernameart}` : `list=users|usercontribs&usprop=blockinfo|groups|editcount|registration|gender&ususers=${usernameart}&meta=globaluserinfo&guiprop=groups|unattached&guiuser=${usernameart}&uclimit=1&ucprop=timestamp&ucuser=${usernameart}`;
       htmlGenerator = APIuserInfoPreviewHTML;
       break;
     }
     case "contribs":
-      usernameart = encodeURIComponent(new Title(article).userName());
+      usernameart = encodeURIComponent(((_Title$userName = new Title(article).userName()) === null || _Title$userName === void 0 ? void 0 : _Title$userName.toString()) ?? "");
       url += `list=usercontribs&ucuser=${usernameart}&uclimit=${getValueOf("popupContribsPreviewLimit")}`;
       htmlGenerator = APIcontribsPreviewHTML;
       break;
@@ -6157,7 +6177,7 @@ var useTimeOffset = () => {
 };
 var getLocales = () => {
   if (!pg.user.locales) {
-    let userLanguage = document.querySelector("html").getAttribute("lang");
+    let userLanguage = document.querySelector("html").getAttribute("lang") ?? "";
     if (getValueOf("popupLocale")) {
       userLanguage = getValueOf("popupLocale");
     } else if (userLanguage === "en") {
@@ -6218,7 +6238,7 @@ var editPreviewTable = (article, h, reallyContribs) => {
     let col3txt = "";
     if (reallyContribs) {
       col3url = pg.wiki.titlebase + curart.urlString();
-      col3txt = pg.escapeQuotesHTML(page);
+      col3txt = pg.escapeQuotesHTML(page ?? "");
     } else {
       const {
         user
@@ -6227,8 +6247,8 @@ var editPreviewTable = (article, h, reallyContribs) => {
         col3url = getValueOf("popupRevDelUrl");
         col3txt = pg.escapeQuotesHTML(popupString("revdel"));
       } else {
-        col3url = pg.re.ipUser.test(user) ? `${pg.wiki.titlebase + mw.config.get("wgFormattedNamespaces")[pg.nsSpecialId]}:Contributions&target=${new Title(user).urlString()}` : `${pg.wiki.titlebase + mw.config.get("wgFormattedNamespaces")[pg.nsUserId]}:${new Title(user).urlString()}`;
-        col3txt = pg.escapeQuotesHTML(user);
+        col3url = pg.re.ipUser.test(user ?? "") ? `${pg.wiki.titlebase + mw.config.get("wgFormattedNamespaces")[pg.nsSpecialId]}:Contributions&target=${new Title(user).urlString()}` : `${pg.wiki.titlebase + mw.config.get("wgFormattedNamespaces")[pg.nsUserId]}:${new Title(user).urlString()}`;
+        col3txt = pg.escapeQuotesHTML(user ?? "");
       }
     }
     html.push(`<td>${reallyContribs ? minor : ""}<a href="${col3url}">${col3txt}</a></td>`);
@@ -6327,14 +6347,14 @@ var showAPIPreview = (queryType, html, id, navpop, download) => {
       insertPreview(download);
       return;
   }
-  setPopupTipsAndHTML(html, target, id);
+  setPopupTipsAndHTML(html ?? "", target, id);
 };
 var APIrevisionPreviewHTML = (_article, download) => {
   try {
     const jsObj = getJsObj(download.data);
     const page = anyChild(jsObj.query.pages);
     if (page.missing) {
-      download.owner = null;
+      download.owner = void 0;
       return;
     }
     const content = page && page.revisions && page.revisions[0] && page.revisions[0].content ? page.revisions[0].content : null;
@@ -6342,6 +6362,7 @@ var APIrevisionPreviewHTML = (_article, download) => {
       download.data = content;
       download.lastModified = new Date(page.revisions[0].timestamp);
     }
+    return void 0;
   } catch {
     return "Revision preview failed :(";
   }
@@ -6350,15 +6371,15 @@ var APIbacklinksPreviewHTML = (_article, download) => {
   try {
     const jsObj = getJsObj(download.data);
     const list = jsObj.query.backlinks;
-    let html = [];
     if (!list) {
       return popupString("No backlinks found");
     }
+    const parts = [];
     for (const element of list) {
       const t = new Title(element.title);
-      html.push(`<a href="${pg.wiki.titlebase}${t.urlString()}">${t.toString().entify()}</a>`);
+      parts.push(`<a href="${pg.wiki.titlebase}${t.urlString()}">${entify(t.toString())}</a>`);
     }
-    html = html.join(", ");
+    let html = parts.join(", ");
     if (jsObj.continue && jsObj.continue.blcontinue) {
       html += popupString(" and more");
     }
@@ -6371,10 +6392,12 @@ pg.fn.APIsharedImagePagePreviewHTML = (obj) => {
   log("APIsharedImagePagePreviewHTML");
   const popupid = obj.requestid;
   if (obj.query && obj.query.pages) {
+    var _page$revisions;
     const page = anyChild(obj.query.pages);
-    const content = page && page.revisions && page.revisions[0].contentmodel === "wikitext" ? page.revisions[0].content : null;
+    const first = page === null || page === void 0 || (_page$revisions = page.revisions) === null || _page$revisions === void 0 ? void 0 : _page$revisions[0];
+    const content = first && first.contentmodel === "wikitext" ? first.content : null;
     if (typeof content === "string" && pg && pg.current && pg.current.link && pg.current.link.navpopup) {
-      const p = new Previewmaker(content, pg.current.link.navpopup.article, pg.current.link.navpopup);
+      const p = new Previewmaker(content, pg.current.link.navpopup.article.toString(), pg.current.link.navpopup);
       p.makePreview();
       setPopupHTML(p.html, "popupSecondPreview", popupid);
     }
@@ -6411,7 +6434,7 @@ var APIimagepagePreviewHTML = (article, download, navpop) => {
       const art = new Title(article);
       const encart = encodeURIComponent(`File:${art.stripNamespace()}`);
       const shared_url = `${pg.wiki.apicommonsbase}?format=json&formatversion=2&callback=pg.fn.APIsharedImagePagePreviewHTML&requestid=${navpop.idNumber}&action=query&prop=revisions&rvprop=content&titles=${encart}`;
-      ret = `${ret}<hr>${popupString("Image from Commons")}: <a href="${pg.wiki.commonsbase}?title=${encart}">${popupString("Description page")}</a>`;
+      ret = `${ret}<hr>${popupString("Image from Qiuwen Baike")}: <a href="${pg.wiki.commonsbase}?title=${encart}">${popupString("Description page")}</a>`;
       mw.loader.load(shared_url);
     }
     showAPIPreview("imagelinks", APIimagelinksPreviewHTML(article, download), navpop.idNumber, download, download);
@@ -6443,14 +6466,14 @@ var APIcategoryPreviewHTML = (_article, download) => {
   try {
     const jsobj = getJsObj(download.data);
     const list = jsobj.query.categorymembers;
-    let ret = [];
+    const titles = [];
     for (const element of list) {
-      ret.push(element.title);
+      titles.push(element.title);
     }
-    if (ret.length === 0) {
+    if (titles.length === 0) {
       return popupString("Empty category");
     }
-    ret = `<h2>${tprintf("Category members (%s shown)", [ret.length])}</h2>${linkList(ret)}`;
+    let ret = `<h2>${tprintf("Category members (%s shown)", [titles.length])}</h2>${linkList(titles)}`;
     if (jsobj.continue && jsobj.continue.cmcontinue) {
       ret += popupString(" and more");
     }
@@ -6460,14 +6483,15 @@ var APIcategoryPreviewHTML = (_article, download) => {
   }
 };
 var APIuserInfoPreviewHTML = (_article, download) => {
-  let ret = [];
+  var _queryobj$users;
+  const ret = [];
   let queryobj = {};
   try {
     queryobj = getJsObj(download.data).query;
   } catch {
     return "Userinfo preview failed :(";
   }
-  const user = anyChild(queryobj.users);
+  const user = (_queryobj$users = queryobj.users) === null || _queryobj$users === void 0 ? void 0 : _queryobj$users[0];
   if (user) {
     const {
       globaluserinfo
@@ -6538,8 +6562,9 @@ var APIuserInfoPreviewHTML = (_article, download) => {
   if (queryobj.blocks) {
     ret.push(popupString("IP user"));
     for (let l = 0; l < queryobj.blocks.length; l++) {
-      let rbstr = queryobj.blocks[l].rangestart === queryobj.blocks[l].rangeend ? "BLOCK" : "RANGEBLOCK";
-      rbstr = Array.isArray(queryobj.blocks[l].restrictions) ? `${rbstr}ED` : `Has ${rbstr.toLowerCase()}s`;
+      const block = queryobj.blocks[l];
+      let rbstr = block.rangestart === block.rangeend ? "BLOCK" : "RANGEBLOCK";
+      rbstr = Array.isArray(block.restrictions) ? `${rbstr}ED` : `Has ${rbstr.toLowerCase()}s`;
       ret.push(`<b>${popupString(rbstr)}</b>`);
     }
   }
@@ -6550,8 +6575,7 @@ var APIuserInfoPreviewHTML = (_article, download) => {
       m--;
     }
   }
-  ret = `<hr>${ret.join(", ")}`;
-  return ret;
+  return `<hr>${ret.join(", ")}`;
 };
 var APIcontribsPreviewHTML = (article, download, navpop) => {
   return APIhistoryPreviewHTML(article, download, navpop, true);
@@ -6568,6 +6592,7 @@ var APIhistoryPreviewHTML = (article, download, _navpop, reallyContribs) => {
   }
 };
 //! src/Navigation_popups/modules/diff.ts
+var isPairedRow = (row) => typeof row === "object";
 var delFmt = (x) => {
   if (x.length === 0) {
     return "";
@@ -6581,15 +6606,16 @@ var insFmt = (x) => {
   return `<ins class='popupDiff'>${x.join("")}</ins>`;
 };
 var countCrossings = (a, b, i, eject) => {
-  if (!b[i].row && b[i].row !== 0) {
+  const start = b[i];
+  if (!isPairedRow(start)) {
     return -1;
   }
   let count = 0;
   for (const [j, element] of a.entries()) {
-    if (!element.row && element.row !== 0) {
+    if (!isPairedRow(element)) {
       continue;
     }
-    if ((j - b[i].row) * (i - element.row) > 0) {
+    if ((j - start.row) * (i - element.row) > 0) {
       if (eject) {
         return true;
       }
@@ -6628,41 +6654,43 @@ var diffString = (o, n) => {
   const oSplitted = o.split(/\b/);
   const nSplitted = n.split(/\b/);
   for (i = 0; i < oSplitted.length; ++i) {
-    oSplitted[i] = oSplitted[i].entify();
+    oSplitted[i] = entify(oSplitted[i]);
   }
   for (i = 0; i < nSplitted.length; ++i) {
-    nSplitted[i] = nSplitted[i].entify();
+    nSplitted[i] = entify(nSplitted[i]);
   }
   const out = diff(oSplitted, nSplitted);
   let str = "";
   let acc = [];
   let maxOutputPair = 0;
   for (i = 0; i < out.n.length; ++i) {
-    if (out.n[i].paired) {
-      if (maxOutputPair > out.n[i].row) {
-        out.o[out.n[i].row] = out.o[out.n[i].row].text;
-        out.n[i] = out.n[i].text;
+    const nrow = out.n[i];
+    if (isPairedRow(nrow)) {
+      if (maxOutputPair > nrow.row) {
+        out.o[nrow.row] = out.o[nrow.row].text;
+        out.n[i] = nrow.text;
       }
-      if (maxOutputPair < out.n[i].row) {
-        maxOutputPair = out.n[i].row;
+      if (maxOutputPair < nrow.row) {
+        maxOutputPair = nrow.row;
       }
     }
   }
-  for (i = 0; i < out.o.length && !out.o[i].paired; ++i) {
+  for (i = 0; i < out.o.length && !isPairedRow(out.o[i]); ++i) {
     acc.push(out.o[i]);
   }
   str += delFmt(acc);
   acc = [];
   for (i = 0; i < out.n.length; ++i) {
-    while (i < out.n.length && !out.n[i].paired) {
+    while (i < out.n.length && !isPairedRow(out.n[i])) {
       acc.push(out.n[i++]);
     }
     str += insFmt(acc);
     acc = [];
     if (i < out.n.length) {
-      str += out.n[i].text;
-      let m = out.n[i].row + 1;
-      while (m < out.o.length && !out.o[m].paired) {
+      const nrow = out.n[i];
+      str += nrow.text;
+      let m = nrow.row + 1;
+      while (m < out.o.length && !isPairedRow(out.o[m])) {
         acc.push(out.o[m++]);
       }
       str += delFmt(acc);
@@ -6688,8 +6716,9 @@ var makeDiffHashtable = (src) => {
   const ret = {};
   for (let i = 0; i < src.length; i++) {
     var _src$i;
-    if (jsReservedProperties.test(src[i])) {
-      src[i] += "<!-- -->";
+    const key = src[i];
+    if (jsReservedProperties.test(key)) {
+      src[i] = `${key}<!-- -->`;
     }
     ret[_src$i = src[i]] ?? (ret[_src$i] = []);
     try {
@@ -6724,28 +6753,40 @@ var diff = (o, n) => {
     }
   }
   for (i = 0; i < n.length - 1; i++) {
-    if (n[i].paired && !n[i + 1].paired && n[i].row + 1 < o.length && !o[n[i].row + 1].paired && n[i + 1] === o[n[i].row + 1]) {
+    const current = n[i];
+    if (!isPairedRow(current)) {
+      continue;
+    }
+    const next = n[i + 1];
+    const partner = o[current.row + 1];
+    if (!isPairedRow(next) && current.row + 1 < o.length && !isPairedRow(partner) && next !== void 0 && next === partner) {
       n[i + 1] = {
-        text: n[i + 1],
-        row: n[i].row + 1,
+        text: next,
+        row: current.row + 1,
         paired: true
       };
-      o[n[i].row + 1] = {
-        text: o[n[i].row + 1],
+      o[current.row + 1] = {
+        text: partner,
         row: i + 1,
         paired: true
       };
     }
   }
   for (i = n.length - 1; i > 0; i--) {
-    if (n[i].paired && !n[i - 1].paired && n[i].row > 0 && !o[n[i].row - 1].paired && n[i - 1] === o[n[i].row - 1]) {
+    const current = n[i];
+    if (!isPairedRow(current)) {
+      continue;
+    }
+    const prev = n[i - 1];
+    const partner = o[current.row - 1];
+    if (!isPairedRow(prev) && current.row > 0 && !isPairedRow(partner) && prev !== void 0 && prev === partner) {
       n[i - 1] = {
-        text: n[i - 1],
-        row: n[i].row - 1,
+        text: prev,
+        row: current.row - 1,
         paired: true
       };
-      o[n[i].row - 1] = {
-        text: o[n[i].row - 1],
+      o[current.row - 1] = {
+        text: partner,
         row: i - 1,
         paired: true
       };
@@ -6802,8 +6843,11 @@ var loadDiff = (article, oldid, diff2, navpop) => {
       break;
   }
   api2.get(params).then((data) => {
-    navpop.diffData.oldRev.revid = data.compare.fromrevid;
-    navpop.diffData.newRev.revid = data.compare.torevid;
+    const {
+      compare
+    } = data;
+    navpop.diffData.oldRev.revid = compare.fromrevid;
+    navpop.diffData.newRev.revid = compare.torevid;
     addReviewLink(navpop, "popupMiscTools");
     const go = () => {
       pendingNavpopTask(navpop);
@@ -6835,7 +6879,10 @@ var addReviewLink = (navpop, target) => {
     revids: navpop.diffData.oldRev.revid
   };
   getMwApi().get(params).then((data) => {
-    const stable_revid = data.query.pages[0].flagged && data.query.pages[0].flagged.stable_revid || 0;
+    const {
+      pages
+    } = data.query;
+    const stable_revid = pages[0].flagged && pages[0].flagged.stable_revid || 0;
     if (stable_revid === navpop.diffData.oldRev.revid) {
       const a = document.createElement("a");
       a.innerHTML = popupString("mark patrolled");
@@ -6872,7 +6919,7 @@ var doneDiff = (download) => {
       pages
     } = getJsObj(download.data).query);
     for (const page of pages) {
-      revisions = [...revisions, ...page.revisions];
+      revisions = [...revisions, ...page.revisions ?? []];
     }
     for (const revision of revisions) {
       if (revision.revid === navpop.diffData.oldRev.revid) {
@@ -6897,18 +6944,20 @@ var rmBoringLines = (a, b, context) => {
   let i;
   let j;
   for (i = 0; i < a.length; ++i) {
-    if (!a[i].paired) {
+    const row = a[i];
+    if (!isPairedRow(row) || !row.paired) {
       aa[i] = 1;
     } else if (countCrossings(b, a, i, true)) {
       aa[i] = 1;
-      bb[a[i].row] = 1;
+      bb[row.row] = 1;
     }
   }
   for (i = 0; i < b.length; ++i) {
     if (bb[i] === 1) {
       continue;
     }
-    if (!b[i].paired) {
+    const brow = b[i];
+    if (!isPairedRow(brow) || !brow.paired) {
       bb[i] = 1;
     }
   }
@@ -6917,7 +6966,10 @@ var rmBoringLines = (a, b, context) => {
       for (j = Math.max(0, i - context); j < Math.min(b.length, i + context); ++j) {
         if (!bb[j]) {
           bb[j] = 1;
-          aa[b[j].row] = 0.5;
+          const bRow = b[j];
+          if (isPairedRow(bRow)) {
+            aa[bRow.row] = 0.5;
+          }
         }
       }
     }
@@ -6927,26 +6979,31 @@ var rmBoringLines = (a, b, context) => {
       for (j = Math.max(0, i - context); j < Math.min(a.length, i + context); ++j) {
         if (!aa[j]) {
           aa[j] = 1;
-          bb[a[j].row] = 0.5;
+          const aRow = a[j];
+          if (isPairedRow(aRow)) {
+            bb[aRow.row] = 0.5;
+          }
         }
       }
     }
   }
   for (i = 0; i < bb.length; ++i) {
     if (bb[i] > 0) {
-      if (b[i].paired) {
-        bbb.push(b[i].text);
+      const bRow = b[i];
+      if (isPairedRow(bRow)) {
+        bbb.push(bRow.text);
       } else {
-        bbb.push(b[i]);
+        bbb.push(bRow);
       }
     }
   }
   for (i = 0; i < aa.length; ++i) {
     if (aa[i] > 0) {
-      if (a[i].paired) {
-        aaa.push(a[i].text);
+      const aRow = a[i];
+      if (isPairedRow(aRow)) {
+        aaa.push(aRow.text);
       } else {
-        aaa.push(a[i]);
+        aaa.push(aRow);
       }
     }
   }
@@ -7071,7 +7128,7 @@ var rmTocTooltips = () => {
     const tocLinks = toc.querySelectorAll("a");
     const tocLen = tocLinks.length;
     for (let j = 0; j < tocLen; ++j) {
-      removeTooltip(tocLinks[j], true);
+      removeTooltip(tocLinks[j]);
     }
   }
 };
@@ -7085,7 +7142,7 @@ var addTooltip = (a, popData) => {
   a.hasPopup = true;
   a.popData = popData;
 };
-var removeTooltip = (a, _force) => {
+var removeTooltip = (a) => {
   if (!a.hasPopup) {
     return;
   }
@@ -7119,8 +7176,12 @@ var registerHooks = (np) => {
   np.addHook(rmPopupShortcuts, "hide", "before");
 };
 var removeModifierKeyListener = (a) => {
-  document.removeEventListener("keydown", a.modifierKeyListener, false);
-  document.removeEventListener("keyup", a.modifierKeyListener, false);
+  const listener = a === null || a === void 0 ? void 0 : a.modifierKeyListener;
+  if (!listener) {
+    return;
+  }
+  document.removeEventListener("keydown", listener, false);
+  document.removeEventListener("keyup", listener, false);
 };
 var mouseOverWikiLink = function mouseOverWikiLink3(evt) {
   if (getValueOf("popupModifier")) {
@@ -7167,7 +7228,7 @@ var modifierPressed = (evt) => {
   if (!mod) {
     return false;
   }
-  return evt && evt[`${mod.toLowerCase()}Key`];
+  return Boolean(evt && evt[`${mod.toLowerCase()}Key`]);
 };
 var isCorrectModifier = (_a, evt) => {
   if (!getValueOf("popupModifier")) {
@@ -7201,7 +7262,7 @@ var mouseOverWikiLink2 = (a, evt) => {
     simplePopupContent(a, article);
   }
   a.navpopup.showSoonIfStable(a.navpopup.delay);
-  clearInterval(pg.timer.checkPopupPosition);
+  clearInterval(pg.timer.checkPopupPosition ?? void 0);
   pg.timer.checkPopupPosition = setInterval(checkPopupPosition, 600);
   if (getValueOf("simplePopups") && getValueOf("popupPreviewButton") && !a.simpleNoMore) {
     const d = document.createElement("div");
@@ -7246,13 +7307,16 @@ var debugData = (navpopup) => {
   }
 };
 var newNavpopup = (a, article) => {
+  var _a$popData;
   const navpopup = new Navpopup();
   navpopup.fuzz = 5;
   navpopup.delay = getValueOf("popupDelay") * 1e3;
   pg.idNumber = (pg.idNumber ?? 0) + 1;
   navpopup.idNumber = pg.idNumber;
   navpopup.parentAnchor = a;
-  navpopup.parentPopup = a.popData && a.popData.owner;
+  if ((_a$popData = a.popData) !== null && _a$popData !== void 0 && _a$popData.owner) {
+    navpopup.parentPopup = a.popData.owner;
+  }
   navpopup.article = article;
   registerHooks(navpopup);
   return navpopup;
@@ -7264,7 +7328,7 @@ var shouldShow = (a, option) => {
   if (shouldShowNonSimple(a)) {
     return getValueOf(option);
   }
-  return window[option] !== void 0 && window[option];
+  return window[option] !== void 0;
 };
 var nonsimplePopupContent = (a, article) => {
   let diff2;
@@ -7283,7 +7347,7 @@ var nonsimplePopupContent = (a, article) => {
   const referenceElement = footnoteTarget(a);
   if (referenceElement) {
     footnotePreview(referenceElement, a.navpopup);
-  } else if (diff2 || diff2 === 0) {
+  } else if (diff2) {
     loadDiff(article, oldid, diff2, a.navpopup);
   } else if (history) {
     loadAPIPreview("history", article, a.navpopup);
@@ -7339,7 +7403,7 @@ var loadPreviewFromRedir = (redirMatch, navpop) => {
   }
   navpop.redir++;
   navpop.redirTarget = target;
-  const warnRedir = redirLink(target, navpop.article);
+  const warnRedir = redirLink(redirMatch[2], navpop.article);
   setPopupHTML(warnRedir, "popupWarnRedir", navpop.idNumber);
   navpop.article = target;
   fillEmptySpans({
@@ -7372,7 +7436,7 @@ var insertPreviewNow = (download) => {
   if (!download.owner) {
     return;
   }
-  const wikiText = download.data;
+  const wikiText = download.data ?? "";
   const navpop = download.owner;
   const art = navpop.redirTarget || navpop.originalArticle;
   makeFixDabs(wikiText, navpop);
@@ -7392,7 +7456,7 @@ var insertPreviewNow = (download) => {
 var insertArticlePreview = (download, art, navpop) => {
   if (download && typeof download.data === "string") {
     if (art.namespaceId() === pg.nsTemplateId && getValueOf("popupPreviewRawTemplates")) {
-      const h = `<hr><span style="font-family: monospace;">${download.data.entify().split(String.raw`\n`).join(String.raw`<br>\n`)}</span>`;
+      const h = `<hr><span style="font-family: monospace;">${entify(download.data).split(String.raw`\n`).join(String.raw`<br>\n`)}</span>`;
       setPopupHTML(h, "popupPreview", navpop.idNumber);
     } else {
       const p = prepPreviewmaker(download.data, art, navpop);
@@ -7417,8 +7481,10 @@ var anchorize = (d, anch) => {
   }
   const lines = d.split("\n");
   for (let i = 0; i < lines.length; ++i) {
-    lines[i] = lines[i].replace(/\[{2}([^\]|]*?\|)?(.*?)]{2}/g, "$2").replace(/'''([^'])/g, "$1").replace(/''([^'])/g, "$1");
-    if (anchRe.test(lines[i])) {
+    const line = lines[i];
+    const cleaned = line.replace(/\[{2}([^\]|]*?\|)?(.*?)]{2}/g, "$2").replace(/'''([^'])/g, "$1").replace(/''([^'])/g, "$1");
+    lines[i] = cleaned;
+    if (anchRe.test(cleaned)) {
       return d.split("\n").slice(i).join("\n").replace(/^[^=]*/, "");
     }
   }
@@ -7445,15 +7511,9 @@ var killPopup = function killPopup2() {
 };
 //! src/Navigation_popups/modules/init.ts
 var setSiteInfo = () => {
-  if (window.popupLocalDebug) {
-    pg.wiki.hostname = "en.wikipedia.org";
-  } else {
-    pg.wiki.hostname = location.hostname;
-  }
-  pg.wiki.wikimedia = /(wiki([mp]edia|source|books|news|quote|versity|species|voyage|data)|metawiki|wiktionary|mediawiki)\.org/.test(pg.wiki.hostname);
-  pg.wiki.wikia = /\.wikia\.com$/i.test(pg.wiki.hostname);
-  pg.wiki.isLocal = pg.wiki.hostname.startsWith("localhost");
-  pg.wiki.commons = pg.wiki.wikimedia && pg.wiki.hostname !== "commons.wikimedia.org" ? "commons.wikimedia.org" : null;
+  pg.wiki.hostname = location.hostname;
+  pg.wiki.qiuwen = /\.qiuwenbaike\.cn|\.qiuwen\.wiki/.test(pg.wiki.hostname);
+  pg.wiki.commons = "www.qiuwenbaike.cn";
   pg.wiki.lang = mw.config.get("wgContentLanguage");
   const port = location.port ? `:${location.port}` : "";
   pg.wiki.sitebase = pg.wiki.hostname + port;
@@ -7468,9 +7528,9 @@ var setUserInfo = () => {
   pg.user.canReview = false;
   if (getValueOf("popupReview")) {
     getMwApi().get(params).done((data) => {
-      const [{
+      const {
         rights
-      }] = data.query.users;
+      } = data.query.users[0];
       pg.user.canReview = rights.includes("review");
     });
   }
@@ -7620,8 +7680,8 @@ var setupPopups = function setupPopups2(callback) {
 };
 //! src/Navigation_popups/modules/autoedit.ts
 var substitute = (data, cmdBody) => {
-  const fromRe = new RegExp(cmdBody.from, cmdBody.flags);
-  return data.replace(fromRe, cmdBody.to);
+  const fromRe = new RegExp(cmdBody.from ?? "", cmdBody.flags);
+  return data.replace(fromRe, cmdBody.to ?? "");
 };
 var execCmds = (data, cmdList) => {
   for (const element of cmdList) {
@@ -7675,7 +7735,7 @@ var parseSubstitute = (str) => {
   }
   flags = "";
   if (str.length > 0) {
-    tmp = skipOver(str, ";") || skipToEnd(str, ";");
+    tmp = skipOver(str, ";") || skipToEnd(str);
     if (tmp) {
       flags = tmp.segment;
       str = tmp.remainder;
@@ -7700,7 +7760,7 @@ var skipOver = (str, sep) => {
     remainder: str.slice(Math.max(0, endSegment + 1))
   };
 };
-var skipToEnd = (str, _sep) => {
+var skipToEnd = (str) => {
   return {
     segment: str,
     remainder: ""
@@ -7740,7 +7800,7 @@ var autoEdit = function autoEdit2() {
       return false;
     }
     if (mw.util.getParamValue("autowatchlist") && mw.util.getParamValue("actoken") === autoClickToken()) {
-      pg.fn.modifyWatchlist(mw.util.getParamValue("title"), mw.util.getParamValue("action"));
+      pg.fn.modifyWatchlist(mw.util.getParamValue("title") ?? "", mw.util.getParamValue("action") ?? "");
     }
     if (!document.editform) {
       return false;
@@ -7774,10 +7834,10 @@ var autoEdit = function autoEdit2() {
   });
 };
 var autoEdit22 = (d) => {
-  let summary = mw.util.getParamValue("autosummary");
-  let summaryprompt = mw.util.getParamValue("autosummaryprompt");
+  let summary = mw.util.getParamValue("autosummary") ?? "";
+  let summaryprompt = Boolean(mw.util.getParamValue("autosummaryprompt"));
   let summarynotice = "";
-  if (d && d.data && mw.util.getParamValue("autorv")) {
+  if (d !== null && d !== void 0 && d.data && mw.util.getParamValue("autorv")) {
     const s = getRvSummary(summary, d.data);
     if (s === false) {
       summaryprompt = true;

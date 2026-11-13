@@ -177,7 +177,7 @@ pg.string = {
 	'No image links found': 'No image links found',
 	'File links': 'File links',
 	'No image found': 'No image found',
-	'Image from Commons': 'Image from Commons',
+	'Image from Qiuwen Baike': 'Image from Qiuwen Baike',
 	'Description page': 'Description page',
 	'Alt text:': 'Alt text:',
 	revdel: 'Hidden revision',
@@ -251,11 +251,9 @@ const popupString = (str: string) => {
 	}
 	return str;
 };
-const tprintf = (str: string, subs?: any) => {
-	if (typeof subs !== typeof []) {
-		subs = [subs];
-	}
-	return simplePrintf(popupString(str), subs);
+const tprintf = (str: string, subs?: unknown) => {
+	const list = Array.isArray(subs) ? subs : [subs];
+	return simplePrintf(popupString(str), list);
 };
 
 export {popupString, tprintf};

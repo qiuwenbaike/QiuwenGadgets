@@ -1,10 +1,11 @@
 // 本文件由 Navigation_popups 原版 core.js 的 diffpreview.js 段落拆分而来，保留原有实现。
-import type {Dow, WikiParams} from './types';
+import {type DiffRow, countCrossings, diff, diffString, isPairedRow, shortenDiffString} from './diff';
+import type {Dow, Revision, WikiParams} from './types';
 import {completedNavpopTask, pendingNavpopTask} from './actions';
-import {countCrossings, diff, diffString, shortenDiffString} from './diff';
 import {getJsObj, simplePrintf} from './tools';
 import {popupString, tprintf} from './strings';
 import {setPopupHTML, setPopupTipsAndHTML} from './htmloutput';
+import type {ApiResponse} from 'types-mediawiki/mw/Api';
 import type {Navpopup} from './navpopup';
 import type {Title} from './titles';
 import {formattedDateTime} from './querypreview';
@@ -14,7 +15,20 @@ import {getPageWithCaching} from './getpage';
 import {getValueOf} from './options';
 import {pg} from './pg';
 
-const loadDiff = (article: Title, oldid: string, diff: any, navpop: Navpopup) => {
+// action=compare 响应（本模块消费的最小结构）
+interface CompareResponse {
+	compare: {fromrevid: number; torevid: number};
+}
+// prop=info&flagged 响应（本模块消费的最小结构）
+interface FlaggedResponse {
+	query: {pages: {flagged?: {stable_revid: number}}[]};
+}
+// revids 查询响应中单个页面
+interface DiffApiPage {
+	revisions?: Revision[];
+}
+
+const loadDiff = (article: Title, oldid: string | null, diff: string, navpop: Navpopup) => {
 	navpop.diffData = {
 		oldRev: {},
 		newRev: {},
@@ -60,9 +74,10 @@ const loadDiff = (article: Title, oldid: string, diff: any, navpop: Navpopup) =>
 			params.torev = diff || 0;
 			break;
 	}
-	api.get(params).then((data: any) => {
-		navpop.diffData.oldRev.revid = data.compare.fromrevid;
-		navpop.diffData.newRev.revid = data.compare.torevid;
+	api.get(params).then((data: ApiResponse) => {
+		const {compare} = data as CompareResponse;
+		navpop.diffData.oldRev.revid = compare.fromrevid;
+		navpop.diffData.newRev.revid = compare.torevid;
 		addReviewLink(navpop, 'popupMiscTools');
 		const go = () => {
 			pendingNavpopTask(navpop);
@@ -79,7 +94,7 @@ const loadDiff = (article: Title, oldid: string, diff: any, navpop: Navpopup) =>
 		}
 	});
 };
-const addReviewLink = (navpop: Navpopup, target: any) => {
+const addReviewLink = (navpop: Navpopup, target: string) => {
 	if (!pg.user.canReview) {
 		return;
 	}
@@ -96,8 +111,9 @@ const addReviewLink = (navpop: Navpopup, target: any) => {
 	};
 	getMwApi()
 		.get(params)
-		.then((data: any) => {
-			const stable_revid = (data.query.pages[0].flagged && data.query.pages[0].flagged.stable_revid) || 0;
+		.then((data: ApiResponse) => {
+			const {pages} = (data as FlaggedResponse).query;
+			const stable_revid = (pages[0]!.flagged && pages[0]!.flagged.stable_revid) || 0;
 			// The diff can be reviewed if the old version is the last reviewed version
 			// TODO: Other possible conditions that we may want to implement instead of this one:
 			// - old version is patrolled and the new version is not patrolled
@@ -138,13 +154,13 @@ const doneDiff = (download: Dow) => {
 	}
 	const navpop = download.owner;
 	completedNavpopTask(navpop);
-	let pages: any[];
-	let revisions: any[] = [];
+	let pages: DiffApiPage[];
+	let revisions: Revision[] = [];
 	try {
 		// Process the downloads
-		({pages} = getJsObj(download.data).query);
+		({pages} = getJsObj(download.data!).query);
 		for (const page of pages) {
-			revisions = [...revisions, ...page.revisions];
+			revisions = [...revisions, ...(page.revisions ?? [])];
 		}
 		for (const revision of revisions) {
 			if (revision.revid === navpop.diffData.oldRev.revid) {
@@ -158,24 +174,27 @@ const doneDiff = (download: Dow) => {
 	}
 	insertDiff(navpop);
 };
-const rmBoringLines = (a: any[], b: any[], context?: number) => {
+const rmBoringLines = (a: DiffRow[], b: DiffRow[], context?: number): {a: DiffRow[]; b: DiffRow[]} => {
 	if (context === undefined) {
 		context = 2;
 	}
 	// this is fairly slow... i think it's quicker than doing a word-based diff from the off, though
-	const aa = [];
-	const aaa = [];
-	const bb = [];
-	const bbb = [];
+	// 稀疏数组：已包含的行标记 1，弱包含（上下文）标记 0.5
+	const aa: number[] = [];
+	const aaa: DiffRow[] = [];
+	const bb: number[] = [];
+	const bbb: DiffRow[] = [];
 	let i;
 	let j;
 	// first, gather all disconnected nodes in a and all crossing nodes in a and b
 	for (i = 0; i < a.length; ++i) {
-		if (!a[i].paired) {
+		const row = a[i]!;
+		// 未配对行（字符串或 paired=false）与原版 !row.paired 语义一致
+		if (!isPairedRow(row) || !row.paired) {
 			aa[i] = 1;
 		} else if (countCrossings(b, a, i, true)) {
 			aa[i] = 1;
-			bb[a[i].row] = 1;
+			bb[row.row] = 1;
 		}
 	}
 	// pick up remaining disconnected nodes in b
@@ -183,7 +202,8 @@ const rmBoringLines = (a: any[], b: any[], context?: number) => {
 		if (bb[i] === 1) {
 			continue;
 		}
-		if (!b[i].paired) {
+		const brow = b[i]!;
+		if (!isPairedRow(brow) || !brow.paired) {
 			bb[i] = 1;
 		}
 	}
@@ -195,7 +215,11 @@ const rmBoringLines = (a: any[], b: any[], context?: number) => {
 			for (j = Math.max(0, i - context); j < Math.min(b.length, i + context); ++j) {
 				if (!bb[j]) {
 					bb[j] = 1;
-					aa[b[j].row] = 0.5;
+					const bRow = b[j]!;
+					// 原版对字符串行取 row 为 undefined 写入垃圾键，无消费点，守卫后行为等价
+					if (isPairedRow(bRow)) {
+						aa[bRow.row] = 0.5;
+					}
 				}
 			}
 		}
@@ -205,7 +229,10 @@ const rmBoringLines = (a: any[], b: any[], context?: number) => {
 			for (j = Math.max(0, i - context); j < Math.min(a.length, i + context); ++j) {
 				if (!aa[j]) {
 					aa[j] = 1;
-					bb[a[j].row] = 0.5;
+					const aRow = a[j]!;
+					if (isPairedRow(aRow)) {
+						bb[aRow.row] = 0.5;
+					}
 				}
 			}
 		}
@@ -213,21 +240,23 @@ const rmBoringLines = (a: any[], b: any[], context?: number) => {
 	for (i = 0; i < bb.length; ++i) {
 		if (bb[i]! > 0) {
 			// it's a row we need
-			if (b[i]!.paired) {
-				bbb.push(b[i]!.text); // joined; partner should be in aa
+			const bRow = b[i]!;
+			if (isPairedRow(bRow)) {
+				bbb.push(bRow.text); // joined; partner should be in aa
 			} else {
-				bbb.push(b[i]);
+				bbb.push(bRow);
 			}
 		}
 	}
 	for (i = 0; i < aa.length; ++i) {
 		if (aa[i]! > 0) {
 			// it's a row we need
-			if (a[i]!.paired) {
-				aaa.push(a[i].text);
+			const aRow = a[i]!;
+			if (isPairedRow(aRow)) {
+				aaa.push(aRow.text);
 			} else {
 				// joined; partner should be in aa
-				aaa.push(a[i]);
+				aaa.push(aRow);
 			}
 		}
 	}
@@ -296,12 +325,12 @@ const insertDiff = (navpop: Navpopup) => {
 };
 const diffDatesTable = (navpop: Navpopup) => {
 	let html = '<table class="popup_diff_dates">';
-	html += diffDatesTableRow(navpop.diffData.newRev.revision, tprintf('New revision'));
-	html += diffDatesTableRow(navpop.diffData.oldRev.revision, tprintf('Old revision'));
+	html += diffDatesTableRow(navpop.diffData.newRev.revision!, tprintf('New revision'));
+	html += diffDatesTableRow(navpop.diffData.oldRev.revision!, tprintf('Old revision'));
 	html += '</table>';
 	return html;
 };
-const diffDatesTableRow = (revision: any, label: any) => {
+const diffDatesTableRow = (revision: Revision, label: string) => {
 	let txt = '';
 	const lastModifiedDate = new Date(revision.timestamp);
 	txt = formattedDateTime(lastModifiedDate);

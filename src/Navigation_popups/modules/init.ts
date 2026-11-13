@@ -2,6 +2,7 @@
 import {getValueOf, setOptions} from './options';
 import {literalizeRegex, map} from './tools';
 import {nsRe, nsReImage, setInterwiki, setNamespaces, setRedirs} from './namespaces';
+import type {ApiResponse} from 'types-mediawiki/mw/Api';
 import {Navpopup} from './navpopup';
 import {api} from './api';
 import {pg} from './pg';
@@ -10,23 +11,20 @@ import {setupLivePreview} from './livepreview';
 import {setupTooltips} from './actions';
 
 const setSiteInfo = () => {
-	if (window.popupLocalDebug) {
-		pg.wiki.hostname = 'en.wikipedia.org';
-	} else {
-		pg.wiki.hostname = location.hostname; // use in preference to location.hostname for flexibility (?)
-	}
-	pg.wiki.wikimedia =
-		/(wiki([mp]edia|source|books|news|quote|versity|species|voyage|data)|metawiki|wiktionary|mediawiki)\.org/.test(
-			pg.wiki.hostname
-		);
-	pg.wiki.wikia = /\.wikia\.com$/i.test(pg.wiki.hostname);
-	pg.wiki.isLocal = pg.wiki.hostname.startsWith('localhost');
-	pg.wiki.commons =
-		pg.wiki.wikimedia && pg.wiki.hostname !== 'commons.wikimedia.org' ? 'commons.wikimedia.org' : null;
+	pg.wiki.hostname = location.hostname; // use in preference to location.hostname for flexibility (?)
+	pg.wiki.qiuwen = /\.qiuwenbaike\.cn|\.qiuwen\.wiki/.test(pg.wiki.hostname);
+	pg.wiki.commons = 'www.qiuwenbaike.cn';
 	pg.wiki.lang = mw.config.get('wgContentLanguage');
 	const port = location.port ? `:${location.port}` : '';
 	pg.wiki.sitebase = pg.wiki.hostname + port;
 };
+interface UserRightsResponse {
+	query: {
+		users: {
+			rights: string[];
+		}[];
+	};
+}
 const setUserInfo = () => {
 	const params = {
 		action: 'query',
@@ -38,12 +36,17 @@ const setUserInfo = () => {
 	if (getValueOf('popupReview')) {
 		getMwApi()
 			.get(params)
-			.done((data: any) => {
-				const [{rights}] = data.query.users;
+			.done((data: ApiResponse) => {
+				const {rights} = (data as UserRightsResponse).query.users[0]!;
 				pg.user.canReview = rights.includes('review'); // TODO: Should it be a getValueOf('ReviewRight') ?
 			});
 	}
 };
+interface SpecialPageAliasesResponse {
+	query: {
+		specialpagealiases: {realname: string; aliases: string[]}[];
+	};
+}
 const fetchSpecialPageNames = () => {
 	const params = {
 		action: 'query',
@@ -58,8 +61,8 @@ const fetchSpecialPageNames = () => {
 	};
 	return getMwApi()
 		.get(params)
-		.then((data: any) => {
-			pg.wiki.specialpagealiases = data.query.specialpagealiases;
+		.then((data: ApiResponse) => {
+			pg.wiki.specialpagealiases = (data as SpecialPageAliasesResponse).query.specialpagealiases;
 		});
 };
 const setTitleBase = () => {
@@ -87,7 +90,7 @@ const setMainRegex = () => {
 	const reEnd = `(${preTitles})([^&?#]*)[^#]*(?:#(.+))?`;
 	pg.re.main = new RegExp(reStart + literalizeRegex(pg.wiki.sitebase) + reEnd);
 };
-const buildSpecialPageGroup = (specialPageObj: any) => {
+const buildSpecialPageGroup = (specialPageObj: {realname: string; aliases: string[]}) => {
 	const variants = [];
 	variants.push(
 		mw.util.escapeRegExp(specialPageObj.realname),
@@ -183,7 +186,7 @@ const getMwApi = () => {
 	return pg.api.client;
 };
 let setupPopupsCompleted = false;
-const setupPopups = function setupPopups(callback: any) {
+const setupPopups = function setupPopups(callback: () => void) {
 	if (setupPopupsCompleted) {
 		if (typeof callback === 'function') {
 			callback();

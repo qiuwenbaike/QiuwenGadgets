@@ -11,23 +11,24 @@ import {
 import {pg} from './pg';
 import {popupString} from './strings';
 
-const defaultize = (x: any) => {
-	pg.option[x] ??= window[x] === undefined ? pg.optionDefault[x] : window[x];
+const defaultize = (x: string) => {
+	const userValue = (window as unknown as Record<string, unknown>)[x];
+	pg.option[x] ??= userValue === undefined ? pg.optionDefault[x] : userValue;
 };
-const newOption = (x: any, def: any) => {
+const newOption = (x: string, def: unknown) => {
 	pg.optionDefault[x] = def;
 };
-const setDefault = (x: any, def: any) => {
+const setDefault = (x: string, def: unknown) => {
 	return newOption(x, def);
 };
-const getValueOf = (varName: any) => {
+const getValueOf = (varName: string) => {
 	defaultize(varName);
 	return pg.option[varName];
 };
 const setOptions = () => {
 	// user-settable parameters and defaults
 	let userIsSysop = false;
-	const userGroups: any = mw.config.get('wgUserGroups');
+	const userGroups = mw.config.get('wgUserGroups');
 	if (userGroups) {
 		for (let g = 0; g < userGroups.length; ++g) {
 			if (userGroups[g] === 'sysop') {

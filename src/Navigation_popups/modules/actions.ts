@@ -3,10 +3,10 @@ import type {Dow, PopData} from './types';
 import {Title, anchorContainsImage, isPopupLink, parseParams} from './titles';
 import {addPopupShortcuts, rmPopupShortcuts} from './shortcutkeys';
 import {checkPopupPosition, mouseOutWikiLink} from './mouseout';
+import {entify, joinPath, literalizeRegex, simplePrintf} from './tools';
 import {fillEmptySpans, popupHTML, setPopupHTML, setPopupTrailer} from './htmloutput';
 import {getValidImageFromWikiText, loadImage} from './images';
 import {getValueOf, setDefault} from './options';
-import {joinPath, literalizeRegex, simplePrintf} from './tools';
 import {makeFixDabs, popupRedlinkHTML} from './dab';
 import {Navpopup} from './navpopup';
 import {Previewmaker} from './previewmaker';
@@ -19,7 +19,7 @@ import {pg} from './pg';
 import {popupString} from './strings';
 import {redirLink} from './links';
 
-const setupTooltips = (container?: any, remove?: boolean, force?: boolean, popData?: PopData) => {
+const setupTooltips = (container?: Element | Document | null, remove?: boolean, force?: boolean, popData?: PopData) => {
 	log(`setupTooltips, container=${container}, remove=${remove}`);
 	if (!container) {
 		// the main initial call
@@ -53,9 +53,9 @@ const setupTooltipsLoop = function setupTooltipsLoop(
 	begin: number,
 	howmany: number,
 	sleep: number,
-	remove: any,
+	remove?: boolean,
 	popData?: PopData,
-	...args: any[]
+	...args: unknown[]
 ) {
 	log(simplePrintf('setupTooltipsLoop(%s,%s,%s,%s,%s)', [anchors, begin, howmany, sleep, remove, popData, ...args]));
 	const finish = begin + howmany;
@@ -64,7 +64,7 @@ const setupTooltipsLoop = function setupTooltipsLoop(
 	log(
 		`setupTooltips: anchors.length=${anchors.length}, begin=${begin}, howmany=${howmany}, loopend=${loopend}, remove=${remove}`
 	);
-	const doTooltip: (a: HTMLAnchorElement, data?: any) => void = remove ? removeTooltip : addTooltip;
+	const doTooltip: (a: HTMLAnchorElement, data?: PopData) => void = remove ? removeTooltip : addTooltip;
 	// try a faster (?) loop construct
 	if (j > 0) {
 		do {
@@ -93,7 +93,7 @@ const rmTocTooltips = () => {
 		const tocLinks = toc.querySelectorAll('a');
 		const tocLen = tocLinks.length;
 		for (let j = 0; j < tocLen; ++j) {
-			removeTooltip(tocLinks[j]!, true);
+			removeTooltip(tocLinks[j]!);
 		}
 	}
 };
@@ -107,7 +107,7 @@ const addTooltip = (a: HTMLAnchorElement, popData?: PopData) => {
 	a.hasPopup = true;
 	a.popData = popData;
 };
-const removeTooltip = (a: HTMLAnchorElement, _force?: boolean) => {
+const removeTooltip = (a: HTMLAnchorElement) => {
 	if (!a.hasPopup) {
 		return;
 	}
@@ -128,7 +128,7 @@ const restoreTitle = (a: HTMLAnchorElement) => {
 	}
 	a.title = a.originalTitle;
 };
-const registerHooks = (np: any) => {
+const registerHooks = (np: Navpopup) => {
 	const popupMaxWidth = getValueOf('popupMaxWidth');
 	if (typeof popupMaxWidth === 'number') {
 		const setMaxWidth = () => {
@@ -140,12 +140,16 @@ const registerHooks = (np: any) => {
 	np.addHook(addPopupShortcuts, 'unhide', 'after');
 	np.addHook(rmPopupShortcuts, 'hide', 'before');
 };
-const removeModifierKeyListener = (a: HTMLAnchorElement) => {
+const removeModifierKeyListener = (a?: HTMLAnchorElement | null) => {
 	// remove listeners for modifier key if any that were added in mouseOverWikiLink
-	document.removeEventListener('keydown', a.modifierKeyListener!, false);
-	document.removeEventListener('keyup', a.modifierKeyListener!, false);
+	const listener = a?.modifierKeyListener;
+	if (!listener) {
+		return;
+	}
+	document.removeEventListener('keydown', listener, false);
+	document.removeEventListener('keyup', listener, false);
 };
-const mouseOverWikiLink = function mouseOverWikiLink(this: any, evt?: any) {
+const mouseOverWikiLink = function mouseOverWikiLink(this: GlobalEventHandlers, evt?: MouseEvent) {
 	// if the modifier is needed, listen for it,
 	// we will remove the listener when we mouseout of this link or kill popup.
 	if (getValueOf('popupModifier')) {
@@ -153,13 +157,14 @@ const mouseOverWikiLink = function mouseOverWikiLink(this: any, evt?: any) {
 		// if popupModifierAction = disable, we should popup unless the modifier is pressed
 		const action = getValueOf('popupModifierAction');
 		const key = action === 'disable' ? 'keyup' : 'keydown';
-		const self = this;
-		self.modifierKeyListener = (evt: MouseEvent) => {
+		// 实际绑定于 <a> 元素（见 addTooltip 的 a.onmouseover），此处收窄以访问扩展属性
+		const self = this as HTMLAnchorElement;
+		self.modifierKeyListener = (evt: Event) => {
 			mouseOverWikiLink2(self, evt);
 		};
 		document.addEventListener(key, self.modifierKeyListener, false);
 	}
-	return mouseOverWikiLink2(this, evt);
+	return mouseOverWikiLink2(this as HTMLAnchorElement, evt);
 };
 const footnoteTarget = (a: HTMLAnchorElement) => {
 	const aTitle = Title.fromAnchor(a);
@@ -172,7 +177,7 @@ const footnoteTarget = (a: HTMLAnchorElement) => {
 	if (lTitle.toString(true) !== aTitle.toString(true)) {
 		return false;
 	}
-	let el: any = document.getElementById(`${anch}`);
+	let el: HTMLElement | null = document.getElementById(`${anch}`);
 	while (el && typeof el.nodeName === 'string') {
 		const nt = el.nodeName.toLowerCase();
 		if (nt === 'li') {
@@ -180,24 +185,25 @@ const footnoteTarget = (a: HTMLAnchorElement) => {
 		} else if (nt === 'body') {
 			return false;
 		} else if (el.parentNode) {
-			el = el.parentNode;
+			el = el.parentNode as HTMLElement;
 		} else {
 			return false;
 		}
 	}
 	return false;
 };
-const footnotePreview = (x: any, navpop: Navpopup) => {
+const footnotePreview = (x: HTMLElement, navpop: Navpopup) => {
 	setPopupHTML(`<hr>${x.innerHTML}`, 'popupPreview', navpop.idNumber);
 };
-const modifierPressed = (evt?: MouseEvent) => {
+const modifierPressed = (evt?: Event) => {
 	const mod = getValueOf('popupModifier');
 	if (!mod) {
 		return false;
 	}
-	return evt && (evt as any)[`${mod.toLowerCase()}Key`];
+	// popupModifier 为 'shift'/'ctrl'/'alt' 等修饰键名，对应 evt 的 *Key 布尔属性
+	return Boolean(evt && (evt as unknown as Record<string, boolean | undefined>)[`${mod.toLowerCase()}Key`]);
 };
-const isCorrectModifier = (_a: any, evt: MouseEvent) => {
+const isCorrectModifier = (_a: HTMLAnchorElement, evt?: Event) => {
 	if (!getValueOf('popupModifier')) {
 		return true;
 	}
@@ -206,7 +212,7 @@ const isCorrectModifier = (_a: any, evt: MouseEvent) => {
 	const action = getValueOf('popupModifierAction');
 	return (action === 'enable' && modifierPressed(evt)) || (action === 'disable' && !modifierPressed(evt));
 };
-const mouseOverWikiLink2 = (a: HTMLAnchorElement, evt?: any) => {
+const mouseOverWikiLink2 = (a: HTMLAnchorElement, evt?: Event) => {
 	if (!isCorrectModifier(a, evt)) {
 		return;
 	}
@@ -233,8 +239,8 @@ const mouseOverWikiLink2 = (a: HTMLAnchorElement, evt?: any) => {
 		// either fresh popups or those with unfinshed business are redone from scratch
 		simplePopupContent(a, article);
 	}
-	a.navpopup.showSoonIfStable(a.navpopup.delay);
-	clearInterval(pg.timer.checkPopupPosition);
+	a.navpopup.showSoonIfStable(a.navpopup.delay!);
+	clearInterval(pg.timer.checkPopupPosition ?? undefined);
 	pg.timer.checkPopupPosition = setInterval(checkPopupPosition, 600);
 	if (getValueOf('simplePopups') && getValueOf('popupPreviewButton') && !a.simpleNoMore) {
 		const d = document.createElement('div');
@@ -242,7 +248,7 @@ const mouseOverWikiLink2 = (a: HTMLAnchorElement, evt?: any) => {
 		const s = document.createElement('span');
 		d.append(s);
 		s.className = 'popupPreviewButton';
-		(s as any)[`on${getValueOf('popupPreviewButtonEvent')}`] = () => {
+		(s as unknown as Record<string, () => void>)[`on${getValueOf('popupPreviewButtonEvent')}`] = () => {
 			a.simpleNoMore = true;
 			d.style.display = 'none';
 			nonsimplePopupContent(a, article);
@@ -274,7 +280,7 @@ const simplePopupContent = (a: HTMLAnchorElement, article: Title) => {
 		setPopupHTML(`<br>${popupRedlinkHTML(article)}`, 'popupRedlink', a.navpopup.idNumber);
 	}
 };
-const debugData = (navpopup: any) => {
+const debugData = (navpopup: Navpopup) => {
 	if (getValueOf('popupDebugging') && navpopup.idNumber) {
 		setPopupHTML(`idNumber=${navpopup.idNumber}, pending=${navpopup.pending}`, 'popupError', navpopup.idNumber);
 	}
@@ -287,7 +293,9 @@ const newNavpopup = (a: HTMLAnchorElement, article: Title) => {
 	pg.idNumber = (pg.idNumber ?? 0) + 1;
 	navpopup.idNumber = pg.idNumber;
 	navpopup.parentAnchor = a;
-	navpopup.parentPopup = a.popData && a.popData.owner;
+	if (a.popData?.owner) {
+		navpopup.parentPopup = a.popData.owner;
+	}
 	navpopup.article = article;
 	registerHooks(navpopup);
 	return navpopup;
@@ -295,11 +303,12 @@ const newNavpopup = (a: HTMLAnchorElement, article: Title) => {
 const shouldShowNonSimple = (a: HTMLAnchorElement) => {
 	return !getValueOf('simplePopups') || a.simpleNoMore;
 };
-const shouldShow = (a: HTMLAnchorElement, option: any) => {
+const shouldShow = (a: HTMLAnchorElement, option: string) => {
 	if (shouldShowNonSimple(a)) {
 		return getValueOf(option);
 	}
-	return window[option] !== undefined && window[option];
+	// 选项值同时挂在全局 window 上（options.ts 兼容旧版行为）
+	return (window as unknown as Record<string, unknown>)[option] !== undefined;
 };
 const nonsimplePopupContent = (a: HTMLAnchorElement, article: Title) => {
 	let diff;
@@ -316,7 +325,7 @@ const nonsimplePopupContent = (a: HTMLAnchorElement, article: Title) => {
 	const referenceElement = footnoteTarget(a);
 	if (referenceElement) {
 		footnotePreview(referenceElement, a.navpopup);
-	} else if (diff || diff === 0) {
+	} else if (diff) {
 		loadDiff(article, oldid, diff, a.navpopup);
 	} else if (history) {
 		loadAPIPreview('history', article, a.navpopup);
@@ -358,20 +367,20 @@ const completedNavpopTask = (navpop: Navpopup) => {
 	}
 	debugData(navpop);
 };
-const startArticlePreview = (article: Title, oldid: any, navpop: Navpopup) => {
+const startArticlePreview = (article: Title, oldid: string | null, navpop: Navpopup) => {
 	navpop.redir = 0;
 	loadPreview(article, oldid, navpop);
 };
-const loadPreview = (article: Title, oldid: any, navpop: Navpopup) => {
+const loadPreview = (article: Title, oldid: string | null, navpop: Navpopup) => {
 	if (!navpop.redir) {
 		navpop.originalArticle = article;
 	}
 	article.oldid = oldid;
 	loadAPIPreview('revision', article, navpop);
 };
-const loadPreviewFromRedir = (redirMatch: any, navpop: Navpopup) => {
+const loadPreviewFromRedir = (redirMatch: RegExpExecArray, navpop: Navpopup) => {
 	// redirMatch is a regex match
-	const target = new Title().fromWikiText(redirMatch[2]);
+	const target = new Title().fromWikiText(redirMatch[2]!);
 	// overwrite (or add) anchor from original target
 	// mediawiki does overwrite
 	if (navpop.article.anchor) {
@@ -379,7 +388,8 @@ const loadPreviewFromRedir = (redirMatch: any, navpop: Navpopup) => {
 	}
 	navpop.redir++;
 	navpop.redirTarget = target;
-	const warnRedir = redirLink(target, navpop.article);
+	// 原版传入重定向目标的 wikiText 字符串（内部分支会再次 fromWikiText/safeDecodeURI）
+	const warnRedir = redirLink(redirMatch[2]!, navpop.article);
 	setPopupHTML(warnRedir, 'popupWarnRedir', navpop.idNumber);
 	navpop.article = target;
 	fillEmptySpans({
@@ -393,7 +403,7 @@ const insertPreview = (download: Dow) => {
 	if (!download.owner) {
 		return;
 	}
-	const redirMatch = pg.re.redirect.exec(download.data);
+	const redirMatch = pg.re.redirect.exec(download.data!);
 	if (download.owner.redir === 0 && redirMatch) {
 		loadPreviewFromRedir(redirMatch, download.owner);
 		return;
@@ -417,7 +427,8 @@ const insertPreviewNow = (download: Dow) => {
 	if (!download.owner) {
 		return;
 	}
-	const wikiText = download.data;
+	// download.data 由 HTTP 回调填充，运行时恒为 string（空响应为 ''）
+	const wikiText = download.data ?? '';
 	const navpop = download.owner;
 	const art = navpop.redirTarget || navpop.originalArticle;
 	makeFixDabs(wikiText, navpop);
@@ -425,7 +436,8 @@ const insertPreviewNow = (download: Dow) => {
 		getPageInfo(wikiText, download);
 		setPopupTrailer(getPageInfo(wikiText, download), navpop.idNumber);
 	}
-	let imagePage = '';
+	// getValidImageFromWikiText 无有效图名时返回 null，下方 truthy 守卫与原版一致
+	let imagePage: string | null = '';
 	imagePage = art.namespaceId() === pg.nsImageId ? art.toString() : getValidImageFromWikiText(wikiText);
 	if (imagePage) {
 		loadImage(Title.fromWikiText(imagePage), navpop);
@@ -434,12 +446,11 @@ const insertPreviewNow = (download: Dow) => {
 		insertArticlePreview(download, art, navpop);
 	}
 };
-const insertArticlePreview = (download: Dow, art: any, navpop: Navpopup) => {
-	if (download && typeof download.data === typeof '') {
+const insertArticlePreview = (download: Dow, art: Title, navpop: Navpopup) => {
+	if (download && typeof download.data === 'string') {
 		if (art.namespaceId() === pg.nsTemplateId && getValueOf('popupPreviewRawTemplates')) {
 			// FIXME compare/consolidate with diff escaping code for wikitext
-			const h = `<hr><span style="font-family: monospace;">${download.data
-				.entify()
+			const h = `<hr><span style="font-family: monospace;">${entify(download.data)
 				.split(String.raw`\n`)
 				.join(String.raw`<br>\n`)}</span>`;
 			setPopupHTML(h, 'popupPreview', navpop.idNumber);
@@ -449,14 +460,14 @@ const insertArticlePreview = (download: Dow, art: any, navpop: Navpopup) => {
 		}
 	}
 };
-const prepPreviewmaker = (data: any, article: Title, navpop: Navpopup) => {
+const prepPreviewmaker = (data: string, article: Title, navpop: Navpopup) => {
 	// deal with tricksy anchors
 	const d = anchorize(data, article.anchorString());
 	const urlBase = joinPath([pg.wiki.articlebase, article.urlString()]);
 	const p = new Previewmaker(d, urlBase, navpop);
 	return p;
 };
-const anchorize = (d: any, anch: any) => {
+const anchorize = (d: string, anch: string) => {
 	if (!anch) {
 		return d;
 	}
@@ -472,11 +483,13 @@ const anchorize = (d: any, anch: any) => {
 	// now try to deal with === foo [[bar|baz]] boom === -> #foo_baz_boom
 	const lines = d.split('\n');
 	for (let i = 0; i < lines.length; ++i) {
-		lines[i] = lines[i]
+		const line = lines[i]!;
+		const cleaned = line
 			.replace(/\[{2}([^\]|]*?\|)?(.*?)]{2}/g, '$2')
 			.replace(/'''([^'])/g, '$1')
 			.replace(/''([^'])/g, '$1');
-		if (anchRe.test(lines[i])) {
+		lines[i] = cleaned;
+		if (anchRe.test(cleaned)) {
 			return d
 				.split('\n')
 				.slice(i)
@@ -486,8 +499,9 @@ const anchorize = (d: any, anch: any) => {
 	}
 	return d;
 };
-const killPopup = function killPopup(this: any) {
-	removeModifierKeyListener(this);
+// this 声明为 GlobalEventHandlers | undefined：兼容 onmousedown 绑定与 shortcutkeys 的裸调用
+const killPopup = function killPopup(this: GlobalEventHandlers | undefined) {
+	removeModifierKeyListener(this as HTMLAnchorElement | undefined);
 	if (getValueOf('popupShortcutKeys')) {
 		rmPopupShortcuts();
 	}

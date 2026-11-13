@@ -2,11 +2,11 @@
 const setupDebugging = () => {
 	if (window.popupDebug) {
 		// popupDebug is set from .version
-		window.log = (x: any) => {
+		window.log = (x: unknown) => {
 			// if (g Msg !== '') { gMsg += '\n'; gMsg+=time() + ' ' + x; }
 			console.log(x);
 		};
-		window.errlog = (x: any) => {
+		window.errlog = (x: unknown) => {
 			console.error(`[Popups] ${x}`);
 		};
 		log('Initializing logger');

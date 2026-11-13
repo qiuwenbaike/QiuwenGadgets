@@ -46,12 +46,7 @@ export default defineConfig([
 					ignoreOverrideMethods: true,
 				},
 			],
-			complexity: 'off',
-			'consistent-return': 'off',
-			'consistent-this': 'off',
-			'default-case': 'off',
 			'default-case-last': 'error',
-			'dot-notation': 'off',
 			eqeqeq: 'error',
 			'func-name-matching': 'error',
 			'func-names': 'off',
@@ -59,7 +54,6 @@ export default defineConfig([
 			'grouped-accessor-pairs': 'error',
 			'guard-for-in': 'error',
 			'id-denylist': 'error',
-			'id-length': 'off',
 			'id-match': 'error',
 			'implicit-arrow-linebreak': 'off',
 			'init-declarations': 'off',
@@ -138,7 +132,6 @@ export default defineConfig([
 			'prefer-named-capture-group': 'off',
 			'prefer-object-has-own': 'error',
 			'prefer-object-spread': 'error',
-			'prefer-promise-reject-errors': 'off',
 			'prefer-template': 'error',
 			radix: 'error',
 			'require-await': 'error',
@@ -182,7 +175,7 @@ export default defineConfig([
 			'@typescript-eslint/no-this-alias': [
 				'error',
 				{
-					allowedNames: ['self', 'udate', 'thisCb', 'thisProxy'],
+					allowedNames: ['self', 'udate', 'thisCb'],
 				},
 			],
 
@@ -190,7 +183,6 @@ export default defineConfig([
 			'@typescript-eslint/no-unsafe-argument': 'warn',
 			'@typescript-eslint/no-unsafe-assignment': 'warn',
 			'@typescript-eslint/no-unsafe-call': 'warn',
-			'@typescript-eslint/no-unsafe-member-access': 'off',
 			'@typescript-eslint/no-unsafe-return': 'warn',
 
 			'@typescript-eslint/no-unused-vars': [
@@ -200,7 +192,7 @@ export default defineConfig([
 				},
 			],
 
-			'@typescript-eslint/no-use-before-define': 'off',
+			// '@typescript-eslint/no-use-before-define': 'off',
 
 			'@typescript-eslint/prefer-destructuring': [
 				'error',
@@ -375,9 +367,12 @@ export default defineConfig([
 	{
 		files: ['**/Navigation_popups/modules/*.ts'],
 		rules: {
-			camelcase: 'off',
-			'@typescript-eslint/no-explicit-any': 'off',
-			'@typescript-eslint/no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{
+					varsIgnorePattern: '^_',
+				},
+			],
 			'@typescript-eslint/no-this-alias': [
 				'error',
 				{
@@ -385,18 +380,12 @@ export default defineConfig([
 					allowedNames: ['self', 'navpopup'],
 				},
 			],
-			'jsdoc/check-param-names': 'off',
-			'jsdoc/valid-types': 'off',
-			'jsdoc/require-returns': 'off',
-			'jsdoc/require-returns-type': 'off',
-			'new-cap': 'off',
-			'no-extend-native': 'off',
-			'no-new': 'off',
-			'no-shadow': 'off',
-			'no-unused-vars': 'off',
-			'no-use-before-define': 'off',
-			'unicorn/prefer-add-event-listener': 'off',
-			'unicorn/prefer-string-slice': 'off',
+		},
+	},
+	{
+		files: ['**/Wikiplus/*.ts'],
+		rules: {
+			'class-methods-use-this': 'off',
 		},
 	},
 ]);

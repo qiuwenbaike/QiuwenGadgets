@@ -1,16 +1,16 @@
 // 本文件由 Navigation_popups 原版 core.js 的 images.js 段落拆分而来，保留原有实现。
+import {type Title, isValidImageName} from './titles';
 import {anyChild, getJsObj, upcaseFirst} from './tools';
 import type {Dow} from './types';
 import type {Navpopup} from './navpopup';
 import {getPageWithCaching} from './getpage';
 import {getValueOf} from './options';
-import {isValidImageName} from './titles';
 import {pendingNavpopTask} from './actions';
 import {pg} from './pg';
 import {popTipsSoonFn} from './htmloutput';
 import {popupString} from './strings';
 
-const loadImage = (image: any, navpop: Navpopup): boolean | undefined => {
+const loadImage = (image: Title, navpop: Navpopup): boolean | undefined => {
 	if (typeof image.stripNamespace !== 'function') {
 		void mw.notify('loadImages bad', {tag: 'popups', type: 'error'});
 	}
@@ -26,8 +26,8 @@ const loadImage = (image: any, navpop: Navpopup): boolean | undefined => {
 	url += `&prop=imageinfo&iiprop=url|mime&iiurlwidth=${getValueOf('popupImageSizeLarge')}`;
 	url += `&titles=${art}`;
 	pendingNavpopTask(navpop);
-	const callback = (d: any) => {
-		popupsInsertImage(navpop.idNumber, navpop, d);
+	const callback = (d: Dow) => {
+		popupsInsertImage(navpop.idNumber!, navpop, d);
 	};
 	const go = () => {
 		getPageWithCaching(url, callback, navpop);
@@ -40,11 +40,11 @@ const loadImage = (image: any, navpop: Navpopup): boolean | undefined => {
 	}
 	return false;
 };
-const popupsInsertImage = (id: any, _navpop: any, download: Dow): null | undefined => {
+const popupsInsertImage = (id: number, _navpop: Navpopup, download: Dow): null | undefined => {
 	log('popupsInsertImage');
 	let imageinfo;
 	try {
-		const jsObj = getJsObj(download.data);
+		const jsObj = getJsObj(download.data!);
 		const imagepage = anyChild(jsObj.query.pages);
 		if (imagepage.imageinfo === undefined) {
 			return;
@@ -85,7 +85,7 @@ const popupsInsertImage = (id: any, _navpop: any, download: Dow): null | undefin
 	switch (thumbAction) {
 		case 'imagepage':
 		case 'sizetoggle':
-			a.onclick = toggleSize as any;
+			a.onclick = toggleSize;
 			a.title = popupString('Toggle image size');
 			return;
 		case 'linkfull':
@@ -94,8 +94,9 @@ const popupsInsertImage = (id: any, _navpop: any, download: Dow): null | undefin
 	}
 	return null;
 };
-const toggleSize = function toggleSize(this: any) {
-	const self = this;
+const toggleSize = function toggleSize(this: GlobalEventHandlers) {
+	// 实际绑定于缩略图外层锚点（见 popupsInsertImage 的 a.onclick）
+	const self = this as HTMLElement;
 	if (!self) {
 		void mw.notify('self is null :/', {tag: 'popups', type: 'error'});
 		return;
@@ -111,14 +112,15 @@ const getValidImageFromWikiText = (wikiText: string) => {
 	// nb in pg.re.image we're interested in the second bracketed expression
 	// this may change if the regex changes :-(
 	// let match=pg.re.image.exec(wikiText);
-	let matched;
+	let matched: string | undefined;
 	let match;
 	// strip html comments, used by evil bots :-(
 	const t = removeMatchesUnless(wikiText, /(<!--[\S\s]*?-->)/, 1, /^<!--[^[]*popup/i);
 	while ((match = pg.re.image.exec(t)) !== null) {
 		// now find a sane image name - exclude templates by seeking {
-		const m: any = match[2] || match[6];
-		if (isValidImageName(m)) {
+		// 无有效名时 matched 保持 undefined，与原版走到 return null 一致
+		const m = match[2] || match[6];
+		if (m && isValidImageName(m)) {
 			matched = m;
 			break;
 		}
@@ -129,7 +131,7 @@ const getValidImageFromWikiText = (wikiText: string) => {
 	}
 	return `${mw.config.get('wgFormattedNamespaces')[pg.nsImageId!]}:${upcaseFirst(matched)}`;
 };
-const removeMatchesUnless = (str: string, re1: any, parencount: any, re2: any) => {
+const removeMatchesUnless = (str: string, re1: RegExp, parencount: number, re2: RegExp) => {
 	const split = str.split(re1);
 	const c = parencount + 1;
 	for (let i = 0; i < split.length; ++i) {

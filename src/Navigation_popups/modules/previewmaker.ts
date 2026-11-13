@@ -2,6 +2,7 @@
 import {Insta, wiki2html} from './livepreview';
 import {isRegExp, isString, literalizeRegex} from './tools';
 import {setPopupHTML, setPopupTipsAndHTML} from './htmloutput';
+import type {Navpopup} from './navpopup';
 import {Title} from './titles';
 import {getValueOf} from './options';
 import {pg} from './pg';
@@ -10,13 +11,13 @@ import {popupString} from './strings';
 class Previewmaker {
 	originalData: string;
 	baseUrl: string;
-	owner: any;
-	maxCharacters: any;
-	maxSentences: any;
+	owner?: Navpopup | undefined;
+	maxCharacters: number;
+	maxSentences: number;
 	fullLength?: number;
 	data!: string;
 	html!: string;
-	constructor(wikiText: string, baseUrl?: any, owner?: any) {
+	constructor(wikiText: string, baseUrl: string, owner?: Navpopup) {
 		/** The wikitext which is manipulated to generate the preview. */
 		this.originalData = wikiText;
 		this.baseUrl = baseUrl;
@@ -59,7 +60,13 @@ class Previewmaker {
 	 * @param {Object} repl
 	 * @private
 	 */
-	kill(opening: any, closing: any, subopening?: any, subclosing?: any, repl?: any) {
+	kill(
+		opening: string | RegExp,
+		closing: string | RegExp,
+		subopening?: string | RegExp,
+		subclosing?: string | RegExp,
+		repl?: string
+	) {
 		let oldk = this.data;
 		let k = Previewmaker.killStuff(this.data, opening, closing, subopening, subclosing, repl) as string;
 		while (k.length < oldk.length) {
@@ -77,7 +84,14 @@ class Previewmaker {
 	 * @param {Object} repl
 	 * @private
 	 */
-	static killStuff(txt: string, opening: any, closing: any, subopening: any, subclosing: any, repl: any) {
+	static killStuff(
+		txt: string,
+		opening: string | RegExp,
+		closing: string | RegExp,
+		subopening?: string | RegExp,
+		subclosing?: string | RegExp,
+		repl?: string
+	) {
 		const op = Previewmaker.makeRegexp(opening);
 		const cl = Previewmaker.makeRegexp(closing, '^');
 		const sb = subopening ? Previewmaker.makeRegexp(subopening, '^') : null;
@@ -123,7 +137,7 @@ class Previewmaker {
 	 * @param {string|RegExp} suffix
 	 * @private
 	 */
-	static makeRegexp(x: any, prefix?: any, suffix?: any) {
+	static makeRegexp(x: string | RegExp, prefix?: string, suffix?: string) {
 		prefix ||= '';
 		suffix ||= '';
 		let reStr = '';
@@ -133,7 +147,7 @@ class Previewmaker {
 		} else if (isRegExp(x)) {
 			let s = x.toString().slice(1);
 			const sp = s.split('/');
-			flags = sp.at(-1) as any;
+			flags = sp.at(-1) ?? '';
 			sp[sp.length - 1] = '';
 			s = sp.join('/');
 			s = s.slice(0, Math.max(0, s.length - 1));
@@ -239,7 +253,7 @@ class Previewmaker {
 	firstBit() {
 		// dont't be givin' me no subsequent paragraphs, you hear me?
 		// / first we "normalize" section headings, removing whitespace after, adding before
-		let d: any = this.data;
+		let d = this.data;
 		if (getValueOf('popupPreviewCutHeadings')) {
 			this.data = this.data.replace(/\s*(==+[^=]*==+)\s*/g, '\n\n$1 ');
 			// / then we want to get rid of paragraph breaks whose text ends badly
@@ -257,16 +271,17 @@ class Previewmaker {
 		}
 		// Split sentences. Superfluous sentences are RIGHT OUT.
 		// note: exactly 1 set of parens here needed to make the slice work
-		d = d.split(/([!.?]+["']*\s)/g);
+		// （原版复用变量 d 先后承载 string 与 string[]，此处拆分等价）
+		let sentences: string[] = d.split(/([!.?]+["']*\s)/g);
 		// leading space is bad, mmkay?
-		d[0] = d[0]!.replace(/^\s*/, '');
+		sentences[0] = sentences[0]!.replace(/^\s*/, '');
 		const notSentenceEnds = /([^.][a-z]\. *[a-z]|etc|sic|dr|mr|mrs|ms|st|no|op|cit|\[[^\]]*|\s[a-z])$/i;
-		d = this.fixSentenceEnds(d, notSentenceEnds);
-		this.fullLength = d.join('').length;
+		sentences = this.fixSentenceEnds(sentences, notSentenceEnds);
+		this.fullLength = sentences.join('').length;
 		let n = this.maxSentences;
-		let dd: any = Previewmaker.firstSentences(d, n);
+		let dd = Previewmaker.firstSentences(sentences, n);
 		do {
-			dd = Previewmaker.firstSentences(d, n);
+			dd = Previewmaker.firstSentences(sentences, n);
 			--n;
 		} while (dd.length > this.maxCharacters && n !== 0);
 		this.data = dd;
@@ -276,21 +291,22 @@ class Previewmaker {
 	 * @param {RegExp} reg
 	 * @private
 	 */
-	fixSentenceEnds(strs: any, reg: any): any[] {
+	fixSentenceEnds(strs: string[], reg: RegExp): string[] {
 		// take an array of strings, strs
 		// join strs[i] to strs[i+1] & strs[i+2] if strs[i] matches regex reg
+		// （重组后的 a 为稀疏数组，undefined 经断言与原版字符串化行为一致）
 		for (let i = 0; i < strs.length - 2; ++i) {
-			if (reg.test(strs[i])) {
-				const a = [];
+			if (reg.test(strs[i]!)) {
+				const a: string[] = [];
 				for (let j = 0; j < strs.length; ++j) {
 					if (j < i) {
-						a[j] = strs[j];
+						a[j] = strs[j]!;
 					}
 					if (j === i) {
-						a[i] = strs[i] + strs[i + 1] + strs[i + 2];
+						a[i] = strs[i]! + strs[i + 1]! + strs[i + 2]!;
 					}
 					if (j > i + 2) {
-						a[j - 2] = strs[j];
+						a[j - 2] = strs[j]!;
 					}
 				}
 				return this.fixSentenceEnds(a, reg);
@@ -303,7 +319,7 @@ class Previewmaker {
 	 * @param {number} howmany
 	 * @private
 	 */
-	static firstSentences(strs: any, howmany: any) {
+	static firstSentences(strs: string[], howmany: number) {
 		const t = strs.slice(0, 2 * howmany);
 		return t.join('');
 	}
@@ -321,7 +337,10 @@ class Previewmaker {
 	 * @private
 	 */
 	makePreview() {
-		if (this.owner.article.namespaceId() !== pg.nsTemplateId && this.owner.article.namespaceId() !== pg.nsImageId) {
+		if (
+			this.owner!.article.namespaceId() !== pg.nsTemplateId &&
+			this.owner!.article.namespaceId() !== pg.nsImageId
+		) {
 			this.killComments();
 			this.killDivs();
 			this.killGalleries();
@@ -349,7 +368,7 @@ class Previewmaker {
 	 * @param {string} data
 	 * @private
 	 */
-	static esWiki2HtmlPart(data: any) {
+	static esWiki2HtmlPart(data: string) {
 		const reLinks = /(?:\[\[([^\]|]*)(?:\|([^\]|]*))*]]([a-z]*))/gi; // match a wikilink
 		reLinks.lastIndex = 0; // reset regex
 		let match;
@@ -360,7 +379,7 @@ class Previewmaker {
 			// FIXME: the way that link is built here isn't perfect. It is clickable, but popups preview won't recognize it in some cases.
 			result += `${pg.escapeQuotesHTML(data.substring(postfixIndex, match.index))}<a href="${
 				Insta.conf.paths.articles
-			}${pg.escapeQuotesHTML(match[1]!)}">${pg.escapeQuotesHTML(((match[2] ?? match[1]) as any) + match[3]!)}</a>`;
+			}${pg.escapeQuotesHTML(match[1]!)}">${pg.escapeQuotesHTML((match[2] ?? match[1])! + match[3]!)}</a>`;
 			postfixIndex = reLinks.lastIndex;
 		}
 		// append the rest
@@ -424,12 +443,12 @@ class Previewmaker {
 		if (/^\s*$/.test(this.html)) {
 			return;
 		}
-		setPopupHTML('<hr>', 'popupPrePreviewSep', this.owner.idNumber);
-		setPopupTipsAndHTML(this.html, 'popupPreview', this.owner.idNumber, {
-			owner: this.owner,
+		setPopupHTML('<hr>', 'popupPrePreviewSep', this.owner!.idNumber);
+		setPopupTipsAndHTML(this.html, 'popupPreview', this.owner!.idNumber, {
+			owner: this.owner!,
 		});
 		const more = this.fullLength! > this.data.length ? this.moreLink() : '';
-		setPopupHTML(more, 'popupPreviewMore', this.owner.idNumber);
+		setPopupHTML(more, 'popupPreviewMore', this.owner!.idNumber);
 	}
 	/**
 	 * @private

@@ -13,7 +13,7 @@ const popups = (): void => {
 		return;
 	}
 	/* Export to global context */
-	(window as any).pg = pg;
+	window.pg = pg;
 	if (document.readyState === 'complete') {
 		autoEdit();
 	} else {
@@ -22,7 +22,7 @@ const popups = (): void => {
 	}
 	(() => {
 		let once = true;
-		const dynamicContentHandler = ($content: any) => {
+		const dynamicContentHandler = ($content: JQuery<HTMLElement>) => {
 			// Try to detect the hook fired on initial page load and disregard
 			// it, we already hook to onload (possibly to different parts of
 			// page - it's configurable) and running twice might be bad. Ugly...
@@ -41,7 +41,7 @@ const popups = (): void => {
 			};
 			const doIt = () => {
 				registerHooksForVisibleNavpops();
-				$content.each((_index: any, element: any) => {
+				$content.each((_index: number, element: HTMLElement) => {
 					element.ranSetupTooltipsAlready = false;
 					setupTooltips(element);
 				});

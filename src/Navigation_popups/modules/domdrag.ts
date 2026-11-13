@@ -103,7 +103,7 @@ class Drag {
 	 * @private
 	 */
 	end() {
-		document.onmousemove = this.obj.onmousemoveDefault as any;
+		document.onmousemove = this.obj.onmousemoveDefault as typeof document.onmousemove;
 		document.onmouseup = null;
 		this.obj.dragging = false;
 		if (this.endHook) {

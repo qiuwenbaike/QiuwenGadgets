@@ -9,10 +9,125 @@ import type {Navpopup} from './navpopup';
 import {addPopupShortcut} from './shortcutkeys';
 import {autoClickToken} from './autoedit';
 import {getValueOf} from './options';
+import type {navlinkTag} from './navlinks';
 import {pg} from './pg';
 import {setupTooltips} from './actions';
 
-const titledDiffLink = (l: any) => {
+// 链接描述对象（原版为松散对象桶；print 回调传入的 navlinkTag 与各接口字段同构）
+interface WikiLinkArgs {
+	article: Title;
+	action: string;
+	text: string;
+	oldid?: string | null | undefined;
+	diff?: string | null | undefined;
+	rcid?: string | null | undefined;
+	newWin?: boolean | null | undefined;
+	noPopup?: number | null | undefined;
+	onclick?: string | null | undefined;
+}
+interface TitledWikiLinkArgs {
+	article: Title;
+	action: string;
+	text?: string | undefined;
+	title?: string | undefined;
+	oldid?: string | null | undefined;
+	actionName?: string | undefined;
+	className?: string | null | undefined;
+	newWin?: boolean | null | undefined;
+	noPopup?: number | null | undefined;
+	onclick?: string | null | undefined;
+}
+interface TitledDiffLinkArgs {
+	article: Title;
+	from?: string | null | undefined;
+	to?: string | null | undefined;
+	text?: string | undefined;
+	title?: string | undefined;
+	newWin?: boolean | null | undefined;
+	noPopup?: number | null | undefined;
+}
+interface GeneralLinkArgs {
+	url?: string;
+	text?: string | null | undefined;
+	title?: string | null | undefined;
+	className?: string | null | undefined;
+	newWin?: boolean | null | undefined;
+	noPopup?: number | null | undefined;
+	onclick?: string | null | undefined;
+}
+interface SpecialLinkArgs {
+	article: Title;
+	specialpage: string;
+	text: string;
+	sep?: string | undefined;
+	newWin?: boolean | null | undefined;
+	noPopup?: number | null | undefined;
+}
+interface MenuLinkArgs {
+	id: string;
+	text: string;
+	noPopup?: number | null | undefined;
+}
+interface HistoryLinkArgs extends MenuLinkArgs {
+	article: Title;
+	newWin?: boolean | null | undefined;
+}
+interface ArticleLinkArgs {
+	article: Title;
+	text: string;
+	newWin?: boolean | null | undefined;
+	noPopup?: number | null | undefined;
+}
+interface ChangeLinkTargetArgs {
+	newTarget?: string | null | undefined;
+	oldTarget: string;
+	text: string;
+	hint?: string | undefined;
+	summary: string;
+	clickButton: string;
+	minor?: boolean | null | undefined;
+	watch?: string | boolean | null | undefined;
+	title?: string | undefined;
+	newWin?: boolean | null | undefined;
+	alsoChangeLabel?: boolean | undefined;
+}
+// navlinkTag 以 print 回调进入 links 模块时的字段视图：
+// id/article/action/text 由 navlinks 的 linkTypes 分支在调用前保证齐备
+export interface NavlinkPrintArgs {
+	id: string;
+	article: Title;
+	action: string;
+	text: string;
+	oldid?: string | null | undefined;
+	diff?: string | null | undefined;
+	rcid?: string | null | undefined;
+	newWin?: boolean | null | undefined;
+	noPopup?: number | null | undefined;
+	onclick?: string | null | undefined;
+	title?: string | undefined;
+	actionName?: string | undefined;
+	className?: string | null | undefined;
+	sep?: string | undefined;
+	specialpage: string;
+	from?: string | null | undefined;
+	to?: string | null | undefined;
+}
+interface HistoryEdit {
+	oldid: number | string;
+	editor: string | undefined;
+}
+interface HistoryInfo {
+	edits?: HistoryEdit[];
+	userName?: string | null | undefined;
+	myLastEdit?: {index: number; oldid: number | string; previd: number | string | null};
+	firstNewEditor?: {index: number; oldid: number | string; previd: number | string | null};
+}
+interface HistoryStuff {
+	page: string;
+	newWin: Window | null;
+}
+
+const titledDiffLink = (l: TitledDiffLinkArgs) => {
 	return titledWikiLink({
 		article: l.article,
 		action: `${l.to}&oldid=${l.from}`,
@@ -24,9 +139,9 @@ const titledDiffLink = (l: any) => {
 		actionName: 'diff',
 	});
 };
-const wikiLink = (l: any) => {
+const wikiLink = (l: WikiLinkArgs) => {
 	// {article:article, action:action, text:text, oldid, newid}) {
-	if (!(typeof l.article === typeof {} && typeof l.action === typeof '' && typeof l.text === typeof '')) {
+	if (!(typeof l.article === 'object' && typeof l.action === 'string' && typeof l.text === 'string')) {
 		return null;
 	}
 	if (l.oldid === undefined) {
@@ -37,7 +152,8 @@ const wikiLink = (l: any) => {
 		l.oldid = null;
 	}
 	let hint = popupString(`${l.action}Hint`); // revertHint etc etc etc
-	const oldidData = [l.oldid, safeDecodeURI(l.article)];
+	// 原版传 Title 经 decodeURI 隐式字符串化，等价于 String()
+	const oldidData = [l.oldid, safeDecodeURI(String(l.article))];
 	let revisionString = tprintf('revision %s of %s', oldidData);
 	log(`revisionString=${revisionString}`);
 	switch (l.action) {
@@ -85,7 +201,7 @@ const wikiLink = (l: any) => {
 			l.action = `markpatrolled&rcid=${l.rcid}`;
 	}
 	if (hint) {
-		hint = l.oldid ? simplePrintf(hint, [revisionString]) : simplePrintf(hint, [safeDecodeURI(l.article)]);
+		hint = l.oldid ? simplePrintf(hint, [revisionString]) : simplePrintf(hint, [safeDecodeURI(String(l.article))]);
 	} else {
 		hint = safeDecodeURI(`${l.article}&action=${l.action}`) + l.oldid ? `&oldid=${l.oldid}` : '';
 	}
@@ -100,12 +216,12 @@ const wikiLink = (l: any) => {
 		onclick: l.onclick,
 	});
 };
-const revertSummary = (oldid: string, diff: any) => {
+const revertSummary = (oldid: string | null, diff?: string | null) => {
 	let ret = '';
 	ret = diff === 'prev' ? getValueOf('popupQueriedRevertToPreviousSummary') : getValueOf('popupQueriedRevertSummary');
 	return `${ret}&autorv=${oldid}`;
 };
-const titledWikiLink = (l: any) => {
+const titledWikiLink = (l: TitledWikiLinkArgs) => {
 	// possible properties of argument:
 	// article, action, text, title, oldid, actionName, className, noPopup
 	// oldid = null is fine here
@@ -140,18 +256,18 @@ const titledWikiLink = (l: any) => {
 		onclick: l.onclick,
 	});
 };
-pg.fn.getLastContrib = (wikipage: any, newWin: Window | null) => {
-	getHistoryInfo(wikipage, (x: any) => {
+pg.fn.getLastContrib = (wikipage: string, newWin: Window | null) => {
+	getHistoryInfo(wikipage, (x: HistoryInfo) => {
 		processLastContribInfo(x, {page: wikipage, newWin});
 	});
 };
-const processLastContribInfo = (info: any, stuff: any) => {
+const processLastContribInfo = (info: HistoryInfo, stuff: HistoryStuff) => {
 	if (!info.edits || info.edits.length === 0) {
 		void mw.notify('Popups: an odd thing happened. Please retry.', {tag: 'popups', type: 'error'});
 		return;
 	}
 	if (!info.firstNewEditor) {
-		void mw.notify(tprintf('Only found one editor: %s made %s edits', [info.edits[0].editor, info.edits.length]), {
+		void mw.notify(tprintf('Only found one editor: %s made %s edits', [info.edits[0]!.editor, info.edits.length]), {
 			tag: 'popups',
 			type: 'error',
 		});
@@ -162,12 +278,12 @@ const processLastContribInfo = (info: any, stuff: any) => {
 	}`;
 	displayUrl(newUrl, stuff.newWin);
 };
-pg.fn.getDiffSinceMyEdit = (wikipage: any, newWin: Window | null) => {
-	getHistoryInfo(wikipage, (x: any) => {
+pg.fn.getDiffSinceMyEdit = (wikipage: string, newWin: Window | null) => {
+	getHistoryInfo(wikipage, (x: HistoryInfo) => {
 		processDiffSinceMyEdit(x, {page: wikipage, newWin});
 	});
 };
-const processDiffSinceMyEdit = (info: any, stuff: any) => {
+const processDiffSinceMyEdit = (info: HistoryInfo, stuff: HistoryStuff) => {
 	if (!info.edits || info.edits.length === 0) {
 		void mw.notify('Popups: something fishy happened. Please try again.', {tag: 'popups', type: 'error'});
 		return;
@@ -206,7 +322,7 @@ pg.fn.purgePopups = () => {
 	pg.option = {} as import('./types').PgOption;
 	abortAllDownloads();
 };
-const processAllPopups = (nullify: any, banish?: any) => {
+const processAllPopups = (nullify: boolean, banish?: boolean) => {
 	for (let i = 0; pg.current.links && i < pg.current.links.length; ++i) {
 		if (!pg.current.links[i]!.navpopup) {
 			continue;
@@ -229,7 +345,7 @@ pg.fn.togglePreviews = () => {
 	pg.option.simplePopups = !pg.option.simplePopups;
 	abortAllDownloads();
 };
-const magicWatchLink = function magicWatchLink(this: any, l: any) {
+const magicWatchLink = function magicWatchLink(this: navlinkTag, l: WikiLinkArgs) {
 	// Yuck!! Would require a thorough redesign to add this as a click event though ...
 	l.onclick = simplePrintf("pg.fn.modifyWatchlist('%s','%s');return false;", [
 		l.article
@@ -242,7 +358,7 @@ const magicWatchLink = function magicWatchLink(this: any, l: any) {
 	]);
 	return wikiLink(l);
 };
-pg.fn.modifyWatchlist = async (title: string, action: any) => {
+pg.fn.modifyWatchlist = async (title: string, action: string) => {
 	const reqData: WikiParams = {
 		action: 'watch',
 		formatversion: '2',
@@ -265,9 +381,10 @@ pg.fn.modifyWatchlist = async (title: string, action: any) => {
 	// Messages that can be used here:
 	// * see string.js
 	// * for more information
-	void mw.notify(mw.message(messageName, title).parseDom() as any, {tag: 'popups'});
+	// 原版先 parseDom 再交给 notify 渲染，直接传 Message 由 notify 渲染，效果一致
+	void mw.notify(mw.message(messageName, title), {tag: 'popups'});
 };
-const magicHistoryLink = (l: any) => {
+const magicHistoryLink = (l: HistoryLinkArgs) => {
 	let title = '';
 	let onClick = '';
 	switch (l.id) {
@@ -305,7 +422,7 @@ const magicHistoryLink = (l: any) => {
 		onclick: onClick,
 	});
 };
-const popupMenuLink = (l: any) => {
+const popupMenuLink = (l: MenuLinkArgs) => {
 	const title = popupString(simplePrintf('%sHint', [l.id]));
 	const onClick = simplePrintf('pg.fn.%s();return false;', [l.id]);
 	return generalNavLink({
@@ -316,7 +433,7 @@ const popupMenuLink = (l: any) => {
 		onclick: onClick,
 	});
 };
-const specialLink = (l: any) => {
+const specialLink = (l: SpecialLinkArgs) => {
 	// properties: article, specialpage, text, sep
 	if (l.specialpage === undefined || !l.specialpage) {
 		return null;
@@ -354,7 +471,9 @@ const specialLink = (l: any) => {
 			article += '/';
 			break;
 	}
-	hint = hint ? simplePrintf(hint, [safeDecodeURI(l.article)]) : safeDecodeURI(`${l.specialpage}:${l.article}`);
+	hint = hint
+		? simplePrintf(hint, [safeDecodeURI(l.article.toString())])
+		: safeDecodeURI(`${l.specialpage}:${l.article}`);
 	const url = base + l.sep + article;
 	return generalNavLink({
 		url,
@@ -364,7 +483,7 @@ const specialLink = (l: any) => {
 		noPopup: l.noPopup,
 	});
 };
-const generalLink = (l: any) => {
+const generalLink = (l: GeneralLinkArgs) => {
 	// l.url, l.text, l.title, l.newWin, l.className, l.noPopup, l.onclick
 	let ret = '<a';
 	if (l.url) {
@@ -381,7 +500,7 @@ const generalLink = (l: any) => {
 	if (l.noPopup) {
 		ret += ' noPopup=1';
 	}
-	let newWin;
+	let newWin: boolean | null | undefined;
 	if (l.newWin === undefined || l.newWin === null) {
 		newWin = getValueOf('popupNewWindows');
 	} else {
@@ -394,7 +513,7 @@ const generalLink = (l: any) => {
 		ret += ` class="${l.className}"`;
 	}
 	ret += '>';
-	if (typeof l.text === typeof '') {
+	if (typeof l.text === 'string') {
 		// We need to HTML-escape this to avoid XSS, but we also want to
 		// display any existing HTML entities correctly, so unescape it first.
 		// For example, the display text of the user page menu item is defined
@@ -405,17 +524,18 @@ const generalLink = (l: any) => {
 	ret += '</a>';
 	return ret;
 };
-const appendParamsToLink = (linkstr: any, params: any) => {
+const appendParamsToLink = (linkstr: string, params: string) => {
 	const sp = linkstr.split(/(href="[^"]+?)"/i);
 	if (sp.length < 2) {
 		return null;
 	}
-	let ret = sp.shift() + sp.shift();
+	// sp.length >= 2 保证两次 shift 均为 string
+	let ret = sp.shift()! + sp.shift()!;
 	ret += `&${params}"`;
 	ret += sp.join('');
 	return ret;
 };
-const changeLinkTargetLink = (x: any) => {
+const changeLinkTargetLink = (x: ChangeLinkTargetArgs) => {
 	// newTarget, text, hint, summary, clickButton, minor, title (optional), alsoChangeLabel {
 	if (x.newTarget) {
 		log(`changeLinkTargetLink: newTarget=${x.newTarget}`);
@@ -472,13 +592,14 @@ const changeLinkTargetLink = (x: any) => {
 	// Build query
 	cmd = `autoedit=${encodeURIComponent(cmd)}`;
 	cmd += `&autoclick=${encodeURIComponent(x.clickButton)}&actoken=${encodeURIComponent(autoClickToken())}`;
-	cmd += x.minor === null ? '' : `&autominor=${encodeURIComponent(x.minor)}`;
-	cmd += x.watch === null ? '' : `&autowatch=${encodeURIComponent(x.watch)}`;
+	// 原版 null 走空串分支，其余值（含 undefined）经字符串化等价
+	cmd += x.minor === null ? '' : `&autominor=${encodeURIComponent(String(x.minor))}`;
+	cmd += x.watch === null ? '' : `&autowatch=${encodeURIComponent(String(x.watch))}`;
 	cmd += `&autosummary=${encodeURIComponent(x.summary)}`;
 	cmd += `&autoimpl=${encodeURIComponent(popupString('autoedit_version'))}`;
-	return appendParamsToLink(lk, cmd);
+	return appendParamsToLink(lk!, cmd);
 };
-const redirLink = (redirMatch: any, article: Title) => {
+const redirLink = (redirMatch: string, article: Title) => {
 	// NB redirMatch is in wikiText
 	let ret = '';
 	if (getValueOf('popupAppendRedirNavLinks') && getValueOf('popupNavLinks')) {
@@ -487,6 +608,7 @@ const redirLink = (redirMatch: any, article: Title) => {
 			ret += popupString('Redirects to: (Fix ');
 			log(`redirLink: newTarget=${redirMatch}`);
 			ret += addPopupShortcut(
+				// appendParamsToLink 失败返回 null 时与原版一样会在下游崩溃
 				changeLinkTargetLink({
 					newTarget: redirMatch,
 					text: popupString('target'),
@@ -496,7 +618,7 @@ const redirLink = (redirMatch: any, article: Title) => {
 					clickButton: getValueOf('popupRedirAutoClick'),
 					minor: true,
 					watch: getValueOf('popupWatchRedirredPages'),
-				}),
+				})!,
 				'R'
 			);
 			ret += popupString(' or ');
@@ -511,7 +633,7 @@ const redirLink = (redirMatch: any, article: Title) => {
 					minor: true,
 					watch: getValueOf('popupWatchRedirredPages'),
 					alsoChangeLabel: true,
-				}),
+				})!,
 				'R'
 			);
 			ret += popupString(')');
@@ -527,40 +649,41 @@ const redirLink = (redirMatch: any, article: Title) => {
 		title: popupString('Bypass redirect'),
 	})}`;
 };
-const arinLink = (l: any) => {
+const arinLink = (l: ArticleLinkArgs) => {
 	if (!saneLinkCheck(l)) {
 		return null;
 	}
-	if (!l.article.isIpUser() || !pg.wiki.wikimedia) {
+	if (!l.article.isIpUser() || !pg.wiki.qiuwen) {
 		return null;
 	}
 	const uN = l.article.userName();
 	return generalNavLink({
-		url: `http://ws.arin.net/cgi-bin/whois.pl?queryinput=${encodeURIComponent(uN)}`,
+		url: `http://ws.arin.net/cgi-bin/whois.pl?queryinput=${encodeURIComponent(String(uN))}`,
 		newWin: l.newWin,
 		title: tprintf('Look up %s in ARIN whois database', [uN]),
 		text: l.text,
 		noPopup: 1,
 	});
 };
-const toolDbName = (cookieStyle?: any) => {
+const toolDbName = (cookieStyle?: boolean) => {
 	let ret = mw.config.get('wgDBname');
 	if (!cookieStyle) {
 		ret += '_p';
 	}
 	return ret;
 };
-const saneLinkCheck = (l: any) => {
-	if (typeof l.article !== typeof {} || typeof l.text !== typeof '') {
+// 类型谓词仅为消费端收窄，运行时与原版布尔检查一致
+const saneLinkCheck = (l: ArticleLinkArgs): l is ArticleLinkArgs => {
+	if (typeof l.article !== 'object' || typeof l.text !== 'string') {
 		return false;
 	}
 	return true;
 };
-const editCounterLink = (l: any) => {
+const editCounterLink = (l: ArticleLinkArgs) => {
 	if (!saneLinkCheck(l)) {
 		return null;
 	}
-	if (!pg.wiki.wikimedia) {
+	if (!pg.wiki.qiuwen) {
 		return null;
 	}
 	const uN = l.article.userName();
@@ -569,11 +692,11 @@ const editCounterLink = (l: any) => {
 	const defaultToolUrl = '//tools.wmflabs.org/supercount/index.php?user=$1&project=$2.$3';
 	switch (tool) {
 		case 'custom':
-			url = simplePrintf(getValueOf('popupEditCounterUrl'), [encodeURIComponent(uN as any), toolDbName()]);
+			url = simplePrintf(getValueOf('popupEditCounterUrl'), [encodeURIComponent(String(uN)), toolDbName()]);
 			break;
 		default: {
 			const theWiki = pg.wiki.hostname.split('.');
-			url = simplePrintf(defaultToolUrl, [encodeURIComponent(uN), theWiki[0], theWiki[1]]);
+			url = simplePrintf(defaultToolUrl, [encodeURIComponent(String(uN)), theWiki[0], theWiki[1]]);
 		}
 	}
 	return generalNavLink({
@@ -584,7 +707,7 @@ const editCounterLink = (l: any) => {
 		noPopup: 1,
 	});
 };
-const editorListLink = (l: any) => {
+const editorListLink = (l: ArticleLinkArgs) => {
 	if (!saneLinkCheck(l)) {
 		return null;
 	}
@@ -600,22 +723,22 @@ const editorListLink = (l: any) => {
 		noPopup: 1,
 	});
 };
-const generalNavLink = (l: any) => {
+const generalNavLink = (l: GeneralLinkArgs) => {
 	l.className = l.className === null ? 'popupNavLink' : l.className;
 	return generalLink(l);
 };
-const getHistoryInfo = (wikipage: any, whatNext: any) => {
+const getHistoryInfo = (wikipage: string, whatNext?: (info: HistoryInfo) => void) => {
 	log('getHistoryInfo');
 	getHistory(
 		wikipage,
 		whatNext
-			? (d: any) => {
+			? (d: Dow) => {
 					whatNext(processHistory(d));
 				}
 			: processHistory
 	);
 };
-const getHistory = (wikipage: any, onComplete: any) => {
+const getHistory = (wikipage: string, onComplete: (d: Dow) => void) => {
 	log('getHistory');
 	const url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query&prop=revisions&titles=${new Title(
 		wikipage
@@ -624,10 +747,10 @@ const getHistory = (wikipage: any, onComplete: any) => {
 	return startDownload(url, `${pg.idNumber}history`, onComplete);
 };
 const processHistory = (download: Dow) => {
-	const jsobj = getJsObj(download.data);
+	const jsobj = getJsObj(download.data!);
 	try {
 		const {revisions} = anyChild(jsobj.query.pages);
-		const edits = [];
+		const edits: HistoryEdit[] = [];
 		for (const revision of revisions) {
 			edits.push({
 				oldid: revision.revid,
@@ -641,23 +764,23 @@ const processHistory = (download: Dow) => {
 		return finishProcessHistory([]);
 	}
 };
-const finishProcessHistory = (edits: any, userName?: any) => {
-	const histInfo: any = {};
+const finishProcessHistory = (edits: HistoryEdit[], userName?: string | null) => {
+	const histInfo: HistoryInfo = {};
 	histInfo.edits = edits;
 	histInfo.userName = userName;
 	for (let i = 0; i < edits.length; ++i) {
-		if (histInfo.myLastEdit === undefined && userName && edits[i].editor === userName) {
+		if (histInfo.myLastEdit === undefined && userName && edits[i]!.editor === userName) {
 			histInfo.myLastEdit = {
 				index: i,
-				oldid: edits[i].oldid,
-				previd: i === 0 ? null : edits[i - 1].oldid,
+				oldid: edits[i]!.oldid,
+				previd: i === 0 ? null : edits[i - 1]!.oldid,
 			};
 		}
-		if (histInfo.firstNewEditor === undefined && edits[i].editor !== edits[0].editor) {
+		if (histInfo.firstNewEditor === undefined && edits[i]!.editor !== edits[0]!.editor) {
 			histInfo.firstNewEditor = {
 				index: i,
-				oldid: edits[i].oldid,
-				previd: i === 0 ? null : edits[i - 1].oldid,
+				oldid: edits[i]!.oldid,
+				previd: i === 0 ? null : edits[i - 1]!.oldid,
 			};
 		}
 	}

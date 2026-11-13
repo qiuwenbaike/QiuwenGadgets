@@ -1,5 +1,5 @@
 // 本文件由 Navigation_popups 原版 core.js 的 querypreview.js 段落拆分而来，保留原有实现。
-import {anyChild, getJsObj, map, zeroFill} from './tools';
+import {anyChild, entify, getJsObj, map, zeroFill} from './tools';
 import {completedNavpopTask, insertPreview, pendingNavpopTask, prepPreviewmaker} from './actions';
 import {popupString, tprintf} from './strings';
 import {setPopupHTML, setPopupTipsAndHTML, setPopupTrailer} from './htmloutput';
@@ -14,11 +14,64 @@ import {getValueOf} from './options';
 import {pg} from './pg';
 import {wikiLink} from './links';
 
-const loadAPIPreview = (queryType: any, article: Title, navpop: Navpopup) => {
+// loadAPIPreview / showAPIPreview 支持的查询类型
+type QueryPreviewType =
+	'backlinks' | 'category' | 'contribs' | 'history' | 'imagepagepreview' | 'imagelinks' | 'revision' | 'userinfo';
+// MediaWiki API 返回的 revision 对象（formatversion=2，本模块消费的最小字段集）
+interface ApiRevision {
+	comment?: string;
+	commenthidden?: boolean;
+	content?: string;
+	contentmodel?: string;
+	minor?: boolean;
+	revid: number;
+	timestamp: string;
+	title: string;
+	user?: string;
+	userhidden?: boolean;
+}
+interface ApiPage {
+	imagerepository?: string;
+	revisions?: ApiRevision[];
+}
+// action=query&list=users|usercontribs|blocks 响应（userinfo 预览）的最小结构
+interface ApiUserInfo {
+	blockedby?: string;
+	blockpartial?: boolean;
+	editcount?: number;
+	gender?: string;
+	groups?: string[];
+	invalid?: string;
+	missing?: string;
+	registration?: string;
+}
+interface ApiGlobalUserInfo {
+	groups?: string[];
+	unattached?: {wiki: string}[];
+}
+interface ApiBlock {
+	rangeend: string;
+	rangestart: string;
+	restrictions?: string | string[];
+}
+interface ApiUserInfoQuery {
+	blocks?: ApiBlock[];
+	globaluserinfo?: ApiGlobalUserInfo;
+	users?: ApiUserInfo[];
+	usercontribs?: {timestamp: string}[];
+}
+
+const loadAPIPreview = (queryType: QueryPreviewType, article: Title, navpop: Navpopup) => {
 	const art = new Title(article).urlString();
 	let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query&`;
-	let htmlGenerator: (article: any, download: any, navpop?: any, reallyContribs?: any) => any = () => {
+	let htmlGenerator: (
+		article: Title,
+		download: Dow,
+		navpop: Navpopup,
+		reallyContribs?: boolean
+	) => string | undefined = () => {
 		void mw.notify('invalid html generator', {tag: 'popups', type: 'error'});
+		return undefined;
 	};
 	let usernameart = '';
 	switch (queryType) {
@@ -31,16 +84,17 @@ const loadAPIPreview = (queryType: any, article: Title, navpop: Navpopup) => {
 			htmlGenerator = APIcategoryPreviewHTML;
 			break;
 		case 'userinfo': {
-			const username: any = new Title(article).userName();
-			usernameart = encodeURIComponent(username);
-			url += pg.re.ipUser.test(username)
+			const username = new Title(article).userName();
+			// userName() 为 null 时与原版隐式转 "null" 一样不构成有效用户链接，回退空串
+			usernameart = encodeURIComponent(username?.toString() ?? '');
+			url += pg.re.ipUser.test(username?.toString() ?? '')
 				? `list=blocks&bkprop=range|restrictions&bkip=${usernameart}`
 				: `list=users|usercontribs&usprop=blockinfo|groups|editcount|registration|gender&ususers=${usernameart}&meta=globaluserinfo&guiprop=groups|unattached&guiuser=${usernameart}&uclimit=1&ucprop=timestamp&ucuser=${usernameart}`;
 			htmlGenerator = APIuserInfoPreviewHTML;
 			break;
 		}
 		case 'contribs':
-			usernameart = encodeURIComponent(new Title(article).userName() as any);
+			usernameart = encodeURIComponent(new Title(article).userName()?.toString() ?? '');
 			url += `list=usercontribs&ucuser=${usernameart}&uclimit=${getValueOf('popupContribsPreviewLimit')}`;
 			htmlGenerator = APIcontribsPreviewHTML;
 			break;
@@ -65,11 +119,11 @@ const loadAPIPreview = (queryType: any, article: Title, navpop: Navpopup) => {
 			break;
 	}
 	pendingNavpopTask(navpop);
-	const callback = (d: any) => {
+	const callback = (d: Dow) => {
 		log('callback of API functions was hit');
 		if (queryType === 'userinfo') {
 			// We need to do another API request
-			fetchUserGroupNames(d.data).then(() => {
+			fetchUserGroupNames(d.data!).then(() => {
 				showAPIPreview(queryType, htmlGenerator(article, d, navpop), navpop.idNumber!, navpop, d);
 			});
 			return;
@@ -86,8 +140,8 @@ const loadAPIPreview = (queryType: any, article: Title, navpop: Navpopup) => {
 		navpop.addHook(go, 'unhide', 'before', `DOWNLOAD_${queryType}_QUERY_DATA`);
 	}
 };
-const linkList = (list: any) => {
-	list.sort((x: any, y: any) => {
+const linkList = (list: string[]) => {
+	list.sort((x, y) => {
 		return x === y ? 0 : x < y ? -1 : 1;
 	});
 	const buf = [];
@@ -136,7 +190,7 @@ const useTimeOffset = () => {
 };
 const getLocales = () => {
 	if (!pg.user.locales) {
-		let userLanguage: any = document.querySelector('html')!.getAttribute('lang'); // make sure we have HTML locale
+		let userLanguage: string = document.querySelector('html')!.getAttribute('lang') ?? ''; // make sure we have HTML locale
 		if (getValueOf('popupLocale')) {
 			userLanguage = getValueOf('popupLocale');
 		} else if (userLanguage === 'en') {
@@ -151,7 +205,7 @@ const getLocales = () => {
 const getMWDateFormat = () => {
 	return mw.user.options.get('date');
 };
-const editPreviewTable = (article: Title, h: any, reallyContribs: any) => {
+const editPreviewTable = (article: Title, h: ApiRevision[], reallyContribs?: boolean) => {
 	let html = ['<table>'];
 	let day;
 	let curart = article;
@@ -159,7 +213,7 @@ const editPreviewTable = (article: Title, h: any, reallyContribs: any) => {
 	let makeFirstColumnLinks;
 	if (reallyContribs) {
 		// We're showing user contributions, so make (diff | hist) links
-		makeFirstColumnLinks = (currentRevision: any) => {
+		makeFirstColumnLinks = (currentRevision: ApiRevision) => {
 			let result = '(';
 			result +=
 				`<a href="${pg.wiki.titlebase}${new Title(currentRevision.title).urlString()}&diff=prev` +
@@ -174,7 +228,7 @@ const editPreviewTable = (article: Title, h: any, reallyContribs: any) => {
 	} else {
 		// It's a regular history page, so make (cur | last) links
 		const firstRevid = h[0]!.revid;
-		makeFirstColumnLinks = (currentRevision: any) => {
+		makeFirstColumnLinks = (currentRevision: ApiRevision) => {
 			let result = '(';
 			result += `<a href="${pg.wiki.titlebase}${new Title(curart).urlString()}&diff=${firstRevid}&oldid=${
 				currentRevision.revid
@@ -216,21 +270,21 @@ const editPreviewTable = (article: Title, h: any, reallyContribs: any) => {
 		let col3txt = '';
 		if (reallyContribs) {
 			col3url = pg.wiki.titlebase + curart.urlString();
-			col3txt = pg.escapeQuotesHTML(page);
+			col3txt = pg.escapeQuotesHTML(page ?? '');
 		} else {
 			const {user} = element;
 			if (element.userhidden) {
 				col3url = getValueOf('popupRevDelUrl');
 				col3txt = pg.escapeQuotesHTML(popupString('revdel'));
 			} else {
-				col3url = pg.re.ipUser.test(user)
+				col3url = pg.re.ipUser.test(user ?? '')
 					? `${
 							pg.wiki.titlebase + mw.config.get('wgFormattedNamespaces')[pg.nsSpecialId!]
 						}:Contributions&target=${new Title(user).urlString()}`
 					: `${pg.wiki.titlebase + mw.config.get('wgFormattedNamespaces')[pg.nsUserId!]}:${new Title(
 							user
 						).urlString()}`;
-				col3txt = pg.escapeQuotesHTML(user);
+				col3txt = pg.escapeQuotesHTML(user ?? '');
 			}
 		}
 		html.push(`<td>${reallyContribs ? minor : ''}<a href="${col3url}">${col3txt}</a></td>`);
@@ -247,15 +301,15 @@ const editPreviewTable = (article: Title, h: any, reallyContribs: any) => {
 	html.push('</table>');
 	return html.join('');
 };
-const adjustDate = (d: any, offset: any) => {
+const adjustDate = (d: Date, offset: number) => {
 	// offset is in minutes
 	const o = offset * 60 * 1000;
 	return new Date(+d + o);
 };
-const convertTimeZone = (date: any, timeZone: any) => {
+const convertTimeZone = (date: Date, timeZone: string) => {
 	return new Date(date.toLocaleString('en-US', {timeZone}));
 };
-const formattedDateTime = (date: any) => {
+const formattedDateTime = (date: Date) => {
 	// fallback for IE11 and unknown timezones
 	if (useTimeOffset()) {
 		return `${formattedDate(date)} ${formattedTime(date)}`;
@@ -272,8 +326,8 @@ const formattedDateTime = (date: any) => {
 	options.timeZone = getTimeZone();
 	return date.toLocaleString(getLocales(), options);
 };
-const formattedDate = (date: any) => {
-	let d2;
+const formattedDate = (date: Date) => {
+	let d2: Date;
 	// fallback for IE11 and unknown timezones
 	if (useTimeOffset()) {
 		// we adjust the UTC time, so we print the adjusted UTC, but not really UTC values
@@ -288,8 +342,8 @@ const formattedDate = (date: any) => {
 	options.timeZone = getTimeZone();
 	return date.toLocaleDateString(getLocales(), options);
 };
-const formattedTime = (date: any) => {
-	let d2;
+const formattedTime = (date: Date) => {
+	let d2: Date;
 	// fallback for IE11 and unknown timezones
 	if (useTimeOffset()) {
 		// we adjust the UTC time, so we print the adjusted UTC, but not really UTC values
@@ -304,7 +358,7 @@ const formattedTime = (date: any) => {
 	options.timeZone = getTimeZone();
 	return date.toLocaleTimeString(getLocales(), options);
 };
-const fetchUserGroupNames = (userinfoResponse: any) => {
+const fetchUserGroupNames = (userinfoResponse: string) => {
 	const queryObj = getJsObj(userinfoResponse).query;
 	const user = anyChild(queryObj.users);
 	const messages = [];
@@ -322,7 +376,13 @@ const fetchUserGroupNames = (userinfoResponse: any) => {
 	}
 	return getMwApi().loadMessagesIfMissing(messages);
 };
-const showAPIPreview = (queryType: any, html: string, id: any, navpop: Navpopup, download?: Dow) => {
+const showAPIPreview = (
+	queryType: QueryPreviewType,
+	html: string | undefined,
+	id: number,
+	navpop: Navpopup,
+	download?: Dow
+) => {
 	// DJ: done
 	let target = 'popupPreview';
 	completedNavpopTask(navpop);
@@ -338,15 +398,15 @@ const showAPIPreview = (queryType: any, html: string, id: any, navpop: Navpopup,
 			insertPreview(download!);
 			return;
 	}
-	setPopupTipsAndHTML(html, target, id);
+	setPopupTipsAndHTML(html ?? '', target, id);
 };
-const APIrevisionPreviewHTML = (_article: Title, download: Dow): any => {
+const APIrevisionPreviewHTML = (_article: Title, download: Dow): string | undefined => {
 	try {
-		const jsObj = getJsObj(download.data);
+		const jsObj = getJsObj(download.data!);
 		const page = anyChild(jsObj.query.pages);
 		if (page.missing) {
 			// TODO we need to fix this proper later on
-			download.owner = null;
+			download.owner = undefined;
 			return;
 		}
 		const content =
@@ -355,23 +415,24 @@ const APIrevisionPreviewHTML = (_article: Title, download: Dow): any => {
 			download.data = content;
 			download.lastModified = new Date(page.revisions[0].timestamp);
 		}
+		return undefined;
 	} catch {
 		return 'Revision preview failed :(';
 	}
 };
 const APIbacklinksPreviewHTML = (_article: Title, download: Dow /* , navpop */) => {
 	try {
-		const jsObj = getJsObj(download.data);
+		const jsObj = getJsObj(download.data!);
 		const list = jsObj.query.backlinks;
-		let html: any = [];
 		if (!list) {
 			return popupString('No backlinks found');
 		}
+		const parts: string[] = [];
 		for (const element of list) {
 			const t = new Title(element.title);
-			html.push(`<a href="${pg.wiki.titlebase}${t.urlString()}">${t.toString().entify()}</a>`);
+			parts.push(`<a href="${pg.wiki.titlebase}${t.urlString()}">${entify(t.toString())}</a>`);
 		}
-		html = html.join(', ');
+		let html = parts.join(', ');
 		if (jsObj.continue && jsObj.continue.blcontinue) {
 			html += popupString(' and more');
 		}
@@ -380,16 +441,17 @@ const APIbacklinksPreviewHTML = (_article: Title, download: Dow /* , navpop */) 
 		return 'backlinksPreviewHTML went wonky';
 	}
 };
-pg.fn.APIsharedImagePagePreviewHTML = (obj: any) => {
+pg.fn.APIsharedImagePagePreviewHTML = (obj: {query?: {pages?: Record<string, ApiPage>}; requestid: number}) => {
 	log('APIsharedImagePagePreviewHTML');
 	const popupid = obj.requestid;
 	if (obj.query && obj.query.pages) {
 		const page = anyChild(obj.query.pages);
-		const content =
-			page && page.revisions && page.revisions[0].contentmodel === 'wikitext' ? page.revisions[0].content : null;
+		const first = page?.revisions?.[0];
+		const content = first && first.contentmodel === 'wikitext' ? first.content : null;
 		if (typeof content === 'string' && pg && pg.current && pg.current.link && pg.current.link.navpopup) {
 			/* Not entirely safe, but the best we can do */
-			const p = new Previewmaker(content, pg.current.link.navpopup.article, pg.current.link.navpopup);
+			// 原版传 Title 对象，经 JS 隐式字符串化等价于 toString()
+			const p = new Previewmaker(content, pg.current.link.navpopup.article.toString(), pg.current.link.navpopup);
 			p.makePreview();
 			setPopupHTML(p.html, 'popupSecondPreview', popupid);
 		}
@@ -397,12 +459,12 @@ pg.fn.APIsharedImagePagePreviewHTML = (obj: any) => {
 };
 const APIimagepagePreviewHTML = (article: Title, download: Dow, navpop: Navpopup) => {
 	try {
-		const jsObj = getJsObj(download.data);
+		const jsObj = getJsObj(download.data!);
 		const page = anyChild(jsObj.query.pages);
 		const content =
 			page && page.revisions && page.revisions[0].contentmodel === 'wikitext' ? page.revisions[0].content : null;
 		let ret = '';
-		let alt: any = '';
+		let alt: string | undefined = '';
 		try {
 			alt = (navpop.parentAnchor!.childNodes[0] as HTMLImageElement | undefined)?.alt;
 		} catch {
@@ -430,7 +492,7 @@ const APIimagepagePreviewHTML = (article: Title, download: Dow, navpop: Navpopup
 				`${pg.wiki.apicommonsbase}?format=json&formatversion=2` +
 				'&callback=pg.fn.APIsharedImagePagePreviewHTML' +
 				`&requestid=${navpop.idNumber!}&action=query&prop=revisions&rvprop=content&titles=${encart}`;
-			ret = `${ret}<hr>${popupString('Image from Commons')}: <a href="${
+			ret = `${ret}<hr>${popupString('Image from Qiuwen Baike')}: <a href="${
 				pg.wiki.commonsbase
 			}?title=${encart}">${popupString('Description page')}</a>`;
 			mw.loader.load(shared_url);
@@ -439,7 +501,7 @@ const APIimagepagePreviewHTML = (article: Title, download: Dow, navpop: Navpopup
 			'imagelinks',
 			APIimagelinksPreviewHTML(article, download),
 			navpop.idNumber!,
-			download as any,
+			download as unknown as Navpopup,
 			download
 		);
 		return ret;
@@ -449,7 +511,7 @@ const APIimagepagePreviewHTML = (article: Title, download: Dow, navpop: Navpopup
 };
 const APIimagelinksPreviewHTML = (_article: Title, download: Dow) => {
 	try {
-		const jsobj = getJsObj(download.data);
+		const jsobj = getJsObj(download.data!);
 		const list = jsobj.query.imageusage;
 		if (list) {
 			const ret = [];
@@ -468,16 +530,16 @@ const APIimagelinksPreviewHTML = (_article: Title, download: Dow) => {
 };
 const APIcategoryPreviewHTML = (_article: Title, download: Dow) => {
 	try {
-		const jsobj = getJsObj(download.data);
+		const jsobj = getJsObj(download.data!);
 		const list = jsobj.query.categorymembers;
-		let ret: any = [];
+		const titles: string[] = [];
 		for (const element of list) {
-			ret.push(element.title);
+			titles.push(element.title);
 		}
-		if (ret.length === 0) {
+		if (titles.length === 0) {
 			return popupString('Empty category');
 		}
-		ret = `<h2>${tprintf('Category members (%s shown)', [ret.length])}</h2>${linkList(ret)}`;
+		let ret = `<h2>${tprintf('Category members (%s shown)', [titles.length])}</h2>${linkList(titles)}`;
 		if (jsobj.continue && jsobj.continue.cmcontinue) {
 			ret += popupString(' and more');
 		}
@@ -487,14 +549,14 @@ const APIcategoryPreviewHTML = (_article: Title, download: Dow) => {
 	}
 };
 const APIuserInfoPreviewHTML = (_article: Title, download: Dow) => {
-	let ret: any = [];
-	let queryobj: any = {};
+	const ret: string[] = [];
+	let queryobj: ApiUserInfoQuery = {};
 	try {
-		queryobj = getJsObj(download.data).query;
+		queryobj = getJsObj(download.data!).query;
 	} catch {
 		return 'Userinfo preview failed :(';
 	}
-	const user = anyChild(queryobj.users);
+	const user = queryobj.users?.[0];
 	if (user) {
 		const {globaluserinfo} = queryobj;
 		if (user.invalid === '') {
@@ -512,7 +574,7 @@ const APIuserInfoPreviewHTML = (_article: Title, download: Dow) => {
 		if (globaluserinfo && ('locked' in globaluserinfo || 'hidden' in globaluserinfo)) {
 			let lockedSulAccountIsAttachedToThis = true;
 			for (let i = 0; globaluserinfo.unattached && i < globaluserinfo.unattached.length; i++) {
-				if (globaluserinfo.unattached[i].wiki === mw.config.get('wgDBname')) {
+				if (globaluserinfo.unattached[i]!.wiki === mw.config.get('wgDBname')) {
 					lockedSulAccountIsAttachedToThis = false;
 					break;
 				}
@@ -567,35 +629,35 @@ const APIuserInfoPreviewHTML = (_article: Title, download: Dow) => {
 		}
 	}
 	if (queryobj.usercontribs && queryobj.usercontribs.length > 0) {
-		ret.push(popupString('last edit on ') + formattedDate(new Date(queryobj.usercontribs[0].timestamp)));
+		ret.push(popupString('last edit on ') + formattedDate(new Date(queryobj.usercontribs[0]!.timestamp)));
 	}
 	if (queryobj.blocks) {
 		ret.push(popupString('IP user')); // we only request list=blocks for IPs
 		for (let l = 0; l < queryobj.blocks.length; l++) {
-			let rbstr = queryobj.blocks[l].rangestart === queryobj.blocks[l].rangeend ? 'BLOCK' : 'RANGEBLOCK';
-			rbstr = Array.isArray(queryobj.blocks[l].restrictions) ? `${rbstr}ED` : `Has ${rbstr.toLowerCase()}s`;
+			const block = queryobj.blocks[l]!;
+			let rbstr = block.rangestart === block.rangeend ? 'BLOCK' : 'RANGEBLOCK';
+			rbstr = Array.isArray(block.restrictions) ? `${rbstr}ED` : `Has ${rbstr.toLowerCase()}s`;
 			ret.push(`<b>${popupString(rbstr)}</b>`);
 		}
 	}
 	// if any element of ret ends with ' · ', merge it with the next element to avoid
 	// the .join(', ') call inserting a comma after it
 	for (let m = 0; m < ret.length - 1; m++) {
-		if (ret[m].length > 3 && ret[m].slice(Math.max(0, ret[m].length - 3)) === ' · ') {
-			ret[m] += ret[m + 1];
+		if (ret[m]!.length > 3 && ret[m]!.slice(Math.max(0, ret[m]!.length - 3)) === ' · ') {
+			ret[m] += ret[m + 1]!;
 			ret.splice(m + 1, 1); // delete element at index m+1
 			m--;
 		}
 	}
-	ret = `<hr>${ret.join(', ')}`;
-	return ret;
+	return `<hr>${ret.join(', ')}`;
 };
 const APIcontribsPreviewHTML = (article: Title, download: Dow, navpop: Navpopup) => {
 	return APIhistoryPreviewHTML(article, download, navpop, true);
 };
-const APIhistoryPreviewHTML = (article: Title, download: Dow, _navpop: any, reallyContribs: any) => {
+const APIhistoryPreviewHTML = (article: Title, download: Dow, _navpop?: Navpopup, reallyContribs?: boolean) => {
 	try {
-		const jsobj = getJsObj(download.data);
-		let edits: any = [];
+		const jsobj = getJsObj(download.data!);
+		let edits: ApiRevision[] = [];
 		edits = reallyContribs ? jsobj.query.usercontribs : anyChild(jsobj.query.pages).revisions;
 		const ret = editPreviewTable(article, edits, reallyContribs);
 		return ret;

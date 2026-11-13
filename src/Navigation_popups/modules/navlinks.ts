@@ -1,6 +1,6 @@
 // 本文件由 Navigation_popups 原版 core.js 的 navlinks.js 段落拆分而来，保留原有实现。
-import {Title, isInMainNamespace, isInStrippableNamespace, safeDecodeURI} from './titles';
 import {
+	type NavlinkPrintArgs,
 	arinLink,
 	editCounterLink,
 	editorListLink,
@@ -12,10 +12,12 @@ import {
 	titledWikiLink,
 	wikiLink,
 } from './links';
+import {Title, isInStrippableNamespace, safeDecodeURI} from './titles';
 import {popupString, tprintf} from './strings';
 import type {WikiParams} from './types';
 import {addPopupShortcut} from './shortcutkeys';
 import {autoClickToken} from './autoedit';
+import {entify} from './tools';
 import {getValueOf} from './options';
 import {pg} from './pg';
 
@@ -55,7 +57,7 @@ const defaultNavlinkSpec = () => {
 		'<<undelete|undeleteShort>>|<<delete|shortcut=d>>|<<deletelog|log>>}';
 	return str;
 };
-const navLinksHTML = (article: Title, _hint: any, params: WikiParams) => {
+const navLinksHTML = (article: Title, _hint?: string, params: WikiParams = {}) => {
 	// oldid, rcid) {
 	const str = `<span class="popupNavLinks">${defaultNavlinkSpec()}</span>`;
 	// BAM
@@ -64,7 +66,7 @@ const navLinksHTML = (article: Title, _hint: any, params: WikiParams) => {
 const expandConditionalNavlinkString = function expandConditionalNavlinkString(
 	s: string,
 	article: Title,
-	z: any,
+	z: WikiParams,
 	recursionCount?: number
 ) {
 	const {oldid} = z;
@@ -81,10 +83,11 @@ const expandConditionalNavlinkString = function expandConditionalNavlinkString(
 	// $4: else clause (possibly empty)
 	// $5: false expansion (possibly null)
 	const numParens = 5;
-	let ret: any = splitted[0];
+	let ret: string = splitted[0]!;
 	for (let i = 1; i < splitted.length; i = i + numParens + 1) {
-		const testString = splitted[i + 1];
-		const trueString = splitted[i + 2];
+		// 正则的组 2（test）与组 3（true 分支）恒匹配，组 4/5 可空
+		const testString = splitted[i + 1]!;
+		const trueString = splitted[i + 2]!;
 		let falseString = splitted[i + 4];
 		if (falseString === undefined || !falseString) {
 			falseString = '';
@@ -109,11 +112,8 @@ const expandConditionalNavlinkString = function expandConditionalNavlinkString(
 			case 'ipuser':
 				testResult = !!article.isIpUser();
 				break;
-			case 'mainspace_en':
-				testResult = isInMainNamespace(article) && pg.wiki.hostname === 'en.wikipedia.org';
-				break;
-			case 'wikimedia':
-				testResult = !!pg.wiki.wikimedia;
+			case 'qiuwen':
+				testResult = !!pg.wiki.qiuwen;
 				break;
 			case 'diff':
 				testResult = !!(diff !== undefined && diff);
@@ -121,7 +121,7 @@ const expandConditionalNavlinkString = function expandConditionalNavlinkString(
 		}
 		switch (testResult) {
 			case null:
-				ret += splitted[i];
+				ret += splitted[i]!;
 				break;
 			case true:
 				ret += trueString;
@@ -130,8 +130,8 @@ const expandConditionalNavlinkString = function expandConditionalNavlinkString(
 				ret += falseString;
 				break;
 		}
-		// append non-conditional string
-		ret += splitted[i + numParens];
+		// append non-conditional string（每个匹配消耗 6 个槽位，尾串恒存在）
+		ret += splitted[i + numParens]!;
 	}
 	if (conditionalSplitRegex.test(ret) && recursionCount < 10) {
 		return expandConditionalNavlinkString(ret, article, z, recursionCount + 1);
@@ -141,7 +141,7 @@ const expandConditionalNavlinkString = function expandConditionalNavlinkString(
 const navlinkStringToArray = (s: string, article: Title, params: WikiParams) => {
 	s = expandConditionalNavlinkString(s, article, params);
 	const splitted = s.split(/<<(.*?)>>/);
-	const ret = [];
+	const ret: (navlinkTag | string)[] = [];
 	for (const [i, element] of splitted.entries()) {
 		if (i % 2) {
 			// i odd, so s is a tag
@@ -171,7 +171,7 @@ const navlinkStringToArray = (s: string, article: Title, params: WikiParams) => 
 				t.diff = diff;
 			}
 			if (!t.text && t.id !== 'mainlink') {
-				t.text = popupString(t.id);
+				t.text = popupString(t.id!);
 			}
 			ret.push(t);
 		} else {
@@ -194,7 +194,7 @@ const navlinkSubstituteHTML = (s: string) => {
 		.split('</menu>')
 		.join('</ul>');
 };
-const navlinkDepth = (magic: any, s: string) => {
+const navlinkDepth = (magic: string, s: string) => {
 	return s.split(`<${magic}>`).length - s.split(`</${magic}>`).length;
 };
 const navlinkStringToHTML = (s: string, article: Title, params: WikiParams) => {
@@ -225,33 +225,46 @@ const navlinkStringToHTML = (s: string, article: Title, params: WikiParams) => {
 	return html;
 };
 class navlinkTag {
-	[key: string]: any;
-	type: string;
-	id?: any;
-	text?: any;
-	title?: any;
+	// 动态属性桶：navlink 字符串按 '|' 分隔解析时写入任意键（如 shortcut/text/title）
+	[key: string]:
+		| string
+		| number
+		| boolean
+		| null
+		| undefined
+		| Title
+		| ((tag: NavlinkPrintArgs) => string | null | (() => string))
+		| (() => void);
+	type?: string;
+	id?: string | undefined;
+	text?: string | undefined;
+	title?: string | undefined;
 	shortcut?: string;
-	article: any;
-	print?: (tag: navlinkTag) => string | null;
+	article?: Title | null | undefined;
+	// print 回调以 NavlinkPrintArgs（links.ts 的字段视图）为签名，各 print 函数可直接赋入
+	print?: (tag: NavlinkPrintArgs) => string | null | (() => string);
 	specialpage?: string;
 	sep?: string;
 	action?: string;
-	oldid?: any;
-	rcid?: any;
-	diff?: any;
-	newWin?: any;
-	noPopup?: any;
-	from?: string;
-	to?: any;
+	oldid?: string | null | undefined;
+	rcid?: string | null | undefined;
+	diff?: string | null | undefined;
+	newWin?: boolean | null | undefined;
+	noPopup?: number | null | undefined;
+	from?: string | null | undefined;
+	to?: string | null | undefined;
+	actionName?: string;
+	className?: string | null;
+	onclick?: string | null | undefined;
 	constructor() {
 		this.type = 'navlinkTag';
 	}
 	html() {
 		this.getNewWin();
 		this.getPrintFunction();
-		let html: any = '';
-		let opening;
-		let closing;
+		let html = '';
+		let opening: string;
+		let closing: string;
 		const tagType = 'span';
 		if (tagType) {
 			opening = `<${tagType} class="popup_${this.id}">`;
@@ -261,11 +274,12 @@ class navlinkTag {
 			closing = '';
 		}
 		if (typeof this.print === 'function') {
-			html = this.print(this);
-			if (typeof html !== 'string') {
+			// print 调用点 tag 的相应字段已由 linkTypes 分支赋值齐备
+			const printed = this.print(this as NavlinkPrintArgs);
+			if (typeof printed === 'string') {
+				html = this.shortcut === undefined ? printed : addPopupShortcut(printed, this.shortcut);
+			} else {
 				html = '';
-			} else if (this.shortcut !== undefined) {
-				html = addPopupShortcut(html, this.shortcut);
 			}
 		} else {
 			errlog(`Oh dear - invalid print function for a navlinkTag, id=${this.id}`);
@@ -305,7 +319,7 @@ class navlinkTag {
 			case 'userlog':
 			case 'userSpace':
 			case 'deletedContribs':
-				this.article = this.article.userName();
+				this.article = this.article!.userName();
 		}
 		switch (this.id) {
 			case 'userTalk':
@@ -313,7 +327,7 @@ class navlinkTag {
 			case 'editUserTalk':
 			case 'userPage':
 			case 'blocklog':
-				this.article = this.article.userName(true);
+				this.article = this.article!.userName(true);
 				delete this.oldid;
 				break;
 			case 'pagelog':
@@ -323,7 +337,7 @@ class navlinkTag {
 		}
 		if (this.id !== 'mainlink') {
 			// FIXME anchor handling should be done differently with Title object
-			this.article = this.article.removeAnchor();
+			this.article = this.article!.removeAnchor();
 			// if (typeof this.text=='undefined') { this.text=popupString(this.id); }
 		}
 		switch (this.id) {
@@ -406,7 +420,8 @@ class navlinkTag {
 				this.print = specialLink;
 				this.specialpage = 'Thanks';
 				this.sep = '/';
-				this.article.value = this.diff === 'prev' ? this.oldid : this.diff;
+				// 原版直接赋值（undefined 字符串化后同形），此处以 String 归一
+				this.article!.value = this.diff === 'prev' ? String(this.oldid) : String(this.diff);
 				break;
 			case 'unwatch':
 			case 'watch':
@@ -425,8 +440,8 @@ class navlinkTag {
 			case 'delete':
 				this.print = wikiLink;
 				this.action = 'delete';
-				if (this.article.namespaceId() === pg.nsImageId) {
-					const img = this.article.stripNamespace();
+				if (this.article!.namespaceId() === pg.nsImageId) {
+					const img = this.article!.stripNamespace();
 					this.action += `&image=${img}`;
 				}
 				break;
@@ -453,9 +468,9 @@ class navlinkTag {
 				break;
 			case 'mainlink':
 				if (this.text === undefined) {
-					this.text = this.article.toString().entify();
+					this.text = entify(this.article!.toString());
 				}
-				if (getValueOf('popupSimplifyMainLink') && isInStrippableNamespace(this.article)) {
+				if (getValueOf('popupSimplifyMainLink') && isInStrippableNamespace(this.article!)) {
 					// only show the /subpage part of the title text
 					const s = this.text.split('/');
 					this.text = s.at(-1);
@@ -465,7 +480,8 @@ class navlinkTag {
 				}
 				this.print = titledWikiLink;
 				if (this.title === undefined && pg.current.link && pg.current.link.href !== undefined) {
-					this.title = safeDecodeURI(pg.current.link.originalTitle ?? this.article);
+					// 原版可将 Title 对象传入 safeDecodeURI（decodeURIComponent 隐式字符串化），此处显式 toString 等价
+					this.title = safeDecodeURI(pg.current.link.originalTitle ?? this.article!.toString());
 					if (this.oldid !== undefined && this.oldid) {
 						this.title = tprintf('Revision %s of %s', [this.oldid, this.title]);
 					}
@@ -477,14 +493,14 @@ class navlinkTag {
 			case 'editArticle':
 				delete this.oldid;
 				// mw.notify(`${this.id}\n${this.article}\n${typeof this.article}`, {tag: 'popups', type: 'warn'});
-				this.article = this.article.articleFromTalkOrArticle();
+				this.article = this.article!.articleFromTalkOrArticle();
 				// mw.notify(`${this.id}\n${this.article}\n${typeof this.article}`, {tag: 'popups', type: 'warn'});
 				this.print = wikiLink;
 				this.action = this.id.indexOf('edit') === 0 ? 'edit' : 'view';
 				break;
 			case 'userTalk':
 			case 'talk':
-				this.article = this.article.talkPage();
+				this.article = this.article!.talkPage();
 				delete this.oldid;
 				this.print = wikiLink;
 				this.action = 'view';
@@ -535,13 +551,13 @@ class navlinkTag {
 			case 'editUserTalk':
 			case 'editTalk':
 				delete this.oldid;
-				this.article = this.article.talkPage();
+				this.article = this.article!.talkPage();
 				this.action = 'edit';
 				this.print = wikiLink;
 				break;
 			case 'newUserTalk':
 			case 'newTalk':
-				this.article = this.article.talkPage();
+				this.article = this.article!.talkPage();
 				this.action = 'edit&section=new';
 				this.print = wikiLink;
 				break;

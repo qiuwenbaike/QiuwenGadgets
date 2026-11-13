@@ -1,27 +1,36 @@
 // 本文件由 Navigation_popups 原版 core.js 的 diff.js 段落拆分而来，保留原有实现。
-const delFmt = (x: any) => {
+import {entify} from './tools';
+
+// diff 算法中的行元素：初始为字符串，配对成功后原地替换为配对对象
+export type PairedRow = {text: string; row: number; paired: boolean};
+export type DiffRow = string | PairedRow;
+export const isPairedRow = (row: DiffRow | undefined): row is PairedRow => typeof row === 'object';
+
+const delFmt = (x: string[]) => {
 	if (x.length === 0) {
 		return '';
 	}
 	return `<del class='popupDiff'>${x.join('')}</del>`;
 };
-const insFmt = (x: any) => {
+const insFmt = (x: string[]) => {
 	if (x.length === 0) {
 		return '';
 	}
 	return `<ins class='popupDiff'>${x.join('')}</ins>`;
 };
-const countCrossings = (a: any[], b: any[], i: number, eject: any) => {
+const countCrossings = (a: DiffRow[], b: DiffRow[], i: number, eject: boolean) => {
 	// count the crossings on the edge starting at b[i]
-	if (!b[i]!.row && b[i]!.row !== 0) {
+	// 未配对的行（字符串）与越界索引都没有 row，视为无交叉
+	const start = b[i];
+	if (!isPairedRow(start)) {
 		return -1;
 	}
 	let count = 0;
 	for (const [j, element] of a.entries()) {
-		if (!element.row && element.row !== 0) {
+		if (!isPairedRow(element)) {
 			continue;
 		}
-		if ((j - b[i]!.row) * (i - element.row) > 0) {
+		if ((j - start.row) * (i - element.row) > 0) {
 			if (eject) {
 				return true;
 			}
@@ -55,58 +64,60 @@ const shortenDiffString = function shortenDiffString(str: string, context: numbe
 	}
 	return ret;
 };
-const diffString = (o: any, n: any) => {
+const diffString = (o: string, n: string) => {
 	//  We need to split the strings o and n first, and entify() the parts
 	//  individually, so that the HTML entities are never cut apart. (AxelBoldt)
 	let i;
 	const oSplitted = o.split(/\b/);
 	const nSplitted = n.split(/\b/);
 	for (i = 0; i < oSplitted.length; ++i) {
-		oSplitted[i] = oSplitted[i].entify();
+		oSplitted[i] = entify(oSplitted[i]!);
 	}
 	for (i = 0; i < nSplitted.length; ++i) {
-		nSplitted[i] = nSplitted[i].entify();
+		nSplitted[i] = entify(nSplitted[i]!);
 	}
 	const out = diff(oSplitted, nSplitted);
 	let str = '';
-	let acc = []; // accumulator for prettier output
+	let acc: string[] = []; // accumulator for prettier output
 
 	// crossing pairings -- eg 'A B' vs 'B A' -- cause problems, so let's iron them out
 	// this doesn't always do things optimally but it should be fast enough
 	let maxOutputPair = 0;
 	for (i = 0; i < out.n.length; ++i) {
-		if (out.n[i].paired) {
-			if (maxOutputPair > out.n[i].row) {
+		const nrow = out.n[i];
+		if (isPairedRow(nrow)) {
+			if (maxOutputPair > nrow.row) {
 				// tangle - delete pairing
-				out.o[out.n[i].row] = out.o[out.n[i].row].text;
-				out.n[i] = out.n[i].text;
+				out.o[nrow.row] = (out.o[nrow.row] as PairedRow).text;
+				out.n[i] = nrow.text;
 			}
-			if (maxOutputPair < out.n[i].row) {
-				maxOutputPair = out.n[i].row;
+			if (maxOutputPair < nrow.row) {
+				maxOutputPair = nrow.row;
 			}
 		}
 	}
 	// output the stuff preceding the first paired old line
-	for (i = 0; i < out.o.length && !out.o[i].paired; ++i) {
-		acc.push(out.o[i]);
+	for (i = 0; i < out.o.length && !isPairedRow(out.o[i]); ++i) {
+		acc.push(out.o[i] as string);
 	}
 	str += delFmt(acc);
 	acc = [];
 	// main loop
 	for (i = 0; i < out.n.length; ++i) {
 		// output unpaired new "lines"
-		while (i < out.n.length && !out.n[i].paired) {
-			acc.push(out.n[i++]);
+		while (i < out.n.length && !isPairedRow(out.n[i])) {
+			acc.push(out.n[i++] as string);
 		}
 		str += insFmt(acc);
 		acc = [];
 		if (i < out.n.length) {
 			// this new "line" is paired with the (out.n[i].row)th old "line"
-			str += out.n[i].text;
+			const nrow = out.n[i] as PairedRow;
+			str += nrow.text;
 			// output unpaired old rows starting after this new line's partner
-			let m = out.n[i].row + 1;
-			while (m < out.o.length && !out.o[m].paired) {
-				acc.push(out.o[m++]);
+			let m = nrow.row + 1;
+			while (m < out.o.length && !isPairedRow(out.o[m])) {
+				acc.push(out.o[m++] as string);
 			}
 			str += delFmt(acc);
 			acc = [];
@@ -126,22 +137,24 @@ const diffBugAlert = function diffBugAlert(word: string) {
 	}
 };
 diffBugAlert.list = {} as Record<string, number>;
-const makeDiffHashtable = (src: any) => {
+const makeDiffHashtable = (src: DiffRow[]) => {
 	const ret: Record<string, number[]> = {};
 	for (let i = 0; i < src.length; i++) {
-		if (jsReservedProperties.test(src[i])) {
-			src[i] += '<!-- -->';
+		// 调用点（diff 的 pass 1/2）在配对发生前执行，元素此时均为字符串
+		const key = src[i] as string;
+		if (jsReservedProperties.test(key)) {
+			src[i] = `${key}<!-- -->`;
 		}
-		ret[src[i]] ??= [];
+		ret[src[i] as string] ??= [];
 		try {
-			ret[src[i]]!.push(i);
+			ret[src[i] as string]!.push(i);
 		} catch {
-			diffBugAlert(src[i]);
+			diffBugAlert(src[i] as string);
 		}
 	}
 	return ret;
 };
-const diff = (o: any, n: any) => {
+const diff = (o: DiffRow[], n: DiffRow[]): {o: DiffRow[]; n: DiffRow[]} => {
 	// pass 1: make hashtable ns with new rows as keys
 	const ns = makeDiffHashtable(n);
 	// pass 2: make hashtable os with old rows as keys
@@ -156,12 +169,12 @@ const diff = (o: any, n: any) => {
 		const osi = os[i] as number[] | undefined;
 		if (nsi.length === 1 && osi && osi.length === 1) {
 			n[nsi[0]!] = {
-				text: n[nsi[0]!],
+				text: n[nsi[0]!] as string,
 				row: osi[0]!,
 				paired: true,
 			};
 			o[osi[0]!] = {
-				text: o[osi[0]!],
+				text: o[osi[0]!] as string,
 				row: nsi[0]!,
 				paired: true,
 			};
@@ -169,20 +182,26 @@ const diff = (o: any, n: any) => {
 	}
 	// pass 4: pair matching rows immediately following paired rows (not necessarily unique)
 	for (i = 0; i < n.length - 1; i++) {
+		const current = n[i];
+		if (!isPairedRow(current)) {
+			continue;
+		}
+		const next = n[i + 1];
+		const partner = o[current.row + 1];
 		if (
-			n[i].paired &&
-			!n[i + 1].paired &&
-			n[i].row + 1 < o.length &&
-			!o[n[i].row + 1].paired &&
-			n[i + 1] === o[n[i].row + 1]
+			!isPairedRow(next) &&
+			current.row + 1 < o.length &&
+			!isPairedRow(partner) &&
+			next !== undefined &&
+			next === partner
 		) {
 			n[i + 1] = {
-				text: n[i + 1],
-				row: n[i].row + 1,
+				text: next,
+				row: current.row + 1,
 				paired: true,
 			};
-			o[n[i].row + 1] = {
-				text: o[n[i].row + 1],
+			o[current.row + 1] = {
+				text: partner as string,
 				row: i + 1,
 				paired: true,
 			};
@@ -190,20 +209,20 @@ const diff = (o: any, n: any) => {
 	}
 	// pass 5: pair matching rows immediately preceding paired rows (not necessarily unique)
 	for (i = n.length - 1; i > 0; i--) {
-		if (
-			n[i].paired &&
-			!n[i - 1].paired &&
-			n[i].row > 0 &&
-			!o[n[i].row - 1].paired &&
-			n[i - 1] === o[n[i].row - 1]
-		) {
+		const current = n[i];
+		if (!isPairedRow(current)) {
+			continue;
+		}
+		const prev = n[i - 1];
+		const partner = o[current.row - 1];
+		if (!isPairedRow(prev) && current.row > 0 && !isPairedRow(partner) && prev !== undefined && prev === partner) {
 			n[i - 1] = {
-				text: n[i - 1],
-				row: n[i].row - 1,
+				text: prev,
+				row: current.row - 1,
 				paired: true,
 			};
-			o[n[i].row - 1] = {
-				text: o[n[i].row - 1],
+			o[current.row - 1] = {
+				text: partner as string,
 				row: i - 1,
 				paired: true,
 			};

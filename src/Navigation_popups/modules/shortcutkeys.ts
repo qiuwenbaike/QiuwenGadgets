@@ -12,7 +12,7 @@ const popupHandleKeypress = function popupHandleKeypress(evt: KeyboardEvent) {
 	}
 	if (keyCode === 27) {
 		// escape
-		killPopup();
+		killPopup.call(undefined);
 		return false; // swallow keypress
 	}
 	const letter = String.fromCodePoint(keyCode);
@@ -57,9 +57,9 @@ const rmPopupShortcuts = () => {
 		document.onkeypress = null; // () => {};
 		return;
 	}
-	document.onkeypress = document.oldPopupOnkeypress;
+	document.onkeypress = document.oldPopupOnkeypress ?? null;
 };
-const addLinkProperty = (html: string, property: any) => {
+const addLinkProperty = (html: string, property: string) => {
 	// take "<a href=...>...</a> and add a property
 	// not sophisticated at all, easily broken
 	const i = html.indexOf('>');

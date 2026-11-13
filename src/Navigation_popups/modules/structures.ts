@@ -1,4 +1,5 @@
 // 本文件由 Navigation_popups 原版 core.js 的 structures.js 段落拆分而来，保留原有实现。
+import type {PgStructureArgs, PgStructures} from './types';
 import {navLinksHTML, navlinkStringToHTML} from './navlinks';
 import {getValueOf} from './options';
 import {imageHTML} from './htmloutput';
@@ -37,27 +38,27 @@ pg.structures.original.popupRedirSpans = () => {
 		'popupRedirOtherLinks',
 	];
 };
-pg.structures.original.popupTitle = (x: any) => {
+pg.structures.original.popupTitle = (x: PgStructureArgs) => {
 	log('defaultstructure.popupTitle');
 	if (!getValueOf('popupNavLinks')) {
 		return navlinkStringToHTML('<b><<mainlink>></b>', x.article, x.params);
 	}
 	return '';
 };
-pg.structures.original.popupTopLinks = (x: any) => {
+pg.structures.original.popupTopLinks = (x: PgStructureArgs) => {
 	log('defaultstructure.popupTopLinks');
 	if (getValueOf('popupNavLinks')) {
 		return navLinksHTML(x.article, x.hint, x.params);
 	}
 	return '';
 };
-pg.structures.original.popupImage = (x: any) => {
+pg.structures.original.popupImage = (x: PgStructureArgs) => {
 	log(`original.popupImage, x.article=${x.article}, x.navpop.idNumber=${x.navpop.idNumber}`);
 	return imageHTML(x.article, x.navpop.idNumber);
 };
 pg.structures.original.popupRedirTitle = pg.structures.original.popupTitle;
 pg.structures.original.popupRedirTopLinks = pg.structures.original.popupTopLinks;
-const copyStructure = (oldStructure: any, newStructure: any) => {
+const copyStructure = (oldStructure: keyof PgStructures, newStructure: keyof PgStructures) => {
 	pg.structures[newStructure] = {};
 	for (const prop in pg.structures[oldStructure]) {
 		if (!Object.hasOwn(pg.structures[oldStructure], prop)) {
@@ -67,7 +68,7 @@ const copyStructure = (oldStructure: any, newStructure: any) => {
 	}
 };
 copyStructure('original', 'nostalgia');
-pg.structures.nostalgia.popupTopLinks = (x: any) => {
+pg.structures.nostalgia.popupTopLinks = (x: PgStructureArgs) => {
 	let str = '';
 	str += '<b><<mainlink|shortcut= >></b>';
 	// user links
@@ -103,10 +104,10 @@ pg.structures.nostalgia.popupTopLinks = (x: any) => {
 };
 pg.structures.nostalgia.popupRedirTopLinks = pg.structures.nostalgia.popupTopLinks;
 copyStructure('original', 'fancy');
-pg.structures.fancy.popupTitle = (x: any) => {
+pg.structures.fancy.popupTitle = (x: PgStructureArgs) => {
 	return navlinkStringToHTML('<font size=+0><<mainlink>></font>', x.article, x.params);
 };
-pg.structures.fancy.popupTopLinks = (x: any) => {
+pg.structures.fancy.popupTopLinks = (x: PgStructureArgs) => {
 	const hist = '<<history|shortcut=h|hist>>|<<lastEdit|shortcut=/|last>>|<<editors|shortcut=E|eds>>';
 	const watch = '<<unwatch|unwatchShort>>|<<watch|shortcut=w|watchThingy>>';
 	const move = '<<move|shortcut=m|move>>';
@@ -120,7 +121,7 @@ pg.structures.fancy.popupTopLinks = (x: any) => {
 		x.params
 	);
 };
-pg.structures.fancy.popupOtherLinks = (x: any) => {
+pg.structures.fancy.popupOtherLinks = (x: PgStructureArgs) => {
 	const admin =
 		'<<unprotect|unprotectShort>>|<<protect|shortcut=p>>*<<undelete|undeleteShort>>|<<delete|shortcut=d|del>>';
 	let user = '<<contribs|shortcut=c>>if(wikimedia){|<<count|shortcut=#|#>>}';
@@ -137,8 +138,10 @@ pg.structures.fancy.popupRedirTopLinks = pg.structures.fancy.popupTopLinks;
 pg.structures.fancy.popupRedirOtherLinks = pg.structures.fancy.popupOtherLinks;
 copyStructure('fancy', 'fancy2');
 pg.structures.fancy2.popupTopLinks = // hack out the <br> at the end and put one at the beginning
-	(x: any) => {
-		return `<br>${pg.structures.fancy.popupTopLinks(x).replace(/<br>$/i, '')}`;
+	(x: PgStructureArgs) => {
+		// fancy.popupTopLinks 存于联合类型的索引桶中，此处断言为 span 生成函数
+		const fancyTopLinks = pg.structures.fancy.popupTopLinks as (x: PgStructureArgs) => string;
+		return `<br>${fancyTopLinks(x).replace(/<br>$/i, '')}`;
 	};
 pg.structures.fancy2.popupLayout = () => {
 	return [
@@ -183,7 +186,7 @@ pg.structures.menus.popupLayout = () => {
 		'popupFixDab',
 	];
 };
-pg.structures.menus.popupTopLinks = (x: any, shorter: any) => {
+pg.structures.menus.popupTopLinks = (x: PgStructureArgs, shorter?: boolean) => {
 	// FIXME maybe this stuff should be cached
 	const s = [];
 	const dropdiv = '<div class="popup_drop">';
@@ -277,15 +280,15 @@ const menuTitle = (s: string) => {
 pg.structures.menus.popupRedirTitle = pg.structures.menus.popupTitle;
 pg.structures.menus.popupRedirTopLinks = pg.structures.menus.popupTopLinks;
 copyStructure('menus', 'shortmenus');
-pg.structures.shortmenus.popupTopLinks = (x: any) => {
-	return pg.structures.menus.popupTopLinks(x, true);
+pg.structures.shortmenus.popupTopLinks = (x: PgStructureArgs) => {
+	return (pg.structures.menus.popupTopLinks as (x: PgStructureArgs, shorter?: boolean) => string)(x, true);
 };
 pg.structures.shortmenus.popupRedirTopLinks = pg.structures.shortmenus.popupTopLinks;
 pg.structures.lite = {};
 pg.structures.lite.popupLayout = () => {
 	return ['popupTitle', 'popupPreview'];
 };
-pg.structures.lite.popupTitle = (x: any) => {
+pg.structures.lite.popupTitle = (x: PgStructureArgs) => {
 	log(`${x.article}: structures.lite.popupTitle`);
 	// return navlinkStringToHTML('<b><<mainlink>></b>',x.article,x.params);
 	return `<div><span class="popup_mainlink"><b>${x.article.toString()}</b></span></div>`;

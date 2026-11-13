@@ -278,7 +278,7 @@ const message: {[key: string]: string} = {
 	markpatrolledHint: wgULS('标记该编辑为已巡查', '標記該編輯為已巡查'),
 	'Could not marked this edit as patrolled': wgULS('无法标记该编辑为已巡查', '無法標記該編輯為已巡查'),
 	defaultpopupReviewedSummary: wgULS('标记从版本%s到%s间的编辑为已巡查', '標記從版本%s到%s間的編輯為已巡查'),
-	'Image from Commons': wgULS('来自维基共享的图片', '來自維基共用的圖片'),
+	'Image from Qiuwen Baike': wgULS('共享图片', '共用圖片'),
 	'Description page': wgULS('图片描述页', '圖片描述頁'),
 	'Alt text:': wgULS('替换文本（Alt）：', '替換文字（Alt）：'),
 	revdel: wgULS('历史版本被隐藏', '歷史版本被隱藏'),

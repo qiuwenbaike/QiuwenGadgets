@@ -1,12 +1,27 @@
 // 本文件由 Navigation_popups 原版 core.js 的 livepreview.js 段落拆分而来，保留原有实现。
 import {pg} from './pg';
 
-const Insta: any = {};
+// Insta（内嵌 wiki→HTML 转换器）的配置
+interface InstaConf {
+	baseUrl: string;
+	user: {name: string; signature: string};
+	wiki: {lang: string; interwiki: string | null; default_thumb_width: number};
+	paths: {articles: string; math: string; images: string; images_fallback: string};
+	locale: {user: string | undefined; image: string | undefined; category: string | undefined; months: string[]};
+}
+interface InstaLib {
+	conf: InstaConf;
+	BLOCK_IMAGE: RegExp;
+	dump(from: string | HTMLInputElement | null, to: HTMLElement | null): void;
+	convert(wiki: string | string[]): string;
+}
+// conf 与 BLOCK_IMAGE 由 setupLivePreview() 在运行时填充
+const Insta = {} as InstaLib;
 const setupLivePreview = () => {
 	// options
 	Insta.conf = {
 		baseUrl: '',
-		user: {},
+		user: {name: '', signature: ''},
 		wiki: {
 			lang: pg.wiki.lang,
 			interwiki: pg.wiki.interwiki,
@@ -36,20 +51,22 @@ const setupLivePreview = () => {
 		'i'
 	);
 };
-Insta.dump = function (from: any, to: any) {
+Insta.dump = function (this: InstaLib, from: string | HTMLInputElement | null, to: HTMLElement | null) {
 	if (typeof from === 'string') {
-		from = document.getElementById(`${from}`);
+		// dump 面向表单输入元素（取 .value），实际无调用点，保留原实现
+		from = document.getElementById(`${from}`) as HTMLInputElement | null;
 	}
 	if (typeof to === 'string') {
 		to = document.getElementById(`${to}`);
 	}
-	to.innerHTML = this.convert(from.value);
+	to!.innerHTML = this.convert(from!.value);
 };
-Insta.convert = (wiki: any) => {
-	const ll = typeof wiki === 'string' ? wiki.replace(/\r/g, '').split(/\n/) : wiki; // lines of wikicode
+Insta.convert = (wiki: string | string[]) => {
+	const ll: string[] = typeof wiki === 'string' ? wiki.replace(/\r/g, '').split(/\n/) : wiki; // lines of wikicode
 	let o = ''; // result of passing a regexp to compareLineStringOrReg()
-	let p: any = 0;
-	let r: any;
+	let p: boolean | number = 0;
+	// 空行时字符串分支短路赋 ''，消费点均在正则匹配成功分支内
+	let r: string | RegExpMatchArray | null | undefined;
 	// some shorthands
 	const remain = () => {
 		return ll.length;
@@ -62,25 +79,26 @@ Insta.convert = (wiki: any) => {
 	}; // push
 
 	// similar to C's printf, uses ? as placeholders, ?? to escape question marks
-	const f = function f(...args: any[]) {
+	const f = function f(...args: unknown[]) {
 		let i = 1;
 		const a = args;
-		let [f] = a;
+		let fmt = a[0] as string;
 		let o = '';
 		let c;
 		let p;
 		for (; i < a.length; i++) {
-			if ((p = f.indexOf('?')) + 1) {
+			if ((p = fmt.indexOf('?')) + 1) {
 				// allow character escaping
-				c = f.charAt(p + 1) === '?' ? 1 : 0;
+				c = fmt.charAt(p + 1) === '?' ? 1 : 0;
 				i -= c;
-				o += f.slice(0, Math.max(0, p)) + (c ? '?' : a[i]);
-				f = f.slice(p + 1 + c);
+				// 原版直接拼接（undefined 字符串化后同形），以 String 归一
+				o += fmt.slice(0, Math.max(0, p)) + (c ? '?' : String(a[i]));
+				fmt = fmt.slice(p + 1 + c);
 			} else {
 				break;
 			}
 		}
-		return o + f;
+		return o + fmt;
 	};
 	const html_entities = (s: string) => {
 		return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -103,7 +121,7 @@ Insta.convert = (wiki: any) => {
 		return htmlescape_text(s).replace(/'/g, '&#39;').replace(/"/g, '&quot;');
 	};
 	// return the first non matching character position between two strings
-	const str_imatch = (a: string, b: any) => {
+	const str_imatch = (a: string, b: string) => {
 		let i;
 		let l;
 		for (i = 0, l = Math.min(a.length, b.length); i < l; i++) {
@@ -116,14 +134,14 @@ Insta.convert = (wiki: any) => {
 	// compare current line against a string or regexp
 	// if passed a string it will compare only the first string.length characters
 	// if passed a regexp the result is stored in r
-	const compareLineStringOrReg = (c: any) => {
+	const compareLineStringOrReg = (c: string | RegExp) => {
 		return typeof c === 'string' ? ll[0] && ll[0].slice(0, c.length) === c : (r = ll[0] && ll[0].match(c));
 	};
-	const compareLineString = (c: any) => {
+	const compareLineString = (c: string) => {
 		return ll[0] === c;
 	}; // compare current line against a string
-	const charAtPoint = (p: any) => {
-		return ll[0].charAt(p);
+	const charAtPoint = (p: number) => {
+		return ll[0]!.charAt(p);
 	}; // return char at pos p
 	const endl = (s: string) => {
 		ps(s);
@@ -132,9 +150,10 @@ Insta.convert = (wiki: any) => {
 	const parse_list = () => {
 		let prev = '';
 		while (remain() && compareLineStringOrReg(/^([#*:;]+)(.*)$/)) {
-			const l_match = r;
+			// 正则分支恒真后 r 为匹配结果，组 1/2 恒匹配
+			const l_match = r!;
 			sh();
-			const ipos = str_imatch(prev, l_match[1]);
+			const ipos = str_imatch(prev, l_match[1]!);
 			// close uncontinued lists
 			for (let prevPos = prev.length - 1; prevPos >= ipos; prevPos--) {
 				const pi = prev.charAt(prevPos);
@@ -142,14 +161,14 @@ Insta.convert = (wiki: any) => {
 					ps('</ul>');
 				} else if (pi === '#') {
 					ps('</ol>');
-				} else if (['', '*', '#'].indexOf(l_match[1].charAt(prevPos))) {
+				} else if (['', '*', '#'].indexOf(l_match[1]!.charAt(prevPos))) {
 					// close a dl only if the new item is not a dl item (:, ; or empty)
 					ps('</dl>');
 				}
 			}
 			// open new lists
-			for (let matchPos = ipos; matchPos < l_match[1].length; matchPos++) {
-				const li = l_match[1].charAt(matchPos);
+			for (let matchPos = ipos; matchPos < l_match[1]!.length; matchPos++) {
+				const li = l_match[1]!.charAt(matchPos);
 				if (li === '*') {
 					ps('<ul>');
 				} else if (li === '#') {
@@ -159,27 +178,27 @@ Insta.convert = (wiki: any) => {
 					ps('<dl>');
 				}
 			}
-			switch (l_match[1].at(-1)) {
+			switch (l_match[1]!.at(-1)) {
 				case '*':
 				case '#':
-					ps(`<li>${parse_inline_nowiki(l_match[2])}`);
+					ps(`<li>${parse_inline_nowiki(l_match[2]!)}`);
 					break;
 				case ';': {
 					ps('<dt>');
-					const dt_match = l_match[2].match(/(.*?)(:.*?)$/);
+					const dt_match = l_match[2]!.match(/(.*?)(:.*?)$/);
 					// handle ;dt :dd format
 					if (dt_match) {
-						ps(parse_inline_nowiki(dt_match[1]));
-						ll.unshift(dt_match[2]);
+						ps(parse_inline_nowiki(dt_match[1]!));
+						ll.unshift(dt_match[2]!);
 					} else {
-						ps(parse_inline_nowiki(l_match[2]));
+						ps(parse_inline_nowiki(l_match[2]!));
 					}
 					break;
 				}
 				case ':':
-					ps(`<dd>${parse_inline_nowiki(l_match[2])}`);
+					ps(`<dd>${parse_inline_nowiki(l_match[2]!)}`);
 			}
-			[, prev] = l_match;
+			prev = l_match[2]!;
 		}
 		// close remaining lists
 		for (let i = prev.length - 1; i >= 0; i--) {
@@ -187,7 +206,7 @@ Insta.convert = (wiki: any) => {
 		}
 	};
 	const parse_table = () => {
-		endl(f('<table>', compareLineStringOrReg(/^{\|( .*)$/) ? r[1] : ''));
+		endl(f('<table>', compareLineStringOrReg(/^{\|( .*)$/) ? (r as RegExpMatchArray)[1]! : ''));
 		for (; remain();) {
 			if (compareLineStringOrReg('|')) {
 				switch (charAtPoint(1)) {
@@ -195,7 +214,7 @@ Insta.convert = (wiki: any) => {
 						endl('</table>');
 						return;
 					case '-':
-						endl(f('<tr>', compareLineStringOrReg(/\|-*(.*)/)[1]));
+						endl(f('<tr>', (compareLineStringOrReg(/\|-*(.*)/) as RegExpMatchArray)[1]));
 						break;
 					default:
 						parse_table_data();
@@ -208,7 +227,7 @@ Insta.convert = (wiki: any) => {
 		}
 	};
 	const parse_table_data = () => {
-		let td_line: any;
+		let td_line: string[];
 		let match_i: number;
 		// 1: "|+", '|' or '+'
 		// 2: ??
@@ -228,20 +247,20 @@ Insta.convert = (wiki: any) => {
 		}
 		ps('>');
 		if (td_match[1] === '|+') {
-			ps(parse_inline_nowiki(td_match[match_i]));
+			ps(parse_inline_nowiki(td_match[match_i]!));
 		} else {
 			// use || or !! as a cell separator depending on context
 			// NOTE: when split() is passed a regexp make sure to use non-capturing brackets
 			td_line = td_match[match_i]!.split(td_match[1] === '|' ? '||' : /\|\||!!/);
-			ps(parse_inline_nowiki(td_line.shift()));
+			ps(parse_inline_nowiki(td_line.shift()!));
 			while (td_line.length > 0) {
-				ll.unshift(td_match[1] + td_line.pop());
+				ll.unshift(td_match[1]! + td_line.pop()!);
 			}
 		}
 		let tc = 0;
-		const td = [];
+		const td: string[] = [];
 		while (remain()) {
-			td.push(sh());
+			td.push(sh()!);
 			if (compareLineStringOrReg('|')) {
 				if (!tc) {
 					break;
@@ -262,28 +281,28 @@ Insta.convert = (wiki: any) => {
 	const parse_pre = () => {
 		ps('<pre>');
 		do {
-			endl(`${parse_inline_nowiki(ll[0].slice(1))}\n`);
+			endl(`${parse_inline_nowiki(ll[0]!.slice(1))}\n`);
 		} while (remain() && compareLineStringOrReg(' '));
 		ps('</pre>');
 	};
 	const parse_block_image = () => {
-		ps(parse_image(sh()));
+		ps(parse_image(sh()!));
 	};
 	const parse_image = (str: string) => {
 		// get what's in between "[[Image:" and "]]"
 		let tag = str.substring(str.indexOf(':') + 1, str.length - 2);
-		let _width: any;
-		let attr: any = [];
-		let _filename: any;
-		let _caption: any = '';
-		let _thumb: any = 0;
-		let _frame: any = 0;
-		let _center: any = 0;
-		let _align: any = '';
+		let _width: string | undefined;
+		let attr: string[] = [];
+		let _filename: string | undefined;
+		let _caption: string | undefined;
+		let _thumb: boolean | number = 0;
+		let _frame: boolean | number = 0;
+		let _center: boolean | number = 0;
+		let _align: string | undefined;
 		if (/\|/.test(tag)) {
 			// manage nested links
 			let nesting = 0;
-			let last_attr;
+			let last_attr: string | undefined;
 			for (let i = tag.length - 1; i > 0; i--) {
 				if (tag.charAt(i) === '|' && !nesting) {
 					last_attr = tag.slice(i + 1);
@@ -302,15 +321,15 @@ Insta.convert = (wiki: any) => {
 				}
 			}
 			attr = tag.split(/\s*\|\s*/);
-			attr.push(last_attr);
+			attr.push(last_attr!);
 			_filename = attr.shift();
 			let w_match;
 			for (; attr.length > 0; attr.shift()) {
-				w_match = attr[0].match(/^(\d*)(?:[px]*\d*)?px$/);
+				w_match = attr[0]!.match(/^(\d*)(?:[px]*\d*)?px$/);
 				if (w_match) {
 					[, _width] = w_match;
 				} else {
-					switch (attr[0]) {
+					switch (attr[0]!) {
 						case 'thumb':
 						case 'thumbnail':
 							_thumb = true;
@@ -344,13 +363,13 @@ Insta.convert = (wiki: any) => {
 		return '';
 	};
 	const parse_inline_nowiki = (str: string) => {
-		let start;
+		let start: number;
 		let lastend = 0;
 		let substart = 0;
 		let nestlev = 0;
-		let open;
-		let close;
-		let subloop;
+		let open: number;
+		let close: number;
+		let subloop: boolean;
 		let html = '';
 		while ((start = str.indexOf('<no'.concat('wiki', '>'), substart)) !== -1) {
 			html += parse_inline_wiki(str.substring(lastend, start));
@@ -381,14 +400,14 @@ Insta.convert = (wiki: any) => {
 		return html + parse_inline_wiki(str.slice(lastend));
 	};
 	const parse_inline_images = (str: string) => {
-		let start;
+		let start: number;
 		let substart = 0;
 		let nestlev = 0;
-		let loop;
-		let close;
-		let open;
-		let wiki;
-		let html;
+		let loop: boolean;
+		let close: number;
+		let open: number;
+		let wiki: string;
+		let html: string;
 		while ((start = str.indexOf('[[', substart)) !== -1) {
 			if (new RegExp(`^(Image|File|${Insta.conf.locale.image}):`, 'i').test(str.slice(start + 2))) {
 				loop = true;
@@ -425,8 +444,8 @@ Insta.convert = (wiki: any) => {
 	// the output of this function doesn't respect the FILO structure of HTML
 	// but since most browsers can handle it I'll save myself the hassle
 	const parse_inline_formatting = (str: string) => {
-		let em;
-		let st;
+		let em: boolean | undefined;
+		let st: boolean | undefined;
 		let i;
 		let li = 0;
 		let o = '';
@@ -451,7 +470,7 @@ Insta.convert = (wiki: any) => {
 		str = str.replace(/<math>(.*?)<\/math>/gi, '');
 		// Build a Mediawiki-formatted date string
 		const now = new Date();
-		let minutes: any = now.getUTCMinutes();
+		let minutes: number | string = now.getUTCMinutes();
 		if (minutes < 10) {
 			minutes = `0${minutes}`;
 		}
@@ -579,7 +598,10 @@ Insta.convert = (wiki: any) => {
 	for (; remain();) {
 		if (compareLineStringOrReg(/^(={1,6})(.*)\1(.*)$/)) {
 			p = 0;
-			endl(f('<h?>?</h?>?', r![1]!.length, parse_inline_nowiki(r![2]!), r![1]!.length, r![3]!));
+			const heading = r as RegExpMatchArray;
+			endl(
+				f('<h?>?</h?>?', heading[1]!.length, parse_inline_nowiki(heading[2]!), heading[1]!.length, heading[3]!)
+			);
 		} else if (compareLineStringOrReg(/^[#*:;]/)) {
 			p = 0;
 			parse_list();
@@ -607,14 +629,14 @@ Insta.convert = (wiki: any) => {
 					ps('<p>');
 					p = 1;
 				}
-				ps(`${parse_inline_nowiki(ll[0])} `);
+				ps(`${parse_inline_nowiki(ll[0]!)} `);
 			}
 			sh();
 		}
 	}
 	return o;
 };
-const wiki2html = (txt: string, baseurl: any) => {
+const wiki2html = (txt: string, baseurl: string) => {
 	Insta.conf.baseUrl = baseurl;
 	return Insta.convert(txt);
 };
