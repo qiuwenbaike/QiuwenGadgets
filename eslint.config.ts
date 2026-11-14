@@ -9,7 +9,7 @@ import unicorn from 'eslint-plugin-unicorn';
 import vueEslintConfigPrettier from '@vue/eslint-config-prettier';
 
 export default defineConfig([
-	globalIgnores(['**/dist/', '**/*.{json,yml,yaml}', '**/select2/select2.js', '**/Wikiplus/{*.js,**/*.js}']),
+	globalIgnores(['**/dist/', '**/*.{json,yml,yaml}', '**/select2/select2.js']),
 	{
 		plugins: {
 			tsEslint,
