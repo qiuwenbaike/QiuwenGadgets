@@ -76,7 +76,16 @@ const addLinks = (): void => {
 				}
 			}
 			if (title !== null) {
-				const normalized = decodeURIComponent(title).replace(/_/g, ' '); // Normalize for using in interface and summary
+				let normalized: string;
+				try {
+					normalized = decodeURIComponent(title);
+				} catch (error) {
+					if (!(error instanceof URIError)) {
+						throw error;
+					}
+					normalized = title;
+				}
+				normalized = normalized.replace(/_/g, ' '); // Normalize for using in interface and summary
 				const pagenotexist = $(current).find('.mw-headline a').hasClass('new');
 				const section = current.dataset['section'];
 				const [node] = current.querySelectorAll('.mw-headline');

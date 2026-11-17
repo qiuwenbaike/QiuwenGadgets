@@ -4888,7 +4888,16 @@ var addLinks = () => {
         }
       }
       if (title !== null) {
-        const normalized = decodeURIComponent(title).replace(/_/g, " ");
+        let normalized;
+        try {
+          normalized = decodeURIComponent(title);
+        } catch (error) {
+          if (!(error instanceof URIError)) {
+            throw error;
+          }
+          normalized = title;
+        }
+        normalized = normalized.replace(/_/g, " ");
         const pagenotexist = $(current).find(".mw-headline a").hasClass("new");
         const section = current.dataset["section"];
         const [node] = current.querySelectorAll(".mw-headline");

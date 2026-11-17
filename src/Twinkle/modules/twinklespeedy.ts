@@ -1,7 +1,7 @@
 /*! Twinkle.js - twinklespeedy.ts */
 import {Morebits, type MorebitsWikiApi} from './ui/morebits';
 import type {SpeedyCriterion, SpeedyLogParams} from './ui/types';
-import {footerLinks} from './utils/footerLinks.ts';
+import {footerLinks} from './utils/footerLinks';
 import {mountLazyDialog} from './utils/lazyDialogs';
 import {reactive} from 'vue';
 import {uls} from './utils/useUls';
