@@ -5476,6 +5476,7 @@ var TwCloseDialog_default = /* @__PURE__ */ (0, import_vue22.defineComponent)({
       items: Object.entries(group.value).map(([key, itemProperties]) => ({
         value: key,
         label: `${key}：${itemProperties.label}`,
+        reason: itemProperties.value ?? itemProperties.label,
         action: itemProperties.action,
         disabled: Twinkle.getPref("XfdClose") !== "all" && itemProperties.adminonly === true || itemProperties.disabled === true,
         selected: itemProperties.selected === true
@@ -5704,11 +5705,10 @@ var TwCloseDialog_default = /* @__PURE__ */ (0, import_vue22.defineComponent)({
         if (pagetitle && pagetitle.getNamespaceId() % 2 === 0) {
           const talkpagetitle = new mw.Title(pagetitle.getMainText(), pagetitle.getNamespaceId() + 1);
           const talkpage2 = new Morebits.wiki.page(talkpagetitle.toString(), uls("标记讨论页", "標記討論頁"));
-          const reason = params.messageData.value || params.messageData.label;
-          const vfdkept = `{{Old vfd multi|${mw.config.get("wgPageName").split("/").slice(2).join("/")}|${reason}}}
+          const vfdkept = `{{Old vfd multi|${mw.config.get("wgPageName").split("/").slice(2).join("/")}|${params.messageData.value}}}
 `;
           talkpage2.setPrependText(vfdkept);
-          talkpage2.setEditSummary(`[[${mw.config.get("wgPageName")}#${params.title}]]：${reason}`);
+          talkpage2.setEditSummary(`[[${mw.config.get("wgPageName")}#${params.title}]]：${params.messageData.reason}`);
           talkpage2.setChangeTags(Twinkle.changeTags);
           talkpage2.setCreateOption("recreate");
           talkpage2.prepend();
@@ -5765,7 +5765,7 @@ var TwCloseDialog_default = /* @__PURE__ */ (0, import_vue22.defineComponent)({
 {{delh|${params.code}}}
 `;
         text += split.slice(1).join("\n");
-        const reason = params.messageData.value || params.messageData.label;
+        const reason = params.messageData.reason;
         text += `
 <hr>
 : ${reason}`;
