@@ -15,6 +15,8 @@ type ApiSuccessCallback = NonNullable<ConstructorParameters<(typeof Morebits.wik
 interface CloseOption {
 	value: string;
 	label: string;
+	/** Display text recorded in the closing message; from the code item's `value` if present, otherwise its `label`. */
+	reason: string;
 	action: 'keep' | 'del' | 'noop';
 	disabled?: boolean;
 	selected?: boolean;
@@ -197,6 +199,7 @@ const groups: CloseGroup[] = codes.map((group) => ({
 	items: Object.entries(group.value).map(([key, itemProperties]) => ({
 		value: key,
 		label: `${key}：${itemProperties.label}`,
+		reason: itemProperties.value ?? itemProperties.label,
 		action: itemProperties.action,
 		disabled:
 			(Twinkle.getPref('XfdClose') !== 'all' && itemProperties.adminonly === true) ||
@@ -481,14 +484,13 @@ const callbacks = {
 		if (pagetitle && pagetitle.getNamespaceId() % 2 === 0) {
 			const talkpagetitle = new mw.Title(pagetitle.getMainText(), pagetitle.getNamespaceId() + 1);
 			const talkpage = new Morebits.wiki.page(talkpagetitle.toString(), uls('标记讨论页', '標記討論頁'));
-			const reason = params.messageData.value || params.messageData.label;
 			const vfdkept = `{{Old vfd multi|${mw.config
 				.get('wgPageName')
 				.split('/')
 				.slice(2)
-				.join('/')}|${reason}}}\n`;
+				.join('/')}|${params.messageData.value}}}\n`;
 			talkpage.setPrependText(vfdkept);
-			talkpage.setEditSummary(`[[${mw.config.get('wgPageName')}#${params.title}]]：${reason}`);
+			talkpage.setEditSummary(`[[${mw.config.get('wgPageName')}#${params.title}]]：${params.messageData.reason}`);
 			talkpage.setChangeTags(Twinkle.changeTags);
 			talkpage.setCreateOption('recreate');
 			talkpage.prepend();
@@ -554,7 +556,7 @@ const callbacks = {
 		const split = (bar[0] ?? '').split('\n');
 		text = `${split[0] ?? ''}\n{{delh|${params.code}}}\n`;
 		text += split.slice(1).join('\n');
-		const reason = params.messageData.value || params.messageData.label;
+		const reason = params.messageData.reason;
 		text += `\n<hr>\n: ${reason}`;
 		if (params.remark) {
 			text += `：${Morebits.string.appendPunctuation(params.remark)}`;
