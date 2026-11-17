@@ -1,5 +1,5 @@
 /**
- * SVG paths inlined from `@wikimedia/codex-icons` v2.7.0.
+ * SVG paths inlined from `@wikimedia/codex-icons` v2.8.0.
  *
  * MediaWiki does not ship a ResourceLoader module that bundles
  * `@wikimedia/codex-icons` (see https://www.mediawiki.org/wiki/Codex),

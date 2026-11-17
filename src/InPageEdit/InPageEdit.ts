@@ -12,7 +12,7 @@ void getBody().then(function inPageEditLoader(): void {
 	// InPageEdit NEXT
 	document.body.append(
 		Object.assign(document.createElement('script'), {
-			src: 'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/inpageedit-next/raw/branch/master/packages/core/dist/index.js',
+			src: 'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/inpageedit-next/raw/branch/master/packages/core/dist/index.js?ver=20261117',
 			type: 'module',
 		})
 	);

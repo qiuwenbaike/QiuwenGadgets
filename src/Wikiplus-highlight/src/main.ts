@@ -22,7 +22,7 @@ declare namespace mediaWiki.libs {
 
 		// 路径
 		const CM_CDN =
-			'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js?date=20261031&version=95b13c2208';
+			'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js?version=20261117';
 
 		if (typeof CodeMirror6 !== 'function') {
 			await $.ajax(CM_CDN, {dataType: 'script', cache: true});

@@ -56,7 +56,7 @@ var __esm = (fn, res, err) => function __init() {
 var getObject;
 var isGlobal;
 var init_dist = __esm({
-  "node_modules/.pnpm/@bhsd+browser@2.3.0_culori@4.0.2/node_modules/@bhsd/browser/dist/index.js"() {
+  "node_modules/.pnpm/@bhsd+browser@2.3.1_culori@4.0.2/node_modules/@bhsd/browser/dist/index.js"() {
     getObject = (key) => JSON.parse(String(localStorage.getItem(key)));
     isGlobal = (prop) => Object.hasOwn(globalThis, prop);
   }
@@ -222,7 +222,7 @@ var init_main = __esm({
           version,
           ...wphl
         };
-        const CM_CDN = "https://gitcdn.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js?date=20261031&version=95b13c2208";
+        const CM_CDN = "https://gitcdn.qiuwen.net.cn/InterfaceAdmin/codemirror-mediawiki/raw/branch/npm/dist/mw.min.js?version=20261117";
         if (typeof CodeMirror6 !== "function") {
           await $.ajax(CM_CDN, {
             dataType: "script",

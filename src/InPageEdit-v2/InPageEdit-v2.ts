@@ -10,6 +10,6 @@ import './InPageEdit-v2.less';
 	 * @license GPL-3.0-or-later {@link https://git.qiuwen.net.cn/InterfaceAdmin/inpageedit-v2/src/branch/master/LICENSE}
 	 */
 	mw.loader.load(
-		'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/inpageedit-v2/raw/branch/master/dist/InPageEdit.min.js'
+		'https://gitcdn.qiuwen.net.cn/InterfaceAdmin/inpageedit-v2/raw/branch/master/dist/InPageEdit.min.js?ver=20261117'
 	);
 })();
