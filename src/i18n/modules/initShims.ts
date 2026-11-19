@@ -1,33 +1,42 @@
-import type {WgUXSCandicates} from './types';
+import type {I18nCandidates, I18nMethods, I18nShimMethods, WgUXS, WgUXSCandicates, WgUXSCandidate} from './types';
 
-const initShims = (i18nMethods: typeof import('ext.gadget.i18n')): Partial<typeof import('ext.gadget.i18n')> => {
+type I18nMethodName = keyof I18nMethods;
+
+/**
+ * 将旧的 10 位置参数转换为候选表；未提供的位置按简繁关系补默认值。
+ */
+const toCandidates = (candidates: readonly WgUXSCandidate[]): I18nCandidates => {
+	const [rawHans, rawHant, rawCn, rawTw, rawHk, rawSg, rawZh, rawMo, rawMy, rawEn] = candidates;
+	const zh = String(rawZh ?? rawHans ?? rawHant ?? rawCn ?? rawTw ?? rawHk ?? rawSg ?? rawMo ?? rawMy ?? rawEn);
+	const hans = String(rawHans ?? rawCn ?? rawSg ?? rawMy ?? zh);
+	const hant = String(rawHant ?? rawTw ?? rawHk ?? rawMo ?? zh);
+	const cn = String(rawCn ?? hans);
+	const sg = String(rawSg ?? hans);
+	const tw = String(rawTw ?? hant);
+	const hk = String(rawHk ?? hant);
+	const mo = String(rawMo ?? hant);
+	const my = String(rawMy ?? hant);
+	const en = String(rawEn ?? zh);
+
+	return {
+		en,
+		zh,
+		'zh-hans': hans,
+		'zh-hant': hant,
+		'zh-cn': cn,
+		'zh-tw': tw,
+		'zh-hk': hk,
+		'zh-sg': sg,
+		'zh-mo': mo,
+		'zh-my': my,
+	};
+};
+
+const initShims = (i18nMethods: I18nMethods): I18nShimMethods => {
 	const createShim =
-		(method: 'content' | 'localize' | 'vary'): ((...candidates: WgUXSCandicates) => string) =>
-		(...candidates) => {
-			let [hans, hant, cn, tw, hk, sg, zh, mo, my, en] = candidates;
-			zh = String(zh ?? hans ?? hant ?? cn ?? tw ?? hk ?? sg ?? mo ?? my ?? en);
-			hans = String(hans ?? cn ?? sg ?? my ?? zh);
-			hant = String(hant ?? tw ?? hk ?? mo ?? zh);
-			cn = String(cn ?? hans);
-			sg = String(sg ?? hans);
-			tw = String(tw ?? hant);
-			hk = String(hk ?? hant);
-			mo = String(mo ?? hant);
-			my = String(my ?? hant);
-			en = String(en ?? zh);
-
-			return i18nMethods[method]({
-				en: en as string,
-				zh: zh as string,
-				'zh-hans': hans as string,
-				'zh-hant': hant as string,
-				'zh-cn': cn as string,
-				'zh-tw': tw as string,
-				'zh-hk': hk as string,
-				'zh-sg': sg as string,
-				'zh-mo': mo as string,
-				'zh-my': my as string,
-			});
+		(method: I18nMethodName): WgUXS =>
+		(...candidates: WgUXSCandicates) => {
+			return i18nMethods[method](toCandidates(candidates));
 		};
 
 	const wgUCS = createShim('content');

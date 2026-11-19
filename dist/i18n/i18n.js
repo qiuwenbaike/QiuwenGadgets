@@ -74,34 +74,51 @@ __export(i18n_exports, {
   wgUVS: () => wgUVS
 });
 module.exports = __toCommonJS(i18n_exports);
-//! src/i18n/options.json
-var defaultLanguageCode = "en";
-var fallbackTable = {
-  zh: ["zh", "zh-hans", "zh-hant", "zh-cn", "zh-tw", "zh-hk", "zh-sg", "zh-mo", "zh-my"],
-  "zh-hans": ["zh-hans", "zh-cn", "zh-sg", "zh-my", "zh", "zh-hant", "zh-tw", "zh-hk", "zh-mo"],
-  "zh-hant": ["zh-hant", "zh-tw", "zh-hk", "zh-mo", "zh", "zh-hans", "zh-cn", "zh-sg", "zh-my"],
-  "zh-cn": ["zh-cn", "zh-hans", "zh-sg", "zh-my", "zh", "zh-hant", "zh-tw", "zh-hk", "zh-mo"],
-  "zh-sg": ["zh-sg", "zh-hans", "zh-cn", "zh-my", "zh", "zh-hant", "zh-tw", "zh-hk", "zh-mo"],
-  "zh-my": ["zh-my", "zh-hans", "zh-cn", "zh-sg", "zh", "zh-hant", "zh-tw", "zh-hk", "zh-mo"],
-  "zh-tw": ["zh-tw", "zh-hant", "zh-hk", "zh-mo", "zh", "zh-hans", "zh-cn", "zh-sg", "zh-my"],
-  "zh-hk": ["zh-hk", "zh-hant", "zh-mo", "zh-tw", "zh", "zh-hans", "zh-cn", "zh-sg", "zh-my"],
-  "zh-mo": ["zh-mo", "zh-hant", "zh-hk", "zh-tw", "zh", "zh-hans", "zh-cn", "zh-sg", "zh-my"]
-};
-//! src/i18n/modules/util/generateLanguageCodeSplitArray.ts
-var generateLanguageCodeSplitArray = (originLanguageCode) => {
-  const languageCodeSplitArray = originLanguageCode.split("-").map((value) => {
-    return value.toLowerCase();
-  });
-  return languageCodeSplitArray;
-};
 //! src/i18n/modules/util/isValidKey.ts
 var isValidKey = (object, key) => {
   return Object.hasOwn(object, key);
 };
-//! src/i18n/modules/util/generateDefaultFallbackList.ts
-var generateDefaultFallbackList = () => {
-  const documentLanguageSplitArray = generateLanguageCodeSplitArray(document.documentElement.lang);
-  const navigatorLanguageSplitArray = generateLanguageCodeSplitArray(navigator.language);
+//! src/i18n/options.json
+var defaultLanguageCode = "en";
+var fallbackGroups = {
+  hans: ["zh-hans", "zh-cn", "zh-sg", "zh-my"],
+  hant: ["zh-hant", "zh-tw", "zh-hk", "zh-mo"]
+};
+//! src/i18n/modules/util/generateFallbackTable.ts
+var HANT_REGION_PEER = {
+  "zh-hk": "zh-mo",
+  "zh-mo": "zh-hk"
+};
+var ZH_ORDER = ["zh-hans", "zh-hant", "zh-cn", "zh-tw", "zh-hk", "zh-sg", "zh-mo", "zh-my"];
+var generateFallbackTable = () => {
+  const {
+    hans,
+    hant
+  } = fallbackGroups;
+  const table = {
+    zh: ["zh", ...ZH_ORDER]
+  };
+  for (const [group, otherGroup] of [[hans, hant], [hant, hans]]) {
+    const primary = group[0];
+    for (const locale of group) {
+      const peer = HANT_REGION_PEER[locale];
+      const sameScript = peer && group.includes(peer) ? [locale, primary, peer, ...group.filter((name) => name !== locale && name !== peer && name !== primary)] : [locale, ...group.filter((name) => name !== locale)];
+      table[locale] = [...sameScript, "zh", ...otherGroup];
+    }
+  }
+  return table;
+};
+var fallbackTable = generateFallbackTable();
+//! src/i18n/modules/util/resolveLocaleChain.ts
+var splitLanguageCode = (languageCode) => {
+  return languageCode.split("-").map((value) => value.toLowerCase());
+};
+var generateBrowserFallback = ({
+  documentLanguage = document.documentElement.lang,
+  navigatorLanguage = navigator.language
+} = {}) => {
+  const documentLanguageSplitArray = splitLanguageCode(documentLanguage);
+  const navigatorLanguageSplitArray = splitLanguageCode(navigatorLanguage);
   let languageCode = defaultLanguageCode;
   for (const languageCodeSplitArray of [documentLanguageSplitArray, navigatorLanguageSplitArray]) {
     switch (languageCodeSplitArray.length) {
@@ -121,23 +138,26 @@ var generateDefaultFallbackList = () => {
   }
   return [.../* @__PURE__ */ new Set([languageCode, defaultLanguageCode])];
 };
+var resolveLocaleChain = (locale, environment = {}) => {
+  const browserFallback = generateBrowserFallback(environment);
+  let tableFallback = browserFallback;
+  for (const key of [locale, ...browserFallback]) {
+    if (isValidKey(fallbackTable, key)) {
+      tableFallback = fallbackTable[key];
+      break;
+    }
+  }
+  return [.../* @__PURE__ */ new Set([locale, ...tableFallback, ...browserFallback])];
+};
 //! src/i18n/modules/initI18nMethods.ts
 var initI18nMethods = () => {
-  const defaultFallbackList = generateDefaultFallbackList();
   const fallbackLists = /* @__PURE__ */ new Map();
   const getFallbackList = (locale) => {
     const cachedFallbackList = fallbackLists.get(locale);
     if (cachedFallbackList) {
       return cachedFallbackList;
     }
-    let fallbackList = defaultFallbackList;
-    for (const key of [locale, ...fallbackList]) {
-      if (isValidKey(fallbackTable, key)) {
-        fallbackList = fallbackTable[key];
-        break;
-      }
-    }
-    const resolvedFallbackList = [.../* @__PURE__ */ new Set([locale, ...fallbackList, ...defaultFallbackList])];
+    const resolvedFallbackList = resolveLocaleChain(locale);
     fallbackLists.set(locale, resolvedFallbackList);
     return resolvedFallbackList;
   };
@@ -168,31 +188,34 @@ var initI18nMethods = () => {
   return i18nMethods2;
 };
 //! src/i18n/modules/initShims.ts
+var toCandidates = (candidates) => {
+  const [rawHans, rawHant, rawCn, rawTw, rawHk, rawSg, rawZh, rawMo, rawMy, rawEn] = candidates;
+  const zh = String(rawZh ?? rawHans ?? rawHant ?? rawCn ?? rawTw ?? rawHk ?? rawSg ?? rawMo ?? rawMy ?? rawEn);
+  const hans = String(rawHans ?? rawCn ?? rawSg ?? rawMy ?? zh);
+  const hant = String(rawHant ?? rawTw ?? rawHk ?? rawMo ?? zh);
+  const cn = String(rawCn ?? hans);
+  const sg = String(rawSg ?? hans);
+  const tw = String(rawTw ?? hant);
+  const hk = String(rawHk ?? hant);
+  const mo = String(rawMo ?? hant);
+  const my = String(rawMy ?? hant);
+  const en = String(rawEn ?? zh);
+  return {
+    en,
+    zh,
+    "zh-hans": hans,
+    "zh-hant": hant,
+    "zh-cn": cn,
+    "zh-tw": tw,
+    "zh-hk": hk,
+    "zh-sg": sg,
+    "zh-mo": mo,
+    "zh-my": my
+  };
+};
 var initShims = (i18nMethods2) => {
   const createShim = (method) => (...candidates) => {
-    let [hans, hant, cn, tw, hk, sg, zh, mo, my, en] = candidates;
-    zh = String(zh ?? hans ?? hant ?? cn ?? tw ?? hk ?? sg ?? mo ?? my ?? en);
-    hans = String(hans ?? cn ?? sg ?? my ?? zh);
-    hant = String(hant ?? tw ?? hk ?? mo ?? zh);
-    cn = String(cn ?? hans);
-    sg = String(sg ?? hans);
-    tw = String(tw ?? hant);
-    hk = String(hk ?? hant);
-    mo = String(mo ?? hant);
-    my = String(my ?? hant);
-    en = String(en ?? zh);
-    return i18nMethods2[method]({
-      en,
-      zh,
-      "zh-hans": hans,
-      "zh-hant": hant,
-      "zh-cn": cn,
-      "zh-tw": tw,
-      "zh-hk": hk,
-      "zh-sg": sg,
-      "zh-mo": mo,
-      "zh-my": my
-    });
+    return i18nMethods2[method](toCandidates(candidates));
   };
   const wgUCS2 = createShim("content");
   const wgULS2 = createShim("localize");
@@ -220,64 +243,6 @@ var {
   ...i18nMethods,
   ...i18nShimMethods
 };
-/*!
-// 仓库内用法
-	// 定义多条消息
-	// 支持多语言，可选值定义在modules/types.d.ts#L-1，可直接添加其他值（RFC 5646）
-	import {content, localize, vary} from 'ext.gadget.i18n';
-	const getI18nMessages = () => {
-		// i18n的三个方法会匹配当前语言和它所接收对象中的键，对于localize来说，假设已定义zh、en和ja，则
-		//   当页面语言（wgUserLanguage ?? wgContentLanguage）为中文/英语/日语时，返回页面语言所对应的值
-		//   当页面语言为法语，浏览器语言为中文/英语/日语时，返回浏览器语言所对应的值
-		//   当页面语言为法语，且不存在浏览器语言所对应的键，返回L-25定义的键所对应的值。若此键同样没被定义，则返回空字符串
-		return {
-			Cancel: content({
-				en: 'Cancel',
-				ja: 'キャンセル',
-				zh: '取消',
-			}),
-			QiuWen: localize({
-				en: 'QiuWen',
-				ja: 'ちゅううん',
-				'zh-cn': '求闻',
-				'zh-hk': '求聞',
-			}),
-			LongText: vary({
-				en: 'This is a very long text',
-				ja: 'これは非常に長いテキストです',
-				'zh-hans': '这是一段非常长的文本',
-				'zh-hant': '這是一段非常長的文字',
-			}),
-		};
-	};
-	const i18nMessages = getI18nMessages();
-	const getMessage: GetMessages<typeof i18nMessages> = (key) => {
-		return i18nMessages[key] || key;
-	};
-	// 调用
-	getMessage('Cancel'); // en: Cancel, ja: キャンセル, zh: 取消, zh-hans: 取消, zh-hant: 取消, zh-cn: 取消, zh-hk: 取消, zh-tw: 取消
-	getMessage('QiuWen'); // en: QiuWen, ja: ちゅううん, zh: 求闻, zh-hans: 求闻, zh-hant: 求聞, zh-cn: 求闻, zh-hk: 求聞, zh-tw: 求聞
-	getMessage('LongText');
-		// en: This is a very long text
-		// ja: これは非常に長いテキストです
-		// zh: 这是一段非常长的文本
-		// zh-hans: 这是一段非常长的文本
-		// zh-hant: 這是一段非常長的文字
-		// zh-cn: 这是一段非常长的文本
-		// zh-hk: 這是一段非常長的文字
-		// zh-tw: 這是一段非常長的文字
-
-	// 直接转换单条消息（不推荐，仅为兼容性保留）
-	// 仅支持传递中文和英语。在非中文环境且未传递英语文本时，最终返回zh的值
-	wgUCS('求闻', '求聞'); // en: 求闻, ja: 求闻, zh: 求闻, zh-hans: 求闻, zh-hant: 求聞, zh-cn: 求闻, zh-hk: 求聞, zh-tw: 求聞
-	wgULS('求闻', '求聞'); // en: 求闻, ja: 求闻, zh: 求闻, zh-hans: 求闻, zh-hant: 求聞, zh-cn: 求闻, zh-hk: 求聞, zh-tw: 求聞
-	wgUVS('求闻', '求聞'); // en: 求闻, ja: 求闻, zh: 求闻, zh-hans: 求闻, zh-hant: 求聞, zh-cn: 求闻, zh-hk: 求聞, zh-tw: 求聞
-
-	// 非MediaWiki命名空间的脚本可以通过mw.loader.using加载ext.gadget.i18n模块
-	mw.loader.using('ext.gadget.i18n').then((require) => {
-		const {content, localize, vary} = require('ext.gadget.i18n');
-	});
- */
 
 })();
 

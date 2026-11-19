@@ -1,10 +1,8 @@
-import * as OPTIONS from '../options.json';
-import type {I18nCandidates} from './types';
-import {generateDefaultFallbackList} from './util/generateDefaultFallbackList';
+import type {I18nCandidates, I18nMethods} from './types';
 import {isValidKey} from './util/isValidKey';
+import {resolveLocaleChain} from './util/resolveLocaleChain';
 
-const initI18nMethods = (): typeof i18nMethods => {
-	const defaultFallbackList: string[] = generateDefaultFallbackList();
+const initI18nMethods = (): I18nMethods => {
 	const fallbackLists = new Map<string, string[]>();
 
 	const getFallbackList = (locale: string): string[] => {
@@ -13,15 +11,7 @@ const initI18nMethods = (): typeof i18nMethods => {
 			return cachedFallbackList;
 		}
 
-		let fallbackList: string[] = defaultFallbackList;
-		for (const key of [locale, ...fallbackList]) {
-			if (isValidKey(OPTIONS.fallbackTable, key)) {
-				fallbackList = OPTIONS.fallbackTable[key];
-				break;
-			}
-		}
-
-		const resolvedFallbackList = [...new Set([locale, ...fallbackList, ...defaultFallbackList])];
+		const resolvedFallbackList = resolveLocaleChain(locale);
 		fallbackLists.set(locale, resolvedFallbackList);
 		return resolvedFallbackList;
 	};
@@ -38,7 +28,7 @@ const initI18nMethods = (): typeof i18nMethods => {
 
 	const {wgContentLanguage, wgUserLanguage, wgUserVariant} = mw.config.get();
 
-	const i18nMethods: Partial<typeof import('ext.gadget.i18n')> = {
+	const i18nMethods: I18nMethods = {
 		content: (candidates) => {
 			return elect(candidates, wgContentLanguage);
 		},
