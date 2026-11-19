@@ -651,21 +651,14 @@ twinklefluff.callbacks = {
 		}
 		const lastuser = top.getAttribute('user');
 		if (lastrevid < params.revid) {
-			Morebits.status.error(
-				uls('错误', '錯誤'),
+			Morebits.status.error(uls('错误', '錯誤'), [
+				uls('从服务器获取的最新修订版本ID ', '從伺服器取得的最新修訂版本ID '),
+				Morebits.htmlNode('strong', String(lastrevid)),
 				uls(
-					[
-						'从服务器获取的最新修订版本ID ',
-						Morebits.htmlNode('strong', String(lastrevid)),
-						' 小于目前所显示的修订版本ID。这可能意味着当前修订版本已被删除、服务器延迟、或抓取到了坏掉的信息。取消。',
-					],
-					[
-						'從伺服器取得的最新修訂版本ID ',
-						Morebits.htmlNode('strong', String(lastrevid)),
-						' 小於目前所顯示的修訂版本ID。這可能意味著當前修訂版本已被刪除、伺服器延遲、或擷取到了壞掉的資訊。取消。',
-					]
-				)
-			);
+					' 小于目前所显示的修订版本ID。这可能意味着当前修订版本已被删除、服务器延迟、或抓取到了坏掉的信息。取消。',
+					' 小於目前所顯示的修訂版本ID。這可能意味著當前修訂版本已被刪除、伺服器延遲、或擷取到了壞掉的資訊。取消。'
+				),
+			]);
 			return;
 		}
 		// Used for user-facing alerts, messages, etc., not edits or summaries
@@ -677,25 +670,13 @@ twinklefluff.callbacks = {
 			params.user = lastuser;
 			userNorm = params.user || twinklefluff.hiddenName;
 		} else {
-			Morebits.status.warn(
-				'警告',
-				uls(
-					[
-						'最新修订版本 ',
-						Morebits.htmlNode('strong', String(lastrevid)),
-						' 与我们的修订版本 ',
-						Morebits.htmlNode('strong', String(params.revid)),
-						'不同',
-					],
-					[
-						'最新修訂版本 ',
-						Morebits.htmlNode('strong', String(lastrevid)),
-						' 與我們的修訂版本 ',
-						Morebits.htmlNode('strong', String(params.revid)),
-						' 不同',
-					]
-				)
-			);
+			Morebits.status.warn('警告', [
+				uls('最新修订版本 ', '最新修訂版本 '),
+				Morebits.htmlNode('strong', String(lastrevid)),
+				uls(' 与我们的修订版本 ', ' 與我們的修訂版本 '),
+				Morebits.htmlNode('strong', String(params.revid)),
+				uls('不同', '不同'),
+			]);
 			if (lastuser === params.user) {
 				switch (params.type) {
 					case 'vand':
@@ -722,38 +703,24 @@ twinklefluff.callbacks = {
 				// against the numeric revid, so this branch never matches
 				revs[1]?.getAttribute('revid') === (params.revid as unknown as string)
 			) {
-				Morebits.status.info(
-					uls('信息', '資訊'),
+				Morebits.status.info(uls('信息', '資訊'), [
+					uls('最新修订版本由 ', '最新修訂版本由 '),
+					Morebits.htmlNode('strong', lastuser ?? ''),
 					uls(
-						[
-							'最新修订版本由 ',
-							Morebits.htmlNode('strong', lastuser ?? ''),
-							'，一个可信的机器人做出，但之前的版本被认为是破坏，继续回退操作。',
-						],
-						[
-							'最新修訂版本由 ',
-							Morebits.htmlNode('strong', lastuser ?? ''),
-							'，一個可信的機器人做出，但之前的版本被認為是破壞，繼續回退操作。',
-						]
-					)
-				);
+						'，一个可信的机器人做出，但之前的版本被认为是破坏，继续回退操作。',
+						'，一個可信的機器人做出，但之前的版本被認為是破壞，繼續回退操作。'
+					),
+				]);
 				index = 2;
 			} else {
-				Morebits.status.error(
-					uls('错误', '錯誤'),
+				Morebits.status.error(uls('错误', '錯誤'), [
+					uls('最新修订版本由 ', '最新修訂版本由 '),
+					Morebits.htmlNode('strong', lastuser ?? ''),
 					uls(
-						[
-							'最新修订版本由 ',
-							Morebits.htmlNode('strong', lastuser ?? ''),
-							' 做出，所以这个修订版本可能已经被回退了，取消回退操作。',
-						],
-						[
-							'最新修訂版本由 ',
-							Morebits.htmlNode('strong', lastuser ?? ''),
-							' 做出，所以這個修訂版本可能已經被回退了，取消回退操作。',
-						]
-					)
-				);
+						' 做出，所以这个修订版本可能已经被回退了，取消回退操作。',
+						' 做出，所以這個修訂版本可能已經被回退了，取消回退操作。'
+					),
+				]);
 				return;
 			}
 		}

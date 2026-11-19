@@ -540,7 +540,6 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 					);
 					return;
 				}
-				ewipPage.setPageSection(0);
 				ewipPage.getStatusElement().status(uls('加入新报告…', '加入新報告…'));
 				ewipPage.setEditSummary(summary);
 				ewipPage.setChangeTags(Twinkle.changeTags);
@@ -658,7 +657,6 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 					);
 					return;
 				}
-				aivPage.setPageSection(0);
 				aivPage.getStatusElement().status(uls('加入新报告…', '加入新報告…'));
 				aivPage.setEditSummary(summary);
 				aivPage.setChangeTags(Twinkle.changeTags);

@@ -27,7 +27,14 @@
 //! src/morebits/utils/useUls.ts
 var import_ext_gadget = require("ext.gadget.i18n");
 var uls = (simplified, traditional) => {
-  return typeof import_ext_gadget.wgULS === "function" ? (0, import_ext_gadget.wgULS)(simplified, traditional) : simplified;
+  const hans = String(simplified);
+  const hant = String(traditional);
+  return (0, import_ext_gadget.localize)({
+    "zh-hans": hans,
+    "zh-hant": hant,
+    "zh-my": hant,
+    en: hans
+  });
 };
 //! src/morebits/morebits.ts
 /*! Twinkle.js - morebits.ts */

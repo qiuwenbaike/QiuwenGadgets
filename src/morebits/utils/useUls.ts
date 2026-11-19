@@ -1,14 +1,13 @@
-import {wgULS} from 'ext.gadget.i18n';
+import {localize} from 'ext.gadget.i18n';
 /**
- * Bridge for `wgULS` (simplified/traditional Chinese interface switch)
- * inside Vue components.
+ * Bridge for simplified/traditional Chinese interface text inside Vue components.
  *
- * `wgULS` is provided by the target wiki's gadget infrastructure and is not
- * declared by types-mediawiki, so it is declared globally here. The variant
- * is fixed at page load (switching variants reloads the page), so no
+ * The variant is fixed at page load (switching variants reloads the page), so no
  * reactivity is required: call `uls()` during `setup()`.
  */
 
 export const uls = (simplified: unknown, traditional: unknown): string => {
-	return typeof wgULS === 'function' ? wgULS(simplified, traditional) : (simplified as string);
+	const hans = String(simplified);
+	const hant = String(traditional);
+	return localize({'zh-hans': hans, 'zh-hant': hant, 'zh-my': hant, en: hans});
 };
