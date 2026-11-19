@@ -17,7 +17,7 @@ import type {
 	HotCatSuggestionEngine,
 	HotCatSuggestionTitles,
 } from './modules/types';
-import {type HotCatCategoryMatches, type HotCatChangeResult, createCategoryTextTools} from './modules/categoryText';
+import {type HotCatChangeResult, createCategoryTextTools} from './modules/categoryText';
 import {createHotCatConfig} from './modules/configuration';
 import {createHotCatUtilities} from './modules/utilities';
 import {createSuggestionData} from './modules/suggestions';
@@ -60,7 +60,7 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 		replaceShortcuts,
 	} = createHotCatUtilities(conf, HC);
 	let interlanguageRE: RegExp | null = null;
-	const {find_category, change_category} = createCategoryTextTools(
+	const {find_category, change_category, list_categorys} = createCategoryTextTools(
 		HC,
 		wikiTextBlank,
 		wikiTextBlankRE,
@@ -790,7 +790,7 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 		constructor(
 			line: HTMLElement | null,
 			span: HTMLElement | null,
-			after: string | HTMLElement | null,
+			after: string | string[] | HTMLElement | null,
 			key?: string | boolean | null,
 			is_hidden?: boolean
 		) {
@@ -799,7 +799,7 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 		initialize(
 			line: HTMLElement | null,
 			span: HTMLElement | null,
-			after: string | HTMLElement | null,
+			after: string | string[] | HTMLElement | null,
 			key?: string | boolean | null,
 			is_hidden?: boolean
 		): void {
@@ -812,7 +812,7 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 				}
 				this.isAddCategory = false;
 				this.catLink = span.firstChild as HTMLAnchorElement;
-				this.originalCategory = after as string;
+				this.originalCategory = Array.isArray(after) ? (after[0] ?? '') : ((after as string | null) ?? '');
 				this.originalKey = typeof key === 'string' && key.length > 1 ? key.slice(1) : null; // > 1 because it includes the leading bar
 				this.originalExists = !hasClass(this.catLink, 'new');
 				// Create change and del links
@@ -872,13 +872,15 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 			this.line = line;
 			this.engine = HC.suggestions;
 			this.span = span!;
-			this.currentCategory = this.originalCategory;
+			// When the category bar uses a converted variant title, 'after' is
+			// [name in wikitext, name displayed in the category bar].
+			this.currentCategory = Array.isArray(after) ? (after[1] ?? this.originalCategory) : this.originalCategory;
 			this.currentExists = this.originalExists;
 			this.currentHidden = this.originalHidden;
 			this.currentKey = this.originalKey;
 			this.state = UNCHANGED;
 			this.lastSavedState = UNCHANGED;
-			this.lastSavedCategory = this.originalCategory;
+			this.lastSavedCategory = this.currentCategory;
 			this.lastSavedKey = this.originalKey;
 			this.lastSavedExists = this.originalExists;
 			this.lastSavedHidden = this.originalHidden;
@@ -1431,11 +1433,18 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 			checkMultiInput();
 		}
 		commit(): void {
-			// Check again to catch problem cases after redirect resolution
+			// Check again to catch problem cases after redirect resolution.
+			// For a category displayed with a converted variant title, originalCategory is the wikitext
+			// spelling while lastSavedCategory is the displayed one; comparing against originalCategory
+			// alone would save a change even when the user did not edit anything. Comparing against
+			// lastSavedCategory alone would miss a manual revert to the original spelling.
+			const sameKey = (a: string | null, b: string | null): boolean =>
+				a === b || (a === null && b !== null && b.length === 0);
+			const unchanged =
+				(this.currentCategory === this.originalCategory && sameKey(this.currentKey, this.originalKey)) ||
+				(this.currentCategory === this.lastSavedCategory && sameKey(this.currentKey, this.lastSavedKey));
 			if (
-				(this.currentCategory === this.originalCategory &&
-					(this.currentKey === this.originalKey ||
-						(this.currentKey === null && this.originalKey!.length === 0))) ||
+				unchanged ||
 				(conf.wgNamespaceNumber === 14 && this.currentCategory === conf.wgTitle) ||
 				(HC.blacklist && HC.blacklist.test(this.currentCategory))
 			) {
@@ -2459,12 +2468,18 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 		}
 	};
 	let cleanedText: string | null = null;
-	interface HotCatOnPageResult {
-		title: string;
-		match: RegExpExecArray | HotCatCategoryMatches | string[] | null;
-	}
-	const isOnPage = (element: Element): HotCatOnPageResult | null => {
-		const {firstChild} = element;
+	const getCleanedText = (): string | null => {
+		if (pageText === null) {
+			return null;
+		}
+		if (cleanedText === null) {
+			const nowikiRegex = new RegExp('<no'.concat('wiki>', String.raw`(\s|\S)*?</no`, 'wiki', '>'), 'g');
+			cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
+		}
+		return cleanedText;
+	};
+	const getTitle = (span: HTMLElement): string | null => {
+		const {firstChild} = span;
 		if (!firstChild || firstChild.nodeType !== Node.ELEMENT_NODE) {
 			return null;
 		}
@@ -2472,23 +2487,11 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 		if (!catTitle) {
 			return null;
 		}
-		catTitle = catTitle.slice(catTitle.indexOf(':') + 1).replace(/_/g, ' ');
+		catTitle = catTitle.slice(Math.max(0, catTitle.indexOf(':') + 1)).replace(/_/g, ' ');
 		if (HC.blacklist && HC.blacklist.test(catTitle)) {
 			return null;
 		}
-		const result: HotCatOnPageResult = {
-			title: catTitle,
-			match: ['', '', ''],
-		};
-		if (pageText === null) {
-			return result;
-		}
-		if (cleanedText === null) {
-			const nowikiRegex = new RegExp('<no'.concat('wiki>', String.raw`(\s|\S)*?</no`, 'wiki', '>'), 'g');
-			cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, '').replace(nowikiRegex, '');
-		}
-		result.match = find_category(cleanedText, catTitle, true);
-		return result;
+		return catTitle;
 	};
 	let initialized = false;
 	let setupTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -2547,7 +2550,14 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 			catLine.dir = 'rtl';
 		}
 		// Create editors for all existing categories
-		const createEditors = (line: HTMLElement, is_hidden?: boolean): HTMLElement | null => {
+		const chkCats: string[] = [];
+		const inpIndex = new Map<string, number>();
+		const catLinks = new Map<string, {element: HTMLElement; line: HTMLElement; isHidden: boolean}>();
+		const boundCats = new Set<number>();
+		const boundTitles = new Set<string>();
+		const text = getCleanedText();
+		const inpageCats = text === null ? [] : list_categorys(text);
+		const createEditors = (line: HTMLElement, isHidden: boolean): HTMLElement | null => {
 			let cats: NodeListOf<HTMLElement> | HTMLElement[] = line.querySelectorAll<HTMLElement>('li');
 			if (cats.length > 0) {
 				newDOM = true;
@@ -2557,13 +2567,94 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 			}
 			// Copy cats, otherwise it'll also magically contain our added spans as it is a live collection!
 			const copyCats = Array.from(cats);
+			// Category links are displayed in the page's language variant, while the wikitext may use
+			// another variant. Index the displayed titles so that wikitext categories can be mapped back
+			// to their links. A Map is used because the keys come from page content.
 			for (const cat of copyCats) {
-				const test = isOnPage(cat);
-				if (test !== null && test.match !== null && line) {
-					new CategoryEditor(line, cat, test.title, (test.match as string[])[2], is_hidden);
+				const catTitle = getTitle(cat);
+				if (catTitle !== null) {
+					catLinks.set(catTitle, {element: cat, line, isHidden});
+				}
+			}
+			if (text === null) {
+				// The wikitext has not arrived yet (setup timeout): still bind the links, without keys.
+				for (const cat of copyCats) {
+					const catTitle = getTitle(cat);
+					if (catTitle !== null) {
+						new CategoryEditor(line, cat, catTitle, null, isHidden);
+					}
+				}
+				return copyCats.length > 0 ? copyCats.at(-1)! : null;
+			}
+			for (let i = 0; i < inpageCats.length; i++) {
+				const {match} = inpageCats[i]!;
+				let normalized = match[2]!.replace(wikiTextBlankRE, ' ');
+				if (HC.capitalizePageNames) {
+					normalized = capitalize(normalized);
+				}
+				const target = catLinks.get(normalized);
+				if (target) {
+					if (!boundTitles.has(normalized)) {
+						boundTitles.add(normalized);
+						boundCats.add(i);
+						new CategoryEditor(target.line, target.element, match[2]!, match[3], target.isHidden);
+					}
+					if (isHidden && inpIndex.has(normalized)) {
+						const catTitle = `${HC.category_canonical}:${normalized}`;
+						const index = chkCats.indexOf(catTitle);
+						if (index !== -1) {
+							chkCats.splice(index, 1);
+						}
+						inpIndex.delete(normalized);
+					}
+				} else if (!isHidden) {
+					chkCats.push(`${HC.category_canonical}:${normalized}`);
+					inpIndex.set(normalized, i);
 				}
 			}
 			return copyCats.length > 0 ? copyCats.at(-1)! : null;
+		};
+		const resolveVariants = (): void => {
+			if (text === null || chkCats.length === 0) {
+				return;
+			}
+			// Ask the API to convert the unmatched wikitext titles into the current variant, then bind
+			// them to the corresponding links. This makes categories written in another variant
+			// editable/removable instead of being silently ignored.
+			const params: ApiQueryParams = {
+				action: 'query',
+				format: 'json',
+				titles: [...new Set(chkCats)].join('|'),
+				redirects: true,
+				converttitles: true,
+			};
+			api.get(params)
+				.done((json) => {
+					const {converted} = (json as HotCatApiQueryResponse).query ?? {};
+					if (!converted) {
+						return;
+					}
+					for (const {from, to} of converted) {
+						const sOriginal = inpIndex.get(
+							from.slice(Math.max(0, from.indexOf(':') + 1)).replace(wikiTextBlankRE, ' ')
+						);
+						if (sOriginal === undefined || boundCats.has(sOriginal)) {
+							continue;
+						}
+						const sTitle = to.slice(Math.max(0, to.indexOf(':') + 1)).replace(/_/g, ' ');
+						const target = catLinks.get(sTitle);
+						if (!target || !target.element.isConnected || boundTitles.has(sTitle)) {
+							continue;
+						}
+						boundCats.add(sOriginal);
+						boundTitles.add(sTitle);
+						const {match} = inpageCats[sOriginal]!;
+						new CategoryEditor(target.line, target.element, [match[2]!, sTitle], match[3], target.isHidden);
+					}
+				})
+				.fail(() => {
+					/* empty */
+				});
 		};
 		const lastSpan = createEditors(catLine, false);
 		// Create one to add a new category
@@ -2601,6 +2692,7 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 			link!.title = getMessage('multi_tooltip');
 			link!.style.cursor = 'pointer';
 		}
+		resolveVariants();
 		cleanedText = null;
 		if (additionalWork instanceof Function) {
 			additionalWork();

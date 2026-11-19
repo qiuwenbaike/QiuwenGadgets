@@ -443,6 +443,18 @@ var createCategoryTextTools = (HC, wikiTextBlank, wikiTextBlankRE, wikiTextBlank
     result.re = cat_regex;
     return result;
   };
+  const list_categorys = (wikitext) => {
+    const cat_regex = new RegExp(`\\[\\[${wikiTextBlankOrBidi}(${HC.category_regexp})${wikiTextBlankOrBidi}:${wikiTextBlankOrBidi}([^\\[\\]]+?)${wikiTextBlankOrBidi}(\\|.*?)?\\]\\]`, "g");
+    const result = [];
+    let curr_match = null;
+    while ((curr_match = cat_regex.exec(wikitext)) !== null) {
+      result[result.length] = {
+        match: curr_match
+      };
+    }
+    result.re = cat_regex;
+    return result;
+  };
   const change_category = (wikitext, toRemove, toAdd, key, is_hidden) => {
     const find_insertionpoint = (_wikitext) => {
       const nowikiRegex = new RegExp("<no".concat("wiki>", String.raw`(\s|\S)*?</no`, "wiki", ">"), "g");
@@ -584,7 +596,8 @@ ${suffix}` : suffix;
   };
   return {
     find_category,
-    change_category
+    change_category,
+    list_categorys
   };
 };
 //! src/HotCat/images/P_no.svg
@@ -1006,7 +1019,8 @@ void (0, import_ext_gadget3.getBody)().then(function hotCat($body) {
   let interlanguageRE = null;
   const {
     find_category,
-    change_category
+    change_category,
+    list_categorys
   } = createCategoryTextTools(HC, wikiTextBlank, wikiTextBlankRE, wikiTextBlankOrBidi, escapeRE, () => interlanguageRE);
   const evtKeys = (event) => {
     const {
@@ -1646,7 +1660,7 @@ ${result.text}`;
         }
         this.isAddCategory = false;
         this.catLink = span.firstChild;
-        this.originalCategory = after;
+        this.originalCategory = Array.isArray(after) ? after[0] ?? "" : after ?? "";
         this.originalKey = typeof key === "string" && key.length > 1 ? key.slice(1) : null;
         this.originalExists = !hasClass(this.catLink, "new");
         this.makeLinkSpan();
@@ -1704,13 +1718,13 @@ ${result.text}`;
       this.line = line;
       this.engine = HC.suggestions;
       this.span = span;
-      this.currentCategory = this.originalCategory;
+      this.currentCategory = Array.isArray(after) ? after[1] ?? this.originalCategory : this.originalCategory;
       this.currentExists = this.originalExists;
       this.currentHidden = this.originalHidden;
       this.currentKey = this.originalKey;
       this.state = UNCHANGED;
       this.lastSavedState = UNCHANGED;
-      this.lastSavedCategory = this.originalCategory;
+      this.lastSavedCategory = this.currentCategory;
       this.lastSavedKey = this.originalKey;
       this.lastSavedExists = this.originalExists;
       this.lastSavedHidden = this.originalHidden;
@@ -2202,7 +2216,9 @@ ${result.text}`;
       checkMultiInput();
     }
     commit() {
-      if (this.currentCategory === this.originalCategory && (this.currentKey === this.originalKey || this.currentKey === null && this.originalKey.length === 0) || conf.wgNamespaceNumber === 14 && this.currentCategory === conf.wgTitle || HC.blacklist && HC.blacklist.test(this.currentCategory)) {
+      const sameKey = (a, b) => a === b || a === null && b !== null && b.length === 0;
+      const unchanged = this.currentCategory === this.originalCategory && sameKey(this.currentKey, this.originalKey) || this.currentCategory === this.lastSavedCategory && sameKey(this.currentKey, this.lastSavedKey);
+      if (unchanged || conf.wgNamespaceNumber === 14 && this.currentCategory === conf.wgTitle || HC.blacklist && HC.blacklist.test(this.currentCategory)) {
         this.cancel();
         return;
       }
@@ -3058,10 +3074,20 @@ ${new_cat}`;
     }
   };
   let cleanedText = null;
-  const isOnPage = (element) => {
+  const getCleanedText = () => {
+    if (pageText === null) {
+      return null;
+    }
+    if (cleanedText === null) {
+      const nowikiRegex = new RegExp("<no".concat("wiki>", String.raw`(\s|\S)*?</no`, "wiki", ">"), "g");
+      cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, "").replace(nowikiRegex, "");
+    }
+    return cleanedText;
+  };
+  const getTitle = (span) => {
     const {
       firstChild
-    } = element;
+    } = span;
     if (!firstChild || firstChild.nodeType !== Node.ELEMENT_NODE) {
       return null;
     }
@@ -3069,23 +3095,11 @@ ${new_cat}`;
     if (!catTitle) {
       return null;
     }
-    catTitle = catTitle.slice(catTitle.indexOf(":") + 1).replace(/_/g, " ");
+    catTitle = catTitle.slice(Math.max(0, catTitle.indexOf(":") + 1)).replace(/_/g, " ");
     if (HC.blacklist && HC.blacklist.test(catTitle)) {
       return null;
     }
-    const result = {
-      title: catTitle,
-      match: ["", "", ""]
-    };
-    if (pageText === null) {
-      return result;
-    }
-    if (cleanedText === null) {
-      const nowikiRegex = new RegExp("<no".concat("wiki>", String.raw`(\s|\S)*?</no`, "wiki", ">"), "g");
-      cleanedText = pageText.replace(/<!--(\s|\S)*?-->/g, "").replace(nowikiRegex, "");
-    }
-    result.match = find_category(cleanedText, catTitle, true);
-    return result;
+    return catTitle;
   };
   let initialized = false;
   let setupTimeout = null;
@@ -3138,7 +3152,14 @@ ${new_cat}`;
     if (is_rtl) {
       catLine.dir = "rtl";
     }
-    const createEditors = (line, is_hidden) => {
+    const chkCats = [];
+    const inpIndex = /* @__PURE__ */ new Map();
+    const catLinks = /* @__PURE__ */ new Map();
+    const boundCats = /* @__PURE__ */ new Set();
+    const boundTitles = /* @__PURE__ */ new Set();
+    const text = getCleanedText();
+    const inpageCats = text === null ? [] : list_categorys(text);
+    const createEditors = (line, isHidden) => {
       let cats = line.querySelectorAll("li");
       if (cats.length > 0) {
         newDOM = true;
@@ -3148,12 +3169,94 @@ ${new_cat}`;
       }
       const copyCats = Array.from(cats);
       for (const cat of copyCats) {
-        const test = isOnPage(cat);
-        if (test !== null && test.match !== null && line) {
-          new CategoryEditor(line, cat, test.title, test.match[2], is_hidden);
+        const catTitle = getTitle(cat);
+        if (catTitle !== null) {
+          catLinks.set(catTitle, {
+            element: cat,
+            line,
+            isHidden
+          });
+        }
+      }
+      if (text === null) {
+        for (const cat of copyCats) {
+          const catTitle = getTitle(cat);
+          if (catTitle !== null) {
+            new CategoryEditor(line, cat, catTitle, null, isHidden);
+          }
+        }
+        return copyCats.length > 0 ? copyCats.at(-1) : null;
+      }
+      for (let i = 0; i < inpageCats.length; i++) {
+        const {
+          match
+        } = inpageCats[i];
+        let normalized = match[2].replace(wikiTextBlankRE, " ");
+        if (HC.capitalizePageNames) {
+          normalized = capitalize(normalized);
+        }
+        const target = catLinks.get(normalized);
+        if (target) {
+          if (!boundTitles.has(normalized)) {
+            boundTitles.add(normalized);
+            boundCats.add(i);
+            new CategoryEditor(target.line, target.element, match[2], match[3], target.isHidden);
+          }
+          if (isHidden && inpIndex.has(normalized)) {
+            const catTitle = `${HC.category_canonical}:${normalized}`;
+            const index = chkCats.indexOf(catTitle);
+            if (index !== -1) {
+              chkCats.splice(index, 1);
+            }
+            inpIndex.delete(normalized);
+          }
+        } else if (!isHidden) {
+          chkCats.push(`${HC.category_canonical}:${normalized}`);
+          inpIndex.set(normalized, i);
         }
       }
       return copyCats.length > 0 ? copyCats.at(-1) : null;
+    };
+    const resolveVariants = () => {
+      if (text === null || chkCats.length === 0) {
+        return;
+      }
+      const params = {
+        action: "query",
+        format: "json",
+        titles: [...new Set(chkCats)].join("|"),
+        redirects: true,
+        converttitles: true
+      };
+      api.get(params).done((json) => {
+        const {
+          converted
+        } = json.query ?? {};
+        if (!converted) {
+          return;
+        }
+        for (const {
+          from,
+          to
+        } of converted) {
+          const sOriginal = inpIndex.get(from.slice(Math.max(0, from.indexOf(":") + 1)).replace(wikiTextBlankRE, " "));
+          if (sOriginal === void 0 || boundCats.has(sOriginal)) {
+            continue;
+          }
+          const sTitle = to.slice(Math.max(0, to.indexOf(":") + 1)).replace(/_/g, " ");
+          const target = catLinks.get(sTitle);
+          if (!target || !target.element.isConnected || boundTitles.has(sTitle)) {
+            continue;
+          }
+          boundCats.add(sOriginal);
+          boundTitles.add(sTitle);
+          const {
+            match
+          } = inpageCats[sOriginal];
+          new CategoryEditor(target.line, target.element, [match[2], sTitle], match[3], target.isHidden);
+        }
+      }).fail(() => {
+      });
     };
     const lastSpan = createEditors(catLine, false);
     new CategoryEditor(newDOM ? catLine.querySelectorAll("ul")[0] : catLine, null, null, lastSpan !== null, false);
@@ -3183,6 +3286,7 @@ ${new_cat}`;
       link.title = getMessage("multi_tooltip");
       link.style.cursor = "pointer";
     }
+    resolveVariants();
     cleanedText = null;
     if (additionalWork instanceof Function) {
       additionalWork();

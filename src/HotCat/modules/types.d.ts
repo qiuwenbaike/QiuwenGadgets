@@ -135,6 +135,11 @@ interface HotCatApiQueryResponse {
 		tokens?: {
 			csrftoken: string;
 		};
+		// Titles converted to the current language variant (action=query&converttitles=1)
+		converted?: {
+			from: string;
+			to: string;
+		}[];
 		userinfo?: {
 			options?: {
 				watchcreations?: string;

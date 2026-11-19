@@ -630,6 +630,32 @@ var catALot = async ($body) => {
       mw.storage.setObject(storageKey + category, CAL.variantCache[category], 60 * 60 * 24);
       return CAL.variantCache[category];
     }
+    static findCategorySpelling(text, regex) {
+      regex.lastIndex = 0;
+      const match = regex.exec(text);
+      regex.lastIndex = 0;
+      if (!match) {
+        return null;
+      }
+      let name = match[0].slice(match[0].indexOf(":") + 1);
+      const pipe = name.indexOf("|");
+      if (pipe !== -1) {
+        name = name.slice(0, pipe);
+      }
+      name = name.replace(/\]\]\s*$/, "").trim();
+      return name || null;
+    }
+    static normalizeCategoryForCompare(name) {
+      return name.replace(/^[\s_]+/, "").replace(/[\s_]+$/, "").replace(/[\s_]+/g, " ").replace(/^./, (char) => char.toLowerCase());
+    }
+    static async areSameCategoryVariant(a, b) {
+      if (CAL.normalizeCategoryForCompare(a) === CAL.normalizeCategoryForCompare(b)) {
+        return true;
+      }
+      const [variantsA, variantsB] = await Promise.all([CAL.findAllVariants(a), CAL.findAllVariants(b)]);
+      const variantsBSet = new Set(variantsB.map((name) => CAL.normalizeCategoryForCompare(name)));
+      return variantsA.some((name) => variantsBSet.has(CAL.normalizeCategoryForCompare(name)));
+    }
     static async regexBuilder(category) {
       const catName = CAL.localizedRegex(CAL.TARGET_NAMESPACE, "Category");
       category = category.replace(/^[\s_]+/, "").replace(/[\s_]+$/, "");
@@ -762,39 +788,48 @@ var catALot = async ($body) => {
       timestamp = revision.timestamp ?? 0;
       const sourcecat = CAL.CURRENT_CATEGROY;
       const targeRegExp = await CAL.regexBuilder(targetCategory);
+      const sourceCatRegExp = await CAL.regexBuilder(sourcecat);
+      const matchedSource = CAL.findCategorySpelling(originText, sourceCatRegExp);
+      const matchedTarget = CAL.findCategorySpelling(originText, targeRegExp);
+      const effectiveSource = matchedSource ?? sourcecat;
+      const effectiveTarget = matchedTarget ?? targetCategory;
       if (mode !== "remove" && targeRegExp.test(originText) && mode !== "move") {
+        CAL.alreadyThere.push(markedLabelTitle);
+        this.updateCounter();
+        return;
+      }
+      if ((mode === "move" || mode === "copy") && (matchedSource !== null || matchedTarget !== null) && await CAL.areSameCategoryVariant(sourcecat, targetCategory)) {
         CAL.alreadyThere.push(markedLabelTitle);
         this.updateCounter();
         return;
       }
       let text = originText;
       let summary;
-      const sourceCatRegExp = await CAL.regexBuilder(sourcecat);
       switch (mode) {
         case "add":
           text += `
-[[${CAL.localCatName}:${targetCategory}]]
+[[${CAL.localCatName}:${effectiveTarget}]]
 `;
-          summary = CAL.msg("summary-add").replace("$1", targetCategory);
+          summary = CAL.msg("summary-add").replace("$1", effectiveTarget);
           break;
         case "copy":
-          text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${sourcecat}$1]]
-[[${CAL.localCatName}:${targetCategory}$1]]`);
-          summary = CAL.msg("summary-copy").replace("$1", sourcecat).replace("$2", targetCategory);
+          text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${effectiveSource}$1]]
+[[${CAL.localCatName}:${effectiveTarget}$1]]`);
+          summary = CAL.msg("summary-copy").replace("$1", effectiveSource).replace("$2", effectiveTarget);
           if (originText === text) {
             text += `
-[[${CAL.localCatName}:${targetCategory}]]`;
+[[${CAL.localCatName}:${effectiveTarget}]]`;
           }
           break;
         case "move":
-          text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`);
-          summary = CAL.msg("summary-move").replace("$1", sourcecat).replace("$2", targetCategory);
-          const escapedSourceCat = sourcecat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          text = text.replace(new RegExp(String.raw`(\{\{[ \t]*(?:消歧义模板|消歧义|消歧義|[Dd]isambig|[Dd]isamb|[Dd]ab|[Aa]imai)[ \t]*(?:\|[^|{}]*)*?\|[ \t]*[Cc]at[ \t]*=[ \t]*)(${escapedSourceCat})([ \t]*(?=\||\}\}))`, "g"), (_match, prefix, _category, suffix) => `${prefix}${targetCategory}${suffix}`);
+          text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${effectiveTarget}$1]]`);
+          summary = CAL.msg("summary-move").replace("$1", effectiveSource).replace("$2", effectiveTarget);
+          const escapedSourceCat = effectiveSource.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          text = text.replace(new RegExp(String.raw`(\{\{[ \t]*(?:消歧义模板|消歧义|消歧義|[Dd]isambig|[Dd]isamb|[Dd]ab|[Aa]imai)[ \t]*(?:\|[^|{}]*)*?\|[ \t]*[Cc]at[ \t]*=[ \t]*)(${escapedSourceCat})([ \t]*(?=\||\}\}))`, "g"), (_match, prefix, _category, suffix) => `${prefix}${effectiveTarget}${suffix}`);
           break;
         case "remove":
           text = text.replace(sourceCatRegExp, "");
-          summary = CAL.msg("summary-remove").replace("$1", sourcecat);
+          summary = CAL.msg("summary-remove").replace("$1", effectiveSource);
           break;
       }
       if (text === originText) {
@@ -827,13 +862,20 @@ var catALot = async ($body) => {
           const [docPage] = docPages;
           const docOriginText = (docPage === null || docPage === void 0 || (_docPage$revisions = docPage.revisions) === null || _docPage$revisions === void 0 || (_docPage$revisions = _docPage$revisions[0]) === null || _docPage$revisions === void 0 || (_docPage$revisions = _docPage$revisions.slots) === null || _docPage$revisions === void 0 || (_docPage$revisions = _docPage$revisions.main) === null || _docPage$revisions === void 0 ? void 0 : _docPage$revisions.content) ?? "";
           let docText = docOriginText;
-          const docCatRegExp = await CAL.regexBuilder(sourcecat);
-          if (docText.match(docCatRegExp)) {
+          const docSourceCatRegExp = await CAL.regexBuilder(sourcecat);
+          const docSourceSpelling = CAL.findCategorySpelling(docText, docSourceCatRegExp);
+          const docTargetSpelling = CAL.findCategorySpelling(docText, targeRegExp) ?? effectiveTarget;
+          if (docSourceSpelling !== null) {
+            if ((mode === "move" || mode === "copy") && await CAL.areSameCategoryVariant(sourcecat, targetCategory)) {
+              CAL.alreadyThere.push(markedLabelTitle);
+              this.updateCounter();
+              return;
+            }
             if (mode === "move") {
-              docText = docText.replace(docCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`);
+              docText = docText.replace(docSourceCatRegExp, `[[${CAL.localCatName}:${docTargetSpelling}$1]]`);
             } else if (mode === "copy") {
-              docText = docText.replace(docCatRegExp, `[[${CAL.localCatName}:${sourcecat}$1]]
-[[${CAL.localCatName}:${targetCategory}$1]]`);
+              docText = docText.replace(docSourceCatRegExp, `[[${CAL.localCatName}:${docSourceSpelling}$1]]
+[[${CAL.localCatName}:${docTargetSpelling}$1]]`);
             }
           }
           if (docText !== docOriginText) {
@@ -864,7 +906,7 @@ var catALot = async ($body) => {
                 titles: markedLabelTitle
               });
               console.log(`[Cat-a-lot] Successfully purged template doc page: ${docTitle}`);
-              CAL.markAsDone($markedLabel, targetCategory, mode);
+              CAL.markAsDone($markedLabel, effectiveTarget, mode);
             } catch {
               CAL.connectionError.push(docTitle);
               this.updateCounter();
@@ -893,7 +935,7 @@ var catALot = async ($body) => {
           starttimestamp
         });
         this.updateCounter();
-        CAL.markAsDone($markedLabel, targetCategory, mode);
+        CAL.markAsDone($markedLabel, effectiveTarget, mode);
       } catch {
         CAL.connectionError.push(markedLabelTitle);
         this.updateCounter();

@@ -68,6 +68,21 @@ export const createCategoryTextTools = (
 		result.re = cat_regex;
 		return result;
 	};
+	const list_categorys = (wikitext: string): HotCatCategoryMatches => {
+		const cat_regex = new RegExp(
+			`\\[\\[${wikiTextBlankOrBidi}(${HC.category_regexp})${wikiTextBlankOrBidi}:${wikiTextBlankOrBidi}([^\\[\\]]+?)${wikiTextBlankOrBidi}(\\|.*?)?\\]\\]`,
+			'g'
+		);
+		const result: HotCatCategoryMatches = [];
+		let curr_match: RegExpExecArray | null = null;
+		while ((curr_match = cat_regex.exec(wikitext)) !== null) {
+			result[result.length] = {
+				match: curr_match,
+			};
+		}
+		result.re = cat_regex;
+		return result;
+	};
 	const change_category = (
 		wikitext: string,
 		toRemove: string | null,
@@ -230,5 +245,5 @@ export const createCategoryTextTools = (
 			error: null,
 		};
 	};
-	return {find_category, change_category};
+	return {find_category, change_category, list_categorys};
 };

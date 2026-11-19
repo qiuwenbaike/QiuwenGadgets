@@ -448,6 +448,39 @@ const catALot = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 			return CAL.variantCache[category];
 		}
 
+		private static findCategorySpelling(text: string, regex: RegExp): string | null {
+			regex.lastIndex = 0;
+			const match = regex.exec(text);
+			regex.lastIndex = 0;
+			if (!match) {
+				return null;
+			}
+			let name = match[0].slice(match[0].indexOf(':') + 1);
+			const pipe = name.indexOf('|');
+			if (pipe !== -1) {
+				name = name.slice(0, pipe);
+			}
+			name = name.replace(/\]\]\s*$/, '').trim();
+			return name || null;
+		}
+		private static normalizeCategoryForCompare(name: string): string {
+			return name
+				.replace(/^[\s_]+/, '')
+				.replace(/[\s_]+$/, '')
+				.replace(/[\s_]+/g, ' ')
+				.replace(/^./, (char: string): string => char.toLowerCase());
+		}
+		private static async areSameCategoryVariant(a: string, b: string): Promise<boolean> {
+			if (CAL.normalizeCategoryForCompare(a) === CAL.normalizeCategoryForCompare(b)) {
+				return true;
+			}
+			const [variantsA, variantsB] = await Promise.all([CAL.findAllVariants(a), CAL.findAllVariants(b)]);
+			const variantsBSet = new Set(
+				variantsB.map((name: string): string => CAL.normalizeCategoryForCompare(name))
+			);
+			return variantsA.some((name: string): boolean => variantsBSet.has(CAL.normalizeCategoryForCompare(name)));
+		}
+
 		private static async regexBuilder(category: string): Promise<RegExp> {
 			// Build a regexp string for matching the given category:
 			const catName: string = CAL.localizedRegex(CAL.TARGET_NAMESPACE, 'Category');
@@ -641,9 +674,25 @@ const catALot = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 			timestamp = revision.timestamp ?? 0;
 
 			const sourcecat: string = CAL.CURRENT_CATEGROY;
-			// Check if that file is already in that category
 			const targeRegExp = await CAL.regexBuilder(targetCategory);
+			const sourceCatRegExp = await CAL.regexBuilder(sourcecat);
+			// 页面里的分类可能写作当前分类的其他变体，沿用页面实际写法，避免只改变繁简
+			const matchedSource = CAL.findCategorySpelling(originText, sourceCatRegExp);
+			const matchedTarget = CAL.findCategorySpelling(originText, targeRegExp);
+			const effectiveSource = matchedSource ?? sourcecat;
+			const effectiveTarget = matchedTarget ?? targetCategory;
+			// Check if that file is already in that category
 			if (mode !== 'remove' && targeRegExp.test(originText) && mode !== 'move') {
+				CAL.alreadyThere.push(markedLabelTitle);
+				this.updateCounter();
+				return;
+			}
+			// 源分类与目标分类若是同一分类的不同变体，move/copy 都不应产生编辑
+			if (
+				(mode === 'move' || mode === 'copy') &&
+				(matchedSource !== null || matchedTarget !== null) &&
+				(await CAL.areSameCategoryVariant(sourcecat, targetCategory))
+			) {
 				CAL.alreadyThere.push(markedLabelTitle);
 				this.updateCounter();
 				return;
@@ -652,39 +701,38 @@ const catALot = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 			// Fix text
 			let text: string = originText;
 			let summary: string;
-			const sourceCatRegExp = await CAL.regexBuilder(sourcecat);
 			switch (mode) {
 				case 'add':
-					text += `\n[[${CAL.localCatName}:${targetCategory}]]\n`;
-					summary = CAL.msg('summary-add').replace('$1', targetCategory);
+					text += `\n[[${CAL.localCatName}:${effectiveTarget}]]\n`;
+					summary = CAL.msg('summary-add').replace('$1', effectiveTarget);
 					break;
 				case 'copy':
 					text = text.replace(
 						sourceCatRegExp,
-						`[[${CAL.localCatName}:${sourcecat}$1]]\n[[${CAL.localCatName}:${targetCategory}$1]]`
+						`[[${CAL.localCatName}:${effectiveSource}$1]]\n[[${CAL.localCatName}:${effectiveTarget}$1]]`
 					);
-					summary = CAL.msg('summary-copy').replace('$1', sourcecat).replace('$2', targetCategory);
+					summary = CAL.msg('summary-copy').replace('$1', effectiveSource).replace('$2', effectiveTarget);
 					// If category is added through template:
 					if (originText === text) {
-						text += `\n[[${CAL.localCatName}:${targetCategory}]]`;
+						text += `\n[[${CAL.localCatName}:${effectiveTarget}]]`;
 					}
 					break;
 				case 'move':
-					text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`);
-					summary = CAL.msg('summary-move').replace('$1', sourcecat).replace('$2', targetCategory);
-					const escapedSourceCat = sourcecat.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // 将 sourcecat 转义为正则表达式安全的字符串
+					text = text.replace(sourceCatRegExp, `[[${CAL.localCatName}:${effectiveTarget}$1]]`);
+					summary = CAL.msg('summary-move').replace('$1', effectiveSource).replace('$2', effectiveTarget);
+					const escapedSourceCat = effectiveSource.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // 将 sourcecat 转义为正则表达式安全的字符串
 					text = text.replace(
 						new RegExp(
 							String.raw`(\{\{[ \t]*(?:消歧义模板|消歧义|消歧義|[Dd]isambig|[Dd]isamb|[Dd]ab|[Aa]imai)[ \t]*(?:\|[^|{}]*)*?\|[ \t]*[Cc]at[ \t]*=[ \t]*)(${escapedSourceCat})([ \t]*(?=\||\}\}))`,
 							'g'
 						),
 						(_match, prefix: string, _category: string, suffix: string) =>
-							`${prefix}${targetCategory}${suffix}`
+							`${prefix}${effectiveTarget}${suffix}`
 					);
 					break;
 				case 'remove':
 					text = text.replace(sourceCatRegExp, '');
-					summary = CAL.msg('summary-remove').replace('$1', sourcecat);
+					summary = CAL.msg('summary-remove').replace('$1', effectiveSource);
 					break;
 			}
 
@@ -736,16 +784,28 @@ const catALot = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 					const [docPage] = docPages;
 					const docOriginText = docPage?.revisions?.[0]?.slots?.main?.content ?? '';
 					let docText = docOriginText;
-					const docCatRegExp = await CAL.regexBuilder(sourcecat); // 获取模板分类正则
-
-					// 如果模板文档页中存在该分类
-					if (docText.match(docCatRegExp)) {
+					const docSourceCatRegExp = await CAL.regexBuilder(sourcecat); // 获取模板分类正则
+					const docSourceSpelling = CAL.findCategorySpelling(docText, docSourceCatRegExp);
+					const docTargetSpelling = CAL.findCategorySpelling(docText, targeRegExp) ?? effectiveTarget;
+					if (docSourceSpelling !== null) {
+						// 文档页中的源分类与目标分类若为同一分类的不同变体，同样不编辑
+						if (
+							(mode === 'move' || mode === 'copy') &&
+							(await CAL.areSameCategoryVariant(sourcecat, targetCategory))
+						) {
+							CAL.alreadyThere.push(markedLabelTitle);
+							this.updateCounter();
+							return;
+						}
 						if (mode === 'move') {
-							docText = docText.replace(docCatRegExp, `[[${CAL.localCatName}:${targetCategory}$1]]`); // 替换模板文档页中的分类
+							docText = docText.replace(
+								docSourceCatRegExp,
+								`[[${CAL.localCatName}:${docTargetSpelling}$1]]`
+							); // 替换模板文档页中的分类
 						} else if (mode === 'copy') {
 							docText = docText.replace(
-								docCatRegExp,
-								`[[${CAL.localCatName}:${sourcecat}$1]]\n[[${CAL.localCatName}:${targetCategory}$1]]`
+								docSourceCatRegExp,
+								`[[${CAL.localCatName}:${docSourceSpelling}$1]]\n[[${CAL.localCatName}:${docTargetSpelling}$1]]`
 							); // 复制分类
 						}
 					}
@@ -779,7 +839,7 @@ const catALot = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 								titles: markedLabelTitle,
 							});
 							console.log(`[Cat-a-lot] Successfully purged template doc page: ${docTitle}`);
-							CAL.markAsDone($markedLabel, targetCategory, mode);
+							CAL.markAsDone($markedLabel, effectiveTarget, mode);
 						} catch {
 							CAL.connectionError.push(docTitle);
 							this.updateCounter();
@@ -813,7 +873,7 @@ const catALot = async ($body: JQuery<HTMLBodyElement>): Promise<void> => {
 					starttimestamp,
 				});
 				this.updateCounter();
-				CAL.markAsDone($markedLabel, targetCategory, mode);
+				CAL.markAsDone($markedLabel, effectiveTarget, mode);
 			} catch {
 				CAL.connectionError.push(markedLabelTitle);
 				this.updateCounter();
