@@ -6,8 +6,6 @@ import {localize} from 'ext.gadget.i18n';
  * reactivity is required: call `uls()` during `setup()`.
  */
 
-export const uls = (simplified: unknown, traditional: unknown): string => {
-	const hans = String(simplified);
-	const hant = String(traditional);
-	return localize({'zh-hans': hans, 'zh-hant': hant, 'zh-my': hant, en: hans});
+export const uls = (simplified: string, traditional: string): string => {
+	return localize({'zh-hans': simplified, 'zh-hant': traditional, 'zh-my': traditional, en: simplified});
 };

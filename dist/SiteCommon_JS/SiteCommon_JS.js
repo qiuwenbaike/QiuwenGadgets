@@ -280,51 +280,45 @@ var deprecatedFunctions = () => {
    * maintenance: Some user scripts may be using the following deprecated functions.
    * These functions are no longer supported and should be updated.
    */
-  mw.log.deprecate(window, "importScript", (title) => {
+  const importScript = (title) => {
     return mw.loader.addScriptTag(mw.util.getUrl(title, {
       action: "raw",
       ctype: "text/javascript",
       maxage: "3600",
       smaxage: "3600"
     }));
-  }, "Use mw.loader.addScriptTag() instead");
-  mw.log.deprecate(window, "importStylesheet", (title) => {
+  };
+  mw.log.deprecate(window, "importScript", importScript, "Use mw.loader.addScriptTag() instead");
+  const importStylesheet = (title) => {
     return mw.loader.addLinkTag(mw.util.getUrl(title, {
       action: "raw",
       ctype: "text/css",
       maxage: "3600",
       smaxage: "3600"
     }), "text/css");
-  }, "Use mw.loader.addLinkTag() instead");
-  mw.log.deprecate(window, "importScriptURI", (modules) => {
+  };
+  mw.log.deprecate(window, "importStylesheet", importStylesheet, "Use mw.loader.addLinkTag() instead");
+  const importScriptURI = (modules) => {
     return mw.loader.addScriptTag(mw.util.wikiUrlencode(modules));
-  }, "Use mw.loader.addScriptTag() or mw.loader.getScript() instead");
-  mw.log.deprecate(window, "importStylesheetURI", (modules) => {
+  };
+  mw.log.deprecate(window, "importScriptURI", importScriptURI, "Use mw.loader.addScriptTag() or mw.loader.getScript() instead");
+  const importStylesheetURI = (modules) => {
     return mw.loader.addLinkTag(mw.util.wikiUrlencode(modules), "text/css");
-  }, "Use mw.loader.addLinkTag() instead");
-  mw.log.deprecate(
-    window,
-    // @ts-expect-error TS2345
-    "importScriptCallback",
-    (title, ready) => {
-      void mw.loader.getScript(mw.util.getUrl(title, {
-        action: "raw",
-        ctype: "text/javascript",
-        maxage: "3600",
-        smaxage: "3600"
-      })).then(ready);
-    },
-    "Use mw.loader.getScript() instead"
-  );
-  mw.log.deprecate(
-    window,
-    // @ts-expect-error TS2345
-    "importScriptURICallback",
-    (url, ready) => {
-      void mw.loader.getScript(url).then(ready);
-    },
-    "Use mw.loader.getScript() instead"
-  );
+  };
+  mw.log.deprecate(window, "importStylesheetURI", importStylesheetURI, "Use mw.loader.addLinkTag() instead");
+  const importScriptCallback = (title, ready) => {
+    void mw.loader.getScript(mw.util.getUrl(title, {
+      action: "raw",
+      ctype: "text/javascript",
+      maxage: "3600",
+      smaxage: "3600"
+    })).then(ready);
+  };
+  mw.log.deprecate(window, "importScriptCallback", importScriptCallback, "Use mw.loader.getScript() instead");
+  const importScriptURICallback = (url, ready) => {
+    void mw.loader.getScript(url).then(ready);
+  };
+  mw.log.deprecate(window, "importScriptURICallback", importScriptURICallback, "Use mw.loader.getScript() instead");
 };
 //! src/SiteCommon_JS/SiteCommon_JS.ts
 var import_ext_gadget4 = require("ext.gadget.Util");

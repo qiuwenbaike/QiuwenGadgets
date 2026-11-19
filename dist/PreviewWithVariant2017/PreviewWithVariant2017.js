@@ -49,7 +49,7 @@
 
 // dist/PreviewWithVariant2017/PreviewWithVariant2017.js
 //! src/PreviewWithVariant2017/PreviewWithVariant2017.ts
-var import_ext_gadget = require("ext.gadget.Util");
+var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/PreviewWithVariant2017/options.json
 var configKey = "gadget-PreviewWithVariant2017__Initialized";
 //! src/PreviewWithVariant2017/modules/constant.ts
@@ -91,12 +91,21 @@ var DATA = [{
   msg: "pwv-2017-zh-tw"
 }];
 //! src/PreviewWithVariant2017/modules/messages.ts
+var import_ext_gadget = require("ext.gadget.i18n");
+var uls = (hans, hant = hans) => {
+  return (0, import_ext_gadget.localize)({
+    "zh-hans": hans,
+    "zh-hant": hant,
+    "zh-my": hant,
+    en: hans
+  });
+};
 var PWV2017messages = () => {
   mw.messages.set({
-    "pwv-2017-caption": window.wgULS("选择语言变体", "選擇語言變體"),
-    "pwv-2017-loading": window.wgULS("正在加载预览…", "正在載入預覽…"),
-    "pwv-2017-retry": window.wgULS("重试", "重試"),
-    "pwv-2017-zh": window.wgULS("不转换", "不轉換"),
+    "pwv-2017-caption": uls("选择语言变体", "選擇語言變體"),
+    "pwv-2017-loading": uls("正在加载预览…", "正在載入預覽…"),
+    "pwv-2017-retry": uls("重试", "重試"),
+    "pwv-2017-zh": uls("不转换", "不轉換"),
     "pwv-2017-zh-hans": "简体",
     "pwv-2017-zh-hant": "繁體",
     "pwv-2017-zh-cn": "中国大陆简体",
@@ -414,7 +423,7 @@ var processVisualEditor = () => {
   }
 };
 //! src/PreviewWithVariant2017/PreviewWithVariant2017.ts
-void (0, import_ext_gadget.getBody)().then(() => {
+void (0, import_ext_gadget2.getBody)().then(() => {
   mw.hook("ve.saveDialog.stateChanged").add(() => {
     processVisualEditor();
   });
