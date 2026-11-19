@@ -2,3 +2,5 @@ node_modules
 scripts/credentials.json
 tsconfig.tsbuildinfo
 .*cache
+.*cache\.*
+\.dsh*
