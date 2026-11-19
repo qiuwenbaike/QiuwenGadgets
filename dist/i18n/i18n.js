@@ -220,9 +220,9 @@ var initShims = (i18nMethods2) => {
   const wgUCS2 = createShim("content");
   const wgULS2 = createShim("localize");
   const wgUVS2 = createShim("vary");
-  mw.log.deprecate(window, "wgUCS", wgUCS2, "wgUCS is deprecated, please use content() instead.", "ext.gadget.i18n");
-  mw.log.deprecate(window, "wgULS", wgULS2, "wgULS is deprecated, please use localize() instead.", "ext.gadget.i18n");
-  mw.log.deprecate(window, "wgUVS", wgUVS2, "wgUVS is deprecated, please use vary() instead.", "ext.gadget.i18n");
+  mw.log.deprecate(window, "wgUCS", wgUCS2, "Please use content() instead.", "window.wgUCS");
+  mw.log.deprecate(window, "wgULS", wgULS2, "Please use localize() instead.", "window.wgULS");
+  mw.log.deprecate(window, "wgUVS", wgUVS2, "Please use vary() instead.", "window.wgUVS");
   return {
     wgUCS: wgUCS2,
     wgULS: wgULS2,
