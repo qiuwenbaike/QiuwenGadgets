@@ -52,11 +52,20 @@
 //! src/PreviewWithVariant/options.json
 var configKey = "gadget-PreviewWithVariant__Initialized";
 //! src/PreviewWithVariant/modules/processWikiEditor.ts
-var import_ext_gadget2 = require("ext.gadget.Util");
+var import_ext_gadget3 = require("ext.gadget.Util");
 //! src/PreviewWithVariant/modules/constant.ts
+var import_ext_gadget = require("ext.gadget.i18n");
+var uls = (hans, hant = hans) => {
+  return (0, import_ext_gadget.localize)({
+    "zh-hans": hans,
+    "zh-hant": hant,
+    "zh-my": hant,
+    en: hans
+  });
+};
 var VARIANTS = [{
   data: "zh",
-  label: window.wgULS("不转换", "不轉換")
+  label: uls("不转换", "不轉換")
 }, {
   data: "zh-hans",
   label: "简体"
@@ -195,15 +204,15 @@ var VariantControls_default2 = VariantControls_default;
 //! src/PreviewWithVariant/modules/processWikiEditor.ts
 var import_vue4 = require("vue");
 //! src/PreviewWithVariant/modules/i18n.ts
-var import_ext_gadget = require("ext.gadget.i18n");
+var import_ext_gadget2 = require("ext.gadget.i18n");
 var getI18nMessages = () => {
   return {
-    "Preview Chinese variant conversion": (0, import_ext_gadget.localize)({
+    "Preview Chinese variant conversion": (0, import_ext_gadget2.localize)({
       en: "Preview Chinese variant conversion",
       "zh-hans": "预览字词转换",
       "zh-hant": "預覽字詞轉換"
     }),
-    "Preview using this variant: ": (0, import_ext_gadget.localize)({
+    "Preview using this variant: ": (0, import_ext_gadget2.localize)({
       en: "Preview using this variant: ",
       "zh-hans": "使用该变体显示预览：",
       "zh-hant": "使用該變體顯示預覽："
@@ -258,7 +267,7 @@ var processWikiEditor = ($editForm) => {
     const selectedVariant = controls.getSelectedVariant();
     const originalAction = $editForm.attr("action");
     if (selectedVariant && originalAction) {
-      $editForm.attr("action", new import_ext_gadget2.MwUri(originalAction).extend({
+      $editForm.attr("action", new import_ext_gadget3.MwUri(originalAction).extend({
         variant: selectedVariant
       }).getRelativePath());
     }

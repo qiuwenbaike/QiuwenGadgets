@@ -12,19 +12,17 @@ type WgUXSCandicates = [hans?: WgUXSCandidate, hant?: WgUXSCandidate, ...rest: W
 type WgUXS = (...candidates: WgUXSCandicates) => string;
 
 interface I18nMethods {
-	/** @deprecated 仅为兼容保留，新代码请使用 localize。 */
 	content(candidates: I18nCandidates): string;
 	localize(candidates: I18nCandidates): string;
-	/** @deprecated 仅为兼容保留，新代码请使用 localize。 */
 	vary(candidates: I18nCandidates): string;
 }
 
 interface I18nShimMethods {
-	/** @deprecated 仅为兼容保留，新代码请使用 localize。 */
+	/** @deprecated 仅为兼容保留，新代码请使用 content */
 	wgUCS: WgUXS;
-	/** @deprecated 仅为兼容保留，新代码请使用 localize。 */
+	/** @deprecated 仅为兼容保留，新代码请使用 localize */
 	wgULS: WgUXS;
-	/** @deprecated 仅为兼容保留，新代码请使用 localize。 */
+	/** @deprecated 仅为兼容保留，新代码请使用 vary */
 	wgUVS: WgUXS;
 }
 
@@ -32,11 +30,11 @@ declare global {
 	type GetMessages<T> = <K extends keyof T>(key: K) => K | NonNullable<T[K]>;
 
 	interface Window {
-		/** @deprecated 仅为兼容保留，新代码请使用 localize。 */
+		/** @deprecated 仅为兼容保留，新代码请使用 content */
 		wgUCS: WgUXS;
-		/** @deprecated 仅为兼容保留，新代码请使用 localize。 */
+		/** @deprecated 仅为兼容保留，新代码请使用 localize */
 		wgULS: WgUXS;
-		/** @deprecated 仅为兼容保留，新代码请使用 localize。 */
+		/** @deprecated 仅为兼容保留，新代码请使用 vary */
 		wgUVS: WgUXS;
 	}
 }

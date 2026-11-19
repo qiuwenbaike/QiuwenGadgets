@@ -1,10 +1,16 @@
+import {localize} from 'ext.gadget.i18n';
+
+const uls = (hans: string, hant: string = hans): string => {
+	return localize({'zh-hans': hans, 'zh-hant': hant, 'zh-my': hant, en: hans});
+};
+
 const VARIANTS: {
 	data: string;
 	label: string;
 }[] = [
 	{
 		data: 'zh',
-		label: window.wgULS('不转换', '不轉換'),
+		label: uls('不转换', '不轉換'),
 	},
 	{
 		data: 'zh-hans',

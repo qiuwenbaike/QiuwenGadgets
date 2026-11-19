@@ -335,7 +335,12 @@ var TwStatus_default2 = TwStatus_default;
 //! src/Twinkle/modules/utils/useUls.ts
 var import_ext_gadget = require("ext.gadget.i18n");
 var uls = (simplified, traditional) => {
-  return typeof import_ext_gadget.wgULS === "function" ? (0, import_ext_gadget.wgULS)(simplified, traditional) : simplified;
+  return (0, import_ext_gadget.localize)({
+    "zh-hans": simplified,
+    "zh-hant": traditional,
+    "zh-my": traditional,
+    en: simplified
+  });
 };
 var TwArvDialog_default = /* @__PURE__ */ (0, import_vue7.defineComponent)({
   __name: "TwArvDialog",
@@ -776,7 +781,6 @@ var TwArvDialog_default = /* @__PURE__ */ (0, import_vue7.defineComponent)({
               Morebits.status.printUserText(report[1], uls("您输入的评论已在下方提供，您可以将其加入到", "您輸入的評論已在下方提供，您可以將其加入到") + $ewipLink + uls("已存在的小节中：", "已存在的小節中："));
               return;
             }
-            ewipPage.setPageSection(0);
             ewipPage.getStatusElement().status(uls("加入新报告…", "加入新報告…"));
             ewipPage.setEditSummary(summary);
             ewipPage.setChangeTags(Twinkle.changeTags);
@@ -868,7 +872,6 @@ ${report[0]}`);
               Morebits.status.printUserText(report[1], uls("您输入的评论已在下方提供，您可以将其加入到", "您輸入的評論已在下方提供，您可以將其加入到") + $aivLink + uls("已存在的小节中：", "已存在的小節中："));
               return;
             }
-            aivPage.setPageSection(0);
             aivPage.getStatusElement().status(uls("加入新报告…", "加入新報告…"));
             aivPage.setEditSummary(summary);
             aivPage.setChangeTags(Twinkle.changeTags);

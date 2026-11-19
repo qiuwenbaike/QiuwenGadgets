@@ -26,7 +26,7 @@
 
 // dist/UserRightsManager/UserRightsManager.js
 //! src/UserRightsManager/UserRightsManager.ts
-var import_ext_gadget2 = require("ext.gadget.Util");
+var import_ext_gadget3 = require("ext.gadget.Util");
 //! src/UserRightsManager/modules/getPagePermissions.ts
 var getPagePermissions = () => {
   const {
@@ -236,6 +236,16 @@ var markAsDone = ({
     return api.postWithEditToken(editParams);
   });
 };
+//! src/UserRightsManager/modules/useUls.ts
+var import_ext_gadget2 = require("ext.gadget.i18n");
+var uls = (simplified, traditional) => {
+  return (0, import_ext_gadget2.localize)({
+    "zh-hans": simplified,
+    "zh-hant": traditional,
+    "zh-my": traditional,
+    en: simplified
+  });
+};
 var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
   ...{
     inheritAttrs: false
@@ -264,9 +274,6 @@ var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
   }) {
     __expose();
     const props = __props;
-    const {
-      wgULS
-    } = window;
     const open = (0, import_vue2.ref)(true);
     const submitting = (0, import_vue2.ref)(false);
     const rightsChangeSummary = (0, import_vue2.ref)("");
@@ -274,7 +281,7 @@ var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
     const customExpiry = (0, import_vue2.ref)("");
     const closingRemarks = (0, import_vue2.ref)("{{done}}——~~~~");
     const watchTalkPage = (0, import_vue2.ref)(false);
-    const rightLog = (0, import_vue2.ref)(wgULS("获取中", "取得中"));
+    const rightLog = (0, import_vue2.ref)(uls("获取中", "取得中"));
     const permissionName = getPermissionNames(props.permission) ?? "";
     const permissionTemplate = getPermissionTemplate(props.permission);
     const logUrl = mw.util.getUrl("Special:Log/rights", {
@@ -286,25 +293,25 @@ var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
       label: "1天"
     }, {
       value: "1 week",
-      label: wgULS("1周", "1週")
+      label: uls("1周", "1週")
     }, {
       value: "1 month",
-      label: wgULS("1个月", "1個月")
+      label: uls("1个月", "1個月")
     }, {
       value: "3 months",
-      label: wgULS("3个月", "3個月")
+      label: uls("3个月", "3個月")
     }, {
       value: "6 months",
-      label: wgULS("6个月", "6個月")
+      label: uls("6个月", "6個月")
     }, {
       value: "1 year",
       label: "1年"
     }, {
       value: "infinite",
-      label: wgULS("没有期限", "沒有期限")
+      label: uls("没有期限", "沒有期限")
     }, {
       value: "other",
-      label: wgULS("其他时间", "其他時間")
+      label: uls("其他时间", "其他時間")
     }];
     const loadRightLog = () => {
       const params = {
@@ -321,12 +328,12 @@ var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
         } = data["query"];
         const log = logs[0];
         if (!log) {
-          rightLog.value = wgULS("没有任何日志", "沒有任何日誌");
+          rightLog.value = uls("没有任何日志", "沒有任何日誌");
           return;
         }
         const timestamp = new Morebits.date(log.timestamp).calendar();
-        const rights = log.params.newgroups.join("、") || wgULS("（无）", "（無）");
-        rightLog.value = `${timestamp} ${log.user}${wgULS("将用户组改为", "將使用者群組改為")}${rights}`;
+        const rights = log.params.newgroups.join("、") || uls("（无）", "（無）");
+        rightLog.value = `${timestamp} ${log.user}${uls("将用户组改为", "將使用者群組改為")}${rights}`;
       });
     };
     const close = () => {
@@ -373,7 +380,6 @@ var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
     (0, import_vue2.onMounted)(loadRightLog);
     const __returned__ = {
       props,
-      wgULS,
       open,
       submitting,
       rightsChangeSummary,
@@ -403,6 +409,9 @@ var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
       },
       get CdxTextInput() {
         return import_codex.CdxTextInput;
+      },
+      get uls() {
+        return uls;
       }
     };
     Object.defineProperty(__returned__, "__isScriptSetup", {
@@ -440,10 +449,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0, import_vue3.openBlock)(), (0, import_vue3.createBlock)($setup["CdxDialog"], {
     open: $setup.open,
     "onUpdate:open": [_cache[5] || (_cache[5] = ($event) => $setup.open = $event), _cache[6] || (_cache[6] = ($event) => $event === false && $setup.close())],
-    title: `授予${$setup.permissionName}${$setup.wgULS("给", "給")}${$props.userName}`,
+    title: `授予${$setup.permissionName}${$setup.uls("给", "給")}${$props.userName}`,
     "use-close-button": true,
     "primary-action": {
-      label: $setup.wgULS("授权", "授權"),
+      label: $setup.uls("授权", "授權"),
       actionType: "progressive",
       disabled: $setup.submitting
     },
@@ -458,7 +467,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       href: $setup.logUrl,
       target: "_blank",
       rel: "noopener noreferrer"
-    }, (0, import_vue3.toDisplayString)($setup.wgULS("最近权限日志", "最近權限日誌")), 9, _hoisted_3), (0, import_vue3.createTextVNode)(
+    }, (0, import_vue3.toDisplayString)($setup.uls("最近权限日志", "最近權限日誌")), 9, _hoisted_3), (0, import_vue3.createTextVNode)(
       " ：" + (0, import_vue3.toDisplayString)($setup.rightLog),
       1
       /* TEXT */
@@ -466,7 +475,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       default: (0, import_vue3.withCtx)(() => [(0, import_vue3.createElementVNode)(
         "label",
         _hoisted_4,
-        (0, import_vue3.toDisplayString)($setup.wgULS("授权原因", "授權原因")),
+        (0, import_vue3.toDisplayString)($setup.uls("授权原因", "授權原因")),
         1
         /* TEXT */
       ), (0, import_vue3.createVNode)($setup["CdxTextInput"], {
@@ -482,7 +491,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       default: (0, import_vue3.withCtx)(() => [(0, import_vue3.createElementVNode)(
         "label",
         _hoisted_5,
-        (0, import_vue3.toDisplayString)($setup.wgULS("授权期限", "授權期限")),
+        (0, import_vue3.toDisplayString)($setup.uls("授权期限", "授權期限")),
         1
         /* TEXT */
       ), (0, import_vue3.createVNode)($setup["CdxSelect"], {
@@ -499,7 +508,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       default: (0, import_vue3.withCtx)(() => [(0, import_vue3.createElementVNode)(
         "label",
         _hoisted_6,
-        (0, import_vue3.toDisplayString)($setup.wgULS("自定义时间", "自訂時間")),
+        (0, import_vue3.toDisplayString)($setup.uls("自定义时间", "自訂時間")),
         1
         /* TEXT */
       ), (0, import_vue3.createVNode)($setup["CdxTextInput"], {
@@ -514,7 +523,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       default: (0, import_vue3.withCtx)(() => [(0, import_vue3.createElementVNode)(
         "label",
         _hoisted_7,
-        (0, import_vue3.toDisplayString)($setup.wgULS("关闭请求留言", "關閉請求留言")),
+        (0, import_vue3.toDisplayString)($setup.uls("关闭请求留言", "關閉請求留言")),
         1
         /* TEXT */
       ), (0, import_vue3.createVNode)($setup["CdxTextInput"], {
@@ -534,7 +543,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         disabled: $setup.submitting
       }, {
         default: (0, import_vue3.withCtx)(() => [(0, import_vue3.createTextVNode)(
-          (0, import_vue3.toDisplayString)($setup.wgULS("监视用户讨论页", "監視使用者討論頁")),
+          (0, import_vue3.toDisplayString)($setup.uls("监视用户讨论页", "監視使用者討論頁")),
           1
           /* TEXT */
         )]),
@@ -546,7 +555,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })) : (0, import_vue3.createCommentVNode)("v-if", true), $setup.submitting ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
       "p",
       _hoisted_8,
-      (0, import_vue3.toDisplayString)($setup.wgULS("处理中……", "處理中……")),
+      (0, import_vue3.toDisplayString)($setup.uls("处理中……", "處理中……")),
       1
       /* TEXT */
     )) : (0, import_vue3.createCommentVNode)("v-if", true)])]),
@@ -591,7 +600,7 @@ var showDialog = function showDialog2({
   app.mount(root);
 };
 //! src/UserRightsManager/UserRightsManager.ts
-void (0, import_ext_gadget2.getBody)().then(($body) => {
+void (0, import_ext_gadget3.getBody)().then(($body) => {
   const permission = getPagePermissions();
   if (!permission) {
     return;
