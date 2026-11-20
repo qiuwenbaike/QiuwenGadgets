@@ -913,7 +913,7 @@ const evaluate = (input: ProtectParams, statusContainer: HTMLElement | null, res
 					typereason = uls('傀儡破坏', '傀儡破壞');
 					break;
 				case 'pp-semi-blp':
-					typereason = uls('违反生者传记条例', '違反生者傳記條例');
+					typereason = uls('违反生者传记方针', '違反生者傳記方針');
 					break;
 				case 'pp-move-dispute':
 					typereason = uls('争议、移动战', '爭議、移動戰');
