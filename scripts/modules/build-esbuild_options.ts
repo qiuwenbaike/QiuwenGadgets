@@ -44,6 +44,7 @@ const esbuildOptions = {
 	},
 	format: 'cjs',
 	legalComments: 'inline',
+	// minify: true,
 	plugins: [
 		esbuildPluginVue({
 			enableDevTools: false,

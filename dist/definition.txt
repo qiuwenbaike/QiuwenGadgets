@@ -89,7 +89,8 @@
 * TemplateTabs[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|requiresES6]|TemplateTabs.js
 * Tippy[ResourceLoader|hidden|requiresES6]|Tippy.js|Tippy.css
 * Toastify[ResourceLoader|hidden|requiresES6]|Toastify.js|Toastify.css
-* Util[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,mediawiki.api,user.options,vue|hidden|requiresES6]|Util.js|Util.css
+* Util[ResourceLoader|dependencies=mediawiki.api,user.options|hidden|requiresES6]|Util.js
+* UtilDialog[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,vue|hidden|requiresES6]|UtilDialog.js|UtilDialog.css
 
 == edit ==
 * Cat-a-lot[ResourceLoader|actions=view|dependencies=ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.storage,mediawiki.util|namespaces=-1,14|rights=skipcaptcha|requiresES6]|Cat-a-lot.js|Cat-a-lot.css
