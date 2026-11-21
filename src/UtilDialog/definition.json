@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-UtilDialog\"></span> Codex 样式的确认框，由 <code>ext.gadget.Util</code> 按需加载",
+	"section": "compatibility",
+	"dependencies": ["@wikimedia/codex", "ext.gadget.i18n", "vue"],
+	"hidden": true
+}

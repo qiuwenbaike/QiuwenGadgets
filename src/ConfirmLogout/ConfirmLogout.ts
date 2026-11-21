@@ -1,7 +1,8 @@
 import * as OPTIONS from './options.json';
-import {getBody, oouiConfirmWithStyle} from 'ext.gadget.Util';
 import {addListener} from './modules/addListener';
+import {getBody} from 'ext.gadget.Util';
 import {getMessage} from './modules/i18n';
+import {oouiConfirmWithStyle} from './modules/dialog';
 import {toastify} from 'ext.gadget.Toastify';
 import {tryLogout} from './modules/tryLogout';
 

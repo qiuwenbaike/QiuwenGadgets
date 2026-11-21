@@ -19,7 +19,7 @@
  */
 /* <nowiki> */
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwDialog.vue?type=style&index=0 */
+/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwDialog.vue?type=style&index=0 */
 .cdx-dialog {
   max-height: calc(100vh - 16px);
   max-height: calc(100dvh - 16px);
@@ -47,80 +47,80 @@
   }
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwStatus.vue?type=style&index=0 */
-.tw-status-messages[data-v-dc2c89b3] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwStatus.vue?type=style&index=0 */
+.tw-status-messages[data-v-6a2ca029] {
   display: flex;
   flex-direction: column;
   gap: 4px;
   margin-top: 8px;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwArvDialog.vue?type=style&index=0 */
-.tw-arv-blockwarning[data-v-90e99a11] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwArvDialog.vue?type=style&index=0 */
+.tw-arv-blockwarning[data-v-e5e5c282] {
   margin-bottom: 0.5em;
 }
-.tw-arv-dyninput[data-v-90e99a11] {
+.tw-arv-dyninput[data-v-e5e5c282] {
   display: flex;
   align-items: center;
   gap: 0.25em;
   margin-bottom: 0.25em;
 }
-.tw-arv-dyninput[data-v-90e99a11] .cdx-text-input {
+.tw-arv-dyninput[data-v-e5e5c282] .cdx-text-input {
   flex: 1;
 }
-.tw-arv-spinotice[data-v-90e99a11],
-.tw-arv-aiv-notice[data-v-90e99a11] {
+.tw-arv-spinotice[data-v-e5e5c282],
+.tw-arv-aiv-notice[data-v-e5e5c282] {
   margin: 0.5em 0;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwBatchDeleteDialog.vue?type=style&index=0 */
-.tw-dbatch-subgroup[data-v-f1b435c4] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwBatchDeleteDialog.vue?type=style&index=0 */
+.tw-dbatch-subgroup[data-v-07e4c460] {
   margin-left: 1.5em;
 }
-.tw-batch-protected[data-v-f1b435c4] {
+.tw-batch-protected[data-v-07e4c460] {
   color: #f00;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwBatchProtectDialog.vue?type=style&index=0 */
-.tw-batch-protected[data-v-2046f0ba] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwBatchProtectDialog.vue?type=style&index=0 */
+.tw-batch-protected[data-v-f196efab] {
   color: #f00;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwBatchUndeleteDialog.vue?type=style&index=0 */
-.tw-batch-protected[data-v-e53e84a1] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwBatchUndeleteDialog.vue?type=style&index=0 */
+.tw-batch-protected[data-v-bddb39c6] {
   color: #f00;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwBlockDialog.vue?type=style&index=0 */
-.tw-block-notice[data-v-8d257111] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwBlockDialog.vue?type=style&index=0 */
+.tw-block-notice[data-v-64b7d5b8] {
   margin: 0.5em 0;
   color: #a00;
 }
-.tw-block-64-note[data-v-8d257111] {
+.tw-block-64-note[data-v-64b7d5b8] {
   margin: 0.25em 0 0.5em;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwConfigListDialog.vue?type=style&index=0 */
-.tw-config-list-table[data-v-0d7248c9] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwConfigListDialog.vue?type=style&index=0 */
+.tw-config-list-table[data-v-6dc9ffa9] {
   width: 100%;
   margin-bottom: 0.5em;
 }
-.tw-config-list-table .tw-config-list-remove-col[data-v-0d7248c9] {
+.tw-config-list-table .tw-config-list-remove-col[data-v-6dc9ffa9] {
   width: 5em;
 }
-.tw-config-list-table td[data-v-0d7248c9] {
+.tw-config-list-table td[data-v-6dc9ffa9] {
   padding: 0.25em 0.5em;
 }
-.tw-config-list-add[data-v-0d7248c9] {
+.tw-config-list-add[data-v-6dc9ffa9] {
   display: block;
   margin-left: auto;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwConfigPanel.vue?type=style&index=0 */
-.tw-config-toc[data-v-b5e8a01f] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwConfigPanel.vue?type=style&index=0 */
+.tw-config-toc[data-v-e50e128a] {
   margin-left: 0.4em;
 }
-.tw-config-pref[data-v-b5e8a01f] {
+.tw-config-pref[data-v-e50e128a] {
   display: grid;
   grid-template-columns: minmax(10em, 22em) minmax(12em, 1fr) minmax(8em, auto);
   align-items: center;
@@ -130,43 +130,43 @@
   border-bottom: 1px solid #c8ccd1;
   border-bottom: 1px solid var(--border-color-subtle, #c8ccd1);
 }
-.tw-config-pref[data-v-b5e8a01f]:nth-child(odd) {
+.tw-config-pref[data-v-e50e128a]:nth-child(odd) {
   background-color: rgba(128, 128, 128, 0.1);
 }
-.tw-config-label[data-v-b5e8a01f] {
+.tw-config-label[data-v-e50e128a] {
   text-align: right;
 }
-.tw-config-boolean[data-v-b5e8a01f] {
+.tw-config-boolean[data-v-e50e128a] {
   grid-column: 1 / 3;
 }
-.tw-config-side[data-v-b5e8a01f] {
+.tw-config-side[data-v-e50e128a] {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0.25em;
 }
-.tw-config-helptip[data-v-b5e8a01f] {
+.tw-config-helptip[data-v-e50e128a] {
   font-size: 90%;
   color: #54595d;
   color: var(--color-subtle, #54595d);
 }
-.tw-config-reset[data-v-b5e8a01f] {
+.tw-config-reset[data-v-e50e128a] {
   text-align: right;
   font-size: 90%;
 }
-.tw-config-set[data-v-b5e8a01f] {
+.tw-config-set[data-v-e50e128a] {
   display: flex;
   flex-wrap: wrap;
   gap: 0 0.7em;
 }
-.tw-config-set[data-v-b5e8a01f] .cdx-checkbox {
+.tw-config-set[data-v-e50e128a] .cdx-checkbox {
   margin-right: 0.4em;
 }
-.tw-config-section h4[data-v-b5e8a01f] {
+.tw-config-section h4[data-v-e50e128a] {
   border-bottom: 1px solid #808080;
   margin: 0.8em 0 0.2em;
 }
-.tw-config-buttonpane[data-v-b5e8a01f] {
+.tw-config-buttonpane[data-v-e50e128a] {
   display: flex;
   align-items: baseline;
   gap: 2em;
@@ -175,24 +175,24 @@
   background-color: #bccadf;
 }
 @media (max-width: 767px) {
-  .tw-config-pref[data-v-b5e8a01f] {
+  .tw-config-pref[data-v-e50e128a] {
     grid-template-columns: 1fr auto;
   }
-  .tw-config-label[data-v-b5e8a01f] {
+  .tw-config-label[data-v-e50e128a] {
     text-align: left;
     grid-column: 1 / -1;
   }
-  .tw-config-control[data-v-b5e8a01f],
-  .tw-config-boolean[data-v-b5e8a01f] {
+  .tw-config-control[data-v-e50e128a],
+  .tw-config-boolean[data-v-e50e128a] {
     grid-column: 1;
   }
-  .tw-config-side[data-v-b5e8a01f] {
+  .tw-config-side[data-v-e50e128a] {
     grid-column: 1 / -1;
     align-items: flex-start;
   }
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwConfigPanel.vue?type=style&index=1 */
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwConfigPanel.vue?type=style&index=1 */
 #twinkle-config-headerbox {
   padding: 0.6em;
   border: 1px #f60 solid;
@@ -212,17 +212,17 @@
   margin-right: 2px;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwProtectDialog.vue?type=style&index=0 */
-.tw-protect-loginfo[data-v-acd37781] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwProtectDialog.vue?type=style&index=0 */
+.tw-protect-loginfo[data-v-895b117b] {
   margin-bottom: 0.5em;
 }
-.tw-protect-current[data-v-acd37781] {
+.tw-protect-current[data-v-895b117b] {
   color: #000;
 }
-.tw-protect-current-warn[data-v-acd37781] {
+.tw-protect-current-warn[data-v-895b117b] {
   color: #c00;
 }
-.tw-protect-custom-date[data-v-acd37781] {
+.tw-protect-custom-date[data-v-895b117b] {
   box-sizing: border-box;
   width: 100%;
   min-height: 32px;
@@ -237,7 +237,7 @@
   color: var(--color-base, #202122);
   font-size: 1rem;
 }
-.tw-protect-custom-date[data-v-acd37781]:focus {
+.tw-protect-custom-date[data-v-895b117b]:focus {
   border-color: #36c;
   border-color: var(--border-color-progressive, #36c);
   box-shadow: inset 0 0 0 1px #36c;
@@ -245,98 +245,98 @@
   outline: 0;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwSpeedyDialog.vue?type=style&index=0 */
-.tw-speedy-header[data-v-ffa653d5] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwSpeedyDialog.vue?type=style&index=0 */
+.tw-speedy-header[data-v-3a2025c8] {
   border-bottom: 1px solid #808080;
   margin: 0.8em 0 0.4em;
 }
-.tw-speedy-tooltip[data-v-ffa653d5] {
+.tw-speedy-tooltip[data-v-3a2025c8] {
   font-size: 85%;
   color: #54595d;
   color: var(--color-subtle, #54595d);
   margin-left: 1.75em;
 }
-.tw-speedy-subgroup[data-v-ffa653d5] {
+.tw-speedy-subgroup[data-v-3a2025c8] {
   margin-left: 1.75em;
   margin-bottom: 0.6em;
   display: flex;
   flex-direction: column;
   gap: 0.3em;
 }
-.tw-speedy-subgroup label[data-v-ffa653d5] {
+.tw-speedy-subgroup label[data-v-3a2025c8] {
   font-weight: bold;
 }
-.tw-speedy-prior[data-v-ffa653d5] {
+.tw-speedy-prior[data-v-3a2025c8] {
   margin-top: 0.6em;
 }
-.tw-speedy-hint[data-v-ffa653d5] {
+.tw-speedy-hint[data-v-3a2025c8] {
   margin-top: 0.6em;
   font-size: 90%;
 }
-.tw-speedy-g7[data-v-ffa653d5] {
+.tw-speedy-g7[data-v-3a2025c8] {
   font-size: 1.5em;
   line-height: 1.5em;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwStubDialog.vue?type=style&index=0 */
-.tw-stub-group-header[data-v-ffa9486f] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwStubDialog.vue?type=style&index=0 */
+.tw-stub-group-header[data-v-19d77db5] {
   margin: 0.5em 0 0;
 }
-.tw-stub-template-link[data-v-ffa9486f] {
+.tw-stub-template-link[data-v-19d77db5] {
   margin-left: 0.25em;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwTagDialog.vue?type=style&index=0 */
-.tw-tag-workarea[data-v-e69c50d0] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwTagDialog.vue?type=style&index=0 */
+.tw-tag-workarea[data-v-d60582b0] {
   max-height: 28em;
   overflow-y: auto;
   margin-bottom: 0.5em;
 }
-.tw-tag-workarea h5[data-v-e69c50d0] {
+.tw-tag-workarea h5[data-v-d60582b0] {
   font-size: 110%;
   margin: 0.25em 0;
 }
-.tw-tag-workarea h5[data-v-e69c50d0]:not(:first-child) {
+.tw-tag-workarea h5[data-v-d60582b0]:not(:first-child) {
   margin-top: 1em;
 }
-.tw-tag-subgroup[data-v-e69c50d0] {
+.tw-tag-subgroup[data-v-d60582b0] {
   margin-left: 1em;
 }
-.tw-tag-template-link[data-v-e69c50d0] {
+.tw-tag-template-link[data-v-d60582b0] {
   margin-left: 0.25em;
   -webkit-text-decoration: none;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
-.tw-tag-untagnotice[data-v-e69c50d0] {
+.tw-tag-untagnotice[data-v-d60582b0] {
   margin-bottom: 0.5em;
 }
-.tw-tag-sort-tooltip[data-v-e69c50d0] {
+.tw-tag-sort-tooltip[data-v-d60582b0] {
   display: block;
   font-size: 90%;
   color: #555;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwTalkbackDialog.vue?type=style&index=0 */
-.tw-talkback-optout[data-v-cba7caa1] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwTalkbackDialog.vue?type=style&index=0 */
+.tw-talkback-optout[data-v-2c9bfde0] {
   color: #f00;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwUnlinkDialog.vue?type=style&index=0 */
-.tw-unlink-doc[data-v-37ffaf81] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwUnlinkDialog.vue?type=style&index=0 */
+.tw-unlink-doc[data-v-419f478c] {
   margin-bottom: 0.5em;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\Twinkle\modules\ui\TwWarnDialog.vue?type=style&index=0 */
-.tw-warn-notice[data-v-9fc64c53] {
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\TwinkleDialogs\modules\ui\TwWarnDialog.vue?type=style&index=0 */
+.tw-warn-notice[data-v-08f73b35] {
   color: #f00;
   margin: 0.5em 0;
 }
-.tw-warn-autolevel[data-v-9fc64c53] {
+.tw-warn-autolevel[data-v-08f73b35] {
   color: #f00;
   margin: 0.5em 0;
 }
-.tw-warn-autolevel .tw-warn-arv-link[data-v-9fc64c53] {
+.tw-warn-autolevel .tw-warn-arv-link[data-v-08f73b35] {
   font-weight: bold;
 }
 

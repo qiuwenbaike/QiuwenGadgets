@@ -45,8 +45,6 @@
 var logoutElementSelector = '#ca-cb-logout>a,#topbar>a[href*="UserLogout"],#pt-logout>a';
 var logoutElementSelectorOfVector2022StickyHeader = "#pt-logout-sticky-header>a";
 var version = "3.0";
-//! src/ConfirmLogout/ConfirmLogout.ts
-var import_ext_gadget6 = require("ext.gadget.Util");
 //! src/ConfirmLogout/modules/util/refreshEventListener.ts
 var import_ext_gadget = require("ext.gadget.FilterAlteredClicks");
 var refreshEventListener = ($element, clickListener2) => {
@@ -97,6 +95,8 @@ var addListener = ($element, openConfirmDialog) => {
     attributeFilter: ["class"]
   });
 };
+//! src/ConfirmLogout/ConfirmLogout.ts
+var import_ext_gadget6 = require("ext.gadget.Util");
 //! src/ConfirmLogout/modules/i18n.ts
 var import_ext_gadget2 = require("ext.gadget.i18n");
 var getI18nMessages = () => {
@@ -136,6 +136,15 @@ var getI18nMessages = () => {
 var i18nMessages = getI18nMessages();
 var getMessage = (key) => {
   return i18nMessages[key] || key;
+};
+//! src/ConfirmLogout/modules/dialog.ts
+var oouiConfirmWithStyle = async (message) => {
+  const moduleName = "ext.gadget.UtilDialog";
+  const require2 = await mw.loader.using(moduleName);
+  const {
+    oouiConfirmWithStyle: confirm
+  } = require2(moduleName);
+  return confirm(message);
 };
 //! src/ConfirmLogout/ConfirmLogout.ts
 var import_ext_gadget7 = require("ext.gadget.Toastify");
@@ -184,7 +193,7 @@ void (0, import_ext_gadget6.getBody)().then(function confirmLogout($body) {
     return;
   }
   const openConfirmDialog = async () => {
-    const isConfirm = await (0, import_ext_gadget6.oouiConfirmWithStyle)(getMessage("Confirm"));
+    const isConfirm = await oouiConfirmWithStyle(getMessage("Confirm"));
     if (!isConfirm) {
       return;
     }

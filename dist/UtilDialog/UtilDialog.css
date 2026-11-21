@@ -1,0 +1,35 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/UtilDialog}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* sfc-style:D:\GitRepository\QiuwenGadgets\src\UtilDialog\modules\OouiConfirmWithStyle.vue?type=style&index=0 */
+.cdx-dialog[data-v-c32fc307] .cdx-dialog__footer {
+  border-top: 0.1rem solid #0645ad;
+  display: flex;
+  justify-content: space-evenly;
+}
+.cdx-dialog[data-v-c32fc307] .cdx-dialog__title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.8;
+  padding: 0.4em 0;
+}
+
+/* </nowiki> */
+

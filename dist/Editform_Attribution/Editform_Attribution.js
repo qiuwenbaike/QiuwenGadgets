@@ -24,7 +24,7 @@
 
 // dist/Editform_Attribution/Editform_Attribution.js
 //! src/Editform_Attribution/Editform_Attribution.ts
-var import_ext_gadget3 = require("ext.gadget.Util");
+var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/Editform_Attribution/options.json
 var configKey = "gadget-Editform_Attribution__Initialized";
 var configKeyVe = "gadget-Editform_Attribution__Initialized__VE";
@@ -342,7 +342,16 @@ var appendTextToSummary = ({
 };
 //! src/Editform_Attribution/modules/util/mountAttributionForm.ts
 var import_vue4 = require("vue");
-var import_ext_gadget2 = require("ext.gadget.Util");
+//! src/Editform_Attribution/modules/util/dialog.ts
+var oouiConfirmWithStyle = async (message) => {
+  const moduleName = "ext.gadget.UtilDialog";
+  const require2 = await mw.loader.using(moduleName);
+  const {
+    oouiConfirmWithStyle: confirm
+  } = require2(moduleName);
+  return confirm(message);
+};
+//! src/Editform_Attribution/modules/util/mountAttributionForm.ts
 var mountAttributionForm = ({
   root,
   $body,
@@ -360,14 +369,14 @@ var mountAttributionForm = ({
   };
   (0, import_vue4.createApp)(AttributionForm_default2, {
     onChange: updateHiddenFields,
-    onAdd: (source, license) => {
+    onAdd: async (source, license) => {
       updateHiddenFields(source, license);
       const wpSource = getSource(source);
       const wpLicense = getLicense(license);
       if (wpSource.length && wpLicense.length) {
         const attribution = `${getMessage("Source")}: ${wpSource} (${getMessage("License")}: ${wpLicense}) `;
         if ([getMessage("Replace With License"), getMessage("Other License")].includes(wpLicense)) {
-          void (0, import_ext_gadget2.oouiConfirmWithStyle)(getMessage("Please replace placeholder with actual license"));
+          await oouiConfirmWithStyle(getMessage("Please replace placeholder with actual license"));
         }
         appendTextToSummary({
           customSummary: `[${attribution}]`,
@@ -376,11 +385,11 @@ var mountAttributionForm = ({
         return true;
       }
       if (!wpSource.length && wpLicense.length) {
-        void (0, import_ext_gadget2.oouiConfirmWithStyle)(getMessage("Source is missing"));
+        await oouiConfirmWithStyle(getMessage("Source is missing"));
       } else if (wpSource.length && !wpLicense.length) {
-        void (0, import_ext_gadget2.oouiConfirmWithStyle)(getMessage("License is missing"));
+        await oouiConfirmWithStyle(getMessage("License is missing"));
       } else {
-        void (0, import_ext_gadget2.oouiConfirmWithStyle)(getMessage("Both source and License are missing"));
+        await oouiConfirmWithStyle(getMessage("Both source and License are missing"));
       }
       return false;
     }
@@ -447,7 +456,7 @@ var processWikiEditor = ({
   }
 };
 //! src/Editform_Attribution/Editform_Attribution.ts
-void (0, import_ext_gadget3.getBody)().then(function editForm($body) {
+void (0, import_ext_gadget2.getBody)().then(function editForm($body) {
   mw.hook("wikipage.editform").add(($editForm) => {
     processWikiEditor({
       $body,

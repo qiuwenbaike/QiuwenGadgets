@@ -1,0 +1,19 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-TwinkleCore\"></span> Twinkle 功能模块，由 Gadget-Twinkle 按需加载",
+	"section": "sysop",
+	"includeSites": ["zhqiuwenbaike"],
+	"dependencies": [
+		"ext.gadget.i18n",
+		"ext.gadget.morebits",
+		"ext.gadget.Util",
+		"mediawiki.api",
+		"mediawiki.language",
+		"mediawiki.storage",
+		"mediawiki.Title",
+		"mediawiki.util",
+		"vue"
+	],
+	"hidden": true,
+	"rights": ["skipcaptcha"]
+}

@@ -25,7 +25,7 @@ const checkPopupPosition = () => {
 };
 const mouseOutWikiLink = function mouseOutWikiLink(this: GlobalEventHandlers) {
 	// console ('mouseOutWikiLink');
-	// 实际绑定于 <a> 元素（见 actions.ts 的 a.onmouseout），此处收窄以访问扩展属性
+	// 实际由内容容器上的委托监听调用，`this` 为事件所在的 <a>，此处收窄以访问扩展属性
 	const self = this as HTMLAnchorElement;
 	removeModifierKeyListener(self);
 	if (self.navpopup === null || self.navpopup === undefined) {

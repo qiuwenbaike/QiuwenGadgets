@@ -1,8 +1,12 @@
-import {type App as VueApp, createApp} from 'vue';
-import PortletLink from './PortletLink.vue';
 import {addEventListenerWithRemover} from 'ext.gadget.Util';
+import {copyText} from './copyText';
 import {getMessage} from './i18n';
 import {getShortDomains} from './util/getShortDomains';
+
+interface CopyItem {
+	label: string;
+	text: string;
+}
 
 const {skin, wgUserName} = mw.config.get();
 const domains = getShortDomains();
@@ -11,19 +15,18 @@ let portletLinkEventListener: ReturnType<typeof addEventListenerWithRemover> = {
 	remove: (): void => {},
 };
 
-const openDialog = (items: {label: string; text: string}[]): void => {
-	const root = document.createElement('div');
-	document.body.append(root);
+const openDialog = async (items: CopyItem[]): Promise<void> => {
+	const moduleName = 'ext.gadget.CopyTextDialog';
+	const require = await mw.loader.using(moduleName);
+	const {showCopyTextDialog} = require(moduleName) as typeof import('ext.gadget.CopyTextDialog');
 
-	const app: VueApp<Element> | null = createApp(PortletLink, {
-		open: true,
+	showCopyTextDialog({
+		title: getMessage('Share URL for the page'),
 		items,
-		onClose: (): void => {
-			app?.unmount();
-			root.remove();
-		},
+		copyLabel: getMessage('Copy'),
+		closeLabel: getMessage('Close'),
+		onCopy: copyText,
 	});
-	app.mount(root);
 };
 
 const addPortletLink = (link: string, permaLink: string): void => {
@@ -40,7 +43,7 @@ const addPortletLink = (link: string, permaLink: string): void => {
 	if (portletLink) {
 		const portletLinkClickListener = (event: MouseEvent): void => {
 			event.preventDefault();
-			const items = [
+			const items: CopyItem[] = [
 				{label: getMessage('Page URL'), text: location.href},
 				{label: getMessage('Permanent URL'), text: `https://${location.host}${permaLink}`},
 			];
@@ -49,7 +52,7 @@ const addPortletLink = (link: string, permaLink: string): void => {
 					items.push({label: `${getMessage('Short URL')}${i + 1}`, text: `https://${domain}${link}`});
 				}
 			}
-			openDialog(items);
+			void openDialog(items);
 		};
 
 		portletLinkEventListener.remove();

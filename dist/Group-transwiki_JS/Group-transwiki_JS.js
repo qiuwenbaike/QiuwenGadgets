@@ -40,8 +40,16 @@ var configKey = "gadget-Group-transwiki_JS__Initialized";
 var options_default = {
   configKey
 };
+//! src/Group-transwiki_JS/modules/util/dialog.ts
+var oouiConfirmWithStyle = async (message) => {
+  const moduleName = "ext.gadget.UtilDialog";
+  const require2 = await mw.loader.using(moduleName);
+  const {
+    oouiConfirmWithStyle: confirm
+  } = require2(moduleName);
+  return confirm(message);
+};
 //! src/Group-transwiki_JS/modules/fixCheckbox.ts
-var import_ext_gadget = require("ext.gadget.Util");
 var fixCheckbox = () => {
   const {
     wgCanonicalSpecialPageName,
@@ -71,13 +79,13 @@ var fixCheckbox = () => {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (interwikiHistory !== null && interwikiHistory !== void 0 && interwikiHistory.checked) {
-        const confirmed = await (0, import_ext_gadget.oouiConfirmWithStyle)("您是否要导入此页面的所有版本？");
+        const confirmed = await oouiConfirmWithStyle("您是否要导入此页面的所有版本？");
         if (!confirmed) {
           interwikiHistory.checked = false;
         }
       }
       if (interwikiTemplates !== null && interwikiTemplates !== void 0 && interwikiTemplates.checked) {
-        const confirmed = await (0, import_ext_gadget.oouiConfirmWithStyle)("您是否要导入此页面所包含的所有模板和其他页面？");
+        const confirmed = await oouiConfirmWithStyle("您是否要导入此页面所包含的所有模板和其他页面？");
         if (!confirmed) {
           interwikiTemplates.checked = false;
         }

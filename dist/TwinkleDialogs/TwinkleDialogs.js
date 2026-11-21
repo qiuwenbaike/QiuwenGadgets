@@ -45,7 +45,8 @@ var TwinkleDialogs_exports = {};
 module.exports = __toCommonJS(TwinkleDialogs_exports);
 var import_vue7 = require("vue");
 var import_codex3 = require("@wikimedia/codex");
-//! src/Twinkle/modules/ui/morebits.ts
+var import_vue8 = require("vue");
+//! src/TwinkleDialogs/modules/morebits.ts
 /*! Twinkle - shared typed access to the Morebits global (provided by `ext.gadget.morebits`). */
 var Morebits = window.Morebits;
 var newParamsApi = (statusText, query, onSuccess, onError) => {
@@ -151,9 +152,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: "0"
   } : void 0]), 1032, ["open", "title", "subtitle", "primary-action", "default-action"]);
 }
-//! src/Twinkle/modules/ui/TwDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwDialog.vue
 TwDialog_default.render = render;
-TwDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwDialog.vue";
+TwDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwDialog.vue";
 var TwDialog_default2 = TwDialog_default;
 var import_vue4 = require("vue");
 var import_vue5 = require("vue");
@@ -327,12 +328,12 @@ function render2(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE_FRAGMENT */
   );
 }
-//! src/Twinkle/modules/ui/TwStatus.vue
+//! src/TwinkleDialogs/modules/ui/TwStatus.vue
 TwStatus_default.render = render2;
-TwStatus_default.__file = "src\\Twinkle\\modules\\ui\\TwStatus.vue";
-TwStatus_default.__scopeId = "data-v-dc2c89b3";
+TwStatus_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwStatus.vue";
+TwStatus_default.__scopeId = "data-v-6a2ca029";
 var TwStatus_default2 = TwStatus_default;
-//! src/Twinkle/modules/utils/useUls.ts
+//! src/TwinkleDialogs/modules/utils/useUls.ts
 var import_ext_gadget = require("ext.gadget.i18n");
 var uls = (simplified, traditional) => {
   return (0, import_ext_gadget.localize)({
@@ -1439,15 +1440,15 @@ function render3(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwArvDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwArvDialog.vue
 TwArvDialog_default.render = render3;
-TwArvDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwArvDialog.vue";
-TwArvDialog_default.__scopeId = "data-v-90e99a11";
+TwArvDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwArvDialog.vue";
+TwArvDialog_default.__scopeId = "data-v-e5e5c282";
 var TwArvDialog_default2 = TwArvDialog_default;
 var import_vue10 = require("vue");
 var import_codex4 = require("@wikimedia/codex");
 var import_vue11 = require("vue");
-//! src/Twinkle/modules/utils/useShiftClick.ts
+//! src/TwinkleDialogs/modules/utils/useShiftClick.ts
 var useShiftClick = () => {
   let lastCheckbox = null;
   const onShiftClick = (event) => {
@@ -2361,15 +2362,15 @@ function render4(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwBatchDeleteDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwBatchDeleteDialog.vue
 TwBatchDeleteDialog_default.render = render4;
-TwBatchDeleteDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwBatchDeleteDialog.vue";
-TwBatchDeleteDialog_default.__scopeId = "data-v-f1b435c4";
+TwBatchDeleteDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwBatchDeleteDialog.vue";
+TwBatchDeleteDialog_default.__scopeId = "data-v-07e4c460";
 var TwBatchDeleteDialog_default2 = TwBatchDeleteDialog_default;
 var import_vue13 = require("vue");
 var import_codex5 = require("@wikimedia/codex");
 var import_vue14 = require("vue");
-//! src/Twinkle/modules/utils/utc8.ts
+//! src/TwinkleDialogs/modules/utils/utc8.ts
 var UTC8_OFFSET_MINUTES = 8 * 60;
 var beijingCompactToISO = (input) => {
   const match = /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})$/.exec(input.trim());
@@ -2970,10 +2971,10 @@ function render5(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwBatchProtectDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwBatchProtectDialog.vue
 TwBatchProtectDialog_default.render = render5;
-TwBatchProtectDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwBatchProtectDialog.vue";
-TwBatchProtectDialog_default.__scopeId = "data-v-2046f0ba";
+TwBatchProtectDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwBatchProtectDialog.vue";
+TwBatchProtectDialog_default.__scopeId = "data-v-f196efab";
 var TwBatchProtectDialog_default2 = TwBatchProtectDialog_default;
 var import_vue16 = require("vue");
 var import_codex6 = require("@wikimedia/codex");
@@ -3343,17 +3344,17 @@ function render6(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwBatchUndeleteDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwBatchUndeleteDialog.vue
 TwBatchUndeleteDialog_default.render = render6;
-TwBatchUndeleteDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwBatchUndeleteDialog.vue";
-TwBatchUndeleteDialog_default.__scopeId = "data-v-e53e84a1";
+TwBatchUndeleteDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwBatchUndeleteDialog.vue";
+TwBatchUndeleteDialog_default.__scopeId = "data-v-bddb39c6";
 var TwBatchUndeleteDialog_default2 = TwBatchUndeleteDialog_default;
 var import_vue19 = require("vue");
 var import_codex7 = require("@wikimedia/codex");
 var import_vue20 = require("vue");
-//! src/Twinkle/modules/utils/api.ts
+//! src/TwinkleDialogs/modules/utils/api.ts
 var import_ext_gadget2 = require("ext.gadget.Util");
-var api = (0, import_ext_gadget2.initMwApi)("morebits.js; Twinkle/1.1");
+var api = (0, import_ext_gadget2.initMwApi)("morebits.js; Twinkle/1.1 (dialogs)");
 var TwBlockDialog_default = /* @__PURE__ */ (0, import_vue19.defineComponent)({
   __name: "TwBlockDialog",
   props: {
@@ -5317,10 +5318,10 @@ function render7(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwBlockDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwBlockDialog.vue
 TwBlockDialog_default.render = render7;
-TwBlockDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwBlockDialog.vue";
-TwBlockDialog_default.__scopeId = "data-v-8d257111";
+TwBlockDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwBlockDialog.vue";
+TwBlockDialog_default.__scopeId = "data-v-64b7d5b8";
 var TwBlockDialog_default2 = TwBlockDialog_default;
 var import_vue22 = require("vue");
 var import_codex8 = require("@wikimedia/codex");
@@ -5967,9 +5968,9 @@ function render8(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwCloseDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwCloseDialog.vue
 TwCloseDialog_default.render = render8;
-TwCloseDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwCloseDialog.vue";
+TwCloseDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwCloseDialog.vue";
 var TwCloseDialog_default2 = TwCloseDialog_default;
 var import_vue28 = require("vue");
 var import_codex10 = require("@wikimedia/codex");
@@ -6165,10 +6166,10 @@ function render9(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "primary-action", "default-action"]);
 }
-//! src/Twinkle/modules/ui/TwConfigListDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwConfigListDialog.vue
 TwConfigListDialog_default.render = render9;
-TwConfigListDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwConfigListDialog.vue";
-TwConfigListDialog_default.__scopeId = "data-v-0d7248c9";
+TwConfigListDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwConfigListDialog.vue";
+TwConfigListDialog_default.__scopeId = "data-v-6dc9ffa9";
 var TwConfigListDialog_default2 = TwConfigListDialog_default;
 var TwConfigPanel_default = /* @__PURE__ */ (0, import_vue28.defineComponent)({
   __name: "TwConfigPanel",
@@ -6774,10 +6775,10 @@ function render10(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE_FRAGMENT */
   );
 }
-//! src/Twinkle/modules/ui/TwConfigPanel.vue
+//! src/TwinkleDialogs/modules/ui/TwConfigPanel.vue
 TwConfigPanel_default.render = render10;
-TwConfigPanel_default.__file = "src\\Twinkle\\modules\\ui\\TwConfigPanel.vue";
-TwConfigPanel_default.__scopeId = "data-v-b5e8a01f";
+TwConfigPanel_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwConfigPanel.vue";
+TwConfigPanel_default.__scopeId = "data-v-e50e128a";
 var TwConfigPanel_default2 = TwConfigPanel_default;
 var import_vue31 = require("vue");
 var import_codex11 = require("@wikimedia/codex");
@@ -7043,9 +7044,9 @@ function render11(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwCopyvioDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwCopyvioDialog.vue
 TwCopyvioDialog_default.render = render11;
-TwCopyvioDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwCopyvioDialog.vue";
+TwCopyvioDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwCopyvioDialog.vue";
 var TwCopyvioDialog_default2 = TwCopyvioDialog_default;
 var import_vue34 = require("vue");
 var import_codex12 = require("@wikimedia/codex");
@@ -7436,9 +7437,9 @@ function render12(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwImageDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwImageDialog.vue
 TwImageDialog_default.render = render12;
-TwImageDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwImageDialog.vue";
+TwImageDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwImageDialog.vue";
 var TwImageDialog_default2 = TwImageDialog_default;
 var import_vue37 = require("vue");
 var import_codex13 = require("@wikimedia/codex");
@@ -8758,10 +8759,10 @@ function render13(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwProtectDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwProtectDialog.vue
 TwProtectDialog_default.render = render13;
-TwProtectDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwProtectDialog.vue";
-TwProtectDialog_default.__scopeId = "data-v-acd37781";
+TwProtectDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwProtectDialog.vue";
+TwProtectDialog_default.__scopeId = "data-v-895b117b";
 var TwProtectDialog_default2 = TwProtectDialog_default;
 var import_vue40 = require("vue");
 var import_codex14 = require("@wikimedia/codex");
@@ -10217,10 +10218,10 @@ function render14(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwSpeedyDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwSpeedyDialog.vue
 TwSpeedyDialog_default.render = render14;
-TwSpeedyDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwSpeedyDialog.vue";
-TwSpeedyDialog_default.__scopeId = "data-v-ffa653d5";
+TwSpeedyDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwSpeedyDialog.vue";
+TwSpeedyDialog_default.__scopeId = "data-v-3a2025c8";
 var TwSpeedyDialog_default2 = TwSpeedyDialog_default;
 var import_vue43 = require("vue");
 var import_codex15 = require("@wikimedia/codex");
@@ -10577,10 +10578,10 @@ function render15(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwStubDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwStubDialog.vue
 TwStubDialog_default.render = render15;
-TwStubDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwStubDialog.vue";
-TwStubDialog_default.__scopeId = "data-v-ffa9486f";
+TwStubDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwStubDialog.vue";
+TwStubDialog_default.__scopeId = "data-v-19d77db5";
 var TwStubDialog_default2 = TwStubDialog_default;
 var import_vue46 = require("vue");
 var import_codex16 = require("@wikimedia/codex");
@@ -12699,10 +12700,10 @@ function render16(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwTagDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwTagDialog.vue
 TwTagDialog_default.render = render16;
-TwTagDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwTagDialog.vue";
-TwTagDialog_default.__scopeId = "data-v-e69c50d0";
+TwTagDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwTagDialog.vue";
+TwTagDialog_default.__scopeId = "data-v-d60582b0";
 var TwTagDialog_default2 = TwTagDialog_default;
 var import_vue49 = require("vue");
 var import_codex17 = require("@wikimedia/codex");
@@ -13142,10 +13143,10 @@ function render17(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwTalkbackDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwTalkbackDialog.vue
 TwTalkbackDialog_default.render = render17;
-TwTalkbackDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwTalkbackDialog.vue";
-TwTalkbackDialog_default.__scopeId = "data-v-cba7caa1";
+TwTalkbackDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwTalkbackDialog.vue";
+TwTalkbackDialog_default.__scopeId = "data-v-2c9bfde0";
 var TwTalkbackDialog_default2 = TwTalkbackDialog_default;
 var import_vue52 = require("vue");
 var import_codex18 = require("@wikimedia/codex");
@@ -13614,10 +13615,10 @@ function render18(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwUnlinkDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwUnlinkDialog.vue
 TwUnlinkDialog_default.render = render18;
-TwUnlinkDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwUnlinkDialog.vue";
-TwUnlinkDialog_default.__scopeId = "data-v-37ffaf81";
+TwUnlinkDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwUnlinkDialog.vue";
+TwUnlinkDialog_default.__scopeId = "data-v-419f478c";
 var TwUnlinkDialog_default2 = TwUnlinkDialog_default;
 var import_vue55 = require("vue");
 var import_codex19 = require("@wikimedia/codex");
@@ -14459,10 +14460,10 @@ function render19(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwWarnDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwWarnDialog.vue
 TwWarnDialog_default.render = render19;
-TwWarnDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwWarnDialog.vue";
-TwWarnDialog_default.__scopeId = "data-v-9fc64c53";
+TwWarnDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwWarnDialog.vue";
+TwWarnDialog_default.__scopeId = "data-v-08f73b35";
 var TwWarnDialog_default2 = TwWarnDialog_default;
 var import_vue58 = require("vue");
 var import_codex20 = require("@wikimedia/codex");
@@ -15209,9 +15210,9 @@ function render20(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["open", "title", "footer-links", "primary-action"]);
 }
-//! src/Twinkle/modules/ui/TwXfdDialog.vue
+//! src/TwinkleDialogs/modules/ui/TwXfdDialog.vue
 TwXfdDialog_default.render = render20;
-TwXfdDialog_default.__file = "src\\Twinkle\\modules\\ui\\TwXfdDialog.vue";
+TwXfdDialog_default.__file = "src\\TwinkleDialogs\\modules\\ui\\TwXfdDialog.vue";
 var TwXfdDialog_default2 = TwXfdDialog_default;
 //! src/TwinkleDialogs/TwinkleDialogs.ts
 /*! TwinkleDialogs - Vue dialog components for Twinkle, loaded on demand by Gadget-Twinkle */

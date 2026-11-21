@@ -1,4 +1,4 @@
-import {oouiConfirmWithStyle} from 'ext.gadget.Util';
+import {oouiConfirmWithStyle} from './util/dialog';
 
 const fixCheckbox = () => {
 	const {wgCanonicalSpecialPageName, wgWikiID} = mw.config.get();

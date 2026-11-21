@@ -1,0 +1,45 @@
+/**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @base {@link https://git.qiuwen.net.cn/Mirror/xiplus-twinkle}
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/TwinkleCore}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
+ * +------------------------------------------------------------+
+ * |            === WARNING: GLOBAL GADGET FILE ===             |
+ * +------------------------------------------------------------+
+ * |       All changes should be made in the repository,        |
+ * |                otherwise they will be lost.                |
+ * +------------------------------------------------------------+
+ * |        Changes to this page may affect many users.         |
+ * | Please discuss changes by opening an issue before editing. |
+ * +------------------------------------------------------------+
+ */
+/* <nowiki> */
+
+/* src/TwinkleCore/modules/twinkle.less */
+/*! Twinkle.js - twinkle.css */
+.skin-vector .vector-menu-dropdown #p-twinkle {
+  width: 3.24em;
+}
+.skin-citizen #p-twinkle h3 {
+  display: block;
+  padding: 0.75em 1.25em;
+  margin: 0;
+  color: #54595d;
+  font-family: sans-serif;
+  font-family: var(--fonts-sans, sans-serif);
+  font-size: 0.875rem;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+}
+#p-twinkle:hover > .vector-menu-content {
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* </nowiki> */
+

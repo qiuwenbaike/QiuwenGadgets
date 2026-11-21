@@ -9,6 +9,7 @@
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.jqueryMsg",
+		"mediawiki.Title",
 		"mediawiki.user",
 		"mediawiki.util",
 		"user.options"
