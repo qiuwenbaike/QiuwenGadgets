@@ -45,13 +45,13 @@ var TwinkleDialogs_exports = {};
 module.exports = __toCommonJS(TwinkleDialogs_exports);
 var import_vue7 = require("vue");
 var import_codex3 = require("@wikimedia/codex");
-var import_vue8 = require("vue");
 //! src/TwinkleDialogs/modules/morebits.ts
 /*! Twinkle - shared typed access to the Morebits global (provided by `ext.gadget.morebits`). */
 var Morebits = window.Morebits;
 var newParamsApi = (statusText, query, onSuccess, onError) => {
   return new Morebits.wiki.api(statusText, query, onSuccess, void 0, onError);
 };
+var import_vue8 = require("vue");
 var import_vue = require("vue");
 var import_codex = require("@wikimedia/codex");
 var import_vue2 = require("vue");
@@ -463,7 +463,7 @@ var TwArvDialog_default = /* @__PURE__ */ (0, import_vue7.defineComponent)({
     };
     const sockmasterNotice = (0, import_vue8.computed)(() => "{{".concat("subst:", `Socksuspectnotice|1=${sockmaster.value}}}`));
     const removeSockpuppet = (index) => {
-      if (sockpuppets.value.length > 2) {
+      if (sockpuppets.value.length > 1) {
         sockpuppets.value.splice(index, 1);
       }
     };
@@ -752,6 +752,14 @@ var TwArvDialog_default = /* @__PURE__ */ (0, import_vue7.defineComponent)({
       }
       return [reason2, comment];
     };
+    const appendReportToPageEnd = (page2, report) => {
+      const text = (page2.getPageText() ?? "").trimEnd();
+      page2.setPageText(`${text === "" ? "" : `${text}
+
+`}${report.trim()}
+`);
+      page2.save();
+    };
     const evaluate = (input, statusContainer, restore) => {
       const {
         uid
@@ -784,9 +792,7 @@ var TwArvDialog_default = /* @__PURE__ */ (0, import_vue7.defineComponent)({
             ewipPage.getStatusElement().status(uls("加入新报告…", "加入新報告…"));
             ewipPage.setEditSummary(summary);
             ewipPage.setChangeTags(Twinkle.changeTags);
-            ewipPage.setAppendText(`
-${report[0]}`);
-            ewipPage.append();
+            appendReportToPageEnd(ewipPage, report[0]);
           });
           break;
         }
@@ -815,10 +821,7 @@ ${report[0]}`);
             uaaPage.getStatusElement().status(uls("加入新报告…", "加入新報告…"));
             uaaPage.setEditSummary(uls("新提报", "新提報"));
             uaaPage.setChangeTags(Twinkle.changeTags);
-            uaaPage.setAppendText(`
-
-${report[0]}`);
-            uaaPage.append();
+            appendReportToPageEnd(uaaPage, report[0]);
           });
           break;
         }
@@ -839,9 +842,10 @@ ${report[0]}`);
           spiPage.setFollowRedirect(true);
           spiPage.setEditSummary(uls("加入新提报", "加入新提報"));
           spiPage.setChangeTags(Twinkle.changeTags);
-          spiPage.setAppendText(report[0]);
           spiPage.setWatchlist(Twinkle.getPref("spiWatchReport"));
-          spiPage.append();
+          spiPage.load(() => {
+            appendReportToPageEnd(spiPage, report[0]);
+          });
           break;
         }
         // Report user for vandalism
@@ -875,9 +879,7 @@ ${report[0]}`);
             aivPage.getStatusElement().status(uls("加入新报告…", "加入新報告…"));
             aivPage.setEditSummary(summary);
             aivPage.setChangeTags(Twinkle.changeTags);
-            aivPage.setAppendText(`
-${report[0]}`);
-            aivPage.append();
+            appendReportToPageEnd(aivPage, report[0]);
           });
           break;
         }
@@ -925,6 +927,7 @@ ${report[0]}`);
       onPreview,
       submit,
       getReportWikitext,
+      appendReportToPageEnd,
       evaluate,
       get CdxButton() {
         return import_codex3.CdxButton;
@@ -1197,7 +1200,7 @@ function render3(_ctx, _cache, $props, $setup, $data, $options) {
               "aria-label": `${$setup.uls("傀儡：", "傀儡：")} ${index + 1}`,
               disabled: $setup.submitting,
               "onUpdate:modelValue": ($event) => $setup.updateSockpuppet(index, $event)
-            }, null, 8, ["model-value", "aria-label", "disabled", "onUpdate:modelValue"]), $setup.sockpuppets.length > 2 ? ((0, import_vue9.openBlock)(), (0, import_vue9.createBlock)($setup["CdxButton"], {
+            }, null, 8, ["model-value", "aria-label", "disabled", "onUpdate:modelValue"]), $setup.sockpuppets.length > 1 ? ((0, import_vue9.openBlock)(), (0, import_vue9.createBlock)($setup["CdxButton"], {
               key: 0,
               weight: "quiet",
               disabled: $setup.submitting,
@@ -8201,7 +8204,7 @@ var TwProtectDialog_default = /* @__PURE__ */ (0, import_vue37.defineComponent)(
               typereason = uls("傀儡破坏", "傀儡破壞");
               break;
             case "pp-semi-blp":
-              typereason = uls("违反生者传记条例", "違反生者傳記條例");
+              typereason = uls("违反生者传记方针", "違反生者傳記方針");
               break;
             case "pp-move-dispute":
               typereason = uls("争议、移动战", "爭議、移動戰");

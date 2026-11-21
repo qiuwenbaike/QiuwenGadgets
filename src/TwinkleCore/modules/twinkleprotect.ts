@@ -328,7 +328,7 @@ twinkleprotect.protectionTypesAdmin = [
 				value: 'pp-semi-vandalism',
 			},
 			{
-				label: uls('违反生者传记条例（半）', '違反生者傳記條例（半）'),
+				label: uls('违反生者传记方针（半）', '違反生者傳記方針（半）'),
 				value: 'pp-semi-blp',
 			},
 			{
@@ -442,7 +442,7 @@ twinkleprotect.protectionPresetsInfo = {
 	},
 	'pp-semi-blp': {
 		edit: 'autoconfirmed',
-		reason: uls('新用户违反生者传记条例', '新使用者違反生者傳記條例'),
+		reason: uls('新用户违反生者传记方针', '新使用者違反生者傳記方針'),
 	},
 	'pp-semi-usertalk': {
 		edit: 'autoconfirmed',

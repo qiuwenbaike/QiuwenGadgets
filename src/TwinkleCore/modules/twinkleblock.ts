@@ -739,8 +739,8 @@ twinkleblock.blockPresetsInfo = {
 		forRegisteredOnly: true,
 		reason: `{{uw-ublock}}<!-- ${uls('不当用户名、软封禁', '不當使用者名稱')} -->`,
 		summary: uls(
-			'封禁通知：您的用户名违反[[QW:U|用户名条例]]',
-			'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]'
+			'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
+			'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
 		),
 	},
 	'uw-ublock-illegal': {
@@ -750,8 +750,8 @@ twinkleblock.blockPresetsInfo = {
 		nocreate: true,
 		reason: `{{uw-ublock-illegal}}<!-- ${uls('不合规的用户名', '不合規的使用者名稱')} -->`,
 		summary: uls(
-			'封禁通知：您的用户名违反[[QW:U|用户名条例]]',
-			'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]'
+			'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
+			'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
 		),
 	},
 	'uw-ublock-suggestive': {
@@ -761,8 +761,8 @@ twinkleblock.blockPresetsInfo = {
 		nocreate: true,
 		reason: `{{uw-ublock-suggestive}}<!-- ${uls('误导、混淆性用户名', '誤導、混淆性使用者名稱')} -->`,
 		summary: uls(
-			'封禁通知：您的用户名违反[[QW:U|用户名条例]]',
-			'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]'
+			'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
+			'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
 		),
 	},
 	'uw-ublock-spam': {
@@ -772,8 +772,8 @@ twinkleblock.blockPresetsInfo = {
 		nocreate: true,
 		reason: `{{uw-ublock-spam}}<!-- ${uls('宣传性用户名或宣传性编辑', '宣傳性使用者名稱或宣傳性編輯')} -->`,
 		summary: uls(
-			'封禁通知：您的用户名违反[[QW:U|用户名条例]]',
-			'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]'
+			'封禁通知：您的用户名违反[[QW:U|用户名方针]]',
+			'封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]'
 		),
 	},
 	// other block templates
@@ -832,8 +832,8 @@ twinkleblock.blockPresetsInfo = {
 		expiry: '1 day',
 		nocreate: true,
 		pageParam: true,
-		reason: uls('违反生者传记条例', '違反生者傳記條例'),
-		summary: uls('封禁通知：违反生者传记条例', '封鎖通知：違反生者傳記條例'),
+		reason: uls('违反生者传记方针', '違反生者傳記方針'),
+		summary: uls('封禁通知：违反生者传记方针', '封鎖通知：違反生者傳記方針'),
 		templateName: 'uw-vblock',
 	},
 	ucblock: {
@@ -986,7 +986,7 @@ twinkleblock.blockGroups = [
 			},
 			{label: uls('滥用多个账号', '濫用多個賬號'), value: 'uw-sockblock'},
 			// other block reasons
-			{label: uls('违反生者传记条例', '違反生者傳記條例'), value: 'bioblock'},
+			{label: uls('违反生者传记方针', '違反生者傳記方針'), value: 'bioblock'},
 			{label: uls('屡次增加没有可靠来源的资料', '屢次增加沒有可靠來源的資料'), value: 'ucblock'},
 			{label: uls('在条目中增加无意义文字', '在條目中增加無意義文字'), value: 'npblock'},
 			{label: uls('持续打制度擦边球', '持續打制度擦邊球'), value: 'point-block'},
@@ -1011,7 +1011,7 @@ twinkleblock.blockGroups = [
 	{
 		label: uls('用户名封禁', '使用者名稱封鎖'),
 		list: [
-			{label: uls('违反用户名条例', '違反使用者名稱條例'), value: 'uw-ublock'},
+			{label: uls('违反用户名方针', '違反使用者名稱方針'), value: 'uw-ublock'},
 			{label: uls('不合规的用户名', '不合規的使用者名稱'), value: 'uw-ublock-illegal'},
 			{label: uls('宣传性用户名', '宣傳性使用者名稱'), value: 'uw-ublock-spam'},
 			{label: uls('攻击性用户名', '攻擊性使用者名稱'), value: 'uw-ublock-attack'},
