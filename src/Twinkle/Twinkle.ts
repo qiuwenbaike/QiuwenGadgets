@@ -16,5 +16,9 @@ const SKIP_SPECIAL_PAGES: string[] = ['Recentchanges', 'Recentchangeslinked'];
 const {wgCanonicalSpecialPageName} = mw.config.get();
 
 if (!wgCanonicalSpecialPageName || !SKIP_SPECIAL_PAGES.includes(wgCanonicalSpecialPageName)) {
-	void mw.loader.using('ext.gadget.TwinkleCore');
+	void mw.loader.using('ext.gadget.TwinkleCore').catch((error: unknown): void => {
+		// `ext.gadget.TwinkleCore` may still be unknown right after a deployment (or on wikis where it is not
+		// enabled); never leave an unhandled "Unknown module" rejection behind.
+		mw.log.warn('[Twinkle] ext.gadget.TwinkleCore is unavailable; Twinkle is disabled on this wiki.', error);
+	});
 }

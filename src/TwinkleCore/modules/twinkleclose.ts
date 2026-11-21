@@ -23,8 +23,6 @@ declare global {
 	}
 }
 
-const $body = $('body');
-
 const twinkleclose = (() => {
 	if (
 		Twinkle.getPref('XfdClose') === 'hide' ||
@@ -34,19 +32,19 @@ const twinkleclose = (() => {
 	}
 	mw.hook('wikipage.content').add((item) => {
 		if (item.attr('id') === 'mw-content-text') {
-			addLinks();
+			addLinks(item);
 		}
 	});
 }) as TwinkleClose;
 
-const addLinks = (): void => {
+const addLinks = ($content: JQuery): void => {
 	const spanTag = (color: string, content: string): HTMLSpanElement => {
 		const span = document.createElement('span');
 		span.style.color = color;
 		span.appendChild(document.createTextNode(content));
 		return span;
 	};
-	$body
+	$content
 		.find(
 			'h1:has(.mw-headline),h2:has(.mw-headline),h3:has(.mw-headline),h4:has(.mw-headline),h5:has(.mw-headline),h6:has(.mw-headline)'
 		)
@@ -54,7 +52,7 @@ const addLinks = (): void => {
 			element.dataset['section'] = String(index + 1);
 		});
 	const selector = ':has(.mw-headline a:only-of-type):not(:has(+ div.NavFrame))';
-	const titles = $body.find('#bodyContent').find(`h2${selector}:not(:has(+ p + h3)), h3${selector}`); // really needs to work on
+	const titles = $content.find(`h2${selector}:not(:has(+ p + h3)), h3${selector}`); // really needs to work on
 	const delNode = document.createElement('strong');
 	const delLink = document.createElement('a');
 	delLink.appendChild(spanTag('Black', '['));

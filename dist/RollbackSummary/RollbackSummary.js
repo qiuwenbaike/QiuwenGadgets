@@ -53,11 +53,13 @@ var getMessage = (key) => {
   return i18nMessages[key] || key;
 };
 //! src/RollbackSummary/modules/updateLinks.ts
-var updateLinks = ($content) => {
-  const $body = $content.parents("body");
-  const $mwRollbackLinkA = $body.find(".mw-rollback-link a");
-  $mwRollbackLinkA.off("click");
-  $mwRollbackLinkA.on("click", (0, import_ext_gadget2.filterAlteredClicks)((event) => {
+var boundLinks = /* @__PURE__ */ new WeakSet();
+var bindLink = (element) => {
+  if (boundLinks.has(element)) {
+    return;
+  }
+  boundLinks.add(element);
+  $(element).on("click", (0, import_ext_gadget2.filterAlteredClicks)((event) => {
     event.preventDefault();
     let {
       href
@@ -76,8 +78,13 @@ var updateLinks = ($content) => {
       href += `&summary=${encodeURIComponent(summary)}`;
       location.assign(href);
     }
-  }));
-  $mwRollbackLinkA.css("color", "#099");
+  })).css("color", "#099");
+};
+var updateLinks = ($content) => {
+  const $links = $content.find(".mw-rollback-link a").add($content.filter(".mw-rollback-link a"));
+  for (const element of $links) {
+    bindLink(element);
+  }
 };
 //! src/RollbackSummary/RollbackSummary.ts
 mw.hook("wikipage.content").add(function rollbackSummary($content) {

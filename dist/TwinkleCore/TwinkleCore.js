@@ -61,7 +61,7 @@ var uls = (simplified, traditional) => {
 var Morebits = window.Morebits;
 (function twinkle() {
   var _window;
-  const $body6 = $("body");
+  const $body5 = $("body");
   const Twinkle2 = {};
   (_window = window).Twinkle || (_window.Twinkle = Twinkle2);
   if (!Morebits.userIsInGroup("autoconfirmed") && !Morebits.userIsInGroup("confirmed")) {
@@ -205,11 +205,11 @@ var Morebits = window.Morebits;
       Twinkle2.defaultConfig.portletNext = "p-search";
       break;
     case "gongbi":
-      Twinkle2.defaultConfig.portletArea = $body6.find("#page-tools .sidebar-inner").length > 0 ? "#page-tools .sidebar-inner" : "#page-more .sidebar-inner";
+      Twinkle2.defaultConfig.portletArea = $body5.find("#page-tools .sidebar-inner").length > 0 ? "#page-tools .sidebar-inner" : "#page-more .sidebar-inner";
       Twinkle2.defaultConfig.portletId = "p-twinkle";
       Twinkle2.defaultConfig.portletName = "Twinkle";
       Twinkle2.defaultConfig.portletType = null;
-      Twinkle2.defaultConfig.portletNext = $body6.find("#page-tools .sidebar-inner").length > 0 ? "page-more" : null;
+      Twinkle2.defaultConfig.portletNext = $body5.find("#page-tools .sidebar-inner").length > 0 ? "page-more" : null;
       break;
     case "citizen":
       Twinkle2.defaultConfig.portletArea = "#citizen-page-actions-more__card .citizen-menu__card-content";
@@ -367,7 +367,7 @@ var Morebits = window.Morebits;
     }
     const link = mw.util.addPortletLink(Twinkle2.getPref("portletId") ?? "", typeof task === "string" ? task : "#", text, id, tooltip);
     if (!cactionsAdjusted) {
-      const $cactions = $body6.find(".client-js .skin-vector #p-cactions");
+      const $cactions = $body5.find(".client-js .skin-vector #p-cactions");
       if ($cactions.length) {
         $cactions.css("margin-right", "initial");
         cactionsAdjusted = true;
@@ -454,8 +454,8 @@ var Morebits = window.Morebits;
       mw.util.addCSS(".morebits-dialog-content,.morebits-dialog-footerlinks{font-size:100%!important}.morebits-dialog input,.morebits-dialog select,.morebits-dialog-content button{font-size:inherit !important}");
     }
     const isVector = ["vector", "vector-2022"].includes(mw.config.get("skin"));
-    if (isVector && Twinkle2.getPref("portletType") === "menu" && $body6.find("#p-twinkle").length === 0) {
-      $body6.find("#p-cactions").css("margin-right", "initial");
+    if (isVector && Twinkle2.getPref("portletType") === "menu" && $body5.find("#p-twinkle").length === 0) {
+      $body5.find("#p-cactions").css("margin-right", "initial");
     }
   };
   Twinkle2.sortByNamespace = (first, second) => {
@@ -3874,7 +3874,7 @@ var twinklefluff = () => {
     } else if (mw.config.get("wgCanonicalSpecialPageName") === "Recentchanges" || mw.config.get("wgCanonicalSpecialPageName") === "Recentchangeslinked") {
       mw.hook("wikipage.content").add((item) => {
         if (item.is("div")) {
-          twinklefluff.addLinks.recentchanges();
+          twinklefluff.addLinks.recentchanges(item);
         }
       });
     }
@@ -3975,9 +3975,10 @@ twinklefluff.addLinks = {
       }
     }
   },
-  recentchanges: () => {
+  recentchanges: ($content) => {
     if (mw.config.get("wgCanonicalSpecialPageName") === "Recentchanges" && Twinkle.getPref("showRollbackLinks").includes("recentchanges") || mw.config.get("wgCanonicalSpecialPageName") === "Recentchangeslinked" && Twinkle.getPref("showRollbackLinks").includes("recentchangeslinked")) {
-      let $list = $body4.find(".mw-changeslist .mw-changeslist-last.mw-changeslist-src-mw-edit");
+      const $root = $content !== null && $content !== void 0 && $content.length ? $content : $body4;
+      let $list = $root.find(".mw-changeslist-last.mw-changeslist-src-mw-edit");
       $list = $list.not(".mw-rcfilters-ui-highlights-enhanced-toplevel").find(".mw-changeslist-line-inner, td.mw-enhanced-rc-nested");
       $list.each((_key, current) => {
         const href = $(current).find(".mw-changeslist-diff").attr("href");
@@ -4880,29 +4881,28 @@ Twinkle.batchprotect = twinklebatchprotect;
 Twinkle.addInitCallback(twinklebatchprotect, "batchprotect");
 //! src/TwinkleCore/modules/twinkleclose.ts
 /*! Twinkle.js - twinkleclose.ts */
-var $body5 = $("body");
 var twinkleclose = () => {
   if (Twinkle.getPref("XfdClose") === "hide" || !/^Qiuwen([_ ]talk)?:存废讨论\/记录(?:\/\d+){3}$/.test(mw.config.get("wgPageName"))) {
     return;
   }
   mw.hook("wikipage.content").add((item) => {
     if (item.attr("id") === "mw-content-text") {
-      addLinks();
+      addLinks(item);
     }
   });
 };
-var addLinks = () => {
+var addLinks = ($content) => {
   const spanTag = (color, content) => {
     const span = document.createElement("span");
     span.style.color = color;
     span.appendChild(document.createTextNode(content));
     return span;
   };
-  $body5.find("h1:has(.mw-headline),h2:has(.mw-headline),h3:has(.mw-headline),h4:has(.mw-headline),h5:has(.mw-headline),h6:has(.mw-headline)").each((index, element) => {
+  $content.find("h1:has(.mw-headline),h2:has(.mw-headline),h3:has(.mw-headline),h4:has(.mw-headline),h5:has(.mw-headline),h6:has(.mw-headline)").each((index, element) => {
     element.dataset["section"] = String(index + 1);
   });
   const selector = ":has(.mw-headline a:only-of-type):not(:has(+ div.NavFrame))";
-  const titles = $body5.find("#bodyContent").find(`h2${selector}:not(:has(+ p + h3)), h3${selector}`);
+  const titles = $content.find(`h2${selector}:not(:has(+ p + h3)), h3${selector}`);
   const delNode = document.createElement("strong");
   const delLink = document.createElement("a");
   delLink.appendChild(spanTag("Black", "["));
@@ -5905,7 +5905,7 @@ var init = () => {
       }
     })();
   } else if (mw.config.get("wgNamespaceNumber") === mw.config.get("wgNamespaceIds")["user"] && mw.config.get("wgTitle").indexOf(mw.config.get("wgUserName") ?? "") === 0 && mw.config.get("wgPageName").slice(-3) === ".js") {
-    const $body6 = $("body");
+    const $body5 = $("body");
     const box = document.createElement("div");
     box.setAttribute("id", "twinkle-config-headerbox");
     let link;
@@ -5922,7 +5922,7 @@ var init = () => {
       link.appendChild(document.createTextNode(uls("Twinkle参数设置面板", "Twinkle偏好設定面板")));
       box.appendChild(link);
       box.appendChild(document.createTextNode(uls("，或直接编辑本页。", "，或直接編輯本頁。")));
-      $(box).insertAfter($body6.find("#contentSub"));
+      $(box).insertAfter($body5.find("#contentSub"));
     } else if (["vector", "vector-2022", "gongbi", "citizen", "common"].includes(scriptPageName)) {
       box.setAttribute("class", "config-userskin-box");
       box.appendChild(document.createTextNode(uls("若您想配置您的Twinkle，请使用", "若您想配置您的Twinkle，請使用")));
@@ -5931,7 +5931,7 @@ var init = () => {
       link.appendChild(document.createTextNode(uls("Twinkle参数设置面板", "Twinkle偏好設定面板")));
       box.appendChild(link);
       box.appendChild(document.createTextNode("。"));
-      $(box).insertAfter($body6.find("#contentSub"));
+      $(box).insertAfter($body5.find("#contentSub"));
     }
   }
 };

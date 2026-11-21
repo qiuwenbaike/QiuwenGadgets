@@ -96,7 +96,7 @@ interface TwinkleFluffLinkBuilder {
 
 interface TwinkleFluffAddLinks {
 	contributions(): void;
-	recentchanges(): void;
+	recentchanges($content?: JQuery): void;
 	history(): void;
 	diff(): void;
 	oldid(): void;
@@ -173,7 +173,7 @@ const twinklefluff = ((): void => {
 			// structuredChangeFilters.ui.initialized is just on load
 			mw.hook('wikipage.content').add((item) => {
 				if (item.is('div')) {
-					twinklefluff.addLinks.recentchanges();
+					twinklefluff.addLinks.recentchanges(item);
 				}
 			});
 		}
@@ -310,15 +310,19 @@ twinklefluff.addLinks = {
 			}
 		}
 	},
-	recentchanges: (): void => {
+	recentchanges: ($content?: JQuery): void => {
 		if (
 			(mw.config.get('wgCanonicalSpecialPageName') === 'Recentchanges' &&
 				Twinkle.getPref<string[]>('showRollbackLinks').includes('recentchanges')) ||
 			(mw.config.get('wgCanonicalSpecialPageName') === 'Recentchangeslinked' &&
 				Twinkle.getPref<string[]>('showRollbackLinks').includes('recentchangeslinked'))
 		) {
+			// Only look inside the content that `wikipage.content` handed over, instead of re-scanning the whole body.
+			// On RCFilters updates `$content` is the changes-list wrapper itself, which already carries the
+			// `mw-changeslist` class (so requiring a descendant `.mw-changeslist` would match nothing).
+			const $root: JQuery = $content?.length ? $content : $body;
 			// Latest and revertable (not page creations, logs, categorizations, etc.)
-			let $list = $body.find('.mw-changeslist .mw-changeslist-last.mw-changeslist-src-mw-edit');
+			let $list = $root.find('.mw-changeslist-last.mw-changeslist-src-mw-edit');
 			// Exclude top-level header if "group changes" preference is used
 			// and find only individual lines or nested lines
 			$list = $list

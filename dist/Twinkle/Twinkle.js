@@ -30,7 +30,9 @@ var {
   wgCanonicalSpecialPageName
 } = mw.config.get();
 if (!wgCanonicalSpecialPageName || !SKIP_SPECIAL_PAGES.includes(wgCanonicalSpecialPageName)) {
-  void mw.loader.using("ext.gadget.TwinkleCore");
+  void mw.loader.using("ext.gadget.TwinkleCore").catch((error) => {
+    mw.log.warn("[Twinkle] ext.gadget.TwinkleCore is unavailable; Twinkle is disabled on this wiki.", error);
+  });
 }
 
 })();

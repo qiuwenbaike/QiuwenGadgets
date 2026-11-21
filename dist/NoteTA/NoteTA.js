@@ -576,12 +576,17 @@ var generatePortletLink = (hash) => {
   return $portletLink;
 };
 //! src/NoteTA/NoteTA.ts
+var indicatorsInitialized = false;
 mw.hook("wikipage.content").add(function noteTA($content) {
-  const $body = $content.parents("body");
   resetAllViewer();
+  const $body = $content.parents("body");
   const globalMethods = initGlobalMethods($body);
   globalMethods.deInit();
   globalMethods.init();
+  if (indicatorsInitialized) {
+    return;
+  }
+  indicatorsInitialized = true;
   for (const element of $body.find(".mw-indicator[id^=mw-indicator-noteTA-]")) {
     const hash = element.id.replace(/^mw-indicator-noteTA-/, "");
     let $element = $(element);
