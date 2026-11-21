@@ -6201,8 +6201,14 @@ var setupTooltips = (container, remove, force, popData) => {
     return;
   }
   container.ranSetupTooltipsAlready = !remove;
-  const anchors = container.querySelectorAll("a");
-  setupTooltipsLoop(anchors, 0, 250, 100, remove, popData);
+  if (popData) {
+    const anchors = container.querySelectorAll("a");
+    setupTooltipsLoop(anchors, 0, 250, 100, remove, popData);
+    return;
+  }
+  if (!remove) {
+    installDelegatedTooltips();
+  }
 };
 var defaultPopupsContainer = () => {
   if (getValueOf("popupOnlyArticleLinks")) {
@@ -6252,9 +6258,6 @@ var addTooltip = (a, popData) => {
   if (!isPopupLink(a)) {
     return;
   }
-  a.onmouseover = mouseOverWikiLink;
-  a.onmouseout = mouseOutWikiLink;
-  a.onmousedown = killPopup;
   a.hasPopup = true;
   a.popData = popData;
 };
@@ -6262,12 +6265,11 @@ var removeTooltip = (a) => {
   if (!a.hasPopup) {
     return;
   }
-  a.onmouseover = null;
-  a.onmouseout = null;
   if (a.originalTitle) {
     a.title = a.originalTitle;
   }
   a.hasPopup = false;
+  a.popData = void 0;
 };
 var removeTitle = (a) => {
   a.originalTitle || (a.originalTitle = a.title);
@@ -6624,6 +6626,52 @@ var killPopup = function killPopup2() {
     pg.timer.checkPopupPosition = null;
   }
   return true;
+};
+var NAVIGATION_LINK_SELECTOR = ["#toc", ".catlinks", ".mw-changeslist", ".mw-editsection", ".mw-indicators", ".mw-jump-link", ".mw-portlet", ".mw-thanks", ".mw-userlink", ".mw-usertoollinks", ".printfooter"].join(", ");
+var delegatedTooltipsInstalled = false;
+var selectDelegatedAnchor = (event) => {
+  const {
+    target
+  } = event;
+  if (!(target instanceof Element)) {
+    return null;
+  }
+  const anchor = target.closest("a");
+  if (!(anchor instanceof HTMLAnchorElement) || !anchor.href) {
+    return null;
+  }
+  if (anchor.closest(NAVIGATION_LINK_SELECTOR)) {
+    return null;
+  }
+  return isPopupLink(anchor) ? anchor : null;
+};
+var installDelegatedTooltips = () => {
+  if (delegatedTooltipsInstalled) {
+    return;
+  }
+  const container = document.getElementById("mw-content-text") ?? document.body;
+  if (!container) {
+    return;
+  }
+  delegatedTooltipsInstalled = true;
+  container.addEventListener("mouseover", (event) => {
+    const anchor = selectDelegatedAnchor(event);
+    if (anchor) {
+      mouseOverWikiLink.call(anchor, event);
+    }
+  });
+  container.addEventListener("mouseout", (event) => {
+    const anchor = selectDelegatedAnchor(event);
+    if (anchor) {
+      mouseOutWikiLink.call(anchor);
+    }
+  });
+  container.addEventListener("mousedown", (event) => {
+    const anchor = selectDelegatedAnchor(event);
+    if (anchor) {
+      killPopup.call(anchor);
+    }
+  });
 };
 //! src/Navigation_popups/modules/init.ts
 var setSiteInfo = () => {

@@ -58,6 +58,9 @@ module.exports = __toCommonJS(MarkRights_exports);
 //! src/MarkRights/options.json
 var storageKeyGlobal = "ext.gadget.MarkRights_global-";
 var storageKeyLocal = "ext.gadget.MarkRights_local-";
+var listPageUserLinkThreshold = 300;
+var maxConcurrentGlobalBatches = 4;
+var maxGlobalUsersOnListPages = 100;
 var version = 2.1;
 //! src/MarkRights/modules/util/api.ts
 var import_ext_gadget = require("ext.gadget.Util");
@@ -260,68 +263,71 @@ var i18nMessages = getI18nMessages();
 var getMessage = (key) => {
   return i18nMessages[key] || key;
 };
-//! src/MarkRights/modules/util/getUserName.ts
-var getUserName = (url) => {
-  if (!url) {
-    return "";
-  }
-  const username = mw.util.getParamValue("title", url);
-  const decode = (string, replace) => {
-    return decodeURIComponent((() => {
-      try {
-        return decodeURIComponent(replace(string));
-      } catch {
-        return replace(string).replace(/%(?!\d+)/g, "%25");
-      }
-    })());
-  };
-  if (username) {
-    return decode(username, (string) => {
-      return string.replace("User:", "").replace(/_/g, " ");
-    });
-  }
-  const usernameMatch = url.match(/\/wiki\/User:(.+?)$/);
-  if (usernameMatch !== null && usernameMatch !== void 0 && usernameMatch[1]) {
-    return decode(usernameMatch[1], (string) => {
-      return string.replace(/_/g, " ");
-    });
-  }
-  return "";
-};
 //! src/MarkRights/modules/util/appendUserRightsMark.ts
 var import_ext_gadget3 = require("ext.gadget.Util");
-var appendUserRightsMark = ($userLinks, userGroups) => {
-  for (const $element of $userLinks) {
-    const username = getUserName($element.attr("href") ?? "");
-    if (!username) {
+var supContainerCache = /* @__PURE__ */ new WeakMap();
+var getSupContainer = ($element) => {
+  const element = $element[0];
+  if (!element) {
+    return null;
+  }
+  const listItem = element.closest("li");
+  if (listItem) {
+    var _cached$;
+    const cached = supContainerCache.get(listItem);
+    if (cached !== null && cached !== void 0 && (_cached$ = cached[0]) !== null && _cached$ !== void 0 && _cached$.isConnected) {
+      return cached;
+    }
+  }
+  let $sups = $element.siblings(".gadgets-markrights").first();
+  if (!$sups.length) {
+    const $scope = listItem ? $(listItem) : $element.parent();
+    $sups = $scope.find(".gadgets-markrights").first();
+  }
+  return $sups.length ? $sups : null;
+};
+var appendUserRightsMark = (userLinks, userGroups) => {
+  for (const [user, groups] of Object.entries(userGroups)) {
+    const groupsToMark = (0, import_ext_gadget3.uniqueArray)(groups);
+    const $elements = userLinks[user];
+    if (!groupsToMark.length || !($elements !== null && $elements !== void 0 && $elements.length)) {
       continue;
     }
-    userGroups ?? (userGroups = {});
-    const groups = userGroups[username] ?? [];
-    let $sups;
-    if ($element.parents("li").find(".gadgets-markrights").length) {
-      $sups = $element.siblings(".gadgets-markrights").eq(0);
-    } else if ($element.siblings(".gadgets-markrights").length) {
-      $sups = $element.parents("li").find(".gadgets-markrights").eq(0);
-    } else {
-      $sups = $("<span>").addClass("gadgets-markrights");
-      $element.after($sups);
-    }
-    for (const group of (0, import_ext_gadget3.uniqueArray)(groups)) {
-      const className = `gadgets-markrights__${group}`;
-      const deprecatedClassName = `gadgets-markrights-${group}`;
-      if ($sups.find("sup").hasClass(className) || $sups.find("sup").hasClass(deprecatedClassName)) {
+    for (const $element of $elements) {
+      let $sups = getSupContainer($element);
+      const groupsToAdd = groupsToMark.filter((group) => {
+        var _$sups;
+        const className = `gadgets-markrights__${group}`;
+        const deprecatedClassName = `gadgets-markrights-${group}`;
+        const $supsOfGroup = (_$sups = $sups) === null || _$sups === void 0 ? void 0 : _$sups.children("sup");
+        if (!$supsOfGroup) {
+          return true;
+        }
+        return !$supsOfGroup.hasClass(className) && !$supsOfGroup.hasClass(deprecatedClassName);
+      });
+      if (!groupsToAdd.length) {
         continue;
       }
-      $sups.append(
-        // The following classes are used here:
-        // * see ../types.d.ts
-        // * for more information
-        $("<sup>").addClass(className).addClass(deprecatedClassName).attr({
-          alt: getMessage(group),
-          title: getMessage(group)
-        })
-      );
+      if (!$sups) {
+        var _$element$;
+        $sups = $("<span>").addClass("gadgets-markrights");
+        $element.after($sups);
+        const listItem = (_$element$ = $element[0]) === null || _$element$ === void 0 ? void 0 : _$element$.closest("li");
+        if (listItem) {
+          supContainerCache.set(listItem, $sups);
+        }
+      }
+      for (const group of groupsToAdd) {
+        $sups.append(
+          // The following classes are used here:
+          // * see ../types.d.ts
+          // * for more information
+          $("<sup>").addClass(`gadgets-markrights__${group}`).addClass(`gadgets-markrights-${group}`).attr({
+            alt: getMessage(group),
+            title: getMessage(group)
+          })
+        );
+      }
     }
   }
 };
@@ -331,7 +337,8 @@ var generateUserLinks = ($content) => {
   const $elements = $content.find("a.mw-userlink:not(.mw-anonuserlink)");
   for (const element of $elements) {
     const $element = $(element);
-    if ($element.parents("li").find(".gadgets-markrights").length || $element.siblings(".gadgets-markrights").length) {
+    const listItem = element.closest("li");
+    if ($element.siblings(".gadgets-markrights").length || listItem !== null && listItem !== void 0 && listItem.querySelector(".gadgets-markrights")) {
       continue;
     }
     const {
@@ -350,46 +357,54 @@ var generateUserLinks = ($content) => {
   return userLinks;
 };
 //! src/MarkRights/modules/core.ts
-var markUserRights = ($content) => {
+var BATCH_SIZE = 25;
+var LIST_SPECIAL_PAGES = ["AbuseLog", "Contributions", "Log", "Newfiles", "Newpages", "Prefixindex", "Recentchanges", "Recentchangeslinked", "Watchlist"];
+var isListPage = (userCount) => {
+  if (userCount >= listPageUserLinkThreshold) {
+    return true;
+  }
+  const {
+    wgCanonicalSpecialPageName
+  } = mw.config.get();
+  return Boolean(wgCanonicalSpecialPageName && LIST_SPECIAL_PAGES.includes(wgCanonicalSpecialPageName));
+};
+var runWithConcurrency = async (tasks, limit) => {
+  let nextIndex = 0;
+  const workers = Array.from({
+    length: Math.min(limit, tasks.length)
+  }, async () => {
+    for (; ; ) {
+      const index = nextIndex++;
+      if (index >= tasks.length) {
+        return;
+      }
+      await tasks[index]();
+    }
+  });
+  await Promise.all(workers);
+};
+var markUserRights = async ($content) => {
   const userLinks = generateUserLinks($content);
   const users = Object.keys(userLinks);
   if (!users.length) {
     return;
   }
-  const $userLinks = Object.values(userLinks).reduce((previousValue, currentValue) => {
-    return [...previousValue, ...currentValue];
-  });
-  if (!$userLinks.length) {
-    return;
+  for (let i = 0; i < users.length; i += BATCH_SIZE) {
+    const batch = users.slice(i, i + BATCH_SIZE);
+    const localGroups = await getLocalUserGroups(batch);
+    appendUserRightsMark(userLinks, localGroups);
   }
-  const promises = [];
-  for (let i = 0; i < users.length; i++) {
-    const ususers = users.splice(0, 25).filter((element) => {
-      return !(mw.util.isIPv4Address(element) || mw.util.isIPv6Address(element));
-    });
-    if (!ususers.length) {
-      continue;
-    }
-    promises[promises.length] = async () => {
-      let userGroups = {};
-      try {
-        userGroups = await getLocalUserGroups(ususers);
-      } catch (error) {
-        console.error("[MarkRights] Ajax error:", error);
-      }
-      appendUserRightsMark($userLinks, userGroups);
-    };
-    promises[promises.length] = async () => {
-      let userGroups = {};
-      try {
-        userGroups = await getGlobalUserGroups(ususers);
-      } catch (error) {
-        console.error("[MarkRights] Ajax error:", error);
-      }
-      appendUserRightsMark($userLinks, userGroups);
-    };
+  const globalUsers = users.slice(0, isListPage(users.length) ? maxGlobalUsersOnListPages : users.length);
+  const globalBatches = [];
+  for (let i = 0; i < globalUsers.length; i += BATCH_SIZE) {
+    globalBatches.push(globalUsers.slice(i, i + BATCH_SIZE));
   }
-  void Promise.all(promises.map((promise) => promise()));
+  await runWithConcurrency(globalBatches.map((batch) => {
+    return async () => {
+      const globalGroups = await getGlobalUserGroups(batch);
+      appendUserRightsMark(userLinks, globalGroups);
+    };
+  }), maxConcurrentGlobalBatches);
 };
 //! src/MarkRights/MarkRights.ts
 mw.hook("wikipage.content").add(function markRights($content) {

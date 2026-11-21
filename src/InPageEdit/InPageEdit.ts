@@ -1,6 +1,14 @@
 import {getBody} from 'ext.gadget.Util';
 
 void getBody().then(function inPageEditLoader(): void {
+	const {wgNamespaceNumber} = mw.config.get();
+
+	// Special pages (namespace -1) are read-only lists: InPageEdit cannot edit them, but injecting it
+	// would pull CodeMirror, Codex and Vue (several MB) and decorate every link on the page.
+	if (wgNamespaceNumber < 0) {
+		return;
+	}
+
 	/**!
 	 * SPDX-License-Identifier: MIT
 	 *

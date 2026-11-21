@@ -6,6 +6,7 @@
 	"dependencies": [
 		"@wikimedia/codex",
 		"ext.gadget.i18n",
+		"ext.gadget.morebits",
 		"ext.gadget.Util",
 		"mediawiki.api",
 		"mediawiki.util",

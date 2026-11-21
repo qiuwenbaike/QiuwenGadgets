@@ -3,17 +3,5 @@
 	"description": "<span id=\"Gadget-Twinkle\"></span> [[Help:Twinkle|Twinkle]] <small>自动进行常见维护操作（[[Help:Twinkle/参数设置|参数设置]]）</small>",
 	"section": "sysop",
 	"includeSites": ["zhqiuwenbaike"],
-	"dependencies": [
-		"@wikimedia/codex",
-		"ext.gadget.i18n",
-		"ext.gadget.morebits",
-		"ext.gadget.Util",
-		"mediawiki.api",
-		"mediawiki.language",
-		"mediawiki.storage",
-		"mediawiki.util",
-		"user.options",
-		"vue"
-	],
 	"rights": ["skipcaptcha"]
 }

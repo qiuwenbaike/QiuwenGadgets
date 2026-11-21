@@ -1,5 +1,8 @@
 {
 	"storageKeyGlobal": "ext.gadget.MarkRights_global-",
 	"storageKeyLocal": "ext.gadget.MarkRights_local-",
+	"listPageUserLinkThreshold": 300,
+	"maxConcurrentGlobalBatches": 4,
+	"maxGlobalUsersOnListPages": 100,
 	"version": 2.1
 }

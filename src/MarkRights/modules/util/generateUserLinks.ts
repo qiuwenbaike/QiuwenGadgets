@@ -4,10 +4,11 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery<HTMLAnchorEl
 
 	for (const element of $elements) {
 		const $element: JQuery<HTMLAnchorElement> = $(element);
-		if (
-			$element.parents('li').find('.gadgets-markrights').length ||
-			$element.siblings('.gadgets-markrights').length
-		) {
+
+		// Native `closest()`/`querySelector()` instead of `parents('li').find()`: the latter walks the
+		// whole ancestor chain with jQuery and is repeated for every link of every batch.
+		const listItem = element.closest('li');
+		if ($element.siblings('.gadgets-markrights').length || listItem?.querySelector('.gadgets-markrights')) {
 			continue;
 		}
 

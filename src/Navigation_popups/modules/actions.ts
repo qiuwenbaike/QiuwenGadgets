@@ -33,8 +33,15 @@ const setupTooltips = (container?: Element | Document | null, remove?: boolean, 
 		return;
 	}
 	container.ranSetupTooltipsAlready = !remove;
-	const anchors = container.querySelectorAll('a');
-	setupTooltipsLoop(anchors, 0, 250, 100, remove, popData);
+	if (popData) {
+		// Links inside a popup have to carry the owner popup, so those few anchors are still marked one by one.
+		const anchors = container.querySelectorAll('a');
+		setupTooltipsLoop(anchors, 0, 250, 100, remove, popData);
+		return;
+	}
+	if (!remove) {
+		installDelegatedTooltips();
+	}
 };
 const defaultPopupsContainer = () => {
 	if (getValueOf('popupOnlyArticleLinks')) {
@@ -101,9 +108,8 @@ const addTooltip = (a: HTMLAnchorElement, popData?: PopData) => {
 	if (!isPopupLink(a)) {
 		return;
 	}
-	a.onmouseover = mouseOverWikiLink;
-	a.onmouseout = mouseOutWikiLink;
-	a.onmousedown = killPopup;
+	// Handlers are delegated to the content container (see `installDelegatedTooltips`), so a link only
+	// has to remember that it has a popup and which popup owns it.
 	a.hasPopup = true;
 	a.popData = popData;
 };
@@ -111,12 +117,11 @@ const removeTooltip = (a: HTMLAnchorElement) => {
 	if (!a.hasPopup) {
 		return;
 	}
-	a.onmouseover = null;
-	a.onmouseout = null;
 	if (a.originalTitle) {
 		a.title = a.originalTitle;
 	}
 	a.hasPopup = false;
+	a.popData = undefined;
 };
 const removeTitle = (a: HTMLAnchorElement) => {
 	a.originalTitle ||= a.title;
@@ -157,7 +162,7 @@ const mouseOverWikiLink = function mouseOverWikiLink(this: GlobalEventHandlers, 
 		// if popupModifierAction = disable, we should popup unless the modifier is pressed
 		const action = getValueOf('popupModifierAction');
 		const key = action === 'disable' ? 'keyup' : 'keydown';
-		// 实际绑定于 <a> 元素（见 addTooltip 的 a.onmouseover），此处收窄以访问扩展属性
+		// 实际由内容容器上的委托监听调用，`this` 为事件所在的 <a>，此处收窄以访问扩展属性
 		const self = this as HTMLAnchorElement;
 		self.modifierKeyListener = (evt: Event) => {
 			mouseOverWikiLink2(self, evt);
@@ -499,7 +504,7 @@ const anchorize = (d: string, anch: string) => {
 	}
 	return d;
 };
-// this 声明为 GlobalEventHandlers | undefined：兼容 onmousedown 绑定与 shortcutkeys 的裸调用
+// this 声明为 GlobalEventHandlers | undefined：兼容委托的 mousedown 绑定与 shortcutkeys 的裸调用
 const killPopup = function killPopup(this: GlobalEventHandlers | undefined) {
 	removeModifierKeyListener(this as HTMLAnchorElement | undefined);
 	if (getValueOf('popupShortcutKeys')) {
@@ -518,6 +523,79 @@ const killPopup = function killPopup(this: GlobalEventHandlers | undefined) {
 		pg.timer.checkPopupPosition = null;
 	}
 	return true; // preserve default action
+};
+
+/**
+ * Anchors that belong to navigation/list chrome rather than to article content: previews on them are
+ * rarely useful and would cost one listener per link on list pages (Special:RecentChanges, …).
+ */
+const NAVIGATION_LINK_SELECTOR: string = [
+	'#toc',
+	'.catlinks',
+	'.mw-changeslist',
+	'.mw-editsection',
+	'.mw-indicators',
+	'.mw-jump-link',
+	'.mw-portlet',
+	'.mw-thanks',
+	'.mw-userlink',
+	'.mw-usertoollinks',
+	'.printfooter',
+].join(', ');
+
+let delegatedTooltipsInstalled = false;
+
+const selectDelegatedAnchor = (event: Event): HTMLAnchorElement | null => {
+	const {target} = event;
+	if (!(target instanceof Element)) {
+		return null;
+	}
+
+	const anchor = target.closest('a');
+	if (!(anchor instanceof HTMLAnchorElement) || !anchor.href) {
+		return null;
+	}
+
+	if (anchor.closest(NAVIGATION_LINK_SELECTOR)) {
+		return null;
+	}
+
+	return isPopupLink(anchor) ? anchor : null;
+};
+
+/**
+ * Install the three popup listeners once, on the content container, instead of one set of DOM0
+ * handlers per anchor (6,412 anchors × 3 handlers on the analysed Special:RecentChanges page).
+ */
+const installDelegatedTooltips = (): void => {
+	if (delegatedTooltipsInstalled) {
+		return;
+	}
+
+	const container = document.getElementById('mw-content-text') ?? document.body;
+	if (!container) {
+		return;
+	}
+
+	delegatedTooltipsInstalled = true;
+	container.addEventListener('mouseover', (event: MouseEvent): void => {
+		const anchor = selectDelegatedAnchor(event);
+		if (anchor) {
+			mouseOverWikiLink.call(anchor, event);
+		}
+	});
+	container.addEventListener('mouseout', (event: MouseEvent): void => {
+		const anchor = selectDelegatedAnchor(event);
+		if (anchor) {
+			mouseOutWikiLink.call(anchor);
+		}
+	});
+	container.addEventListener('mousedown', (event: MouseEvent): void => {
+		const anchor = selectDelegatedAnchor(event);
+		if (anchor) {
+			killPopup.call(anchor);
+		}
+	});
 };
 
 export {

@@ -11,6 +11,8 @@
 		"mediawiki.api",
 		"mediawiki.language",
 		"mediawiki.storage",
+		"mediawiki.Title",
+		"mediawiki.user",
 		"mediawiki.util",
 		"user.options",
 		"vue"

@@ -26,6 +26,12 @@
 //! src/InPageEdit/InPageEdit.ts
 var import_ext_gadget = require("ext.gadget.Util");
 void (0, import_ext_gadget.getBody)().then(function inPageEditLoader() {
+  const {
+    wgNamespaceNumber
+  } = mw.config.get();
+  if (wgNamespaceNumber < 0) {
+    return;
+  }
   /**!
    * SPDX-License-Identifier: MIT
    *

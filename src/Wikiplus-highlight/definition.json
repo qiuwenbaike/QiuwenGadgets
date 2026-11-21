@@ -4,6 +4,13 @@
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
 	"actions": ["view"],
-	"dependencies": ["ext.gadget.Util", "ext.gadget.Wikiplus", "mediawiki.Title", "user.options"],
+	"dependencies": [
+		"ext.gadget.Util",
+		"ext.gadget.Wikiplus",
+		"mediawiki.jqueryMsg",
+		"mediawiki.Title",
+		"oojs-ui",
+		"user.options"
+	],
 	"rights": ["skipcaptcha"]
 }
