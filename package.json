@@ -22,7 +22,6 @@
 		"stylelint:fix": "stylelint --allow-empty-input --cache --fix src/**/*.{css,less}",
 		"lint": "pnpm eslint && pnpm stylelint",
 		"lint:fix": "pnpm eslint:fix && pnpm stylelint:fix",
-		"test:i18n": "node --import tsx --test src/i18n/tests/fallback.test.ts",
 		"minify-svg": "svgo --config=svgo.config.cjs --quiet --recursive --folder src",
 		"preinstall": "npx only-allow pnpm",
 		"prepare": "husky"
@@ -124,8 +123,8 @@
 		"moment": "^2.31.0",
 		"mwn": "^3.0.3",
 		"only-allow": "^1.2.2",
-		"oojs": "^7.0.1",
-		"oojs-ui": "^0.54.2",
+		"oojs": "^7.1.0",
+		"oojs-ui": "^0.54.3",
 		"p-queue": "^9.3.5",
 		"pinia": "^3.0.4",
 		"postcss": "^8.5.33",
