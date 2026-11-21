@@ -463,7 +463,7 @@ var TwArvDialog_default = /* @__PURE__ */ (0, import_vue7.defineComponent)({
     };
     const sockmasterNotice = (0, import_vue8.computed)(() => "{{".concat("subst:", `Socksuspectnotice|1=${sockmaster.value}}}`));
     const removeSockpuppet = (index) => {
-      if (sockpuppets.value.length > 2) {
+      if (sockpuppets.value.length > 1) {
         sockpuppets.value.splice(index, 1);
       }
     };
@@ -1200,7 +1200,7 @@ function render3(_ctx, _cache, $props, $setup, $data, $options) {
               "aria-label": `${$setup.uls("傀儡：", "傀儡：")} ${index + 1}`,
               disabled: $setup.submitting,
               "onUpdate:modelValue": ($event) => $setup.updateSockpuppet(index, $event)
-            }, null, 8, ["model-value", "aria-label", "disabled", "onUpdate:modelValue"]), $setup.sockpuppets.length > 2 ? ((0, import_vue9.openBlock)(), (0, import_vue9.createBlock)($setup["CdxButton"], {
+            }, null, 8, ["model-value", "aria-label", "disabled", "onUpdate:modelValue"]), $setup.sockpuppets.length > 1 ? ((0, import_vue9.openBlock)(), (0, import_vue9.createBlock)($setup["CdxButton"], {
               key: 0,
               weight: "quiet",
               disabled: $setup.submitting,

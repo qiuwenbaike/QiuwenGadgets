@@ -171,7 +171,7 @@ const addSockpuppet = () => {
 const sockmasterNotice = computed(() => '{{'.concat('subst:', `Socksuspectnotice|1=${sockmaster.value}}}`));
 
 const removeSockpuppet = (index: number) => {
-	if (sockpuppets.value.length > 2) {
+	if (sockpuppets.value.length > 1) {
 		sockpuppets.value.splice(index, 1);
 	}
 };
@@ -800,7 +800,7 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 						@update:model-value="updateSockpuppet(index, $event)"
 					/>
 					<cdx-button
-						v-if="sockpuppets.length > 2"
+						v-if="sockpuppets.length > 1"
 						weight="quiet"
 						:disabled="submitting"
 						@click="removeSockpuppet(index)"
