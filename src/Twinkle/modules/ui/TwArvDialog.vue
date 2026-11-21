@@ -8,8 +8,8 @@ import {
 	CdxTextInput,
 	type MenuItemData,
 } from '@wikimedia/codex';
+import {Morebits, type MorebitsWikiPage} from './morebits';
 import {computed, ref, watch} from 'vue';
-import {Morebits} from './morebits';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';
 import type {TwStatusExposed} from './types';
@@ -498,6 +498,15 @@ const getReportWikitext = (input: ArvParams): [string, string] | undefined => {
 	return [reason, comment];
 };
 
+/**
+ * 一律将报告追加到页面最下方，避免报告被插到页面顶部（如页首说明之后）。
+ */
+const appendReportToPageEnd = (page: MorebitsWikiPage, report: string): void => {
+	const text = (page.getPageText() ?? '').trimEnd();
+	page.setPageText(`${text === '' ? '' : `${text}\n\n`}${report.trim()}\n`);
+	page.save();
+};
+
 const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore?: () => void): void => {
 	const {uid} = input;
 	let summary = '';
@@ -543,8 +552,7 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 				ewipPage.getStatusElement().status(uls('加入新报告…', '加入新報告…'));
 				ewipPage.setEditSummary(summary);
 				ewipPage.setChangeTags(Twinkle.changeTags);
-				ewipPage.setAppendText(`\n${report[0]}`);
-				ewipPage.append();
+				appendReportToPageEnd(ewipPage, report[0]);
 			});
 			break;
 		}
@@ -586,8 +594,7 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 				uaaPage.getStatusElement().status(uls('加入新报告…', '加入新報告…'));
 				uaaPage.setEditSummary(uls('新提报', '新提報'));
 				uaaPage.setChangeTags(Twinkle.changeTags);
-				uaaPage.setAppendText(`\n\n${report[0]}`);
-				uaaPage.append();
+				appendReportToPageEnd(uaaPage, report[0]);
 			});
 			break;
 		}
@@ -608,9 +615,10 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 			spiPage.setFollowRedirect(true);
 			spiPage.setEditSummary(uls('加入新提报', '加入新提報'));
 			spiPage.setChangeTags(Twinkle.changeTags);
-			spiPage.setAppendText(report[0]);
 			spiPage.setWatchlist(Twinkle.getPref('spiWatchReport'));
-			spiPage.append();
+			spiPage.load(() => {
+				appendReportToPageEnd(spiPage, report[0]);
+			});
 			break;
 		}
 
@@ -660,8 +668,7 @@ const evaluate = (input: ArvParams, statusContainer: HTMLElement | null, restore
 				aivPage.getStatusElement().status(uls('加入新报告…', '加入新報告…'));
 				aivPage.setEditSummary(summary);
 				aivPage.setChangeTags(Twinkle.changeTags);
-				aivPage.setAppendText(`\n${report[0]}`);
-				aivPage.append();
+				appendReportToPageEnd(aivPage, report[0]);
 			});
 			break;
 		}
