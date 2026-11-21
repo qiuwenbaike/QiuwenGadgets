@@ -8,7 +8,6 @@ type GenerateArray = import('./generateArray').GenerateArray;
 type GetBody = import('./getBody').GetBody;
 type InitMwApi = import('./initMwApi').InitMwApi;
 type ClassMwUri = import('./mwUri').ClassMwUri;
-type OouiConfirmWithStyle = import('./oouiConfirmWithStyle').OouiConfirmWithStyle;
 type ScrollTop = import('./scrollTop').ScrollTop;
 type UserIsInGroup = import('./userIsInGroup').UserIsInGroup;
 type UniqueArray = import('./uniqueArray').UniqueArray;
@@ -23,7 +22,6 @@ declare module 'ext.gadget.Util' {
 	export const getBody: GetBody;
 	export const initMwApi: InitMwApi;
 	export const MwUri: ClassMwUri;
-	export const oouiConfirmWithStyle: OouiConfirmWithStyle;
 	export const scrollTop: ScrollTop;
 	export const userIsInGroup: UserIsInGroup;
 	export const uniqueArray: UniqueArray;

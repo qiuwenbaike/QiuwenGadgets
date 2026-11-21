@@ -4,6 +4,6 @@
 	"section": "edit",
 	"excludeSites": ["loginwiki"],
 	"default": true,
-	"dependencies": ["@wikimedia/codex", "ext.gadget.i18n", "ext.gadget.Util", "vue"],
+	"dependencies": ["ext.gadget.i18n", "ext.gadget.Util", "ext.gadget.UtilDialog"],
 	"rights": ["edit"]
 }

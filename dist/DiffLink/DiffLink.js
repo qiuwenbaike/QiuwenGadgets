@@ -84,10 +84,7 @@ var checkRevisionPage = ($content) => {
   return ($content.find("#contentSub #mw-revision-nav").length || $content.find("main#content>.pre-content #mw-revision-nav").length) > 0;
 };
 //! src/DiffLink/modules/addPortletLink.ts
-var import_vue4 = require("vue");
-var import_vue = require("vue");
-var import_codex = require("@wikimedia/codex");
-var import_vue2 = require("vue");
+var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/DiffLink/modules/i18n.ts
 var import_ext_gadget = require("ext.gadget.i18n");
 var getI18nMessages = () => {
@@ -211,142 +208,7 @@ var copyText = async (text) => {
     });
   }
 };
-var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
-  __name: "App",
-  props: {
-    open: {
-      type: Boolean,
-      required: true
-    },
-    items: {
-      type: Array,
-      required: true
-    },
-    onClose: {
-      type: Function,
-      required: true
-    }
-  },
-  emits: ["update:open"],
-  setup(__props, {
-    expose: __expose,
-    emit: __emit
-  }) {
-    __expose();
-    const props = __props;
-    const emit = __emit;
-    const isOpen = (0, import_vue2.ref)(props.open);
-    (0, import_vue2.watch)(() => props.open, (value) => {
-      isOpen.value = value;
-    }, {
-      immediate: true
-    });
-    const close = () => {
-      isOpen.value = false;
-      emit("update:open", false);
-      props.onClose();
-    };
-    const handleOpenChange = (value) => {
-      isOpen.value = value;
-      if (!value) {
-        close();
-      }
-    };
-    const cdxIconCopy = {
-      path: "M13 19H1V7h6V1h12v12h-6zm-6-6V9H3v8h8v-4zm2-2h8V3H9z",
-      shouldFlip: true
-    };
-    const __returned__ = {
-      props,
-      emit,
-      isOpen,
-      close,
-      handleOpenChange,
-      cdxIconCopy,
-      get CdxButton() {
-        return import_codex.CdxButton;
-      },
-      get CdxDialog() {
-        return import_codex.CdxDialog;
-      },
-      get CdxIcon() {
-        return import_codex.CdxIcon;
-      },
-      get copyText() {
-        return copyText;
-      },
-      get getMessage() {
-        return getMessage;
-      }
-    };
-    Object.defineProperty(__returned__, "__isScriptSetup", {
-      enumerable: false,
-      value: true
-    });
-    return __returned__;
-  }
-});
-var import_vue3 = require("vue");
-var _hoisted_1 = {
-  class: "diff-link-copy-list"
-};
-var _hoisted_2 = {
-  class: "diff-link-copy-text"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0, import_vue3.openBlock)(), (0, import_vue3.createBlock)($setup["CdxDialog"], {
-    open: $setup.isOpen,
-    "onUpdate:open": [_cache[0] || (_cache[0] = ($event) => $setup.isOpen = $event), $setup.handleOpenChange],
-    title: $setup.getMessage("Diff"),
-    "default-action": {
-      label: $setup.getMessage("Close")
-    },
-    "use-close-button": true,
-    onDefault: $setup.close
-  }, {
-    default: (0, import_vue3.withCtx)(() => [(0, import_vue3.createElementVNode)("div", _hoisted_1, [((0, import_vue3.openBlock)(true), (0, import_vue3.createElementBlock)(
-      import_vue3.Fragment,
-      null,
-      (0, import_vue3.renderList)($props.items, (item) => {
-        return (0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("div", {
-          key: item.text,
-          class: "diff-link-copy-item"
-        }, [(0, import_vue3.createElementVNode)(
-          "code",
-          _hoisted_2,
-          (0, import_vue3.toDisplayString)(item.text),
-          1
-          /* TEXT */
-        ), (0, import_vue3.createVNode)($setup["CdxButton"], {
-          weight: "normal",
-          "aria-label": $setup.getMessage("Copy"),
-          onClick: ($event) => $setup.copyText(item.text)
-        }, {
-          default: (0, import_vue3.withCtx)(() => [(0, import_vue3.createVNode)($setup["CdxIcon"], {
-            icon: $setup.cdxIconCopy
-          }), (0, import_vue3.createTextVNode)(
-            " " + (0, import_vue3.toDisplayString)($setup.getMessage("Copy")),
-            1
-            /* TEXT */
-          )]),
-          _: 1
-          /* STABLE */
-        }, 8, ["aria-label", "onClick"])]);
-      }),
-      128
-      /* KEYED_FRAGMENT */
-    ))])]),
-    _: 1
-    /* STABLE */
-  }, 8, ["open", "title", "default-action"]);
-}
-//! src/DiffLink/App.vue
-App_default.render = render;
-App_default.__file = "src\\DiffLink\\App.vue";
-App_default.__scopeId = "data-v-ae265c6f";
-var App_default2 = App_default;
 //! src/DiffLink/modules/addPortletLink.ts
-var import_ext_gadget2 = require("ext.gadget.Util");
 /*!
  * 若想自定义复制结果中的文本可通过向自己的common.js中加入以下内容：
  *   window.DiffLink = ['版本差异', '固定版本'];
@@ -367,18 +229,19 @@ var eventListener = {
   remove: () => {
   }
 };
-var openDialog = (items) => {
-  const root = document.createElement("div");
-  document.body.append(root);
-  const app = (0, import_vue4.createApp)(App_default2, {
-    open: true,
+var openDialog = async (items) => {
+  const moduleName = "ext.gadget.CopyTextDialog";
+  const require2 = await mw.loader.using(moduleName);
+  const {
+    showCopyTextDialog
+  } = require2(moduleName);
+  showCopyTextDialog({
+    title: getMessage("Diff"),
     items,
-    onClose: () => {
-      app === null || app === void 0 || app.unmount();
-      root.remove();
-    }
+    copyLabel: getMessage("Copy"),
+    closeLabel: getMessage("Close"),
+    onCopy: copyText
   });
-  app.mount(root);
 };
 var addPortletLink = ({
   text,
@@ -399,16 +262,13 @@ var addPortletLink = ({
     event.preventDefault();
     const hash = isPermaLink ? decodeURIComponent(location.hash) : "";
     const items = [{
-      label: link,
       text: link
     }, {
-      label: `[[${link}${hash}]]`,
       text: `[[${link}${hash}]]`
     }, {
-      label: `[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`,
       text: `[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`
     }];
-    openDialog(items);
+    void openDialog(items);
   };
   eventListener.remove();
   eventListener = (0, import_ext_gadget2.addEventListenerWithRemover)({

@@ -1,4 +1,11 @@
 /**
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ * _addText: '{{Gadget Header|license=CC-BY-SA-4.0}}'
+ *
+ * @source {@link https://git.qiuwen.net.cn/InterfaceAdmin/QiuwenGadgets/src/branch/master/src/UtilDialog}
+ * @license CC-BY-SA-4.0 {@link https://www.qiuwenbaike.cn/wiki/H:CC-BY-SA-4.0}
+ */
+/**
  * +------------------------------------------------------------+
  * |            === WARNING: GLOBAL GADGET FILE ===             |
  * +------------------------------------------------------------+

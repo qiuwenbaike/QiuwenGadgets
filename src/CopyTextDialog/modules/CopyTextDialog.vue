@@ -1,44 +1,32 @@
 <script setup lang="ts">
 import {CdxButton, CdxDialog, CdxIcon} from '@wikimedia/codex';
-import {ref, watch} from 'vue';
-import {copyText} from './modules/copyText';
-import {getMessage} from './modules/i18n';
 
 interface CopyItem {
-	label: string;
+	label?: string;
 	text: string;
 }
 
 const props = defineProps<{
-	open: boolean;
+	title: string;
 	items: CopyItem[];
+	copyLabel: string;
+	closeLabel: string;
+	onCopy: (text: string) => void | Promise<void>;
 	onClose: () => void;
 }>();
 
-const emit = defineEmits<{
-	'update:open': [value: boolean];
-}>();
-const isOpen = ref(props.open);
-
-watch(
-	() => props.open,
-	(value) => {
-		isOpen.value = value;
-	},
-	{immediate: true}
-);
-
 const close = (): void => {
-	isOpen.value = false;
-	emit('update:open', false);
 	props.onClose();
 };
 
-const handleOpenChange = (value: boolean): void => {
-	isOpen.value = value;
-	if (!value) {
+const handleOpenChange = (open: boolean): void => {
+	if (!open) {
 		close();
 	}
+};
+
+const copy = (text: string): void => {
+	void props.onCopy(text);
 };
 
 /**
@@ -62,19 +50,20 @@ const cdxIconCopy = {
 
 <template>
 	<cdx-dialog
-		v-model:open="isOpen"
-		:title="getMessage('Diff')"
-		:default-action="{label: getMessage('Close')}"
+		:open="true"
+		:title="title"
+		:default-action="{label: closeLabel}"
 		:use-close-button="true"
 		@update:open="handleOpenChange"
 		@default="close"
 	>
-		<div class="diff-link-copy-list">
-			<div v-for="item in items" :key="item.text" class="diff-link-copy-item">
-				<code class="diff-link-copy-text">{{ item.text }}</code>
-				<cdx-button weight="normal" :aria-label="getMessage('Copy')" @click="copyText(item.text)">
+		<div class="util-dialog-copy-list">
+			<div v-for="item in items" :key="item.text" class="util-dialog-copy-item">
+				<div v-if="item.label" class="util-dialog-copy-label">{{ item.label }}</div>
+				<code class="util-dialog-copy-text">{{ item.text }}</code>
+				<cdx-button weight="normal" :aria-label="copyLabel" @click="copy(item.text)">
 					<cdx-icon :icon="cdxIconCopy" />
-					{{ getMessage('Copy') }}
+					{{ copyLabel }}
 				</cdx-button>
 			</div>
 		</div>
@@ -82,13 +71,13 @@ const cdxIconCopy = {
 </template>
 
 <style scoped lang="less">
-.diff-link-copy-list {
+.util-dialog-copy-list {
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
 }
 
-.diff-link-copy-item {
+.util-dialog-copy-item {
 	display: flex;
 	gap: 0.5rem;
 	flex-wrap: wrap;
@@ -96,7 +85,7 @@ const cdxIconCopy = {
 	align-items: center;
 }
 
-.diff-link-copy-text {
+.util-dialog-copy-text {
 	display: block;
 	padding: 0.5rem 0.75rem;
 	border: 1px solid #eaecf0;

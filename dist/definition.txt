@@ -9,7 +9,7 @@
 * GadgetsDefinition[ResourceLoader|actions=view|default|dependencies=ext.gadget.Util,mediawiki.util|requiresES6]|GadgetsDefinition.js|GadgetsDefinition.css
 * HanSect[ResourceLoader|default|requiresES6]|HanSect.css
 * HideConversionTab[ResourceLoader|default|requiresES6]|HideConversionTab.css
-* LoginToEdit[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.util,vue|hidden|requiresES6]|LoginToEdit.js|LoginToEdit.css
+* LoginToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|hidden|requiresES6]|LoginToEdit.js
 * Mainpage[ResourceLoader|default|hidden|namespaces=4,10|requiresES6]|Mainpage.css
 * Mainpage-ChineseNewYear[ResourceLoader|requiresES6]|Mainpage-ChineseNewYear.css
 * Mainpage-ChineseNewYear_JS[ResourceLoader|default|dependencies=ext.gadget.ChineseDays|hidden|namespaces=4,10|requiresES6]|Mainpage-ChineseNewYear_JS.js
@@ -29,7 +29,7 @@
 * TOC3-gongbi[ResourceLoader|skins=gongbi|requiresES6]|TOC3-gongbi.css
 * VariantAlly[ResourceLoader|default|dependencies=mediawiki.storage,user.options|requiresES6]|VariantAlly.js
 * VariantAllyDialog[ResourceLoader|dependencies=ext.gadget.VariantAlly,vue|hidden|requiresES6]|VariantAllyDialog.js|VariantAllyDialog.css
-* VerifyToEdit[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.util,vue|hidden|rights=edit|requiresES6]|VerifyToEdit.js
+* VerifyToEdit[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|hidden|rights=edit|requiresES6]|VerifyToEdit.js
 
 == browser ==
 * AddSectionPlus[ResourceLoader|actions=view|dependencies=ext.gadget.Util|rights=edit|requiresES6]|AddSectionPlus.js|AddSectionPlus.css
@@ -37,7 +37,7 @@
 * CodeLinks[ResourceLoader|default|dependencies=ext.gadget.Util,mediawiki.util|rights=edit|requiresES6]|CodeLinks.js
 * CopyCodeBlock[ResourceLoader|actions=view|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Tippy,vue|requiresES6]|CopyCodeBlock.js|CopyCodeBlock.css
 * DidYouMean[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.Title|requiresES6]|DidYouMean.js
-* DiffLink[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|requiresES6]|DiffLink.js|DiffLink.css
+* DiffLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|DiffLink.js
 * EnhancedSpecialSearch[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|requiresES6]|EnhancedSpecialSearch.js|EnhancedSpecialSearch.css
 * FloatTOC[ResourceLoader|actions=view|dependencies=@wikimedia/codex,ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,vue|skins=vector|requiresES6]|FloatTOC.js|FloatTOC.css
 * FullwidthSearchFix[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.util|requiresES6]|FullwidthSearchFix.js
@@ -46,7 +46,7 @@
 * PurgePageCache[ResourceLoader|actions=view|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=edit|requiresES6]|PurgePageCache.js
 * ScrollUpButton[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Tippy,ext.gadget.Util,mediawiki.util|requiresES6]|ScrollUpButton.js|ScrollUpButton.css
 * SearchShortcuts[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|SearchShortcuts.js
-* ShortURL[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|requiresES6]|ShortURL.js|ShortURL.css
+* ShortURL[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|ShortURL.js|ShortURL.css
 * SmoothTOC[ResourceLoader|default|dependencies=ext.gadget.Util|skins=gongbi,vector,vector-2022|requiresES6]|SmoothTOC.js
 * TextSpacing[ResourceLoader|dependencies=ext.gadget.Util|requiresES6]|TextSpacing.js|TextSpacing.css
 * UTCLiveClock[ResourceLoader|dependencies=ext.gadget.PurgePageCache,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|requiresES6]|UTCLiveClock.js|UTCLiveClock.css
@@ -57,8 +57,9 @@
 * AdvancedSiteNotices[ResourceLoader|actions=view|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.storage,vue|requiresES6]|AdvancedSiteNotices.js|AdvancedSiteNotices.css
 * ChineseDays[ResourceLoader|hidden|requiresES6]|ChineseDays.js
 * Collapsible[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util|hidden|peers=NavFrame-pagestyles|requiresES6]|Collapsible.js|Collapsible.css
-* ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.jqueryMsg,mediawiki.util|rights=edit|requiresES6]|ConfirmLogout.js
+* ConfirmLogout[ResourceLoader|default|dependencies=ext.gadget.FilterAlteredClicks,ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,ext.gadget.UtilDialog,mediawiki.api,mediawiki.jqueryMsg,mediawiki.util|rights=edit|requiresES6]|ConfirmLogout.js
 * CookieWarning[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.storage,mediawiki.util,vue|requiresES6]|CookieWarning.js|CookieWarning.css
+* CopyTextDialog[ResourceLoader|dependencies=@wikimedia/codex,vue|hidden|requiresES6]|CopyTextDialog.js|CopyTextDialog.css
 * FetchVariants[ResourceLoader|dependencies=ext.gadget.idb-plus,ext.gadget.Util,mediawiki.api|requiresES6]|FetchVariants.js
 * FilterAlteredClicks[ResourceLoader|hidden|requiresES6]|FilterAlteredClicks.js
 * Geo[ResourceLoader|dependencies=mediawiki.storage|hidden|requiresES6]|Geo.js
@@ -74,6 +75,7 @@
 * morebits[ResourceLoader|dependencies=ext.gadget.i18n,mediawiki.Title,mediawiki.user,mediawiki.util|hidden|requiresES6]|morebits.js|morebits.css
 * NavFrame-pagestyles[ResourceLoader|hidden|requiresES6]|NavFrame-pagestyles.css
 * NoteTA[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,mediawiki.api,mediawiki.util,vue|hidden|requiresES6]|NoteTA.js|NoteTA.css
+* NoticeDialog[ResourceLoader|dependencies=@wikimedia/codex,vue|hidden|requiresES6]|NoticeDialog.js|NoticeDialog.css
 * PrintOptions[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|requiresES6]|PrintOptions.js|PrintOptions.css
 * select2[ResourceLoader|dependencies=jquery|hidden|requiresES6]|select2.js|select2.css
 * SiteCommon[ResourceLoader|default|hidden|requiresES6]|SiteCommon.css
@@ -103,7 +105,7 @@
 * EditCount[ResourceLoader|rights=edit|skins=gongbi,vector,vector-2022|requiresES6]|EditCount.js
 * EditForm[ResourceLoader|hidden|rights=edit|requiresES6]|EditForm.css
 * Editform_AiAssisted[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|rights=edit|requiresES6]|Editform_AiAssisted.js|Editform_AiAssisted.css
-* Editform_Attribution[ResourceLoader|default|dependencies=@wikimedia/codex,ext.gadget.i18n,ext.gadget.Util,vue|rights=edit|requiresES6]|Editform_Attribution.js|Editform_Attribution.css
+* Editform_Attribution[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,ext.gadget.UtilDialog|rights=edit|requiresES6]|Editform_Attribution.js|Editform_Attribution.css
 * EditForm_JS[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,jquery.textSelection,mediawiki.api,mediawiki.util|hidden|peers=EditForm|rights=edit|requiresES6]|EditForm_JS.js
 * Editform_Patch2017[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.jqueryMsg|hidden|rights=edit|requiresES6]|Editform_Patch2017.js
 * Edittools-customizeToolbar[ResourceLoader|actions=edit|dependencies=ext.gadget.Util,ext.wikiEditor,user.options|hidden|requiresES6]|Edittools-customizeToolbar.js
@@ -169,6 +171,6 @@
 * Group-sysop[ResourceLoader|default|hidden|rights=editprotected|requiresES6]|Group-sysop.css
 * Group-templateeditor[ResourceLoader|default|hidden|rights=templateeditor|requiresES6]|Group-templateeditor.css
 * Group-transwiki[ResourceLoader|default|hidden|rights=import|requiresES6]|Group-transwiki.css
-* Group-transwiki_JS[ResourceLoader|default|dependencies=ext.gadget.Util|hidden|peers=Group-transwiki|rights=import|requiresES6]|Group-transwiki_JS.js
+* Group-transwiki_JS[ResourceLoader|default|dependencies=ext.gadget.UtilDialog|hidden|peers=Group-transwiki|rights=import|requiresES6]|Group-transwiki_JS.js
 * Group-user[ResourceLoader|default|hidden|rights=edit|requiresES6]|Group-user.css
 * Group-user_JS[ResourceLoader|default|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util,user.options|hidden|peers=Group-user|rights=edit|requiresES6]|Group-user_JS.js

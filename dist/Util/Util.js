@@ -75,7 +75,6 @@ __export(Util_exports, {
   generateArray: () => generateArray,
   getBody: () => getBody,
   initMwApi: () => initMwApi,
-  oouiConfirmWithStyle: () => oouiConfirmWithStyle,
   scrollTop: () => scrollTop,
   uniqueArray: () => uniqueArray,
   userIsInGroup: () => userIsInGroup
@@ -194,15 +193,6 @@ var MwUri = class extends URL {
   getRelativePath() {
     return this.pathname + this.search + this.hash;
   }
-};
-//! src/Util/modules/oouiConfirmWithStyle.ts
-var oouiConfirmWithStyle = async (message) => {
-  const moduleName = "ext.gadget.UtilDialog";
-  const require2 = await mw.loader.using(moduleName);
-  const {
-    oouiConfirmWithStyle: confirm
-  } = require2(moduleName);
-  return confirm(message);
 };
 //! src/Util/modules/scrollTop.ts
 var scrollTop = (targetHeight, effectsOptionsOrDuration = {}) => {

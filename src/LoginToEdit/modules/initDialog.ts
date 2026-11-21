@@ -1,5 +1,3 @@
-import {type App as VueApp, createApp, reactive} from 'vue';
-import App from '../App.vue';
 import {getMessage} from './i18n';
 
 const {skin, wgAction, wgPageName} = mw.config.get();
@@ -10,36 +8,37 @@ const loginURL: string = mw.util.getUrl('Special:UserLogin', {
 const registerURL: string = mw.util.getUrl('Special:CreateAccount', {
 	returnto: wgPageName,
 });
+const helpURL: string = 'https://www.qiuwenbaike.cn/wiki/H:LOGIN';
 
-interface DialogState {
-	open: boolean;
-}
+const openDialog = async (): Promise<void> => {
+	const moduleName = 'ext.gadget.NoticeDialog';
+	const require = await mw.loader.using(moduleName);
+	const {showNoticeDialog} = require(moduleName) as typeof import('ext.gadget.NoticeDialog');
+
+	showNoticeDialog({
+		title: getMessage('DialogTitle'),
+		message: getMessage('DialogMessage'),
+		cancelLabel: getMessage('Cancel'),
+		helpLabel: getMessage('Help'),
+		helpURL,
+		actions: [
+			{
+				label: getMessage('Register'),
+				onClick: (): void => {
+					location.href = registerURL;
+				},
+			},
+			{
+				label: getMessage('Login'),
+				onClick: (): void => {
+					location.href = loginURL;
+				},
+			},
+		],
+	});
+};
 
 const initDialog = (): void => {
-	const state: DialogState = reactive({open: false});
-
-	const root: HTMLElement = document.createElement('div');
-	document.body.append(root);
-
-	const triggerLogin = (): void => {
-		location.href = loginURL;
-	};
-
-	const app: VueApp<Element> = createApp(App, {
-		state,
-		loginURL,
-		registerURL,
-		triggerLogin,
-		'onUpdate:open': (open: boolean): void => {
-			state.open = open;
-		},
-	});
-	app.mount(root);
-
-	const openDialog = (): void => {
-		state.open = !state.open;
-	};
-
 	const caViewsource: HTMLElement | null = document.querySelector('#ca-viewsource');
 	if (caViewsource) {
 		caViewsource.id = 'ca-edit';
@@ -58,13 +57,13 @@ const initDialog = (): void => {
 			link.append(getMessage('Edit'));
 			link.addEventListener('click', (event: MouseEvent): void => {
 				event.preventDefault();
-				openDialog();
+				void openDialog();
 			});
 		}
 	}
 
 	if (['edit', 'submit'].includes(wgAction)) {
-		openDialog();
+		void openDialog();
 	}
 };
 

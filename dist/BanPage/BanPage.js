@@ -191,12 +191,20 @@ var editPage = async () => {
     }
   }
 };
+//! src/BanPage/modules/util/dialog.ts
+var oouiConfirmWithStyle = async (message) => {
+  const moduleName = "ext.gadget.UtilDialog";
+  const require2 = await mw.loader.using(moduleName);
+  const {
+    oouiConfirmWithStyle: confirm
+  } = require2(moduleName);
+  return confirm(message);
+};
 //! src/BanPage/modules/addListener.ts
-var import_ext_gadget5 = require("ext.gadget.Util");
 var addListener = ($element) => {
   const clickListener = async (event) => {
     event.preventDefault();
-    const isConfirm = await (0, import_ext_gadget5.oouiConfirmWithStyle)(getMessage("Confirm"));
+    const isConfirm = await oouiConfirmWithStyle(getMessage("Confirm"));
     if (!isConfirm) {
       return;
     }
@@ -221,7 +229,7 @@ var addPortletLink = ($body) => {
   addListener($target);
 };
 //! src/BanPage/BanPage.ts
-var import_ext_gadget6 = require("ext.gadget.Util");
+var import_ext_gadget5 = require("ext.gadget.Util");
 (function banPage() {
   const {
     wgNamespaceNumber: wgNamespaceNumber2,
@@ -233,7 +241,7 @@ var import_ext_gadget6 = require("ext.gadget.Util");
   if (["File:Banned_Images.svg", "File:BSicon_.svg", "Template:Void", "Qiuwen:首页", "Project:首页"].includes(wgPageName2)) {
     return;
   }
-  void (0, import_ext_gadget6.getBody)().then(addPortletLink);
+  void (0, import_ext_gadget5.getBody)().then(addPortletLink);
 })();
 
 })();

@@ -4,7 +4,7 @@ import AttributionForm from '../AttributionForm.vue';
 import {appendTextToSummary} from './appendTextToSummary';
 import {createApp} from 'vue';
 import {getMessage} from '../i18n';
-import {oouiConfirmWithStyle} from 'ext.gadget.Util';
+import {oouiConfirmWithStyle} from './dialog';
 
 const mountAttributionForm = ({
 	root,
@@ -22,7 +22,7 @@ const mountAttributionForm = ({
 
 	createApp(AttributionForm, {
 		onChange: updateHiddenFields,
-		onAdd: (source: string, license: string): boolean => {
+		onAdd: async (source: string, license: string): Promise<boolean> => {
 			updateHiddenFields(source, license);
 
 			const wpSource = getSource(source);
@@ -32,7 +32,7 @@ const mountAttributionForm = ({
 				const attribution = `${getMessage('Source')}: ${wpSource} (${getMessage('License')}: ${wpLicense}) `;
 
 				if ([getMessage('Replace With License'), getMessage('Other License')].includes(wpLicense)) {
-					void oouiConfirmWithStyle(getMessage('Please replace placeholder with actual license'));
+					await oouiConfirmWithStyle(getMessage('Please replace placeholder with actual license'));
 				}
 
 				appendTextToSummary({
@@ -43,11 +43,11 @@ const mountAttributionForm = ({
 			}
 
 			if (!wpSource.length && wpLicense.length) {
-				void oouiConfirmWithStyle(getMessage('Source is missing'));
+				await oouiConfirmWithStyle(getMessage('Source is missing'));
 			} else if (wpSource.length && !wpLicense.length) {
-				void oouiConfirmWithStyle(getMessage('License is missing'));
+				await oouiConfirmWithStyle(getMessage('License is missing'));
 			} else {
-				void oouiConfirmWithStyle(getMessage('Both source and License are missing'));
+				await oouiConfirmWithStyle(getMessage('Both source and License are missing'));
 			}
 
 			return false;

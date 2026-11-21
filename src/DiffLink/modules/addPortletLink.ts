@@ -1,7 +1,10 @@
-import {type App as VueApp, createApp} from 'vue';
-import App from '../App.vue';
 import {addEventListenerWithRemover} from 'ext.gadget.Util';
+import {copyText} from './copyText';
 import {getMessage} from './i18n';
+
+interface CopyItem {
+	text: string;
+}
 
 /*!
  * 若想自定义复制结果中的文本可通过向自己的common.js中加入以下内容：
@@ -26,19 +29,18 @@ let eventListener: ReturnType<typeof addEventListenerWithRemover> = {
 	remove: (): void => {},
 };
 
-const openDialog = (items: {label: string; text: string}[]): void => {
-	const root = document.createElement('div');
-	document.body.append(root);
+const openDialog = async (items: CopyItem[]): Promise<void> => {
+	const moduleName = 'ext.gadget.CopyTextDialog';
+	const require = await mw.loader.using(moduleName);
+	const {showCopyTextDialog} = require(moduleName) as typeof import('ext.gadget.CopyTextDialog');
 
-	const app: VueApp<Element> | null = createApp(App, {
-		open: true,
+	showCopyTextDialog({
+		title: getMessage('Diff'),
 		items,
-		onClose: (): void => {
-			app?.unmount();
-			root.remove();
-		},
+		copyLabel: getMessage('Copy'),
+		closeLabel: getMessage('Close'),
+		onCopy: copyText,
 	});
-	app.mount(root);
 };
 
 const addPortletLink = ({
@@ -66,15 +68,12 @@ const addPortletLink = ({
 	const clickListener = (event: MouseEvent): void => {
 		event.preventDefault();
 		const hash: string = isPermaLink ? decodeURIComponent(location.hash) : '';
-		const items = [
-			{label: link, text: link},
-			{label: `[[${link}${hash}]]`, text: `[[${link}${hash}]]`},
-			{
-				label: `[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`,
-				text: `[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`,
-			},
+		const items: CopyItem[] = [
+			{text: link},
+			{text: `[[${link}${hash}]]`},
+			{text: `[[${link}${hash}|${defaultTextArray[defaultTextArrayIndex]}]]`},
 		];
-		openDialog(items);
+		void openDialog(items);
 	};
 
 	eventListener.remove();

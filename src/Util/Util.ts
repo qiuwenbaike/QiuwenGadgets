@@ -7,7 +7,6 @@ export {generateArray} from './modules/generateArray';
 export {getBody} from './modules/getBody';
 export {initMwApi} from './modules/initMwApi';
 export {MwUri} from './modules/mwUri';
-export {oouiConfirmWithStyle} from './modules/oouiConfirmWithStyle';
 export {scrollTop} from './modules/scrollTop';
 export {userIsInGroup} from './modules/userIsInGroup';
 export {uniqueArray} from './modules/uniqueArray';

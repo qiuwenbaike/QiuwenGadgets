@@ -1,0 +1,7 @@
+{
+	"enable": true,
+	"description": "<span id=\"Gadget-NoticeDialog\"></span> 提示框（标题、正文、帮助链接与可选按钮），供其他小工具按需加载",
+	"section": "compatibility",
+	"dependencies": ["@wikimedia/codex", "vue"],
+	"hidden": true
+}

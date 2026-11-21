@@ -1,32 +1,31 @@
-import {type App as VueApp, createApp, reactive} from 'vue';
-import App from '../App.vue';
 import {getMessage} from './i18n';
 
 const {skin, wgAction} = mw.config.get();
 const isCitizen: boolean = skin === 'citizen';
+const helpURL: string = 'https://www.qiuwenbaike.cn/wiki/H:RNRS';
+const verifyURL: string = `${mw.util.getUrl('Special:Preferences')}#mw-input-wprnrshook-module`;
 
-interface DialogState {
-	open: boolean;
-}
+const openDialog = async (): Promise<void> => {
+	const moduleName = 'ext.gadget.NoticeDialog';
+	const require = await mw.loader.using(moduleName);
+	const {showNoticeDialog} = require(moduleName) as typeof import('ext.gadget.NoticeDialog');
 
-const initDialog = (): void => {
-	const state: DialogState = reactive({open: false});
-
-	const root: HTMLElement = document.createElement('div');
-	document.body.append(root);
-
-	const app: VueApp<Element> = createApp(App, {
-		state,
-		'onUpdate:open': (open: boolean): void => {
-			state.open = open;
+	showNoticeDialog({
+		title: getMessage('DialogTitle'),
+		message: getMessage('DialogMessage'),
+		cancelLabel: getMessage('Cancel'),
+		helpLabel: getMessage('Help'),
+		helpURL,
+		primary: {
+			label: getMessage('Verify'),
+			onClick: (): void => {
+				location.href = verifyURL;
+			},
 		},
 	});
-	app.mount(root);
+};
 
-	const openDialog = (): void => {
-		state.open = !state.open;
-	};
-
+const initDialog = (): void => {
 	const caViewsource: HTMLElement | null = document.querySelector('#ca-viewsource');
 	if (caViewsource) {
 		caViewsource.id = 'ca-edit';
@@ -45,13 +44,13 @@ const initDialog = (): void => {
 
 			link.addEventListener('click', (event: MouseEvent): void => {
 				event.preventDefault();
-				openDialog();
+				void openDialog();
 			});
 		}
 	}
 
 	if (['edit', 'submit'].includes(wgAction)) {
-		openDialog();
+		void openDialog();
 	}
 };
 
