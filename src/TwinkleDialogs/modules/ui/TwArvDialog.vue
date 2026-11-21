@@ -8,7 +8,7 @@ import {
 	CdxTextInput,
 	type MenuItemData,
 } from '@wikimedia/codex';
-import {Morebits, type MorebitsWikiPage} from './morebits';
+import {Morebits, type MorebitsWikiPage} from '../morebits';
 import {computed, ref, watch} from 'vue';
 import TwDialog from './TwDialog.vue';
 import TwStatus from './TwStatus.vue';

@@ -45,7 +45,6 @@ var TwinkleDialogs_exports = {};
 module.exports = __toCommonJS(TwinkleDialogs_exports);
 var import_vue7 = require("vue");
 var import_codex3 = require("@wikimedia/codex");
-var import_vue8 = require("vue");
 //! src/TwinkleDialogs/modules/morebits.ts
 /*! Twinkle - shared typed access to the Morebits global (provided by `ext.gadget.morebits`). */
 var Morebits = window.Morebits;
