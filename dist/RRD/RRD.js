@@ -32,14 +32,11 @@ var import_codex = require("@wikimedia/codex");
 var import_vue2 = require("vue");
 //! src/RRD/modules/i18n.ts
 var import_ext_gadget = require("ext.gadget.i18n");
-var uls = (hans, hant = hans) => {
-  return (0, import_ext_gadget.localize)({
-    "zh-hans": hans,
-    "zh-hant": hant,
-    "zh-my": hant,
-    en: hans
-  });
-};
+var uls = (hans, hant = hans) => (0, import_ext_gadget.localize)({
+  "zh-hans": hans,
+  "zh-hant": hant,
+  en: hans
+});
 var getI18nMessages = () => {
   return {
     editSummary: uls("[[MediaWiki:Gadget-RRD.js|半自动提报]]修订版本删除", "[[MediaWiki:Gadget-RRD.js|半自動提報]]修訂版本刪除"),

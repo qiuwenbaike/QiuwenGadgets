@@ -92,14 +92,11 @@ var DATA = [{
 }];
 //! src/PreviewWithVariant2017/modules/messages.ts
 var import_ext_gadget = require("ext.gadget.i18n");
-var uls = (hans, hant = hans) => {
-  return (0, import_ext_gadget.localize)({
-    "zh-hans": hans,
-    "zh-hant": hant,
-    "zh-my": hant,
-    en: hans
-  });
-};
+var uls = (hans, hant = hans) => (0, import_ext_gadget.localize)({
+  "zh-hans": hans,
+  "zh-hant": hant,
+  en: hans
+});
 var PWV2017messages = () => {
   mw.messages.set({
     "pwv-2017-caption": uls("选择语言变体", "選擇語言變體"),

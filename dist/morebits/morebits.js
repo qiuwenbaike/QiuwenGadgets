@@ -26,14 +26,11 @@
 // dist/morebits/morebits.js
 //! src/morebits/utils/useUls.ts
 var import_ext_gadget = require("ext.gadget.i18n");
-var uls = (simplified, traditional) => {
-  return (0, import_ext_gadget.localize)({
-    "zh-hans": simplified,
-    "zh-hant": traditional,
-    "zh-my": traditional,
-    en: simplified
-  });
-};
+var uls = (hans, hant = hans) => (0, import_ext_gadget.localize)({
+  "zh-hans": hans,
+  "zh-hant": hant,
+  en: hans
+});
 //! src/morebits/morebits.ts
 /*! Twinkle.js - morebits.ts */
 var Morebits = {};

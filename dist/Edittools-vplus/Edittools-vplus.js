@@ -27,14 +27,11 @@
 //! src/Edittools-vplus/modules/edittoolsVplus.ts
 var import_ext_gadget = require("ext.gadget.Edittools-customizeToolbar");
 var import_ext_gadget2 = require("ext.gadget.i18n");
-var uls = (hans, hant = hans) => {
-  return (0, import_ext_gadget2.localize)({
-    "zh-hans": hans,
-    "zh-hant": hant,
-    "zh-my": hant,
-    en: hans
-  });
-};
+var uls = (hans, hant = hans) => (0, import_ext_gadget2.localize)({
+  "zh-hans": hans,
+  "zh-hant": hant,
+  en: hans
+});
 var edittoolsVplus = () => {
   (0, import_ext_gadget.customizeToolbar)(function() {
     const self = this;

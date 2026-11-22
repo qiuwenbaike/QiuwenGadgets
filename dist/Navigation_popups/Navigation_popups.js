@@ -815,14 +815,11 @@ var map_object = (f, o) => {
 };
 //! src/Navigation_popups/modules/string.ts
 var import_ext_gadget = require("ext.gadget.i18n");
-var uls = (hans, hant = hans) => {
-  return (0, import_ext_gadget.localize)({
-    "zh-hans": hans,
-    "zh-hant": hant,
-    "zh-my": hant,
-    en: hans
-  });
-};
+var uls = (hans, hant = hans) => (0, import_ext_gadget.localize)({
+  "zh-hans": hans,
+  "zh-hant": hant,
+  en: hans
+});
 var message = {
   // summary data, searching etc.
   article: uls("条目", "條目"),

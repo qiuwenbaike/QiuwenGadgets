@@ -1,9 +1,7 @@
 import {customizeToolbar} from 'ext.gadget.Edittools-customizeToolbar';
 import {localize} from 'ext.gadget.i18n';
 
-const uls = (hans: string, hant: string = hans): string => {
-	return localize({'zh-hans': hans, 'zh-hant': hant, 'zh-my': hant, en: hans});
-};
+const uls = (hans: string, hant: string = hans): string => localize({'zh-hans': hans, 'zh-hant': hant, en: hans});
 
 const edittoolsVplus = (): void => {
 	customizeToolbar(function (this: JQuery): void {

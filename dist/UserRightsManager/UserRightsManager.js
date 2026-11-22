@@ -238,14 +238,11 @@ var markAsDone = ({
 };
 //! src/UserRightsManager/modules/useUls.ts
 var import_ext_gadget2 = require("ext.gadget.i18n");
-var uls = (simplified, traditional) => {
-  return (0, import_ext_gadget2.localize)({
-    "zh-hans": simplified,
-    "zh-hant": traditional,
-    "zh-my": traditional,
-    en: simplified
-  });
-};
+var uls = (hans, hant = hans) => (0, import_ext_gadget2.localize)({
+  "zh-hans": hans,
+  "zh-hant": hant,
+  en: hans
+});
 var App_default = /* @__PURE__ */ (0, import_vue.defineComponent)({
   ...{
     inheritAttrs: false

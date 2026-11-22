@@ -55,14 +55,11 @@ var configKey = "gadget-PreviewWithVariant__Initialized";
 var import_ext_gadget3 = require("ext.gadget.Util");
 //! src/PreviewWithVariant/modules/constant.ts
 var import_ext_gadget = require("ext.gadget.i18n");
-var uls = (hans, hant = hans) => {
-  return (0, import_ext_gadget.localize)({
-    "zh-hans": hans,
-    "zh-hant": hant,
-    "zh-my": hant,
-    en: hans
-  });
-};
+var uls = (hans, hant = hans) => (0, import_ext_gadget.localize)({
+  "zh-hans": hans,
+  "zh-hant": hant,
+  en: hans
+});
 var VARIANTS = [{
   data: "zh",
   label: uls("不转换", "不轉換")

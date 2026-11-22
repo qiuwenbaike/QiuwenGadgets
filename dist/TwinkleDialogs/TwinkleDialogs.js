@@ -334,14 +334,11 @@ TwStatus_default.__scopeId = "data-v-6a2ca029";
 var TwStatus_default2 = TwStatus_default;
 //! src/TwinkleDialogs/modules/utils/useUls.ts
 var import_ext_gadget = require("ext.gadget.i18n");
-var uls = (simplified, traditional) => {
-  return (0, import_ext_gadget.localize)({
-    "zh-hans": simplified,
-    "zh-hant": traditional,
-    "zh-my": traditional,
-    en: simplified
-  });
-};
+var uls = (hans, hant = hans) => (0, import_ext_gadget.localize)({
+  "zh-hans": hans,
+  "zh-hant": hant,
+  en: hans
+});
 var TwArvDialog_default = /* @__PURE__ */ (0, import_vue7.defineComponent)({
   __name: "TwArvDialog",
   props: {
