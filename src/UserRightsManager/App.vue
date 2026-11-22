@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {CdxCheckbox, CdxDialog, CdxField, CdxSelect, CdxTextInput, type MenuItemData} from '@wikimedia/codex';
 import {onMounted, ref} from 'vue';
+import {Morebits} from './modules/morebits';
 import {UserRights} from '~/MarkRights/modules/types';
 import {api} from './modules/api';
 import {assignPermission} from './modules/assignPermission';
@@ -60,9 +61,7 @@ const loadRightLog = (): void => {
 			rightLog.value = uls('没有任何日志', '沒有任何日誌');
 			return;
 		}
-
-		// @ts-expect-error Morebits is provided by the gadget runtime.
-		const timestamp = new Morebits.date(log.timestamp).calendar() as string;
+		const timestamp = new Morebits.date(log.timestamp).calendar();
 		const rights = log.params.newgroups.join('、') || uls('（无）', '（無）');
 		rightLog.value = `${timestamp} ${log.user}${uls('将用户组改为', '將使用者群組改為')}${rights}`;
 	});

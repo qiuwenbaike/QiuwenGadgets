@@ -59,6 +59,8 @@ var import_vue4 = require("vue");
 var import_vue = require("vue");
 var import_codex = require("@wikimedia/codex");
 var import_vue2 = require("vue");
+//! src/UserRightsManager/modules/morebits.ts
+var Morebits = window.Morebits;
 //! src/UserRightsManager/options.json
 var userRightsManagerSummary = "（[[MediaWiki:Gadget-UserRightsManager.js|UserRightsManager]]）";
 var version = "2.0";
