@@ -5,10 +5,9 @@ const generateUserLinks = ($content: JQuery): Record<string, JQuery<HTMLAnchorEl
 	for (const element of $elements) {
 		const $element: JQuery<HTMLAnchorElement> = $(element);
 
-		// Native `closest()`/`querySelector()` instead of `parents('li').find()`: the latter walks the
-		// whole ancestor chain with jQuery and is repeated for every link of every batch.
-		const listItem = element.closest('li');
-		if ($element.siblings('.gadgets-markrights').length || listItem?.querySelector('.gadgets-markrights')) {
+		// Only skip the link when it already owns a mark container: a container may hold several
+		// user links (e.g. grouped RecentChanges rows), and a sibling span belongs to that anchor only.
+		if (element.nextElementSibling?.classList.contains('gadgets-markrights')) {
 			continue;
 		}
 

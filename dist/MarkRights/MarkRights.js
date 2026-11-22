@@ -266,25 +266,18 @@ var getMessage = (key) => {
 //! src/MarkRights/modules/util/appendUserRightsMark.ts
 var import_ext_gadget3 = require("ext.gadget.Util");
 var supContainerCache = /* @__PURE__ */ new WeakMap();
-var getSupContainer = ($element) => {
+var getSupContainer = ($element, user) => {
+  var _supContainerCache$ge, _cached$;
   const element = $element[0];
   if (!element) {
     return null;
   }
-  const listItem = element.closest("li");
-  if (listItem) {
-    var _cached$;
-    const cached = supContainerCache.get(listItem);
-    if (cached !== null && cached !== void 0 && (_cached$ = cached[0]) !== null && _cached$ !== void 0 && _cached$.isConnected) {
-      return cached;
-    }
+  const container = element.closest("li") ?? element.parentElement;
+  if (!container) {
+    return null;
   }
-  let $sups = $element.siblings(".gadgets-markrights").first();
-  if (!$sups.length) {
-    const $scope = listItem ? $(listItem) : $element.parent();
-    $sups = $scope.find(".gadgets-markrights").first();
-  }
-  return $sups.length ? $sups : null;
+  const cached = (_supContainerCache$ge = supContainerCache.get(container)) === null || _supContainerCache$ge === void 0 ? void 0 : _supContainerCache$ge.get(user);
+  return cached !== null && cached !== void 0 && (_cached$ = cached[0]) !== null && _cached$ !== void 0 && _cached$.isConnected ? cached : null;
 };
 var appendUserRightsMark = (userLinks, userGroups) => {
   for (const [user, groups] of Object.entries(userGroups)) {
@@ -294,7 +287,7 @@ var appendUserRightsMark = (userLinks, userGroups) => {
       continue;
     }
     for (const $element of $elements) {
-      let $sups = getSupContainer($element);
+      let $sups = getSupContainer($element, user);
       const groupsToAdd = groupsToMark.filter((group) => {
         var _$sups;
         const className = `gadgets-markrights__${group}`;
@@ -309,12 +302,14 @@ var appendUserRightsMark = (userLinks, userGroups) => {
         continue;
       }
       if (!$sups) {
-        var _$element$;
-        $sups = $("<span>").addClass("gadgets-markrights");
+        const element = $element[0];
+        $sups = $("<span>").addClass("gadgets-markrights").attr("data-user", user);
         $element.after($sups);
-        const listItem = (_$element$ = $element[0]) === null || _$element$ === void 0 ? void 0 : _$element$.closest("li");
-        if (listItem) {
-          supContainerCache.set(listItem, $sups);
+        const container = element ? element.closest("li") ?? element.parentElement : null;
+        if (container) {
+          const containers = supContainerCache.get(container) ?? /* @__PURE__ */ new Map();
+          containers.set(user, $sups);
+          supContainerCache.set(container, containers);
         }
       }
       for (const group of groupsToAdd) {
@@ -323,7 +318,7 @@ var appendUserRightsMark = (userLinks, userGroups) => {
           // * see ../types.d.ts
           // * for more information
           $("<sup>").addClass(`gadgets-markrights__${group}`).addClass(`gadgets-markrights-${group}`).attr({
-            alt: getMessage(group),
+            "aria-label": getMessage(group),
             title: getMessage(group)
           })
         );
@@ -336,9 +331,9 @@ var generateUserLinks = ($content) => {
   const userLinks = {};
   const $elements = $content.find("a.mw-userlink:not(.mw-anonuserlink)");
   for (const element of $elements) {
+    var _element$nextElementS;
     const $element = $(element);
-    const listItem = element.closest("li");
-    if ($element.siblings(".gadgets-markrights").length || listItem !== null && listItem !== void 0 && listItem.querySelector(".gadgets-markrights")) {
+    if ((_element$nextElementS = element.nextElementSibling) !== null && _element$nextElementS !== void 0 && _element$nextElementS.classList.contains("gadgets-markrights")) {
       continue;
     }
     const {

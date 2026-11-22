@@ -5,34 +5,27 @@ import {uniqueArray} from 'ext.gadget.Util';
 type UserLinks = Record<string, JQuery<HTMLAnchorElement>[]>;
 
 /**
- * Cache of the `<span class="gadgets-markrights">` container, keyed by its `li`.
+ * Cache of the `<span class="gadgets-markrights">` containers, keyed by their container element
+ * (`li`, or the parent of the link for table rows) and then by the user name.
  *
- * Without it every user link of every batch re-runs `parents('li').find('.gadgets-markrights')`,
- * which is what made this gadget O(batches × links) on list pages.
+ * A container can hold several user links (e.g. the `changedby` header of a grouped RecentChanges
+ * row), so the marks of different users must never share one container: each user gets an own span.
  */
-const supContainerCache = new WeakMap<Element, JQuery>();
+const supContainerCache = new WeakMap<Element, Map<string, JQuery>>();
 
-const getSupContainer = ($element: JQuery<HTMLAnchorElement>): JQuery | null => {
+const getSupContainer = ($element: JQuery<HTMLAnchorElement>, user: string): JQuery | null => {
 	const element = $element[0];
 	if (!element) {
 		return null;
 	}
 
-	const listItem = element.closest('li');
-	if (listItem) {
-		const cached = supContainerCache.get(listItem);
-		if (cached?.[0]?.isConnected) {
-			return cached;
-		}
+	const container: Element | null = element.closest('li') ?? element.parentElement;
+	if (!container) {
+		return null;
 	}
 
-	let $sups = $element.siblings('.gadgets-markrights').first();
-	if (!$sups.length) {
-		const $scope = listItem ? $(listItem) : $element.parent();
-		$sups = $scope.find('.gadgets-markrights').first();
-	}
-
-	return $sups.length ? $sups : null;
+	const cached = supContainerCache.get(container)?.get(user);
+	return cached?.[0]?.isConnected ? cached : null;
 };
 
 const appendUserRightsMark = (userLinks: UserLinks, userGroups: Record<string, string[]>): void => {
@@ -47,7 +40,7 @@ const appendUserRightsMark = (userLinks: UserLinks, userGroups: Record<string, s
 		}
 
 		for (const $element of $elements) {
-			let $sups = getSupContainer($element);
+			let $sups = getSupContainer($element, user);
 
 			const groupsToAdd = groupsToMark.filter((group) => {
 				const className = `gadgets-markrights__${group}`;
@@ -64,12 +57,15 @@ const appendUserRightsMark = (userLinks: UserLinks, userGroups: Record<string, s
 			}
 
 			if (!$sups) {
-				$sups = $('<span>').addClass('gadgets-markrights');
+				const element = $element[0];
+				$sups = $('<span>').addClass('gadgets-markrights').attr('data-user', user);
 				$element.after($sups);
 
-				const listItem = $element[0]?.closest('li');
-				if (listItem) {
-					supContainerCache.set(listItem, $sups);
+				const container: Element | null = element ? (element.closest('li') ?? element.parentElement) : null;
+				if (container) {
+					const containers: Map<string, JQuery> = supContainerCache.get(container) ?? new Map();
+					containers.set(user, $sups);
+					supContainerCache.set(container, containers);
 				}
 			}
 
@@ -82,7 +78,7 @@ const appendUserRightsMark = (userLinks: UserLinks, userGroups: Record<string, s
 						.addClass(`gadgets-markrights__${group}`)
 						.addClass(`gadgets-markrights-${group}`)
 						.attr({
-							alt: getMessage(group as UserRights),
+							'aria-label': getMessage(group as UserRights),
 							title: getMessage(group as UserRights),
 						})
 				);
