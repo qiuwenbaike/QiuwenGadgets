@@ -68,7 +68,7 @@
 		"@babel/helper-compilation-targets": "^7.29.13",
 		"@babel/helper-plugin-utils": "^7.29.7",
 		"@babel/preset-env": "^7.29.14",
-		"@babel/types": "^7.29.14",
+		"@babel/types": "^7.29.15",
 		"@commitlint/cli": "^21.2.4",
 		"@commitlint/config-conventional": "^21.2.4",
 		"@eslint/compat": "^2.1.1",
@@ -145,7 +145,7 @@
 		"typescript-eslint": "^8.73.0",
 		"typescript-plugin-css-modules": "^5.3.0",
 		"unorm": "^1.6.0",
-		"vue": "^3.5.45",
+		"vue": "^3.5.46",
 		"vue-eslint-parser": "^10.4.2",
 		"vue-tsc": "^3.3.14"
 	}
