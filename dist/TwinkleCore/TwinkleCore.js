@@ -983,7 +983,7 @@ twinklewarn.messages = {
       }
     }
   }, {
-    category: uls("非能接受且违反条例的单方面行为或操作", "非能接受且違反條例的單方面行為或操作"),
+    category: uls("非能接受且违反方针的单方面行为或操作", "非能接受且違反方針的單方面行為或操作"),
     list: {
       "uw-afd": {
         level1: {
@@ -1660,7 +1660,7 @@ twinkleblock.blockPresetsInfo = {
     expiry: "infinity",
     forRegisteredOnly: true,
     reason: `{{uw-ublock}}<!-- ${uls("不当用户名、软封禁", "不當使用者名稱")} -->`,
-    summary: uls("封禁通知：您的用户名违反[[QW:U|用户名条例]]", "封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]")
+    summary: uls("封禁通知：您的用户名违反[[QW:U|用户名方针]]", "封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]")
   },
   "uw-ublock-illegal": {
     autoblock: true,
@@ -1668,7 +1668,7 @@ twinkleblock.blockPresetsInfo = {
     forRegisteredOnly: true,
     nocreate: true,
     reason: `{{uw-ublock-illegal}}<!-- ${uls("不合规的用户名", "不合規的使用者名稱")} -->`,
-    summary: uls("封禁通知：您的用户名违反[[QW:U|用户名条例]]", "封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]")
+    summary: uls("封禁通知：您的用户名违反[[QW:U|用户名方针]]", "封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]")
   },
   "uw-ublock-suggestive": {
     autoblock: true,
@@ -1676,7 +1676,7 @@ twinkleblock.blockPresetsInfo = {
     forRegisteredOnly: true,
     nocreate: true,
     reason: `{{uw-ublock-suggestive}}<!-- ${uls("误导、混淆性用户名", "誤導、混淆性使用者名稱")} -->`,
-    summary: uls("封禁通知：您的用户名违反[[QW:U|用户名条例]]", "封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]")
+    summary: uls("封禁通知：您的用户名违反[[QW:U|用户名方针]]", "封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]")
   },
   "uw-ublock-spam": {
     autoblock: true,
@@ -1684,7 +1684,7 @@ twinkleblock.blockPresetsInfo = {
     forRegisteredOnly: true,
     nocreate: true,
     reason: `{{uw-ublock-spam}}<!-- ${uls("宣传性用户名或宣传性编辑", "宣傳性使用者名稱或宣傳性編輯")} -->`,
-    summary: uls("封禁通知：您的用户名违反[[QW:U|用户名条例]]", "封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱條例]]")
+    summary: uls("封禁通知：您的用户名违反[[QW:U|用户名方针]]", "封鎖通知：您的使用者名稱違反[[QW:U|使用者名稱方針]]")
   },
   // other block templates
   "range block": {
@@ -1742,8 +1742,8 @@ twinkleblock.blockPresetsInfo = {
     expiry: "1 day",
     nocreate: true,
     pageParam: true,
-    reason: uls("违反生者传记条例", "違反生者傳記條例"),
-    summary: uls("封禁通知：违反生者传记条例", "封鎖通知：違反生者傳記條例"),
+    reason: uls("违反生者传记方针", "違反生者傳記方針"),
+    summary: uls("封禁通知：违反生者传记方针", "封鎖通知：違反生者傳記方針"),
     templateName: "uw-vblock"
   },
   ucblock: {
@@ -1905,7 +1905,7 @@ twinkleblock.blockGroups = [{
     },
     // other block reasons
     {
-      label: uls("违反生者传记条例", "違反生者傳記條例"),
+      label: uls("违反生者传记方针", "違反生者傳記方針"),
       value: "bioblock"
     },
     {
@@ -1939,7 +1939,7 @@ twinkleblock.blockGroups = [{
 }, {
   label: uls("用户名封禁", "使用者名稱封鎖"),
   list: [{
-    label: uls("违反用户名条例", "違反使用者名稱條例"),
+    label: uls("违反用户名方针", "違反使用者名稱方針"),
     value: "uw-ublock"
   }, {
     label: uls("不合规的用户名", "不合規的使用者名稱"),
@@ -2671,7 +2671,7 @@ twinkleprotect.protectionTypesAdmin = [{
     label: uls("持续破坏（半）", "持續破壞（半）"),
     value: "pp-semi-vandalism"
   }, {
-    label: uls("违反生者传记条例（半）", "違反生者傳記條例（半）"),
+    label: uls("违反生者传记方针（半）", "違反生者傳記方針（半）"),
     value: "pp-semi-blp"
   }, {
     label: uls("傀儡破坏（半）", "傀儡破壞（半）"),
@@ -2759,7 +2759,7 @@ twinkleprotect.protectionPresetsInfo = {
   },
   "pp-semi-blp": {
     edit: "autoconfirmed",
-    reason: uls("新用户违反生者传记条例", "新使用者違反生者傳記條例")
+    reason: uls("新用户违反生者传记方针", "新使用者違反生者傳記方針")
   },
   "pp-semi-usertalk": {
     edit: "autoconfirmed",
