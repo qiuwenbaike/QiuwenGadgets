@@ -16,17 +16,27 @@ let portletLinkEventListener: ReturnType<typeof addEventListenerWithRemover> = {
 };
 
 const openDialog = async (items: CopyItem[]): Promise<void> => {
-	const moduleName = 'ext.gadget.CopyTextDialog';
-	const require = await mw.loader.using(moduleName);
-	const {showCopyTextDialog} = require(moduleName) as typeof import('ext.gadget.CopyTextDialog');
+	try {
+		const moduleName = 'ext.gadget.CopyTextDialog';
+		const require = await mw.loader.using(moduleName);
+		const {showCopyTextDialog} = require(moduleName) as typeof import('ext.gadget.CopyTextDialog');
 
-	showCopyTextDialog({
-		title: getMessage('Share URL for the page'),
-		items,
-		copyLabel: getMessage('Copy'),
-		closeLabel: getMessage('Close'),
-		onCopy: copyText,
-	});
+		showCopyTextDialog({
+			title: getMessage('Share URL for the page'),
+			items,
+			copyLabel: getMessage('Copy'),
+			closeLabel: getMessage('Close'),
+			onCopy: copyText,
+		});
+	} catch (error) {
+		// `ext.gadget.CopyTextDialog` may be unknown if the gadget is not deployed on this wiki.
+		// Fall back to copying the first item (the page URL) directly.
+		mw.log.warn('[ShortURL] ext.gadget.CopyTextDialog is unavailable; copying the first item instead.', error);
+		const [firstItem] = items;
+		if (firstItem) {
+			await copyText(firstItem.text);
+		}
+	}
 };
 
 const addPortletLink = (link: string, permaLink: string): void => {

@@ -21,7 +21,9 @@ const loadHolidayStyle = () => {
 
 	for (const holiday of HOLIDAYS) {
 		if (name.includes(holiday)) {
-			void mw.loader.using('ext.gadget.Mainpage-ChineseNewYear');
+			void mw.loader.using('ext.gadget.Mainpage-ChineseNewYear').catch((error: unknown): void => {
+				mw.log.warn('[Mainpage-ChineseNewYear] ext.gadget.Mainpage-ChineseNewYear is unavailable.', error);
+			});
 		}
 	}
 };

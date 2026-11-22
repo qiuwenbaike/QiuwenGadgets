@@ -42,12 +42,17 @@ var options_default = {
 };
 //! src/Group-transwiki_JS/modules/util/dialog.ts
 var oouiConfirmWithStyle = async (message) => {
-  const moduleName = "ext.gadget.UtilDialog";
-  const require2 = await mw.loader.using(moduleName);
-  const {
-    oouiConfirmWithStyle: confirm
-  } = require2(moduleName);
-  return confirm(message);
+  try {
+    const moduleName = "ext.gadget.UtilDialog";
+    const require2 = await mw.loader.using(moduleName);
+    const {
+      oouiConfirmWithStyle: confirm
+    } = require2(moduleName);
+    return confirm(message);
+  } catch (error) {
+    mw.log.warn("[Gadget] ext.gadget.UtilDialog is unavailable; falling back to window.confirm.", error);
+    return window.confirm(message);
+  }
 };
 //! src/Group-transwiki_JS/modules/fixCheckbox.ts
 var fixCheckbox = () => {

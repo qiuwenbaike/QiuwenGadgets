@@ -259,18 +259,26 @@ var portletLinkEventListener = {
   }
 };
 var openDialog = async (items) => {
-  const moduleName = "ext.gadget.CopyTextDialog";
-  const require2 = await mw.loader.using(moduleName);
-  const {
-    showCopyTextDialog
-  } = require2(moduleName);
-  showCopyTextDialog({
-    title: getMessage("Share URL for the page"),
-    items,
-    copyLabel: getMessage("Copy"),
-    closeLabel: getMessage("Close"),
-    onCopy: copyText
-  });
+  try {
+    const moduleName = "ext.gadget.CopyTextDialog";
+    const require2 = await mw.loader.using(moduleName);
+    const {
+      showCopyTextDialog
+    } = require2(moduleName);
+    showCopyTextDialog({
+      title: getMessage("Share URL for the page"),
+      items,
+      copyLabel: getMessage("Copy"),
+      closeLabel: getMessage("Close"),
+      onCopy: copyText
+    });
+  } catch (error) {
+    mw.log.warn("[ShortURL] ext.gadget.CopyTextDialog is unavailable; copying the first item instead.", error);
+    const [firstItem] = items;
+    if (firstItem) {
+      await copyText(firstItem.text);
+    }
+  }
 };
 var addPortletLink = (link, permaLink) => {
   const portletId = document.querySelector("#p-cactions") ? "p-cactions" : "p-tb";

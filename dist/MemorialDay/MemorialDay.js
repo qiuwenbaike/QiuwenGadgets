@@ -33,7 +33,9 @@ var addStyleTag = () => {
     wgIsMainPage
   } = mw.config.get();
   if (wgIsMainPage) {
-    void mw.loader.using("ext.gadget.Mainpage-Mourning");
+    void mw.loader.using("ext.gadget.Mainpage-Mourning").catch((error) => {
+      mw.log.warn("[MemorialDay] ext.gadget.Mainpage-Mourning is unavailable.", error);
+    });
     return;
   }
   const CLASS_LIST = [".skin-citizen .mw-body", ".skin-gongbi #mw-content", ".skin-vector .mw-body", ".skin-vector-2022 .mw-body"];

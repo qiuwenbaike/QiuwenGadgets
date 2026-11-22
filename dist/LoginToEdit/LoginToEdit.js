@@ -91,29 +91,38 @@ var registerURL = mw.util.getUrl("Special:CreateAccount", {
 });
 var helpURL = "https://www.qiuwenbaike.cn/wiki/H:LOGIN";
 var openDialog = async () => {
-  const moduleName = "ext.gadget.NoticeDialog";
-  const require2 = await mw.loader.using(moduleName);
-  const {
-    showNoticeDialog
-  } = require2(moduleName);
-  showNoticeDialog({
-    title: getMessage("DialogTitle"),
-    message: getMessage("DialogMessage"),
-    cancelLabel: getMessage("Cancel"),
-    helpLabel: getMessage("Help"),
-    helpURL,
-    actions: [{
-      label: getMessage("Register"),
-      onClick: () => {
-        location.href = registerURL;
-      }
-    }, {
-      label: getMessage("Login"),
-      onClick: () => {
-        location.href = loginURL;
-      }
-    }]
-  });
+  try {
+    const moduleName = "ext.gadget.NoticeDialog";
+    const require2 = await mw.loader.using(moduleName);
+    const {
+      showNoticeDialog
+    } = require2(moduleName);
+    showNoticeDialog({
+      title: getMessage("DialogTitle"),
+      message: getMessage("DialogMessage"),
+      cancelLabel: getMessage("Cancel"),
+      helpLabel: getMessage("Help"),
+      helpURL,
+      actions: [{
+        label: getMessage("Register"),
+        onClick: () => {
+          location.href = registerURL;
+        }
+      }, {
+        label: getMessage("Login"),
+        onClick: () => {
+          location.href = loginURL;
+        }
+      }]
+    });
+  } catch (error) {
+    mw.log.warn("[LoginToEdit] ext.gadget.NoticeDialog is unavailable; falling back to window.confirm.", error);
+    if (window.confirm(`${getMessage("DialogTitle")}
+
+${getMessage("DialogMessage")}`)) {
+      location.href = loginURL;
+    }
+  }
 };
 var initDialog = () => {
   const caViewsource = document.querySelector("#ca-viewsource");

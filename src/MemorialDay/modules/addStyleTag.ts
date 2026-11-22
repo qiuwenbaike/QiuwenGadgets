@@ -4,7 +4,9 @@ const addStyleTag = () => {
 	const {wgIsMainPage} = mw.config.get();
 
 	if (wgIsMainPage) {
-		void mw.loader.using('ext.gadget.Mainpage-Mourning');
+		void mw.loader.using('ext.gadget.Mainpage-Mourning').catch((error: unknown): void => {
+			mw.log.warn('[MemorialDay] ext.gadget.Mainpage-Mourning is unavailable.', error);
+		});
 		return;
 	}
 

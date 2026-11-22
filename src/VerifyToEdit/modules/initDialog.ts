@@ -6,23 +6,32 @@ const helpURL: string = 'https://www.qiuwenbaike.cn/wiki/H:RNRS';
 const verifyURL: string = `${mw.util.getUrl('Special:Preferences')}#mw-input-wprnrshook-module`;
 
 const openDialog = async (): Promise<void> => {
-	const moduleName = 'ext.gadget.NoticeDialog';
-	const require = await mw.loader.using(moduleName);
-	const {showNoticeDialog} = require(moduleName) as typeof import('ext.gadget.NoticeDialog');
+	try {
+		const moduleName = 'ext.gadget.NoticeDialog';
+		const require = await mw.loader.using(moduleName);
+		const {showNoticeDialog} = require(moduleName) as typeof import('ext.gadget.NoticeDialog');
 
-	showNoticeDialog({
-		title: getMessage('DialogTitle'),
-		message: getMessage('DialogMessage'),
-		cancelLabel: getMessage('Cancel'),
-		helpLabel: getMessage('Help'),
-		helpURL,
-		primary: {
-			label: getMessage('Verify'),
-			onClick: (): void => {
-				location.href = verifyURL;
+		showNoticeDialog({
+			title: getMessage('DialogTitle'),
+			message: getMessage('DialogMessage'),
+			cancelLabel: getMessage('Cancel'),
+			helpLabel: getMessage('Help'),
+			helpURL,
+			primary: {
+				label: getMessage('Verify'),
+				onClick: (): void => {
+					location.href = verifyURL;
+				},
 			},
-		},
-	});
+		});
+	} catch (error) {
+		// `ext.gadget.NoticeDialog` may be unknown on wikis where the gadget has not been deployed yet.
+		// Fall back to a native confirm so the portlet link and the auto-open on edit still work.
+		mw.log.warn('[VerifyToEdit] ext.gadget.NoticeDialog is unavailable; falling back to window.confirm.', error);
+		if (window.confirm(`${getMessage('DialogTitle')}\n\n${getMessage('DialogMessage')}`)) {
+			location.href = verifyURL;
+		}
+	}
 };
 
 const initDialog = (): void => {

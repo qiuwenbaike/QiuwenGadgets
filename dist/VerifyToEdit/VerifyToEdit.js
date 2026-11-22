@@ -75,24 +75,33 @@ var isCitizen = skin === "citizen";
 var helpURL = "https://www.qiuwenbaike.cn/wiki/H:RNRS";
 var verifyURL = `${mw.util.getUrl("Special:Preferences")}#mw-input-wprnrshook-module`;
 var openDialog = async () => {
-  const moduleName = "ext.gadget.NoticeDialog";
-  const require2 = await mw.loader.using(moduleName);
-  const {
-    showNoticeDialog
-  } = require2(moduleName);
-  showNoticeDialog({
-    title: getMessage("DialogTitle"),
-    message: getMessage("DialogMessage"),
-    cancelLabel: getMessage("Cancel"),
-    helpLabel: getMessage("Help"),
-    helpURL,
-    primary: {
-      label: getMessage("Verify"),
-      onClick: () => {
-        location.href = verifyURL;
+  try {
+    const moduleName = "ext.gadget.NoticeDialog";
+    const require2 = await mw.loader.using(moduleName);
+    const {
+      showNoticeDialog
+    } = require2(moduleName);
+    showNoticeDialog({
+      title: getMessage("DialogTitle"),
+      message: getMessage("DialogMessage"),
+      cancelLabel: getMessage("Cancel"),
+      helpLabel: getMessage("Help"),
+      helpURL,
+      primary: {
+        label: getMessage("Verify"),
+        onClick: () => {
+          location.href = verifyURL;
+        }
       }
+    });
+  } catch (error) {
+    mw.log.warn("[VerifyToEdit] ext.gadget.NoticeDialog is unavailable; falling back to window.confirm.", error);
+    if (window.confirm(`${getMessage("DialogTitle")}
+
+${getMessage("DialogMessage")}`)) {
+      location.href = verifyURL;
     }
-  });
+  }
 };
 var initDialog = () => {
   const caViewsource = document.querySelector("#ca-viewsource");

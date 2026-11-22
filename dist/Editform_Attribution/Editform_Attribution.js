@@ -344,12 +344,17 @@ var appendTextToSummary = ({
 var import_vue4 = require("vue");
 //! src/Editform_Attribution/modules/util/dialog.ts
 var oouiConfirmWithStyle = async (message) => {
-  const moduleName = "ext.gadget.UtilDialog";
-  const require2 = await mw.loader.using(moduleName);
-  const {
-    oouiConfirmWithStyle: confirm
-  } = require2(moduleName);
-  return confirm(message);
+  try {
+    const moduleName = "ext.gadget.UtilDialog";
+    const require2 = await mw.loader.using(moduleName);
+    const {
+      oouiConfirmWithStyle: confirm
+    } = require2(moduleName);
+    return confirm(message);
+  } catch (error) {
+    mw.log.warn("[Gadget] ext.gadget.UtilDialog is unavailable; falling back to window.confirm.", error);
+    return window.confirm(message);
+  }
 };
 //! src/Editform_Attribution/modules/util/mountAttributionForm.ts
 var mountAttributionForm = ({
