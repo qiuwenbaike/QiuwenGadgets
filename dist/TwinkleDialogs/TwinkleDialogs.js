@@ -9615,7 +9615,12 @@ ${code}`;
               const usertalkpage = new Morebits.wiki.page(talkPageName, `${uls("通知页面创建者（", "通知頁面建立者（") + initialContrib}）`);
               let notifytext;
               notifytext = "\n{{".concat("subst:", `db-notice|target=${Morebits.pageNameNorm}`);
-              notifytext += "|nowelcome=yes'}}——~~".concat("~~");
+              for (const norm of params.normalizeds) {
+                if (norm !== "db") {
+                  notifytext += `|${norm.toUpperCase()}`;
+                }
+              }
+              notifytext += "|reason=yes|nowelcome=yes'}}——~~".concat("~~");
               let editsummary = "通知：";
               if (params.normalizeds.includes("g3")) {
                 editsummary += "一攻击性页面";
