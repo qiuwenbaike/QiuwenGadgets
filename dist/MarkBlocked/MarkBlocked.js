@@ -253,6 +253,7 @@ var queryUserBlocks = async (bkusers) => {
   return await api.get(params);
 };
 //! src/MarkBlocked/modules/util/markUserLinks.ts
+var BATCH_SIZE = 25;
 var markGlobalLockedUserLinks = (userLinks) => {
   const users = Object.keys(userLinks);
   if (!users.length) {
@@ -318,11 +319,8 @@ var markBlockedUserLinks = (userLinks) => {
       }
     }
   }
-  for (let i = 0; i < users.length; i++) {
-    const bkusers = users.splice(0, 25);
-    if (!bkusers.length) {
-      continue;
-    }
+  for (let i = 0; i < users.length; i += BATCH_SIZE) {
+    const bkusers = users.slice(i, i + BATCH_SIZE);
     promises[promises.length] = async () => {
       try {
         var _response$query7, _response$query8;
@@ -376,11 +374,8 @@ var markBlockedIPLinks = (userLinks) => {
     return;
   }
   const promises = [];
-  for (let i = 0; i < users.length; i++) {
-    const bkusers = users.splice(0, 25);
-    if (!bkusers.length) {
-      continue;
-    }
+  for (let i = 0; i < users.length; i += BATCH_SIZE) {
+    const bkusers = users.slice(i, i + BATCH_SIZE);
     for (let bkip of bkusers) {
       if (!mw.util.isIPv4Address(bkip) && !mw.util.isIPv6Address(bkip)) {
         continue;

@@ -2,6 +2,11 @@ import {generateArray, uniqueArray} from 'ext.gadget.Util';
 import {api} from './api';
 import {toastify} from 'ext.gadget.Toastify';
 
+/**
+ * The maximum number of titles the API accepts per request
+ */
+const BATCH_SIZE = 25;
+
 type DetectIfFileRedirect = (pageNames: string | string[], isFileNS?: boolean) => Promise<void>;
 type RefreshPage = (title?: string) => void;
 
@@ -124,11 +129,8 @@ const detectIfFileRedirect: DetectIfFileRedirect = async (pageNames, isFileNS = 
 	pageNames = uniqueArray(generateArray(pageNames));
 	const promises: (() => Promise<void>)[] = [];
 
-	for (let i = 0; i < pageNames.length; i++) {
-		let titles = pageNames.splice(0, 25);
-		if (!titles.length) {
-			continue;
-		}
+	for (let i = 0; i < pageNames.length; i += BATCH_SIZE) {
+		let titles = pageNames.slice(i, i + BATCH_SIZE);
 
 		promises[promises.length] = async (): Promise<void> => {
 			// Redirect target(s)

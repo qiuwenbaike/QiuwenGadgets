@@ -2,6 +2,11 @@ import {generateArray, uniqueArray} from 'ext.gadget.Util';
 import {api} from 'ext.gadget.QuickImport';
 import {toastify} from 'ext.gadget.Toastify';
 
+/**
+ * The maximum number of titles the API accepts per request
+ */
+const BATCH_SIZE = 25;
+
 let toastifyInstance: ToastifyInstance = {
 	hideToast: () => {},
 };
@@ -143,11 +148,8 @@ const getImages = async (titles: string | string[]) => {
 	const fileNames: string[] = [];
 	titles = uniqueArray(generateArray(titles));
 
-	for (let i = 0; i < titles.length; i++) {
-		const querytitles = titles.splice(0, 25);
-		if (!querytitles.length) {
-			continue;
-		}
+	for (let i = 0; i < titles.length; i += BATCH_SIZE) {
+		const querytitles = titles.slice(i, i + BATCH_SIZE);
 
 		try {
 			const response = await queryImages(querytitles);

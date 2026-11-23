@@ -62,6 +62,7 @@ var import_ext_gadget = require("ext.gadget.Util");
 var api = (0, import_ext_gadget.initMwApi)(`QuickImport/${version}`);
 //! src/QuickImport/modules/core.ts
 var import_ext_gadget3 = require("ext.gadget.Toastify");
+var BATCH_SIZE = 25;
 var toastifyInstance = {
   hideToast: () => {
   }
@@ -150,11 +151,8 @@ var queryImageInfo = async (titles) => {
 var detectIfFileRedirect = async (pageNames, isFileNS = false) => {
   pageNames = (0, import_ext_gadget2.uniqueArray)((0, import_ext_gadget2.generateArray)(pageNames));
   const promises = [];
-  for (let i = 0; i < pageNames.length; i++) {
-    let titles = pageNames.splice(0, 25);
-    if (!titles.length) {
-      continue;
-    }
+  for (let i = 0; i < pageNames.length; i += BATCH_SIZE) {
+    let titles = pageNames.slice(i, i + BATCH_SIZE);
     promises[promises.length] = async () => {
       const tos = [];
       const response = await queryImageInfo(titles);

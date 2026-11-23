@@ -30,6 +30,7 @@ var import_ext_gadget4 = require("ext.gadget.QuickImport");
 var import_ext_gadget = require("ext.gadget.Util");
 var import_ext_gadget2 = require("ext.gadget.QuickImport");
 var import_ext_gadget3 = require("ext.gadget.Toastify");
+var BATCH_SIZE = 25;
 var toastifyInstance = {
   hideToast: () => {
   }
@@ -155,11 +156,8 @@ var getImagesFromElements = (fileLinkElements) => {
 var getImages = async (titles) => {
   const fileNames = [];
   titles = (0, import_ext_gadget.uniqueArray)((0, import_ext_gadget.generateArray)(titles));
-  for (let i = 0; i < titles.length; i++) {
-    const querytitles = titles.splice(0, 25);
-    if (!querytitles.length) {
-      continue;
-    }
+  for (let i = 0; i < titles.length; i += BATCH_SIZE) {
+    const querytitles = titles.slice(i, i + BATCH_SIZE);
     try {
       const response = await queryImages(querytitles);
       if (!response["query"] || !response["query"].pages) {

@@ -3,6 +3,11 @@ import type {GlobalLocksStorage, QueryLocalAndGlobalBlocksResponse} from '../typ
 import {markGlobalBlocks, markGlobalLockedLinks, markLocalBlocks} from './markLinks';
 import {queryGlobalUserInfo, queryIPBlocks, queryUserBlocks} from './query';
 
+/**
+ * The maximum number of users the API accepts per request
+ */
+const BATCH_SIZE = 25;
+
 const markGlobalLockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 	// Convert users into array
 	const users: string[] = Object.keys(userLinks);
@@ -77,11 +82,8 @@ const markBlockedUserLinks = (userLinks: Record<string, JQuery[]>) => {
 	}
 
 	// Local and global user block queries
-	for (let i = 0; i < users.length; i++) {
-		const bkusers = users.splice(0, 25);
-		if (!bkusers.length) {
-			continue;
-		}
+	for (let i = 0; i < users.length; i += BATCH_SIZE) {
+		const bkusers = users.slice(i, i + BATCH_SIZE);
 
 		promises[promises.length] = async (): Promise<void> => {
 			try {
@@ -134,11 +136,8 @@ const markBlockedIPLinks = (userLinks: Record<string, JQuery[]>) => {
 	const promises: (() => Promise<void>)[] = [];
 
 	// Local and global IP block queries
-	for (let i = 0; i < users.length; i++) {
-		const bkusers = users.splice(0, 25);
-		if (!bkusers.length) {
-			continue;
-		}
+	for (let i = 0; i < users.length; i += BATCH_SIZE) {
+		const bkusers = users.slice(i, i + BATCH_SIZE);
 
 		for (let bkip of bkusers) {
 			if (!mw.util.isIPv4Address(bkip) && !mw.util.isIPv6Address(bkip)) {

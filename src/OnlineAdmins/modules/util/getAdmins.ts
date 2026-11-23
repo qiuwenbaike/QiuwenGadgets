@@ -2,6 +2,11 @@ import {queryLogEvents, queryRecentChanges, queryUserProps} from './query';
 import {BLACK_LIST} from '../constant';
 import {uniqueArray} from 'ext.gadget.Util';
 
+/**
+ * The maximum number of users the API accepts per request
+ */
+const BATCH_SIZE = 25;
+
 const getAdmins = async () => {
 	const stewards: string[] = [];
 	const sysops: string[] = [];
@@ -36,11 +41,8 @@ const getAdmins = async () => {
 	users = uniqueArray(users); // Replace Set with uniqueArray, avoiding core-js polyfilling
 
 	// Generating query promises
-	for (let i = 0; i < users.length; i++) {
-		const ususers = users.splice(0, 25);
-		if (!ususers.length) {
-			continue;
-		}
+	for (let i = 0; i < users.length; i += BATCH_SIZE) {
+		const ususers = users.slice(i, i + BATCH_SIZE);
 
 		promises[promises.length] = async (): Promise<void> => {
 			const response = await queryUserProps(ususers);

@@ -81,6 +81,7 @@ var queryUserProps = async (ususers) => {
 var BLACK_LIST = ["滥用过滤器"];
 //! src/OnlineAdmins/modules/util/getAdmins.ts
 var import_ext_gadget2 = require("ext.gadget.Util");
+var BATCH_SIZE = 25;
 var getAdmins = async () => {
   const stewards = [];
   const sysops = [];
@@ -110,11 +111,8 @@ var getAdmins = async () => {
   } catch {
   }
   users = (0, import_ext_gadget2.uniqueArray)(users);
-  for (let i = 0; i < users.length; i++) {
-    const ususers = users.splice(0, 25);
-    if (!ususers.length) {
-      continue;
-    }
+  for (let i = 0; i < users.length; i += BATCH_SIZE) {
+    const ususers = users.slice(i, i + BATCH_SIZE);
     promises[promises.length] = async () => {
       const response = await queryUserProps(ususers);
       for (const {
