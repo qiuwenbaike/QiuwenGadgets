@@ -49,6 +49,8 @@
 
 - 运行`pnpm run build`以格式化代码、检查语法、测试编译<br>Run `pnpm run build` to format the code, check syntax, and test the compilation
 
+- 仅编译指定小工具（不影响其他小工具的`dist`输出）：`pnpm run build:gadget:only 小工具名 [小工具名...]`，也可写作`pnpm run build:gadget:only --gadget 小工具名1,小工具名2`；如需先执行格式化与检查（等价于`pnpm run build`），使用`pnpm run build:gadget 小工具名 [小工具名...]`<br>Build only the given gadget(s) without touching the `dist` output of other gadgets: `pnpm run build:gadget:only GadgetName [GadgetName...]`, or `pnpm run build:gadget:only --gadget Name1,Name2`; use `pnpm run build:gadget GadgetName [GadgetName...]` when formatting and checks should run first (same as `pnpm run build`)
+
 - 向上游发起 Pull Request<br>Initiate a Pull Request to the upstream
 
 > 脚本可以是 ts 或 js，可以使用 ESNext 所支持的语法（如`import`，支持跨目录导入）；导入的图片将被自动转换成 Data URLs（如`data:image/png;base64,...`）<br>The scripts can be in either TypeScript or JavaScript and can utilize the syntax supported by ESNext, such as import, which allows importing across directories. Imported images will be automatically converted to Data URLs, like `data:image/png;base64,...`.

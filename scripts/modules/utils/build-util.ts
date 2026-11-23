@@ -36,6 +36,27 @@ const writeFile = (outputFilePath: string, sourceCode: string) => {
 };
 
 /**
+ * Vue SFC `<style>` blocks are compiled with a `/* sfc-style:<absolute path> *\/` comment. The
+ * absolute path depends on the checkout location, which would make `dist` differ between machines
+ * even when the sources are identical. Normalize it to a repository-relative path with POSIX
+ * separators so that builds are reproducible.
+ *
+ * @private
+ * @param {string} sourceCode The compiled CSS
+ * @return {string} The CSS with normalized `sfc-style` comments
+ */
+const normalizeSfcStyleComments = (sourceCode: string): string => {
+	return sourceCode.replace(/\/\* sfc-style:([^*]+?) \*\//g, (_comment, fileReference: string) => {
+		const queryIndex = fileReference.indexOf('?');
+		const filePath = queryIndex === -1 ? fileReference : fileReference.slice(0, queryIndex);
+		const query = queryIndex === -1 ? '' : fileReference.slice(queryIndex);
+		const relativePath = path.relative(__rootDir, filePath).split(path.sep).join('/');
+
+		return `/* sfc-style:~/${relativePath}${query} */`;
+	});
+};
+
+/**
  * @private
  * @param {string} inputFilePath
  * @param {string} outputFilePath
@@ -364,7 +385,7 @@ const buildScript = async (
 		const fileExt = path.extname(outputPath);
 		switch (fileExt) {
 			case '.css':
-				writeFile(outputPath, text);
+				writeFile(outputPath, normalizeSfcStyleComments(text));
 				break;
 			case '.js': {
 				const transformOutput = await transform(inputFilePath, text);
@@ -404,7 +425,7 @@ const buildStyle = async (gadgetName: string, styleFileName: string, licenseText
 	});
 	const buildOutput = builtFiles[0]!.text;
 
-	writeFile(outputFilePath, buildOutput);
+	writeFile(outputFilePath, normalizeSfcStyleComments(buildOutput));
 
 	return outputFileName;
 };

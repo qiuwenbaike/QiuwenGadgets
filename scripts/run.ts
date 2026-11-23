@@ -40,7 +40,7 @@ if (gadgetNames !== undefined && !gadgetFilter.length) {
 }
 
 if (isBuild) {
-	await build();
+	await build(gadgetFilter);
 }
 
 if (isDeploy) {

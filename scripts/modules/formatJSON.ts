@@ -1,8 +1,11 @@
 import type {DefaultDefinition, GlobalSourceFiles} from './types';
 import {type Options, format, resolveConfig, resolveConfigFile} from 'prettier';
 import {__rootDir, exec, readFileContent, sortObject, writeFileContent} from './utils/general-util';
+import chalk from 'chalk';
+import {exit} from 'node:process';
 import {globSync} from 'glob';
 import path from 'node:path';
+import {readFileSync} from 'node:fs';
 
 interface File {
 	isGlob?: boolean;
@@ -58,13 +61,33 @@ const generateTargetFiles = (paths: string[]): Files => {
 };
 
 const formatJSON = async (paths: string[] = []) => {
+	const prettierConfigPath = (await resolveConfigFile()) as string;
+	const prettierConfig = (await resolveConfig(prettierConfigPath)) as Options;
+
+	// `-` reads JSON from stdin and writes the formatted result to stdout
+	if (paths.includes('-')) {
+		let object: unknown;
+		try {
+			object = JSON.parse(readFileSync(0, 'utf8')) as unknown;
+		} catch (error) {
+			console.error(
+				chalk.red(`✘ Invalid JSON on stdin: ${error instanceof Error ? error.message : String(error)}`)
+			);
+			exit(1);
+		}
+
+		const formatted = await format(JSON.stringify(object, null, '\t'), {
+			...prettierConfig,
+			parser: 'json',
+		});
+		process.stdout.write(formatted.endsWith('\n') ? formatted : `${formatted}\n`);
+		return;
+	}
+
 	const files = generateTargetFiles(paths);
 	if (!files.length) {
 		return;
 	}
-
-	const prettierConfigPath = (await resolveConfigFile()) as string;
-	const prettierConfig = (await resolveConfig(prettierConfigPath)) as Options;
 
 	for (const file of files) {
 		const {isGlob, name: fileName} = file;

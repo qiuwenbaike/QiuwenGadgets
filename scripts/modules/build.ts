@@ -1,67 +1,32 @@
-import {
-	buildFiles,
-	cleanUpDist,
-	findSourceFile,
-	generateDefinitionItem,
-	generateFileArray,
-	generateFileNames,
-	getLicense,
-	saveDefinition,
-} from './utils/build-util';
+import {cleanUpDist, findSourceFile, saveDefinition} from './utils/build-util';
+import {__rootDir} from './utils/general-util';
+import {buildGadget} from './utils/build-gadget';
 import chalk from 'chalk';
+import {compileGadget} from './utils/compile-gadget';
 
 /**
  * Compile scripts and styles and generate corresponding definitions
+ *
+ * @param gadgetNames When passed, only these gadgets are compiled; their `dist/<gadgetName>`
+ * directories are refreshed and only their `dist/definition.txt` items are updated. Other
+ * gadgets' output is left untouched.
  */
-const build = async () => {
+const build = async (gadgetNames: string[] = []) => {
+	const sourceFiles = findSourceFile();
+
+	if (gadgetNames.length) {
+		buildGadget(gadgetNames);
+		return;
+	}
+
 	console.log(chalk.yellow('--- starting build...'));
 
 	await cleanUpDist();
 
 	const definitions = await Promise.all(
-		Object.entries(findSourceFile()).map(
-			async ([gadgetName, {definition, license, script, scripts, style, styles}]) => {
-				let gadgetFiles = '|';
-				const licenseText = getLicense(gadgetName, license);
-
-				if (script || scripts?.length) {
-					const hasVue = scripts?.some((fileName) => {
-						return fileName.endsWith('.vue');
-					});
-					if (hasVue && !script) {
-						console.log(
-							chalk.red(
-								`The ${chalk.bold(gadgetName)} uses Vue components but missing entry file, skipping it.`
-							)
-						);
-					} else {
-						const {dependencies, externalPackages} = definition;
-						const builtScriptFileNames = await buildFiles(gadgetName, 'script', {
-							dependencies,
-							externalPackages,
-							licenseText,
-							files: generateFileArray(script, scripts),
-						});
-						const scriptFileNames = generateFileNames(gadgetName, builtScriptFileNames);
-						gadgetFiles += scriptFileNames ? `${scriptFileNames}|` : '';
-					}
-				} else if (style || styles?.length) {
-					const builtStyleFileNames = await buildFiles(gadgetName, 'style', {
-						licenseText,
-						files: generateFileArray(style, styles),
-					});
-					const styleFileNames = generateFileNames(gadgetName, builtStyleFileNames);
-					gadgetFiles += styleFileNames ? `${styleFileNames}|` : '';
-				}
-
-				gadgetFiles = gadgetFiles.replace(/\|$/, '');
-				if (!gadgetFiles) {
-					return null;
-				}
-
-				return generateDefinitionItem(gadgetName, definition, gadgetFiles);
-			}
-		)
+		Object.entries(sourceFiles).map(([gadgetName, source]) => {
+			return compileGadget(gadgetName, source);
+		})
 	);
 
 	saveDefinition(definitions.filter(Boolean) as string[]);
