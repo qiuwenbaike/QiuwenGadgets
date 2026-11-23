@@ -1,22 +1,24 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
+import {addIcon, calendarIcon, searchIcon} from './util/images';
 import {citeFormTd} from '../Edittools-refToolbar.module.less';
 import {getMessage} from './util/getMessage';
-import oojsUiAdd from '../images/add.svg';
-import oojsUiCalendar from '../images/calendar.svg';
-import oojsUiSearch from '../images/search.svg';
 
-const refToolbarBase = () => {
+const refToolbarBase = (): void => {
 	window.CiteTB ||= {
 		Templates: {}, // All templates
 		Options: {}, // Global options
 		UserOptions: {}, // User options
 		DefaultOptions: {}, // Script defaults
-	};
+	} as CiteTB;
 
 	// Class for cite templates
-	window.CiteTemplate = class CiteTemplate {
-		constructor(templatename, shortform, basicfields, expandedfields) {
+	window.CiteTemplate = class CiteTemplate implements CiteTemplateInstance {
+		templatename: string;
+		shortform: string;
+		basic: CiteField[];
+		extra: CiteField[];
+		incrementables: Record<string, CiteIncrementable>;
+
+		constructor(templatename: string, shortform: string, basicfields: CiteField[], expandedfields: CiteField[]) {
 			// Properties
 			this.templatename = templatename; // The template name - "cite web", "cite book", etc.
 			this.shortform = shortform; // A short form, used for the dropdown box
@@ -29,47 +31,46 @@ const refToolbarBase = () => {
 			// Add it to the list
 			CiteTB.Templates[this.templatename] = this;
 		}
-		makeFormInner(fields, incrsetup) {
-			const trs = [];
-			const autofills = [];
-			let tr;
+		makeFormInner(fields: CiteField[], incrsetup: boolean): JQuery<HTMLElement>[] {
+			const trs: JQuery<HTMLElement>[] = [];
+			const autofills: string[] = [];
+			let tr = $('<tr>');
 			for (const [i, fieldobj] of fields.entries()) {
 				let {field} = fieldobj;
 				let labelfield = fieldobj.field;
-				let ad = false;
-				let im;
+				let ad: JQuery<HTMLElement> | undefined;
+				let im: JQuery<HTMLElement> | undefined;
 				if (incrsetup && fieldobj.increment_group) {
 					field = fieldobj.field.replace('<N>', '1');
 					labelfield = fieldobj.field.replace('<N>', '');
-					if (
-						this.incrementables[fieldobj.increment_group] &&
-						!this.incrementables[fieldobj.increment_group].setup
-					) {
-						// The object has been created, but not fully initialized
-						this.incrementables[fieldobj.increment_group].fields.push(fieldobj);
-					} else if (!this.incrementables[fieldobj.increment_group]) {
+					const incrementable = this.incrementables[fieldobj.increment_group];
+					if (incrementable) {
+						if (incrementable.setup) {
+							// Fully initialized from a previous invocation of this function, just resetting the number
+							incrementable.val = 1;
+						} else {
+							// The object has been created, but not fully initialized
+							incrementable.fields.push(fieldobj);
+						}
+					} else {
 						// Object not yet created
 						this.incrementables[fieldobj.increment_group] = {
 							fields: [fieldobj],
 							val: 1,
 							setup: false,
 						};
-					} else if (
-						this.incrementables[fieldobj.increment_group] &&
-						this.incrementables[fieldobj.increment_group].setup
-					) {
-						// Fully initialized from a previous invocation of this function, just resetting the number
-						this.incrementables[fieldobj.increment_group].val = 1;
 					}
 				} else if (fieldobj.increment_group) {
 					// Adding a new row
-					const incrval = this.incrementables[fieldobj.increment_group].val;
-					field = fieldobj.field.replace('<N>', incrval.toString());
-					labelfield = fieldobj.field.replace('<N>', '');
+					const incrementable = this.incrementables[fieldobj.increment_group];
+					if (incrementable) {
+						field = fieldobj.field.replace('<N>', incrementable.val.toString());
+						labelfield = fieldobj.field.replace('<N>', '');
+					}
 				}
 				const autodateFields = CiteTB.getOption('autodate fields');
 				if (autodateFields.includes(field)) {
-					im = $('<img>').attr('src', `data:image/svg+xml,${encodeURIComponent(oojsUiCalendar)}`);
+					im = $('<img>').attr('src', calendarIcon);
 					im.attr('alt', getMessage('cite-insert-date')).attr('title', getMessage('cite-insert-date'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
@@ -82,7 +83,7 @@ const refToolbarBase = () => {
 				}
 				if (fieldobj.autofillid) {
 					const autotype = fieldobj.autofillid;
-					im = $('<img>').attr('src', `data:image/svg+xml,${encodeURIComponent(oojsUiSearch)}`);
+					im = $('<img>').attr('src', searchIcon);
 					im.attr('alt', getMessage('cite-autofill-alt')).attr('title', getMessage('cite-autofill-alt'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
@@ -91,22 +92,18 @@ const refToolbarBase = () => {
 				}
 				if (fieldobj.increment_button) {
 					const incrtype = fieldobj.increment_group;
-					im = $('<img>').attr('src', `data:image/svg+xml,${encodeURIComponent(oojsUiAdd)}`);
+					im = $('<img>').attr('src', addIcon);
 					im.attr('alt', getMessage('cite-increment-alt')).attr('title', getMessage('cite-increment-alt'));
 					ad = $('<a>').attr('href', '#');
 					ad.append(im);
 					ad.attr('id', `cite-incr-${CiteTB.escStr(this.shortform)}-${incrtype}`);
 				}
 
-				let display = getMessage(`cite-${labelfield}-label`);
-				if (typeof display !== 'string') {
-					display = fieldobj.label ? CiteTB.fixStr(fieldobj.label) : CiteTB.fixStr(labelfield);
-				}
+				const display = getMessage(`cite-${labelfield}-label`);
 				const tooltip = fieldobj.tooltip
-					? $('<abbr>').attr('title', getMessage(fieldobj.tooltip)).html($('<sup>').text('?'))
+					? $('<abbr>').attr('title', getMessage(fieldobj.tooltip)).append($('<sup>').text('?'))
 					: false;
-				let input = '';
-				input = $('<input>').attr({
+				const input = $('<input>').attr({
 					tabindex: '1',
 					style: ad ? 'width: 85%' : 'width: 100%',
 					type: 'text',
@@ -116,7 +113,7 @@ const refToolbarBase = () => {
 					let classname = `cite-${CiteTB.escStr(this.shortform)}-${fieldobj.autofillprop}`;
 					if (fieldobj.increment_group) {
 						input.addClass(`cite-${CiteTB.escStr(this.shortform)}-incr-${fieldobj.increment_group}`);
-						classname += `-${this.incrementables[fieldobj.increment_group].val.toString()}`;
+						classname += `-${(this.incrementables[fieldobj.increment_group] as CiteIncrementable).val.toString()}`;
 					}
 					input.addClass(classname);
 				}
@@ -147,11 +144,12 @@ const refToolbarBase = () => {
 				}
 			}
 			let needsetup = false;
-			for (const g in this.incrementables) {
-				if (!this.incrementables[g].setup) {
+			for (const g of Object.keys(this.incrementables)) {
+				const incrementable = this.incrementables[g];
+				if (incrementable && !incrementable.setup) {
 					needsetup = true;
 					$(document).on('click', `#cite-incr-${CiteTB.escStr(this.shortform)}-${g}`, CiteTB.incrementFields);
-					this.incrementables[g].setup = true;
+					incrementable.setup = true;
 				}
 			}
 			if (needsetup || Object.keys(this.incrementables).length === 0) {
@@ -162,7 +160,7 @@ const refToolbarBase = () => {
 			return trs;
 		}
 		// gives a little bit of HTML so the open form can be identified
-		getInitial() {
+		getInitial(): JQuery<HTMLElement> {
 			const hidden = $('<input>').addClass('cite-template').attr({
 				type: 'hidden',
 				value: this.templatename,
@@ -170,7 +168,7 @@ const refToolbarBase = () => {
 			return hidden;
 		}
 		// makes the form used in the dialog boxes
-		getForm() {
+		getForm(): JQuery<HTMLElement> {
 			const main = $('<div>').addClass('cite-form-container');
 			const form1 = $('<table>').addClass('cite-basic-fields').css({
 				width: '100%',
