@@ -37,7 +37,7 @@
  */
 /* <nowiki> */
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\VariantAllyDialog\components\VAButton.vue?type=style&index=0 */
+/* sfc-style:~/src/VariantAllyDialog/components/VAButton.vue?type=style&index=0 */
 .va-button[data-v-bb7734b1] {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -156,7 +156,7 @@
   fill: currentColor;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\VariantAllyDialog\components\VAFadeTransition.vue?type=style&index=0 */
+/* sfc-style:~/src/VariantAllyDialog/components/VAFadeTransition.vue?type=style&index=0 */
 .va-fade-enter-active[data-v-bb9c5751],
 .va-fade-leave-active[data-v-bb9c5751] {
   transition-property: opacity;
@@ -168,7 +168,7 @@
   opacity: 0;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\VariantAllyDialog\components\VAVariantPrompt.vue?type=style&index=0 */
+/* sfc-style:~/src/VariantAllyDialog/components/VAVariantPrompt.vue?type=style&index=0 */
 .va-title[data-v-5a44cc75] {
   border: 0;
   padding: 0;
@@ -269,7 +269,7 @@
   opacity: 0;
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\VariantAllyDialog\components\VASelect.vue?type=style&index=0 */
+/* sfc-style:~/src/VariantAllyDialog/components/VASelect.vue?type=style&index=0 */
 .va-select[data-v-c9b46460] {
   box-sizing: border-box;
   min-height: 32px;
@@ -336,7 +336,7 @@
   border-color: var(--border-color-interactive, #72777d);
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\VariantAllyDialog\components\VAVariantPromptMobile.vue?type=style&index=0 */
+/* sfc-style:~/src/VariantAllyDialog/components/VAVariantPromptMobile.vue?type=style&index=0 */
 .va-title[data-v-5cc7865b] {
   border: 0;
   padding: 0;
@@ -430,7 +430,7 @@
   transform: translateY(100%);
 }
 
-/* sfc-style:E:\Codes\Qiuwen\QiuwenGadgets\src\VariantAllyDialog\App.vue?type=style&index=0 */
+/* sfc-style:~/src/VariantAllyDialog/App.vue?type=style&index=0 */
 .skin-vector-2022 .va-variant-prompt {
   max-height: calc(100% - 1em - 66px);
 }
