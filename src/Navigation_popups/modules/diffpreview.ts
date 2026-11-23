@@ -12,6 +12,7 @@ import {formattedDateTime} from './querypreview';
 import {generalLink} from './links';
 import {getMwApi} from './init';
 import {getPageWithCaching} from './getpage';
+import {getRevisionContent} from './revisionContent';
 import {getValueOf} from './options';
 import {pg} from './pg';
 
@@ -83,7 +84,7 @@ const loadDiff = (article: Title, oldid: string | null, diff: string, navpop: Na
 			pendingNavpopTask(navpop);
 			let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query&`;
 			url += `revids=${navpop.diffData.oldRev.revid}|${navpop.diffData.newRev.revid}`;
-			url += '&prop=revisions&rvprop=ids|timestamp|content';
+			url += '&prop=revisions&rvprop=ids|timestamp|content&rvslots=main';
 			getPageWithCaching(url, doneDiff, navpop);
 			return true; // remove hook once run
 		};
@@ -285,8 +286,14 @@ const insertDiff = (navpop: Navpopup) => {
 	// for speed reasons, we first do a line-based diff, discard stuff that seems boring, then
 	// do a word-based diff
 	// FIXME: sometimes this gives misleading diffs as distant chunks are squashed together
-	let oldlines = navpop.diffData.oldRev.revision!.content.split('\n');
-	let newlines = navpop.diffData.newRev.revision!.content.split('\n');
+	const oldContent = getRevisionContent(navpop.diffData.oldRev.revision);
+	const newContent = getRevisionContent(navpop.diffData.newRev.revision);
+	if (oldContent === null || newContent === null) {
+		errlog('Could not get diff content');
+		return;
+	}
+	let oldlines = oldContent.split('\n');
+	let newlines = newContent.split('\n');
 	let inner = stripOuterCommonLines(oldlines, newlines, getValueOf('popupDiffContextLines'));
 	oldlines = inner.a;
 	newlines = inner.b;

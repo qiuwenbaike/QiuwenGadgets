@@ -1,6 +1,7 @@
 // 本文件由 Navigation_popups 原版 core.js 的 querypreview.js 段落拆分而来，保留原有实现。
 import {anyChild, entify, getJsObj, map, zeroFill} from './tools';
 import {completedNavpopTask, insertPreview, pendingNavpopTask, prepPreviewmaker} from './actions';
+import {getRevisionContent, getRevisionContentModel} from './revisionContent';
 import {popupString, tprintf} from './strings';
 import {setPopupHTML, setPopupTipsAndHTML, setPopupTrailer} from './htmloutput';
 import type {Dow} from './types';
@@ -21,9 +22,12 @@ type QueryPreviewType =
 interface ApiRevision {
 	comment?: string;
 	commenthidden?: boolean;
+	// 未指定 rvslots 时的旧格式（见 revisionContent.ts）
 	content?: string;
 	contentmodel?: string;
 	minor?: boolean;
+	// rvslots=main 时正文位于 slots.main（见 revisionContent.ts）
+	slots?: Record<string, {content?: string; contentmodel?: string} | undefined>;
 	revid: number;
 	timestamp: string;
 	title: string;
@@ -103,7 +107,7 @@ const loadAPIPreview = (queryType: QueryPreviewType, article: Title, navpop: Nav
 			if (getValueOf('popupImageLinks')) {
 				trail = `&list=imageusage&iutitle=${art}`;
 			}
-			url += `titles=${art}&prop=revisions|imageinfo&rvprop=content${trail}`;
+			url += `titles=${art}&prop=revisions|imageinfo&rvprop=content&rvslots=main${trail}`;
 			htmlGenerator = APIimagepagePreviewHTML;
 			break;
 		}
@@ -114,7 +118,7 @@ const loadAPIPreview = (queryType: QueryPreviewType, article: Title, navpop: Nav
 		case 'revision':
 			url += article.oldid ? `revids=${article.oldid}` : `titles=${article.removeAnchor().urlString()}`;
 			url +=
-				'&prop=revisions|pageprops|info|images|categories&rvprop=ids|timestamp|flags|comment|user|content&cllimit=max&imlimit=max';
+				'&prop=revisions|pageprops|info|images|categories&rvprop=ids|timestamp|flags|comment|user|content&rvslots=main&cllimit=max&imlimit=max';
 			htmlGenerator = APIrevisionPreviewHTML;
 			break;
 	}
@@ -395,7 +399,13 @@ const showAPIPreview = (
 			target = 'popupUserData';
 			break;
 		case 'revision':
-			insertPreview(download!);
+			if (typeof html === 'string') {
+				// The generator reports a failure (e.g. no revision content): show it instead of falling
+				// back to rendering the raw API JSON (batchcomplete/warnings/…) as the preview text.
+				setPopupTipsAndHTML(html, target, id);
+			} else {
+				insertPreview(download!);
+			}
 			return;
 	}
 	setPopupTipsAndHTML(html ?? '', target, id);
@@ -409,12 +419,14 @@ const APIrevisionPreviewHTML = (_article: Title, download: Dow): string | undefi
 			download.owner = undefined;
 			return;
 		}
-		const content =
-			page && page.revisions && page.revisions[0] && page.revisions[0].content ? page.revisions[0].content : null;
-		if (typeof content === 'string') {
-			download.data = content;
-			download.lastModified = new Date(page.revisions[0].timestamp);
+		const content = getRevisionContent(page?.revisions?.[0]);
+		if (content === null || !page?.revisions?.[0]) {
+			// Never let the raw API JSON (batchcomplete/warnings/…) be rendered as the preview text
+			download.data = '';
+			return popupString('Revision preview failed :(');
 		}
+		download.data = content;
+		download.lastModified = new Date(page.revisions[0].timestamp);
 		return undefined;
 	} catch {
 		return 'Revision preview failed :(';
@@ -447,7 +459,7 @@ pg.fn.APIsharedImagePagePreviewHTML = (obj: {query?: {pages?: Record<string, Api
 	if (obj.query && obj.query.pages) {
 		const page = anyChild(obj.query.pages);
 		const first = page?.revisions?.[0];
-		const content = first && first.contentmodel === 'wikitext' ? first.content : null;
+		const content = getRevisionContentModel(first) === 'wikitext' ? getRevisionContent(first) : null;
 		if (typeof content === 'string' && pg && pg.current && pg.current.link && pg.current.link.navpopup) {
 			/* Not entirely safe, but the best we can do */
 			// 原版传 Title 对象，经 JS 隐式字符串化等价于 toString()
@@ -461,8 +473,8 @@ const APIimagepagePreviewHTML = (article: Title, download: Dow, navpop: Navpopup
 	try {
 		const jsObj = getJsObj(download.data!);
 		const page = anyChild(jsObj.query.pages);
-		const content =
-			page && page.revisions && page.revisions[0].contentmodel === 'wikitext' ? page.revisions[0].content : null;
+		const revision = page?.revisions?.[0];
+		const content = getRevisionContentModel(revision) === 'wikitext' ? getRevisionContent(revision) : null;
 		let ret = '';
 		let alt: string | undefined = '';
 		try {
@@ -491,7 +503,7 @@ const APIimagepagePreviewHTML = (article: Title, download: Dow, navpop: Navpopup
 			const shared_url =
 				`${pg.wiki.apicommonsbase}?format=json&formatversion=2` +
 				'&callback=pg.fn.APIsharedImagePagePreviewHTML' +
-				`&requestid=${navpop.idNumber!}&action=query&prop=revisions&rvprop=content&titles=${encart}`;
+				`&requestid=${navpop.idNumber!}&action=query&prop=revisions&rvprop=content&rvslots=main&titles=${encart}`;
 			ret = `${ret}<hr>${popupString('Image from Qiuwen Baike')}: <a href="${
 				pg.wiki.commonsbase
 			}?title=${encart}">${popupString('Description page')}</a>`;

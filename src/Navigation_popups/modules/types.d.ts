@@ -1,6 +1,7 @@
 // Navigation popups 的共享类型定义
 import type {Downloader} from './downloader';
 import type {Navpopup} from './navpopup';
+import type {RevisionLike} from './revisionContent';
 import type {Title} from './titles';
 
 // 由 URL 解析出的页面参数（如 oldid、diff 等）
@@ -44,9 +45,8 @@ export type Dow = Downloader & {
 };
 
 // 修订版本信息（diff 预览用）
-export interface Revision {
+export interface Revision extends RevisionLike {
 	revid: number | string;
-	content: string;
 	timestamp: string;
 	user?: string;
 	comment?: string;

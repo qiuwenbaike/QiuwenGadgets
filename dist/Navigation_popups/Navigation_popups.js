@@ -5165,6 +5165,21 @@ var doSeparateSelectionPopup = (str, article) => {
   div.ranSetupTooltipsAlready = false;
   popTipsSoonFn("selectionPreview")();
 };
+//! src/Navigation_popups/modules/revisionContent.ts
+var mainSlotOf = (revision) => {
+  var _revision$slots;
+  return revision === null || revision === void 0 || (_revision$slots = revision.slots) === null || _revision$slots === void 0 ? void 0 : _revision$slots["main"];
+};
+var getRevisionContent = (revision) => {
+  var _mainSlotOf;
+  const content = ((_mainSlotOf = mainSlotOf(revision)) === null || _mainSlotOf === void 0 ? void 0 : _mainSlotOf.content) ?? (revision === null || revision === void 0 ? void 0 : revision.content);
+  return typeof content === "string" ? content : null;
+};
+var getRevisionContentModel = (revision) => {
+  var _mainSlotOf2;
+  const contentmodel = ((_mainSlotOf2 = mainSlotOf(revision)) === null || _mainSlotOf2 === void 0 ? void 0 : _mainSlotOf2.contentmodel) ?? (revision === null || revision === void 0 ? void 0 : revision.contentmodel);
+  return typeof contentmodel === "string" ? contentmodel : null;
+};
 //! src/Navigation_popups/modules/querypreview.ts
 var loadAPIPreview = (queryType, article, navpop) => {
   var _Title$userName;
@@ -5204,7 +5219,7 @@ var loadAPIPreview = (queryType, article, navpop) => {
       if (getValueOf("popupImageLinks")) {
         trail = `&list=imageusage&iutitle=${art}`;
       }
-      url += `titles=${art}&prop=revisions|imageinfo&rvprop=content${trail}`;
+      url += `titles=${art}&prop=revisions|imageinfo&rvprop=content&rvslots=main${trail}`;
       htmlGenerator = APIimagepagePreviewHTML;
       break;
     }
@@ -5214,7 +5229,7 @@ var loadAPIPreview = (queryType, article, navpop) => {
       break;
     case "revision":
       url += article.oldid ? `revids=${article.oldid}` : `titles=${article.removeAnchor().urlString()}`;
-      url += "&prop=revisions|pageprops|info|images|categories&rvprop=ids|timestamp|flags|comment|user|content&cllimit=max&imlimit=max";
+      url += "&prop=revisions|pageprops|info|images|categories&rvprop=ids|timestamp|flags|comment|user|content&rvslots=main&cllimit=max&imlimit=max";
       htmlGenerator = APIrevisionPreviewHTML;
       break;
   }
@@ -5451,24 +5466,31 @@ var showAPIPreview = (queryType, html, id, navpop, download) => {
       target = "popupUserData";
       break;
     case "revision":
-      insertPreview(download);
+      if (typeof html === "string") {
+        setPopupTipsAndHTML(html, target, id);
+      } else {
+        insertPreview(download);
+      }
       return;
   }
   setPopupTipsAndHTML(html ?? "", target, id);
 };
 var APIrevisionPreviewHTML = (_article, download) => {
   try {
+    var _page$revisions, _page$revisions2;
     const jsObj = getJsObj(download.data);
     const page = anyChild(jsObj.query.pages);
     if (page.missing) {
       download.owner = void 0;
       return;
     }
-    const content = page && page.revisions && page.revisions[0] && page.revisions[0].content ? page.revisions[0].content : null;
-    if (typeof content === "string") {
-      download.data = content;
-      download.lastModified = new Date(page.revisions[0].timestamp);
+    const content = getRevisionContent(page === null || page === void 0 || (_page$revisions = page.revisions) === null || _page$revisions === void 0 ? void 0 : _page$revisions[0]);
+    if (content === null || !(page !== null && page !== void 0 && (_page$revisions2 = page.revisions) !== null && _page$revisions2 !== void 0 && _page$revisions2[0])) {
+      download.data = "";
+      return popupString("Revision preview failed :(");
     }
+    download.data = content;
+    download.lastModified = new Date(page.revisions[0].timestamp);
     return void 0;
   } catch {
     return "Revision preview failed :(";
@@ -5499,10 +5521,10 @@ pg.fn.APIsharedImagePagePreviewHTML = (obj) => {
   log("APIsharedImagePagePreviewHTML");
   const popupid = obj.requestid;
   if (obj.query && obj.query.pages) {
-    var _page$revisions;
+    var _page$revisions3;
     const page = anyChild(obj.query.pages);
-    const first = page === null || page === void 0 || (_page$revisions = page.revisions) === null || _page$revisions === void 0 ? void 0 : _page$revisions[0];
-    const content = first && first.contentmodel === "wikitext" ? first.content : null;
+    const first = page === null || page === void 0 || (_page$revisions3 = page.revisions) === null || _page$revisions3 === void 0 ? void 0 : _page$revisions3[0];
+    const content = getRevisionContentModel(first) === "wikitext" ? getRevisionContent(first) : null;
     if (typeof content === "string" && pg && pg.current && pg.current.link && pg.current.link.navpopup) {
       const p = new Previewmaker(content, pg.current.link.navpopup.article.toString(), pg.current.link.navpopup);
       p.makePreview();
@@ -5512,9 +5534,11 @@ pg.fn.APIsharedImagePagePreviewHTML = (obj) => {
 };
 var APIimagepagePreviewHTML = (article, download, navpop) => {
   try {
+    var _page$revisions4;
     const jsObj = getJsObj(download.data);
     const page = anyChild(jsObj.query.pages);
-    const content = page && page.revisions && page.revisions[0].contentmodel === "wikitext" ? page.revisions[0].content : null;
+    const revision = page === null || page === void 0 || (_page$revisions4 = page.revisions) === null || _page$revisions4 === void 0 ? void 0 : _page$revisions4[0];
+    const content = getRevisionContentModel(revision) === "wikitext" ? getRevisionContent(revision) : null;
     let ret = "";
     let alt = "";
     try {
@@ -5540,7 +5564,7 @@ var APIimagepagePreviewHTML = (article, download, navpop) => {
     if (page && page.imagerepository === "shared") {
       const art = new Title(article);
       const encart = encodeURIComponent(`File:${art.stripNamespace()}`);
-      const shared_url = `${pg.wiki.apicommonsbase}?format=json&formatversion=2&callback=pg.fn.APIsharedImagePagePreviewHTML&requestid=${navpop.idNumber}&action=query&prop=revisions&rvprop=content&titles=${encart}`;
+      const shared_url = `${pg.wiki.apicommonsbase}?format=json&formatversion=2&callback=pg.fn.APIsharedImagePagePreviewHTML&requestid=${navpop.idNumber}&action=query&prop=revisions&rvprop=content&rvslots=main&titles=${encart}`;
       ret = `${ret}<hr>${popupString("Image from Qiuwen Baike")}: <a href="${pg.wiki.commonsbase}?title=${encart}">${popupString("Description page")}</a>`;
       mw.loader.load(shared_url);
     }
@@ -5955,7 +5979,7 @@ var loadDiff = (article, oldid, diff2, navpop) => {
       pendingNavpopTask(navpop);
       let url = `${pg.wiki.apiwikibase}?format=json&formatversion=2&action=query&`;
       url += `revids=${navpop.diffData.oldRev.revid}|${navpop.diffData.newRev.revid}`;
-      url += "&prop=revisions&rvprop=ids|timestamp|content";
+      url += "&prop=revisions&rvprop=ids|timestamp|content&rvslots=main";
       getPageWithCaching(url, doneDiff, navpop);
       return true;
     };
@@ -6131,8 +6155,14 @@ var stripOuterCommonLines = (a, b, context) => {
   };
 };
 var insertDiff = (navpop) => {
-  let oldlines = navpop.diffData.oldRev.revision.content.split("\n");
-  let newlines = navpop.diffData.newRev.revision.content.split("\n");
+  const oldContent = getRevisionContent(navpop.diffData.oldRev.revision);
+  const newContent = getRevisionContent(navpop.diffData.newRev.revision);
+  if (oldContent === null || newContent === null) {
+    errlog("Could not get diff content");
+    return;
+  }
+  let oldlines = oldContent.split("\n");
+  let newlines = newContent.split("\n");
   let inner = stripOuterCommonLines(oldlines, newlines, getValueOf("popupDiffContextLines"));
   oldlines = inner.a;
   newlines = inner.b;
