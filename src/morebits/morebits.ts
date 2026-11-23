@@ -578,8 +578,7 @@ class QuickFormElement {
 				select.setAttribute('name', data.name as string);
 				if (data.list) {
 					const list = data.list as QuickFormData[];
-					for (i = 0; i < list.length; ++i) {
-						current = list[i] as QuickFormData;
+					for (const current of list) {
 						if (current.list) {
 							current.type = 'optgroup';
 						} else {
@@ -614,8 +613,7 @@ class QuickFormElement {
 				node.setAttribute('label', data.label as string);
 				if (data.list) {
 					const list = data.list as QuickFormData[];
-					for (i = 0; i < list.length; ++i) {
-						current = list[i] as QuickFormData;
+					for (const current of list) {
 						current.type = 'option'; // must be options here
 						subnode = this.compute(current);
 						node.appendChild(subnode[0]);
@@ -1348,11 +1346,9 @@ HTMLFormElement.prototype.getChecked = function (this: HTMLFormElement, name: st
 		return [];
 	}
 	const returnArray: string[] = [];
-	let i: number;
 	if (elements instanceof HTMLSelectElement) {
 		const {options} = elements;
-		for (i = 0; i < options.length; ++i) {
-			const option = options[i] as HTMLOptionElement;
+		for (const option of options) {
 			if (option.selected) {
 				if (option.values) {
 					returnArray[returnArray.length] = option.values;
@@ -1368,8 +1364,7 @@ HTMLFormElement.prototype.getChecked = function (this: HTMLFormElement, name: st
 			return [elements.value];
 		}
 	} else {
-		for (i = 0; i < elements.length; ++i) {
-			const element = elements[i] as HTMLInputElement;
+		for (const element of elements) {
 			if (element.checked) {
 				if (type && element.type !== type) {
 					continue;
@@ -1403,11 +1398,9 @@ HTMLFormElement.prototype.getUnchecked = function (this: HTMLFormElement, name: 
 		return [];
 	}
 	const returnArray: string[] = [];
-	let i: number;
 	if (elements instanceof HTMLSelectElement) {
 		const {options} = elements;
-		for (i = 0; i < options.length; ++i) {
-			const option = options[i] as HTMLOptionElement;
+		for (const option of options) {
 			if (!option.selected) {
 				if (option.values) {
 					returnArray[returnArray.length] = option.values;
@@ -1423,8 +1416,7 @@ HTMLFormElement.prototype.getUnchecked = function (this: HTMLFormElement, name: 
 			return [elements.value];
 		}
 	} else {
-		for (i = 0; i < elements.length; ++i) {
-			const element = elements[i] as HTMLInputElement;
+		for (const element of elements) {
 			if (!element.checked) {
 				if (type && element.type !== type) {
 					continue;

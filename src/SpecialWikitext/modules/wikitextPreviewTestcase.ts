@@ -28,9 +28,8 @@ const wikitextPreviewTestcase = async (isPreview: boolean): Promise<void> => {
 		code: string;
 	}[] = [];
 
-	let i: number = 0;
-	for (i = 0; i < testcaseList.length; ++i) {
-		const element: HTMLElement | undefined = testcaseList[i];
+	for (const testcaseItem of testcaseList) {
+		const element: HTMLElement | undefined = testcaseItem;
 		if (!element) {
 			continue;
 		}
@@ -58,7 +57,7 @@ const wikitextPreviewTestcase = async (isPreview: boolean): Promise<void> => {
 
 	// 整理页面中的Testcase预览元素，并放置“[载入中]”消息
 	let packageWikitext: string = '';
-	for (const testcaseItem of Object.values(testcaseDataList)) {
+	for (const [i, testcaseItem] of Object.entries(testcaseDataList)) {
 		const {code, element, lang} = testcaseItem;
 
 		if (!code) {

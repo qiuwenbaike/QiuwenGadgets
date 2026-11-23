@@ -30,11 +30,8 @@ const setOptions = () => {
 	let userIsSysop = false;
 	const userGroups = mw.config.get('wgUserGroups');
 	if (userGroups) {
-		for (let g = 0; g < userGroups.length; ++g) {
-			if (userGroups[g] === 'sysop') {
-				userIsSysop = true;
-			}
-			if (userGroups[g] === 'steward') {
+		for (const group of userGroups) {
+			if (group === 'sysop' || group === 'steward') {
 				userIsSysop = true;
 			}
 		}

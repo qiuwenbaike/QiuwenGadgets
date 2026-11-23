@@ -462,9 +462,7 @@ const myDecodeURI = (str: string) => {
 	} catch {
 		return str;
 	}
-	for (let i = 0; i < pg.misc.decodeExtras!.length; ++i) {
-		const {from} = pg.misc.decodeExtras[i]!;
-		const {to} = pg.misc.decodeExtras[i]!;
+	for (const {from, to} of pg.misc.decodeExtras!) {
 		ret = ret.split(from).join(to);
 	}
 	return ret;

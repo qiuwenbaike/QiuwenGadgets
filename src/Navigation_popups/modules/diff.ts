@@ -161,11 +161,7 @@ const diff = (o: DiffRow[], n: DiffRow[]): {o: DiffRow[]; n: DiffRow[]} => {
 	const os = makeDiffHashtable(o);
 	// pass 3: pair unique new rows and matching unique old rows
 	let i;
-	for (i in ns) {
-		if (!Object.hasOwn(ns, i)) {
-			continue;
-		}
-		const nsi = ns[i] as number[];
+	for (const [i, nsi] of Object.entries(ns)) {
 		const osi = os[i] as number[] | undefined;
 		if (nsi.length === 1 && osi && osi.length === 1) {
 			n[nsi[0]!] = {

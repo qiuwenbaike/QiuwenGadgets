@@ -4,11 +4,11 @@ const getJsObj = (json: string) => {
 	try {
 		const json_ret = JSON.parse(json);
 		if (json_ret.warnings) {
-			for (let w = 0; w < json_ret.warnings.length; w++) {
-				if (json_ret.warnings[w]['*']) {
-					log(json_ret.warnings[w]['*']);
+			for (const warning of json_ret.warnings) {
+				if (warning['*']) {
+					log(warning['*']);
 				} else {
-					log(json_ret.warnings[w].warnings);
+					log(warning.warnings);
 				}
 			}
 		} else if (json_ret.error) {

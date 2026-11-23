@@ -233,14 +233,13 @@ var QuickFormElement = class _QuickFormElement {
         select.setAttribute("name", data.name);
         if (data.list) {
           const list = data.list;
-          for (i = 0; i < list.length; ++i) {
-            current = list[i];
-            if (current.list) {
-              current.type = "optgroup";
+          for (const current2 of list) {
+            if (current2.list) {
+              current2.type = "optgroup";
             } else {
-              current.type = "option";
+              current2.type = "option";
             }
-            subnode = this.compute(current);
+            subnode = this.compute(current2);
             select.appendChild(subnode[0]);
           }
         }
@@ -268,10 +267,9 @@ var QuickFormElement = class _QuickFormElement {
         node.setAttribute("label", data.label);
         if (data.list) {
           const list = data.list;
-          for (i = 0; i < list.length; ++i) {
-            current = list[i];
-            current.type = "option";
-            subnode = this.compute(current);
+          for (const current2 of list) {
+            current2.type = "option";
+            subnode = this.compute(current2);
             node.appendChild(subnode[0]);
           }
         }
@@ -927,13 +925,11 @@ HTMLFormElement.prototype.getChecked = function(name, type) {
     return [];
   }
   const returnArray = [];
-  let i;
   if (elements instanceof HTMLSelectElement) {
     const {
       options
     } = elements;
-    for (i = 0; i < options.length; ++i) {
-      const option = options[i];
+    for (const option of options) {
       if (option.selected) {
         if (option.values) {
           returnArray[returnArray.length] = option.values;
@@ -949,8 +945,7 @@ HTMLFormElement.prototype.getChecked = function(name, type) {
       return [elements.value];
     }
   } else {
-    for (i = 0; i < elements.length; ++i) {
-      const element = elements[i];
+    for (const element of elements) {
       if (element.checked) {
         if (type && element.type !== type) {
           continue;
@@ -971,13 +966,11 @@ HTMLFormElement.prototype.getUnchecked = function(name, type) {
     return [];
   }
   const returnArray = [];
-  let i;
   if (elements instanceof HTMLSelectElement) {
     const {
       options
     } = elements;
-    for (i = 0; i < options.length; ++i) {
-      const option = options[i];
+    for (const option of options) {
       if (!option.selected) {
         if (option.values) {
           returnArray[returnArray.length] = option.values;
@@ -993,8 +986,7 @@ HTMLFormElement.prototype.getUnchecked = function(name, type) {
       return [elements.value];
     }
   } else {
-    for (i = 0; i < elements.length; ++i) {
-      const element = elements[i];
+    for (const element of elements) {
       if (!element.checked) {
         if (type && element.type !== type) {
           continue;

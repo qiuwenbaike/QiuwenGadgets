@@ -21,9 +21,9 @@ const popupHandleKeypress = function popupHandleKeypress(evt: KeyboardEvent) {
 	let i;
 	let j;
 	if (lastPopupLinkSelected) {
-		for (i = 0; i < links.length; ++i) {
-			if (links[i] === lastPopupLinkSelected) {
-				startLink = i;
+		for (const [i, link] of Object.entries(links)) {
+			if (link === lastPopupLinkSelected) {
+				startLink = Number(i);
 			}
 		}
 	}

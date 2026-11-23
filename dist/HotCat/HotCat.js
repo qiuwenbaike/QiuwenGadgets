@@ -1224,12 +1224,9 @@ void (0, import_ext_gadget3.getBody)().then(function hotCat($body) {
     const added = [];
     const deleted = [];
     const toEdit = singleEditor ? [singleEditor] : editors;
-    let edit;
-    let i;
     let error = null;
     let changes = 0;
-    for (i = 0; i < toEdit.length; i++) {
-      edit = toEdit[i];
+    for (const edit of toEdit) {
       if (edit.state === CHANGED) {
         result = change_category(result.text, edit.originalCategory, edit.currentCategory, edit.currentKey, edit.currentHidden);
         if (!result.error) {
@@ -1289,16 +1286,16 @@ ${result.text}`;
       } else if (changes) {
         const summary = [];
         const shortSummary = [];
-        for (i = 0; i < deleted.length; i++) {
-          summary[summary.length] = `−${getMessage("messages-short_catchange", deleted[i])}`;
+        for (const del of deleted) {
+          summary[summary.length] = `−${getMessage("messages-short_catchange", del)}`;
         }
         if (deleted.length === 1) {
           shortSummary[shortSummary.length] = `−${getMessage("messages-short_catchange", deleted[0])}`;
         } else if (deleted.length > 0) {
           shortSummary[shortSummary.length] = `− ${multiChangeMsg(deleted.length)}`;
         }
-        for (i = 0; i < added.length; i++) {
-          summary[summary.length] = `+${getMessage("messages-short_catchange", added[i])}`;
+        for (const add of added) {
+          summary[summary.length] = `+${getMessage("messages-short_catchange", add)}`;
         }
         if (added.length === 1) {
           shortSummary[shortSummary.length] = `+${getMessage("messages-short_catchange", added[0])}`;
@@ -1306,8 +1303,7 @@ ${result.text}`;
           shortSummary[shortSummary.length] = `+ ${multiChangeMsg(added.length)}`;
         }
         const arrow = is_rtl ? "←" : "→";
-        for (i = 0; i < changed.length; i++) {
-          const change = changed[i];
+        for (const change of changed) {
           if (change.from === change.to) {
             summary[summary.length] = `±${getMessage("messages-short_catchange", change.from)}`;
           } else {
@@ -1350,9 +1346,8 @@ ${result.text}`;
     const is_hidden = page.categoryinfo && typeof page.categoryinfo.hidden === "string";
     const is_missing = typeof page.missing === "string";
     const pageTitle = page.title.slice(Math.max(0, page.title.indexOf(":") + 1));
-    for (i = 0; i < toResolve.length; i++) {
-      const editor = toResolve[i];
-      if (i && editor.dabInputCleaned !== pageTitle) {
+    for (const editor of toResolve) {
+      if (editor.dabInputCleaned !== pageTitle) {
         continue;
       }
       editor.currentHidden = is_hidden;
@@ -1447,8 +1442,7 @@ ${result.text}`;
       cllimit: String(toResolve.length * 10)
     };
     const titles = [];
-    for (i = 0; i < toResolve.length; i++) {
-      const editor = toResolve[i];
+    for (const editor of toResolve) {
       const v = replaceShortcuts(editor.dabInput, HC.shortcuts);
       editor.dabInputCleaned = v;
       titles[titles.length] = `Category:${v}`;

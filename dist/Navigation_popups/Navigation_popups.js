@@ -691,11 +691,11 @@ var getJsObj = (json) => {
   try {
     const json_ret = JSON.parse(json);
     if (json_ret.warnings) {
-      for (let w = 0; w < json_ret.warnings.length; w++) {
-        if (json_ret.warnings[w]["*"]) {
-          log(json_ret.warnings[w]["*"]);
+      for (const warning of json_ret.warnings) {
+        if (warning["*"]) {
+          log(warning["*"]);
         } else {
-          log(json_ret.warnings[w].warnings);
+          log(warning.warnings);
         }
       }
     } else if (json_ret.error) {
@@ -1739,13 +1739,10 @@ var myDecodeURI = (str) => {
   } catch {
     return str;
   }
-  for (let i = 0; i < pg.misc.decodeExtras.length; ++i) {
-    const {
-      from
-    } = pg.misc.decodeExtras[i];
-    const {
-      to
-    } = pg.misc.decodeExtras[i];
+  for (const {
+    from,
+    to
+  } of pg.misc.decodeExtras) {
     ret = ret.split(from).join(to);
   }
   return ret;
@@ -1987,11 +1984,8 @@ var setOptions = () => {
   let userIsSysop = false;
   const userGroups = mw.config.get("wgUserGroups");
   if (userGroups) {
-    for (let g = 0; g < userGroups.length; ++g) {
-      if (userGroups[g] === "sysop") {
-        userIsSysop = true;
-      }
-      if (userGroups[g] === "steward") {
+    for (const group of userGroups) {
+      if (group === "sysop" || group === "steward") {
         userIsSysop = true;
       }
     }
@@ -2712,9 +2706,9 @@ var popupHandleKeypress = function popupHandleKeypress2(evt) {
   let i;
   let j;
   if (lastPopupLinkSelected) {
-    for (i = 0; i < links.length; ++i) {
-      if (links[i] === lastPopupLinkSelected) {
-        startLink = i;
+    for (const [i2, link] of Object.entries(links)) {
+      if (link === lastPopupLinkSelected) {
+        startLink = Number(i2);
       }
     }
   }
@@ -5674,8 +5668,7 @@ var APIuserInfoPreviewHTML = (_article, download) => {
   }
   if (queryobj.blocks) {
     ret.push(popupString("IP user"));
-    for (let l = 0; l < queryobj.blocks.length; l++) {
-      const block = queryobj.blocks[l];
+    for (const block of queryobj.blocks) {
       let rbstr = block.rangestart === block.rangeend ? "BLOCK" : "RANGEBLOCK";
       rbstr = Array.isArray(block.restrictions) ? `${rbstr}ED` : `Has ${rbstr.toLowerCase()}s`;
       ret.push(`<b>${popupString(rbstr)}</b>`);
@@ -5846,12 +5839,8 @@ var diff = (o, n) => {
   const ns = makeDiffHashtable(n);
   const os = makeDiffHashtable(o);
   let i;
-  for (i in ns) {
-    if (!Object.hasOwn(ns, i)) {
-      continue;
-    }
-    const nsi = ns[i];
-    const osi = os[i];
+  for (const [i2, nsi] of Object.entries(ns)) {
+    const osi = os[i2];
     if (nsi.length === 1 && osi && osi.length === 1) {
       n[nsi[0]] = {
         text: n[nsi[0]],

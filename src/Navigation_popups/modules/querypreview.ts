@@ -633,8 +633,7 @@ const APIuserInfoPreviewHTML = (_article: Title, download: Dow) => {
 	}
 	if (queryobj.blocks) {
 		ret.push(popupString('IP user')); // we only request list=blocks for IPs
-		for (let l = 0; l < queryobj.blocks.length; l++) {
-			const block = queryobj.blocks[l]!;
+		for (const block of queryobj.blocks) {
 			let rbstr = block.rangestart === block.rangeend ? 'BLOCK' : 'RANGEBLOCK';
 			rbstr = Array.isArray(block.restrictions) ? `${rbstr}ED` : `Has ${rbstr.toLowerCase()}s`;
 			ret.push(`<b>${popupString(rbstr)}</b>`);

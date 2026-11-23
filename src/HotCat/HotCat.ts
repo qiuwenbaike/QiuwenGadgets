@@ -324,12 +324,9 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 		const added: string[] = [];
 		const deleted: string[] = [];
 		const toEdit = singleEditor ? [singleEditor] : editors;
-		let edit: CategoryEditor;
-		let i: number;
 		let error: string | null = null;
 		let changes = 0;
-		for (i = 0; i < toEdit.length; i++) {
-			edit = toEdit[i]!;
+		for (const edit of toEdit) {
 			if (edit.state === CHANGED) {
 				result = change_category(
 					result.text,
@@ -396,8 +393,8 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 				const summary: string[] = [];
 				const shortSummary: string[] = [];
 				// Deleted
-				for (i = 0; i < deleted.length; i++) {
-					summary[summary.length] = `−${getMessage('messages-short_catchange', deleted[i]!)}`;
+				for (const del of deleted) {
+					summary[summary.length] = `−${getMessage('messages-short_catchange', del)}`;
 				}
 				if (deleted.length === 1) {
 					shortSummary[shortSummary.length] = `−${getMessage('messages-short_catchange', deleted[0]!)}`;
@@ -405,8 +402,8 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 					shortSummary[shortSummary.length] = `− ${multiChangeMsg(deleted.length)}`;
 				}
 				// Added
-				for (i = 0; i < added.length; i++) {
-					summary[summary.length] = `+${getMessage('messages-short_catchange', added[i]!)}`;
+				for (const add of added) {
+					summary[summary.length] = `+${getMessage('messages-short_catchange', add)}`;
 				}
 				if (added.length === 1) {
 					shortSummary[shortSummary.length] = `+${getMessage('messages-short_catchange', added[0]!)}`;
@@ -415,8 +412,7 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 				}
 				// Changed
 				const arrow = is_rtl ? '\u2190' : '\u2192'; // left and right arrows. Don't use ← and → in the code.
-				for (i = 0; i < changed.length; i++) {
-					const change = changed[i]!;
+				for (const change of changed) {
 					if (change.from === change.to) {
 						summary[summary.length] = `±${getMessage('messages-short_catchange', change.from)}`;
 					} else {
@@ -474,9 +470,8 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 		const is_hidden = page.categoryinfo && typeof page.categoryinfo.hidden === 'string';
 		const is_missing = typeof page.missing === 'string';
 		const pageTitle = page.title.slice(Math.max(0, page.title.indexOf(':') + 1));
-		for (i = 0; i < toResolve.length; i++) {
-			const editor = toResolve[i]!;
-			if (i && editor.dabInputCleaned !== pageTitle) {
+		for (const editor of toResolve) {
+			if (editor.dabInputCleaned !== pageTitle) {
 				continue;
 			}
 			// Note: the server returns in page an NFC normalized Unicode title. If our input was not NFC normalized, we may not find
@@ -576,8 +571,7 @@ void getBody().then(function hotCat($body: JQuery<HTMLBodyElement>): void {
 			cllimit: String(toResolve.length * 10),
 		};
 		const titles: string[] = [];
-		for (i = 0; i < toResolve.length; i++) {
-			const editor = toResolve[i]!;
+		for (const editor of toResolve) {
 			const v = replaceShortcuts(editor.dabInput!, HC.shortcuts);
 			editor.dabInputCleaned = v;
 			titles[titles.length] = `Category:${v}`;

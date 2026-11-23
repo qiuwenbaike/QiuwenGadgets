@@ -570,10 +570,9 @@ var wikitextPreviewTestcase = async (isPreview) => {
     return;
   }
   const testcaseDataList = [];
-  let i = 0;
-  for (i = 0; i < testcaseList.length; ++i) {
+  for (const testcaseItem of testcaseList) {
     var _codeElement$textCont;
-    const element = testcaseList[i];
+    const element = testcaseItem;
     if (!element) {
       continue;
     }
@@ -599,7 +598,7 @@ var wikitextPreviewTestcase = async (isPreview) => {
     };
   }
   let packageWikitext = "";
-  for (const testcaseItem of Object.values(testcaseDataList)) {
+  for (const [i, testcaseItem] of Object.entries(testcaseDataList)) {
     const {
       code,
       element,
