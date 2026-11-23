@@ -6547,8 +6547,25 @@ var loadPreviewFromRedir = (redirMatch, navpop) => {
   });
   return loadPreview(target, null, navpop);
 };
+var isApiResponseJSON = (data) => {
+  const trimmed = data === null || data === void 0 ? void 0 : data.trim();
+  if (!trimmed || !trimmed.startsWith("{")) {
+    return false;
+  }
+  try {
+    const parsed = JSON.parse(trimmed);
+    return "batchcomplete" in parsed || "warnings" in parsed;
+  } catch {
+    return false;
+  }
+};
 var insertPreview = (download) => {
   if (!download.owner) {
+    return;
+  }
+  if (isApiResponseJSON(download.data)) {
+    errlog("Refusing to render a raw API response as the preview");
+    setPopupHTML(popupString("Revision preview failed :("), "popupPreview", download.owner.idNumber);
     return;
   }
   const redirMatch = pg.re.redirect.exec(download.data);

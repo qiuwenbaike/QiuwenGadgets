@@ -404,8 +404,33 @@ const loadPreviewFromRedir = (redirMatch: RegExpExecArray, navpop: Navpopup) => 
 	});
 	return loadPreview(target, null, navpop);
 };
+/**
+ * Detect a raw MediaWiki API response (e.g. `{"batchcomplete":…,"warnings":…}`).
+ *
+ * Such a payload must never be rendered as article wikitext: when the revision content could not be
+ * extracted (legacy response, unexpected API shape), the whole JSON used to be shown in `popupPreview`.
+ */
+const isApiResponseJSON = (data: string | undefined): boolean => {
+	const trimmed = data?.trim();
+	if (!trimmed || !trimmed.startsWith('{')) {
+		return false;
+	}
+
+	try {
+		const parsed = JSON.parse(trimmed) as Record<string, unknown>;
+		return 'batchcomplete' in parsed || 'warnings' in parsed;
+	} catch {
+		return false;
+	}
+};
+
 const insertPreview = (download: Dow) => {
 	if (!download.owner) {
+		return;
+	}
+	if (isApiResponseJSON(download.data)) {
+		errlog('Refusing to render a raw API response as the preview');
+		setPopupHTML(popupString('Revision preview failed :('), 'popupPreview', download.owner.idNumber);
 		return;
 	}
 	const redirMatch = pg.re.redirect.exec(download.data!);
