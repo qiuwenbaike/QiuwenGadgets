@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 /**
  * Sitewide options for the the Cite toolbar button:
  * All options should be specified
@@ -29,7 +27,7 @@
  * references using {{#tag:ref}} to be listed in the named refs dialog and searched by error checks.
  * This may slow loading the named refs and error check dialogs.
  */
-const refToolbarConfig = () => {
+const refToolbarConfig = (): void => {
 	const {CiteTemplate} = window;
 
 	CiteTB.Options = {

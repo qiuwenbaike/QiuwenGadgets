@@ -146,6 +146,19 @@
 var import_ext_gadget2 = require("ext.gadget.Util");
 //! src/Edittools-refToolbar/images/Ajax-loader.gif
 var Ajax_loader_default = "data:image/gif;base64,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";
+//! src/Edittools-refToolbar/images/add.svg
+var add_default = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="#00af89" d="M16 9h-5V4H9v5H4v2h5v5h2v-5h5z"/></svg>';
+//! src/Edittools-refToolbar/images/calendar.svg
+var calendar_default = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="#36c" d="M16.4 4.4H14V2.8h-1.6v1.6H7.6V2.8H6v1.6H3.6A1.6 1.6 0 0 0 2 6v9.6a1.6 1.6 0 0 0 1.6 1.6h12.8a1.6 1.6 0 0 0 1.6-1.6V6a1.6 1.6 0 0 0-1.6-1.6m0 11.2H3.6V8.4h12.8Zm-1.6-4.8h-3.2V14h3.2z"/></svg>';
+//! src/Edittools-refToolbar/images/citeArticle.svg
+var citeArticle_default = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7 12h9v-1H7zm0 2h9v-1H7zm0 2h9v-1H7zm4-9H7v1h4zm0 2H7v1h4zm0-4H7v1h4zm5-2h2v16H8c-1.7 0-3-1.3-3-3V3h8v7l1.5-2 1.5 2z"/></svg>';
+//! src/Edittools-refToolbar/images/search.svg
+var search_default = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="#36c" d="m18.5 16.61-4.865-4.863a6.612 6.612 0 1 0-1.888 1.888L16.61 18.5ZM3.858 8.11a4.25 4.25 0 1 1 4.25 4.25 4.25 4.25 0 0 1-4.25-4.25"/></svg>';
+//! src/Edittools-refToolbar/modules/util/images.ts
+var addIcon = `data:image/svg+xml,${encodeURIComponent(add_default)}`;
+var calendarIcon = `data:image/svg+xml,${encodeURIComponent(calendar_default)}`;
+var citeIcon = `data:image/svg+xml,${encodeURIComponent(citeArticle_default)}`;
+var searchIcon = `data:image/svg+xml,${encodeURIComponent(search_default)}`;
 //! src/Edittools-refToolbar/modules/util/api.ts
 var import_ext_gadget = require("ext.gadget.Util");
 var api = (0, import_ext_gadget.initMwApi)("RefToolbar/2.0");
@@ -153,9 +166,7 @@ var api = (0, import_ext_gadget.initMwApi)("RefToolbar/2.0");
 var getMessage = (key, ...args) => {
   return args.length ? mw.message(key, ...args).parse() : mw.message(key).plain();
 };
-//! src/Edittools-refToolbar/images/citeArticle.svg
-var citeArticle_default = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7 12h9v-1H7zm0 2h9v-1H7zm0 2h9v-1H7zm4-9H7v1h4zm0 2H7v1h4zm0-4H7v1h4zm5-2h2v16H8c-1.7 0-3-1.3-3-3V3h8v7l1.5-2 1.5 2z"/></svg>';
-//! src/Edittools-refToolbar/modules/RefToolbarConfig.js
+//! src/Edittools-refToolbar/modules/RefToolbarConfig.ts
 var refToolbarConfig = () => {
   const {
     CiteTemplate
@@ -794,7 +805,7 @@ var refToolbarConfig = () => {
   ]);
   CiteTB.init();
 };
-//! src/Edittools-refToolbar/modules/RefToolbar2.0.js
+//! src/Edittools-refToolbar/modules/RefToolbar2.0.ts
 var refToolbar2 = ($body) => {
   CiteTB.DefaultOptions = {
     "date format": "<year>-<zmonth>-<zdate>",
@@ -805,10 +816,13 @@ var refToolbar2 = ($body) => {
     expandtemplates: false
   };
   CiteTB.getOption = (opt) => {
-    if (CiteTB.UserOptions[opt] !== void 0) {
-      return CiteTB.UserOptions[opt];
-    } else if (CiteTB.Options[opt] !== void 0) {
-      return CiteTB.Options[opt];
+    const useroption = CiteTB.UserOptions[opt];
+    if (useroption !== void 0) {
+      return useroption;
+    }
+    const option = CiteTB.Options[opt];
+    if (option !== void 0) {
+      return option;
     }
     return CiteTB.DefaultOptions[opt];
   };
@@ -816,75 +830,73 @@ var refToolbar2 = ($body) => {
     $(document).find("head").trigger("reftoolbarbase");
     const $target = $body.find("textarea[name=wpTextbox1]");
     const temlist = {};
-    for (const t in CiteTB.Templates) {
-      if (Object.hasOwn(CiteTB.Templates, t)) {
-        const tem = CiteTB.Templates[t];
-        const sform = CiteTB.escStr(tem.shortform);
-        const actionobj = {
-          type: "dialog",
-          module: `cite-dialog-${sform}`
-        };
-        const dialogobj = {};
-        dialogobj[`cite-dialog-${sform}`] = {
-          resizeme: false,
-          title: mw.message(`cite-dialog-${sform}`).parse(),
-          id: `citetoolbar-${sform}`,
-          init: () => {
+    for (const tem of Object.values(CiteTB.Templates)) {
+      const sform = CiteTB.escStr(tem.shortform);
+      const actionobj = {
+        type: "dialog",
+        module: `cite-dialog-${sform}`
+      };
+      const dialogobj = {};
+      dialogobj[`cite-dialog-${sform}`] = {
+        resizeme: false,
+        title: mw.message(`cite-dialog-${sform}`).parse(),
+        id: `citetoolbar-${sform}`,
+        init: () => {
+        },
+        html: tem.getInitial(),
+        dialog: {
+          width: Math.round($(window).width() ?? 0 * 0.8),
+          open() {
+            const $form = CiteTB.getOpenTemplate().getForm();
+            $(this).empty().append($form);
+            $body.find(".cite-prev-parse").on("click", (e) => {
+              e.preventDefault();
+              CiteTB.prevParseClick();
+            });
           },
-          html: tem.getInitial(),
-          dialog: {
-            width: Math.round($(window).width() ?? 0 * 0.8),
-            open() {
-              $(this).html(CiteTB.getOpenTemplate().getForm());
-              $body.find(".cite-prev-parse").on("click", (e) => {
-                e.preventDefault();
-                CiteTB.prevParseClick();
-              });
-            },
-            buttons: {
-              "cite-form-submit"() {
-                const ref = CiteTB.getRef(false, true);
-                $(this).dialog("close");
-                $.wikiEditor.modules.toolbar.fn.doAction($(this).data("context"), {
-                  type: "encapsulate",
-                  options: {
-                    post: ref
-                  }
-                }, $(this));
-              },
-              "cite-form-showhide": CiteTB.showHideExtra,
-              "cite-refpreview"() {
-                const ref = CiteTB.getRef(false, false);
-                const template = CiteTB.getOpenTemplate();
-                const div = $(`#citetoolbar-${CiteTB.escStr(template.shortform)}`);
-                div.find(".cite-preview-label").show();
-                div.find(".cite-ref-preview").text(ref).show();
-                if (CiteTB.getOption("autoparse")) {
-                  CiteTB.prevParseClick();
-                } else {
-                  div.find(".cite-prev-parse").show();
-                  div.find(".cite-prev-parsed-label").hide();
-                  div.find(".cite-preview-parsed").html("");
+          buttons: {
+            "cite-form-submit"() {
+              const ref = CiteTB.getRef(false, true);
+              $(this).dialog("close");
+              $.wikiEditor.modules.toolbar.fn.doAction($(this).data("context"), {
+                type: "encapsulate",
+                options: {
+                  post: ref
                 }
-              },
-              "wikieditor-toolbar-tool-link-cancel"() {
-                $(this).dialog("close");
-              },
-              "cite-form-reset"() {
-                CiteTB.resetForm();
+              }, $(this));
+            },
+            "cite-form-showhide": CiteTB.showHideExtra,
+            "cite-refpreview"() {
+              const ref = CiteTB.getRef(false, false);
+              const template = CiteTB.getOpenTemplate();
+              const div = $(`#citetoolbar-${CiteTB.escStr(template.shortform)}`);
+              div.find(".cite-preview-label").show();
+              div.find(".cite-ref-preview").text(ref).show();
+              if (CiteTB.getOption("autoparse")) {
+                CiteTB.prevParseClick();
+              } else {
+                div.find(".cite-prev-parse").show();
+                div.find(".cite-prev-parsed-label").hide();
+                div.find(".cite-preview-parsed").html("");
               }
+            },
+            "wikieditor-toolbar-tool-link-cancel"() {
+              $(this).dialog("close");
+            },
+            "cite-form-reset"() {
+              CiteTB.resetForm();
             }
           }
-        };
-        try {
-          $target.wikiEditor("addDialog", dialogobj);
-        } catch {
         }
-        temlist[sform] = {
-          label: tem.templatename,
-          action: actionobj
-        };
+      };
+      try {
+        $target.wikiEditor("addDialog", dialogobj);
+      } catch {
       }
+      temlist[sform] = {
+        label: tem.templatename,
+        action: actionobj
+      };
     }
     const refsection = {
       sections: {
@@ -910,7 +922,7 @@ var refToolbar2 = ($body) => {
                     type: "dialog",
                     module: "cite-toolbar-namedrefs"
                   },
-                  icon: `data:image/svg+xml,${encodeURIComponent(citeArticle_default)}`,
+                  icon: citeIcon,
                   section: "cites",
                   group: "namedrefs",
                   label: getMessage("cite-named-refs-button")
@@ -936,7 +948,7 @@ var refToolbar2 = ($body) => {
           },
           buttons: {
             "cite-form-submit"() {
-              const refname = $body.find("#cite-namedref-select").val();
+              const refname = String($body.find("#cite-namedref-select").val() ?? "");
               if (refname === "") {
                 return;
               }
@@ -971,7 +983,6 @@ var refToolbar2 = ($body) => {
   CiteTB.mainRefList = [];
   CiteTB.refsLoaded = false;
   CiteTB.getRef = (inneronly, forinsert) => {
-    let i, j, g, group;
     const template = CiteTB.getOpenTemplate();
     const {
       templatename
@@ -981,7 +992,7 @@ var refToolbar2 = ($body) => {
       shorttag: false
     };
     if (!inneronly) {
-      group = $(`#cite-${CiteTB.escStr(template.shortform)}-group`).val();
+      let group = $(`#cite-${CiteTB.escStr(template.shortform)}-group`).val();
       let refname = $(`#cite-${CiteTB.escStr(template.shortform)}-name`).val();
       res += "<ref";
       if (refname) {
@@ -997,27 +1008,24 @@ var refToolbar2 = ($body) => {
       res += ">";
     }
     let content = `{{${templatename}`;
-    for (g in template.incrementables) {
-      if (Object.hasOwn(template.incrementables, g)) {
-        group = template.incrementables[g];
-        for (i = 1; i <= group.val; i++) {
-          for (j = 0; j < group.fields.length; j++) {
-            const fieldname = group.fields[j].field;
-            const fieldid = fieldname.replace("<N>", i.toString());
-            const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldid}`).val();
-            if (field) {
-              content += ` |${fieldid}=`;
-              content += String(field).trim();
-            }
+    for (const group of Object.values(template.incrementables)) {
+      for (let i = 1; i <= group.val; i++) {
+        for (const fieldobj of group.fields) {
+          const fieldname = fieldobj.field;
+          const fieldid = fieldname.replace("<N>", i.toString());
+          const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldid}`).val();
+          if (field) {
+            content += ` |${fieldid}=`;
+            content += String(field).trim();
           }
         }
       }
     }
-    for (i = 0; i < template.basic.length; i++) {
-      if (template.basic[i].increment_group) {
+    for (const fieldobj of template.basic) {
+      if (fieldobj.increment_group) {
         continue;
       }
-      const fieldname = template.basic[i].field;
+      const fieldname = fieldobj.field;
       const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldname}`).val();
       if (field) {
         content += ` |${fieldname}=`;
@@ -1025,11 +1033,11 @@ var refToolbar2 = ($body) => {
       }
     }
     if ($body.find("#cite-form-status").val() !== "closed") {
-      for (i = 0; i < template.extra.length; i++) {
-        if (template.extra[i].increment_group) {
+      for (const fieldobj of template.extra) {
+        if (fieldobj.increment_group) {
           continue;
         }
-        const fieldname = template.extra[i].field;
+        const fieldname = fieldobj.field;
         const field = $(`#cite-${CiteTB.escStr(template.shortform)}-${fieldname}`).val();
         if (field) {
           content += ` |${fieldname}=`;
@@ -1070,29 +1078,31 @@ var refToolbar2 = ($body) => {
       if (ref === null) {
         break;
       }
-      const refobj = {};
+      const refobj = {
+        shorttag: true
+      };
       if (ref[9]) {
-        [, , , , , , , , , refobj.content] = ref;
+        refobj.content = ref[9];
         refobj.shorttag = false;
-      } else {
-        refobj.shorttag = true;
       }
-      if (ref[1] !== "") {
+      if (ref[1]) {
+        const refkey = ref[1] === "name" ? "refname" : "refgroup";
         if (ref[2]) {
-          [, , refobj[`ref${ref[1]}`]] = ref;
+          refobj[refkey] = ref[2];
         } else if (ref[3]) {
-          [, , , refobj[`ref${ref[1]}`]] = ref;
+          refobj[refkey] = ref[3];
         } else {
-          [, , , , refobj[`ref${ref[1]}`]] = ref;
+          refobj[refkey] = ref[4];
         }
       }
-      if (ref[5] !== "") {
+      if (ref[5]) {
+        const refkey = ref[5] === "name" ? "refname" : "refgroup";
         if (ref[6]) {
-          [, , , , , , refobj[`ref${ref[5]}`]] = ref;
+          refobj[refkey] = ref[6];
         } else if (ref[7]) {
-          [, , , , , , , refobj[`ref${ref[5]}`]] = ref;
+          refobj[refkey] = ref[7];
         } else {
-          [, , , , , , , , refobj[`ref${ref[5]}`]] = ref;
+          refobj[refkey] = ref[8];
         }
       }
       CiteTB.mainRefList.push(refobj);
@@ -1109,11 +1119,10 @@ var refToolbar2 = ($body) => {
       format: "json",
       formatversion: "2"
     };
-    api.get(postdata).then(({
+    void api.get(postdata).then(({
       parse
     }) => {
-      const html = parse.text;
-      callback(html);
+      callback(parse.text);
     });
   };
   CiteTB.expandtemplates = (text, callback) => {
@@ -1124,11 +1133,10 @@ var refToolbar2 = ($body) => {
       format: "json",
       formatversion: "2"
     };
-    api.get(postdata).then(({
+    void api.get(postdata).then(({
       expandtemplates
     }) => {
-      const restext = expandtemplates.wikitext;
-      callback(restext);
+      callback(expandtemplates.wikitext);
     });
   };
   CiteTB.getPageText = (callback) => {
@@ -1153,9 +1161,9 @@ var refToolbar2 = ($body) => {
         formatversion: "2"
       };
       if (CiteTB.getOption("expandtemplates")) {
-        postdata.rvexpandtemplates = "1";
+        postdata["rvexpandtemplates"] = "1";
       }
-      api.get(postdata).then(({
+      void api.get(postdata).then(({
         query
       }) => {
         const pagetext = query.pages[0].revisions[0].slots.main.content;
@@ -1171,20 +1179,21 @@ var refToolbar2 = ($body) => {
     return s;
   };
   CiteTB.initAutofill = function() {
+    var _$$val;
     const elemid = $(this).attr("id") ?? "";
     const res = /^cite-auto-(.*?)-(.*)-(.*)$/.exec(elemid);
     if (!res) {
       return false;
     }
     const [, tem, field, autotype] = res;
-    let id = $(`#cite-${tem}-${field}`).val();
+    let id = (_$$val = $(`#cite-${tem}-${field}`).val()) === null || _$$val === void 0 ? void 0 : _$$val.toString();
     if (!id) {
       return false;
     }
     let url = "https://citoid.qiuwen.net.cn/lookup.php?";
     id = CiteTB.safeDecodeURIComponent(id);
     url += `${autotype}=${encodeURIComponent(id)}`;
-    url += `&template=${encodeURIComponent(tem)}`;
+    url += `&template=${encodeURIComponent(tem ?? "")}`;
     const s = document.createElement("script");
     s.setAttribute("src", url);
     s.setAttribute("type", "text/javascript");
@@ -1193,12 +1202,11 @@ var refToolbar2 = ($body) => {
   };
   CiteTB.autoFill = (data, template, type) => {
     const cl = `cite-${template}-`;
-    let i, j;
     let coauthors;
-    $(`.${cl}title`).val(data.title);
+    $(`.${cl}title`).val(data.title ?? "");
     if (data.authors && data.authors.length > 0) {
       if ($(`.${cl}last-incr-1`).length > 0) {
-        var _$$eq$attr;
+        var _$$eq$attr, _data$authors$, _data$authors$2;
         const classes = (_$$eq$attr = $(`.${cl}last-incr-1`).eq(0).attr("class")) === null || _$$eq$attr === void 0 ? void 0 : _$$eq$attr.split(/\s+/);
         if (!classes) {
           return;
@@ -1206,21 +1214,23 @@ var refToolbar2 = ($body) => {
         let group = false;
         const patt = /cite-[^-]*?-incr-(.*)/;
         for (const class_ of classes) {
-          if (patt.exec(class_)) {
-            [, group] = patt.exec(class_);
+          const match = patt.exec(class_);
+          if (match) {
+            [, group] = match;
             break;
           }
         }
-        $(`.${cl}last-incr-1`).val(data.authors[0][0]);
-        $(`.${cl}first-incr-1`).val(data.authors[0][1]);
+        $(`.${cl}last-incr-1`).val(((_data$authors$ = data.authors[0]) === null || _data$authors$ === void 0 ? void 0 : _data$authors$[0]) ?? "");
+        $(`.${cl}first-incr-1`).val(((_data$authors$2 = data.authors[0]) === null || _data$authors$2 === void 0 ? void 0 : _data$authors$2[1]) ?? "");
         const elemid = `#cite-incr-${template}-${group}`;
-        for (i = 2; i < data.authors.length + 1; i++) {
+        for (let i = 2; i < data.authors.length + 1; i++) {
+          var _data$authors, _data$authors2;
           $(elemid).trigger("click");
-          $(`.${cl}last-incr-${i.toString()}`).val(data.authors[i - 1][0]);
-          $(`.${cl}first-incr-${i.toString()}`).val(data.authors[i - 1][1]);
+          $(`.${cl}last-incr-${i.toString()}`).val(((_data$authors = data.authors[i - 1]) === null || _data$authors === void 0 ? void 0 : _data$authors[0]) ?? "");
+          $(`.${cl}first-incr-${i.toString()}`).val(((_data$authors2 = data.authors[i - 1]) === null || _data$authors2 === void 0 ? void 0 : _data$authors2[1]) ?? "");
         }
       } else if ($(`.${cl}author-incr-1`).length > 0) {
-        var _$$eq$attr2;
+        var _$$eq$attr2, _data$authors$3;
         const classes = (_$$eq$attr2 = $(`.${cl}author-incr-1`).eq(0).attr("class")) === null || _$$eq$attr2 === void 0 ? void 0 : _$$eq$attr2.split(/\s+/);
         if (!classes) {
           return;
@@ -1228,26 +1238,30 @@ var refToolbar2 = ($body) => {
         let group = false;
         const patt = /cite-[^-]*?-incr-(.*)/;
         for (const class_ of classes) {
-          if (patt.exec(class_)) {
-            [, group] = patt.exec(class_);
+          const match = patt.exec(class_);
+          if (match) {
+            [, group] = match;
             break;
           }
         }
-        $(`.${cl}author-incr-1`).val(data.authors[0].join(", "));
+        $(`.${cl}author-incr-1`).val(((_data$authors$3 = data.authors[0]) === null || _data$authors$3 === void 0 ? void 0 : _data$authors$3.join(", ")) ?? "");
         const elemid = `#cite-incr-${template}-${group}`;
-        for (i = 2; i < data.authors.length + 1; i++) {
+        for (let i = 2; i < data.authors.length + 1; i++) {
+          var _data$authors3;
           $(elemid).trigger("click");
-          $(`.${cl}author-incr-${i.toString()}`).val(data.authors[i - 1].join(", "));
+          $(`.${cl}author-incr-${i.toString()}`).val(((_data$authors3 = data.authors[i - 1]) === null || _data$authors3 === void 0 ? void 0 : _data$authors3.join(", ")) ?? "");
         }
       } else if ($(`.${cl}last1`).length > 0) {
-        for (i = 0; data.authors && i < data.authors.length; i++) {
+        for (let i = 0; i < data.authors.length; i++) {
           if ($(`.${cl}last${i + 1}`).length) {
-            $(`.${cl}last${i + 1}`).val(data.authors[i][0]);
-            $(`.${cl}first${i + 1}`).val(data.authors[i][1]);
+            var _data$authors$i, _data$authors$i2;
+            $(`.${cl}last${i + 1}`).val(((_data$authors$i = data.authors[i]) === null || _data$authors$i === void 0 ? void 0 : _data$authors$i[0]) ?? "");
+            $(`.${cl}first${i + 1}`).val(((_data$authors$i2 = data.authors[i]) === null || _data$authors$i2 === void 0 ? void 0 : _data$authors$i2[1]) ?? "");
           } else {
             coauthors = [];
-            for (j = i; j < data.authors.length; j++) {
-              coauthors.push(data.authors[j].join(", "));
+            for (let j = i; j < data.authors.length; j++) {
+              var _data$authors$j;
+              coauthors.push(((_data$authors$j = data.authors[j]) === null || _data$authors$j === void 0 ? void 0 : _data$authors$j.join(", ")) ?? "");
             }
             $(`.${cl}coauthors`).val(coauthors.join("; "));
             break;
@@ -1255,18 +1269,20 @@ var refToolbar2 = ($body) => {
         }
       } else if ($(`.${cl}author1`).length === 0) {
         const authors = [];
-        for (i = 0; data.authors && i < data.authors.length; i++) {
-          authors.push(data.authors[i].join(", "));
+        for (const author of data.authors) {
+          authors.push(author.join(", "));
         }
         $(`.${cl}authors`).val(authors.join("; "));
       } else {
-        for (i = 0; data.authors && i < data.authors.length; i++) {
+        for (let i = 0; i < data.authors.length; i++) {
           if ($(`.${cl}author${i + 1}`).length) {
-            $(`.${cl}author${i + 1}`).val(data.authors[i].join(", "));
+            var _data$authors$i3;
+            $(`.${cl}author${i + 1}`).val(((_data$authors$i3 = data.authors[i]) === null || _data$authors$i3 === void 0 ? void 0 : _data$authors$i3.join(", ")) ?? "");
           } else {
             coauthors = [];
-            for (j = i; j < data.authors.length; j++) {
-              coauthors.push(data.authors[j].join(", "));
+            for (let j = i; j < data.authors.length; j++) {
+              var _data$authors$j2;
+              coauthors.push(((_data$authors$j2 = data.authors[j]) === null || _data$authors$j2 === void 0 ? void 0 : _data$authors$j2.join(", ")) ?? "");
             }
             $(`.${cl}coauthors`).val(coauthors.join("; "));
             break;
@@ -1288,44 +1304,44 @@ var refToolbar2 = ($body) => {
       } catch {
       }
     } else {
-      $(`.${cl}date`).val(data.date);
+      $(`.${cl}date`).val(data.date ?? "");
     }
     switch (type) {
       case "pmid":
       case "doi":
-        $(`.${cl}journal`).val(data.journal);
-        $(`.${cl}volume`).val(data.volume);
-        $(`.${cl}issue`).val(data.issue);
-        $(`.${cl}pages`).val(data.pages);
+        $(`.${cl}journal`).val(data.journal ?? "");
+        $(`.${cl}volume`).val(data.volume ?? "");
+        $(`.${cl}issue`).val(data.issue ?? "");
+        $(`.${cl}pages`).val(data.pages ?? "");
         if (type === "pmid" && data.doi) {
           $(`.${cl}doi`).val(data.doi);
         }
         break;
       case "isbn":
-        $(`.${cl}publisher`).val(data.publisher);
-        $(`.${cl}location`).val(data.location);
-        $(`.${cl}edition`).val(data.edition);
+        $(`.${cl}publisher`).val(data.publisher ?? "");
+        $(`.${cl}location`).val(data.location ?? "");
+        $(`.${cl}edition`).val(data.edition ?? "");
         break;
       case "url":
-        $(`.${cl}journal`).val(data.journal);
-        $(`.${cl}volume`).val(data.volume);
-        $(`.${cl}issue`).val(data.issue);
-        $(`.${cl}pages`).val(data.pages);
-        $(`.${cl}publisher`).val(data.publisher);
-        $(`.${cl}edition`).val(data.edition);
-        $(`.${cl}isbn`).val(data.isbn);
-        $(`.${cl}issn`).val(data.issn);
-        $(`.${cl}doi`).val(data.doi);
+        $(`.${cl}journal`).val(data.journal ?? "");
+        $(`.${cl}volume`).val(data.volume ?? "");
+        $(`.${cl}issue`).val(data.issue ?? "");
+        $(`.${cl}pages`).val(data.pages ?? "");
+        $(`.${cl}publisher`).val(data.publisher ?? "");
+        $(`.${cl}edition`).val(data.edition ?? "");
+        $(`.${cl}isbn`).val(data.isbn ?? "");
+        $(`.${cl}issn`).val(data.issn ?? "");
+        $(`.${cl}doi`).val(data.doi ?? "");
         if (data.language && data.language !== "en-US" && data.language !== "en-GB") {
           $(`.${cl}language`).val(data.language);
         }
-        $(`.${cl}chapter`).val(data.chapter);
+        $(`.${cl}chapter`).val(data.chapter ?? "");
         break;
     }
   };
   CiteTB.incrementFields = function() {
     const template = CiteTB.getOpenTemplate();
-    const [currentrow] = $(this).parents("tr");
+    const $currentrow = $(this).parents("tr").eq(0);
     $(this).prev().css("width", "100%");
     $(this).detach();
     const elemid = $(this).attr("id") ?? "";
@@ -1333,55 +1349,46 @@ var refToolbar2 = ($body) => {
     if (!res) {
       return;
     }
-    const [, , group] = res;
+    const group = res[2];
+    if (!group) {
+      return;
+    }
     const increments = template.incrementables[group];
+    if (!increments) {
+      return;
+    }
     const {
       fields
     } = increments;
-    template.incrementables[group].val += 1;
+    increments.val += 1;
     const trs = template.makeFormInner(fields, false);
     trs.reverse();
     for (const tr of trs) {
-      $(currentrow).after(tr);
+      $currentrow.after(tr);
     }
   };
   CiteTB.fillAccessdate = function() {
     const elemid = $(this).attr("id") ?? "";
     const res = /^cite-date-(.*?)-(.*)$/.exec(elemid);
-    const [, id] = res;
     if (!res) {
       return;
     }
-    const [, , field] = res;
+    const [, id, field] = res;
     const DT = /* @__PURE__ */ new Date();
     const datestr = CiteTB.formatDate(DT);
     $(`#cite-${id}-${field}`).val(datestr);
     return false;
   };
   CiteTB.formatDate = (DT, useday, usemonth) => {
-    if (useday === void 0) {
-      useday = true;
-    }
-    if (usemonth === void 0) {
-      usemonth = true;
-    }
+    useday ?? (useday = true);
+    usemonth ?? (usemonth = true);
     let datestr = CiteTB.getOption("date format");
-    let zmonth = "";
-    let month = DT.getUTCMonth() + 1;
-    if (month < 10) {
-      zmonth = `0${month.toString()}`;
-    } else {
-      zmonth = month.toString();
-    }
-    month = month.toString();
-    let zdate = "";
-    let date = DT.getUTCDate();
-    if (date < 10) {
-      zdate = `0${date.toString()}`;
-    } else {
-      zdate = date.toString();
-    }
-    date = date.toString();
+    const monthNum = DT.getUTCMonth() + 1;
+    const month = monthNum.toString();
+    const zmonth = monthNum < 10 ? `0${month}` : month;
+    const dateNum = DT.getUTCDate();
+    const date = dateNum.toString();
+    const zdate = dateNum < 10 ? `0${date}` : date;
     if (useday) {
       datestr = datestr.replace("<date>", date);
       datestr = datestr.replace("<zdate>", zdate);
@@ -1392,7 +1399,7 @@ var refToolbar2 = ($body) => {
     if (usemonth) {
       datestr = datestr.replace("<month>", month);
       datestr = datestr.replace("<zmonth>", zmonth);
-      datestr = datestr.replace("<monthname>", CiteTB.getOption("months")[DT.getUTCMonth()]);
+      datestr = datestr.replace("<monthname>", CiteTB.getOption("months")[DT.getUTCMonth()] ?? "");
     } else {
       datestr = datestr.replace("<month>", "");
       datestr = datestr.replace("<zmonth>", "");
@@ -1403,22 +1410,21 @@ var refToolbar2 = ($body) => {
   };
   CiteTB.setupNamedRefs = () => {
     const names = [];
-    let i;
-    for (i = 0; i < CiteTB.mainRefList.length; i++) {
-      if (!CiteTB.mainRefList[i].shorttag && CiteTB.mainRefList[i].refname) {
-        names.push(CiteTB.mainRefList[i]);
+    for (const ref of CiteTB.mainRefList) {
+      if (!ref.shorttag && ref.refname) {
+        names.push(ref);
       }
     }
     const stuff = $("<div>");
-    $body.find("#citetoolbar-namedrefs").html(stuff);
+    $body.find("#citetoolbar-namedrefs").empty().append(stuff);
     if (names.length === 0) {
       stuff.html(getMessage("cite-no-namedrefs"));
     } else {
       stuff.html(getMessage("cite-namedrefs-intro"));
       const select = $("<select>").attr("id", "cite-namedref-select");
       select.append($("<option>").attr("value", "").text(getMessage("cite-named-refs-dropdown")));
-      for (i = 0; i < names.length; i++) {
-        select.append($("<option>").text(names[i].refname));
+      for (const name of names) {
+        select.append($("<option>").text(name.refname ?? ""));
       }
       stuff.after(select);
       select.before("<br>");
@@ -1448,23 +1454,22 @@ var refToolbar2 = ($body) => {
     $body.find("#cite-namedref-parsed").html(parsed);
   };
   CiteTB.nrefParseClick = () => {
-    const choice = $body.find("#cite-namedref-select").val();
+    const choice = String($body.find("#cite-namedref-select").val() ?? "");
     if (choice === "") {
       $body.find("#cite-parsed-label").hide();
       $body.find("#cite-namedref-parsed").text("");
       return false;
     }
     $body.find("#cite-nref-parse").hide();
-    for (const ref of CiteTB.mainRefList) {
-      if (!ref.shorttag && ref.refname === choice) {
-        CiteTB.parse(ref.content, CiteTB.fillNrefPreview);
-        return false;
-      }
+    const ref = CiteTB.mainRefList.find((r) => !r.shorttag && r.refname === choice);
+    if (ref !== null && ref !== void 0 && ref.content) {
+      CiteTB.parse(ref.content, CiteTB.fillNrefPreview);
     }
+    return false;
   };
   CiteTB.lastnamedrefchoice = "";
   CiteTB.namedRefSelectClick = () => {
-    const choice = $body.find("#cite-namedref-select").val();
+    const choice = String($body.find("#cite-namedref-select").val() ?? "");
     if (CiteTB.lastnamedrefchoice === choice) {
       return;
     }
@@ -1480,7 +1485,7 @@ var refToolbar2 = ($body) => {
     for (const ref of CiteTB.mainRefList) {
       if (!ref.shorttag && ref.refname === choice) {
         $body.find("#cite-nref-preview-label").show();
-        $body.find("#cite-namedref-preview").text(ref.content);
+        $body.find("#cite-namedref-preview").text(ref.content ?? "");
         if (CiteTB.getOption("autoparse")) {
           CiteTB.nrefParseClick();
         } else {
@@ -1522,19 +1527,17 @@ var refToolbar2 = ($body) => {
   CiteTB.resetForm = () => {
     const template = CiteTB.getOpenTemplate();
     const div = $(`#citetoolbar-${CiteTB.escStr(template.shortform)}`);
-    div.html(template.getForm());
+    div.empty().append(template.getForm());
   };
   CiteTB.getQuotedString = (s) => {
     const sq = /'/.test(s);
     const dq = /"/.test(s);
-    if (!sq && !dq) {
-      return `"${s}"`;
-    } else if (!dq) {
-      return `"${s}"`;
-    } else if (!sq) {
+    if (sq && dq) {
+      return `"${s.replace(/"/g, "'")}"`;
+    }
+    if (dq) {
       return `'${s}'`;
     }
-    s = s.replace(/"/g, "'");
     return `"${s}"`;
   };
   CiteTB.fixStr = (s) => {
@@ -1547,20 +1550,14 @@ var refToolbar2 = ($body) => {
   };
   CiteTB.getOpenTemplate = () => {
     const dialogs = $body.find(".ui-dialog-content.ui-widget-content:visible");
-    const templatename = $(dialogs[0]).find(".cite-template").val();
+    const templatename = String($(dialogs[0]).find(".cite-template").val() ?? "");
     return CiteTB.Templates[templatename];
   };
   refToolbarConfig();
 };
 //! src/Edittools-refToolbar/Edittools-refToolbar.module.less
 var citeFormTd = "Edittools-refToolbar-module__citeFormTd_tYurZa__4100";
-//! src/Edittools-refToolbar/images/add.svg
-var add_default = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="#00af89" d="M16 9h-5V4H9v5H4v2h5v5h2v-5h5z"/></svg>';
-//! src/Edittools-refToolbar/images/calendar.svg
-var calendar_default = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="#36c" d="M16.4 4.4H14V2.8h-1.6v1.6H7.6V2.8H6v1.6H3.6A1.6 1.6 0 0 0 2 6v9.6a1.6 1.6 0 0 0 1.6 1.6h12.8a1.6 1.6 0 0 0 1.6-1.6V6a1.6 1.6 0 0 0-1.6-1.6m0 11.2H3.6V8.4h12.8Zm-1.6-4.8h-3.2V14h3.2z"/></svg>';
-//! src/Edittools-refToolbar/images/search.svg
-var search_default = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="#36c" d="m18.5 16.61-4.865-4.863a6.612 6.612 0 1 0-1.888 1.888L16.61 18.5ZM3.858 8.11a4.25 4.25 0 1 1 4.25 4.25 4.25 4.25 0 0 1-4.25-4.25"/></svg>';
-//! src/Edittools-refToolbar/modules/RefToolbarBase.js
+//! src/Edittools-refToolbar/modules/RefToolbarBase.ts
 var refToolbarBase = () => {
   var _window;
   (_window = window).CiteTB || (_window.CiteTB = {
@@ -1574,6 +1571,11 @@ var refToolbarBase = () => {
     // Script defaults
   });
   window.CiteTemplate = class CiteTemplate {
+    templatename;
+    shortform;
+    basic;
+    extra;
+    incrementables;
     constructor(templatename, shortform, basicfields, expandedfields) {
       this.templatename = templatename;
       this.shortform = shortform;
@@ -1585,36 +1587,41 @@ var refToolbarBase = () => {
     makeFormInner(fields, incrsetup) {
       const trs = [];
       const autofills = [];
-      let tr;
+      let tr = $("<tr>");
       for (const [i, fieldobj] of fields.entries()) {
         let {
           field
         } = fieldobj;
         let labelfield = fieldobj.field;
-        let ad = false;
+        let ad;
         let im;
         if (incrsetup && fieldobj.increment_group) {
           field = fieldobj.field.replace("<N>", "1");
           labelfield = fieldobj.field.replace("<N>", "");
-          if (this.incrementables[fieldobj.increment_group] && !this.incrementables[fieldobj.increment_group].setup) {
-            this.incrementables[fieldobj.increment_group].fields.push(fieldobj);
-          } else if (!this.incrementables[fieldobj.increment_group]) {
+          const incrementable = this.incrementables[fieldobj.increment_group];
+          if (incrementable) {
+            if (incrementable.setup) {
+              incrementable.val = 1;
+            } else {
+              incrementable.fields.push(fieldobj);
+            }
+          } else {
             this.incrementables[fieldobj.increment_group] = {
               fields: [fieldobj],
               val: 1,
               setup: false
             };
-          } else if (this.incrementables[fieldobj.increment_group] && this.incrementables[fieldobj.increment_group].setup) {
-            this.incrementables[fieldobj.increment_group].val = 1;
           }
         } else if (fieldobj.increment_group) {
-          const incrval = this.incrementables[fieldobj.increment_group].val;
-          field = fieldobj.field.replace("<N>", incrval.toString());
-          labelfield = fieldobj.field.replace("<N>", "");
+          const incrementable = this.incrementables[fieldobj.increment_group];
+          if (incrementable) {
+            field = fieldobj.field.replace("<N>", incrementable.val.toString());
+            labelfield = fieldobj.field.replace("<N>", "");
+          }
         }
         const autodateFields = CiteTB.getOption("autodate fields");
         if (autodateFields.includes(field)) {
-          im = $("<img>").attr("src", `data:image/svg+xml,${encodeURIComponent(calendar_default)}`);
+          im = $("<img>").attr("src", calendarIcon);
           im.attr("alt", getMessage("cite-insert-date")).attr("title", getMessage("cite-insert-date"));
           ad = $("<a>").attr("href", "#");
           ad.append(im);
@@ -1623,7 +1630,7 @@ var refToolbarBase = () => {
         }
         if (fieldobj.autofillid) {
           const autotype = fieldobj.autofillid;
-          im = $("<img>").attr("src", `data:image/svg+xml,${encodeURIComponent(search_default)}`);
+          im = $("<img>").attr("src", searchIcon);
           im.attr("alt", getMessage("cite-autofill-alt")).attr("title", getMessage("cite-autofill-alt"));
           ad = $("<a>").attr("href", "#");
           ad.append(im);
@@ -1632,19 +1639,15 @@ var refToolbarBase = () => {
         }
         if (fieldobj.increment_button) {
           const incrtype = fieldobj.increment_group;
-          im = $("<img>").attr("src", `data:image/svg+xml,${encodeURIComponent(add_default)}`);
+          im = $("<img>").attr("src", addIcon);
           im.attr("alt", getMessage("cite-increment-alt")).attr("title", getMessage("cite-increment-alt"));
           ad = $("<a>").attr("href", "#");
           ad.append(im);
           ad.attr("id", `cite-incr-${CiteTB.escStr(this.shortform)}-${incrtype}`);
         }
-        let display = getMessage(`cite-${labelfield}-label`);
-        if (typeof display !== "string") {
-          display = fieldobj.label ? CiteTB.fixStr(fieldobj.label) : CiteTB.fixStr(labelfield);
-        }
-        const tooltip = fieldobj.tooltip ? $("<abbr>").attr("title", getMessage(fieldobj.tooltip)).html($("<sup>").text("?")) : false;
-        let input = "";
-        input = $("<input>").attr({
+        const display = getMessage(`cite-${labelfield}-label`);
+        const tooltip = fieldobj.tooltip ? $("<abbr>").attr("title", getMessage(fieldobj.tooltip)).append($("<sup>").text("?")) : false;
+        const input = $("<input>").attr({
           tabindex: "1",
           style: ad ? "width: 85%" : "width: 100%",
           type: "text"
@@ -1685,11 +1688,12 @@ var refToolbarBase = () => {
         }
       }
       let needsetup = false;
-      for (const g in this.incrementables) {
-        if (!this.incrementables[g].setup) {
+      for (const g of Object.keys(this.incrementables)) {
+        const incrementable = this.incrementables[g];
+        if (incrementable && !incrementable.setup) {
           needsetup = true;
           $(document).on("click", `#cite-incr-${CiteTB.escStr(this.shortform)}-${g}`, CiteTB.incrementFields);
-          this.incrementables[g].setup = true;
+          incrementable.setup = true;
         }
       }
       if (needsetup || Object.keys(this.incrementables).length === 0) {
