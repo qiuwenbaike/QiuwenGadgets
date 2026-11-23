@@ -137,7 +137,7 @@
 * SkinVector2022[ResourceLoader|default|hidden|skins=vector-2022|requiresES6]|SkinVector2022.css
 
 == sysop ==
-* BanPage[ResourceLoader|actions=history,view|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=patrol|requiresES6]|BanPage.js
+* BanPage[ResourceLoader|actions=delete,edit,history,view|dependencies=ext.gadget.i18n,ext.gadget.Toastify,ext.gadget.Util,mediawiki.api,mediawiki.util|rights=patrol|requiresES6]|BanPage.js
 * HRTProtectLink[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.util|namespaces=10,828|rights=protect|requiresES6]|HRTProtectLink.js
 * ListUsersLastActive[ResourceLoader|dependencies=ext.gadget.i18n,ext.gadget.Util,mediawiki.api|namespaces=-1|rights=protect|requiresES6]|ListUsersLastActive.js
 * LogFilter[ResourceLoader|dependencies=@wikimedia/codex,ext.gadget.Util,mediawiki.jqueryMsg,mediawiki.util,vue|rights=edit|requiresES6]|LogFilter.js|LogFilter.css
