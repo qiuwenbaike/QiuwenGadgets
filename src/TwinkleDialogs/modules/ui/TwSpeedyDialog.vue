@@ -416,19 +416,21 @@ const getParameters = (subgroups: Record<string, string>, values: string[]): Rec
 		const currentParams: Record<string, string> = {};
 		let redimage;
 		switch (value) {
-			case 'reason':
-				if (subgroups['reason_1'] !== undefined) {
-					const dbrationale = subgroups['reason_1'];
-					if (!dbrationale || !dbrationale.trim()) {
-						void mw.notify(uls('自定义理由：请指定理由。', '自訂理由：請指定理由。'), {
-							type: 'warn',
-							tag: 'twinklespeedy',
-						});
-						return null;
-					}
-					currentParams['1'] = dbrationale;
+			case 'reason': {
+				// The subgroup input only exists after the criterion has been
+				// expanded; treat a missing field like an empty one instead of
+				// silently building a {{delete}} call that carries no reason
+				const dbrationale = subgroups['reason_1'] ?? '';
+				if (!dbrationale.trim()) {
+					void mw.notify(uls('自定义理由：请指定理由。', '自訂理由：請指定理由。'), {
+						type: 'warn',
+						tag: 'twinklespeedy',
+					});
+					return null;
 				}
+				currentParams['1'] = dbrationale;
 				break;
+			}
 			case 'a2':
 				if (subgroups['a2_pagename'] !== undefined) {
 					const otherpage = subgroups['a2_pagename'];
@@ -529,6 +531,27 @@ const getParameters = (subgroups: Record<string, string>, values: string[]): Rec
 	return parameters;
 };
 
+// Free-text rationales (the custom one, and the G5/G6 "reason" fields) are
+// embedded into the deletion template call.  A bare "|" would start another
+// parameter and a bare "=" would turn the argument into a named one; either
+// leaves {{{1|}}} empty, so the template renders no #delete-reason and the
+// deletion is aborted for "having no reason".  Escape both as magic words,
+// which expand back to the literal characters when the template is parsed
+// (e.g. a pre-filled "[[QW:SD#G5|G5]]: …" stays intact).
+const rationaleNorms = new Set(['db', 'g5', 'g6']);
+
+const escapeRationale = (rationale: string): string => rationale.replace(/\|/g, '{{!}}').replace(/[=]/g, '{{=}}');
+
+const appendParameters = (code: string, parameters: Record<string, string>, escapeRationales: boolean): string => {
+	for (const key in parameters) {
+		if (typeof parameters[key] !== 'string') {
+			continue;
+		}
+		code += `|${escapeRationales && key === '1' ? escapeRationale(parameters[key]) : parameters[key]}`;
+	}
+	return code;
+};
+
 const getTemplateCodeAndParams = (params: SpeedyWorkParams): [code: string, utparams: Record<string, string>] => {
 	let code: string;
 	let parameters: Record<string, string>;
@@ -540,11 +563,7 @@ const getTemplateCodeAndParams = (params: SpeedyWorkParams): [code: string, utpa
 				code += `|${norm.toUpperCase()}`;
 			}
 			parameters = params.templateParams?.[index] ?? {};
-			for (const key in parameters) {
-				if (typeof parameters[key] === 'string') {
-					code += `|${parameters[key]}`;
-				}
-			}
+			code = appendParameters(code, parameters, rationaleNorms.has(norm));
 			params.utparams = {
 				...params.utparams,
 				...getUserTalkParameters(norm),
@@ -557,15 +576,27 @@ const getTemplateCodeAndParams = (params: SpeedyWorkParams): [code: string, utpa
 		if (params.values[0] !== 'reason') {
 			code += `|${params.values[0]}`;
 		}
-		for (const key in parameters) {
-			if (typeof parameters[key] === 'string') {
-				code += `|${parameters[key]}`;
-			}
-		}
+		code = appendParameters(code, parameters, rationaleNorms.has(params.normalizeds[0] ?? ''));
 		code += '}}';
 		params.utparams = getUserTalkParameters(params.normalizeds[0] ?? '');
 	}
 	return [code, params.utparams];
+};
+
+// The custom rationales the user entered verbatim; every other parameter is
+// generated from a CSD code and therefore never user-supplied free text
+const getCustomRationales = (params: SpeedyWorkParams): string[] => {
+	const rationales: string[] = [];
+	for (const [index, norm] of params.normalizeds.entries()) {
+		if (norm !== 'db') {
+			continue;
+		}
+		const rationale = params.templateParams?.[index]?.['1'];
+		if (typeof rationale === 'string' && rationale.trim()) {
+			rationales.push(rationale.trim());
+		}
+	}
+	return rationales;
 };
 
 const sysopCallbacks = {
@@ -580,6 +611,15 @@ const sysopCallbacks = {
 			const [code] = getTemplateCodeAndParams(params);
 			Twinkle.speedy?.callbacks.parseWikitext(mw.config.get('wgPageName') ?? '', code, (deleteReason) => {
 				let reason: string | null = deleteReason;
+				if (!reason) {
+					// The parsed template can come back without a #delete-reason
+					// (e.g. if the rationale contains wikitext that breaks the
+					// template call). Never drop a rationale the user did enter.
+					const rationales = getCustomRationales(params);
+					if (rationales.length > 0) {
+						reason = rationales.join('；');
+					}
+				}
 				if (params.promptForSummary) {
 					reason =
 						prompt(
@@ -587,7 +627,7 @@ const sysopCallbacks = {
 								'输入删除理由，或单击确定以接受自动生成的：',
 								'輸入刪除理由，或點擊確定以接受自動生成的：'
 							),
-							deleteReason
+							reason ?? ''
 						) ?? null;
 				}
 				sysopCallbacks.deletePage(reason, params);

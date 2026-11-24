@@ -75,6 +75,17 @@ twinklespeedy.closeDialog = () => {};
 // Used throughout
 twinklespeedy.hasCSD = !!document.querySelector('#delete-reason');
 
+// #delete-reason holds a {{urlencode:…}}d explanation; decode it defensively so
+// a literal "%" in an unusual template cannot abort opening the dialog.
+const getExistingDeletionReason = (): string => {
+	const text = document.querySelector('#delete-reason')?.textContent ?? '';
+	try {
+		return decodeURIComponent(text).replace(/\+/g, ' ');
+	} catch {
+		return text.replace(/\+/g, ' ');
+	}
+};
+
 // This function is run when the CSD tab/header link is clicked
 twinklespeedy.callback = (() => {
 	const dialogData: SpeedyDialogData = reactive({
@@ -92,9 +103,7 @@ twinklespeedy.callback = (() => {
 		deleteSysopDefaultToDelete: Twinkle.getPref('deleteSysopDefaultToDelete') === true,
 		deleteTalkPageOnDelete: Twinkle.getPref('deleteTalkPageOnDelete') === true,
 		deleteRedirectsOnDelete: Twinkle.getPref('deleteRedirectsOnDelete') === true,
-		hasCSDReason: twinklespeedy.hasCSD
-			? decodeURIComponent(document.querySelector('#delete-reason')?.textContent ?? '').replace(/\+/g, ' ')
-			: '',
+		hasCSDReason: twinklespeedy.hasCSD ? getExistingDeletionReason() : '',
 		enlargeG7: Twinkle.getPref('enlargeG7Input') === true,
 		priorCountText: dialogData.priorCountText,
 		priorCountColor: dialogData.priorCountColor,
@@ -277,7 +286,6 @@ twinklespeedy.generalList = [
 				size: 60,
 			},
 		],
-		hideSubgroupWhenMultiple: true,
 	},
 	{
 		label: 'G5：因技术原因删除页面',
@@ -454,7 +462,21 @@ twinklespeedy.callbacks = {
 			(apiObj: MorebitsWikiApi) => {
 				const xmlDoc = apiObj.getXML() as unknown as XMLDocument;
 				const raw = xmlDoc.querySelector('text')?.childNodes[0]?.nodeValue ?? '';
-				const reason = decodeURIComponent($(raw).find('#delete-reason').text().replace(/\+/g, ' '));
+				// The template may place #delete-reason directly at the root of the
+				// parsed output (e.g. CSD G8/RM), where find() would miss it
+				const encodedReason = $(raw)
+					.find('#delete-reason')
+					.addBack('#delete-reason')
+					.first()
+					.text()
+					.replace(/\+/g, ' ');
+				let reason = '';
+				try {
+					reason = decodeURIComponent(encodedReason);
+				} catch {
+					// Not URL-encoded (or contains a literal "%"): use it as-is
+					reason = encodedReason;
+				}
 				if (reason) {
 					statusIndicator.info('完成');
 				} else {

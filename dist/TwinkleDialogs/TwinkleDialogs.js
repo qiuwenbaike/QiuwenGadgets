@@ -9179,19 +9179,18 @@ var TwSpeedyDialog_default = /* @__PURE__ */ (0, import_vue40.defineComponent)({
         const currentParams = {};
         let redimage;
         switch (value) {
-          case "reason":
-            if (subgroups["reason_1"] !== void 0) {
-              const dbrationale = subgroups["reason_1"];
-              if (!dbrationale || !dbrationale.trim()) {
-                void mw.notify(uls("自定义理由：请指定理由。", "自訂理由：請指定理由。"), {
-                  type: "warn",
-                  tag: "twinklespeedy"
-                });
-                return null;
-              }
-              currentParams["1"] = dbrationale;
+          case "reason": {
+            const dbrationale = subgroups["reason_1"] ?? "";
+            if (!dbrationale.trim()) {
+              void mw.notify(uls("自定义理由：请指定理由。", "自訂理由：請指定理由。"), {
+                type: "warn",
+                tag: "twinklespeedy"
+              });
+              return null;
             }
+            currentParams["1"] = dbrationale;
             break;
+          }
           case "a2":
             if (subgroups["a2_pagename"] !== void 0) {
               const otherpage = subgroups["a2_pagename"];
@@ -9282,6 +9281,17 @@ var TwSpeedyDialog_default = /* @__PURE__ */ (0, import_vue40.defineComponent)({
       }
       return parameters;
     };
+    const rationaleNorms = /* @__PURE__ */ new Set(["db", "g5", "g6"]);
+    const escapeRationale = (rationale) => rationale.replace(/\|/g, "{{!}}").replace(/[=]/g, "{{=}}");
+    const appendParameters = (code, parameters, escapeRationales) => {
+      for (const key in parameters) {
+        if (typeof parameters[key] !== "string") {
+          continue;
+        }
+        code += `|${escapeRationales && key === "1" ? escapeRationale(parameters[key]) : parameters[key]}`;
+      }
+      return code;
+    };
     const getTemplateCodeAndParams = (params) => {
       let code;
       let parameters;
@@ -9294,11 +9304,7 @@ var TwSpeedyDialog_default = /* @__PURE__ */ (0, import_vue40.defineComponent)({
             code += `|${norm.toUpperCase()}`;
           }
           parameters = ((_params$templateParam = params.templateParams) === null || _params$templateParam === void 0 ? void 0 : _params$templateParam[index]) ?? {};
-          for (const key in parameters) {
-            if (typeof parameters[key] === "string") {
-              code += `|${parameters[key]}`;
-            }
-          }
+          code = appendParameters(code, parameters, rationaleNorms.has(norm));
           params.utparams = {
             ...params.utparams,
             ...getUserTalkParameters(norm)
@@ -9312,15 +9318,25 @@ var TwSpeedyDialog_default = /* @__PURE__ */ (0, import_vue40.defineComponent)({
         if (params.values[0] !== "reason") {
           code += `|${params.values[0]}`;
         }
-        for (const key in parameters) {
-          if (typeof parameters[key] === "string") {
-            code += `|${parameters[key]}`;
-          }
-        }
+        code = appendParameters(code, parameters, rationaleNorms.has(params.normalizeds[0] ?? ""));
         code += "}}";
         params.utparams = getUserTalkParameters(params.normalizeds[0] ?? "");
       }
       return [code, params.utparams];
+    };
+    const getCustomRationales = (params) => {
+      const rationales = [];
+      for (const [index, norm] of params.normalizeds.entries()) {
+        var _params$templateParam3;
+        if (norm !== "db") {
+          continue;
+        }
+        const rationale = (_params$templateParam3 = params.templateParams) === null || _params$templateParam3 === void 0 || (_params$templateParam3 = _params$templateParam3[index]) === null || _params$templateParam3 === void 0 ? void 0 : _params$templateParam3["1"];
+        if (typeof rationale === "string" && rationale.trim()) {
+          rationales.push(rationale.trim());
+        }
+      }
+      return rationales;
     };
     const sysopCallbacks = {
       main: (params) => {
@@ -9333,8 +9349,14 @@ var TwSpeedyDialog_default = /* @__PURE__ */ (0, import_vue40.defineComponent)({
           const [code] = getTemplateCodeAndParams(params);
           (_Twinkle$speedy5 = Twinkle.speedy) === null || _Twinkle$speedy5 === void 0 || _Twinkle$speedy5.callbacks.parseWikitext(mw.config.get("wgPageName") ?? "", code, (deleteReason) => {
             let reason2 = deleteReason;
+            if (!reason2) {
+              const rationales = getCustomRationales(params);
+              if (rationales.length > 0) {
+                reason2 = rationales.join("；");
+              }
+            }
             if (params.promptForSummary) {
-              reason2 = prompt(uls("输入删除理由，或单击确定以接受自动生成的：", "輸入刪除理由，或點擊確定以接受自動生成的："), deleteReason) ?? null;
+              reason2 = prompt(uls("输入删除理由，或单击确定以接受自动生成的：", "輸入刪除理由，或點擊確定以接受自動生成的："), reason2 ?? "") ?? null;
             }
             sysopCallbacks.deletePage(reason2, params);
           });
@@ -9572,12 +9594,12 @@ ${code}`;
           editsummary = editsummary.slice(0, Math.max(0, editsummary.length - 1));
           editsummary += "）";
         } else if (firstNorm === "db") {
-          var _params$templateParam3;
-          editsummary = uls("请求[[QW:CSD|快速删除]]：", "請求[[QW:CSD|快速刪除]]：") + (((_params$templateParam3 = params.templateParams) === null || _params$templateParam3 === void 0 || (_params$templateParam3 = _params$templateParam3[0]) === null || _params$templateParam3 === void 0 ? void 0 : _params$templateParam3["1"]) ?? "");
-        } else {
           var _params$templateParam4;
+          editsummary = uls("请求[[QW:CSD|快速删除]]：", "請求[[QW:CSD|快速刪除]]：") + (((_params$templateParam4 = params.templateParams) === null || _params$templateParam4 === void 0 || (_params$templateParam4 = _params$templateParam4[0]) === null || _params$templateParam4 === void 0 ? void 0 : _params$templateParam4["1"]) ?? "");
+        } else {
+          var _params$templateParam5;
           editsummary = `${uls("请求快速删除", "請求快速刪除")}（[[QW:CSD#${firstNorm.toUpperCase()}|CSD ${firstNorm.toUpperCase()}]]）`;
-          if (firstNorm === "g6" && (_params$templateParam4 = params.templateParams) !== null && _params$templateParam4 !== void 0 && (_params$templateParam4 = _params$templateParam4[0]) !== null && _params$templateParam4 !== void 0 && _params$templateParam4["1"]) {
+          if (firstNorm === "g6" && (_params$templateParam5 = params.templateParams) !== null && _params$templateParam5 !== void 0 && (_params$templateParam5 = _params$templateParam5[0]) !== null && _params$templateParam5 !== void 0 && _params$templateParam5["1"]) {
             editsummary += "：".concat(params.templateParams[0]["1"]);
           }
         }
@@ -9776,7 +9798,11 @@ ${code}`;
       saltingTooltip,
       getUserTalkParameters,
       getParameters,
+      rationaleNorms,
+      escapeRationale,
+      appendParameters,
       getTemplateCodeAndParams,
+      getCustomRationales,
       sysopCallbacks,
       userCallbacks,
       evaluate,

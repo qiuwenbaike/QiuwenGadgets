@@ -2048,8 +2048,16 @@ var twinklespeedy = () => {
 twinklespeedy.closeDialog = () => {
 };
 twinklespeedy.hasCSD = !!document.querySelector("#delete-reason");
-twinklespeedy.callback = () => {
+var getExistingDeletionReason = () => {
   var _document$querySelect;
+  const text = ((_document$querySelect = document.querySelector("#delete-reason")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.textContent) ?? "";
+  try {
+    return decodeURIComponent(text).replace(/\+/g, " ");
+  } catch {
+    return text.replace(/\+/g, " ");
+  }
+};
+twinklespeedy.callback = () => {
   const dialogData2 = (0, import_vue5.reactive)({
     priorCountText: null,
     priorCountColor: "inherit"
@@ -2067,7 +2075,7 @@ twinklespeedy.callback = () => {
     deleteSysopDefaultToDelete: Twinkle.getPref("deleteSysopDefaultToDelete") === true,
     deleteTalkPageOnDelete: Twinkle.getPref("deleteTalkPageOnDelete") === true,
     deleteRedirectsOnDelete: Twinkle.getPref("deleteRedirectsOnDelete") === true,
-    hasCSDReason: twinklespeedy.hasCSD ? decodeURIComponent(((_document$querySelect = document.querySelector("#delete-reason")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.textContent) ?? "").replace(/\+/g, " ") : "",
+    hasCSDReason: twinklespeedy.hasCSD ? getExistingDeletionReason() : "",
     enlargeG7: Twinkle.getPref("enlargeG7Input") === true,
     priorCountText: dialogData2.priorCountText,
     priorCountColor: dialogData2.priorCountColor,
@@ -2210,8 +2218,7 @@ twinklespeedy.generalList = [{
     type: "input",
     label: "已删版此页面名：",
     size: 60
-  }],
-  hideSubgroupWhenMultiple: true
+  }]
 }, {
   label: "G5：因技术原因删除页面",
   value: "g5",
@@ -2348,7 +2355,13 @@ twinklespeedy.callbacks = {
       var _xmlDoc$querySelector;
       const xmlDoc = apiObj.getXML();
       const raw = ((_xmlDoc$querySelector = xmlDoc.querySelector("text")) === null || _xmlDoc$querySelector === void 0 || (_xmlDoc$querySelector = _xmlDoc$querySelector.childNodes[0]) === null || _xmlDoc$querySelector === void 0 ? void 0 : _xmlDoc$querySelector.nodeValue) ?? "";
-      const reason = decodeURIComponent($(raw).find("#delete-reason").text().replace(/\+/g, " "));
+      const encodedReason = $(raw).find("#delete-reason").addBack("#delete-reason").first().text().replace(/\+/g, " ");
+      let reason = "";
+      try {
+        reason = decodeURIComponent(encodedReason);
+      } catch {
+        reason = encodedReason;
+      }
       if (reason) {
         statusIndicator.info("完成");
       } else {
