@@ -67,21 +67,23 @@ var addTalkPageTemplate = async ({
   const template = `{{${name}|${source}|${sourceTitle}|version=${version2}|insertversion=${insertVersion}}}
 `;
   try {
+    var _page$revisions, _revision$slots;
     const queryResponse = await queryPage({
       action: "query",
       prop: "revisions",
       titles: talkTitle,
-      rvprop: ["timestamp", "content"],
-      indexpageids: true,
+      formatversion: "2",
+      rvprop: ["content", "timestamp"],
+      rvslots: "main",
       curtimestamp: true
     });
     if (!queryResponse["query"] || !queryResponse["query"].pages) {
       alert("无法获取讨论页信息，请稍后重试。");
       return;
     }
-    const [pageId] = queryResponse["query"].pageids;
-    const revision = (queryResponse["query"].pages[pageId].revisions || [])[0] || {};
-    const text = revision["*"];
+    const [page] = queryResponse["query"].pages;
+    const revision = page === null || page === void 0 || (_page$revisions = page.revisions) === null || _page$revisions === void 0 ? void 0 : _page$revisions[0];
+    const text = revision === null || revision === void 0 || (_revision$slots = revision.slots) === null || _revision$slots === void 0 || (_revision$slots = _revision$slots.main) === null || _revision$slots === void 0 ? void 0 : _revision$slots.content;
     const editParams = {
       action: "edit",
       title: talkTitle,

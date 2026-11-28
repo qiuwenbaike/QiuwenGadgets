@@ -45,8 +45,9 @@ const addTalkPageTemplate = async ({
 			action: 'query',
 			prop: 'revisions',
 			titles: talkTitle,
-			rvprop: ['timestamp', 'content'],
-			indexpageids: true,
+			formatversion: '2',
+			rvprop: ['content', 'timestamp'],
+			rvslots: 'main',
 			curtimestamp: true,
 		});
 
@@ -55,9 +56,12 @@ const addTalkPageTemplate = async ({
 			return;
 		}
 
-		const [pageId] = queryResponse['query'].pageids;
-		const revision = (queryResponse['query'].pages[pageId].revisions || [])[0] || {};
-		const text = revision['*'] as string;
+		// `mw.Api` uses `formatversion=2`, which returns `pages` as an array and puts
+		// the revision content under `slots.main.content`
+		const [page] = queryResponse['query'].pages;
+		const revision = page?.revisions?.[0];
+		// `slots` is absent when the talk page does not exist yet (the create branch below)
+		const text = revision?.slots?.main?.content as string | undefined;
 		const editParams: ApiEditPageParams = {
 			action: 'edit',
 			title: talkTitle,

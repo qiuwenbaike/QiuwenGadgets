@@ -163,7 +163,8 @@ var loadPageContent = async ({
     prop: "revisions",
     titles: wgPageName,
     curtimestamp: true,
-    rvprop: ["content", "timestamp"]
+    rvprop: ["content", "timestamp"],
+    rvslots: "main"
   };
   try {
     var _data$query;
@@ -180,10 +181,10 @@ var loadPageContent = async ({
       throw new Error("nocreate-missing");
     }
     const [{
-      content
+      slots
     }] = page.revisions;
     await processTranslate({
-      pageContent: preparePageContent(content),
+      pageContent: preparePageContent(slots.main.content),
       langQueue,
       basePageName,
       results,

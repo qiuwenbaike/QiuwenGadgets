@@ -25,6 +25,7 @@ const loadPageContent = async ({
 		titles: wgPageName,
 		curtimestamp: true,
 		rvprop: ['content', 'timestamp'],
+		rvslots: 'main',
 	} as const satisfies ApiQueryRevisionsParams;
 
 	try {
@@ -42,9 +43,10 @@ const loadPageContent = async ({
 			throw new Error('nocreate-missing');
 		}
 
-		const [{content}] = page.revisions;
+		// `formatversion=2` nests the revision content under `slots.main`
+		const [{slots}] = page.revisions;
 		await processTranslate({
-			pageContent: preparePageContent(content as string),
+			pageContent: preparePageContent(slots.main.content as string),
 			langQueue,
 			basePageName,
 			results,
