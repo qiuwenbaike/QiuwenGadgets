@@ -330,6 +330,17 @@ var init_requests = __esm({
     requests_default = Requests;
   }
 });
+//! src/Wikiplus/modules/utils/unwrap.ts
+function unwrapSections(root) {
+  for (const section of root.querySelectorAll("section")) {
+    section.replaceWith(...section.childNodes);
+  }
+}
+var init_unwrap = __esm({
+  "src/Wikiplus/modules/utils/unwrap.ts"() {
+    "use strict";
+  }
+});
 //! src/Wikiplus/modules/services/wiki.ts
 var Wiki;
 var wiki_default;
@@ -339,6 +350,7 @@ var init_wiki = __esm({
     init_log();
     init_i18n();
     init_requests();
+    init_unwrap();
     Wiki = class {
       pageInfoCache = {};
       /**
@@ -377,7 +389,8 @@ var init_wiki = __esm({
             action: "query",
             prop: "revisions|info",
             rvprop: "timestamp|ids",
-            format: "json"
+            format: "json",
+            formatversion: "2"
           };
           if (revisionId) {
             params.revids = revisionId;
@@ -393,9 +406,9 @@ var init_wiki = __esm({
           }
           const response = await requests_default.get(params);
           if (response.query && response.query.pages) {
-            const pageKey = Object.keys(response.query.pages)[0];
-            const contentmodel = response.query.pages[pageKey].contentmodel;
-            if (pageKey === "-1") {
+            const [page] = response.query.pages;
+            const contentmodel = page.contentmodel;
+            if (page.missing) {
               this.pageInfoCache[title] = {
                 contentmodel
               };
@@ -403,7 +416,7 @@ var init_wiki = __esm({
                 contentmodel
               };
             }
-            const pageInfo = response.query.pages[pageKey].revisions[0];
+            const pageInfo = page.revisions[0];
             if (title) {
               this.pageInfoCache[title] = {
                 ...pageInfo,
@@ -438,8 +451,10 @@ var init_wiki = __esm({
             action: "query",
             prop: "revisions",
             rvprop: "content",
+            // `formatversion=2` nests the revision content under `slots.main`
+            rvslots: "main",
             format: "json",
-            revids: revisionId
+            formatversion: "2"
           };
           if (revisionId) {
             params.revids = revisionId;
@@ -449,11 +464,12 @@ var init_wiki = __esm({
           }
           const response = await requests_default.get(params);
           if (response.query && response.query.pages) {
-            if (Object.keys(response.query.pages)[0] === "-1") {
+            const [page] = response.query.pages;
+            if (page.missing) {
               return "";
             }
-            const pageInfo = response.query.pages[Object.keys(response.query.pages)[0]].revisions[0];
-            return pageInfo["*"];
+            const [revision] = page.revisions;
+            return revision.slots.main.content;
           }
         } catch {
           log_default.error("fail_to_get_wikitext");
@@ -471,6 +487,7 @@ var init_wiki = __esm({
         try {
           const response = await requests_default.post({
             format: "json",
+            formatversion: "2",
             action: "parse",
             text: wikitext,
             title,
@@ -478,7 +495,9 @@ var init_wiki = __esm({
             ...config
           });
           if (response.parse && response.parse.text) {
-            return response.parse.text["*"];
+            const $container = $("<div>").html(response.parse.text);
+            unwrapSections($container[0]);
+            return $container.html();
           }
         } catch {
           log_default.error("cant_parse_wikitext");
@@ -1253,7 +1272,7 @@ var init_ui = __esm({
         dialog.find(".Wikiplus-InterBox-Close").trigger("click");
       }
       bindPreloadEvents(onPreload) {
-        $("#toc").children("ul").find("a").each((i) => {
+        $("#toc").find("a").each((i) => {
           $(this).on("mouseover", () => {
             $(this).off("mouseover");
             onPreload({

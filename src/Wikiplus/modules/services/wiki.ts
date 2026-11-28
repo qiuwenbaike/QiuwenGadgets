@@ -2,6 +2,7 @@
 import Log from '../utils/log';
 import i18n from '../utils/i18n';
 import requests from '../utils/requests';
+import {unwrapSections} from '../utils/unwrap';
 
 class Wiki {
 	pageInfoCache: Record<string, PageInfoCacheItem> = {};
@@ -46,6 +47,7 @@ class Wiki {
 				prop: 'revisions|info',
 				rvprop: 'timestamp|ids',
 				format: 'json',
+				formatversion: '2',
 			};
 			if (revisionId) {
 				params.revids = revisionId;
@@ -62,9 +64,11 @@ class Wiki {
 			}
 			const response = await requests.get(params);
 			if (response.query && response.query.pages) {
-				const pageKey = Object.keys(response.query.pages)[0];
-				const contentmodel = response.query.pages[pageKey as string].contentmodel;
-				if (pageKey === '-1') {
+				// `formatversion=2` returns `pages` as an array and flags missing pages
+				// with `missing` instead of a `-1` page id
+				const [page] = response.query.pages;
+				const contentmodel = page.contentmodel;
+				if (page.missing) {
 					// 不存在这一页面
 					// Page not found.
 					this.pageInfoCache[title] = {contentmodel};
@@ -72,7 +76,7 @@ class Wiki {
 						contentmodel,
 					};
 				}
-				const pageInfo = response.query.pages[pageKey as string].revisions[0];
+				const pageInfo = page.revisions[0];
 				if (title) {
 					this.pageInfoCache[title] = {...pageInfo, contentmodel};
 				}
@@ -101,8 +105,10 @@ class Wiki {
 				action: 'query',
 				prop: 'revisions',
 				rvprop: 'content',
+				// `formatversion=2` nests the revision content under `slots.main`
+				rvslots: 'main',
 				format: 'json',
-				revids: revisionId,
+				formatversion: '2',
 			};
 			if (revisionId) {
 				params.revids = revisionId;
@@ -112,13 +118,14 @@ class Wiki {
 			}
 			const response = await requests.get(params);
 			if (response.query && response.query.pages) {
-				if (Object.keys(response.query.pages)[0] === '-1') {
+				const [page] = response.query.pages;
+				if (page.missing) {
 					// 不存在这一页面
 					// Page not found.
 					return '';
 				}
-				const pageInfo = response.query.pages[Object.keys(response.query.pages)[0] as string].revisions[0];
-				return pageInfo['*'];
+				const [revision] = page.revisions;
+				return revision.slots.main.content as string;
 			}
 		} catch {
 			Log.error('fail_to_get_wikitext');
@@ -136,6 +143,7 @@ class Wiki {
 		try {
 			const response = await requests.post({
 				format: 'json',
+				formatversion: '2',
 				action: 'parse',
 				text: wikitext,
 				title,
@@ -143,7 +151,11 @@ class Wiki {
 				...config,
 			});
 			if (response.parse && response.parse.text) {
-				return response.parse.text['*'];
+				// `formatversion=2` returns `parse.text` as a plain string
+				// 剥离 Parsoid 输出中的 <section> 包装，保证预览结构与页面渲染一致
+				const $container: JQuery = $('<div>').html(response.parse.text as string);
+				unwrapSections($container[0]!);
+				return $container.html();
 			}
 		} catch {
 			Log.error('cant_parse_wikitext');

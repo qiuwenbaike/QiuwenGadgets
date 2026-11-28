@@ -601,7 +601,6 @@ class UI {
 
 	bindPreloadEvents(onPreload: {(arg0: {sectionNumber: number}): void}) {
 		$('#toc')
-			.children('ul')
 			.find('a')
 			.each((i) => {
 				$(this).on('mouseover', () => {
