@@ -1,0 +1,38 @@
+@import (reference) '../../variables.less';
+
+.headline {
+	&::before,
+	&::after {
+		color: @const-color-white;
+		font-weight: normal;
+	}
+
+	&::before {
+		margin-right: 0.5rem;
+		content: '［';
+	}
+
+	&::after {
+		margin-left: 0.5rem;
+		content: '］';
+	}
+}
+
+.box-title {
+	flex: 1 1 100%;
+	max-width: 100%;
+	padding: 0.5rem;
+	border: 0;
+	border-radius: @border-radius--small;
+	margin: 0 auto 0.5rem;
+	background: var(--mp-color, @color--primary);
+	color: @const-color-white;
+	font-family: var(--fonts-serif, serif);
+	font-size: 1.25rem;
+	font-weight: normal;
+	text-align: center;
+
+	&::after {
+		border-bottom: 0 !important;
+	}
+}

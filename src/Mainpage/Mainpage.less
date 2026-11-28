@@ -1,4 +1,5 @@
 @import (reference) '../variables.less';
+@import (reference) './modules/mixins.less';
 
 /* == 非页面正文 == */
 
@@ -118,42 +119,6 @@
 	}
 
 	/* Normalize */
-	h2 {
-		flex: 1 1 100%;
-		max-width: 100%;
-		padding: 0.5rem;
-		border: 0;
-		border-radius: @border-radius--small;
-		margin: 0 auto 0.5rem;
-		background: var(--mp-color, @color--primary);
-		color: @const-color-white;
-		font-size: 1.25rem;
-		font-weight: normal;
-		text-align: center;
-
-		&::after {
-			border-bottom: 0 !important;
-		}
-
-		.mw-headline {
-			&::before,
-			&::after {
-				color: @const-color-white;
-				font-weight: normal;
-			}
-
-			&::before {
-				margin-right: 0.5rem;
-				content: '［';
-			}
-
-			&::after {
-				margin-left: 0.5rem;
-				content: '］';
-			}
-		}
-	}
-
 	a.new {
 		color: inherit;
 	}
@@ -279,6 +244,11 @@
 		img {
 			max-width: 20rem;
 			height: auto;
+		}
+
+		&-header {
+			.box-title;
+			.headline;
 		}
 
 		&-footer {
